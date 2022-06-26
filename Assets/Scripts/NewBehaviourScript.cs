@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 public class NewBehaviourScript : MonoBehaviour {
 
@@ -68,9 +69,27 @@ public static class Cos {
 public enum Team { None = 0, Alpha = 1, Bravo = 2, Delta = 4 }
 
 public class Player {
+	
 	public Team team = Team.None;
 	public Color color = Color.white;
 	public Co co;
+	
+	
+}
+public class Players : IDisposable {
+
+	public List<Player> loop = new();
+	public HashSet<Player> all = new();
+	public GameObject go;
+
+	public Players() {
+		go = new GameObject(nameof(Players));
+		Object.DontDestroyOnLoad(go);
+	}
+
+	public void Dispose() {
+		Object.Destroy(go);
+	}
 }
 
 public enum UnitType { Infantry, AntiTank }

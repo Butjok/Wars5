@@ -41,24 +41,26 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\Woo.cs" />
-     <Compile Include="Assets\MovePath.cs" />
-     <Compile Include="Assets\NewBehaviourScript.cs" />
-     <Compile Include="Assets\CameraRig.cs" />
-     <Compile Include="Assets\Wheels.cs" />
-     <Compile Include="Assets\UnitView.cs" />
-     <Compile Include="Assets\MathUtils.cs" />
-     <Compile Include="Assets\PathWalker.cs" />
-     <Compile Include="Assets\Unit.cs" />
-     <Compile Include="Assets\Units.cs" />
-     <Compile Include="Assets\ChangeTracker.cs" />
-     <Compile Include="Assets\Lazy.cs" />
-     <Compile Include="Assets\Faction.cs" />
+     <Compile Include="Assets\Scripts\Woo.cs" />
+     <Compile Include="Assets\Scripts\MovePath.cs" />
+     <Compile Include="Assets\Scripts\NewBehaviourScript.cs" />
+     <Compile Include="Assets\Scripts\CameraRig.cs" />
+     <Compile Include="Assets\Scripts\Wheels.cs" />
+     <Compile Include="Assets\Scripts\UnitView.cs" />
+     <Compile Include="Assets\Scripts\MathUtils.cs" />
+     <Compile Include="Assets\Scripts\PathWalker.cs" />
+     <Compile Include="Assets\Scripts\Unit.cs" />
+     <Compile Include="Assets\Scripts\Units.cs" />
+     <Compile Include="Assets\Scripts\ChangeTracker.cs" />
+     <Compile Include="Assets\Scripts\Lazy.cs" />
+     <Compile Include="Assets\Scripts\Faction.cs" />
      <Compile Include="Assets\SerializableDictionary\Example\SerializableDictionaryExample.cs" />
      <Compile Include="Assets\SerializableDictionary\SerializableDictionary.cs" />
      <Compile Include="Assets\SerializableDictionary\Example\UserSerializableDictionaries.cs" />
-     <Compile Include="Assets\Co.cs" />
-     <Compile Include="Assets\PlayerView.cs" />
+     <Compile Include="Assets\Scripts\Co.cs" />
+     <Compile Include="Assets\Scripts\PlayerView.cs" />
+     <Compile Include="Assets\Scripts\Music.cs" />
+     <Compile Include="Assets\Scripts\MusicTest.cs" />
      <Reference Include="UnityEngine">
      <HintPath>D:\Unity\2021.3.1f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
      </Reference>

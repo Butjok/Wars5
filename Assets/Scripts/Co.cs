@@ -8,6 +8,6 @@ public class Co : ScriptableObject {
 
 	[SerializeField] private UnitTypeUnitViewDictionary unitPrefabsOverrides = new();
 	public UnitView GetUnitViewPrefab(UnitType type) {
-		return unitPrefabsOverrides.TryGetValue(type, out var prefab) ? prefab : faction.GetUnitViewPrefab(type);
+		return unitPrefabsOverrides.TryGetValue(type, out var prefab)&&prefab ? prefab : faction.GetUnitViewPrefab(type);
 	}
 }

@@ -6,7 +6,7 @@ using UnityEngine;
 public class Faction : ScriptableObject {
 	[SerializeField] private UnitTypeUnitViewDictionary unitPrefabs = new();
 	public UnitView GetUnitViewPrefab(UnitType type) {
-		return unitPrefabs.TryGetValue(type, out var prefab) ? prefab : WarsResources.test.v;
+		return unitPrefabs.TryGetValue(type, out var prefab)&&prefab ? prefab : WarsResources.test.v;
 	}
 }
 
