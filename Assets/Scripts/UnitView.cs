@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(PathWalker))]
@@ -12,15 +14,28 @@ public class UnitView : MonoBehaviour {
 	public ChangeTracker<bool> visible;
 	public ChangeTracker<bool> moved;
 	public ChangeTracker<Color> playerColor;
+	public ChangeTracker<bool> selected;
 	public Lazy<Renderer[]> renderers;
 	public Lazy<MaterialPropertyBlock> propertyBlock;
 	public PathWalker pathWalker;
+	[FormerlySerializedAs("curve")] public AnimationCurve blinkCurve = new AnimationCurve();
+	public Speedometer[] speedometers;
+	public SteeringArm[] steeringArms;
 
 	public Color movedTint = Color.white / 2;
 
 	public void Awake() {
 
-		position = new ChangeTracker<Vector2Int>(_ => transform.position = position.v.ToVector3Int());
+		speedometers = GetComponentsInChildren<Speedometer>();
+		steeringArms = GetComponentsInChildren<SteeringArm>();
+		
+		position = new ChangeTracker<Vector2Int>(_ => {
+			transform.position = position.v.ToVector3Int();
+			foreach (var speedometer in speedometers)
+				speedometer.Clear();
+			foreach  (var steeringArm in steeringArms)
+				steeringArm.transform.localRotation=Quaternion.identity;
+		});
 		rotation = new ChangeTracker<Vector2Int>(_ => transform.rotation = Quaternion.LookRotation(rotation.v.ToVector3Int()));
 		hp = new ChangeTracker<int>(_ => { });
 
@@ -44,6 +59,7 @@ public class UnitView : MonoBehaviour {
 
 		moved = new ChangeTracker<bool>(_ => Color = playerColor.v * (unit.moved.v ? movedTint : Color.white));
 		playerColor = new ChangeTracker<Color>(_ => Color = playerColor.v * (unit.moved.v ? movedTint : Color.white));
+		//selected = new ChangeTracker<bool>(_ => );
 
 		propertyBlock = new Lazy<MaterialPropertyBlock>(() => new MaterialPropertyBlock());
 		renderers = new Lazy<Renderer[]>(GetComponentsInChildren<Renderer>);
@@ -52,7 +68,7 @@ public class UnitView : MonoBehaviour {
 		pathWalker.onComplete += () => { Debug.Log("arrived"); };
 	}
 
-	public static readonly int colorId = Shader.PropertyToID("_Color");
+	public static readonly int colorId = Shader.PropertyToID("_PlayerColor");
 	private Color Color {
 		set {
 			propertyBlock.v.SetColor(colorId, value);
@@ -70,8 +86,23 @@ public class UnitView : MonoBehaviour {
 	public Vector2Int nextPosition;
 	public Vector2Int nextRotation;
 	public bool nextMoved;
-
+	
+	public void Blink(float duration) {
+		// TODO: move to shader code
+		DOTween.To(t=> {
+			var value = blinkCurve.Evaluate(t);
+			propertyBlock.v.SetFloat("_Selected", value);
+			foreach(var renderer in renderers.v)
+				renderer.SetPropertyBlock(propertyBlock.v);
+		}, 0, 1, duration);
+	}
+	public float blinkDuration = 1;
+	
 	private void Update() {
+
+		if (Input.GetKeyDown(KeyCode.Return)) {
+			Blink(blinkDuration);
+		}
 		
 		if (Input.GetKeyDown(KeyCode.Space)) {
 			

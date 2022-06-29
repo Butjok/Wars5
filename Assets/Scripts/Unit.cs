@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
@@ -14,9 +15,15 @@ public class Unit : IDisposable {
 	public ChangeTracker<Vector2Int> rotation;
 	public ChangeTracker<bool> moved;
 	public ChangeTracker<int> hp;
+	public ChangeTracker<bool> selected;
+	public ChangeTracker<IEnumerable<Vector2>> path;
 
 	public Unit(Units units, Player player, bool moved = false, UnitType type = UnitType.Infantry, Vector2Int? position = null, Vector2Int? rotation =null, int hp = 10, UnitView viewPrefab = null) {
 
+		if (!viewPrefab)
+			viewPrefab = WarsResources.test.v;
+		Assert.IsTrue(viewPrefab);
+		
 		view = Object.Instantiate(viewPrefab, units.go.transform);
 		view.unit = this;
 		
@@ -38,15 +45,12 @@ public class Unit : IDisposable {
 		this.rotation = new ChangeTracker<Vector2Int>(_ => view.rotation.v = this.rotation.v);
 		this.moved = new ChangeTracker<bool>(_ => view.moved.v = this.moved.v);
 		this.hp = new ChangeTracker<int>(_ => view.hp.v = this.hp.v);
+		this.selected = new ChangeTracker<bool>(_ => view.selected.v = this.selected.v);
 
 		Assert.IsNotNull(units);
 		Assert.IsNotNull(player);
 
 		units.all.Add(this);
-
-		if (!viewPrefab)
-			viewPrefab = WarsResources.test.v;
-		Assert.IsTrue(viewPrefab);
 
 		this.units = units;
 		this.type = type;

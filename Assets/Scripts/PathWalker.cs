@@ -20,10 +20,6 @@ public class PathWalker : MonoBehaviour {
 	public MovePath path;
 	public bool walking;
 
-	public Queue<float> speeds = new Queue<float>();
-	public Vector3 oldPosition;
-	public float Speed => speeds.Count != 2 ? 0 : speeds.Min();
-
 	private void Awake() {
 
 		points = new ChangeTracker<IEnumerable<Vector2>>(_ => path = new MovePath(points.v));
@@ -35,12 +31,6 @@ public class PathWalker : MonoBehaviour {
 
 			transform.position = position.ToVector3();
 			transform.rotation = Quaternion.LookRotation(direction.ToVector3());
-
-			var speed = Vector3.Distance(oldPosition, transform.position) / Time.deltaTime;
-			speeds.Enqueue(speed);
-			while (speeds.Count > 2)
-				speeds.Dequeue();
-			oldPosition = transform.position;
 		});
 	}
 
@@ -66,14 +56,9 @@ public class PathWalker : MonoBehaviour {
 			return;
 		if (time.v >= path.Duration(speed, rotation90Time)) {
 			walking = false;
-			speeds.Clear();
 			onComplete?.Invoke();
 		}
 		else
 			time.v += Time.deltaTime;
-	}
-
-	public void OnGUI() {
-		GUILayout.Label($"Speed: {Speed}");
 	}
 }

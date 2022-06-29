@@ -17,11 +17,11 @@ public static class Music {
 		return result;
 	});
 
-	public static Tween currentTween;
-
 	public static Tween Play(AudioClip clip) {
 		var sequence = DOTween.Sequence();
-		sequence.Append(Stop());
+		var stop = Stop();
+		if (stop != null)
+			sequence.Append(Stop());
 		sequence.AppendCallback(() => {
 			source.v.clip = clip;
 			source.v.volume = 0;
