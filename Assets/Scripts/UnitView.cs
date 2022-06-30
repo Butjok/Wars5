@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -65,7 +66,6 @@ public class UnitView : MonoBehaviour {
 		renderers = new Lazy<Renderer[]>(GetComponentsInChildren<Renderer>);
 
 		pathWalker = GetComponent<PathWalker>();
-		pathWalker.onComplete += () => { Debug.Log("arrived"); };
 	}
 
 	public static readonly int colorId = Shader.PropertyToID("_PlayerColor");
@@ -97,6 +97,12 @@ public class UnitView : MonoBehaviour {
 		}, 0, 1, duration);
 	}
 	public float blinkDuration = 1;
+
+	public void Start() {
+		pathWalker.onComplete += () => {
+			Walk();
+		};
+	}
 	
 	private void Update() {
 
@@ -111,15 +117,27 @@ public class UnitView : MonoBehaviour {
 			// unit.moved.v = Random.Range(0, 10) > 5;
 
 			if (!pathWalker.walking) {
-				var points = new List<Vector2>();
-				for (var i = 0; i < 3; i++)
-					points.Add(new Vector2Int(Random.Range(-5, 5), Random.Range(-5, 5)));
-
-				pathWalker.points.v = points;
-				pathWalker.Walk();	
+				Walk();
 			}
 			else
 				pathWalker.time.v = float.MaxValue;
+		}
+	}
+	private void Walk() {
+		while (true) {
+			var points = new List<Vector2> {
+				transform.position.ToVector2().RoundToInt()
+			};
+			points.Add(points[0] + transform.forward.ToVector2());
+			for (var i = 0; i < 2; i++)
+				points.Add(new Vector2Int(Random.Range(-3, 3), Random.Range(-3, 3)));
+
+			pathWalker.points.v = points;
+
+			if (pathWalker.path.Moves.All(m => m.type != MovePath.MoveType.Back)) {
+				pathWalker.Walk();
+				break;
+			}
 		}
 	}
 }

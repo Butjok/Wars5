@@ -30,6 +30,12 @@ public class Body : MonoBehaviour {
 		wheels = wheels.Distinct().ToList();
 	}
 
+	public void Start() {
+		if (Application.isPlaying)
+		foreach (var wheel in wheels)
+			wheel.transform.SetParent(null);
+	}
+
 	public void Update() {
 
 		Vector3 average(IEnumerable<Vector3> vectors) {
