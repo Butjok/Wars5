@@ -6,10 +6,10 @@ using Object = UnityEngine.Object;
 
 public class Unit : IDisposable {
 
-	public Units units;
+	public Game game;
 	public UnitType type;
 	public Player player;
-	private UnitView view;
+	public UnitView view;
 
 	public ChangeTracker<Vector2Int?> position;
 	public ChangeTracker<Vector2Int> rotation;
@@ -18,28 +18,28 @@ public class Unit : IDisposable {
 	public ChangeTracker<bool> selected;
 	public ChangeTracker<IEnumerable<Vector2>> path;
 
-	public Unit(Units units, Player player, bool moved = false, UnitType type = UnitType.Infantry, Vector2Int? position = null, Vector2Int? rotation =null, int hp = 10, UnitView viewPrefab = null) {
+	public Unit(Game game,Player player, bool moved = false, UnitType type = UnitType.Infantry, Vector2Int? position = null, Vector2Int? rotation =null, int hp = 10, UnitView viewPrefab = null) {
 
+		Assert.IsNotNull(game);
+		this.game = game;
+		
 		if (!viewPrefab)
 			viewPrefab = WarsResources.test.v;
 		Assert.IsTrue(viewPrefab);
 		
-		view = Object.Instantiate(viewPrefab, units.go.transform);
+		view = Object.Instantiate(viewPrefab);
+		Object.DontDestroyOnLoad(view.gameObject);
 		view.unit = this;
 		
 		this.position = new ChangeTracker<Vector2Int?>(old => {
-
 			if (this.position.v is { } newPosition) {
-				units.at.Add(newPosition, this);
 				view.visible.v = true;
 				view.position.v = newPosition;
 			}
 			else
 				view.visible.v = false;
 
-			if (old is { } oldPosition) {
-				units.at.Remove(oldPosition);
-			}
+			game.unitMap[this] = this.position.v;
 		});
 
 		this.rotation = new ChangeTracker<Vector2Int>(_ => view.rotation.v = this.rotation.v);
@@ -47,12 +47,6 @@ public class Unit : IDisposable {
 		this.hp = new ChangeTracker<int>(_ => view.hp.v = this.hp.v);
 		this.selected = new ChangeTracker<bool>(_ => view.selected.v = this.selected.v);
 
-		Assert.IsNotNull(units);
-		Assert.IsNotNull(player);
-
-		units.all.Add(this);
-
-		this.units = units;
 		this.type = type;
 		this.player = player;
 		this.position.v = position;
@@ -63,7 +57,6 @@ public class Unit : IDisposable {
 
 	public void Dispose() {
 		position.v = null;
-		units.all.Remove(this);
 		Object.Destroy(view.gameObject);
 	}
 }

@@ -12,6 +12,7 @@ public static class Music {
 		var result = go.AddComponent<AudioSource>();
 		result.loop = true;
 		result.spatialize = false;
+		result.playOnAwake = false;
 		result.volume = 0;
 		result.Stop();
 		return result;

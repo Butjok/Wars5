@@ -10,5 +10,20 @@ public class Faction : ScriptableObject {
 	}
 }
 
+public class Factions {
+
+	public const string Novoslavia = nameof(Novoslavia);
+	public const string UnitedTreaty = nameof(UnitedTreaty);
+	public static string[] names = { Novoslavia, UnitedTreaty };
+
+	public static Lazy<Faction> novoslavia = new(() => Resources.Load<Faction>(Novoslavia));
+	public static Lazy<Faction> unitedTreaty = new(() => Resources.Load<Faction>(UnitedTreaty));
+
+	private static Dictionary<string, Lazy<Faction>> get = new() {
+		[Novoslavia] = novoslavia,
+		[UnitedTreaty] = unitedTreaty,
+	};
+}
+
 [Serializable]
 public class UnitTypeUnitViewDictionary : SerializableDictionary<UnitType, UnitView> { }

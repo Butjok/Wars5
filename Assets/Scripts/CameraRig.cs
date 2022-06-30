@@ -31,9 +31,10 @@ public class CameraRig : MonoBehaviour {
 	private static CameraRig instance;
 	public static CameraRig Instance {
 		get {
-			if (instance)
-				return instance;
-			instance = FindObjectOfType<CameraRig>();
+			if (!instance) {
+				instance = FindObjectOfType<CameraRig>();
+				Assert.IsTrue(instance);
+			}
 			return instance;
 		}
 	}
@@ -114,6 +115,9 @@ public class CameraRig : MonoBehaviour {
 		if (raycastLayerMask == 0)
 			raycastLayerMask = 1 << LayerMask.NameToLayer("Default");
 	}
+	public void Jump(Vector3 position, bool canBeInterrupted=true) {
+		teleportAnimation = transform.DOMove(position, teleportDuration).SetEase(teleportEase);
+	}
 
 	public void Update() {
 
@@ -138,7 +142,7 @@ public class CameraRig : MonoBehaviour {
 		transform.position += velocity * Time.deltaTime;
 
 		// CAMERA PITCH
-
+		
 		tagetPitchAngle = float.IsNaN(tagetPitchAngle)
 			? pitchAngle
 			: Mathf.Clamp(tagetPitchAngle + sign(Input.GetAxisRaw("PitchCamera")) * pitchAngleSpeed * Time.deltaTime,
@@ -197,10 +201,8 @@ public class CameraRig : MonoBehaviour {
 			if (lastClickTime + teleportCooldown > Time.unscaledTime) {
 				var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 				var plane = new Plane(Vector3.up, Vector3.zero);
-				if (plane.Raycast(ray, out var enter)) {
-					var point = ray.GetPoint(enter);
-					teleportAnimation = transform.DOMove(point, teleportDuration).SetEase(teleportEase);
-				}
+				if (plane.Raycast(ray, out var enter)) 
+					Jump(ray.GetPoint(enter));
 			}
 			else
 				lastClickTime = Time.unscaledTime;

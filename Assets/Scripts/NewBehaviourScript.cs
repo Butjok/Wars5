@@ -5,18 +5,26 @@ using Object = UnityEngine.Object;
 
 public class NewBehaviourScript : MonoBehaviour {
 
-	public Units units;
 	public Unit unit;
-
+	public Game game;
+	
 	private void OnEnable() {
-		var player = new Player { color = Color.red };
-		units = new Units();
-		unit = new Unit(units, player, position: new Vector2Int(1, 1), viewPrefab: Factions.novoslavia.v.GetUnitViewPrefab(UnitType.Infantry));
+		
+		game = new Game("Wars");
+		game.turn = 0;
+
+		var player = new Player(game, Color.red);
+		var player2 = new Player(game, Color.blue);
+		unit = new Unit(game, player, position: new Vector2Int(1, 1));
+		unit = new Unit(game, player, position: new Vector2Int(3, 3));
 		//var a_ = unit.view;
+
+		
+		game.state.v = new SelectionState(game);
 	}
 	private void OnDisable() {
-		unit.Dispose();
-		units.Dispose();
+		unit?.Dispose();
+		game?.Dispose();
 	}
 
 
@@ -34,21 +42,6 @@ public static class WarsResources {
 	public static Lazy<UnitView> test = new(() => Resources.Load<UnitView>("Test"));
 }
 
-
-public class Factions {
-
-	public const string Novoslavia = nameof(Novoslavia);
-	public const string UnitedTreaty = nameof(UnitedTreaty);
-	public static string[] names = { Novoslavia, UnitedTreaty };
-
-	public static Lazy<Faction> novoslavia = new(() => Resources.Load<Faction>(Novoslavia));
-	public static Lazy<Faction> unitedTreaty = new(() => Resources.Load<Faction>(UnitedTreaty));
-
-	private static Dictionary<string, Lazy<Faction>> get = new() {
-		[Novoslavia] = novoslavia,
-		[UnitedTreaty] = unitedTreaty,
-	};
-}
 
 public static class Cos {
 
@@ -69,12 +62,18 @@ public static class Cos {
 public enum Team { None = 0, Alpha = 1, Bravo = 2, Delta = 4 }
 
 public class Player {
-	
+
+	public Game game;
 	public Team team = Team.None;
-	public Color color = Color.white;
+	public Color color ;
 	public Co co;
-	
-	
+
+	public Player(Game game,Color color) {
+		this.game = game;
+		this.color = color;
+		game.players.Add(color,this);
+		game.playerLoop.Add(this);
+	}
 }
 public class Players : IDisposable {
 
