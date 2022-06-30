@@ -40,6 +40,7 @@ public class NewBehaviourScript : MonoBehaviour {
 	void Update() { }
 }
 
+
 public static class WarsResources {
 	public static Lazy<UnitView> test = new(() => Resources.Load<UnitView>("Test"));
 }

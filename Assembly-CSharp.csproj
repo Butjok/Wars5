@@ -60,7 +60,7 @@
      <Compile Include="Assets\Scripts\Co.cs" />
      <Compile Include="Assets\Scripts\CarRig.cs" />
      <Compile Include="Assets\Scripts\PlayerView.cs" />
-     <Compile Include="Assets\Scripts\Projectile.cs" />
+     <Compile Include="Assets\Scripts\Trail.cs" />
      <Compile Include="Assets\Scripts\Animation\Wheel.cs" />
      <Compile Include="Assets\Scripts\NewBehaviourScript.cs" />
      <Compile Include="Assets\Clayxels\examples\assets\CrabsBeachMain.cs" />
@@ -94,6 +94,9 @@
      <Compile Include="Assets\Scripts\UnitMap.cs" />
      <Compile Include="Assets\Scripts\Animation\OrbitingWeight.cs" />
      <Compile Include="Assets\Scripts\Animation\LookAt.cs" />
+     <Compile Include="Assets\Scripts\Animation\MovePathView.cs" />
+     <Compile Include="Assets\Scripts\Animation\PistonBody.cs" />
+     <Compile Include="Assets\Scripts\Animation\RotateTo.cs" />
      <None Include="Assets\Clayxels\Resources\clayCoreLock.compute" />
      <None Include="Assets\Clayxels\Resources\RenderBuiltIn\clayxelBuiltinShaderPolySplat.shader" />
      <None Include="Assets\Clayxels\Resources\clayxelMicroVoxelUtils.cginc" />

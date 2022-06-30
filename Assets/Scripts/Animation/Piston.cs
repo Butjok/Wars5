@@ -30,6 +30,13 @@ public class Piston : MonoBehaviour {
 
 		position = transform.position + direction * length;
 	}
+	
+	[ContextMenu(nameof(Clear))]
+	public void Clear() {
+		velocity = 0;
+		var direction = (relativeTo?relativeTo:transform).TransformDirection(this.direction).normalized;
+		position = transform.position + direction * targetLength;
+	}
 
 	private void OnDrawGizmosSelected() {
 		Gizmos.color=Color.yellow;

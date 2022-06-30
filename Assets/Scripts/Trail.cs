@@ -2,7 +2,7 @@ using UnityEngine;
 
 [ExecuteInEditMode]
 [RequireComponent(typeof(LineRenderer))]
-public class Projectile:MonoBehaviour {
+public class Trail:MonoBehaviour {
 	public LineRenderer trailRenderer;
 	public Vector3? lastPosition;
 	public void Start() {

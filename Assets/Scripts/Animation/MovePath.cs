@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class MovePath {
+public class MovePath  {
+	
 	public enum MoveType { Forward, Left, Right, Back }
 
 	public IReadOnlyList<Vector2> Points => points;
@@ -31,7 +32,7 @@ public class MovePath {
 		};
 	}
 
-	public MovePath(IEnumerable<Vector2> points) {
+	public MovePath(IEnumerable<Vector2> points, bool visualize=false) {
 		IEnumerable<TResult> pairs<T, TResult>(ICollection<T> sequence, Func<T, T, TResult> selector)
 			=> sequence.Take(sequence.Count - 1).Zip(sequence.Skip(1), selector);
 

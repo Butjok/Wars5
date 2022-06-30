@@ -7,6 +7,7 @@ public class OrbitingWeight : MonoBehaviour {
 	public float force = 1000;
 	public Vector3 position;
 	public Vector3 velocity;
+	public float maxDistance = .1f;
 
 	[ContextMenu("Clear")]
 	public void Start() {
@@ -15,6 +16,8 @@ public class OrbitingWeight : MonoBehaviour {
 	}
 	public void Update() {
 		position += velocity * Time.deltaTime;
+		if (Vector3.Distance(transform.position, position) > maxDistance)
+			position = transform.position + (position - transform.position).normalized * maxDistance;
 		var to = transform.position - position;
 		var force = to * this.force;
 		force += -velocity * drag;
@@ -22,5 +25,7 @@ public class OrbitingWeight : MonoBehaviour {
 	}
 	private void OnDrawGizmosSelected() {
 		Gizmos.DrawLine(transform.position, position);
+		Gizmos.color = Color.yellow;
+		Gizmos.DrawWireSphere(transform.position, maxDistance);
 	}
 }
