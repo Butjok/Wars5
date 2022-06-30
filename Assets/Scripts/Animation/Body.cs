@@ -2,38 +2,55 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Assertions;
 
-[ExecuteInEditMode]
+//[ExecuteInEditMode]
 public class Body : MonoBehaviour {
 
 	[Serializable]
-	public struct Axis {
-		public Transform a, b;
+	public class Axis {
+		public Piston a, b;
 	}
 
-	public Axis[] rollAxis = { };
-	public Axis[] pitchAxis = { };
+	public List<Axis> rollAxis = new();
+	public List<Axis> pitchAxis = new();
+	public List<Piston> pistons = new();
 
-	public List<Transform> wheels = new();
-	public float clearance = 1;
-
-	[ContextMenu(nameof(Awake))]
-	public void Awake() {
-		foreach (var axis in rollAxis) {
-			wheels.Add(axis.a);
-			wheels.Add(axis.b);
-		}
-		foreach (var axis in pitchAxis) {
-			wheels.Add(axis.a);
-			wheels.Add(axis.b);
-		}
-		wheels = wheels.Distinct().ToList();
-	}
-
+	[ContextMenu(nameof(Start))]
 	public void Start() {
-		if (Application.isPlaying)
-		foreach (var wheel in wheels)
-			wheel.transform.SetParent(null);
+
+		rollAxis.Clear();
+		pitchAxis.Clear();
+		pistons.Clear();
+		
+		var wheels = GetComponentInParent<UnitView>().GetComponentsInChildren<Wheel>();
+
+		foreach (var wheel in wheels) {
+
+			var piston = wheel.GetComponent<Piston>();
+			if (!piston)
+				Debug.LogError("no piston on the wheel", wheel);
+			pistons.Add(piston);
+
+			var wheelName = wheel.transform.parent.name;
+			var parts = wheelName.Split(" (");
+			var side = wheelName[0];
+			var index = parts.Length == 1 ? 0 : int.Parse(parts[1].Replace(")", ""));
+
+			for (var i = rollAxis.Count; i <= index; i++)
+				rollAxis.Add(new Axis());
+			if (side == 'L')
+				rollAxis[index].a = piston;
+			if (side == 'R')
+				rollAxis[index].b = piston;
+		}
+
+		for (var i = 1; i < rollAxis.Count; i++) {
+			pitchAxis.Add(new Axis { a = rollAxis[i].a, b = rollAxis[i-1].a });
+			pitchAxis.Add(new Axis { a = rollAxis[i].b, b = rollAxis[i-1].b });
+		}
+
+		pistons = pistons.Distinct().ToList();
 	}
 
 	public void Update() {
@@ -47,12 +64,21 @@ public class Body : MonoBehaviour {
 			}
 			return sum / count;
 		}
-		
-		var center =average(wheels.Select(wheel => wheel.position)); 
+
+		var center = average(pistons.Select(piston => piston.position));
 		var right = average(rollAxis.Select(axis => (axis.b.position - axis.a.position).normalized)).normalized;
 		var forward = average(pitchAxis.Select(axis => (axis.a.position - axis.b.position).normalized)).normalized;
-		
-		transform.rotation = Quaternion.LookRotation(forward,Vector3.Cross(right,-forward));
-		transform.position = center + transform.up * clearance;
+
+		transform.rotation = Quaternion.LookRotation(forward, Vector3.Cross(right, -forward));
+		transform.position = center;
+	}
+
+	private void OnDrawGizmosSelected() {
+		Gizmos.color = Color.blue;
+		foreach (var axis in rollAxis)
+			Gizmos.DrawLine(axis.a.transform.position, axis.b.transform.position);
+		Gizmos.color = Color.yellow;
+		foreach (var axis in pitchAxis)
+			Gizmos.DrawLine(axis.a.transform.position, axis.b.transform.position);
 	}
 }

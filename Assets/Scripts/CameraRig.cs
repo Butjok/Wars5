@@ -10,24 +10,6 @@ using UnityEngine.UI;
 
 public class CameraRig : MonoBehaviour {
 
-	public static CameraRig Replace(Vector3 position, float yaw, float pitch, float distance) {
-
-		if (Instance) {
-			DestroyImmediate(Instance.gameObject);
-			CameraRig.instance = null;
-		}
-
-		var prefab = Resources.Load<CameraRig>(nameof(CameraRig));
-		prefab.enabled = false;
-		var instance = Instantiate(prefab);
-		instance.transform.position = position;
-		instance.transform.rotation = Quaternion.Euler(0, yaw, 0);
-		instance.tagetPitchAngle = instance.pitchAngle = pitch;
-		instance.targetDistance = instance.distance = distance;
-		instance.enabled = true;
-		return instance;
-	}
-
 	private static CameraRig instance;
 	public static CameraRig Instance {
 		get {

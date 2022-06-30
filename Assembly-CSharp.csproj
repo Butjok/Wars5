@@ -71,7 +71,6 @@
      <Compile Include="Assets\Scripts\CameraRig.cs" />
      <Compile Include="Assets\Clayxels\examples\assets\ProceduralCharacterMotion.cs" />
      <Compile Include="Assets\Scripts\Lazy.cs" />
-     <Compile Include="Assets\Scripts\Animation\Wheels.cs" />
      <Compile Include="Assets\Scripts\Animation\MovementSound.cs" />
      <Compile Include="Assets\Scripts\UnitView.cs" />
      <Compile Include="Assets\Clayxels\meshUtils\MeshUtils.cs" />
@@ -79,7 +78,6 @@
      <Compile Include="Assets\Scripts\Animation\PathWalker.cs" />
      <Compile Include="Assets\Clayxels\examples\assets\TestClayxelSolids.cs" />
      <Compile Include="Assets\Scripts\Faction.cs" />
-     <Compile Include="Assets\Scripts\Animation\Springy.cs" />
      <Compile Include="Assets\Scripts\Animation\Accelerometer.cs" />
      <Compile Include="Assets\Clayxels\examples\assets\TestClayShader.cs" />
      <Compile Include="Assets\Clayxels\examples\assets\CrabsBeachBushes.cs" />
@@ -94,6 +92,8 @@
      <Compile Include="Assets\Scripts\UiSounds.cs" />
      <Compile Include="Assets\Scripts\Unit.cs" />
      <Compile Include="Assets\Scripts\UnitMap.cs" />
+     <Compile Include="Assets\Scripts\Animation\OrbitingWeight.cs" />
+     <Compile Include="Assets\Scripts\Animation\LookAt.cs" />
      <None Include="Assets\Clayxels\Resources\clayCoreLock.compute" />
      <None Include="Assets\Clayxels\Resources\RenderBuiltIn\clayxelBuiltinShaderPolySplat.shader" />
      <None Include="Assets\Clayxels\Resources\clayxelMicroVoxelUtils.cginc" />

@@ -1,9 +1,10 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 [RequireComponent(typeof(Speedometer))]
 public class SteeringArm : MonoBehaviour {
-	public float steerInfluence = 1;
+	public float friction = 1;
 	public float duration90 = .25f;
 	public Speedometer speedometer;
 	public SteeringArm[] neighbors = { };
@@ -19,7 +20,7 @@ public class SteeringArm : MonoBehaviour {
 		var target = Quaternion.LookRotation(delta / count, transform.parent.up);
 		var sectorAngle = Quaternion.Angle(transform.rotation, target);
 		var sectorDuration = duration90 * sectorAngle / (90);
-		transform.rotation = Quaternion.Lerp(transform.rotation, target, steerInfluence * (Time.deltaTime / sectorDuration) * (delta.magnitude / Time.deltaTime));
+		transform.rotation = Quaternion.Lerp(transform.rotation, target, friction * (Time.deltaTime / sectorDuration) * (delta.magnitude / Time.deltaTime));
 	}
 	public Vector3? DeltaPosition {
 		get {
@@ -31,5 +32,9 @@ public class SteeringArm : MonoBehaviour {
 				return null;
 			return deltaPosition;
 		}
+	}
+	[ContextMenu(nameof(FindNeighbours))]
+	public void FindNeighbours() {
+		neighbors = GetComponentInParent<UnitView>().GetComponentsInChildren<SteeringArm>().Except(new[] { this }).ToArray();
 	}
 }

@@ -1,30 +1,27 @@
 using System;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.Serialization;
 
 //[ExecuteInEditMode]
 [RequireComponent(typeof(SphereCollider))]
 [RequireComponent(typeof(Speedometer))]
+[SelectionBase]
 public class Wheel : MonoBehaviour {
+
+	public Body body;
 	public Transform rayOrigin;
 	public SphereCollider collider;
 	public LayerMask mask;
 	public Speedometer speedometer;
-	[FormerlySerializedAs("wheelTilt"), Range(0, 1)]
-	public float tiltInfluence = .5f;
-	[FormerlySerializedAs("angle")] public float spinAngle;
-	public float pistonTargetLength = .1f;
-	public float pistonForce = 500;
-	public float pistonDrag = 7.5f;
-	public float pistonVelocity;
-	public Vector2 clamp = new Vector2(-.25f, 1);
-	public Transform piston;
-	public float constantForce = 10;
+	[Range(0, 1)] public float tiltInfluence = .5f;
+	public float spinAngle;
 	public Accelerometer accelerometer;
 
-	public void Update() {
+	[ContextMenu("Clear")]
+	public void Start() {
+
 		Assert.IsTrue(rayOrigin);
+
 		if (!collider) {
 			collider = GetComponent<SphereCollider>();
 			Assert.IsTrue(collider);
@@ -33,6 +30,16 @@ public class Wheel : MonoBehaviour {
 			speedometer = GetComponent<Speedometer>();
 			Assert.IsTrue(speedometer);
 		}
+		
+		if (!body) {
+			var view = GetComponentInParent<UnitView>();
+			if (view)
+				body = view.GetComponentInChildren<Body>();
+		}
+	}
+
+	public void Update() {
+
 		var ray = new Ray(rayOrigin.position, -rayOrigin.up);
 		if (Physics.SphereCast(ray, collider.radius, out var hit, float.MaxValue, mask)) {
 			transform.position = ray.GetPoint(hit.distance);
@@ -43,7 +50,6 @@ public class Wheel : MonoBehaviour {
 				var deltaAngle = distance / collider.radius * ratio;
 				spinAngle += deltaAngle;
 			}
-			//Debug.DrawRay(transform);
 
 			var plane = new Plane(-rayOrigin.up, rayOrigin.position);
 
@@ -58,22 +64,11 @@ public class Wheel : MonoBehaviour {
 				count++;
 			}
 
+			var noTilt = Quaternion.LookRotation(rayOrigin.forward, body ? body.transform.up : rayOrigin.up);
 			var fullTilt = Quaternion.LookRotation(rayOrigin.forward, normal / count);
-			var tilt = fullTilt;
+			var tilt = Quaternion.Lerp(noTilt, fullTilt, tiltInfluence);
 
 			transform.rotation = tilt * Quaternion.Euler(spinAngle, 0, 0);
-
 		}
-
-		var pistonLength = Vector3.Distance(transform.position, piston.position);
-		pistonLength += pistonVelocity * Time.deltaTime;
-		pistonLength = Mathf.Clamp(pistonLength, clamp[0], clamp[1]);
-		var force = (pistonTargetLength - pistonLength) * pistonForce;
-		if (accelerometer)
-			force += accelerometer.acceleration * constantForce;
-		force -= pistonVelocity * pistonDrag;
-		pistonVelocity += force * Time.deltaTime;
-
-		piston.position = transform.position + rayOrigin.up * pistonLength;
 	}
 }

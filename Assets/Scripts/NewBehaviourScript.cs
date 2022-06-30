@@ -13,6 +13,8 @@ public class NewBehaviourScript : MonoBehaviour {
 		game = new Game("Wars");
 		game.turn = 0;
 
+		///var test = Resources.Load<UnitView>("Test");
+		
 		var player = new Player(game, Color.red);
 		var player2 = new Player(game, Color.blue);
 		unit = new Unit(game, player, position: new Vector2Int(1, 1));

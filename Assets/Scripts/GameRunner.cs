@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class GameRunner : MonoBehaviour {
 	public Game game;
-	public bool debugGui;
+	public bool debugGui=true;
 	public void Update() {
 		game?.state.v?.Update();
 	}

@@ -60,7 +60,10 @@ public class UnitView : MonoBehaviour {
 
 		moved = new ChangeTracker<bool>(_ => Color = playerColor.v * (unit.moved.v ? movedTint : Color.white));
 		playerColor = new ChangeTracker<Color>(_ => Color = playerColor.v * (unit.moved.v ? movedTint : Color.white));
-		//selected = new ChangeTracker<bool>(_ => );
+		selected = new ChangeTracker<bool>(_ => {
+			if (selected.v) 
+				Blink();
+		});
 
 		propertyBlock = new Lazy<MaterialPropertyBlock>(() => new MaterialPropertyBlock());
 		renderers = new Lazy<Renderer[]>(GetComponentsInChildren<Renderer>);
@@ -87,14 +90,14 @@ public class UnitView : MonoBehaviour {
 	public Vector2Int nextRotation;
 	public bool nextMoved;
 	
-	public void Blink(float duration) {
+	public void Blink() {
 		// TODO: move to shader code
 		DOTween.To(t=> {
 			var value = blinkCurve.Evaluate(t);
 			propertyBlock.v.SetFloat("_Selected", value);
 			foreach(var renderer in renderers.v)
 				renderer.SetPropertyBlock(propertyBlock.v);
-		}, 0, 1, duration);
+		}, 0, 1, blinkDuration);
 	}
 	public float blinkDuration = 1;
 
@@ -107,7 +110,7 @@ public class UnitView : MonoBehaviour {
 	private void Update() {
 
 		if (Input.GetKeyDown(KeyCode.Return)) {
-			Blink(blinkDuration);
+			Blink();
 		}
 		
 		if (Input.GetKeyDown(KeyCode.Space)) {
