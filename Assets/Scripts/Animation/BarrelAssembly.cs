@@ -28,9 +28,9 @@ public class BarrelAssembly : MonoBehaviour {
 		for (var i=0;i<barrelOrder.Length;i++)
 			Shoot();
 	}
-	private IEnumerator VolleySequence() {
+	/*private IEnumerator VolleySequence() {
 		
-	}
+	}*/
 	
 	public void Update() {
 		if (Input.GetKeyDown(KeyCode.Equals)) {

@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 
 //[ExecuteInEditMode]
+[SelectionBase]
 public class Body : MonoBehaviour {
 
 	[Serializable]

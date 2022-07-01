@@ -49,7 +49,7 @@ public struct BallisticCurve {
 		var g = gravity.magnitude;
 
 		var theta = Atan2(y, x);
-		return new BallisticCurve(from, deltaForward, up, velocity, theta, g) {totalTime = null};
+		return new BallisticCurve(from, deltaForward, up, velocity, theta, g) { totalTime = null };
 	}
 
 	public float theta, velocity, gravity;
@@ -73,10 +73,10 @@ public struct BallisticCurve {
 		return from + x + y;
 	}
 
-	public IEnumerable<(Vector3, Vector3)> Segments(float timeStep, int maxSamples = 100) {
+	public IEnumerable<(Vector3, Vector3)> Segments(float timeStep = .1f, int maxSamples = 100) {
 		var lastPoint = from;
-		for (var i=0; i < maxSamples;  i++) {
-			var time = timeStep * (i+1);
+		for (var i = 0; i < maxSamples; i++) {
+			var time = timeStep * (i + 1);
 			if (totalTime is { } totalTime2 && time > totalTime2)
 				break;
 			var point = Sample(time);

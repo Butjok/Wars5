@@ -2,25 +2,27 @@ using System;
 using UnityEngine;
 using UnityEngine.Assertions;
 
+[SelectionBase]
+[RequireComponent(typeof(BallisticComputer))]
 public class Turret : MonoBehaviour {
 
-	public RotateTo[] rotators = Array.Empty<RotateTo>();
-	public bool aim;
+	public Rotator[] rotators = Array.Empty<Rotator>();
 	public BallisticComputer ballisticComputer;
 	public bool restIfImpossible = true;
-	public bool possible;
+	public Transform restTarget;
+	public bool aim;
 
 	public void Start() {
 		ballisticComputer = GetComponent<BallisticComputer>();
 		Assert.IsTrue(ballisticComputer);
 	}
 	public void Update() {
-		possible = ballisticComputer.curveOption != null;
+		var possible = ballisticComputer.curveOption != null;
 		foreach (var rotator in rotators) {
 			if (aim && possible)
-				rotator.target = ballisticComputer.aimTarget;
+				rotator.target = ballisticComputer.virtualTarget;
 			else if (!aim || restIfImpossible)
-				rotator.target = null;
+				rotator.target = restTarget;
 		}
 	}
 }
