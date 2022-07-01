@@ -6,11 +6,12 @@ using UnityEngine.Assertions;
 [RequireComponent(typeof(BallisticComputer))]
 public class Turret : MonoBehaviour {
 
+	public bool aim;
+	[Space]
 	public Rotator[] rotators = Array.Empty<Rotator>();
 	public BallisticComputer ballisticComputer;
 	public bool restIfImpossible = true;
 	public Transform restTarget;
-	public bool aim;
 
 	public void Start() {
 		ballisticComputer = GetComponent<BallisticComputer>();

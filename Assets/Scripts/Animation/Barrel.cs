@@ -1,11 +1,15 @@
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 public class Barrel : MonoBehaviour {
+	
 	public BallisticMotion projectilePrefab;
 	public BallisticComputer ballisticComputer;
 	public Vector3 offset;
 	public Transform forward;
+	public Piston piston;
+	
 	[ContextMenu(nameof(Shoot))]
 	public void Shoot() {
 		Assert.IsTrue(projectilePrefab);
