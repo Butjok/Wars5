@@ -1,5 +1,3 @@
-using System;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 [ExecuteInEditMode]
@@ -15,6 +13,7 @@ public class Piston : MonoBehaviour {
 
 	public float velocity;
 	public Vector3 position;
+	public float constantForce;
 	
 	public void Update() {
 
@@ -23,6 +22,7 @@ public class Piston : MonoBehaviour {
 
 		var force = (targetLength - length) * this.force;
 		force -= velocity * drag;
+		force += constantForce;
 		velocity += force * Time.deltaTime;
 		
 		length += velocity * Time.deltaTime;

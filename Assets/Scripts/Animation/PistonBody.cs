@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[ExecuteInEditMode]
+//[ExecuteInEditMode]
 public class PistonBody : MonoBehaviour {
 	public Piston piston;
 	public void Update() {

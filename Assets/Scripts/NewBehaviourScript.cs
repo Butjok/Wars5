@@ -10,7 +10,7 @@ public class NewBehaviourScript : MonoBehaviour {
 	
 	private void OnEnable() {
 		
-		game = new Game("Wars");
+		/*game = new Game("Wars");
 		game.turn = 0;
 
 		///var test = Resources.Load<UnitView>("Test");
@@ -22,7 +22,7 @@ public class NewBehaviourScript : MonoBehaviour {
 		//var a_ = unit.view;
 
 		
-		game.state.v = new SelectionState(game);
+		game.state.v = new SelectionState(game);*/
 	}
 	private void OnDisable() {
 		unit?.Dispose();

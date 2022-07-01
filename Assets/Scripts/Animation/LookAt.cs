@@ -1,12 +1,12 @@
-using Unity.Mathematics;
 using UnityEngine;
 
 [ExecuteInEditMode]
 public class LookAt : MonoBehaviour {
-	public OrbitingWeight weight;
+	public Transform target;
 	public Transform up;
 	public void Update() {
-		if (weight && up)
-			transform.rotation = quaternion.LookRotation(weight.position - transform.position, up.up);
+		if (target && up)
+			transform.rotation = Quaternion.LookRotation(target.position - transform.position, up.up);
+		//Debug.DrawLine(transform.position,transform.position+target.position - transform.position);
 	}
 }
