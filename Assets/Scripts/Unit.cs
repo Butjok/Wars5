@@ -6,7 +6,7 @@ using Object = UnityEngine.Object;
 
 public class Unit : IDisposable {
 
-	public Game game;
+	public Level level;
 	public UnitType type;
 	public Player player;
 	public UnitView view;
@@ -18,10 +18,10 @@ public class Unit : IDisposable {
 	public ChangeTracker<bool> selected;
 	public ChangeTracker<IEnumerable<Vector2>> path;
 
-	public Unit(Game game,Player player, bool moved = false, UnitType type = UnitType.Infantry, Vector2Int? position = null, Vector2Int? rotation =null, int hp = 10, UnitView viewPrefab = null) {
+	public Unit(Level level,Player player, bool moved = false, UnitType type = UnitType.Infantry, Vector2Int? position = null, Vector2Int? rotation =null, int hp = 10, UnitView viewPrefab = null) {
 
-		Assert.IsNotNull(game);
-		this.game = game;
+		Assert.IsNotNull(level);
+		this.level = level;
 		
 		if (!viewPrefab)
 			viewPrefab = WarsResources.test.v;
@@ -39,7 +39,7 @@ public class Unit : IDisposable {
 			else
 				view.visible.v = false;
 
-			game.unitMap[this] = this.position.v;
+			level.unitMap[this] = this.position.v;
 		});
 
 		this.rotation = new ChangeTracker<Vector2Int>(_ => view.rotation.v = this.rotation.v);

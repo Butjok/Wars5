@@ -4,22 +4,22 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
 
-public class Game : IDisposable {
+public class Level : IDisposable {
 
 	public UnitMap unitMap = new();
 	public Dictionary<Vector2Int, Tile> tileAt = new();
 	public List<Player> playerLoop = new();
 	public Dictionary<Color, Player> players = new();
 	public int? turn;
-	public GameRunner runner;
+	public LevelRunner runner;
 
 	public ChangeTracker<GameState> state = new(old => old?.Dispose());
 
-	public Game(string name = null) {
-		var go = new GameObject(name ?? nameof(Game));
+	public Level(string name = null) {
+		var go = new GameObject(name ?? nameof(Level));
 		Object.DontDestroyOnLoad(go);
-		runner = go.AddComponent<GameRunner>();
-		runner.game = this;
+		runner = go.AddComponent<LevelRunner>();
+		runner.level = this;
 	}
 	public void Dispose() {
 		state.v?.Dispose();
@@ -30,25 +30,25 @@ public class Game : IDisposable {
 
 public abstract class GameState : IDisposable {
 
-	public Game game;
-	protected GameState(Game game) {
-		Assert.IsNotNull(game);
-		this.game = game;
+	public Level level;
+	protected GameState(Level level) {
+		Assert.IsNotNull(level);
+		this.level = level;
 	}
 
 	public Player CurrentPlayer {
 		get {
 			Assert.AreNotEqual(0, PlayerLoop.Count);
-			return game.playerLoop[Turn % PlayerLoop.Count];
+			return level.playerLoop[Turn % PlayerLoop.Count];
 		}
 	}
-	public Dictionary<Vector2Int, Tile> TileAt => game.tileAt;
-	public UnitMap UnitMap => game.unitMap;
-	public List<Player> PlayerLoop => game.playerLoop;
+	public Dictionary<Vector2Int, Tile> TileAt => level.tileAt;
+	public UnitMap UnitMap => level.unitMap;
+	public List<Player> PlayerLoop => level.playerLoop;
 	public int Turn {
 		get {
-			Assert.AreNotEqual(null, game.turn);
-			return (int)game.turn;
+			Assert.AreNotEqual(null, level.turn);
+			return (int)level.turn;
 		}
 	}
 

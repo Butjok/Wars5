@@ -365,8 +365,8 @@ MonoBehaviour:
   force: 250
   drag: 4
   constantForce: 0
-  velocity: -5.9178987
-  position: {x: -4.699, y: 1.0178291, z: -3.456}
+  velocity: 4.401102
+  position: {x: -4.699, y: 1.167829, z: -3.456}
 --- !u!1 &4031771738911160427
 GameObject:
   m_ObjectHideFlags: 0
@@ -637,8 +637,8 @@ MonoBehaviour:
   force: 250
   drag: 4
   constantForce: 0
-  velocity: -5.917902
-  position: {x: -5.285, y: 1.0709312, z: -3.456}
+  velocity: 4.4011064
+  position: {x: -5.285, y: 1.2209313, z: -3.456}
 --- !u!1 &4031771739051904129
 GameObject:
   m_ObjectHideFlags: 0
@@ -688,11 +688,11 @@ MonoBehaviour:
   direction: {x: 0, y: 0, z: 1}
   targetLength: 0.25
   clamp: {x: 0, y: 0.25}
-  force: 100
-  drag: 25
+  force: 1000
+  drag: 100
   constantForce: 0
-  velocity: -31567.086
-  position: {x: -5.1039, y: 1.2118174, z: -2.9850001}
+  velocity: 0
+  position: {x: -5.1039, y: 1.2118174, z: -2.7350001}
 --- !u!1 &4031771739121792466
 GameObject:
   m_ObjectHideFlags: 0
@@ -1066,7 +1066,6 @@ GameObject:
   - component: {fileID: 4031771739268594603}
   - component: {fileID: 4031771739268594600}
   - component: {fileID: 4031771739268594605}
-  - component: {fileID: 4031771739268594604}
   m_Layer: 0
   m_Name: Cylinder
   m_TagString: Untagged
@@ -1169,19 +1168,7 @@ MonoBehaviour:
   ballisticComputer: {fileID: 4031771740705511715}
   offset: {x: 0, y: 0.9, z: 0}
   forward: {fileID: 4031771740841576788}
---- !u!114 &4031771739268594604
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4031771739268594582}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a39e31f2df3145169993582a77602f2d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  piston: {fileID: 4031771739051904131}
+  piston: {fileID: 0}
 --- !u!1 &4031771739320299586
 GameObject:
   m_ObjectHideFlags: 0
@@ -1365,8 +1352,8 @@ MonoBehaviour:
   force: 250
   drag: 4
   constantForce: 0
-  velocity: -5.917902
-  position: {x: -5.285, y: 1.0709312, z: -3.2298515}
+  velocity: 4.4011064
+  position: {x: -5.285, y: 1.2209313, z: -3.2298515}
 --- !u!1 &4031771739519115228
 GameObject:
   m_ObjectHideFlags: 0
@@ -1736,8 +1723,8 @@ MonoBehaviour:
   force: 250
   drag: 4
   constantForce: 0
-  velocity: -5.917902
-  position: {x: -5.285, y: 1.0709312, z: -2.8509998}
+  velocity: 4.4011064
+  position: {x: -5.285, y: 1.2209313, z: -2.8509998}
 --- !u!1 &4031771739798963306
 GameObject:
   m_ObjectHideFlags: 0
@@ -2148,8 +2135,8 @@ MonoBehaviour:
   force: 250
   drag: 4
   constantForce: 0
-  velocity: -5.9178987
-  position: {x: -4.699, y: 1.0178291, z: -3.2298515}
+  velocity: 4.401102
+  position: {x: -4.699, y: 1.167829, z: -3.2298515}
 --- !u!1 &4031771739861457852
 GameObject:
   m_ObjectHideFlags: 0
@@ -2253,8 +2240,8 @@ MonoBehaviour:
   force: 250
   drag: 4
   constantForce: 0
-  velocity: -5.9178987
-  position: {x: -4.699, y: 1.0178291, z: -2.6150002}
+  velocity: 4.401102
+  position: {x: -4.699, y: 1.167829, z: -2.6150002}
 --- !u!1 &4031771739988069738
 GameObject:
   m_ObjectHideFlags: 0
@@ -3216,8 +3203,8 @@ MonoBehaviour:
   force: 250
   drag: 4
   constantForce: 0
-  velocity: -5.917902
-  position: {x: -5.285, y: 1.0709312, z: -2.615}
+  velocity: 4.4011064
+  position: {x: -5.285, y: 1.2209313, z: -2.615}
 --- !u!1 &4031771740384489987
 GameObject:
   m_ObjectHideFlags: 0
@@ -3446,10 +3433,10 @@ MonoBehaviour:
   direction: {x: 0, y: 0, z: 1}
   targetLength: 0.25
   clamp: {x: 0, y: 0.25}
-  force: 100
-  drag: 25
+  force: 1000
+  drag: 100
   constantForce: 0
-  velocity: 9578.099
+  velocity: 0
   position: {x: -4.915, y: 1.2118174, z: -2.7350001}
 --- !u!1 &4031771740705511724
 GameObject:
@@ -3502,13 +3489,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef49b7490e0b4a1cb80f86dc5134fb51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  aim: 1
   rotators:
   - {fileID: 4031771740705511712}
   - {fileID: 4031771740841576790}
   ballisticComputer: {fileID: 4031771740705511715}
   restIfImpossible: 1
   restTarget: {fileID: 4031771740812121110}
-  aim: 1
 --- !u!114 &4031771740705511715
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3521,8 +3508,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afddd14a593e4cbfa170ea9b3b4bd443, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  barrel: {fileID: 4031771739320299589}
   target: {fileID: 0}
+  barrel: {fileID: 4031771739320299589}
   virtualTarget: {fileID: 4031771740476942019}
   velocity: 10
   gravity: {x: 0, y: -1, z: 0}
@@ -3720,8 +3707,8 @@ MonoBehaviour:
   force: 250
   drag: 4
   constantForce: 0
-  velocity: -5.9178987
-  position: {x: -4.699, y: 1.0178291, z: -2.8509998}
+  velocity: 4.401102
+  position: {x: -4.699, y: 1.167829, z: -2.8509998}
 --- !u!1 &4031771740794156652
 GameObject:
   m_ObjectHideFlags: 0
@@ -3735,7 +3722,6 @@ GameObject:
   - component: {fileID: 4031771740794156643}
   - component: {fileID: 4031771740794156640}
   - component: {fileID: 4031771740794156641}
-  - component: {fileID: 4031771740794156654}
   m_Layer: 0
   m_Name: Cylinder
   m_TagString: Untagged
@@ -3838,19 +3824,7 @@ MonoBehaviour:
   ballisticComputer: {fileID: 4031771740705511715}
   offset: {x: 0, y: 0.9, z: 0}
   forward: {fileID: 4031771740841576788}
---- !u!114 &4031771740794156654
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4031771740794156652}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a39e31f2df3145169993582a77602f2d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  piston: {fileID: 4031771740674829984}
+  piston: {fileID: 0}
 --- !u!1 &4031771740812121111
 GameObject:
   m_ObjectHideFlags: 0

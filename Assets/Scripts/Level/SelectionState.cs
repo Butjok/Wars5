@@ -7,8 +7,8 @@ public class SelectionState : GameState {
 	public List<Unit> unitLoop;
 	public int unitIndex = -1;
 
-	public SelectionState(Game game) : base(game) {
-		unitLoop = game.unitMap
+	public SelectionState(Level level) : base(level) {
+		unitLoop = level.unitMap
 			.Where(unit => unit.player == CurrentPlayer)
 			.OrderBy(unit => Vector3.Distance(CameraRig.Instance.transform.position, unit.view.transform.position))
 			.ToList();
@@ -32,7 +32,7 @@ public class SelectionState : GameState {
 				foreach (var hit in hits.OrderBy(hit => hit.distance)) {
 					var view = hit.transform.GetComponentInParent<UnitView>();
 					if (view) {
-						game.state.v = new PathSelectionState(game, view.unit);
+						level.state.v = new PathSelectionState(level, view.unit);
 						break;
 					}
 				}
@@ -45,23 +45,6 @@ public class SelectionState : GameState {
 }
 public static class Masks {
 	public static int selectable = 1 << LayerMask.NameToLayer("Selectable");
-}
-
-public class PathSelectionState : GameState {
-	public Unit unit;
-	public PathSelectionState(Game game, Unit unit) : base(game) {
-		this.unit = unit;
-		unit.selected.v = true;
-	}
-	public override void Dispose() {
-		unit.selected.v = false;
-	}
-	public override void Update() {
-		if (Input.GetMouseButtonDown(Mouse.right)) {
-			game.state.v = new SelectionState(game);
-			return;
-		}
-	}
 }
 
 public static class Mouse {

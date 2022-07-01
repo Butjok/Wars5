@@ -6,27 +6,27 @@ using Object = UnityEngine.Object;
 public class NewBehaviourScript : MonoBehaviour {
 
 	public Unit unit;
-	public Game game;
+	public Level level;
 	
 	private void OnEnable() {
 		
-		game = new Game("Wars");
-		game.turn = 0;
+		level = new Level("Wars");
+		level.turn = 0;
 
 		///var test = Resources.Load<UnitView>("Test");
 		
-		var player = new Player(game, Color.red);
-		var player2 = new Player(game, Color.blue);
-		unit = new Unit(game, player, position: new Vector2Int(1, 1));
-		unit = new Unit(game, player, position: new Vector2Int(3, 3));
+		var player = new Player(level, Color.red);
+		var player2 = new Player(level, Color.blue);
+		unit = new Unit(level, player, position: new Vector2Int(1, 1));
+		unit = new Unit(level, player, position: new Vector2Int(3, 3));
 		//var a_ = unit.view;
 
 		
-		game.state.v = new SelectionState(game);
+		level.state.v = new SelectionState(level);
 	}
 	private void OnDisable() {
 		unit?.Dispose();
-		game?.Dispose();
+		level?.Dispose();
 	}
 
 
@@ -66,16 +66,16 @@ public enum Team { None = 0, Alpha = 1, Bravo = 2, Delta = 4 }
 
 public class Player {
 
-	public Game game;
+	public Level level;
 	public Team team = Team.None;
 	public Color color ;
 	public Co co;
 
-	public Player(Game game,Color color) {
-		this.game = game;
+	public Player(Level level,Color color) {
+		this.level = level;
 		this.color = color;
-		game.players.Add(color,this);
-		game.playerLoop.Add(this);
+		level.players.Add(color,this);
+		level.playerLoop.Add(this);
 	}
 }
 public class Players : IDisposable {
