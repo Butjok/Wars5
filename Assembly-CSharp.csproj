@@ -102,6 +102,8 @@
      <Compile Include="Assets\Scripts\UnitMap.cs" />
      <Compile Include="Assets\Clayxels\examples\assets\TestClayxelMeshCollider.cs" />
      <Compile Include="Assets\Scripts\Animation\PistonBody.cs" />
+     <Compile Include="Assets\Scripts\Animation\Barrel.cs" />
+     <Compile Include="Assets\Scripts\Animation\BarrelAssembly.cs" />
      <None Include="Assets\Clayxels\Resources\clayCoreLock.compute" />
      <None Include="Assets\Clayxels\Resources\RenderBuiltIn\clayxelBuiltinShaderPolySplat.shader" />
      <None Include="Assets\Clayxels\Resources\clayxelMicroVoxelUtils.cginc" />

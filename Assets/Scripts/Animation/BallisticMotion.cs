@@ -8,27 +8,26 @@ public class BallisticMotion : MonoBehaviour {
 	public float velocity = 1;
 	public float timeStep = .1f;
 	public float time;
-	public bool possible;
 	public BallisticCurve curve;
 	public bool orient = true;
 	public Vector3 up = Vector3.up;
 
-	public void OnDrawGizmos() {
-		if (possible) {
-			Gizmos.color = Color.yellow;
-			foreach (var (a, b) in curve.Segments(timeStep))
-				Gizmos.DrawLine(a, b);
-		}
+	public void OnDrawGizmosSelected() {
+		Gizmos.color = Color.yellow;
+		foreach (var (a, b) in curve.Segments(timeStep))
+			Gizmos.DrawLine(a, b);
 	}
 	public void Update() {
-		if (!possible) {
-			return;
-		}
 		transform.position = curve.Sample(time);
 		if (orient) {
 			var near = curve.Sample(time - Time.deltaTime);
-			transform.rotation = Quaternion.LookRotation(transform.position - near, up);
+			var delta = transform.position - near;
+			if (delta != Vector3.zero)
+				transform.rotation = Quaternion.LookRotation(delta, up);
 		}
-		time = (time + Time.deltaTime) % curve.totalTime;
+		if (curve.totalTime is { } totalTime)
+			time = (time + Time.deltaTime) % totalTime;
+		else
+			time += Time.deltaTime;
 	}
 }

@@ -12,12 +12,13 @@ public struct BallisticCurve {
 
 		var up = -gravity.normalized;
 		var deltaUp = Vector3.Project(to - from, up);
-		var y = Vector3.Dot(up, deltaUp);
 		var deltaForward = to - from - deltaUp;
-		var x = deltaForward.magnitude;
 
+		var x = deltaForward.magnitude;
+		var y = Vector3.Dot(up, deltaUp);
 		var v = velocity;
 		var g = gravity.magnitude;
+
 		var d = v * v * v * v - g * (g * x * x + 2 * y * v * v);
 		if (d < Epsilon) {
 			curveLow = curveHigh = default;
@@ -30,21 +31,36 @@ public struct BallisticCurve {
 		var thetaLow = Min(a1, a2);
 		var thetaHigh = Max(a1, a2);
 
-		curveLow = new BallisticCurve(from, to, deltaForward, up, velocity, thetaLow, g);
-		curveHigh = new BallisticCurve(from, to, deltaForward, up, velocity, thetaHigh, g);
+		curveLow = new BallisticCurve(from, deltaForward, up, velocity, thetaLow, g);
+		curveHigh = new BallisticCurve(from, deltaForward, up, velocity, thetaHigh, g);
 
 		return true;
 	}
 
-	public float theta, velocity, gravity, totalTime;
-	public Vector3 from, to, forward, up;
+	public static BallisticCurve From(Vector3 from, Vector3 barrelForward, float velocity, Vector3 gravity) {
 
-	public BallisticCurve(Vector3 from, Vector3 to, Vector3 projectedDelta, Vector3 up, float velocity, float theta, float gravity) {
+		var up = -gravity.normalized;
+		var deltaUp = Vector3.Project(barrelForward, up);
+		var deltaForward = barrelForward - deltaUp;
+
+		var x = deltaForward.magnitude;
+		var y = Vector3.Dot(up, deltaUp);
+		var v = velocity;
+		var g = gravity.magnitude;
+
+		var theta = Atan2(y, x);
+		return new BallisticCurve(from, deltaForward, up, velocity, theta, g) {totalTime = null};
+	}
+
+	public float theta, velocity, gravity;
+	public float? totalTime;
+	public Vector3 from, forward, up;
+
+	public BallisticCurve(Vector3 from, Vector3 projectedDelta, Vector3 up, float velocity, float theta, float gravity) {
 		this.theta = theta;
 		this.velocity = velocity;
 		this.gravity = gravity;
 		this.from = from;
-		this.to = to;
 		forward = projectedDelta.normalized;
 		this.up = up;
 		totalTime = projectedDelta.magnitude / (velocity * Cos(theta));
@@ -57,14 +73,15 @@ public struct BallisticCurve {
 		return from + x + y;
 	}
 
-	public IEnumerable<(Vector3, Vector3)> Segments(float timeStep, int maxSamples = 10000) {
+	public IEnumerable<(Vector3, Vector3)> Segments(float timeStep, int maxSamples = 100) {
 		var lastPoint = from;
-		var i = 0;
-		for (var time = timeStep; time < totalTime && i < maxSamples; time += timeStep, i++) {
+		for (var i=0; i < maxSamples;  i++) {
+			var time = timeStep * (i+1);
+			if (totalTime is { } totalTime2 && time > totalTime2)
+				break;
 			var point = Sample(time);
 			yield return (lastPoint, point);
 			lastPoint = point;
 		}
-		yield return (lastPoint, to);
 	}
 }
