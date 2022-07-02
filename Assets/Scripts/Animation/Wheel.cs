@@ -20,7 +20,8 @@ public class Wheel : MonoBehaviour {
 	[ContextMenu("Clear")]
 	public void Start() {
 
-		Assert.IsTrue(rayOrigin);
+		if(!rayOrigin)
+			rayOrigin = transform.parent;
 
 		if (!collider) {
 			collider = GetComponent<SphereCollider>();
@@ -45,6 +46,8 @@ public class Wheel : MonoBehaviour {
 		var ray = new Ray(rayOrigin.position, -rayOrigin.up);
 		var radius = transform.TransformVector(Vector3.up * collider.radius).magnitude;
 		if (Physics.SphereCast(ray, radius, out var hit, float.MaxValue, mask)) {
+			
+			Debug.DrawLine(transform.position,ray.GetPoint(hit.distance));
 			transform.position = ray.GetPoint(hit.distance);
 
 			if (speedometer.deltaPosition is { } delta) {

@@ -16,6 +16,9 @@ public class Body : MonoBehaviour {
 	public List<Axis> pitchAxis = new();
 	public List<Piston> pistons = new();
 
+	[Range(-1,1)]public float rollAxisMultiplier=1;
+	[Range(-1,1)]public float pitchAxisMultiplier=1;
+
 	[ContextMenu(nameof(Start))]
 	public void Start() {
 
@@ -33,9 +36,8 @@ public class Body : MonoBehaviour {
 			pistons.Add(piston);
 
 			var wheelName = wheel.transform.parent.name;
-			var parts = wheelName.Split(" (");
 			var side = wheelName[0];
-			var index = parts.Length == 1 ? 0 : int.Parse(parts[1].Replace(")", ""));
+			var index = int.Parse(wheelName[1..]);
 
 			for (var i = rollAxis.Count; i <= index; i++)
 				rollAxis.Add(new Axis());
@@ -66,8 +68,8 @@ public class Body : MonoBehaviour {
 		}
 
 		var center = average(pistons.Select(piston => piston.position));
-		var right = average(rollAxis.Select(axis => (axis.b.position - axis.a.position).normalized)).normalized;
-		var forward = average(pitchAxis.Select(axis => (axis.a.position - axis.b.position).normalized)).normalized;
+		var right = average(rollAxis.Select(axis => (axis.b.position - axis.a.position).normalized * rollAxisMultiplier)).normalized;
+		var forward = average(pitchAxis.Select(axis => (axis.a.position - axis.b.position).normalized * pitchAxisMultiplier)).normalized;
 
 		transform.rotation = Quaternion.LookRotation(forward, Vector3.Cross(right, -forward));
 		transform.position = center;
