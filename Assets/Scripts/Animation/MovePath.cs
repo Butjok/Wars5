@@ -62,7 +62,7 @@ public class MovePath  {
 			else if (start.direction == -end.direction)
 				type = MoveType.Back;
 			else
-				type = start.direction.CrossProduct(end.direction) == 1 ? MoveType.Left : MoveType.Right;
+				type = start.direction.Cross(end.direction) == 1 ? MoveType.Left : MoveType.Right;
 			return (start, end, type);
 		}));
 	}

@@ -5,7 +5,10 @@ public static class MathUtils {
 
 	public static Vector2Int[] offsets = { Vector2Int.up, Vector2Int.left, Vector2Int.down, Vector2Int.right };
 	
-	public static int CrossProduct(this Vector2Int a, Vector2Int b) {
+	public static int Cross(this Vector2Int a, Vector2Int b) {
+		return a.x * b.y - a.y * b.x;
+	}
+	public static float  Cross(this Vector2 a, Vector2 b) {
 		return a.x * b.y - a.y * b.x;
 	}
 
@@ -36,7 +39,7 @@ public static class MathUtils {
 	}
 
 	public static int Rotation(this Vector2Int from, Vector2Int to) {
-		return from == -to ? 2 : from.CrossProduct(to);
+		return from == -to ? 2 : from.Cross(to);
 	}
 
 	public static Vector3 ToVector3(this Vector2 v) {

@@ -1,12 +1,13 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Cinemachine;
 using DG.Tweening;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class CameraRig : MonoBehaviour {
 
@@ -45,11 +46,10 @@ public class CameraRig : MonoBehaviour {
 	}
 
 	public float speed = 1.5f;
-	[NonSerialized] public Vector3 velocity;
+	public float speedMultiplier = 1;
+	[NonSerialized] public Vector2 velocity;
 	public float velocitySmoothTime = 0.05f;
 
-	[NonSerialized] public Vector3 targetVelocity;
-	[NonSerialized] public Vector3 acceleration;
 	[NonSerialized] public float targetDistance = float.NaN;
 	public float distance = 20;
 	public float distanceSmoothTime = 50;
@@ -82,6 +82,8 @@ public class CameraRig : MonoBehaviour {
 	public Ease teleportEase = Ease.OutExpo;
 	public TweenerCore<Vector3, Vector3, VectorOptions> teleportAnimation;
 
+	public List<Vector2> hull = new List<Vector2>();
+
 	public void OnCompassClick() {
 		if (rotationSequence == null) {
 			RotateCameraRig(NextRotationAngle(1));
@@ -100,28 +102,42 @@ public class CameraRig : MonoBehaviour {
 	public void Jump(Vector3 position, bool canBeInterrupted=true) {
 		teleportAnimation = transform.DOMove(position, teleportDuration).SetEase(teleportEase);
 	}
+	
+	[ContextMenu(nameof(Test))]
+	public void Test() {
+		hull = ConvexHull.ComputeConvexHull( Enumerable.Range(0, 50).Select(_ => Random.insideUnitCircle * Random.value*10).ToList());
+	}
+	private void OnDrawGizmos() {
+		Gizmos.color = Color.yellow;
+		for(var i = 0; i < hull.Count; i++)
+			Gizmos.DrawLine(hull[i].ToVector3(), hull[(i + 1) % hull.Count].ToVector3());
+	}
 
 	public void Update() {
 
 		int sign(float value) => Mathf.Abs(value) < Mathf.Epsilon ? 0 : value > 0 ? 1 : -1;
+
+		
 		
 		// WASD
 
-		targetVelocity =
-			transform.right * sign(Input.GetAxisRaw("Horizontal")) +
-			transform.forward * sign(Input.GetAxisRaw("Vertical"));
-		if (targetVelocity != Vector3.zero) {
-			targetVelocity = targetVelocity.normalized * speed * distance;
-			velocity = targetVelocity;
-			if (teleportAnimation != null) {
-				teleportAnimation.Kill();
-				teleportAnimation = null;
-			}
+		var input =
+			transform.right.ToVector2() * sign(Input.GetAxisRaw("Horizontal")) +
+			transform.forward.ToVector2() * sign(Input.GetAxisRaw("Vertical"));
+		
+		if (input != Vector2.zero) {
+			velocity = input.normalized * (speed * distance);
+			teleportAnimation?.Kill();
 		}
 		else
-			velocity = Vector3.Lerp(velocity, Vector3.zero, velocitySmoothTime * Time.deltaTime); //Vector3.SmoothDamp(Velocity, TargetVelocity, ref Acceleration, VelocitySmoothTime);
+			velocity = Vector2.Lerp(velocity, Vector2.zero, velocitySmoothTime * Time.deltaTime); //Vector3.SmoothDamp(Velocity, TargetVelocity, ref Acceleration, VelocitySmoothTime);
 
-		transform.position += velocity * Time.deltaTime;
+		{
+			var position = transform.position.ToVector2();
+			position += Time.deltaTime * velocity;
+			position = ConvexHull.ClosestPoint(hull, position);
+			transform.position = position.ToVector3();
+		}
 
 		// CAMERA PITCH
 		
