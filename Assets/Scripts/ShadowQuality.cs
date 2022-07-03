@@ -10,9 +10,10 @@ public class ShadowQuality : MonoBehaviour {
 		var ray = Camera.main.ViewportPointToRay(rayPosition);
 		var plane = new Plane(Vector3.up, Vector3.zero);
 		if (!plane.Raycast(ray, out var distance))
-			distance = float.MaxValue;
-
-		distance = Mathf.Min(maxDistance, distance * multiplier);
+			distance = maxDistance;
+		else
+			distance = Mathf.Min(maxDistance, distance * multiplier);
+		
 		QualitySettings.shadowDistance = distance;
 	}
 }
