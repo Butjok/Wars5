@@ -1,0 +1,37 @@
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+
+public class ClampToHull : MonoBehaviour {
+
+	public List<Vector2> hull = new();
+	public bool rounded = true;
+	public int circleSamples = 32;
+	public static float radius = Mathf.Sqrt(2) / 2;
+
+	[ContextMenu(nameof(Test))]
+	public void Test() {
+		var points = Enumerable.Range(0, 50).Select(_ => Random.insideUnitCircle * Random.value * 10).ToList();
+		if (rounded) {
+			var roundedPoints = new List<Vector2>();
+			foreach (var point in points)
+				for (var i = 0; i < circleSamples; i++) {
+					var angle = 2 * Mathf.PI * ((float)i / circleSamples);
+					var radius = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * ClampToHull.radius;
+					roundedPoints.Add(point + radius);
+				}
+			points = roundedPoints;
+		}
+		hull = ConvexHull.ComputeConvexHull(points);
+	}
+	private void OnDrawGizmos() {
+		Gizmos.color = Color.yellow;
+		for (var i = 0; i < hull.Count; i++)
+			Gizmos.DrawLine(hull[i].ToVector3(), hull[(i + 1) % hull.Count].ToVector3());
+	}
+	private void LateUpdate() {
+		var projected = transform.position.ToVector2();
+		var clamped = ConvexHull.ClosestPoint(hull, projected);
+		transform.position = clamped.ToVector3() + transform.position.y * Vector3.up;
+	}
+}

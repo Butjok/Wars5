@@ -30,6 +30,7 @@ public class SelectionState : GameState {
 				var mask = Masks.selectable;
 				var hits = Physics.RaycastAll(ray, float.MaxValue, mask);
 				foreach (var hit in hits.OrderBy(hit => hit.distance)) {
+					Debug.DrawLine(hit.point,hit.point+hit.normal/10);
 					var view = hit.transform.GetComponentInParent<UnitView>();
 					if (view) {
 						level.state.v = new PathSelectionState(level, view.unit);

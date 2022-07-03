@@ -82,7 +82,7 @@ public class CameraRig : MonoBehaviour {
 	public Ease teleportEase = Ease.OutExpo;
 	public TweenerCore<Vector3, Vector3, VectorOptions> teleportAnimation;
 
-	public List<Vector2> hull = new List<Vector2>();
+	
 
 	public void OnCompassClick() {
 		if (rotationSequence == null) {
@@ -103,15 +103,7 @@ public class CameraRig : MonoBehaviour {
 		teleportAnimation = transform.DOMove(position, teleportDuration).SetEase(teleportEase);
 	}
 	
-	[ContextMenu(nameof(Test))]
-	public void Test() {
-		hull = ConvexHull.ComputeConvexHull( Enumerable.Range(0, 50).Select(_ => Random.insideUnitCircle * Random.value*10).ToList());
-	}
-	private void OnDrawGizmos() {
-		Gizmos.color = Color.yellow;
-		for(var i = 0; i < hull.Count; i++)
-			Gizmos.DrawLine(hull[i].ToVector3(), hull[(i + 1) % hull.Count].ToVector3());
-	}
+	
 
 	public void Update() {
 
@@ -132,12 +124,7 @@ public class CameraRig : MonoBehaviour {
 		else
 			velocity = Vector2.Lerp(velocity, Vector2.zero, velocitySmoothTime * Time.deltaTime); //Vector3.SmoothDamp(Velocity, TargetVelocity, ref Acceleration, VelocitySmoothTime);
 
-		{
-			var position = transform.position.ToVector2();
-			position += Time.deltaTime * velocity;
-			position = ConvexHull.ClosestPoint(hull, position);
-			transform.position = position.ToVector3();
-		}
+		transform.position += Time.deltaTime * velocity.ToVector3();
 
 		// CAMERA PITCH
 		
@@ -214,8 +201,8 @@ public class CameraRig : MonoBehaviour {
 	}
 	public void RotateCameraRig(float angle) {
 		rotationSequence = DOTween.Sequence()
-			.Append(transform.DORotateQuaternion(Quaternion.Euler(0, angle, 0), rotationDuration)
-				.SetEase(rotationEase, rotationAmplitude, rotationPeriod))
+			.Append(transform.DORotate(new Vector3(0, angle, 0), rotationDuration)
+				.SetEase(rotationEase))
 			.AppendCallback(() => rotationSequence = null);
 	}
 }

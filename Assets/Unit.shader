@@ -4,7 +4,9 @@ Shader "Custom/Unit"
     {
         _PlayerColor ("Player Color", Color) = (1,1,1,1)
         _MainTex ("Albedo (RGB)", 2D) = "white" {}
-        _Glossiness ("Smoothness", Range(0,1)) = 0.5
+        _Occlusion ("Occlusion", 2D) = "white" {}
+        _Roughness ("Roughness", Range(0,1)) = 0.0
+        _Normal ("Normal", 2D) = "bump" {}
         _Metallic ("Metallic", Range(0,1)) = 0.0
     }
     SubShader
@@ -19,14 +21,14 @@ Shader "Custom/Unit"
         // Use shader model 3.0 target, to get nicer looking lighting
         #pragma target 3.0
 
-        sampler2D _MainTex;
+        sampler2D _MainTex,_Occlusion,_Normal;
 
         struct Input
         {
             float2 uv_MainTex;
         };
 
-        half _Glossiness;
+        half _Roughness;
         half _Metallic;
         fixed4 _PlayerColor;
         half _Selected;
@@ -43,10 +45,13 @@ Shader "Custom/Unit"
             // Albedo comes from a texture tinted by color
             fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _PlayerColor;
             o.Albedo = c.rgb;
+            //o.Albedo=tex2D (_Normal, IN.uv_MainTex);
             // Metallic and smoothness come from slider variables
             o.Metallic = _Metallic;
-            o.Smoothness = _Glossiness;
+            o.Smoothness = 1-_Roughness;
             o.Alpha = c.a;
+            o.Occlusion=tex2D (_Occlusion, IN.uv_MainTex);
+            o.Normal=UnpackNormal(tex2D (_Normal, IN.uv_MainTex));
 
             o.Emission=_Selected;
         }

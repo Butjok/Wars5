@@ -1,10 +1,11 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [ExecuteInEditMode]
 public class Piston : MonoBehaviour {
 
 	public Transform relativeTo;
-	public Vector3 direction = Vector3.forward;
+	[FormerlySerializedAs("direction")] public Vector3 localDirection = Vector3.forward;
 
 	public float targetLength = .1f;
 	public Vector2 clamp = new(.5f, 1);
@@ -17,7 +18,7 @@ public class Piston : MonoBehaviour {
 
 	public void Update() {
 
-		var direction = (relativeTo ? relativeTo : transform).TransformDirection(this.direction).normalized;
+		var direction = (relativeTo ? relativeTo : transform).TransformDirection(this.localDirection).normalized;
 		var length = Vector3.Dot(direction, position - transform.position);
 
 		var force = (targetLength - length) * this.force;
@@ -34,13 +35,13 @@ public class Piston : MonoBehaviour {
 	[ContextMenu(nameof(Clear))]
 	public void Clear() {
 		velocity = 0;
-		var direction = (relativeTo ? relativeTo : transform).TransformDirection(this.direction).normalized;
+		var direction = (relativeTo ? relativeTo : transform).TransformDirection(this.localDirection).normalized;
 		position = transform.position + direction * targetLength;
 	}
 
 	private void OnDrawGizmosSelected() {
 		Gizmos.color = Color.yellow;
-		Gizmos.DrawLine(transform.position, transform.position + (relativeTo ? relativeTo : transform).TransformDirection(this.direction).normalized * targetLength);
+		Gizmos.DrawLine(transform.position, transform.position + (relativeTo ? relativeTo : transform).TransformDirection(this.localDirection).normalized * targetLength);
 		Gizmos.color = Color.blue;
 		Gizmos.DrawWireSphere(position, .01f);
 	}
