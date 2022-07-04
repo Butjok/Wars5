@@ -3,166 +3,164 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class MovePath  {
-	
-	public enum MoveType { Forward, Left, Right, Back }
+public class MovePath {
 
-	public IReadOnlyList<Vector2> Points => points;
-	public IReadOnlyList<Vector2Int> Tiles => tiles;
-	public IReadOnlyList<((Vector2 position, Vector2Int direction) start, (Vector2 position, Vector2Int direction) end, MoveType type)> Moves  =>moves;
-
-	private List<Vector2> points = new();
-	private List<Vector2Int> tiles = new();
-	private List<((Vector2 position, Vector2Int direction) start, (Vector2 position, Vector2Int direction) end, MoveType type)> moves = new();
-	
-	public static float AccelerationTime(float speed) => 1 / speed;
-	public static float Acceleration(float speed) => speed * speed;
-
-	public bool IsEmpty => Tiles.Count <= 1;
-
-	public float Duration(float speed, float rotation90Time) =>
-		IsEmpty ? 0 : Moves.Sum(move => Time(move.type, speed, rotation90Time)) + 2 * AccelerationTime(speed);
-
-	public static float Time(MoveType type, float speed, float rotation90Time) {
-		return type switch {
-			MoveType.Forward => 1 / speed,
-			MoveType.Back => 2 * AccelerationTime(speed) + rotation90Time * 2,
-			MoveType.Left or MoveType.Right => (float)Math.PI / 4 / speed,
-			_ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
-		};
+	public enum MoveType {
+		Start, Stop, Forward, SteerLeft, SteerRight, RotateBack, RotateLeft, RotateRight
 	}
 
-	public MovePath(IEnumerable<Vector2> points, bool visualize=false) {
-		IEnumerable<TResult> pairs<T, TResult>(ICollection<T> sequence, Func<T, T, TResult> selector)
-			=> sequence.Take(sequence.Count - 1).Zip(sequence.Skip(1), selector);
-
-		this.points.Clear();
-		tiles.Clear();
-		moves.Clear();
-		
-		if (points == null) {
-			return;
+	[Serializable]
+	public struct Move {
+		public MoveType type;
+		public Vector2 start;
+		public Vector2Int forward;
+		public Move(MoveType type, Vector2 start, Vector2Int forward) {
+			this.type = type;
+			this.start = start;
+			this.forward = forward;
 		}
-		
-		this.points.AddRange(points);
-		if (Points.Count == 0)
-			return;
-		
-		var startTile = new Vector2Int(Mathf.RoundToInt(Points[0].x), y: Mathf.RoundToInt(Points[0].y));
-		var segments = pairs(this.points, (start, end) => (start, end));
-
-		tiles.Add(startTile);
-		tiles.AddRange(segments.SelectMany(segment => Woo.Traverse2D(segment.start, segment.end)));
-
-		var midpoints = pairs(tiles, (a, b) => (position: Vector2.Lerp(a, b, .5f), direction: b - a)).ToList();
-		moves.AddRange(pairs(midpoints, (start, end) => {
-			MoveType type;
-			if (start.direction == end.direction)
-				type = MoveType.Forward;
-			else if (start.direction == -end.direction)
-				type = MoveType.Back;
-			else
-				type = start.direction.Cross(end.direction) == 1 ? MoveType.Left : MoveType.Right;
-			return (start, end, type);
-		}));
+		public Move(MoveType type, (Vector2 position, Vector2Int forward) midpoint)
+			: this(type, midpoint.position, midpoint.forward) { }
 	}
 
-	public bool Sample(float speed, float rotation90Time, float targetTime, out Vector2 position, out Vector2 direction) {
-		switch (Tiles.Count) {
-			case 0:
-				position = direction = default;
-				return false;
-			case 1:
-				position = Tiles[0];
-				direction = default;
-				return false;
+	public static List<Move> From(IList<Vector2> points, Vector2Int startPosition, Vector2Int startForward) {
+
+		if (points is not { Count: > 1 })
+			return null;
+
+		var tiles = new List<Vector2Int> { points[0].RoundToInt() };
+		for (var i = 1; i < points.Count; i++)
+			tiles.AddRange(Woo.Traverse2D(points[i - 1], points[i]));
+
+		var midpoints = new List<(Vector2 position, Vector2Int forward)>();
+		for (var i = 1; i < tiles.Count; i++) {
+			var previous = tiles[i - 1];
+			var current = tiles[i];
+			midpoints.Add((Vector2.Lerp(previous, current, .5f), current - previous));
 		}
 
-		var duration = Duration(speed, rotation90Time);
-		var accelerationTime = AccelerationTime(speed);
-		var acceleration = Acceleration(speed);
-		var time = Math.Clamp(targetTime, 0, duration);
+		var moves = new List<Move>();
 
-		// start
-		if (time < accelerationTime) {
-			var p = Tiles[0];
-			var d = Tiles[1] - Tiles[0];
-			position = p + (Vector2)d * acceleration * time * time / 2;
-			direction = d;
-			return true;
-		}
+		if (startForward == -midpoints[0].forward)
+			moves.Add(new Move(MoveType.RotateBack, startPosition, startForward));
+		else if (startForward != midpoints[0].forward)
+			moves.Add(new Move(startForward.Cross(midpoints[0].forward) == 1 ? MoveType.RotateLeft : MoveType.RotateRight, startPosition, startForward));
 
-		// stop
-		if (time > duration - accelerationTime) {
-			time -= duration - accelerationTime;
-			var p = Tiles[^2];
-			var d = Tiles[^1] - p;
-			position = p + (Vector2)d * (.5f + speed * time - acceleration * time * time / 2);
-			direction = d;
-			return true;
-		}
+		moves.Add(new Move(MoveType.Start, startPosition, midpoints[0].forward));
 
-		// find move
-		var move = Moves[^1];
-		time -= accelerationTime;
-		for (var i = 0; i < Moves.Count; i++) {
-			var moveTime = Time(Moves[i].type, speed, rotation90Time);
-			if (time < moveTime) {
-				move = Moves[i];
-				break;
+		for (var i = 1; i < midpoints.Count; i++) {
+			var start = midpoints[i - 1];
+			var end = midpoints[i];
+			if (start.forward == end.forward)
+				moves.Add(new Move(MoveType.Forward, start));
+			else if (start.forward == -end.forward) {
+				moves.Add(new Move(MoveType.Stop, start));
+				moves.Add(new Move(MoveType.RotateBack, start.position + (Vector2)start.forward / 2, start.forward));
+				moves.Add(new Move(MoveType.Start, start.position + (Vector2)start.forward / 2, -start.forward));
 			}
-			time -= moveTime;
+			else
+				moves.Add(new Move(start.forward.Cross(end.forward) == 1 ? MoveType.SteerLeft : MoveType.SteerRight, start));
+		}
+		moves.Add(new Move(MoveType.Stop, midpoints.Last()));
+
+		return moves;
+	}
+	
+	public static Queue<Move> queue = new();
+
+	public static bool Sample(List<Move> moves, float time, float speed, float rotation90Time,
+		out Vector2 position, out Vector2 direction, out Move move) {
+		
+		var accelerationTime = 1 / speed;
+		var acceleration = speed * speed;
+
+		float getTime(MoveType type) {
+			return type switch {
+				MoveType.Start or MoveType.Stop => accelerationTime,
+				MoveType.RotateLeft or MoveType.RotateRight => rotation90Time,
+				MoveType.RotateBack => rotation90Time * 2,
+				MoveType.Forward => 1 / speed,
+				MoveType.SteerLeft or MoveType.SteerRight => (float)Mathf.PI / 4 / speed,
+				_ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
+			};
 		}
 
-		//
-		switch (move.type) {
-			case MoveType.Forward:
-				position = move.start.position + (Vector2)move.start.direction * time * speed;
-				direction = move.end.position - move.start.position;
-				return true;
+		queue.Clear();
+		foreach (var m in moves)
+			queue.Enqueue(m);
 
-			case MoveType.Left:
-			case MoveType.Right: {
-				var t = time / Time(move.type, speed, rotation90Time);
+		if (time < 0)
+			time = 0;
+		while (queue.Count > 0 && getTime(queue.Peek().type) < time)
+			time -= getTime(queue.Dequeue().type);
+
+		var clamped = false;
+		if (queue.Count == 0) {
+			move = moves.Last();
+			time = accelerationTime;
+			clamped = true;
+		}
+		else
+			move = queue.Dequeue();
+		
+		switch (move.type) {
+
+			case MoveType.Forward:
+				position = move.start + (Vector2)move.forward * time * speed;
+				direction = move.forward;
+				break;
+
+			case MoveType.SteerLeft:
+			case MoveType.SteerRight: {
+				var t = time / getTime(move.type);
 				var angle = t * Mathf.PI / 2;
 				var archPosition = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * .5f;
 				position = new Vector2(archPosition.x - .5f, archPosition.y);
 				direction = new Vector2(-archPosition.y, archPosition.x).normalized;
-				if (move.type == MoveType.Right) {
+				if (move.type == MoveType.SteerRight) {
 					position = Vector2.Scale(position, new Vector2(-1, 1));
 					direction = Vector2.Scale(direction, new Vector2(-1, 1));
 				}
 
-				var rotation = Vector2Int.up.Rotation(move.start.direction);
+				var rotation = Vector2Int.up.Rotation(move.forward);
 				position = position.Rotate(rotation);
 				direction = direction.Rotate(rotation);
 
-				position += move.start.position;
-				return true;
+				position += move.start;
+				break;
 			}
 
-			case MoveType.Back:
-				if (time < accelerationTime || time > accelerationTime + rotation90Time * 2) {
-					if (time > accelerationTime + rotation90Time * 2)
-						time -= rotation90Time * 2;
+			case MoveType.Start:
+				position = move.start + (Vector2)move.forward * (acceleration * time * time / 2);
+				direction = move.forward;
+				break;
 
-					position = move.start.position + (Vector2)move.start.direction * (speed * time - acceleration * time * time / 2);
-					direction = time < accelerationTime ? move.start.direction : -move.start.direction;
-					return true;
-				}
-				else {
-					position = move.start.position + (Vector2)move.start.direction * .5f;
-					var t = (time - accelerationTime) / (rotation90Time * 2);
-					var angle = Mathf.SmoothStep(Mathf.PI / 2, Mathf.PI * 1.5f, t);
-					direction = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)).normalized;
+			case MoveType.Stop:
+				position = move.start + (Vector2)move.forward * (speed * time - acceleration * time * time / 2);
+				direction = move.forward;
+				break;
 
-					var rotation = Vector2Int.up.Rotation(move.start.direction);
-					direction = direction.Rotate(rotation);
-					return true;
-				}
+			case MoveType.RotateLeft:
+			case MoveType.RotateRight:
+			case MoveType.RotateBack: {
+
+				position = move.start;
+
+				var rotation = move.type switch {
+					MoveType.RotateLeft => 1,
+					MoveType.RotateBack => 2,
+					MoveType.RotateRight => 3
+				};
+				var deltaAngle = Vector2.SignedAngle(move.forward, move.forward.Rotate(rotation));
+				var t = time / (move.type == MoveType.RotateBack ? 2 * rotation90Time : rotation90Time);
+				direction = Quaternion.AngleAxis(deltaAngle * t, Vector3.forward) * (Vector2)move.forward;
+				break;
+			}
 
 			default:
 				throw new ArgumentOutOfRangeException();
 		}
+
+		return clamped;
 	}
 }

@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
-[RequireComponent(typeof(PathWalker))]
 public class UnitView : MonoBehaviour {
 
 	public Unit unit;
@@ -18,7 +17,6 @@ public class UnitView : MonoBehaviour {
 	public ChangeTracker<bool> selected;
 	public Lazy<Renderer[]> renderers;
 	public Lazy<MaterialPropertyBlock> propertyBlock;
-	public PathWalker pathWalker;
 	[FormerlySerializedAs("curve")] public AnimationCurve blinkCurve = new AnimationCurve();
 	public Speedometer[] speedometers;
 	public SteeringArm[] steeringArms;
@@ -68,7 +66,6 @@ public class UnitView : MonoBehaviour {
 		propertyBlock = new Lazy<MaterialPropertyBlock>(() => new MaterialPropertyBlock());
 		renderers = new Lazy<Renderer[]>(GetComponentsInChildren<Renderer>);
 
-		pathWalker = GetComponent<PathWalker>();
 	}
 
 	public static readonly int colorId = Shader.PropertyToID("_PlayerColor");
@@ -100,12 +97,6 @@ public class UnitView : MonoBehaviour {
 		}, 0, 1, blinkDuration);
 	}
 	public float blinkDuration = 1;
-
-	public void Start() {
-		pathWalker.onComplete += () => {
-			Walk();
-		};
-	}
 	
 	private void Update() {
 
@@ -119,28 +110,11 @@ public class UnitView : MonoBehaviour {
 			// unit.rotation.v = MathUtils.offsets.Random();
 			// unit.moved.v = Random.Range(0, 10) > 5;
 
-			if (!pathWalker.walking) {
+			/*if (!pathWalker.walking) {
 				Walk();
 			}
 			else
-				pathWalker.time.v = float.MaxValue;
-		}
-	}
-	private void Walk() {
-		while (true) {
-			var points = new List<Vector2> {
-				transform.position.ToVector2().RoundToInt()
-			};
-			points.Add(points[0] + transform.forward.ToVector2());
-			for (var i = 0; i < 2; i++)
-				points.Add(new Vector2Int(Random.Range(-3, 3), Random.Range(-3, 3)));
-
-			pathWalker.points.v = points;
-
-			if (pathWalker.path.Moves.All(m => m.type != MovePath.MoveType.Back)) {
-				pathWalker.Walk();
-				break;
-			}
+				pathWalker.time.v = float.MaxValue;*/
 		}
 	}
 }

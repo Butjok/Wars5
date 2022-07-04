@@ -18,6 +18,8 @@ public class Piston : MonoBehaviour {
 
 	public void Update() {
 
+		//Debug.Log($"PISTON {Time.frameCount}");
+		
 		var direction = (relativeTo ? relativeTo : transform).TransformDirection(this.localDirection).normalized;
 		var length = Vector3.Dot(direction, position - transform.position);
 

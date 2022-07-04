@@ -59,7 +59,6 @@
      <Compile Include="Assets\Scripts\Level\SelectionState.cs" />
      <Compile Include="Assets\Scripts\Animation\Piston.cs" />
      <Compile Include="Assets\Scripts\Animation\BallisticComputer.cs" />
-     <Compile Include="Assets\Scripts\Animation\MovePath.cs" />
      <Compile Include="Assets\Scripts\ChangeTracker.cs" />
      <Compile Include="Assets\Scripts\Animation\Turret.cs" />
      <Compile Include="Assets\Clayxels\examples\assets\CrabsBeachCamera.cs" />
@@ -75,6 +74,7 @@
      <Compile Include="Assets\Scripts\Unit.cs" />
      <Compile Include="Assets\Priority Queue\GenericPriorityQueue.cs" />
      <Compile Include="Assets\Scripts\UiSound.cs" />
+     <Compile Include="Assets\Scripts\ShadowQuality.cs" />
      <Compile Include="Assets\Priority Queue\StablePriorityQueue.cs" />
      <Compile Include="Assets\Scripts\Animation\Wheel.cs" />
      <Compile Include="Assets\Scripts\NewBehaviourScript.cs" />
@@ -101,7 +101,6 @@
      <Compile Include="Assets\Scripts\MathUtils.cs" />
      <Compile Include="Assets\Scripts\Level\ConvexMeshGenerator.cs" />
      <Compile Include="Assets\Scripts\UiSounds.cs" />
-     <Compile Include="Assets\Scripts\Animation\PathWalker.cs" />
      <Compile Include="Assets\Clayxels\examples\assets\TestClayxelSolids.cs" />
      <Compile Include="Assets\Scripts\Animation\BodyTorque.cs" />
      <Compile Include="Assets\Priority Queue\IPriorityQueue.cs" />
@@ -122,7 +121,10 @@
      <Compile Include="Assets\Scripts\UnitMap.cs" />
      <Compile Include="Assets\Clayxels\examples\assets\TestClayxelMeshCollider.cs" />
      <Compile Include="Assets\Scripts\Animation\PistonBody.cs" />
-     <Compile Include="Assets\Scripts\ShadowQuality.cs" />
+     <Compile Include="Assets\Scripts\Animation\MovePath.cs" />
+     <Compile Include="Assets\Scripts\Animation\MovePathWalker.cs" />
+     <Compile Include="Assets\Scripts\Animation\MovePathTest.cs" />
+     <Compile Include="Assets\Scripts\Animation\HardFollow.cs" />
      <None Include="Assets\Clayxels\Resources\clayCoreLock.compute" />
      <None Include="Assets\Clayxels\Resources\RenderBuiltIn\clayxelBuiltinShaderPolySplat.shader" />
      <None Include="Assets\Clayxels\Resources\clayxelMicroVoxelUtils.cginc" />

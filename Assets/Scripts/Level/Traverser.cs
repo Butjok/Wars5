@@ -52,6 +52,16 @@ public class Traverser {
 			}
 		}
 	}
-	
-	// todo: path reconstruction
+
+	public List<Vector2Int> ReconstructPath(Vector2Int target) {
+		
+		if (!infos.TryGetValue(target, out var info) || info.distance == int.MaxValue)
+			return null;
+		
+		var result = new List<Vector2Int>();
+		for (Vector2Int? position=target;position!=null;position=infos[(Vector2Int)position].previous) 
+			result.Add((Vector2Int)position);
+		result.Reverse();
+		return result;
+	}
 }

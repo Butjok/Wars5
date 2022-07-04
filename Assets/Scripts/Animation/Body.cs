@@ -56,6 +56,8 @@ public class Body : MonoBehaviour {
 	}
 
 	public void Update() {
+		
+		//Debug.Log($"BODY {Time.frameCount}");
 
 		Vector3 average(IEnumerable<Vector3> vectors) {
 			var sum = Vector3.zero;
