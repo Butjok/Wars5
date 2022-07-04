@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,11 +7,11 @@ public class MovePathWalker : MonoBehaviour {
 	public List<MovePath.Move> moves;
 	public float time;
 	public float speed = 1.5f;
-	public float rotate90Time = .5f;
+	public event Action onCompleted;
 
 	public void Update() {
 		if (moves is { Count: > 0 }) {
-			var clamped = MovePath.Sample(moves, time, speed, rotate90Time, out var position, out var direction, out var move);
+			var clamped = MovePath.Sample(moves, time, speed, out var position, out var direction, out var move);
 			transform.position = position.ToVector3();
 			transform.rotation = Quaternion.LookRotation(direction.ToVector3(), Vector3.up);
 			if (clamped)
@@ -21,6 +22,7 @@ public class MovePathWalker : MonoBehaviour {
 	public void OnDisable() {
 		time = float.MaxValue;
 		Update();
+		onCompleted?.Invoke();
 	}
 	public void OnEnable() {
 		time = 0;

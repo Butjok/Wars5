@@ -13,7 +13,7 @@ public class Level : IDisposable {
 	public int? turn;
 	public LevelRunner runner;
 
-	public ChangeTracker<GameState> state = new(old => old?.Dispose());
+	public ChangeTracker<LevelState> state = new(old => old?.Dispose());
 
 	public Level(string name = null) {
 		var go = new GameObject(name ?? nameof(Level));
@@ -28,10 +28,10 @@ public class Level : IDisposable {
 	}
 }
 
-public abstract class GameState : IDisposable {
+public abstract class LevelState : IDisposable {
 
 	public Level level;
-	protected GameState(Level level) {
+	protected LevelState(Level level) {
 		Assert.IsNotNull(level);
 		this.level = level;
 	}

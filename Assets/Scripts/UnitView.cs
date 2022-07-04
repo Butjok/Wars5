@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
@@ -9,7 +10,7 @@ public class UnitView : MonoBehaviour {
 
 	public Unit unit;
 	public ChangeTracker<Vector2Int> position;
-	public ChangeTracker<Vector2Int> rotation;
+	public ChangeTracker<Vector2Int> forward;
 	public ChangeTracker<int> hp;
 	public ChangeTracker<bool> visible;
 	public ChangeTracker<bool> moved;
@@ -20,11 +21,17 @@ public class UnitView : MonoBehaviour {
 	[FormerlySerializedAs("curve")] public AnimationCurve blinkCurve = new AnimationCurve();
 	public Speedometer[] speedometers;
 	public SteeringArm[] steeringArms;
+	public MovePathWalker walker;
+	public Turret turret;
 
 	public Color movedTint = Color.white / 2;
 
 	public void Awake() {
 
+		walker = GetComponentInChildren<MovePathWalker>();
+		Assert.IsTrue(walker);
+		turret = GetComponentInChildren<Turret>();
+		
 		speedometers = GetComponentsInChildren<Speedometer>();
 		steeringArms = GetComponentsInChildren<SteeringArm>();
 		
@@ -35,7 +42,7 @@ public class UnitView : MonoBehaviour {
 			foreach  (var steeringArm in steeringArms)
 				steeringArm.transform.localRotation=Quaternion.identity;
 		});
-		rotation = new ChangeTracker<Vector2Int>(_ => transform.rotation = Quaternion.LookRotation(rotation.v.ToVector3Int()));
+		forward = new ChangeTracker<Vector2Int>(_ => transform.rotation = Quaternion.LookRotation(forward.v.ToVector3Int()));
 		hp = new ChangeTracker<int>(_ => { });
 
 		visible = new ChangeTracker<bool>(old => {
@@ -44,7 +51,7 @@ public class UnitView : MonoBehaviour {
 			if (!old && visible.v && unit.position.v is { } position) {
 				gameObject.SetActive(true);
 				this.position.v = position;
-				rotation.v = unit.rotation.v;
+				forward.v = unit.forward.v;
 				playerColor.v = unit.player.color;
 				moved.v = unit.moved.v;
 				hp.v = unit.hp.v;
@@ -80,7 +87,7 @@ public class UnitView : MonoBehaviour {
 	[ContextMenu(nameof(Move))]
 	public void Move() {
 		unit.position.v = nextPosition;
-		unit.rotation.v = nextRotation;
+		unit.forward.v = nextRotation;
 		unit.moved.v = nextMoved;
 	}
 	public Vector2Int nextPosition;

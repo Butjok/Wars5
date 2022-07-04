@@ -25,7 +25,7 @@ public static class UiSound {
 		if (clip)
 			source.PlayOneShot(clip);
 	}
-	public static void Notallowed() {
+	public static void NotAllowed() {
 		Play(sounds.notAllowed);
 	}
 }

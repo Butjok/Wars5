@@ -68,12 +68,13 @@ public class MovePath {
 	
 	public static Queue<Move> queue = new();
 
-	public static bool Sample(List<Move> moves, float time, float speed, float rotation90Time,
+	public static bool Sample(List<Move> moves, float time, float speed,
 		out Vector2 position, out Vector2 direction, out Move move) {
 		
 		var accelerationTime = 1 / speed;
 		var acceleration = speed * speed;
-
+		var rotation90Time = Mathf.PI / 4 / speed;
+		
 		float getTime(MoveType type) {
 			return type switch {
 				MoveType.Start or MoveType.Stop => accelerationTime,

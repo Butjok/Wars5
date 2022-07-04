@@ -15,12 +15,15 @@ public class NewBehaviourScript : MonoBehaviour {
 
 		///var test = Resources.Load<UnitView>("Test");
 		
-		var player = new Player(level, Color.red);
-		var player2 = new Player(level, Color.blue);
+		var player = new Player(level, Color.red, Team.Alpha);
+		var player2 = new Player(level, Color.blue,Team.Bravo);
 		unit = new Unit(level, player, position: new Vector2Int(1, 1),viewPrefab:Resources.Load<UnitView>("rockets"));
-		unit = new Unit(level, player, position: new Vector2Int(3, 3),viewPrefab:Resources.Load<UnitView>("rockets"));
+		unit = new Unit(level, player2, position: new Vector2Int(3, 3),viewPrefab:Resources.Load<UnitView>("rockets"));
 		//var a_ = unit.view;
 
+		for (var y=0;y<10;y++)
+		for(var x = 0; x < 10; x++)
+			new Tile(level, TileType.Plain, new Vector2Int(x, y));
 		
 		level.state.v = new SelectionState(level);
 	}
@@ -71,9 +74,10 @@ public class Player {
 	public Color color ;
 	public Co co;
 
-	public Player(Level level,Color color) {
+	public Player(Level level,Color color,Team team=Team.None) {
 		this.level = level;
 		this.color = color;
+		this.team = team;
 		level.players.Add(color,this);
 		level.playerLoop.Add(this);
 	}

@@ -13,7 +13,7 @@ public class Traverser {
 	public static Vector2Int[] offsets = { Vector2Int.up, Vector2Int.left, Vector2Int.down, Vector2Int.right };
 
 	public Dictionary<Vector2Int, Info> infos = new();
-	public SimplePriorityQueue<Vector2Int> queue;
+	public SimplePriorityQueue<Vector2Int> queue=new();
 
 	public void Traverse(IEnumerable<Vector2Int> positions, Vector2Int start, Func<Vector2Int, int, int?> cost) {
 
@@ -21,10 +21,10 @@ public class Traverser {
 		queue.Clear();
 
 		foreach (var position in positions) {
-			infos[position] = new Info { distance = int.MaxValue, previous = null };
-			queue.Enqueue(position, int.MaxValue);
+			var distance = position == start ? 0 : int.MaxValue;
+			infos[position] = new Info { distance = distance, previous = null };
+			queue.Enqueue(position, distance);
 		}
-		queue.UpdatePriority(start, 0);
 
 		while (queue.Count > 0) {
 
