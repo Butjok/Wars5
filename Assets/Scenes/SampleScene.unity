@@ -1319,7 +1319,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.235376, y: 1}
+    m_SensorSize: {x: 1.0905292, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -1835,7 +1835,7 @@ MonoBehaviour:
   rotationStep: -45
   rotationAmplitude: 1.7
   rotationPeriod: 0
-  pitchAngle: 50
+  pitchAngle: 40
   pitchAngleSmoothTime: 0.02
   pitchAngleSpeed: 90
   pitchAngleBounds: {x: 0, y: 90}

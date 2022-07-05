@@ -9,7 +9,6 @@ public static class Masks
 
 public static class Mouse
 {
-
     public const int left = 0;
     public const int right = 1;
     public const int middle = 2;
@@ -18,10 +17,16 @@ public static class Mouse
         position = default;
         Assert.IsTrue(Camera.main);
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (!Physics.Raycast(ray, out hit, float.MaxValue, Masks.terrain))
-            return false;
-        position = hit.point.ToVector2();
-        return true;
+        if (Physics.Raycast(ray, out hit, float.MaxValue, Masks.terrain)) {
+            position = hit.point.ToVector2();
+            return true;
+        }
+        var plane = new Plane(Vector3.up, Vector3.zero);
+        if (plane.Raycast(ray,out var enter)) {
+            position = ray.GetPoint(enter);
+            return true;
+        }
+        return false;
     }
     public static bool TryGetPosition(out Vector2 position) {
         return TryGetPosition(out position, out _);

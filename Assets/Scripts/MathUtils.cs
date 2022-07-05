@@ -1,10 +1,9 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public static class MathUtils {
 
-	public static Vector2Int[] offsets = { Vector2Int.up, Vector2Int.left, Vector2Int.down, Vector2Int.right };
-	
 	public static int Cross(this Vector2Int a, Vector2Int b) {
 		return a.x * b.y - a.y * b.x;
 	}
@@ -67,5 +66,15 @@ public static class MathUtils {
 
 	public static T Random<T>(this T[]array) {
 		return array[UnityEngine.Random.Range(0,array.Length)];
+	}
+	
+	public static IEnumerable<Vector2Int> Offsets(this Vector2Int range) {
+		for (var radius = range[0]; radius <= range[1]; radius++)
+		for (var x = radius; x >= -radius; x--) {
+			var y = radius - Mathf.Abs(x);
+			yield return new Vector2Int(x, y);
+			if (y != 0)
+				yield return new Vector2Int(x, -y);
+		}
 	}
 }

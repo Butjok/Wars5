@@ -63,7 +63,7 @@ public class CameraRig : MonoBehaviour {
 	public float rotationPeriod = 0;
 	[NonSerialized] public float compassLastClickTime;
 
-	public float pitchAngle = 50f;
+	public float pitchAngle = 40f;
 	[NonSerialized] public float tagetPitchAngle = float.NaN;
 	public float pitchAngleSmoothTime = .02f;
 	public float pitchAngleSpeed = 90;

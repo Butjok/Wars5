@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 public struct Lazy<T> {
 
@@ -20,5 +21,11 @@ public struct Lazy<T> {
 		this.evaluate = evaluate;
 		Evaluated = false;
 		value = default;
+	}
+}
+
+public static class Lazy {
+	public static Lazy<T> Resource<T>(string name) where T : UnityEngine.Object {
+		return new Lazy<T>(() => Resources.Load<T>(name));
 	}
 }

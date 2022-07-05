@@ -11,23 +11,26 @@ public class UnitMap : IEnumerable<Unit> {
 	public Unit this[Vector2Int position] {
 		get => map.TryGetValue(position, out var unit) ? unit : null;
 		set {
-			var newUnit = value;
-			var oldUnit = this[position];
+			var unit = value;
+			var other = this[position];
 			
-			if (oldUnit == newUnit && oldUnit?.position.v == newUnit?.position.v)
+			if (other == unit && other?.position.v == unit?.position.v)
 				return;
 			
-			if (oldUnit != null) {
+			if (other != null) {
 				map.Remove(position);
-				oldUnit.position.v = null;
+				other.position.v = null;
 			}
-			map.Add(position, newUnit);
-			set.Add(newUnit);
-			if (newUnit.position.v is { } oldPosition) {
-				Assert.AreEqual(newUnit, this[oldPosition]);
+			
+			if (unit.position.v is { } oldPosition) {
+				Assert.AreEqual(unit, this[oldPosition]);
 				map.Remove(oldPosition);
 			}
-			newUnit.position.v = position;
+			
+			unit.position.v = position;
+			
+			map.Add(position, unit);
+			set.Add(unit);
 		}
 	}
 

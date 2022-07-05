@@ -100,17 +100,17 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0.48411497
       value: 1
-      inSlope: 0.022575378
-      outSlope: 0.022575378
+      inSlope: 0.04818499
+      outSlope: 0.04818499
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.99090576
+      time: 1.0029907
       value: -0.11450195
-      inSlope: -2.1991363
-      outSlope: -2.1991363
+      inSlope: -2.147917
+      outSlope: -2.147917
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
@@ -122,6 +122,7 @@ MonoBehaviour:
   steeringArms: []
   walker: {fileID: 1369455871}
   turret: {fileID: 726421251554767854}
+  center: {fileID: 726421251525284971}
   movedTint: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
   nextPosition: {x: 0, y: 0}
   nextRotation: {x: 0, y: 0}
@@ -197,7 +198,7 @@ GameObject:
   - component: {fileID: 726421252553121809}
   - component: {fileID: 726421252553121808}
   m_Layer: 0
-  m_Name: Empty (1)
+  m_Name: antenna-weight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -563,7 +564,7 @@ MonoBehaviour:
   force: 250
   drag: 4
   constantForce: 0
-  velocity: -2.6541038
+  velocity: -2.3409379
   position: {x: -5.3112564, y: 0.1853111, z: 5.4927354}
 --- !u!114 &726421253298899590
 MonoBehaviour:
@@ -625,7 +626,7 @@ GameObject:
   - component: {fileID: 9174024806999619009}
   - component: {fileID: 726421251880961772}
   - component: {fileID: 5479341011709874780}
-  - component: {fileID: 726421253298899591}
+  - component: {fileID: 6035067755022640908}
   m_Layer: 7
   m_Name: body
   m_TagString: Untagged
@@ -754,7 +755,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.32918102, y: 0.28752145, z: 0.8306459}
   m_Center: {x: 0.0043962225, y: 0.14712246, z: 0.034076363}
---- !u!114 &726421253298899591
+--- !u!114 &6035067755022640908
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -763,7 +764,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3966098568494687423}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6fca1ac40e7d7ec48b3d7bd5d569cb64, type: 3}
+  m_Script: {fileID: 11500000, guid: e8c2740d997d40d1a6735f5635572c14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   compressers:
@@ -776,7 +777,7 @@ MonoBehaviour:
   accelerationTorque: {x: 0, y: 0, z: 0}
   centerOfMass: {fileID: 726421251525284971}
   barrel: {fileID: 3827912812397799052}
-  recoilForce: 100
+  recoilForce: -1000
 --- !u!1 &4032847072832482334
 GameObject:
   m_ObjectHideFlags: 0
@@ -932,7 +933,7 @@ MonoBehaviour:
   force: 250
   drag: 4
   constantForce: 0
-  velocity: -2.6541038
+  velocity: -2.3409379
   position: {x: -5.311256, y: 0.1853111, z: 5.151569}
 --- !u!114 &726421253298899589
 MonoBehaviour:
@@ -1104,7 +1105,7 @@ MonoBehaviour:
   force: 250
   drag: 4
   constantForce: 0
-  velocity: -2.6541038
+  velocity: -2.3409379
   position: {x: -5.0399857, y: 0.1853111, z: 5.151569}
 --- !u!114 &1935335096
 MonoBehaviour:
@@ -1276,7 +1277,7 @@ MonoBehaviour:
   force: 250
   drag: 4
   constantForce: 0
-  velocity: -2.6541038
+  velocity: -2.3409379
   position: {x: -5.0399857, y: 0.1853111, z: 4.980542}
 --- !u!114 &1983109140
 MonoBehaviour:
@@ -1662,7 +1663,7 @@ MonoBehaviour:
   force: 250
   drag: 4
   constantForce: 0
-  velocity: -2.6541038
+  velocity: -2.3409379
   position: {x: -5.0399857, y: 0.1853111, z: 5.492736}
 --- !u!114 &739774987
 MonoBehaviour:
@@ -1692,7 +1693,7 @@ GameObject:
   - component: {fileID: 2209641383848845517}
   - component: {fileID: 726421252250539425}
   m_Layer: 0
-  m_Name: body.001
+  m_Name: antenna
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1964,7 +1965,7 @@ MonoBehaviour:
   force: 250
   drag: 4
   constantForce: 0
-  velocity: -2.6541038
+  velocity: -2.3409379
   position: {x: -5.311256, y: 0.1853111, z: 4.9805417}
 --- !u!114 &274222331
 MonoBehaviour:
@@ -1991,7 +1992,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2073503587624448701}
   m_Layer: 0
-  m_Name: Empty
+  m_Name: antenna-target
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

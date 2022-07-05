@@ -53,7 +53,7 @@ Shader "Custom/Unit"
             o.Occlusion=tex2D (_Occlusion, IN.uv_MainTex);
             o.Normal=UnpackNormal(tex2D (_Normal, IN.uv_MainTex));
 
-            o.Emission=_Selected;
+            o.Emission=saturate( _Selected);
         }
         ENDCG
     }

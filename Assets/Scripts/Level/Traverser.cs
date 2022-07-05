@@ -5,15 +5,13 @@ using UnityEngine;
 
 public class Traverser {
 
-	public struct Info {
+	private struct Info {
 		public int distance;
 		public Vector2Int? previous;
 	}
 
-	public static Vector2Int[] offsets = { Vector2Int.up, Vector2Int.left, Vector2Int.down, Vector2Int.right };
-
-	public Dictionary<Vector2Int, Info> infos = new();
-	public SimplePriorityQueue<Vector2Int> queue=new();
+	private Dictionary<Vector2Int, Info> infos = new();
+	private SimplePriorityQueue<Vector2Int> queue=new();
 
 	public void Traverse(IEnumerable<Vector2Int> positions, Vector2Int start, Func<Vector2Int, int, int?> cost) {
 
@@ -33,7 +31,7 @@ public class Traverser {
 			if (distance == int.MaxValue)
 				break;
 
-			foreach (var offset in offsets) {
+			foreach (var offset in Rules.offsets) {
 
 				var neighbor = position + offset;
 				if (!infos.TryGetValue(neighbor, out var neighborInfo) ||
@@ -59,9 +57,16 @@ public class Traverser {
 			return null;
 		
 		var result = new List<Vector2Int>();
-		for (Vector2Int? position=target;position!=null;position=infos[(Vector2Int)position].previous) 
+		for (Vector2Int? position=target;position != null;position=infos[(Vector2Int)position].previous) 
 			result.Add((Vector2Int)position);
 		result.Reverse();
 		return result;
+	}
+
+	public int GetDistance(Vector2Int position) {
+		return infos.TryGetValue(position, out var info) ? info.distance : int.MaxValue;
+	}
+	public bool IsReachable(Vector2Int position) {
+		return GetDistance(position) < int.MaxValue;
 	}
 }

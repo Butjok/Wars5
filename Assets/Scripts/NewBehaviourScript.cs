@@ -7,24 +7,25 @@ public class NewBehaviourScript : MonoBehaviour {
 
 	public Unit unit;
 	public Level level;
-	
+
 	private void OnEnable() {
-		
+
 		level = new Level("Wars");
 		level.turn = 0;
 
 		///var test = Resources.Load<UnitView>("Test");
-		
-		var player = new Player(level, Color.red, Team.Alpha);
-		var player2 = new Player(level, Color.blue,Team.Bravo);
-		unit = new Unit(level, player, position: new Vector2Int(1, 1),viewPrefab:Resources.Load<UnitView>("rockets"));
-		unit = new Unit(level, player2, position: new Vector2Int(3, 3),viewPrefab:Resources.Load<UnitView>("rockets"));
+
+		var player = new Player(level, Palette.red, Team.Alpha);
+		var player2 = new Player(level, Palette.green, Team.Bravo);
+		unit = new Unit(level, player, position: new Vector2Int(1, 1), viewPrefab: Resources.Load<UnitView>("rockets"));
+		unit = new Unit(level, player2, position: new Vector2Int(2, 2), viewPrefab: Resources.Load<UnitView>("rockets"));
+		unit = new Unit(level, player2, position: new Vector2Int(2, 1), viewPrefab: Resources.Load<UnitView>("rockets"));
 		//var a_ = unit.view;
 
-		for (var y=0;y<10;y++)
+		for (var y = 0; y < 10; y++)
 		for (var x = 0; x < 10; x++)
 			level.tiles.Add(new Vector2Int(x, y), TileType.Plain);
-		
+
 		level.state.v = new SelectionState(level);
 	}
 	private void OnDisable() {
@@ -71,17 +72,21 @@ public class Player {
 
 	public Level level;
 	public Team team = Team.None;
-	public Color color ;
+	public Color color;
 	public Co co;
 
-	public Player(Level level,Color color,Team team=Team.None) {
+	public Player(Level level, Color color, Team team = Team.None) {
 		this.level = level;
 		this.color = color;
 		this.team = team;
-		level.players.Add(color,this);
-		level.playerLoop.Add(this);
+		level.players.Add(this);
+	}
+
+	public override string ToString() {
+		return Palette.ToString(color);
 	}
 }
+
 public class Players : IDisposable {
 
 	public List<Player> loop = new();
@@ -96,8 +101,4 @@ public class Players : IDisposable {
 	public void Dispose() {
 		Object.Destroy(go);
 	}
-}
-
-[Flags]
-public enum UnitType { Infantry = 1 << 0, AntiTank = 1 << 1, Artillery = 1 << 2
 }
