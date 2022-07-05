@@ -115,7 +115,7 @@
      <Compile Include="Assets\Scripts\GameSettings.cs" />
      <Compile Include="Assets\Scripts\LevelScript\LevelScript.cs" />
      <Compile Include="Assets\Scripts\LevelScript\Tutorial.cs" />
-     <Compile Include="Assets\Scripts\Level\InGameOverlayMenu.cs" />
+     <Compile Include="Assets\Scripts\Level\InGameOverlayMenuView.cs" />
      <Compile Include="Assets\Scripts\LevelState\SelectionState.cs" />
      <Compile Include="Assets\Scripts\LevelState\PathSelectionState.cs" />
      <Compile Include="Assets\Scripts\LevelState\UnitMovementAnimationState.cs" />
@@ -125,6 +125,7 @@
      <Compile Include="Assets\Scripts\Level\StateMachineRunner.cs" />
      <Compile Include="Assets\Scripts\Level\LevelRunner.cs" />
      <Compile Include="Assets\Scripts\GameRunner.cs" />
+     <Compile Include="Assets\Scripts\Animation\SinMovement.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

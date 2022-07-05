@@ -5,8 +5,8 @@ using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
 
 public interface IState : IDisposable {
-	bool Started { get; }
-	bool Disposed { get; }
+	bool Started { get; set; }
+	bool Disposed { get; set; }
 	void Start();
 	void Update();
 	void DrawGUI();
@@ -18,12 +18,10 @@ public interface IState : IDisposable {
 
 public abstract class State : IState {
 
-	public bool Started { get; set; } = false;
-	public bool Disposed { get; } = false;
+	public bool Started { get; set; }
+	public bool Disposed { get; set; }
 
-	public virtual void Start() {
-		Started = true;
-	}
+	public virtual void Start() { }
 	public virtual void Update() { }
 	public virtual void DrawGUI() { }
 	public virtual void Dispose() { }
@@ -35,20 +33,18 @@ public abstract class State : IState {
 
 public abstract class SubstateMachine : StateMachine, IState {
 
-	public bool Started { get; set; } = false;
-	public bool Disposed { get; } = false;
+	public bool Started { get; set; }
+	public bool Disposed { get; set; }
 
-	public void Start() {
-		Started = true;
-	}
-	public void Update() { }
-	public void DrawGUI() { }
-	public void DrawGizmos() { }
-	public void DrawGizmosSelected() { }
-	public void OnBeforePush() {
+	public virtual void Start() { }
+	public virtual void Update() { }
+	public virtual void DrawGUI() { }
+	public virtual void DrawGizmos() { }
+	public virtual void DrawGizmosSelected() { }
+	public virtual void OnBeforePush() {
 		Running = false;
 	}
-	public void OnAfterPop() {
+	public virtual void OnAfterPop() {
 		Running = true;
 	}
 
@@ -64,10 +60,13 @@ public class StateMachine : IDisposable {
 			if (state != null) {
 				Assert.IsFalse(state.Disposed);
 				state.Dispose();
+				state.Disposed = true;
 			}
 			state = value;
-			if (!state.Started)
+			if (!state.Started) {
 				state.Start();
+				state.Started = true;
+			}
 		}
 	}
 
@@ -91,6 +90,7 @@ public class StateMachine : IDisposable {
 		if (state != null) {
 			Assert.IsFalse(state.Disposed);
 			state.Dispose();
+			state.Disposed = true;
 		}
 		if (runner && runner.gameObject) {
 			Object.Destroy(runner.gameObject);
@@ -104,12 +104,15 @@ public class StateMachine : IDisposable {
 			stack.Push(state);
 		}
 		state = newState;
-		if (!state.Started)
+		if (!state.Started) {
 			state.Start();
+			state.Started = true;
+		}
 	}
 	public void Pop() {
 		Assert.IsFalse(state.Disposed);
 		state.Dispose();
+		state.Disposed = true;
 		state = stack.Pop();
 		state.OnAfterPop();
 	}

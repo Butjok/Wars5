@@ -12,8 +12,22 @@ public class Level : SubstateMachine {
 	public int? turn;
 	public Dictionary<Vector2Int, Building> buildings = new();
 	public LevelScript script;
-	
-	public Level(string name):base(typeof(LevelRunner),name){}
+
+	public Level(string name) : base(typeof(LevelRunner), name) {
+		CameraRig.Instance.enabled = true;
+	}
+
+	public override void Dispose() {
+		base.Dispose();
+		CameraRig.Instance.enabled = false;
+	}
+
+	public override void OnAfterPop() {
+		CameraRig.Instance.enabled = true;
+	}
+	public override void OnBeforePush() {
+		CameraRig.Instance.enabled = false;
+	}
 
 	public bool TryGetTile(Vector2Int position, out TileType tile) {
 		return tiles.TryGetValue(position, out tile);
