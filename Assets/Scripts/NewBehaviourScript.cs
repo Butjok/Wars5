@@ -9,9 +9,13 @@ public class NewBehaviourScript : MonoBehaviour {
 	public Level level;
 
 	private void OnEnable() {
-
+		
+		var level = new Level("Wars");
 		level = new Level("Wars");
 		level.turn = 0;
+		
+		var game = new Game();
+		game.State = level;
 
 		///var test = Resources.Load<UnitView>("Test");
 
@@ -26,7 +30,7 @@ public class NewBehaviourScript : MonoBehaviour {
 		for (var x = 0; x < 10; x++)
 			level.tiles.Add(new Vector2Int(x, y), TileType.Plain);
 
-		level.state.v = new SelectionState(level);
+		level.State = new SelectionState(level);
 	}
 	private void OnDisable() {
 		unit?.Dispose();
@@ -42,6 +46,10 @@ public class NewBehaviourScript : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update() { }
+}
+
+public class Game : StateMachine {
+	public Game() : base(typeof(GameRunner), "wars") { }
 }
 
 
@@ -67,6 +75,8 @@ public static class Cos {
 
 [Flags]
 public enum Team { None = 0, Alpha = 1, Bravo = 2, Delta = 4 }
+public enum PlayerType { Human, Ai }
+public enum AiDifficulty { Normal, Easy, Hard }
 
 public class Player {
 
@@ -74,6 +84,8 @@ public class Player {
 	public Team team = Team.None;
 	public Color color;
 	public Co co;
+	public PlayerType type = PlayerType.Human;
+	public AiDifficulty difficulty = AiDifficulty.Normal;
 
 	public Player(Level level, Color color, Team team = Team.None) {
 		this.level = level;

@@ -14,9 +14,12 @@ public class UnitView : MonoBehaviour {
 	[FormerlySerializedAs("curve")] public AnimationCurve blinkCurve = new AnimationCurve();
 	public Speedometer[] speedometers;
 	public SteeringArm[] steeringArms;
+	public Wheel[] wheels;
+	public Piston[] wheelPistons;
 	public MovePathWalker walker;
 	public Turret turret;
 	public Transform center;
+	public Body body;
 
 	public Color movedTint = Color.white / 2;
 
@@ -88,6 +91,10 @@ public class UnitView : MonoBehaviour {
 
 		propertyBlock = new Lazy<MaterialPropertyBlock>(() => new MaterialPropertyBlock());
 		renderers = new Lazy<Renderer[]>(GetComponentsInChildren<Renderer>);
+
+		wheels = GetComponentsInChildren<Wheel>();
+		wheelPistons = wheels.Select(wheel => wheel.GetComponent<Piston>()).Distinct().ToArray();
+		body = GetComponentInChildren<Body>();
 	}
 
 	public static readonly int colorId = Shader.PropertyToID("_PlayerColor");

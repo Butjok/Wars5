@@ -16,4 +16,5 @@ public class GameSettings : ScriptableObject {
 	}
 
 	public float unitSpeed = 3;
+	public bool showBattleAnimation=true;
 }
