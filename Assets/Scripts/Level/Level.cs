@@ -13,7 +13,7 @@ public class Level : SubstateMachine {
 	public Dictionary<Vector2Int, Building> buildings = new();
 	public LevelScript script;
 
-	public Level(string name) : base(typeof(LevelRunner), name) {
+	public Level() : base(typeof(LevelRunner), nameof(Level)) {
 		CameraRig.Instance.enabled = true;
 	}
 

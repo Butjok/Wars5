@@ -10,9 +10,9 @@ public class NewBehaviourScript : MonoBehaviour {
 
 	private void OnEnable() {
 		
-		var level = new Level("Wars");
-		level = new Level("Wars");
+		var level = new Level();
 		level.turn = 0;
+		level.script = new Tutorial(level);
 		
 		var game = new Game();
 		game.State = level;
@@ -49,7 +49,7 @@ public class NewBehaviourScript : MonoBehaviour {
 }
 
 public class Game : StateMachine {
-	public Game() : base(typeof(GameRunner), "wars") { }
+	public Game() : base(typeof(GameRunner), nameof(Game)) { }
 }
 
 
