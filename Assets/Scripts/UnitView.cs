@@ -23,6 +23,7 @@ public class UnitView : MonoBehaviour {
 	public SteeringArm[] steeringArms;
 	public MovePathWalker walker;
 	public Turret turret;
+	public Transform center;
 
 	public Color movedTint = Color.white / 2;
 

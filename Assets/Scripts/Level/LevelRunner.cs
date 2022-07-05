@@ -15,9 +15,9 @@ public class LevelRunner : MonoBehaviour {
 	}
 	public void OnDrawGizmos() {
 		level?.state.v?.DrawGizmos();
-		foreach (var (position,tile) in level.tileAt) {
+		foreach (var (position,tile) in level.tiles) {
 			Gizmos.DrawWireCube(position.ToVector3Int(),Vector2.one.ToVector3());
-			Handles.Label(position.ToVector3Int(),tile.type.ToString());
+			Handles.Label(position.ToVector3Int(),tile.ToString());
 		}
 	}
 	public void OnDrawGizmosSelected() {

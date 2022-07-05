@@ -22,8 +22,8 @@ public class NewBehaviourScript : MonoBehaviour {
 		//var a_ = unit.view;
 
 		for (var y=0;y<10;y++)
-		for(var x = 0; x < 10; x++)
-			new Tile(level, TileType.Plain, new Vector2Int(x, y));
+		for (var x = 0; x < 10; x++)
+			level.tiles.Add(new Vector2Int(x, y), TileType.Plain);
 		
 		level.state.v = new SelectionState(level);
 	}
@@ -98,4 +98,6 @@ public class Players : IDisposable {
 	}
 }
 
-public enum UnitType { Infantry, AntiTank }
+[Flags]
+public enum UnitType { Infantry = 1 << 0, AntiTank = 1 << 1, Artillery = 1 << 2
+}

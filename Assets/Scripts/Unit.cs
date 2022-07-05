@@ -15,7 +15,6 @@ public class Unit : IDisposable {
 	public ChangeTracker<Vector2Int> forward;
 	public ChangeTracker<bool> moved;
 	public ChangeTracker<int> hp;
-	public ChangeTracker<bool> selected;
 	public ChangeTracker<IEnumerable<Vector2>> path;
 
 	public Unit(Level level,Player player, bool moved = false, UnitType type = UnitType.Infantry, Vector2Int? position = null, Vector2Int? rotation =null, int hp = 10, UnitView viewPrefab = null) {
@@ -45,7 +44,6 @@ public class Unit : IDisposable {
 		this.forward = new ChangeTracker<Vector2Int>(_ => view.forward.v = this.forward.v);
 		this.moved = new ChangeTracker<bool>(_ => view.moved.v = this.moved.v);
 		this.hp = new ChangeTracker<int>(_ => view.hp.v = this.hp.v);
-		this.selected = new ChangeTracker<bool>(_ => view.selected.v = this.selected.v);
 
 		this.type = type;
 		this.player = player;
