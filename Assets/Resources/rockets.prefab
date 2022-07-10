@@ -120,9 +120,13 @@ MonoBehaviour:
     m_RotationOrder: 4
   speedometers: []
   steeringArms: []
+  wheels: []
+  wheelPistons: []
   walker: {fileID: 1369455871}
   turret: {fileID: 726421251554767854}
   center: {fileID: 726421251525284971}
+  body: {fileID: 0}
+  prefab: {fileID: 0}
   movedTint: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
   nextPosition: {x: 0, y: 0}
   nextRotation: {x: 0, y: 0}
@@ -564,8 +568,8 @@ MonoBehaviour:
   force: 250
   drag: 4
   constantForce: 0
-  velocity: -2.3409379
-  position: {x: -5.3112564, y: 0.1853111, z: 5.4927354}
+  velocity: 2.140036
+  position: {x: -5.3112564, y: 0.2353111, z: 5.4927354}
 --- !u!114 &726421253298899590
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -626,7 +630,7 @@ GameObject:
   - component: {fileID: 9174024806999619009}
   - component: {fileID: 726421251880961772}
   - component: {fileID: 5479341011709874780}
-  - component: {fileID: 6035067755022640908}
+  - component: {fileID: 724225061}
   m_Layer: 7
   m_Name: body
   m_TagString: Untagged
@@ -755,7 +759,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.32918102, y: 0.28752145, z: 0.8306459}
   m_Center: {x: 0.0043962225, y: 0.14712246, z: 0.034076363}
---- !u!114 &6035067755022640908
+--- !u!114 &724225061
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -764,7 +768,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3966098568494687423}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8c2740d997d40d1a6735f5635572c14, type: 3}
+  m_Script: {fileID: 11500000, guid: 6fca1ac40e7d7ec48b3d7bd5d569cb64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   compressers:
@@ -933,8 +937,8 @@ MonoBehaviour:
   force: 250
   drag: 4
   constantForce: 0
-  velocity: -2.3409379
-  position: {x: -5.311256, y: 0.1853111, z: 5.151569}
+  velocity: 2.140036
+  position: {x: -5.311256, y: 0.2353111, z: 5.151569}
 --- !u!114 &726421253298899589
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1105,8 +1109,8 @@ MonoBehaviour:
   force: 250
   drag: 4
   constantForce: 0
-  velocity: -2.3409379
-  position: {x: -5.0399857, y: 0.1853111, z: 5.151569}
+  velocity: 2.140036
+  position: {x: -5.0399857, y: 0.2353111, z: 5.151569}
 --- !u!114 &1935335096
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1277,8 +1281,8 @@ MonoBehaviour:
   force: 250
   drag: 4
   constantForce: 0
-  velocity: -2.3409379
-  position: {x: -5.0399857, y: 0.1853111, z: 4.980542}
+  velocity: 2.140036
+  position: {x: -5.0399857, y: 0.2353111, z: 4.980542}
 --- !u!114 &1983109140
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1663,8 +1667,8 @@ MonoBehaviour:
   force: 250
   drag: 4
   constantForce: 0
-  velocity: -2.3409379
-  position: {x: -5.0399857, y: 0.1853111, z: 5.492736}
+  velocity: 2.140036
+  position: {x: -5.0399857, y: 0.2353111, z: 5.492736}
 --- !u!114 &739774987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1965,8 +1969,8 @@ MonoBehaviour:
   force: 250
   drag: 4
   constantForce: 0
-  velocity: -2.3409379
-  position: {x: -5.311256, y: 0.1853111, z: 4.9805417}
+  velocity: 2.140036
+  position: {x: -5.311256, y: 0.2353111, z: 4.9805417}
 --- !u!114 &274222331
 MonoBehaviour:
   m_ObjectHideFlags: 0
