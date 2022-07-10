@@ -7,7 +7,7 @@ public static class MathUtils {
 	public static int Cross(this Vector2Int a, Vector2Int b) {
 		return a.x * b.y - a.y * b.x;
 	}
-	public static float  Cross(this Vector2 a, Vector2 b) {
+	public static float Cross(this Vector2 a, Vector2 b) {
 		return a.x * b.y - a.y * b.x;
 	}
 
@@ -64,10 +64,10 @@ public static class MathUtils {
 		return Quaternion.Euler(0, 90 * rotation, 0);
 	}
 
-	public static T Random<T>(this T[]array) {
-		return array[UnityEngine.Random.Range(0,array.Length)];
+	public static T Random<T>(this T[] array) {
+		return array[UnityEngine.Random.Range(0, array.Length)];
 	}
-	
+
 	public static IEnumerable<Vector2Int> Offsets(this Vector2Int range) {
 		for (var radius = range[0]; radius <= range[1]; radius++)
 		for (var x = radius; x >= -radius; x--) {
@@ -76,5 +76,9 @@ public static class MathUtils {
 			if (y != 0)
 				yield return new Vector2Int(x, -y);
 		}
+	}
+
+	public static (int x, int y) ToTuple(this Vector2Int vector) {
+		return (vector.x, vector.y);
 	}
 }

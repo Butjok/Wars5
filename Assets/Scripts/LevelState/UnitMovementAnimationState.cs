@@ -27,11 +27,15 @@ public class UnitMovementAnimationState : LevelState {
 	}
 
 	public override void Start() {
+		base.Start();
+		
 		if (moves == null)
 			GoToNextState();
 	}
 
 	public override void Update() {
+		base.Update();
+		
 		if (Input.GetMouseButtonDown(Mouse.left) || Input.GetMouseButtonDown(Mouse.right)) {
 			unit.view.walker.enabled = false;
 
@@ -55,6 +59,8 @@ public class UnitMovementAnimationState : LevelState {
 	}
 
 	public override void Dispose() {
+		base.Dispose();
+		
 		if (moves != null)
 			unit.view.walker.onComplete -= GoToNextState;
 	}

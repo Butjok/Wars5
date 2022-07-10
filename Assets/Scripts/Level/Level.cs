@@ -1,10 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
-public class Level : SubstateMachine {
+public class Level : StateMachineState {
 
 	public Dictionary<Vector2Int, Unit> units = new();
 	public Dictionary<Vector2Int, TileType> tiles = new();
@@ -13,8 +11,19 @@ public class Level : SubstateMachine {
 	public Dictionary<Vector2Int, Building> buildings = new();
 	public LevelScript script;
 
-	public Level() : base(typeof(LevelRunner), nameof(Level)) {
+	public Level(StateMachine game) : base(game,nameof(Level)) {
 		CameraRig.Instance.enabled = true;
+	}
+
+	public override void Update() {
+		base.Update();
+		if (Input.GetKeyDown(KeyCode.Escape))
+			Sm.Push(new InGameOverlayMenu(Sm));
+	}
+
+	public override void DrawGUI() {
+		base.DrawGUI();
+		GUILayout.Label(State?.ToString());
 	}
 
 	public override void Dispose() {
@@ -23,9 +32,11 @@ public class Level : SubstateMachine {
 	}
 
 	public override void OnAfterPop() {
+		base.OnAfterPop();
 		CameraRig.Instance.enabled = true;
 	}
 	public override void OnBeforePush() {
+		base.OnBeforePush();
 		CameraRig.Instance.enabled = false;
 	}
 

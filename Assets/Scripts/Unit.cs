@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -16,7 +15,6 @@ public class Unit : IDisposable {
 	public ChangeTracker<Vector2Int?> position;
 	public ChangeTracker<bool> moved;
 	public ChangeTracker<int> hp;
-	public ChangeTracker<IEnumerable<Vector2>> path;
 	public ChangeTracker<int> fuel;
 	public ListChangeTracker<int> ammo;
 	public ListChangeTracker<Unit> cargo;
@@ -35,6 +33,7 @@ public class Unit : IDisposable {
 		view = Object.Instantiate(viewPrefab);
 		Object.DontDestroyOnLoad(view.gameObject);
 		view.unit = this;
+		view.prefab=viewPrefab;
 
 		this.position = new ChangeTracker<Vector2Int?>(old => {
 

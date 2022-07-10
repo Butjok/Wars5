@@ -27,6 +27,8 @@ public class PathSelectionState : LevelState {
 	}
 
 	public override void Update() {
+		base.Update();
+		
 		if (Input.GetMouseButtonDown(Mouse.right)) {
 			level.State = new SelectionState(level);
 			unit.view.selected.v = false;
@@ -40,11 +42,12 @@ public class PathSelectionState : LevelState {
 				return;
 			}
 			else
-				UiSound.NotAllowed();
+				Sounds.NotAllowed.Play();
 		}
 	}
 
 	public override void DrawGizmos() {
+		base.DrawGizmos();
 		foreach (var position in level.tiles.Keys)
 			Handles.Label(position.ToVector3Int(), traverser.GetDistance(position).ToString(), new GUIStyle { normal = new GUIStyleState { textColor = Color.black } });
 	}

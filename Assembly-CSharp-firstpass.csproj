@@ -323,6 +323,9 @@
      <Reference Include="FSharp.Core">
      <HintPath>D:\Wars5\Assets\FSharp.Core.dll</HintPath>
      </Reference>
+     <Reference Include="Newtonsoft.Json">
+     <HintPath>D:\Wars5\Assets\JsonDotNet\Assemblies\Standalone\Newtonsoft.Json.dll</HintPath>
+     </Reference>
      <Reference Include="netstandard">
      <HintPath>D:\Unity\2021.3.1f1\Editor\Data\NetStandard\ref\2.1.0\netstandard.dll</HintPath>
      </Reference>

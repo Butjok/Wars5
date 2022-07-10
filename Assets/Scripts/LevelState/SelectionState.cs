@@ -8,7 +8,7 @@ public class SelectionState : LevelState {
 	public int unitIndex = -1;
 	public Unit cycledUnit;
 
-	public SelectionState(Level level) : base(level) {
+	public SelectionState( Level level) : base(level) {
 		unitLoop = level.units.Values
 			.Where(unit => unit.player == CurrentPlayer && !unit.moved.v)
 			.OrderBy(unit => Vector3.Distance(CameraRig.Instance.transform.position, unit.view.center.position))
@@ -16,6 +16,8 @@ public class SelectionState : LevelState {
 	}
 
 	public override void Update() {
+		base.Update();
+		
 		if (cycledUnit != null && Camera.main) {
 			var worldPosition = cycledUnit.view.center.position;
 			var screenPosition = Camera.main.WorldToViewportPoint(worldPosition);
@@ -30,14 +32,14 @@ public class SelectionState : LevelState {
 				cycledUnit = next;
 			}
 			else
-				UiSound.NotAllowed();
+				Sounds.NotAllowed.Play();
 		}
 		if (Input.GetMouseButtonDown(Mouse.left) &&
 		    Mouse.TryGetPosition(out var position) &&
 		    level.TryGetUnit(position.RoundToInt(), out var unit)) {
 
 			if (unit.moved.v)
-				UiSound.NotAllowed();
+				Sounds.NotAllowed.Play();
 			else {
 				SelectUnit(unit);
 				return;
@@ -49,7 +51,7 @@ public class SelectionState : LevelState {
 				return;
 			}
 			else
-				UiSound.NotAllowed();
+				Sounds.NotAllowed.Play();
 	}
 
 	public void SelectUnit(Unit unit) {

@@ -9,7 +9,7 @@ public class Building {
 	public Player player;
 	public int cp = 20;
 
-	protected Building(Level level, Vector2Int position, BuildingType type = BuildingType.City, Player player = null) {
+	public Building(Level level, Vector2Int position, BuildingType type = BuildingType.City, Player player = null) {
 		this.type = type;
 		this.level = level;
 		this.position = position;

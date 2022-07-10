@@ -350,6 +350,9 @@
      <Reference Include="FSharp.Core">
      <HintPath>D:\Wars5\Assets\FSharp.Core.dll</HintPath>
      </Reference>
+     <Reference Include="Newtonsoft.Json">
+     <HintPath>D:\Wars5\Assets\JsonDotNet\Assemblies\Standalone\Newtonsoft.Json.dll</HintPath>
+     </Reference>
      <Reference Include="nunit.framework">
      <HintPath>D:\Wars5\Library\PackageCache\com.unity.ext.nunit@1.0.6\net35\unity-custom\nunit.framework.dll</HintPath>
      </Reference>

@@ -10,7 +10,7 @@ public class ActionSelectionState : LevelState {
 	public Vector2Int startPosition, startForward;
 	public List<UnitAction> actions = new();
 
-	public ActionSelectionState(Level level, Unit unit, Vector2Int startPosition, Vector2Int startForward, List<Vector2Int> path, List<MovePath.Move> moves) : base(level) {
+	public ActionSelectionState( Level level, Unit unit, Vector2Int startPosition, Vector2Int startForward, List<Vector2Int> path, List<MovePath.Move> moves) : base(level) {
 
 		this.unit = unit;
 		this.startPosition = startPosition;
@@ -46,11 +46,13 @@ public class ActionSelectionState : LevelState {
 	}
 
 	public override void Dispose() {
+		base.Dispose();
 		foreach (var action in actions)
 			action.Dispose();
 	}
 
 	public override void Update() {
+		base.Update();
 
 		if (Input.GetMouseButtonDown(Mouse.right)) {
 			unit.view.Position = startPosition;
@@ -71,12 +73,5 @@ public class ActionSelectionState : LevelState {
 			else
 				unit.view.turret.aim = false;
 		}*/
-	}
-}
-
-public class InGameOverlayMenuState : LevelState {
-	public InGameOverlayMenuState(Level level) : base(level) { }
-	public override void Update() {
-		
 	}
 }

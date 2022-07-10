@@ -1,10 +1,8 @@
-using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Serialization;
-using Random = UnityEngine.Random;
 
 public class UnitView : MonoBehaviour {
 
@@ -20,6 +18,7 @@ public class UnitView : MonoBehaviour {
 	public Turret turret;
 	public Transform center;
 	public Body body;
+	public UnitView prefab;
 
 	public Color movedTint = Color.white / 2;
 

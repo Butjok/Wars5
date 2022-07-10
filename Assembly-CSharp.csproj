@@ -41,7 +41,6 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\LevelState\IdleState.cs" />
      <Compile Include="Assets\Scripts\Music.cs" />
      <Compile Include="Assets\Scripts\ShadowQuality.cs" />
      <Compile Include="Assets\Priority Queue\GenericPriorityQueueNode.cs" />
@@ -51,6 +50,7 @@
      <Compile Include="Assets\Priority Queue\IFixedSizePriorityQueue.cs" />
      <Compile Include="Assets\Scripts\Animation\Speedometer.cs" />
      <Compile Include="Assets\Scripts\Palette.cs" />
+     <Compile Include="Assets\Scripts\Level\Serialization.cs" />
      <Compile Include="Assets\Scripts\StateMachine\StateMachine.cs" />
      <Compile Include="Assets\Priority Queue\SimplePriorityQueue.cs" />
      <Compile Include="Assets\Scripts\Rules.cs" />
@@ -70,7 +70,6 @@
      <Compile Include="Assets\Scripts\Animation\BallisticComputer.cs" />
      <Compile Include="Assets\Scripts\ChangeTracker.cs" />
      <Compile Include="Assets\Scripts\Animation\Turret.cs" />
-     <Compile Include="Assets\Scripts\Level\LevelRunner.cs" />
      <Compile Include="Assets\Scripts\Animation\Maths.cs" />
      <Compile Include="Assets\SerializableDictionary\Example\UserSerializableDictionaries.cs" />
      <Compile Include="Assets\Scripts\Animation\Body.cs" />
@@ -106,12 +105,13 @@
      <Compile Include="Assets\Scripts\Animation\MovePathView.cs" />
      <Compile Include="Assets\Scripts\MathUtils.cs" />
      <Compile Include="Assets\Scripts\Level\ConvexMeshGenerator.cs" />
-     <Compile Include="Assets\Scripts\UiSounds.cs" />
+     <Compile Include="Assets\Scripts\Sounds.cs" />
      <Compile Include="Assets\Scripts\Animation\BodyTorque.cs" />
+     <Compile Include="Assets\Scripts\Player.cs" />
      <Compile Include="Assets\Scripts\LevelState\UnitMovementAnimationState.cs" />
      <Compile Include="Assets\Priority Queue\IPriorityQueue.cs" />
      <Compile Include="Assets\Scripts\Faction.cs" />
-     <Compile Include="Assets\Scripts\Level\InGameOverlayMenuView.cs" />
+     <Compile Include="Assets\Scripts\InGameOverlayMenuView.cs" />
      <Compile Include="Assets\Scripts\CircleTest.cs" />
      <Compile Include="Assets\Scripts\Animation\BallisticCurve.cs" />
      <Compile Include="Assets\Scripts\LevelScript\Tutorial.cs" />
@@ -126,15 +126,15 @@
      <Compile Include="Assets\Scripts\Animation\LookAt.cs" />
      <Compile Include="Assets\Scripts\UnitMap.cs" />
      <Compile Include="Assets\Scripts\Animation\PistonBody.cs" />
-     <Compile Include="Assets\Scripts\StateMachine\IState.cs" />
-     <Compile Include="Assets\Scripts\StateMachine\SubstateMachine.cs" />
      <Compile Include="Assets\Scripts\StateMachine\State.cs" />
+     <Compile Include="Assets\Scripts\InGameOverlayMenu.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
+     <None Include="Assets\JsonDotNet\link.xml" />
      <None Include="Assets\Unit.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
      <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
@@ -424,6 +424,9 @@
      </Reference>
      <Reference Include="FSharp.Core">
      <HintPath>D:\Wars5\Assets\FSharp.Core.dll</HintPath>
+     </Reference>
+     <Reference Include="Newtonsoft.Json">
+     <HintPath>D:\Wars5\Assets\JsonDotNet\Assemblies\Standalone\Newtonsoft.Json.dll</HintPath>
      </Reference>
      <Reference Include="netstandard">
      <HintPath>D:\Unity\2021.3.1f1\Editor\Data\NetStandard\ref\2.1.0\netstandard.dll</HintPath>

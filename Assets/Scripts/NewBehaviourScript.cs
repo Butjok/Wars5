@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using UnityEngine;
-using Object = UnityEngine.Object;
+using UnityEngine.Assertions;
 
 public class NewBehaviourScript : MonoBehaviour {
 
@@ -9,12 +11,13 @@ public class NewBehaviourScript : MonoBehaviour {
 	public Level level;
 
 	private void OnEnable() {
+
+		var game = new Game();
 		
-		var level = new Level();
+		var level = new Level(game);
 		level.turn = 0;
 		level.script = new Tutorial(level);
 		
-		var game = new Game();
 		game.State = level;
 
 		///var test = Resources.Load<UnitView>("Test");
@@ -26,11 +29,17 @@ public class NewBehaviourScript : MonoBehaviour {
 		unit = new Unit(level, player2, position: new Vector2Int(2, 1), viewPrefab: Resources.Load<UnitView>("rockets"));
 		//var a_ = unit.view;
 
+		new Building(level, new Vector2Int(5, 5));
+
 		for (var y = 0; y < 10; y++)
 		for (var x = 0; x < 10; x++)
 			level.tiles.Add(new Vector2Int(x, y), TileType.Plain);
 
 		level.State = new SelectionState(level);
+
+		var ser = new SerializedLevel(level);
+		Debug.Log(ser.ToJson());
+		var deser = ser.ToJson().FromJson<SerializedLevel>();
 	}
 	private void OnDisable() {
 		unit?.Dispose();
@@ -49,7 +58,7 @@ public class NewBehaviourScript : MonoBehaviour {
 }
 
 public class Game : StateMachine {
-	public Game() : base(typeof(GameRunner), nameof(Game)) { }
+	public Game() : base(nameof(Game)) { }
 }
 
 
@@ -73,44 +82,43 @@ public static class Cos {
 	};
 }
 
-[Flags]
-public enum Team { None = 0, Alpha = 1, Bravo = 2, Delta = 4 }
-public enum PlayerType { Human, Ai }
-public enum AiDifficulty { Normal, Easy, Hard }
-
-public class Player {
-
-	public Level level;
-	public Team team = Team.None;
-	public Color color;
-	public Co co;
-	public PlayerType type = PlayerType.Human;
-	public AiDifficulty difficulty = AiDifficulty.Normal;
-
-	public Player(Level level, Color color, Team team = Team.None) {
-		this.level = level;
-		this.color = color;
-		this.team = team;
-		level.players.Add(this);
+public static class JsonUtils {
+	static JsonUtils() {
+		JsonConvert.DefaultSettings = () => new JsonSerializerSettings {
+			Formatting = Formatting.Indented,
+			Converters = new List<JsonConverter> { new StringEnumConverter() },
+			DateFormatHandling = DateFormatHandling.IsoDateFormat,
+			ObjectCreationHandling = ObjectCreationHandling.Replace,
+			TypeNameHandling = TypeNameHandling.Auto
+		};
 	}
-
-	public override string ToString() {
-		return Palette.ToString(color);
+	public static string ToJson(this object value) {
+		return JsonConvert.SerializeObject(value);
+	}
+	public static T FromJson<T>(this string json) {
+		return JsonConvert.DeserializeObject<T>(json);
 	}
 }
 
-public class Players : IDisposable {
-
-	public List<Player> loop = new();
-	public HashSet<Player> all = new();
-	public GameObject go;
-
-	public Players() {
-		go = new GameObject(nameof(Players));
-		Object.DontDestroyOnLoad(go);
+public static class SaveDataManager {
+	private static Dictionary<string, SaveData> cache = new();
+	public static SaveData Get(string name) {
+		if (!cache.TryGetValue(name, out var record)) {
+			var json = PlayerPrefs.GetString(name);
+			Assert.IsNotNull(json);
+			record = cache[name] = json.FromJson<SaveData>();
+		}
+		return record;
 	}
-
-	public void Dispose() {
-		Object.Destroy(go);
+	public static void Set(string name, SaveData data) {
+		cache[name] = data;
+		PlayerPrefs.SetString(name, data.ToJson());
 	}
+}
+
+public class SaveData {
+	public string sceneName;
+	public DateTime dateTime;
+	public string json;
+	public SerializedLevel Level => json.FromJson<SerializedLevel>();
 }

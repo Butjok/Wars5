@@ -31,11 +31,10 @@ public class StateMachine : IDisposable {
 
 	private Stack<IState> stack = new();
 
-	public StateMachine(Type runnerType = null, string name = null) {
-		runnerType ??= typeof(StateMachineRunner);
-		var go = new GameObject(name ?? runnerType.Name);
+	public StateMachine(string name = null) {
+		var go = new GameObject(name);
 		Object.DontDestroyOnLoad(go);
-		runner = (StateMachineRunner)go.AddComponent(runnerType);
+		runner = go.AddComponent<StateMachineRunner>();
 		runner.sm = this;
 	}
 

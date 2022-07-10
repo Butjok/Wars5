@@ -5,7 +5,7 @@ using UnityEngine.Assertions;
 public abstract class LevelState : State {
 
 	public Level level;
-	protected LevelState(Level level) {
+	protected LevelState( Level level) : base(level) {
 		Assert.IsNotNull(level);
 		this.level = level;
 	}
