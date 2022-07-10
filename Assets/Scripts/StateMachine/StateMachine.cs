@@ -4,53 +4,6 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
 
-public interface IState : IDisposable {
-	bool Started { get; set; }
-	bool Disposed { get; set; }
-	void Start();
-	void Update();
-	void DrawGUI();
-	void DrawGizmos();
-	void DrawGizmosSelected();
-	void OnBeforePush();
-	void OnAfterPop();
-}
-
-public abstract class State : IState {
-
-	public bool Started { get; set; }
-	public bool Disposed { get; set; }
-
-	public virtual void Start() { }
-	public virtual void Update() { }
-	public virtual void DrawGUI() { }
-	public virtual void Dispose() { }
-	public virtual void DrawGizmos() { }
-	public virtual void DrawGizmosSelected() { }
-	public virtual void OnBeforePush() { }
-	public virtual void OnAfterPop() { }
-}
-
-public abstract class SubstateMachine : StateMachine, IState {
-
-	public bool Started { get; set; }
-	public bool Disposed { get; set; }
-
-	public virtual void Start() { }
-	public virtual void Update() { }
-	public virtual void DrawGUI() { }
-	public virtual void DrawGizmos() { }
-	public virtual void DrawGizmosSelected() { }
-	public virtual void OnBeforePush() {
-		Running = false;
-	}
-	public virtual void OnAfterPop() {
-		Running = true;
-	}
-
-	protected SubstateMachine(Type runnerType = null, string name = null) : base(runnerType, name) { }
-}
-
 public class StateMachine : IDisposable {
 
 	private IState state;
