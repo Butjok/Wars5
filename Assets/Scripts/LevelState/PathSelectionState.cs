@@ -36,8 +36,8 @@ public class PathSelectionState : LevelState {
 		}
 		if (Input.GetMouseButtonDown(Mouse.left)) {
 
-			if (Mouse.TryGetPosition(out var position) && traverser.IsReachable(position.RoundToInt())) {
-				path = traverser.ReconstructPath(position.RoundToInt());
+			if (Mouse.TryGetPosition(out var position) && traverser.IsReachable(position.ToVector2().RoundToInt())) {
+				path = traverser.ReconstructPath(position.ToVector2().RoundToInt());
 				level.State = new UnitMovementAnimationState(level, unit, path);
 				return;
 			}

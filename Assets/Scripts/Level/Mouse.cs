@@ -13,12 +13,12 @@ public static class Mouse
     public const int right = 1;
     public const int middle = 2;
 
-    public static bool TryGetPosition(out Vector2 position, out RaycastHit hit) {
+    public static bool TryGetPosition(out Vector3 position, out RaycastHit hit) {
         position = default;
         Assert.IsTrue(Camera.main);
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out hit, float.MaxValue, Masks.terrain)) {
-            position = hit.point.ToVector2();
+            position = hit.point;
             return true;
         }
         var plane = new Plane(Vector3.up, Vector3.zero);
@@ -28,7 +28,7 @@ public static class Mouse
         }
         return false;
     }
-    public static bool TryGetPosition(out Vector2 position) {
+    public static bool TryGetPosition(out Vector3 position) {
         return TryGetPosition(out position, out _);
     }
 }

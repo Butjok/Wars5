@@ -5,7 +5,7 @@ using UnityEngine.Serialization;
 public class Piston : MonoBehaviour {
 
 	public Transform relativeTo;
-	[FormerlySerializedAs("direction")] public Vector3 localDirection = Vector3.forward;
+	[FormerlySerializedAs("direction")] public Vector3 localDirection = Vector3.up;
 
 	public float targetLength = .1f;
 	public Vector2 clamp = new(.5f, 1);

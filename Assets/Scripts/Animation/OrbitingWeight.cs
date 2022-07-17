@@ -3,15 +3,16 @@ using UnityEngine;
 public class OrbitingWeight : MonoBehaviour {
 
 	public Transform target;
-	public float drag = 1.5f;
+	public float drag = 5;
 	public float force = 1000;
 	public Vector3 velocity;
-	public float maxDistance = .1f;
+	public float maxDistance = .025f;
 
 	[ContextMenu("Clear")]
 	public void Start() {
 		transform.position = target.position;
 		velocity = Vector3.zero;
+		transform.SetParent(null);
 	}
 	public void Update() {
 		transform.position += velocity * Time.deltaTime;

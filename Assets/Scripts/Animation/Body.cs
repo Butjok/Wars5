@@ -32,7 +32,7 @@ public class Body : MonoBehaviour {
 
 			var piston = wheel.GetComponent<Piston>();
 			if (!piston)
-				Debug.LogError("no piston on the wheel", wheel);
+				continue;
 			pistons.Add(piston);
 
 			var wheelName = wheel.transform.parent.name;

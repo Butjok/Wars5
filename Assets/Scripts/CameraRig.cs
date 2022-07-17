@@ -180,11 +180,8 @@ public class CameraRig : MonoBehaviour {
 		// TELEPORT
 
 		if (Input.GetMouseButtonDown(2)) {
-			if (lastClickTime + teleportCooldown > Time.unscaledTime) {
-				var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-				var plane = new Plane(Vector3.up, Vector3.zero);
-				if (plane.Raycast(ray, out var enter)) 
-					Jump(ray.GetPoint(enter));
+			if (lastClickTime + teleportCooldown > Time.unscaledTime && Mouse.TryGetPosition(out var target)) {
+					Jump(target);
 			}
 			else
 				lastClickTime = Time.unscaledTime;
