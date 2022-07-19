@@ -10,6 +10,7 @@ public class PathSelectionState : LevelState {
 	public Unit unit;
 	public List<Vector2Int> path;
 	public MeshRenderer renderer;
+	public MaterialPropertyBlock propertyBlock;
 
 	public PathSelectionState(Level level, Unit unit) : base(level) {
 		this.unit = unit;
@@ -23,12 +24,13 @@ public class PathSelectionState : LevelState {
 			 renderer = terrain.GetComponent<MeshRenderer>();
 			if (renderer) {
 				var positions = level.tiles.Keys.Where(p => traverser.IsReachable(p)).Select(p=>(Vector4)(Vector2)p).ToList();
-				var propertyBlock = new MaterialPropertyBlock();
+				 propertyBlock = new MaterialPropertyBlock();
 				Debug.Log(positions.Count);
 				propertyBlock.SetInteger("_Size", positions.Count);
 				propertyBlock.SetVectorArray("_Positions", positions);
 				propertyBlock.SetVector("_From",(Vector2)position);
 				propertyBlock.SetFloat("_SelectTime",Time.time);
+				propertyBlock.SetFloat("_TimeDirection",1);
 				renderer.SetPropertyBlock(propertyBlock);
 			}
 		}
@@ -72,8 +74,8 @@ public class PathSelectionState : LevelState {
 	public override void Dispose() {
 		base.Dispose();
 		if (renderer) {
-			var propertyBlock = new MaterialPropertyBlock();
-			propertyBlock.SetInteger("_Size",0);
+			propertyBlock.SetFloat("_SelectTime",Time.time+.1f);
+			propertyBlock.SetFloat("_TimeDirection",-1);
 			renderer.SetPropertyBlock(propertyBlock);
 		}
 	}

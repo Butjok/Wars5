@@ -3,6 +3,7 @@ Shader "Unlit/Trajectory"
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
+        _Speed ("_Speed", Float) = 1
     }
     SubShader
     {
@@ -36,6 +37,7 @@ Shader "Unlit/Trajectory"
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
+            half _Speed;
 
             v2f vert (appdata v)
             {
@@ -49,7 +51,7 @@ Shader "Unlit/Trajectory"
             fixed4 frag (v2f i) : SV_Target
             {
                 // sample the texture
-                fixed4 col = fixed4(i.uv.x,0,0,i.uv.x);
+                fixed4 col = fixed4(pow(frac(i.uv.x-_Time.y*_Speed),.4545),0,0,smoothstep(0,.1,1-abs(i.uv.y-.5)*2));
                 // apply fog
                 UNITY_APPLY_FOG(i.fogCoord, col);
                 return col;

@@ -33,7 +33,7 @@ Shader "Custom/Terrain"
         };
 
         half _Glossiness;
-        half _Metallic,_Radius,_Rounding,_K,_SelectTime;
+        half _Metallic,_Radius,_Rounding,_K,_SelectTime,_TimeDirection;
         fixed4 _Color;
 
         #define SIZE 64
@@ -183,7 +183,7 @@ float smax2(float a, float b, float k)
                     minDist = dist;
             }
 
-            half radiusDistance = length(_From-position)-(_Time.y - _SelectTime)*35;
+            half radiusDistance = length(_From-position)-(_Time.y - _SelectTime)*45*_TimeDirection;
             //minDist = max(minDist,radiusDistance);
             
             half highlightIntensity = smoothstep(.01,0.005,minDist-_Rounding);
