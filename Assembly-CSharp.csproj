@@ -49,15 +49,19 @@
      <Compile Include="Assets\Scripts\Animation\SinMovement.cs" />
      <Compile Include="Assets\Priority Queue\IFixedSizePriorityQueue.cs" />
      <Compile Include="Assets\Scripts\Animation\Speedometer.cs" />
+     <Compile Include="Assets\Scripts\Level\Serialization.cs" />
      <Compile Include="Assets\Scripts\Palette.cs" />
      <Compile Include="Assets\Scripts\StateMachine\StateMachine.cs" />
      <Compile Include="Assets\Priority Queue\SimplePriorityQueue.cs" />
      <Compile Include="Assets\Scripts\Rules.cs" />
      <Compile Include="Assets\Scripts\Animation\HardFollow.cs" />
+     <Compile Include="Assets\Scripts\Animation\TrackSpinner.cs" />
      <Compile Include="Assets\Scripts\Animation\MovePathTest.cs" />
      <Compile Include="Assets\Scripts\Level\Traverser.cs" />
      <Compile Include="Assets\Scripts\Animation\MovePathWalker.cs" />
      <Compile Include="Assets\Scripts\Animation\Spinner.cs" />
+     <Compile Include="Assets\Scripts\Animation\ManualControl.cs" />
+     <Compile Include="Assets\Scripts\Animation\TerrainBumpiness.cs" />
      <Compile Include="Assets\Scripts\MusicTest.cs" />
      <Compile Include="Assets\Scripts\LevelState\LevelState.cs" />
      <Compile Include="Assets\Scripts\Level\Mouse.cs" />
@@ -70,11 +74,13 @@
      <Compile Include="Assets\Scripts\ChangeTracker.cs" />
      <Compile Include="Assets\Scripts\Animation\Turret.cs" />
      <Compile Include="Assets\Scripts\Animation\Maths.cs" />
+     <Compile Include="Assets\Scripts\Sounds.cs" />
      <Compile Include="Assets\SerializableDictionary\Example\UserSerializableDictionaries.cs" />
      <Compile Include="Assets\Scripts\Animation\Body.cs" />
      <Compile Include="Assets\SerializableDictionary\SerializableDictionary.cs" />
      <Compile Include="Assets\Scripts\LevelState\SelectionState.cs" />
      <Compile Include="Assets\Scripts\Co.cs" />
+     <Compile Include="Assets\Scripts\Animation\CloudMovement.cs" />
      <Compile Include="Assets\Scripts\PlayerView.cs" />
      <Compile Include="Assets\Priority Queue\FastPriorityQueue.cs" />
      <Compile Include="Assets\Scripts\Trail.cs" />
@@ -95,6 +101,7 @@
      <Compile Include="Assets\Scripts\InGameOverlayMenu.cs" />
      <Compile Include="Assets\Scripts\LevelState\ActionSelectionState.cs" />
      <Compile Include="Assets\Scripts\Animation\ClampToHull.cs" />
+     <Compile Include="Assets\Scripts\Animation\BodyTorque.cs" />
      <Compile Include="Assets\Priority Queue\FastPriorityQueueNode.cs" />
      <Compile Include="Assets\Scripts\Animation\MovementSound.cs" />
      <Compile Include="Assets\Scripts\Level\ConvexHull.cs" />
@@ -111,8 +118,10 @@
      <Compile Include="Assets\Scripts\CircleTest.cs" />
      <Compile Include="Assets\Scripts\Animation\BallisticCurve.cs" />
      <Compile Include="Assets\Scripts\LevelScript\Tutorial.cs" />
+     <Compile Include="Assets\Scripts\InGameOverlayMenuView.cs" />
      <Compile Include="Assets\Scripts\Building.cs" />
      <Compile Include="Assets\Scripts\Animation\Accelerometer.cs" />
+     <Compile Include="Assets\Scripts\Player.cs" />
      <Compile Include="Assets\Scripts\LevelState\PathSelectionState.cs" />
      <Compile Include="Assets\Scripts\Level\UnitActionView.cs" />
      <Compile Include="Assets\Priority Queue\Properties\AssemblyInfo.cs" />
@@ -123,20 +132,19 @@
      <Compile Include="Assets\Scripts\UnitMap.cs" />
      <Compile Include="Assets\Scripts\Animation\PistonBody.cs" />
      <Compile Include="Assets\Scripts\StateMachine\State.cs" />
-     <Compile Include="Assets\Scripts\Sounds.cs" />
-     <Compile Include="Assets\Scripts\Player.cs" />
-     <Compile Include="Assets\Scripts\InGameOverlayMenuView.cs" />
-     <Compile Include="Assets\Scripts\Level\Serialization.cs" />
-     <Compile Include="Assets\Scripts\Animation\BodyTorque.cs" />
-     <Compile Include="Assets\Scripts\Animation\CloudMovement.cs" />
-     <Compile Include="Assets\Scripts\Animation\ManualControl.cs" />
-     <Compile Include="Assets\Scripts\Animation\TerrainBumpiness.cs" />
-     <Compile Include="Assets\Scripts\Animation\TrackSpinner.cs" />
+     <Compile Include="Assets\Scripts\SaveData.cs" />
+     <Compile Include="Assets\Scripts\PlayerSettings.cs" />
+     <Compile Include="Assets\Scripts\GlobalPostProcessVolume.cs" />
+     <Compile Include="Assets\Scripts\WarsPostProcess.cs" />
+     <Compile Include="Assets\Scripts\GameObjectUtils.cs" />
+     <Compile Include="Assets\Scripts\Level\LayerMasks.cs" />
+     <Compile Include="Assets\Scripts\BattleView.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
+     <None Include="Assets\Resources\Terrain.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
      <None Include="Assets\JsonDotNet\link.xml" />
      <None Include="Assets\Unit.shader" />
@@ -923,6 +931,24 @@
      </Reference>
      <Reference Include="Unity.VisualScripting.State">
      <HintPath>D:\Wars5\Library\ScriptAssemblies\Unity.VisualScripting.State.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.SelectionGroups.Editor">
+     <HintPath>D:\Wars5\Library\ScriptAssemblies\Unity.SelectionGroups.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.GoQL.Runtime">
+     <HintPath>D:\Wars5\Library\ScriptAssemblies\Unity.GoQL.Runtime.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.FilmInternalUtilities">
+     <HintPath>D:\Wars5\Library\ScriptAssemblies\Unity.FilmInternalUtilities.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.GoQL.Editor">
+     <HintPath>D:\Wars5\Library\ScriptAssemblies\Unity.GoQL.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.SelectionGroups">
+     <HintPath>D:\Wars5\Library\ScriptAssemblies\Unity.SelectionGroups.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.FilmInternalUtilities.Editor">
+     <HintPath>D:\Wars5\Library\ScriptAssemblies\Unity.FilmInternalUtilities.Editor.dll</HintPath>
      </Reference>
   </ItemGroup>
   <ItemGroup>

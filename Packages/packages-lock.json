@@ -53,6 +53,16 @@
         "com.unity.testtools.codecoverage": "1.0.1"
       }
     },
+    "com.unity.film-internal-utilities": {
+      "version": "0.14.2-preview",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.modules.uielements": "1.0.0",
+        "com.unity.timeline": "1.2.18"
+      },
+      "url": "https://packages.unity.com"
+    },
     "com.unity.ide.rider": {
       "version": "3.0.13",
       "depth": 0,
@@ -127,6 +137,15 @@
       "depth": 2,
       "source": "registry",
       "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.selection-groups": {
+      "version": "0.7.4-preview",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.film-internal-utilities": "0.14.2-preview"
+      },
       "url": "https://packages.unity.com"
     },
     "com.unity.services.core": {

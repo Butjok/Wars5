@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Rendering.PostProcessing;
 
 public class NewBehaviourScript : MonoBehaviour {
 
@@ -12,13 +14,35 @@ public class NewBehaviourScript : MonoBehaviour {
 
 	private void OnEnable() {
 
+		var settings = new PlayerSettings {
+			motionBlurShutterAngle = 270,
+			bloom = true,
+			antiAliasing = PostProcessLayer.Antialiasing.TemporalAntialiasing,
+			
+		};
+
+		WarsPostProcess.Setup(settings, Camera.main ? Camera.main.GetComponent<PostProcessLayer>() : null);
+
 		var game = new Game();
-		
+
 		var level = new Level(game);
 		level.turn = 0;
 		level.script = new Tutorial(level);
-		
+
 		game.State = level;
+		
+		
+
+		/*Debug.Log(string.Join("\n",SaveDataManager.Names));
+		SaveDataManager.Save("Hello", new SaveData {
+			sceneName = "SampleScene",
+			dateTime = DateTime.Now,
+			Level = new SerializedLevel(level)
+		});
+		Debug.Log(string.Join("\n",SaveDataManager.Names));*/
+
+		foreach (var saveData in SaveDataManager.All.OrderByDescending(s => s.dateTime))
+			Debug.Log(saveData);
 
 		///var test = Resources.Load<UnitView>("Test");
 
@@ -37,9 +61,9 @@ public class NewBehaviourScript : MonoBehaviour {
 
 		level.State = new SelectionState(level);
 
-		var ser = new SerializedLevel(level);
+		/*var ser = new SerializedLevel(level);
 		Debug.Log(ser.ToJson());
-		var deser = ser.ToJson().FromJson<SerializedLevel>();
+		var deser = ser.ToJson().FromJson<SerializedLevel>();*/
 	}
 	private void OnDisable() {
 		unit?.Dispose();
@@ -98,27 +122,4 @@ public static class JsonUtils {
 	public static T FromJson<T>(this string json) {
 		return JsonConvert.DeserializeObject<T>(json);
 	}
-}
-
-public static class SaveDataManager {
-	private static Dictionary<string, SaveData> cache = new();
-	public static SaveData Get(string name) {
-		if (!cache.TryGetValue(name, out var record)) {
-			var json = PlayerPrefs.GetString(name);
-			Assert.IsNotNull(json);
-			record = cache[name] = json.FromJson<SaveData>();
-		}
-		return record;
-	}
-	public static void Set(string name, SaveData data) {
-		cache[name] = data;
-		PlayerPrefs.SetString(name, data.ToJson());
-	}
-}
-
-public class SaveData {
-	public string sceneName;
-	public DateTime dateTime;
-	public string json;
-	public SerializedLevel Level => json.FromJson<SerializedLevel>();
 }

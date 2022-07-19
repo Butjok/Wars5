@@ -1,12 +1,15 @@
 using System;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.Assertions;
+using Object = UnityEngine.Object;
 
 [Flags]
 public enum Team { None = 0, Alpha = 1, Bravo = 2, Delta = 4 }
 public enum PlayerType { Human, Ai }
 public enum AiDifficulty { Normal, Easy, Hard }
 
-public class Player {
+public class Player : IDisposable {
 
 	public Level level;
 	public Team team = Team.None;
@@ -14,15 +17,27 @@ public class Player {
 	public Co co;
 	public PlayerType type = PlayerType.Human;
 	public AiDifficulty difficulty = AiDifficulty.Normal;
+	public PlayerView view;
 
-	public Player(Level level, Color32 color, Team team = Team.None) {
+	public Player(Level level, Color32 color, Team team = Team.None, PlayerView viewPrefab = null) {
 		this.level = level;
 		this.color = color;
 		this.team = team;
 		level.players.Add(this);
+		
+		viewPrefab = viewPrefab ? viewPrefab : Resources.Load<PlayerView>(nameof(PlayerView));
+		Assert.IsTrue(viewPrefab);
+		view = Object.Instantiate(viewPrefab);
+		Object.DontDestroyOnLoad(view.gameObject);
+		view.Initialize(this);
 	}
 
 	public override string ToString() {
 		return Palette.ToString(color);
+	}
+
+	public void Dispose() {
+		if (view && view.gameObject)
+			Object.Destroy(view.gameObject);
 	}
 }

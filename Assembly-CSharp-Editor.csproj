@@ -1088,6 +1088,24 @@
      <Reference Include="Unity.VisualScripting.State">
      <HintPath>D:\Wars5\Library\ScriptAssemblies\Unity.VisualScripting.State.dll</HintPath>
      </Reference>
+     <Reference Include="Unity.SelectionGroups.Editor">
+     <HintPath>D:\Wars5\Library\ScriptAssemblies\Unity.SelectionGroups.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.GoQL.Runtime">
+     <HintPath>D:\Wars5\Library\ScriptAssemblies\Unity.GoQL.Runtime.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.FilmInternalUtilities">
+     <HintPath>D:\Wars5\Library\ScriptAssemblies\Unity.FilmInternalUtilities.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.GoQL.Editor">
+     <HintPath>D:\Wars5\Library\ScriptAssemblies\Unity.GoQL.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.SelectionGroups">
+     <HintPath>D:\Wars5\Library\ScriptAssemblies\Unity.SelectionGroups.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.FilmInternalUtilities.Editor">
+     <HintPath>D:\Wars5\Library\ScriptAssemblies\Unity.FilmInternalUtilities.Editor.dll</HintPath>
+     </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">

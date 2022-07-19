@@ -1,12 +1,6 @@
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public static class Masks
-{
-    public static int selectable = 1 << LayerMask.NameToLayer("Selectable");
-    public static int terrain = 1 << LayerMask.NameToLayer("Terrain");
-}
-
 public static class Mouse
 {
     public const int left = 0;
@@ -17,7 +11,7 @@ public static class Mouse
         position = default;
         Assert.IsTrue(Camera.main);
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out hit, float.MaxValue, Masks.terrain)) {
+        if (Physics.Raycast(ray, out hit, float.MaxValue, LayerMasks.Terrain)) {
             position = hit.point;
             return true;
         }

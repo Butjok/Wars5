@@ -77,7 +77,7 @@ public class Wheel : MonoBehaviour {
 				Debug.DrawLine(transform.position, ray.GetPoint(hit.distance));
 				transform.position = ray.GetPoint(hit.distance);
 
-				var height = amplitude * Terrain(transform.position.x * scale.x) * Terrain(transform.position.z * scale.y);
+				var height = amplitude * Mathf.PerlinNoise(transform.position.x * scale.x, transform.position.z * scale.y);
 				transform.position += height * Vector3.up;
 
 				var plane = new Plane(-rayOrigin.up, rayOrigin.position);
