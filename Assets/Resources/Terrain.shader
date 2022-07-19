@@ -187,7 +187,7 @@ float smax2(float a, float b, float k)
             //minDist = max(minDist,radiusDistance);
             
             half highlightIntensity = smoothstep(.01,0.005,minDist-_Rounding);
-            half border = smoothstep(.0101,0.01,abs(0.0-(minDist-_Rounding)));
+            half border = smoothstep(.0075 + .0025,0.0075,abs(0.0-(minDist-_Rounding)));
             half3 highlight = half3(1,1,1)/3;
             
             half radius = smoothstep(_Radius+.1,_Radius, radiusDistance);
@@ -200,7 +200,7 @@ float smax2(float a, float b, float k)
             o.Smoothness = 0;
             o.Alpha = c.a;
 
-            o.Emission=border+highlightIntensity*tex2D (_Grid, position-.5)*2;
+            o.Emission=border*7.50*c.rgb+highlightIntensity*c.rgb * tex2D (_Grid, position-.5) *10;
             o.Emission*= radius;
         }
         ENDCG
