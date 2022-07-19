@@ -27,6 +27,8 @@ public class PathSelectionState : LevelState {
 				Debug.Log(positions.Count);
 				propertyBlock.SetInteger("_Size", positions.Count);
 				propertyBlock.SetVectorArray("_Positions", positions);
+				propertyBlock.SetVector("_From",(Vector2)position);
+				propertyBlock.SetFloat("_SelectTime",Time.time);
 				renderer.SetPropertyBlock(propertyBlock);
 			}
 		}
