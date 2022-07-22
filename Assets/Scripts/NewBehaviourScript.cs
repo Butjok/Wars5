@@ -14,6 +14,12 @@ public class NewBehaviourScript : MonoBehaviour {
 
 	private void OnEnable() {
 
+		//create
+		//var unit = new Unit(this.level, new Player());
+		
+		//load settings
+		
+
 		var settings = new PlayerSettings {
 			motionBlurShutterAngle = 270,
 			bloom = true,
@@ -48,9 +54,9 @@ public class NewBehaviourScript : MonoBehaviour {
 
 		var player = new Player(level, Palette.red, Team.Alpha);
 		var player2 = new Player(level, Palette.green, Team.Bravo);
-		unit = new Unit(level, player, position: new Vector2Int(1, 1), viewPrefab: Resources.Load<UnitView>("rockets"));
-		unit = new Unit(level, player2, position: new Vector2Int(2, 2), viewPrefab: Resources.Load<UnitView>("rockets"));
-		unit = new Unit(level, player2, position: new Vector2Int(2, 1), viewPrefab: Resources.Load<UnitView>("rockets"));
+		unit = new Unit(level, player, position: new Vector2Int(1, 1), viewPrefab: Resources.Load<UnitView>("mrap0-export"));
+		unit = new Unit(level, player2, position: new Vector2Int(2, 2), viewPrefab: Resources.Load<UnitView>("light-tank"));
+		unit = new Unit(level, player2, position: new Vector2Int(2, 1), viewPrefab: Resources.Load<UnitView>("light-tank"));
 		//var a_ = unit.view;
 
 		new Building(level, new Vector2Int(5, 5));

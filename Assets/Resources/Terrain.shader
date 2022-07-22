@@ -14,7 +14,7 @@ Shader "Custom/Terrain"
     }
     SubShader
     {
-        Tags { "RenderType"="Opaque" }
+        Tags { "RenderType"="Opaque" "BW"="TrueProbes" }
         LOD 200
 
         CGPROGRAM

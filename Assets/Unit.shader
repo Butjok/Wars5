@@ -65,7 +65,7 @@ Shader "Custom/Unit"
             half4 bounce = tex2D (_BounceLight, uv);
             
             // Albedo comes from a texture tinted by color
-            fixed3 c = HueShift(tex2D (_MainTex, uv),_HueShift) * _PlayerColor;
+            fixed3 c = HueShift(tex2D (_MainTex, uv),_HueShift); // * _PlayerColor;
             o.Albedo = c.rgb;
             //o.Albedo=tex2D (_Normal, IN.uv_MainTex);
             // Metallic and smoothness come from slider variables

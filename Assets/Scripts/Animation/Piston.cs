@@ -7,8 +7,8 @@ public class Piston : MonoBehaviour {
 	public Transform relativeTo;
 	[FormerlySerializedAs("direction")] public Vector3 localDirection = Vector3.up;
 
-	public float targetLength = .1f;
-	public Vector2 clamp = new(.5f, 1);
+	public float targetLength = 0;
+	public Vector2 clamp = new(-0.025f, 0.025f);
 	public float force = 250;
 	public float drag = 4;
 	public float constantForce;

@@ -7,6 +7,7 @@ using static UnityEngine.Mathf;
 //[ExecuteInEditMode]
 [RequireComponent(typeof(SphereCollider))]
 [RequireComponent(typeof(Speedometer))]
+//[RequireComponent(typeof(Piston))]
 [SelectionBase]
 public class Wheel : MonoBehaviour {
 

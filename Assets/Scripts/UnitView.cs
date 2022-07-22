@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Serialization;
 
+[RequireComponent(typeof(MovePathWalker))]
 public class UnitView : MonoBehaviour {
 
 	public Unit unit;
@@ -116,6 +117,7 @@ public class UnitView : MonoBehaviour {
 
 	public void Blink() {
 		// TODO: move to shader code
+		if (blinkCurve.length>0) 
 		DOTween.To(t => {
 			var value = blinkCurve.Evaluate(t);
 			propertyBlock.v.SetFloat("_Selected", value);
