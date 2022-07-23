@@ -123,6 +123,7 @@ GameObject:
   - component: {fileID: 1347317117878967871}
   - component: {fileID: 1528999263634511347}
   - component: {fileID: 1528999263634511344}
+  - component: {fileID: 9055330345469545590}
   m_Layer: 0
   m_Name: mrap0-export
   m_TagString: Untagged
@@ -198,6 +199,21 @@ MonoBehaviour:
   moves: []
   time: 0
   speed: 1.5
+--- !u!114 &9055330345469545590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1871651826005886085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf4ed7defffe40cb9f8433104787bdd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 0
+  acceleration: 5
+  rotationSpeed: 90
 --- !u!1 &2747505878612654008
 GameObject:
   m_ObjectHideFlags: 0
@@ -448,7 +464,7 @@ MonoBehaviour:
   force: 250
   drag: 6
   constantForce: 0
-  velocity: 0.90225077
+  velocity: 1.7531428
   position: {x: 0.63793296, y: 1.9252322, z: 2.5192797}
 --- !u!114 &1528999263364611224
 MonoBehaviour:
@@ -638,7 +654,7 @@ MonoBehaviour:
   force: 250
   drag: 6
   constantForce: 0
-  velocity: 0.90225077
+  velocity: 1.7531428
   position: {x: 0.883987, y: 1.9252322, z: 2.5192795}
 --- !u!114 &1528999263529645696
 MonoBehaviour:
@@ -797,7 +813,7 @@ MonoBehaviour:
   force: 250
   drag: 6
   constantForce: 0
-  velocity: 0.90225077
+  velocity: 1.7531428
   position: {x: 0.883987, y: 1.9252322, z: 2.1135263}
 --- !u!114 &1528999263763013440
 MonoBehaviour:
@@ -956,7 +972,7 @@ MonoBehaviour:
   force: 250
   drag: 6
   constantForce: 0
-  velocity: 0.90225077
+  velocity: 1.7531428
   position: {x: 0.63793296, y: 1.9252322, z: 2.1135263}
 --- !u!114 &1528999262864511798
 MonoBehaviour:
