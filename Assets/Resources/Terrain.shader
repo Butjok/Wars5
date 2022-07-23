@@ -183,14 +183,14 @@ float smax2(float a, float b, float k)
                     minDist = dist;
             }
 
-            half radiusDistance = length(_From-position)-(_Time.y - _SelectTime)*45*_TimeDirection;
+            half radiusDistance = length(_From-position)-(_Time.y - _SelectTime)*50*_TimeDirection;
             //minDist = max(minDist,radiusDistance);
             
             half highlightIntensity = smoothstep(.01,0.005,minDist-_Rounding);
-            half border = smoothstep(.0075 + .0025,0.0075,abs(0.0-(minDist-_Rounding)));
+            half border = smoothstep(.01 + .01,0.01,abs(0.0-(minDist-_Rounding)));
             half3 highlight = half3(1,1,1)/3;
             
-            half radius = smoothstep(_Radius+.1,_Radius, radiusDistance);
+            half radius = smoothstep(_Radius+1,_Radius, radiusDistance);
             
             // Albedo comes from a texture tinted by color
             fixed4 c = tex2D (_Grass, position);
@@ -200,7 +200,7 @@ float smax2(float a, float b, float k)
             o.Smoothness = 0;
             o.Alpha = c.a;
 
-            o.Emission=border*7.50*c.rgb+highlightIntensity*c.rgb * tex2D (_Grid, position-.5) *10;
+            o.Emission=border*10*c.rgb+highlightIntensity*c.rgb * tex2D (_Grid, position-.5) *7.5;
             o.Emission*= radius;
         }
         ENDCG

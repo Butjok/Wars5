@@ -6,7 +6,7 @@ public class OrbitingWeight : MonoBehaviour {
 	public float drag = 5;
 	public float force = 1000;
 	public Vector3 velocity;
-	public float maxDistance = .025f;
+	public float maxDistance = .05f;
 
 	[ContextMenu("Clear")]
 	public void Start() {

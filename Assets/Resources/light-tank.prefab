@@ -400,7 +400,7 @@ MonoBehaviour:
   targetLength: 0
   clamp: {x: -0.025, y: 0.025}
   force: 250
-  drag: 4
+  drag: 6
   constantForce: 0
   velocity: 0
   position: {x: -2.1349192, y: 2.6143746, z: 2.9624946}
@@ -445,7 +445,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1175516284874731091}
-  m_LocalRotation: {x: -0.3197971, y: -0.454355, z: 0.17895304, w: -0.81195265}
+  m_LocalRotation: {x: -0.3197971, y: -0.45435512, z: 0.17895308, w: -0.81195265}
   m_LocalPosition: {x: 0.06950706, y: 0.05638349, z: -0.12729466}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -988,10 +988,10 @@ MonoBehaviour:
   targetLength: 0
   clamp: {x: -0.025, y: 0.025}
   force: 250
-  drag: 4
+  drag: 6
   constantForce: 0
-  velocity: 0
-  position: {x: -2.2513075, y: 2.6143746, z: 2.5586717}
+  velocity: -1.12953015e-29
+  position: {x: -2.2513077, y: 2.6143746, z: 2.558672}
 --- !u!114 &9102701130370694845
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1163,10 +1163,10 @@ MonoBehaviour:
   targetLength: 0
   clamp: {x: -0.025, y: 0.025}
   force: 250
-  drag: 4
+  drag: 6
   constantForce: 0
-  velocity: 0
-  position: {x: -2.3684926, y: 2.6143746, z: 2.5586717}
+  velocity: -1.12953015e-29
+  position: {x: -2.3684928, y: 2.6143746, z: 2.558672}
 --- !u!114 &9102701130222910131
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1471,7 +1471,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3324203080328464946}
-  m_LocalRotation: {x: -0.30000865, y: -0.5131466, z: 0.1974876, w: -0.7795346}
+  m_LocalRotation: {x: -0.3000086, y: -0.5131466, z: 0.1974876, w: -0.7795345}
   m_LocalPosition: {x: -0.06944294, y: 0.056383446, z: -0.12729469}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1974,10 +1974,10 @@ MonoBehaviour:
   targetLength: 0
   clamp: {x: -0.025, y: 0.025}
   force: 250
-  drag: 4
+  drag: 6
   constantForce: 0
-  velocity: 0
-  position: {x: -1.902542, y: 2.6143746, z: 2.9624946}
+  velocity: 5.6476508e-30
+  position: {x: -1.9025419, y: 2.6143746, z: 2.9624946}
 --- !u!114 &9102701129804593475
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2292,10 +2292,10 @@ MonoBehaviour:
   targetLength: 0
   clamp: {x: -0.025, y: 0.025}
   force: 250
-  drag: 4
+  drag: 6
   constantForce: 0
-  velocity: 0
-  position: {x: -2.251307, y: 2.6143746, z: 2.9624944}
+  velocity: -6.7325243e-37
+  position: {x: -2.251307, y: 2.6143746, z: 2.9624946}
 --- !u!114 &9102701130077438530
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2595,10 +2595,10 @@ MonoBehaviour:
   targetLength: 0
   clamp: {x: -0.025, y: 0.025}
   force: 250
-  drag: 4
+  drag: 6
   constantForce: 0
-  velocity: 0
-  position: {x: -2.3684921, y: 2.6143746, z: 2.9624944}
+  velocity: -6.7325243e-37
+  position: {x: -2.3684921, y: 2.6143746, z: 2.9624946}
 --- !u!114 &9102701130318977666
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3067,7 +3067,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8780316190875479028
 Transform:
   m_ObjectHideFlags: 0
@@ -3314,10 +3314,10 @@ MonoBehaviour:
   targetLength: 0
   clamp: {x: -0.025, y: 0.025}
   force: 250
-  drag: 4
+  drag: 6
   constantForce: 0
-  velocity: 0
-  position: {x: -2.1349196, y: 2.6143746, z: 2.558672}
+  velocity: -1.12953015e-29
+  position: {x: -2.13492, y: 2.6143746, z: 2.558672}
 --- !u!114 &9102701129692199438
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3520,10 +3520,10 @@ MonoBehaviour:
   targetLength: 0
   clamp: {x: -0.025, y: 0.025}
   force: 250
-  drag: 4
+  drag: 6
   constantForce: 0
-  velocity: 0
-  position: {x: -1.9025426, y: 2.6143746, z: 2.558672}
+  velocity: 6.7325243e-37
+  position: {x: -1.9025426, y: 2.6143746, z: 2.5586717}
 --- !u!114 &9102701130387827153
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3695,10 +3695,10 @@ MonoBehaviour:
   targetLength: 0
   clamp: {x: -0.025, y: 0.025}
   force: 250
-  drag: 4
+  drag: 6
   constantForce: 0
-  velocity: 0
-  position: {x: -2.01893, y: 2.6143746, z: 2.9624946}
+  velocity: 1.12953015e-29
+  position: {x: -2.0189297, y: 2.6143746, z: 2.9624946}
 --- !u!114 &9102701131156210678
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3870,10 +3870,10 @@ MonoBehaviour:
   targetLength: 0
   clamp: {x: -0.025, y: 0.025}
   force: 250
-  drag: 4
+  drag: 6
   constantForce: 0
-  velocity: 0
-  position: {x: -2.0189304, y: 2.6143746, z: 2.558672}
+  velocity: 6.7325243e-37
+  position: {x: -2.0189304, y: 2.6143746, z: 2.5586717}
 --- !u!114 &9102701130401598978
 MonoBehaviour:
   m_ObjectHideFlags: 0
