@@ -61,8 +61,8 @@ public class NewBehaviourScript : MonoBehaviour {
 
 		new Building(level, new Vector2Int(5, 5));
 
-		for (var y = 0; y < 10; y++)
-		for (var x = 0; x < 10; x++)
+		for (var y = -10; y < 10; y++)
+		for (var x = -10; x < 10; x++)
 			level.tiles.Add(new Vector2Int(x, y), TileType.Plain);
 
 		level.State = new SelectionState(level);

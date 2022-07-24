@@ -137,9 +137,9 @@ public static class Rules {
 
 	public static int MoveDistance(UnitType type) {
 		if (((UnitType.Infantry) & type) != 0)
-			return 3;
+			return 7;
 		if (((UnitType.AntiTank) & type) != 0)
-			return 2;
+			return 5;
 		if (((UnitType.Artillery | UnitType.Apc) & type) != 0)
 			return 5;
 		return 0;
