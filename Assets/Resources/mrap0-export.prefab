@@ -206,7 +206,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1871651826005886085}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bf4ed7defffe40cb9f8433104787bdd7, type: 3}
   m_Name: 
@@ -464,8 +464,8 @@ MonoBehaviour:
   force: 250
   drag: 6
   constantForce: 0
-  velocity: 1.7531428
-  position: {x: 0.63793296, y: 1.9252322, z: 2.5192797}
+  velocity: -0.01996243
+  position: {x: 0.63793296, y: 1.8752322, z: 2.5192797}
 --- !u!114 &1528999263364611224
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -489,8 +489,8 @@ MonoBehaviour:
   constantSpinSpeed: 0
   placeOnTerrain: 1
   spinAngle: 0
-  scale: {x: 25, y: 25}
-  amplitude: 0.005
+  scale: {x: 1, y: 1}
+  amplitude: 0
 --- !u!114 &1528999263364611225
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -654,8 +654,8 @@ MonoBehaviour:
   force: 250
   drag: 6
   constantForce: 0
-  velocity: 1.7531428
-  position: {x: 0.883987, y: 1.9252322, z: 2.5192795}
+  velocity: -0.01996243
+  position: {x: 0.883987, y: 1.8752322, z: 2.5192795}
 --- !u!114 &1528999263529645696
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -679,8 +679,8 @@ MonoBehaviour:
   constantSpinSpeed: 0
   placeOnTerrain: 1
   spinAngle: 0
-  scale: {x: 25, y: 25}
-  amplitude: 0.005
+  scale: {x: 1, y: 1}
+  amplitude: 0
 --- !u!114 &1528999263529645697
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -813,8 +813,8 @@ MonoBehaviour:
   force: 250
   drag: 6
   constantForce: 0
-  velocity: 1.7531428
-  position: {x: 0.883987, y: 1.9252322, z: 2.1135263}
+  velocity: -0.01996243
+  position: {x: 0.883987, y: 1.8752322, z: 2.1135263}
 --- !u!114 &1528999263763013440
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -838,8 +838,8 @@ MonoBehaviour:
   constantSpinSpeed: 0
   placeOnTerrain: 1
   spinAngle: 0
-  scale: {x: 25, y: 25}
-  amplitude: 0.005
+  scale: {x: 1, y: 1}
+  amplitude: 0
 --- !u!114 &1528999263763013441
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -972,8 +972,8 @@ MonoBehaviour:
   force: 250
   drag: 6
   constantForce: 0
-  velocity: 1.7531428
-  position: {x: 0.63793296, y: 1.9252322, z: 2.1135263}
+  velocity: -0.01996243
+  position: {x: 0.63793296, y: 1.8752322, z: 2.1135263}
 --- !u!114 &1528999262864511798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -997,8 +997,8 @@ MonoBehaviour:
   constantSpinSpeed: 0
   placeOnTerrain: 1
   spinAngle: 0
-  scale: {x: 25, y: 25}
-  amplitude: 0.005
+  scale: {x: 1, y: 1}
+  amplitude: 0
 --- !u!114 &1528999262864511799
 MonoBehaviour:
   m_ObjectHideFlags: 0

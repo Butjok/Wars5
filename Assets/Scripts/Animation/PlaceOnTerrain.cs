@@ -6,10 +6,20 @@ public class PlaceOnTerrain : MonoBehaviour {
 	public float speed = 1;
 	public bool alwaysAbove = true;
 	public float rayOriginHeight = 100;
-	public void LateUpdate() {
+
+	public bool Raycast(out RaycastHit hit) {
 		var position = transform.position.ToVector2();
 		var rayOrigin = position.ToVector3() + Vector3.up * rayOriginHeight;
-		if (!Physics.Raycast(rayOrigin, Vector3.down, out var hit, float.MaxValue, mask))
+		return Physics.Raycast(rayOrigin, Vector3.down, out hit, float.MaxValue, mask);
+	}
+	
+	public void Start() {
+		if(Raycast(out var hit))
+			transform.position = hit.point;
+	}
+	
+	public void LateUpdate() {
+		if(!Raycast(out var hit))
 			return;
 		var offset = hit.point.y - transform.position.y;
 		var maxOffsetThisFrame = Time.deltaTime * speed;
