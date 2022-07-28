@@ -57,7 +57,7 @@ Shader "Custom/water"
             half wave=sin(distance*_Scale + _Speed*_Time.y + data.vertex.x*5 + data.vertex.z*5)/2+.5;
             half wavesMask = smoothstep(.5, .0, distance);
             data.vertex.y += wavesMask*wave*.005;
-            
+                                          
         }
 
         void surf (Input IN, inout SurfaceOutputStandard o)
