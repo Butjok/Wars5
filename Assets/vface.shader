@@ -6,10 +6,11 @@ Shader "Vface"
         }
     SubShader
     {
+        Tags { "RenderType"="Opaque" }
         Cull Off
         CGPROGRAM
         #pragma target 5.0
-        #pragma surface SurfaceShader Standard
+        #pragma surface SurfaceShader Standard fullforwardshadows
 
         sampler2D _MainTex;
      
