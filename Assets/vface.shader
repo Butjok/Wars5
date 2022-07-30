@@ -7,7 +7,7 @@ Shader "Vface"
     SubShader
     {
         Tags { "RenderType"="Opaque" }
-        Cull Off
+        //Cull Off
         CGPROGRAM
         #pragma target 5.0
         #pragma surface SurfaceShader Standard fullforwardshadows
@@ -16,7 +16,7 @@ Shader "Vface"
      
         struct Input
         {
-            float IsFacing:VFACE;
+            //float IsFacing:VFACE;
             float2 uv_MainTex;
         };
  
@@ -25,6 +25,7 @@ Shader "Vface"
             float4 color = tex2D(_MainTex, i.uv_MainTex);//(i.IsFacing>0) ? float4(1,0,0,1) : float4(0,0,1,1);
             o.Albedo = color.rgb;
             o.Alpha = color.a;
+            o.Emission = color.rgb/2;
         }
  
         ENDCG
