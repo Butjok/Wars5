@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [CreateAssetMenu(menuName = nameof(Foliage))]
 public class Foliage : ScriptableObject {
 
 	[Serializable]
-	public struct Entry {
+	public struct Type {
 		public Mesh mesh;
 		public Matrix4x4[] transforms;
 		public Material[] materials;
@@ -15,7 +16,7 @@ public class Foliage : ScriptableObject {
 	public const string prefix = "foliage:";
 
 	public Transform transform;
-	public List<Entry> entries = new();
+	[FormerlySerializedAs("entries")] public List<Type> types = new();
 
 	[ContextMenu(nameof(Initialize))]
 	public void Initialize() {
@@ -26,9 +27,9 @@ public class Foliage : ScriptableObject {
 		var result = new Dictionary<Mesh, List<Matrix4x4>>();
 		Initialize(transform, result);
 		
-		entries.Clear();
+		types.Clear();
 		foreach (var (mesh, list) in result)
-			entries.Add(new Entry{mesh=mesh,transforms=list.ToArray()});
+			types.Add(new Type{mesh=mesh,transforms=list.ToArray()});
 	}
 
 	public void Initialize(Transform transform, Dictionary<Mesh, List<Matrix4x4>> result) {

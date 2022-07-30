@@ -72,7 +72,7 @@ Shader "Custom/water"
             // Metallic and smoothness come from slider variables
             o.Metallic = _Metallic;
             o.Smoothness = _Glossiness;
-            o.Alpha = lerp(.5,.99,smoothstep(0, .5, distance));
+            o.Alpha = lerp(.75,.99,smoothstep(0, .5, distance));
         }
         ENDCG
     }

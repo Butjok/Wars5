@@ -1,43 +1,45 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Butjok.CommandLine;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Rendering.PostProcessing;
+using UnityEngine.SceneManagement;
 
 public class NewBehaviourScript : MonoBehaviour {
 
 	public Unit unit;
 	public Level level;
+	public Game game;
 
 	private void OnEnable() {
 
 		//create
 		//var unit = new Unit(this.level, new Player());
-		
+
 		//load settings
-		
+
 
 		var settings = new PlayerSettings {
 			motionBlurShutterAngle = 270,
 			bloom = true,
 			antiAliasing = PostProcessLayer.Antialiasing.TemporalAntialiasing,
-			
+
 		};
 
 		WarsPostProcess.Setup(settings, Camera.main ? Camera.main.GetComponent<PostProcessLayer>() : null);
 
-		var game = new Game();
+		game = new Game();
 
-		var level = new Level(game);
+		level = new Level(game);
 		level.turn = 0;
 		level.script = new Tutorial(level);
 
 		game.State = level;
-		
-		
+
 
 		/*Debug.Log(string.Join("\n",SaveDataManager.Names));
 		SaveDataManager.Save("Hello", new SaveData {
@@ -74,6 +76,18 @@ public class NewBehaviourScript : MonoBehaviour {
 	private void OnDisable() {
 		unit?.Dispose();
 		level?.Dispose();
+	}
+
+	[Command]
+	public void Save(string name) {
+		var saveData = new SaveData {
+			name = name,
+			sceneName = SceneManager.GetActiveScene().name,
+			dateTime = DateTime.UtcNow,
+			Level = new SerializedLevel(level)
+		};
+		SaveDataManager.Save(name,saveData);
+		Debug.Log(saveData.json);
 	}
 
 
