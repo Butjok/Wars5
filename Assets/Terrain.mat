@@ -24,6 +24,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _DarkGreen:
+        m_Texture: {fileID: 2800000, guid: 4bd12a7a8a59b2e42842a63bd38d0c45, type: 3}
+        m_Scale: {x: 3, y: 3}
+        m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -41,8 +45,16 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Grass:
-        m_Texture: {fileID: 2800000, guid: 511f7a87ec936024896e24a4dc3f4fe2, type: 3}
-        m_Scale: {x: 1, y: 1}
+        m_Texture: {fileID: 2800000, guid: 2afb6217bddfa9d439cb646d9b12e80b, type: 3}
+        m_Scale: {x: 2, y: 2}
+        m_Offset: {x: 0, y: 0}
+    - _GrassTint:
+        m_Texture: {fileID: 2800000, guid: 3aa3e9e74885c6e47969d1962a1cca76, type: 3}
+        m_Scale: {x: 0.5, y: 0.5}
+        m_Offset: {x: 0, y: 0}
+    - _GrassTinted:
+        m_Texture: {fileID: 2800000, guid: 44bfa90146312744aa5e91a1ce79974d, type: 3}
+        m_Scale: {x: 2, y: 2}
         m_Offset: {x: 0, y: 0}
     - _Grid:
         m_Texture: {fileID: 2800000, guid: 5d638f8ea10f2e344a190501cfff58df, type: 3}
@@ -56,13 +68,41 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Normal:
+        m_Texture: {fileID: 2800000, guid: cc7136c99357fbb459725bd49e118938, type: 3}
+        m_Scale: {x: 0.2, y: 0.2}
+        m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Ocean:
+        m_Texture: {fileID: 2800000, guid: 7ea6ebc57ab053a49a8a93f8be9f490d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OceanMask:
+        m_Texture: {fileID: 2800000, guid: 0fc144f5b2d79b841b76ecc0eccefea9, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Splat:
+        m_Texture: {fileID: 2800000, guid: aa65c5a3d30b6d14192ae1954c52cccf, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Wheat:
+        m_Texture: {fileID: 2800000, guid: 6657d789556e3174ca2504efb6fc0102, type: 3}
+        m_Scale: {x: 1.5, y: 1.5}
+        m_Offset: {x: 0, y: 0}
+    - _WheatTinted:
+        m_Texture: {fileID: 2800000, guid: c8ecd265236438046b965eaf00a9fa41, type: 3}
+        m_Scale: {x: 1.5, y: 1.5}
+        m_Offset: {x: 0, y: 0}
+    - _YellowGrass:
+        m_Texture: {fileID: 2800000, guid: 44b63677cac60d642a49b0e6f816dc6a, type: 3}
+        m_Scale: {x: 0.5, y: 0.5}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
@@ -71,7 +111,7 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _GlossMapScale: 1
-    - _Glossiness: 0.5
+    - _Glossiness: 0
     - _GlossyReflections: 1
     - _K: 5
     - _Metallic: 0

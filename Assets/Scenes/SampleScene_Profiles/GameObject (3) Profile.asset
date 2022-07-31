@@ -82,11 +82,11 @@ MonoBehaviour:
     overrideState: 1
     value: 1
   gradingMode:
-    overrideState: 0
+    overrideState: 1
     value: 1
   externalLut:
-    overrideState: 0
-    value: {fileID: 0}
+    overrideState: 1
+    value: {fileID: 2800000, guid: 2c71d5aaec3190f43b9b6e37e770cedb, type: 3}
     defaultState: 1
   tonemapper:
     overrideState: 1
@@ -96,22 +96,22 @@ MonoBehaviour:
     value: 0
   toneCurveToeLength:
     overrideState: 0
-    value: 0.5
+    value: 0
   toneCurveShoulderStrength:
     overrideState: 0
-    value: 0
+    value: 1
   toneCurveShoulderLength:
     overrideState: 0
-    value: 0.5
+    value: 1.64
   toneCurveShoulderAngle:
     overrideState: 0
-    value: 0
+    value: 0.23
   toneCurveGamma:
     overrideState: 0
-    value: 1
+    value: 0.96
   ldrLut:
-    overrideState: 0
-    value: {fileID: 0}
+    overrideState: 1
+    value: {fileID: 2800000, guid: 2c71d5aaec3190f43b9b6e37e770cedb, type: 3}
     defaultState: 4
   ldrLutContribution:
     overrideState: 0
@@ -130,13 +130,13 @@ MonoBehaviour:
     value: 0
   saturation:
     overrideState: 0
-    value: 0
+    value: -2.5
   brightness:
     overrideState: 0
     value: 0
   postExposure:
-    overrideState: 1
-    value: 0.25
+    overrideState: 0
+    value: -0.26
   contrast:
     overrideState: 0
     value: 0
@@ -160,22 +160,22 @@ MonoBehaviour:
     value: 0
   mixerBlueOutRedIn:
     overrideState: 0
-    value: 0
+    value: 1.91
   mixerBlueOutGreenIn:
     overrideState: 0
-    value: 0
+    value: 3.12
   mixerBlueOutBlueIn:
     overrideState: 0
     value: 100
   lift:
     overrideState: 0
-    value: {x: 1, y: 1, z: 1, w: 0}
+    value: {x: 1, y: 1, z: 1, w: -0.1636661}
   gamma:
     overrideState: 0
-    value: {x: 1, y: 1, z: 1, w: 0}
+    value: {x: 1, y: 1, z: 1, w: 0.03273322}
   gain:
     overrideState: 0
-    value: {x: 1, y: 1, z: 1, w: 0}
+    value: {x: 1, y: 1, z: 1, w: 0.37806866}
   masterCurve:
     overrideState: 0
     value:

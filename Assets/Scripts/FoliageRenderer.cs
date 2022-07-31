@@ -1,5 +1,6 @@
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 [ExecuteInEditMode]
 public class FoliageRenderer : MonoBehaviour {
@@ -10,8 +11,10 @@ public class FoliageRenderer : MonoBehaviour {
 			return;
 		foreach (var entry in foliage.types)
 			for (var i = 0; i < entry.mesh.subMeshCount; i++)
-			for (var skip = 0; skip < entry.transforms.Length; skip += batch)
+			for (var skip = 0; skip < entry.transforms.Length; skip += batch) {
+				var matrix4X4s = entry.transforms.Skip(skip).Take(Mathf.Min(batch, entry.transforms.Length - skip)).ToList();
 				Graphics.DrawMeshInstanced(entry.mesh, i, entry.materials[i],
-					entry.transforms.Skip(skip).Take(Mathf.Min(batch, entry.transforms.Length - skip)).ToArray());
+					matrix4X4s);
+			}
 	}
 }

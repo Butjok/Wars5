@@ -13,7 +13,9 @@ public class UiFollow : MonoBehaviour {
 			Assert.IsTrue(camera);
 		}
 		var position = camera.WorldToScreenPoint(target.position);
-			//position.y = Screen.height - position.y;
-		transform.position = position;
+		if (position.z < 0)
+			transform.position = Vector3.one*float.MaxValue;
+		else
+			transform.position = position;
 	}
 }

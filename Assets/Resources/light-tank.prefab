@@ -369,7 +369,7 @@ MonoBehaviour:
   placeOnTerrain: 1
   spinAngle: 0
   scale: {x: 5, y: 5}
-  amplitude: 0.01
+  amplitude: 0
 --- !u!114 &9102701130869312526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -957,7 +957,7 @@ MonoBehaviour:
   placeOnTerrain: 1
   spinAngle: 0
   scale: {x: 5, y: 5}
-  amplitude: 0.01
+  amplitude: 0
 --- !u!114 &9102701130370694791
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -990,7 +990,7 @@ MonoBehaviour:
   force: 250
   drag: 6
   constantForce: 0
-  velocity: -1.12953015e-29
+  velocity: -1.8223213e-33
   position: {x: -2.2513077, y: 2.6143746, z: 2.558672}
 --- !u!114 &9102701130370694845
 MonoBehaviour:
@@ -1132,7 +1132,7 @@ MonoBehaviour:
   placeOnTerrain: 1
   spinAngle: 0
   scale: {x: 5, y: 5}
-  amplitude: 0.01
+  amplitude: 0
 --- !u!114 &9102701130222910141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1165,7 +1165,7 @@ MonoBehaviour:
   force: 250
   drag: 6
   constantForce: 0
-  velocity: -1.12953015e-29
+  velocity: -1.8223213e-33
   position: {x: -2.3684928, y: 2.6143746, z: 2.558672}
 --- !u!114 &9102701130222910131
 MonoBehaviour:
@@ -1943,7 +1943,7 @@ MonoBehaviour:
   placeOnTerrain: 1
   spinAngle: 0
   scale: {x: 5, y: 5}
-  amplitude: 0.01
+  amplitude: 0
 --- !u!114 &9102701129804593485
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1976,7 +1976,7 @@ MonoBehaviour:
   force: 250
   drag: 6
   constantForce: 0
-  velocity: 5.6476508e-30
+  velocity: 9.111607e-34
   position: {x: -1.9025419, y: 2.6143746, z: 2.9624946}
 --- !u!114 &9102701129804593475
 MonoBehaviour:
@@ -2261,7 +2261,7 @@ MonoBehaviour:
   placeOnTerrain: 1
   spinAngle: 0
   scale: {x: 5, y: 5}
-  amplitude: 0.01
+  amplitude: 0
 --- !u!114 &9102701130077438540
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2294,7 +2294,7 @@ MonoBehaviour:
   force: 250
   drag: 6
   constantForce: 0
-  velocity: -6.7325243e-37
+  velocity: -1.08619e-40
   position: {x: -2.251307, y: 2.6143746, z: 2.9624946}
 --- !u!114 &9102701130077438530
 MonoBehaviour:
@@ -2564,7 +2564,7 @@ MonoBehaviour:
   placeOnTerrain: 1
   spinAngle: 0
   scale: {x: 5, y: 5}
-  amplitude: 0.01
+  amplitude: 0
 --- !u!114 &9102701130318977676
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2597,7 +2597,7 @@ MonoBehaviour:
   force: 250
   drag: 6
   constantForce: 0
-  velocity: -6.7325243e-37
+  velocity: -1.08619e-40
   position: {x: -2.3684921, y: 2.6143746, z: 2.9624946}
 --- !u!114 &9102701130318977666
 MonoBehaviour:
@@ -3283,7 +3283,7 @@ MonoBehaviour:
   placeOnTerrain: 1
   spinAngle: 0
   scale: {x: 5, y: 5}
-  amplitude: 0.01
+  amplitude: 0
 --- !u!114 &9102701129692199432
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3316,7 +3316,7 @@ MonoBehaviour:
   force: 250
   drag: 6
   constantForce: 0
-  velocity: -1.12953015e-29
+  velocity: -1.8223213e-33
   position: {x: -2.13492, y: 2.6143746, z: 2.558672}
 --- !u!114 &9102701129692199438
 MonoBehaviour:
@@ -3489,7 +3489,7 @@ MonoBehaviour:
   placeOnTerrain: 1
   spinAngle: 0
   scale: {x: 5, y: 5}
-  amplitude: 0.01
+  amplitude: 0
 --- !u!114 &9102701130387827163
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3522,7 +3522,7 @@ MonoBehaviour:
   force: 250
   drag: 6
   constantForce: 0
-  velocity: 6.7325243e-37
+  velocity: 1.08619e-40
   position: {x: -1.9025426, y: 2.6143746, z: 2.5586717}
 --- !u!114 &9102701130387827153
 MonoBehaviour:
@@ -3664,7 +3664,7 @@ MonoBehaviour:
   placeOnTerrain: 1
   spinAngle: 0
   scale: {x: 5, y: 5}
-  amplitude: 0.01
+  amplitude: 0
 --- !u!114 &9102701131156210672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3697,7 +3697,7 @@ MonoBehaviour:
   force: 250
   drag: 6
   constantForce: 0
-  velocity: 1.12953015e-29
+  velocity: 1.8223213e-33
   position: {x: -2.0189297, y: 2.6143746, z: 2.9624946}
 --- !u!114 &9102701131156210678
 MonoBehaviour:
@@ -3839,7 +3839,7 @@ MonoBehaviour:
   placeOnTerrain: 1
   spinAngle: 0
   scale: {x: 5, y: 5}
-  amplitude: 0.01
+  amplitude: 0
 --- !u!114 &9102701130401598988
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3872,7 +3872,7 @@ MonoBehaviour:
   force: 250
   drag: 6
   constantForce: 0
-  velocity: 6.7325243e-37
+  velocity: 1.08619e-40
   position: {x: -2.0189304, y: 2.6143746, z: 2.5586717}
 --- !u!114 &9102701130401598978
 MonoBehaviour:
