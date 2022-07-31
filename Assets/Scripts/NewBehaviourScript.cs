@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Butjok.CommandLine;
 using Newtonsoft.Json;
@@ -39,6 +40,10 @@ public class NewBehaviourScript : MonoBehaviour {
 		level.script = new Tutorial(level);
 
 		game.State = level;
+		
+		
+		
+		
 
 
 		/*Debug.Log(string.Join("\n",SaveDataManager.Names));
@@ -67,7 +72,11 @@ public class NewBehaviourScript : MonoBehaviour {
 		for (var x = -10; x < 10; x++)
 			level.tiles.Add(new Vector2Int(x, y), TileType.Plain);
 
+		Write(new SerializedLevel(level).ToJson());
+		
 		level.State = new SelectionState(level);
+		
+		
 
 		/*var ser = new SerializedLevel(level);
 		Debug.Log(ser.ToJson());
@@ -76,6 +85,11 @@ public class NewBehaviourScript : MonoBehaviour {
 	private void OnDisable() {
 		unit?.Dispose();
 		level?.Dispose();
+	}
+
+	public void Write(string text, string relativePath = "Out.json") {
+		var path = Path.Combine(Application.dataPath, relativePath);
+		File.WriteAllText(path,text);
 	}
 
 	[Command]

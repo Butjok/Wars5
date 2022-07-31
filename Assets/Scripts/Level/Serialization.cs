@@ -7,11 +7,11 @@ public struct Int2 {
 	public override string ToString() {
 		return $"({x}, {y})";
 	}
-}
-
-public static class SerializationUtils {
-	public static Int2 ToInt2(this Vector2Int vector) {
-		return new Int2 { x = vector.x, y = vector.y };
+	public static implicit operator Vector2Int(Int2 int2) {
+		return new Vector2Int(int2.x, int2.y);
+	}
+	public static implicit operator Int2(Vector2Int vector2Int) {
+		return new Int2 { x=vector2Int.x,y=vector2Int.y};
 	}
 }
 
@@ -73,7 +73,7 @@ public class SerializedUnit {
 		playerId = id[unit.player];
 		if (unit.view && unit.view.prefab)
 			viewPrefabName = unit.view.prefab.name;
-		position = unit.position.v?.ToInt2();
+		position = unit.position.v;
 		moved = unit.moved.v;
 		hp = unit.hp.v;
 		fuel = unit.fuel.v;
@@ -98,7 +98,7 @@ public class SerializedBuilding {
 	public SerializedBuilding(Building building, IdCollection id) {
 		this.id = id[building];
 		type = building.type;
-		position = building.position.ToInt2();
+		position = building.position;
 		playerId = id[building.player];
 		cp = building.cp;
 	}
@@ -114,7 +114,7 @@ public struct SerializedTile {
 	public TileType type;
 
 	public SerializedTile(Vector2Int position, TileType type) {
-		this.position = position.ToInt2();
+		this.position = position;
 		this.type = type;
 	}
 
