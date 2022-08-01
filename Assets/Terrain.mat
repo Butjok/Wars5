@@ -26,7 +26,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _DarkGreen:
         m_Texture: {fileID: 2800000, guid: 4bd12a7a8a59b2e42842a63bd38d0c45, type: 3}
-        m_Scale: {x: 3, y: 3}
+        m_Scale: {x: 2, y: 2}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
         m_Texture: {fileID: 0}
@@ -94,11 +94,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _Wheat:
         m_Texture: {fileID: 2800000, guid: 6657d789556e3174ca2504efb6fc0102, type: 3}
-        m_Scale: {x: 1.5, y: 1.5}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _WheatTinted:
-        m_Texture: {fileID: 2800000, guid: c8ecd265236438046b965eaf00a9fa41, type: 3}
-        m_Scale: {x: 1.5, y: 1.5}
+        m_Texture: {fileID: 2800000, guid: 6657d789556e3174ca2504efb6fc0102, type: 3}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _YellowGrass:
         m_Texture: {fileID: 2800000, guid: 44b63677cac60d642a49b0e6f816dc6a, type: 3}
@@ -130,5 +130,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _DarkGreenTint: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _WheatTint: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

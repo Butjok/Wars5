@@ -318,7 +318,7 @@ float smax2(float a, float b, float k)
             o.Emission*= radius;
 
             float3 normal = UnpackNormal( tex2D (_Normal, TRANSFORM_TEX(position, _Normal) ));
-            normal = sign(normal) * pow(abs(normal),.75);
+            //normal = sign(normal) * pow(abs(normal),.75);
             o.Normal = normal;
         }
         ENDCG

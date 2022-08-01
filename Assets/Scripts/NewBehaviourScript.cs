@@ -27,7 +27,7 @@ public class NewBehaviourScript : MonoBehaviour {
 		var settings = new PlayerSettings {
 			motionBlurShutterAngle = null,
 			bloom = true,
-			antiAliasing = PostProcessLayer.Antialiasing.None,
+			antiAliasing = PostProcessLayer.Antialiasing.TemporalAntialiasing,
 
 		};
 
