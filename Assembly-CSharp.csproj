@@ -79,6 +79,7 @@
      <Compile Include="Assets\Scripts\Level\LayerMasks.cs" />
      <Compile Include="Assets\Priority Queue\IPriorityQueue.cs" />
      <Compile Include="Assets\Scripts\Faction.cs" />
+     <Compile Include="Assets\Scripts\DifferenceEffect.cs" />
      <Compile Include="Assets\Scripts\FoliageRenderer.cs" />
      <Compile Include="Assets\Scripts\Animation\BallisticCurve.cs" />
      <Compile Include="Assets\Scripts\LevelScript\Tutorial.cs" />
@@ -136,6 +137,7 @@
      <Compile Include="Assets\Scripts\LevelState\UnitMovementAnimationState.cs" />
      <Compile Include="Assets\Scripts\CircleTest.cs" />
      <Compile Include="Assets\Scripts\Building.cs" />
+     <Compile Include="Assets\Scripts\InputViewer.cs" />
      <Compile Include="Assets\Scripts\BattleView.cs" />
      <Compile Include="Assets\Scripts\LevelState\PathSelectionState.cs" />
      <Compile Include="Assets\Scripts\Level\UnitActionView.cs" />
@@ -145,8 +147,6 @@
      <Compile Include="Assets\Scripts\Animation\LookAt.cs" />
      <Compile Include="Assets\Scripts\Animation\PistonBody.cs" />
      <Compile Include="Assets\Scripts\StateMachine\State.cs" />
-     <Compile Include="Assets\Scripts\InputViewer.cs" />
-     <Compile Include="Assets\Scripts\DifferenceEffect.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
@@ -168,6 +168,7 @@
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
      <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
+     <None Include="Assets\Dithered.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
      <None Include="Assets\Out.json" />
      <None Include="Assets\Trajectory.shader" />
