@@ -36,12 +36,7 @@ public static class WarsPostProcess {
 
 		var ambientOcclusion = postProcessProfile.GetSetting<AmbientOcclusion>();
 		if (ambientOcclusion) {
-			if (playerSettings.ambientOcclusionMode is { } ambientOcclusionMode) {
-				ambientOcclusion.enabled.value = true;
-				ambientOcclusion.mode.value = ambientOcclusionMode;
-			}
-			else
-				ambientOcclusion.enabled.value = false;
+			ambientOcclusion.enabled.value = playerSettings.ambientOcclusion;
 		}
 	}
 }

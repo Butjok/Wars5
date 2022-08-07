@@ -13,7 +13,7 @@ public class PlayerSettings {
 	public bool bloom = true;
 	public ScreenSpaceReflectionPreset? screenSpaceReflectionPreset = ScreenSpaceReflectionPreset.Overkill;
 	public float screenSpaceReflectionMaximumMarchDistance = 5;
-	public AmbientOcclusionMode? ambientOcclusionMode = AmbientOcclusionMode.MultiScaleVolumetricObscurance;
+	public bool ambientOcclusion;
 }
 
 public static class PlayerSettingsManager {
