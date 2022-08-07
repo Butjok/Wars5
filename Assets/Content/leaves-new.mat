@@ -74,11 +74,19 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SSS:
-        m_Texture: {fileID: 2800000, guid: e55cffe360a15004290150cf6f754b65, type: 3}
+        m_Texture: {fileID: 2800000, guid: 221c7a3ea289e96439eabd1274e947d4, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Tint:
         m_Texture: {fileID: 2800000, guid: 4ab349e9e4662454baba72da2718e531, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _WithSSS:
+        m_Texture: {fileID: 2800000, guid: e58a978def2d7d449833513a81cd3a00, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _WithoutSSS:
+        m_Texture: {fileID: 2800000, guid: 10b58cd9e353cda4ea55f495caa76eec, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
@@ -94,7 +102,7 @@ Material:
     - _Mode: 1
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _SSSIntensity: 10
+    - _SSSIntensity: 0.5
     - _SSSPower: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
