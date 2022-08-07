@@ -15,12 +15,12 @@ Shader "Custom/water"
     {
         Tags { "Queue"="Transparent" "RenderType"="Transparent"  "ForceNoShadowCasting" = "True" }
         ZWrite Off
-        //Blend DstColor Zero
+        Blend SrcAlpha OneMinusSrcAlpha
         LOD 200
 
         CGPROGRAM
         // Physically based Standard lighting model, and enable shadows on all light types
-        #pragma surface surf Standard   vertex:vert  
+        #pragma surface surf Standard   vertex:vert  alpha:fade
 
         // Use shader model 3.0 target, to get nicer looking lighting
         #pragma target 5.0
@@ -69,7 +69,7 @@ Shader "Custom/water"
         {
             half distance =tex2D (_MainTex, IN.uv_MainTex).r;
             half wave=sin(distance*_Scale + _Speed*_Time.y)/2+.5;
-            half wavesMask = smoothstep(.5, .0, distance);
+            half wavesMask = smoothstep(.75, .0, distance);
             float2 position = IN.worldPos.xz;
             
             // Albedo comes from a texture tinted by color
@@ -78,11 +78,12 @@ Shader "Custom/water"
             o.Albedo = _Color;// normal.rgb;// wavesMask*wave*wavesMask*wave;// wavesMask*wave;
             
             o.Normal = normalize(normal+normal2);
-            o.Normal = normalize(lerp(float3(0,0,1), normal+normal2, lerp(.1,1,wavesMask)));
+            o.Normal = normalize(lerp(float3(0,0,1), normal+normal2, lerp(.0125,.15,wavesMask)));
+            //o.Normal = float3(0,0,1);
             // Metallic and smoothness come from slider variables
             o.Metallic = _Metallic;
             o.Smoothness = _Glossiness;
-            o.Alpha = _Alpha;//.5;//lerp(.8,.99,smoothstep(0, .5, distance));
+            o.Alpha = lerp(.8,.99,smoothstep(0, .5, distance));
         }
         ENDCG
     }

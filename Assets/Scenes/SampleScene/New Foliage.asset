@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: New Foliage
   m_EditorClassIdentifier: 
   transform: {fileID: -8679921383154817045, guid: d8f231dc0857da04c9469c01aceb8b1d, type: 3}
-  entries:
+  types:
   - mesh: {fileID: 1487975197362214893, guid: b13abe9e83a262447b40d952e57e2633, type: 3}
     transforms:
     - e00: -0.61010766
@@ -14500,7 +14500,7 @@ MonoBehaviour:
     - {fileID: 2100000, guid: 0d697c90bc21f9647846fc4f8524f0ce, type: 2}
     - {fileID: 2100000, guid: 158c58425bdad084db9cde0d5870d7fc, type: 2}
     - {fileID: 2100000, guid: 158c58425bdad084db9cde0d5870d7fc, type: 2}
-  - mesh: {fileID: -579045738871717245, guid: bea72ffcf2955f74eb7154a17b0c9665, type: 3}
+  - mesh: {fileID: 1835069493185560604, guid: ca3817df9975b524082c74d2c85f8c24, type: 3}
     transforms:
     - e00: -0.58520377
       e01: -0.71742314
@@ -16903,5 +16903,5 @@ MonoBehaviour:
       e32: 0
       e33: 1
     materials:
+    - {fileID: 2100000, guid: 12b9323d1399c224988368143a93dd21, type: 2}
     - {fileID: 2100000, guid: 3786e4e22f27319408e2281d8410baa6, type: 2}
-    - {fileID: 2100000, guid: 2ef1820870dc6e644901a39ebe29b4ba, type: 2}
