@@ -15,12 +15,12 @@ Shader "Custom/water"
     {
         Tags { "Queue"="Transparent" "RenderType"="Transparent"  "ForceNoShadowCasting" = "True" }
         ZWrite Off
-        Blend SrcAlpha OneMinusSrcAlpha
+        Blend One One
         LOD 200
 
         CGPROGRAM
         // Physically based Standard lighting model, and enable shadows on all light types
-        #pragma surface surf Standard   vertex:vert  alpha:fade
+        #pragma surface surf Standard   vertex:vert  alpha
 
         // Use shader model 3.0 target, to get nicer looking lighting
         #pragma target 5.0
@@ -58,8 +58,8 @@ Shader "Custom/water"
         
         void vert(inout appdata_full data){
             half distance =tex2Dlod (_MainTex,  float4(data.texcoord.xy, 0.0, 0.0)).r;
-            half wave = min ( sin(distance*_Scale + _Speed*_Time.y + data.vertex.x*5 + data.vertex.z*5),
-                              sin(distance*_Scale + _Speed*_Time.y + data.vertex.x*5 + data.vertex.z*5 + 3.1415) );
+            half wave = min ( sin(distance*_Scale + _Speed*_Time.y/* + data.vertex.x*5 + data.vertex.z*5*/),
+                              sin(distance*_Scale + _Speed*_Time.y/* + data.vertex.x*5 + data.vertex.z*5*/ + 3.1415) );
             half wavesMask = smoothstep(.5, .0, distance);
             data.vertex.y += wavesMask*wave*.0025;
                                           
@@ -73,17 +73,31 @@ Shader "Custom/water"
             float2 position = IN.worldPos.xz;
             
             // Albedo comes from a texture tinted by color
-            fixed3 normal = UnpackNormal( tex2D (_Normal, TRANSFORM_TEX((position + float2(_Time.x*2.5, 0)),_Normal)));
-            fixed3 normal2 = UnpackNormal( tex2D (_Normal, TRANSFORM_TEX((position - float2(0, _Time.x*5)),_Normal)));
+            fixed3 normal3 = UnpackNormal( tex2D (_Normal, TRANSFORM_TEX((position/10 + float2(_Time.x*.25, _Time.x*.25)),_Normal)));
+            fixed3 normal = UnpackNormal( tex2D (_Normal, TRANSFORM_TEX((position + float2(_Time.x*4, 0)),_Normal)));
+            fixed3 normal2 = UnpackNormal( tex2D (_Normal, TRANSFORM_TEX((position - float2(0, _Time.x*7)),_Normal)));
             o.Albedo = _Color;// normal.rgb;// wavesMask*wave*wavesMask*wave;// wavesMask*wave;
+
+            half wave2 = min ( sin(distance*_Scale + _Speed*_Time.y),
+                              sin(distance*_Scale + _Speed*_Time.y + 3.1415) )+1;
+
+           // float3 ddxPos = ddx(wave2);
+           //float3 ddyPos = ddy(wave2)  * _ProjectionParams.x;
+           //float3 normal3 = normalize( cross(ddxPos, ddyPos));
+            
+            //o.Albedo=normal3;
+
+float3 targetNormal = normal3 + normal + normal2;
             
             o.Normal = normalize(normal+normal2);
-            o.Normal = normalize(lerp(float3(0,0,1), normal+normal2, lerp(.0125,.15,wavesMask)));
+            o.Normal = normalize(lerp(float3(0,0,1), targetNormal, lerp(.05,1,wavesMask)));
+            //o.Normal = targetNormal;
             //o.Normal = float3(0,0,1);
             // Metallic and smoothness come from slider variables
             o.Metallic = _Metallic;
             o.Smoothness = _Glossiness;
-            o.Alpha = lerp(.8,.99,smoothstep(0, .5, distance));
+            o.Alpha=1;
+            o.Alpha = lerp(.75,.9,smoothstep(0, .5, distance));
         }
         ENDCG
     }

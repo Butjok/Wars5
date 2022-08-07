@@ -28,7 +28,7 @@ public class NewBehaviourScript : MonoBehaviour {
 			motionBlurShutterAngle = null,
 			bloom = true,
 			antiAliasing = PostProcessLayer.Antialiasing.TemporalAntialiasing,
-
+			ambientOcclusionMode = AmbientOcclusionMode.ScalableAmbientObscurance
 		};
 
 		WarsPostProcess.Setup(settings, Camera.main ? Camera.main.GetComponent<PostProcessLayer>() : null);
