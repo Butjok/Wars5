@@ -92,11 +92,11 @@ Shader "Custom/water"
 
 float3 targetNormal = normal3 + normal + normal2;
             
-            o.Normal = normalize(normal+normal2);
+            //o.Normal = normalize(normal+normal2);
 
         // targetNormal = normal ;
             
-            o.Normal = normalize(lerp(float3(0,0,1), targetNormal, lerp(.05,1,wavesMask)));
+            //o.Normal = normalize(lerp(float3(0,0,1), targetNormal, lerp(.05,1,wavesMask)));
             //o.Normal = targetNormal;
             //o.Normal = float3(0,0,1);
             // Metallic and smoothness come from slider variables
@@ -107,7 +107,7 @@ float3 targetNormal = normal3 + normal + normal2;
             o.Alpha=_Color.a;
 o.Albedo=0;
             float3 backgroundColor = tex2D(_WaterBackground, IN.screenPos.xy / IN.screenPos.w).rgb;
-            o.Emission=backgroundColor*_Color.rgb;
+            //o.Emission=backgroundColor*_Color.rgb;
         }
         ENDCG
     }
