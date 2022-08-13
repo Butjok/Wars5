@@ -96,7 +96,7 @@ Material:
     - _ModulatedHeightScale: 1
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _RefractionStrength: 0.45
+    - _RefractionStrength: 0.02
     - _Scale: 64.04
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -107,7 +107,7 @@ Material:
     - _UJump: 0
     - _UVSec: 0
     - _VJump: 0
-    - _WaterFogDensity: 0.83
+    - _WaterFogDensity: 1.2
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 0.3137255, g: 0.63529414, b: 1, a: 0}

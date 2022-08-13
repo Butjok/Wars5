@@ -971,7 +971,7 @@ Light:
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
-  m_CookieSize: 30
+  m_CookieSize: 50
   m_Shadows:
     m_Type: 2
     m_Resolution: 3
@@ -2826,7 +2826,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 0.86821705, y: 1}
+    m_SensorSize: {x: 1.7700258, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
