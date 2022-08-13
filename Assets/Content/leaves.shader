@@ -48,6 +48,19 @@ Shader "Custom/leaves"
                 // put more per-instance properties here
             UNITY_INSTANCING_BUFFER_END(Props)
 
+half3 HueShift ( half3 Color, in float Shift)
+        {
+            half3 P = half3(0.55735,0.55735,0.55735)*dot(half3(0.55735,0.55735,0.55735),Color);
+            
+            half3 U = Color-P;
+            
+            half3 V = cross(half3(0.55735,0.55735,0.55735),U);    
+
+            Color = U*cos(Shift*6.2832) + V*sin(Shift*6.2832) + P;
+            
+            return Color;
+        }
+            
             void surf (Input IN, inout SurfaceOutputStandard o)
             {
                 
@@ -81,7 +94,9 @@ Shader "Custom/leaves"
                 
 
                 o.Normal = UnpackNormal(tex2D (_Normal, IN.uv_MainTex));
-                
+
+                o.Albedo=HueShift(o.Albedo,-.01);
+                o.Emission=HueShift(o.Emission,-.01);
             }
             ENDCG
     }

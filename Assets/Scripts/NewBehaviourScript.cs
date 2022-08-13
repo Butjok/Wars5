@@ -31,7 +31,7 @@ public class NewBehaviourScript : MonoBehaviour {
 			ambientOcclusion=true
 		};
 
-		WarsPostProcess.Setup(settings, Camera.main ? Camera.main.GetComponent<PostProcessLayer>() : null);
+		//WarsPostProcess.Setup(settings, Camera.main ? Camera.main.GetComponent<PostProcessLayer>() : null);
 
 		game = new Game();
 
