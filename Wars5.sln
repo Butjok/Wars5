@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests.csproj", "{82573eb8-7672-d608-9b2b-a3a1aa95ad78}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmplifyShaderEditor", "AmplifyShaderEditor.csproj", "{70d07a1c-98c4-cb1c-9422-385e47a23781}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,6 +28,8 @@ Global
 		{37670a31-de6e-981a-6cd3-e9b74a573a47}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{82573eb8-7672-d608-9b2b-a3a1aa95ad78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{82573eb8-7672-d608-9b2b-a3a1aa95ad78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70d07a1c-98c4-cb1c-9422-385e47a23781}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70d07a1c-98c4-cb1c-9422-385e47a23781}.Debug|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

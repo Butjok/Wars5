@@ -13,10 +13,12 @@ Shader "Custom/water"
     }
     SubShader
     {
-        Tags { "Queue"="Transparent" "RenderType"="Transparent"  "ForceNoShadowCasting" = "True" }
+        Tags { "Queue"="Transparent" "RenderType"="Transparent" }
         ZWrite Off
-        Blend One One
+        
         LOD 200
+        
+        GrabPass { "_WaterBackground" }
 
         CGPROGRAM
         // Physically based Standard lighting model, and enable shadows on all light types
@@ -25,12 +27,13 @@ Shader "Custom/water"
         // Use shader model 3.0 target, to get nicer looking lighting
         #pragma target 5.0
 
-        sampler2D _MainTex,_Normal;
+        sampler2D _MainTex,_Normal,_WaterBackground;
 
         struct Input
         {
             float2 uv_MainTex;
             float3 worldPos;
+            float4 screenPos;
         };
 
         half _Glossiness,_Alpha;
@@ -90,6 +93,9 @@ Shader "Custom/water"
 float3 targetNormal = normal3 + normal + normal2;
             
             o.Normal = normalize(normal+normal2);
+
+        // targetNormal = normal ;
+            
             o.Normal = normalize(lerp(float3(0,0,1), targetNormal, lerp(.05,1,wavesMask)));
             //o.Normal = targetNormal;
             //o.Normal = float3(0,0,1);
@@ -97,9 +103,12 @@ float3 targetNormal = normal3 + normal + normal2;
             o.Metallic = _Metallic;
             o.Smoothness = _Glossiness;
             o.Alpha=1;
-            o.Alpha = lerp(.75,.9,smoothstep(0, .5, distance));
+            //o.Alpha = lerp(.75,.9,smoothstep(0, .5, distance));
+            o.Alpha=_Color.a;
+o.Albedo=0;
+            float3 backgroundColor = tex2D(_WaterBackground, IN.screenPos.xy / IN.screenPos.w).rgb;
+            o.Emission=backgroundColor*_Color.rgb;
         }
         ENDCG
     }
-    FallBack "Diffuse"
 }
