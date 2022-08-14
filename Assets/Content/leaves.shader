@@ -89,7 +89,7 @@ half3 HueShift ( half3 Color, in float Shift)
                 
                 // Metallic and smoothness come from slider variables
                 o.Metallic = 0;
-                o.Smoothness = lerp(.0, .425, pow(tex2D (_Occlusion, IN.uv_MainTex),.5)) * (globalOcclusion);
+                o.Smoothness =lerp(.0, .425, pow(tex2D (_Occlusion, IN.uv_MainTex),.5)) * (globalOcclusion);
                 //o.Alpha = c.a;
                 
 

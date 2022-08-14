@@ -25,6 +25,7 @@ Shader "Custom/Terrain"
     SubShader
     {
         Tags { "RenderType"="Opaque" "BW"="TrueProbes" }
+        Cull off
         LOD 200
 
         CGPROGRAM
@@ -262,6 +263,7 @@ float smax2(float a, float b, float k)
             
             half3 V = cross(half3(0.55735,0.55735,0.55735),U);    
 
+            return Color;
             Color = U*cos(Shift*6.2832) + V*sin(Shift*6.2832) + P;
             
             return Color;
@@ -331,8 +333,8 @@ o.Albedo= HueShift(o.Albedo,-.0125);
 
             //o.Albedo=float3(1,0,0);
             
-            o.Emission=border*10*o.Albedo+highlightIntensity*o.Albedo * tex2D (_Grid, position-.5) *7.5;
-            o.Emission*= radius;
+            //o.Emission=border*10*o.Albedo+highlightIntensity*o.Albedo * tex2D (_Grid, position-.5) *7.5;
+            //o.Emission*= radius;
 
             float3 normal = UnpackNormal( tex2D (_Normal, TRANSFORM_TEX(position, _Normal) ));
             //normal = sign(normal) * pow(abs(normal),.75);
@@ -340,6 +342,7 @@ o.Albedo= HueShift(o.Albedo,-.0125);
             normal=normalize(normal);
             o.Normal = normal;
 
+            //o.Albedo=splat;
             
         }
         ENDCG

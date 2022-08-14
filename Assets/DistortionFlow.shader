@@ -101,7 +101,7 @@
 			fixed4 texB = tex2D(_MainTex, uvwB.xy) * uvwB.z;
 
 			fixed4 c = (texA + texB) * _Color;
-			o.Albedo = 0;// c.rgb;
+			o.Albedo = c.rgb;
 			o.Metallic = _Metallic;
 			o.Smoothness = _Glossiness;
 			o.Alpha = c.a;
@@ -111,16 +111,16 @@
 			float2 position = IN.worldPos.xz;
             
             // Albedo comes from a texture tinted by color
-            fixed3 normal3 = UnpackNormal( tex2D (_Normal, TRANSFORM_TEX((position/25 + float2(_Time.x*.25, _Time.x*.25)),_Normal)));
-            fixed3 normal = UnpackNormal( tex2D (_Normal, TRANSFORM_TEX((position/2*2 + float2(_Time.x*3/2, 0)),_Normal)));
-            fixed3 normal2 = UnpackNormal( tex2D (_Normal, TRANSFORM_TEX((position*2 - float2(0, _Time.x*4.676/2)),_Normal)));
-			float3 targetNormal =BlendNormals(lerp(float3(0,0,1),normal,1), lerp(float3(0,0,1),normal2,.5));
+            fixed3 normal3 = UnpackNormal( tex2D (_Normal, TRANSFORM_TEX((position/10 + float2(_Time.x*.25, _Time.x*.25)),_Normal)));
+            fixed3 normal = UnpackNormal( tex2D (_Normal, TRANSFORM_TEX((position/2*2 + float2(_Time.x*3, 0)),_Normal)));
+            fixed3 normal2 = UnpackNormal( tex2D (_Normal, TRANSFORM_TEX((position*2 - float2(0, _Time.x*4.676)),_Normal)));
+			float3 targetNormal =BlendNormals(lerp(float3(0,0,1),normal,.5), lerp(float3(0,0,1),normal2,.25));
 			//targetNormal = normalize(normal/2 + normal2);
-			targetNormal =BlendNormals(lerp(float3(0,0,1),normal3,.5), targetNormal);
+			targetNormal =BlendNormals(lerp(float3(0,0,1),normal3,.66), targetNormal);
 			o.Normal = normalize( targetNormal);
 
 			o.Emission = ColorBelowWater(IN.screenPos, o.Normal) * _Color.rgb * (1 - c.a);
-			o.Occlusion=0.125;
+			o.Occlusion=0.25;
 		}
 		
  		void ResetAlpha (Input IN, SurfaceOutputStandard o, inout fixed4 color) {
