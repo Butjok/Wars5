@@ -333,8 +333,8 @@ o.Albedo= HueShift(o.Albedo,-.0125);
 
             //o.Albedo=float3(1,0,0);
             
-            //o.Emission=border*10*o.Albedo+highlightIntensity*o.Albedo * tex2D (_Grid, position-.5) *7.5;
-            //o.Emission*= radius;
+            o.Emission=border*10*o.Albedo+highlightIntensity*o.Albedo * tex2D (_Grid, position-.5) *7.5;
+            o.Emission*= radius;
 
             float3 normal = UnpackNormal( tex2D (_Normal, TRANSFORM_TEX(position, _Normal) ));
             //normal = sign(normal) * pow(abs(normal),.75);
