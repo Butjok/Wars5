@@ -59,7 +59,7 @@ Shader "Custom/Hole"
 
             
             half dist=length(_WorldSpaceCameraPos - mul(unity_ObjectToWorld, float4(0,0,0,1)));
-            screenSpaceRadius = 600 / dist;
+            screenSpaceRadius = 750 / dist;
 
 //clip(smoothstep(screenSpaceRadius, screenSpaceRadius+10, length(screenPos - center.xy))-.5);
             
