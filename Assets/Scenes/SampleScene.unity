@@ -17,9 +17,9 @@ RenderSettings:
   m_Fog: 0
   m_FogColor: {r: 0.50980395, g: 0.29411766, b: 0.7529412, a: 1}
   m_FogMode: 3
-  m_FogDensity: 0.015
-  m_LinearFogStart: 0
-  m_LinearFogEnd: 300
+  m_FogDensity: 0.01
+  m_LinearFogStart: 10
+  m_LinearFogEnd: 15
   m_AmbientSkyColor: {r: 0.12922125, g: 0.18983485, b: 0.10476735, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
@@ -642,7 +642,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &278972463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2323,8 +2323,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0, y: 0.3826836, z: -0, w: -0.92387944}
-  m_LocalPosition: {x: 8.48107, y: 1.8129132, z: -5.531066}
+  m_LocalRotation: {x: -0.2463674, y: 0.36882624, z: -0.10204876, w: -0.89042485}
+  m_LocalPosition: {x: 4.8112187, y: 4.737686, z: -3.4212162}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2383,12 +2383,12 @@ MonoBehaviour:
     m_Bits: 8
   stopNaNPropagation: 1
   finalBlitToCameraTarget: 0
-  antialiasingMode: 0
+  antialiasingMode: 3
   temporalAntialiasing:
     jitterSpread: 0.75
-    sharpness: 0.25
+    sharpness: 0.15
     stationaryBlending: 0.95
-    motionBlending: 0.85
+    motionBlending: 0.5
   subpixelMorphologicalAntialiasing:
     quality: 2
   fastApproximateAntialiasing:
@@ -3729,7 +3729,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1332291410}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -5.69}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3766,7 +3766,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.694517, y: 1}
+    m_SensorSize: {x: 0.7668919, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -4387,7 +4387,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fb98b0a27b64693860617d52932e2ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  opaqueMaterial: {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  opaqueMaterial: {fileID: 2100000, guid: d9b55a811c2116b44beba3d93f04e15c, type: 2}
   seeThroughMaterial: {fileID: 2100000, guid: a139d024aa45694448adc791b908a74c, type: 2}
   view: {fileID: 1564111503}
 --- !u!114 &1564111503
@@ -5047,7 +5047,7 @@ MonoBehaviour:
   distance: 6
   distanceSmoothTime: 50
   distanceStep: -0.1
-  distanceBounds: {x: 1, y: 20}
+  distanceBounds: {x: 2, y: 30}
   rotationDuration: 0.33
   rotationEase: 3
   rotationStep: -45
@@ -5056,7 +5056,7 @@ MonoBehaviour:
   pitchAngle: 40
   pitchAngleSmoothTime: 0.02
   pitchAngleSpeed: 90
-  pitchAngleBounds: {x: 0, y: 90}
+  pitchAngleBounds: {x: 30, y: 60}
   compassResetCooldown: 0.2
   teleportCooldown: 0.2
   teleportDuration: 0.5
@@ -5069,7 +5069,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1882405534}
   m_LocalRotation: {x: 0, y: 0.3826836, z: -0, w: -0.92387944}
-  m_LocalPosition: {x: 1.4099998, y: 1.8129132, z: 1.5399996}
+  m_LocalPosition: {x: 1.36, y: 1.8129132, z: 0.03}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5170,7 +5170,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1882405534}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f1421f13b99013f4fa5802d1db0495c8, type: 3}
   m_Name: 
@@ -5423,7 +5423,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1991921368}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.26666617, y: -0, z: -0.000000007450581, w: 0.963789}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -5431,7 +5431,7 @@ Transform:
   - {fileID: 1332291411}
   m_Father: {fileID: 1882405536}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 30.932, y: 0, z: 0}
 --- !u!4 &2009442571 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: e0d3bffbad9e73148a985cbd325374e1, type: 3}

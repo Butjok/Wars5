@@ -63,7 +63,7 @@ Shader "Custom/Hole"
 
 //clip(smoothstep(screenSpaceRadius, screenSpaceRadius+10, length(screenPos - center.xy))-.5);
             
-            o.Albedo.rgb = 1;//
+            o.Albedo.rgb = _Color;//
             o.Alpha =lerp(_Alpha, 1, smoothstep(screenSpaceRadius, screenSpaceRadius+100/ dist, length(screenPos - center.xy)));
             // Metallic and smoothness come from slider variables
             o.Metallic = _Metallic;
