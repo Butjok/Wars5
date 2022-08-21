@@ -14,5 +14,7 @@ public class ManualControl:MonoBehaviour {
 		speed = Mathf.Sign(speed) * Mathf.Min(maxSpeed,Mathf.Abs(speed));
 		target.rotation=Quaternion.Euler(0,target.rotation.eulerAngles.y+Input.GetAxisRaw("Debug Horizontal")*rotationSpeed*Time.deltaTime,0);
 		target.position += target.forward * speed * Time.deltaTime;
+		if (Input.GetKeyDown(KeyCode.Space))
+			speed = 0;
 	}
 }
