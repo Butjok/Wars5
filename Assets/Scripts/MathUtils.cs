@@ -67,6 +67,14 @@ public static class MathUtils {
 	public static T Random<T>(this T[] array) {
 		return array[UnityEngine.Random.Range(0, array.Length)];
 	}
+	public static T Random<T>(this IEnumerable<T> sequence) {
+		var i = 0;
+		T result = default;
+		foreach (var item in sequence)
+			if (UnityEngine.Random.Range(0, ++i) == 0)
+				result = item;
+		return result;
+	}
 
 	public static IEnumerable<Vector2Int> Offsets(this Vector2Int range) {
 		for (var radius = range[0]; radius <= range[1]; radius++)

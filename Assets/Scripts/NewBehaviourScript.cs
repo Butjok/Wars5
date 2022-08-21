@@ -12,6 +12,8 @@ using UnityEngine.SceneManagement;
 
 public class NewBehaviourScript : MonoBehaviour {
 
+	public static Level level2;
+	
 	public Unit unit;
 	public Level level;
 	public Game game;
@@ -40,9 +42,9 @@ public class NewBehaviourScript : MonoBehaviour {
 		level.script = new Tutorial(level);
 
 		game.State = level;
-		
-		
-		
+
+
+		level2 = level;
 		
 
 

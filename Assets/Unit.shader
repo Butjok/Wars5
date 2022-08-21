@@ -31,6 +31,7 @@ Shader "Custom/Unit"
         struct Input
         {
             float2 uv_MainTex;
+            float3 worldPos;
         };
 
         fixed4 _PlayerColor,_Offset;
@@ -71,6 +72,9 @@ Shader "Custom/Unit"
             // Metallic and smoothness come from slider variables
             o.Metallic = tex2D (_Metallic, uv);
             o.Smoothness = 1- tex2D (_Roughness, uv);
+            //o.Smoothness = max(o.Smoothness, smoothstep(.1, .0, IN.worldPos.y));
+            //if (IN.worldPos.y < .1)
+              //  o.Smoothness=1;
             //o.Alpha = c.a;
             o.Occlusion= tex2D (_Occlusion, uv);
             o.Normal=UnpackNormal(tex2D (_Normal, uv));
