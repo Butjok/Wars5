@@ -522,6 +522,7 @@ GameObject:
   - component: {fileID: 228955081}
   - component: {fileID: 228955080}
   - component: {fileID: 228955083}
+  - component: {fileID: 228955084}
   m_Layer: 0
   m_Name: Cube (6)
   m_TagString: Untagged
@@ -624,6 +625,23 @@ MonoBehaviour:
   frequency: {x: 4, y: 3.4567, z: 5}
   phases: {x: 5.239561, y: 1.1449692, z: 3.6307712}
   values: {x: 3.4933212, y: -2.254336, z: 0}
+  speedometer: {fileID: 228955084}
+  maxSpeed: 5
+  speedMultiplier: 2
+  time: {x: 0, y: 0, z: 0}
+--- !u!114 &228955084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 228955077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b6211e9c5f84fb7a5772db93a5de84d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 0
 --- !u!1 &278972462
 GameObject:
   m_ObjectHideFlags: 0
@@ -3766,7 +3784,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 0.7668919, y: 1}
+    m_SensorSize: {x: 0.9104278, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -4168,7 +4186,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Ukraine
+  m_text: Blue Player
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 28ff487f1665c4178876577b2909e306, type: 2}
   m_sharedMaterial: {fileID: -3938485812675404134, guid: 28ff487f1665c4178876577b2909e306, type: 2}
@@ -4177,8 +4195,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278254847
-  m_fontColor: {r: 1, g: 0.9880786, b: 0, a: 1}
+    rgba: 4294901833
+  m_fontColor: {r: 0.28613663, g: 0, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
