@@ -18,6 +18,7 @@ public class Unit : IDisposable {
 	public ChangeTracker<int> fuel;
 	public ListChangeTracker<int> ammo;
 	public ListChangeTracker<Unit> cargo;
+	public ChangeTracker<Unit> carrier;
 
 	public static implicit operator UnitType(Unit unit) => unit.type;
 
@@ -52,6 +53,7 @@ public class Unit : IDisposable {
 		this.moved = new ChangeTracker<bool>(_ => view.Moved = this.moved.v);
 		this.hp = new ChangeTracker<int>(_ => view.Hp = this.hp.v);
 		this.fuel = new ChangeTracker<int>(_ => view.Fuel = this.fuel.v);
+		this.carrier = new ChangeTracker<Unit>(_ => view.Carrier = this.carrier.v);
 
 		this.type = type;
 		this.player = player;
@@ -69,6 +71,7 @@ public class Unit : IDisposable {
 	}
 
 	public void Dispose() {
+		position.v = null;
 		if (view && view.gameObject) {
 			Object.Destroy(view.gameObject);
 			view = null;

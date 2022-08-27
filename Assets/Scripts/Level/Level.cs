@@ -50,7 +50,14 @@ public class Level : StateMachineState {
 		return buildings.TryGetValue(position, out building);
 	}
 
-	public IEnumerable<Vector2Int> AttackRange(Vector2Int position, Vector2Int range) {
+	public IEnumerable<Unit> FindUnitsOf(Player player) {
+		return units.Values.Where(unit => unit.player == player);
+	}
+	public IEnumerable<Building> FindBuildingsOf(Player player) {
+		return buildings.Values.Where(building => building.player.v == player);
+	}
+
+	public IEnumerable<Vector2Int> AttackPositions(Vector2Int position, Vector2Int range) {
 		return range.Offsets().Select(offset => offset + position).Where(p => tiles.ContainsKey(p));
 	}
 }

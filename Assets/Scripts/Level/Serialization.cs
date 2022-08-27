@@ -100,7 +100,7 @@ public class SerializedBuilding {
 		type = building.type;
 		position = building.position;
 		playerId = id[building.player];
-		cp = building.cp;
+		cp = building.cp.v;
 	}
 
 	public override string ToString() {

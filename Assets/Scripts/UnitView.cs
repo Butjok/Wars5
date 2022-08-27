@@ -105,6 +105,11 @@ public class UnitView : MonoBehaviour {
 				renderer.SetPropertyBlock(propertyBlock.v);
 		}
 	}
+	public Unit Carrier {
+		set {
+			
+		}
+	}
 
 	[ContextMenu(nameof(Move))]
 	public void Move() {

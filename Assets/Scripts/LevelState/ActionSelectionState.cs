@@ -19,7 +19,7 @@ public class ActionSelectionState : LevelState {
 		this.moves = moves;
 
 		UnitAction newAction(UnitActionType type, Unit unitTarget = null, Building buildingTarget = null, int weapon = -1) {
-			return new UnitAction(type, level, unit, path, unitTarget, buildingTarget, weapon);
+			return new UnitAction(type, unit, path, unitTarget, buildingTarget, weapon);
 		}
 
 		var position = path.Last();
@@ -32,10 +32,10 @@ public class ActionSelectionState : LevelState {
 		}
 		if (other != null && other.hp.v != Rules.MaxHp(other))
 			actions.Add(newAction(UnitActionType.Join, unit));
-		if (other != null && Rules.CanTake(other, unit))
+		if (other != null && Rules.CanLoadAsCargo(other, unit))
 			actions.Add(newAction(UnitActionType.GetIn, other));
 		if (!Rules.IsArtillery(unit) || path.Count == 1)
-			foreach (var otherPosition in level.AttackRange(position, Rules.AttackDistance(unit)))
+			foreach (var otherPosition in level.AttackPositions(position, Rules.AttackRange(unit)))
 				if (level.TryGetUnit(otherPosition, out other))
 					for (var weapon = 0; weapon < Rules.WeaponsCount(unit); weapon++)
 						if (Rules.CanAttack(unit, other, weapon))

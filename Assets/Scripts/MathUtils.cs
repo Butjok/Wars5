@@ -89,4 +89,13 @@ public static class MathUtils {
 	public static (int x, int y) ToTuple(this Vector2Int vector) {
 		return (vector.x, vector.y);
 	}
+	public static int ManhattanLength(this Vector2Int vector) {
+		return Mathf.Abs(vector.x) + Mathf.Abs(vector.y);
+	}
+	public static int ManhattanDistance(Vector2Int a, Vector2Int b) {
+		return (a - b).ManhattanLength();
+	}
+	public static bool IsIn(this int value, Vector2Int range) {
+		return range[0] <= value && value <= range[1];
+	}
 }
