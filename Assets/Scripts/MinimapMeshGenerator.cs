@@ -11,7 +11,6 @@ public class MinimapMeshGenerator : MonoBehaviour {
 
 	public Game game;
 	public Level level;
-	public Mesh tilesMesh;
 	public Mesh mesh;
 	public MeshFilter meshFilter;
 	public Camera renderCamera;
@@ -54,7 +53,7 @@ public class MinimapMeshGenerator : MonoBehaviour {
 		Rebuild();
 	}
 
-	public static readonly Dictionary<TileType, byte> ids = new() {
+	public static readonly Dictionary<TileType, byte> tileIds = new() {
 
 		[TileType.Plain] = 0,
 		[TileType.Road] = 1,
@@ -67,21 +66,18 @@ public class MinimapMeshGenerator : MonoBehaviour {
 		[TileType.Airport] = 7
 	};
 
+	public static readonly Dictionary<UnitType, byte> unitIds = new() {
+		[UnitType.Infantry] = 0,
+		[UnitType.AntiTank] = 1,
+		[UnitType.Artillery] = 2,
+		[UnitType.Apc] = 3,
+		[UnitType.TransportHelicopter] = 4,
+		[UnitType.AttackHelicopter] = 5,
+		[UnitType.FighterJet] = 6,
+		[UnitType.Bomber] = 7,
+	};
+
 	public Mesh BuildTilesMesh() {
-
-		IEnumerable<Vector3> quad(Vector3 position) {
-
-			var right = Vector3.right / 2;
-			var forward = Vector3.forward / 2;
-
-			yield return position + right + forward;
-			yield return position - right - forward;
-			yield return position - right + forward;
-
-			yield return position - right - forward;
-			yield return position + right + forward;
-			yield return position + right - forward;
-		}
 
 		var vertices = new List<Vector3>();
 		var triangles = new List<int>();
@@ -90,13 +86,13 @@ public class MinimapMeshGenerator : MonoBehaviour {
 
 		foreach (var position in level.tiles.Keys) {
 			Color color = level.TryGetBuilding(position, out var building) && building.player.v != null ? building.player.v.color : default;
-			color.a = ids[level.tiles[position]];
-			foreach (var vertex in quad(position.ToVector3Int())) {
+			color.a = tileIds[level.tiles[position]];
+			foreach (var vertex in Quad(position.ToVector3Int())) {
 				vertices.Add(vertex);
 				triangles.Add(triangles.Count);
 				colors.Add(color);
 			}
-			foreach (var uv in quad(position.ToVector3Int() + Vector3.one / 2))
+			foreach (var uv in Quad(position.ToVector3Int() + Vector3.one / 2))
 				uvs.Add(uv.ToVector2());
 		}
 
@@ -111,6 +107,53 @@ public class MinimapMeshGenerator : MonoBehaviour {
 		mesh.RecalculateTangents();
 
 		return mesh;
+	}
+
+	public Mesh BuildUnitsMesh() {
+
+		var vertices = new List<Vector3>();
+		var triangles = new List<int>();
+		var colors = new List<Color>();
+		var uvs = new List<Vector2>();
+
+		foreach (var unit in level.units.Values) {
+			Color color = unit.player.color;
+			color.a = unitIds[unit.type];
+			if (unit.position.v is not { } position)
+				continue;
+			foreach (var vertex in Quad(position.ToVector3Int())) {
+				vertices.Add(vertex + Vector3.up * .1f);
+				triangles.Add(triangles.Count);
+				colors.Add(color);
+			}
+			foreach (var uv in Quad(position.ToVector3Int() + Vector3.one / 2))
+				uvs.Add(uv.ToVector2());
+		}
+
+		var mesh = new Mesh();
+		mesh.vertices = vertices.ToArray();
+		mesh.triangles = triangles.ToArray();
+		mesh.colors = colors.ToArray();
+		mesh.uv = uvs.ToArray();
+
+		mesh.RecalculateBounds();
+		mesh.RecalculateNormals();
+		mesh.RecalculateTangents();
+
+		return mesh;
+	}
+
+	public static IEnumerable<Vector3> Quad(Vector3 position) {
+		var right = Vector3.right / 2;
+		var forward = Vector3.forward / 2;
+
+		yield return position + right + forward;
+		yield return position - right - forward;
+		yield return position - right + forward;
+
+		yield return position - right - forward;
+		yield return position + right + forward;
+		yield return position + right - forward;
 	}
 
 	public Mesh MakeTextMesh(string text, Vector2Int position) {
@@ -138,6 +181,7 @@ public class MinimapMeshGenerator : MonoBehaviour {
 	public void Rebuild() {
 
 		var tilesMesh = BuildTilesMesh();
+		var unitsMesh = BuildUnitsMesh();
 		var textMeshes = new List<Mesh>();
 
 		var positions = new HashSet<Vector2Int>();
@@ -150,24 +194,30 @@ public class MinimapMeshGenerator : MonoBehaviour {
 			var text = "";
 
 			//if (level.TryGetBuilding(position, out var building))
-				//text += $"{building.type}";
+			//text += $"{building.type}";
 			//else if (level.TryGetTile(position, out var tileType))
-				//text += $"{tileType}";
+			//text += $"{tileType}";
 
 			text += $"<size=1>{position}</size>\n";
 
-			if (level.TryGetUnit(position, out var unit))
-				text += $"<color=#{ColorUtility.ToHtmlStringRGB(unit.player.color)}>{unit.type}</color>\n";
-			
+			//if (level.TryGetUnit(position, out var unit))
+			//	text += $"<color=#{ColorUtility.ToHtmlStringRGB(unit.player.color)}>{unit.type}</color>\n";
+
 			textMeshes.Add(MakeTextMesh(text, position));
 		}
 
 		mesh = new Mesh();
-		
-		mesh.CombineMeshes(new[]{new CombineInstance {
-			mesh=tilesMesh,
-			transform = Matrix4x4.identity
-		}}.Concat(textMeshes.Select(textMesh => new CombineInstance {
+
+		mesh.CombineMeshes(new[] {
+			new CombineInstance {
+				mesh = tilesMesh,
+				transform = Matrix4x4.identity
+			},
+			new CombineInstance {
+				mesh = unitsMesh,
+				transform = Matrix4x4.identity
+			},
+		}.Concat(textMeshes.Select(textMesh => new CombineInstance {
 			mesh = textMesh,
 			transform = Matrix4x4.identity
 		})).ToArray());
@@ -177,11 +227,13 @@ public class MinimapMeshGenerator : MonoBehaviour {
 		mesh.RecalculateTangents();
 
 		var subMesh0Count = (int)tilesMesh.GetIndexCount(0);
-		var subMesh1Count = (int)mesh.GetIndexCount(0) - subMesh0Count;
-		
-		mesh.subMeshCount = 2;
+		var subMesh1Count = (int)unitsMesh.GetIndexCount(0);
+		var subMesh2Count = (int)mesh.GetIndexCount(0) - subMesh0Count - subMesh1Count;
+
+		mesh.subMeshCount = 3;
 		mesh.SetSubMesh(0, new SubMeshDescriptor(0, subMesh0Count));
-		mesh.SetSubMesh(1, new SubMeshDescriptor(subMesh0Count,subMesh1Count));
+		mesh.SetSubMesh(1, new SubMeshDescriptor(subMesh0Count, subMesh1Count));
+		mesh.SetSubMesh(2, new SubMeshDescriptor(subMesh0Count + subMesh1Count, subMesh2Count));
 
 		if (meshFilter)
 			meshFilter.mesh = mesh;

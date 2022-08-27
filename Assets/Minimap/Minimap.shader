@@ -73,7 +73,7 @@ Shader "Custom/Minimap"
 
             o.Albedo += building * IN.color.rgb;
 
-            //o.Emission += tex2D(_MainTex, IN.uv_MainTex).a * o.Albedo;
+            o.Emission += tex2D(_MainTex, IN.uv_MainTex).a * o.Albedo*0.5;
             
             //o.Albedo = id/7;
             //o.Albedo=0;

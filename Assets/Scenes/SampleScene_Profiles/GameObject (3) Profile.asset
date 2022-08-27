@@ -18,13 +18,13 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 2
+    value: 1.25
   threshold:
     overrideState: 0
-    value: 1.25
+    value: 1.24
   softKnee:
     overrideState: 0
-    value: 0.504
+    value: 0
   clamp:
     overrideState: 0
     value: 65472
@@ -36,7 +36,7 @@ MonoBehaviour:
     value: 0
   color:
     overrideState: 1
-    value: {r: 1, g: 0.4694984, b: 0, a: 1}
+    value: {r: 1, g: 0.47120416, b: 0, a: 1}
   fastMode:
     overrideState: 0
     value: 0
@@ -132,7 +132,7 @@ MonoBehaviour:
     value: 0
   saturation:
     overrideState: 1
-    value: -3
+    value: -1
   brightness:
     overrideState: 0
     value: 0
@@ -1390,7 +1390,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b94fcd11afffcb142908bfcb1e261fba, type: 3}
   m_Name: MotionBlur
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   enabled:
     overrideState: 1
     value: 1
@@ -1412,7 +1412,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6050e2d5de785ce4d931e4dbdbf2d755, type: 3}
   m_Name: ChromaticAberration
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   enabled:
     overrideState: 1
     value: 1
@@ -1422,7 +1422,7 @@ MonoBehaviour:
     defaultState: 1
   intensity:
     overrideState: 1
-    value: 1
+    value: 0.015
   fastMode:
     overrideState: 0
     value: 0
@@ -1438,7 +1438,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40b924e2dad56384a8df2a1e111bb675, type: 3}
   m_Name: Vignette
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   enabled:
     overrideState: 1
     value: 1
@@ -1500,7 +1500,7 @@ MonoBehaviour:
     value: 8
   maximumMarchDistance:
     overrideState: 1
-    value: 5
+    value: 50
   distanceFade:
     overrideState: 0
     value: 0
