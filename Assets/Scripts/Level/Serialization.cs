@@ -49,7 +49,7 @@ public class SerializedPlayer {
 	}
 
 	public override string ToString() {
-		return Palette.ToString(color);
+		return color.Name();
 	}
 }
 
@@ -89,7 +89,7 @@ public class SerializedUnit {
 public class SerializedBuilding {
 
 	public int id;
-	public BuildingType type;
+	public TileType type;
 	public Int2 position;
 	public int playerId;
 	public int cp;

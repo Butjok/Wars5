@@ -45,15 +45,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec21660f499e49899f7ee3f2f6130cd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  relativeTo: {fileID: 0}
-  direction: {x: 0, y: 0, z: 1}
+  relativeTo: {fileID: 2021201920309479428}
+  localDirection: {x: 0, y: 0, z: 1}
   targetLength: 0.25
   clamp: {x: 0, y: 0.25}
   force: 100
   drag: 25
   constantForce: 0
-  velocity: 801834.1
-  position: {x: -4.915, y: 1.2118174, z: -2.7350001}
+  velocity: NaN
+  position: {x: NaN, y: NaN, z: NaN}
 --- !u!1 &2021201920122500693
 GameObject:
   m_ObjectHideFlags: 0
@@ -188,7 +188,10 @@ MonoBehaviour:
   speedometer: {fileID: 2021201920132452720}
   tiltInfluence: 0.5
   constantSpinSpeed: 0
+  placeOnTerrain: 1
   spinAngle: -63373.555
+  scale: {x: 25, y: 25}
+  amplitude: 0.005
 --- !u!114 &2021201920132452720
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -215,14 +218,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   relativeTo: {fileID: 2021201921028836401}
-  direction: {x: 0, y: 1, z: 0}
+  localDirection: {x: 0, y: 1, z: 0}
   targetLength: 0.1
   clamp: {x: 0.05, y: 0.2}
   force: 250
   drag: 4
   constantForce: 0
-  velocity: 2.495505
-  position: {x: -4.699, y: 1.167829, z: -2.8509998}
+  velocity: -2.1556704
+  position: {x: -4.699, y: 1.0178291, z: -2.8509998}
 --- !u!1 &2021201920169187452
 GameObject:
   m_ObjectHideFlags: 0
@@ -274,13 +277,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef49b7490e0b4a1cb80f86dc5134fb51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  aim: 1
   rotators:
   - {fileID: 2021201920169187440}
   - {fileID: 2021201920309479430}
   ballisticComputer: {fileID: 2021201920169187443}
   restIfImpossible: 1
   restTarget: {fileID: 2021201920212915526}
-  aim: 1
 --- !u!114 &2021201920169187443
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -293,8 +296,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afddd14a593e4cbfa170ea9b3b4bd443, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  barrel: {fileID: 2021201921436905749}
   target: {fileID: 0}
+  barrel: {fileID: 2021201921436905749}
   virtualTarget: {fileID: 0}
   velocity: 10
   gravity: {x: 0, y: -1, z: 0}
@@ -503,6 +506,7 @@ MonoBehaviour:
   ballisticComputer: {fileID: 2021201920169187443}
   offset: {x: 0, y: 0.9, z: 0}
   forward: {fileID: 2021201920309479428}
+  piston: {fileID: 0}
 --- !u!114 &2021201920224278334
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -731,7 +735,10 @@ MonoBehaviour:
   speedometer: {fileID: 2021201920374562131}
   tiltInfluence: 0.5
   constantSpinSpeed: 0
+  placeOnTerrain: 1
   spinAngle: -63336.664
+  scale: {x: 25, y: 25}
+  amplitude: 0.005
 --- !u!114 &2021201920374562131
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -758,14 +765,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   relativeTo: {fileID: 2021201921028836401}
-  direction: {x: 0, y: 1, z: 0}
+  localDirection: {x: 0, y: 1, z: 0}
   targetLength: 0.1
   clamp: {x: 0.05, y: 0.2}
   force: 250
   drag: 4
   constantForce: 0
-  velocity: 2.4955103
-  position: {x: -5.285, y: 1.2209313, z: -2.615}
+  velocity: -2.1556714
+  position: {x: -5.285, y: 1.0709312, z: -2.615}
 --- !u!1 &2021201920423281052
 GameObject:
   m_ObjectHideFlags: 0
@@ -778,7 +785,7 @@ GameObject:
   - component: {fileID: 2021201920423281041}
   - component: {fileID: 2021201920423281054}
   m_Layer: 0
-  m_Name: R (1)
+  m_Name: R1
   m_TagString: Untagged
   m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -1028,7 +1035,7 @@ GameObject:
   - component: {fileID: 2021201920645269373}
   - component: {fileID: 2021201920645269370}
   m_Layer: 0
-  m_Name: L
+  m_Name: L0
   m_TagString: Untagged
   m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -1545,7 +1552,10 @@ MonoBehaviour:
   speedometer: {fileID: 2021201920896563716}
   tiltInfluence: 0.5
   constantSpinSpeed: 0
+  placeOnTerrain: 1
   spinAngle: -63373.555
+  scale: {x: 25, y: 25}
+  amplitude: 0.005
 --- !u!114 &2021201920896563716
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1572,14 +1582,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   relativeTo: {fileID: 2021201921028836401}
-  direction: {x: 0, y: 1, z: 0}
+  localDirection: {x: 0, y: 1, z: 0}
   targetLength: 0.1
   clamp: {x: 0.05, y: 0.2}
   force: 250
   drag: 4
   constantForce: 0
-  velocity: 2.495505
-  position: {x: -4.699, y: 1.167829, z: -3.2298515}
+  velocity: -2.1556704
+  position: {x: -4.699, y: 1.0178291, z: -3.2298515}
 --- !u!1 &2021201920904321772
 GameObject:
   m_ObjectHideFlags: 0
@@ -1650,7 +1660,10 @@ MonoBehaviour:
   speedometer: {fileID: 2021201920904321761}
   tiltInfluence: 0.5
   constantSpinSpeed: 0
+  placeOnTerrain: 1
   spinAngle: -63373.555
+  scale: {x: 25, y: 25}
+  amplitude: 0.005
 --- !u!114 &2021201920904321761
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1677,14 +1690,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   relativeTo: {fileID: 2021201921028836401}
-  direction: {x: 0, y: 1, z: 0}
+  localDirection: {x: 0, y: 1, z: 0}
   targetLength: 0.1
   clamp: {x: 0.05, y: 0.2}
   force: 250
   drag: 4
   constantForce: 0
-  velocity: 2.495505
-  position: {x: -4.699, y: 1.167829, z: -2.6150002}
+  velocity: -2.1556704
+  position: {x: -4.699, y: 1.0178291, z: -2.6150002}
 --- !u!1 &2021201920996449803
 GameObject:
   m_ObjectHideFlags: 0
@@ -1936,6 +1949,8 @@ MonoBehaviour:
   - {fileID: 2021201922162421031}
   - {fileID: 2021201921650145119}
   - {fileID: 2021201920896563717}
+  rollAxisMultiplier: 1
+  pitchAxisMultiplier: 1
 --- !u!65 &8510442311367459232
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1961,7 +1976,7 @@ GameObject:
   - component: {fileID: 2021201921192315210}
   - component: {fileID: 2021201921192315211}
   m_Layer: 0
-  m_Name: R (3)
+  m_Name: R3
   m_TagString: Untagged
   m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -2045,7 +2060,7 @@ GameObject:
   - component: {fileID: 2021201921210107063}
   - component: {fileID: 2021201921210107060}
   m_Layer: 0
-  m_Name: R (2)
+  m_Name: R2
   m_TagString: Untagged
   m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -2129,7 +2144,7 @@ GameObject:
   - component: {fileID: 2021201921340908555}
   - component: {fileID: 2021201921340908552}
   m_Layer: 0
-  m_Name: L (3)
+  m_Name: L3
   m_TagString: Untagged
   m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -2213,7 +2228,7 @@ GameObject:
   - component: {fileID: 2021201921345144127}
   - component: {fileID: 2021201921345144124}
   m_Layer: 0
-  m_Name: L (1)
+  m_Name: L1
   m_TagString: Untagged
   m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -2494,7 +2509,10 @@ MonoBehaviour:
   speedometer: {fileID: 2021201921385545387}
   tiltInfluence: 0.5
   constantSpinSpeed: 0
+  placeOnTerrain: 1
   spinAngle: -63336.664
+  scale: {x: 25, y: 25}
+  amplitude: 0.005
 --- !u!114 &2021201921385545387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2521,14 +2539,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   relativeTo: {fileID: 2021201921028836401}
-  direction: {x: 0, y: 1, z: 0}
+  localDirection: {x: 0, y: 1, z: 0}
   targetLength: 0.1
   clamp: {x: 0.05, y: 0.2}
   force: 250
   drag: 4
   constantForce: 0
-  velocity: 2.4955103
-  position: {x: -5.285, y: 1.2209313, z: -2.8509998}
+  velocity: -2.1556714
+  position: {x: -5.285, y: 1.0709312, z: -2.8509998}
 --- !u!1 &2021201921436905746
 GameObject:
   m_ObjectHideFlags: 0
@@ -2728,7 +2746,10 @@ MonoBehaviour:
   speedometer: {fileID: 2021201921650145118}
   tiltInfluence: 0.5
   constantSpinSpeed: 0
+  placeOnTerrain: 1
   spinAngle: -63336.664
+  scale: {x: 25, y: 25}
+  amplitude: 0.005
 --- !u!114 &2021201921650145118
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2755,14 +2776,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   relativeTo: {fileID: 2021201921028836401}
-  direction: {x: 0, y: 1, z: 0}
+  localDirection: {x: 0, y: 1, z: 0}
   targetLength: 0.1
   clamp: {x: 0.05, y: 0.2}
   force: 250
   drag: 4
   constantForce: 0
-  velocity: 2.4955103
-  position: {x: -5.285, y: 1.2209313, z: -3.2298515}
+  velocity: -2.1556714
+  position: {x: -5.285, y: 1.0709312, z: -3.2298515}
 --- !u!1 &2021201921705348561
 GameObject:
   m_ObjectHideFlags: 0
@@ -2808,15 +2829,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec21660f499e49899f7ee3f2f6130cd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  relativeTo: {fileID: 0}
-  direction: {x: 0, y: 0, z: 1}
+  relativeTo: {fileID: 2021201920309479428}
+  localDirection: {x: 0, y: 0, z: 1}
   targetLength: 0.25
   clamp: {x: 0, y: 0.25}
   force: 100
   drag: 25
   constantForce: 0
-  velocity: 3.3111882e+9
-  position: {x: -5.1039, y: 1.2118174, z: -2.7350001}
+  velocity: NaN
+  position: {x: NaN, y: NaN, z: NaN}
 --- !u!1 &2021201921777366146
 GameObject:
   m_ObjectHideFlags: 0
@@ -2958,7 +2979,7 @@ GameObject:
   - component: {fileID: 2021201921840591404}
   - component: {fileID: 2021201921840591405}
   m_Layer: 0
-  m_Name: L (2)
+  m_Name: L2
   m_TagString: Untagged
   m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -3042,7 +3063,7 @@ GameObject:
   - component: {fileID: 2021201921860956156}
   - component: {fileID: 2021201921860956159}
   m_Layer: 0
-  m_Name: steer-left
+  m_Name: L2
   m_TagString: Untagged
   m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -3210,6 +3231,7 @@ MonoBehaviour:
   ballisticComputer: {fileID: 2021201920169187443}
   offset: {x: 0, y: 0.9, z: 0}
   forward: {fileID: 2021201920309479428}
+  piston: {fileID: 0}
 --- !u!114 &2021201921890614012
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3459,7 +3481,10 @@ MonoBehaviour:
   speedometer: {fileID: 2021201922005080610}
   tiltInfluence: 0.5
   constantSpinSpeed: 0
+  placeOnTerrain: 1
   spinAngle: -63373.555
+  scale: {x: 25, y: 25}
+  amplitude: 0.005
 --- !u!114 &2021201922005080610
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3486,14 +3511,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   relativeTo: {fileID: 2021201921028836401}
-  direction: {x: 0, y: 1, z: 0}
+  localDirection: {x: 0, y: 1, z: 0}
   targetLength: 0.1
   clamp: {x: 0.05, y: 0.2}
   force: 250
   drag: 4
   constantForce: 0
-  velocity: 2.495505
-  position: {x: -4.699, y: 1.167829, z: -3.456}
+  velocity: -2.1556704
+  position: {x: -4.699, y: 1.0178291, z: -3.456}
 --- !u!1 &2021201922105702715
 GameObject:
   m_ObjectHideFlags: 0
@@ -3506,7 +3531,7 @@ GameObject:
   - component: {fileID: 2021201922105702716}
   - component: {fileID: 2021201922105702717}
   m_Layer: 0
-  m_Name: R
+  m_Name: R0
   m_TagString: Untagged
   m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -3648,7 +3673,10 @@ MonoBehaviour:
   speedometer: {fileID: 2021201922162421026}
   tiltInfluence: 0.5
   constantSpinSpeed: 0
+  placeOnTerrain: 1
   spinAngle: -63336.664
+  scale: {x: 25, y: 25}
+  amplitude: 0.005
 --- !u!114 &2021201922162421026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3675,14 +3703,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   relativeTo: {fileID: 2021201921028836401}
-  direction: {x: 0, y: 1, z: 0}
+  localDirection: {x: 0, y: 1, z: 0}
   targetLength: 0.1
   clamp: {x: 0.05, y: 0.2}
   force: 250
   drag: 4
   constantForce: 0
-  velocity: 2.4955103
-  position: {x: -5.285, y: 1.2209313, z: -3.456}
+  velocity: -2.1556714
+  position: {x: -5.285, y: 1.0709312, z: -3.456}
 --- !u!1 &2021201922176671822
 GameObject:
   m_ObjectHideFlags: 0
@@ -3775,9 +3803,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1436685682687041574}
-  - component: {fileID: 3025964936650913932}
   - component: {fileID: 5122176236895510740}
   - component: {fileID: 8474816583606054281}
+  - component: {fileID: 1503722765883863625}
   m_Layer: 0
   m_Name: Test
   m_TagString: Untagged
@@ -3811,24 +3839,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3025964936650913932
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2357409176511790648}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a792a94713269724e801d9b12a292198, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rotation90Time: 0.15
-  speed: 1
-  directionColor: {r: 0, g: 0, b: 1, a: 1}
-  directionLength: 1
-  tileColor: {r: 1, g: 1, b: 1, a: 0.5}
-  walking: 0
 --- !u!114 &5122176236895510740
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3841,7 +3851,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 429cb5d29afe47d798eb131265f72fc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pathWalker: {fileID: 0}
   blinkCurve:
     serializedVersion: 2
     m_Curve:
@@ -3895,6 +3904,13 @@ MonoBehaviour:
     m_RotationOrder: 4
   speedometers: []
   steeringArms: []
+  wheels: []
+  wheelPistons: []
+  walker: {fileID: 0}
+  turret: {fileID: 0}
+  center: {fileID: 0}
+  body: {fileID: 0}
+  prefab: {fileID: 0}
   movedTint: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
   nextPosition: {x: 0, y: 0}
   nextRotation: {x: 0, y: 0}
@@ -3913,3 +3929,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0
+--- !u!114 &1503722765883863625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2357409176511790648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 281df90fa841c3f4b8763900bb3212ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moves: []
+  time: 0
+  speed: 1.5

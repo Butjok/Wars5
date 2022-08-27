@@ -8,14 +8,17 @@ using static UnityEngine.Mathf;
 
 [Flags]
 public enum TileType {
+	
 	Plain = 1 << 0,
 	Road = 1 << 1,
-	City = 1 << 2,
-	Hq = 1 << 3,
-	Factory = 1 << 4,
-	Airport = 1 << 5,
-	Sea = 1 << 6,
-	Mountain = 1 << 7
+	Sea = 1 << 2,
+	Mountain = 1 << 3,
+	
+	City = 1 << 4,
+	Hq = 1 << 5,
+	Plant = 1 << 6,
+	Airport = 1 << 7,
+	Shipyard = 1 << 8,
 }
 
 [Flags]
@@ -30,26 +33,17 @@ public enum UnitType {
 	Bomber = 1 << 7,
 }
 
-[Flags]
-public enum BuildingType {
-	City = 1 << 0,
-	Hq = 1 << 1,
-	Plant = 1 << 2,
-	Airport = 1 << 3,
-	Shipyard = 1 << 4,
-}
-
 public static class Rules {
 
 	public static Vector2Int[] offsets = { Vector2Int.up, Vector2Int.left, Vector2Int.down, Vector2Int.right };
 
-	public static int Income(BuildingType buildingType) {
+	public static int Income(TileType buildingType) {
 		return 1000;
 	}
-	public static UnitType BuildableUnits(BuildingType buildingType) {
+	public static UnitType BuildableUnits(TileType buildingType) {
 		return buildingType switch {
-			BuildingType.Plant => UnitType.Infantry | UnitType.AntiTank | UnitType.Artillery | UnitType.Apc,
-			BuildingType.Airport => UnitType.TransportHelicopter | UnitType.AttackHelicopter | UnitType.FighterJet | UnitType.FighterJet | UnitType.Bomber,
+			TileType.Plant => UnitType.Infantry | UnitType.AntiTank | UnitType.Artillery | UnitType.Apc,
+			TileType.Airport => UnitType.TransportHelicopter | UnitType.AttackHelicopter | UnitType.FighterJet | UnitType.FighterJet | UnitType.Bomber,
 			_ => 0
 		};
 	}
@@ -59,7 +53,7 @@ public static class Rules {
 		var buildings = player.level.FindBuildingsOf(player).ToList();
 		var hasIncome = buildings.Any(building => Income(building) > 0);
 		var canBuildUnits = buildings.Any(building => BuildableUnits(building) != 0);
-		var hasHq = buildings.Any(building => building.type == BuildingType.Hq);
+		var hasHq = buildings.Any(building => building.type == TileType.Hq);
 		return !hasHq ||
 		       !hasUnits && (!canBuildUnits || !hasIncome);
 	}
@@ -70,7 +64,7 @@ public static class Rules {
 		return !AreEnemies(p1, pl2);
 	}
 
-	public static int MaxCp(BuildingType buildingType) {
+	public static int MaxCp(TileType buildingType) {
 		return 20;
 	}
 	public static int Cp(Unit unit) {
@@ -226,7 +220,7 @@ public static class Rules {
 		       CanStay(unit, tile) &&
 		       (!unit.level.TryGetUnit(position, out var other) || other == unit);
 	}
-	public static bool CanCapture(UnitType unitType, BuildingType buildingType) {
+	public static bool CanCapture(UnitType unitType, TileType buildingType) {
 		return ((UnitType.Infantry | UnitType.AntiTank) & unitType) != 0;
 	}
 	public static bool CanCapture(Unit unit, Building building) {

@@ -13,9 +13,14 @@ public class Piston : MonoBehaviour {
 	public float drag = 4;
 	public float constantForce;
 
-	[HideInInspector] public float velocity;
-	[HideInInspector] public Vector3 position;
+	public float velocity;
+	public Vector3 position;
 
+	public void Start() {
+		velocity = 0;
+		position=Vector3.zero;
+	}
+	
 	public void Update() {
 
 		//Debug.Log($"PISTON {Time.frameCount}");

@@ -153,6 +153,8 @@
      <Compile Include="Assets\Scripts\Animation\LookAt.cs" />
      <Compile Include="Assets\Scripts\Animation\PistonBody.cs" />
      <Compile Include="Assets\Scripts\StateMachine\State.cs" />
+     <Compile Include="Assets\Scripts\DebugRenderer.cs" />
+     <Compile Include="Assets\Scripts\MinimapMeshGenerator.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
@@ -174,6 +176,7 @@
      <None Include="Assets\Content\Difference.shader" />
      <None Include="Assets\Content\water.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
+     <None Include="Assets\Minimap\Minimap.shader" />
      <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF.shader" />
@@ -193,6 +196,7 @@
      <None Include="Assets\Hole.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
      <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
+     <None Include="Assets\Scenes\UnlitMinimap.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
      <None Include="Assets\Content\UnlitLeaves.shader" />
      <None Include="Assets\LookingThroughWater.cginc" />

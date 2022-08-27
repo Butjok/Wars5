@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class InGameOverlayMenu : StateMachineState {
+public class InGameOverlayMenu : SubStateMachine {
 
 	private InGameOverlayMenuView _view;
 	private InGameOverlayMenuView View {

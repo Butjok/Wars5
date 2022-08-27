@@ -10,6 +10,7 @@ public class Unit : IDisposable {
 	public Level level;
 	public UnitType type;
 	public Player player;
+	public UnitView viewPrefab;
 	public UnitView view;
 
 	public ChangeTracker<Vector2Int?> position;
@@ -28,14 +29,14 @@ public class Unit : IDisposable {
 		this.level = level;
 
 		if (!viewPrefab)
-			viewPrefab = WarsResources.test.v;
+			viewPrefab = Resources.Load<UnitView>("test");
 		Assert.IsTrue(viewPrefab);
 
-		view = Object.Instantiate(viewPrefab);
-		Object.DontDestroyOnLoad(view.gameObject);
-		view.unit = this;
-		view.prefab=viewPrefab;
-
+			view = Object.Instantiate(viewPrefab);
+			Object.DontDestroyOnLoad(view.gameObject);
+			view.unit = this;
+			view.prefab = viewPrefab;
+		
 		this.position = new ChangeTracker<Vector2Int?>(old => {
 
 			if (old is { } oldPosition)

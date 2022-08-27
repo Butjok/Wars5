@@ -33,7 +33,7 @@ public class Player : IDisposable {
 	}
 
 	public override string ToString() {
-		return Palette.ToString(color);
+		return color.Name();
 	}
 
 	public void Dispose() {

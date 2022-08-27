@@ -26,6 +26,9 @@ public class Rotator : MonoBehaviour {
 
 	public void Update() {
 
+		if (!from || !target)
+			return;
+		
 		var normal = relativeTo.rotation * localNormal;
 		var forward = relativeTo.rotation * Quaternion.AngleAxis(angle, localNormal) * localForward;
 		var plane = new Plane(normal, from.position);

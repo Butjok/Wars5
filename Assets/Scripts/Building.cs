@@ -3,13 +3,13 @@ using UnityEngine.Assertions;
 
 public class Building {
 
-	public BuildingType type;
+	public TileType type;
 	public Level level;
 	public Vector2Int position;
 	public ChangeTracker<Player> player;
 	public ChangeTracker<int> cp ;
 
-	public Building(Level level, Vector2Int position, BuildingType type = BuildingType.City, Player player = null) {
+	public Building(Level level, Vector2Int position, TileType type = TileType.City, Player player = null) {
 
 		this.player = new ChangeTracker<Player>(_ => { });
 		this.cp = new ChangeTracker<int>(_ => { });
@@ -22,11 +22,11 @@ public class Building {
 		level.buildings.Add(position, this);
 	}
 
-	public static implicit operator BuildingType(Building building) {
+	public static implicit operator TileType(Building building) {
 		return building.type;
 	}
 	
 	public override string ToString() {
-		return $"{type}{position} {player}";
+		return $"{type}{position} {player.v}";
 	}
 }

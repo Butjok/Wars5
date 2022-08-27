@@ -77,8 +77,9 @@ public class NewBehaviourScript : MonoBehaviour {
 		Write(new SerializedLevel(level).ToJson());
 		
 		level.State = new SelectionState(level);
-		
-		
+
+		foreach (var debugRenderer in FindObjectsOfType<DebugRenderer>())
+			debugRenderer.level = level;
 
 		/*var ser = new SerializedLevel(level);
 		Debug.Log(ser.ToJson());

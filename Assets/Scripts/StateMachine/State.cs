@@ -33,7 +33,7 @@ public abstract class State : IState {
 	public virtual void OnAfterPop() { }
 }
 
-public abstract class StateMachineState : StateMachine, IState {
+public abstract class SubStateMachine : StateMachine, IState {
 
 	public StateMachine Sm { get; }
 	public bool Started { get; set; }
@@ -51,7 +51,7 @@ public abstract class StateMachineState : StateMachine, IState {
 		Running = true;
 	}
 
-	protected StateMachineState(StateMachine sm, string name = null) : base( name) {
+	protected SubStateMachine(StateMachine sm, string name = null) : base( name) {
 		Sm = sm;
 	}
 }

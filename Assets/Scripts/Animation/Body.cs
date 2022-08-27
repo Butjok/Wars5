@@ -16,8 +16,8 @@ public class Body : MonoBehaviour {
 	public List<Axis> pitchAxis = new();
 	public List<Piston> pistons = new();
 
-	[Range(-1,1)]public float rollAxisMultiplier=1;
-	[Range(-1,1)]public float pitchAxisMultiplier=1;
+	[Range(-1, 1)] public float rollAxisMultiplier = 1;
+	[Range(-1, 1)] public float pitchAxisMultiplier = 1;
 
 	[ContextMenu(nameof(Start))]
 	public void Start() {
@@ -25,7 +25,7 @@ public class Body : MonoBehaviour {
 		rollAxis.Clear();
 		pitchAxis.Clear();
 		pistons.Clear();
-		
+
 		var wheels = GetComponentInParent<UnitView>().GetComponentsInChildren<Wheel>();
 
 		foreach (var wheel in wheels) {
@@ -48,15 +48,15 @@ public class Body : MonoBehaviour {
 		}
 
 		for (var i = 1; i < rollAxis.Count; i++) {
-			pitchAxis.Add(new Axis { a = rollAxis[i].a, b = rollAxis[i-1].a });
-			pitchAxis.Add(new Axis { a = rollAxis[i].b, b = rollAxis[i-1].b });
+			pitchAxis.Add(new Axis { a = rollAxis[i].a, b = rollAxis[i - 1].a });
+			pitchAxis.Add(new Axis { a = rollAxis[i].b, b = rollAxis[i - 1].b });
 		}
 
 		pistons = pistons.Distinct().ToList();
 	}
 
 	public void Update() {
-		
+
 		//Debug.Log($"BODY {Time.frameCount}");
 
 		Vector3 average(IEnumerable<Vector3> vectors) {
@@ -69,12 +69,16 @@ public class Body : MonoBehaviour {
 			return sum / count;
 		}
 
-		var center = average(pistons.Select(piston => piston.position));
-		var right = average(rollAxis.Select(axis => (axis.b.position - axis.a.position).normalized * rollAxisMultiplier)).normalized;
-		var forward = average(pitchAxis.Select(axis => (axis.a.position - axis.b.position).normalized * pitchAxisMultiplier)).normalized;
+		if (pistons.Count > 0) {
+			var center = average(pistons.Select(piston => piston.position));
+			transform.position = center;
+		}
 
-		transform.rotation = Quaternion.LookRotation(forward, Vector3.Cross(right, -forward));
-		transform.position = center;
+		if (rollAxis.Count > 0 && pitchAxis.Count > 0) {
+			var right = average(rollAxis.Select(axis => (axis.b.position - axis.a.position).normalized * rollAxisMultiplier)).normalized;
+			var forward = average(pitchAxis.Select(axis => (axis.a.position - axis.b.position).normalized * pitchAxisMultiplier)).normalized;
+			transform.rotation = Quaternion.LookRotation(forward, Vector3.Cross(right, -forward));
+		}
 	}
 
 	private void OnDrawGizmosSelected() {

@@ -654,6 +654,7 @@ GameObject:
   - component: {fileID: 278972465}
   - component: {fileID: 278972464}
   - component: {fileID: 278972463}
+  - component: {fileID: 278972467}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -743,6 +744,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &278972467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 278972462}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 878c16166e0b4f8a943c7ff588e01db2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileSize: 64
+  guiSkin: {fileID: 11400000, guid: 4ca2a754d5881ab469a03f7c6a4afbde, type: 2}
+  guiStyleName: box
+  texture2D: {fileID: 0}
 --- !u!1 &293094628
 GameObject:
   m_ObjectHideFlags: 0
@@ -3784,7 +3801,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 0.9104278, y: 1}
+    m_SensorSize: {x: 1.7139038, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0

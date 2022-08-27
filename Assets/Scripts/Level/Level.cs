@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class Level : StateMachineState {
+public class Level : SubStateMachine {
 
 	public Dictionary<Vector2Int, Unit> units = new();
 	public Dictionary<Vector2Int, TileType> tiles = new();
@@ -11,8 +11,9 @@ public class Level : StateMachineState {
 	public Dictionary<Vector2Int, Building> buildings = new();
 	public LevelScript script;
 
-	public Level(StateMachine game) : base(game,nameof(Level)) {
-		CameraRig.Instance.enabled = true;
+	public Level(StateMachine game) : base(game, nameof(Level)) {
+		if (CameraRig.Instance)
+			CameraRig.Instance.enabled = true;
 	}
 
 	public override void Update() {
@@ -28,16 +29,19 @@ public class Level : StateMachineState {
 
 	public override void Dispose() {
 		base.Dispose();
-		CameraRig.Instance.enabled = false;
+		if (CameraRig.Instance)
+			CameraRig.Instance.enabled = false;
 	}
 
 	public override void OnAfterPop() {
 		base.OnAfterPop();
-		CameraRig.Instance.enabled = true;
+		if (CameraRig.Instance)
+			CameraRig.Instance.enabled = true;
 	}
 	public override void OnBeforePush() {
 		base.OnBeforePush();
-		CameraRig.Instance.enabled = false;
+		if (CameraRig.Instance)
+			CameraRig.Instance.enabled = false;
 	}
 
 	public bool TryGetTile(Vector2Int position, out TileType tile) {

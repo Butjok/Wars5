@@ -24,6 +24,10 @@ public struct ChangeTracker<T> {
 			onChange(old);
 		}
 	}
+
+	public override string ToString() {
+		return value.ToString();
+	}
 }
 
 public class ListChangeTracker<T> : List<T> {
