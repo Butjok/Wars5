@@ -9,15 +9,15 @@ using ColorUtility = UnityEngine.ColorUtility;
 
 public class MinimapMeshGenerator : MonoBehaviour {
 
-	public Game game;
 	public Level level;
 	public Mesh mesh;
 	public MeshFilter meshFilter;
 	public Camera renderCamera;
 
 	public TextMeshPro textMeshPro;
+	public MeshRenderer meshRenderer;
 
-	public void Awake() {
+	/*public void Awake() {
 
 		var size = new Vector2Int(5, 5);
 
@@ -28,7 +28,7 @@ public class MinimapMeshGenerator : MonoBehaviour {
 			return positions;
 		}
 
-		game = new Game();
+		var game = new Game();
 		level = new Level(game);
 
 		var red = new Player(level, Color.red);
@@ -36,7 +36,8 @@ public class MinimapMeshGenerator : MonoBehaviour {
 		level.players = new List<Player> { red, blue };
 
 		foreach (var position in randomPositions(10))
-			level.units[position] = new Unit(level, level.players.Random(), position: position);
+			level.units[position] = new Unit(level, level.players.Random(), position: position,
+				type: new[] { UnitType.Infantry, UnitType.Recon, UnitType.LightTank }.Random());
 
 		for (var y = 0; y < size.y; y++)
 		for (var x = 0; x < size.x; x++) {
@@ -45,13 +46,13 @@ public class MinimapMeshGenerator : MonoBehaviour {
 		}
 
 		foreach (var position in randomPositions(10)) {
-			var type = new[] { TileType.City, TileType.Hq, TileType.Plant, TileType.Airport }.Random();
+			var type = new[] { TileType.Plant }.Random();
 			level.buildings[position] = new Building(level, position, player: level.players.Random(), type: type);
 			level.tiles[position] = type;
 		}
 
 		Rebuild();
-	}
+	}*/
 
 	public static readonly Dictionary<TileType, byte> tileIds = new() {
 
@@ -75,6 +76,8 @@ public class MinimapMeshGenerator : MonoBehaviour {
 		[UnitType.AttackHelicopter] = 5,
 		[UnitType.FighterJet] = 6,
 		[UnitType.Bomber] = 7,
+		[UnitType.Recon] = 8,
+		[UnitType.LightTank] = 9,
 	};
 
 	public Mesh BuildTilesMesh() {
@@ -158,6 +161,8 @@ public class MinimapMeshGenerator : MonoBehaviour {
 
 	public Mesh MakeTextMesh(string text, Vector2Int position) {
 
+		textMeshPro.enabled = true;
+		
 		textMeshPro.transform.position = position.ToVector3Int() + Vector3.up * .01f;
 		textMeshPro.text = text;
 		textMeshPro.ForceMeshUpdate();
@@ -173,6 +178,8 @@ public class MinimapMeshGenerator : MonoBehaviour {
 		mesh.RecalculateBounds();
 		mesh.RecalculateNormals();
 		mesh.RecalculateTangents();
+		
+		textMeshPro.enabled = false;
 
 		return mesh;
 	}
@@ -198,7 +205,7 @@ public class MinimapMeshGenerator : MonoBehaviour {
 			//else if (level.TryGetTile(position, out var tileType))
 			//text += $"{tileType}";
 
-			text += $"<size=1>{position}</size>\n";
+			text += $"{position.x}, {position.y}\n";
 
 			//if (level.TryGetUnit(position, out var unit))
 			//	text += $"<color=#{ColorUtility.ToHtmlStringRGB(unit.player.color)}>{unit.type}</color>\n";
@@ -237,19 +244,20 @@ public class MinimapMeshGenerator : MonoBehaviour {
 
 		if (meshFilter)
 			meshFilter.mesh = mesh;
-
-		if (renderCamera) {
-			renderCamera.enabled = true;
-			renderCamera.Render();
-			renderCamera.enabled = false;
-		}
-
-
-		textMeshPro.enabled = false;
+		
+		Debug.Log("Rebuilt minimap");
 	}
 
 	public void Update() {
-		if (Input.GetKeyDown(KeyCode.Space))
-			Rebuild();
+		if (Input.GetKeyDown(KeyCode.M)) {
+			if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+				Rebuild();
+			else if (renderCamera && meshRenderer) {
+				renderCamera.enabled = !renderCamera.enabled;
+				meshRenderer.enabled = renderCamera.enabled;
+				if (renderCamera.enabled)
+					Rebuild();
+			}
+		}
 	}
 }

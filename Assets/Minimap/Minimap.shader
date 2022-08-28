@@ -11,6 +11,8 @@ Shader "Custom/Minimap"
         _Road ("_Road", 2D) = "white" {}
         _Sea ("_Sea", 2D) = "white" {}
         _Mountain ("_Mountain", 2D) = "white" {}
+        
+        _Plant ("_Plant", 2D) = "white" {}
     }
     SubShader
     {
@@ -27,7 +29,7 @@ Shader "Custom/Minimap"
         // Use shader model 3.0 target, to get nicer looking lighting
         #pragma target 3.0
 
-        sampler2D _MainTex,_Plain,_Road,_Sea,_Mountain;
+        sampler2D _MainTex,_Plain,_Road,_Sea,_Mountain,_Plant;
 
         struct Input
         {
@@ -69,9 +71,9 @@ Shader "Custom/Minimap"
             o.Albedo += road * tex2D(_Road, IN.uv_MainTex);;
             o.Albedo += sea * tex2D(_Sea, IN.uv_MainTex);;
             o.Albedo += mountain * tex2D(_Mountain, IN.uv_MainTex);;
-            o.Albedo *= (1 - building);
 
-            o.Albedo += building * IN.color.rgb;
+            float4 plantRGBA = tex2D(_Plant, IN.uv_MainTex);
+            o.Albedo += plant * lerp(plantRGBA.rgb, IN.color.rgb, plantRGBA.a);
 
             o.Emission += tex2D(_MainTex, IN.uv_MainTex).a * o.Albedo*0.5;
             

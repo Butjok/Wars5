@@ -335,6 +335,8 @@ o.Albedo= HueShift(o.Albedo,-.0125);
             
             o.Emission=border*10*o.Albedo+highlightIntensity*o.Albedo * tex2D (_Grid, position-.5) *7.5;
             o.Emission*= radius;
+            
+            o.Emission *=  IN.worldPos.y > 0;
 
             float3 normal = UnpackNormal( tex2D (_Normal, TRANSFORM_TEX(position, _Normal) ));
             //normal = sign(normal) * pow(abs(normal),.75);
@@ -343,6 +345,8 @@ o.Albedo= HueShift(o.Albedo,-.0125);
             o.Normal = normal;
 
             //o.Albedo=splat;
+
+            o.Albedo *= lerp(float3(1,1,1), 1-tex2D (_Grid, position-.5), IN.worldPos.y > 0);
             
         }
         ENDCG

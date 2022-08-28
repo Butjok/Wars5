@@ -20,6 +20,7 @@
 		_Glossiness ("Smoothness", Range(0,1)) = 0.5
 		_Metallic ("Metallic", Range(0,1)) = 0.0
 		_Normal ("_Normal", 2D) = "normal" {}
+		_Grid ("_Grid", 2D) = "black" {}
 	}
 	SubShader {
 		Tags { "RenderType"="Transparent" "Queue"="Transparent" }
@@ -39,7 +40,7 @@
 		#include "Flow.cginc"
 		#include "LookingThroughWater.cginc"
 
-		sampler2D _MainTex, _FlowMap, _DerivHeightMap,_Normal,_SDF;
+		sampler2D _MainTex, _FlowMap, _DerivHeightMap,_Normal,_SDF,_Grid;
 		float _UJump, _VJump, _Tiling, _Speed, _FlowStrength, _FlowOffset;
 		float _HeightScale, _HeightScaleModulated;
 		half _Scale;
@@ -121,6 +122,8 @@
 
 			o.Emission = ColorBelowWater(IN.screenPos, o.Normal) * _Color.rgb * (1 - c.a);
 			o.Occlusion=0.25;
+
+			o.Albedo *= 1-tex2D (_Grid, position-.5);
 		}
 		
  		void ResetAlpha (Input IN, SurfaceOutputStandard o, inout fixed4 color) {

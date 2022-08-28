@@ -24,7 +24,10 @@ public class Level : SubStateMachine {
 
 	public override void DrawGUI() {
 		base.DrawGUI();
-		GUILayout.Label(State?.ToString());
+		var text = State?.ToString();
+		var size = GUI.skin.label.CalcSize(new GUIContent(text));
+		GUI.Label(new Rect(new Vector2(Screen.width-size.x,0), size), text);
+		//GUILayout.Label(State?.ToString());
 	}
 
 	public override void Dispose() {

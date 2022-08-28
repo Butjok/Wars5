@@ -95,8 +95,8 @@ half3 HueShift ( half3 Color, in float Shift)
 
                 o.Normal = UnpackNormal(tex2D (_Normal, IN.uv_MainTex));
 
-                o.Albedo=HueShift(o.Albedo,-.01);
-                o.Emission=HueShift(o.Emission,-.01);
+                //o.Albedo=HueShift(o.Albedo,-.01);
+                //o.Emission=HueShift(o.Emission,-.01);
             }
             ENDCG
     }

@@ -31,6 +31,8 @@ public enum UnitType {
 	AttackHelicopter = 1 << 5,
 	FighterJet = 1 << 6,
 	Bomber = 1 << 7,
+	Recon = 1 << 8,
+	LightTank = 1 << 9,
 }
 
 public static class Rules {

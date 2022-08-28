@@ -7,6 +7,10 @@ Shader "Custom/MinimapUnit"
         _Normal ("_Normal", 2D) = "white" {}
         _Glossiness ("Smoothness", Range(0,1)) = 0.5
         _Metallic ("Metallic", Range(0,1)) = 0.0
+        
+        _Infantry ("_Infantry", 2D) = "white" {}
+        _Recon ("_Recon", 2D) = "white" {}
+        _LightTank ("_LightTank", 2D) = "white" {}
     }
     SubShader
     {
@@ -20,7 +24,7 @@ Shader "Custom/MinimapUnit"
         // Use shader model 3.0 target, to get nicer looking lighting
         #pragma target 3.0
 
-        sampler2D _MainTex,_Normal;
+        sampler2D _MainTex,_Normal,_Infantry,_Recon,_LightTank;
 
         struct Input
         {
@@ -39,19 +43,32 @@ Shader "Custom/MinimapUnit"
             // put more per-instance properties here
         UNITY_INSTANCING_BUFFER_END(Props)
 
+        #define EPSILON .1
+        
         void surf (Input IN, inout SurfaceOutputStandard o)
         {
             clip(tex2D (_MainTex, IN.uv_MainTex).r-.5);
+
+            half id = IN.color.a;
+            half infantry = abs(id-0) < EPSILON;
+            half recon = abs(id-8) < EPSILON;
+            half lightTank = abs(id-9) < EPSILON;
+
+            half mask = 0;
+            mask += infantry * tex2D(_Infantry, IN.uv_MainTex).a;
+            mask += recon * tex2D(_Recon, IN.uv_MainTex).a;
+            mask += lightTank * tex2D(_LightTank, IN.uv_MainTex).a;
             
-            // Albedo comes from a texture tinted by color
-            fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _Color;
-            o.Albedo = IN.color;
+            o.Albedo = lerp(IN.color, float3(0,0,0), mask);
             // Metallic and smoothness come from slider variables
             o.Metallic = _Metallic;
             o.Smoothness = _Glossiness;
-            o.Alpha = c.a;
+            //o.Alpha = c.a;
 
             o.Normal=UnpackNormal(tex2D(_Normal,IN.uv_MainTex));
+
+            clip(mask-.5);
+            o.Albedo = IN.color;
         }
         ENDCG
     }

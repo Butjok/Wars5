@@ -17,6 +17,7 @@ public class NewBehaviourScript : MonoBehaviour {
 	public Unit unit;
 	public Level level;
 	public Game game;
+	public MinimapMeshGenerator minimapMeshGenerator;
 
 	private void OnEnable() {
 
@@ -84,6 +85,11 @@ public class NewBehaviourScript : MonoBehaviour {
 		/*var ser = new SerializedLevel(level);
 		Debug.Log(ser.ToJson());
 		var deser = ser.ToJson().FromJson<SerializedLevel>();*/
+		
+		if (minimapMeshGenerator) {
+			minimapMeshGenerator.level = level;
+			minimapMeshGenerator.Rebuild();
+		}
 	}
 	private void OnDisable() {
 		unit?.Dispose();

@@ -12,12 +12,10 @@ public class BuoyancyMovement : MonoBehaviour {
 	public float maxSpeed = 5;
 	public float speedMultiplier = 2;
 	public Vector3 time;
-	public void Reset() {
-		speedometer = GetComponent<Speedometer>();
-		Assert.IsTrue(speedometer);
-	}
 	public void Start() {
 		phases = new Vector3(Random.value * Mathf.PI * 2, Random.value * Mathf.PI * 2, Random.value * Mathf.PI * 2);
+		speedometer = GetComponent<Speedometer>();
+		Assert.IsTrue(speedometer);
 	}
 	public void Update() {
 		var multiplier = speedometer.speed is var speed ? Mathf.Lerp(1, speedMultiplier, speed / maxSpeed) : 1;

@@ -10,6 +10,7 @@ public class StoneSplatMapSetter : MonoBehaviour {
 
 	public void Start() {
 		material.SetTexture("_Splat", splat);
+		boxCollider.enabled = true;
 		var bounds = boxCollider.bounds;
 		material.SetVector("_Bounds", new Vector4(bounds.min.x, bounds.min.z, bounds.size.x, bounds.size.z));
 		material.SetVector("_Flip", new Vector4(flipX?1:0,flipY?1:0,0,0));
