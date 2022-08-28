@@ -2,7 +2,6 @@ using UnityEngine;
 
 [ExecuteInEditMode]
 public class InstancedRenderer : MonoBehaviour {
-    public float range;
 
     public Material material;
 
@@ -11,13 +10,9 @@ public class InstancedRenderer : MonoBehaviour {
 
     private Bounds bounds;
 
-    public Foliage foliage;
-    public int foliageIndex;
+    public Mesh mesh;
+    public TransformList transformList;    
 
-    public Vector3 offset;
-
-    // Mesh Properties struct to be read from the GPU.
-    // Size() is a convenience funciton which returns the stride of the struct.
     private struct MeshProperties {
         public Matrix4x4 mat;
         public Vector4 color;
@@ -28,26 +23,18 @@ public class InstancedRenderer : MonoBehaviour {
                 sizeof(float) * 4;      // color;
         }
     }
-
-    private void Setup() {
-        //Mesh mesh = CreateQuad();
-
-        // Boundary surrounding the meshes we will be drawing.  Used for occlusion.
-        bounds = new Bounds(transform.position, Vector3.one * (range + 1));
-        bounds = new Bounds();
-        foreach (var matrix in foliage.types[foliageIndex].transforms) {
-            // https://answers.unity.com/questions/402280/how-to-decompose-a-trs-matrix.html
-            var position = matrix.GetColumn(3);
-            bounds.Encapsulate(position);
-        }
-
+    
+     private void Setup() {
+        bounds = new Bounds {
+            min = transformList.min,
+            max = transformList.max
+        };
         InitializeBuffers();
     }
 
     private void InitializeBuffers() {
 
-        var population = foliage.types[foliageIndex].transforms.Length;
-        var mesh = foliage.types[foliageIndex].mesh;
+        var population = transformList.matrices.Length;
         
         // Argument buffer used by DrawMeshInstancedIndirect.
         uint[] args = new uint[5] { 0, 0, 0, 0, 0 };
@@ -64,12 +51,13 @@ public class InstancedRenderer : MonoBehaviour {
         MeshProperties[] properties = new MeshProperties[population];
         for (int i = 0; i < population; i++) {
             MeshProperties props = new MeshProperties();
-            Vector3 position = new Vector3(Random.Range(-range, range), Random.Range(-range, range), Random.Range(-range, range));
+            Vector3 position = default;// new Vector3(Random.Range(-range, range), Random.Range(-range, range), Random.Range(-range, range));
             Quaternion rotation = Quaternion.Euler(Random.Range(-180, 180), Random.Range(-180, 180), Random.Range(-180, 180));
             Vector3 scale = Vector3.one;
 
             props.mat = Matrix4x4.TRS(position, rotation, scale);
-            props.mat = foliage.types[foliageIndex].transforms[i];
+            
+            props.mat = transformList.matrices[i];
             props.color = Color.Lerp(Color.red, Color.blue, Random.value);
 
             properties[i] = props;
@@ -79,6 +67,12 @@ public class InstancedRenderer : MonoBehaviour {
         meshPropertiesBuffer.SetData(properties);
         material.SetBuffer("_Properties", meshPropertiesBuffer);
     }
+    
+    // Mesh Properties struct to be read from the GPU.
+    // Size() is a convenience funciton which returns the stride of the struct.
+    
+
+   
 
     /*private Mesh CreateQuad(float width = 1f, float height = 1f) {
         ...
@@ -89,7 +83,7 @@ public class InstancedRenderer : MonoBehaviour {
     }
 
     private void Update() {
-        Graphics.DrawMeshInstancedIndirect(foliage.types[foliageIndex].mesh, 0, material, bounds, argsBuffer);
+        Graphics.DrawMeshInstancedIndirect(mesh, 0, material, bounds, argsBuffer);
     }
 
     private void OnDisable() {
