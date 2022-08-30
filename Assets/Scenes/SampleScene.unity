@@ -4252,7 +4252,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7139038, y: 1}
+    m_SensorSize: {x: 1.3333334, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -6275,11 +6275,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e219f79bb57446da491a79a61e40643, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 1
   material: {fileID: 2100000, guid: fb16108f268bd0b4d896eb327071722b, type: 2}
-  foliage: {fileID: 11400000, guid: 6d6ffa5c69ae1014bbb8b1ca415fad78, type: 2}
-  foliageIndex: 0
-  offset: {x: 0, y: 0, z: 0}
+  mesh: {fileID: 0}
+  transformList: {fileID: 0}
 --- !u!114 &1965656859
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6292,11 +6290,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e219f79bb57446da491a79a61e40643, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 1
   material: {fileID: 2100000, guid: fb16108f268bd0b4d896eb327071722b, type: 2}
-  foliage: {fileID: 11400000, guid: 3b2fd4b9f9082c0449f6a67e083c98f5, type: 2}
-  foliageIndex: 0
-  offset: {x: 0, y: 0, z: 0}
+  mesh: {fileID: 0}
+  transformList: {fileID: 0}
 --- !u!114 &1965656860
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6309,11 +6305,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e219f79bb57446da491a79a61e40643, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 1
   material: {fileID: 2100000, guid: fb16108f268bd0b4d896eb327071722b, type: 2}
-  foliage: {fileID: 11400000, guid: 3a3178431ade3c34abc2abc013b58155, type: 2}
-  foliageIndex: 1
-  offset: {x: 0, y: 0, z: 0}
+  mesh: {fileID: 0}
+  transformList: {fileID: 0}
 --- !u!114 &1965656861
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6326,11 +6320,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e219f79bb57446da491a79a61e40643, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 1
   material: {fileID: 2100000, guid: fb16108f268bd0b4d896eb327071722b, type: 2}
-  foliage: {fileID: 11400000, guid: 3a3178431ade3c34abc2abc013b58155, type: 2}
-  foliageIndex: 0
-  offset: {x: 0, y: 0, z: 0}
+  mesh: {fileID: 0}
+  transformList: {fileID: 0}
 --- !u!1 &1982164432 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 3f15f8122ea40714783eadae1d434768, type: 3}

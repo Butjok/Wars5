@@ -30,7 +30,7 @@ Shader "Custom/InstancedIndirectColor" {
                 v2f o;
 
                 float4 pos = mul(_Properties[instanceID].mat, i.vertex);
-                o.vertex = UnityObjectToClipPos(pos);
+                o.vertex = mul(UNITY_MATRIX_VP, pos);
                 o.color = _Properties[instanceID].color;
 
                 return o;
