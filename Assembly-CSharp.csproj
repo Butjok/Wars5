@@ -91,6 +91,7 @@
      <Compile Include="Assets\Scripts\Animation\Accelerometer.cs" />
      <Compile Include="Assets\Scripts\Player.cs" />
      <Compile Include="Assets\Scripts\BuildingMaterialSwitcher.cs" />
+     <Compile Include="Assets\Scripts\TestRenderer.cs" />
      <Compile Include="Assets\Priority Queue\Properties\AssemblyInfo.cs" />
      <Compile Include="Assets\Scripts\UnitMap.cs" />
      <Compile Include="Assets\Scripts\Music.cs" />
@@ -157,7 +158,6 @@
      <Compile Include="Assets\Scripts\Animation\LookAt.cs" />
      <Compile Include="Assets\Scripts\Animation\PistonBody.cs" />
      <Compile Include="Assets\Scripts\StateMachine\State.cs" />
-     <Compile Include="Assets\Scripts\TestRenderer.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
@@ -175,6 +175,7 @@
      <None Include="Assets\DirectionalFlow.shader" />
      <None Include="Assets\Content\leaves-area-tinted.shader" />
      <None Include="Assets\JsonDotNet\link.xml" />
+     <None Include="Assets\InstancedBush.shader" />
      <None Include="Assets\Roboto\LICENSE.txt" />
      <None Include="Assets\Unit.shader" />
      <None Include="Assets\Content\Difference.shader" />

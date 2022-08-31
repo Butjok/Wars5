@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -16,7 +18,7 @@ public class FoliageParser : EditorWindow {
 
 	public void OnGUI() {
 
-		source = (Transform)EditorGUILayout.ObjectField("Source", source, typeof(Transform), false);
+		source = (Transform)EditorGUILayout.ObjectField("Source", source, typeof(Transform), true);
 		target = (TransformList)EditorGUILayout.ObjectField("Target", target, typeof(TransformList), false);
 		prefix = EditorGUILayout.TextField("Prefix", prefix);
 		margin = EditorGUILayout.FloatField("Margin", margin);
@@ -25,10 +27,18 @@ public class FoliageParser : EditorWindow {
 			if (source && target) {
 				
 				var transforms = source.GetComponentsInChildren<Transform>()
-					.Where(transform => transform.name.StartsWith(prefix))
+					.Where(transform => transform.name.StartsWith(prefix) && transform.GetComponent<Renderer>())
 					.ToArray();
+				
 				target.matrices = transforms
-					.Select(transform => transform.GetComponent<Renderer>().localToWorldMatrix)
+					.Select(transform => {
+						if (transform.parent && 
+						    (transform.parent.position != Vector3.zero || 
+						     transform.parent.rotation != Quaternion.identity ||
+						     transform.parent.localScale != Vector3.one))
+							Debug.LogWarning($"Nested transforms are not supported yet.", transform);
+						return transform.GetComponent<Renderer>().localToWorldMatrix;
+					})
 					.ToArray();
 
 				if (transforms.Length > 0) {

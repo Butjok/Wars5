@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="fghjfghjfghj">
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/TestRenderer.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/TestRenderer.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_22_08_2022_9_47_[Default_Changelist]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_22_08_2022_9_47__Default_Changelist_.xml" beforeDir="false" />
+    <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Assets/InstancedBush.shader" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/InstancedBush.shader.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assembly-CSharp.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/InstancedRendererMaterial.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/InstancedRendererMaterial.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene/New Foliage.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene/New Foliage.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene_Profiles/GameObject (3) Profile.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene_Profiles/GameObject (3) Profile.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/foliage.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/foliage.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Foliage/Editor/FoliageParser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Foliage/Editor/FoliageParser.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/InstancedRenderer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/InstancedRenderer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectSettings/RiderScriptEditorPersistedState.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/RiderScriptEditorPersistedState.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -150,7 +158,8 @@
       <workItem from="1661537442051" duration="1464000" />
       <workItem from="1661595689504" duration="5950000" />
       <workItem from="1661605605762" duration="24531000" />
-      <workItem from="1661720788143" duration="6737000" />
+      <workItem from="1661720788143" duration="6940000" />
+      <workItem from="1661910541886" duration="6250000" />
     </task>
     <task id="LOCAL-00001" summary="fgdfdfgdgf">
       <created>1657027620998</created>
@@ -292,7 +301,14 @@
       <option name="project" value="LOCAL" />
       <updated>1661726229781</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="gffffffffffff">
+      <created>1661884371042</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1661884371042</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -335,7 +351,8 @@
     <MESSAGE value="urtyutryutryityriyt" />
     <MESSAGE value="ghjgjhgghjg" />
     <MESSAGE value="fghjfghjfghj" />
-    <option name="LAST_COMMIT_MESSAGE" value="fghjfghjfghj" />
+    <MESSAGE value="gffffffffffff" />
+    <option name="LAST_COMMIT_MESSAGE" value="gffffffffffff" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
