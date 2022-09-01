@@ -44,7 +44,7 @@ Shader "Custom/Unit"
             // put more per-instance properties here
         UNITY_INSTANCING_BUFFER_END(Props)
 
-        half3 HueShift ( half3 Color, in float Shift)
+        half3 hue_shift ( half3 Color, in float Shift)
         {
             half3 P = half3(0.55735,0.55735,0.55735)*dot(half3(0.55735,0.55735,0.55735),Color);
             
@@ -66,7 +66,7 @@ Shader "Custom/Unit"
             half4 bounce = tex2D (_BounceLight, uv);
             
             // Albedo comes from a texture tinted by color
-            fixed3 c = HueShift(tex2D (_MainTex, uv),_HueShift); // * _PlayerColor;
+            fixed3 c = hue_shift(tex2D (_MainTex, uv),_HueShift); // * _PlayerColor;
             o.Albedo = c.rgb;
             //o.Albedo=tex2D (_Normal, IN.uv_MainTex);
             // Metallic and smoothness come from slider variables
@@ -80,7 +80,7 @@ Shader "Custom/Unit"
             o.Normal=UnpackNormal(tex2D (_Normal, uv));
 
             
-            o.Emission=c.rgb*HueShift(bounce.rgb,_HueShift)*_BounceIntensity;
+            o.Emission=c.rgb*hue_shift(bounce.rgb,_HueShift)*_BounceIntensity;
         }
         ENDCG
     }

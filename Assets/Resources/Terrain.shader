@@ -255,7 +255,7 @@ float smax2(float a, float b, float k)
     return smin3(a, b, -k);
 }
 
-        half3 HueShift ( half3 Color, in float Shift)
+        half3 hue_shift ( half3 Color, in float Shift)
         {
             half3 P = half3(0.55735,0.55735,0.55735)*dot(half3(0.55735,0.55735,0.55735),Color);
             
@@ -305,12 +305,12 @@ float smax2(float a, float b, float k)
             fixed4 grassTint = tex2D (_GrassTint, TRANSFORM_TEX(position, _GrassTint) );
             
             o.Albedo = lerp(grass,grassTinted,grassTint);
-o.Albedo= HueShift(o.Albedo,-.0125);
+o.Albedo= hue_shift(o.Albedo,-.0125);
             
             float2 darkGreenUv = position;
             darkGreenUv.x += sin(darkGreenUv.y*2)/16 + sin(darkGreenUv.y*5+.4)/32  + sin(darkGreenUv.y*10+.846)/32;
             fixed3 darkGrass = tex2D (_DarkGreen, TRANSFORM_TEX(darkGreenUv, _DarkGreen) );//tex2D (_Grass, TRANSFORM_TEX(position, _Grass) );
-            darkGrass = HueShift(darkGrass,-.01);
+            darkGrass = hue_shift(darkGrass,-.01);
             o.Albedo = lerp(o.Albedo, darkGrass, darkGrassIntensity);
 
             float2 wheatUv = position;
@@ -321,7 +321,7 @@ o.Albedo= HueShift(o.Albedo,-.0125);
             o.Albedo = lerp(o.Albedo, finalWheat, wheatIntensity);
 
             fixed3 yellowGrass = tex2D (_YellowGrass, TRANSFORM_TEX(position, _YellowGrass) );
-            yellowGrass = HueShift(yellowGrass,-.01);
+            yellowGrass = hue_shift(yellowGrass,-.01);
             o.Albedo = lerp(o.Albedo, yellowGrass, yellowGrassIntensity);
 
             o.Albedo=lerp(o.Albedo,tex2D (_Ocean, IN.uv_MainTex),1-oceanMask);

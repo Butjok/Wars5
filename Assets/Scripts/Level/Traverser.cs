@@ -11,7 +11,7 @@ public class Traverser {
 	}
 
 	private Dictionary<Vector2Int, Info> infos = new();
-	private SimplePriorityQueue<Vector2Int> queue=new();
+	private SimplePriorityQueue<Vector2Int> queue = new();
 
 	public void Traverse(IEnumerable<Vector2Int> positions, Vector2Int start, Func<Vector2Int, int, int?> cost) {
 
@@ -52,12 +52,12 @@ public class Traverser {
 	}
 
 	public List<Vector2Int> ReconstructPath(Vector2Int target) {
-		
+
 		if (!infos.TryGetValue(target, out var info) || info.distance == int.MaxValue)
 			return null;
-		
+
 		var result = new List<Vector2Int>();
-		for (Vector2Int? position=target;position != null;position=infos[(Vector2Int)position].previous) 
+		for (Vector2Int? position = target; position != null; position = infos[(Vector2Int)position].previous)
 			result.Add((Vector2Int)position);
 		result.Reverse();
 		return result;

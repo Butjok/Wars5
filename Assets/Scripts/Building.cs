@@ -19,7 +19,10 @@ public class Building {
 		this.position = position;
 		this.player.v = player;
 		Assert.IsFalse(level.buildings.ContainsKey(position));
-		level.buildings.Add(position, this);
+
+		Assert.IsTrue(!level.buildings.ContainsKey(position) || level.buildings[position] == null);
+		level.buildings[position] = this;
+		level.tiles[position] = type;
 	}
 
 	public static implicit operator TileType(Building building) {

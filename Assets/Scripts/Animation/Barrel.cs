@@ -16,6 +16,7 @@ public class Barrel : MonoBehaviour {
 		var projectile = Instantiate(projectilePrefab, position, transform.rotation);
 		projectile.curve = BallisticCurve.From(position, forward.forward, ballisticComputer.velocity, ballisticComputer.gravity);
 	}
+	
 	public void OnDrawGizmosSelected() {
 		Gizmos.color = Color.yellow;
 		Gizmos.DrawWireSphere(transform.position + transform.TransformVector(offset), .025f);

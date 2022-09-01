@@ -16,8 +16,8 @@ public abstract class LevelState : State {
 			return level.players[Turn % Players.Count];
 		}
 	}
-	public Dictionary<Vector2Int, TileType> Tiles => level.tiles;
-	public Dictionary<Vector2Int, Unit> Units => level.units;
+	public Map2D< TileType> Tiles => level.tiles;
+	public Map2D< Unit> Units => level.units;
 	public List<Player> Players => level.players;
 	public int Turn {
 		get {

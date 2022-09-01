@@ -19,7 +19,7 @@ Shader "Custom/Stone"
 
         CGPROGRAM
         // Physically based Standard lighting model, and enable shadows on all light types
-        #pragma surface surf Standard fullforwardshadows
+        #pragma surface surf Standard vertex:instanced_rendering_vertex addshadow
 
         // Use shader model 3.0 target, to get nicer looking lighting
         #pragma target 3.0
@@ -39,12 +39,16 @@ Shader "Custom/Stone"
         half2 _Flip;
         float3 _Grass,_DarkGrass,_Wheat,_YellowGrass;
 
-        // Add instancing support for this shader. You need to check 'Enable Instancing' on materials that use the shader.
-        // See https://docs.unity3d.com/Manual/GPUInstancing.html for more information about instancing.
-        // #pragma instancing_options assumeuniformscaling
-        UNITY_INSTANCING_BUFFER_START(Props)
-            // put more per-instance properties here
-        UNITY_INSTANCING_BUFFER_END(Props)
+        struct InstancedRenderingAppdata {
+            float4 vertex : POSITION;
+            float4 tangent : TANGENT;
+            float3 normal : NORMAL;
+            float4 texcoord : TEXCOORD0;
+            float4 texcoord1 : TEXCOORD1;
+
+            uint inst : SV_InstanceID;
+        };
+        #include "Assets/Shaders/InstancedRendering.cginc"
 
         void surf (Input IN, inout SurfaceOutputStandard o)
         {

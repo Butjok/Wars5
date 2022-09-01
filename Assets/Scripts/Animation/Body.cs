@@ -57,26 +57,38 @@ public class Body : MonoBehaviour {
 
 	public void Update() {
 
-		//Debug.Log($"BODY {Time.frameCount}");
-
-		Vector3 average(IEnumerable<Vector3> vectors) {
-			var sum = Vector3.zero;
+		if (pistons.Count > 0) {
+			var center = Vector3.zero;
 			var count = 0;
-			foreach (var vector in vectors) {
-				sum += vector;
+			foreach (var piston in pistons) {
+				center += piston.position;
 				count++;
 			}
-			return sum / count;
-		}
-
-		if (pistons.Count > 0) {
-			var center = average(pistons.Select(piston => piston.position));
-			transform.position = center;
+			if (count > 0) {
+				center /= count;
+				transform.position = center;
+			}
 		}
 
 		if (rollAxis.Count > 0 && pitchAxis.Count > 0) {
-			var right = average(rollAxis.Select(axis => (axis.b.position - axis.a.position).normalized * rollAxisMultiplier)).normalized;
-			var forward = average(pitchAxis.Select(axis => (axis.a.position - axis.b.position).normalized * pitchAxisMultiplier)).normalized;
+			var right = Vector3.zero;
+			var count = 0;
+			foreach (var axis in rollAxis) {
+				right += (axis.b.position - axis.a.position).normalized ;
+				count++;
+			}
+			if (count > 0) {
+				right *= rollAxisMultiplier / count;
+			}
+			var forward = Vector3.zero;
+			count = 0;
+			foreach (var axis in pitchAxis) {
+				forward += (axis.a.position - axis.b.position).normalized;
+				count++;
+			}
+			if (count > 0) {
+				forward *= pitchAxisMultiplier / count;
+			}
 			transform.rotation = Quaternion.LookRotation(forward, Vector3.Cross(right, -forward));
 		}
 	}

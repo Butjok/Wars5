@@ -23,12 +23,24 @@ Shader "Custom/leaves"
             LOD 200
 
             CGPROGRAM
+            
             // Physically based Standard lighting model, and enable shadows on all light types
-            #pragma surface surf Standard  addshadow 
+            #pragma surface surf Standard vertex:instanced_rendering_vertex addshadow 
 
             // Use shader model 3.0 target, to get nicer looking lighting
             #pragma target 3.0
 
+            struct InstancedRenderingAppdata {
+                float4 vertex : POSITION;
+                float4 tangent : TANGENT;
+                float3 normal : NORMAL;
+                float4 texcoord : TEXCOORD0;
+                float4 texcoord1 : TEXCOORD1;
+
+                uint inst : SV_InstanceID;
+            };
+            #include "Assets/Shaders/InstancedRendering.cginc"
+            
             sampler2D _MainTex,_Occlusion,_SSS,_Dist,_Normal,_Tint,_GlobalOcclusion,_WithSSS,_Indirect;
 
             struct Input {
@@ -41,25 +53,7 @@ Shader "Custom/leaves"
             half _Metallic,_SSSIntensity;
             fixed4 _Color;
 
-            // Add instancing support for this shader. You need to check 'Enable Instancing' on materials that use the shader.
-            // See https://docs.unity3d.com/Manual/GPUInstancing.html for more information about instancing.
-            // #pragma instancing_options assumeuniformscaling
-            UNITY_INSTANCING_BUFFER_START(Props)
-                // put more per-instance properties here
-            UNITY_INSTANCING_BUFFER_END(Props)
 
-half3 HueShift ( half3 Color, in float Shift)
-        {
-            half3 P = half3(0.55735,0.55735,0.55735)*dot(half3(0.55735,0.55735,0.55735),Color);
-            
-            half3 U = Color-P;
-            
-            half3 V = cross(half3(0.55735,0.55735,0.55735),U);    
-
-            Color = U*cos(Shift*6.2832) + V*sin(Shift*6.2832) + P;
-            
-            return Color;
-        }
             
             void surf (Input IN, inout SurfaceOutputStandard o)
             {

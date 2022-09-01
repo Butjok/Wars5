@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Assertions;
 
+[RequireComponent(typeof(Speedometer))]
 public class Accelerometer : MonoBehaviour {
 	public Speedometer speedometer;
 	public float acceleration;

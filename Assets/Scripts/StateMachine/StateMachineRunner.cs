@@ -6,10 +6,6 @@ public class StateMachineRunner : MonoBehaviour {
 		if (enabled)
 			sm?.State?.Update();
 	}
-	public virtual void OnGUI() {
-		if (enabled)
-			sm?.State?.DrawGUI();
-	}
 	public virtual void OnDrawGizmos() {
 		if (enabled)
 			sm?.State?.DrawGizmos();

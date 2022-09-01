@@ -12,11 +12,11 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{cfa2bab9-b41f-c1bf-2356-298545c86cc5}</ProjectGuid>
+    <ProjectGuid>{f819fdc0-91df-1e9c-1a05-d8e199059134}</ProjectGuid>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>CommandLine</AssemblyName>
+    <AssemblyName>CommandLineEditor</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
@@ -25,7 +25,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>Temp\Bin\Debug\CommandLine\</OutputPath>
+    <OutputPath>Temp\Bin\Debug\CommandLineEditor\</OutputPath>
     <DefineConstants>UNITY_2021_3_1;UNITY_2021_3;UNITY_2021;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER;UNITY_2019_3_OR_NEWER;UNITY_2019_4_OR_NEWER;UNITY_2020_1_OR_NEWER;UNITY_2020_2_OR_NEWER;UNITY_2020_3_OR_NEWER;UNITY_2021_1_OR_NEWER;UNITY_2021_2_OR_NEWER;UNITY_2021_3_OR_NEWER;PLATFORM_ARCH_64;UNITY_64;UNITY_INCLUDE_TESTS;USE_SEARCH_ENGINE_API;USE_SEARCH_TABLE;USE_SEARCH_MODULE;USE_PROPERTY_DATABASE;USE_SEARCH_EXTENSION_API;SCENE_TEMPLATE_MODULE;ENABLE_AR;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_EVENT_QUEUE;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_TEXTURE_STREAMING;ENABLE_VIRTUALTEXTURING;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_UNITYWEBREQUEST;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_COLLAB_SOFTLOCKS;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_HUB_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_DIRECTOR_AUDIO;ENABLE_DIRECTOR_TEXTURE;ENABLE_MANAGED_JOBS;ENABLE_MANAGED_TRANSFORM_JOBS;ENABLE_MANAGED_ANIMATION_JOBS;ENABLE_MANAGED_AUDIO_JOBS;ENABLE_MANAGED_UNITYTLS;INCLUDE_DYNAMIC_GI;ENABLE_SCRIPTING_GC_WBARRIERS;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;ENABLE_VIDEO;ENABLE_ACCELERATOR_CLIENT_DEBUGGING;PLATFORM_STANDALONE;TEXTCORE_1_0_OR_NEWER;PLATFORM_STANDALONE_WIN;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_NVIDIA;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_OUT_OF_PROCESS_CRASH_HANDLER;ENABLE_CLUSTER_SYNC;ENABLE_CLUSTERINPUT;PLATFORM_UPDATES_TIME_OUTSIDE_OF_PLAYER_LOOP;GFXDEVICE_WAITFOREVENT_MESSAGEPUMP;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;NET_STANDARD_2_0;NET_STANDARD;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_UNITY_COLLECTIONS_CHECKS;ENABLE_BURST_AOT;UNITY_TEAM_LICENSE;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_DIRECTOR;ENABLE_LOCALIZATION;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_TILEMAP;ENABLE_TIMELINE;ENABLE_LEGACY_INPUT_MANAGER;CLAYXELS_BUILTIN;CLAYXELS_RETOPO;UNITY_POST_PROCESSING_STACK_V2;AMPLIFY_SHADER_EDITOR;CSHARP_7_OR_LATER;CSHARP_7_3_OR_NEWER</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -41,206 +41,8 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\LexerATNConfig.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\InterpreterRuleContext.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Tree\Trees.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Misc\NotNullAttribute.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Tree\Pattern\TokenTagToken.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\IAntlrErrorListener.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\IParserErrorListener.cs" />
-     <Compile Include="Assets\CommandLine\AssemblyInfo.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\AbstractPredicateTransition.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\PredicateEvalInfo.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\ArrayPredictionContext.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\CommonTokenStream.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Tree\Pattern\Chunk.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\MergeCache.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\ITokenFactory.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Recognizer.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\BlockEndState.cs" />
-     <Compile Include="Assets\CommandLine\Parsers\Butjok\CommandLine\Parsers\CommandLineLexer.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\LexerCustomAction.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Tree\Pattern\ParseTreePatternMatcher.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\ParseInfo.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\ITokenSource.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\RecognitionException.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\UnbufferedTokenStream.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\ILexerAction.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\DefaultErrorStrategy.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Tree\Xpath\XPathWildcardAnywhereElement.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\RangeTransition.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\SimulatorState.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\ATNSimulator.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\ErrorInfo.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\UnbufferedCharStream.cs" />
-     <Compile Include="Assets\CommandLine\CommandLineGUI.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Misc\ParseCanceledException.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\CommonToken.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\IVocabulary.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\LexerSkipAction.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\LoopEndState.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\ATN.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Tree\Pattern\TextChunk.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Sharpen\DictionaryExtensions.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Dfa\AcceptStateInfo.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Tree\Xpath\XPathLexerErrorListener.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Tree\Pattern\ParseTreeMatch.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\ATNState.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\PredictionContextCache.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\ParserRuleContext.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\NoViableAltException.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\LexerInterpreter.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\IRecognizer.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\IAntlrErrorStrategy.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Tree\ErrorNodeImpl.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\ProxyParserErrorListener.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\RuleStartState.cs" />
-     <Compile Include="Assets\CommandLine\Parsers\Butjok\CommandLine\Parsers\CommandLineParser.cs" />
-     <Compile Include="Assets\CommandLine\Interpreter.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\PlusLoopbackState.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\ATNConfig.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\PrecedencePredicateTransition.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Sharpen\SequenceEqualityComparer.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Tree\Xpath\XPathTokenElement.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\NotSetTransition.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Dependents.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Tree\ISyntaxTree.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Sharpen\Collections.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\TokenStreamRewriter.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Tree\ITerminalNode.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Tree\Xpath\XPathRuleElement.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\ConsoleErrorListener.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Sharpen\ListExtensions.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\AtomTransition.cs" />
-     <Compile Include="Assets\CommandLine\Commands.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\FailedPredicateException.cs" />
-     <Compile Include="Assets\CommandLine\Parsers\Butjok\CommandLine\Parsers\CommandLineListener.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Misc\NullableAttribute.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\StarLoopEntryState.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Misc\IntervalSet.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Tree\Pattern\TagChunk.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\SetTransition.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Dfa\DFAState.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Misc\Utils.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Tree\Pattern\RuleTagToken.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Misc\MurmurHash.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Tree\IParseTreeVisitor.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\ATNType.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\PredictionContext.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Misc\ArrayList.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\BasicBlockStartState.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\CharStreams.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\LexerTypeAction.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\RuleVersionAttribute.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\BlockStartState.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\IIntStream.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\LexerActionType.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Misc\Interval.cs" />
-     <Compile Include="Assets\CommandLine\Parsers\Butjok\CommandLine\Parsers\CommandLineBaseListener.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\LexerMoreAction.cs" />
-     <Compile Include="Assets\CommandLine\Parsers\Butjok\CommandLine\Parsers\CommandLineVisitor.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\LL1Analyzer.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\AmbiguityInfo.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\ParserInterpreter.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Tree\Xpath\XPathWildcardElement.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Sharpen\Runtime.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Tree\Xpath\XPathLexer.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Tree\ITree.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Dfa\AbstractEdgeMap.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Misc\Pair.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\RuleDependencyAttribute.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\EpsilonTransition.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Dfa\DFA.cs" />
-     <Compile Include="Assets\CommandLine\Parsers\Butjok\CommandLine\Parsers\CommandLineBaseVisitor.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\BailErrorStrategy.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Tree\ParseTreeWalker.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Tree\IRuleNode.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\ProxyErrorListener.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\Transition.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Tree\AbstractParseTreeVisitor.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\LexerChannelAction.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\AntlrFileStream.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\ATNDeserializationOptions.cs" />
-     <Compile Include="Assets\CommandLine\Levenshtein.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Tree\Xpath\XPathElement.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Dfa\DFASerializer.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Dfa\ArrayEdgeMap.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Dfa\EmptyEdgeMap.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\ActionTransition.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\LexerPushModeAction.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Dfa\SparseEdgeMap.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\ITokenStream.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Misc\Args.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\ConflictInfo.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\WildcardTransition.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Tree\Xpath\XPathTokenAnywhereElement.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\StarLoopbackState.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\RuleTransition.cs" />
-     <Compile Include="Assets\CommandLine\Commands.Exceptions.cs" />
-     <Compile Include="Assets\CommandLine\Colorizer.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\BufferedTokenStream.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\BaseErrorListener.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Tree\ParseTreeProperty.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Vocabulary.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\ATNConfigSet.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\InputMismatchException.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Misc\MultiMap.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\ICharStream.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Sharpen\Arrays.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\ATNDeserializer.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Tree\IParseTree.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Misc\IIntSet.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\LexerATNSimulator.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\LookaheadEventInfo.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\PredicateTransition.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\ProfilingATNSimulator.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\LexerModeAction.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\ContextSensitivityInfo.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\LexerActionExecutor.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\TokensStartState.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\RuleStopState.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Lexer.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Tree\Pattern\ParseTreePattern.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\LexerNoViableAltException.cs" />
-     <Compile Include="Assets\CommandLine\History.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\ParserATNSimulator.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\IWritableToken.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\StateType.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\AntlrInputStream.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Tree\TerminalNodeImpl.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Tree\IParseTreeListener.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\TokenTypes.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Sharpen\BitSet.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Parser.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\EmptyPredictionContext.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\TransitionType.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\DecisionEventInfo.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\DecisionState.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Sharpen\AtomicReference.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\SingletonPredictionContext.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Dfa\IEdgeMap.cs" />
-     <Compile Include="Assets\CommandLine\Token.cs" />
-     <Compile Include="Assets\CommandLine\Theme.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\ListTokenSource.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Misc\RuleDependencyChecker.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Tree\Xpath\XPath.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\RuleContext.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\DiagnosticErrorListener.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\SemanticContext.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\StarBlockStartState.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Tree\IErrorNode.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Dfa\LexerDFASerializer.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Dfa\SingletonEdgeMap.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\LexerPopModeAction.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\DecisionInfo.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Tree\Xpath\XPathRuleAnywhereElement.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\CommonTokenFactory.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\IToken.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\PredictionMode.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\BasicState.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\LexerIndexedCustomAction.cs" />
-     <Compile Include="Assets\CommandLine\Antlr4\Atn\PlusBlockStartState.cs" />
-     <None Include="Assets\CommandLine\CommandLine.asmdef" />
+     <Compile Include="Assets\CommandLine\Editor\GenerateTokens.cs" />
+     <None Include="Assets\CommandLine\Editor\CommandLineEditor.asmdef" />
      <Reference Include="UnityEngine">
      <HintPath>D:\Unity\2021.3.1f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
      </Reference>

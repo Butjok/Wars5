@@ -4,14 +4,22 @@ using UnityEngine;
 
 public class Level : SubStateMachine {
 
-	public Dictionary<Vector2Int, Unit> units = new();
-	public Dictionary<Vector2Int, TileType> tiles = new();
+	public Map2D<Unit> units;
+	public Map2D<TileType> tiles;
+	public Map2D<Building> buildings;
 	public List<Player> players = new();
 	public int? turn;
-	public Dictionary<Vector2Int, Building> buildings = new();
 	public LevelScript script;
 
-	public Level(StateMachine game) : base(game, nameof(Level)) {
+	public List<Unit> unitsBuffer=new();
+	public List<Building> buildingsBuffer=new();
+
+	public Level(Vector2Int min, Vector2Int max, StateMachine game) : base(game, nameof(Level)) {
+		
+		units = new Map2D<Unit>(min, max);
+		tiles = new Map2D<TileType>(min, max);
+		buildings = new Map2D<Building>(min, max);
+		
 		if (CameraRig.Instance)
 			CameraRig.Instance.enabled = true;
 	}
@@ -24,9 +32,9 @@ public class Level : SubStateMachine {
 
 	public override void DrawGUI() {
 		base.DrawGUI();
-		var text = State?.ToString();
-		var size = GUI.skin.label.CalcSize(new GUIContent(text));
-		GUI.Label(new Rect(new Vector2(Screen.width-size.x,0), size), text);
+		//var text = State?.ToString();
+		//var size = GUI.skin.label.CalcSize(new GUIContent(text));
+		//GUI.Label(new Rect(new Vector2(Screen.width-size.x,0), size), text);
 		//GUILayout.Label(State?.ToString());
 	}
 

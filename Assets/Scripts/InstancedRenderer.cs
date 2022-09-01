@@ -27,10 +27,7 @@ public class InstancedRenderer : MonoBehaviour {
 	}
 
 	private void Setup() {
-		bounds = new Bounds {
-			min = transformList.min,
-			max = transformList.max
-		};
+		bounds = transformList.bounds;
 		InitializeBuffers();
 	}
 
@@ -91,6 +88,10 @@ public class InstancedRenderer : MonoBehaviour {
 	}
 
 	private void Update() {
+		
+		if (argsBuffer ==null  || meshPropertiesBuffer == null || !material.HasBuffer("_Properties"))
+			Setup();
+		
 		Graphics.DrawMeshInstancedIndirect(mesh, 0, material, bounds, argsBuffer);
 	}
 

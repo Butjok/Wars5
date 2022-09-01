@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Butjok.CommandLine
 {
-    public class GenerateTokens : MonoBehaviour
+    public class GenerateTokens 
     {
         public const string menuItem = "Window/CommandLine/Generate Tokens";
 

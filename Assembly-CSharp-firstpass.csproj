@@ -317,9 +317,6 @@
      <Reference Include="Unity.VisualScripting.Antlr3.Runtime">
      <HintPath>D:\Wars5\Library\PackageCache\com.unity.visualscripting@1.7.6\Runtime\VisualScripting.Flow\Dependencies\NCalc\Unity.VisualScripting.Antlr3.Runtime.dll</HintPath>
      </Reference>
-     <Reference Include="clipper_library">
-     <HintPath>D:\Wars5\Library\PackageCache\com.unity.cinemachine@2.8.6\Runtime\ThirdParty\clipper_library.dll</HintPath>
-     </Reference>
      <Reference Include="ReportGeneratorMerged">
      <HintPath>D:\Wars5\Library\PackageCache\com.unity.testtools.codecoverage@1.0.1\lib\ReportGenerator\ReportGeneratorMerged.dll</HintPath>
      </Reference>
@@ -743,12 +740,6 @@
      <Reference Include="Unity.ShaderGraph.Editor">
      <HintPath>D:\Wars5\Library\ScriptAssemblies\Unity.ShaderGraph.Editor.dll</HintPath>
      </Reference>
-     <Reference Include="Cinemachine">
-     <HintPath>D:\Wars5\Library\ScriptAssemblies\Cinemachine.dll</HintPath>
-     </Reference>
-     <Reference Include="com.unity.cinemachine.editor">
-     <HintPath>D:\Wars5\Library\ScriptAssemblies\com.unity.cinemachine.editor.dll</HintPath>
-     </Reference>
      <Reference Include="Unity.RenderPipeline.Universal.ShaderLibrary">
      <HintPath>D:\Wars5\Library\ScriptAssemblies\Unity.RenderPipeline.Universal.ShaderLibrary.dll</HintPath>
      </Reference>
@@ -836,12 +827,14 @@
      <Reference Include="Unity.VisualScripting.State">
      <HintPath>D:\Wars5\Library\ScriptAssemblies\Unity.VisualScripting.State.dll</HintPath>
      </Reference>
+     <Reference Include="com.unity.cinemachine.editor">
+     <HintPath>D:\Wars5\Library\ScriptAssemblies\com.unity.cinemachine.editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Cinemachine">
+     <HintPath>D:\Wars5\Library\ScriptAssemblies\Cinemachine.dll</HintPath>
+     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="CommandLine.csproj">
-      <Project>{cfa2bab9-b41f-c1bf-2356-298545c86cc5}</Project>
-      <Name>CommandLine</Name>
-    </ProjectReference>
     <ProjectReference Include="AmplifyShaderEditor.csproj">
       <Project>{70d07a1c-98c4-cb1c-9422-385e47a23781}</Project>
       <Name>AmplifyShaderEditor</Name>

@@ -38,7 +38,10 @@ public class NewBehaviourScript : MonoBehaviour {
 
 		game = new Game();
 
-		level = new Level(game);
+		var min = new Vector2Int(-3, -3);
+		var max = new Vector2Int(3, 3);
+
+		level = new Level(min,max, game);
 		level.turn = 0;
 		level.script = new Tutorial(level);
 
@@ -69,18 +72,14 @@ public class NewBehaviourScript : MonoBehaviour {
 		unit = new Unit(level, player2, position: new Vector2Int(2, 1), viewPrefab: Resources.Load<UnitView>("light-tank"));
 		//var a_ = unit.view;
 
-		new Building(level, new Vector2Int(5, 5));
+		new Building(level, new Vector2Int(-2, -3));
 
-		for (var y = -10; y < 10; y++)
-		for (var x = -10; x < 10; x++)
-			level.tiles.Add(new Vector2Int(x, y), TileType.Plain);
+		foreach (var position in level.tiles.positions)
+			level.tiles[position] = TileType.Plain;
 
 		Write(new SerializedLevel(level).ToJson());
 		
 		level.State = new SelectionState(level);
-
-		foreach (var debugRenderer in FindObjectsOfType<DebugRenderer>())
-			debugRenderer.level = level;
 
 		/*var ser = new SerializedLevel(level);
 		Debug.Log(ser.ToJson());
