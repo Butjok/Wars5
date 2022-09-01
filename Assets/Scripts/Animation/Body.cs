@@ -59,36 +59,24 @@ public class Body : MonoBehaviour {
 
 		if (pistons.Count > 0) {
 			var center = Vector3.zero;
-			var count = 0;
-			foreach (var piston in pistons) {
+			foreach (var piston in pistons)
 				center += piston.position;
-				count++;
-			}
-			if (count > 0) {
-				center /= count;
-				transform.position = center;
-			}
+			center /= pistons.Count;
+			transform.position = center;
 		}
 
 		if (rollAxis.Count > 0 && pitchAxis.Count > 0) {
+
 			var right = Vector3.zero;
-			var count = 0;
-			foreach (var axis in rollAxis) {
-				right += (axis.b.position - axis.a.position).normalized ;
-				count++;
-			}
-			if (count > 0) {
-				right *= rollAxisMultiplier / count;
-			}
+			foreach (var axis in rollAxis) 
+				right += (axis.b.position - axis.a.position).normalized;
+			right *= rollAxisMultiplier / rollAxis.Count;
+
 			var forward = Vector3.zero;
-			count = 0;
-			foreach (var axis in pitchAxis) {
+			foreach (var axis in pitchAxis) 
 				forward += (axis.a.position - axis.b.position).normalized;
-				count++;
-			}
-			if (count > 0) {
-				forward *= pitchAxisMultiplier / count;
-			}
+			forward *= pitchAxisMultiplier / pitchAxis.Count;
+
 			transform.rotation = Quaternion.LookRotation(forward, Vector3.Cross(right, -forward));
 		}
 	}

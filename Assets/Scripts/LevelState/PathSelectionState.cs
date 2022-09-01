@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -65,11 +64,11 @@ public class PathSelectionState : LevelState {
 		}
 	}
 
-	public override void DrawGizmos() {
+	/*public override void DrawGizmos() {
 		base.DrawGizmos();
 		foreach (var position in level.tiles.Keys)
 			Handles.Label(position.ToVector3Int(), traverser.GetDistance(position).ToString(), new GUIStyle { normal = new GUIStyleState { textColor = Color.black } });
-	}
+	}*/
 
 	public override void Dispose() {
 		base.Dispose();
