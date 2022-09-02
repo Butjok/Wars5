@@ -1,4 +1,3 @@
-using UnityEditor.Performance.ProfileAnalyzer;
 using UnityEngine;
 
 public class FpsCounter : MonoBehaviour {

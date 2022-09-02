@@ -85,7 +85,7 @@ Shader "Custom/leaves"
                 
                 // Metallic and smoothness come from slider variables
                 o.Metallic = 0;
-                o.Smoothness =lerp(.15, .3, pow(tex2D (_Occlusion, IN.uv_MainTex),.5)) * (globalOcclusion);
+                o.Smoothness =lerp(.15, .35, pow(tex2D (_Occlusion, IN.uv_MainTex),1)) * (globalOcclusion);
                 //o.Alpha = c.a;
                 
 
