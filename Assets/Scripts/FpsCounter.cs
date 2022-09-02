@@ -1,3 +1,4 @@
+using UnityEditor.Performance.ProfileAnalyzer;
 using UnityEngine;
 
 public class FpsCounter : MonoBehaviour {
@@ -9,12 +10,17 @@ public class FpsCounter : MonoBehaviour {
 	}
 
 	public GUISkin skin;
+	public GUIContent content;
 	
 	public void OnGUI() {
 		GUI.skin = skin;
 		var fps = Mathf.RoundToInt(1f / Time.deltaTime);
 		var max = texts.Length - 1;
 		var clamped = Mathf.Clamp(fps, 0, max);
-		GUILayout.Label(texts[clamped]);
+		var text = texts[clamped];
+		var style = GUI.skin.label;
+		content.text = text;
+		var size = style.CalcSize(content);
+		GUI.Label(new Rect(new Vector2(Screen.width-size.x, Screen.height-size.y), size), text);
 	}
 }

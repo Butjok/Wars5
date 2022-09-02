@@ -40,6 +40,8 @@ Shader "Custom/leaves"
                 uint inst : SV_InstanceID;
             };
             #include "Assets/Shaders/InstancedRendering.cginc"
+
+            #include "Assets/Shaders/Utils.cginc"
             
             sampler2D _MainTex,_Occlusion,_SSS,_Dist,_Normal,_Tint,_GlobalOcclusion,_WithSSS,_Indirect;
 
@@ -83,14 +85,15 @@ Shader "Custom/leaves"
                 
                 // Metallic and smoothness come from slider variables
                 o.Metallic = 0;
-                o.Smoothness =lerp(.25, .5, pow(tex2D (_Occlusion, IN.uv_MainTex),.5)) * (globalOcclusion);
+                o.Smoothness =lerp(.15, .3, pow(tex2D (_Occlusion, IN.uv_MainTex),.5)) * (globalOcclusion);
                 //o.Alpha = c.a;
                 
 
                 o.Normal = UnpackNormal(tex2D (_Normal, IN.uv_MainTex));
 
-                //o.Albedo=HueShift(o.Albedo,-.01);
-                //o.Emission=HueShift(o.Emission,-.01);
+                o.Albedo=hue_shift(o.Albedo,-.025);
+                o.Emission=hue_shift(o.Emission,-.025);
+
             }
             ENDCG
     }

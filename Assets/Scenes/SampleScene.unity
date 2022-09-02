@@ -2041,7 +2041,7 @@ Light:
       e32: 0
       e33: 1
     m_UseCullingMatrixOverride: 0
-  m_Cookie: {fileID: 2800000, guid: d5bffa48f80d4fa4abad5df4814a8737, type: 3}
+  m_Cookie: {fileID: 2800000, guid: 43783051efc5efb4f90afdf989beca6d, type: 3}
   m_DrawHalo: 0
   m_Flare: {fileID: 0}
   m_RenderMode: 0
@@ -2067,14 +2067,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 705507993}
-  m_LocalRotation: {x: 0.65439785, y: -0.05563602, z: -0.048379812, w: 0.75254744}
+  m_LocalRotation: {x: -0.27511966, y: 0.67726755, z: -0.589496, w: -0.3436748}
   m_LocalPosition: {x: 3.797, y: 0.952, z: 4.575}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 15
-  m_LocalEulerAnglesHint: {x: 78.392, y: -46.958, z: -46.367}
+  m_LocalEulerAnglesHint: {x: 80.966, y: 244.02701, z: 11.957}
 --- !u!114 &705507996
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2819,7 +2819,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 472957c42c5d4d949de24a7ebfc28476, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skin: {fileID: 11400000, guid: 4ca2a754d5881ab469a03f7c6a4afbde, type: 2}
+  skin: {fileID: 11400000, guid: cc28327acba3541d2be6ecb0c74f5061, type: 2}
+  content:
+    m_Text: 
+    m_Image: {fileID: 0}
+    m_Tooltip: 
 --- !u!1 &970502177 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3821253740895256905, guid: 2d33a92f5c5695743817cb687b83550c, type: 3}

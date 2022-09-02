@@ -26,6 +26,8 @@ Shader "Custom/Unit"
         // Use shader model 3.0 target, to get nicer looking lighting
         #pragma target 3.0
 
+        #include "Assets/Shaders/Utils.cginc"
+
         sampler2D _MainTex,_Occlusion,_Normal,_Roughness,_Metallic,_BounceLight;
 
         struct Input
@@ -36,27 +38,6 @@ Shader "Custom/Unit"
 
         fixed4 _PlayerColor,_Offset;
         half _Selected,_HueShift,_BounceIntensity,_OffsetIntensity;
-
-        // Add instancing support for this shader. You need to check 'Enable Instancing' on materials that use the shader.
-        // See https://docs.unity3d.com/Manual/GPUInstancing.html for more information about instancing.
-        // #pragma instancing_options assumeuniformscaling
-        UNITY_INSTANCING_BUFFER_START(Props)
-            // put more per-instance properties here
-        UNITY_INSTANCING_BUFFER_END(Props)
-
-        half3 hue_shift ( half3 Color, in float Shift)
-        {
-            half3 P = half3(0.55735,0.55735,0.55735)*dot(half3(0.55735,0.55735,0.55735),Color);
-            
-            half3 U = Color-P;
-            
-            half3 V = cross(half3(0.55735,0.55735,0.55735),U);    
-
-            Color = U*cos(Shift*6.2832) + V*sin(Shift*6.2832) + P;
-            
-            return Color;
-        }
-
         
         void surf (Input IN, inout SurfaceOutputStandard o)
         {
@@ -80,7 +61,12 @@ Shader "Custom/Unit"
             o.Normal=UnpackNormal(tex2D (_Normal, uv));
 
             
-            o.Emission=c.rgb*hue_shift(bounce.rgb,_HueShift)*_BounceIntensity;
+            o.Emission=c.rgb*bounce.rgb*_BounceIntensity;
+
+            float3 hsv = RGBtoHSV(o.Albedo);
+            hsv.y *= .99;
+            o.Albedo = HSVtoRGB(hsv);
+
         }
         ENDCG
     }
