@@ -43,6 +43,9 @@ namespace Butjok.CommandLine
                 if (style.bold)
                     sb.Append("</b>");
             }
+            
+            //Debug.Log(sb.ToString());
+            
             return sb.ToString();
         }
     }

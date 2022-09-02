@@ -1572,9 +1572,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   assemblies:
   - Assembly-CSharp
-  guiSkin: {fileID: 0}
+  guiSkin: {fileID: 11400000, guid: cc28327acba3541d2be6ecb0c74f5061, type: 2}
   dontDestroyOnLoad: 1
-  theme: {fileID: 0}
+  theme: {fileID: 11400000, guid: 127c55bbee55a4324aaa0c6b8a755152, type: 2}
   radius: 5
   prefixFormat: '[{0}/{1}] '
   includeNamespaceName: 1
@@ -5167,7 +5167,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3f15f8122ea40714783eadae1d434768, type: 3}
       propertyPath: m_LocalScale.x
-      value: 34.384
+      value: 15.916009
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3f15f8122ea40714783eadae1d434768, type: 3}
       propertyPath: m_LocalScale.y
@@ -5175,7 +5175,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3f15f8122ea40714783eadae1d434768, type: 3}
       propertyPath: m_LocalScale.z
-      value: 34.036274
+      value: 17.296555
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3f15f8122ea40714783eadae1d434768, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6008,7 +6008,7 @@ MonoBehaviour:
   speed: 1
   speedMultiplier: 1
   velocitySmoothTime: 25
-  distance: 6
+  distance: 7.5
   distanceSmoothTime: 50
   distanceStep: -0.1
   distanceBounds: {x: 2, y: 15}

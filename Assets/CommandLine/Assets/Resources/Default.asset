@@ -24,11 +24,7 @@ MonoBehaviour:
   - color: {r: 1, g: 1, b: 1, a: 1}
     bold: 1
     italic: 0
-    token: 24
-  - color: {r: 1, g: 1, b: 1, a: 1}
-    bold: 1
-    italic: 0
-    token: 20
+    token: 5
   - color: {r: 1, g: 1, b: 1, a: 1}
     bold: 1
     italic: 0
@@ -36,12 +32,75 @@ MonoBehaviour:
   - color: {r: 1, g: 1, b: 1, a: 1}
     bold: 1
     italic: 0
-    token: 8
-  - color: {r: 1, g: 1, b: 1, a: 1}
-    bold: 1
-    italic: 0
-    token: 16
+    token: 7
   - color: {r: 1, g: 1, b: 1, a: 1}
     bold: 1
     italic: 0
     token: 9
+  - color: {r: 1, g: 1, b: 1, a: 1}
+    bold: 1
+    italic: 0
+    token: 10
+  - color: {r: 1, g: 1, b: 1, a: 1}
+    bold: 1
+    italic: 0
+    token: 14
+  - color: {r: 1, g: 1, b: 1, a: 1}
+    bold: 1
+    italic: 0
+    token: 17
+  - color: {r: 1, g: 1, b: 1, a: 1}
+    bold: 1
+    italic: 0
+    token: 25
+  - color: {r: 1, g: 1, b: 1, a: 1}
+    bold: 1
+    italic: 0
+    token: 20
+  tokenNames:
+  - False
+  - Float2
+  - Float3
+  - Int2
+  - Int3
+  - Null
+  - Rgb
+  - String
+  - True
+  records:
+  - color: {r: 1, g: 1, b: 1, a: 1}
+    bold: 1
+    italic: 0
+    token: 5
+  - color: {r: 1, g: 1, b: 1, a: 1}
+    bold: 1
+    italic: 0
+    token: 6
+  - color: {r: 1, g: 1, b: 1, a: 1}
+    bold: 1
+    italic: 0
+    token: 7
+  - color: {r: 1, g: 1, b: 1, a: 1}
+    bold: 1
+    italic: 0
+    token: 9
+  - color: {r: 1, g: 1, b: 1, a: 1}
+    bold: 1
+    italic: 0
+    token: 10
+  - color: {r: 1, g: 1, b: 1, a: 1}
+    bold: 1
+    italic: 0
+    token: 14
+  - color: {r: 1, g: 1, b: 1, a: 1}
+    bold: 1
+    italic: 0
+    token: 17
+  - color: {r: 1, g: 1, b: 1, a: 1}
+    bold: 1
+    italic: 0
+    token: 25
+  - color: {r: 1, g: 1, b: 1, a: 1}
+    bold: 1
+    italic: 0
+    token: 20
