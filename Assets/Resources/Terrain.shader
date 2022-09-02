@@ -284,7 +284,7 @@ Shader "Custom/Terrain"
 
             //o.Albedo=float3(1,0,0);
             
-            o.Emission=border*10*o.Albedo+highlightIntensity*o.Albedo * tex2D (_Grid, position-.5) *7.5;
+            o.Emission=border*10*o.Albedo+highlightIntensity*o.Albedo * tex2D (_Grid, position-.5) *10;
             o.Emission*= radius;
             
             o.Emission *=  IN.worldPos.y > 0;
