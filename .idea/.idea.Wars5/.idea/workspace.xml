@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment=" nmbnmbnmbnmbnmb">
+    <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Content/bush.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Content/bush.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Content/leaves-new.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Content/leaves-new.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene_Profiles/GameObject (3) Profile.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene_Profiles/GameObject (3) Profile.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assembly-CSharp-firstpass.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp-firstpass.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assembly-CSharp.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Content/leaf_ap.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Content/leaf_ap.png.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Shaders/leaves-area-tinted.shader" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Shaders/leaves-area-tinted.shader" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/RiderScriptEditorPersistedState.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/RiderScriptEditorPersistedState.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,7 +45,6 @@
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.postprocessing@3.2.2/PostProcessing/Runtime/PostProcessLayer.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/823fb226a3f9439cb41fdcb61f9c86a1157600/35/e2e9ba01/MathfInternal.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/823fb226a3f9439cb41fdcb61f9c86a1157600/b9/dcd74942/RectInt.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/Wars5/Assets/Shaders/leaves.shader" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6073cf49ed704e958b8a66d540dea94846a800/6c/458b169d/Boolean.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/823fb226a3f9439cb41fdcb61f9c86a1157600/33/a4db71dd/Quaternion.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/823fb226a3f9439cb41fdcb61f9c86a1157600/1e/343ef7cc/Rect.cs" root0="SKIP_HIGHLIGHTING" />
@@ -75,7 +74,6 @@
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/EventSystem/EventSystem.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.textmeshpro@3.0.6/Scripts/Runtime/TMP_Text.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.cinemachine@2.8.9/Runtime/Behaviours/CinemachineBrain.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://D:/Wars5/Assets/Scripts/Level/Level.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/823fb226a3f9439cb41fdcb61f9c86a1157600/fd/a06d07b0/Matrix4x4.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.render-pipelines.core@12.1.6/Runtime/Debugging/DebugUpdater.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
@@ -176,7 +174,8 @@
       <workItem from="1661720788143" duration="6940000" />
       <workItem from="1661910541886" duration="6363000" />
       <workItem from="1662046345106" duration="30034000" />
-      <workItem from="1662160956760" duration="16407000" />
+      <workItem from="1662160956760" duration="16846000" />
+      <workItem from="1662195746230" duration="323000" />
     </task>
     <task id="LOCAL-00001" summary="fgdfdfgdgf">
       <created>1657027620998</created>
@@ -402,7 +401,28 @@
       <option name="project" value="LOCAL" />
       <updated>1662176528512</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="kljlkjkljlkj">
+      <created>1662179949522</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1662179949522</updated>
+    </task>
+    <task id="LOCAL-00034" summary="jhkkkjkj">
+      <created>1662180185580</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1662180185580</updated>
+    </task>
+    <task id="LOCAL-00035" summary="kjjhjh">
+      <created>1662180290241</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1662180290241</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -424,9 +444,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="fgdfgdfgd" />
-    <MESSAGE value="sdfsdfsdf" />
-    <MESSAGE value="gjhfjhgjhgjhg" />
     <MESSAGE value="fghfgh" />
     <MESSAGE value="kjkjkjhk" />
     <MESSAGE value="gfhfgfghfgh" />
@@ -449,7 +466,10 @@
     <MESSAGE value="nmbnmbnmbnmbnmb" />
     <MESSAGE value="nnbnmnmbnmbnmb" />
     <MESSAGE value=" nmbnmbnmbnmbnmb" />
-    <option name="LAST_COMMIT_MESSAGE" value=" nmbnmbnmbnmbnmb" />
+    <MESSAGE value="kljlkjkljlkj" />
+    <MESSAGE value="jhkkkjkj" />
+    <MESSAGE value="kjjhjh" />
+    <option name="LAST_COMMIT_MESSAGE" value="kjjhjh" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
