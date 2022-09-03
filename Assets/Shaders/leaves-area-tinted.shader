@@ -93,7 +93,7 @@ Shader "Custom/LeavesAreaTinted"
                 clip(c.a-.5);
 
                 
-                o.Occlusion = tex2D (_Occlusion, IN.uv_MainTex);//globalOcclusion*localOcclusion *  (1-_SSSIntensity);
+                o.Occlusion = lerp(tex2D (_Occlusion, IN.uv_MainTex),1,.75);//globalOcclusion*localOcclusion *  (1-_SSSIntensity);
                 
                 //o.Emission= tex2D (_Indirect, IN.uv2_GlobalOcclusion)*(1-_SSSIntensity)*c + tex2D (_SSS, IN.uv2_GlobalOcclusion)*_SSSIntensity;
                 //o.Albedo = 0;
@@ -128,7 +128,7 @@ Shader "Custom/LeavesAreaTinted"
                 
                 //o.Emission =(1-IN.IsFacing)* o.Albedo*.15;
 
-                o.Albedo*= lerp(1, tex2D (_Occlusion, IN.uv_MainTex).r,.75);// * (1-_SSSIntensity);
+                o.Albedo*= lerp(1, tex2D (_Occlusion, IN.uv_MainTex).r,1);// * (1-_SSSIntensity);
                 /*o.Albedo=splat;
                 o.Albedo=0;
                 o.Albedo.rg=splatUv;*/
