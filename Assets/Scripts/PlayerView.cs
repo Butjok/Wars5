@@ -22,19 +22,23 @@ public class PlayerView : MonoBehaviour {
 	public void Initialize(Player player) {
 
 		this.player = player;
-		
+
 		var usedLayers = player.level.players.Select(p => p.view.gameObject.layer);
 		var availableLayers = layers.Select(f => f()).Except(usedLayers).ToArray();
 		Assert.AreNotEqual(0, availableLayers.Length);
 		var layer = availableLayers[0];
 		gameObject.SetLayerRecursively(layer);
-		camera.cullingMask |= 1<<layer;
+		camera.cullingMask |= 1 << layer;
 
 		propertyBlock = new MaterialPropertyBlock();
 		renderers = GetComponentsInChildren<Renderer>();
 
-		//propertyBlock.SetColor(playerColorId, player.color);
+		propertyBlock.SetColor(playerColorId, player.color);
 		foreach (var renderer in renderers)
 			renderer.SetPropertyBlock(propertyBlock);
+	}
+
+	public bool Visible {
+		set => camera.enabled = value;
 	}
 }

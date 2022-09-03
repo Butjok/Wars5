@@ -151,7 +151,7 @@ public class SerializedLevel {
 		this.units = units.Select(unit => new SerializedUnit(unit, id)).ToArray();
 		tiles = level.tiles.Select(kv => new SerializedTile(kv.Key, kv.Value)).ToArray();
 		players = level.players.Select(player => new SerializedPlayer(player,id)).ToArray();
-		turn = level.turn;
+		turn = level.Turn;
 		buildings = level.buildings.Values.Select(building => new SerializedBuilding(building, id)).ToArray();
 		scriptTypeName = level.script?.GetType().Name;
 	}

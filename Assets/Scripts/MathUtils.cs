@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public static class MathUtils {
 
@@ -97,5 +98,12 @@ public static class MathUtils {
 	}
 	public static bool IsIn(this int value, Vector2Int range) {
 		return range[0] <= value && value <= range[1];
+	}
+
+	public static int PositiveModulo(this int a, int b) {
+		Assert.IsTrue(b > 0);
+		var result = (a % b + b) % b;
+		Assert.IsTrue(result >= 0);
+		return result;
 	}
 }

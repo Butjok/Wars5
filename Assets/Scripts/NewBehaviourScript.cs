@@ -42,7 +42,6 @@ public class NewBehaviourScript : MonoBehaviour {
 		var max = new Vector2Int(3, 3);
 
 		level = new Level(min,max, game);
-		level.turn = 0;
 		level.script = new Tutorial(level);
 
 		game.State = level;
@@ -65,11 +64,15 @@ public class NewBehaviourScript : MonoBehaviour {
 
 		///var test = Resources.Load<UnitView>("Test");
 
-		var player = new Player(level, Palette.red, Team.Alpha);
-		var player2 = new Player(level, Palette.green, Team.Bravo);
-		unit = new Unit(level, player, position: new Vector2Int(1, 1), viewPrefab: Resources.Load<UnitView>("mrap0-export"));
-		unit = new Unit(level, player2, position: new Vector2Int(2, 2), viewPrefab: Resources.Load<UnitView>("light-tank"));
-		unit = new Unit(level, player2, position: new Vector2Int(2, 1), viewPrefab: Resources.Load<UnitView>("light-tank"));
+		var red = new Player(level, Palette.red, Team.Alpha);
+		var green = new Player(level, Palette.green, Team.Bravo);
+
+		level.players.Add(red);
+		level.players.Add(green);
+		
+		unit = new Unit(level, red, position: new Vector2Int(1, 1), viewPrefab: Resources.Load<UnitView>("mrap0-export"));
+		unit = new Unit(level, green, position: new Vector2Int(2, 2), viewPrefab: Resources.Load<UnitView>("light-tank"));
+		unit = new Unit(level, green, position: new Vector2Int(2, 1), viewPrefab: Resources.Load<UnitView>("light-tank"));
 		//var a_ = unit.view;
 
 		new Building(level, new Vector2Int(-2, -3));
@@ -78,7 +81,8 @@ public class NewBehaviourScript : MonoBehaviour {
 			level.tiles[position] = TileType.Plain;
 
 		Write(new SerializedLevel(level).ToJson());
-		
+
+		level.Turn = 0;
 		level.State = new SelectionState(level);
 
 		/*var ser = new SerializedLevel(level);

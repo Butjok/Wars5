@@ -21,8 +21,8 @@ public abstract class LevelState : State {
 	public List<Player> Players => level.players;
 	public int Turn {
 		get {
-			Assert.AreNotEqual(null, level.turn);
-			return (int)level.turn;
+			Assert.AreNotEqual(null, level.Turn);
+			return (int)level.Turn;
 		}
 	}
 }

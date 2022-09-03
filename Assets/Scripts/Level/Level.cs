@@ -4,22 +4,34 @@ using UnityEngine;
 
 public class Level : SubStateMachine {
 
-	public Map2D<Unit> units;
-	public Map2D<TileType> tiles;
-	public Map2D<Building> buildings;
-	public List<Player> players = new();
-	public int? turn;
+	public readonly Map2D<Unit> units;
+	public readonly Map2D<TileType> tiles;
+	public readonly Map2D<Building> buildings;
+	public readonly List<Player> players = new();
+	private int? turn;
 	public LevelScript script;
 
 	public List<Unit> unitsBuffer=new();
 	public List<Building> buildingsBuffer=new();
+
+	public int? Turn {
+		get => turn;
+		set {
+			turn = value;
+			if (turn is { } integer && players.Count > 0) {
+				var currentPlayer = players[integer.PositiveModulo(players.Count)];
+				foreach (var player in players)
+					player.view.Visible = player == currentPlayer;
+			}
+		}
+	}
 
 	public Level(Vector2Int min, Vector2Int max, StateMachine game) : base(game, nameof(Level)) {
 		
 		units = new Map2D<Unit>(min, max);
 		tiles = new Map2D<TileType>(min, max);
 		buildings = new Map2D<Building>(min, max);
-		
+
 		if (CameraRig.Instance)
 			CameraRig.Instance.enabled = true;
 	}

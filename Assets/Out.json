@@ -426,9 +426,35 @@
       "coName": null,
       "type": "Human",
       "difficulty": "Normal"
+    },
+    {
+      "id": 1,
+      "team": "Alpha",
+      "color": {
+        "r": 255,
+        "g": 49,
+        "b": 0,
+        "a": 255
+      },
+      "coName": null,
+      "type": "Human",
+      "difficulty": "Normal"
+    },
+    {
+      "id": 3,
+      "team": "Bravo",
+      "color": {
+        "r": 134,
+        "g": 255,
+        "b": 0,
+        "a": 255
+      },
+      "coName": null,
+      "type": "Human",
+      "difficulty": "Normal"
     }
   ],
-  "turn": 0,
+  "turn": null,
   "buildings": [
     {
       "id": 5,
