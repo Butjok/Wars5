@@ -16,6 +16,8 @@ Shader "Custom/LeavesAreaTinted"
         _Metallic ("Metallic", Range(0,1)) = 0.0
         _SSSIntensity ("_SSSIntensity", Range(0,1)) = 0.0
         
+        _Lod ("_Lod", Float) = 0
+        
         _Grass ("_Grass", Color) = (1,1,1,1)
         _DarkGrass ("_DarkGrass", Color) = (1,1,1,1)
         _Wheat ("_Wheat", Color) = (1,1,1,1)
@@ -40,11 +42,13 @@ Shader "Custom/LeavesAreaTinted"
             half2 _Flip;
             float3 _Grass,_DarkGrass,_Wheat,_YellowGrass;
             float4 _Bounds;
+            half _Lod;
 
             struct Input {
                 float2 uv_MainTex ;
                 float2 uv2_GlobalOcclusion ;
                 float3 worldPos;
+                float IsFacing:VFACE;
             };
 
             half _Glossiness;
@@ -89,7 +93,7 @@ Shader "Custom/LeavesAreaTinted"
                 clip(c.a-.5);
 
                 
-                o.Occlusion = 1;//globalOcclusion*localOcclusion *  (1-_SSSIntensity);
+                o.Occlusion = tex2D (_Occlusion, IN.uv_MainTex);//globalOcclusion*localOcclusion *  (1-_SSSIntensity);
                 
                 //o.Emission= tex2D (_Indirect, IN.uv2_GlobalOcclusion)*(1-_SSSIntensity)*c + tex2D (_SSS, IN.uv2_GlobalOcclusion)*_SSSIntensity;
                 //o.Albedo = 0;
@@ -99,7 +103,7 @@ Shader "Custom/LeavesAreaTinted"
                 o.Metallic = 0;
                 //o.Smoothness =lerp(.1, .25, pow(tex2D (_Occlusion, IN.uv_MainTex),.5));
                 half globalOcclusion =tex2D (_GlobalOcclusion, IN.uv2_GlobalOcclusion).r; 
-                o.Smoothness =lerp(.15, .3, pow(tex2D (_Occlusion, IN.uv_MainTex),1)) ;//* (globalOcclusion);
+                o.Smoothness =lerp(.1, .3, pow(tex2D (_Occlusion, IN.uv_MainTex),5)) ;//* (globalOcclusion);
                 //o.Alpha = c.a;
                 
 
@@ -114,21 +118,25 @@ Shader "Custom/LeavesAreaTinted"
             if (_Flip.y > .5)
                 splatUv.y = 1 - splatUv.y;
 
-            float3 splat = tex2D(_Splat, splatUv);
+            float3 splat = tex2Dlod(_Splat, float4(splatUv, 1,_Lod));
 
             o.Albedo = _Grass;
             o.Albedo = lerp(o.Albedo, _DarkGrass, splat.r);
             o.Albedo = lerp(o.Albedo, _Wheat, splat.g);
             o.Albedo = lerp(o.Albedo, _YellowGrass, splat.b);
 
-                o.Albedo*=  tex2D (_Occlusion, IN.uv_MainTex);// * (1-_SSSIntensity);
-                //o.Emission = o.Albedo*.125;
+                
+                //o.Emission =(1-IN.IsFacing)* o.Albedo*.15;
 
+                o.Albedo*= lerp(1, tex2D (_Occlusion, IN.uv_MainTex).r,.75);// * (1-_SSSIntensity);
                 /*o.Albedo=splat;
                 o.Albedo=0;
                 o.Albedo.rg=splatUv;*/
 
-                o.Alpha=.5;
+                //o.Alpha=.5;
+
+                //o.Albedo=;
+                //o.Albedo=1-IN.IsFacing;
             }
             ENDCG
     }
