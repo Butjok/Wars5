@@ -15,6 +15,12 @@ public class OrbitingWeight : MonoBehaviour {
 		transform.SetParent(null);
 	}
 	public void Update() {
+
+		if (!target) {
+			Destroy(gameObject);
+			return;
+		}
+		
 		transform.position += velocity * Time.deltaTime;
 		if (Vector3.Distance(target.position, transform.position) > maxDistance)
 			transform.position = target.position + (transform.position - target.position).normalized * maxDistance;

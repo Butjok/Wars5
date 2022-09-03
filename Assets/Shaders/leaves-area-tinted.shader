@@ -31,7 +31,7 @@ Shader "Custom/LeavesAreaTinted"
 
             CGPROGRAM
             // Physically based Standard lighting model, and enable shadows on all light types
-            #pragma surface surf Standard vertex:instanced_rendering_vertex  addshadow 
+            #pragma surface surf Standard vertex:instanced_rendering_vertex2  addshadow 
 
             // Use shader model 3.0 target, to get nicer looking lighting
             #pragma target 5.0
@@ -61,6 +61,24 @@ Shader "Custom/LeavesAreaTinted"
                 uint inst : SV_InstanceID;
             };
             #include "Assets/Shaders/InstancedRendering.cginc"
+
+            void instanced_rendering_vertex2(inout InstancedRenderingAppdata v) {
+            #ifdef SHADER_API_D3D11
+
+                const float4x4 transform = mul(unity_WorldToObject, _Transforms[v.inst].mat);
+
+                v.vertex = mul(transform, v.vertex);
+                //v.tangent = mul(transform, v.tangent);
+                v.normal = normalize(mul(transform, v.normal)) ;
+
+                float3 lightDirection = normalize(_WorldSpaceLightPos0.xyz);
+                
+                float3 viewDir = UNITY_MATRIX_IT_MV[2].xyz;
+                if (dot(v.normal,lightDirection)<0)
+                    v.normal = -v.normal;    
+
+            #endif 
+            }
             
             void surf (Input IN, inout SurfaceOutputStandard o)
             {
@@ -73,13 +91,15 @@ Shader "Custom/LeavesAreaTinted"
                 
                 o.Occlusion = 1;//globalOcclusion*localOcclusion *  (1-_SSSIntensity);
                 
-                o.Emission= tex2D (_Indirect, IN.uv2_GlobalOcclusion)*(1-_SSSIntensity)*c + tex2D (_SSS, IN.uv2_GlobalOcclusion)*_SSSIntensity;
+                //o.Emission= tex2D (_Indirect, IN.uv2_GlobalOcclusion)*(1-_SSSIntensity)*c + tex2D (_SSS, IN.uv2_GlobalOcclusion)*_SSSIntensity;
                 //o.Albedo = 0;
                 //o.Emission = tex2D (_SSS, IN.uv2_SSS);
                 
                 // Metallic and smoothness come from slider variables
                 o.Metallic = 0;
-                o.Smoothness =lerp(.1, .25, pow(tex2D (_Occlusion, IN.uv_MainTex),.5));
+                //o.Smoothness =lerp(.1, .25, pow(tex2D (_Occlusion, IN.uv_MainTex),.5));
+                half globalOcclusion =tex2D (_GlobalOcclusion, IN.uv2_GlobalOcclusion).r; 
+                o.Smoothness =lerp(.15, .3, pow(tex2D (_Occlusion, IN.uv_MainTex),1)) ;//* (globalOcclusion);
                 //o.Alpha = c.a;
                 
 
@@ -101,11 +121,14 @@ Shader "Custom/LeavesAreaTinted"
             o.Albedo = lerp(o.Albedo, _Wheat, splat.g);
             o.Albedo = lerp(o.Albedo, _YellowGrass, splat.b);
 
-                o.Albedo*=  tex2D (_Occlusion, IN.uv_MainTex) * (1-_SSSIntensity);
+                o.Albedo*=  tex2D (_Occlusion, IN.uv_MainTex);// * (1-_SSSIntensity);
+                //o.Emission = o.Albedo*.125;
 
                 /*o.Albedo=splat;
                 o.Albedo=0;
                 o.Albedo.rg=splatUv;*/
+
+                o.Alpha=.5;
             }
             ENDCG
     }

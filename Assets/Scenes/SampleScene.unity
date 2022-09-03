@@ -851,6 +851,7 @@ MonoBehaviour:
   center: {fileID: 0}
   body: {fileID: 0}
   prefab: {fileID: 0}
+  hpText: {fileID: 0}
   movedTint: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
   nextPosition: {x: 0, y: 0}
   nextRotation: {x: 0, y: 0}
@@ -2063,7 +2064,7 @@ Light:
       e32: 0
       e33: 1
     m_UseCullingMatrixOverride: 0
-  m_Cookie: {fileID: 2800000, guid: 43783051efc5efb4f90afdf989beca6d, type: 3}
+  m_Cookie: {fileID: 2800000, guid: d5bffa48f80d4fa4abad5df4814a8737, type: 3}
   m_DrawHalo: 0
   m_Flare: {fileID: 0}
   m_RenderMode: 0
@@ -2304,6 +2305,11 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -1165073596168651963, guid: 2d33a92f5c5695743817cb687b83550c, type: 3}
+--- !u!4 &836874369 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5622201994234556399, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
+  m_PrefabInstance: {fileID: 2023856618}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &903910535
 GameObject:
   m_ObjectHideFlags: 0
@@ -2588,7 +2594,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0.24636742, y: -0.36882606, z: 0.10204872, w: 0.89042497}
-  m_LocalPosition: {x: 5.841218, y: 4.737686, z: -1.4912176}
+  m_LocalPosition: {x: 5.2012177, y: 4.737686, z: -4.4712176}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2913,7 +2919,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  barrel: {fileID: 0}
+  barrel: {fileID: 836874369}
   virtualTarget: {fileID: 0}
   velocity: 1
   gravity: {x: 0, y: -1, z: 0}
@@ -5652,7 +5658,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1882405534}
   m_LocalRotation: {x: 0, y: -0.38268343, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: 2.39, y: 1.8129132, z: 1.96}
+  m_LocalPosition: {x: 1.75, y: 1.8129132, z: -1.02}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6151,6 +6157,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 51258076789849872, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 135.08331
+      objectReference: {fileID: 0}
+    - target: {fileID: 51258076789849872, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 111.77664
+      objectReference: {fileID: 0}
+    - target: {fileID: 51258076789849872, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 460.75845
+      objectReference: {fileID: 0}
+    - target: {fileID: 51258076789849872, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 330.88242
+      objectReference: {fileID: 0}
     - target: {fileID: 742884794920560503, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_LocalRotation.w
       value: -0.7795346

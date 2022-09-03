@@ -359,6 +359,10 @@
      <Compile Include="Assets\Scripts\Animation\PistonBody.cs" />
      <Compile Include="Assets\Scripts\StateMachine\State.cs" />
      <Compile Include="Assets\Scripts\TargetFpsSetter.cs" />
+     <Compile Include="Assets\Scripts\LevelOverlayUI.cs" />
+     <Compile Include="Assets\Scripts\Animation\UIFrame.cs" />
+     <Compile Include="Assets\Scripts\Animation\AABB.cs" />
+     <Compile Include="Assets\Scripts\Animation\HpText.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

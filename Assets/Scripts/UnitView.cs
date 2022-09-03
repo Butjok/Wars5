@@ -1,5 +1,6 @@
 using System.Linq;
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Serialization;
@@ -20,6 +21,7 @@ public class UnitView : MonoBehaviour {
 	public Transform center;
 	public Body body;
 	public UnitView prefab;
+	public TMP_Text hpText;
 
 	public Color movedTint = Color.white / 2;
 
@@ -39,7 +41,14 @@ public class UnitView : MonoBehaviour {
 	}
 
 	public int Hp {
-		set { }
+		set {
+			if (!hpText)
+				return;
+			hpText.enabled = value != Rules.MaxHp(unit);
+			if (hpText.enabled)
+				// TODO: remove GC
+				hpText.text = value.ToString();
+		}
 	}
 	public bool Visible {
 		set {
@@ -61,6 +70,8 @@ public class UnitView : MonoBehaviour {
 	}
 	public void UpdateColor() {
 		Color = unit.player.color * (unit.moved.v ? movedTint : Color.white);
+		/*if (hpText)
+			hpText.color = unit.player.color;*/
 	}
 
 	public bool LowAmmo {

@@ -23,7 +23,7 @@ public class Unit : IDisposable {
 
 	public static implicit operator UnitType(Unit unit) => unit.type;
 
-	public Unit(Level level, Player player, bool moved = false, UnitType type = UnitType.Infantry, Vector2Int? position = null, Vector2Int? rotation = null, int hp = int.MaxValue, int fuel=int.MaxValue,UnitView viewPrefab = null) {
+	public Unit(Level level, Player player, bool moved = false, UnitType type = UnitType.Infantry, Vector2Int? position = null, Vector2Int? rotation = null, int hp = int.MaxValue, int fuel = int.MaxValue, UnitView viewPrefab = null) {
 
 		Assert.IsNotNull(level);
 		this.level = level;
@@ -32,11 +32,11 @@ public class Unit : IDisposable {
 			viewPrefab = Resources.Load<UnitView>("test");
 		Assert.IsTrue(viewPrefab);
 
-			view = Object.Instantiate(viewPrefab);
-			Object.DontDestroyOnLoad(view.gameObject);
-			view.unit = this;
-			view.prefab = viewPrefab;
-		
+		view = Object.Instantiate(viewPrefab);
+		Object.DontDestroyOnLoad(view.gameObject);
+		view.unit = this;
+		view.prefab = viewPrefab;
+
 		this.position = new ChangeTracker<Vector2Int?>(old => {
 
 			if (old is { } oldPosition)
@@ -68,7 +68,9 @@ public class Unit : IDisposable {
 		for (var weapon = 0; weapon < Rules.WeaponsCount(type); weapon++)
 			ammo.Add(Rules.MaxAmmo(type, weapon));
 
-		cargo = new ListChangeTracker<Unit>(onAdd: (_, _) => view.HasCargo = cargo.Count > 0, onRemove: (_, _) => view.HasCargo = cargo.Count > 0);
+		cargo = new ListChangeTracker<Unit>(
+			onAdd: (_, _) => view.HasCargo = cargo.Count > 0, 
+			onRemove: (_, _) => view.HasCargo = cargo.Count > 0);
 	}
 
 	public void Dispose() {

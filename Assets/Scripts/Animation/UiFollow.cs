@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Assertions;
 
+[ExecuteInEditMode]
 public class UiFollow : MonoBehaviour {
 	public Transform target;
 	public Camera camera;

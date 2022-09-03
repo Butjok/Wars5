@@ -70,9 +70,14 @@ public class NewBehaviourScript : MonoBehaviour {
 		level.players.Add(red);
 		level.players.Add(green);
 		
-		unit = new Unit(level, red, position: new Vector2Int(1, 1), viewPrefab: Resources.Load<UnitView>("mrap0-export"));
-		unit = new Unit(level, green, position: new Vector2Int(2, 2), viewPrefab: Resources.Load<UnitView>("light-tank"));
-		unit = new Unit(level, green, position: new Vector2Int(2, 1), viewPrefab: Resources.Load<UnitView>("light-tank"));
+		unit = new Unit(level, green, position: new Vector2Int(1, 1), viewPrefab: Resources.Load<UnitView>("mrap0-export"));
+		unit.hp.v = 5;
+		
+		unit = new Unit(level, red, position: new Vector2Int(2, 2), viewPrefab: Resources.Load<UnitView>("light-tank"));
+		unit.hp.v = 7;
+		
+		unit = new Unit(level, red, position: new Vector2Int(2, 1), viewPrefab: Resources.Load<UnitView>("light-tank"));
+		
 		//var a_ = unit.view;
 
 		new Building(level, new Vector2Int(-2, -3));
