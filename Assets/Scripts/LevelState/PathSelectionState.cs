@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -7,7 +8,7 @@ public class PathSelectionState : LevelState {
 
 	public static Traverser traverser = new();
 	public Unit unit;
-	public List<Vector2Int> path;
+	public MovePath path;
 	public MeshRenderer renderer;
 	public MaterialPropertyBlock propertyBlock;
 
@@ -55,7 +56,8 @@ public class PathSelectionState : LevelState {
 		if (Input.GetMouseButtonDown(Mouse.left)) {
 
 			if (Mouse.TryGetPosition(out var position) && traverser.IsReachable(position.ToVector2().RoundToInt())) {
-				path = traverser.ReconstructPath(position.ToVector2().RoundToInt());
+				var positions = traverser.ReconstructPath(position.ToVector2().RoundToInt());
+				path = new MovePath(positions, unit.view.transform.forward.ToVector2().RoundToInt());
 				level.State = new UnitMovementAnimationState(level, unit, path);
 				return;
 			}

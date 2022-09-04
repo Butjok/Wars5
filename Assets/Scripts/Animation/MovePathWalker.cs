@@ -11,7 +11,7 @@ public class MovePathWalker : MonoBehaviour {
 
 	public void Update() {
 		if (moves is { Count: > 0 }) {
-			var clamped = MovePath.Sample(moves, time, speed, out var position, out var direction, out var move);
+			var clamped = MovePathSampler.Sample(moves, time, speed, out var position, out var direction, out var move);
 			transform.position = position.ToVector3();
 			transform.rotation = Quaternion.LookRotation(direction.ToVector3(), Vector3.up);
 			if (clamped)
@@ -33,6 +33,6 @@ public class MovePathWalker : MonoBehaviour {
 			return;
 		Gizmos.color = Color.blue;
 		foreach (var m in moves) 
-			Gizmos.DrawLine(m.start.ToVector3(), m.start.ToVector3() + ((Vector2)m.forward).ToVector3() / 2);
+			Gizmos.DrawLine(m.midpoint.ToVector3(), m.midpoint.ToVector3() + ((Vector2)m.forward).ToVector3() / 2);
 	}
 }

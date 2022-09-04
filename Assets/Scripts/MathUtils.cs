@@ -50,6 +50,10 @@ public static class MathUtils {
 		return new Vector2(v.x, v.z);
 	}
 
+	public static Vector4 ToVector4(this Vector3 v) {
+		return new Vector4(v.x, v.y, v.z, 1);
+	}
+
 	public static Vector3Int ToVector3Int(this Vector2Int v) {
 		return new Vector3Int(v.x, 0, v.y);
 	}
@@ -105,5 +109,13 @@ public static class MathUtils {
 		var result = (a % b + b) % b;
 		Assert.IsTrue(result >= 0);
 		return result;
+	}
+
+	public static int Sign(this float value) {
+		return value > 0 ? 1 : -1;
+	}
+
+	public static int ZeroSign(this float value) {
+		return Mathf.Approximately(value, 0) ? 0 : Sign(value);
 	}
 }

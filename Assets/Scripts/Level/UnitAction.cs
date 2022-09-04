@@ -11,7 +11,7 @@ public class UnitAction : IDisposable {
 	public UnitActionView view;
 	public ChangeTracker<bool> selected;
 	public Unit unit, targetUnit;
-	public List<Vector2Int> path;
+	public MovePath path;
 	public int weaponIndex;
 	public Vector2Int targetPosition;
 
@@ -22,7 +22,7 @@ public class UnitAction : IDisposable {
 			prefabs.Add(type, Lazy.Resource<UnitActionView>("UnitActionView"));
 	}
 
-	public UnitAction(UnitActionType type, Unit unit, List<Vector2Int> path, Unit targetUnit = null, Building targetBuilding = null, int weaponIndex = -1, Vector2Int targetPosition = default) {
+	public UnitAction(UnitActionType type, Unit unit, MovePath path, Unit targetUnit = null, Building targetBuilding = null, int weaponIndex = -1, Vector2Int targetPosition = default) {
 
 		this.type = type;
 		this.unit = unit;
@@ -49,8 +49,8 @@ public class UnitAction : IDisposable {
 
 	public void Execute() {
 
-		Assert.IsTrue(path.Count >= 1);
-		var pathEnd = path[^1];
+		Assert.IsTrue(path.positions.Count >= 1);
+		var pathEnd = path.positions[^1];
 
 		var level = unit.level;
 		var units = level.units;

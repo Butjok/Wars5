@@ -14,7 +14,7 @@ public class MovePathTest : MonoBehaviour {
 		points.Add(new Vector2(0,0));
 		points.Add(new Vector2(5,0));*/
 		
-		walker.moves = MovePath.From(points, transform.position.ToVector2().RoundToInt(), transform.forward.ToVector2().RoundToInt());
+		//walker.moves = MovePath.From(points, transform.position.ToVector2().RoundToInt(), transform.forward.ToVector2().RoundToInt());
 	}
 
 	public void Update() {

@@ -5,22 +5,19 @@ using UnityEngine;
 public class UnitMovementAnimationState : LevelState {
 
 	public Unit unit;
-	public List<Vector2Int> path;
-	public List<MovePath.Move> moves;
-	public Vector2Int startPosition, startForward;
+	public MovePath path;
+	public Vector2Int  startForward;
 
-	public UnitMovementAnimationState(Level level, Unit unit, List<Vector2Int> path) : base(level) {
+	public UnitMovementAnimationState(Level level, Unit unit, MovePath path) : base(level) {
 
 		this.unit = unit;
 		this.path = path;
 
-		startPosition = (Vector2Int)unit.position.v;
 		startForward = unit.view.transform.forward.ToVector2().RoundToInt();
 
-		moves = MovePath.From(path.Select(p => (Vector2)p).ToList(), startPosition, startForward);
-		if (moves != null) {
+		if (path.moves.Count > 0) {
 			unit.view.walker.onComplete += GoToNextState;
-			unit.view.walker.moves = moves;
+			unit.view.walker.moves = path.moves;
 			unit.view.walker.speed = GameSettings.Instance.unitSpeed;
 			unit.view.walker.enabled = true;
 		}
@@ -29,7 +26,7 @@ public class UnitMovementAnimationState : LevelState {
 	public override void Start() {
 		base.Start();
 		
-		if (moves == null)
+		if (path.moves.Count == 0)
 			GoToNextState();
 	}
 
@@ -51,17 +48,17 @@ public class UnitMovementAnimationState : LevelState {
 
 	public void GoToNextState() {
 		unit.view.walker.enabled = false;
-		if (moves != null) {
-			unit.view.Position = path.Last();
-			unit.view.Forward = moves.Last().forward;
+		if (path.moves.Count != 0) {
+			unit.view.Position = path.positions.Last();
+			unit.view.Forward = path.moves.Last().forward;
 		}
-		level.State = new ActionSelectionState(level, unit, startPosition, startForward, path, moves);
+		level.State = new ActionSelectionState(level, unit,  startForward, path);
 	}
 
 	public override void Dispose() {
 		base.Dispose();
 		
-		if (moves != null)
+		if (path.moves.Count >0)
 			unit.view.walker.onComplete -= GoToNextState;
 	}
 }

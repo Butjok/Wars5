@@ -5,24 +5,21 @@ using UnityEngine;
 public class ActionSelectionState : LevelState {
 
 	public Unit unit;
-	public List<Vector2Int> path;
-	public List<MovePath.Move> moves;
-	public Vector2Int startPosition, startForward;
+	public MovePath path;
+	public Vector2Int  startForward;
 	public List<UnitAction> actions = new();
 
-	public ActionSelectionState( Level level, Unit unit, Vector2Int startPosition, Vector2Int startForward, List<Vector2Int> path, List<MovePath.Move> moves) : base(level) {
+	public ActionSelectionState( Level level, Unit unit, Vector2Int startForward, MovePath path) : base(level) {
 
 		this.unit = unit;
-		this.startPosition = startPosition;
 		this.startForward = startForward;
 		this.path = path;
-		this.moves = moves;
 
 		UnitAction newAction(UnitActionType type, Unit unitTarget = null, Building buildingTarget = null, int weapon = -1) {
 			return new UnitAction(type, unit, path, unitTarget, buildingTarget, weapon);
 		}
 
-		var position = path.Last();
+		var position = path.positions.Last();
 		level.TryGetUnit(position, out var other);
 		if (other == null || other == unit) {
 			if (level.TryGetBuilding(position, out var building) && Rules.CanCapture(unit, building))
@@ -34,7 +31,7 @@ public class ActionSelectionState : LevelState {
 			actions.Add(newAction(UnitActionType.Join, unit));
 		if (other != null && Rules.CanLoadAsCargo(other, unit))
 			actions.Add(newAction(UnitActionType.GetIn, other));
-		if (!Rules.IsArtillery(unit) || path.Count == 1)
+		if (!Rules.IsArtillery(unit) || path.positions.Count == 1)
 			foreach (var otherPosition in level.AttackPositions(position, Rules.AttackRange(unit)))
 				if (level.TryGetUnit(otherPosition, out other))
 					for (var weapon = 0; weapon < Rules.WeaponsCount(unit); weapon++)
@@ -55,7 +52,7 @@ public class ActionSelectionState : LevelState {
 		base.Update();
 
 		if (Input.GetMouseButtonDown(Mouse.right)) {
-			unit.view.Position = startPosition;
+			unit.view.Position = path.positions[0];
 			unit.view.Forward = startForward;
 			level.State = new PathSelectionState(level, unit);
 			return;
