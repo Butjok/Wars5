@@ -303,7 +303,7 @@ float4 MyFragmentProgram (Interpolators i) : SV_TARGET {
 	half2 remappedUvs = tex2D(_UVs, i.uv).rg + float2(0, floor(i.uv.y));
 	//color.rg = remappedUvs;
 
-	color.rgb += _Tint2 * smoothstep(0.1,0,(.5+sin(-_Time.y + remappedUvs.y*5)/2));
+	//color.rgb += _Tint2 * smoothstep(0.1,0,(.5+sin(-_Time.y + remappedUvs.y*5)/2));
 	
 	#if defined(_RENDERING_FADE) || defined(_RENDERING_TRANSPARENT)
 		color.a = alpha;

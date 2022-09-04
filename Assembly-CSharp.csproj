@@ -378,6 +378,7 @@
      <Compile Include="Assets\SDF Toolkit\Examples\Scripts\Twinkle.cs" />
      <Compile Include="Assets\SDF Toolkit\SDFTextureGenerator.cs" />
      <Compile Include="Assets\Scripts\TangentSpaceVisualizer.cs" />
+     <Compile Include="Assets\Scripts\TerrainHeightmapGenerator.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\Shaders\My First Lighting Shader.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
@@ -414,6 +415,7 @@
      <None Include="Assets\Shaders\Difference.shader" />
      <None Include="Assets\SDF Toolkit\Shaders\SDF Standard.cginc" />
      <None Include="Assets\Shaders\water.shader" />
+     <None Include="Assets\Shaders\ShrinkToTerrain.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
      <None Include="Assets\Shaders\MinimapUnit.shader" />
      <None Include="Assets\Shaders\Minimap.shader" />
