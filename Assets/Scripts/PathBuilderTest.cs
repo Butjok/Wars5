@@ -16,8 +16,16 @@ public class PathBuilderTest : MonoBehaviour {
 	public Mesh quad;
 
 	public MoveTypeAtlas atlas;
+
+	public bool active = true;
 	
 	public void Update() {
+
+		if (Input.GetKeyDown(KeyCode.ScrollLock))
+			active = !active;
+		
+		if (!active)
+			return;
 
 		var offset = Vector2Int.zero;
 		if (Input.GetKeyDown(KeyCode.LeftArrow))
@@ -28,6 +36,9 @@ public class PathBuilderTest : MonoBehaviour {
 			offset.y += 1;
 		if (Input.GetKeyDown(KeyCode.DownArrow))
 			offset.y -= 1;
+			
+		if (offset.x !=0&&offset.y!=0)
+		offset.y=0;
 
 		if (offset != Vector2Int.zero) {
 			position += offset;
