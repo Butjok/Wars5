@@ -377,9 +377,12 @@
      <Compile Include="Assets\SDF Toolkit\UIMaterialLink.cs" />
      <Compile Include="Assets\SDF Toolkit\Examples\Scripts\Twinkle.cs" />
      <Compile Include="Assets\SDF Toolkit\SDFTextureGenerator.cs" />
+     <Compile Include="Assets\Scripts\TangentSpaceVisualizer.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
+     <None Include="Assets\Shaders\My First Lighting Shader.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\Content\MovePathUnlit.shader" />
+     <None Include="Assets\Shaders\My Lighting.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
      <None Include="Assets\SDF Toolkit\Shaders\SDF Specular.shader" />
      <None Include="Assets\SDF Toolkit\Shaders\SDF Forward.cginc" />
@@ -433,7 +436,9 @@
      <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
      <None Include="Assets\SDF Toolkit\Shaders\SDF Metallic.shader" />
      <None Include="Assets\SDF Toolkit\Shaders\SDFToolkit.hlsl" />
+     <None Include="Assets\Shaders\My Shadows.cginc" />
      <None Include="Assets\Shaders\SimpleInstanced.shader" />
+     <None Include="Assets\Shaders\Texture Splatting.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
      <None Include="Assets\SDF Toolkit\Shaders\SDF Shadow.cginc" />
      <None Include="Assets\Shaders\rough.shader" />
@@ -444,6 +449,8 @@
      <None Include="Assets\Shaders\Bush.shader" />
      <None Include="Assets\Shaders\Hole.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
+     <None Include="Assets\Shaders\My First Shader.shader" />
+     <None Include="Assets\Shaders\Textured With Detail.shader" />
      <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
      <None Include="Assets\SDF Toolkit\Shaders\SDF UI Metallic.shader" />
      <None Include="Assets\Shaders\UnlitMinimap.shader" />

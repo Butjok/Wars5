@@ -30,6 +30,8 @@ public static class MovePathMeshBuilder {
 		vertices.Clear();
 		uvs.Clear();
 
+		var uvOffset = Vector2.zero;
+		
 		foreach (var move in path.moves) {
 
 			if (move.type is MovePath.MoveType.RotateLeft or MovePath.MoveType.RotateRight or MovePath.MoveType.RotateBack)
@@ -52,13 +54,15 @@ public static class MovePathMeshBuilder {
 			var mp = new Vector2(rect.xMin, rect.yMax);
 			var mm = new Vector2(rect.xMin, rect.yMin);
 			
-			uvs.Add(pp);
-			uvs.Add(mm);
-			uvs.Add(mp);
+			uvs.Add(pp + uvOffset);
+			uvs.Add(mm + uvOffset);
+			uvs.Add(mp + uvOffset);
 			
-			uvs.Add(mm);
-			uvs.Add(pp);
-			uvs.Add(pm);
+			uvs.Add(mm + uvOffset);
+			uvs.Add(pp + uvOffset);
+			uvs.Add(pm + uvOffset);
+
+			uvOffset += new Vector2(0, 1);
 		}
 
 		triangles.Clear();

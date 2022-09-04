@@ -38,8 +38,8 @@ public class Level : SubStateMachine {
 
 	public override void Update() {
 		base.Update();
-		if (Input.GetKeyDown(KeyCode.Escape))
-			Sm.Push(new InGameOverlayMenu(Sm));
+		//if (Input.GetKeyDown(KeyCode.Escape))
+		//	Sm.Push(new InGameOverlayMenu(Sm));
 	}
 
 	public override void DrawGUI() {

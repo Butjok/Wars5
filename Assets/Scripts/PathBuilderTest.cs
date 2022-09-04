@@ -55,6 +55,9 @@ public class PathBuilderTest : MonoBehaviour {
 			position = Vector2Int.zero;
 			positions.Add(position);
 			set.Add(position);
+			
+			mesh.Clear();
+			meshFilter.sharedMesh = mesh;
 		}
 	}
 	public void OnDrawGizmos() {

@@ -49,6 +49,7 @@
      <Compile Include="Assets\Scripts\Editor\InputViewer.cs" />
      <Compile Include="Assets\SDF Toolkit\Editor\SDFTextureGeneratorWindow.cs" />
      <Compile Include="Assets\SDF Toolkit\Editor\SDFShaderGUI.cs" />
+     <Compile Include="Assets\Scripts\Editor\MyLightingShaderGUI.cs" />
      <Reference Include="UnityEngine">
      <HintPath>D:\Unity\2021.3.1f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
      </Reference>
