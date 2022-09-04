@@ -17,7 +17,7 @@ Shader "Custom/ShrinkToTerrain" {
 		// Use shader model 3.0 target, to get nicer looking lighting
 		#pragma target 3.0
 
-		sampler2D _MainTex, _Splat;
+		sampler2D _MainTex;
 
 		struct Input {
 			float2 uv_MainTex;
@@ -28,6 +28,7 @@ Shader "Custom/ShrinkToTerrain" {
 		half _Metallic;
 		fixed4 _Color;
 
+		sampler2D _Splat;
 		float4 _Bounds;
 		float4 _Flip;
 

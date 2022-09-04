@@ -21,6 +21,9 @@ float4 _Tint;
 sampler2D _MainTex;
 float4 _MainTex_ST;
 float _AlphaCutoff;
+sampler2D _Splat;
+float4 _Bounds;
+float4 _Flip;
 
 sampler3D _DitherMaskLOD;
 
@@ -64,6 +67,20 @@ float GetAlpha (Interpolators i) {
 }
 
 InterpolatorsVertex MyShadowVertexProgram (VertexData v) {
+
+	float4 worldPos = mul(unity_ObjectToWorld , v.position);
+
+	float2 splatUv = (worldPos.xz - _Bounds.xy) / (_Bounds.zw);
+	if (_Flip.x > .5)
+		splatUv.x = 1 - splatUv.x;
+	if (_Flip.y > .5)
+		splatUv.y = 1 - splatUv.y;
+
+	half height = tex2Dlod(_Splat, float4(splatUv,0,0));
+	worldPos.y = height;
+	//v.vertex += float4(0,1,0,1);
+	v.position.y = height+.05;
+	
 	InterpolatorsVertex i;
 	#if defined(SHADOWS_CUBE)
 		i.position = UnityObjectToClipPos(v.position);

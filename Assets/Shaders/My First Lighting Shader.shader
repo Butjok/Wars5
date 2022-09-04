@@ -1,11 +1,12 @@
 ﻿Shader "Custom/My First Lighting Shader" {
 
 	Properties {
-		_Tint ("Tint", Color) = (1, 1, 1, 1)
+		[HDR]_Tint ("Tint", Color) = (1, 1, 1, 1)
 		_Tint2 ("Tint2", Color) = (1, 1, 1, 1)
 		_MainTex ("Albedo", 2D) = "white" {}
 		
 		_UVs ("_UVs", 2D) = "black" {}
+		_Splat ("_Splat", 2D) = "black" {}
 
 		[NoScaleOffset] _NormalMap ("Normals", 2D) = "bump" {}
 		_BumpScale ("Bump Scale", Float) = 1
@@ -18,7 +19,7 @@
 		_OcclusionStrength("Occlusion Strength", Range(0, 1)) = 1
 
 		[NoScaleOffset] _EmissionMap ("Emission", 2D) = "black" {}
-		_Emission ("Emission", Color) = (0, 0, 0)
+		[HDR]_Emission ("Emission", Color) = (0, 0, 0)
 
 		[NoScaleOffset] _DetailMask ("Detail Mask", 2D) = "white" {}
 		_DetailTex ("Detail Albedo", 2D) = "gray" {}
@@ -46,6 +47,7 @@
 			}
 			Blend [_SrcBlend] [_DstBlend]
 			ZWrite [_ZWrite]
+			ZTest Always
 
 			CGPROGRAM
 
@@ -81,6 +83,7 @@
 
 			Blend [_SrcBlend] One
 			ZWrite Off
+			ZTest Always
 
 			CGPROGRAM
 

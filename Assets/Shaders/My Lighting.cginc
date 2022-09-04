@@ -22,6 +22,9 @@ sampler2D _EmissionMap;
 float3 _Emission;
 
 sampler2D _UVs;
+sampler2D _Splat;
+float4 _Bounds;
+float4 _Flip;
 
 float _AlphaCutoff;
 
@@ -149,6 +152,20 @@ float3 CreateBinormal (float3 normal, float3 tangent, float binormalSign) {
 }
 
 Interpolators MyVertexProgram (VertexData v) {
+
+	float4 worldPos = mul(unity_ObjectToWorld , v.vertex);
+
+	float2 splatUv = (worldPos.xz - _Bounds.xy) / (_Bounds.zw);
+	if (_Flip.x > .5)
+		splatUv.x = 1 - splatUv.x;
+	if (_Flip.y > .5)
+		splatUv.y = 1 - splatUv.y;
+
+	half height = tex2Dlod(_Splat, float4(splatUv,0,0));
+	worldPos.y = height;
+	//v.vertex += float4(0,1,0,1);
+	v.vertex.y = height+.05;
+	
 	Interpolators i;
 	i.pos = UnityObjectToClipPos(v.vertex);
 	i.worldPos = mul(unity_ObjectToWorld, v.vertex);

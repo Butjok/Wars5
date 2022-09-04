@@ -5222,6 +5222,7 @@ MonoBehaviour:
   walker: {fileID: 1025695623}
   meshFilter: {fileID: 1613043517}
   mesh: {fileID: 0}
+  quad: {fileID: 0}
   atlas: {fileID: 11400000, guid: 46fbb0305b4b86e4797d03efe5ca8c5c, type: 2}
 --- !u!4 &1613043519
 Transform:
@@ -5231,7 +5232,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1613043515}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.73, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6160,7 +6161,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.20000003, y: 0.034077905, z: 0.20000003}
-  m_Center: {x: 0.000000007450581, y: -0.084072664, z: 0.000000022351742}
+  m_Center: {x: 0.000000007450581, y: -0.11, z: 0.000000022351742}
 --- !u!114 &1965656852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6260,6 +6261,42 @@ MonoBehaviour:
   mesh: {fileID: -550228638252144623, guid: c13f90ac606960f4e8b1ef91e364b5da, type: 3}
   materials:
   - {fileID: 2100000, guid: bb73e620cef858c4ab185413e996c43c, type: 2}
+--- !u!114 &1965656872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1965656844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b9e2cf1711a46b78a8b872a89a11648, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boxCollider: {fileID: 1965656851}
+  material: {fileID: 2100000, guid: f94d343f0d2b34e07a9410054588dc7f, type: 2}
+  splat: {fileID: 2800000, guid: d446c84bed2faad488fa6c86c04c6709, type: 2}
+  flipX: 0
+  flipY: 0
+--- !u!114 &1965656873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1965656844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a1f9d9019814cc6bf0ede5785df7616, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boxCollider: {fileID: 1965656851}
+  heightmap: {fileID: 2800000, guid: d446c84bed2faad488fa6c86c04c6709, type: 2}
+  size: 1024
+  maxHeight: 1
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &1982164432 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 3f15f8122ea40714783eadae1d434768, type: 3}
@@ -6482,7 +6519,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9102701129914540530, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: speed
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}

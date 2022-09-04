@@ -13,6 +13,7 @@ public class PathBuilderTest : MonoBehaviour {
 	public MovePath path;
 	public MeshFilter meshFilter;
 	public Mesh mesh;
+	public Mesh quad;
 
 	public MoveTypeAtlas atlas;
 	
