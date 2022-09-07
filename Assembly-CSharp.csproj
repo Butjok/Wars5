@@ -99,6 +99,7 @@
      <Compile Include="Assets\CommandLine\Antlr4\Atn\SimulatorState.cs" />
      <Compile Include="Assets\Scripts\HardFollowToggler.cs" />
      <Compile Include="Assets\Scripts\Animation\Wind.cs" />
+     <Compile Include="Assets\Scripts\CursorView.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Atn\ATNSimulator.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Atn\ErrorInfo.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\UnbufferedCharStream.cs" />
@@ -176,6 +177,7 @@
      <Compile Include="Assets\Scripts\FoliageRenderer.cs" />
      <Compile Include="Assets\Scripts\Animation\BallisticCurve.cs" />
      <Compile Include="Assets\Scripts\LevelScript\Tutorial.cs" />
+     <Compile Include="Assets\Scripts\MeshUtils.cs" />
      <Compile Include="Assets\Scripts\InGameOverlayMenuView.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Tree\IParseTreeVisitor.cs" />
      <Compile Include="Assets\Scripts\Animation\Accelerometer.cs" />
@@ -197,6 +199,7 @@
      <Compile Include="Assets\CommandLine\Antlr4\Atn\BlockStartState.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\IIntStream.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Atn\LexerActionType.cs" />
+     <Compile Include="Assets\Scripts\MovePathBuilder.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Misc\Interval.cs" />
      <Compile Include="Assets\CommandLine\Parsers\Butjok\CommandLine\Parsers\CommandLineBaseListener.cs" />
      <Compile Include="Assets\Scripts\Music.cs" />
@@ -210,6 +213,7 @@
      <Compile Include="Assets\CommandLine\Antlr4\ParserInterpreter.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Tree\Xpath\XPathWildcardElement.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Sharpen\Runtime.cs" />
+     <Compile Include="Assets\Scripts\TileMeshBuilder.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Tree\Xpath\XPathLexer.cs" />
      <Compile Include="Assets\Scripts\Woo.cs" />
      <Compile Include="Assets\Scripts\LevelOverlayUI.cs" />
@@ -379,10 +383,7 @@
      <Compile Include="Assets\CommandLine\Antlr4\Atn\PlusBlockStartState.cs" />
      <Compile Include="Assets\Scripts\Animation\PistonBody.cs" />
      <Compile Include="Assets\Scripts\StateMachine\State.cs" />
-     <Compile Include="Assets\Scripts\MovePathBuilder.cs" />
-     <Compile Include="Assets\Scripts\CursorView.cs" />
-     <Compile Include="Assets\Scripts\MeshUtils.cs" />
-     <Compile Include="Assets\Scripts\TileMeshBuilder.cs" />
+     <Compile Include="Assets\Scripts\LevelState\DialogueState.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\Shaders\My First Lighting Shader.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
