@@ -7,27 +7,22 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MovePath
-  m_Shader: {fileID: 4800000, guid: 5f4ef781973e0f44ba85c9f9fda461e2, type: 3}
-  m_ValidKeywords: []
-  m_InvalidKeywords:
-  - _ALPHABLEND_ON
-  - _FADING_ON
-  m_LightmapFlags: 0
+  m_Name: TileMesh
+  m_Shader: {fileID: 4800000, guid: 507e5419769c64e00932f47c2307f9fa, type: 3}
+  m_ValidKeywords:
+  - _RENDERING_FADE
+  - _SEMITRANSPARENT_SHADOWS
+  m_InvalidKeywords: []
+  m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3000
+  m_CustomRenderQueue: 3250
   stringTagMap:
     RenderType: Transparent
-  disabledShaderPasses:
-  - ALWAYS
+  disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _Alpha:
-        m_Texture: {fileID: 2800000, guid: 3e282b19d6680194f88848ba27ede35f, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _BumpMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -44,15 +39,31 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _EmissionMap:
+    - _DetailTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 2800000, guid: dffef66376be4fa480fb02b19edbe903, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _HeightMap:
+        m_Texture: {fileID: 2800000, guid: d38a4f30d413745adaf12f60ca54997d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 3e282b19d6680194f88848ba27ede35f, type: 3}
+        m_Texture: {fileID: 2800000, guid: 5d638f8ea10f2e344a190501cfff58df, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -64,65 +75,44 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _SlideTexture:
-        m_Texture: {fileID: 2800000, guid: 5600f94087a2be74dad242b9465f58de, type: 3}
+    - _Splat:
+        m_Texture: {fileID: 2800000, guid: d446c84bed2faad488fa6c86c04c6709, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _UVs:
-        m_Texture: {fileID: 2800000, guid: 8aab6f487b1f1c545bb16750b6675b5a, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _BUILTIN_QueueControl: 0
-    - _BUILTIN_QueueOffset: 0
-    - _BlendOp: 0
+    - _AlphaCutoff: 0.5
     - _BumpScale: 1
-    - _CameraFadingEnabled: 0
-    - _CameraFarFadeDistance: 1
-    - _CameraNearFadeDistance: 0
-    - _Cull: 2
     - _Cutoff: 0.5
+    - _DetailBumpScale: 1
     - _DetailNormalMapScale: 1
-    - _DistortionBlend: 0.5
-    - _DistortionEnabled: 0
-    - _DistortionStrength: 1
-    - _DistortionStrengthScaled: 0
     - _DstBlend: 10
-    - _EmissionEnabled: 0
-    - _FlipbookMode: 0
     - _GlossMapScale: 1
-    - _Glossiness: 0
+    - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _LightingEnabled: 1
     - _Metallic: 0
-    - _Mode: 2
+    - _Mode: 0
+    - _NormalBump: 0.25
+    - _NormalScale: 0.25
     - _OcclusionStrength: 1
+    - _Offset: 0.05
     - _Parallax: 0.02
+    - _Smoothness: 0.75
     - _SmoothnessTextureChannel: 0
-    - _SoftParticlesEnabled: 1
-    - _SoftParticlesFarFadeDistance: 0.2
-    - _SoftParticlesNearFadeDistance: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 5
     - _UVSec: 0
     - _ZWrite: 0
     m_Colors:
-    - _CameraFadeParams: {r: 0, g: Infinity, b: 0, a: 0}
-    - _Color: {r: 0, g: 0.06593903, b: 0.8396226, a: 1}
-    - _EmissionColor: {r: 0, g: 8.189922, b: 4.8696847, a: 1}
-    - _SoftParticleFadeParams: {r: 0, g: 5, b: 0, a: 0}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Emission: {r: 0, g: 0, b: 0, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _Specular: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    - _SpecularTint: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    - _Tint: {r: 17.093441, g: 18.635826, b: 0, a: 0.12156863}
+    - _Tint2: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &6509955263444623910
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 639247ca83abc874e893eb93af2b5e44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 0

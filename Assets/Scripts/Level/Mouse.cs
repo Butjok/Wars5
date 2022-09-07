@@ -25,4 +25,12 @@ public static class Mouse
     public static bool TryGetPosition(out Vector3 position) {
         return TryGetPosition(out position, out _);
     }
+    public static bool TryGetPosition(out Vector2Int position) {
+        position = default;
+        if (TryGetPosition(out Vector3 vector3Position)) {
+            position = vector3Position.ToVector2().RoundToInt();
+            return true;    
+        }
+        return false;
+    }
 }

@@ -24,6 +24,7 @@ public class StateMachine : IDisposable {
 	}
 
 	private StateMachineRunner runner;
+	public StateMachineRunner Runner => runner;
 	public bool Running {
 		get => runner.enabled;
 		set => runner.enabled = value;

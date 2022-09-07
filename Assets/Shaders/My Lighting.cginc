@@ -27,6 +27,7 @@ float4 _Bounds;
 float4 _Flip;
 
 float _AlphaCutoff;
+float _Offset;
 
 struct VertexData {
 	float4 vertex : POSITION;
@@ -164,7 +165,7 @@ Interpolators MyVertexProgram (VertexData v) {
 	half height = tex2Dlod(_Splat, float4(splatUv,0,0));
 	worldPos.y = height;
 	//v.vertex += float4(0,1,0,1);
-	v.vertex.y = height+.05;
+	v.vertex.y = height+_Offset;
 	
 	Interpolators i;
 	i.pos = UnityObjectToClipPos(v.vertex);

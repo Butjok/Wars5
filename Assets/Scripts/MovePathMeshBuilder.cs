@@ -1,21 +1,8 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public static class MovePathMeshBuilder {
-
-	public static readonly Vector3[] quad = new Vector2[] {
-
-		new(+.5f, +.5f),
-		new(-.5f, -.5f),
-		new(-.5f, +.5f),
-
-		new(-.5f, -.5f),
-		new(+.5f, +.5f),
-		new(+.5f, -.5f),
-
-	}.Select(vector2 => vector2.ToVector3()).ToArray();
-
+	
 	public static readonly List<Vector3> vertices = new();
 	public static readonly List<Vector2> uvs = new();
 	public static readonly List<int> triangles = new();
@@ -29,6 +16,7 @@ public static class MovePathMeshBuilder {
 
 		vertices.Clear();
 		uvs.Clear();
+		triangles.Clear();
 
 		var uvOffset = Vector2.zero;
 		
@@ -45,7 +33,7 @@ public static class MovePathMeshBuilder {
 			var rotate = Matrix4x4.Rotate(Quaternion.LookRotation(move.forward.ToVector3Int(), Vector3.up));
 			var transform = translate * rotate;
 			
-			foreach (var vertex in quad)
+			foreach (var vertex in MeshUtils.quad)
 				vertices.Add(transform * vertex.ToVector4());
 
 			var rect = atlas[move.type];
@@ -64,8 +52,7 @@ public static class MovePathMeshBuilder {
 
 			uvOffset += new Vector2(0, 1);
 		}
-
-		triangles.Clear();
+		
 		for (var i = 0; i < vertices.Count; i++)
 			triangles.Add(i);
 

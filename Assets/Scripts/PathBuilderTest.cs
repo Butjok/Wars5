@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Assertions;
 
 public class PathBuilderTest : MonoBehaviour {
 
@@ -18,16 +18,48 @@ public class PathBuilderTest : MonoBehaviour {
 	public MoveTypeAtlas atlas;
 
 	public bool active = true;
-	
+
+	public MovePathBuilder pathBuilder = new(Vector2Int.zero);
+	public bool followMousePath = true;
+
+	public Level level;
+	public Traverser traverser = new Traverser();
+
 	public void Update() {
 
 		if (Input.GetKeyDown(KeyCode.ScrollLock))
 			active = !active;
-		
+
 		if (!active)
 			return;
 
-		var offset = Vector2Int.zero;
+		if (!mesh)
+			mesh = new Mesh();
+
+		pathBuilder.Clear();
+		if (Mouse.TryGetPosition(out Vector2Int mousePosition) && level.TryGetTile(mousePosition, out _)) {
+			traverser.Traverse(level.tiles.Keys, pathBuilder.startPosition, (position, distance) => 1);
+			if (traverser.IsReachable(mousePosition)) {
+
+				foreach (var position in traverser.ReconstructPath(mousePosition).Skip(1))
+					pathBuilder.Add(position);
+
+				path = pathBuilder.GetMovePath(Vector2Int.down);
+				mesh = MovePathMeshBuilder.Build(mesh, path, atlas);
+				meshFilter.sharedMesh = mesh;
+			}
+			else {
+				pathBuilder.Clear();
+				mesh.Clear();
+			}
+		}
+		else
+			mesh.Clear();
+
+		meshFilter.sharedMesh = mesh;
+
+
+/*		var offset = Vector2Int.zero;
 		if (Input.GetKeyDown(KeyCode.LeftArrow))
 			offset.x -= 1;
 		if (Input.GetKeyDown(KeyCode.RightArrow))
@@ -36,25 +68,15 @@ public class PathBuilderTest : MonoBehaviour {
 			offset.y += 1;
 		if (Input.GetKeyDown(KeyCode.DownArrow))
 			offset.y -= 1;
-			
-		if (offset.x !=0&&offset.y!=0)
-		offset.y=0;
 
-		if (offset != Vector2Int.zero) {
+		if (offset.x != 0 && offset.y != 0)
+			offset.y = 0;*/
+
+		/*if (offset != Vector2Int.zero) {
 			position += offset;
-			if (!set.Contains(position)) {
-				positions.Add(position);
-				set.Add(position);
-			}
-			else
-				for (var i = positions.Count - 1; i >= 0; i--) {
-					if (positions[i] == position)
-						break;
-					set.Remove(positions[i]);
-					positions.RemoveAt(i);
-				}
+			pathBuilder.Add(position);
 
-			path = new MovePath(positions, Vector2Int.down);
+			path = pathBuilder.GetMovePath(Vector2Int.down);
 			walker.moves = path.moves;
 			walker.enabled = true;
 
@@ -62,15 +84,12 @@ public class PathBuilderTest : MonoBehaviour {
 			meshFilter.sharedMesh = mesh;
 		}
 		if (Input.GetKeyDown(KeyCode.Escape)) {
-			positions.Clear();
-			set.Clear();
+			pathBuilder.Clear();
 			position = Vector2Int.zero;
-			positions.Add(position);
-			set.Add(position);
-			
+
 			mesh.Clear();
 			meshFilter.sharedMesh = mesh;
-		}
+		}*/
 	}
 	public void OnDrawGizmos() {
 		Gizmos.color = Color.blue;

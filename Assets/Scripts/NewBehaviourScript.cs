@@ -38,8 +38,9 @@ public class NewBehaviourScript : MonoBehaviour {
 
 		game = new Game();
 
-		var min = new Vector2Int(-3, -3);
-		var max = new Vector2Int(3, 3);
+		var size = 5;
+		var min = new Vector2Int(-size, -size);
+		var max = new Vector2Int(size, size);
 
 		level = new Level(min,max, game);
 		level.script = new Tutorial(level);
@@ -48,7 +49,11 @@ public class NewBehaviourScript : MonoBehaviour {
 
 
 		level2 = level;
-		
+
+
+		var pathBuilderTest = FindObjectOfType<PathBuilderTest>();
+		if (pathBuilderTest)
+			pathBuilderTest.level = level;
 
 
 		/*Debug.Log(string.Join("\n",SaveDataManager.Names));

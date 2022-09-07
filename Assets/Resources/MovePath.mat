@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Transparency
-  m_Shader: {fileID: 4800000, guid: 507e5419769c64e00932f47c2307f9fa, type: 3}
+  m_Name: MovePath
+  m_Shader: {fileID: 4800000, guid: 2258034dc15e92c4f88ce117c23cf2d7, type: 3}
   m_ValidKeywords:
   - _RENDERING_FADE
   - _SEMITRANSPARENT_SHADOWS
@@ -17,8 +17,7 @@ Material:
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 3500
-  stringTagMap:
-    RenderType: Transparent
+  stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -99,6 +98,7 @@ Material:
     - _NormalBump: 0.25
     - _NormalScale: 0.25
     - _OcclusionStrength: 1
+    - _Offset: 0.05
     - _Parallax: 0.02
     - _Smoothness: 0.75
     - _SmoothnessTextureChannel: 0

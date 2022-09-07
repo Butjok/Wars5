@@ -68,13 +68,13 @@ public class Level : SubStateMachine {
 	}
 
 	public bool TryGetTile(Vector2Int position, out TileType tile) {
-		return tiles.TryGetValue(position, out tile);
+		return tiles.TryGetValue(position, out tile) && tile != 0;
 	}
 	public bool TryGetUnit(Vector2Int position, out Unit unit) {
-		return units.TryGetValue(position, out unit);
+		return units.TryGetValue(position, out unit) && unit != null;
 	}
 	public bool TryGetBuilding(Vector2Int position, out Building building) {
-		return buildings.TryGetValue(position, out building);
+		return buildings.TryGetValue(position, out building) && building != null;
 	}
 
 	public IEnumerable<Unit> FindUnitsOf(Player player) {

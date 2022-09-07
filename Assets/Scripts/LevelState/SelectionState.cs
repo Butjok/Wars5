@@ -35,8 +35,8 @@ public class SelectionState : LevelState {
 				Sounds.NotAllowed.Play();
 		}
 		if (Input.GetMouseButtonDown(Mouse.left) &&
-		    Mouse.TryGetPosition(out var position) &&
-		    level.TryGetUnit(position.ToVector2().RoundToInt(), out var unit)) {
+		    Mouse.TryGetPosition(out Vector2Int position) &&
+		    level.TryGetUnit(position, out var unit)) {
 
 			if (unit.moved.v)
 				Sounds.NotAllowed.Play();

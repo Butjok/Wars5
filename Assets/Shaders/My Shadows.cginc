@@ -24,6 +24,7 @@ float _AlphaCutoff;
 sampler2D _Splat;
 float4 _Bounds;
 float4 _Flip;
+float _Offset;
 
 sampler3D _DitherMaskLOD;
 
@@ -79,7 +80,7 @@ InterpolatorsVertex MyShadowVertexProgram (VertexData v) {
 	half height = tex2Dlod(_Splat, float4(splatUv,0,0));
 	worldPos.y = height;
 	//v.vertex += float4(0,1,0,1);
-	v.position.y = height+.05;
+	v.position.y = height+_Offset;
 	
 	InterpolatorsVertex i;
 	#if defined(SHADOWS_CUBE)

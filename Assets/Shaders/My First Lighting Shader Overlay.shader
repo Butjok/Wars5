@@ -1,4 +1,4 @@
-﻿Shader "Custom/My First Lighting Shader" {
+﻿Shader "Custom/My First Lighting Shader Overlay" {
 
 	Properties {
 		[HDR]_Tint ("Tint", Color) = (1, 1, 1, 1)
@@ -49,7 +49,7 @@
 			}
 			Blend [_SrcBlend] [_DstBlend]
 			ZWrite [_ZWrite]
-			//ZTest Always
+			ZTest Always
 
 			CGPROGRAM
 
@@ -85,7 +85,7 @@
 
 			Blend [_SrcBlend] One
 			ZWrite Off
-			//ZTest Always
+			ZTest Always
 
 			CGPROGRAM
 
