@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.Assertions;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 public class TerrainHeightmapGenerator : MonoBehaviour {
 
@@ -43,9 +45,11 @@ public class TerrainHeightmapGenerator : MonoBehaviour {
 			//heightmap.SetPixel(x, y, new Color(uv.y, 0, 0));
 		}
 		heightmap.Apply();
-		
+
+#if UNITY_EDITOR
 		AssetDatabase.CreateAsset(heightmap, "Assets/Scenes/Heightmap.asset");
 		AssetDatabase.SaveAssets();
+#endif
 	}
 }
 

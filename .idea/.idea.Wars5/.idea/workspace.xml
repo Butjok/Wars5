@@ -1,50 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="fgdgdfgdfgdfg">
-      <change afterPath="$PROJECT_DIR$/Assets/Content/Quad.fbx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Content/Quad.fbx.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Content/cursor-alpha.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Content/cursor-alpha.png.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/CursorView.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/CursorView.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/MeshUtils.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/MeshUtils.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/MovePathBuilder.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/MovePathBuilder.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/TileMeshBuilder.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/TileMeshBuilder.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Trajectory 1.mat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Trajectory 1.mat.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assembly-CSharp-Editor.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp-Editor.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assembly-CSharp-firstpass.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp-firstpass.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assembly-CSharp.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Content/minimap/unit-alpha.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Content/minimap/unit-alpha.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Transparency.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/MovePath.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Transparency.mat.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/MovePath.mat.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/MovePath.mat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/MovePath.mat.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/New Texture Atlas.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/MoveTypeAtlas.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/New Texture Atlas.asset.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/MoveTypeAtlas.asset.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Out.json" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Out.json" afterDir="false" />
+    <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="ghjgjhgjghjghkhjkhjkh">
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/TileMesh.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/TileMesh.mat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene_Profiles/GameObject (3) Profile.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene_Profiles/GameObject (3) Profile.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CameraRig.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CameraRig.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Level/Level.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Level/Level.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Level/Mouse.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Level/Mouse.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/LevelState/PathSelectionState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/LevelState/PathSelectionState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/LevelState/SelectionState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/LevelState/SelectionState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/MovePathMeshBuilder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/MovePathMeshBuilder.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/NewBehaviourScript.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/NewBehaviourScript.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PathBuilderTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PathBuilderTest.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/StateMachine/StateMachine.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/StateMachine/StateMachine.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Shaders/My First Lighting Shader.shader" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Shaders/My First Lighting Shader.shader" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TerrainHeightmapGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TerrainHeightmapGenerator.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Shaders/My Lighting.cginc" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Shaders/My Lighting.cginc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Shaders/My Shadows.cginc" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Shaders/My Shadows.cginc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Shaders/Terrain.shader" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Shaders/Terrain.shader" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/RiderScriptEditorPersistedState.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/RiderScriptEditorPersistedState.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -111,6 +72,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/823fb226a3f9439cb41fdcb61f9c86a1157600/bf/a5abd18a/Vector3.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Rules.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5a41d6b7189842eca409fd0b1c3e3dcf17bf78/75/b2a49bf0/IEnumerable`1.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../Unity/2021.3.1f1/Editor/Data/CGIncludes/AutoLight.cginc" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5a41d6b7189842eca409fd0b1c3e3dcf17bf78/23/8f1a559c/ICollection`1.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/823fb226a3f9439cb41fdcb61f9c86a1157600/bb/a33c81f2/RectTransform.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/d59c74366d1e4e10965d9d2cdb4f8e0627400/39/e73132d3/ScreenSpaceReflectionPreset.cs" root0="SKIP_HIGHLIGHTING" />
@@ -226,7 +188,7 @@
       <workItem from="1662195746230" duration="491000" />
       <workItem from="1662290911469" duration="32525000" />
       <workItem from="1662327614146" duration="407000" />
-      <workItem from="1662506336329" duration="10795000" />
+      <workItem from="1662506336329" duration="11605000" />
     </task>
     <task id="LOCAL-00001" summary="fgdfdfgdgf">
       <created>1657027620998</created>
@@ -536,7 +498,14 @@
       <option name="project" value="LOCAL" />
       <updated>1662514820441</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="ghjgjhgjghjghkhjkhjkh">
+      <created>1662519720310</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1662519720310</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -558,7 +527,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="fghjfghjfghj" />
     <MESSAGE value="gffffffffffff" />
     <MESSAGE value="figured out fucking wrong vertex shader in surface shader vertex program" />
     <MESSAGE value="ghhhhghggggggg" />
@@ -583,7 +551,8 @@
     <MESSAGE value="ghffghghfghffghfgh" />
     <MESSAGE value="pelmeni day was good" />
     <MESSAGE value="fgdgdfgdfgdfg" />
-    <option name="LAST_COMMIT_MESSAGE" value="fgdgdfgdfgdfg" />
+    <MESSAGE value="ghjgjhgjghjghkhjkhjkh" />
+    <option name="LAST_COMMIT_MESSAGE" value="ghjgjhgjghjghkhjkhjkh" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

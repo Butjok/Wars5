@@ -2161,7 +2161,7 @@ Light:
       e32: 0
       e33: 1
     m_UseCullingMatrixOverride: 0
-  m_Cookie: {fileID: 2800000, guid: 43783051efc5efb4f90afdf989beca6d, type: 3}
+  m_Cookie: {fileID: 2800000, guid: d5bffa48f80d4fa4abad5df4814a8737, type: 3}
   m_DrawHalo: 0
   m_Flare: {fileID: 0}
   m_RenderMode: 0
@@ -2207,7 +2207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c30b57adcb147fb89d8bbb49c00d0f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocity: {x: 0.0625, y: 0, z: 0.03125}
+  velocity: {x: 0.125, y: 0, z: 0.0625}
 --- !u!1001 &721720177
 PrefabInstance:
   m_ObjectHideFlags: 0

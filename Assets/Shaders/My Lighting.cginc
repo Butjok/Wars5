@@ -50,6 +50,7 @@ struct Interpolators {
 
 	float3 worldPos : TEXCOORD4;
 
+	//UNITY_SHADOW_COORDS()
 	SHADOW_COORDS(5)
 
 	#if defined(VERTEXLIGHT_ON)

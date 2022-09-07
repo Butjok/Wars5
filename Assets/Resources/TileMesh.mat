@@ -99,7 +99,7 @@ Material:
     - _NormalBump: 0.25
     - _NormalScale: 0.25
     - _OcclusionStrength: 1
-    - _Offset: 0.05
+    - _Offset: 0.025
     - _Parallax: 0.02
     - _Smoothness: 0.75
     - _SmoothnessTextureChannel: 0
@@ -113,6 +113,6 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Specular: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _SpecularTint: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-    - _Tint: {r: 17.093441, g: 18.635826, b: 0, a: 0.12156863}
+    - _Tint: {r: 9.613609, g: 10.432951, b: 0, a: 0.12156863}
     - _Tint2: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
