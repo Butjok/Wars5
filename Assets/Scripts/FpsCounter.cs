@@ -20,6 +20,6 @@ public class FpsCounter : MonoBehaviour {
 		var style = GUI.skin.label;
 		content.text = text;
 		var size = style.CalcSize(content);
-		GUI.Label(new Rect(new Vector2(Screen.width/2-size.x, Screen.height-size.y), size), text);
+		GUI.Label(new Rect(new Vector2(Screen.width-size.x, Screen.height-size.y), size), text);
 	}
 }
