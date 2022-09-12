@@ -124,7 +124,7 @@ public class PathSelectionState : State2<Game2> {
                 return;
             }
             else
-                Sounds.NotAllowed.Play();
+                UiSound.Instance.notAllowed.Play();
         }
     }
 

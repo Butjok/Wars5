@@ -41,7 +41,7 @@ public class Unit : IDisposable {
 		this.position = new ChangeTracker<Vector2Int?>(old => {
 
 			if (old is { } oldPosition)
-				game.units[oldPosition] = null;
+				game.units.Remove(oldPosition);
 
 			if (this.position.v is { } newPosition) {
 				game.units[newPosition] = this;

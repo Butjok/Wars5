@@ -48,6 +48,7 @@ public class NewBehaviourScript : MonoBehaviour {
 		var green = new Player(game, Palette.green, Team.Bravo);
 		
 		game.players = new List<Player> { red,green};
+		game.realPlayer = red;
 
 		game.tiles = new Map2D<TileType>(min, max);
 		foreach (var position in game.tiles.positions)
@@ -56,7 +57,10 @@ public class NewBehaviourScript : MonoBehaviour {
 		game.units = new Map2D<Unit>(min, max);
 		
 		game.buildings = new Map2D<Building>(min, max);
+		
 		new Building(game, new Vector2Int(-2, -3));
+		new Building(game, min, TileType.Hq, red);
+		new Building(game, max, TileType.Hq, green);
 
 		unit = new Unit(game, green, position: new Vector2Int(1, 1), viewPrefab: Resources.Load<UnitView>
 		("mrap0-export"));

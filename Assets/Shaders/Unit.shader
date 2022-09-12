@@ -13,6 +13,7 @@ Shader "Custom/Unit"
         _BounceIntensity ("_BounceIntensity", Range(0,10)) = 1.0
         _Offset ("_Offset", Vector) = (0, 0, .5, 1)
         _OffsetIntensity ("_OffsetIntensity", Range(0,10)) = 0
+        _Moved ("_Moved", Range(0,1)) = 0
     }
     SubShader
     {
@@ -38,6 +39,7 @@ Shader "Custom/Unit"
 
         fixed4 _PlayerColor,_Offset;
         half _Selected,_HueShift,_BounceIntensity,_OffsetIntensity;
+        half _Moved;
         
         void surf (Input IN, inout SurfaceOutputStandard o)
         {
@@ -48,7 +50,7 @@ Shader "Custom/Unit"
             
             // Albedo comes from a texture tinted by color
             fixed3 c = hue_shift(tex2D (_MainTex, uv),_HueShift); // * _PlayerColor;
-            o.Albedo = c.rgb;
+            o.Albedo = c.rgb * lerp(float3(1,1,1), float3(1,1,1) / 2, _Moved);
             //o.Albedo=tex2D (_Normal, IN.uv_MainTex);
             // Metallic and smoothness come from slider variables
             o.Metallic = tex2D (_Metallic, uv);

@@ -9,8 +9,8 @@ using UnityEngine.Serialization;
 public class UnitView : MonoBehaviour {
 
 	public Unit unit;
-	public Lazy<Renderer[]> renderers;
-	public Lazy<MaterialPropertyBlock> propertyBlock;
+	public Renderer[] renderers;
+	public MaterialPropertyBlock propertyBlock;
 	[FormerlySerializedAs("curve")] public AnimationCurve blinkCurve = new AnimationCurve();
 	public Speedometer[] speedometers;
 	public SteeringArm[] steeringArms;
@@ -62,18 +62,6 @@ public class UnitView : MonoBehaviour {
 		}
 	}
 
-	public bool Moved {
-		set => UpdateColor();
-	}
-	public Color PlayerColor {
-		set => UpdateColor();
-	}
-	public void UpdateColor() {
-		Color = unit.player.color * (unit.moved.v ? movedTint : Color.white);
-		/*if (hpText)
-			hpText.color = unit.player.color;*/
-	}
-
 	public bool LowAmmo {
 		set { }
 	}
@@ -100,26 +88,36 @@ public class UnitView : MonoBehaviour {
 				Blink();
 		});
 
-		propertyBlock = new Lazy<MaterialPropertyBlock>(() => new MaterialPropertyBlock());
-		renderers = new Lazy<Renderer[]>(GetComponentsInChildren<Renderer>);
+		propertyBlock = new MaterialPropertyBlock();
+		renderers = GetComponentsInChildren<Renderer>();
 
 		wheels = GetComponentsInChildren<Wheel>();
 		wheelPistons = wheels.Select(wheel => wheel.GetComponent<Piston>()).Distinct().ToArray();
 		body = GetComponentInChildren<Body>();
 	}
 
-	public static readonly int colorId = Shader.PropertyToID("_PlayerColor");
-	private Color Color {
-		set {
-			propertyBlock.v.SetColor(colorId, value);
-			foreach (var renderer in renderers.v)
-				renderer.SetPropertyBlock(propertyBlock.v);
-		}
-	}
+
 	public Unit Carrier {
 		set {
-			
+
 		}
+	}
+
+	public Color32 PlayerColor {
+		set {
+			propertyBlock.SetColor("_PlayerColor", value);
+			UpdateRenderers();
+		}
+	}
+	public bool Moved {
+		set {
+			propertyBlock.SetFloat("_Moved", value ? 1 : 0);
+			UpdateRenderers();
+		}
+	}
+	public void UpdateRenderers() {
+		foreach (var renderer in renderers)
+			renderer.SetPropertyBlock(propertyBlock);
 	}
 
 	[ContextMenu(nameof(Move))]
@@ -133,13 +131,13 @@ public class UnitView : MonoBehaviour {
 
 	public void Blink() {
 		// TODO: move to shader code
-		if (blinkCurve.length>0) 
-		DOTween.To(t => {
-			var value = blinkCurve.Evaluate(t);
-			propertyBlock.v.SetFloat("_Selected", value);
-			foreach (var renderer in renderers.v)
-				renderer.SetPropertyBlock(propertyBlock.v);
-		}, 0, blinkCurve[blinkCurve.length - 1].time, blinkDuration);
+		if (blinkCurve.length > 0)
+			DOTween.To(t => {
+				var value = blinkCurve.Evaluate(t);
+				propertyBlock.SetFloat("_Selected", value);
+				foreach (var renderer in renderers)
+					renderer.SetPropertyBlock(propertyBlock);
+			}, 0, blinkCurve[blinkCurve.length - 1].time, blinkDuration);
 	}
 	public float blinkDuration = 1;
 

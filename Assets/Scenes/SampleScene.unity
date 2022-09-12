@@ -2677,7 +2677,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &781838990
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4384,6 +4384,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minimapMeshGenerator: {fileID: 1354915080}
+  game: {fileID: 0}
 --- !u!1 &1238864975
 GameObject:
   m_ObjectHideFlags: 1
@@ -4776,6 +4777,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f93c04f849d3445f990ed3c7a5dc2fcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  game: {fileID: 0}
   mesh: {fileID: 0}
   meshFilter: {fileID: 1354915078}
   renderCamera: {fileID: 529118882}
@@ -7081,19 +7083,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 51258076789849872, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 139.41748
+      value: 120.27472
       objectReference: {fileID: 0}
     - target: {fileID: 51258076789849872, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 115.36307
+      value: 99.52304
       objectReference: {fileID: 0}
     - target: {fileID: 51258076789849872, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 438.90314
+      value: 571.6392
       objectReference: {fileID: 0}
     - target: {fileID: 51258076789849872, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 341.49896
+      value: 294.60922
       objectReference: {fileID: 0}
     - target: {fileID: 742884794920560503, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_LocalRotation.w

@@ -58,6 +58,12 @@ public static class Rules {
 		return !hasHq ||
 		       !hasUnits && (!canBuildUnits || !hasIncome);
 	}
+	public static IEnumerable<Player> Enemies(Player player) {
+		return player.game.players.Where(other => AreEnemies(player, other));
+	}
+	public static bool Won(Player player) {
+		return Enemies(player).All(Lost);
+	}
 	public static bool AreEnemies(Player p1, Player pl2) {
 		return (p1.team & pl2.team) == 0;
 	}

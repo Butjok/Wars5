@@ -6,10 +6,12 @@ public class ActionSelectionState : State2<Game2> {
 
 	public Unit unit;
 	public MovePath path;
-	public Vector2Int  startForward;
+	public Vector2Int startForward;
 	public List<UnitAction> actions = new();
+	public int index = -1;
+	public UnitAction action;
 
-	public ActionSelectionState( Game2 parent, Unit unit, Vector2Int startForward, MovePath path) : base(parent) {
+	public ActionSelectionState(Game2 parent, Unit unit, Vector2Int startForward, MovePath path) : base(parent) {
 
 		this.unit = unit;
 		this.startForward = startForward;
@@ -51,11 +53,40 @@ public class ActionSelectionState : State2<Game2> {
 	public override void Update() {
 		base.Update();
 
+		void notAllowed() {
+			UiSound.Instance.notAllowed.Play();
+			Debug.Log("not actions");
+		}
+
 		if (Input.GetMouseButtonDown(Mouse.right)) {
 			unit.view.Position = path.positions[0];
 			unit.view.Forward = startForward;
 			ChangeTo(new PathSelectionState(parent, unit));
-			return;
+		}
+
+		else if (Input.GetKeyDown(KeyCode.Tab)) {
+			if (actions.Count > 0) {
+				index = (index + 1) % actions.Count;
+				action = actions[index];
+				Debug.Log(action);
+			}
+			else
+				notAllowed();
+		}
+
+		else if (Input.GetKeyDown(KeyCode.Return)) {
+			if (action != null) {
+				action.Execute();
+				unit.moved.v = true;
+				if (Rules.Won(parent.realPlayer))
+					ChangeTo(new VictoryState(parent));
+				else if (Rules.Lost(parent.realPlayer))
+					ChangeTo(new DefeatState(parent));
+				else
+					ChangeTo(parent.levelLogic.OnActionCompletion(action) ?? new SelectionState(parent));
+			}
+			else
+				notAllowed();
 		}
 
 		/*if (unit.view.turret) {

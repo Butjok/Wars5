@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
@@ -136,8 +137,9 @@ public class UnitAction : IDisposable {
 
 	public override string ToString() {
 		var text = type.ToString();
+		text += $" - {path.positions.First()} -> {path.positions.Last()}";
 		if (targetUnit != null)
-			text += $"; {targetUnit}";
+			text += $" - {targetUnit}";
 		return text;
 	}
 }
