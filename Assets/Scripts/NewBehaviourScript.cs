@@ -62,16 +62,15 @@ public class NewBehaviourScript : MonoBehaviour {
 		new Building(game, min, TileType.Hq, red);
 		new Building(game, max, TileType.Hq, green);
 
-		unit = new Unit(game, green, position: new Vector2Int(1, 1), viewPrefab: Resources.Load<UnitView>
+		unit = new Unit( green, position: new Vector2Int(1, 1), viewPrefab: Resources.Load<UnitView>
 		("mrap0-export"));
 		unit.hp.v = 5;
 		
-		unit = new Unit(game, red, position: new Vector2Int(2, 2), viewPrefab: Resources.Load<UnitView>("light-tank"));
+		unit = new Unit( red, position: new Vector2Int(2, 2), viewPrefab: Resources.Load<UnitView>("light-tank"));
 		unit.hp.v = 7;
 		
-		unit = new Unit(game, red, position: new Vector2Int(2, 1), viewPrefab: Resources.Load<UnitView>("light-tank"));
+		unit = new Unit( red, position: new Vector2Int(2, 1), viewPrefab: Resources.Load<UnitView>("light-tank"));
 
-		game.Turn = 0;
 		game.StartWith(new SelectionState(game));
 		
 		//var pathBuilderTest = FindObjectOfType<PathBuilderTest>();

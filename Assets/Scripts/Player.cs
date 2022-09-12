@@ -6,6 +6,7 @@ using Object = UnityEngine.Object;
 
 [Flags]
 public enum Team { None = 0, Alpha = 1, Bravo = 2, Delta = 4 }
+[Flags]
 public enum PlayerType { Human, Ai }
 public enum AiDifficulty { Normal, Easy, Hard }
 
@@ -18,6 +19,8 @@ public class Player : IDisposable {
 	public PlayerType type = PlayerType.Human;
 	public AiDifficulty difficulty = AiDifficulty.Normal;
 	public PlayerView view;
+
+	public UnitAction action;
 
 	public Player(Game2 game, Color32 color, Team team = Team.None, PlayerView viewPrefab = null) {
 		this.game = game;
@@ -39,5 +42,11 @@ public class Player : IDisposable {
 	public void Dispose() {
 		if (view && view.gameObject)
 			Object.Destroy(view.gameObject);
+	}
+
+	public bool IsAi => (type & PlayerType.Ai) != 0;
+
+	public UnitAction FindAction() {
+		return null;
 	}
 }

@@ -16,11 +16,11 @@ public class UnitAction : IDisposable {
 	public int weaponIndex;
 	public Vector2Int targetPosition;
 
-	public static Dictionary<UnitActionType, Lazy<UnitActionView>> prefabs;
+	public static Dictionary<UnitActionType, Func<UnitActionView>> prefabs;
 	static UnitAction() {
-		prefabs = new Dictionary<UnitActionType, Lazy<UnitActionView>>();
+		prefabs = new Dictionary<UnitActionType, Func<UnitActionView>>();
 		foreach (UnitActionType type in Enum.GetValues(typeof(UnitActionType)))
-			prefabs.Add(type, Lazy.Resource<UnitActionView>("UnitActionView"));
+			prefabs.Add(type,()=>Resources.Load<UnitActionView>("UnitActionView"));
 	}
 
 	public UnitAction(UnitActionType type, Unit unit, MovePath path, Unit targetUnit = null, Building targetBuilding = null, int weaponIndex = -1, Vector2Int targetPosition = default) {
@@ -34,7 +34,7 @@ public class UnitAction : IDisposable {
 
 		Assert.IsTrue(prefabs.ContainsKey(type));
 		var prefab = prefabs[type];
-		view = Object.Instantiate(prefab.v);
+		view = Object.Instantiate(prefab());
 		Object.DontDestroyOnLoad(view);
 		view.action = this;
 
@@ -53,24 +53,10 @@ public class UnitAction : IDisposable {
 		Assert.IsTrue(path.positions.Count >= 1);
 		var pathEnd = path.positions[^1];
 
-		var level = unit.game;
-		var units = level.units;
-
-		level.TryGetUnit(pathEnd, out var unitAtPathEnd);
-		level.TryGetBuilding(pathEnd, out var buildingAtPathEnd);
+		unit.player.game.TryGetUnit(pathEnd, out var unitAtPathEnd);
+		unit.player.game.TryGetBuilding(pathEnd, out var buildingAtPathEnd);
 
 		Debug.Log($"EXECUTING: {unit} {type} {targetUnit}");
-
-		void moveUnit() {
-			if (unit.position.v is not { } position || position != pathEnd) {
-				Assert.IsTrue(unitAtPathEnd == null || unitAtPathEnd == unit);
-				unit.position.v = pathEnd;
-			}
-		}
-		void destroyUnit() {
-			unit.Dispose();
-			unit = null;
-		}
 
 		switch (type) {
 

@@ -10,9 +10,10 @@ public class Game2 : StateMachine2<Game2> {
 	public Map2D<TileType> tiles;
 	public Map2D<Building> buildings;
 	public List<Player> players = new();
-	private int? turn;
+	private int? turn=0;
 	public LevelLogic levelLogic;
 	public Player realPlayer;
+	public bool isTurnStart=true;
 
 	public int? Turn {
 		get => turn;
@@ -61,15 +62,35 @@ public class Game2 : StateMachine2<Game2> {
 }
 
 public abstract class LevelLogic {
+	
 	public Game2 game;
+	
 	protected LevelLogic(Game2 game) {
 		Assert.IsTrue(game);
 		this.game = game;
 	}
-	public virtual State2<Game2> OnTurnEnd() {
-		return null;
+	
+	public bool OnTurnStart() {
+		
+		if (game.Turn == 0) {
+			game.state.PauseTo(new DialogueState(game, new[] {
+				new DialogueUi.Speech {
+					speaker = DialogueSpeaker.Natalie,
+					lines = new[] {
+						new DialogueUi.Line { text = "Hello there!" },
+						new DialogueUi.Line { text = "Welcome!" },
+					},
+				}
+			}));
+			return true;
+		}
+		
+		return false;
 	}
-	public virtual State2<Game2> OnActionCompletion(UnitAction action) {
-		return null;
+	public bool OnTurnEnd() {
+		return false;
+	}
+	public bool OnActionCompletion(UnitAction action) {
+		return false;
 	}
 }

@@ -25,8 +25,8 @@ public abstract class StateMachine2<T> : MonoBehaviour where T : StateMachine2<T
         state = initialState;
         UpdateDebugName();
 
-        state.Start();
         state.started = true;
+        state.Start();
     }
 
     [Conditional("DEBUG")]
@@ -69,8 +69,8 @@ public abstract class State2<T> : IDisposable where T : StateMachine2<T> {
         parent.state = state;
         parent.UpdateDebugName();
 
-        state.Start();
         state.started = true;
+        state.Start();
     }
 
     public void Pause() {
@@ -79,8 +79,8 @@ public abstract class State2<T> : IDisposable where T : StateMachine2<T> {
         Assert.IsFalse(disposed);
         Assert.IsFalse(paused);
 
-        OnPause();
         paused = true;
+        OnPause();
 
         parent.pausedStates.Push(this);
         parent.state = null;
@@ -98,8 +98,8 @@ public abstract class State2<T> : IDisposable where T : StateMachine2<T> {
         parent.state = state;
         parent.UpdateDebugName();
 
-        state.Start();
         state.started = true;
+        state.Start();
     }
 
     public void UnpauseLastState() {
@@ -117,7 +117,7 @@ public abstract class State2<T> : IDisposable where T : StateMachine2<T> {
         parent.state = state;
         parent.UpdateDebugName();
 
-        state.OnUnpause();
         state.paused = false;
+        state.OnUnpause();
     }
 }

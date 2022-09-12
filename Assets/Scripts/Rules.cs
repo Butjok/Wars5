@@ -223,9 +223,9 @@ public static class Rules {
 		return MoveCost(unitType, tileType) != null;
 	}
 	public static bool CanStay(Unit unit, Vector2Int position) {
-		return unit.game.TryGetTile(position, out var tile) &&
+		return unit.player.game.TryGetTile(position, out var tile) &&
 		       CanStay(unit, tile) &&
-		       (!unit.game.TryGetUnit(position, out var other) || other == unit);
+		       (!unit.player.game.TryGetUnit(position, out var other) || other == unit);
 	}
 	public static bool CanCapture(UnitType unitType, TileType buildingType) {
 		return ((UnitType.Infantry | UnitType.AntiTank) & unitType) != 0;
