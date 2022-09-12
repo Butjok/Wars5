@@ -52,7 +52,7 @@ public class UnitAction : IDisposable {
 		Assert.IsTrue(path.positions.Count >= 1);
 		var pathEnd = path.positions[^1];
 
-		var level = unit.level;
+		var level = unit.game;
 		var units = level.units;
 
 		level.TryGetUnit(pathEnd, out var unitAtPathEnd);

@@ -7,7 +7,7 @@ using static UnityEngine.Mathf;
 
 public class Unit : IDisposable {
 
-	public Level level;
+	public Game2 game;
 	public UnitType type;
 	public Player player;
 	public UnitView viewPrefab;
@@ -23,10 +23,11 @@ public class Unit : IDisposable {
 
 	public static implicit operator UnitType(Unit unit) => unit.type;
 
-	public Unit(Level level, Player player, bool moved = false, UnitType type = UnitType.Infantry, Vector2Int? position = null, Vector2Int? rotation = null, int hp = int.MaxValue, int fuel = int.MaxValue, UnitView viewPrefab = null) {
+	public Unit(Game2 game, Player player, bool moved = false, UnitType type = UnitType.Infantry, Vector2Int? position 
+	= null, Vector2Int? rotation = null, int hp = int.MaxValue, int fuel = int.MaxValue, UnitView viewPrefab = null) {
 
-		Assert.IsNotNull(level);
-		this.level = level;
+		Assert.IsNotNull(game);
+		this.game = game;
 
 		if (!viewPrefab)
 			viewPrefab = Resources.Load<UnitView>("test");
@@ -40,10 +41,10 @@ public class Unit : IDisposable {
 		this.position = new ChangeTracker<Vector2Int?>(old => {
 
 			if (old is { } oldPosition)
-				level.units[oldPosition] = null;
+				game.units[oldPosition] = null;
 
 			if (this.position.v is { } newPosition) {
-				level.units[newPosition] = this;
+				game.units[newPosition] = this;
 				view.Visible = true;
 				view.Position = newPosition;
 			}

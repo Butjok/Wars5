@@ -8,7 +8,7 @@ public static class TileMeshBuilder {
 	public static readonly List<Vector2> uvs = new();
 	public static readonly List<int> triangles = new();
 
-	public static Mesh Build(Mesh mesh, Level level, Traverser traverser) {
+	public static Mesh Build(Mesh mesh, Game2 level, Traverser traverser) {
 
 		if (!mesh)
 			mesh = new Mesh();

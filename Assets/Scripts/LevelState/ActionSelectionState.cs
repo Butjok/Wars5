@@ -2,14 +2,14 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class ActionSelectionState : LevelState {
+public class ActionSelectionState : State2<Game2> {
 
 	public Unit unit;
 	public MovePath path;
 	public Vector2Int  startForward;
 	public List<UnitAction> actions = new();
 
-	public ActionSelectionState( Level level, Unit unit, Vector2Int startForward, MovePath path) : base(level) {
+	public ActionSelectionState( Game2 parent, Unit unit, Vector2Int startForward, MovePath path) : base(parent) {
 
 		this.unit = unit;
 		this.startForward = startForward;
@@ -20,9 +20,9 @@ public class ActionSelectionState : LevelState {
 		}
 
 		var position = path.positions.Last();
-		level.TryGetUnit(position, out var other);
+		parent.TryGetUnit(position, out var other);
 		if (other == null || other == unit) {
-			if (level.TryGetBuilding(position, out var building) && Rules.CanCapture(unit, building))
+			if (parent.TryGetBuilding(position, out var building) && Rules.CanCapture(unit, building))
 				actions.Add(newAction(UnitActionType.Capture, buildingTarget: building));
 			else
 				actions.Add(newAction(UnitActionType.Stay));
@@ -32,13 +32,13 @@ public class ActionSelectionState : LevelState {
 		if (other != null && Rules.CanLoadAsCargo(other, unit))
 			actions.Add(newAction(UnitActionType.GetIn, other));
 		if (!Rules.IsArtillery(unit) || path.positions.Count == 1)
-			foreach (var otherPosition in level.AttackPositions(position, Rules.AttackRange(unit)))
-				if (level.TryGetUnit(otherPosition, out other))
+			foreach (var otherPosition in parent.AttackPositions(position, Rules.AttackRange(unit)))
+				if (parent.TryGetUnit(otherPosition, out other))
 					for (var weapon = 0; weapon < Rules.WeaponsCount(unit); weapon++)
 						if (Rules.CanAttack(unit, other, weapon))
 							actions.Add(newAction(UnitActionType.Attack, other, weapon: weapon));
 		foreach (var offset in Rules.offsets)
-			if (level.TryGetUnit(position + offset, out other) && Rules.CanSupply(unit, other))
+			if (parent.TryGetUnit(position + offset, out other) && Rules.CanSupply(unit, other))
 				actions.Add(newAction(UnitActionType.Supply, other));
 	}
 
@@ -54,7 +54,7 @@ public class ActionSelectionState : LevelState {
 		if (Input.GetMouseButtonDown(Mouse.right)) {
 			unit.view.Position = path.positions[0];
 			unit.view.Forward = startForward;
-			level.State = new PathSelectionState(level, unit);
+			ChangeTo(new PathSelectionState(parent, unit));
 			return;
 		}
 

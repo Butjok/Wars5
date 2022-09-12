@@ -50,8 +50,8 @@ public static class Rules {
 	}
 
 	public static bool Lost(Player player) {
-		var hasUnits = player.level.FindUnitsOf(player).Any();
-		var buildings = player.level.FindBuildingsOf(player).ToList();
+		var hasUnits = player.game.FindUnitsOf(player).Any();
+		var buildings = player.game.FindBuildingsOf(player).ToList();
 		var hasIncome = buildings.Any(building => Income(building) > 0);
 		var canBuildUnits = buildings.Any(building => BuildableUnits(building) != 0);
 		var hasHq = buildings.Any(building => building.type == TileType.Hq);
@@ -217,9 +217,9 @@ public static class Rules {
 		return MoveCost(unitType, tileType) != null;
 	}
 	public static bool CanStay(Unit unit, Vector2Int position) {
-		return unit.level.TryGetTile(position, out var tile) &&
+		return unit.game.TryGetTile(position, out var tile) &&
 		       CanStay(unit, tile) &&
-		       (!unit.level.TryGetUnit(position, out var other) || other == unit);
+		       (!unit.game.TryGetUnit(position, out var other) || other == unit);
 	}
 	public static bool CanCapture(UnitType unitType, TileType buildingType) {
 		return ((UnitType.Infantry | UnitType.AntiTank) & unitType) != 0;

@@ -11,7 +11,7 @@ public enum AiDifficulty { Normal, Easy, Hard }
 
 public class Player : IDisposable {
 
-	public Level level;
+	public Game2 game;
 	public Team team = Team.None;
 	public Color32 color;
 	public Co co;
@@ -19,11 +19,11 @@ public class Player : IDisposable {
 	public AiDifficulty difficulty = AiDifficulty.Normal;
 	public PlayerView view;
 
-	public Player(Level level, Color32 color, Team team = Team.None, PlayerView viewPrefab = null) {
-		this.level = level;
+	public Player(Game2 game, Color32 color, Team team = Team.None, PlayerView viewPrefab = null) {
+		this.game = game;
 		this.color = color;
 		this.team = team;
-		level.players.Add(this);
+		game.players.Add(this);
 		
 		viewPrefab = viewPrefab ? viewPrefab : Resources.Load<PlayerView>(nameof(PlayerView));
 		Assert.IsTrue(viewPrefab);

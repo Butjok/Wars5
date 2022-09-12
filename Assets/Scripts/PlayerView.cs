@@ -23,7 +23,7 @@ public class PlayerView : MonoBehaviour {
 
 		this.player = player;
 
-		var usedLayers = player.level.players.Select(p => p.view.gameObject.layer);
+		var usedLayers = player.game.players.Select(p => p.view.gameObject.layer);
 		var availableLayers = layers.Select(f => f()).Except(usedLayers).ToArray();
 		Assert.AreNotEqual(0, availableLayers.Length);
 		var layer = availableLayers[0];

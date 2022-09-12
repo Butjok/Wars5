@@ -10,12 +10,8 @@ public abstract class LevelState : State {
 		this.level = level;
 	}
 
-	public Player CurrentPlayer {
-		get {
-			Assert.AreNotEqual(0, Players.Count);
-			return level.players[Turn % Players.Count];
-		}
-	}
+	
+	
 	public Map2D< TileType> Tiles => level.tiles;
 	public Map2D< Unit> Units => level.units;
 	public List<Player> Players => level.players;

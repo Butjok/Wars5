@@ -2,13 +2,13 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class UnitMovementAnimationState : LevelState {
+public class UnitMovementAnimationState : State2<Game2> {
 
 	public Unit unit;
 	public MovePath path;
 	public Vector2Int  startForward;
 
-	public UnitMovementAnimationState(Level level, Unit unit, MovePath path) : base(level) {
+	public UnitMovementAnimationState(Game2 parent, Unit unit, MovePath path) : base(parent) {
 
 		this.unit = unit;
 		this.path = path;
@@ -52,7 +52,7 @@ public class UnitMovementAnimationState : LevelState {
 			unit.view.Position = path.positions.Last();
 			unit.view.Forward = path.moves.Last().forward;
 		}
-		level.State = new ActionSelectionState(level, unit,  startForward, path);
+		ChangeTo(new ActionSelectionState(parent, unit,  startForward, path));
 	}
 
 	public override void Dispose() {

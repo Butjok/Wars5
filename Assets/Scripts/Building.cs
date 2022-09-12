@@ -4,25 +4,25 @@ using UnityEngine.Assertions;
 public class Building {
 
 	public TileType type;
-	public Level level;
+	public Game2 game;
 	public Vector2Int position;
 	public ChangeTracker<Player> player;
 	public ChangeTracker<int> cp ;
 
-	public Building(Level level, Vector2Int position, TileType type = TileType.City, Player player = null) {
+	public Building(Game2 game, Vector2Int position, TileType type = TileType.City, Player player = null) {
 
 		this.player = new ChangeTracker<Player>(_ => { });
 		this.cp = new ChangeTracker<int>(_ => { });
 		
 		this.type = type;
-		this.level = level;
+		this.game = game;
 		this.position = position;
 		this.player.v = player;
-		Assert.IsFalse(level.buildings.ContainsKey(position));
+		Assert.IsFalse(game.buildings.ContainsKey(position));
 
-		Assert.IsTrue(!level.buildings.ContainsKey(position) || level.buildings[position] == null);
-		level.buildings[position] = this;
-		level.tiles[position] = type;
+		Assert.IsTrue(!game.buildings.ContainsKey(position) || game.buildings[position] == null);
+		game.buildings[position] = this;
+		game.tiles[position] = type;
 	}
 
 	public static implicit operator TileType(Building building) {

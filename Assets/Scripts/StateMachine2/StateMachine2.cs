@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -13,7 +14,7 @@ public abstract class StateMachine2<T> : MonoBehaviour where T : StateMachine2<T
         state?.Update();
     }
 
-    protected void RunWith(State2<T> initialState) {
+    public void StartWith(State2<T> initialState) {
 
         Assert.IsNull(state);
 
@@ -28,10 +29,9 @@ public abstract class StateMachine2<T> : MonoBehaviour where T : StateMachine2<T
         state.started = true;
     }
 
+    [Conditional("DEBUG")]
     public void UpdateDebugName() {
-#if DEBUG
         name = GetType().Name + ": " + state;
-#endif
     }
 }
 

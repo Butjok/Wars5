@@ -2,15 +2,15 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class SelectionState : LevelState {
+public class SelectionState : State2<Game2> {
 
 	public List<Unit> unitLoop;
 	public int unitIndex = -1;
 	public Unit cycledUnit;
 
-	public SelectionState( Level level) : base(level) {
-		unitLoop = level.units.Values
-			.Where(unit => unit.player == CurrentPlayer && !unit.moved.v)
+	public SelectionState( Game2 parent) : base(parent) {
+		unitLoop = parent.units.Values
+			.Where(unit => unit.player == parent.CurrentPlayer && !unit.moved.v)
 			.OrderBy(unit => Vector3.Distance(CameraRig.Instance.transform.position, unit.view.center.position))
 			.ToList();
 	}
@@ -36,7 +36,7 @@ public class SelectionState : LevelState {
 		}
 		if (Input.GetMouseButtonDown(Mouse.left) &&
 		    Mouse.TryGetPosition(out Vector2Int position) &&
-		    level.TryGetUnit(position, out var unit)) {
+		    parent.TryGetUnit(position, out var unit)) {
 
 			if (unit.moved.v)
 				Sounds.NotAllowed.Play();
@@ -56,6 +56,6 @@ public class SelectionState : LevelState {
 
 	public void SelectUnit(Unit unit) {
 		unit.view.selected.v = true;
-		level.State = new PathSelectionState(level, unit);
+		ChangeTo(new PathSelectionState(parent, unit));
 	}
 }

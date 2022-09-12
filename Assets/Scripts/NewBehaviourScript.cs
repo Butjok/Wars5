@@ -15,9 +15,9 @@ public class NewBehaviourScript : MonoBehaviour {
 	public static Level level2;
 	
 	public Unit unit;
-	public Level level;
-	public Game game;
 	public MinimapMeshGenerator minimapMeshGenerator;
+
+	public Game2 game;	
 
 	private void OnEnable() {
 
@@ -36,24 +36,43 @@ public class NewBehaviourScript : MonoBehaviour {
 
 		//WarsPostProcess.Setup(settings, Camera.main ? Camera.main.GetComponent<PostProcessLayer>() : null);
 
-		game = new Game();
 
 		var size = 5;
 		var min = new Vector2Int(-size, -size);
 		var max = new Vector2Int(size, size);
 
-		level = new Level(min,max, game);
-		level.script = new Tutorial(level);
+		game = gameObject.AddComponent<Game2>();
+		game.levelLogic = new Tutorial(game);
 
-		game.State = level;
+		var red = new Player(game, Palette.red, Team.Alpha);
+		var green = new Player(game, Palette.green, Team.Bravo);
+		
+		game.players = new List<Player> { red,green};
 
+		game.tiles = new Map2D<TileType>(min, max);
+		foreach (var position in game.tiles.positions)
+			game.tiles[position] = TileType.Plain;
+		
+		game.units = new Map2D<Unit>(min, max);
+		
+		game.buildings = new Map2D<Building>(min, max);
+		new Building(game, new Vector2Int(-2, -3));
 
-		level2 = level;
+		unit = new Unit(game, green, position: new Vector2Int(1, 1), viewPrefab: Resources.Load<UnitView>
+		("mrap0-export"));
+		unit.hp.v = 5;
+		
+		unit = new Unit(game, red, position: new Vector2Int(2, 2), viewPrefab: Resources.Load<UnitView>("light-tank"));
+		unit.hp.v = 7;
+		
+		unit = new Unit(game, red, position: new Vector2Int(2, 1), viewPrefab: Resources.Load<UnitView>("light-tank"));
 
-
-		var pathBuilderTest = FindObjectOfType<PathBuilderTest>();
-		if (pathBuilderTest)
-			pathBuilderTest.level = level;
+		game.Turn = 0;
+		game.StartWith(new SelectionState(game));
+		
+		//var pathBuilderTest = FindObjectOfType<PathBuilderTest>();
+		//if (pathBuilderTest)
+		//	pathBuilderTest.level = level;
 
 
 		/*Debug.Log(string.Join("\n",SaveDataManager.Names));
@@ -67,46 +86,16 @@ public class NewBehaviourScript : MonoBehaviour {
 		foreach (var saveData in SaveDataManager.All.OrderByDescending(s => s.dateTime))
 			Debug.Log(saveData);
 
-		///var test = Resources.Load<UnitView>("Test");
-
-		var red = new Player(level, Palette.red, Team.Alpha);
-		var green = new Player(level, Palette.green, Team.Bravo);
-
-		level.players.Add(red);
-		level.players.Add(green);
 		
-		unit = new Unit(level, green, position: new Vector2Int(1, 1), viewPrefab: Resources.Load<UnitView>("mrap0-export"));
-		unit.hp.v = 5;
-		
-		unit = new Unit(level, red, position: new Vector2Int(2, 2), viewPrefab: Resources.Load<UnitView>("light-tank"));
-		unit.hp.v = 7;
-		
-		unit = new Unit(level, red, position: new Vector2Int(2, 1), viewPrefab: Resources.Load<UnitView>("light-tank"));
-		
-		//var a_ = unit.view;
-
-		new Building(level, new Vector2Int(-2, -3));
-
-		foreach (var position in level.tiles.positions)
-			level.tiles[position] = TileType.Plain;
-
-		Write(new SerializedLevel(level).ToJson());
-
-		level.Turn = 0;
-		level.State = new SelectionState(level);
 
 		/*var ser = new SerializedLevel(level);
 		Debug.Log(ser.ToJson());
 		var deser = ser.ToJson().FromJson<SerializedLevel>();*/
 		
 		if (minimapMeshGenerator) {
-			minimapMeshGenerator.level = level;
+			minimapMeshGenerator.game = game;
 			minimapMeshGenerator.Rebuild();
 		}
-	}
-	private void OnDisable() {
-		unit?.Dispose();
-		level?.Dispose();
 	}
 
 	public void Write(string text, string relativePath = "Out.json") {
@@ -114,7 +103,7 @@ public class NewBehaviourScript : MonoBehaviour {
 		File.WriteAllText(path,text);
 	}
 
-	[Command]
+	/*[Command]
 	public void Save(string name) {
 		var saveData = new SaveData {
 			name = name,
@@ -124,7 +113,7 @@ public class NewBehaviourScript : MonoBehaviour {
 		};
 		SaveDataManager.Save(name,saveData);
 		Debug.Log(saveData.json);
-	}
+	}*/
 
 
 	// Start is ca
@@ -137,9 +126,6 @@ public class NewBehaviourScript : MonoBehaviour {
 	void Update() { }
 }
 
-public class Game : StateMachine {
-	public Game() : base(nameof(Game)) { }
-}
 
 
 public static class WarsResources {
