@@ -52,7 +52,6 @@
      <Compile Include="Assets\CommandLine\AssemblyInfo.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Atn\AbstractPredicateTransition.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Atn\PredicateEvalInfo.cs" />
-     <Compile Include="Assets\Scripts\GameRunner.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Atn\ArrayPredictionContext.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\CommonTokenStream.cs" />
      <Compile Include="Assets\Scripts\PlayerSettings.cs" />
@@ -70,7 +69,6 @@
      <Compile Include="Assets\Scripts\InstancedMeshRenderer.cs" />
      <Compile Include="Assets\Scripts\Animation\MovePathSampler.cs" />
      <Compile Include="Assets\Scripts\Animation\TerrainBumpiness.cs" />
-     <Compile Include="Assets\Scripts\LevelState\LevelState.cs" />
      <Compile Include="Assets\Scripts\MusicTest.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Atn\LexerCustomAction.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Tree\Pattern\ParseTreePatternMatcher.cs" />
@@ -92,7 +90,7 @@
      <Compile Include="Assets\CommandLine\Antlr4\DefaultErrorStrategy.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Tree\Xpath\XPathWildcardAnywhereElement.cs" />
      <Compile Include="Assets\SerializableDictionary\SerializableDictionary.cs" />
-     <Compile Include="Assets\Scripts\LevelState\SelectionState.cs" />
+     <Compile Include="Assets\Scripts\GameStates\SelectionState.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Atn\RangeTransition.cs" />
      <Compile Include="Assets\Scripts\Co.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Atn\SimulatorState.cs" />
@@ -177,7 +175,6 @@
      <Compile Include="Assets\CommandLine\Antlr4\Misc\MurmurHash.cs" />
      <Compile Include="Assets\Scripts\FoliageRenderer.cs" />
      <Compile Include="Assets\Scripts\Animation\BallisticCurve.cs" />
-     <Compile Include="Assets\Scripts\LevelScript\Tutorial.cs" />
      <Compile Include="Assets\Scripts\MeshUtils.cs" />
      <Compile Include="Assets\Scripts\InGameOverlayMenuView.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Tree\IParseTreeVisitor.cs" />
@@ -231,7 +228,6 @@
      <Compile Include="Assets\SDF Toolkit\Examples\Scripts\CameraDistance.cs" />
      <Compile Include="Assets\Scripts\WarsPostProcess.cs" />
      <Compile Include="Assets\Scripts\Palette.cs" />
-     <Compile Include="Assets\Scripts\StateMachine\StateMachine.cs" />
      <Compile Include="Assets\CommandLine\Parsers\Butjok\CommandLine\Parsers\CommandLineBaseVisitor.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\BailErrorStrategy.cs" />
      <Compile Include="Assets\Priority Queue\SimplePriorityQueue.cs" />
@@ -253,7 +249,6 @@
      <Compile Include="Assets\CommandLine\Levenshtein.cs" />
      <Compile Include="Assets\Scripts\Animation\PistonCompresser.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Tree\Xpath\XPathElement.cs" />
-     <Compile Include="Assets\Scripts\LevelScript\LevelScript.cs" />
      <Compile Include="Assets\Scripts\Animation\PlaceOnTerrain.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Dfa\DFASerializer.cs" />
      <Compile Include="Assets\Scripts\Animation\Turret.cs" />
@@ -261,7 +256,7 @@
      <Compile Include="Assets\CommandLine\Antlr4\Dfa\EmptyEdgeMap.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Atn\ActionTransition.cs" />
      <Compile Include="Assets\Scripts\Animation\Maths.cs" />
-     <Compile Include="Assets\Scripts\LevelState\DialogueState.cs" />
+     <Compile Include="Assets\Scripts\GameStates\DialogueState.cs" />
      <Compile Include="Assets\Scripts\UiSound.cs" />
      <Compile Include="Assets\Scripts\MinimapMeshGenerator.cs" />
      <Compile Include="Assets\Scripts\Animation\Body.cs" />
@@ -285,7 +280,6 @@
      <Compile Include="Assets\Scripts\TangentSpaceVisualizer.cs" />
      <Compile Include="Assets\Scripts\Trail.cs" />
      <Compile Include="Assets\CommandLine\Colorizer.cs" />
-     <Compile Include="Assets\Scripts\StateMachine\StateMachineRunner.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\BufferedTokenStream.cs" />
      <Compile Include="Assets\Scripts\Animation\BuoyancyMovement.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\BaseErrorListener.cs" />
@@ -312,7 +306,7 @@
      <Compile Include="Assets\Scripts\Animation\OrbitingWeight.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Atn\ContextSensitivityInfo.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Atn\LexerActionExecutor.cs" />
-     <Compile Include="Assets\Scripts\LevelState\ActionSelectionState.cs" />
+     <Compile Include="Assets\Scripts\GameStates\ActionSelectionState.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Atn\TokensStartState.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Atn\RuleStopState.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Lexer.cs" />
@@ -333,7 +327,6 @@
      <Compile Include="Assets\CommandLine\Antlr4\Sharpen\BitSet.cs" />
      <Compile Include="Assets\Scripts\Animation\MovementSound.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Parser.cs" />
-     <Compile Include="Assets\Scripts\Level\Level.cs" />
      <Compile Include="Assets\Scripts\UnitView.cs" />
      <Compile Include="Assets\Scripts\GameSettings.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Atn\EmptyPredictionContext.cs" />
@@ -342,7 +335,6 @@
      <Compile Include="Assets\CommandLine\Antlr4\Atn\DecisionEventInfo.cs" />
      <Compile Include="Assets\Scripts\MathUtils.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Atn\DecisionState.cs" />
-     <Compile Include="Assets\Scripts\InGameOverlayMenu.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Sharpen\AtomicReference.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Atn\SingletonPredictionContext.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Dfa\IEdgeMap.cs" />
@@ -351,7 +343,7 @@
      <Compile Include="Assets\CommandLine\Antlr4\ListTokenSource.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Misc\RuleDependencyChecker.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Tree\Xpath\XPath.cs" />
-     <Compile Include="Assets\Scripts\LevelState\UnitMovementAnimationState.cs" />
+     <Compile Include="Assets\Scripts\GameStates\UnitMovementAnimationState.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\RuleContext.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\DiagnosticErrorListener.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Atn\SemanticContext.cs" />
@@ -372,7 +364,7 @@
      <Compile Include="Assets\CommandLine\Antlr4\CommonTokenFactory.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\IToken.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Atn\PredictionMode.cs" />
-     <Compile Include="Assets\Scripts\LevelState\PathSelectionState.cs" />
+     <Compile Include="Assets\Scripts\GameStates\PathSelectionState.cs" />
      <Compile Include="Assets\Scripts\Level\UnitActionView.cs" />
      <Compile Include="Assets\Scripts\Animation\Barrel.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Atn\BasicState.cs" />
@@ -383,12 +375,12 @@
      <Compile Include="Assets\Scripts\Animation\LookAt.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Atn\PlusBlockStartState.cs" />
      <Compile Include="Assets\Scripts\Animation\PistonBody.cs" />
-     <Compile Include="Assets\Scripts\StateMachine\State.cs" />
-     <Compile Include="Assets\Scripts\StateMachine2\LevelLogic.cs" />
-     <Compile Include="Assets\Scripts\StateMachine2\StateMachine2.cs" />
-     <Compile Include="Assets\Scripts\StateMachine2\Game2.cs" />
-     <Compile Include="Assets\Scripts\CursorViewToggler.cs" />
-     <Compile Include="Assets\Scripts\LevelState\TurnStartAnimationState.cs" />
+     <Compile Include="Assets\Scripts\LevelLogic\DefaultLevelLogic.cs" />
+     <Compile Include="Assets\Scripts\Game2.cs" />
+     <Compile Include="Assets\Scripts\GameStates\TurnStartAnimationState.cs" />
+     <Compile Include="Assets\Scripts\GameStates\VictoryState.cs" />
+     <Compile Include="Assets\Scripts\GameStates\DefeatState.cs" />
+     <Compile Include="Assets\Scripts\LevelLogic\TutorialLevelLogic.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\Shaders\My First Lighting Shader.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />

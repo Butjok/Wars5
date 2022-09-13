@@ -3,17 +3,30 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.UI;
 
 public class DialogueUi : MonoBehaviour {
+
+	private static DialogueUi instance;
+	public static DialogueUi Instance {
+		get {
+			if(!instance) {
+				var prefab = Resources.Load<DialogueUi>(nameof(DialogueUi));
+				Assert.IsTrue(prefab);
+				instance = Instantiate(prefab);
+				DontDestroyOnLoad(instance.gameObject);
+				instance.Visible = false;
+			}
+			return instance;
+		}
+	}
 
 	public TMP_Text text;
 	public Image portrait;
 	public bool typeText = true;
 	public IEnumerator textTypingAnimation;
 	public AudioSource voiceOverSource;
-
-	public Action onEnd;
 
 	public IEnumerator TextTypingAnimation(char[] text) {
 		if (!this.text)
@@ -37,57 +50,23 @@ public class DialogueUi : MonoBehaviour {
 	public class Line {
 		[TextArea] public string text = string.Empty;
 		public AudioClip voiceOver;
+		public Action action;
 	}
 
-	public Vector2Int index;
-	public Speech[] speeches = Array.Empty<Speech>();
 	public Dictionary<string, char[]> stringCache = new();
-
-	public void Update() {
-		if (Input.GetKeyDown(KeyCode.PageDown)) {
-			var speech = speeches[index[0]];
-			if (index[1] < speech.lines.Length - 1)
-				index[1]++;
-			else {
-				index[0]++;
-				index[1] = 0;
-			}
-			Refresh();
-		}
-	}
 
 	public bool Visible {
 		get => gameObject.activeSelf;
-		set {
-			gameObject.SetActive(value); 
-			if(value)
-				Refresh();
-		}
+		set => gameObject.SetActive(value);
 	}
 
-	public bool IsValidIndex(Vector2Int index) {
-		return
-			index[0] >= 0 && index[0] < speeches.Length &&
-			index[1] >= 0 && index[1] < speeches[index[0]].lines.Length;
-	}
-
-	public void Refresh() {
-
-		if (!IsValidIndex(index)) {
-			if (Visible)
-				onEnd?.Invoke();
-			Visible = false;
-			return;
-		}
-
-		var speech = speeches[index[0]];
-		var line = speech.lines[index[1]];
+	public void Refresh(DialogueSpeaker speaker, Line line) {
 
 		if (portrait) {
-			portrait.sprite = portrait && speech.speaker ? speech.speaker.portrait : null;
+			portrait.sprite = portrait && speaker ? speaker.portrait : null;
 			portrait.enabled = portrait.sprite;
 			var position = portrait.rectTransform.anchoredPosition;
-			position.x = Mathf.Abs(position.x) * (speech.speaker ? speech.speaker.side : -1);
+			position.x = Mathf.Abs(position.x) * (speaker ? speaker.side : -1);
 			portrait.rectTransform.anchoredPosition = position;
 		}
 
@@ -104,20 +83,14 @@ public class DialogueUi : MonoBehaviour {
 			VoiceOverSource.Stop();
 		if (line.voiceOver)
 			VoiceOverSource.PlayOneShot(line.voiceOver);
-	}
-
-	public void OnValidate() {
-		index[0] = Mathf.Clamp(index[0], 0, speeches.Length - 1);
-		index[1] = Mathf.Clamp(index[1], 0, speeches[index[0]].lines.Length - 1);
-		//Refresh();
+		
+		line.action?.Invoke();
 	}
 
 	public AudioSource VoiceOverSource {
 		get {
 			if (!voiceOverSource) {
-				var go = new GameObject();
-				DontDestroyOnLoad(go);
-				voiceOverSource = go.AddComponent<AudioSource>();
+				voiceOverSource = gameObject.AddComponent<AudioSource>();
 				voiceOverSource.spatialBlend = 0;
 			}
 			return voiceOverSource;

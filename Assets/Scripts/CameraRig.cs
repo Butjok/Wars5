@@ -9,6 +9,15 @@ using UnityEngine.Assertions;
 public class CameraRig : MonoBehaviour {
 
 	public static CameraRig instance;
+	public static CameraRig Instance {
+		get {
+			if (!instance) {
+				instance = FindObjectOfType<CameraRig>();
+				Assert.IsTrue(instance);
+			}
+			return instance;
+		}
+	}
 
 	public LayerMask raycastLayerMask;
 	public Transform arm;
@@ -70,7 +79,7 @@ public class CameraRig : MonoBehaviour {
 	public Ease teleportEase = Ease.OutExpo;
 	public TweenerCore<Vector3, Vector3, VectorOptions> teleportAnimation;
 
-	
+	public PlaceOnTerrain placeOnTerrain;
 
 	public void OnCompassClick() {
 		if (rotationSequence == null) {
@@ -84,29 +93,29 @@ public class CameraRig : MonoBehaviour {
 	}
 
 	private void Awake() {
-		instance = this;
-		
+		placeOnTerrain = GetComponent<PlaceOnTerrain>();
+
 		if (raycastLayerMask == 0)
 			raycastLayerMask = 1 << LayerMask.NameToLayer("Default");
 	}
-	public void Jump(Vector3 position, bool canBeInterrupted=true) {
-		teleportAnimation = transform.DOMove(position, teleportDuration).SetEase(teleportEase);
+	public void Jump(Vector2 position, bool canBeInterrupted = true) {
+		var targetPosition = position.ToVector3();
+		if (placeOnTerrain && placeOnTerrain.Raycast(position, out var hit))
+			targetPosition = hit.point;
+		teleportAnimation = transform.DOMove(targetPosition, teleportDuration).SetEase(teleportEase);
 	}
-	
-	
 
 	public void Update() {
 
 		int sign(float value) => Mathf.Abs(value) < Mathf.Epsilon ? 0 : value > 0 ? 1 : -1;
 
-		
-		
+
 		// WASD
 
 		var input =
 			transform.right.ToVector2() * sign(Input.GetAxisRaw("Horizontal")) +
 			transform.forward.ToVector2() * sign(Input.GetAxisRaw("Vertical"));
-		
+
 		if (input != Vector2.zero) {
 			velocity = input.normalized * (speed * distance);
 			teleportAnimation?.Kill();
@@ -117,7 +126,7 @@ public class CameraRig : MonoBehaviour {
 		transform.position += Time.deltaTime * velocity.ToVector3();
 
 		// CAMERA PITCH
-		
+
 		tagetPitchAngle = float.IsNaN(tagetPitchAngle)
 			? pitchAngle
 			: Mathf.Clamp(tagetPitchAngle + sign(Input.GetAxisRaw("PitchCamera")) * pitchAngleSpeed * Time.deltaTime,
@@ -174,7 +183,7 @@ public class CameraRig : MonoBehaviour {
 
 		if (Input.GetMouseButtonDown(2)) {
 			if (lastClickTime + teleportCooldown > Time.unscaledTime && Mouse.TryGetPosition(out Vector3 target)) {
-					Jump(target);
+				Jump(target);
 			}
 			else
 				lastClickTime = Time.unscaledTime;

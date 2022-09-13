@@ -12,8 +12,8 @@ public class SaveData {
 	public DateTime dateTime;
 	public string json;
 
-	public SerializedLevel Level {
-		get => json.FromJson<SerializedLevel>();
+	public SerializedGame Game {
+		get => json.FromJson<SerializedGame>();
 		set => json = value.ToJson();
 	}
 

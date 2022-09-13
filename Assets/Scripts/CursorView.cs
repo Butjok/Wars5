@@ -1,9 +1,19 @@
 using UnityEngine;
+using UnityEngine.Assertions;
 
 [RequireComponent(typeof(MeshRenderer))]
 public class CursorView : MonoBehaviour {
 
-	public static CursorView instance;
+	private static CursorView instance;
+	public static CursorView Instance {
+		get {
+			if (!instance) {
+				instance = FindObjectOfType<CursorView>();
+				Assert.IsTrue(instance);
+			}
+			return instance;
+		}
+	}
 
 	public MeshRenderer meshRenderer;
 	public bool show = true;
@@ -14,10 +24,6 @@ public class CursorView : MonoBehaviour {
 	
 	public void Reset() {
 		meshRenderer = GetComponent<MeshRenderer>();
-	}
-
-	public void Awake() {
-		instance = this;
 	}
 
 	public void LateUpdate() {

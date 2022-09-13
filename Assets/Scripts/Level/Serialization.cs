@@ -123,19 +123,19 @@ public struct SerializedTile {
 	}
 }
 
-public class SerializedLevel {
+public class SerializedGame {
 
 	public SerializedUnit[] units;
 	public SerializedTile[] tiles;
 	public SerializedPlayer[] players;
 	public int? turn;
 	public SerializedBuilding[] buildings;
-	public string scriptTypeName;
+	public string levelLogicTypeName;
 
-	public SerializedLevel() { }
-	public SerializedLevel(Level level) {
+	public SerializedGame() { }
+	public SerializedGame(Game2 game) {
 
-		var units = level.units.Values.ToList();
+		var units = game.units.Values.ToList();
 		void addCargo(Unit unit) {
 			if (unit.cargo == null)
 				return;
@@ -144,15 +144,15 @@ public class SerializedLevel {
 				addCargo(cargo);
 			}
 		}
-		foreach (var unit in level.units.Values)
+		foreach (var unit in game.units.Values)
 			addCargo(unit);
 
 		var id = new IdCollection();
 		this.units = units.Select(unit => new SerializedUnit(unit, id)).ToArray();
-		tiles = level.tiles.Select(kv => new SerializedTile(kv.Key, kv.Value)).ToArray();
-		players = level.players.Select(player => new SerializedPlayer(player,id)).ToArray();
-		turn = level.Turn;
-		buildings = level.buildings.Values.Select(building => new SerializedBuilding(building, id)).ToArray();
-		scriptTypeName = level.script?.GetType().Name;
+		tiles = game.tiles.Select(kv => new SerializedTile(kv.Key, kv.Value)).ToArray();
+		players = game.players.Select(player => new SerializedPlayer(player,id)).ToArray();
+		turn = game.Turn;
+		buildings = game.buildings.Values.Select(building => new SerializedBuilding(building, id)).ToArray();
+		levelLogicTypeName = game.levelLogic?.GetType().Name;
 	}
 }

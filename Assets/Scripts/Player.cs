@@ -20,7 +20,7 @@ public class Player : IDisposable {
 	public AiDifficulty difficulty = AiDifficulty.Normal;
 	public PlayerView view;
 
-	public UnitAction action;
+	public UnitAction bestAction;
 
 	public Player(Game2 game, Color32 color, Team team = Team.None, PlayerView viewPrefab = null) {
 		this.game = game;

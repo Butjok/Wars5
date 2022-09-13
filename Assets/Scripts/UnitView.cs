@@ -72,7 +72,12 @@ public class UnitView : MonoBehaviour {
 		set { }
 	}
 
-	public ChangeTracker<bool> selected;
+	public bool Selected {
+		set {
+			if (value)
+				Blink();
+		}
+	}
 
 	public void Awake() {
 
@@ -82,11 +87,6 @@ public class UnitView : MonoBehaviour {
 
 		speedometers = GetComponentsInChildren<Speedometer>();
 		steeringArms = GetComponentsInChildren<SteeringArm>();
-
-		selected = new ChangeTracker<bool>(_ => {
-			if (selected.v)
-				Blink();
-		});
 
 		propertyBlock = new MaterialPropertyBlock();
 		renderers = GetComponentsInChildren<Renderer>();

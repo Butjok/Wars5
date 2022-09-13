@@ -28,7 +28,6 @@ public class NewBehaviourScript : MonoBehaviour {
 
 		var game = gameObject.AddComponent<Game2>();
 		Game2.instance = game;
-		game.levelLogic = new Tutorial(game);
 
 		var red = new Player(game, Palette.red, Team.Alpha);
 		var green = new Player(game, Palette.green, Team.Bravo);
@@ -50,8 +49,11 @@ public class NewBehaviourScript : MonoBehaviour {
 		new Unit(green, position: new Vector2Int(1, 1), viewPrefab: Resources.Load<UnitView>("mrap0-export")).hp.v = 5;
 		new Unit(red, position: new Vector2Int(2, 2), viewPrefab: Resources.Load<UnitView>("light-tank")).hp.v = 7;
 		new Unit(red, position: new Vector2Int(2, 1), viewPrefab: Resources.Load<UnitView>("light-tank"));
+		
+		game.levelLogic = new TutorialLogic();
+		game.StartCoroutine(SelectionState.New(game, true));
 
-		game.StartWith(new SelectionState(game,true));
+		CursorView.Instance.Visible = false;
 
 		//var pathBuilderTest = FindObjectOfType<PathBuilderTest>();
 		//if (pathBuilderTest)

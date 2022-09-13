@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class Game2 : StateMachine2<Game2> {
+public class Game2 : MonoBehaviour {
 
     public static Game2 instance;
     
@@ -13,7 +13,7 @@ public class Game2 : StateMachine2<Game2> {
     public Map2D<Building> buildings;
     public List<Player> players = new();
     private int? turn = 0;
-    public LevelLogic levelLogic;
+    public DefaultLevelLogic levelLogic;
     public Player realPlayer;
 
     public int? Turn {
@@ -54,9 +54,5 @@ public class Game2 : StateMachine2<Game2> {
 
     public IEnumerable<Vector2Int> AttackPositions(Vector2Int position, Vector2Int range) {
         return range.Offsets().Select(offset => offset + position).Where(p => tiles.ContainsKey(p));
-    }
-
-    private void OnGUI() {
-        GUILayout.Label($"Turn #{Turn} - {state.GetType().Name}");
     }
 }

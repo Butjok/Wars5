@@ -56,6 +56,8 @@ public class UnitAction : IDisposable {
 		unit.player.game.TryGetUnit(pathEnd, out var unitAtPathEnd);
 		unit.player.game.TryGetBuilding(pathEnd, out var buildingAtPathEnd);
 
+		unit.moved.v = true;
+		
 		Debug.Log($"EXECUTING: {unit} {type} {targetUnit}");
 
 		switch (type) {
