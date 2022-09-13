@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.Assertions;
+using Debug = UnityEngine.Debug;
 
 public abstract class StateMachine2<T> : MonoBehaviour where T : StateMachine2<T> {
 
@@ -103,6 +104,8 @@ public abstract class State2<T> : IDisposable where T : StateMachine2<T> {
     }
 
     public void UnpauseLastState() {
+
+        Debug.Log("unpause");
 
         Assert.IsTrue(started);
         Assert.IsFalse(disposed);

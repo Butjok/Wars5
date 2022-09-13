@@ -12,10 +12,8 @@ public class DialogueState : State2<Game2> {
 			ui.gameObject.SetActive(false);
 		}
 		ui.speeches = speeches;
+		ui.index=Vector2Int.zero;
+		ui.onEnd = UnpauseLastState;
 		ui.gameObject.SetActive(true);
-		ui.onEnd += UnpauseLastState;
-	}
-	public override void Dispose() {
-		ui.onEnd -= UnpauseLastState;
 	}
 }

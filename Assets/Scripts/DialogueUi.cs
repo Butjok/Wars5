@@ -13,7 +13,7 @@ public class DialogueUi : MonoBehaviour {
 	public IEnumerator textTypingAnimation;
 	public AudioSource voiceOverSource;
 
-	public event Action onEnd;
+	public Action onEnd;
 
 	public IEnumerator TextTypingAnimation(char[] text) {
 		if (!this.text)
@@ -55,16 +55,14 @@ public class DialogueUi : MonoBehaviour {
 			if (IsValidIndex(index))
 				Refresh();
 			else
-				enabled = false;
+				gameObject.SetActive(false);
 		}
 	}
 
 	public void OnEnable() {
-		gameObject.SetActive(true);
 		Refresh();
 	}
 	public void OnDisable() {
-		gameObject.SetActive(false);
 		onEnd?.Invoke();
 	}
 
@@ -76,9 +74,10 @@ public class DialogueUi : MonoBehaviour {
 
 	public void Refresh() {
 
-		enabled = IsValidIndex(index);
-		if (!enabled)
+		if (!IsValidIndex(index)) {
+			gameObject.SetActive(false);
 			return;
+		}
 
 		var speech = speeches[index[0]];
 		var line = speech.lines[index[1]];

@@ -114,11 +114,17 @@ public class ActionSelectionState : State2<Game2> {
 	public void Execute(UnitAction action) {
 		action.Execute();
 		unit.moved.v = true;
-		if (Rules.Won(parent.realPlayer))
+		if (Rules.Won(parent.realPlayer)) {
 			ChangeTo(new VictoryState(parent));
-		else if (Rules.Lost(parent.realPlayer))
+			parent.levelLogic.OnVictory();
+		}
+		else if (Rules.Lost(parent.realPlayer)) {
 			ChangeTo(new DefeatState(parent));
-		else if (!parent.levelLogic.OnActionCompletion(action))
+			parent.levelLogic.OnDefeat();
+		}
+		else {
 			ChangeTo(new SelectionState(parent));
+			parent.levelLogic.OnActionCompletion(action);
+		}
 	}
 }

@@ -13,7 +13,6 @@ public class Game2 : StateMachine2<Game2> {
     private int? turn = 0;
     public LevelLogic levelLogic;
     public Player realPlayer;
-    public bool isTurnStart = true;
 
     public int? Turn {
         get => turn;
