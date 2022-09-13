@@ -12,11 +12,8 @@ public class DialogueUi : MonoBehaviour {
 	public static DialogueUi Instance {
 		get {
 			if(!instance) {
-				var prefab = Resources.Load<DialogueUi>(nameof(DialogueUi));
-				Assert.IsTrue(prefab);
-				instance = Instantiate(prefab);
-				DontDestroyOnLoad(instance.gameObject);
-				instance.Visible = false;
+				instance = FindObjectOfType<DialogueUi>(true);
+				Assert.IsTrue(instance);
 			}
 			return instance;
 		}
