@@ -2,25 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/StateMachine2/LevelLogic.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/StateMachine2/LevelLogic.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Default_Changelist.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Default_Changelist.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_03_09_2022_16_37__Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_03_09_2022_16_37__Default_Changelist_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_07-Aug-22_22_44__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_07-Aug-22_22_44__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_12_09_22__22_17__Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_12_09_22__22_17__Default_Changelist_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_21-Aug-22_19_31__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_21-Aug-22_19_31__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_31-Jul-22_22_36__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_31-Jul-22_22_36__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assembly-CSharp-Editor.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp-Editor.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assembly-CSharp-firstpass.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp-firstpass.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assembly-CSharp.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/DialogueSpeaker.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DialogueSpeaker.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/DialogueTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DialogueUi.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/DialogueTest.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DialogueUi.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Level/UnitAction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Level/UnitAction.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/LevelState/ActionSelectionState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/LevelState/ActionSelectionState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/LevelState/DialogueState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/LevelState/DialogueState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/LevelState/SelectionState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/LevelState/SelectionState.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/NewBehaviourScript.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/NewBehaviourScript.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Rules.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Rules.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/StateMachine2/Game2.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/StateMachine2/Game2.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/StateMachine2/StateMachine2.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/StateMachine2/StateMachine2.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Unit.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/RiderScriptEditorPersistedState.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/RiderScriptEditorPersistedState.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/WarsPostProcess.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/WarsPostProcess.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,7 +77,10 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.C#" />
+    <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
@@ -172,13 +169,7 @@
       <workItem from="1662569827089" duration="13864000" />
       <workItem from="1662962766379" duration="1626000" />
       <workItem from="1662999322292" duration="4176000" />
-    </task>
-    <task id="LOCAL-00002" summary="first tree pass">
-      <created>1659892448645</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1659892448645</updated>
+      <workItem from="1663049489584" duration="855000" />
     </task>
     <task id="LOCAL-00003" summary="fgfghfghfghfghfgh">
       <created>1659908593531</created>
@@ -516,7 +507,14 @@
       <option name="project" value="LOCAL" />
       <updated>1662931974722</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="ghkhjkhgjkhjk">
+      <created>1663017704715</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1663017704716</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -539,7 +537,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="GOOD LOOK HERE" />
     <MESSAGE value="uuuuuuuuuuuuuuuuuuuuu" />
     <MESSAGE value="kkkkkkkkkkkkkkkkkkkkkkkkkkkkkk" />
     <MESSAGE value="fsdfsdfyutyuty" />
@@ -564,19 +561,8 @@
     <MESSAGE value="ролролролролрлрол" />
     <MESSAGE value="jjhfghfgh" />
     <MESSAGE value="state machine 2" />
-    <option name="LAST_COMMIT_MESSAGE" value="state machine 2" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/StateMachine2/Game2.cs</url>
-          <line>46</line>
-          <properties documentPath="$PROJECT_DIR$/Assets/Scripts/StateMachine2/Level2.cs" initialLine="24" containingFunctionPresentation="method 'Update'" />
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="ghkhjkhgjkhjk" />
+    <option name="LAST_COMMIT_MESSAGE" value="ghkhjkhgjkhjk" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

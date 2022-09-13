@@ -1,9 +1,12 @@
+using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 
 public static class WarsPostProcess {
 	
 	public static void Setup(PlayerSettings playerSettings, PostProcessLayer postProcessLayer = null) {
 
+		if (!postProcessLayer)
+			postProcessLayer = Camera.main ? Camera.main.GetComponent<PostProcessLayer>() : null;
 		if (postProcessLayer)
 			postProcessLayer.antialiasingMode = playerSettings.antiAliasing;
 
