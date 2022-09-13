@@ -1051,6 +1051,10 @@
      </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="FullscreenEditor.csproj">
+      <Project>{ea66c163-c16e-dd96-3d67-e5c567917ba9}</Project>
+      <Name>FullscreenEditor</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

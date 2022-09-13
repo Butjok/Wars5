@@ -1,10 +1,13 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 public class PlayerView : MonoBehaviour {
 
+	public static List<PlayerView> views = new();
+	
 	public static int playerColorId = Shader.PropertyToID("_Color");
 
 	public static Func<int>[] layers = {
@@ -40,5 +43,12 @@ public class PlayerView : MonoBehaviour {
 
 	public bool Visible {
 		set => camera.enabled = value;
+	}
+
+	public void Awake() {
+		views.Add(this);
+	}
+	public void OnDestroy() {
+		views.Remove(this);
 	}
 }

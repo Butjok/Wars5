@@ -381,6 +381,7 @@
      <Compile Include="Assets\Scripts\GameStates\VictoryState.cs" />
      <Compile Include="Assets\Scripts\GameStates\DefeatState.cs" />
      <Compile Include="Assets\Scripts\LevelLogic\TutorialLevelLogic.cs" />
+     <Compile Include="Assets\Scripts\GameUiView.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\Shaders\My First Lighting Shader.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
@@ -1470,6 +1471,10 @@
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
       <Project>{cfaf5f5f-ffc3-ed7f-1757-4a565014486c}</Project>
       <Name>Assembly-CSharp-firstpass</Name>
+    </ProjectReference>
+    <ProjectReference Include="FullscreenEditor.csproj">
+      <Project>{ea66c163-c16e-dd96-3d67-e5c567917ba9}</Project>
+      <Name>FullscreenEditor</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

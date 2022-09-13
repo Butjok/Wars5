@@ -50,6 +50,7 @@
      <Compile Include="Assets\SerializableDictionary\Example\Editor\UserSerializableDictionaryPropertyDrawers.cs" />
      <Compile Include="Assets\SDF Toolkit\Editor\SDFTextureGeneratorWindow.cs" />
      <Compile Include="Assets\Scripts\Editor\InputViewer.cs" />
+     <Compile Include="Assets\Scripts\Editor\FullscreenPlayMode.cs" />
      <Reference Include="UnityEngine">
      <HintPath>D:\Unity\2021.3.1f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
      </Reference>
@@ -1100,6 +1101,10 @@
     <ProjectReference Include="Assembly-CSharp.csproj">
       <Project>{27f680dc-e909-2372-eead-a89d4eeafd25}</Project>
       <Name>Assembly-CSharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="FullscreenEditor.csproj">
+      <Project>{ea66c163-c16e-dd96-3d67-e5c567917ba9}</Project>
+      <Name>FullscreenEditor</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
