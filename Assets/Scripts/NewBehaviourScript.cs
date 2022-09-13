@@ -11,8 +11,6 @@ public class NewBehaviourScript : MonoBehaviour {
 	public Unit unit;
 	public MinimapMeshGenerator minimapMeshGenerator;
 
-	public Game2 game;
-
 	private void OnEnable() {
 
 		var settings = new PlayerSettings {
@@ -28,7 +26,8 @@ public class NewBehaviourScript : MonoBehaviour {
 		var min = new Vector2Int(-size, -size);
 		var max = new Vector2Int(size, size);
 
-		game = gameObject.AddComponent<Game2>();
+		var game = gameObject.AddComponent<Game2>();
+		Game2.instance = game;
 		game.levelLogic = new Tutorial(game);
 
 		var red = new Player(game, Palette.red, Team.Alpha);

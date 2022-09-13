@@ -6,6 +6,8 @@ using UnityEngine.Assertions;
 
 public class Game2 : StateMachine2<Game2> {
 
+    public static Game2 instance;
+    
     public Map2D<Unit> units;
     public Map2D<TileType> tiles;
     public Map2D<Building> buildings;

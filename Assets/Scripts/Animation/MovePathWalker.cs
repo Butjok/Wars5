@@ -7,7 +7,7 @@ public class MovePathWalker : MonoBehaviour {
 	public List<MovePath.Move> moves;
 	public float time;
 	public float speed = 1.5f;
-	public event Action onComplete;
+	public Action onComplete;
 
 	public void Update() {
 		if (moves is { Count: > 0 }) {

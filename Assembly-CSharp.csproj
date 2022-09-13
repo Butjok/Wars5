@@ -44,7 +44,6 @@
      <Compile Include="Assets\CommandLine\Antlr4\Atn\LexerATNConfig.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\InterpreterRuleContext.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Tree\Trees.cs" />
-     <Compile Include="Assets\Scripts\GlobalPostProcessVolume.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Misc\NotNullAttribute.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Tree\Pattern\TokenTagToken.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\IAntlrErrorListener.cs" />
@@ -388,6 +387,8 @@
      <Compile Include="Assets\Scripts\StateMachine2\LevelLogic.cs" />
      <Compile Include="Assets\Scripts\StateMachine2\StateMachine2.cs" />
      <Compile Include="Assets\Scripts\StateMachine2\Game2.cs" />
+     <Compile Include="Assets\Scripts\CursorViewToggler.cs" />
+     <Compile Include="Assets\Scripts\LevelState\TurnStartAnimationState.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\Shaders\My First Lighting Shader.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />

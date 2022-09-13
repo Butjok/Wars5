@@ -13,14 +13,15 @@ public class SelectionState : State2<Game2> {
 	public SelectionState(Game2 parent, bool turnStart = false) : base(parent) {
 		unmovedUnits = parent.units.Values
 			.Where(unit => unit.player == parent.CurrentPlayer && !unit.moved.v)
-			.OrderBy(unit => Vector3.Distance(CameraRig.Instance.transform.position, unit.view.center.position))
+			.OrderBy(unit => Vector3.Distance(CameraRig.instance.transform.position, unit.view.center.position))
 			.ToList();
 		this.turnStart = turnStart;
 	}
 
 	public override void Start() {
 		if (turnStart)
-			parent.levelLogic.OnTurnStart();
+			if (!parent.levelLogic.OnTurnStart())
+				PauseTo(new TurnStartAnimationState(parent));
 	}
 
 	public override void Update() {
@@ -44,7 +45,7 @@ public class SelectionState : State2<Game2> {
 				if (unmovedUnits.Count > 0) {
 					unitIndex = (unitIndex + 1) % unmovedUnits.Count;
 					var next = unmovedUnits[unitIndex];
-					CameraRig.Instance.Jump(next.view.center.position);
+					CameraRig.instance.Jump(next.view.center.position);
 					cycledUnit = next;
 				}
 				else
@@ -56,25 +57,21 @@ public class SelectionState : State2<Game2> {
 
 				if (unit.player != parent.CurrentPlayer || unit.moved.v)
 					UiSound.Instance.notAllowed.Play();
-				else {
+				else
 					SelectUnit(unit);
-					return;
-				}
 			}
 			else if (Input.GetKeyDown(KeyCode.Return))
-				if (cycledUnit != null) {
+				if (cycledUnit != null)
 					SelectUnit(cycledUnit);
-					return;
-				}
 				else
 					UiSound.Instance.notAllowed.Play();
 
-			else if (Input.GetKeyDown(KeyCode.KeypadEnter)) 
+			else if (Input.GetKeyDown(KeyCode.KeypadEnter))
 				EndTurn();
-			
+
 			else if (Input.GetKeyDown(KeyCode.V) && Input.GetKey(KeyCode.LeftShift))
 				ChangeTo(new VictoryState(parent));
-			
+
 			else if (Input.GetKeyDown(KeyCode.D) && Input.GetKey(KeyCode.LeftShift))
 				ChangeTo(new DefeatState(parent));
 		}
@@ -86,8 +83,8 @@ public class SelectionState : State2<Game2> {
 		if (parent.Turn is not { } turn)
 			throw new Exception();
 		parent.Turn = turn + 1;
-		ChangeTo(new SelectionState(parent,true));
-		parent.levelLogic.OnTurnEnd();
+		if (!parent.levelLogic.OnTurnEnd())
+			ChangeTo(new SelectionState(parent, true));
 	}
 
 	public void SelectUnit(Unit unit) {

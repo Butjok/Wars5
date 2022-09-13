@@ -64,8 +64,8 @@ public abstract class State2<T> : IDisposable where T : StateMachine2<T> {
         Assert.IsFalse(state.disposed);
         Assert.IsFalse(state.paused);
 
-        Dispose();
         disposed = true;
+        Dispose();        
 
         parent.state = state;
         parent.UpdateDebugName();
@@ -74,28 +74,20 @@ public abstract class State2<T> : IDisposable where T : StateMachine2<T> {
         state.Start();
     }
 
-    public void Pause() {
+    public void PauseTo(State2<T> state) {
 
         Assert.IsTrue(started);
         Assert.IsFalse(disposed);
         Assert.IsFalse(paused);
-
+        
+        Assert.IsFalse(state.started);
+        Assert.IsFalse(state.disposed);
+        Assert.IsFalse(state.paused);
+        
         paused = true;
         OnPause();
 
         parent.pausedStates.Push(this);
-        parent.state = null;
-        parent.UpdateDebugName();
-    }
-
-    public void PauseTo(State2<T> state) {
-
-        Assert.IsFalse(state.started);
-        Assert.IsFalse(state.disposed);
-        Assert.IsFalse(state.paused);
-
-        Pause();
-
         parent.state = state;
         parent.UpdateDebugName();
 
@@ -105,11 +97,12 @@ public abstract class State2<T> : IDisposable where T : StateMachine2<T> {
 
     public void UnpauseLastState() {
 
-        Debug.Log("unpause");
-
         Assert.IsTrue(started);
         Assert.IsFalse(disposed);
         Assert.IsFalse(paused);
+
+        disposed = true;
+        Dispose();
 
         var state = parent.pausedStates.Pop();
 

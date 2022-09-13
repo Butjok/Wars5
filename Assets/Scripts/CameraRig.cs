@@ -8,14 +8,7 @@ using UnityEngine.Assertions;
 
 public class CameraRig : MonoBehaviour {
 
-	private static CameraRig instance;
-	public static CameraRig Instance {
-		get {
-			if (!instance) 
-				instance = FindObjectOfType<CameraRig>();
-			return instance;
-		}
-	}
+	public static CameraRig instance;
 
 	public LayerMask raycastLayerMask;
 	public Transform arm;
@@ -91,6 +84,8 @@ public class CameraRig : MonoBehaviour {
 	}
 
 	private void Awake() {
+		instance = this;
+		
 		if (raycastLayerMask == 0)
 			raycastLayerMask = 1 << LayerMask.NameToLayer("Default");
 	}

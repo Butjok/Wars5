@@ -52,18 +52,17 @@ public class DialogueUi : MonoBehaviour {
 				index[0]++;
 				index[1] = 0;
 			}
-			if (IsValidIndex(index))
-				Refresh();
-			else
-				gameObject.SetActive(false);
+			Refresh();
 		}
 	}
 
-	public void OnEnable() {
-		Refresh();
-	}
-	public void OnDisable() {
-		onEnd?.Invoke();
+	public bool Visible {
+		get => gameObject.activeSelf;
+		set {
+			gameObject.SetActive(value); 
+			if(value)
+				Refresh();
+		}
 	}
 
 	public bool IsValidIndex(Vector2Int index) {
@@ -75,7 +74,9 @@ public class DialogueUi : MonoBehaviour {
 	public void Refresh() {
 
 		if (!IsValidIndex(index)) {
-			gameObject.SetActive(false);
+			if (Visible)
+				onEnd?.Invoke();
+			Visible = false;
 			return;
 		}
 

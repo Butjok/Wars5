@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 
 public static class WarsPostProcess {
-	
+
 	public static void Setup(PlayerSettings playerSettings, PostProcessLayer postProcessLayer = null) {
 
 		if (!postProcessLayer)
@@ -10,7 +10,9 @@ public static class WarsPostProcess {
 		if (postProcessLayer)
 			postProcessLayer.antialiasingMode = playerSettings.antiAliasing;
 
-		var postProcessProfile = GlobalPostProcessVolume.Instance.profile;
+		var postProcessProfile = Resources.Load<PostProcessProfile>(nameof(PostProcessProfile));
+		if (!postProcessProfile)
+			return;
 
 		var motionBlur = postProcessProfile.GetSetting<MotionBlur>();
 		if (motionBlur) {

@@ -4,7 +4,7 @@ public class Tutorial : LevelLogic {
 	
 	public Tutorial(Game2 game) : base(game) { }
 	
-	public override void OnTurnStart() {
+	public override bool OnTurnStart() {
 		if (game.Turn == 0)
 			game.state.PauseTo(new DialogueState(game, new[] {
 				new DialogueUi.Speech {
@@ -21,13 +21,16 @@ public class Tutorial : LevelLogic {
 					}
 				},
 			}));
+		
 	}
 
-	public override void OnVictory() {
+	public override bool OnVictory() {
 		Debug.Log("Well played!");
+		return false;
 	}
 
-	public override void OnDefeat() {
+	public override bool OnDefeat() {
 		Debug.Log("You lost! How could you...");
+		return false;
 	}
 }

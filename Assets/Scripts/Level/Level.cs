@@ -32,8 +32,8 @@ public class Level : SubStateMachine {
 		tiles = new Map2D<TileType>(min, max);
 		buildings = new Map2D<Building>(min, max);
 
-		if (CameraRig.Instance)
-			CameraRig.Instance.enabled = true;
+		if (CameraRig.instance)
+			CameraRig.instance.enabled = true;
 	}
 
 	public override void Update() {
@@ -52,19 +52,19 @@ public class Level : SubStateMachine {
 
 	public override void Dispose() {
 		base.Dispose();
-		if (CameraRig.Instance)
-			CameraRig.Instance.enabled = false;
+		if (CameraRig.instance)
+			CameraRig.instance.enabled = false;
 	}
 
 	public override void OnAfterPop() {
 		base.OnAfterPop();
-		if (CameraRig.Instance)
-			CameraRig.Instance.enabled = true;
+		if (CameraRig.instance)
+			CameraRig.instance.enabled = true;
 	}
 	public override void OnBeforePush() {
 		base.OnBeforePush();
-		if (CameraRig.Instance)
-			CameraRig.Instance.enabled = false;
+		if (CameraRig.instance)
+			CameraRig.instance.enabled = false;
 	}
 
 	public bool TryGetTile(Vector2Int position, out TileType tile) {

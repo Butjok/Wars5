@@ -9,9 +9,19 @@ public abstract class LevelLogic {
 		this.game = game;
 	}
 
-	public virtual void OnTurnStart() { }
-	public virtual void OnTurnEnd() { }
-	public virtual void OnActionCompletion(UnitAction action) { }
-	public virtual void OnVictory() {}
-	public virtual void OnDefeat() { }
+	public virtual bool OnTurnStart() {
+		return false;
+	}
+	public virtual bool OnTurnEnd() {
+		return false;
+	}
+	public virtual bool OnActionCompletion(UnitAction action) {
+		return false;
+	}
+	public virtual bool OnVictory() {
+		return false;
+	}
+	public virtual bool OnDefeat() {
+		return false;
+	}
 }
