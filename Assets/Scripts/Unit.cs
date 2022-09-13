@@ -55,7 +55,6 @@ public class Unit : IDisposable {
 
 		this.type = type;
 		this.player = player;
-		this.position.v = position;
 		this.moved.v = moved;
 		Assert.AreNotEqual(0, hp);
 		this.hp.v = Clamp(hp, 0, Rules.MaxHp(type));
@@ -68,6 +67,8 @@ public class Unit : IDisposable {
 		cargo = new ListChangeTracker<Unit>(
 			onAdd: (_, _) => view.HasCargo = cargo.Count > 0, 
 			onRemove: (_, _) => view.HasCargo = cargo.Count > 0);
+		
+		this.position.v = position;
 	}
 
 	public void Dispose() {
