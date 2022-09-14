@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -17,6 +18,7 @@ public class CursorView : MonoBehaviour {
 
 	public MeshRenderer meshRenderer;
 	public bool show = true;
+	public TMP_Text text;
 
 	public bool Visible {
 		set => gameObject.SetActive(value);
@@ -29,11 +31,18 @@ public class CursorView : MonoBehaviour {
 	public void LateUpdate() {
 		if (Input.GetKeyDown(KeyCode.F11))
 			show = !show;
-		if (Mouse.TryGetPosition(out Vector2Int position)) {
+		if (Mouse.TryGetPosition(out Vector2Int mousePosition)) {
 			meshRenderer.enabled = show;
-			transform.position = position.ToVector3Int();
+			transform.position =  mousePosition.ToVector3Int();
+			if (text) {
+				text.enabled = true;
+				text.text = mousePosition.ToString();
+			}
 		}
-		else
+		else {
 			meshRenderer.enabled = false;
+			if (text)
+				text.enabled = false;
+		}
 	}
 }

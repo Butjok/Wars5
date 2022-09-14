@@ -42,7 +42,7 @@ public class NewBehaviourScript : MonoBehaviour {
 		foreach (var position in game.tiles.positions)
 			game.tiles[position] = TileType.Plain;
 
-		new Building(game, new Vector2Int(-2, -3));
+		new Building(game, new Vector2Int(-2, -3), TileType.Plant, red);
 		new Building(game, min, TileType.Hq, red);
 		new Building(game, max, TileType.Hq, green);
 

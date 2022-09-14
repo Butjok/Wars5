@@ -82,18 +82,30 @@ public static class SelectionState {
 					else
 						UiSound.Instance.notAllowed.Play();
 				}
+				
 				else if (Input.GetMouseButtonDown(Mouse.left) &&
-				         Mouse.TryGetPosition(out Vector2Int position) &&
-				         game.TryGetUnit(position, out var unit)) {
+				         Mouse.TryGetPosition(out Vector2Int mousePosition)) {
 
-					if (unit.player != game.CurrentPlayer || unit.moved.v)
-						UiSound.Instance.notAllowed.Play();
-					else {
-						unit.view.Selected = true;
-						yield return PathSelectionState.New(game, unit);
-						yield break;
+					if (game.TryGetUnit(mousePosition, out var unit)) {
+						if (unit.player != game.CurrentPlayer || unit.moved.v)
+							UiSound.Instance.notAllowed.Play();
+						else {
+							unit.view.Selected = true;
+							yield return PathSelectionState.New(game, unit);
+							yield break;
+						}	
+					}
+					
+					else if (game.TryGetBuilding(mousePosition, out var building)) {
+						if (building.player.v!=game.CurrentPlayer)
+							UiSound.Instance.notAllowed.Play();
+						else {
+							yield return UnitBuildingState.New(game, building);
+							yield break;
+						}
 					}
 				}
+				
 				else if (Input.GetKeyDown(KeyCode.Return))
 					if (cycledUnit != null) {
 						cycledUnit.view.Selected = true;
