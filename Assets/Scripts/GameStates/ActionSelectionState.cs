@@ -34,7 +34,7 @@ public static class ActionSelectionState {
 			foreach (var otherPosition in game.AttackPositions(position, Rules.AttackRange(unit)))
 				if (game.TryGetUnit(otherPosition, out other))
 					for (var weapon = 0; weapon < Rules.WeaponsCount(unit); weapon++)
-						if (Rules.CanAttack(unit, other, weapon))
+						if (Rules.CanAttack(unit, other, path.positions, weapon))
 							actions.Add(new UnitAction(UnitActionType.Attack, unit, path, other, null, weapon));
 
 		// supply
@@ -56,7 +56,7 @@ public static class ActionSelectionState {
 			if (game.CurrentPlayer.IsAi || Input.GetKeyDown(KeyCode.Return) && actions.Count>0) {
 
 				var action = game.CurrentPlayer.IsAi ? game.CurrentPlayer.bestAction : actions[index];
-				action.Execute();
+				yield return action.Execute();
 
 				foreach (var item in actions)
 					item.Dispose();
@@ -102,8 +102,10 @@ public static class ActionSelectionState {
 			}
 
 			else if (Input.GetKeyDown(KeyCode.Tab)) {
-				if (actions.Count > 0)
+				if (actions.Count > 0) {
 					index = (index + 1) % actions.Count;
+					Debug.Log(actions[index]);
+				}
 				else
 					UiSound.Instance.notAllowed.Play();
 			}

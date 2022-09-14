@@ -32,7 +32,7 @@ public static class SelectionState {
 		while (true) {
 			yield return null;
 
-			if (game.CurrentPlayer.IsAi || Input.GetKeyDown(KeyCode.KeypadEnter)) {
+			if (game.CurrentPlayer.IsAi || Input.GetKeyDown(KeyCode.F2)) {
 
 				if (game.CurrentPlayer.IsAi)
 					game.CurrentPlayer.bestAction = game.CurrentPlayer.FindAction();

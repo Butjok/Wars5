@@ -2,17 +2,30 @@ import time
 from watchdog.observers import Observer
 from watchdog.events import PatternMatchingEventHandler
 
+
 def on_created(event):
-    print(f"hey, {event.src_path} has been created!")
+    pass
+    #print(f"hey, {event.src_path} has been created!")
+
 
 def on_deleted(event):
-    print(f"what the f**k! Someone deleted {event.src_path}!")
+    pass
+    #print(f"what the f**k! Someone deleted {event.src_path}!")
+
 
 def on_modified(event):
-    print(f"hey buddy, {event.src_path} has been modified")
+
+    path = event.src_path
+    filename = pathlib
+    print(event.src_path)
+
+    pass
+
 
 def on_moved(event):
-    print(f"ok ok ok, someone moved {event.src_path} to {event.dest_path}")
+    pass
+    #print(f"ok ok ok, someone moved {event.src_path} to {event.dest_path}")
+
 
 if __name__ == "__main__":
     patterns = ["*"]

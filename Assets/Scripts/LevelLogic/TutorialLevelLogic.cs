@@ -64,7 +64,7 @@ public class TutorialLogic : DefaultLevelLogic {
 							text = "That's right! You made your first move!",
 							action = () => {
 								Assert.IsTrue(action.unit.position.v != null, "action.unit.position.v != null");
-								CameraRig.instance.Jump((Vector2Int)action.unit.position.v);
+								CameraRig.Instance.Jump((Vector2Int)action.unit.position.v);
 							}
 						},
 					}

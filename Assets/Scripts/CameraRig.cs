@@ -8,7 +8,7 @@ using UnityEngine.Assertions;
 
 public class CameraRig : MonoBehaviour {
 
-	public static CameraRig instance;
+	private static CameraRig instance;
 	public static CameraRig Instance {
 		get {
 			if (!instance) {
@@ -98,11 +98,12 @@ public class CameraRig : MonoBehaviour {
 		if (raycastLayerMask == 0)
 			raycastLayerMask = 1 << LayerMask.NameToLayer("Default");
 	}
-	public void Jump(Vector2 position, bool canBeInterrupted = true) {
+	public TweenerCore<Vector3, Vector3, VectorOptions> Jump(Vector2 position, bool canBeInterrupted = true) {
 		var targetPosition = position.ToVector3();
 		if (placeOnTerrain && placeOnTerrain.Raycast(position, out var hit))
 			targetPosition = hit.point;
 		teleportAnimation = transform.DOMove(targetPosition, teleportDuration).SetEase(teleportEase);
+		return teleportAnimation;
 	}
 
 	public void Update() {

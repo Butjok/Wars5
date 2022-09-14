@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -48,7 +49,7 @@ public class UnitAction : IDisposable {
 		}
 	}
 
-	public void Execute() {
+	public IEnumerator  Execute() {
 
 		Assert.IsTrue(path.positions.Count >= 1);
 		var pathEnd = path.positions[^1];
@@ -84,16 +85,8 @@ public class UnitAction : IDisposable {
 				break;
 			}
 
-			case UnitActionType.Attack: {
-				unit.position.v = pathEnd;
-				targetUnit.hp.v = Mathf.Max(0, targetUnit.hp.v - (int)Rules.Damage(unit, targetUnit, weaponIndex));
-				if (targetUnit.hp.v > 0) {
-					unit.hp.v = Mathf.Max(0, unit.hp.v - (int)Rules.Damage(targetUnit, unit, weaponIndex));
-				}
-				else
-					targetUnit.Dispose();
-				break;
-			}
+			case UnitActionType.Attack:
+				return BattleAnimation.New(this);
 
 			case UnitActionType.GetIn: {
 				unit.position.v = null;
@@ -121,6 +114,8 @@ public class UnitAction : IDisposable {
 			default:
 				throw new ArgumentOutOfRangeException();
 		}
+
+		return null;
 	}
 
 	public override string ToString() {
