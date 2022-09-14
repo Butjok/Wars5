@@ -1,20 +1,13 @@
 using System;
 using UnityEngine;
-using UnityEngine.Assertions;
 
 [CreateAssetMenu(menuName = nameof(DialogueSpeaker))]
 public class DialogueSpeaker : ScriptableObject {
 
     public enum Mood { Normal, Happy, Mad, Worried }
 
-    private static DialogueSpeaker Load(string name) {
-        var result = Resources.Load<DialogueSpeaker>(name);
-        Assert.IsTrue(result);
-        return result;
-    }
-
-    public static DialogueSpeaker Natalie => Load("NatalieDialogueSpeaker");
-    public static DialogueSpeaker Vladan => Load("VladanDialogueSpeaker");
+    public static DialogueSpeaker Natalie => "NatalieDialogueSpeaker".LoadAs<DialogueSpeaker>();
+    public static DialogueSpeaker Vladan => "VladanDialogueSpeaker".LoadAs<DialogueSpeaker>();
 
     public MoodSpriteDictionary portraits = new() {
         [Mood.Normal] = null,

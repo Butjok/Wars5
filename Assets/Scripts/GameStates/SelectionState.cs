@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public static class SelectionState {
 
@@ -24,6 +25,9 @@ public static class SelectionState {
 			if (controlFlow == ControlFlow.Replace)
 				yield break;
 
+			MusicPlayer.Instance.source.Stop();
+			MusicPlayer.Instance.queue = game.CurrentPlayer.co.MusicQueue(game.settings.shuffleMusic);
+			
 			yield return TurnStartAnimationState.New(game);
 		}
 
@@ -46,11 +50,12 @@ public static class SelectionState {
 				}
 
 				if (!game.CurrentPlayer.IsAi || aiAction == null) {
+					
 					foreach (var unit in game.units.Values)
 						unit.moved.v = false;
-					if (game.Turn is not { } integer)
-						throw new Exception();
-					game.Turn = integer + 1;
+
+					Assert.IsTrue(game.Turn != null);
+					game.Turn = (int)game.Turn + 1;
 					
 					CursorView.Instance.Visible = false;
 
@@ -125,6 +130,10 @@ public static class SelectionState {
 					CursorView.Instance.Visible = false;
 					yield return DefeatState.New(game);
 					yield break;
+				}
+				
+				else if (Input.GetKeyDown(KeyCode.K) && Input.GetKey(KeyCode.LeftShift)) {
+					MusicPlayer.Instance.source.Stop();
 				}
 			}
 		}

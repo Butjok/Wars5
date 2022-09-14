@@ -13,27 +13,17 @@ public class NewBehaviourScript : MonoBehaviour {
 
 	private void OnEnable() {
 
-		var settings = new PlayerSettings {
-			motionBlurShutterAngle = 270,
-			bloom = true,
-			antiAliasing = PostProcessLayer.Antialiasing.TemporalAntialiasing, //PostProcessLayer.Antialiasing.TemporalAntialiasing,
-			ambientOcclusion = true
-		};
-
-		WarsPostProcess.Setup(settings, Camera.main ? Camera.main.GetComponent<PostProcessLayer>() : null);
-
-		var size = 5;
-		var min = new Vector2Int(-size, -size);
-		var max = new Vector2Int(size, size);
-
 		var game = gameObject.AddComponent<Game2>();
-		Game2.instance = game;
 
-		var red = new Player(game, Palette.red, Team.Alpha);
-		var green = new Player(game, Palette.green, Team.Bravo);
+		var red = new Player(game, Palette.red, Team.Alpha, Co.Natalie);
+		var green = new Player(game, Palette.green, Team.Bravo, Co.Vladan);
 
 		game.players = new List<Player> { red, green };
 		game.realPlayer = red;
+		
+		var size = 5;
+		var min = new Vector2Int(-size, -size);
+		var max = new Vector2Int(size, size);
 
 		game.tiles = new Map2D<TileType>(min, max);
 		game.units = new Map2D<Unit>(min, max);

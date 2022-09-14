@@ -12,7 +12,7 @@ public static class UnitMovementAnimationState {
 		if (path.moves.Count > 0) {
 			unit.view.walker.onComplete = () => play = false;
 			unit.view.walker.moves = path.moves;
-			unit.view.walker.speed = GameSettings.Instance.unitSpeed;
+			unit.view.walker.speed = game.settings.unitSpeed;
 			unit.view.walker.enabled = true;
 		}
 		else

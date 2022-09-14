@@ -70,7 +70,6 @@
      <Compile Include="Assets/Scripts/InstancedMeshRenderer.cs" />
      <Compile Include="Assets/Scripts/Animation/MovePathSampler.cs" />
      <Compile Include="Assets/Scripts/Animation/TerrainBumpiness.cs" />
-     <Compile Include="Assets/Scripts/MusicTest.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/LexerCustomAction.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Tree/Pattern/ParseTreePatternMatcher.cs" />
      <Compile Include="Assets/Scripts/Animation/Bird.cs" />
@@ -202,7 +201,7 @@
      <Compile Include="Assets/Scripts/MovePathBuilder.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Misc/Interval.cs" />
      <Compile Include="Assets/CommandLine/Parsers/Butjok/CommandLine/Parsers/CommandLineBaseListener.cs" />
-     <Compile Include="Assets/Scripts/Music.cs" />
+     <Compile Include="Assets/Scripts/MusicPlayer.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/LexerMoreAction.cs" />
      <Compile Include="Assets/CommandLine/Parsers/Butjok/CommandLine/Parsers/CommandLineVisitor.cs" />
      <Compile Include="Assets/Scripts/Animation/Stepping.cs" />
@@ -336,7 +335,6 @@
      <Compile Include="Assets/Scripts/Animation/MovementSound.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Parser.cs" />
      <Compile Include="Assets/Scripts/UnitView.cs" />
-     <Compile Include="Assets/Scripts/GameSettings.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/EmptyPredictionContext.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/TransitionType.cs" />
      <Compile Include="Assets/Scripts/Animation/MovePathView.cs" />
@@ -384,6 +382,7 @@
      <Compile Include="Assets/Scripts/Animation/LookAt.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/PlusBlockStartState.cs" />
      <Compile Include="Assets/Scripts/Animation/PistonBody.cs" />
+     <Compile Include="Assets/Scripts/ResourceExtensions.cs" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />
      <None Include="Assets/Shaders/My First Lighting Shader.shader" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader" />

@@ -54,7 +54,7 @@ public class Unit : IDisposable {
                 view.Die();
                 if (this.position.v is not { } position)
                     throw new Exception();
-                player.game.units.Remove(position);
+                player.game.units.Remove((Vector2Int)this.position.v);
             }
             else
                 view.Hp = this.hp.v;

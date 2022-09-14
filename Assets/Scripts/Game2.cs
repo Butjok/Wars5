@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Rendering.PostProcessing;
 
 public class Game2 : MonoBehaviour {
 
-    public static Game2 instance;
-    
     public Map2D<Unit> units;
     public Map2D<TileType> tiles;
     public Map2D<Building> buildings;
@@ -15,7 +14,13 @@ public class Game2 : MonoBehaviour {
     private int? turn = 0;
     public DefaultLevelLogic levelLogic;
     public Player realPlayer;
+    public PlayerSettings settings;
 
+    public void Awake() {
+        settings = new PlayerSettings();
+        WarsPostProcess.Setup(settings, Camera.main ? Camera.main.GetComponent<PostProcessLayer>() : null);
+    }
+    
     public int? Turn {
         get => turn;
         set {
