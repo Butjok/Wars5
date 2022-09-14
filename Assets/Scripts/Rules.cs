@@ -125,8 +125,9 @@ public static class Rules {
 
         Assert.IsTrue(path.Count >= 1);
         Assert.IsTrue(weaponIndex < WeaponsCount(attacker));
-        if (target.position.v is not { } targetPosition)
-            throw new Exception();
+        var _targetPosiiton = target.position.v;
+        Assert.IsTrue(_targetPosiiton != null);
+        var targetPosition = (Vector2Int)_targetPosiiton;
         Assert.IsTrue(MathUtils.ManhattanDistance(path.Last(), targetPosition).IsIn(AttackRange(attacker)));
 
         return CanAttack(attacker.type, target.type, weaponIndex) &&
@@ -137,16 +138,26 @@ public static class Rules {
     public static bool IsArtillery(UnitType unitType) {
         return (UnitType.Artillery & unitType) != 0;
     }
+    
     public static bool CanAttackInResponse(UnitType unitType) {
         return !IsArtillery(unitType);
     }
+    
     public static bool CanAttackInResponse(Unit attacker, Unit target, out int weaponIndex) {
-        weaponIndex = -1;
-        if (!CanAttackInResponse(target.type))
+
+        if (!CanAttackInResponse(target.type)) {
+            weaponIndex = -1;
             return false;
-        for (weaponIndex = 0; weaponIndex < WeaponsCount(attacker); weaponIndex++)
-            if (CanAttack(attacker, target, weaponIndex))
-                return true;
+        }
+
+        int? maxDamage = null;
+        weaponIndex = -1;
+
+        for (var i = 0; i < WeaponsCount(attacker); i++)
+            if (Damage(attacker, target, i, attacker.hp.v, target.hp.v) is { } damage && (maxDamage == null || maxDamage < damage)) {
+                maxDamage = damage;
+                weaponIndex = i;
+            }
         return false;
     }
     public static Vector2Int AttackRange(UnitType unitType) {

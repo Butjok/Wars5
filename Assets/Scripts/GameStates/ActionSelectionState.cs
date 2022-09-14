@@ -66,10 +66,8 @@ public static class ActionSelectionState {
 
                 if (won || lost) {
 
-                    var (controlFlow, nextState) = won ? game.levelLogic.OnVictory(game) : game.levelLogic.OnDefeat(game);
+                    var nextState = won ? game.levelLogic.OnVictory(game) : game.levelLogic.OnDefeat(game);
                     yield return nextState;
-                    if (controlFlow == ControlFlow.Replace)
-                        yield break;
 
                     foreach (var u in game.units.Values)
                         u.moved.v = false;
