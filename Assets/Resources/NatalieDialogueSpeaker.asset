@@ -12,5 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fd3df4b1afa4061a84484ddd1955b8c, type: 3}
   m_Name: NatalieDialogueSpeaker
   m_EditorClassIdentifier: 
-  portrait: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  portraits:
+    m_keys: 00000000010000000200000003000000
+    m_values:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
   side: -1

@@ -47,6 +47,7 @@
      <Compile Include="Assets/CommandLine/Antlr4/Misc/NotNullAttribute.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Tree/Pattern/TokenTagToken.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/IAntlrErrorListener.cs" />
+     <Compile Include="Assets/Scripts/GameStates/BattleAnimation.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/IParserErrorListener.cs" />
      <Compile Include="Assets/Scripts/ShadowQuality.cs" />
      <Compile Include="Assets/CommandLine/AssemblyInfo.cs" />
@@ -383,7 +384,6 @@
      <Compile Include="Assets/Scripts/Animation/LookAt.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/PlusBlockStartState.cs" />
      <Compile Include="Assets/Scripts/Animation/PistonBody.cs" />
-     <Compile Include="Assets/Scripts/GameStates/BattleAnimation.cs" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />
      <None Include="Assets/Shaders/My First Lighting Shader.shader" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader" />
