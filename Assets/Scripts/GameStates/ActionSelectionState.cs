@@ -66,12 +66,12 @@ public static class ActionSelectionState {
 
                 if (won || lost) {
 
-                    var nextState = won ? game.levelLogic.OnVictory(game) : game.levelLogic.OnDefeat(game);
-                    yield return nextState;
-
                     foreach (var u in game.units.Values)
                         u.moved.v = false;
-
+                    
+                    var nextState = won ? game.levelLogic.OnVictory(game) : game.levelLogic.OnDefeat(game);
+                    yield return nextState;
+                    
                     yield return won ? VictoryState.New(game) : DefeatState.New(game);
                     yield break;
                 }
