@@ -11,7 +11,7 @@ public class Game2 : MonoBehaviour {
     public Map2D<TileType> tiles;
     public Map2D<Building> buildings;
     public List<Player> players = new();
-    private int? turn = 0;
+    public int? turn;
     public DefaultLevelLogic levelLogic;
     public Player realPlayer;
     public PlayerSettings settings;
@@ -20,23 +20,12 @@ public class Game2 : MonoBehaviour {
         settings = new PlayerSettings();
         WarsPostProcess.Setup(settings, Camera.main ? Camera.main.GetComponent<PostProcessLayer>() : null);
     }
-    
-    public int? Turn {
-        get => turn;
-        set {
-            turn = value;
-            if (turn == null)
-                return;
-            foreach (var player in players)
-                player.view.Visible = player == CurrentPlayer;
-        }
-    }
+
     public Player CurrentPlayer {
         get {
             Assert.AreNotEqual(0, players.Count);
-            if (turn is { } integer)
-                return players[integer % players.Count];
-            throw new Exception();
+            Assert.IsTrue(turn != null);
+            return players[(int)turn % players.Count];
         }
     }
 

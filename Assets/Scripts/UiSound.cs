@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -21,6 +23,7 @@ public class UiSound : ScriptableObject {
 }
 
 public static class AudioClipExtensions {
+	
 	public static void Play(this AudioClip clip) {
 
 		if (!clip)
@@ -39,5 +42,17 @@ public static class AudioClipExtensions {
 		}
 
 		UiSound.source.PlayOneShot(clip);
+	}
+	
+	public static IEnumerator<AudioClip> InfiniteSequence(this AudioClip[] themes,bool shuffle = false) {
+		if (themes.Length == 0) {
+			yield return null;
+			yield break;
+		}
+		var shuffled = shuffle ? themes.OrderBy(_ => Random.value).ToArray() : themes;
+		while (true) {
+			foreach (var clip in shuffled)
+				yield return clip;
+		}
 	}
 }

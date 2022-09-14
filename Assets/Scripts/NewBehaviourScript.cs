@@ -41,6 +41,7 @@ public class NewBehaviourScript : MonoBehaviour {
 		new Unit(red, position: new Vector2Int(2, 1), viewPrefab: Resources.Load<UnitView>("light-tank"));
 		
 		game.levelLogic = new TutorialLogic();
+		game.turn = 0;
 		game.StartCoroutine(SelectionState.New(game, true));
 
 		CursorView.Instance.Visible = false;

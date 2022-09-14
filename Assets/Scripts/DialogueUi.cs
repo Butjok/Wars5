@@ -49,6 +49,8 @@ public class DialogueUi : MonoBehaviour {
         public AudioClip voiceOver;
         public Action action;
         public DialogueSpeaker.Mood? moodChange;
+        public AudioClip[] playMusic;
+        public bool stopMusic;
     }
 
     public Dictionary<string, char[]> stringCache = new();
@@ -97,6 +99,15 @@ public class DialogueUi : MonoBehaviour {
             VoiceOverSource.PlayOneShot(line.voiceOver);
 
         line.action?.Invoke();
+        
+        if (line.stopMusic) {
+            MusicPlayer.Instance.source.Stop();
+            MusicPlayer.Instance.queue = null;
+        }
+        if (line.playMusic != null) {
+            MusicPlayer.Instance.source.Stop();
+            MusicPlayer.Instance.queue = line.playMusic.InfiniteSequence();
+        }
     }
 
     public AudioSource VoiceOverSource {

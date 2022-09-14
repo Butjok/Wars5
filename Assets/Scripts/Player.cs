@@ -35,6 +35,7 @@ public class Player : IDisposable {
 		view = Object.Instantiate(viewPrefab);
 		Object.DontDestroyOnLoad(view.gameObject);
 		view.Initialize(this);
+		view.Visible = false;
 	}
 
 	public override string ToString() {

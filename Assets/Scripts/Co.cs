@@ -17,16 +17,4 @@ public class Co : ScriptableObject {
     public UnitView GetUnitViewPrefab(UnitType type) {
         return unitPrefabsOverrides.TryGetValue(type, out var prefab) && prefab ? prefab : faction.GetUnitViewPrefab(type);
     }
-
-    public IEnumerator<AudioClip> MusicQueue(bool shuffle = false) {
-        if (themes.Length == 0) {
-            yield return null;
-            yield break;
-        }
-        var shuffled = shuffle ? themes.OrderBy(_ => Random.value).ToArray() : themes;
-        while (true) {
-            foreach (var clip in shuffled)
-                yield return clip;
-        }
-    }
 }

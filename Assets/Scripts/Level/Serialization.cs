@@ -151,7 +151,7 @@ public class SerializedGame {
 		this.units = units.Select(unit => new SerializedUnit(unit, id)).ToArray();
 		tiles = game.tiles.Select(kv => new SerializedTile(kv.Key, kv.Value)).ToArray();
 		players = game.players.Select(player => new SerializedPlayer(player,id)).ToArray();
-		turn = game.Turn;
+		turn = game.turn;
 		buildings = game.buildings.Values.Select(building => new SerializedBuilding(building, id)).ToArray();
 		levelLogicTypeName = game.levelLogic?.GetType().Name;
 	}

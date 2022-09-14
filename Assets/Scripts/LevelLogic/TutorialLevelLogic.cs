@@ -11,7 +11,7 @@ public class TutorialLogic : DefaultLevelLogic {
         if (!dialogue)
             return (ControlFlow.Ignore, null);
         
-        return game.Turn switch {
+        return game.turn switch {
 
             0 => (ControlFlow.Pause, DialogueState.New(game, new[] {
                 new DialogueUi.Speech {
@@ -19,6 +19,7 @@ public class TutorialLogic : DefaultLevelLogic {
                     lines = new[] {
                         new DialogueUi.Line {
                             text = "Hello there!",
+                            playMusic = new[]{"violin uzicko".LoadAs<AudioClip>()}
                         },
                         new DialogueUi.Line {
                             text = "This is 3dWars!",
@@ -26,7 +27,7 @@ public class TutorialLogic : DefaultLevelLogic {
                         },
                         new DialogueUi.Line {
                             text = "Something here as well!",
-                            action = () => CameraRig.Instance.Jump(new Vector2(0, 0)),
+                            action = () => CameraRig.Instance.Jump(new Vector2(0, 0))
                         },
                     }
                 },
