@@ -57,8 +57,9 @@ public class DialogueUi : MonoBehaviour {
     public bool Visible {
         get => gameObject.activeSelf;
         set {
+            if (!Visible)
+                moods.Clear();
             gameObject.SetActive(value);
-            moods.Clear();
         }
     }
 
