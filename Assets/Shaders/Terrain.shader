@@ -299,7 +299,8 @@ Shader "Custom/Terrain"
 
             //o.Albedo=splat;
 
-            o.Albedo *= lerp(float3(1,1,1), 1-tex2D (_Grid, position-.5), IN.worldPos.y > 0);
+            half gridMask = smoothstep(-.1,-.05,IN.worldPos.y);
+            o.Albedo *= lerp(float3(1,1,1), 1-tex2D (_Grid, position-.5), gridMask);
             
             
         }

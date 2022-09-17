@@ -20,7 +20,7 @@ public class MusicPlayer : MonoBehaviour {
     public void Awake() {
         source = gameObject.AddComponent<AudioSource>();
         source.loop = false;
-        source.volume = .0f;
+        source.volume = 1.0f;
     }
 
     private IEnumerator<AudioClip> queue;

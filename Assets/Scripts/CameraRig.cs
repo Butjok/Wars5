@@ -183,7 +183,7 @@ public class CameraRig : MonoBehaviour {
 		// TELEPORT
 
 		if (Input.GetMouseButtonDown(2)) {
-			if (lastClickTime + teleportCooldown > Time.unscaledTime && Mouse.TryGetPosition(out Vector3 target)) {
+			if (lastClickTime + teleportCooldown > Time.unscaledTime && Mouse.TryGetPosition(out Vector2 target)) {
 				Jump(target);
 			}
 			else
