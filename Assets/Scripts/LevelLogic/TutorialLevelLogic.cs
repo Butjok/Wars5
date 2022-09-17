@@ -19,7 +19,7 @@ public class TutorialLogic : DefaultLevelLogic {
                     lines = new[] {
                         new DialogueUi.Line {
                             text = "Hello there!",
-                            playMusic = new[]{"violin uzicko".LoadAs<AudioClip>()}
+                            playMusic = new[]{"normal uzicko".LoadAs<AudioClip>()}
                         },
                         new DialogueUi.Line {
                             text = "This is 3dWars!",

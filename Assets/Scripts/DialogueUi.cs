@@ -99,15 +99,14 @@ public class DialogueUi : MonoBehaviour {
             VoiceOverSource.PlayOneShot(line.voiceOver);
 
         line.action?.Invoke();
-        
+
+        var musicPlayer = MusicPlayer.Instance;
         if (line.stopMusic) {
-            MusicPlayer.Instance.source.Stop();
-            MusicPlayer.Instance.queue = null;
+            musicPlayer.source.Stop();
+            musicPlayer.Queue = null;
         }
-        if (line.playMusic != null) {
-            MusicPlayer.Instance.source.Stop();
-            MusicPlayer.Instance.queue = line.playMusic.InfiniteSequence();
-        }
+        if (line.playMusic != null) 
+            musicPlayer.Queue = line.playMusic.InfiniteSequence();
     }
 
     public AudioSource VoiceOverSource {

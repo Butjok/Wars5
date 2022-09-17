@@ -131,8 +131,8 @@ MonoBehaviour:
     overrideState: 0
     value: 0
   saturation:
-    overrideState: 1
-    value: -2
+    overrideState: 0
+    value: -1
   brightness:
     overrideState: 0
     value: 0
@@ -1506,7 +1506,7 @@ MonoBehaviour:
     value: 1
   preset:
     overrideState: 1
-    value: 3
+    value: 6
   maximumIterationCount:
     overrideState: 0
     value: 16
@@ -1518,7 +1518,7 @@ MonoBehaviour:
     value: 8
   maximumMarchDistance:
     overrideState: 1
-    value: 50
+    value: 5
   distanceFade:
     overrideState: 0
     value: 0

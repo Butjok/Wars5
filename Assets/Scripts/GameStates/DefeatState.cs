@@ -7,8 +7,7 @@ public static class DefeatState {
 		Debug.Log("Defeat...");
 		GameUiView.Instance.Defeat = true;
 
-		MusicPlayer.Instance.source.Stop();
-		MusicPlayer.Instance.queue = new[] { "slow uzicko".LoadAs<AudioClip>() }.InfiniteSequence();
+		MusicPlayer.Instance.Queue = new[] { "slow uzicko".LoadAs<AudioClip>() }.InfiniteSequence();
 		
 		yield break;
 	}

@@ -16,7 +16,9 @@ public static class SelectionState {
 
         var unitIndex = -1;
         Unit cycledUnit = null;
-
+        
+        var musicPlayer = MusicPlayer.Instance;
+        
         if (turnStart) {
 
             var (controlFlow, nextState) = game.levelLogic.OnTurnStart(game);
@@ -25,8 +27,7 @@ public static class SelectionState {
             if (controlFlow == ControlFlow.Replace)
                 yield break;
 
-            MusicPlayer.Instance.source.Stop();
-            MusicPlayer.Instance.queue = game.CurrentPlayer.co.themes.InfiniteSequence(game.settings.shuffleMusic);
+            musicPlayer.Queue = game.CurrentPlayer.co.themes.InfiniteSequence(game.settings.shuffleMusic);
 
             yield return TurnStartAnimationState.New(game);
 
@@ -139,7 +140,7 @@ public static class SelectionState {
                 }
 
                 else if (Input.GetKeyDown(KeyCode.K) && Input.GetKey(KeyCode.LeftShift)) {
-                    MusicPlayer.Instance.source.Stop();
+                    musicPlayer.source.Stop();
                 }
             }
         }

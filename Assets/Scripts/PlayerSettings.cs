@@ -16,15 +16,15 @@ public class PlayerSettings {
     public bool bloom = true;
     public ScreenSpaceReflectionPreset? screenSpaceReflectionPreset = ScreenSpaceReflectionPreset.Overkill;
     public float screenSpaceReflectionMaximumMarchDistance = 5;
-    public bool ambientOcclusion;
-    public bool shuffleMusic;
+    public bool ambientOcclusion = true;
+    public bool shuffleMusic = false;
 
     public const string playerPrefsKey = nameof(PlayerSettings);
 
     public PlayerSettings() {
-        var json = PlayerPrefs.GetString(playerPrefsKey);
+/*        var json = PlayerPrefs.GetString(playerPrefsKey);
         if (!string.IsNullOrWhiteSpace(json))
-            JsonConvert.PopulateObject(json, this);
+            JsonConvert.PopulateObject(json, this);*/
     }
 
     public void Save() {

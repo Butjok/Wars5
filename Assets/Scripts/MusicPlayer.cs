@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class MusicPlayer : MonoBehaviour {
@@ -18,19 +19,35 @@ public class MusicPlayer : MonoBehaviour {
     public AudioSource source;
     public void Awake() {
         source = gameObject.AddComponent<AudioSource>();
+        source.loop = false;
+        source.volume = .0f;
     }
 
-    public IEnumerator<AudioClip> queue;
+    private IEnumerator<AudioClip> queue;
+    public IEnumerator<AudioClip> Queue {
+        get => queue;
+        set {
+            queue = value;
+            queue.MoveNext();
+            if (source.isPlaying) {
+                if (source.clip != queue.Current)
+                    source.Stop();
+                else
+                    queue.MoveNext();
+            }
+        }
+    }
 
     public void Update() {
         
         if (queue == null || source.isPlaying)
             return;
         
-        queue.MoveNext();
         var clip = queue.Current;
-        if (clip)
-            source.PlayOneShot(clip);
+        if (clip) {
+            source.clip = clip;
+            source.Play();
+            queue.MoveNext();
+        }
     }
 }
-
