@@ -20311,7 +20311,7 @@ ParticleSystem:
     lifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.01
+      scalar: 0.005
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -20361,7 +20361,7 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    minVertexDistance: 0.01
+    minVertexDistance: 0.005
     textureMode: 0
     ribbonCount: 1
     shadowBias: 0.5
@@ -42326,7 +42326,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 26.883291, y: 363.65143}
+  m_AnchoredPosition: {x: 183.88329, y: 363.65143}
   m_SizeDelta: {x: 207.82533, y: 99.59665}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &854730333
@@ -76148,7 +76148,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 51258076789849872, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 176.48434
+      value: 333.4843
       objectReference: {fileID: 0}
     - target: {fileID: 51258076789849872, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_AnchoredPosition.y

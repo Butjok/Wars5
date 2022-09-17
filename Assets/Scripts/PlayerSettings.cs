@@ -15,7 +15,7 @@ public class PlayerSettings {
     public float? motionBlurShutterAngle = 270;
     public bool bloom = true;
     public ScreenSpaceReflectionPreset? screenSpaceReflectionPreset = ScreenSpaceReflectionPreset.Overkill;
-    public float screenSpaceReflectionMaximumMarchDistance = 5;
+    public float screenSpaceReflectionMaximumMarchDistance = 25;
     public bool ambientOcclusion = true;
     public bool shuffleMusic = false;
 
