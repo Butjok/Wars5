@@ -77,9 +77,9 @@ Shader "Custom/LeavesAreaTinted"
 
                 float3 lightDirection = normalize(_WorldSpaceLightPos0.xyz);
                 
-                float3 viewDir = UNITY_MATRIX_IT_MV[2].xyz;
+                /*float3 viewDir = UNITY_MATRIX_IT_MV[2].xyz;
                 if (dot(v.normal,lightDirection)<0)
-                    v.normal = -v.normal;    
+                    v.normal = -v.normal;   */ 
 
             #endif 
             }
