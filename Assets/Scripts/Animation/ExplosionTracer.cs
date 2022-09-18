@@ -6,7 +6,7 @@ public class ExplosionTracer : MonoBehaviour {
 	public float power = 500;
 	public void Update() {
 		
-		if (Camera.main && Input.GetMouseButtonDown(Mouse.left)) {
+		if (Camera.main && Input.GetKeyDown(KeyCode.KeypadDivide)) {
 			
 			var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			if (Physics.Raycast(ray, out var hit, float.MaxValue, layerMask)) {

@@ -98,6 +98,51 @@ MonoBehaviour:
   force: 1000
   velocity: {x: 0, y: 0, z: 0}
   maxDistance: 0.05
+--- !u!1 &250738177637236830
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4931192582164225658}
+  - component: {fileID: 3978655096192631730}
+  m_Layer: 13
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4931192582164225658
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 250738177637236830}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.079, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7309110000328453102}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &3978655096192631730
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 250738177637236830}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.38, y: 0.24, z: 0.61}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &321354313977516121
 GameObject:
   m_ObjectHideFlags: 0
@@ -142,7 +187,8 @@ GameObject:
   - component: {fileID: 1932968655925562594}
   - component: {fileID: 1322155759734371321}
   - component: {fileID: 9102701130957254639}
-  m_Layer: 0
+  - component: {fileID: 1828457374552604452}
+  m_Layer: 13
   m_Name: turret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -244,6 +290,20 @@ MonoBehaviour:
   velocity: 0
   maxVelocity: 180
   angle: 0
+--- !u!64 &1828457374552604452
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 426779576379108126}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -2092836026824628808, guid: e0d3bffbad9e73148a985cbd325374e1, type: 3}
 --- !u!1 &1025584544806247986
 GameObject:
   m_ObjectHideFlags: 0
@@ -402,7 +462,7 @@ MonoBehaviour:
   force: 250
   drag: 6
   constantForce: 0
-  velocity: -0.97377074
+  velocity: -4.154897
   position: {x: -2.1349192, y: 2.5893745, z: 2.9624946}
 --- !u!114 &9102701130869312568
 MonoBehaviour:
@@ -531,8 +591,8 @@ GameObject:
   - component: {fileID: 218588814641761440}
   - component: {fileID: 9102701130869312513}
   - component: {fileID: 9102701130869312519}
-  - component: {fileID: 9169411946384425145}
-  m_Layer: 0
+  - component: {fileID: 5090679359826707236}
+  m_Layer: 13
   m_Name: hull
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -559,6 +619,7 @@ Transform:
   - {fileID: 5105716435909522144}
   - {fileID: 7828713097252699907}
   - {fileID: 5073983832891542771}
+  - {fileID: 4931192582164225658}
   m_Father: {fileID: 8780316190875479028}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -696,19 +757,20 @@ MonoBehaviour:
   centerOfMass: {fileID: 4622332910155901238}
   barrel: {fileID: 5622201994234556399}
   recoilForce: -750
---- !u!65 &9169411946384425145
-BoxCollider:
+--- !u!64 &5090679359826707236
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1281463842894895587}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.38568985, y: 0.28, z: 0.6039081}
-  m_Center: {x: 0.006662652, y: 0.0743581, z: -0.0024022758}
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 6911245435811023445, guid: e0d3bffbad9e73148a985cbd325374e1, type: 3}
 --- !u!1 &1971625847417377510
 GameObject:
   m_ObjectHideFlags: 0
@@ -1004,7 +1066,7 @@ MonoBehaviour:
   force: 250
   drag: 6
   constantForce: 0
-  velocity: -0.97377074
+  velocity: -4.154897
   position: {x: -2.2513077, y: 2.5893745, z: 2.558672}
 --- !u!114 &9102701130370694845
 MonoBehaviour:
@@ -1179,7 +1241,7 @@ MonoBehaviour:
   force: 250
   drag: 6
   constantForce: 0
-  velocity: -0.97377074
+  velocity: -4.154897
   position: {x: -2.3684928, y: 2.5893745, z: 2.558672}
 --- !u!114 &9102701130222910131
 MonoBehaviour:
@@ -1990,7 +2052,7 @@ MonoBehaviour:
   force: 250
   drag: 6
   constantForce: 0
-  velocity: -0.97377074
+  velocity: -4.154897
   position: {x: -1.9025419, y: 2.5893745, z: 2.9624946}
 --- !u!114 &9102701129804593475
 MonoBehaviour:
@@ -2308,7 +2370,7 @@ MonoBehaviour:
   force: 250
   drag: 6
   constantForce: 0
-  velocity: -0.97377074
+  velocity: -4.154897
   position: {x: -2.251307, y: 2.5893745, z: 2.9624946}
 --- !u!114 &9102701130077438530
 MonoBehaviour:
@@ -2611,7 +2673,7 @@ MonoBehaviour:
   force: 250
   drag: 6
   constantForce: 0
-  velocity: -0.97377074
+  velocity: -4.154897
   position: {x: -2.3684921, y: 2.5893745, z: 2.9624946}
 --- !u!114 &9102701130318977666
 MonoBehaviour:
@@ -3123,6 +3185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 429cb5d29afe47d798eb131265f72fc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  renderers: []
   blinkCurve:
     serializedVersion: 2
     m_Curve: []
@@ -3334,7 +3397,7 @@ MonoBehaviour:
   force: 250
   drag: 6
   constantForce: 0
-  velocity: -0.97377074
+  velocity: -4.154897
   position: {x: -2.13492, y: 2.5893745, z: 2.558672}
 --- !u!114 &9102701129692199438
 MonoBehaviour:
@@ -3540,7 +3603,7 @@ MonoBehaviour:
   force: 250
   drag: 6
   constantForce: 0
-  velocity: -0.97377074
+  velocity: -4.154897
   position: {x: -1.9025426, y: 2.5893745, z: 2.5586717}
 --- !u!114 &9102701130387827153
 MonoBehaviour:
@@ -3715,7 +3778,7 @@ MonoBehaviour:
   force: 250
   drag: 6
   constantForce: 0
-  velocity: -0.97377074
+  velocity: -4.154897
   position: {x: -2.0189297, y: 2.5893745, z: 2.9624946}
 --- !u!114 &9102701131156210678
 MonoBehaviour:
@@ -3890,7 +3953,7 @@ MonoBehaviour:
   force: 250
   drag: 6
   constantForce: 0
-  velocity: -0.97377074
+  velocity: -4.154897
   position: {x: -2.0189304, y: 2.5893745, z: 2.5586717}
 --- !u!114 &9102701130401598978
 MonoBehaviour:
@@ -4036,22 +4099,22 @@ PrefabInstance:
     - target: {fileID: 3689754671458225624, guid: fb3d0e4b87008f747afef3004299e118, type: 3}
       propertyPath: boxCollider
       value: 
-      objectReference: {fileID: 9169411946384425145}
+      objectReference: {fileID: 3978655096192631730}
     - target: {fileID: 5793958539712425122, guid: fb3d0e4b87008f747afef3004299e118, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 106.43846
+      value: 145.7063
       objectReference: {fileID: 0}
     - target: {fileID: 5793958539712425122, guid: fb3d0e4b87008f747afef3004299e118, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 65.63312
+      value: 81.24866
       objectReference: {fileID: 0}
     - target: {fileID: 5793958539712425122, guid: fb3d0e4b87008f747afef3004299e118, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 229.6916
+      value: 878.82104
       objectReference: {fileID: 0}
     - target: {fileID: 5793958539712425122, guid: fb3d0e4b87008f747afef3004299e118, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 711.2674
+      value: 980.22
       objectReference: {fileID: 0}
     - target: {fileID: 7216561255274665977, guid: fb3d0e4b87008f747afef3004299e118, type: 3}
       propertyPath: m_Pivot.x
@@ -4145,7 +4208,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 5827196582898684850}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 

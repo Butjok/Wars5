@@ -165,6 +165,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 429cb5d29afe47d798eb131265f72fc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  renderers: []
   blinkCurve:
     serializedVersion: 2
     m_Curve: []
@@ -349,6 +350,51 @@ Transform:
   m_Father: {fileID: 1347317117878967871}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3356422382149525743
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 430758544819645484}
+  - component: {fileID: 3615032729093670319}
+  m_Layer: 13
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &430758544819645484
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3356422382149525743}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1190220028490122088}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &3615032729093670319
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3356422382149525743}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.31, y: 0.35, z: 0.65}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4354621423096489718
 GameObject:
   m_ObjectHideFlags: 0
@@ -364,6 +410,7 @@ GameObject:
   - component: {fileID: 1528999263364611227}
   - component: {fileID: 1528999263364611224}
   - component: {fileID: 1528999263364611225}
+  - component: {fileID: 2313509341495553342}
   m_Layer: 0
   m_Name: lp2.002
   m_TagString: Untagged
@@ -468,8 +515,8 @@ MonoBehaviour:
   force: 250
   drag: 6
   constantForce: 0
-  velocity: 2.438545
-  position: {x: 0.63793296, y: 1.9252322, z: 2.5192797}
+  velocity: -3.7210116
+  position: {x: 0.63793296, y: 1.8752322, z: 2.5192797}
 --- !u!114 &1528999263364611224
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -508,6 +555,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0
+--- !u!114 &2313509341495553342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4354621423096489718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43d78a1e342282446b06fea5c33516e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  centerOfMass: {fileID: 8847418254913828974}
+  piston: {fileID: 0}
+  worldTorque: {x: 0, y: 0, z: 0}
 --- !u!1 &4620779953698055962
 GameObject:
   m_ObjectHideFlags: 0
@@ -554,6 +616,7 @@ GameObject:
   - component: {fileID: 1528999263529645699}
   - component: {fileID: 1528999263529645696}
   - component: {fileID: 1528999263529645697}
+  - component: {fileID: 9081338375485741164}
   m_Layer: 0
   m_Name: lp2.003
   m_TagString: Untagged
@@ -658,8 +721,8 @@ MonoBehaviour:
   force: 250
   drag: 6
   constantForce: 0
-  velocity: 2.438545
-  position: {x: 0.883987, y: 1.9252322, z: 2.5192795}
+  velocity: -3.7210116
+  position: {x: 0.883987, y: 1.8752322, z: 2.5192795}
 --- !u!114 &1528999263529645696
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -698,6 +761,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0
+--- !u!114 &9081338375485741164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5225499987495797088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43d78a1e342282446b06fea5c33516e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  centerOfMass: {fileID: 8847418254913828974}
+  piston: {fileID: 0}
+  worldTorque: {x: 0, y: 0, z: 0}
 --- !u!1 &5338828780629925662
 GameObject:
   m_ObjectHideFlags: 0
@@ -713,6 +791,7 @@ GameObject:
   - component: {fileID: 1528999263763013443}
   - component: {fileID: 1528999263763013440}
   - component: {fileID: 1528999263763013441}
+  - component: {fileID: 1041282248693846575}
   m_Layer: 0
   m_Name: lp2.004
   m_TagString: Untagged
@@ -817,8 +896,8 @@ MonoBehaviour:
   force: 250
   drag: 6
   constantForce: 0
-  velocity: 2.4385452
-  position: {x: 0.883987, y: 1.9252322, z: 2.1135263}
+  velocity: -3.7210116
+  position: {x: 0.883987, y: 1.8752322, z: 2.1135263}
 --- !u!114 &1528999263763013440
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -857,6 +936,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0
+--- !u!114 &1041282248693846575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5338828780629925662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43d78a1e342282446b06fea5c33516e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  centerOfMass: {fileID: 8847418254913828974}
+  piston: {fileID: 0}
+  worldTorque: {x: 0, y: 0, z: 0}
 --- !u!1 &6074852766535457888
 GameObject:
   m_ObjectHideFlags: 0
@@ -872,6 +966,7 @@ GameObject:
   - component: {fileID: 1528999262864511801}
   - component: {fileID: 1528999262864511798}
   - component: {fileID: 1528999262864511799}
+  - component: {fileID: 3925818051842653076}
   m_Layer: 0
   m_Name: lp2.001
   m_TagString: Untagged
@@ -976,8 +1071,8 @@ MonoBehaviour:
   force: 250
   drag: 6
   constantForce: 0
-  velocity: 2.4385452
-  position: {x: 0.63793296, y: 1.9252322, z: 2.1135263}
+  velocity: -3.7210116
+  position: {x: 0.63793296, y: 1.8752322, z: 2.1135263}
 --- !u!114 &1528999262864511798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1016,6 +1111,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0
+--- !u!114 &3925818051842653076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6074852766535457888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43d78a1e342282446b06fea5c33516e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  centerOfMass: {fileID: 8847418254913828974}
+  piston: {fileID: 0}
+  worldTorque: {x: 0, y: 0, z: 0}
 --- !u!1 &6223236012971455789
 GameObject:
   m_ObjectHideFlags: 0
@@ -1092,8 +1202,9 @@ GameObject:
   - component: {fileID: 608563620714477790}
   - component: {fileID: 5046308640498717068}
   - component: {fileID: 1528999263777978815}
-  - component: {fileID: 1742181968978318507}
-  m_Layer: 0
+  - component: {fileID: 6800833336538108907}
+  - component: {fileID: 1865769119805447998}
+  m_Layer: 13
   m_Name: lp2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1115,6 +1226,7 @@ Transform:
   - {fileID: 8847418254913828974}
   - {fileID: 6967651002476761076}
   - {fileID: 7604834034457877126}
+  - {fileID: 430758544819645484}
   m_Father: {fileID: 1347317117878967871}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1197,8 +1309,8 @@ MonoBehaviour:
   - {fileID: 1528999263763013443}
   rollAxisMultiplier: 1
   pitchAxisMultiplier: -1
---- !u!65 &1742181968978318507
-BoxCollider:
+--- !u!64 &6800833336538108907
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1207,9 +1319,31 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.29, y: 0.5, z: 0.68}
-  m_Center: {x: 0.000040978193, y: 0.12, z: -0.005326718}
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -3634613933246730139, guid: c8fd1a00dd7bd7f44811bf7d777df416, type: 3}
+--- !u!114 &1865769119805447998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7497112863840977762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fca1ac40e7d7ec48b3d7bd5d569cb64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  compressers:
+  - {fileID: 2313509341495553342}
+  - {fileID: 3925818051842653076}
+  - {fileID: 9081338375485741164}
+  - {fileID: 1041282248693846575}
+  accelerationTorque: {x: 0, y: 0, z: 0}
+  centerOfMass: {fileID: 8847418254913828974}
+  barrel: {fileID: 0}
+  recoilForce: 100
 --- !u!1 &8007115098570073490
 GameObject:
   m_ObjectHideFlags: 0
@@ -1288,22 +1422,22 @@ PrefabInstance:
     - target: {fileID: 3689754671458225624, guid: fb3d0e4b87008f747afef3004299e118, type: 3}
       propertyPath: boxCollider
       value: 
-      objectReference: {fileID: 1742181968978318507}
+      objectReference: {fileID: 3615032729093670319}
     - target: {fileID: 5793958539712425122, guid: fb3d0e4b87008f747afef3004299e118, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 86.55945
+      value: 115.597046
       objectReference: {fileID: 0}
     - target: {fileID: 5793958539712425122, guid: fb3d0e4b87008f747afef3004299e118, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 89.24786
+      value: 96.9635
       objectReference: {fileID: 0}
     - target: {fileID: 5793958539712425122, guid: fb3d0e4b87008f747afef3004299e118, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 581.05164
+      value: 1184.266
       objectReference: {fileID: 0}
     - target: {fileID: 5793958539712425122, guid: fb3d0e4b87008f747afef3004299e118, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 546.559
+      value: 758.57404
       objectReference: {fileID: 0}
     - target: {fileID: 7216561255274665977, guid: fb3d0e4b87008f747afef3004299e118, type: 3}
       propertyPath: m_Pivot.x
@@ -1397,7 +1531,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 6430843355906044630}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
