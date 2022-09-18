@@ -29,6 +29,8 @@ Shader "Custom/rough"
         half _Metallic;
         fixed4 _Color;
 
+        #include "Utils.cginc"
+        
         // Add instancing support for this shader. You need to check 'Enable Instancing' on materials that use the shader.
         // See https://docs.unity3d.com/Manual/GPUInstancing.html for more information about instancing.
         // #pragma instancing_options assumeuniformscaling
@@ -43,8 +45,14 @@ Shader "Custom/rough"
             o.Albedo = c.rgb;
             // Metallic and smoothness come from slider variables
             o.Metallic = _Metallic;
-            o.Smoothness = 1-tex2D (_Roughness, IN.uv_MainTex);
+            o.Smoothness = lerp((1-tex2D (_Roughness, IN.uv_MainTex)), .4, .25);
             o.Alpha = c.a;
+
+            float3 hsv = RGBtoHSV(o.Albedo);
+            hsv.x -= .01;
+            //hsv.y *= .95;
+            //hsv.z *= .75;
+            o.Albedo = HSVtoRGB(hsv);
         }
         ENDCG
     }

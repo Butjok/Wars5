@@ -57,7 +57,7 @@ Shader "Custom/Stone"
             //o.Albedo = c.rgb;
             // Metallic and smoothness come from slider variables
             o.Metallic = 0;
-            o.Smoothness = 0;
+            o.Smoothness = _Glossiness;
             o.Alpha = 1;
 
             float2 splatUv = (IN.worldPos.xz - _Bounds.xy) / (_Bounds.zw);

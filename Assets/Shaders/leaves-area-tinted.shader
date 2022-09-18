@@ -103,7 +103,7 @@ Shader "Custom/LeavesAreaTinted"
                 o.Metallic = 0;
                 //o.Smoothness =lerp(.1, .25, pow(tex2D (_Occlusion, IN.uv_MainTex),.5));
                 half globalOcclusion =tex2D (_GlobalOcclusion, IN.uv2_GlobalOcclusion).r; 
-                o.Smoothness =lerp(.1, .3, pow(tex2D (_Occlusion, IN.uv_MainTex),5)) ;//* (globalOcclusion);
+                o.Smoothness =lerp(.1, .5, pow(tex2D (_Occlusion, IN.uv_MainTex),5)) ;//* (globalOcclusion);
                 //o.Alpha = c.a;
                 
 

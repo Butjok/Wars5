@@ -259,7 +259,13 @@ Shader "Custom/Terrain"
             float2 darkGreenUv = position;
             darkGreenUv.x += sin(darkGreenUv.y*2)/16 + sin(darkGreenUv.y*5+.4)/32  + sin(darkGreenUv.y*10+.846)/32;
             fixed3 darkGrass = tex2D (_DarkGreen, TRANSFORM_TEX(darkGreenUv, _DarkGreen) );//tex2D (_Grass, TRANSFORM_TEX(position, _Grass) );
-            o.Albedo =  lerp(o.Albedo, yellow_tint(darkGrass), darkGrassIntensity);
+            darkGrass = yellow_tint(darkGrass);
+
+            float3 darkGrassHSV = RGBtoHSV(darkGrass);
+            darkGrassHSV.y *= .95;
+            darkGrass = HSVtoRGB(darkGrassHSV);
+            
+            o.Albedo =  lerp(o.Albedo, darkGrass, darkGrassIntensity);
 
             float2 wheatUv = position;
             wheatUv.xy += sin(wheatUv.x)/32 + sin(wheatUv.x*2.5+.4)/64  + sin(wheatUv.x*10+.846)/32;
@@ -269,31 +275,48 @@ Shader "Custom/Terrain"
             fixed3 finalWheat = wheat;
 
             float3 wheatHSV = RGBtoHSV(finalWheat);
-            wheatHSV.y *= 1.01;
+            wheatHSV.x -= .01;
+            //wheatHSV.y *= 1.01;
             wheatHSV.z += .25;
             finalWheat = HSVtoRGB(wheatHSV);
             
-            o.Albedo = lerp(o.Albedo, finalWheat, wheatIntensity);
+            
 
             fixed3 yellowGrass = tex2D (_YellowGrass, TRANSFORM_TEX(position, _YellowGrass) );
-            o.Albedo =  lerp(o.Albedo, yellow_tint(yellowGrass), yellowGrassIntensity);
+            yellowGrass = yellow_tint(yellowGrass);
+            float3 yellowGrassHSV = RGBtoHSV(yellowGrass);
+            yellowGrassHSV.y *= 0.95;
+            yellowGrassHSV.z -= .125;
+            yellowGrass = HSVtoRGB(yellowGrassHSV);
+            o.Albedo =  lerp(o.Albedo, yellowGrass, yellowGrassIntensity);
 
-            float3 ocean = tex2D (_Ocean, IN.uv_MainTex);
+            
             /*float3 oceanHSV = RGBtoHSV(ocean);
             oceanHSV.y *= .99;
             oceanHSV.z *= .85;
             ocean = HSVtoRGB(oceanHSV);*/
+
             
-            o.Albedo=lerp(o.Albedo, ocean ,1-oceanMask);
 
             float3 albedoHSV = RGBtoHSV(o.Albedo);
-            albedoHSV.y *= .99;
-            albedoHSV.z *= .85;
+            albedoHSV.x -= .05 - .03;
+            albedoHSV.y *= 1.1;
+            albedoHSV.z *= 1.0;
             o.Albedo = HSVtoRGB(albedoHSV);
+
+            o.Albedo = lerp(o.Albedo, finalWheat, wheatIntensity);
+
+            float3 ocean = tex2D (_Ocean, IN.uv_MainTex);
+            float3 oceanHSV = RGBtoHSV(ocean);
+            //oceanHSV.x *= 1.2;
+            oceanHSV.y *= 1.01;
+            oceanHSV.z *= .9;
+            ocean = HSVtoRGB(oceanHSV);
+            o.Albedo=lerp(o.Albedo, ocean ,1-oceanMask);
             
             // Metallic and smoothness come from slider variables
             o.Metallic = 0;
-            o.Smoothness = _Glossiness;
+            o.Smoothness = .20;
             o.Alpha = 1;
 
             //o.Albedo=float3(1,0,0);
@@ -305,7 +328,7 @@ Shader "Custom/Terrain"
 
             float3 normal = UnpackNormal( tex2D (_Normal, TRANSFORM_TEX(position, _Normal) ));
             //normal = sign(normal) * pow(abs(normal),.75);
-            normal.z/=2;
+            //normal.z/=2;
             normal=normalize(normal);
             o.Normal = normal;
 

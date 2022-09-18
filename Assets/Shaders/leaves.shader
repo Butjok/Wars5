@@ -55,7 +55,14 @@ Shader "Custom/leaves"
             half _Metallic,_SSSIntensity;
             fixed4 _Color;
 
+            #include "Assets/Shaders/SDF.cginc"
 
+            float3 shift(float3 color)
+            {
+                float3 hsv = RGBtoHSV(color);
+                hsv.z *= .7;
+                return HSVtoRGB(hsv);
+            }
             
             void surf (Input IN, inout SurfaceOutputStandard o)
             {
@@ -85,15 +92,17 @@ Shader "Custom/leaves"
                 
                 // Metallic and smoothness come from slider variables
                 o.Metallic = 0;
-                o.Smoothness =lerp(.15, .35, pow(tex2D (_Occlusion, IN.uv_MainTex),1)) * (globalOcclusion);
+                o.Smoothness =lerp(.15, .3, pow(tex2D (_Occlusion, IN.uv_MainTex),1)) * (globalOcclusion);
                 //o.Alpha = c.a;
                 
 
                 o.Normal = UnpackNormal(tex2D (_Normal, IN.uv_MainTex));
 
-                o.Albedo=hue_shift(o.Albedo,-.025);
-                o.Emission=hue_shift(o.Emission,-.025);
+                o.Albedo=hue_shift(o.Albedo,-.04);
+                o.Emission=hue_shift(o.Emission,-.04);
 
+                o.Albedo = shift(o.Albedo);
+                o.Emission = shift(o.Emission);
             }
             ENDCG
     }
