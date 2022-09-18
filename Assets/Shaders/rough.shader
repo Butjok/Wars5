@@ -45,14 +45,14 @@ Shader "Custom/rough"
             o.Albedo = c.rgb;
             // Metallic and smoothness come from slider variables
             o.Metallic = _Metallic;
-            o.Smoothness = lerp((1-tex2D (_Roughness, IN.uv_MainTex)), .4, .2);
+            o.Smoothness = lerp((1-tex2D (_Roughness, IN.uv_MainTex)), .25, .5);
             o.Alpha = c.a;
 
-            float3 hsv = RGBtoHSV(o.Albedo);
+            /*float3 hsv = RGBtoHSV(o.Albedo);
             hsv.x -= .01;
             //hsv.y *= .95;
             hsv.z *= .75;
-            o.Albedo = HSVtoRGB(hsv);
+            o.Albedo = HSVtoRGB(hsv);*/
         }
         ENDCG
     }

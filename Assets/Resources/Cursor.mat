@@ -100,7 +100,7 @@ Material:
     - _OcclusionStrength: 1
     - _Offset: 0
     - _Parallax: 0.02
-    - _Smoothness: 0.75
+    - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 5
@@ -108,10 +108,10 @@ Material:
     - _ZWrite: 0
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Emission: {r: 4.237095, g: 4.237095, b: 4.237095, a: 1}
+    - _Emission: {r: 1.4980392, g: 1.4980392, b: 1.4980392, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Specular: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _SpecularTint: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-    - _Tint: {r: 0, g: 0, b: 0, a: 0.32941177}
+    - _Tint: {r: 0, g: 0, b: 0, a: 1}
     - _Tint2: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []

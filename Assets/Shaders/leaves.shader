@@ -60,7 +60,16 @@ Shader "Custom/leaves"
             float3 shift(float3 color)
             {
                 float3 hsv = RGBtoHSV(color);
-                hsv.z *= .7;
+                hsv.x -= 0.015;;
+                //hsv.z *= 1.1;
+                return HSVtoRGB(hsv);
+            }
+    
+            float3 tint(float3 color, float hueShift, float saturationShift, float valueShift){
+                float3 hsv = RGBtoHSV(color);
+                hsv.x += hueShift;
+                hsv.y *= saturationShift;
+                hsv.z *= valueShift;
                 return HSVtoRGB(hsv);
             }
             
@@ -81,8 +90,11 @@ Shader "Custom/leaves"
 
                 half dist = tex2D (_Dist, IN.uv_MainTex).r;
                 half distI = smoothstep(.1, 0, dist);
+
+                half aoMask = 1-tex2D (_Occlusion, IN.uv_MainTex);
                 
-                o.Albedo = tex2D (_Tint, IN.uv_MainTex) * tex2D (_Occlusion, IN.uv_MainTex) * (1-_SSSIntensity);
+                o.Albedo = tex2D (_Tint, IN.uv_MainTex) * (1-_SSSIntensity);
+                o.Albedo = lerp(o.Albedo, tint(o.Albedo, 0, 1.1, .5), aoMask);
 
                 o.Occlusion = 1;//globalOcclusion*localOcclusion *  (1-_SSSIntensity);
                 
@@ -92,15 +104,17 @@ Shader "Custom/leaves"
                 
                 // Metallic and smoothness come from slider variables
                 o.Metallic = 0;
-                o.Smoothness =lerp(.15, .3, pow(tex2D (_Occlusion, IN.uv_MainTex),1)) * (globalOcclusion);
+                o.Smoothness =lerp(.15, .25, pow(tex2D (_Occlusion, IN.uv_MainTex),1)) * (globalOcclusion);
                 //o.Alpha = c.a;
                 
 
                 o.Normal = UnpackNormal(tex2D (_Normal, IN.uv_MainTex));
 
-                o.Albedo=hue_shift(o.Albedo,-.04);
-                o.Emission=hue_shift(o.Emission,-.04);
+                /*o.Albedo=hue_shift(o.Albedo,-.04);
+                o.Emission=hue_shift(o.Emission,-.04);*/
 
+                o.Emission = lerp(o.Emission, tint(o.Emission, 0, 1.1, .5), aoMask);
+                
                 o.Albedo = shift(o.Albedo);
                 o.Emission = shift(o.Emission);
             }

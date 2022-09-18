@@ -28,7 +28,7 @@ Shader "Custom/LeavesAreaTinted"
     SubShader
     {
             Tags { "RenderType"="Opaque" }
-            Cull Off
+            //Cull Off
             LOD 200
 
             CGPROGRAM
@@ -83,6 +83,16 @@ Shader "Custom/LeavesAreaTinted"
 
             #endif 
             }
+
+            #include  "Utils.cginc"
+
+            float3 tint(float3 color, float hueShift, float saturationShift, float valueShift){
+                float3 hsv = RGBtoHSV(color);
+                hsv.x += hueShift;
+                hsv.y *= saturationShift;
+                hsv.z *= valueShift;
+                return HSVtoRGB(hsv);
+            }
             
             void surf (Input IN, inout SurfaceOutputStandard o)
             {
@@ -103,7 +113,7 @@ Shader "Custom/LeavesAreaTinted"
                 o.Metallic = 0;
                 //o.Smoothness =lerp(.1, .25, pow(tex2D (_Occlusion, IN.uv_MainTex),.5));
                 half globalOcclusion =tex2D (_GlobalOcclusion, IN.uv2_GlobalOcclusion).r; 
-                o.Smoothness =lerp(.1, .5, pow(tex2D (_Occlusion, IN.uv_MainTex),5)) ;//* (globalOcclusion);
+                o.Smoothness = .2;//lerp(.1, .5, pow(tex2D (_Occlusion, IN.uv_MainTex),5)) ;//* (globalOcclusion);
                 //o.Alpha = c.a;
                 
 
@@ -128,7 +138,9 @@ Shader "Custom/LeavesAreaTinted"
                 
                 //o.Emission =(1-IN.IsFacing)* o.Albedo*.15;
 
-                o.Albedo*= lerp(1, tex2D (_Occlusion, IN.uv_MainTex).r,.5);// * (1-_SSSIntensity);
+                o.Albedo = lerp(o.Albedo, tint(o.Albedo, 0, 1.1, .5), 1 - tex2D (_Occlusion, IN.uv_MainTex).r);
+                
+                //o.Albedo*= lerp(1, tex2D (_Occlusion, IN.uv_MainTex).r,.5);// * (1-_SSSIntensity);
                 /*o.Albedo=splat;
                 o.Albedo=0;
                 o.Albedo.rg=splatUv;*/
