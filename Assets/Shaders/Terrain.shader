@@ -337,7 +337,9 @@ Shader "Custom/Terrain"
             half gridMask = smoothstep(-.1,-.05,IN.worldPos.y);
             o.Albedo *= lerp(float3(1,1,1), 1-tex2D (_Grid, position-.5), gridMask);
             
-            
+            /*float3 fin = RGBtoHSV(o.Albedo);
+            fin.y *= .95;
+            o.Albedo = HSVtoRGB(fin);*/
         }
         ENDCG
     }

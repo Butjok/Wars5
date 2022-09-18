@@ -67,7 +67,7 @@ Shader "Custom/Unit"
             o.Emission=c.rgb*bounce.rgb*_BounceIntensity     * movedTint;
 
             float3 hsv = RGBtoHSV(o.Albedo);
-            hsv.y *= 1.04;
+            hsv.y *= 1.02;
             o.Albedo = HSVtoRGB(hsv);
 
         }
