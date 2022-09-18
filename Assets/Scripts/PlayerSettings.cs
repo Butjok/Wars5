@@ -14,7 +14,7 @@ public class PlayerSettings {
     public PostProcessLayer.Antialiasing antiAliasing = PostProcessLayer.Antialiasing.TemporalAntialiasing;
     public float? motionBlurShutterAngle = 270;
     public bool bloom = true;
-    public ScreenSpaceReflectionPreset? screenSpaceReflectionPreset = ScreenSpaceReflectionPreset.Overkill;
+    public ScreenSpaceReflectionPreset? screenSpaceReflectionPreset = ScreenSpaceReflectionPreset.Lower;
     public float screenSpaceReflectionMaximumMarchDistance = 25;
     public bool ambientOcclusion = true;
     public bool shuffleMusic = false;

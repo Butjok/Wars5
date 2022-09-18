@@ -32,8 +32,8 @@ public static class WarsPostProcess {
 		if (screenSpaceReflections) {
 			if (playerSettings.screenSpaceReflectionPreset is { } screenSpaceReflectionPreset) {
 				screenSpaceReflections.enabled.value = true;
-				screenSpaceReflections.preset.value = screenSpaceReflectionPreset;
-				screenSpaceReflections.maximumMarchDistance.value = playerSettings.screenSpaceReflectionMaximumMarchDistance;
+				//screenSpaceReflections.preset.value = screenSpaceReflectionPreset;
+				//screenSpaceReflections.maximumMarchDistance.value = playerSettings.screenSpaceReflectionMaximumMarchDistance;
 			}
 			else
 				screenSpaceReflections.enabled.value = false;

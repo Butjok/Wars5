@@ -60,8 +60,8 @@ Shader "Custom/leaves"
             float3 shift(float3 color)
             {
                 float3 hsv = RGBtoHSV(color);
-                hsv.x -= 0.015;;
-                //hsv.z *= 1.1;
+                //hsv.x += .02;
+                hsv.y *= .99;
                 return HSVtoRGB(hsv);
             }
     
