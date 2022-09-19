@@ -14,7 +14,7 @@ public static class DialogueState {
 		while (true) {
 			yield return null;
 
-			if (Input.GetKeyDown(KeyCode.Return)) {
+			if (Input.GetKeyDown(KeyCode.Space)) {
 
 				var speech = speeches[index[0]];
 

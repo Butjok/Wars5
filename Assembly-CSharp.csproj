@@ -46,6 +46,7 @@
      <Compile Include="Assets\CommandLine\Antlr4\Tree\Trees.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Misc\NotNullAttribute.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Tree\Pattern\TokenTagToken.cs" />
+     <Compile Include="Assets\Scripts\UnitActionViewTest.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\IAntlrErrorListener.cs" />
      <Compile Include="Assets\Scripts\GameStates\BattleAnimation.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\IParserErrorListener.cs" />
@@ -303,6 +304,7 @@
      <Compile Include="Assets\Scripts\GameStates\UnitBuildingState.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Atn\LexerATNSimulator.cs" />
      <Compile Include="Assets\Scripts\NewBehaviourScript.cs" />
+     <Compile Include="Assets\Scripts\UnitActionUiContainer.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Atn\LookaheadEventInfo.cs" />
      <Compile Include="Assets\SerializableDictionary\Example\SerializableDictionaryExample.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Atn\PredicateTransition.cs" />
