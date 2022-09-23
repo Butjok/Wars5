@@ -46,11 +46,18 @@ Shader "Custom/Unit"
 
             half2 uv = IN.uv_MainTex + _Offset.xy*_OffsetIntensity;
 
-            half4 bounce = tex2D (_BounceLight, uv);
+            half3 bounce = tex2D (_BounceLight, uv);
+
+            bounce=Tint(bounce,_HueShift,1,1);
+
+            
             half3 movedTint = lerp(float3(1,1,1), float3(1,1,1) / 2, _Moved);
             
             // Albedo comes from a texture tinted by color
-            fixed3 c = hue_shift(tex2D (_MainTex, uv),_HueShift); // * _PlayerColor;
+            fixed3 c = tex2D (_MainTex, uv); // * _PlayerColor;
+
+            c=Tint(c,_HueShift,1,1);
+            
             o.Albedo = c.rgb * movedTint;
             //o.Albedo=tex2D (_Normal, IN.uv_MainTex);
             // Metallic and smoothness come from slider variables
@@ -62,13 +69,8 @@ Shader "Custom/Unit"
             //o.Alpha = c.a;
             o.Occlusion= tex2D (_Occlusion, uv);
             o.Normal=UnpackNormal(tex2D (_Normal, uv));
-
             
             o.Emission=c.rgb*bounce.rgb*_BounceIntensity     * movedTint;
-
-            float3 hsv = RGBtoHSV(o.Albedo);
-            hsv.x -= .005;
-            o.Albedo = HSVtoRGB(hsv);
 
         }
         ENDCG

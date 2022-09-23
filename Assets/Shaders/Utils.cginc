@@ -1,11 +1,3 @@
-half3 hue_shift(half3 color,  in float shift)
-{
-     half3 p = half3(0.55735, 0.55735, 0.55735) * dot(half3(0.55735, 0.55735, 0.55735), color);
-     half3 u = color - p;
-     half3 v = cross(half3(0.55735, 0.55735, 0.55735), u);
-    color = u * cos(shift * 6.2832) + v * sin(shift * 6.2832) + p;
-    return color;
-}
 
 // https://chilliant.com/rgb2hsv.html
 
@@ -178,4 +170,13 @@ float3 RGBtoHCL(in float3 RGB)
     HCL.y *= Q;
     HCL.z = lerp(-U, V, Q) / (HCLmaxL * 2);
     return HCL;
+}
+
+float3 Tint(float3 color, float hueShift, float saturationShift, float valueShift){
+    return color;
+    float3 hsv = RGBtoHSV(color);
+    hsv.x += hueShift;
+    hsv.y *= saturationShift;
+    hsv.z *= valueShift;
+    return HSVtoRGB(hsv);
 }

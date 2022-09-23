@@ -213,7 +213,7 @@ Shader "Custom/Terrain"
         float4 _Grass_ST, _DarkGreen_ST, _Wheat_ST,_YellowGrass_ST,_Ocean_ST,_OceanMask_ST,_GrassTint_ST;
 
         float3 tint(float3 color, float hueShift, float saturationShift, float valueShift){
-            return color;
+            //return color;
             float3 hsv = RGBtoHSV(color);
             hsv.x += hueShift;
             hsv.y *= saturationShift;
