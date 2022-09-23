@@ -1,6 +1,7 @@
 using System;
 using DG.Tweening;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Spinner : MonoBehaviour {
 
@@ -13,7 +14,12 @@ public class Spinner : MonoBehaviour {
 	public float time;
 	public Tweener tweener;
 	public Axis axis = Axis.Y;
+	public bool randomizePhase=true;
 
+	public void Start() {
+		if (randomizePhase && curve.length > 0)
+			time = Random.Range(0, curve[curve.length - 1].time);
+	}
 	public void Update() {
 		var angle = curve.Evaluate(time % curve[curve.length - 1].time);
 		transform.localRotation = axis switch {

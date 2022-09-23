@@ -19,6 +19,7 @@ public class Player : IDisposable {
 	public PlayerType type = PlayerType.Human;
 	public AiDifficulty difficulty = AiDifficulty.Normal;
 	public PlayerView view;
+	public int credits;
 
 	public UnitAction bestAction;
 

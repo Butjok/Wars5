@@ -60,7 +60,7 @@ public class MinimapMeshGenerator : MonoBehaviour {
 
 		[TileType.City] = 4,
 		[TileType.Hq] = 5,
-		[TileType.Plant] = 6,
+		[TileType.Factory] = 6,
 		[TileType.Airport] = 7
 	};
 

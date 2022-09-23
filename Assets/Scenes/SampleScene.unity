@@ -37276,7 +37276,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 6.99e-43, y: -5.237806e-10, z: 6.99e-43, w: -0}
+  m_BoundingSphereOverride: {x: 3.8205e-41, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -52294,7 +52294,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 567.88696, y: 500.99826}
+  m_AnchoredPosition: {x: 346.88693, y: 500.99826}
   m_SizeDelta: {x: 286.31848, y: 137.2131}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &854730333
@@ -57254,6 +57254,7 @@ MonoBehaviour:
     m_Bits: 8256
   explosion: {fileID: 981553420}
   power: 1000
+  cameras: []
 --- !u!4 &873852100
 Transform:
   m_ObjectHideFlags: 0
@@ -119626,6 +119627,7 @@ MonoBehaviour:
   startDuration: 3
   time: 0
   axis: 1
+  randomizePhase: 1
 --- !u!1 &1855231866 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3893722416717529905, guid: 2d33a92f5c5695743817cb687b83550c, type: 3}
@@ -139839,7 +139841,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 51258076789849872, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 779.0033
+      value: 558.0033
       objectReference: {fileID: 0}
     - target: {fileID: 51258076789849872, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_AnchoredPosition.y

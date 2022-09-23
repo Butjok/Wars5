@@ -67,17 +67,21 @@ public class Body : MonoBehaviour {
 
 		if (rollAxis.Count > 0 && pitchAxis.Count > 0) {
 
-			var right = Vector3.zero;
+			var horizontal = Vector3.zero;
 			foreach (var axis in rollAxis) 
-				right += (axis.b.position - axis.a.position).normalized;
-			right *= rollAxisMultiplier / rollAxis.Count;
+				horizontal += (axis.b.position - axis.a.position).normalized;
+			horizontal *= rollAxisMultiplier / rollAxis.Count;
 
 			var forward = Vector3.zero;
 			foreach (var axis in pitchAxis) 
 				forward += (axis.a.position - axis.b.position).normalized;
 			forward *= pitchAxisMultiplier / pitchAxis.Count;
 
-			transform.rotation = Quaternion.LookRotation(forward, Vector3.Cross(right, -forward));
+			var up = Vector3.Cross(horizontal, -forward);
+			if (Vector3.Dot(Vector3.up, up) < 0)
+				up = -up;
+			
+			transform.rotation = Quaternion.LookRotation(forward, up);
 		}
 	}
 

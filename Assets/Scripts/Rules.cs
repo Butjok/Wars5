@@ -15,7 +15,7 @@ public enum TileType {
 
     City = 1 << 4,
     Hq = 1 << 5,
-    Plant = 1 << 6,
+    Factory = 1 << 6,
     Airport = 1 << 7,
     Shipyard = 1 << 8,
 }
@@ -43,7 +43,7 @@ public static class Rules {
     }
     public static UnitType BuildableUnits(TileType buildingType) {
         return buildingType switch {
-            TileType.Plant => UnitType.Infantry | UnitType.AntiTank | UnitType.Artillery | UnitType.Apc,
+            TileType.Factory => UnitType.Infantry | UnitType.AntiTank | UnitType.Artillery | UnitType.Apc,
             TileType.Airport => UnitType.TransportHelicopter | UnitType.AttackHelicopter | UnitType.FighterJet | UnitType.FighterJet | UnitType.Bomber,
             _ => 0
         };
