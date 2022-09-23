@@ -1,72 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/UnitBuildMenuView.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/UnitBuildMenuView.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/UnitBuildMenuViews.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/UnitBuildMenuViews.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Default_Changelist.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Default_Changelist/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_03_09_2022_16_37_[Default_Changelist]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_03_09_2022_16_37__Default_Changelist_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_07-Aug-22_22_44_[Changes]/Lightmap-0_comp_dir.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_07-Aug-22_22_44_[Changes]/Lightmap-0_comp_light.exr" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_07-Aug-22_22_44_[Changes]/ReflectionProbe-0.exr" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_07-Aug-22_22_44_[Changes]/ReflectionProbe-1.exr" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_07-Aug-22_22_44_[Changes]/ReflectionProbe-2.exr" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_07-Aug-22_22_44_[Changes]/ReflectionProbe-3.exr" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_07-Aug-22_22_44_[Changes]/ReflectionProbe-4.exr" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_07-Aug-22_22_44_[Changes]/ReflectionProbe-5.exr" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_07-Aug-22_22_44_[Changes]/ReflectionProbe-6.exr" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_07-Aug-22_22_44_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_07-Aug-22_22_44__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_12_09_22,_22_17_[Default_Changelist]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_12_09_22__22_17__Default_Changelist_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_13-Sep-22_18_54_[Default_Changelist]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_13-Sep-22_18_54__Default_Changelist_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_13_09_2022_9_58_[Default_Changelist]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_13_09_2022_9_58__Default_Changelist_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_14_09_2022_10_46_[Default_Changelist]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_14_09_2022_10_46__Default_Changelist_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_14_09_22,_18_33_[Default_Changelist]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_14_09_22__18_33__Default_Changelist_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_15_09_2022_9_59_[Default_Changelist]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_15_09_2022_9_59__Default_Changelist_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_18_09_2022_14_25__Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_18_09_2022_14_25__Default_Changelist_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_21-Aug-22_19_31_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_21-Aug-22_19_31__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_31-Jul-22_22_36_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_31-Jul-22_22_36__Changes_.xml" beforeDir="false" />
+    <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="ghghfghfghfghfgh">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assembly-CSharp-Editor.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp-Editor.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assembly-CSharp-firstpass.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp-firstpass.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assembly-CSharp.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/PostProcessProfile.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/PostProcessProfile.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenery Materials/Green.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenery Materials/Green.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene/LightingData.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene/LightingData.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene/Lightmap-0_comp_light.exr" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene/Lightmap-0_comp_light.exr" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene/Lightmap-0_comp_light.exr.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene/Lightmap-0_comp_light.exr.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene/Lightmap-0_comp_shadowmask.png" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene/Lightmap-0_comp_shadowmask.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene/Lightmap-0_comp_shadowmask.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene/Lightmap-0_comp_shadowmask.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene/ReflectionProbe-0.exr" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene/ReflectionProbe-0.exr" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene/ReflectionProbe-1.exr" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene/ReflectionProbe-1.exr" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Animation/Body.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Animation/Body.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Animation/ExplosionTracer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Animation/ExplosionTracer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Animation/Spinner.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Animation/Spinner.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/BattleView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/BattleView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/MinimapMeshGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/MinimapMeshGenerator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/NewBehaviourScript.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/NewBehaviourScript.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Rules.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Rules.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FullscreenEditor.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/FullscreenEditor.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/RiderScriptEditorPersistedState.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/RiderScriptEditorPersistedState.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Shaders/Unit.shader" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Shaders/Unit.shader" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Shaders/Utils.cginc" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Shaders/Utils.cginc" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -120,6 +60,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Animation/LookAt.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Animation/PistonCompresser.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.postprocessing@3.2.2/PostProcessing/Runtime/PostProcessProfile.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/Wars5/Assets/Shaders/Terrain.shader" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/823fb226a3f9439cb41fdcb61f9c86a1157600/c6/f7e02670/Transform.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/823fb226a3f9439cb41fdcb61f9c86a1157600/81/5d84606a/Color32.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/InstancedMeshRenderer.cs" root0="FORCE_HIGHLIGHTING" />
@@ -130,7 +71,9 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/823fb226a3f9439cb41fdcb61f9c86a1157600/fd/a06d07b0/Matrix4x4.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/07c38ac6da8344888a1d0f7bfde87c6617ab18/bb/6c8da1e7/Enumerable.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.render-pipelines.core@12.1.6/Runtime/Debugging/DebugUpdater.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/Wars5/Assets/Shaders/Unit.shader" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/823fb226a3f9439cb41fdcb61f9c86a1157600/80/3498aed4/Mathf.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/Wars5/Assets/Shaders/Utils.cginc" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Shaders/InstancedRendering.cginc" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.postprocessing@3.2.2/PostProcessing/Runtime/PostProcessLayer.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/823fb226a3f9439cb41fdcb61f9c86a1157600/35/e2e9ba01/MathfInternal.cs" root0="SKIP_HIGHLIGHTING" />
@@ -139,6 +82,7 @@
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.postprocessing@3.2.2/PostProcessing/Runtime/PostProcessEffectSettings.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/edef46c9b2db4b878c98495bfdc516fa568ba8/45/c76113f3/Array.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/823fb226a3f9439cb41fdcb61f9c86a1157600/1e/343ef7cc/Rect.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/Wars5/Assets/Shaders/Terrain.shader" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/823fb226a3f9439cb41fdcb61f9c86a1157600/bf/a5abd18a/Vector3.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Rules.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5a41d6b7189842eca409fd0b1c3e3dcf17bf78/75/b2a49bf0/IEnumerable`1.cs" root0="SKIP_HIGHLIGHTING" />
@@ -151,6 +95,7 @@
     <setting file="file://$PROJECT_DIR$/../Unity/2021.3.1f1/Editor/Data/CGIncludes/UnityCG.cginc" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5a41d6b7189842eca409fd0b1c3e3dcf17bf78/72/90646b25/Predicate`1.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/d59c74366d1e4e10965d9d2cdb4f8e0627400/09/812ab160/ScreenSpaceReflectionPresetParameter.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/Wars5/Assets/Shaders/Utils.cginc" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.testtools.codecoverage@1.0.1/Samples~/Tutorial/Asteroids/Scripts/Managers/GameManager.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.postprocessing@3.2.2/PostProcessing/Runtime/Effects/ColorGrading.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/823fb226a3f9439cb41fdcb61f9c86a1157600/d4/a74e1402/Assert.cs" root0="SKIP_HIGHLIGHTING" />
@@ -158,6 +103,7 @@
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.cinemachine@2.8.9/Runtime/Behaviours/CinemachineBrain.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/MeshUtils.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/823fb226a3f9439cb41fdcb61f9c86a1157600/89/db91a475/Color.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/Wars5/Assets/Shaders/Unit.shader" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -271,14 +217,7 @@
       <workItem from="1663529983518" duration="659000" />
       <workItem from="1663582096689" duration="1648000" />
       <workItem from="1663603155962" duration="3775000" />
-      <workItem from="1663956928670" duration="11862000" />
-    </task>
-    <task id="LOCAL-00032" summary=" nmbnmbnmbnmbnmb">
-      <created>1662176528512</created>
-      <option name="number" value="00032" />
-      <option name="presentableId" value="LOCAL-00032" />
-      <option name="project" value="LOCAL" />
-      <updated>1662176528512</updated>
+      <workItem from="1663956928670" duration="12845000" />
     </task>
     <task id="LOCAL-00033" summary="kljlkjkljlkj">
       <created>1662179949522</created>
@@ -616,7 +555,14 @@
       <option name="project" value="LOCAL" />
       <updated>1663657242750</updated>
     </task>
-    <option name="localTasksCounter" value="81" />
+    <task id="LOCAL-00081" summary="ghghfghfghfghfgh">
+      <created>1663973184353</created>
+      <option name="number" value="00081" />
+      <option name="presentableId" value="LOCAL-00081" />
+      <option name="project" value="LOCAL" />
+      <updated>1663973184354</updated>
+    </task>
+    <option name="localTasksCounter" value="82" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -638,7 +584,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="ljslfkgjsdfgsdfg" />
     <MESSAGE value="lkjsfl;gj;wert" />
     <MESSAGE value="lkjljljlkjlk" />
     <MESSAGE value=".mg.dfmg;dfg" />
@@ -663,7 +608,8 @@
     <MESSAGE value="KJBHKLJHGKJHKJHG" />
     <MESSAGE value="ghhgjhgjghjhjghgj" />
     <MESSAGE value="kljfgdfdg" />
-    <option name="LAST_COMMIT_MESSAGE" value="kljfgdfdg" />
+    <MESSAGE value="ghghfghfghfghfgh" />
+    <option name="LAST_COMMIT_MESSAGE" value="ghghfghfghfghfgh" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

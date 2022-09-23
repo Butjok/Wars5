@@ -48,7 +48,7 @@ Shader "Custom/Unit"
 
             half3 bounce = tex2D (_BounceLight, uv);
 
-            bounce=Tint(bounce,_HueShift,1,1);
+            //bounce=Tint(bounce,_HueShift,1,1);
 
             
             half3 movedTint = lerp(float3(1,1,1), float3(1,1,1) / 2, _Moved);
@@ -56,7 +56,7 @@ Shader "Custom/Unit"
             // Albedo comes from a texture tinted by color
             fixed3 c = tex2D (_MainTex, uv); // * _PlayerColor;
 
-            c=Tint(c,_HueShift,1,1);
+            //c=Tint(c,_HueShift,1,1);
             
             o.Albedo = c.rgb * movedTint;
             //o.Albedo=tex2D (_Normal, IN.uv_MainTex);
@@ -72,6 +72,7 @@ Shader "Custom/Unit"
             
             o.Emission=c.rgb*bounce.rgb*_BounceIntensity     * movedTint;
 
+            o.Albedo = Tint(o.Albedo,-.005,1,1);
         }
         ENDCG
     }

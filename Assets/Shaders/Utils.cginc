@@ -173,7 +173,7 @@ float3 RGBtoHCL(in float3 RGB)
 }
 
 float3 Tint(float3 color, float hueShift, float saturationShift, float valueShift){
-    return color;
+    //return color;
     float3 hsv = RGBtoHSV(color);
     hsv.x += hueShift;
     hsv.y *= saturationShift;
