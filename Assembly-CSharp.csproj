@@ -187,9 +187,11 @@
      <Compile Include="Assets\CommandLine\Antlr4\Atn\ATNType.cs" />
      <Compile Include="Assets\Scripts\Player.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Atn\PredictionContext.cs" />
+     <Compile Include="Assets\Scripts\UnitBuildMenuViews.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Misc\ArrayList.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Atn\BasicBlockStartState.cs" />
      <Compile Include="Assets\Scripts\BuildingMaterialSwitcher.cs" />
+     <Compile Include="Assets\Scripts\UnitBuildMenuView.cs" />
      <Compile Include="Assets\Scripts\TestRenderer.cs" />
      <Compile Include="Assets\Priority Queue\Properties\AssemblyInfo.cs" />
      <Compile Include="Assets\Scripts\MoveTypeAtlas.cs" />
@@ -387,8 +389,6 @@
      <Compile Include="Assets\Scripts\Animation\LookAt.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Atn\PlusBlockStartState.cs" />
      <Compile Include="Assets\Scripts\Animation\PistonBody.cs" />
-     <Compile Include="Assets\Scripts\UnitBuildMenuView.cs" />
-     <Compile Include="Assets\Scripts\UnitBuildMenuViews.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\Shaders\My First Lighting Shader.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
