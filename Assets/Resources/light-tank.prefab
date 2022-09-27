@@ -273,7 +273,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 426779576379108126}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 76e4ee1bad2b41c588c0468d1c4be3cf, type: 3}
   m_Name: 
@@ -461,8 +461,8 @@ MonoBehaviour:
   clamp: {x: -0.025, y: 0.025}
   force: 250
   drag: 6
-  constantForce: 0
-  velocity: -4.154897
+  externalForce: 0
+  velocity: -2.943602
   position: {x: -2.1349192, y: 2.5893745, z: 2.9624946}
 --- !u!114 &9102701130869312568
 MonoBehaviour:
@@ -620,6 +620,8 @@ Transform:
   - {fileID: 7828713097252699907}
   - {fileID: 5073983832891542771}
   - {fileID: 4931192582164225658}
+  - {fileID: 2696432709506076095}
+  - {fileID: 5011268655326702587}
   m_Father: {fileID: 8780316190875479028}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -753,10 +755,6 @@ MonoBehaviour:
   - {fileID: 9102701129692199438}
   - {fileID: 9102701130370694845}
   - {fileID: 9102701130222910131}
-  accelerationTorque: {x: 0, y: 0, z: 0}
-  centerOfMass: {fileID: 4622332910155901238}
-  barrel: {fileID: 5622201994234556399}
-  recoilForce: -750
 --- !u!64 &5090679359826707236
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1065,8 +1063,8 @@ MonoBehaviour:
   clamp: {x: -0.025, y: 0.025}
   force: 250
   drag: 6
-  constantForce: 0
-  velocity: -4.154897
+  externalForce: 0
+  velocity: -2.943602
   position: {x: -2.2513077, y: 2.5893745, z: 2.558672}
 --- !u!114 &9102701130370694845
 MonoBehaviour:
@@ -1240,8 +1238,8 @@ MonoBehaviour:
   clamp: {x: -0.025, y: 0.025}
   force: 250
   drag: 6
-  constantForce: 0
-  velocity: -4.154897
+  externalForce: 0
+  velocity: -2.943602
   position: {x: -2.3684928, y: 2.5893745, z: 2.558672}
 --- !u!114 &9102701130222910131
 MonoBehaviour:
@@ -1894,6 +1892,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0
+--- !u!1 &3567605986473003458
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2696432709506076095}
+  m_Layer: 13
+  m_Name: RestTarget
+  m_TagString: Untagged
+  m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2696432709506076095
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3567605986473003458}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0, y: 0.1831, z: 0.384}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7309110000328453102}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3685960026750018183
 GameObject:
   m_ObjectHideFlags: 0
@@ -2051,8 +2080,8 @@ MonoBehaviour:
   clamp: {x: -0.025, y: 0.025}
   force: 250
   drag: 6
-  constantForce: 0
-  velocity: -4.154897
+  externalForce: 0
+  velocity: -2.943602
   position: {x: -1.9025419, y: 2.5893745, z: 2.9624946}
 --- !u!114 &9102701129804593475
 MonoBehaviour:
@@ -2212,6 +2241,7 @@ MonoBehaviour:
   startDuration: 3
   time: 0
   axis: 1
+  randomizePhase: 1
 --- !u!1 &4136969733440676391
 GameObject:
   m_ObjectHideFlags: 0
@@ -2369,8 +2399,8 @@ MonoBehaviour:
   clamp: {x: -0.025, y: 0.025}
   force: 250
   drag: 6
-  constantForce: 0
-  velocity: -4.154897
+  externalForce: 0
+  velocity: -2.943602
   position: {x: -2.251307, y: 2.5893745, z: 2.9624946}
 --- !u!114 &9102701130077438530
 MonoBehaviour:
@@ -2672,8 +2702,8 @@ MonoBehaviour:
   clamp: {x: -0.025, y: 0.025}
   force: 250
   drag: 6
-  constantForce: 0
-  velocity: -4.154897
+  externalForce: 0
+  velocity: -2.943602
   position: {x: -2.3684921, y: 2.5893745, z: 2.9624946}
 --- !u!114 &9102701130318977666
 MonoBehaviour:
@@ -2950,7 +2980,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6182542893955496832}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 76e4ee1bad2b41c588c0468d1c4be3cf, type: 3}
   m_Name: 
@@ -2998,6 +3028,37 @@ Transform:
   - {fileID: 4360846764535422095}
   m_Father: {fileID: 8780316190875479028}
   m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6792895590221283901
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5011268655326702587}
+  m_Layer: 13
+  m_Name: VirtualTarget
+  m_TagString: Untagged
+  m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5011268655326702587
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6792895590221283901}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.213, z: 0.355}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7309110000328453102}
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7043718545864756929
 GameObject:
@@ -3137,6 +3198,9 @@ GameObject:
   - component: {fileID: 9102701131239654383}
   - component: {fileID: 9102701129914540530}
   - component: {fileID: 9102701129914540531}
+  - component: {fileID: 2933954904251469576}
+  - component: {fileID: 2966008283778994451}
+  - component: {fileID: 7239151986368011813}
   m_Layer: 0
   m_Name: light-tank
   m_TagString: Untagged
@@ -3197,7 +3261,7 @@ MonoBehaviour:
   wheels: []
   wheelPistons: []
   walker: {fileID: 0}
-  turret: {fileID: 0}
+  turret: {fileID: 2966008283778994451}
   center: {fileID: 4622332910155901238}
   body: {fileID: 0}
   prefab: {fileID: 0}
@@ -3235,10 +3299,64 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0
-  acceleration: 5
-  rotationSpeed: 90
-  maxSpeed: 3
+  acceleration: 2.5
+  rotationSpeed: 45
+  maxSpeed: 1
+  target: {fileID: 8780316190875479028}
+--- !u!114 &2933954904251469576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8255700248535380302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afddd14a593e4cbfa170ea9b3b4bd443, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   target: {fileID: 0}
+  barrel: {fileID: 5622201994234556399}
+  virtualTarget: {fileID: 5011268655326702587}
+  velocity: 10
+  gravity: {x: 0, y: -1, z: 0}
+  angle: 0
+  showActualTrajectory: 1
+  showIdealTrajectory: 0
+--- !u!114 &2966008283778994451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8255700248535380302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef49b7490e0b4a1cb80f86dc5134fb51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aim: 1
+  rotators:
+  - {fileID: 9102701130957254639}
+  - {fileID: 9102701130657965917}
+  ballisticComputer: {fileID: 2933954904251469576}
+  restIfImpossible: 1
+  restTarget: {fileID: 2696432709506076095}
+--- !u!114 &7239151986368011813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8255700248535380302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d82619826ee643c4b5bdcd68f88ee6a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bodyTorque: {fileID: 9102701130869312519}
+  acceleration: 0
+  factor: -2
 --- !u!1 &8368482287768561904
 GameObject:
   m_ObjectHideFlags: 0
@@ -3396,8 +3514,8 @@ MonoBehaviour:
   clamp: {x: -0.025, y: 0.025}
   force: 250
   drag: 6
-  constantForce: 0
-  velocity: -4.154897
+  externalForce: 0
+  velocity: -2.943602
   position: {x: -2.13492, y: 2.5893745, z: 2.558672}
 --- !u!114 &9102701129692199438
 MonoBehaviour:
@@ -3602,8 +3720,8 @@ MonoBehaviour:
   clamp: {x: -0.025, y: 0.025}
   force: 250
   drag: 6
-  constantForce: 0
-  velocity: -4.154897
+  externalForce: 0
+  velocity: -2.943602
   position: {x: -1.9025426, y: 2.5893745, z: 2.5586717}
 --- !u!114 &9102701130387827153
 MonoBehaviour:
@@ -3777,8 +3895,8 @@ MonoBehaviour:
   clamp: {x: -0.025, y: 0.025}
   force: 250
   drag: 6
-  constantForce: 0
-  velocity: -4.154897
+  externalForce: 0
+  velocity: -2.943602
   position: {x: -2.0189297, y: 2.5893745, z: 2.9624946}
 --- !u!114 &9102701131156210678
 MonoBehaviour:
@@ -3952,8 +4070,8 @@ MonoBehaviour:
   clamp: {x: -0.025, y: 0.025}
   force: 250
   drag: 6
-  constantForce: 0
-  velocity: -4.154897
+  externalForce: 0
+  velocity: -2.943602
   position: {x: -2.0189304, y: 2.5893745, z: 2.5586717}
 --- !u!114 &9102701130401598978
 MonoBehaviour:
@@ -4102,19 +4220,19 @@ PrefabInstance:
       objectReference: {fileID: 3978655096192631730}
     - target: {fileID: 5793958539712425122, guid: fb3d0e4b87008f747afef3004299e118, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 145.7063
+      value: 67.7988
       objectReference: {fileID: 0}
     - target: {fileID: 5793958539712425122, guid: fb3d0e4b87008f747afef3004299e118, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 81.24866
+      value: 29.342285
       objectReference: {fileID: 0}
     - target: {fileID: 5793958539712425122, guid: fb3d0e4b87008f747afef3004299e118, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 878.82104
+      value: 295.77136
       objectReference: {fileID: 0}
     - target: {fileID: 5793958539712425122, guid: fb3d0e4b87008f747afef3004299e118, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 980.22
+      value: 618.3003
       objectReference: {fileID: 0}
     - target: {fileID: 7216561255274665977, guid: fb3d0e4b87008f747afef3004299e118, type: 3}
       propertyPath: m_Pivot.x

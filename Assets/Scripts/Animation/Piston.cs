@@ -11,7 +11,7 @@ public class Piston : MonoBehaviour {
 	public Vector2 clamp = new(-0.025f, 0.025f);
 	public float force = 250;
 	public float drag = 4;
-	public float constantForce;
+	public float externalForce;
 
 	public float velocity;
 	public Vector3 position;
@@ -30,13 +30,15 @@ public class Piston : MonoBehaviour {
 
 		var force = (targetLength - length) * this.force;
 		force -= velocity * drag;
-		force += constantForce;
+		force += externalForce;
 		velocity += force * Time.deltaTime;
 
 		length += velocity * Time.deltaTime;
 		length = Mathf.Clamp(length, clamp[0], clamp[1]);
 
 		position = transform.position + direction * length;
+
+		externalForce = 0;
 	}
 
 	[ContextMenu(nameof(Clear))]

@@ -29,7 +29,7 @@ public class ExplosionTracer : MonoBehaviour {
 
 				var bodyTorque = hit.collider.GetComponentInParent<BodyTorque>();
 				if (bodyTorque)
-					bodyTorque.RecoilTorque(hit.point, -hit.normal * power);
+					bodyTorque.AddWorldForceTorque(hit.point, -hit.normal * power);
 			}
 		}
 	}

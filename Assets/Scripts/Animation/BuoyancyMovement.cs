@@ -18,7 +18,7 @@ public class BuoyancyMovement : MonoBehaviour {
 		Assert.IsTrue(speedometer);
 	}
 	public void Update() {
-		var multiplier = speedometer.speed is var speed ? Mathf.Lerp(1, speedMultiplier, speed / maxSpeed) : 1;
+		var multiplier = speedometer.speed is var speed ? Mathf.Lerp(1, speedMultiplier, (float)(speed / maxSpeed)) : 1;
 
 		time.x += Time.deltaTime * frequency.x * multiplier;
 		time.y += Time.deltaTime * frequency.y * multiplier;

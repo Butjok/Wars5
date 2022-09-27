@@ -18,5 +18,5 @@ public class Speedometer : MonoBehaviour {
 		speed = 0;
 	}
 
-	public float speed;
+	public double speed;
 }

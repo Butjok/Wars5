@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Serialization;
 
+[SelectionBase]
 [RequireComponent(typeof(MovePathWalker))]
 public class UnitView : MonoBehaviour {
 

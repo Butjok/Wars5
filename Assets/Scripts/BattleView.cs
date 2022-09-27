@@ -1,5 +1,8 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using DG.Tweening;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Rendering.PostProcessing;
@@ -20,9 +23,12 @@ public class BattleView : MonoBehaviour {
 
 	public PostProcessProfile battleViewPostProcessProfile;
 
-	public UnitView[] unitViews = Array.Empty<UnitView>();
-	public BattleView other;
-	
+	public List<UnitView> unitViews = new List<UnitView>();
+
+	public Dictionary<UnitView, List<UnitView>> targets;
+
+	public Transform[] spawnPoints = Array.Empty<Transform>();
+
 	public int Layer {
 		set {
 			gameObject.SetLayerRecursively(value);
@@ -65,7 +71,12 @@ public class BattleView : MonoBehaviour {
 		return rect;
 	}
 
-	public void Awake() {
+	[ContextMenu(nameof(FindSpawnPoints))]
+	public void FindSpawnPoints() {
+		spawnPoints = GetComponentsInChildren<Transform>().Where(t => t.name.StartsWith("SpawnPoint")).ToArray();
+	}
+
+	public void Setup(UnitView unitViewPrefab, int count) {
 
 		camera = GetComponentInChildren<Camera>();
 		Assert.IsTrue(camera);
@@ -73,12 +84,54 @@ public class BattleView : MonoBehaviour {
 		if (battleViewPostProcessProfile)
 			colorGrading = battleViewPostProcessProfile.GetSetting<ColorGrading>();
 
-		unitViews = GetComponentsInChildren<UnitView>();
+		Assert.IsTrue(count <= spawnPoints.Length);
+		Assert.IsTrue(unitViewPrefab);
 
-		if (other) {
-			
+		for (var i = 0; i < count; i++) {
+			var spawnPoint = spawnPoints[i];
+			var unitView = Instantiate(unitViewPrefab, spawnPoint.position, spawnPoint.rotation, transform);
+			unitView.gameObject.SetLayerRecursively(gameObject.layer);
+			unitViews.Add(unitView);
 		}
 	}
+
+	public void AssignTargets(IList<UnitView> targets) {
+
+		Assert.AreNotEqual(0, unitViews.Count);
+		Assert.AreNotEqual(0, targets.Count);
+
+		this.targets = new Dictionary<UnitView, List<UnitView>>();
+		foreach (var unitView in unitViews)
+			this.targets.Add(unitView, new List<UnitView>());
+
+		for (var i = 0; i < Mathf.Max(unitViews.Count, targets.Count); i++) {
+
+			var a = unitViews[i % unitViews.Count];
+			var b = targets[i % targets.Count];
+
+			this.targets[a].Add(b);
+		}
+
+		foreach (var unitView in this.targets.Keys) {
+			if (unitView.turret && unitView.turret.ballisticComputer && this.targets[unitView].Count > 0 && this.targets[unitView][0].center)
+				unitView.turret.ballisticComputer.target = this.targets[unitView][0].center;
+		}
+	}
+
+	public void OnDrawGizmos() {
+
+		if (targets == null)
+			return;
+
+		Gizmos.color = Color.red;
+		foreach (var attacker in targets.Keys) {
+			if (attacker.center)
+				foreach (var target in targets[attacker])
+					if (target.center)
+						Gizmos.DrawLine(attacker.center.position, target.center.position);
+		}
+	}
+
 
 	[Range(-1, 1)] public int side = -1;
 

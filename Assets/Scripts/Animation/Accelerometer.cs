@@ -4,8 +4,8 @@ using UnityEngine.Assertions;
 [RequireComponent(typeof(Speedometer))]
 public class Accelerometer : MonoBehaviour {
 	public Speedometer speedometer;
-	public float acceleration;
-	public float[] speeds = {0,0,0};
+	public double acceleration;
+	public double[] speeds = {0,0,0};
 	public float[] times = {0,0,0};
 	public void Update() {
 		if (!speedometer) {
@@ -13,8 +13,8 @@ public class Accelerometer : MonoBehaviour {
 			Assert.IsTrue(speedometer);
 		}
 
-		var deltaTime = times[0] - times[1] + times[1] - times[2];
-		var deltaSpeed = speeds[0] - speeds[1] + speeds[1] - speeds[2];
+		var deltaTime = times[0] - times[2];
+		var deltaSpeed = speeds[0] - speeds[2];
 
 		if (deltaTime > Mathf.Epsilon)
 			acceleration = deltaSpeed / deltaTime;
