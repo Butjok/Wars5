@@ -53,7 +53,7 @@ public static class ActionSelectionState {
         while (true) {
             yield return null;
 
-            if (game.CurrentPlayer.IsAi || Input.GetKeyDown(KeyCode.Return) && actions.Count > 0) {
+            if (game.CurrentPlayer.IsAi || Input.GetKeyDown(KeyCode.Space) && actions.Count > 0) {
 
                 var action = game.CurrentPlayer.IsAi ? game.CurrentPlayer.bestAction : actions[index];
                 yield return action.Execute();

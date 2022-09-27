@@ -30,7 +30,7 @@ public static class UnitBuildingState {
 					Debug.Log(availableTypes[index]);
 				}
 			}
-			else if (Input.GetKeyDown(KeyCode.Return)) {
+			else if (Input.GetKeyDown(KeyCode.Space)) {
 				if (index == -1)
 					UiSound.Instance.notAllowed.Play();
 				else {

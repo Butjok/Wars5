@@ -37276,7 +37276,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 3.8205e-41, y: 0, z: 0, w: 0}
+  m_BoundingSphereOverride: {x: 1.02e-43, y: 0, z: 0, w: 2.6350662e-21}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -52294,7 +52294,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 346.88693, y: 500.99826}
+  m_AnchoredPosition: {x: 431.88693, y: 500.99826}
   m_SizeDelta: {x: 286.31848, y: 137.2131}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &854730333
@@ -124707,7 +124707,7 @@ MonoBehaviour:
   circleSamples: 128
   radius: 0.5
   lineRenderer: {fileID: 0}
-  placeOnTerrain: {fileID: 0}
+  placeOnTerrain: {fileID: 1882405539}
   offset: 0.05
 --- !u!114 &1882405539
 MonoBehaviour:
@@ -139841,7 +139841,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 51258076789849872, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 558.0033
+      value: 643.0033
       objectReference: {fileID: 0}
     - target: {fileID: 51258076789849872, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_AnchoredPosition.y

@@ -211,15 +211,6 @@ Shader "Custom/Terrain"
         #include "Assets/Shaders/SDF.cginc"
         
         float4 _Grass_ST, _DarkGreen_ST, _Wheat_ST,_YellowGrass_ST,_Ocean_ST,_OceanMask_ST,_GrassTint_ST;
-
-        float3 tint(float3 color, float hueShift, float saturationShift, float valueShift){
-            //return color;
-            float3 hsv = RGBtoHSV(color);
-            hsv.x += hueShift;
-            hsv.y *= saturationShift;
-            hsv.z *= valueShift;
-            return HSVtoRGB(hsv);
-        }
                
         void surf (Input IN, inout SurfaceOutputStandard o)
         {
@@ -270,14 +261,11 @@ Shader "Custom/Terrain"
             //fixed3 finalWheat = lerp(wheat,wheatTinted,grassTint);
             fixed3 finalWheat = wheat;
 
-            finalWheat = tint(finalWheat, -.0, 1.01, .95);
             
 
             fixed3 yellowGrass = tex2D (_YellowGrass, TRANSFORM_TEX(position, _YellowGrass) );
-            yellowGrass = tint(yellowGrass, 0, 0.95, .8);
             o.Albedo =  lerp(o.Albedo, yellowGrass, yellowGrassIntensity);
 
-            o.Albedo = tint(o.Albedo, -.01, 1.1, .9);
 
             o.Albedo = lerp(o.Albedo, finalWheat, wheatIntensity);
 
