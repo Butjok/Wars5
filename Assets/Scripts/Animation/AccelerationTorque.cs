@@ -2,13 +2,15 @@ using UnityEngine;
 using UnityEngine.Assertions;
 
 public class AccelerationTorque : MonoBehaviour {
-	
+
 	public BodyTorque bodyTorque;
 	public Vector2? oldPosition;
 	public double? oldSpeed;
 	public double acceleration;
 	public float factor = 100;
-	
+	public bool clamp;
+	public float maxTorque;
+
 	public void Update() {
 		if (oldPosition is { } vector2) {
 			var deltaPosition = transform.position.ToVector2() - vector2;
@@ -18,10 +20,15 @@ public class AccelerationTorque : MonoBehaviour {
 			oldSpeed = speed;
 		}
 		oldPosition = transform.position.ToVector2();
-		
-		bodyTorque.AddLocalTorque(new Vector3((float)(acceleration * factor),0,0));
+
+		var torque = (float)(acceleration * factor);
+		if (clamp && !Mathf.Approximately(0, torque))
+			torque = Mathf.Sign(torque) * Mathf.Min(maxTorque, Mathf.Abs(torque));
+
+		bodyTorque.AddLocalTorque(new Vector3(torque, 0, 0));
+		Debug.Log(torque);
 	}
 	public void OnGUI() {
-		GUILayout.Label(acceleration.ToString("0.00"));
+		//GUILayout.Label(acceleration.ToString("0.00"));
 	}
 }

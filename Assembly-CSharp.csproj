@@ -301,6 +301,7 @@
      <Compile Include="Assets\CommandLine\Antlr4\Sharpen\Arrays.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Atn\ATNDeserializer.cs" />
      <Compile Include="Assets\Priority Queue\StablePriorityQueue.cs" />
+     <Compile Include="Assets\Scripts\Animation\AccelerationTorque.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Tree\IParseTree.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Misc\IIntSet.cs" />
      <Compile Include="Assets\Scripts\GameStates\UnitBuildingState.cs" />
@@ -310,6 +311,7 @@
      <Compile Include="Assets\CommandLine\Antlr4\Atn\LookaheadEventInfo.cs" />
      <Compile Include="Assets\SerializableDictionary\Example\SerializableDictionaryExample.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Atn\PredicateTransition.cs" />
+     <Compile Include="Assets\Scripts\BattleViewTest.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Atn\ProfilingATNSimulator.cs" />
      <Compile Include="Assets\Scripts\CameraRig.cs" />
      <Compile Include="Assets\Scripts\GameStates\TurnStartAnimationState.cs" />
@@ -389,8 +391,6 @@
      <Compile Include="Assets\Scripts\Animation\LookAt.cs" />
      <Compile Include="Assets\CommandLine\Antlr4\Atn\PlusBlockStartState.cs" />
      <Compile Include="Assets\Scripts\Animation\PistonBody.cs" />
-     <Compile Include="Assets\Scripts\BattleViewTest.cs" />
-     <Compile Include="Assets\Scripts\Animation\AccelerationTorque.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\Shaders\My First Lighting Shader.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
