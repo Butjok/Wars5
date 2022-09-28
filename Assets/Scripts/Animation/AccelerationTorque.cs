@@ -26,9 +26,5 @@ public class AccelerationTorque : MonoBehaviour {
 			torque = Mathf.Sign(torque) * Mathf.Min(maxTorque, Mathf.Abs(torque));
 
 		bodyTorque.AddLocalTorque(new Vector3(torque, 0, 0));
-		Debug.Log(torque);
-	}
-	public void OnGUI() {
-		//GUILayout.Label(acceleration.ToString("0.00"));
 	}
 }

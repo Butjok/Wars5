@@ -20,12 +20,12 @@ public class BattleView : MonoBehaviour {
 	public Tweener cameraRectTweener;
 	public float rectDuration = .5f;
 	public Ease rectEase = Ease.OutExpo;
+	public ParticleSystem impactParticleSystem;
 
 	public PostProcessProfile battleViewPostProcessProfile;
 
-	public List<UnitView> unitViews = new List<UnitView>();
-
-	public Dictionary<UnitView, List<UnitView>> targets;
+	public List<UnitView> unitViews = new();
+	public Dictionary<UnitView, List<ImpactPoint>> impactPoints = new();
 
 	public Transform[] spawnPoints = Array.Empty<Transform>();
 
@@ -100,44 +100,43 @@ public class BattleView : MonoBehaviour {
 		Assert.AreNotEqual(0, unitViews.Count);
 		Assert.AreNotEqual(0, targets.Count);
 
-		this.targets = new Dictionary<UnitView, List<UnitView>>();
+		impactPoints.Clear();
 		foreach (var unitView in unitViews)
-			this.targets.Add(unitView, new List<UnitView>());
+			impactPoints.Add(unitView, new List<ImpactPoint>());
 
 		for (var i = 0; i < Mathf.Max(unitViews.Count, targets.Count); i++) {
 
-			var a = unitViews[i % unitViews.Count];
-			var b = targets[i % targets.Count];
+			var attacker = unitViews[i % unitViews.Count];
+			var target = targets[i % targets.Count];
 
-			this.targets[a].Add(b);
+			Assert.AreNotEqual(0, target.impactPoints.Length);
+			var impactPoint = target.impactPoints.Random();
+			impactPoints[attacker].Add(impactPoint);
 		}
 
-		foreach (var unitView in this.targets.Keys) {
-			if (unitView.turret && unitView.turret.ballisticComputer && this.targets[unitView].Count > 0 && this.targets[unitView][0].center)
-				unitView.turret.ballisticComputer.target = this.targets[unitView][0].center;
-		}
+		foreach (var attacker in impactPoints.Keys)
+			if (attacker.turret && attacker.turret.ballisticComputer)
+				attacker.turret.ballisticComputer.Target = impactPoints[attacker].Random().transform;
 	}
 
-	public void OnDrawGizmos() {
+	public int shooterIndex = -1;
 
-		if (targets == null)
-			return;
-
-		Gizmos.color = Color.red;
-		foreach (var attacker in targets.Keys) {
-			if (attacker.center)
-				foreach (var target in targets[attacker])
-					if (target.center)
-						Gizmos.DrawLine(attacker.center.position, target.center.position);
-		}
+	public bool Shoot() {
+		shooterIndex = (shooterIndex + 1) % unitViews.Count;
+		var shooter = unitViews[shooterIndex];
+		shooter.turret.Fire(impactPoints[shooter]);
+		return true;
 	}
-
 
 	[Range(-1, 1)] public int side = -1;
 
 	public bool visible;
 
 	public void Update() {
+
+		if (Input.GetKeyDown(KeyCode.KeypadDivide) && side == -1) {
+			Shoot();
+		}
 
 		if (Input.GetKeyDown(KeyCode.KeypadEnter)) {
 			if (!visible)

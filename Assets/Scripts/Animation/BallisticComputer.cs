@@ -1,29 +1,41 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 using static UnityEngine.Mathf;
 
 public class BallisticComputer : MonoBehaviour {
 
 	public enum Angle { Low, High }
 
-	public Transform target;
-	[Space]
-	public Transform barrel;
+	[SerializeField] private Transform target;
+	[Space] public Transform barrel;
 	public Transform virtualTarget;
 	public float velocity = 1;
 	public Vector3 gravity = Vector3.down;
 	public Angle angle = Angle.Low;
-	public BallisticCurve? curveOption;
+	public BallisticCurve? curve;
 	[Header("Debug")] public bool showActualTrajectory = true;
 	public bool showIdealTrajectory = false;
 
-	public void Update() {
-		if (target && BallisticCurve.Calculate(barrel.position, target.position, velocity, gravity, out var low, out var high)) {
+	public Transform Target {
+		get => target;
+		set {
+			target = value;
+			UpdateBallisticCurve();
+		}
+	}
+
+	public void UpdateBallisticCurve() {
+		if (Target && BallisticCurve.Calculate(barrel.position, Target.position, velocity, gravity, out var low, out var high)) {
 			var curve = angle == Angle.Low ? low : high;
 			virtualTarget.position = curve.from + curve.forward * Cos(curve.theta) + curve.up * Sin(curve.theta);
-			curveOption = curve;
+			this.curve = curve;
 		}
 		else
-			curveOption = null;
+			curve = null;
+	}
+
+	public void Update() {
+		UpdateBallisticCurve();
 	}
 
 	private void OnDrawGizmosSelected() {
@@ -35,7 +47,7 @@ public class BallisticComputer : MonoBehaviour {
 				Gizmos.DrawLine(a, b);
 		}
 
-		if (showIdealTrajectory && target && BallisticCurve.Calculate(barrel.position, target.position, velocity, gravity, out var low, out var high)) {
+		if (showIdealTrajectory && Target && BallisticCurve.Calculate(barrel.position, Target.position, velocity, gravity, out var low, out var high)) {
 			var curve = angle == Angle.Low ? low : high;
 			Gizmos.color = Color.yellow;
 			foreach (var (a, b)in curve.Segments())

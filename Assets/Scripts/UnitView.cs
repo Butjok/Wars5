@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using DG.Tweening;
 using TMPro;
@@ -23,6 +24,8 @@ public class UnitView : MonoBehaviour {
     public Body body;
     public UnitView prefab;
     public TMP_Text hpText;
+    public ImpactPoint[] impactPoints = Array.Empty<ImpactPoint>();
+    public BodyTorque bodyTorque;
 
     public Color movedTint = Color.white / 2;
 
