@@ -23,12 +23,15 @@ public class Player : IDisposable {
 
 	public UnitAction bestAction;
 
-	public Player(Game2 game, Color32 color, Team team = Team.None, Co co = null, PlayerView viewPrefab = null) {
+	public Player(Game2 game, Color32 color, Team team = Team.None, Co co = null, PlayerView viewPrefab = null,
+		PlayerType type = PlayerType.Human) {
 		
 		this.game = game;
 		this.color = color;
 		this.team = team;
 		this.co = co ? co : Co.Natalie;
+		this.type = type;
+		
 		game.players.Add(this);
 		
 		viewPrefab = viewPrefab ? viewPrefab : Resources.Load<PlayerView>(nameof(PlayerView));
