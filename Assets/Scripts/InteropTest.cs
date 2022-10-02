@@ -1,15 +1,16 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
-public class AITest : MonoBehaviour {
+public class InteropTest : MonoBehaviour {
 
-    public Game2 game;
     public Player red, blue;
 
     public void Awake() {
 
-        game = gameObject.AddComponent<Game2>();
+        var game = GetComponent<Game2>();
+        Assert.IsTrue(game);
 
         red = new Player(game, Color.red, Team.Alpha);
         blue = new Player(game, Color.blue, Team.Alpha, type: PlayerType.Ai);
@@ -29,9 +30,5 @@ public class AITest : MonoBehaviour {
         game.buildings = new Map2D<Building>(min, max);
 
         game.levelLogic = new DefaultLevelLogic();
-    }
-
-    public void OnDrawGizmos() {
-        
     }
 }
