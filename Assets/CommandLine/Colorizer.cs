@@ -14,6 +14,7 @@ namespace Butjok.CommandLine
         private static readonly StringBuilder sb = new StringBuilder();
         
         public static string Colorize(string text, Theme theme = null) {
+
             if (!theme)
                 return text;
 

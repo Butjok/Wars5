@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -185,6 +186,8 @@ namespace Butjok.CommandLine
                             e = e.InnerException;
                         info = $"<i>{e.Message.Split('\n')[0]}</i>";
                     }
+                else if (Commands.TryGetCommand(name, out var methodInfo))
+                    info = string.Join(" ", methodInfo.GetParameters().Select(parameter => $"<i><</i><i>{parameter.Name}</i><i>></i>"));
                 name = Colorizer.Colorize(name, theme);
                 GUILayout.Label(index == i
                     ? prefix.PadRight(prefixMaxLength) + $"<b>{name}</b> {info}"

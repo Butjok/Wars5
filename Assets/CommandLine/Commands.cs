@@ -123,5 +123,15 @@ namespace Butjok.CommandLine
                 throw new CommandNotFoundException(name);
             return $"{command.DeclaringType} :: {command}";
         }
+
+        public static bool TryGetCommand(string name,out MethodInfo methodInfo) {
+            methodInfo = default;
+            var result= commands.TryGetValue(name, out var memberInfo);
+            if (result) {
+                methodInfo = (MethodInfo)memberInfo;
+                return true;
+            }
+            return false;
+        }
     }
 }

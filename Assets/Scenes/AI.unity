@@ -282,7 +282,6 @@ GameObject:
   - component: {fileID: 1849071760}
   - component: {fileID: 1849071759}
   - component: {fileID: 1849071761}
-  - component: {fileID: 1849071763}
   - component: {fileID: 1849071762}
   m_Layer: 0
   m_Name: aitest
@@ -330,8 +329,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75ef02148bbd4c05b85a92aed207c4d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  path: /Users/butjok/Documents/GitHub/Wars5/Assets/Input.txt
+  inputPath: /Users/butjok/Documents/GitHub/Wars5/Assets/Input.txt
+  outputPath: /Users/butjok/Documents/GitHub/Wars5/Assets/Output.json
   game: {fileID: 1849071762}
+  executeOnStart: 0
 --- !u!114 &1849071762
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -355,20 +356,6 @@ MonoBehaviour:
     screenSpaceReflectionMaximumMarchDistance: 25
     ambientOcclusion: 1
     shuffleMusic: 0
---- !u!114 &1849071763
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1849071758}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7bafc391419c4f4dbccd74e82c0d9cb1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  path: /Users/butjok/Documents/GitHub/Wars5/Assets/Output.json
-  game: {fileID: 1849071762}
 --- !u!1 &1892626678
 GameObject:
   m_ObjectHideFlags: 0

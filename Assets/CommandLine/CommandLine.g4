@@ -14,7 +14,7 @@ value
     | value operator=(Plus | Minus) value #summation
     | value operator=(DoubleAmpersand | DoubleVerticalBar) value #junction
     | Rgb r=value g=value b=value a=value? #color
-    | (Int2 x=value y=value | LeftParenthesis x=value Comma y=value RightParenthesis) #int2
+    | Int2 x=value y=value #int2
     | Int3 x=value y=value z=value #int3
     | Float2 x=value y=value #float2
     | Float3 x=value y=value z=value #float3

@@ -6,13 +6,11 @@ using UnityEngine;
 namespace Butjok.CommandLine
 {
     [CreateAssetMenu(menuName = nameof(Theme))]
-    public class Theme : ScriptableObject, ISerializationCallbackReceiver
+    public class Theme : ScriptableObject
     {
         public Style normal = new Style();
         public Style error = new Style();
         [SerializeField] private List<Record> tokens = new List<Record>();
-        [HideInInspector] [SerializeField] private List<string> tokenNames;
-        [HideInInspector] [SerializeField] private List<Record> records;
         private readonly Dictionary<Token, Style> cache = new Dictionary<Token, Style>();
 
         public bool TryGetStyle(Token token, out Style style) {
@@ -38,19 +36,6 @@ namespace Butjok.CommandLine
             };
             foreach (var token in bold)
                 tokens.Add(new Record { token = token, bold = true });
-        }
-
-        public void OnBeforeSerialize() {
-            tokenNames = tokens.Select(record => record.token.ToString()).ToList();
-            records = tokens.ToList();
-        }
-        public void OnAfterDeserialize() {
-            tokens = tokenNames.Zip(records, (tokenName, record) => {
-                if (!Enum.TryParse(tokenName, out Token token))
-                    return null;
-                record.token = token;
-                return record;
-            }).Where(record => record != null).ToList();
         }
 
         [Serializable]
