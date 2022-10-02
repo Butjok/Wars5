@@ -1,30 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Animation/ImpactPoint.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Animation/ImpactPoint.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Animation/Lifetime.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Animation/Lifetime.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Animation/Projectile.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Animation/Projectile.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_24_09_2022_14_51__Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_24_09_2022_14_51__Default_Changelist_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_27_09_2022_10_54__Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_27_09_2022_10_54__Default_Changelist_.xml" afterDir="false" />
+    <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="hrhthrtrty">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_24_09_2022_14_51_[Default_Changelist]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_24_09_2022_14_51__Default_Changelist_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assembly-CSharp-Editor.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp-Editor.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assembly-CSharp-firstpass.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp-firstpass.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assembly-CSharp.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Shell.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Shell.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/light-tank.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/light-tank.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/BattleViews.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/BattleViews.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Animation/AccelerationTorque.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Animation/AccelerationTorque.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Animation/BallisticComputer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Animation/BallisticComputer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Animation/Turret.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Animation/Turret.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/BattleView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/BattleView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Trail.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Trail.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UnitView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UnitView.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CommandLine/Assets/CommandLine.guiskin" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CommandLine/Assets/CommandLine.guiskin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CommandLine/Assets/Resources/Default.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CommandLine/Assets/Resources/Default.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CommandLine/CommandLine.g4" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CommandLine/CommandLine.g4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CommandLine/Commands.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CommandLine/Commands.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene/LightingData.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene/LightingData.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene/Lightmap-0_comp_light.exr" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene/Lightmap-0_comp_light.exr.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene/Lightmap-0_comp_shadowmask.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene/Lightmap-0_comp_shadowmask.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene/ReflectionProbe-0.exr" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene/ReflectionProbe-0.exr" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene/ReflectionProbe-1.exr" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene/ReflectionProbe-1.exr" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interop.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UnitActionViewTest.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UnitActionViewTest.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Shaders/Terrain.shader" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Shaders/Terrain.shader" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Shaders/leaves-area-tinted.shader" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Shaders/leaves-area-tinted.shader" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FullscreenEditor.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/FullscreenEditor.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectSettings/RiderScriptEditorPersistedState.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/RiderScriptEditorPersistedState.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,73 +55,57 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6073cf49ed704e958b8a66d540dea94846a800/2c/9bda619a/Dictionary`2.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/de1f8ef4975b4eacbeb0accc1b22c9b02a000/91/1e5d6203/TweenSettingsExtensions.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5a41d6b7189842eca409fd0b1c3e3dcf17bf78/54/04a655e0/MethodImplOptions.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2f96f5f0a8084a8099d452e475b137717400/8a/363b927a/Input.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/823fb226a3f9439cb41fdcb61f9c86a1157600/66/9a593d85/BoundsInt.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/d5f9cbdfb9f04fbf95c863fb10686ed44b9200/52/4d7a636b/OldFormatMountPointIdResolver.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6073cf49ed704e958b8a66d540dea94846a800/6c/458b169d/Boolean.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameStates/PathSelectionState.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/823fb226a3f9439cb41fdcb61f9c86a1157600/33/a4db71dd/Quaternion.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/FSharp/Library.fs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/823fb226a3f9439cb41fdcb61f9c86a1157600/7f/f0ff3cc7/Plane.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/StoneSplatMapSetter.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/EventSystem/InputModules/BaseInput.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Map2D.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.textmeshpro@3.0.6/Scripts/Runtime/TextMeshPro.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Level/Traverser.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/823fb226a3f9439cb41fdcb61f9c86a1157600/92/f996cf91/RangeAttribute.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/MinimapMeshGenerator.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/de1f8ef4975b4eacbeb0accc1b22c9b02a000/03/497fb3bf/DOTween.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/823fb226a3f9439cb41fdcb61f9c86a1157600/f2/767c6821/CombineInstance.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/IL/823fb226a3f9439cb41fdcb61f9c86a1157600/a1/c3617986/020001F3.il" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5a00c575c9464227a3227baf016d387b29200/f5/266fc8ae/Event.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/InstancedRenderer.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/823fb226a3f9439cb41fdcb61f9c86a1157600/56/60e9a300/Vector2Int.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.postprocessing@3.2.2/PostProcessing/Runtime/PostProcessVolume.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.visualscripting@1.7.6/Runtime/VisualScripting.Core/Profiling/ProfiledSegment.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Animation/LookAt.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Animation/PistonCompresser.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.postprocessing@3.2.2/PostProcessing/Runtime/PostProcessProfile.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/823fb226a3f9439cb41fdcb61f9c86a1157600/c6/f7e02670/Transform.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/823fb226a3f9439cb41fdcb61f9c86a1157600/81/5d84606a/Color32.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/InstancedMeshRenderer.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5a00c575c9464227a3227baf016d387b29200/71/e65789c2/GUIContent.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.textmeshpro@3.0.6/Scripts/Runtime/TMP_Text.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/823fb226a3f9439cb41fdcb61f9c86a1157600/6b/ba656478/Mesh.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.postprocessing@3.2.2/PostProcessing/Runtime/ParameterOverride.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/823fb226a3f9439cb41fdcb61f9c86a1157600/fd/a06d07b0/Matrix4x4.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/07c38ac6da8344888a1d0f7bfde87c6617ab18/bb/6c8da1e7/Enumerable.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.render-pipelines.core@12.1.6/Runtime/Debugging/DebugUpdater.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/823fb226a3f9439cb41fdcb61f9c86a1157600/80/3498aed4/Mathf.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Shaders/InstancedRendering.cginc" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.postprocessing@3.2.2/PostProcessing/Runtime/PostProcessLayer.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/823fb226a3f9439cb41fdcb61f9c86a1157600/35/e2e9ba01/MathfInternal.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/823fb226a3f9439cb41fdcb61f9c86a1157600/b9/dcd74942/RectInt.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/edef46c9b2db4b878c98495bfdc516fa568ba8/61/011012d0/EmptyArray`1.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.postprocessing@3.2.2/PostProcessing/Runtime/PostProcessEffectSettings.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/edef46c9b2db4b878c98495bfdc516fa568ba8/45/c76113f3/Array.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/823fb226a3f9439cb41fdcb61f9c86a1157600/1e/343ef7cc/Rect.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/823fb226a3f9439cb41fdcb61f9c86a1157600/bf/a5abd18a/Vector3.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Rules.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5a41d6b7189842eca409fd0b1c3e3dcf17bf78/75/b2a49bf0/IEnumerable`1.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/edef46c9b2db4b878c98495bfdc516fa568ba8/f5/1ea1f600/String.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../Unity/2021.3.1f1/Editor/Data/CGIncludes/AutoLight.cginc" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5a41d6b7189842eca409fd0b1c3e3dcf17bf78/23/8f1a559c/ICollection`1.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/823fb226a3f9439cb41fdcb61f9c86a1157600/bb/a33c81f2/RectTransform.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/d59c74366d1e4e10965d9d2cdb4f8e0627400/39/e73132d3/ScreenSpaceReflectionPreset.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/823fb226a3f9439cb41fdcb61f9c86a1157600/da/4ad72ed8/Bounds.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../Unity/2021.3.1f1/Editor/Data/CGIncludes/UnityCG.cginc" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5a41d6b7189842eca409fd0b1c3e3dcf17bf78/72/90646b25/Predicate`1.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/d59c74366d1e4e10965d9d2cdb4f8e0627400/09/812ab160/ScreenSpaceReflectionPresetParameter.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/butjok/Documents/GitHub/Wars5/Assets/Scripts/Game2.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/butjok/Documents/GitHub/Wars5/Assets/Scripts/Animation/MovePath.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/butjok/Documents/GitHub/Wars5/Assets/Scripts/GameStates/SelectionState.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/butjok/Documents/GitHub/Wars5/Assets/CommandLine/Commands.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.testtools.codecoverage@1.0.1/Samples~/Tutorial/Asteroids/Scripts/Managers/GameManager.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/ef225b39c2e640e5adb63839fd97508a482000/2a/b5fc8397/Interop.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/butjok/Documents/GitHub/Wars5/Assets/Scripts/MovePathBuilder.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.postprocessing@3.2.2/PostProcessing/Runtime/Effects/ColorGrading.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/823fb226a3f9439cb41fdcb61f9c86a1157600/d4/a74e1402/Assert.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/butjok/Documents/GitHub/Wars5/Assets/Scripts/InteropTest.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Animation/LookAt.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock:///Users/butjok/Documents/GitHub/Wars5/Assets/Scenes/SampleScene.unity" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/butjok/Documents/GitHub/Wars5/Assets/Shaders/InstancedRendering.cginc" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/butjok/Documents/GitHub/Wars5/Assets/Resources/PostProcessProfile.asset" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/EventSystem/EventSystem.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.cinemachine@2.8.9/Runtime/Behaviours/CinemachineBrain.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.textmeshpro@3.0.6/Scripts/Runtime/TextMeshPro.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/MinimapMeshGenerator.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock:///Users/butjok/Documents/GitHub/Wars5/Assets/Scripts/Interop.meta" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/InstancedMeshRenderer.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Animation/PistonCompresser.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/171a3352ba4a4b8aaa2993d306570161292e00/1e/655a7f5d/FileSystemWatcher.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/StoneSplatMapSetter.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameStates/PathSelectionState.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock:///Users/butjok/Documents/GitHub/Wars5/Assets/Scripts/NewBehaviourScript.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/InstancedRenderer.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock:///Users/butjok/Documents/GitHub/Wars5/Assets/Scripts/PathBuilderTest.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/EventSystem/InputModules/BaseInput.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/butjok/Documents/GitHub/Wars5/Assets/Resources/PostProcessProfile.asset" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/butjok/Documents/GitHub/Wars5/Assets/Scenes/AI.unity" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/butjok/Documents/GitHub/Wars5/Assets/Resources/PostProcessProfile.asset" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.textmeshpro@3.0.6/Scripts/Runtime/TMP_Text.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/MeshUtils.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/823fb226a3f9439cb41fdcb61f9c86a1157600/89/db91a475/Color.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Map2D.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.render-pipelines.core@12.1.6/Runtime/Debugging/DebugUpdater.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/butjok/Documents/GitHub/Wars5/Assets/CommandLine/Interpreter.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.postprocessing@3.2.2/PostProcessing/Runtime/PostProcessProfile.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.postprocessing@3.2.2/PostProcessing/Runtime/PostProcessVolume.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Shaders/InstancedRendering.cginc" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/InteropTest.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.timeline@1.6.4/Editor/Manipulators/AddDelete/AddDeleteItemModeMix.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/FSharp/Library.fs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.postprocessing@3.2.2/PostProcessing/Runtime/ParameterOverride.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Rules.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock:///Users/butjok/Documents/GitHub/Wars5/ProjectSettings/ProjectSettings.asset" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.postprocessing@3.2.2/PostProcessing/Runtime/PostProcessEffectSettings.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.cinemachine@2.8.9/Runtime/Behaviours/CinemachineBrain.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/butjok/Documents/GitHub/Wars5/Assets/Scenes/SampleScene/LightingData.asset" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.postprocessing@3.2.2/PostProcessing/Runtime/PostProcessLayer.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/de80aed0bd3646409e8bfb15c101f005e2000/c0/bd770fc9/IList`1.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Level/Traverser.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock:///Users/butjok/Documents/GitHub/Wars5/Assets/Scripts/GameStates/PathSelectionState.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -128,6 +117,15 @@
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.3497596" />
+    <property name="DebuggerViewTab_PTCS_LastProportionKey" value="0.0" />
+    <property name="Discover.Launch.Via.Unity" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.C#" />
+    <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
@@ -177,10 +175,10 @@
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="11908">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="11908" />
+      <option name="pid" />
       <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
@@ -228,41 +226,8 @@
       <workItem from="1664012355427" duration="1288000" />
       <workItem from="1664252115846" duration="7595000" />
       <workItem from="1664353692726" duration="1186000" />
-    </task>
-    <task id="LOCAL-00038" summary="kjkjkjkjkjkkljjhlkjluiop">
-      <created>1662317771914</created>
-      <option name="number" value="00038" />
-      <option name="presentableId" value="LOCAL-00038" />
-      <option name="project" value="LOCAL" />
-      <updated>1662317771914</updated>
-    </task>
-    <task id="LOCAL-00039" summary="yuyiyiyuiyuiyui">
-      <created>1662322842288</created>
-      <option name="number" value="00039" />
-      <option name="presentableId" value="LOCAL-00039" />
-      <option name="project" value="LOCAL" />
-      <updated>1662322842288</updated>
-    </task>
-    <task id="LOCAL-00040" summary="ghjgjhghjghjghjghjgh">
-      <created>1662326469427</created>
-      <option name="number" value="00040" />
-      <option name="presentableId" value="LOCAL-00040" />
-      <option name="project" value="LOCAL" />
-      <updated>1662326469427</updated>
-    </task>
-    <task id="LOCAL-00041" summary="hjkhjkhjkhjk">
-      <created>1662327292031</created>
-      <option name="number" value="00041" />
-      <option name="presentableId" value="LOCAL-00041" />
-      <option name="project" value="LOCAL" />
-      <updated>1662327292031</updated>
-    </task>
-    <task id="LOCAL-00042" summary="ghffghghfghffghfgh">
-      <created>1662327529286</created>
-      <option name="number" value="00042" />
-      <option name="presentableId" value="LOCAL-00042" />
-      <option name="project" value="LOCAL" />
-      <updated>1662327529286</updated>
+      <workItem from="1664549963375" duration="10422000" />
+      <workItem from="1664709461079" duration="4055000" />
     </task>
     <task id="LOCAL-00043" summary="pelmeni day was good">
       <created>1662328004820</created>
@@ -572,7 +537,42 @@
       <option name="project" value="LOCAL" />
       <updated>1664277347559</updated>
     </task>
-    <option name="localTasksCounter" value="87" />
+    <task id="LOCAL-00087" summary="kljhdsfouiywioer">
+      <created>1664665285257</created>
+      <option name="number" value="00087" />
+      <option name="presentableId" value="LOCAL-00087" />
+      <option name="project" value="LOCAL" />
+      <updated>1664665285257</updated>
+    </task>
+    <task id="LOCAL-00088" summary="slgodfghd">
+      <created>1664677739892</created>
+      <option name="number" value="00088" />
+      <option name="presentableId" value="LOCAL-00088" />
+      <option name="project" value="LOCAL" />
+      <updated>1664677739892</updated>
+    </task>
+    <task id="LOCAL-00089" summary="ghfgh">
+      <created>1664677771916</created>
+      <option name="number" value="00089" />
+      <option name="presentableId" value="LOCAL-00089" />
+      <option name="project" value="LOCAL" />
+      <updated>1664677771917</updated>
+    </task>
+    <task id="LOCAL-00090" summary="lsjhdfksjdf">
+      <created>1664708133961</created>
+      <option name="number" value="00090" />
+      <option name="presentableId" value="LOCAL-00090" />
+      <option name="project" value="LOCAL" />
+      <updated>1664708133961</updated>
+    </task>
+    <task id="LOCAL-00091" summary="hrhthrtrty">
+      <created>1664713187537</created>
+      <option name="number" value="00091" />
+      <option name="presentableId" value="LOCAL-00091" />
+      <option name="project" value="LOCAL" />
+      <updated>1664713187537</updated>
+    </task>
+    <option name="localTasksCounter" value="92" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -591,14 +591,10 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="oiertuoieuiort" />
-    <MESSAGE value="щшген04860394856" />
-    <MESSAGE value="hlhjkohhhjhkjhkhkhkjhjkhj" />
-    <MESSAGE value="add music" />
-    <MESSAGE value="hfghfhg" />
     <MESSAGE value="hjghjghj" />
     <MESSAGE value="hit vfx" />
     <MESSAGE value="jghjghjghjghjghj" />
@@ -619,7 +615,12 @@
     <MESSAGE value="lkfdjgldkjgldkfjgldkjg" />
     <MESSAGE value="ghjghjghj" />
     <MESSAGE value="oiuwer987234rrty" />
-    <option name="LAST_COMMIT_MESSAGE" value="oiuwer987234rrty" />
+    <MESSAGE value="kljhdsfouiywioer" />
+    <MESSAGE value="slgodfghd" />
+    <MESSAGE value="ghfgh" />
+    <MESSAGE value="lsjhdfksjdf" />
+    <MESSAGE value="hrhthrtrty" />
+    <option name="LAST_COMMIT_MESSAGE" value="hrhthrtrty" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

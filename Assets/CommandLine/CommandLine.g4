@@ -18,8 +18,10 @@ value
     | Int3 x=value y=value z=value #int3
     | Float2 x=value y=value #float2
     | Float3 x=value y=value z=value #float3
+    | Enum Identifier Identifier #enum
     ;
 
+Enum: 'enum';
 Comma: ',';
 Asterisk:           '*';
 DoubleAmpersand:    '&&';

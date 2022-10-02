@@ -66,8 +66,8 @@ Shader "Custom/LeavesAreaTinted"
             };
             #include "Assets/Shaders/InstancedRendering.cginc"
 
-            void instanced_rendering_vertex2(inout InstancedRenderingAppdata v) {
-            #ifdef SHADER_API_D3D11
+            void instanced_rendering_vertex2(inout InstancedRenderingAppdata v) { 
+            #if defined(SHADER_API_D3D11) || defined(SHADER_API_METAL)
 
                 const float4x4 transform = mul(unity_WorldToObject, _Transforms[v.inst].mat);
 

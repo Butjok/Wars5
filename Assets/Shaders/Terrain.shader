@@ -41,7 +41,9 @@ Shader "Custom/Terrain"
         // Use shader model 3.0 target, to get nicer looking lighting
         #pragma target 5.0
 
+        #if defined(SHADER_API_D3D11)
         //#pragma require interpolators32
+        #endif
 
         #include "Assets/Shaders/Utils.cginc"
 

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using UnityEngine;
 
 namespace Butjok.CommandLine
 {
@@ -24,8 +25,8 @@ namespace Butjok.CommandLine
 
         public static object Invoke(string name, IList<object> arguments = null) {
 
-            if (!commands.TryGetValue(name, out var memberInfo))
-                throw new CommandNotFoundException(name);
+            if (!commands.TryGetValue(name, out var memberInfo)) 
+               throw new CommandNotFoundException(name);
 
             arguments ??= Array.Empty<object>();
 
