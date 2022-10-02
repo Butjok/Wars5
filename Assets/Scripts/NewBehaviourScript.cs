@@ -44,6 +44,9 @@ public class NewBehaviourScript : MonoBehaviour {
 		game.turn = 0;
 		game.StartCoroutine(SelectionState.New(game, true));
 
+		var commandsListener = gameObject.AddComponent<CommandsListener>();
+		commandsListener.inputPath = "/Users/butjok/Documents/GitHub/Wars5/Assets/Input.txt";
+
 		CursorView.Instance.Visible = false;
 
 		var clampToHull = CameraRig.Instance.GetComponent<ClampToHull>();

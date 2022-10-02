@@ -40,8 +40,4 @@ public class MovePathBuilder {
 				positions.RemoveAt(i);
 			}
 	}
-
-	public MovePath GetMovePath(Vector2Int forward) {
-		return new MovePath(positions, forward);
-	}
 }

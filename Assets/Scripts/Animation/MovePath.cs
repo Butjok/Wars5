@@ -29,24 +29,24 @@ public class MovePath {
 	public List<Vector2Int> positions;
 	public List<Move> moves;
 
-	public MovePath(IList<Vector2> points, Vector2Int startForward) {
+	public MovePath(IReadOnlyList<Vector2> points, Vector2Int startForward) {
 		positions = Positions(points).ToList();
 		moves = Moves(positions, startForward);
 	}
 	
-	public MovePath(IList<Vector2Int> positions, Vector2Int startForward) {
+	public MovePath(IReadOnlyList<Vector2Int> positions, Vector2Int startForward) {
 		this.positions = positions.ToList();
 		moves = Moves(positions, startForward);
 	}
 
-	public static IEnumerable<Vector2Int> Positions(IList<Vector2> points) {
+	public static IEnumerable<Vector2Int> Positions(IReadOnlyList<Vector2> points) {
 		var positions = new List<Vector2Int> { points[0].RoundToInt() };
 		for (var i = 1; i < points.Count; i++)
 			positions.AddRange(Woo.Traverse2D(points[i - 1], points[i]));
 		return positions;
 	}
 
-	public static List<Move> Moves(IList<Vector2Int> positions, Vector2Int startForward) {
+	public static List<Move> Moves(IReadOnlyList<Vector2Int> positions, Vector2Int startForward) {
 		
 		var moves = new List<Move>();
 

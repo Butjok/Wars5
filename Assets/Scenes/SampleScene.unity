@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.2238943, g: 0.23828247, b: 0.30262414, a: 1}
+  m_IndirectSpecularColor: {r: 0.22389415, g: 0.23828247, b: 0.30262375, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -21006,6 +21006,8 @@ MonoBehaviour:
   body: {fileID: 0}
   prefab: {fileID: 0}
   hpText: {fileID: 0}
+  impactPoints: []
+  bodyTorque: {fileID: 0}
   movedTint: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
   nextPosition: {x: 0, y: 0}
   nextRotation: {x: 0, y: 0}
@@ -52294,8 +52296,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 431.88693, y: 500.99826}
-  m_SizeDelta: {x: 286.31848, y: 137.2131}
+  m_AnchoredPosition: {x: 332.75186, y: 340.67883}
+  m_SizeDelta: {x: 194.7778, y: 93.3049}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &854730333
 MonoBehaviour:
@@ -72556,6 +72558,9 @@ MonoBehaviour:
   ballisticComputer: {fileID: 0}
   restIfImpossible: 1
   restTarget: {fileID: 0}
+  shotForce: 500
+  projectilePrefab: {fileID: 0}
+  bodyTorque: {fileID: 0}
 --- !u!114 &1025695620
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83268,7 +83273,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1238028937}
-  - component: {fileID: 1238028938}
   - component: {fileID: 1238028939}
   m_Layer: 0
   m_Name: GameObject
@@ -83292,18 +83296,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1238028938
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1238028935}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1772601175, guid: 5cea10027cf6893479925c39bfc01802, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1238028939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139833,19 +139825,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 51258076789849872, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 180.17761
+      value: 122.57193
       objectReference: {fileID: 0}
     - target: {fileID: 51258076789849872, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 144.16461
+      value: 98.03195
       objectReference: {fileID: 0}
     - target: {fileID: 51258076789849872, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 643.0033
+      value: 476.37088
       objectReference: {fileID: 0}
     - target: {fileID: 51258076789849872, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 459.38745
+      value: 312.38345
       objectReference: {fileID: 0}
     - target: {fileID: 742884794920560503, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_LocalRotation.w

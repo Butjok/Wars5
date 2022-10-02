@@ -44,7 +44,7 @@ public class PathBuilderTest : MonoBehaviour {
 				foreach (var position in traverser.ReconstructPath(mousePosition).Skip(1))
 					pathBuilder.Add(position);
 
-				path = pathBuilder.GetMovePath(Vector2Int.down);
+						//path = MovePath.Moves(pathBuilder.Positions, Vector2Int.down);
 				mesh = MovePathMeshBuilder.Build(mesh, path, atlas);
 				meshFilter.sharedMesh = mesh;
 			}

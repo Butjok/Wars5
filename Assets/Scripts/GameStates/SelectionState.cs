@@ -16,9 +16,9 @@ public static class SelectionState {
 
         var unitIndex = -1;
         Unit cycledUnit = null;
-        
+
         var musicPlayer = MusicPlayer.Instance;
-        
+
         if (turnStart) {
 
             var (controlFlow, nextState) = game.levelLogic.OnTurnStart(game);
@@ -39,42 +39,39 @@ public static class SelectionState {
         while (true) {
             yield return null;
 
-            if (game.CurrentPlayer.IsAi || Input.GetKeyDown(KeyCode.F2)) {
+            if (game.commandsContext.endTurn) {
 
-                if (game.CurrentPlayer.IsAi)
-                    game.CurrentPlayer.bestAction = game.CurrentPlayer.FindAction();
+                foreach (var unit in game.units.Values)
+                    unit.moved.v = false;
 
-                var aiAction = game.CurrentPlayer.IsAi ? game.CurrentPlayer.bestAction : null;
-                if (game.CurrentPlayer.IsAi && aiAction != null) {
+                game.CurrentPlayer.view.Visible = false;
+                CursorView.Instance.Visible = false;
 
-                    CursorView.Instance.Visible = false;
-                    yield return UnitMovementAnimationState.New(game, aiAction.unit, aiAction.path);
+                //MusicPlayer.Instance.source.Stop();
+                //MusicPlayer.Instance.queue = null;
+
+                Assert.IsTrue(game.turn != null);
+                game.turn = (int)game.turn + 1;
+
+                var (controlFlow, nextState) = game.levelLogic.OnTurnEnd(game);
+                if (nextState != null)
+                    yield return nextState;
+                if (controlFlow == ControlFlow.Replace)
                     yield break;
-                }
 
-                if (!game.CurrentPlayer.IsAi || aiAction == null) {
-
-                    foreach (var unit in game.units.Values)
-                        unit.moved.v = false;
-
-                    game.CurrentPlayer.view.Visible = false;
-                    CursorView.Instance.Visible = false;
-
-                    //MusicPlayer.Instance.source.Stop();
-                    //MusicPlayer.Instance.queue = null;
-
-                    Assert.IsTrue(game.turn != null);
-                    game.turn = (int)game.turn + 1;
-
-                    var (controlFlow, nextState) = game.levelLogic.OnTurnEnd(game);
-                    if (nextState != null)
-                        yield return nextState;
-                    if (controlFlow == ControlFlow.Replace)
-                        yield break;
-
-                    yield return New(game, true);
-                    yield break;
-                }
+                yield return New(game, true);
+                yield break;
+            }
+            
+            else if (game.commandsContext.unit != null) {
+                game.commandsContext.unit.view.Selected = true;
+                yield return PathSelectionState.New(game, game.commandsContext.unit);
+                yield break;
+            }
+            
+            else if (game.commandsContext.building != null) {
+                yield return UnitBuildingState.New(game, game.commandsContext.building);
+                yield break;
             }
 
             else {
@@ -101,28 +98,22 @@ public static class SelectionState {
                     if (game.TryGetUnit(mousePosition, out var unit)) {
                         if (unit.player != game.CurrentPlayer || unit.moved.v)
                             UiSound.Instance.notAllowed.Play();
-                        else {
-                            unit.view.Selected = true;
-                            yield return PathSelectionState.New(game, unit);
-                            yield break;
-                        }
+                        else
+                            game.commandsContext.unit = unit;
                     }
 
                     else if (game.TryGetBuilding(mousePosition, out var building)) {
                         if (building.player.v != game.CurrentPlayer)
                             UiSound.Instance.notAllowed.Play();
-                        else {
-                            yield return UnitBuildingState.New(game, building);
-                            yield break;
-                        }
+                        else
+                            game.commandsContext.building = building;
                     }
                 }
 
                 else if (Input.GetKeyDown(KeyCode.Return))
                     if (cycledUnit != null) {
                         cycledUnit.view.Selected = true;
-                        yield return PathSelectionState.New(game, cycledUnit);
-                        yield break;
+                        game.commandsContext.unit = cycledUnit;
                     }
                     else
                         UiSound.Instance.notAllowed.Play();

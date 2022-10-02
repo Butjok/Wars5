@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Rendering.PostProcessing;
+using UnityEngine.Serialization;
 
 public class Game2 : MonoBehaviour {
 
@@ -15,6 +16,8 @@ public class Game2 : MonoBehaviour {
     public DefaultLevelLogic levelLogic;
     public Player realPlayer;
     public PlayerSettings settings;
+
+    public CommandsContext commandsContext = new();
 
     public void Awake() {
         settings = new PlayerSettings();

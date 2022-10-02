@@ -75,6 +75,12 @@ namespace Butjok.CommandLine
             return sb.ToString();
         }
 
+        public override dynamic VisitEnum(CommandLineParser.EnumContext context) {
+            var typeName = context.Identifier(0).GetText();
+            var valueName = context.Identifier(1).GetText();
+            return Enum.Parse(Type.GetType(typeName), valueName);
+        }
+
         public const string unsupported = "Operators are not supported with Api Compatibility Level .NET Standard 2.0. Please change the Api Compatibility Level to .NET 4.x in Edit > Project Settings > Player > Other Settings > Configuration.";
         
         public override dynamic VisitUnaryExpression(CommandLineParser.UnaryExpressionContext context) {

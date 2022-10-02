@@ -20,7 +20,7 @@ public class InteropTest : MonoBehaviour {
         game.turn = 0;
 
         var min = new Vector2Int(0, 0);
-        var max = new Vector2Int(10, 10);
+        var max = new Vector2Int(9, 9);
 
         game.tiles = new Map2D<TileType>(min, max);
         foreach (var position in game.tiles.Keys)
@@ -30,5 +30,10 @@ public class InteropTest : MonoBehaviour {
         game.buildings = new Map2D<Building>(min, max);
 
         game.levelLogic = new DefaultLevelLogic();
+
+        new Unit(red, position: new Vector2Int(0, 0));
+        new Unit(blue, position: new Vector2Int(1, 1));
+
+        new Building(game, new Vector2Int(0, 0), TileType.Factory);
     }
 }

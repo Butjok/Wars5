@@ -74,7 +74,7 @@ public static class PathSelectionState {
 				foreach (var position in traverser.ReconstructPath(mousePosition).Skip(1))
 					movePathBuilder.Add(position);
 
-				var movePath = movePathBuilder.GetMovePath(startForward);
+				var movePath = new MovePath(movePathBuilder.Positions, startForward);
 				movePathMeshFilter.sharedMesh = MovePathMeshBuilder.Build(movePathMeshFilter.sharedMesh, movePath, moveTypeAtlas);
 			}
 			else {
