@@ -65,12 +65,12 @@ public static class SelectionState {
             
             else if (game.commandsContext.unit != null) {
                 game.commandsContext.unit.view.Selected = true;
-                yield return PathSelectionState.New(game, game.commandsContext.unit);
+                yield return PathSelectionState.New(game);
                 yield break;
             }
             
             else if (game.commandsContext.building != null) {
-                yield return UnitBuildingState.New(game, game.commandsContext.building);
+                yield return UnitBuildingState.New(game);
                 yield break;
             }
 

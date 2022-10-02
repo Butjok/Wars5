@@ -6,8 +6,11 @@ using UnityEngine.Assertions;
 
 public static class UnitBuildingState {
 	
-	public static IEnumerator New(Game2 game, Building building) {
+	public static IEnumerator New(Game2 game) {
 
+		var building = game.commandsContext.building;
+		Assert.IsTrue(building!=null);
+		
 		Debug.Log($"Building state at building: {building}");
 		
 		Assert.IsTrue(game.TryGetBuilding(building.position, out var check));

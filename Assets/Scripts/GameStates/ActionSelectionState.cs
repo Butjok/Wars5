@@ -94,7 +94,7 @@ public static class ActionSelectionState {
                 unit.view.Position = path.positions[0];
                 unit.view.Forward = startForward;
 
-                yield return PathSelectionState.New(game, unit);
+                yield return PathSelectionState.New(game);
                 yield break;
             }
 
