@@ -4,12 +4,20 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Rendering;
 
+/*
+ * TODO: Use the CommandsContext for selecting path.
+ * TODO: Reconstruct path on left mouse button and submit on Return key.
+ */
+
 public static class PathSelectionState {
 
 	public static Traverser traverser = new();
 
-	public static IEnumerator New(Game2 game, Unit unit) {
+	public static IEnumerator New(Game2 game) {
 
+		var unit = game.commandsContext.unit;
+		Assert.IsTrue(unit!=null);
+		
 		int? cost(Vector2Int position, int length) {
 			if (length >= Rules.MoveDistance(unit) ||
 			    !game.TryGetTile(position, out var tile) ||
@@ -85,6 +93,7 @@ public static class PathSelectionState {
 			if (Input.GetMouseButtonDown(Mouse.right)) {
 				
 				unit.view.Selected = false;
+				game.commandsContext.unit = null;
 				
 				cleanUp();
 				yield return SelectionState.New(game);
