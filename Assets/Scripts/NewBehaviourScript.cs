@@ -46,7 +46,7 @@ public class NewBehaviourScript : MonoBehaviour {
 
 		var commandsListener = gameObject.AddComponent<CommandsListener>();
 #if WORKSTATION_MACBOOK
-		commandsListener.inputPath = "/Users/butjok/Documents/GitHub/Wars5/Assets/Input.txt";
+		commandsListener.inputPath = "/Users/butjok/Documents/GitHub/Wars5/Input.txt";
 #endif
 #if WORKSTATION_PCY
 		commandsListener.inputPath = "Input.txt";
