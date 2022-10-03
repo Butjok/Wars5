@@ -44,8 +44,8 @@ public static class AudioClipExtensions {
         UiSound.source.PlayOneShot(clip);
     }
 
-    public static IEnumerator<AudioClip> InfiniteSequence(this AudioClip[] themes, bool shuffle = false) {
-        if (themes.Length == 0) {
+    public static IEnumerator<AudioClip> InfiniteSequence(this IEnumerable<AudioClip> themes, bool shuffle = false) {
+        if (themes==null) {
             yield return null;
             yield break;
         }

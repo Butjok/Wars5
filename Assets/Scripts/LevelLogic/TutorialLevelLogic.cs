@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -19,7 +20,7 @@ public class TutorialLogic : DefaultLevelLogic {
                     lines = new[] {
                         new DialogueUi.Line {
                             text = "Hello there!",
-                            playMusic = new[]{"normal uzicko".LoadAs<AudioClip>()}
+                            playMusic = new[]{"violin uzicko"}
                         },
                         new DialogueUi.Line {
                             text = "This is 3dWars!",
@@ -47,15 +48,21 @@ public class TutorialLogic : DefaultLevelLogic {
                     lines = new[] {
                         new DialogueUi.Line {
                             text = "I said no!",
+                            playMusic = new[]{"goofy uzicko"}
                         },
                     }
                 }
             })),
 
-            _ => (ControlFlow.Ignore, null)
+            _ => (ControlFlow.Pause, PlayMusic(game.CurrentPlayer.co.themes))
         };
 
         return (ControlFlow.Ignore, null);
+    }
+
+    public IEnumerator PlayMusic(IEnumerable<AudioClip> clips) {
+        MusicPlayer.Instance.Queue = clips.InfiniteSequence();
+        yield break;
     }
 
     public override IEnumerator OnVictory(Game game) {

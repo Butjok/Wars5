@@ -15,8 +15,6 @@ public static class SelectionState {
         var unitIndex = -1;
         Unit cycledUnit = null;
 
-        var musicPlayer = MusicPlayer.Instance;
-
         if (turnStart) {
 
             var (controlFlow, nextState) = game.levelLogic.OnTurnStart(game);
@@ -25,7 +23,7 @@ public static class SelectionState {
             if (controlFlow == ControlFlow.Replace)
                 yield break;
 
-            musicPlayer.Queue = game.CurrentPlayer.co.themes.InfiniteSequence(game.settings.shuffleMusic);
+            //MusicPlayer.Instance.Queue = game.CurrentPlayer.co.themes.InfiniteSequence(game.settings.shuffleMusic);
 
             yield return TurnStartAnimationState.New(game);
 

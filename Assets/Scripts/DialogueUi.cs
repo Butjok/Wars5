@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -46,10 +47,10 @@ public class DialogueUi : MonoBehaviour {
     [Serializable]
     public class Line {
         [TextArea] public string text = string.Empty;
-        public AudioClip voiceOver;
+        public string voiceOver;
         public Action action;
         public DialogueSpeaker.Mood? moodChange;
-        public AudioClip[] playMusic;
+        public string[] playMusic;
         public bool stopMusic;
     }
 
@@ -95,8 +96,8 @@ public class DialogueUi : MonoBehaviour {
 
         if (VoiceOverSource.isPlaying)
             VoiceOverSource.Stop();
-        if (line.voiceOver)
-            VoiceOverSource.PlayOneShot(line.voiceOver);
+        if (line.voiceOver != null)
+            VoiceOverSource.PlayOneShot(line.voiceOver.LoadAs<AudioClip>());
 
         line.action?.Invoke();
 
@@ -106,7 +107,7 @@ public class DialogueUi : MonoBehaviour {
             musicPlayer.Queue = null;
         }
         if (line.playMusic != null) 
-            musicPlayer.Queue = line.playMusic.InfiniteSequence();
+            musicPlayer.Queue = line.playMusic.Select(name => name.LoadAs<AudioClip>()).InfiniteSequence();
     }
 
     public AudioSource VoiceOverSource {
