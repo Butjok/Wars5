@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using Butjok.CommandLine;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -12,10 +11,10 @@ public class InputCommandsListener : MonoBehaviour {
     public string outputPath = "";
 
     public DateTime? lastWriteTime;
-    public Game2 game;
+    public Game game;
 
     public void Awake() {
-        game = GetComponent<Game2>();
+        game = GetComponent<Game>();
         Assert.IsTrue(game);
     }
 
@@ -26,12 +25,7 @@ public class InputCommandsListener : MonoBehaviour {
             Interpreter.Execute(File.ReadAllText(inputPath));
         }
     }
-
-    [Command]
-    public void Write() {
-        File.WriteAllText(outputPath, new SerializedGame(game).ToJson());
-    }
-
+    
     [Command]
     public void EndTurn() {
         game.input.endTurn = true;
@@ -104,15 +98,15 @@ public class InputCommandsListener : MonoBehaviour {
         Assert.IsTrue(parsed);
         game.input.buildUnitType = unitType;
     }
-
+    
     [Command]
-    public void Break() { }
+    public void Write() {
+        File.WriteAllText(outputPath, new SerializedGame(game).ToJson());
+    }
 }
 
 [Serializable]
-public class InputCommands {
-
-    public Game2 game;
+public class InputCommandsContext {
 
     public Vector2Int? selectAt;
     public bool cancel;
@@ -123,10 +117,6 @@ public class InputCommands {
     public bool moveUnit;
 
     public Predicate<UnitAction> actionFilter;
-
-    public InputCommands(Game2 game) {
-        this.game = game;
-    }
 
     public void Reset() {
         selectAt = null;

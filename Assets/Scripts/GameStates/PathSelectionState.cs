@@ -7,7 +7,7 @@ using UnityEngine.Rendering;
 
 public static class PathSelectionState {
 
-    public static IEnumerator New(Game2 game,Unit unit) {
+    public static IEnumerator New(Game game, Unit unit) {
 
         int? cost(Vector2Int position, int length) {
             if (length >= Rules.MoveDistance(unit) ||
@@ -17,7 +17,7 @@ public static class PathSelectionState {
 
             return Rules.MoveCost(unit, tile);
         }
-        
+
         var startForward = unit.view.transform.forward.ToVector2().RoundToInt();
 
         Assert.IsTrue(unit.position.v != null, "unit.position.v != null");
@@ -53,7 +53,7 @@ public static class PathSelectionState {
 
         var traverser = new Traverser();
         traverser.Traverse(game.tiles.Keys, unitPosition, cost);
-        
+
         tileMeshFilter.sharedMesh = TileMeshBuilder.Build(tileMeshFilter.sharedMesh, game.tiles.Keys.Where(traverser.IsReachable));
 
         var oldPositions = new List<Vector2Int> { unitPosition };
@@ -68,16 +68,28 @@ public static class PathSelectionState {
         while (true) {
             yield return null;
 
-            // path is selected
+            if (game.input.reconstructPathTo is { } targetPosition) {
+                game.input.reconstructPathTo = null;
+
+                var positions = traverser.ReconstructPath(targetPosition)?.Skip(1);
+                if (positions != null) {
+                    pathBuilder.Clear();
+                    foreach (var position in positions)
+                        pathBuilder.Add(position);
+                }
+            }
+            else
+                while (game.input.appendToPath.Count > 0)
+                    pathBuilder.Add(game.input.appendToPath.Dequeue());
+            
             if (game.input.moveUnit) {
                 game.input.moveUnit = false;
                 cleanUp();
                 CursorView.Instance.Visible = false;
-                yield return UnitMovementAnimationState.New(game,unit,new MovePath(pathBuilder.Positions, startForward));
+                yield return UnitMovementAnimationState.New(game, unit, new MovePath(pathBuilder.Positions, startForward));
                 yield break;
             }
 
-            // unit is deselected
             else if (game.input.cancel) {
                 game.input.cancel = false;
                 unit.view.Selected = false;
@@ -91,20 +103,6 @@ public static class PathSelectionState {
                 oldPositions.AddRange(pathBuilder.Positions);
                 var path = new MovePath(pathBuilder.Positions, startForward);
                 pathMeshFilter.sharedMesh = MovePathMeshBuilder.Build(pathMeshFilter.sharedMesh, path, moveTypeAtlas);
-            }
-
-            while (game.input.appendToPath.Count > 0)
-                pathBuilder.Add(game.input.appendToPath.Dequeue());
-
-            if (game.input.reconstructPathTo is { } targetPosition) {
-                game.input.reconstructPathTo = null;
-                
-                var positions = traverser.ReconstructPath(targetPosition)?.Skip(1);
-                if (positions != null) {
-                    pathBuilder.Clear();
-                    foreach (var position in positions)
-                        pathBuilder.Add(position);
-                }
             }
 
             if (game.CurrentPlayer.IsAi)

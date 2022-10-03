@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 
 public static class DefeatState {
-	public static IEnumerator New(Game2 game) {
+	public static IEnumerator New(Game game) {
 	
 		Debug.Log("Defeat...");
 		GameUiView.Instance.Defeat = true;

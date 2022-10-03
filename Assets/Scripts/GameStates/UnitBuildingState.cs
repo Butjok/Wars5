@@ -6,9 +6,9 @@ using UnityEngine.Assertions;
 
 public static class UnitBuildingState {
 
-    public static IEnumerator New(Game2 game,Building building) {
+    public static IEnumerator New(Game game, Building building) {
 
-        Assert.IsTrue(building.player.v==game.CurrentPlayer);
+        Assert.IsTrue(building.player.v == game.CurrentPlayer);
 
         Debug.Log($"Building state at building: {building}");
 

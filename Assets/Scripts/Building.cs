@@ -4,12 +4,12 @@ using UnityEngine.Assertions;
 public class Building {
 
 	public TileType type;
-	public Game2 game;
+	public Game game;
 	public Vector2Int position;
 	public ChangeTracker<Player> player;
 	public ChangeTracker<int> cp ;
 
-	public Building(Game2 game, Vector2Int position, TileType type = TileType.City, Player player = null) {
+	public Building(Game game, Vector2Int position, TileType type = TileType.City, Player player = null) {
 
 		this.player = new ChangeTracker<Player>(_ => { });
 		cp = new ChangeTracker<int>(_ => { });

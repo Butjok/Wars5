@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Linq;
 using UnityEngine;
 
 public static class BattleAnimation {
@@ -22,9 +21,8 @@ public static class BattleAnimation {
             newAttackerHp = Mathf.Max(0, newAttackerHp - damageToAttacker);
         }
 
-        if (!skipAnimation) {
+        if (!skipAnimation)
             Debug.Log("BattleAnimationView");
-        }
 
         attacker.position.v = action.path.Destination;
 

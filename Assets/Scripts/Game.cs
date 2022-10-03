@@ -1,12 +1,10 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Rendering.PostProcessing;
-using UnityEngine.Serialization;
 
-public class Game2 : MonoBehaviour {
+public class Game : MonoBehaviour {
 
     public Map2D<Unit> units;
     public Map2D<TileType> tiles;
@@ -17,10 +15,9 @@ public class Game2 : MonoBehaviour {
     public Player realPlayer;
     public GameSettings settings;
 
-    public InputCommands input ;
+    public InputCommandsContext input = new();
 
     public void Awake() {
-        input = new InputCommands(this);
         settings = new GameSettings();
     }
 

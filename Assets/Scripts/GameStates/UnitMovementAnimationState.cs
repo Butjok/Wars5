@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class UnitMovementAnimationState {
 
-	public static IEnumerator New(Game2 game,Unit unit,MovePath path) {
+	public static IEnumerator New(Game game,Unit unit,MovePath path) {
 
 		var startForward = unit.view.transform.forward.ToVector2().RoundToInt();
 		var play = true;

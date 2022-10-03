@@ -6,7 +6,7 @@ public class TutorialLogic : DefaultLevelLogic {
 
     public const bool dialogue = true;
     
-    public override (ControlFlow controlFlow, IEnumerator state) OnTurnStart(Game2 game) {
+    public override (ControlFlow controlFlow, IEnumerator state) OnTurnStart(Game game) {
 
         if (!dialogue)
             return (ControlFlow.Ignore, null);
@@ -58,7 +58,7 @@ public class TutorialLogic : DefaultLevelLogic {
         return (ControlFlow.Ignore, null);
     }
 
-    public override IEnumerator OnVictory(Game2 game) {
+    public override IEnumerator OnVictory(Game game) {
         return DialogueState.New(game, new[] {
             new DialogueUi.Speech {
                 speaker = DialogueSpeaker.Natalie,
@@ -72,7 +72,7 @@ public class TutorialLogic : DefaultLevelLogic {
         });
     }
 
-    public override IEnumerator OnDefeat(Game2 game) {
+    public override IEnumerator OnDefeat(Game game) {
         return DialogueState.New(game, new[] {
             new DialogueUi.Speech {
                 speaker = DialogueSpeaker.Natalie,
@@ -92,7 +92,7 @@ public class TutorialLogic : DefaultLevelLogic {
 
     public bool madeFirstMove = false;
 
-    public override (ControlFlow controlFlow, IEnumerator state) OnActionCompletion(Game2 game, UnitAction action) {
+    public override (ControlFlow controlFlow, IEnumerator state) OnActionCompletion(Game game, UnitAction action) {
 
         /*if (!madeFirstMove) {
             madeFirstMove = true;

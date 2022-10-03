@@ -5,7 +5,7 @@ using UnityEngine;
 
 public static class ActionSelectionState {
 
-    public static IEnumerator New(Game2 game, Unit unit, MovePath path, Vector2Int startForward) {
+    public static IEnumerator New(Game game, Unit unit, MovePath path, Vector2Int startForward) {
 
         game.TryGetUnit(path.Destination, out var other);
 

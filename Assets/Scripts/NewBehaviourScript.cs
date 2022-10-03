@@ -13,7 +13,7 @@ public class NewBehaviourScript : MonoBehaviour {
 
 	private void OnEnable() {
 
-		var game = gameObject.AddComponent<Game2>();
+		var game = gameObject.AddComponent<Game>();
 
 		var red = new Player(game, Palette.red, Team.Alpha, Co.Natalie);
 		var green = new Player(game, Palette.green, Team.Bravo, Co.Vladan);

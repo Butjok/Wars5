@@ -57,7 +57,7 @@ public class ClampToHull : MonoBehaviour {
 		lineRenderer.SetPositions(positions.ToArray());
 	}
 
-	public void Recalculate(Game2 game) {
+	public void Recalculate(Game game) {
 		var points = game.tiles.Keys.ToList();
 		var roundedPoints = new List<Vector2>();
 		foreach (var point in points)

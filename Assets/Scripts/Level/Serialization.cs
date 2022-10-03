@@ -133,7 +133,7 @@ public class SerializedGame {
 	public string levelLogicTypeName;
 
 	public SerializedGame() { }
-	public SerializedGame(Game2 game) {
+	public SerializedGame(Game game) {
 
 		var units = game.units.Values.ToList();
 		void addCargo(Unit unit) {

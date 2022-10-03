@@ -1,12 +1,11 @@
 using System.Collections;
 using System.Linq;
-using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 public static class SelectionState {
 
-    public static IEnumerator New(Game2 game, bool turnStart = false) {
+    public static IEnumerator New(Game game, bool turnStart = false) {
 
         var unmovedUnits = game.units.Values
             .Where(unit => unit.player == game.CurrentPlayer && !unit.moved.v)

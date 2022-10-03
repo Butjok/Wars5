@@ -6,7 +6,7 @@ using UnityEngine.Rendering;
 
 public class MinimapMeshGenerator : MonoBehaviour {
 
-	public Game2 game;
+	public Game game;
 	public Mesh mesh;
 	public MeshFilter meshFilter;
 	public Camera renderCamera;
