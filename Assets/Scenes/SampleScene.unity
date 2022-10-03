@@ -37264,7 +37264,7 @@ Light:
       e32: 0
       e33: 1
     m_UseCullingMatrixOverride: 0
-  m_Cookie: {fileID: 0}
+  m_Cookie: {fileID: 2800000, guid: 09fc1f9650fe5af48b50d906a8136b17, type: 3}
   m_DrawHalo: 0
   m_Flare: {fileID: 0}
   m_RenderMode: 0
@@ -37290,14 +37290,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 705507993}
-  m_LocalRotation: {x: 0.009748366, y: 0.8386139, z: -0.5446022, w: 0.0063306624}
+  m_LocalRotation: {x: 0.009521491, y: 0.81909674, z: -0.57353765, w: 0.0066670184}
   m_LocalPosition: {x: -0.062, y: 0.952, z: -0.203}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 15
-  m_LocalEulerAnglesHint: {x: 66, y: 180, z: 1.332}
+  m_LocalEulerAnglesHint: {x: 70, y: 180, z: 1.332}
 --- !u!114 &705507996
 MonoBehaviour:
   m_ObjectHideFlags: 0
