@@ -70,8 +70,9 @@ def parse(event):
 
     Path(output_path).write_text('''
         InputCommandsListener.Select 2 1;
-        InputCommandsListener.ReconstructPath 1 0;
+        InputCommandsListener.ReconstructPath 5 0;
         InputCommandsListener.Move;
+        InputCommandsListener.Stay;
     ''')
 
 

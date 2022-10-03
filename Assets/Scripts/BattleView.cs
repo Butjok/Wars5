@@ -21,6 +21,7 @@ public class BattleView : MonoBehaviour {
     public float rectDuration = .5f;
     public Ease rectEase = Ease.OutExpo;
     public ParticleSystem impactParticleSystem;
+    public float cameraMinimalRectSize = .05f;
 
     public PostProcessProfile battleViewPostProcessProfile;
 
@@ -28,6 +29,8 @@ public class BattleView : MonoBehaviour {
     public Dictionary<UnitView, List<ImpactPoint>> impactPoints = new();
 
     public Transform[] spawnPoints = Array.Empty<Transform>();
+
+    public TileTypeGameObjectDictionary sceneries = new();
 
     public int Layer {
         set {
@@ -132,24 +135,23 @@ public class BattleView : MonoBehaviour {
 
     [Range(-1, 1)] public int side = -1;
 
-    public bool visible;
-
     public void Update() {
 
         if (Input.GetKeyDown(KeyCode.Alpha0) && side == -1) {
             Shoot();
         }
 
+        camera.enabled = camera.rect.width > cameraMinimalRectSize && camera.rect.height > cameraMinimalRectSize;
+
         if (Input.GetKeyDown(KeyCode.Alpha9)) {
-            if (!visible) {
+            if (!camera.enabled)
                 AnimateCameraRect((Color.black, Color.white), (cameraOffscreenRect, cameraRect));
-                camera.enabled = true;
-            }
-            else {
-                AnimateCameraRect((Color.white, Color.black), (cameraRect, cameraOffscreenRect))
-                    .onComplete = () => camera.enabled = false;
-            }
-            visible = !visible;
+            else
+                AnimateCameraRect((Color.white, Color.black), (cameraRect, cameraOffscreenRect));
         }
     }
+}
+
+[Serializable]
+public class TileTypeGameObjectDictionary : SerializableDictionary<TileType, GameObject> {
 }

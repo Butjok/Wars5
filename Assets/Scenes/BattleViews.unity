@@ -10501,7 +10501,7 @@ Camera:
     serializedVersion: 2
     x: 0.5
     y: 0.2
-    width: 0.5
+    width: 0
     height: 0.6
   near clip plane: 0.01
   far clip plane: 10
@@ -15865,14 +15865,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camera: {fileID: 410719925}
-  fadeDuration: 0.5
+  fadeDuration: 0.25
   colorGrading: {fileID: 0}
   fadeEase: 0
   cameraOffscreenRect:
     serializedVersion: 2
-    x: -0.5
+    x: 0
     y: 0.2
-    width: 0.5
+    width: 0
     height: 0.6
   cameraRect:
     serializedVersion: 2
@@ -15880,9 +15880,10 @@ MonoBehaviour:
     y: 0.2
     width: 0.5
     height: 0.6
-  rectDuration: 0.33333334
-  rectEase: 18
+  rectDuration: 0.5
+  rectEase: 3
   impactParticleSystem: {fileID: 0}
+  cameraMinimalRectSize: 0.01
   battleViewPostProcessProfile: {fileID: 11400000, guid: 380056c9879e28f44aabec454191baf3, type: 2}
   unitViews: []
   spawnPoints:
@@ -15891,9 +15892,11 @@ MonoBehaviour:
   - {fileID: 651613558}
   - {fileID: 245632012}
   - {fileID: 196290144}
+  sceneries:
+    m_keys: 
+    m_values: []
   shooterIndex: -1
   side: 1
-  visible: 0
 --- !u!4 &586417245
 Transform:
   m_ObjectHideFlags: 0
@@ -16015,14 +16018,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camera: {fileID: 1028909453}
-  fadeDuration: 0.5
+  fadeDuration: 0.25
   colorGrading: {fileID: 0}
   fadeEase: 0
   cameraOffscreenRect:
     serializedVersion: 2
-    x: -0.5
+    x: 0
     y: 0.2
-    width: 0.5
+    width: 0
     height: 0.6
   cameraRect:
     serializedVersion: 2
@@ -16030,9 +16033,10 @@ MonoBehaviour:
     y: 0.2
     width: 0.5
     height: 0.6
-  rectDuration: 0.33333334
-  rectEase: 18
+  rectDuration: 0.5
+  rectEase: 3
   impactParticleSystem: {fileID: 671518056}
+  cameraMinimalRectSize: 0.01
   battleViewPostProcessProfile: {fileID: 11400000, guid: 380056c9879e28f44aabec454191baf3, type: 2}
   unitViews: []
   spawnPoints:
@@ -16041,9 +16045,12 @@ MonoBehaviour:
   - {fileID: 222007781}
   - {fileID: 1853603555}
   - {fileID: 1124960243}
+  sceneries:
+    m_keys: 01000000
+    m_values:
+    - {fileID: 0}
   shooterIndex: -1
   side: -1
-  visible: 0
 --- !u!4 &859489839
 Transform:
   m_ObjectHideFlags: 0
@@ -25968,7 +25975,7 @@ Camera:
     serializedVersion: 2
     x: 0
     y: 0.2
-    width: 0.5
+    width: 0
     height: 0.6
   near clip plane: 0.01
   far clip plane: 10
@@ -65465,6 +65472,55 @@ Transform:
   m_Father: {fileID: 1324151186}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!1 &1822265574
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1822265576}
+  - component: {fileID: 1822265575}
+  m_Layer: 14
+  m_Name: postproc
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1822265575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1822265574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sharedProfile: {fileID: 11400000, guid: 380056c9879e28f44aabec454191baf3, type: 2}
+  isGlobal: 1
+  blendDistance: 0
+  weight: 1
+  priority: 0
+--- !u!4 &1822265576
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1822265574}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1827394690
 GameObject:
   m_ObjectHideFlags: 0
