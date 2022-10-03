@@ -13,9 +13,16 @@ public class InputCommandsListener : MonoBehaviour {
     public DateTime? lastWriteTime;
     public Game game;
 
+    public bool executeOnStart = false;
+
     public void Awake() {
         game = GetComponent<Game>();
         Assert.IsTrue(game);
+    }
+
+    public void Start() {
+        if (!executeOnStart)
+            lastWriteTime = File.GetLastWriteTime(inputPath);
     }
 
     public void Update() {
@@ -24,6 +31,9 @@ public class InputCommandsListener : MonoBehaviour {
             this.lastWriteTime = lastWriteTime;
             Interpreter.Execute(File.ReadAllText(inputPath));
         }
+
+        if (Input.GetKeyDown(KeyCode.F5))
+            Write();
     }
     
     [Command]

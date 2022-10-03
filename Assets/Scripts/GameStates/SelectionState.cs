@@ -124,18 +124,6 @@ public static class SelectionState {
                     game.input.selectAt = cycledUnit.position.v;
                 else
                     UiSound.Instance.notAllowed.Play();
-
-            else if (Input.GetKeyDown(KeyCode.V) && Input.GetKey(KeyCode.LeftShift)) {
-                CursorView.Instance.Visible = false;
-                yield return VictoryState.New(game);
-                yield break;
-            }
-
-            else if (Input.GetKeyDown(KeyCode.D) && Input.GetKey(KeyCode.LeftShift)) {
-                CursorView.Instance.Visible = false;
-                yield return DefeatState.New(game);
-                yield break;
-            }
         }
     }
 }

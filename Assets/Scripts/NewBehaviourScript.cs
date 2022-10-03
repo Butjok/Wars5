@@ -40,7 +40,7 @@ public class NewBehaviourScript : MonoBehaviour {
 		new Unit(red, position: new Vector2Int(2, 2), viewPrefab: Resources.Load<UnitView>("light-tank")).hp.v = 7;
 		new Unit(red, position: new Vector2Int(2, 1), viewPrefab: Resources.Load<UnitView>("light-tank"));
 		
-		game.levelLogic = new TutorialLogic();
+		game.levelLogic = new DefaultLevelLogic();
 		game.turn = 0;
 		game.StartCoroutine(SelectionState.New(game, true));
 
@@ -49,11 +49,12 @@ public class NewBehaviourScript : MonoBehaviour {
 		commandsListener.inputPath = "/Users/butjok/Documents/GitHub/Wars5/Input.txt";
 		commandsListener.outputPath = "/Users/butjok/Documents/GitHub/Wars5/Output.json";
 
-		//game.settings.motionBlurShutterAngle = null;
-		//game.settings.screenSpaceReflections = false;
-#endif
-#if WORKSTATION_PCY
-		commandsListener.inputPath = "Input.txt";
+		game.settings.motionBlurShutterAngle = null;
+#elif WORKSTATION_PCY
+		commandsListener.inputPath = "/Users/butjok/Documents/GitHub/Wars5/Input.txt";
+		commandsListener.outputPath = "/Users/butjok/Documents/GitHub/Wars5/Output.json";
+		
+		game.settings.motionBlurShutterAngle = 270;
 #endif
 
 		CursorView.Instance.Visible = false;

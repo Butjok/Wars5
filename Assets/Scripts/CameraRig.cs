@@ -81,6 +81,8 @@ public class CameraRig : MonoBehaviour {
 
 	public PlaceOnTerrain placeOnTerrain;
 
+	public float speedupMultiplier = 2;
+
 	public void OnCompassClick() {
 		if (rotationSequence == null) {
 			RotateCameraRig(NextRotationAngle(1));
@@ -119,7 +121,7 @@ public class CameraRig : MonoBehaviour {
 			transform.forward.ToVector2() * sign(Input.GetAxisRaw("Vertical"));
 
 		if (input != Vector2.zero) {
-			velocity = input.normalized * (speed * distance);
+			velocity = input.normalized * (speed * distance) * (Input.GetKey(KeyCode.LeftShift) ? speedupMultiplier : 1);
 			teleportAnimation?.Kill();
 		}
 		else

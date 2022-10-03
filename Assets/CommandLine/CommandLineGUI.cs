@@ -100,6 +100,10 @@ namespace Butjok.CommandLine
 
                     case KeyCode.Escape:
                         Event.current.Use();
+                        if (input == "") {
+                            show = false;
+                            return;
+                        }
                         input = "";
                         index = -1;
                         matches.Clear();

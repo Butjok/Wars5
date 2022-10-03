@@ -916,7 +916,8 @@
       },
       "coName": "NatalieCo",
       "type": "Human",
-      "difficulty": "Normal"
+      "difficulty": "Normal",
+      "credits": 0
     },
     {
       "id": 1,
@@ -929,7 +930,8 @@
       },
       "coName": "VladanCo",
       "type": "Human",
-      "difficulty": "Normal"
+      "difficulty": "Normal",
+      "credits": 0
     }
   ],
   "turn": 0,
@@ -941,27 +943,27 @@
         "x": -5,
         "y": -5
       },
-      "playerId": 6,
+      "playerId": 3,
       "cp": 0
     },
     {
-      "id": 7,
+      "id": 6,
       "type": "Factory",
       "position": {
         "x": -2,
         "y": -3
       },
-      "playerId": 6,
+      "playerId": 3,
       "cp": 0
     },
     {
-      "id": 8,
+      "id": 7,
       "type": "Hq",
       "position": {
         "x": 5,
         "y": 5
       },
-      "playerId": 9,
+      "playerId": 1,
       "cp": 0
     }
   ],

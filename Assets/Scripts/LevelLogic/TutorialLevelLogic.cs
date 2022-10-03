@@ -10,7 +10,7 @@ public class TutorialLogic : DefaultLevelLogic {
     public override (ControlFlow controlFlow, IEnumerator state) OnTurnStart(Game game) {
 
         if (!dialogue)
-            return (ControlFlow.Ignore, null);
+            return base.OnTurnStart(game);
         
         return game.turn switch {
 
@@ -54,15 +54,8 @@ public class TutorialLogic : DefaultLevelLogic {
                 }
             })),
 
-            _ => (ControlFlow.Pause, PlayMusic(game.CurrentPlayer.co.themes))
+            _ => base.OnTurnStart(game)
         };
-
-        return (ControlFlow.Ignore, null);
-    }
-
-    public IEnumerator PlayMusic(IEnumerable<AudioClip> clips) {
-        MusicPlayer.Instance.Queue = clips.InfiniteSequence();
-        yield break;
     }
 
     public override IEnumerator OnVictory(Game game) {

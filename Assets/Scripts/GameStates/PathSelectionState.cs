@@ -8,7 +8,7 @@ using UnityEngine.Rendering;
 public static class PathSelectionState {
 
     public static IEnumerator New(Game game, Unit unit) {
-
+        
         int? cost(Vector2Int position, int length) {
             if (length >= Rules.MoveDistance(unit) ||
                 !game.TryGetTile(position, out var tile) ||
@@ -17,21 +17,24 @@ public static class PathSelectionState {
 
             return Rules.MoveCost(unit, tile);
         }
-
-        var startForward = unit.view.transform.forward.ToVector2().RoundToInt();
-
+        
         Assert.IsTrue(unit.position.v != null, "unit.position.v != null");
         var unitPosition = (Vector2Int)unit.position.v;
         Assert.IsTrue(game.tiles.ContainsKey(unitPosition));
+        
+        var traverser = new Traverser();
+        traverser.Traverse(game.tiles.Keys, unitPosition, cost);
 
-        var pathGameObject = new GameObject();
-        Object.DontDestroyOnLoad(pathGameObject);
+        var startForward = unit.view.transform.forward.ToVector2().RoundToInt();
+
+        var pathMeshGameObject = new GameObject();
+        Object.DontDestroyOnLoad(pathMeshGameObject);
 
         var tileMeshGameObject = new GameObject();
         Object.DontDestroyOnLoad(tileMeshGameObject);
 
-        var pathMeshFilter = pathGameObject.AddComponent<MeshFilter>();
-        var pathMeshRenderer = pathGameObject.AddComponent<MeshRenderer>();
+        var pathMeshFilter = pathMeshGameObject.AddComponent<MeshFilter>();
+        var pathMeshRenderer = pathMeshGameObject.AddComponent<MeshRenderer>();
 
         var moveTypeAtlas = Resources.Load<MoveTypeAtlas>(nameof(MoveTypeAtlas));
         Assert.IsTrue(moveTypeAtlas);
@@ -51,22 +54,18 @@ public static class PathSelectionState {
         tileMeshRenderer.sharedMaterial = tileMeshMaterial;
         tileMeshRenderer.shadowCastingMode = ShadowCastingMode.Off;
 
-        var traverser = new Traverser();
-        traverser.Traverse(game.tiles.Keys, unitPosition, cost);
-
         tileMeshFilter.sharedMesh = TileMeshBuilder.Build(tileMeshFilter.sharedMesh, game.tiles.Keys.Where(traverser.IsReachable));
 
         var oldPositions = new List<Vector2Int> { unitPosition };
 
         void cleanUp() {
-            Object.Destroy(pathGameObject);
+            Object.Destroy(pathMeshGameObject);
             Object.Destroy(tileMeshGameObject);
         }
 
         CursorView.Instance.Visible = true;
 
         while (true) {
-            yield return null;
 
             if (game.input.reconstructPathTo is { } targetPosition) {
                 game.input.reconstructPathTo = null;
@@ -105,9 +104,6 @@ public static class PathSelectionState {
                 pathMeshFilter.sharedMesh = MovePathMeshBuilder.Build(pathMeshFilter.sharedMesh, path, moveTypeAtlas);
             }
 
-            if (game.CurrentPlayer.IsAi)
-                continue;
-
             if (Input.GetMouseButtonDown(Mouse.right) || Input.GetKeyDown(KeyCode.Escape)) {
 
                 unit.view.Selected = false;
@@ -132,6 +128,8 @@ public static class PathSelectionState {
                 else
                     UiSound.Instance.notAllowed.Play();
             }
+            
+            yield return null;
         }
     }
 }

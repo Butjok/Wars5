@@ -36,6 +36,7 @@ public class SerializedPlayer {
     public string coName;
     public PlayerType type;
     public AiDifficulty difficulty;
+    public int credits;
 
     public SerializedPlayer() { }
     public SerializedPlayer(Player player, Numerator id) {
@@ -46,6 +47,7 @@ public class SerializedPlayer {
             coName = player.co.name;
         type = player.type;
         difficulty = player.difficulty;
+        credits = player.credits;
     }
 
     public override string ToString() {
@@ -99,7 +101,7 @@ public class SerializedBuilding {
         this.id = id[building];
         type = building.type;
         position = building.position;
-        playerId = id[building.player];
+        playerId = id[building.player.v];
         cp = building.cp.v;
     }
 

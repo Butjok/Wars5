@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="jhghghjgjh">
+    <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="lkifgjldfjg">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/DialogueUi.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DialogueUi.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CommandLine/CommandLineGUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CommandLine/CommandLineGUI.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CameraRig.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CameraRig.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/PathSelectionState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/PathSelectionState.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/SelectionState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/SelectionState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/InputCommandsListener.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/InputCommandsListener.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Level/Serialization.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Level/Serialization.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/LevelLogic/DefaultLevelLogic.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/LevelLogic/DefaultLevelLogic.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/LevelLogic/TutorialLevelLogic.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/LevelLogic/TutorialLevelLogic.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/NewBehaviourScript.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/NewBehaviourScript.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UiSound.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UiSound.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Input.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output.json" beforeDir="false" afterPath="$PROJECT_DIR$/Output.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/FileWatcher.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/FileWatcher.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -212,13 +220,6 @@
       <workItem from="1664709461079" duration="4750000" />
       <workItem from="1664714668828" duration="225000" />
       <workItem from="1664778158219" duration="15780000" />
-    </task>
-    <task id="LOCAL-00053" summary="jkhjkhkjhjkhjk">
-      <created>1663096193075</created>
-      <option name="number" value="00053" />
-      <option name="presentableId" value="LOCAL-00053" />
-      <option name="project" value="LOCAL" />
-      <updated>1663096193075</updated>
     </task>
     <task id="LOCAL-00054" summary="sklfdjhskldjgwdkjgw">
       <created>1663103955891</created>
@@ -556,7 +557,14 @@
       <option name="project" value="LOCAL" />
       <updated>1664810658760</updated>
     </task>
-    <option name="localTasksCounter" value="102" />
+    <task id="LOCAL-00102" summary="lkifgjldfjg">
+      <created>1664811904710</created>
+      <option name="number" value="00102" />
+      <option name="presentableId" value="LOCAL-00102" />
+      <option name="project" value="LOCAL" />
+      <updated>1664811904710</updated>
+    </task>
+    <option name="localTasksCounter" value="103" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -579,7 +587,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="sdfsdfsdf" />
     <MESSAGE value="good looking AO finally" />
     <MESSAGE value="KJBHKLJHGKJHKJHG" />
     <MESSAGE value="ghhgjhgjghjhjghgj" />
@@ -604,7 +611,8 @@
     <MESSAGE value="lkjgrhljkhfgflghjkhgf" />
     <MESSAGE value="oiwueroiwuer" />
     <MESSAGE value="jhghghjgjh" />
-    <option name="LAST_COMMIT_MESSAGE" value="jhghghjgjh" />
+    <MESSAGE value="lkifgjldfjg" />
+    <option name="LAST_COMMIT_MESSAGE" value="lkifgjldfjg" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
