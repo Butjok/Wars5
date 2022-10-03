@@ -16,7 +16,7 @@ public class HardFollow : MonoBehaviour {
 		}
 	}
 	public void Update() {
-		if (UnityEngine.Input.GetKeyDown(KeyCode.Equals) && views.Length > 0) 
+		if (Input.GetKeyDown(KeyCode.Equals) && views.Length > 0) 
 			Target = views[(Array.IndexOf(views, Target) + 1) % views.Length];
 	}
 	public void LateUpdate() {

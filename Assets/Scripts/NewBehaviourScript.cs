@@ -48,8 +48,8 @@ public class NewBehaviourScript : MonoBehaviour {
 #if WORKSTATION_MACBOOK
 		commandsListener.inputPath = "/Users/butjok/Documents/GitHub/Wars5/Input.txt";
 
-		game.settings.motionBlurShutterAngle = null;
-		game.settings.screenSpaceReflections = false;
+		//game.settings.motionBlurShutterAngle = null;
+		//game.settings.screenSpaceReflections = false;
 #endif
 #if WORKSTATION_PCY
 		commandsListener.inputPath = "Input.txt";

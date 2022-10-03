@@ -27,7 +27,7 @@ public class PathBuilderTest : MonoBehaviour {
 
 	public void Update() {
 
-		if (UnityEngine.Input.GetKeyDown(KeyCode.ScrollLock))
+		if (Input.GetKeyDown(KeyCode.ScrollLock))
 			active = !active;
 
 		if (!active)

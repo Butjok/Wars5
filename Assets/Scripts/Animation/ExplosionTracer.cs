@@ -11,14 +11,14 @@ public class ExplosionTracer : MonoBehaviour {
 	
 	public void Update() {
 		
-		var mousePosition = UnityEngine.Input.mousePosition / new Vector2(Screen.width,Screen.height);
+		var mousePosition = Input.mousePosition / new Vector2(Screen.width,Screen.height);
 		var actualCamera = cameras.FirstOrDefault(c => c.isActiveAndEnabled && c.rect.Contains(mousePosition));
 		if (!actualCamera)
 			actualCamera = Camera.main;
 
-		if (actualCamera && UnityEngine.Input.GetKeyDown(KeyCode.KeypadDivide)) {
+		if (actualCamera && Input.GetKeyDown(KeyCode.KeypadDivide)) {
 			
-			var ray = actualCamera.ScreenPointToRay((Vector2)UnityEngine.Input.mousePosition - actualCamera.rect.min);
+			var ray = actualCamera.ScreenPointToRay((Vector2)Input.mousePosition - actualCamera.rect.min);
 			if (Physics.Raycast(ray, out var hit, float.MaxValue, layerMask)) {
 				
 				Debug.DrawLine(hit.point, hit.point + hit.normal, Color.blue, 1);

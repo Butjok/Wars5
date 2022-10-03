@@ -12,7 +12,7 @@ public class Building {
 	public Building(Game2 game, Vector2Int position, TileType type = TileType.City, Player player = null) {
 
 		this.player = new ChangeTracker<Player>(_ => { });
-		this.cp = new ChangeTracker<int>(_ => { });
+		cp = new ChangeTracker<int>(_ => { });
 		
 		this.type = type;
 		this.game = game;

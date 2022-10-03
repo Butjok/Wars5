@@ -1,67 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/InputCommandsListener.cs" afterDir="false" />
+    <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="lksjdfoiwuer">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assembly-CSharp-Editor.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp-Editor.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assembly-CSharp-firstpass.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp-firstpass.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assembly-CSharp.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CommandLine/CommandLine.g4" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CommandLine/CommandLine.g4" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CommandLine/Interpreter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CommandLine/Interpreter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CommandLine/Parsers/CommandLine.interp" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CommandLine/Parsers/CommandLine.interp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CommandLine/Parsers/CommandLine.tokens" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CommandLine/Parsers/CommandLine.tokens" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CommandLine/Parsers/CommandLineLexer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CommandLine/Parsers/CommandLineLexer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CommandLine/Parsers/CommandLineLexer.interp" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CommandLine/Parsers/CommandLineLexer.interp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CommandLine/Parsers/CommandLineLexer.tokens" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CommandLine/Parsers/CommandLineLexer.tokens" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CommandLine/Parsers/CommandLineParser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CommandLine/Parsers/CommandLineParser.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/SDF Toolkit/Examples/Scripts/CursorSpotlight.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/SDF Toolkit/Examples/Scripts/CursorSpotlight.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/SDF Toolkit/Examples/Scripts/ToggleUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/SDF Toolkit/Examples/Scripts/ToggleUI.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene/LightingData.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene/LightingData.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene/Lightmap-0_comp_light.exr" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene/Lightmap-0_comp_light.exr" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene/Lightmap-0_comp_light.exr.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene/Lightmap-0_comp_light.exr.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene/Lightmap-0_comp_shadowmask.png" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene/Lightmap-0_comp_shadowmask.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene/Lightmap-0_comp_shadowmask.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene/Lightmap-0_comp_shadowmask.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene/ReflectionProbe-0.exr" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene/ReflectionProbe-0.exr" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene/ReflectionProbe-1.exr" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene/ReflectionProbe-1.exr" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Animation/BarrelAssembly.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Animation/BarrelAssembly.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Animation/ExplosionTracer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Animation/ExplosionTracer.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Animation/HardFollow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Animation/HardFollow.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Animation/ImpactTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Animation/ImpactTest.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Animation/ManualControl.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Animation/ManualControl.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Animation/MovePath.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Animation/MovePath.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Animation/MovePathTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Animation/MovePathTest.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Animation/Piston.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Animation/Piston.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Animation/TerrainBumpiness.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Animation/TerrainBumpiness.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Animation/Wheel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Animation/Wheel.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/BattleView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/BattleView.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Building.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Building.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/CameraRig.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CameraRig.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CommandsListener.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CommandsListener.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/InputCommandsListener.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/CursorView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CursorView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game2.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game2.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/ActionSelectionState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/ActionSelectionState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/BattleAnimation.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/BattleAnimation.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/PathSelectionState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/PathSelectionState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/SelectionState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/SelectionState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/UnitBuildingState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/UnitBuildingState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/UnitMovementAnimationState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/UnitMovementAnimationState.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/HardFollowToggler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/HardFollowToggler.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Level/Mouse.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Level/Mouse.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Level/UnitAction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Level/UnitAction.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/MinimapMeshGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/MinimapMeshGenerator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/MovePathBuilder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/MovePathBuilder.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/NewBehaviourScript.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/NewBehaviourScript.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/PathBuilderTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PathBuilderTest.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PlayerSettings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameSettings.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PlayerSettings.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameSettings.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TileMeshBuilder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TileMeshBuilder.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UiSound.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UiSound.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/ResourceExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/ResourceExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Unit.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/UnitView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UnitView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/WarsPostProcess.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/WarsPostProcess.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FullscreenEditor.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/FullscreenEditor.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Input.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/RiderScriptEditorPersistedState.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/RiderScriptEditorPersistedState.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -122,6 +85,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/171a3352ba4a4b8aaa2993d306570161292e00/1e/655a7f5d/FileSystemWatcher.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/StoneSplatMapSetter.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameStates/PathSelectionState.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock:///Users/butjok/Documents/GitHub/Wars5/Assets/Scripts/GameStates/ActionSelectionState.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/InstancedRenderer.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -246,14 +210,7 @@
       <workItem from="1664549963375" duration="10422000" />
       <workItem from="1664709461079" duration="4750000" />
       <workItem from="1664714668828" duration="225000" />
-      <workItem from="1664778158219" duration="14511000" />
-    </task>
-    <task id="LOCAL-00048" summary="ролролролролрлрол">
-      <created>1662587281256</created>
-      <option name="number" value="00048" />
-      <option name="presentableId" value="LOCAL-00048" />
-      <option name="project" value="LOCAL" />
-      <updated>1662587281256</updated>
+      <workItem from="1664778158219" duration="15780000" />
     </task>
     <task id="LOCAL-00049" summary="jjhfghfgh">
       <created>1662786825915</created>
@@ -591,7 +548,14 @@
       <option name="project" value="LOCAL" />
       <updated>1664714811787</updated>
     </task>
-    <option name="localTasksCounter" value="97" />
+    <task id="LOCAL-00097" summary="lksjdfoiwuer">
+      <created>1664795685934</created>
+      <option name="number" value="00097" />
+      <option name="presentableId" value="LOCAL-00097" />
+      <option name="project" value="LOCAL" />
+      <updated>1664795685935</updated>
+    </task>
+    <option name="localTasksCounter" value="98" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -614,7 +578,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="jgjghghgh" />
     <MESSAGE value="пропропро" />
     <MESSAGE value="GOOD COMMIT GOOD LOOK" />
     <MESSAGE value="TEST LOOK" />
@@ -639,7 +602,8 @@
     <MESSAGE value="ghjghjghj" />
     <MESSAGE value="oiurgoeirut" />
     <MESSAGE value="ggjkhjkhjk" />
-    <option name="LAST_COMMIT_MESSAGE" value="ggjkhjkhjk" />
+    <MESSAGE value="lksjdfoiwuer" />
+    <option name="LAST_COMMIT_MESSAGE" value="lksjdfoiwuer" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

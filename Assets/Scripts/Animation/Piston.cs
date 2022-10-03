@@ -25,7 +25,7 @@ public class Piston : MonoBehaviour {
 
 		//Debug.Log($"PISTON {Time.frameCount}");
 		
-		var direction = (relativeTo ? relativeTo : transform).TransformDirection(this.localDirection).normalized;
+		var direction = (relativeTo ? relativeTo : transform).TransformDirection(localDirection).normalized;
 		var length = Vector3.Dot(direction, position - transform.position);
 
 		var force = (targetLength - length) * this.force;
@@ -44,13 +44,13 @@ public class Piston : MonoBehaviour {
 	[ContextMenu(nameof(Clear))]
 	public void Clear() {
 		velocity = 0;
-		var direction = (relativeTo ? relativeTo : transform).TransformDirection(this.localDirection).normalized;
+		var direction = (relativeTo ? relativeTo : transform).TransformDirection(localDirection).normalized;
 		position = transform.position + direction * targetLength;
 	}
 
 	private void OnDrawGizmosSelected() {
 		Gizmos.color = Color.yellow;
-		Gizmos.DrawLine(transform.position, transform.position + (relativeTo ? relativeTo : transform).TransformDirection(this.localDirection).normalized * targetLength);
+		Gizmos.DrawLine(transform.position, transform.position + (relativeTo ? relativeTo : transform).TransformDirection(localDirection).normalized * targetLength);
 		Gizmos.color = Color.blue;
 		Gizmos.DrawWireSphere(position, .01f);
 	}

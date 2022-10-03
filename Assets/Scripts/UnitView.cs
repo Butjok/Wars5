@@ -145,11 +145,11 @@ public class UnitView : MonoBehaviour {
 
     private void Update() {
 
-        if (UnityEngine.Input.GetKeyDown(KeyCode.Return)) {
+        if (Input.GetKeyDown(KeyCode.Return)) {
             Blink();
         }
 
-        if (UnityEngine.Input.GetKeyDown(KeyCode.Space)) {
+        if (Input.GetKeyDown(KeyCode.Space)) {
 
             // unit.position.v = new Vector2Int(Random.Range(-3, 3), Random.Range(-3, 3));
             // unit.rotation.v = MathUtils.offsets.Random();

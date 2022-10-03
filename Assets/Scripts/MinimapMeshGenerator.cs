@@ -246,8 +246,8 @@ public class MinimapMeshGenerator : MonoBehaviour {
 	}
 
 	public void Update() {
-		if (UnityEngine.Input.GetKeyDown(KeyCode.M)) {
-			if (UnityEngine.Input.GetKey(KeyCode.LeftShift) || UnityEngine.Input.GetKey(KeyCode.RightShift))
+		if (Input.GetKeyDown(KeyCode.M)) {
+			if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
 				Rebuild();
 			else if (renderCamera && meshRenderer) {
 				renderCamera.enabled = !renderCamera.enabled;

@@ -60,7 +60,7 @@ public class Unit : IDisposable {
                 view.Hp = this.hp.v;
         });
         this.fuel = new ChangeTracker<int>(_ => view.Fuel = this.fuel.v);
-        this.carrier = new ChangeTracker<Unit>(_ => view.Carrier = this.carrier.v);
+        carrier = new ChangeTracker<Unit>(_ => view.Carrier = carrier.v);
 
         this.type = type;
         this.player = player;

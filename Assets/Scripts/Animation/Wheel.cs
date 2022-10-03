@@ -64,7 +64,7 @@ public class Wheel : MonoBehaviour {
 		var radius = transform.TransformVector(Vector3.up * collider.radius).magnitude;
 		if (speedometer.deltaPosition is { } delta) {
 			var distance = Vector3.Dot(delta, rayOrigin.forward);
-			const float ratio = 180 / Mathf.PI;
+			const float ratio = 180 / PI;
 			var deltaAngle = distance / radius * ratio;
 			spinAngle += deltaAngle;
 		}
@@ -78,7 +78,7 @@ public class Wheel : MonoBehaviour {
 				Debug.DrawLine(transform.position, ray.GetPoint(hit.distance));
 				transform.position = ray.GetPoint(hit.distance);
 
-				var height = amplitude * Mathf.PerlinNoise(transform.position.x * scale.x, transform.position.z * scale.y);
+				var height = amplitude * PerlinNoise(transform.position.x * scale.x, transform.position.z * scale.y);
 				transform.position += height * Vector3.up;
 
 				var plane = new Plane(-rayOrigin.up, rayOrigin.position);

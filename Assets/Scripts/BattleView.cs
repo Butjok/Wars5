@@ -134,11 +134,11 @@ public class BattleView : MonoBehaviour {
 
 	public void Update() {
 
-		if (UnityEngine.Input.GetKeyDown(KeyCode.KeypadDivide) && side == -1) {
+		if (Input.GetKeyDown(KeyCode.Alpha0) && side == -1) {
 			Shoot();
 		}
 
-		if (UnityEngine.Input.GetKeyDown(KeyCode.KeypadEnter)) {
+		if (Input.GetKeyDown(KeyCode.KeypadEnter)) {
 			if (!visible)
 				AnimateCameraRect((Color.black, Color.white), (cameraOffscreenRect, cameraRect));
 			else

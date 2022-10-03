@@ -1,14 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Butjok.CommandLine;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Assertions;
-using Debug = UnityEngine.Debug;
-using Random = UnityEngine.Random;
 
 public class InputCommandsListener : MonoBehaviour {
 
