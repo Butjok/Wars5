@@ -7,41 +7,42 @@ using UnityEngine.Rendering;
 
 public static class PathSelectionState {
 
-    public static IEnumerator New(Game2 game) {
+    public static IEnumerator New(Game2 game,Unit unit) {
 
-        if (game.input.path != null) {
-            yield return UnitMovementAnimationState.New(game);
-            yield break;
+        int? cost(Vector2Int position, int length) {
+            if (length >= Rules.MoveDistance(unit) ||
+                !game.TryGetTile(position, out var tile) ||
+                game.TryGetUnit(position, out var other) && !Rules.CanPass(unit, other))
+                return null;
+
+            return Rules.MoveCost(unit, tile);
         }
-
-        var unit = game.input.Unit;
-        Assert.IsTrue(unit != null);
-
+        
         var startForward = unit.view.transform.forward.ToVector2().RoundToInt();
 
         Assert.IsTrue(unit.position.v != null, "unit.position.v != null");
         var unitPosition = (Vector2Int)unit.position.v;
         Assert.IsTrue(game.tiles.ContainsKey(unitPosition));
 
-        var movePathGameObject = new GameObject();
-        Object.DontDestroyOnLoad(movePathGameObject);
+        var pathGameObject = new GameObject();
+        Object.DontDestroyOnLoad(pathGameObject);
 
         var tileMeshGameObject = new GameObject();
         Object.DontDestroyOnLoad(tileMeshGameObject);
 
-        var movePathMeshFilter = movePathGameObject.AddComponent<MeshFilter>();
-        var movePathMeshRenderer = movePathGameObject.AddComponent<MeshRenderer>();
+        var pathMeshFilter = pathGameObject.AddComponent<MeshFilter>();
+        var pathMeshRenderer = pathGameObject.AddComponent<MeshRenderer>();
 
         var moveTypeAtlas = Resources.Load<MoveTypeAtlas>(nameof(MoveTypeAtlas));
         Assert.IsTrue(moveTypeAtlas);
 
-        var movePathMaterial = Resources.Load<Material>("MovePath");
-        Assert.IsTrue(movePathMaterial);
+        var pathMaterial = Resources.Load<Material>("MovePath");
+        Assert.IsTrue(pathMaterial);
 
-        movePathMeshRenderer.sharedMaterial = movePathMaterial;
-        movePathMeshFilter.sharedMesh = new Mesh();
+        pathMeshRenderer.sharedMaterial = pathMaterial;
+        pathMeshFilter.sharedMesh = new Mesh();
 
-        var movePathBuilder = game.input.pathBuilder;
+        var pathBuilder = new MovePathBuilder(unitPosition);
 
         var tileMeshFilter = tileMeshGameObject.AddComponent<MeshFilter>();
         tileMeshFilter.sharedMesh = new Mesh();
@@ -50,13 +51,15 @@ public static class PathSelectionState {
         tileMeshRenderer.sharedMaterial = tileMeshMaterial;
         tileMeshRenderer.shadowCastingMode = ShadowCastingMode.Off;
 
-        var traverser = game.input.traverser;
+        var traverser = new Traverser();
+        traverser.Traverse(game.tiles.Keys, unitPosition, cost);
+        
         tileMeshFilter.sharedMesh = TileMeshBuilder.Build(tileMeshFilter.sharedMesh, game.tiles.Keys.Where(traverser.IsReachable));
 
-        var oldPositions = new List<Vector2Int>{unitPosition};
+        var oldPositions = new List<Vector2Int> { unitPosition };
 
         void cleanUp() {
-            Object.Destroy(movePathGameObject);
+            Object.Destroy(pathGameObject);
             Object.Destroy(tileMeshGameObject);
         }
 
@@ -66,26 +69,42 @@ public static class PathSelectionState {
             yield return null;
 
             // path is selected
-            if (game.input.path != null) {
+            if (game.input.moveUnit) {
+                game.input.moveUnit = false;
                 cleanUp();
                 CursorView.Instance.Visible = false;
-                yield return UnitMovementAnimationState.New(game);
+                yield return UnitMovementAnimationState.New(game,unit,new MovePath(pathBuilder.Positions, startForward));
                 yield break;
             }
 
             // unit is deselected
-            else if (game.input.Unit == null) {
+            else if (game.input.cancel) {
+                game.input.cancel = false;
                 unit.view.Selected = false;
                 cleanUp();
                 yield return SelectionState.New(game);
                 yield break;
             }
 
-            if (!oldPositions.SequenceEqual(movePathBuilder.Positions)) {
+            if (!oldPositions.SequenceEqual(pathBuilder.Positions)) {
                 oldPositions.Clear();
-                oldPositions.AddRange(movePathBuilder.Positions);
-                var movePath = new MovePath(movePathBuilder.Positions, startForward);
-                movePathMeshFilter.sharedMesh = MovePathMeshBuilder.Build(movePathMeshFilter.sharedMesh, movePath, moveTypeAtlas);
+                oldPositions.AddRange(pathBuilder.Positions);
+                var path = new MovePath(pathBuilder.Positions, startForward);
+                pathMeshFilter.sharedMesh = MovePathMeshBuilder.Build(pathMeshFilter.sharedMesh, path, moveTypeAtlas);
+            }
+
+            while (game.input.appendToPath.Count > 0)
+                pathBuilder.Add(game.input.appendToPath.Dequeue());
+
+            if (game.input.reconstructPathTo is { } targetPosition) {
+                game.input.reconstructPathTo = null;
+                
+                var positions = traverser.ReconstructPath(targetPosition)?.Skip(1);
+                if (positions != null) {
+                    pathBuilder.Clear();
+                    foreach (var position in positions)
+                        pathBuilder.Add(position);
+                }
             }
 
             if (game.CurrentPlayer.IsAi)
@@ -104,12 +123,12 @@ public static class PathSelectionState {
             else if (Input.GetMouseButtonDown(Mouse.left) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return)) {
 
                 if (Mouse.TryGetPosition(out Vector2Int mousePosition) && traverser.IsReachable(mousePosition)) {
-                    if (movePathBuilder.Positions.Last()==mousePosition) 
-                        game.input.path = new MovePath(movePathBuilder.Positions, startForward);
+                    if (pathBuilder.Positions.Last() == mousePosition)
+                        game.input.moveUnit = true;
                     else {
-                        movePathBuilder.Clear();
+                        pathBuilder.Clear();
                         foreach (var position in traverser.ReconstructPath(mousePosition).Skip(1))
-                            movePathBuilder.Add(position);
+                            pathBuilder.Add(position);
                     }
                 }
                 else

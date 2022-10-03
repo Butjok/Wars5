@@ -5,10 +5,7 @@ using UnityEngine;
 
 public static class ActionSelectionState {
 
-    public static IEnumerator New(Game2 game) {
-
-        var unit = game.input.Unit;
-        var path = game.input.path;
+    public static IEnumerator New(Game2 game, Unit unit, MovePath path, Vector2Int startForward) {
 
         game.TryGetUnit(path.Destination, out var other);
 
@@ -37,28 +34,31 @@ public static class ActionSelectionState {
                 if (game.TryGetUnit(otherPosition, out other))
                     for (var weapon = 0; weapon < Rules.WeaponsCount(unit); weapon++)
                         if (Rules.CanAttack(unit, other, path, weapon))
-                            actions.Add(new UnitAction(UnitActionType.Attack, unit, path, other, null, weapon));
+                            actions.Add(new UnitAction(UnitActionType.Attack, unit, path, other, weaponIndex: weapon, targetPosition: otherPosition));
 
         // supply
-        foreach (var offset in Rules.offsets)
-            if (game.TryGetUnit(path.Destination + offset, out other) && Rules.CanSupply(unit, other))
-                actions.Add(new UnitAction(UnitActionType.Supply, unit, path, other));
+        foreach (var offset in Rules.offsets) {
+            var otherPosition = path.Destination + offset;
+            if (game.TryGetUnit(otherPosition, out other) && Rules.CanSupply(unit, other))
+                actions.Add(new UnitAction(UnitActionType.Supply, unit, path, other, targetPosition: otherPosition));
+        }
 
         // drop out
         foreach (var cargo in unit.cargo)
         foreach (var offset in Rules.offsets) {
             var targetPosition = path.Destination + offset;
             if (!game.TryGetUnit(targetPosition, out other) && Rules.CanStay(cargo, targetPosition))
-                actions.Add(new UnitAction(UnitActionType.DropOut, unit, path, targetUnit: cargo, targetPosition: targetPosition));
+                actions.Add(new UnitAction(UnitActionType.Drop, unit, path, targetUnit: cargo, targetPosition: targetPosition));
         }
 
         while (true) {
             yield return null;
 
             // action is selected
-            if (game.input.action != null) {
-                
-                yield return game.input.action.Execute();
+            if (game.input.actionFilter != null) {
+
+                var action = actions.Single(action => game.input.actionFilter(action));
+                yield return action.Execute();
                 game.input.Reset();
 
                 foreach (var item in actions)
@@ -80,7 +80,7 @@ public static class ActionSelectionState {
                 }
 
                 else {
-                    var (controlFlow, nextState) = game.levelLogic.OnActionCompletion(game, game.input.action);
+                    var (controlFlow, nextState) = game.levelLogic.OnActionCompletion(game, action);
                     yield return nextState;
                     if (controlFlow == ControlFlow.Replace)
                         yield break;
@@ -98,12 +98,9 @@ public static class ActionSelectionState {
                     action.Dispose();
 
                 unit.view.Position = path[0];
-                unit.view.Forward = game.input.startForward;
+                unit.view.Forward = startForward;
 
-                game.input.path = null;
-                game.input.pathBuilder.Clear();
-
-                yield return PathSelectionState.New(game);
+                yield return PathSelectionState.New(game, unit);
                 yield break;
             }
 
@@ -119,8 +116,10 @@ public static class ActionSelectionState {
             else if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space)) {
                 if (actions.Count == 0)
                     UiSound.Instance.notAllowed.Play();
-                else
-                    game.input.action = actions[index];
+                else {
+                    var action = actions[index];
+                    game.input.actionFilter = a => a == action;
+                }
             }
         }
     }

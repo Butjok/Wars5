@@ -6,10 +6,8 @@ using UnityEngine.Assertions;
 
 public static class UnitBuildingState {
 
-    public static IEnumerator New(Game2 game) {
+    public static IEnumerator New(Game2 game,Building building) {
 
-        var building = game.input.building;
-        Assert.IsTrue(building != null);
         Assert.IsTrue(building.player.v==game.CurrentPlayer);
 
         Debug.Log($"Building state at building: {building}");
@@ -26,11 +24,11 @@ public static class UnitBuildingState {
         while (true) {
             yield return null;
 
-            if (game.input.unitType != 0) {
+            if (game.input.buildUnitType != 0) {
 
-                Assert.IsTrue(availableTypes.Contains(game.input.unitType));
+                Assert.IsTrue(availableTypes.Contains(game.input.buildUnitType));
 
-                var unit = new Unit(building.player.v, true, game.input.unitType, building.position, viewPrefab: Resources.Load<UnitView>("light-tank"));
+                var unit = new Unit(building.player.v, true, game.input.buildUnitType, building.position, viewPrefab: Resources.Load<UnitView>("light-tank"));
                 game.input.Reset();
 
                 Debug.Log($"Built unit {unit}");
@@ -55,7 +53,7 @@ public static class UnitBuildingState {
                 if (index == -1)
                     UiSound.Instance.notAllowed.Play();
                 else
-                    game.input.unitType = availableTypes[index];
+                    game.input.buildUnitType = availableTypes[index];
             }
 
             else if (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(Mouse.right)) {

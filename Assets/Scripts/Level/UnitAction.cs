@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
 
-public enum UnitActionType { Stay, Join, Capture, Attack, GetIn, DropOut, Supply }
+public enum UnitActionType { Stay, Join, Capture, Attack, GetIn, Drop, Supply }
 public class UnitAction : IDisposable {
 
 	public UnitActionType type;
@@ -94,7 +94,7 @@ public class UnitAction : IDisposable {
 				break;
 			}
 
-			case UnitActionType.DropOut: {
+			case UnitActionType.Drop: {
 				unit.position.v = path.Destination;
 				unit.cargo.Remove(targetUnit);
 				targetUnit.position.v = targetPosition;

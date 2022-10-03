@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Butjok.CommandLine;
@@ -38,105 +39,70 @@ public class InputCommandsListener : MonoBehaviour {
 
     [Command]
     public void Select(int x, int y) {
-        game.input.selectionPosition = new Vector2Int(x, y);
+        game.input.selectAt = new Vector2Int(x, y);
     }
 
     [Command]
-    public void ClearPath() {
-        game.input.pathBuilder?.Clear();
-    }
-
-    [Command]
-    public void AddPathPosition(int x, int y) {
-        var position = new Vector2Int(x, y);
-        game.input.pathBuilder?.Add(position);
+    public void AppendToPath(int x, int y) {
+        game.input.appendToPath.Enqueue(new Vector2Int(x, y));
     }
 
     [Command]
     public void ReconstructPath(int x, int y) {
-        var targetPosition = new Vector2Int(x, y);
-        var positions = game.input.traverser.ReconstructPath(targetPosition)?.Skip(1);
-        if (positions == null)
-            return;
-        game.input.pathBuilder.Clear();
-        foreach (var position in positions)
-            game.input.pathBuilder.Add(position);
+        game.input.reconstructPathTo = new Vector2Int(x, y);
     }
 
     [Command]
     public void Move() {
-        if (game.input.pathBuilder == null)
-            return;
-        game.input.path = new MovePath(game.input.pathBuilder.Positions, game.input.startForward);
-    }
-
-    private UnitAction NewUnitAction(UnitActionType type, Unit targetUnit = null, Building targetBuilding = null, int weaponIndex = -1, Vector2Int targetPosition = default) {
-        return new UnitAction(type, game.input.Unit, game.input.path, targetUnit, targetBuilding, weaponIndex, targetPosition);
+        game.input.moveUnit = true;
     }
 
     [Command]
     public void Stay() {
-        Assert.IsTrue(Rules.CanStay(game.input.Unit,game.input.path.Destination));
-        game.input.action=NewUnitAction(UnitActionType.Stay);
+        game.input.actionFilter = action => action.type == UnitActionType.Stay;
     }
 
     [Command]
     public void Capture() {
-        var found = game.TryGetBuilding(game.input.path.Destination, out var building);
-        Assert.IsTrue(found);
-        Assert.IsTrue(Rules.CanCapture(game.input.Unit, building));
-        game.input.action = NewUnitAction(UnitActionType.Capture, targetBuilding: building);
+        game.input.actionFilter = action => action.type == UnitActionType.Capture;
     }
 
     [Command]
     public void Join() {
-        var found = game.TryGetUnit(game.input.path.Destination, out var other);
-        Assert.IsTrue(found);
-        Assert.IsTrue(Rules.CanJoin(game.input.Unit, other));
-        game.input.action = NewUnitAction(UnitActionType.Join, other);
+        game.input.actionFilter = action => action.type == UnitActionType.Join;
     }
 
     [Command]
     public void GetIn() {
-        var found = game.TryGetUnit(game.input.path.Destination, out var other);
-        Assert.IsTrue(found);
-        Assert.IsTrue(Rules.CanLoadAsCargo(other,game.input.Unit));
-        game.input.action = NewUnitAction(UnitActionType.GetIn, other);
+        game.input.actionFilter = action => action.type == UnitActionType.GetIn;
     }
 
     [Command]
     public void Supply(int x, int y) {
-        var position = new Vector2Int(x, y);
-        var found = game.TryGetUnit(position, out var other);
-        Assert.IsTrue(found);
-        Assert.IsTrue(Rules.CanSupply(game.input.Unit, other));
-        game.input.action = NewUnitAction(UnitActionType.Supply, other);
+        game.input.actionFilter = action => action.type == UnitActionType.Supply && 
+                                            action.targetPosition == new Vector2Int(x, y);
     }
 
     [Command]
     public void Drop(int index, int x, int y) {
-        Assert.IsTrue(index >= 0);
-        Assert.IsTrue(index < game.input.Unit.cargo.Count);
-        var cargo = game.input.Unit.cargo[index];
-        var position = new Vector2Int(x, y);
-        Assert.IsTrue(Rules.CanStay(cargo, position));
-        game.input.action = NewUnitAction(UnitActionType.DropOut, cargo, targetPosition: position);
+        game.input.actionFilter = action => action.type == UnitActionType.Drop &&
+                                            index < action.unit.cargo.Count &&
+                                            action.targetUnit == action.unit.cargo[index] &&
+                                            action.targetPosition == new Vector2Int(x, y);
     }
 
     [Command]
     public void Attack(int x, int y, int weaponIndex = 0) {
-        var position = new Vector2Int(x, y);
-        var found = game.TryGetUnit(position, out var target);
-        Assert.IsTrue(found);
-        Assert.IsTrue(Rules.CanAttack(game.input.Unit, target, game.input.path, weaponIndex));
-        game.input.action = NewUnitAction(UnitActionType.Attack, target, weaponIndex:weaponIndex);
+        game.input.actionFilter = action => action.type == UnitActionType.Attack &&
+                                            action.targetUnit.position.v == new Vector2Int(x, y) &&
+                                            action.weaponIndex == weaponIndex;
     }
 
     [Command]
     public void Build(string unitTypeName) {
         var parsed = Enum.TryParse(unitTypeName, out UnitType unitType);
         Assert.IsTrue(parsed);
-        game.input.unitType = unitType;
+        game.input.buildUnitType = unitType;
     }
 
     [Command]
@@ -148,60 +114,28 @@ public class InputCommands {
 
     public Game2 game;
 
-    public Vector2Int? selectionPosition;
-    
-    private Unit unit;
-    public Unit Unit {
-        get => unit;
-        set {
-            unit = value;
-
-            if (Unit == null) {
-                pathBuilder = null;
-                return;
-            }
-
-            Assert.IsTrue(Unit.position.v != null);
-            var unitPosition = (Vector2Int)Unit.position.v;
-
-            startForward = unit.view.transform.forward.ToVector2().RoundToInt();
-            pathBuilder = new MovePathBuilder(unitPosition);
-            path = null;
-            traverser.Traverse(game.tiles.Keys, unitPosition, (position, length) => Cost(Unit, position, length));
-        }
-    }
-
+    public Vector2Int? selectAt;
+    public bool cancel;
     public bool endTurn;
-    public Vector2Int startForward;
-    public MovePathBuilder pathBuilder;
-    public MovePath path;
-    public Building building;
-    public UnitType unitType;
-    public UnitAction action;
-    public Traverser traverser = new();
+    public UnitType buildUnitType;
+    public Queue<Vector2Int> appendToPath = new();
+    public Vector2Int? reconstructPathTo;
+    public bool moveUnit;
+
+    public Predicate<UnitAction> actionFilter;
 
     public InputCommands(Game2 game) {
         this.game = game;
     }
 
-    public int? Cost(Unit unit, Vector2Int position, int length) {
-        if (length >= Rules.MoveDistance(unit) ||
-            !game.TryGetTile(position, out var tile) ||
-            game.TryGetUnit(position, out var other) && !Rules.CanPass(unit, other))
-            return null;
-
-        return Rules.MoveCost(unit, tile);
-    }
-
     public void Reset() {
-        selectionPosition = null;
-        unit = null;
+        selectAt = null;
+        cancel = false;
         endTurn = false;
-        startForward = Vector2Int.zero;
-        pathBuilder = null;
-        path = null;
-        building = null;
-        unitType = 0;
-        action = null;
+        buildUnitType = 0;
+        appendToPath.Clear();
+        reconstructPathTo = null;
+        moveUnit = false;
+        actionFilter = null;
     }
 }

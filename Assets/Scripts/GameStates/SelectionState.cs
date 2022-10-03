@@ -38,20 +38,18 @@ public static class SelectionState {
         while (true) {
             yield return null;
 
-            if (game.input.selectionPosition is { } position) {
+            if (game.input.selectAt is { } position) {
+                game.input.selectAt = null;
+                
                 if (game.TryGetUnit(position, out var unit)) {
-                    game.input.Unit = unit;
                     unit.view.Selected = true;
-                    yield return PathSelectionState.New(game);
+                    yield return PathSelectionState.New(game,unit);
                     yield break;
                 }
                 else if (game.TryGetBuilding(position, out var building)) {
-                    game.input.building = building;
-                    yield return UnitBuildingState.New(game);
+                    yield return UnitBuildingState.New(game,building);
                     yield break;
-                }
-                else
-                    game.input.selectionPosition = null;
+                }   
             }
 
             // end turn
@@ -113,20 +111,20 @@ public static class SelectionState {
                     if (unit.player != game.CurrentPlayer || unit.moved.v)
                         UiSound.Instance.notAllowed.Play();
                     else
-                        game.input.selectionPosition = mousePosition;
+                        game.input.selectAt = mousePosition;
                 }
 
                 else if (game.TryGetBuilding(mousePosition, out var building)) {
                     if (building.player.v != game.CurrentPlayer)
                         UiSound.Instance.notAllowed.Play();
                     else
-                        game.input.selectionPosition = mousePosition;
+                        game.input.selectAt = mousePosition;
                 }
             }
 
             else if (Input.GetKeyDown(KeyCode.Space))
                 if (cycledUnit != null)
-                    game.input.selectionPosition = cycledUnit.position.v;
+                    game.input.selectAt = cycledUnit.position.v;
                 else
                     UiSound.Instance.notAllowed.Play();
 
