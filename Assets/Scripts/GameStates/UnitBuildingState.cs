@@ -5,50 +5,64 @@ using UnityEngine;
 using UnityEngine.Assertions;
 
 public static class UnitBuildingState {
-	
-	public static IEnumerator New(Game2 game) {
 
-		var building = game.commandsContext.building;
-		Assert.IsTrue(building!=null);
-		
-		Debug.Log($"Building state at building: {building}");
-		
-		Assert.IsTrue(game.TryGetBuilding(building.position, out var check));
-		Assert.AreEqual(building,check);
-		Assert.IsFalse(game.TryGetUnit(building.position, out _));
-		Assert.IsNotNull(building.player.v);
-		
-		var types = Enum.GetValues(typeof(UnitType)).Cast<UnitType>();
-		var availableTypes = types.Where(type=> (Rules.BuildableUnits(building.type) & type) != 0).ToList();
-		var index = -1;
+    public static IEnumerator New(Game2 game) {
 
-		while (true) {
-			yield return null;
+        var building = game.input.building;
+        Assert.IsTrue(building != null);
+        Assert.IsTrue(building.player.v==game.CurrentPlayer);
 
-			if (Input.GetKeyDown(KeyCode.Tab)) {
-				if (availableTypes.Count ==0)
-					UiSound.Instance.notAllowed.Play();
-				else {
-					index = (index + 1) % availableTypes.Count;
-					Debug.Log(availableTypes[index]);
-				}
-			}
-			else if (Input.GetKeyDown(KeyCode.Space)) {
-				if (index == -1)
-					UiSound.Instance.notAllowed.Play();
-				else {
-					var type = availableTypes[index];
-					var unit = new Unit(building.player.v, true, type, building.position, viewPrefab: Resources.Load<UnitView>("light-tank"));
-					Debug.Log($"Built unit {unit}");
+        Debug.Log($"Building state at building: {building}");
 
-					yield return SelectionState.New(game);
-					yield break;
-				}
-			}
-			else if (Input.GetKeyDown(KeyCode.Escape)) {
-				yield return SelectionState.New(game);
-				yield break;
-			}
-		}
-	}
+        Assert.IsTrue(game.TryGetBuilding(building.position, out var check));
+        Assert.AreEqual(building, check);
+        Assert.IsFalse(game.TryGetUnit(building.position, out _));
+        Assert.IsNotNull(building.player.v);
+
+        var types = Enum.GetValues(typeof(UnitType)).Cast<UnitType>();
+        var availableTypes = types.Where(type => (Rules.BuildableUnits(building.type) & type) != 0).ToList();
+        var index = -1;
+
+        while (true) {
+            yield return null;
+
+            if (game.input.unitType != 0) {
+
+                Assert.IsTrue(availableTypes.Contains(game.input.unitType));
+
+                var unit = new Unit(building.player.v, true, game.input.unitType, building.position, viewPrefab: Resources.Load<UnitView>("light-tank"));
+                game.input.Reset();
+
+                Debug.Log($"Built unit {unit}");
+
+                yield return SelectionState.New(game);
+                yield break;
+            }
+
+            if (game.CurrentPlayer.IsAi)
+                continue;
+
+            if (Input.GetKeyDown(KeyCode.Tab)) {
+                if (availableTypes.Count == 0)
+                    UiSound.Instance.notAllowed.Play();
+                else {
+                    index = (index + 1) % availableTypes.Count;
+                    Debug.Log(availableTypes[index]);
+                }
+            }
+
+            else if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space)) {
+                if (index == -1)
+                    UiSound.Instance.notAllowed.Play();
+                else
+                    game.input.unitType = availableTypes[index];
+            }
+
+            else if (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(Mouse.right)) {
+                game.input.Reset();
+                yield return SelectionState.New(game);
+                yield break;
+            }
+        }
+    }
 }

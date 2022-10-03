@@ -15,12 +15,20 @@ public class Game2 : MonoBehaviour {
     public int? turn;
     public DefaultLevelLogic levelLogic;
     public Player realPlayer;
-    public PlayerSettings settings;
+    public GameSettings settings;
 
-    public CommandsContext commandsContext = new();
+    public InputCommands input ;
 
     public void Awake() {
-        settings = new PlayerSettings();
+        input = new InputCommands(this);
+        settings = new GameSettings();
+    }
+
+    public void Start() {
+        UpdatePostProcessing();
+    }
+
+    public void UpdatePostProcessing() {
         WarsPostProcess.Setup(settings, Camera.main ? Camera.main.GetComponent<PostProcessLayer>() : null);
     }
 

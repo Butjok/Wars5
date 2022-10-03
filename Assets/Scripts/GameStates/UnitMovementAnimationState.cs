@@ -4,8 +4,11 @@ using UnityEngine;
 
 public static class UnitMovementAnimationState {
 
-	public static IEnumerator New(Game2 game, Unit unit, MovePath path) {
+	public static IEnumerator New(Game2 game) {
 
+		var unit = game.input.Unit;
+		var path = game.input.path;
+		
 		var startForward = unit.view.transform.forward.ToVector2().RoundToInt();
 		var play = true;
 
@@ -21,7 +24,9 @@ public static class UnitMovementAnimationState {
 		while (play) {
 			yield return null;
 
-			if (Input.GetMouseButtonDown(Mouse.left) || Input.GetMouseButtonDown(Mouse.right)) {
+			if (Input.GetMouseButtonDown(Mouse.left) || Input.GetMouseButtonDown(Mouse.right) ||
+			    Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Space)) {
+				
 				unit.view.walker.enabled = false;
 
 				// manually update wheels and body
@@ -36,9 +41,9 @@ public static class UnitMovementAnimationState {
 
 		unit.view.walker.enabled = false;
 		if (path.moves.Count != 0) {
-			unit.view.Position = path.positions.Last();
+			unit.view.Position = path.Destination;
 			unit.view.Forward = path.moves.Last().forward;
 		}
-		yield return ActionSelectionState.New(game, unit, startForward, path);
+		yield return ActionSelectionState.New(game);
 	}
 }

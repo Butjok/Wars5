@@ -32,7 +32,7 @@ public class BarrelAssembly : MonoBehaviour {
 	}*/
 	
 	public void Update() {
-		if (Input.GetKeyDown(KeyCode.Equals)) {
+		if (UnityEngine.Input.GetKeyDown(KeyCode.Equals)) {
 			Volley();
 		}
 	}

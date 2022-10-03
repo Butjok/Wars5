@@ -8,7 +8,7 @@ public static class TileMeshBuilder {
 	public static readonly List<Vector2> uvs = new();
 	public static readonly List<int> triangles = new();
 
-	public static Mesh Build(Mesh mesh, Game2 level, Traverser traverser) {
+	public static Mesh Build(Mesh mesh, IEnumerable<Vector2Int>positions) {
 
 		if (!mesh)
 			mesh = new Mesh();
@@ -19,7 +19,7 @@ public static class TileMeshBuilder {
 		uvs.Clear();
 		triangles.Clear();
 
-		foreach (var position in level.tiles.Keys.Where(traverser.IsReachable)) {
+		foreach (var position in positions) {
 
 			var translate = Matrix4x4.Translate(position.ToVector3Int());
 

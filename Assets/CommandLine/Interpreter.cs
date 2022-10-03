@@ -38,8 +38,13 @@ namespace Butjok.CommandLine
         public static object Execute(string text) {
             lexer.SetInputStream(new AntlrInputStream(text));
             parser.TokenStream = new CommonTokenStream(lexer);
-            var value = parser.input().value();
-            return value == null ? null : interpreter.Visit(value);
+            var values = parser.input().value();
+            if (values == null)
+                return null;
+            object result = null;
+            foreach (var value in values)
+                result = interpreter.Visit(value);
+            return result;
         }
 
         public override dynamic VisitNull(CommandLineParser.NullContext context) {

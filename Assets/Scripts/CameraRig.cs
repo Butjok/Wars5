@@ -114,8 +114,8 @@ public class CameraRig : MonoBehaviour {
 		// WASD
 
 		var input =
-			transform.right.ToVector2() * sign(Input.GetAxisRaw("Horizontal")) +
-			transform.forward.ToVector2() * sign(Input.GetAxisRaw("Vertical"));
+			transform.right.ToVector2() * sign(UnityEngine.Input.GetAxisRaw("Horizontal")) +
+			transform.forward.ToVector2() * sign(UnityEngine.Input.GetAxisRaw("Vertical"));
 
 		if (input != Vector2.zero) {
 			velocity = input.normalized * (speed * distance);
@@ -130,7 +130,7 @@ public class CameraRig : MonoBehaviour {
 
 		tagetPitchAngle = float.IsNaN(tagetPitchAngle)
 			? pitchAngle
-			: Mathf.Clamp(tagetPitchAngle + sign(Input.GetAxisRaw("PitchCamera")) * pitchAngleSpeed * Time.deltaTime,
+			: Mathf.Clamp(tagetPitchAngle + sign(UnityEngine.Input.GetAxisRaw("PitchCamera")) * pitchAngleSpeed * Time.deltaTime,
 				pitchAngleBounds[0], pitchAngleBounds[1]);
 		pitchAngle = tagetPitchAngle;
 
@@ -139,7 +139,7 @@ public class CameraRig : MonoBehaviour {
 		// QE ROTATION
 
 		if (rotationSequence == null) {
-			var rotate = sign(Input.GetAxisRaw("RotateCamera"));
+			var rotate = sign(UnityEngine.Input.GetAxisRaw("RotateCamera"));
 			if (rotate != 0)
 				RotateCameraRig(NextRotationAngle(rotate));
 		}
@@ -148,7 +148,7 @@ public class CameraRig : MonoBehaviour {
 
 		targetDistance = float.IsNaN(targetDistance)
 			? distance
-			: Mathf.Clamp(targetDistance + sign(Input.GetAxisRaw("Mouse ScrollWheel")) * distanceStep * distance,
+			: Mathf.Clamp(targetDistance + sign(UnityEngine.Input.GetAxisRaw("Mouse ScrollWheel")) * distanceStep * distance,
 				distanceBounds[0], distanceBounds[1]);
 		distance =
 			Mathf.Lerp(distance, targetDistance, Time.deltaTime * distanceSmoothTime);
@@ -157,19 +157,19 @@ public class CameraRig : MonoBehaviour {
 
 		// DRAGGING
 
-		if (Input.GetMouseButtonDown(2) && !isDragging) {
+		if (UnityEngine.Input.GetMouseButtonDown(2) && !isDragging) {
 			isDragging = true;
-			oldMousePosition = Input.mousePosition;
+			oldMousePosition = UnityEngine.Input.mousePosition;
 			if (teleportAnimation != null) {
 				teleportAnimation.Kill();
 				teleportAnimation = null;
 			}
 		}
-		if (Input.GetMouseButtonUp(2) && isDragging)
+		if (UnityEngine.Input.GetMouseButtonUp(2) && isDragging)
 			isDragging = false;
 
 		if (isDragging) {
-			var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			var ray = Camera.main.ScreenPointToRay(UnityEngine.Input.mousePosition);
 			var rayOld = Camera.main.ScreenPointToRay(oldMousePosition);
 			var plane = new Plane(Vector3.up, Vector3.zero);
 			if (plane.Raycast(ray, out var enter) && plane.Raycast(rayOld, out var enterOld)) {
@@ -177,12 +177,12 @@ public class CameraRig : MonoBehaviour {
 				var pointOld = rayOld.GetPoint(enterOld);
 				transform.position -= point - pointOld;
 			}
-			oldMousePosition = Input.mousePosition;
+			oldMousePosition = UnityEngine.Input.mousePosition;
 		}
 
 		// TELEPORT
 
-		if (Input.GetMouseButtonDown(2)) {
+		if (UnityEngine.Input.GetMouseButtonDown(2)) {
 			if (lastClickTime + teleportCooldown > Time.unscaledTime && Mouse.TryGetPosition(out Vector2 target)) {
 				Jump(target);
 			}

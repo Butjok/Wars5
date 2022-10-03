@@ -19,7 +19,7 @@ namespace CatlikeCoding.SDFToolkit.Examples {
 		}
 
 		private void Update () {
-			if (Input.GetKeyDown(KeyCode.H)) {
+			if (UnityEngine.Input.GetKeyDown(KeyCode.H)) {
 				panel.SetActive(!panel.activeSelf);
 			}
 		}

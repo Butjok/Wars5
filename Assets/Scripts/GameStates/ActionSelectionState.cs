@@ -5,17 +5,19 @@ using UnityEngine;
 
 public static class ActionSelectionState {
 
-    public static IEnumerator New(Game2 game, Unit unit, Vector2Int startForward, MovePath path) {
+    public static IEnumerator New(Game2 game) {
 
-        var position = path.positions.Last();
-        game.TryGetUnit(position, out var other);
+        var unit = game.input.Unit;
+        var path = game.input.path;
+
+        game.TryGetUnit(path.Destination, out var other);
 
         var actions = new List<UnitAction>();
         var index = 0;
 
         // stay/capture
         if (other == null || other == unit) {
-            if (game.TryGetBuilding(position, out var building) && Rules.CanCapture(unit, building))
+            if (game.TryGetBuilding(path.Destination, out var building) && Rules.CanCapture(unit, building))
                 actions.Add(new UnitAction(UnitActionType.Capture, unit, path, null, building));
             else
                 actions.Add(new UnitAction(UnitActionType.Stay, unit, path));
@@ -30,22 +32,22 @@ public static class ActionSelectionState {
             actions.Add(new UnitAction(UnitActionType.GetIn, unit, path, other));
 
         // attack
-        if (!Rules.IsArtillery(unit) || path.positions.Count == 1)
-            foreach (var otherPosition in game.AttackPositions(position, Rules.AttackRange(unit)))
+        if (!Rules.IsArtillery(unit) || path.Count == 1)
+            foreach (var otherPosition in game.AttackPositions(path.Destination, Rules.AttackRange(unit)))
                 if (game.TryGetUnit(otherPosition, out other))
                     for (var weapon = 0; weapon < Rules.WeaponsCount(unit); weapon++)
-                        if (Rules.CanAttack(unit, other, path.positions, weapon))
+                        if (Rules.CanAttack(unit, other, path, weapon))
                             actions.Add(new UnitAction(UnitActionType.Attack, unit, path, other, null, weapon));
 
         // supply
         foreach (var offset in Rules.offsets)
-            if (game.TryGetUnit(position + offset, out other) && Rules.CanSupply(unit, other))
+            if (game.TryGetUnit(path.Destination + offset, out other) && Rules.CanSupply(unit, other))
                 actions.Add(new UnitAction(UnitActionType.Supply, unit, path, other));
 
         // drop out
         foreach (var cargo in unit.cargo)
         foreach (var offset in Rules.offsets) {
-            var targetPosition = position + offset;
+            var targetPosition = path.Destination + offset;
             if (!game.TryGetUnit(targetPosition, out other) && Rules.CanStay(cargo, targetPosition))
                 actions.Add(new UnitAction(UnitActionType.DropOut, unit, path, targetUnit: cargo, targetPosition: targetPosition));
         }
@@ -53,10 +55,11 @@ public static class ActionSelectionState {
         while (true) {
             yield return null;
 
-            if (game.CurrentPlayer.IsAi || Input.GetKeyDown(KeyCode.Space) && actions.Count > 0) {
-
-                var action = game.CurrentPlayer.IsAi ? game.CurrentPlayer.bestAction : actions[index];
-                yield return action.Execute();
+            // action is selected
+            if (game.input.action != null) {
+                
+                yield return game.input.action.Execute();
+                game.input.Reset();
 
                 foreach (var item in actions)
                     item.Dispose();
@@ -68,16 +71,16 @@ public static class ActionSelectionState {
 
                     foreach (var u in game.units.Values)
                         u.moved.v = false;
-                    
+
                     var nextState = won ? game.levelLogic.OnVictory(game) : game.levelLogic.OnDefeat(game);
                     yield return nextState;
-                    
+
                     yield return won ? VictoryState.New(game) : DefeatState.New(game);
                     yield break;
                 }
 
                 else {
-                    var (controlFlow, nextState) = game.levelLogic.OnActionCompletion(game, action);
+                    var (controlFlow, nextState) = game.levelLogic.OnActionCompletion(game, game.input.action);
                     yield return nextState;
                     if (controlFlow == ControlFlow.Replace)
                         yield break;
@@ -86,13 +89,19 @@ public static class ActionSelectionState {
                 }
             }
 
-            else if (Input.GetMouseButtonDown(Mouse.right)) {
+            if (game.CurrentPlayer.IsAi)
+                continue;
+
+            if (Input.GetMouseButtonDown(Mouse.right) || Input.GetKeyDown(KeyCode.Escape)) {
 
                 foreach (var action in actions)
                     action.Dispose();
 
-                unit.view.Position = path.positions[0];
-                unit.view.Forward = startForward;
+                unit.view.Position = path[0];
+                unit.view.Forward = game.input.startForward;
+
+                game.input.path = null;
+                game.input.pathBuilder.Clear();
 
                 yield return PathSelectionState.New(game);
                 yield break;
@@ -107,8 +116,12 @@ public static class ActionSelectionState {
                     UiSound.Instance.notAllowed.Play();
             }
 
-            else if (Input.GetKeyDown(KeyCode.Return) && actions.Count == 0)
-                UiSound.Instance.notAllowed.Play();
+            else if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space)) {
+                if (actions.Count == 0)
+                    UiSound.Instance.notAllowed.Play();
+                else
+                    game.input.action = actions[index];
+            }
         }
     }
 }

@@ -10,7 +10,7 @@ public static class Mouse
     public static bool TryGetPosition(out Vector3 position, out RaycastHit hit) {
         position = default;
         Assert.IsTrue(Camera.main);
-        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        var ray = Camera.main.ScreenPointToRay(UnityEngine.Input.mousePosition);
         if (Physics.Raycast(ray, out hit, float.MaxValue, LayerMasks.Terrain)) {
             position = hit.point;
             return true;

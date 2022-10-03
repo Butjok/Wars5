@@ -18,7 +18,7 @@ public class MovePathTest : MonoBehaviour {
 	}
 
 	public void Update() {
-		if (Input.GetKeyDown(KeyCode.Space)) {
+		if (UnityEngine.Input.GetKeyDown(KeyCode.Space)) {
 			walker.enabled = false;
 			Setup();
 			walker.enabled = true;

@@ -13,7 +13,7 @@ namespace CatlikeCoding.SDFToolkit.Examples {
 	public class CursorSpotlight : MonoBehaviour {
 
 		private void Update () {
-			Vector3 p = Input.mousePosition;
+			Vector3 p = UnityEngine.Input.mousePosition;
 			p.z = Camera.main.nearClipPlane;
 			p = Camera.main.ScreenToWorldPoint(p);
 			transform.LookAt(p);

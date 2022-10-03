@@ -1,6 +1,6 @@
 grammar CommandLine;
 
-input: value? EOF;
+input: (value Semicolon)* value? Semicolon? EOF;
 value
     : Identifier value* #command
     | Null #null
@@ -21,8 +21,12 @@ value
     | Enum Identifier Identifier #enum
     ;
 
-Enum: 'enum';
-Comma: ',';
+Whitespace: [ \r\n\t]+ -> channel(HIDDEN);
+BlockComment: '/*' .*? '*/' -> channel(HIDDEN);
+LineComment: '//' ~[\r\n]* -> channel(HIDDEN);
+
+Semicolon:          ';';
+Enum:               'enum';
 Asterisk:           '*';
 DoubleAmpersand:    '&&';
 DoubleVerticalBar:  '||';
@@ -34,14 +38,12 @@ ForwardSlash:       '/';
 Int2:               'int2';
 Int3:               'int3';
 LeftParenthesis:    '(';
-LeftSquareBracket:  '[';
 Minus:              '-';
 Null:               'null';
 Percent:            '%';
 Plus:               '+';
 Rgb:                'rgb';
 RightParenthesis:   ')';
-RightSquareBracket: ']';
 True:               'true';
 Tilde:              '~';
 
@@ -50,5 +52,4 @@ Integer: '-'? INT;
 Real: '-'? (INT '.' INT | '.' INT | INT '.'); 
 String: '"' ('\\' ["\\bfnrt]  | ~ ["\\\u0000-\u001F])* '"';
 
-Whitespace: [ \r\n\t]+ -> channel(HIDDEN);
 fragment INT: [0-9]+;

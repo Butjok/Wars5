@@ -44,9 +44,12 @@ public class NewBehaviourScript : MonoBehaviour {
 		game.turn = 0;
 		game.StartCoroutine(SelectionState.New(game, true));
 
-		var commandsListener = gameObject.AddComponent<CommandsListener>();
+		var commandsListener = gameObject.AddComponent<InputCommandsListener>();
 #if WORKSTATION_MACBOOK
 		commandsListener.inputPath = "/Users/butjok/Documents/GitHub/Wars5/Input.txt";
+
+		game.settings.motionBlurShutterAngle = null;
+		game.settings.screenSpaceReflections = false;
 #endif
 #if WORKSTATION_PCY
 		commandsListener.inputPath = "Input.txt";

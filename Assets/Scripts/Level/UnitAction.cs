@@ -51,11 +51,10 @@ public class UnitAction : IDisposable {
 
 	public IEnumerator  Execute() {
 
-		Assert.IsTrue(path.positions.Count >= 1);
-		var pathEnd = path.positions[^1];
+		Assert.IsTrue(path.Count >= 1);
 
-		unit.player.game.TryGetUnit(pathEnd, out var unitAtPathEnd);
-		unit.player.game.TryGetBuilding(pathEnd, out var buildingAtPathEnd);
+		unit.player.game.TryGetUnit(path.Destination, out var unitAtPathEnd);
+		unit.player.game.TryGetBuilding(path.Destination, out var buildingAtPathEnd);
 
 		unit.moved.v = true;
 		
@@ -64,7 +63,7 @@ public class UnitAction : IDisposable {
 		switch (type) {
 
 			case UnitActionType.Stay: {
-				unit.position.v = pathEnd;
+				unit.position.v = path.Destination;
 				break;
 			}
 
@@ -76,7 +75,7 @@ public class UnitAction : IDisposable {
 			}
 
 			case UnitActionType.Capture: {
-				unit.position.v = pathEnd;
+				unit.position.v = path.Destination;
 				buildingAtPathEnd.cp.v -= Rules.Cp(unit);
 				if (buildingAtPathEnd.cp.v <= 0) {
 					buildingAtPathEnd.player.v = unit.player;
@@ -96,7 +95,7 @@ public class UnitAction : IDisposable {
 			}
 
 			case UnitActionType.DropOut: {
-				unit.position.v = pathEnd;
+				unit.position.v = path.Destination;
 				unit.cargo.Remove(targetUnit);
 				targetUnit.position.v = targetPosition;
 				targetUnit.carrier.v = null;
@@ -104,7 +103,7 @@ public class UnitAction : IDisposable {
 			}
 
 			case UnitActionType.Supply: {
-				unit.position.v = pathEnd;
+				unit.position.v = path.Destination;
 				targetUnit.fuel.v = Rules.MaxFuel(targetUnit);
 				foreach (var weaponIndex in Rules.Weapons(targetUnit))
 					targetUnit.ammo[weaponIndex] = Rules.MaxAmmo(targetUnit, weaponIndex);
@@ -120,7 +119,7 @@ public class UnitAction : IDisposable {
 
 	public override string ToString() {
 		var text = type.ToString();
-		text += $" - {path.positions.First()} -> {path.positions.Last()}";
+		text += $" - {path[0]} -> {path.Destination}";
 		if (targetUnit != null)
 			text += $" - {targetUnit}";
 		return text;

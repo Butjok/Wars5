@@ -29,7 +29,7 @@ public class CursorView : MonoBehaviour {
 	}
 
 	public void LateUpdate() {
-		if (Input.GetKeyDown(KeyCode.Keypad7))
+		if (UnityEngine.Input.GetKeyDown(KeyCode.Keypad7))
 			show = !show;
 		if (Mouse.TryGetPosition(out Vector2Int mousePosition)) {
 			meshRenderer.enabled = show;

@@ -1,7 +1,6 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -39,7 +38,26 @@ public static class SelectionState {
         while (true) {
             yield return null;
 
-            if (game.commandsContext.endTurn) {
+            if (game.input.selectionPosition is { } position) {
+                if (game.TryGetUnit(position, out var unit)) {
+                    game.input.Unit = unit;
+                    unit.view.Selected = true;
+                    yield return PathSelectionState.New(game);
+                    yield break;
+                }
+                else if (game.TryGetBuilding(position, out var building)) {
+                    game.input.building = building;
+                    yield return UnitBuildingState.New(game);
+                    yield break;
+                }
+                else
+                    game.input.selectionPosition = null;
+            }
+
+            // end turn
+            else if (game.input.endTurn) {
+
+                game.input.Reset();
 
                 foreach (var unit in game.units.Values)
                     unit.moved.v = false;
@@ -62,77 +80,66 @@ public static class SelectionState {
                 yield return New(game, true);
                 yield break;
             }
-            
-            else if (game.commandsContext.unit != null) {
-                game.commandsContext.unit.view.Selected = true;
-                yield return PathSelectionState.New(game);
+
+            if (game.CurrentPlayer.IsAi)
+                continue;
+
+            // track cycles (with tab) unit on the screen
+            if (cycledUnit != null && Camera.main) {
+                var worldPosition = cycledUnit.view.center.position;
+                var screenPosition = Camera.main.WorldToViewportPoint(worldPosition);
+                if (screenPosition.x is < 0 or > 1 || screenPosition.y is < 0 or > 1)
+                    cycledUnit = null;
+            }
+
+            if (Input.GetKeyDown(KeyCode.F2))
+                game.input.endTurn = true;
+
+            else if (Input.GetKeyDown(KeyCode.Tab)) {
+                if (unmovedUnits.Count > 0) {
+                    unitIndex = (unitIndex + 1) % unmovedUnits.Count;
+                    var next = unmovedUnits[unitIndex];
+                    CameraRig.Instance.Jump(next.view.center.position.ToVector2());
+                    cycledUnit = next;
+                }
+                else
+                    UiSound.Instance.notAllowed.Play();
+            }
+
+            else if ((Input.GetMouseButtonDown(Mouse.left) || Input.GetKeyDown(KeyCode.Space)) &&
+                     Mouse.TryGetPosition(out Vector2Int mousePosition)) {
+
+                if (game.TryGetUnit(mousePosition, out var unit)) {
+                    if (unit.player != game.CurrentPlayer || unit.moved.v)
+                        UiSound.Instance.notAllowed.Play();
+                    else
+                        game.input.selectionPosition = mousePosition;
+                }
+
+                else if (game.TryGetBuilding(mousePosition, out var building)) {
+                    if (building.player.v != game.CurrentPlayer)
+                        UiSound.Instance.notAllowed.Play();
+                    else
+                        game.input.selectionPosition = mousePosition;
+                }
+            }
+
+            else if (Input.GetKeyDown(KeyCode.Space))
+                if (cycledUnit != null)
+                    game.input.selectionPosition = cycledUnit.position.v;
+                else
+                    UiSound.Instance.notAllowed.Play();
+
+            else if (Input.GetKeyDown(KeyCode.V) && Input.GetKey(KeyCode.LeftShift)) {
+                CursorView.Instance.Visible = false;
+                yield return VictoryState.New(game);
                 yield break;
             }
-            
-            else if (game.commandsContext.building != null) {
-                yield return UnitBuildingState.New(game);
+
+            else if (Input.GetKeyDown(KeyCode.D) && Input.GetKey(KeyCode.LeftShift)) {
+                CursorView.Instance.Visible = false;
+                yield return DefeatState.New(game);
                 yield break;
-            }
-
-            else {
-                if (cycledUnit != null && Camera.main) {
-                    var worldPosition = cycledUnit.view.center.position;
-                    var screenPosition = Camera.main.WorldToViewportPoint(worldPosition);
-                    if (screenPosition.x is < 0 or > 1 || screenPosition.y is < 0 or > 1)
-                        cycledUnit = null;
-                }
-                if (Input.GetKeyDown(KeyCode.Tab)) {
-                    if (unmovedUnits.Count > 0) {
-                        unitIndex = (unitIndex + 1) % unmovedUnits.Count;
-                        var next = unmovedUnits[unitIndex];
-                        CameraRig.Instance.Jump(next.view.center.position.ToVector2());
-                        cycledUnit = next;
-                    }
-                    else
-                        UiSound.Instance.notAllowed.Play();
-                }
-
-                else if (Input.GetMouseButtonDown(Mouse.left) &&
-                         Mouse.TryGetPosition(out Vector2Int mousePosition)) {
-
-                    if (game.TryGetUnit(mousePosition, out var unit)) {
-                        if (unit.player != game.CurrentPlayer || unit.moved.v)
-                            UiSound.Instance.notAllowed.Play();
-                        else
-                            game.commandsContext.unit = unit;
-                    }
-
-                    else if (game.TryGetBuilding(mousePosition, out var building)) {
-                        if (building.player.v != game.CurrentPlayer)
-                            UiSound.Instance.notAllowed.Play();
-                        else
-                            game.commandsContext.building = building;
-                    }
-                }
-
-                else if (Input.GetKeyDown(KeyCode.Return))
-                    if (cycledUnit != null) {
-                        cycledUnit.view.Selected = true;
-                        game.commandsContext.unit = cycledUnit;
-                    }
-                    else
-                        UiSound.Instance.notAllowed.Play();
-
-                else if (Input.GetKeyDown(KeyCode.V) && Input.GetKey(KeyCode.LeftShift)) {
-                    CursorView.Instance.Visible = false;
-                    yield return VictoryState.New(game);
-                    yield break;
-                }
-
-                else if (Input.GetKeyDown(KeyCode.D) && Input.GetKey(KeyCode.LeftShift)) {
-                    CursorView.Instance.Visible = false;
-                    yield return DefeatState.New(game);
-                    yield break;
-                }
-
-                else if (Input.GetKeyDown(KeyCode.K) && Input.GetKey(KeyCode.LeftShift)) {
-                    musicPlayer.source.Stop();
-                }
             }
         }
     }

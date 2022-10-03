@@ -7,7 +7,7 @@ public class ImpactTest : MonoBehaviour {
 		particleSystems = GetComponentsInChildren<ParticleSystem>();
 	}
 	public void Update() {
-		if (Input.GetKeyDown(KeyCode.Insert)) {
+		if (UnityEngine.Input.GetKeyDown(KeyCode.Insert)) {
 			if(ps)
 				ps.Play();
 			//foreach (var particleSystem in particleSystems)

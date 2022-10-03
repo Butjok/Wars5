@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class MovePath {
+public class MovePath : List<Vector2Int> {
 
 	public enum MoveType {
 		Start, Stop, Forward, SteerLeft, SteerRight, RotateBack, RotateLeft, RotateRight
@@ -26,17 +26,22 @@ public class MovePath {
 			: this(type, midpoint.position, midpoint.forward) { }
 	}
 
-	public List<Vector2Int> positions;
 	public List<Move> moves;
+	public Vector2Int Destination {
+		get {
+			Assert.IsTrue(Count>0);
+			return this[Count-1];
+		}
+	}
 
 	public MovePath(IReadOnlyList<Vector2> points, Vector2Int startForward) {
-		positions = Positions(points).ToList();
-		moves = Moves(positions, startForward);
+		AddRange(Positions(points).ToList());
+		moves = Moves(this, startForward);
 	}
 	
 	public MovePath(IReadOnlyList<Vector2Int> positions, Vector2Int startForward) {
-		this.positions = positions.ToList();
-		moves = Moves(positions, startForward);
+		AddRange(positions);
+		moves = Moves(this, startForward);
 	}
 
 	public static IEnumerable<Vector2Int> Positions(IReadOnlyList<Vector2> points) {

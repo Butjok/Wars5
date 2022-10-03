@@ -26,7 +26,7 @@ public static class BattleAnimation {
             Debug.Log("BattleAnimationView");
         }
 
-        attacker.position.v = action.path.positions.Last();
+        attacker.position.v = action.path.Destination;
 
         if (newTargetHp <= 0) {
             var animation = CameraRig.Instance.Jump(target.view.transform.position.ToVector2());
