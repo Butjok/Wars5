@@ -24,7 +24,7 @@ public class Rotator : MonoBehaviour {
 	[Space]
 	public float angle;
 
-	public void Update() {
+	public void FixedUpdate() {
 
 		if (!from || !target)
 			return;
@@ -37,10 +37,10 @@ public class Rotator : MonoBehaviour {
 		var deltaAngle = Vector3.SignedAngle(forward, projected - from.position, normal);
 		var force = deltaAngle * this.force;
 		force -= velocity * drag;
-		velocity += force * Time.deltaTime;
+		velocity += force * Time.fixedDeltaTime;
 		if (Abs(velocity) > maxVelocity)
 			velocity = Sign(velocity) * maxVelocity;
-		angle += velocity * Time.deltaTime;
+		angle += velocity * Time.fixedDeltaTime;
 		if (doClamp)
 			angle = Clamp(angle, clamp[0], clamp[1]);
 

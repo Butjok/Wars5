@@ -21,7 +21,7 @@ public class Piston : MonoBehaviour {
 		position=Vector3.zero;
 	}
 	
-	public void Update() {
+	public void FixedUpdate() {
 
 		//Debug.Log($"PISTON {Time.frameCount}");
 		
@@ -31,9 +31,9 @@ public class Piston : MonoBehaviour {
 		var force = (targetLength - length) * this.force;
 		force -= velocity * drag;
 		force += externalForce;
-		velocity += force * Time.deltaTime;
+		velocity += force * Time.fixedDeltaTime;
 
-		length += velocity * Time.deltaTime;
+		length += velocity * Time.fixedDeltaTime;
 		length = Mathf.Clamp(length, clamp[0], clamp[1]);
 
 		position = transform.position + direction * length;

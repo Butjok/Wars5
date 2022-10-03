@@ -140,7 +140,7 @@ public class BattleView : MonoBehaviour {
             Shoot();
         }
 
-        if (Input.GetKeyDown(KeyCode.KeypadEnter)) {
+        if (Input.GetKeyDown(KeyCode.Alpha9)) {
             if (!visible) {
                 AnimateCameraRect((Color.black, Color.white), (cameraOffscreenRect, cameraRect));
                 camera.enabled = true;
