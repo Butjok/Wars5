@@ -99,6 +99,7 @@ public class CameraRig : MonoBehaviour {
 			raycastLayerMask = 1 << LayerMask.NameToLayer("Default");
 	}
 	public TweenerCore<Vector3, Vector3, VectorOptions> Jump(Vector2 position, bool canBeInterrupted = true) {
+		teleportAnimation?.Kill();
 		var targetPosition = position.ToVector3();
 		if (placeOnTerrain && placeOnTerrain.Raycast(position, out var hit))
 			targetPosition = hit.point;

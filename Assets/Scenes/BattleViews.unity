@@ -10487,7 +10487,7 @@ Camera:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 410719924}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_ClearFlags: 2
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
@@ -15893,7 +15893,7 @@ MonoBehaviour:
   - {fileID: 196290144}
   shooterIndex: -1
   side: 1
-  visible: 1
+  visible: 0
 --- !u!4 &586417245
 Transform:
   m_ObjectHideFlags: 0
@@ -16043,7 +16043,7 @@ MonoBehaviour:
   - {fileID: 1124960243}
   shooterIndex: -1
   side: -1
-  visible: 1
+  visible: 0
 --- !u!4 &859489839
 Transform:
   m_ObjectHideFlags: 0
@@ -25954,7 +25954,7 @@ Camera:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1028909452}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_ClearFlags: 2
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}

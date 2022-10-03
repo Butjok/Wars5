@@ -1,45 +1,35 @@
 import time
 from watchdog.observers import Observer
 from watchdog.events import PatternMatchingEventHandler
+from pathlib import Path
+import json
 
 
-def on_created(event):
-    pass
-    #print(f"hey, {event.src_path} has been created!")
-
-
-def on_deleted(event):
-    pass
-    #print(f"what the f**k! Someone deleted {event.src_path}!")
+path = '/Users/butjok/Documents/GitHub/Wars5/Output.json'
 
 
 def on_modified(event):
 
-    path = event.src_path
-    filename = pathlib
-    print(event.src_path)
+    if event.src_path != path:
+        return
 
+    text = Path(path).read_text()
+    data = json.loads(text)
+
+    print('modified')
     pass
-
-
-def on_moved(event):
-    pass
-    #print(f"ok ok ok, someone moved {event.src_path} to {event.dest_path}")
 
 
 if __name__ == "__main__":
+
     patterns = ["*"]
     ignore_patterns = None
     ignore_directories = False
     case_sensitive = True
     my_event_handler = PatternMatchingEventHandler(patterns, ignore_patterns, ignore_directories, case_sensitive)
 
-    my_event_handler.on_created = on_created
-    my_event_handler.on_deleted = on_deleted
     my_event_handler.on_modified = on_modified
-    my_event_handler.on_moved = on_moved
 
-    path = "."
     go_recursively = True
     my_observer = Observer()
     my_observer.schedule(my_event_handler, path, recursive=go_recursively)

@@ -47,6 +47,7 @@ public class NewBehaviourScript : MonoBehaviour {
 		var commandsListener = gameObject.AddComponent<InputCommandsListener>();
 #if WORKSTATION_MACBOOK
 		commandsListener.inputPath = "/Users/butjok/Documents/GitHub/Wars5/Input.txt";
+		commandsListener.outputPath = "/Users/butjok/Documents/GitHub/Wars5/Output.json";
 
 		//game.settings.motionBlurShutterAngle = null;
 		//game.settings.screenSpaceReflections = false;

@@ -9,7 +9,7 @@ using Debug = UnityEngine.Debug;
 public class InputViewer : MonoBehaviour {
 
     public class Input {
-        public List<Int2> points = new();
+        public List<SerializedVector2Int> points = new();
     }
 
     public TextAsset textAsset;
