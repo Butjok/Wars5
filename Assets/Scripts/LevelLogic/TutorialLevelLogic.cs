@@ -14,45 +14,19 @@ public class TutorialLogic : DefaultLevelLogic {
         
         return game.turn switch {
 
-            0 => (ControlFlow.Pause, DialogueState.New(game, new[] {
+            /*0 => (ControlFlow.Pause, DialogueState.New(game, new[] {
                 new DialogueUi.Speech {
                     speaker = DialogueSpeaker.Natalie,
                     lines = new[] {
                         new DialogueUi.Line {
-                            text = "Hello there!",
+                            text = "Welcome to Wars3d!",
                             playMusic = new[]{"violin uzicko"}
                         },
-                        new DialogueUi.Line {
-                            text = "This is 3dWars!",
-                            action = () => CameraRig.Instance.Jump(new Vector2(5, 5)),
-                        },
-                        new DialogueUi.Line {
-                            text = "Something here as well!",
-                            action = () => CameraRig.Instance.Jump(new Vector2(0, 0))
-                        },
-                    }
-                },
-                new DialogueUi.Speech {
-                    speaker = DialogueSpeaker.Vladan,
-                    lines = new[] {
-                        new DialogueUi.Line {
-                            text = "A real strategy game!",
-                        },
                     }
                 }
-            })),
-
-            1 => (ControlFlow.Pause, DialogueState.New(game, new[] {
-                new DialogueUi.Speech {
-                    speaker = DialogueSpeaker.Vladan,
-                    lines = new[] {
-                        new DialogueUi.Line {
-                            text = "I said no!",
-                            playMusic = new[]{"goofy uzicko"}
-                        },
-                    }
-                }
-            })),
+            })),*/
+            
+            0 => (ControlFlow.Pause, PlayMusic(new[]{"violin uzicko"})),
 
             _ => base.OnTurnStart(game)
         };
@@ -65,9 +39,10 @@ public class TutorialLogic : DefaultLevelLogic {
                 lines = new[] {
                     new DialogueUi.Line {
                         text = "I knew you would win!",
-                        moodChange = DialogueSpeaker.Mood.Happy
+                        changeMood = DialogueSpeaker.Mood.Happy,
+                        playMusic = new[]{"fast uzicko"} 
                     }
-                }
+                },
             }
         });
     }
@@ -79,11 +54,11 @@ public class TutorialLogic : DefaultLevelLogic {
                 lines = new[] {
                     new DialogueUi.Line {
                         text = "Oh no...",
-                        moodChange = DialogueSpeaker.Mood.Worried
+                        changeMood = DialogueSpeaker.Mood.Worried
                     },
                     new DialogueUi.Line {
                         text = "You can try to do bla-bla...",
-                        moodChange = DialogueSpeaker.Mood.Normal
+                        changeMood = DialogueSpeaker.Mood.Normal
                     },
                 }
             }

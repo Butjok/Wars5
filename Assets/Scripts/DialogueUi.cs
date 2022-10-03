@@ -49,7 +49,7 @@ public class DialogueUi : MonoBehaviour {
         [TextArea] public string text = string.Empty;
         public string voiceOver;
         public Action action;
-        public DialogueSpeaker.Mood? moodChange;
+        public DialogueSpeaker.Mood? changeMood;
         public string[] playMusic;
         public bool stopMusic;
     }
@@ -68,7 +68,7 @@ public class DialogueUi : MonoBehaviour {
 
     public void Refresh(DialogueSpeaker speaker, Line line) {
 
-        if (line.moodChange is { } newMood)
+        if (line.changeMood is { } newMood)
             moods[speaker] = newMood;
         
         if (portrait) {

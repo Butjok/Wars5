@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public enum ControlFlow { Ignore, Replace, Pause }
@@ -13,6 +14,9 @@ public class DefaultLevelLogic {
     public IEnumerator PlayMusic(IEnumerable<AudioClip> clips) {
         MusicPlayer.Instance.Queue = clips.InfiniteSequence();
         yield break;
+    }
+    public IEnumerator PlayMusic(IEnumerable<string> clipNames) {
+        return PlayMusic(clipNames.Select(name => name.LoadAs<AudioClip>()));
     }
 
     public virtual (ControlFlow controlFlow, IEnumerator state) OnTurnEnd(Game game) {
