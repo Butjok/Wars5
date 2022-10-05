@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.2238943, g: 0.23828247, b: 0.30262414, a: 1}
+  m_IndirectSpecularColor: {r: 0.22389415, g: 0.23828247, b: 0.30262375, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -21004,7 +21004,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  speedometers: []
   steeringArms: []
   wheels: []
   wheelPistons: []
@@ -37272,7 +37271,7 @@ Light:
       e32: 0
       e33: 1
     m_UseCullingMatrixOverride: 0
-  m_Cookie: {fileID: 2800000, guid: 09fc1f9650fe5af48b50d906a8136b17, type: 3}
+  m_Cookie: {fileID: 0}
   m_DrawHalo: 0
   m_Flare: {fileID: 0}
   m_RenderMode: 0
@@ -37286,7 +37285,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: NaN, z: NaN, w: 0}
+  m_BoundingSphereOverride: {x: 1e-45, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -52304,8 +52303,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 244.52878, y: 363.17407}
-  m_SizeDelta: {x: 301.2007, y: 134.67993}
+  m_AnchoredPosition: {x: 210.45956, y: 246.95837}
+  m_SizeDelta: {x: 204.81654, y: 91.58234}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &854730333
 MonoBehaviour:
@@ -72563,7 +72562,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aim: 0
   rotators: []
-  ballisticComputer: {fileID: 0}
+  computer: {fileID: 0}
   restIfImpossible: 1
   restTarget: {fileID: 0}
   shotForce: 500
@@ -139835,19 +139834,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 51258076789849872, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 207.29172
+      value: 140.95847
       objectReference: {fileID: 0}
     - target: {fileID: 51258076789849872, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 118.108734
+      value: 80.313934
       objectReference: {fileID: 0}
     - target: {fileID: 51258076789849872, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 368.22318
+      value: 294.57175
       objectReference: {fileID: 0}
     - target: {fileID: 51258076789849872, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 381.3064
+      value: 259.28836
       objectReference: {fileID: 0}
     - target: {fileID: 742884794920560503, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_LocalRotation.w

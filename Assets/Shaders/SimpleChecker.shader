@@ -2,6 +2,7 @@ Shader "Custom/SimpleChecker" {
 	Properties {
 		_ColorA ("_ColorA", Color) = (1,1,1,1)
 		_ColorB ("_ColorB", Color) = (0,0,0,1)
+		_Tint ("_Tint", Color) = (1,1,1,1)
 		_Scale ("_Scale", Vector) = (1,1,0,0)
 		_Glossiness ("Smoothness", Range(0,1)) = 0.5
 		_Metallic ("Metallic", Range(0,1)) = 0.0
@@ -26,14 +27,14 @@ Shader "Custom/SimpleChecker" {
 
 		half _Glossiness;
 		half _Metallic;
-		fixed4 _ColorA, _ColorB;
+		fixed4 _ColorA, _ColorB, _Tint;
 		half2 _Scale;
 
 		void surf (Input IN, inout SurfaceOutputStandard o) {
 			// Albedo comes from a texture tinted by color
 			int x = round(IN.worldPos.x);
 			int y = round(IN.worldPos.z);
-			o.Albedo = lerp(_ColorA, _ColorB, (x+y) % 2 == 0);
+			o.Albedo = lerp(_ColorA, _ColorB, (x+y) % 2 == 0) * _Tint;
 			// Metallic and smoothness come from slider variables
 			o.Metallic = _Metallic;
 			o.Smoothness = _Glossiness;

@@ -13,6 +13,7 @@ public class BattleViewTest : MonoBehaviour {
 	[Range(1, 5)] public int countRight = 5;
 
 	public Camera mainCamera;
+	public float shadowDistance = 10;
 
 	public void Awake() {
 		mainCamera = Camera.main;
@@ -35,6 +36,7 @@ public class BattleViewTest : MonoBehaviour {
 		get {
 
 			mainCamera.enabled = false;
+			QualitySettings.shadowDistance = shadowDistance;
 			
 			battleViewLeft.Setup(unitViewPrefab,countLeft);
 			battleViewRight.Setup(unitViewPrefab,countRight);

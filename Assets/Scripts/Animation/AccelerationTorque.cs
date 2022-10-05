@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.Assertions;
 
+// TODO: fix for flipped
+
 public class AccelerationTorque : MonoBehaviour {
 
 	public BodyTorque bodyTorque;
@@ -12,6 +14,7 @@ public class AccelerationTorque : MonoBehaviour {
 	public float maxTorque;
 
 	public void Update() {
+		
 		if (oldPosition is { } vector2) {
 			var deltaPosition = transform.position.ToVector2() - vector2;
 			var speed = (double)Vector2.Dot(transform.forward.ToVector2(), deltaPosition) / Time.deltaTime;

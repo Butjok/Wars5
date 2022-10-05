@@ -197,7 +197,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: cb434860826d0544a9c84dca906ba153, type: 2}
+  - {fileID: 2100000, guid: cbbfe39766ff7024cbd506267ea6383a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -312,6 +312,7 @@ MonoBehaviour:
   time: 0
   impactPrefab: {fileID: 853938955625880998, guid: fc6b6381f62f2da4ba2e45ec88c9e907, type: 3}
   impactForce: 500
+  destroy: 0
 --- !u!33 &3936163103675211883
 MeshFilter:
   m_ObjectHideFlags: 0

@@ -182,6 +182,7 @@
      <Compile Include="Assets/CommandLine/Antlr4/Tree/Pattern/RuleTagToken.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Misc/MurmurHash.cs" />
      <Compile Include="Assets/Scripts/FoliageRenderer.cs" />
+     <Compile Include="Assets/Scripts/CameraRectDriver.cs" />
      <Compile Include="Assets/Scripts/Animation/BallisticCurve.cs" />
      <Compile Include="Assets/Scripts/MeshUtils.cs" />
      <Compile Include="Assets/Scripts/InGameOverlayMenuView.cs" />
@@ -198,6 +199,7 @@
      <Compile Include="Assets/Scripts/BuildingMaterialSwitcher.cs" />
      <Compile Include="Assets/Scripts/UnitBuildMenuView.cs" />
      <Compile Include="Assets/Scripts/TestRenderer.cs" />
+     <Compile Include="Assets/Scripts/PostProcessingFade.cs" />
      <Compile Include="Assets/Priority Queue/Properties/AssemblyInfo.cs" />
      <Compile Include="Assets/Scripts/MoveTypeAtlas.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/CharStreams.cs" />
@@ -402,8 +404,6 @@
      <Compile Include="Assets/Scripts/Animation/LookAt.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/PlusBlockStartState.cs" />
      <Compile Include="Assets/Scripts/Animation/PistonBody.cs" />
-     <Compile Include="Assets/Scripts/CameraRectDriver.cs" />
-     <Compile Include="Assets/Scripts/PostProcessingFade.cs" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />
      <None Include="Assets/Shaders/My First Lighting Shader.shader" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader" />
