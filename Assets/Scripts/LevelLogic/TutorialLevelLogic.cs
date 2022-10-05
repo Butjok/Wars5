@@ -5,16 +5,20 @@ using UnityEngine.Assertions;
 
 public class TutorialLogic : DefaultLevelLogic {
 
-    public const bool dialogue = true;
+    public bool showDialogue;
+    
+    public TutorialLogic(bool showDialogue) {
+        this.showDialogue = showDialogue;
+    }
     
     public override (ControlFlow controlFlow, IEnumerator state) OnTurnStart(Game game) {
 
-        if (!dialogue)
+        if (!showDialogue)
             return base.OnTurnStart(game);
         
         return game.turn switch {
 
-            /*0 => (ControlFlow.Pause, DialogueState.New(game, new[] {
+            0 => (ControlFlow.Pause, DialogueState.New(game, new[] {
                 new DialogueUi.Speech {
                     speaker = DialogueSpeaker.Natalie,
                     lines = new[] {
@@ -24,9 +28,7 @@ public class TutorialLogic : DefaultLevelLogic {
                         },
                     }
                 }
-            })),*/
-            
-            0 => (ControlFlow.Pause, PlayMusic(new[]{"violin uzicko"})),
+            })),
 
             _ => base.OnTurnStart(game)
         };
