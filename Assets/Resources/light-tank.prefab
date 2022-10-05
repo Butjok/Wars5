@@ -3085,7 +3085,7 @@ MonoBehaviour:
   from: {fileID: 5622201994234556399}
   target: {fileID: 0}
   doClamp: 1
-  clamp: {x: -30, y: 0}
+  clamp: {x: -30, y: 10}
   force: 1000
   drag: 25
   velocity: 0
@@ -3462,7 +3462,7 @@ MonoBehaviour:
   target: {fileID: 0}
   barrel: {fileID: 5622201994234556399}
   virtualTarget: {fileID: 5011268655326702587}
-  velocity: 20
+  velocity: 50
   gravity: {x: 0, y: -1, z: 0}
   angle: 0
   showActualTrajectory: 1
@@ -4414,7 +4414,7 @@ PrefabInstance:
       objectReference: {fileID: 3978655096192631730}
     - target: {fileID: 5793958539712425122, guid: fb3d0e4b87008f747afef3004299e118, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 133.76413
+      value: 133.70642
       objectReference: {fileID: 0}
     - target: {fileID: 5793958539712425122, guid: fb3d0e4b87008f747afef3004299e118, type: 3}
       propertyPath: m_SizeDelta.y
@@ -4422,7 +4422,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5793958539712425122, guid: fb3d0e4b87008f747afef3004299e118, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 71.23554
+      value: 127.4548
       objectReference: {fileID: 0}
     - target: {fileID: 5793958539712425122, guid: fb3d0e4b87008f747afef3004299e118, type: 3}
       propertyPath: m_AnchoredPosition.y
