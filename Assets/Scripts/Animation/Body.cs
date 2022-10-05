@@ -19,8 +19,8 @@ public class Body : MonoBehaviour {
 	[Range(-1, 1)] public float rollAxisMultiplier = 1;
 	[Range(-1, 1)] public float pitchAxisMultiplier = 1;
 
-	[ContextMenu(nameof(Start))]
-	public void Start() {
+	[ContextMenu(nameof(Awake))]
+	public void Awake() {
 
 		rollAxis.Clear();
 		pitchAxis.Clear();

@@ -461,9 +461,9 @@ MonoBehaviour:
   clamp: {x: -0.025, y: 0.025}
   force: 250
   drag: 6
-  externalForce: 0
-  velocity: -117.80196
-  position: {x: -2.1349192, y: 2.5893745, z: 2.9624946}
+  forceThisFrame: 0
+  velocity: 0
+  position: {x: -2.1349192, y: 2.6143746, z: 2.9624946}
 --- !u!114 &9102701130869312568
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1067,9 +1067,9 @@ MonoBehaviour:
   clamp: {x: -0.025, y: 0.025}
   force: 250
   drag: 6
-  externalForce: 0
-  velocity: -117.80196
-  position: {x: -2.2513077, y: 2.5893745, z: 2.558672}
+  forceThisFrame: 0
+  velocity: 0
+  position: {x: -2.2513077, y: 2.6143746, z: 2.558672}
 --- !u!114 &9102701130370694845
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1242,9 +1242,9 @@ MonoBehaviour:
   clamp: {x: -0.025, y: 0.025}
   force: 250
   drag: 6
-  externalForce: 0
-  velocity: -117.80196
-  position: {x: -2.3684928, y: 2.5893745, z: 2.558672}
+  forceThisFrame: 0
+  velocity: 0
+  position: {x: -2.3684928, y: 2.6143746, z: 2.558672}
 --- !u!114 &9102701130222910131
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2084,9 +2084,9 @@ MonoBehaviour:
   clamp: {x: -0.025, y: 0.025}
   force: 250
   drag: 6
-  externalForce: 0
-  velocity: -117.80196
-  position: {x: -1.9025419, y: 2.5893745, z: 2.9624946}
+  forceThisFrame: 0
+  velocity: 0
+  position: {x: -1.9025419, y: 2.6143746, z: 2.9624946}
 --- !u!114 &9102701129804593475
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2448,9 +2448,9 @@ MonoBehaviour:
   clamp: {x: -0.025, y: 0.025}
   force: 250
   drag: 6
-  externalForce: 0
-  velocity: -117.80196
-  position: {x: -2.251307, y: 2.5893745, z: 2.9624946}
+  forceThisFrame: 0
+  velocity: 0
+  position: {x: -2.251307, y: 2.6143746, z: 2.9624946}
 --- !u!114 &9102701130077438530
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2751,9 +2751,9 @@ MonoBehaviour:
   clamp: {x: -0.025, y: 0.025}
   force: 250
   drag: 6
-  externalForce: 0
-  velocity: -117.80196
-  position: {x: -2.3684921, y: 2.5893745, z: 2.9624946}
+  forceThisFrame: 0
+  velocity: 0
+  position: {x: -2.3684921, y: 2.6143746, z: 2.9624946}
 --- !u!114 &9102701130318977666
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3395,7 +3395,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  speedometers: []
   steeringArms: []
   wheels: []
   wheelPistons: []
@@ -3484,7 +3483,7 @@ MonoBehaviour:
   rotators:
   - {fileID: 9102701130957254639}
   - {fileID: 9102701130657965917}
-  ballisticComputer: {fileID: 2933954904251469576}
+  computer: {fileID: 0}
   restIfImpossible: 1
   restTarget: {fileID: 2696432709506076095}
   shotForce: 350
@@ -3664,9 +3663,9 @@ MonoBehaviour:
   clamp: {x: -0.025, y: 0.025}
   force: 250
   drag: 6
-  externalForce: 0
-  velocity: -117.80196
-  position: {x: -2.13492, y: 2.5893745, z: 2.558672}
+  forceThisFrame: 0
+  velocity: 0
+  position: {x: -2.13492, y: 2.6143746, z: 2.558672}
 --- !u!114 &9102701129692199438
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3870,9 +3869,9 @@ MonoBehaviour:
   clamp: {x: -0.025, y: 0.025}
   force: 250
   drag: 6
-  externalForce: 0
-  velocity: -117.80196
-  position: {x: -1.9025426, y: 2.5893745, z: 2.5586717}
+  forceThisFrame: 0
+  velocity: 0
+  position: {x: -1.9025426, y: 2.6143746, z: 2.5586717}
 --- !u!114 &9102701130387827153
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4045,9 +4044,9 @@ MonoBehaviour:
   clamp: {x: -0.025, y: 0.025}
   force: 250
   drag: 6
-  externalForce: 0
-  velocity: -117.80196
-  position: {x: -2.0189297, y: 2.5893745, z: 2.9624946}
+  forceThisFrame: 0
+  velocity: 0
+  position: {x: -2.0189297, y: 2.6143746, z: 2.9624946}
 --- !u!114 &9102701131156210678
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4220,9 +4219,9 @@ MonoBehaviour:
   clamp: {x: -0.025, y: 0.025}
   force: 250
   drag: 6
-  externalForce: 0
-  velocity: -117.80196
-  position: {x: -2.0189304, y: 2.5893745, z: 2.5586717}
+  forceThisFrame: 0
+  velocity: 0
+  position: {x: -2.0189304, y: 2.6143746, z: 2.5586717}
 --- !u!114 &9102701130401598978
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4415,19 +4414,19 @@ PrefabInstance:
       objectReference: {fileID: 3978655096192631730}
     - target: {fileID: 5793958539712425122, guid: fb3d0e4b87008f747afef3004299e118, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 99.08023
+      value: 133.76413
       objectReference: {fileID: 0}
     - target: {fileID: 5793958539712425122, guid: fb3d0e4b87008f747afef3004299e118, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 55.249146
+      value: 54.969543
       objectReference: {fileID: 0}
     - target: {fileID: 5793958539712425122, guid: fb3d0e4b87008f747afef3004299e118, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 510.2983
+      value: 71.23554
       objectReference: {fileID: 0}
     - target: {fileID: 5793958539712425122, guid: fb3d0e4b87008f747afef3004299e118, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 666.54956
+      value: 629.6101
       objectReference: {fileID: 0}
     - target: {fileID: 7216561255274665977, guid: fb3d0e4b87008f747afef3004299e118, type: 3}
       propertyPath: m_Pivot.x

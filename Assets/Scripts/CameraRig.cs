@@ -171,7 +171,7 @@ public class CameraRig : MonoBehaviour {
 		if (Input.GetMouseButtonUp(2) && isDragging)
 			isDragging = false;
 
-		if (isDragging) {
+		if (isDragging && Camera.main) {
 			var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			var rayOld = Camera.main.ScreenPointToRay(oldMousePosition);
 			var plane = new Plane(Vector3.up, Vector3.zero);

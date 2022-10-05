@@ -14,7 +14,7 @@ public class PistonCompresser : MonoBehaviour {
 	private void Update() {
 		var force = Vector3.Cross(worldTorque, transform.position - centerOfMass.position);
 		var direction = piston.relativeTo.TransformDirection(piston.localDirection).normalized;
-		piston.externalForce += Vector3.Dot(force, direction);
+		piston.forceThisFrame += Vector3.Dot(force, direction);
 		worldTorque = Vector3.zero;
 	}
 }

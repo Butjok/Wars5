@@ -13,9 +13,9 @@ public class GameSettings {
     public float unitSpeed = 3;
     public PostProcessLayer.Antialiasing antiAliasing = PostProcessLayer.Antialiasing.TemporalAntialiasing;
     public float? motionBlurShutterAngle = 270;
-    public bool bloom = true;
-    public bool screenSpaceReflections = true;
-    public bool ambientOcclusion = true;
+    public bool enableBloom = true;
+    public bool enableScreenSpaceReflections = true;
+    public bool enableAmbientOcclusion = true;
     public bool shuffleMusic = false;
 
     public const string playerPrefsKey = nameof(GameSettings);

@@ -19,14 +19,16 @@ public class Game : MonoBehaviour {
 
     public void Awake() {
         settings = new GameSettings();
-    }
-
-    public void Start() {
         UpdatePostProcessing();
     }
 
     public void UpdatePostProcessing() {
-        WarsPostProcess.Setup(settings, Camera.main ? Camera.main.GetComponent<PostProcessLayer>() : null);
+        PostProcessing.Setup(
+            settings.antiAliasing,
+            settings.motionBlurShutterAngle,
+            settings.enableBloom,
+            settings.enableScreenSpaceReflections,
+            settings.enableAmbientOcclusion);
     }
 
     public Player CurrentPlayer {

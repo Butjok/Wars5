@@ -11,7 +11,7 @@ public class NewBehaviourScript : MonoBehaviour {
 	public Unit unit;
 	public MinimapMeshGenerator minimapMeshGenerator;
 
-	private void OnEnable() {
+	private void Awake() {
 
 		var game = gameObject.AddComponent<Game>();
 
@@ -56,6 +56,8 @@ public class NewBehaviourScript : MonoBehaviour {
 		
 		game.settings.motionBlurShutterAngle = 270;
 #endif
+		
+		game.UpdatePostProcessing();
 
 		CursorView.Instance.Visible = false;
 

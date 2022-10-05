@@ -14,7 +14,6 @@ public class UnitView : MonoBehaviour {
     public Renderer[] renderers;
     public MaterialPropertyBlock propertyBlock;
     [FormerlySerializedAs("curve")] public AnimationCurve blinkCurve = new AnimationCurve();
-    public Speedometer[] speedometers;
     public SteeringArm[] steeringArms;
     public Wheel[] wheels;
     public Piston[] wheelPistons;
@@ -33,10 +32,8 @@ public class UnitView : MonoBehaviour {
         get => transform.position.ToVector2().RoundToInt();
         set {
             transform.position = value.ToVector3Int();
-            foreach (var speedometer in speedometers)
-                speedometer.Clear();
-            foreach (var steeringArm in steeringArms)
-                steeringArm.transform.localRotation = Quaternion.identity;
+            PlaceOnTerrain();
+            ResetSteeringArms();
         }
     }
     public Vector2Int Forward {
@@ -89,17 +86,30 @@ public class UnitView : MonoBehaviour {
         Assert.IsTrue(walker);
         turret = GetComponentInChildren<Turret>();
 
-        speedometers = GetComponentsInChildren<Speedometer>();
         steeringArms = GetComponentsInChildren<SteeringArm>();
 
         propertyBlock = new MaterialPropertyBlock();
         renderers = GetComponentsInChildren<Renderer>();
 
         wheels = GetComponentsInChildren<Wheel>();
-        wheelPistons = wheels.Select(wheel => wheel.GetComponent<Piston>()).Distinct().ToArray();
+        wheelPistons = wheels.Select(wheel => wheel.GetComponent<Piston>()).Distinct().Where(piston=>piston).ToArray();
         body = GetComponentInChildren<Body>();
     }
 
+    public void PlaceOnTerrain() {
+        foreach (var wheel in wheels)
+            wheel.Update();
+        foreach (var wheelPiston in wheelPistons)
+            wheelPiston.Reset();
+        body.Update();
+    }
+
+    public void ResetSteeringArms() {
+        foreach (var steeringArm in steeringArms) {
+            steeringArm.speedometer.Clear();
+            steeringArm.transform.localRotation = Quaternion.identity;
+        }
+    }
 
     public Unit Carrier {
         set { }

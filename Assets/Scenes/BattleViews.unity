@@ -10216,6 +10216,10 @@ MonoBehaviour:
   unitViewPrefab: {fileID: 9102701131239654383, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
   countLeft: 5
   countRight: 2
+  fadeColor: {r: 0, g: 0, b: 0, a: 1}
+  fadeDuration: 0.5
+  mainCamera: {fileID: 0}
+  visible: 0
 --- !u!4 &250976659
 Transform:
   m_ObjectHideFlags: 0
@@ -10487,7 +10491,7 @@ Camera:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 410719924}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
@@ -10499,12 +10503,12 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.5
-    y: 0.2
+    x: 1
+    y: 0
     width: 0
-    height: 0.6
+    height: 1
   near clip plane: 0.01
-  far clip plane: 10
+  far clip plane: 100
   field of view: 30
   orthographic: 0
   orthographic size: 5
@@ -10572,7 +10576,7 @@ MonoBehaviour:
   volumeTrigger: {fileID: 0}
   volumeLayer:
     serializedVersion: 2
-    m_Bits: 16392
+    m_Bits: 8
   stopNaNPropagation: 1
   finalBlitToCameraTarget: 1
   antialiasingMode: 3
@@ -15705,10 +15709,10 @@ MonoBehaviour:
   m_LookAt: {fileID: 223806343}
   m_Follow: {fileID: 0}
   m_Lens:
-    FieldOfView: 39.37292
+    FieldOfView: 1
     OrthographicSize: 5
     NearClipPlane: 0.01
-    FarClipPlane: 10
+    FarClipPlane: 100
     Dutch: 0
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
@@ -15845,6 +15849,7 @@ GameObject:
   m_Component:
   - component: {fileID: 586417245}
   - component: {fileID: 586417244}
+  - component: {fileID: 586417246}
   m_Layer: 15
   m_Name: BattleViewRight
   m_TagString: Untagged
@@ -15864,27 +15869,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe8e4ff3db154604a04331d0c6c1d003, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camera: {fileID: 410719925}
-  fadeDuration: 0.25
-  colorGrading: {fileID: 0}
-  fadeEase: 0
-  cameraOffscreenRect:
-    serializedVersion: 2
-    x: 0
-    y: 0.2
-    width: 0
-    height: 0.6
-  cameraRect:
-    serializedVersion: 2
-    x: 0
-    y: 0.2
-    width: 0.5
-    height: 0.6
-  rectDuration: 0.5
-  rectEase: 3
-  impactParticleSystem: {fileID: 0}
-  cameraMinimalRectSize: 0.01
-  battleViewPostProcessProfile: {fileID: 11400000, guid: 380056c9879e28f44aabec454191baf3, type: 2}
   unitViews: []
   spawnPoints:
   - {fileID: 915509306}
@@ -15895,8 +15879,9 @@ MonoBehaviour:
   sceneries:
     m_keys: 
     m_values: []
+  camera: {fileID: 0}
+  shuffleUnitViews: 1
   shooterIndex: -1
-  side: 1
 --- !u!4 &586417245
 Transform:
   m_ObjectHideFlags: 0
@@ -15921,6 +15906,38 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &586417246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 586417243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e470043225d44f92830a1e28c0b0981c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  camera: {fileID: 0}
+  fadeColor: {r: 0, g: 0, b: 0, a: 1}
+  fadeDuration: 2.5
+  fadeEase: 0
+  cameraOffscreenRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 0
+    height: 1
+  cameraOnscreenRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 0.5
+    height: 1
+  rectDuration: 0.5
+  rectEase: 3
+  cameraMinimalRectSize: 0.01
+  side: 1
 --- !u!1 &612551464
 GameObject:
   m_ObjectHideFlags: 0
@@ -15998,6 +16015,7 @@ GameObject:
   m_Component:
   - component: {fileID: 859489839}
   - component: {fileID: 859489838}
+  - component: {fileID: 859489840}
   m_Layer: 14
   m_Name: BattleViewLeft
   m_TagString: Untagged
@@ -16017,27 +16035,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe8e4ff3db154604a04331d0c6c1d003, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camera: {fileID: 1028909453}
-  fadeDuration: 0.25
-  colorGrading: {fileID: 0}
-  fadeEase: 0
-  cameraOffscreenRect:
-    serializedVersion: 2
-    x: 0
-    y: 0.2
-    width: 0
-    height: 0.6
-  cameraRect:
-    serializedVersion: 2
-    x: 0
-    y: 0.2
-    width: 0.5
-    height: 0.6
-  rectDuration: 0.5
-  rectEase: 3
-  impactParticleSystem: {fileID: 671518056}
-  cameraMinimalRectSize: 0.01
-  battleViewPostProcessProfile: {fileID: 11400000, guid: 380056c9879e28f44aabec454191baf3, type: 2}
   unitViews: []
   spawnPoints:
   - {fileID: 2017200141}
@@ -16049,8 +16046,9 @@ MonoBehaviour:
     m_keys: 01000000
     m_values:
     - {fileID: 0}
+  camera: {fileID: 0}
+  shuffleUnitViews: 1
   shooterIndex: -1
-  side: -1
 --- !u!4 &859489839
 Transform:
   m_ObjectHideFlags: 0
@@ -16075,6 +16073,38 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &859489840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 859489837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e470043225d44f92830a1e28c0b0981c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  camera: {fileID: 0}
+  fadeColor: {r: 0, g: 0, b: 0, a: 1}
+  fadeDuration: 2.5
+  fadeEase: 0
+  cameraOffscreenRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 0
+    height: 1
+  cameraOnscreenRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 0.5
+    height: 1
+  rectDuration: 0.5
+  rectEase: 3
+  cameraMinimalRectSize: 0.01
+  side: -1
 --- !u!1 &866648251
 GameObject:
   m_ObjectHideFlags: 0
@@ -25918,10 +25948,10 @@ MonoBehaviour:
   m_LookAt: {fileID: 13966125}
   m_Follow: {fileID: 0}
   m_Lens:
-    FieldOfView: 39.37292
+    FieldOfView: 1
     OrthographicSize: 5
     NearClipPlane: 0.01
-    FarClipPlane: 10
+    FarClipPlane: 100
     Dutch: 0
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
@@ -25961,7 +25991,7 @@ Camera:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1028909452}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
@@ -25974,11 +26004,11 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
-    y: 0.2
+    y: 0
     width: 0
-    height: 0.6
+    height: 1
   near clip plane: 0.01
-  far clip plane: 10
+  far clip plane: 100
   field of view: 30
   orthographic: 0
   orthographic size: 5
@@ -26027,7 +26057,7 @@ MonoBehaviour:
   volumeTrigger: {fileID: 0}
   volumeLayer:
     serializedVersion: 2
-    m_Bits: 16392
+    m_Bits: 8
   stopNaNPropagation: 1
   finalBlitToCameraTarget: 1
   antialiasingMode: 3
@@ -65472,55 +65502,6 @@ Transform:
   m_Father: {fileID: 1324151186}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
---- !u!1 &1822265574
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1822265576}
-  - component: {fileID: 1822265575}
-  m_Layer: 14
-  m_Name: postproc
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1822265575
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1822265574}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sharedProfile: {fileID: 11400000, guid: 380056c9879e28f44aabec454191baf3, type: 2}
-  isGlobal: 1
-  blendDistance: 0
-  weight: 1
-  priority: 0
---- !u!4 &1822265576
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1822265574}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 11
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1827394690
 GameObject:
   m_ObjectHideFlags: 0

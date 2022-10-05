@@ -1,29 +1,14 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using DG.Tweening;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.Rendering.PostProcessing;
+using Random = UnityEngine.Random;
 
+[RequireComponent(typeof(BattleViewCamera))]
 public class BattleView : MonoBehaviour {
-
-    public Camera camera;
-    public float fadeDuration = 1;
-    public Tweener fadeTweener;
-    public ColorGrading colorGrading;
-    public Ease fadeEase = default;
-
-    public Rect cameraOffscreenRect = new Rect();
-    public Rect cameraRect = new Rect();
-    public Tweener cameraRectTweener;
-    public float rectDuration = .5f;
-    public Ease rectEase = Ease.OutExpo;
-    public ParticleSystem impactParticleSystem;
-    public float cameraMinimalRectSize = .05f;
-
-    public PostProcessProfile battleViewPostProcessProfile;
 
     public List<UnitView> unitViews = new();
     public Dictionary<UnitView, List<ImpactPoint>> impactPoints = new();
@@ -31,49 +16,12 @@ public class BattleView : MonoBehaviour {
     public Transform[] spawnPoints = Array.Empty<Transform>();
 
     public TileTypeGameObjectDictionary sceneries = new();
+    public BattleViewCamera camera;
+    public bool shuffleUnitViews = true;
 
-    public int Layer {
-        set {
-            gameObject.SetLayerRecursively(value);
-            camera.cullingMask = value;
-        }
-    }
-
-    public Tweener AnimateCameraRect((Color from, Color to) fade, (Rect from, Rect to) rect) {
-
-        if (colorGrading) {
-            fadeTweener?.Kill();
-            colorGrading.colorFilter.value = fade.from;
-            fadeTweener = DOTween.To(
-                    () => colorGrading.colorFilter.value,
-                    value => colorGrading.colorFilter.value = value,
-                    fade.to,
-                    fadeDuration)
-                .SetEase(fadeEase);
-        }
-
-        cameraRectTweener?.Kill();
-        camera.rect = TransformRect(rect.from);
-        cameraRectTweener = camera.DORect(TransformRect(rect.to), rectDuration).SetEase(rectEase, .01f);
-
-        return cameraRectTweener;
-    }
-
-    public Rect TransformRect(Rect rect) {
-
-        if (side <= 0)
-            return rect;
-
-        var flip = Matrix4x4.Translate(new Vector2(1, 0)) * Matrix4x4.Scale(new Vector2(-1, 1));
-        var a = flip.MultiplyPoint(rect.min);
-        var b = flip.MultiplyPoint(rect.max);
-        var minX = Mathf.Min(a.x, b.x);
-        var maxX = a.x + b.x - minX;
-        var minY = Mathf.Min(a.y, b.y);
-        var maxY = a.y + b.y - minY;
-        rect = new Rect(minX, minY, maxX - minX, maxY - minY);
-
-        return rect;
+    public void Awake() {
+        camera = GetComponent<BattleViewCamera>();
+        Assert.IsTrue(camera);
     }
 
     [ContextMenu(nameof(FindSpawnPoints))]
@@ -83,21 +31,33 @@ public class BattleView : MonoBehaviour {
 
     public void Setup(UnitView unitViewPrefab, int count) {
 
-        camera = GetComponentInChildren<Camera>();
-        Assert.IsTrue(camera);
-
-        if (battleViewPostProcessProfile)
-            colorGrading = battleViewPostProcessProfile.GetSetting<ColorGrading>();
-
         Assert.IsTrue(count <= spawnPoints.Length);
         Assert.IsTrue(unitViewPrefab);
+        
+        Cleanup();
 
         for (var i = 0; i < count; i++) {
             var spawnPoint = spawnPoints[i];
             var unitView = Instantiate(unitViewPrefab, spawnPoint.position, spawnPoint.rotation, transform);
             unitView.gameObject.SetLayerRecursively(gameObject.layer);
+            unitView.PlaceOnTerrain();
             unitViews.Add(unitView);
         }
+
+        if (shuffleUnitViews)
+            unitViews = unitViews.OrderBy(_ => Random.value).ToList();
+
+        if (unitViews.Count > 0) {
+            var manualControl = unitViews[0].GetComponent<ManualControl>();
+            if (manualControl)
+                manualControl.enabled = true;
+        }
+    }
+
+    public void Cleanup() {
+        foreach (var unitView in unitViews)
+            Destroy(unitView.gameObject);
+        unitViews.Clear();
     }
 
     public void AssignTargets(IList<UnitView> targets) {
@@ -120,38 +80,29 @@ public class BattleView : MonoBehaviour {
         }
 
         foreach (var attacker in impactPoints.Keys)
-            if (attacker.turret && attacker.turret.ballisticComputer)
-                attacker.turret.ballisticComputer.Target = impactPoints[attacker].Random().transform;
+            if (attacker.turret && attacker.turret.computer)
+                attacker.turret.computer.Target = impactPoints[attacker].Random().transform;
     }
 
     public int shooterIndex = -1;
 
     public bool Shoot() {
+        if (unitViews.Count == 0)
+            return false;
         shooterIndex = (shooterIndex + 1) % unitViews.Count;
         var shooter = unitViews[shooterIndex];
-        shooter.turret.Fire(impactPoints[shooter]);
-        return true;
+        if (impactPoints.TryGetValue(shooter, out var list) && list.Count > 0) {
+            shooter.turret.Fire(list);
+            return true;
+        }
+        return false;
     }
 
-    [Range(-1, 1)] public int side = -1;
-
     public void Update() {
-
-        if (Input.GetKeyDown(KeyCode.Alpha0) && side == -1) {
+        if (Input.GetKeyDown(KeyCode.Alpha0))
             Shoot();
-        }
-
-        camera.enabled = camera.rect.width > cameraMinimalRectSize && camera.rect.height > cameraMinimalRectSize;
-
-        if (Input.GetKeyDown(KeyCode.Alpha9)) {
-            if (!camera.enabled)
-                AnimateCameraRect((Color.black, Color.white), (cameraOffscreenRect, cameraRect));
-            else
-                AnimateCameraRect((Color.white, Color.black), (cameraRect, cameraOffscreenRect));
-        }
     }
 }
 
 [Serializable]
-public class TileTypeGameObjectDictionary : SerializableDictionary<TileType, GameObject> {
-}
+public class TileTypeGameObjectDictionary : SerializableDictionary<TileType, GameObject> { }

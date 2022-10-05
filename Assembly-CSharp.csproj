@@ -237,7 +237,7 @@
      <Compile Include="Assets/CommandLine/Antlr4/Dfa/DFA.cs" />
      <Compile Include="Assets/Scripts/Animation/Speedometer.cs" />
      <Compile Include="Assets/SDF Toolkit/Examples/Scripts/CameraDistance.cs" />
-     <Compile Include="Assets/Scripts/WarsPostProcess.cs" />
+     <Compile Include="Assets/Scripts/PostProcessing.cs" />
      <Compile Include="Assets/Scripts/Palette.cs" />
      <Compile Include="Assets/CommandLine/Parsers/Butjok/CommandLine/Parsers/CommandLineBaseVisitor.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/BailErrorStrategy.cs" />
@@ -402,6 +402,8 @@
      <Compile Include="Assets/Scripts/Animation/LookAt.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/PlusBlockStartState.cs" />
      <Compile Include="Assets/Scripts/Animation/PistonBody.cs" />
+     <Compile Include="Assets/Scripts/BattleViewCamera.cs" />
+     <Compile Include="Assets/Scripts/PostProcessingFade.cs" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />
      <None Include="Assets/Shaders/My First Lighting Shader.shader" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader" />

@@ -16,6 +16,9 @@ public class Projectile : MonoBehaviour {
 
 			foreach (var impactPoint in impactPoints) {
 
+				if (!impactPoint)
+					continue;
+				
 				if (impactPrefab) {
 					var impact = Instantiate(impactPrefab, impactPoint.transform.position, impactPoint.transform.rotation);
 					impact.Play();
