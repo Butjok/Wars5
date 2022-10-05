@@ -52303,8 +52303,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 210.45956, y: 246.95837}
-  m_SizeDelta: {x: 204.81654, y: 91.58234}
+  m_AnchoredPosition: {x: 249.80652, y: 246.95837}
+  m_SizeDelta: {x: 204.89609, y: 91.58234}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &854730333
 MonoBehaviour:
@@ -83316,7 +83316,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minimapMeshGenerator: {fileID: 1354915080}
-  showDialogue: 1
+  showDialogue: 0
 --- !u!1 &1238864975
 GameObject:
   m_ObjectHideFlags: 1
@@ -139834,7 +139834,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 51258076789849872, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 140.95847
+      value: 141.01315
       objectReference: {fileID: 0}
     - target: {fileID: 51258076789849872, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_SizeDelta.y
@@ -139842,7 +139842,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 51258076789849872, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 294.57175
+      value: 333.95142
       objectReference: {fileID: 0}
     - target: {fileID: 51258076789849872, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_AnchoredPosition.y

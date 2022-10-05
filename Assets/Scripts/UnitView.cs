@@ -92,15 +92,16 @@ public class UnitView : MonoBehaviour {
         renderers = GetComponentsInChildren<Renderer>();
 
         wheels = GetComponentsInChildren<Wheel>();
-        wheelPistons = wheels.Select(wheel => wheel.GetComponent<Piston>()).Distinct().Where(piston=>piston).ToArray();
+        wheelPistons = wheels.Select(wheel => wheel.GetComponent<Piston>()).Distinct().Where(piston => piston).ToArray();
         body = GetComponentInChildren<Body>();
     }
 
-    public void PlaceOnTerrain() {
+    public void PlaceOnTerrain(bool resetPistons = false) {
         foreach (var wheel in wheels)
             wheel.Update();
-        foreach (var wheelPiston in wheelPistons)
-            wheelPiston.Reset();
+        if (resetPistons)
+            foreach (var wheelPiston in wheelPistons)
+                wheelPiston.Reset();
         body.Update();
     }
 
@@ -174,7 +175,7 @@ public class UnitView : MonoBehaviour {
     }
 
     public void Die() {
-        transform.DOPunchPosition(Vector3.one/5, .5f).OnComplete(() => {
+        transform.DOPunchPosition(Vector3.one / 5, .5f).OnComplete(() => {
             unit.Dispose();
             unit = null;
         });

@@ -44,7 +44,7 @@ public class BattleView : MonoBehaviour {
             var spawnPoint = spawnPoints[i];
             var unitView = Instantiate(unitViewPrefab, spawnPoint.position, spawnPoint.rotation, transform);
             unitView.gameObject.SetLayerRecursively(gameObject.layer);
-            unitView.PlaceOnTerrain();
+            unitView.PlaceOnTerrain(true);
             unitViews.Add(unitView);
         }
 

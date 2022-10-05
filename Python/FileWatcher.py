@@ -39,7 +39,6 @@ def parse(event):
         lookup_player[player['id']] = player
         lookup_player[player['color']] = player
         players.append(player)
-
     current_player = players[data['turn'] % len(players)]
     credits = current_player['credits']
 
