@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using Random = UnityEngine.Random;
 
-[RequireComponent(typeof(BattleViewCamera))]
+[RequireComponent(typeof(CameraRectDriver))]
 public class BattleView : MonoBehaviour {
 
     public List<UnitView> unitViews = new();
@@ -15,26 +15,30 @@ public class BattleView : MonoBehaviour {
 
     public Transform[] spawnPoints = Array.Empty<Transform>();
 
-    public TileTypeGameObjectDictionary sceneries = new();
-    public BattleViewCamera camera;
+    public TileTypeGameObjectDictionary backgrounds = new();
+    public GameObject background;
+    public CameraRectDriver cameraRectDriver;
     public bool shuffleUnitViews = true;
-
-    public void Awake() {
-        camera = GetComponent<BattleViewCamera>();
-        Assert.IsTrue(camera);
-    }
 
     [ContextMenu(nameof(FindSpawnPoints))]
     public void FindSpawnPoints() {
         spawnPoints = GetComponentsInChildren<Transform>().Where(t => t.name.StartsWith("SpawnPoint")).ToArray();
     }
 
-    public void Setup(UnitView unitViewPrefab, int count) {
+    public void Awake() {
+        cameraRectDriver = GetComponent<CameraRectDriver>();
+        Assert.IsTrue(cameraRectDriver);
+    }
+
+    public void Setup(UnitView unitViewPrefab, int count, TileType tileType = TileType.Plain) {
 
         Assert.IsTrue(count <= spawnPoints.Length);
         Assert.IsTrue(unitViewPrefab);
         
         Cleanup();
+        
+        if (backgrounds.TryGetValue(tileType, out  background) && background)
+            background.SetActive(true);
 
         for (var i = 0; i < count; i++) {
             var spawnPoint = spawnPoints[i];
@@ -55,6 +59,10 @@ public class BattleView : MonoBehaviour {
     }
 
     public void Cleanup() {
+        
+        if (background)
+            background.SetActive(false);
+        
         foreach (var unitView in unitViews)
             Destroy(unitView.gameObject);
         unitViews.Clear();

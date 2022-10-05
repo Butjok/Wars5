@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Rendering.PostProcessing;
 
-public class BattleViewCamera : MonoBehaviour {
+public class CameraRectDriver : MonoBehaviour {
 
     public Camera camera;
     public Color fadeColor = Color.black;
@@ -25,13 +25,6 @@ public class BattleViewCamera : MonoBehaviour {
     public void Awake() {
         camera = GetComponentInChildren<Camera>();
         Assert.IsTrue(camera);
-    }
-
-    public int Layer {
-        set {
-            gameObject.SetLayerRecursively(value);
-            camera.cullingMask = value;
-        }
     }
 
     public Rect TransformRect(Rect rect) {

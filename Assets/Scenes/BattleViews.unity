@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.22389415, g: 0.23828247, b: 0.30262375, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -10216,8 +10216,6 @@ MonoBehaviour:
   unitViewPrefab: {fileID: 9102701131239654383, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
   countLeft: 5
   countRight: 2
-  fadeColor: {r: 0, g: 0, b: 0, a: 1}
-  fadeDuration: 0.5
   mainCamera: {fileID: 0}
   visible: 0
 --- !u!4 &250976659
@@ -10351,7 +10349,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &359083438
 Transform:
@@ -15876,10 +15874,11 @@ MonoBehaviour:
   - {fileID: 651613558}
   - {fileID: 245632012}
   - {fileID: 196290144}
-  sceneries:
+  backgrounds:
     m_keys: 
     m_values: []
-  camera: {fileID: 0}
+  background: {fileID: 0}
+  cameraRectDriver: {fileID: 0}
   shuffleUnitViews: 1
   shooterIndex: -1
 --- !u!4 &586417245
@@ -16042,11 +16041,12 @@ MonoBehaviour:
   - {fileID: 222007781}
   - {fileID: 1853603555}
   - {fileID: 1124960243}
-  sceneries:
+  backgrounds:
     m_keys: 01000000
     m_values:
-    - {fileID: 0}
-  camera: {fileID: 0}
+    - {fileID: 1063363274}
+  background: {fileID: 0}
+  cameraRectDriver: {fileID: 0}
   shuffleUnitViews: 1
   shooterIndex: -1
 --- !u!4 &859489839
@@ -35916,7 +35916,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1063363275
 Transform:
   m_ObjectHideFlags: 0

@@ -45,8 +45,8 @@ public class BattleViewTest : MonoBehaviour {
 			yield return null;
 			yield return null;
 
-			battleViewLeft.camera.Show();
-			battleViewRight.camera.Show();
+			battleViewLeft.cameraRectDriver.Show();
+			battleViewRight.cameraRectDriver.Show();
 		}
 	}
 
@@ -54,8 +54,8 @@ public class BattleViewTest : MonoBehaviour {
 		
 		get {
 
-			battleViewLeft.camera.Hide();
-			battleViewRight.camera.Hide();
+			battleViewLeft.cameraRectDriver.Hide();
+			battleViewRight.cameraRectDriver.Hide();
 			
 			battleViewLeft.Cleanup();
 			battleViewRight.Cleanup();
