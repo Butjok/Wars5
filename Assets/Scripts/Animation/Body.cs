@@ -19,9 +19,13 @@ public class Body : MonoBehaviour {
 	[Range(-1, 1)] public float rollAxisMultiplier = 1;
 	[Range(-1, 1)] public float pitchAxisMultiplier = 1;
 
-	[ContextMenu(nameof(Awake))]
-	public void Awake() {
+	private bool initialized;
 
+	private void EnsureInitialized() {
+		
+		if (initialized)
+			return;
+		
 		rollAxis.Clear();
 		pitchAxis.Clear();
 		pistons.Clear();
@@ -53,10 +57,18 @@ public class Body : MonoBehaviour {
 		}
 
 		pistons = pistons.Distinct().ToList();
+		
+		initialized = true;
+	}
+	
+	private void Awake() {
+		EnsureInitialized();
 	}
 
 	public void Update() {
 
+		EnsureInitialized();
+		
 		if (pistons.Count > 0) {
 			var center = Vector3.zero;
 			foreach (var piston in pistons)

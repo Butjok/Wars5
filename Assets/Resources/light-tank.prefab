@@ -288,7 +288,7 @@ MonoBehaviour:
   force: 1000
   drag: 25
   velocity: 0
-  maxVelocity: 180
+  maxVelocity: 90
   angle: 0
 --- !u!64 &1828457374552604452
 MeshCollider:
@@ -3340,6 +3340,7 @@ GameObject:
   - component: {fileID: 2933954904251469576}
   - component: {fileID: 2966008283778994451}
   - component: {fileID: 7239151986368011813}
+  - component: {fileID: 7370819031783772978}
   m_Layer: 0
   m_Name: light-tank
   m_TagString: Untagged
@@ -3388,7 +3389,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 429cb5d29afe47d798eb131265f72fc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderers: []
+  renderers:
+  - {fileID: 218588814641761440}
+  - {fileID: 4967715889668970084}
+  - {fileID: 5774536484831300503}
+  - {fileID: 3010856438883841026}
+  - {fileID: 6495260664359497479}
+  - {fileID: 2727000381850648669}
+  - {fileID: 4661962506992715381}
+  - {fileID: 1322155759734371321}
+  - {fileID: 4451108775417102253}
+  - {fileID: 1952600549535818395}
+  - {fileID: 1980071125852411347}
+  - {fileID: 507076282505568713}
+  - {fileID: 2557971680895779613}
+  - {fileID: 2334993472895875024}
+  - {fileID: 594808370207706921}
+  - {fileID: 6348648672190687634}
+  - {fileID: 2457252644629515357}
+  - {fileID: 7597144787180000158}
+  - {fileID: 355757384883564234}
+  - {fileID: 8878506170019513492}
+  - {fileID: 927793564289675771}
+  - {fileID: 8132584864149396507}
+  - {fileID: 6049345971769395557}
   blinkCurve:
     serializedVersion: 2
     m_Curve: []
@@ -3396,20 +3420,41 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   steeringArms: []
-  wheels: []
-  wheelPistons: []
-  walker: {fileID: 0}
+  wheels:
+  - {fileID: 9102701130203495310}
+  - {fileID: 9102701130013898745}
+  - {fileID: 9102701131271996374}
+  - {fileID: 9102701131624898948}
+  - {fileID: 9102701129804593484}
+  - {fileID: 9102701131156210687}
+  - {fileID: 9102701130869312525}
+  - {fileID: 9102701130077438539}
+  - {fileID: 9102701130318977675}
+  - {fileID: 9102701130387827162}
+  - {fileID: 9102701130401598987}
+  - {fileID: 9102701129692199447}
+  - {fileID: 9102701130370694790}
+  - {fileID: 9102701130222910140}
+  wheelPistons:
+  - {fileID: 9102701129804593487}
+  - {fileID: 9102701131156210674}
+  - {fileID: 9102701130869312512}
+  - {fileID: 9102701130077438542}
+  - {fileID: 9102701130318977678}
+  - {fileID: 9102701130387827165}
+  - {fileID: 9102701130401598990}
+  - {fileID: 9102701129692199434}
+  - {fileID: 9102701130370694841}
+  - {fileID: 9102701130222910143}
+  walker: {fileID: 9102701129914540530}
   turret: {fileID: 2966008283778994451}
-  center: {fileID: 4622332910155901238}
-  body: {fileID: 0}
+  center: {fileID: 7309110000328453102}
+  body: {fileID: 9102701130869312513}
   prefab: {fileID: 0}
-  hpText: {fileID: 2984647935031398593}
-  impactPoints:
-  - {fileID: 3731140183356379331}
-  - {fileID: 5981234929664466471}
-  - {fileID: 749802028264714239}
-  - {fileID: 369387092379327295}
+  hpText: {fileID: 0}
+  impactPoints: []
   bodyTorque: {fileID: 9102701130869312519}
+  moveAndShoot: {fileID: 7370819031783772978}
   movedTint: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
   nextPosition: {x: 0, y: 0}
   nextRotation: {x: 0, y: 0}
@@ -3506,6 +3551,55 @@ MonoBehaviour:
   factor: -2
   clamp: 1
   maxTorque: 20
+--- !u!114 &7370819031783772978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8255700248535380302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d414ede6cff4560a5fd86748e28dd79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actions:
+  - type: 3
+    durationRange: {x: 0, y: 0}
+    floatValueRange: {x: 0, y: 0}
+    boolValueProbability: 0
+  - type: 0
+    durationRange: {x: 0, y: 0}
+    floatValueRange: {x: 0.5, y: 0.5}
+    boolValueProbability: 0
+  - type: 6
+    durationRange: {x: 0.5, y: 1}
+    floatValueRange: {x: 0, y: 30}
+    boolValueProbability: 0
+  - type: 3
+    durationRange: {x: 0, y: 0}
+    floatValueRange: {x: 0, y: 0}
+    boolValueProbability: 1
+  - type: 6
+    durationRange: {x: 0.5, y: 0.5}
+    floatValueRange: {x: 0, y: 0}
+    boolValueProbability: 0
+  - type: 2
+    durationRange: {x: 0, y: 0}
+    floatValueRange: {x: 1, y: 1}
+    boolValueProbability: 1
+  - type: 6
+    durationRange: {x: 0.33, y: 0.33}
+    floatValueRange: {x: 0, y: 0}
+    boolValueProbability: 1
+  - type: 4
+    durationRange: {x: 0, y: 0}
+    floatValueRange: {x: 0, y: 0}
+    boolValueProbability: 1
+  speed: 0
+  acceleration: 0
+  steeringSpeed: 0
+  unitView: {fileID: 0}
 --- !u!1 &8368482287768561904
 GameObject:
   m_ObjectHideFlags: 0
@@ -4414,19 +4508,19 @@ PrefabInstance:
       objectReference: {fileID: 3978655096192631730}
     - target: {fileID: 5793958539712425122, guid: fb3d0e4b87008f747afef3004299e118, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 133.70642
+      value: 138.8859
       objectReference: {fileID: 0}
     - target: {fileID: 5793958539712425122, guid: fb3d0e4b87008f747afef3004299e118, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 54.969543
+      value: 57.098938
       objectReference: {fileID: 0}
     - target: {fileID: 5793958539712425122, guid: fb3d0e4b87008f747afef3004299e118, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 127.4548
+      value: -25.225554
       objectReference: {fileID: 0}
     - target: {fileID: 5793958539712425122, guid: fb3d0e4b87008f747afef3004299e118, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 629.6101
+      value: 653.9996
       objectReference: {fileID: 0}
     - target: {fileID: 7216561255274665977, guid: fb3d0e4b87008f747afef3004299e118, type: 3}
       propertyPath: m_Pivot.x
@@ -4514,17 +4608,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fb3d0e4b87008f747afef3004299e118, type: 3}
---- !u!114 &2984647935031398593 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8770132525427032947, guid: fb3d0e4b87008f747afef3004299e118, type: 3}
-  m_PrefabInstance: {fileID: 5827196582898684850}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &3816867003062649931 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7216561255274665977, guid: fb3d0e4b87008f747afef3004299e118, type: 3}

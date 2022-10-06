@@ -49,6 +49,8 @@ public class BattleViewTest : MonoBehaviour {
 
 			battleViewLeft.cameraRectDriver.Show();
 			battleViewRight.cameraRectDriver.Show();
+			
+			battleViewLeft.MoveAndShoot();
 		}
 	}
 

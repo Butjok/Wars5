@@ -106,6 +106,11 @@ public class BattleView : MonoBehaviour {
         return false;
     }
 
+    public void MoveAndShoot() {
+        foreach (var unitView in unitViews)
+            unitView.moveAndShoot.Play(impactPoints[unitView]);
+    }
+
     public void Update() {
         if (Input.GetKeyDown(KeyCode.Alpha0))
             Shoot();

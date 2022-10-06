@@ -22,11 +22,7 @@ public class Wheel : MonoBehaviour {
 
     [HideInInspector] public float spinAngle;
 
-    [ContextMenu("Clear")]
-    public void Awake() {
-
-        spinAngle = Random.Range(0, 360);
-
+    public void EnsureInitialized() {
         if (!rayOrigin)
             rayOrigin = transform.parent;
 
@@ -44,6 +40,11 @@ public class Wheel : MonoBehaviour {
             if (view)
                 body = view.GetComponentInChildren<Body>();
         }
+    }
+    
+    public void Start() {
+        EnsureInitialized();
+        spinAngle = Random.Range(0, 360);
     }
 
     public Vector2 scale = new Vector2(25, 25);

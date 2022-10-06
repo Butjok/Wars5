@@ -25,6 +25,7 @@ public class UnitView : MonoBehaviour {
     public TMP_Text hpText;
     public ImpactPoint[] impactPoints = Array.Empty<ImpactPoint>();
     public BodyTorque bodyTorque;
+    public UnitViewAnimationSequence moveAndShoot;
 
     public Color movedTint = Color.white / 2;
 
@@ -80,23 +81,34 @@ public class UnitView : MonoBehaviour {
         }
     }
 
-    public void Awake() {
-
+    public void EnsureInitialized() {
         walker = GetComponentInChildren<MovePathWalker>();
         Assert.IsTrue(walker);
+        
         turret = GetComponentInChildren<Turret>();
 
         steeringArms = GetComponentsInChildren<SteeringArm>();
-
-        propertyBlock = new MaterialPropertyBlock();
+        
         renderers = GetComponentsInChildren<Renderer>();
 
         wheels = GetComponentsInChildren<Wheel>();
+        foreach (var wheel in  wheels)
+            wheel.EnsureInitialized();
+        
         wheelPistons = wheels.Select(wheel => wheel.GetComponent<Piston>()).Distinct().Where(piston => piston).ToArray();
         body = GetComponentInChildren<Body>();
+
+        impactPoints = GetComponentsInChildren<ImpactPoint>();
+    }
+    
+    public void Awake() {
+        propertyBlock = new MaterialPropertyBlock();
     }
 
     public void PlaceOnTerrain(bool resetPistons = false) {
+        
+        EnsureInitialized();
+        
         foreach (var wheel in wheels)
             wheel.Update();
         if (resetPistons)
