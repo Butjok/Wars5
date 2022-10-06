@@ -36,7 +36,7 @@ public class InstancedMeshRenderer : MonoBehaviour {
 				Debug.LogWarning($"Empty material for submesh {i}.", this);
 				continue;
 			}
-			Graphics.DrawMeshInstancedProcedural(mesh, i, materials[i], transformList.bounds, transformList.matrices.Length, materialPropertyBlock);
+			Graphics.DrawMeshInstancedProcedural(mesh, i, materials[i], transformList.bounds, transformList.matrices.Length, materialPropertyBlock, layer:gameObject.layer);
 		}
 	}
 
