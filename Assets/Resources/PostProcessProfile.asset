@@ -1520,7 +1520,7 @@ MonoBehaviour:
     overrideState: 1
     value: 5
   distanceFade:
-    overrideState: 0
+    overrideState: 1
     value: 0
   vignette:
     overrideState: 0
@@ -1546,7 +1546,7 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 1.4
+    value: 1.25
   color:
     overrideState: 0
     value: {r: 0, g: 0, b: 0, a: 1}
