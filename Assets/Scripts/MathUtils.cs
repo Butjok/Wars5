@@ -110,6 +110,9 @@ public static class MathUtils {
 		Assert.IsTrue(result >= 0);
 		return result;
 	}
+	public static float Wrap360(this float value) {
+		return (value % 360 + 360) % 360;
+	}
 
 	public static int Sign(this float value) {
 		return value > 0 ? 1 : -1;

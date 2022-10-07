@@ -1,17 +1,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(UnitView))]
-public class UnitViewAnimationSequence : MonoBehaviour {
+public class UnitViewSequencePlayer : MonoBehaviour {
 
-    [TextArea(20, 20)]
-    public string sequence = "";
+    [FormerlySerializedAs("sequence")] [TextArea(20, 20)]
+    public string input = "";
 
     [Space]
     public float speed;
@@ -30,51 +29,59 @@ public class UnitViewAnimationSequence : MonoBehaviour {
         Assert.IsTrue(unitView);
     }
 
-    public void Play(int spawnPointIndex, int shuffledIndex, List<ImpactPoint> impactPoints = null) {
+    public void Play(int spawnPointIndex = -1, int shuffledIndex = -1, List<ImpactPoint> impactPoints = null) {
         EnsureInitialized();
-        StartCoroutine(Sequence(spawnPointIndex, shuffledIndex, impactPoints));
+        StartCoroutine(Execute(spawnPointIndex, shuffledIndex, impactPoints));
     }
 
-    private IEnumerator Sequence(int spawnPointIndex, int shuffledIndex, List<ImpactPoint> impactPoints) {
+    private IEnumerator Execute(int index = -1, int shuffledIndex = -1, List<ImpactPoint> impactPoints = null) {
 
-        var parts = sequence.Trim().Split(new[] { ' ', '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+        if (string.IsNullOrWhiteSpace(input))
+            yield break;
+
+        var tokens = input.Split(new[] { ' ', '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
         var stack = new Stack<float>();
 
-        foreach (var part in parts) {
+        foreach (var token in tokens) {
 
-            if (float.TryParse(part, out var value))
-                stack.Push(value);
+            if (float.TryParse(token, out var floatValue))
+                stack.Push(floatValue);
 
             else
-                switch (part) {
-
-                    case "spawnPointIndex":
-                        stack.Push(spawnPointIndex);
-                        break;
-
-                    case "shuffledIndex":
-                        stack.Push(shuffledIndex);
-                        break;
+                switch (token) {
 
                     case "+":
                     case "-":
                     case "*":
-                    case "/":
-                    case "random":
-
-                        Assert.IsTrue(stack.Count >= 2);
+                    case "/": {
                         var b = stack.Pop();
                         var a = stack.Pop();
-
-                        stack.Push(part switch {
+                        stack.Push(token switch {
                             "+" => a + b,
                             "-" => a - b,
                             "*" => a * b,
-                            "/" => a / b,
-                            "random" => Random.Range(a, b)
+                            "/" => a / b
                         });
                         break;
-                    
+                    }
+
+                    case "spawnPointIndex":
+                        Assert.AreNotEqual(-1, index);
+                        stack.Push(index);
+                        break;
+
+                    case "shuffledIndex":
+                        Assert.AreNotEqual(-1, shuffledIndex);
+                        stack.Push(shuffledIndex);
+                        break;
+
+                    case "random": {
+                        var b = stack.Pop();
+                        var a = stack.Pop();
+                        stack.Push(Random.Range(a, b));
+                        break;
+                    }
+
                     case "setSpeed":
                         speed = stack.Pop();
                         break;
@@ -116,9 +123,11 @@ public class UnitViewAnimationSequence : MonoBehaviour {
                         break;
 
                     default:
-                        throw new ArgumentOutOfRangeException(part);
+                        throw new ArgumentOutOfRangeException(token);
                 }
         }
+
+        Assert.AreEqual(0, stack.Count);
     }
 
     private void Update() {

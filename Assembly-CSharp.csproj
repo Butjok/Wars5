@@ -52,6 +52,7 @@
      <Compile Include="Assets/Scripts/DynamicShadowDistance.cs" />
      <Compile Include="Assets/CommandLine/AssemblyInfo.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/AbstractPredicateTransition.cs" />
+     <Compile Include="Assets/Scripts/Animation/UnitViewSequencePlayer.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/PredicateEvalInfo.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/ArrayPredictionContext.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/CommonTokenStream.cs" />
@@ -72,8 +73,8 @@
      <Compile Include="Assets/Scripts/Animation/TerrainBumpiness.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/LexerCustomAction.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Tree/Pattern/ParseTreePatternMatcher.cs" />
-     <Compile Include="Assets/Scripts/Animation/Bird.cs" />
      <Compile Include="Assets/Scripts/Level/Mouse.cs" />
+     <Compile Include="Assets/Scripts/Animation/Bird.cs" />
      <Compile Include="Assets/Scripts/Animation/MovePath.cs" />
      <Compile Include="Assets/Scripts/LevelLogic/TutorialLevelLogic.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/ParseInfo.cs" />
@@ -169,6 +170,7 @@
      <Compile Include="Assets/CommandLine/Antlr4/Misc/NullableAttribute.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/StarLoopEntryState.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Misc/IntervalSet.cs" />
+     <Compile Include="Assets/Scripts/ConstantShadowDistance.cs" />
      <Compile Include="Assets/Scripts/InstancedRenderer.cs" />
      <Compile Include="Assets/Scripts/Level/LayerMasks.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Tree/Pattern/TagChunk.cs" />
@@ -293,6 +295,7 @@
      <Compile Include="Assets/SDF Toolkit/Examples/Scripts/Rotater.cs" />
      <Compile Include="Assets/CommandLine/Commands.Exceptions.cs" />
      <Compile Include="Assets/Scripts/TangentSpaceVisualizer.cs" />
+     <Compile Include="Assets/Scripts/SubsceneRoot.cs" />
      <Compile Include="Assets/Scripts/Trail.cs" />
      <Compile Include="Assets/CommandLine/Colorizer.cs" />
      <Compile Include="Assets/Scripts/InteropTest.cs" />
@@ -315,6 +318,7 @@
      <Compile Include="Assets/CommandLine/Antlr4/Misc/IIntSet.cs" />
      <Compile Include="Assets/Scripts/GameStates/UnitBuildingState.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/LexerATNSimulator.cs" />
+     <Compile Include="Assets/Scripts/LoadSubscene.cs" />
      <Compile Include="Assets/CommandLine/Parsers/CommandLineVisitor.cs" />
      <Compile Include="Assets/Scripts/NewBehaviourScript.cs" />
      <Compile Include="Assets/Scripts/UnitActionUiContainer.cs" />
@@ -331,6 +335,7 @@
      <Compile Include="Assets/CommandLine/Antlr4/Atn/LexerActionExecutor.cs" />
      <Compile Include="Assets/Scripts/LevelLogic/DefaultLevelLogic.cs" />
      <Compile Include="Assets/Scripts/GameStates/ActionSelectionState.cs" />
+     <Compile Include="Assets/Scripts/Animation/UnitViewSequencesPlayer.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/TokensStartState.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/RuleStopState.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Lexer.cs" />
@@ -343,6 +348,7 @@
      <Compile Include="Assets/CommandLine/Antlr4/IWritableToken.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/StateType.cs" />
      <Compile Include="Assets/Scripts/Animation/ExplosionTracer.cs" />
+     <Compile Include="Assets/Scripts/FlipCamera.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/AntlrInputStream.cs" />
      <Compile Include="Assets/Scripts/Animation/BodyTorque.cs" />
      <Compile Include="Assets/Scripts/TargetFpsSetter.cs" />
@@ -404,12 +410,7 @@
      <Compile Include="Assets/Scripts/Animation/LookAt.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/PlusBlockStartState.cs" />
      <Compile Include="Assets/Scripts/Animation/PistonBody.cs" />
-     <Compile Include="Assets/Scripts/Animation/UnitViewAnimationSequence.cs" />
-     <Compile Include="Assets/Scripts/Animation/UnitViewAnimationSequenceAutoPlay.cs" />
-     <Compile Include="Assets/Scripts/LoadSubscene.cs" />
-     <Compile Include="Assets/Scripts/SubsceneRoot.cs" />
-     <Compile Include="Assets/Scripts/FlipCamera.cs" />
-     <Compile Include="Assets/Scripts/ConstantShadowDistance.cs" />
+     <Compile Include="Assets/Scripts/PostfixInterpreter.cs" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />
      <None Include="Assets/Shaders/My First Lighting Shader.shader" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader" />
@@ -1373,6 +1374,9 @@
      <Reference Include="Unity.VisualScripting.Flow.Editor">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.VisualScripting.Flow.Editor.dll</HintPath>
      </Reference>
+     <Reference Include="SimpleMinMaxSlider">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/SimpleMinMaxSlider.dll</HintPath>
+     </Reference>
      <Reference Include="Unity.VSCode.Editor">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
      </Reference>
@@ -1495,9 +1499,6 @@
      </Reference>
      <Reference Include="Unity.VisualScripting.State">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.VisualScripting.State.dll</HintPath>
-     </Reference>
-     <Reference Include="SimpleMinMaxSlider">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/SimpleMinMaxSlider.dll</HintPath>
      </Reference>
   </ItemGroup>
   <ItemGroup>
