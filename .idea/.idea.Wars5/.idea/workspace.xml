@@ -1,30 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="sdfsdfdsfsdfdsf">
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/FlipCamera.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/FlipCamera.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/LoadSubscene.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/LoadSubscene.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/SubsceneRoot.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/SubsceneRoot.cs.meta" afterDir="false" />
+    <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="hjgjghjghj">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assembly-CSharp.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/BattleView/PlainTerrain.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/BattleView/PlainTerrain.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/PostProcessProfile.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/PostProcessProfile.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Resources/light-tank.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/light-tank.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/BattleViews.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/BattleViews.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Movement.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Movement.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Plain.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Plain.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Plain/LightingData.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Plain/LightingData.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Plain/Lightmap-0_comp_light.exr" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Plain/Lightmap-0_comp_light.exr" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Plain/ReflectionProbe-0.exr" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Plain/ReflectionProbe-0.exr" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Plain/ReflectionProbe-1.exr" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Plain/ReflectionProbe-1.exr" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Animation/Piston.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Animation/Piston.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Animation/Turret.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Animation/Turret.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Animation/UnitViewAnimationSequence.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Animation/UnitViewAnimationSequence.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Animation/UnitViewAnimationSequenceAutoPlay.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Animation/UnitViewAnimationSequenceAutoPlay.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/BattleView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/BattleView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/BattleViewTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/BattleViewTest.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CameraRectDriver.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CameraRectDriver.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/RiderScriptEditorPersistedState.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/RiderScriptEditorPersistedState.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" afterDir="false" />
     </list>
@@ -230,14 +222,7 @@
       <workItem from="1664967616138" duration="329000" />
       <workItem from="1665040557464" duration="643000" />
       <workItem from="1665053369529" duration="412000" />
-      <workItem from="1665053789241" duration="14485000" />
-    </task>
-    <task id="LOCAL-00073" summary="GOOD COMMIT GOOD LOOK">
-      <created>1663450917326</created>
-      <option name="number" value="00073" />
-      <option name="presentableId" value="LOCAL-00073" />
-      <option name="project" value="LOCAL" />
-      <updated>1663450917326</updated>
+      <workItem from="1665053789241" duration="21227000" />
     </task>
     <task id="LOCAL-00074" summary="TEST LOOK">
       <created>1663465794664</created>
@@ -575,7 +560,14 @@
       <option name="project" value="LOCAL" />
       <updated>1665097748006</updated>
     </task>
-    <option name="localTasksCounter" value="122" />
+    <task id="LOCAL-00122" summary="hjgjghjghj">
+      <created>1665110968287</created>
+      <option name="number" value="00122" />
+      <option name="presentableId" value="LOCAL-00122" />
+      <option name="project" value="LOCAL" />
+      <updated>1665110968287</updated>
+    </task>
+    <option name="localTasksCounter" value="123" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -598,7 +590,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="lksjdfoiwuer" />
     <MESSAGE value="lkdjfglkdjfg" />
     <MESSAGE value="lkjgrhljkhfgflghjkhgf" />
     <MESSAGE value="oiwueroiwuer" />
@@ -623,7 +614,8 @@
     <MESSAGE value="fghfghfghfghfghfgh" />
     <MESSAGE value="sdfsdfsdf" />
     <MESSAGE value="sdfsdfdsfsdfdsf" />
-    <option name="LAST_COMMIT_MESSAGE" value="sdfsdfdsfsdfdsf" />
+    <MESSAGE value="hjgjghjghj" />
+    <option name="LAST_COMMIT_MESSAGE" value="hjgjghjghj" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

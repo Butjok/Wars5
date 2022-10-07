@@ -10,6 +10,7 @@ using Random = UnityEngine.Random;
 public class BattleView : MonoBehaviour {
 
     public List<UnitView> unitViews = new();
+    public List<UnitView> shuffledUnitViews = new();
     public Dictionary<UnitView, List<ImpactPoint>> impactPoints = new();
 
     public Transform[] spawnPoints = Array.Empty<Transform>();
@@ -51,9 +52,8 @@ public class BattleView : MonoBehaviour {
             unitViews.Add(unitView);
         }
 
-        if (shuffleUnitViews)
-            unitViews = unitViews.OrderBy(_ => Random.value).ToList();
-
+        shuffledUnitViews = shuffleUnitViews ? unitViews.OrderBy(_ => Random.value).ToList() : unitViews;
+        
         if (unitViews.Count > 0) {
             var manualControl = unitViews[0].GetComponent<ManualControl>();
             if (manualControl)
@@ -68,6 +68,7 @@ public class BattleView : MonoBehaviour {
         foreach (var unitView in unitViews)
             Destroy(unitView.gameObject);
         unitViews.Clear();
+        shuffledUnitViews.Clear();
     }
 
     public void AssignTargets(IList<UnitView> targets) {
@@ -104,15 +105,17 @@ public class BattleView : MonoBehaviour {
         shooterIndex = (shooterIndex + 1) % unitViews.Count;
         var shooter = unitViews[shooterIndex];
         if (impactPoints.TryGetValue(shooter, out var list) && list.Count > 0) {
-            shooter.turret.Fire(list);
+            shooter.turret.Shoot(list);
             return true;
         }
         return false;
     }
 
     public void MoveAndShoot() {
-        foreach (var unitView in unitViews)
-            unitView.moveAndShoot.Play(impactPoints[unitView]);
+        for (var i=0;i<unitViews.Count;i++) {
+            var unitView = unitViews[i];
+            unitView.moveAndShoot.Play(i, shuffledUnitViews.IndexOf(unitView), impactPoints[unitView]);
+        }
     }
 
     public void Update() {

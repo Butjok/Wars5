@@ -1,29 +1,19 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ServiceModel.Dispatcher;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(UnitView))]
 public class UnitViewAnimationSequence : MonoBehaviour {
 
-    public enum ActionType { SetSpeed, Accelerate, Break, Aim, Fire, Steer, Wait, Translate }
+    [TextArea(20, 20)]
+    public string sequence = "";
 
-    [Serializable]
-    public struct Action {
-
-        public ActionType type;
-
-        [Space]
-        public Vector2 durationRange;
-        public Vector2 floatValueRange;
-        [Range(0, 1)]
-        public float boolValueProbability;
-    }
-
-    public List<Action> actions = new();
+    [Space]
     public float speed;
     public float acceleration;
     public float steeringSpeed;
@@ -40,64 +30,94 @@ public class UnitViewAnimationSequence : MonoBehaviour {
         Assert.IsTrue(unitView);
     }
 
-    public void Play(List<ImpactPoint> impactPoints = null) {
+    public void Play(int spawnPointIndex, int shuffledIndex, List<ImpactPoint> impactPoints = null) {
         EnsureInitialized();
-        StartCoroutine(Sequence(impactPoints));
+        StartCoroutine(Sequence(spawnPointIndex, shuffledIndex, impactPoints));
     }
 
-    private IEnumerator Sequence(List<ImpactPoint> impactPoints) {
+    private IEnumerator Sequence(int spawnPointIndex, int shuffledIndex, List<ImpactPoint> impactPoints) {
 
-        foreach (var action in actions) {
+        var parts = sequence.Trim().Split(new[] { ' ', '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+        var stack = new Stack<float>();
 
-            var duration = Random.Range(action.durationRange[0], action.durationRange[1]);
-            var floatValue = Random.Range(action.floatValueRange[0], action.floatValueRange[1]);
-            var boolValue = Random.value <= action.boolValueProbability;
+        foreach (var part in parts) {
 
-            switch (action.type) {
+            if (float.TryParse(part, out var value))
+                stack.Push(value);
 
-                case ActionType.SetSpeed:
-                    speed = floatValue;
-                    break;
+            else
+                switch (part) {
 
-                case ActionType.Accelerate:
-                    acceleration = floatValue;
-                    yield return new WaitForSeconds(duration);
-                    acceleration = 0;
-                    break;
+                    case "spawnPointIndex":
+                        stack.Push(spawnPointIndex);
+                        break;
 
-                case ActionType.Break:
-                    acceleration = -Mathf.Sign(speed) * floatValue;
-                    yield return new WaitForSeconds(Mathf.Abs(speed) / floatValue);
-                    acceleration = 0;
-                    speed = 0;
-                    break;
+                    case "shuffledIndex":
+                        stack.Push(shuffledIndex);
+                        break;
 
-                case ActionType.Aim:
-                    unitView.turret.aim = boolValue;
-                    break;
+                    case "+":
+                    case "-":
+                    case "*":
+                    case "/":
+                    case "random":
 
-                case ActionType.Fire:
-                    if (boolValue)
-                        unitView.turret.Fire(impactPoints);
-                    break;
+                        Assert.IsTrue(stack.Count >= 2);
+                        var b = stack.Pop();
+                        var a = stack.Pop();
 
-                case ActionType.Steer:
-                    steeringSpeed = floatValue;
-                    yield return new WaitForSeconds(duration);
-                    steeringSpeed = 0;
-                    break;
+                        stack.Push(part switch {
+                            "+" => a + b,
+                            "-" => a - b,
+                            "*" => a * b,
+                            "/" => a / b,
+                            "random" => Random.Range(a, b)
+                        });
+                        break;
+                    
+                    case "setSpeed":
+                        speed = stack.Pop();
+                        break;
 
-                case ActionType.Wait:
-                    yield return new WaitForSeconds(duration);
-                    break;
-                
-                case ActionType.Translate:
-                    transform.position += transform.forward * floatValue;
-                    break;
+                    case "accelerate":
+                        acceleration = stack.Pop();
+                        yield return new WaitForSeconds(stack.Pop());
+                        acceleration = 0;
+                        break;
 
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+                    case "break":
+                        acceleration = -Mathf.Sign(speed) * stack.Pop();
+                        yield return new WaitForSeconds(Mathf.Abs(speed / acceleration));
+                        acceleration = 0;
+                        speed = 0;
+                        break;
+
+                    case "aim":
+                        unitView.turret.aim = Random.value <= stack.Pop();
+                        break;
+
+                    case "shoot":
+                        if (Random.value <= stack.Pop())
+                            unitView.turret.Shoot(impactPoints);
+                        break;
+
+                    case "steer":
+                        steeringSpeed = stack.Pop();
+                        yield return new WaitForSeconds(stack.Pop());
+                        steeringSpeed = 0;
+                        break;
+
+                    case "wait":
+                        yield return new WaitForSeconds(stack.Pop());
+                        break;
+
+                    case "translate":
+                        transform.position += transform.forward * stack.Pop();
+                        break;
+
+                    default:
+                        throw new ArgumentOutOfRangeException(part);
+                }
         }
     }
 

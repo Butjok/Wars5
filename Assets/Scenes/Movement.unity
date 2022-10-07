@@ -138,6 +138,7 @@ GameObject:
   - component: {fileID: 1179087483}
   - component: {fileID: 1179087482}
   - component: {fileID: 1179087481}
+  - component: {fileID: 1179087488}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -159,38 +160,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actions:
   - type: 0
-    durationRange: {x: 0, y: 0}
-    floatValueRange: {x: 0, y: 0}
-    boolValueProbability: 0
-    duration: 0
-    floatValue: 0
-    boolValue: 0
+    duration: 
+    value: 0
   - type: 1
-    durationRange: {x: 1.0423734, y: 1.0423734}
-    floatValueRange: {x: 1.82, y: 1.82}
-    boolValueProbability: 0
-    duration: 0.5
-    floatValue: 0
-    boolValue: 0
+    duration: 0.5 2 random
+    value: 1
   - type: 5
-    durationRange: {x: 1, y: 2}
-    floatValueRange: {x: 45, y: 90}
-    boolValueProbability: 0
-    duration: 1
-    floatValue: 0
-    boolValue: 0
+    duration: 0 2 random
+    value: 45
   - type: 2
-    durationRange: {x: 0, y: 0}
-    floatValueRange: {x: 2.5, y: 2.5}
-    boolValueProbability: 0
-    duration: 0
-    floatValue: 0
-    boolValue: 0
+    duration: 
+    value: .5 2 random
   speed: 0
   acceleration: 0
   steeringSpeed: 0
   unitView: {fileID: 0}
-  impactPoints: []
 --- !u!114 &1179087482
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -320,6 +304,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1179087488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1179087480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84638b54c4694072a59ce7af543f8a6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1321019021
 GameObject:
   m_ObjectHideFlags: 0

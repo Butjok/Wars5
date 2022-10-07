@@ -31,7 +31,7 @@ public class Turret : MonoBehaviour {
 		}
 	}
 
-	public void Fire(List<ImpactPoint> impactPoints) {
+	public void Shoot(List<ImpactPoint> impactPoints) {
 
 		Assert.IsTrue(bodyTorque);
 		Assert.IsTrue(computer);

@@ -28,7 +28,7 @@ public class Piston : MonoBehaviour {
         force -= velocity * drag;
         force += forceThisFrame;
         velocity += force * Time.deltaTime;
-
+        
         length += velocity * Time.deltaTime;
         length = Mathf.Clamp(length, clamp[0], clamp[1]);
 
@@ -48,6 +48,6 @@ public class Piston : MonoBehaviour {
         Gizmos.color = Color.yellow;
         Gizmos.DrawLine(transform.position, transform.position + (relativeTo ? relativeTo : transform).TransformDirection(localDirection).normalized * targetLength);
         Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(position, .01f);
+        Gizmos.DrawWireSphere(position, .05f);
     }
 }

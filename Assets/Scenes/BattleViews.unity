@@ -10211,8 +10211,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1edbb46f54234814924a01ebd5380205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  battleViewLeft: {fileID: 859489838}
-  battleViewRight: {fileID: 586417244}
+  left: {fileID: 859489838}
+  right: {fileID: 586417244}
   unitViewPrefab: {fileID: 9102701131239654383, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
   countLeft: 5
   countRight: 2
@@ -15819,17 +15819,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitViews: []
+  shuffledUnitViews: []
   spawnPoints:
   - {fileID: 915509306}
   - {fileID: 612551465}
   - {fileID: 651613558}
   - {fileID: 245632012}
   - {fileID: 196290144}
-  backgrounds:
-    m_keys: 
-    m_values: []
-  background: {fileID: 0}
-  cameraRectDriver: {fileID: 0}
   shuffleUnitViews: 1
   shooterIndex: -1
 --- !u!4 &586417245
@@ -15869,9 +15865,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camera: {fileID: 0}
-  fadeColor: {r: 0, g: 0, b: 0, a: 1}
-  fadeDuration: 2.5
-  fadeEase: 0
   cameraOffscreenRect:
     serializedVersion: 2
     x: 0
@@ -15986,17 +15979,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitViews: []
+  shuffledUnitViews: []
   spawnPoints:
   - {fileID: 2017200141}
   - {fileID: 1470183198}
   - {fileID: 222007781}
   - {fileID: 1853603555}
   - {fileID: 1124960243}
-  backgrounds:
-    m_keys: 
-    m_values: []
-  background: {fileID: 0}
-  cameraRectDriver: {fileID: 0}
   shuffleUnitViews: 1
   shooterIndex: -1
 --- !u!4 &859489839
@@ -16036,9 +16025,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camera: {fileID: 0}
-  fadeColor: {r: 0, g: 0, b: 0, a: 1}
-  fadeDuration: 2.5
-  fadeEase: 0
   cameraOffscreenRect:
     serializedVersion: 2
     x: 0
