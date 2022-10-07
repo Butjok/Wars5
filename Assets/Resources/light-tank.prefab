@@ -428,8 +428,8 @@ MonoBehaviour:
   constantSpinSpeed: 0
   placeOnTerrain: 1
   spinAngle: 0
-  scale: {x: 2.5, y: 2.5}
-  amplitude: 0.05
+  scale: {x: 5, y: 5}
+  amplitude: 0.015
 --- !u!114 &9102701130869312526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -460,7 +460,7 @@ MonoBehaviour:
   targetLength: 0
   clamp: {x: -0.025, y: 0.025}
   force: 250
-  drag: 6
+  drag: 8
   forceThisFrame: 0
   velocity: 0
   position: {x: -2.1349192, y: 2.6143746, z: 2.9624946}
@@ -1034,8 +1034,8 @@ MonoBehaviour:
   constantSpinSpeed: 0
   placeOnTerrain: 1
   spinAngle: 0
-  scale: {x: 2.5, y: 2.5}
-  amplitude: 0.05
+  scale: {x: 5, y: 5}
+  amplitude: 0.015
 --- !u!114 &9102701130370694791
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1066,7 +1066,7 @@ MonoBehaviour:
   targetLength: 0
   clamp: {x: -0.025, y: 0.025}
   force: 250
-  drag: 6
+  drag: 8
   forceThisFrame: 0
   velocity: 0
   position: {x: -2.2513077, y: 2.6143746, z: 2.558672}
@@ -1209,8 +1209,8 @@ MonoBehaviour:
   constantSpinSpeed: 0
   placeOnTerrain: 1
   spinAngle: 0
-  scale: {x: 2.5, y: 2.5}
-  amplitude: 0.05
+  scale: {x: 5, y: 5}
+  amplitude: 0.015
 --- !u!114 &9102701130222910141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1241,7 +1241,7 @@ MonoBehaviour:
   targetLength: 0
   clamp: {x: -0.025, y: 0.025}
   force: 250
-  drag: 6
+  drag: 8
   forceThisFrame: 0
   velocity: 0
   position: {x: -2.3684928, y: 2.6143746, z: 2.558672}
@@ -2051,8 +2051,8 @@ MonoBehaviour:
   constantSpinSpeed: 0
   placeOnTerrain: 1
   spinAngle: 0
-  scale: {x: 2.5, y: 2.5}
-  amplitude: 0.05
+  scale: {x: 5, y: 5}
+  amplitude: 0.015
 --- !u!114 &9102701129804593485
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2083,7 +2083,7 @@ MonoBehaviour:
   targetLength: 0
   clamp: {x: -0.025, y: 0.025}
   force: 250
-  drag: 6
+  drag: 8
   forceThisFrame: 0
   velocity: 0
   position: {x: -1.9025419, y: 2.6143746, z: 2.9624946}
@@ -2415,8 +2415,8 @@ MonoBehaviour:
   constantSpinSpeed: 0
   placeOnTerrain: 1
   spinAngle: 0
-  scale: {x: 2.5, y: 2.5}
-  amplitude: 0.05
+  scale: {x: 5, y: 5}
+  amplitude: 0.015
 --- !u!114 &9102701130077438540
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2447,7 +2447,7 @@ MonoBehaviour:
   targetLength: 0
   clamp: {x: -0.025, y: 0.025}
   force: 250
-  drag: 6
+  drag: 8
   forceThisFrame: 0
   velocity: 0
   position: {x: -2.251307, y: 2.6143746, z: 2.9624946}
@@ -2718,8 +2718,8 @@ MonoBehaviour:
   constantSpinSpeed: 0
   placeOnTerrain: 1
   spinAngle: 0
-  scale: {x: 2.5, y: 2.5}
-  amplitude: 0.05
+  scale: {x: 5, y: 5}
+  amplitude: 0.015
 --- !u!114 &9102701130318977676
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2750,7 +2750,7 @@ MonoBehaviour:
   targetLength: 0
   clamp: {x: -0.025, y: 0.025}
   force: 250
-  drag: 6
+  drag: 8
   forceThisFrame: 0
   velocity: 0
   position: {x: -2.3684921, y: 2.6143746, z: 2.9624946}
@@ -3531,7 +3531,7 @@ MonoBehaviour:
   computer: {fileID: 0}
   restIfImpossible: 1
   restTarget: {fileID: 2696432709506076095}
-  shotForce: 350
+  shotForce: 666
   projectilePrefab: {fileID: -1139725801542862822, guid: 5eac9382ea034ac42913ae88d9c508fa, type: 3}
   bodyTorque: {fileID: 9102701130869312519}
 --- !u!114 &7239151986368011813
@@ -3710,8 +3710,8 @@ MonoBehaviour:
   constantSpinSpeed: 0
   placeOnTerrain: 1
   spinAngle: 0
-  scale: {x: 2.5, y: 2.5}
-  amplitude: 0.05
+  scale: {x: 5, y: 5}
+  amplitude: 0.015
 --- !u!114 &9102701129692199432
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3742,7 +3742,7 @@ MonoBehaviour:
   targetLength: 0
   clamp: {x: -0.025, y: 0.025}
   force: 250
-  drag: 6
+  drag: 8
   forceThisFrame: 0
   velocity: 0
   position: {x: -2.13492, y: 2.6143746, z: 2.558672}
@@ -3916,8 +3916,8 @@ MonoBehaviour:
   constantSpinSpeed: 0
   placeOnTerrain: 1
   spinAngle: 0
-  scale: {x: 2.5, y: 2.5}
-  amplitude: 0.05
+  scale: {x: 5, y: 5}
+  amplitude: 0.015
 --- !u!114 &9102701130387827163
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3948,7 +3948,7 @@ MonoBehaviour:
   targetLength: 0
   clamp: {x: -0.025, y: 0.025}
   force: 250
-  drag: 6
+  drag: 8
   forceThisFrame: 0
   velocity: 0
   position: {x: -1.9025426, y: 2.6143746, z: 2.5586717}
@@ -4091,8 +4091,8 @@ MonoBehaviour:
   constantSpinSpeed: 0
   placeOnTerrain: 1
   spinAngle: 0
-  scale: {x: 2.5, y: 2.5}
-  amplitude: 0.05
+  scale: {x: 5, y: 5}
+  amplitude: 0.015
 --- !u!114 &9102701131156210672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4123,7 +4123,7 @@ MonoBehaviour:
   targetLength: 0
   clamp: {x: -0.025, y: 0.025}
   force: 250
-  drag: 6
+  drag: 8
   forceThisFrame: 0
   velocity: 0
   position: {x: -2.0189297, y: 2.6143746, z: 2.9624946}
@@ -4266,8 +4266,8 @@ MonoBehaviour:
   constantSpinSpeed: 0
   placeOnTerrain: 1
   spinAngle: 0
-  scale: {x: 2.5, y: 2.5}
-  amplitude: 0.05
+  scale: {x: 5, y: 5}
+  amplitude: 0.015
 --- !u!114 &9102701130401598988
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4298,7 +4298,7 @@ MonoBehaviour:
   targetLength: 0
   clamp: {x: -0.025, y: 0.025}
   force: 250
-  drag: 6
+  drag: 8
   forceThisFrame: 0
   velocity: 0
   position: {x: -2.0189304, y: 2.6143746, z: 2.5586717}

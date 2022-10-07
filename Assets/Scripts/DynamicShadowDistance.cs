@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [ExecuteInEditMode]
-public class ShadowQuality : MonoBehaviour {
+public class DynamicShadowDistance : MonoBehaviour {
 	
 	public float maxDistance = 10;
 	public Vector2 rayPosition;

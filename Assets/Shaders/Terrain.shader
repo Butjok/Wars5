@@ -276,7 +276,7 @@ Shader "Custom/Terrain"
             
             // Metallic and smoothness come from slider variables
             o.Metallic = 0;
-            o.Smoothness = 0.1;
+            o.Smoothness = _Glossiness;
             o.Alpha = 1;
 
             //o.Albedo=float3(1,0,0);

@@ -15252,7 +15252,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!215 &120272352
 ReflectionProbe:
   m_ObjectHideFlags: 0
@@ -37298,14 +37298,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 705507993}
-  m_LocalRotation: {x: 0.8008307, y: -0.03277337, z: 0.0384166, w: 0.5967582}
+  m_LocalRotation: {x: 0.8424391, y: -0.03088852, z: 0.03934966, w: 0.5364642}
   m_LocalPosition: {x: -0.062, y: 0.952, z: -0.203}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 15
-  m_LocalEulerAnglesHint: {x: 97.39999, y: 147, z: 1.332}
+  m_LocalEulerAnglesHint: {x: 115, y: -4.5, z: 1.3320007}
 --- !u!114 &705507996
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52304,8 +52304,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 362.11844, y: 547.06415}
-  m_SizeDelta: {x: 453.71115, y: 202.87396}
+  m_AnchoredPosition: {x: 278.0747, y: 419.86465}
+  m_SizeDelta: {x: 348.21747, y: 155.70316}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &854730333
 MonoBehaviour:
@@ -83317,7 +83317,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minimapMeshGenerator: {fileID: 1354915080}
-  showDialogue: 1
+  showDialogue: 0
 --- !u!1 &1238864975
 GameObject:
   m_ObjectHideFlags: 1
@@ -139835,19 +139835,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 51258076789849872, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 312.2522
+      value: 239.64948
       objectReference: {fileID: 0}
     - target: {fileID: 51258076789849872, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 177.91211
+      value: 136.54523
       objectReference: {fileID: 0}
     - target: {fileID: 51258076789849872, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 548.4445
+      value: 421.0775
       objectReference: {fileID: 0}
     - target: {fileID: 51258076789849872, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 574.3776
+      value: 440.8274
       objectReference: {fileID: 0}
     - target: {fileID: 742884794920560503, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_LocalRotation.w
