@@ -1,11 +1,12 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Serialization;
 
 public class BattleViewTest : MonoBehaviour {
 
-	public BattleView battleViewLeft;
-	public BattleView battleViewRight;
+	[FormerlySerializedAs("battleViewLeft")] public BattleView left;
+	[FormerlySerializedAs("battleViewRight")] public BattleView right;
 
 	public UnitView unitViewPrefab;
 
@@ -31,38 +32,55 @@ public class BattleViewTest : MonoBehaviour {
 		}
 	}
 
-	public IEnumerator ShowAnimation {
+	public void Show() {
+		StartCoroutine(ShowAnimation);
+	}
+	public void Hide() {
+		StartCoroutine(HideAnimation);
+	}
+
+	private IEnumerator ShowAnimation {
 		
 		get {
 
 			mainCamera.enabled = false;
 			QualitySettings.shadowDistance = shadowDistance;
 			
-			battleViewLeft.Setup(unitViewPrefab,countLeft);
-			battleViewRight.Setup(unitViewPrefab,countRight);
+			left.Setup(unitViewPrefab,countLeft);
+			right.Setup(unitViewPrefab,countRight);
 			
-			battleViewLeft.AssignTargets(battleViewRight.unitViews);
+			left.AssignTargets(right.unitViews);
 
 			// wait for 2 frames to avoid stutter
 			yield return null;
 			yield return null;
 
-			battleViewLeft.cameraRectDriver.Show();
-			battleViewRight.cameraRectDriver.Show();
+			var leftCameraRectDriver = left.GetComponent<CameraRectDriver>();
+			if (leftCameraRectDriver)
+				leftCameraRectDriver.Show();
 			
-			battleViewLeft.MoveAndShoot();
+			var rightCameraRectDriver = right.GetComponent<CameraRectDriver>();
+			if(rightCameraRectDriver)
+				rightCameraRectDriver.Show();
+			
+			left.MoveAndShoot();
 		}
 	}
 
-	public IEnumerator HideAnimation {
+	private IEnumerator HideAnimation {
 		
 		get {
 
-			battleViewLeft.cameraRectDriver.Hide();
-			battleViewRight.cameraRectDriver.Hide();
+			var leftCameraRectDriver = left.GetComponent<CameraRectDriver>();
+			if (leftCameraRectDriver)
+				leftCameraRectDriver.Hide();
 			
-			battleViewLeft.Cleanup();
-			battleViewRight.Cleanup();
+			var rightCameraRectDriver = right.GetComponent<CameraRectDriver>();
+			if(rightCameraRectDriver)
+				rightCameraRectDriver.Hide();
+			
+			left.Cleanup();
+			right.Cleanup();
 			
 			mainCamera.enabled = true;
 			

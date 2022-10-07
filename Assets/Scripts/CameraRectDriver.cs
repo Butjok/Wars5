@@ -1,17 +1,11 @@
-using System.Collections;
 using Butjok.CommandLine;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.Rendering.PostProcessing;
 
 public class CameraRectDriver : MonoBehaviour {
 
     public Camera camera;
-    public Color fadeColor = Color.black;
-    public float fadeDuration = .25f;
-    static public Tweener fadeTweener;
-    public Ease fadeEase;
 
     public Rect cameraOffscreenRect = new(0, .2f, 0, .6f);
     public Rect cameraOnscreenRect = new(0, .2f, .5f, .6f);
@@ -22,12 +16,25 @@ public class CameraRectDriver : MonoBehaviour {
 
     [Range(-1, 1)] public int side = -1;
 
-    public void Awake() {
+    [ContextMenu(nameof(Initialize))]
+    private void Initialize() {
         camera = GetComponentInChildren<Camera>();
         Assert.IsTrue(camera);
     }
+    
+    private bool initialized;
+    private void EnsureInitialized() {
+        if (initialized)
+            return;
+        initialized = true;
+        Initialize();
+    }
+    
+    private void Awake() {
+        EnsureInitialized();
+    }
 
-    public Rect TransformRect(Rect rect) {
+    private Rect TransformRect(Rect rect) {
 
         if (side <= 0)
             return rect;
@@ -44,21 +51,23 @@ public class CameraRectDriver : MonoBehaviour {
         return rect;
     }
 
-    public void Update() {
+    private void Update() {
         camera.enabled = camera.rect.width > cameraMinimalRectSize && camera.rect.height > cameraMinimalRectSize;
     }
 
-    [Command]
+    [ContextMenu(nameof(Show))]
     public void Show() {
-
+        EnsureInitialized();
+        
         cameraRectTweener?.Kill();
         camera.rect = TransformRect(cameraOffscreenRect);
         cameraRectTweener = camera.DORect(TransformRect(cameraOnscreenRect), rectDuration).SetEase(rectEase);
     }
 
-    [Command]
+    [ContextMenu(nameof(Hide))]
     public void Hide() {
-
+        EnsureInitialized();
+        
         cameraRectTweener?.Kill();
         camera.rect = TransformRect(cameraOffscreenRect);
     }

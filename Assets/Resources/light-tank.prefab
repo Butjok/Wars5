@@ -3564,6 +3564,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actions:
+  - type: 7
+    durationRange: {x: 0, y: 0}
+    floatValueRange: {x: -0.8, y: -0.8}
+    boolValueProbability: 1
   - type: 3
     durationRange: {x: 0, y: 0}
     floatValueRange: {x: 0, y: 0}
@@ -3581,7 +3585,7 @@ MonoBehaviour:
     floatValueRange: {x: 0, y: 0}
     boolValueProbability: 1
   - type: 6
-    durationRange: {x: 0.5, y: 0.5}
+    durationRange: {x: 0.4, y: 0.4}
     floatValueRange: {x: 0, y: 0}
     boolValueProbability: 0
   - type: 2
@@ -3589,7 +3593,7 @@ MonoBehaviour:
     floatValueRange: {x: 1, y: 1}
     boolValueProbability: 1
   - type: 6
-    durationRange: {x: 0.33, y: 0.33}
+    durationRange: {x: 0.55, y: 0.55}
     floatValueRange: {x: 0, y: 0}
     boolValueProbability: 1
   - type: 4

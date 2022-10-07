@@ -7,42 +7,45 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using Random = UnityEngine.Random;
 
-[RequireComponent(typeof(CameraRectDriver))]
 public class BattleView : MonoBehaviour {
 
     public List<UnitView> unitViews = new();
     public Dictionary<UnitView, List<ImpactPoint>> impactPoints = new();
 
     public Transform[] spawnPoints = Array.Empty<Transform>();
-
-    public TileTypeGameObjectDictionary backgrounds = new();
-    public GameObject background;
-    public CameraRectDriver cameraRectDriver;
     public bool shuffleUnitViews = true;
 
-    [ContextMenu(nameof(FindSpawnPoints))]
-    public void FindSpawnPoints() {
-        spawnPoints = GetComponentsInChildren<Transform>().Where(t => t.name.StartsWith("SpawnPoint")).ToArray();
+    private void Awake() {
+        EnsureInitialized();
     }
 
-    public void Awake() {
-        cameraRectDriver = GetComponent<CameraRectDriver>();
-        Assert.IsTrue(cameraRectDriver);
+    [ContextMenu(nameof(Initialize))]
+    private void Initialize() {
+        spawnPoints = GetComponentsInChildren<Transform>(true).Where(t => t.name.StartsWith("SpawnPoint")).ToArray();
+        Assert.AreNotEqual(0,spawnPoints.Length);
+    }
+
+    private bool initialized;
+    private void EnsureInitialized() {
+        if (initialized)
+            return;
+        initialized = true;
+        Initialize();
     }
 
     public void Setup(UnitView unitViewPrefab, int count, TileType tileType = TileType.Plain) {
 
+        EnsureInitialized();
+        
         Assert.IsTrue(count <= spawnPoints.Length);
         Assert.IsTrue(unitViewPrefab);
         
         Cleanup();
-        
-        if (backgrounds.TryGetValue(tileType, out  background) && background)
-            background.SetActive(true);
 
         for (var i = 0; i < count; i++) {
             var spawnPoint = spawnPoints[i];
             var unitView = Instantiate(unitViewPrefab, spawnPoint.position, spawnPoint.rotation, transform);
+            //unitView.transform.localScale = spawnPoint.localScale;
             unitView.gameObject.SetLayerRecursively(gameObject.layer);
             unitView.PlaceOnTerrain(true);
             unitViews.Add(unitView);
@@ -60,8 +63,7 @@ public class BattleView : MonoBehaviour {
 
     public void Cleanup() {
         
-        if (background)
-            background.SetActive(false);
+        EnsureInitialized();
         
         foreach (var unitView in unitViews)
             Destroy(unitView.gameObject);
@@ -70,6 +72,8 @@ public class BattleView : MonoBehaviour {
 
     public void AssignTargets(IList<UnitView> targets) {
 
+        EnsureInitialized();
+        
         Assert.AreNotEqual(0, unitViews.Count);
         Assert.AreNotEqual(0, targets.Count);
 

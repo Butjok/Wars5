@@ -9,7 +9,7 @@ using Random = UnityEngine.Random;
 [RequireComponent(typeof(UnitView))]
 public class UnitViewAnimationSequence : MonoBehaviour {
 
-    public enum ActionType { SetSpeed, Accelerate, Break, Aim, Fire, Steer, Wait }
+    public enum ActionType { SetSpeed, Accelerate, Break, Aim, Fire, Steer, Wait, Translate }
 
     [Serializable]
     public struct Action {
@@ -66,16 +66,10 @@ public class UnitViewAnimationSequence : MonoBehaviour {
                     break;
 
                 case ActionType.Break:
-                    while (!Mathf.Approximately(0, speed)) {
-                        yield return null;
-                        acceleration = -Mathf.Sign(speed) * floatValue;
-                        var speedNextFrame = speed + acceleration * Time.deltaTime;
-                        if (Mathf.Sign(speed * speedNextFrame) < 0) {
-                            acceleration = 0;
-                            speed = 0;
-                            break;
-                        }
-                    }
+                    acceleration = -Mathf.Sign(speed) * floatValue;
+                    yield return new WaitForSeconds(Mathf.Abs(speed) / floatValue);
+                    acceleration = 0;
+                    speed = 0;
                     break;
 
                 case ActionType.Aim:
@@ -95,6 +89,10 @@ public class UnitViewAnimationSequence : MonoBehaviour {
 
                 case ActionType.Wait:
                     yield return new WaitForSeconds(duration);
+                    break;
+                
+                case ActionType.Translate:
+                    transform.position += transform.forward * floatValue;
                     break;
 
                 default:
