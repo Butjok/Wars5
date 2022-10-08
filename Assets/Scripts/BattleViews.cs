@@ -14,19 +14,10 @@ public class BattleViews : MonoBehaviour {
     public BattleView[] battleViews = new BattleView[2];
     public CameraRectDriver[] cameraRectDrivers = new CameraRectDriver[2];
 
-    public Camera mainCamera;
+    public GameObject level;
     public Color fadeColor = Color.black;
     public float fadeDuration = .25f;
     public Ease fadeEase = default;
-
-    private bool initialized;
-    private void EnsureInitialized() {
-        if (initialized)
-            return;
-        initialized = true;
-
-        mainCamera = Camera.main;
-    }
 
     private static string GetSceneName(TileType tileType, int side) {
         Assert.IsTrue(side is left or right);
@@ -60,10 +51,6 @@ public class BattleViews : MonoBehaviour {
         return operation;
     }
 
-    private void Awake() {
-        EnsureInitialized();
-    }
-
     public bool visible;
 
     private void Update() {
@@ -80,16 +67,14 @@ public class BattleViews : MonoBehaviour {
     }
 
     public void Show(TileType[] tileTypes, UnitView[] unitViewPrefabs, Vector2Int count) {
-        EnsureInitialized();
-        StartCoroutine(ShowAnimation(tileTypes,unitViewPrefabs,count));
+        StartCoroutine(ShowAnimation(tileTypes, unitViewPrefabs, count));
     }
     private IEnumerator ShowAnimation(TileType[] tileTypes, UnitView[] unitViewPrefabs, Vector2Int count) {
 
         yield return PostProcessing.Fade(fadeColor, fadeDuration, fadeEase).WaitForCompletion();
+        if (level)
+            level.SetActive(false);
 
-        if (mainCamera)
-            mainCamera.enabled = false;
-        
         var operations = new List<AsyncOperation>();
         for (var side = left; side < tileTypes.Length; side++) {
             Assert.IsFalse(battleViews[side], side.ToString());
@@ -113,10 +98,8 @@ public class BattleViews : MonoBehaviour {
     }
 
     public void Hide(int count) {
-        EnsureInitialized();
         StartCoroutine(HideAnimation(count));
     }
-
     private IEnumerator HideAnimation(int count) {
 
         yield return PostProcessing.Fade(fadeColor, fadeDuration, fadeEase).WaitForCompletion();
@@ -132,8 +115,7 @@ public class BattleViews : MonoBehaviour {
         yield return new WaitUntil(() => operations.All(operation => operation.isDone));
 
         PostProcessing.Fade(Color.white, fadeDuration, fadeEase);
-
-        if (mainCamera)
-            mainCamera.enabled = true;
+        if(level)
+            level.SetActive(true);
     }
 }

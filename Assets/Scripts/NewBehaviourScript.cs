@@ -60,6 +60,8 @@ public class NewBehaviourScript : MonoBehaviour {
 		
 		game.UpdatePostProcessing();
 
+		var battleViews = GetComponent<BattleViews>();
+
 		CursorView.Instance.Visible = false;
 
 		var clampToHull = CameraRig.Instance.GetComponent<ClampToHull>();

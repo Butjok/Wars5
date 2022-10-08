@@ -4350,6 +4350,7 @@ GameObject:
   - component: {fileID: 967668334}
   - component: {fileID: 967668333}
   - component: {fileID: 967668337}
+  - component: {fileID: 967668338}
   m_Layer: 14
   m_Name: Cube (1)
   m_TagString: MainCamera
@@ -4559,6 +4560,14 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!81 &967668338
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 967668331}
+  m_Enabled: 1
 --- !u!1 &1035947007
 GameObject:
   m_ObjectHideFlags: 0

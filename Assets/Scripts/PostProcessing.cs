@@ -45,10 +45,6 @@ public static class PostProcessing {
 
         Antialiasing = antialiasing;
 
-        var profile = PostProcessing.profile;
-        if (!profile)
-            return;
-
         var motionBlur = profile.GetSetting<MotionBlur>();
         if (motionBlur) {
             if (motionBlurShutterAngle is { } shutterAngle) {
