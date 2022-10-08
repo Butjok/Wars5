@@ -9,11 +9,25 @@ public static class SelectionState {
 
         var unmovedUnits = game.units.Values
             .Where(unit => unit.player == game.CurrentPlayer && !unit.moved.v)
-            .OrderBy(unit => Vector3.Distance(CameraRig.Instance.transform.position, unit.view.center.position))
+            .ToList();
+        
+        var accessibleBuildings = game.buildings.Values
+            .Where(building => building.player.v == game.CurrentPlayer &&
+                               Rules.BuildableUnits(building) != 0 &&
+                               !game.TryGetUnit(building.position, out _))
             .ToList();
 
-        var unitIndex = -1;
-        Unit cycledUnit = null;
+        var positions = unmovedUnits.Select(unit => {
+                Assert.IsTrue(unit.position.v != null);
+                return (Vector2Int)unit.position.v;
+            })
+            .Union(accessibleBuildings.Select(building => building.position))
+            .ToArray();
+        
+        if (CameraRig.Instance)
+            positions = positions.OrderBy(position => Vector2.Distance(CameraRig.Instance.transform.position.ToVector2(), position)).ToArray();
+
+        var positionIndex = -1;
 
         if (turnStart) {
 
@@ -79,23 +93,14 @@ public static class SelectionState {
             if (game.CurrentPlayer.IsAi)
                 continue;
 
-            // track cycles (with tab) unit on the screen
-            if (cycledUnit != null && Camera.main) {
-                var worldPosition = cycledUnit.view.center.position;
-                var screenPosition = Camera.main.WorldToViewportPoint(worldPosition);
-                if (screenPosition.x is < 0 or > 1 || screenPosition.y is < 0 or > 1)
-                    cycledUnit = null;
-            }
-
             if (Input.GetKeyDown(KeyCode.F2))
                 game.input.endTurn = true;
 
             else if (Input.GetKeyDown(KeyCode.Tab)) {
-                if (unmovedUnits.Count > 0) {
-                    unitIndex = (unitIndex + 1) % unmovedUnits.Count;
-                    var next = unmovedUnits[unitIndex];
-                    CameraRig.Instance.Jump(next.view.center.position.ToVector2());
-                    cycledUnit = next;
+                if (positions.Length > 0) {
+                    positionIndex = (positionIndex + 1) % positions.Length;
+                    if (CameraRig.Instance)
+                        CameraRig.Instance.Jump(positions[positionIndex]);
                 }
                 else
                     UiSound.Instance.notAllowed.Play();
@@ -118,12 +123,6 @@ public static class SelectionState {
                         game.input.selectAt = mousePosition;
                 }
             }
-
-            else if (Input.GetKeyDown(KeyCode.Space))
-                if (cycledUnit != null)
-                    game.input.selectAt = cycledUnit.position.v;
-                else
-                    UiSound.Instance.notAllowed.Play();
         }
     }
 }

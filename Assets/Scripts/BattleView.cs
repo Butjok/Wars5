@@ -1,20 +1,17 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Assertions;
-using Random = UnityEngine.Random;
 
 public class BattleView : MonoBehaviour {
 
     public List<UnitView> unitViews = new();
-    public List<UnitView> shuffledUnitViews = new();
     public Dictionary<UnitView, List<ImpactPoint>> impactPoints = new();
+    public bool shuffle = true;
+    public Transform target;
 
     public Transform[] spawnPoints = Array.Empty<Transform>();
-    public bool shuffleUnitViews = true;
 
     private void Awake() {
         EnsureInitialized();
@@ -23,7 +20,6 @@ public class BattleView : MonoBehaviour {
     [ContextMenu(nameof(Initialize))]
     private void Initialize() {
         spawnPoints = GetComponentsInChildren<Transform>(true).Where(t => t.name.StartsWith("SpawnPoint")).ToArray();
-        Assert.AreNotEqual(0,spawnPoints.Length);
     }
 
     private bool initialized;
@@ -34,13 +30,13 @@ public class BattleView : MonoBehaviour {
         Initialize();
     }
 
-    public void Setup(UnitView unitViewPrefab, int count, TileType tileType = TileType.Plain) {
+    public void Setup(UnitView unitViewPrefab, int count) {
 
         EnsureInitialized();
-        
+
         Assert.IsTrue(count <= spawnPoints.Length);
         Assert.IsTrue(unitViewPrefab);
-        
+
         Cleanup();
 
         for (var i = 0; i < count; i++) {
@@ -50,10 +46,12 @@ public class BattleView : MonoBehaviour {
             unitView.gameObject.SetLayerRecursively(gameObject.layer);
             unitView.PlaceOnTerrain(true);
             unitViews.Add(unitView);
+            unitView.turret.computer.Target = target;
         }
 
-        shuffledUnitViews = shuffleUnitViews ? unitViews.OrderBy(_ => Random.value).ToList() : unitViews;
-        
+        foreach (var unitView in unitViews)
+            unitView.moveAndShoot.siblings = unitViews.Select(item => item.moveAndShoot).ToArray();
+
         if (unitViews.Count > 0) {
             var manualControl = unitViews[0].GetComponent<ManualControl>();
             if (manualControl)
@@ -62,19 +60,18 @@ public class BattleView : MonoBehaviour {
     }
 
     public void Cleanup() {
-        
+
         EnsureInitialized();
-        
+
         foreach (var unitView in unitViews)
             Destroy(unitView.gameObject);
         unitViews.Clear();
-        shuffledUnitViews.Clear();
     }
 
     public void AssignTargets(IList<UnitView> targets) {
 
         EnsureInitialized();
-        
+
         Assert.AreNotEqual(0, unitViews.Count);
         Assert.AreNotEqual(0, targets.Count);
 
@@ -92,35 +89,15 @@ public class BattleView : MonoBehaviour {
             impactPoints[attacker].Add(impactPoint);
         }
 
-        foreach (var attacker in impactPoints.Keys)
+        /*foreach (var attacker in impactPoints.Keys)
             if (attacker.turret && attacker.turret.computer)
-                attacker.turret.computer.Target = impactPoints[attacker].Random().transform;
-    }
-
-    public int shooterIndex = -1;
-
-    public bool Shoot() {
-        if (unitViews.Count == 0)
-            return false;
-        shooterIndex = (shooterIndex + 1) % unitViews.Count;
-        var shooter = unitViews[shooterIndex];
-        if (impactPoints.TryGetValue(shooter, out var list) && list.Count > 0) {
-            shooter.turret.Shoot(list);
-            return true;
-        }
-        return false;
+                attacker.turret.computer.Target = impactPoints[attacker].Random().transform;*/
     }
 
     public void MoveAndShoot() {
-        for (var i=0;i<unitViews.Count;i++) {
-            var unitView = unitViews[i];
-            unitView.moveAndShoot.Play(i, shuffledUnitViews.IndexOf(unitView), impactPoints[unitView]);
-        }
-    }
-
-    public void Update() {
-        if (Input.GetKeyDown(KeyCode.Alpha0))
-            Shoot();
+        EnsureInitialized();
+        foreach (var unitView in unitViews)
+            unitView.moveAndShoot.Play(shuffle, impactPoints.TryGetValue(unitView,out var list)?list:null);
     }
 }
 

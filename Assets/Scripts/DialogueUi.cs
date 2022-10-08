@@ -85,7 +85,7 @@ public class DialogueUi : MonoBehaviour {
             portrait.text = mood.ToString();
         }
 
-        if (text) {
+        if (text && line.text != null) {
             if (textTypingAnimation != null)
                 StopCoroutine(textTypingAnimation);
             if (!stringCache.TryGetValue(line.text, out var charArray))

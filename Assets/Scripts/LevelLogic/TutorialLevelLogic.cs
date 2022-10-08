@@ -6,32 +6,70 @@ using UnityEngine.Assertions;
 public class TutorialLogic : DefaultLevelLogic {
 
     public bool showDialogue;
-    
+
     public TutorialLogic(bool showDialogue) {
         this.showDialogue = showDialogue;
     }
-    
+
     public override (ControlFlow controlFlow, IEnumerator state) OnTurnStart(Game game) {
 
-        if (!showDialogue)
-            return base.OnTurnStart(game);
-        
         return game.turn switch {
 
-            0 => (ControlFlow.Pause, DialogueState.New(game, new[] {
-                new DialogueUi.Speech {
-                    speaker = DialogueSpeaker.Natalie,
-                    lines = new[] {
-                        new DialogueUi.Line {
-                            text = "Welcome to Wars3d!",
-                            playMusic = new[]{"violin uzicko"}
-                        },
-                    }
-                }
-            })),
+            0 => (ControlFlow.Pause,
+                showDialogue
+                    ? DialogueState.New(game, new[] {
+                        new DialogueUi.Speech {
+                            speaker = DialogueSpeaker.Natalie,
+                            lines = new[] {
+                                new DialogueUi.Line {
+                                    text = "Welcome to Wars3d!",
+                                    playMusic = new[] { "violin uzicko" }
+                                },
+                                new DialogueUi.Line {
+                                    action = () => {
+                                        if (CameraRig.Instance)
+                                            CameraRig.Instance.Jump(new Vector2Int(2, 1));
+                                    }
+                                },
+                                new DialogueUi.Line {
+                                    text = "This is tank! It can shoot!"
+                                },
+                                new DialogueUi.Line {
+                                    text = "Please select it. And move over to this position."
+                                },
+                                new DialogueUi.Line {
+                                    action = () => {
+                                        if (CameraRig.Instance)
+                                            CameraRig.Instance.Jump(new Vector2(5,0));
+                                    }
+                                },
+                            }
+                        }
+                    })
+                    : PlayMusic(new[] { "violin uzicko" })),
 
             _ => base.OnTurnStart(game)
         };
+        
+        /*return game.turn switch {
+
+            0 => (ControlFlow.Pause,
+                showDialogue
+                    ? DialogueState.New(game, new[] {
+                        new DialogueUi.Speech {
+                            speaker = DialogueSpeaker.Natalie,
+                            lines = new[] {
+                                new DialogueUi.Line {
+                                    text = "Welcome to Wars3d!",
+                                    playMusic = new[] { "violin uzicko" }
+                                },
+                            }
+                        }
+                    })
+                    : PlayMusic(new[] { "violin uzicko" })),
+
+            _ => base.OnTurnStart(game)
+        };*/
     }
 
     public override IEnumerator OnVictory(Game game) {
@@ -42,7 +80,7 @@ public class TutorialLogic : DefaultLevelLogic {
                     new DialogueUi.Line {
                         text = "I knew you would win!",
                         changeMood = DialogueSpeaker.Mood.Happy,
-                        playMusic = new[]{"fast uzicko"} 
+                        playMusic = new[] { "fast uzicko" }
                     }
                 },
             }

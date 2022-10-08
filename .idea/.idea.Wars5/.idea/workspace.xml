@@ -1,27 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Postfix.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Postfix.cs.meta" afterDir="false" />
+    <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="lkjfdgodfuoiert">
+      <change afterPath="$PROJECT_DIR$/Assets/Content/bush plain left.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Content/bush plain left.mat.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scenes/PlainLeft.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scenes/PlainLeft.unity" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scenes/PlainLeft.unity.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scenes/PlainLeft/LightingData.asset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scenes/PlainLeft/LightingData.asset.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scenes/PlainLeft/Lightmap-0_comp_light.exr" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scenes/PlainLeft/Lightmap-0_comp_light.exr.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scenes/PlainLeft/Lightmap-0_comp_shadowmask.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scenes/PlainLeft/Lightmap-0_comp_shadowmask.png.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scenes/PlainLeft/ReflectionProbe-0.exr" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scenes/PlainLeft/ReflectionProbe-0.exr.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/BattleViews.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assembly-CSharp-Editor.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp-Editor.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assembly-CSharp-firstpass.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp-firstpass.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assembly-CSharp.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Content/bush.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Content/bush.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Animation/Projectile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Animation/Projectile.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Animation/Turret.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Animation/Turret.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Animation/UnitViewAnimationSequence.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Animation/UnitViewSequencePlayer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Animation/UnitViewAnimationSequence.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Animation/UnitViewSequencePlayer.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Animation/UnitViewAnimationSequenceAutoPlay.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Animation/UnitViewSequencesPlayer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Animation/UnitViewAnimationSequenceAutoPlay.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Animation/UnitViewSequencesPlayer.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Content/plain-bush.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Content/plain-bush.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Shell.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Shell.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/light-tank.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/light-tank.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/BattleViews.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/BattleViews.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Plain.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Plain.unity" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Plain.unity.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Plain/LightingData.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Plain/LightingData.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Plain/Lightmap-0_comp_light.exr" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Plain/Lightmap-0_comp_light.exr.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Plain/Lightmap-0_comp_shadowmask.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Plain/Lightmap-0_comp_shadowmask.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Plain/ReflectionProbe-0.exr" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Plain/ReflectionProbe-0.exr.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Animation/Body.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Animation/Body.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Animation/UnitViewSequencePlayer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Animation/UnitViewSequencePlayer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Animation/UnitViewSequencesPlayer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Animation/UnitViewSequencesPlayer.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/BattleView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/BattleView.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/BattleViewTest.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/BattleViewTest.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/BattleViews.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/CameraRig.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CameraRig.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/InputCommandsListener.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/InputCommandsListener.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/MathUtils.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/MathUtils.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UnitView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UnitView.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/ConstantShadowDistance.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/ShadowDistanceOverride.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/ConstantShadowDistance.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/ShadowDistanceOverride.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/DialogueUi.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DialogueUi.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/DynamicShadowDistance.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DynamicShadowDistance.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/SelectionState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/SelectionState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Level/Mouse.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Level/Mouse.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/LevelLogic/DefaultLevelLogic.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/LevelLogic/DefaultLevelLogic.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/LevelLogic/TutorialLevelLogic.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/LevelLogic/TutorialLevelLogic.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PostProcessing.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PostProcessing.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PostfixInterpreter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PostfixInterpreter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/StoneSplatMapSetter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/SplatMapSetter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/StoneSplatMapSetter.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/SplatMapSetter.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Input.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectSettings/RiderScriptEditorPersistedState.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/RiderScriptEditorPersistedState.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" afterDir="false" />
@@ -58,7 +95,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Animation/LookAt.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Animation/Projectile.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/a9b8fc452a6f4a2dba24640d0133afc0157400/c2/41e4a6c7/Mathf.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/BattleViewTest.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/BattleViews.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.guciodevs.simple-min-max-slider@46ff35d229/Scripts/MinMaxSliderAttribute.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/EventSystem/EventSystem.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Animation/ExplosionTracer.cs" root0="FORCE_HIGHLIGHTING" />
@@ -71,7 +108,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Animation/PistonCompresser.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/a9b8fc452a6f4a2dba24640d0133afc0157400/c7/9544665d/Transform.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/171a3352ba4a4b8aaa2993d306570161292e00/1e/655a7f5d/FileSystemWatcher.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/StoneSplatMapSetter.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/SplatMapSetter.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameStates/PathSelectionState.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/InstancedRenderer.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/EventSystem/InputModules/BaseInput.cs" root0="SKIP_HIGHLIGHTING" />
@@ -167,10 +204,10 @@
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="97174">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" />
+      <option name="pid" value="97174" />
       <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
@@ -231,14 +268,7 @@
       <workItem from="1665040557464" duration="643000" />
       <workItem from="1665053369529" duration="412000" />
       <workItem from="1665053789241" duration="24137000" />
-      <workItem from="1665158839857" duration="7690000" />
-    </task>
-    <task id="LOCAL-00077" summary="good looking AO finally">
-      <created>1663522715107</created>
-      <option name="number" value="00077" />
-      <option name="presentableId" value="LOCAL-00077" />
-      <option name="project" value="LOCAL" />
-      <updated>1663522715107</updated>
+      <workItem from="1665158839857" duration="22295000" />
     </task>
     <task id="LOCAL-00078" summary="KJBHKLJHGKJHKJHG">
       <created>1663529991373</created>
@@ -576,7 +606,14 @@
       <option name="project" value="LOCAL" />
       <updated>1665131818807</updated>
     </task>
-    <option name="localTasksCounter" value="126" />
+    <task id="LOCAL-00126" summary="pierutldkfjg">
+      <created>1665172637286</created>
+      <option name="number" value="00126" />
+      <option name="presentableId" value="LOCAL-00126" />
+      <option name="project" value="LOCAL" />
+      <updated>1665172637287</updated>
+    </task>
+    <option name="localTasksCounter" value="127" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -599,8 +636,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="jhghghjgjh" />
-    <MESSAGE value="lkifgjldfjg" />
     <MESSAGE value="iuwyeriwuyer" />
     <MESSAGE value="fghjk" />
     <MESSAGE value="lhkhlhjkllhhhjhjk" />
@@ -624,7 +659,9 @@
     <MESSAGE value="ytyuytuytutyu" />
     <MESSAGE value="a lot of tinkering with lighting and post processing might have fucked up some things" />
     <MESSAGE value="htgjjhggjhjgh" />
-    <option name="LAST_COMMIT_MESSAGE" value="htgjjhggjhjgh" />
+    <MESSAGE value="pierutldkfjg" />
+    <MESSAGE value="lkjfdgodfuoiert" />
+    <option name="LAST_COMMIT_MESSAGE" value="lkjfdgodfuoiert" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

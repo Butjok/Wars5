@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Serialization;
@@ -8,11 +9,15 @@ using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(UnitView))]
 public class UnitViewSequencePlayer : MonoBehaviour {
-
+    
+    public UnitViewSequencePlayer[] siblings = Array.Empty<UnitViewSequencePlayer>();
+    public bool playOnAwake = false;
     [FormerlySerializedAs("sequence")] [TextArea(20, 20)]
     public string input = "";
 
     [Space]
+    public int index = -1;
+    public int shuffledIndex = -1;
     public float speed;
     public float acceleration;
     public float steeringSpeed;
@@ -20,24 +25,41 @@ public class UnitViewSequencePlayer : MonoBehaviour {
 
     private bool initialized;
     private void EnsureInitialized() {
-
         if (initialized)
             return;
         initialized = true;
 
         unitView = GetComponent<UnitView>();
         Assert.IsTrue(unitView);
+
+        index = Array.IndexOf(siblings, this);
+        Assert.AreNotEqual(-1,index);
     }
 
-    public void Play(int spawnPointIndex = -1, int shuffledIndex = -1, List<ImpactPoint> impactPoints = null) {
+    [ContextMenu(nameof(Play))]
+    public void Play() {
+        Play(true, null);
+    }
+    public void Play(bool shuffle = true, List<ImpactPoint> impactPoints = null) {
+
         EnsureInitialized();
-        StartCoroutine(Execute(spawnPointIndex, shuffledIndex, impactPoints));
+
+        if (index == 0) {
+            var shuffledSiblings = siblings.Union(new[] { this }).Distinct().OrderBy(item => shuffle ? Random.value : item.index).ToList();
+            foreach (var sibling in shuffledSiblings)
+                sibling.shuffledIndex = shuffledSiblings.IndexOf(sibling);
+        }
+
+        StartCoroutine(Execute(impactPoints));
     }
 
-    private IEnumerator Execute(int index = -1, int shuffledIndex = -1, List<ImpactPoint> impactPoints = null) {
+    private IEnumerator Execute(List<ImpactPoint> impactPoints = null) {
 
         if (string.IsNullOrWhiteSpace(input))
             yield break;
+        
+        // wait for al the siblings to get indices and shuffled indices
+        yield return null;
 
         var tokens = input.Split(new[] { ' ', '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
         var stack = new Stack<float>();
@@ -128,6 +150,12 @@ public class UnitViewSequencePlayer : MonoBehaviour {
         }
 
         Assert.AreEqual(0, stack.Count);
+    }
+
+    private void Awake() {
+        EnsureInitialized();
+        if (playOnAwake)
+            Play();
     }
 
     private void Update() {

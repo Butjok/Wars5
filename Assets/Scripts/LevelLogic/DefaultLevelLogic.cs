@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,12 +12,16 @@ public class DefaultLevelLogic {
         return (ControlFlow.Pause, PlayMusic(game.CurrentPlayer.co.themes));
     }
     
-    public IEnumerator PlayMusic(IEnumerable<AudioClip> clips) {
+    protected IEnumerator PlayMusic(IEnumerable<AudioClip> clips) {
         MusicPlayer.Instance.Queue = clips.InfiniteSequence();
         yield break;
     }
-    public IEnumerator PlayMusic(IEnumerable<string> clipNames) {
+    protected IEnumerator PlayMusic(IEnumerable<string> clipNames) {
         return PlayMusic(clipNames.Select(name => name.LoadAs<AudioClip>()));
+    }
+    protected IEnumerator ExecuteAction(Action action) {
+        action();
+        yield break;
     }
 
     public virtual (ControlFlow controlFlow, IEnumerator state) OnTurnEnd(Game game) {

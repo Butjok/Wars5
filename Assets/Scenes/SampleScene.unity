@@ -52304,8 +52304,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 278.0747, y: 419.86465}
-  m_SizeDelta: {x: 348.21747, y: 155.70316}
+  m_AnchoredPosition: {x: 328.0924, y: 495.68832}
+  m_SizeDelta: {x: 411.10223, y: 183.82169}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &854730333
 MonoBehaviour:
@@ -83282,6 +83282,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1238028937}
   - component: {fileID: 1238028939}
+  - component: {fileID: 1238028940}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -83318,6 +83319,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minimapMeshGenerator: {fileID: 1354915080}
   showDialogue: 0
+--- !u!114 &1238028940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1238028935}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1edbb46f54234814924a01ebd5380205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  battleViews:
+  - {fileID: 0}
+  - {fileID: 0}
+  cameraRectDrivers:
+  - {fileID: 0}
+  - {fileID: 0}
+  mainCamera: {fileID: 0}
+  fadeColor: {r: 0, g: 0, b: 0, a: 1}
+  fadeDuration: 0.25
+  fadeEase: 0
+  visible: 0
 --- !u!1 &1238864975
 GameObject:
   m_ObjectHideFlags: 1
@@ -124508,11 +124532,14 @@ MonoBehaviour:
   distanceSmoothTime: 50
   distanceStep: -0.1
   distanceBounds: {x: 2, y: 15}
+  rotation: 0
   rotationDuration: 0.33
   rotationEase: 3
   rotationStep: -45
   rotationAmplitude: 1.7
   rotationPeriod: 0
+  clampRotation: 1
+  rotationRange: {x: -1, y: 1}
   pitchAngle: 45
   pitchAngleSmoothTime: 0.02
   pitchAngleSpeed: 90
@@ -124557,6 +124584,7 @@ MonoBehaviour:
   maxDistance: 45
   rayPosition: {x: 0, y: 1}
   multiplier: 1.5
+  camera: {fileID: 963194227}
 --- !u!114 &1882405538
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134682,10 +134710,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boxCollider: {fileID: 1965656851}
-  material: {fileID: 2100000, guid: bb73e620cef858c4ab185413e996c43c, type: 2}
+  material: {fileID: 0}
+  renderer: {fileID: 1965656882}
+  instanceMaterial: 1
   splat: {fileID: 2800000, guid: aa65c5a3d30b6d14192ae1954c52cccf, type: 3}
   flipX: 1
   flipY: 1
+  textureName: _Splat
+  boundsName: _Bounds
+  flipName: _Flip
 --- !u!114 &1965656857
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134700,9 +134733,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boxCollider: {fileID: 1965656851}
   material: {fileID: 2100000, guid: a5c50f3a1ace1f243ae7a356b25cea28, type: 2}
+  renderer: {fileID: 0}
+  instanceMaterial: 1
   splat: {fileID: 2800000, guid: aa65c5a3d30b6d14192ae1954c52cccf, type: 3}
   flipX: 1
   flipY: 1
+  textureName: _Splat
+  boundsName: _Bounds
+  flipName: _Flip
 --- !u!114 &1965656862
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134782,9 +134820,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boxCollider: {fileID: 1965656851}
   material: {fileID: 2100000, guid: f94d343f0d2b34e07a9410054588dc7f, type: 2}
+  renderer: {fileID: 0}
+  instanceMaterial: 1
   splat: {fileID: 2800000, guid: d446c84bed2faad488fa6c86c04c6709, type: 2}
   flipX: 0
   flipY: 0
+  textureName: _Splat
+  boundsName: _Bounds
+  flipName: _Flip
 --- !u!114 &1965656873
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134818,9 +134861,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boxCollider: {fileID: 1965656851}
   material: {fileID: 2100000, guid: b3fa636782d938645ba67b489bd216d1, type: 2}
+  renderer: {fileID: 0}
+  instanceMaterial: 1
   splat: {fileID: 2800000, guid: d446c84bed2faad488fa6c86c04c6709, type: 2}
   flipX: 0
   flipY: 0
+  textureName: _Splat
+  boundsName: _Bounds
+  flipName: _Flip
 --- !u!114 &1965656881
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134835,9 +134883,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boxCollider: {fileID: 1965656851}
   material: {fileID: 2100000, guid: 905482065b5158e48b7e64815b88021f, type: 2}
+  renderer: {fileID: 0}
+  instanceMaterial: 1
   splat: {fileID: 2800000, guid: d446c84bed2faad488fa6c86c04c6709, type: 2}
   flipX: 0
   flipY: 0
+  textureName: _Splat
+  boundsName: _Bounds
+  flipName: _Flip
+--- !u!23 &1965656882 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 0cef180e6aac3c843a88434186f5bf34, type: 3}
+  m_PrefabInstance: {fileID: 1815327407}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1965656885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1965656844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b9e2cf1711a46b78a8b872a89a11648, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boxCollider: {fileID: 1965656851}
+  material: {fileID: 2100000, guid: bb73e620cef858c4ab185413e996c43c, type: 2}
+  renderer: {fileID: 0}
+  instanceMaterial: 1
+  splat: {fileID: 2800000, guid: aa65c5a3d30b6d14192ae1954c52cccf, type: 3}
+  flipX: 1
+  flipY: 1
+  textureName: _Splat
+  boundsName: _Bounds
+  flipName: _Flip
 --- !u!1 &1982164432 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 3f15f8122ea40714783eadae1d434768, type: 3}
@@ -139835,19 +139915,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 51258076789849872, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 239.64948
+      value: 282.92795
       objectReference: {fileID: 0}
     - target: {fileID: 51258076789849872, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 136.54523
+      value: 161.20404
       objectReference: {fileID: 0}
     - target: {fileID: 51258076789849872, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 421.0775
+      value: 496.92026
       objectReference: {fileID: 0}
     - target: {fileID: 51258076789849872, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 440.8274
+      value: 520.4367
       objectReference: {fileID: 0}
     - target: {fileID: 742884794920560503, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_LocalRotation.w

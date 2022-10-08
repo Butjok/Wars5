@@ -20,11 +20,10 @@ public class Body : MonoBehaviour {
 	[Range(-1, 1)] public float pitchAxisMultiplier = 1;
 
 	private bool initialized;
-
 	private void EnsureInitialized() {
-		
 		if (initialized)
 			return;
+		initialized = true;
 		
 		rollAxis.Clear();
 		pitchAxis.Clear();
@@ -57,8 +56,6 @@ public class Body : MonoBehaviour {
 		}
 
 		pistons = pistons.Distinct().ToList();
-		
-		initialized = true;
 	}
 	
 	private void Awake() {

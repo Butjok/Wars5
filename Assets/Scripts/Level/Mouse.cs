@@ -7,13 +7,15 @@ public static class Mouse
     public const int right = 1;
     public const int middle = 2;
 
+    public static Vector2 viewportPosition = Input.mousePosition / new Vector2(Screen.width,Screen.height);
+
     public static bool TryGetPosition(out Vector3 position, out RaycastHit hit) {
         
         position = default;
         hit = default;
         
         var camera = Camera.main;
-        if (!camera)
+        if (!camera || !camera.rect.Contains(viewportPosition))
             return false;
         
         var ray = camera.ScreenPointToRay(Input.mousePosition);

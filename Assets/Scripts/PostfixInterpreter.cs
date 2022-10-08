@@ -12,8 +12,17 @@ public static class PostfixInterpreter {
 
         var tokens = input.Split(new[] { ' ', '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
         var stack = new Stack<object>();
+        var ignore = false;
 
         foreach (var token in tokens) {
+
+            if (token == "ignore") {
+                ignore = !ignore;
+                continue;
+            }
+            
+            if (ignore)
+                continue;
 
             if (int.TryParse(token, out var intValue))
                 stack.Push(intValue);
@@ -23,11 +32,6 @@ public static class PostfixInterpreter {
 
             else
                 switch (token) {
-
-                    case "true":
-                    case "false":
-                        stack.Push(token == "true");
-                        break;
 
                     case "+":
                     case "-":

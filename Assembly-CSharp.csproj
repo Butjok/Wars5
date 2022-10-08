@@ -63,7 +63,7 @@
      <Compile Include="Assets/Scripts/Level/Serialization.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Recognizer.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/BlockEndState.cs" />
-     <Compile Include="Assets/Scripts/StoneSplatMapSetter.cs" />
+     <Compile Include="Assets/Scripts/SplatMapSetter.cs" />
      <Compile Include="Assets/Scripts/Animation/TrackSpinner.cs" />
      <Compile Include="Assets/Scripts/Animation/MovePathTest.cs" />
      <Compile Include="Assets/CommandLine/Parsers/Butjok/CommandLine/Parsers/CommandLineLexer.cs" />
@@ -170,7 +170,7 @@
      <Compile Include="Assets/CommandLine/Antlr4/Misc/NullableAttribute.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/StarLoopEntryState.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Misc/IntervalSet.cs" />
-     <Compile Include="Assets/Scripts/ConstantShadowDistance.cs" />
+     <Compile Include="Assets/Scripts/ShadowDistanceOverride.cs" />
      <Compile Include="Assets/Scripts/InstancedRenderer.cs" />
      <Compile Include="Assets/Scripts/Level/LayerMasks.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Tree/Pattern/TagChunk.cs" />
@@ -268,6 +268,7 @@
      <Compile Include="Assets/Scripts/Animation/PlaceOnTerrain.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Dfa/DFASerializer.cs" />
      <Compile Include="Assets/Scripts/Animation/Turret.cs" />
+     <Compile Include="Assets/Scripts/PostfixInterpreter.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Dfa/ArrayEdgeMap.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Dfa/EmptyEdgeMap.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/ActionTransition.cs" />
@@ -325,7 +326,7 @@
      <Compile Include="Assets/CommandLine/Antlr4/Atn/LookaheadEventInfo.cs" />
      <Compile Include="Assets/SerializableDictionary/Example/SerializableDictionaryExample.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/PredicateTransition.cs" />
-     <Compile Include="Assets/Scripts/BattleViewTest.cs" />
+     <Compile Include="Assets/Scripts/BattleViews.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/ProfilingATNSimulator.cs" />
      <Compile Include="Assets/Scripts/CameraRig.cs" />
      <Compile Include="Assets/Scripts/GameStates/TurnStartAnimationState.cs" />
@@ -335,7 +336,6 @@
      <Compile Include="Assets/CommandLine/Antlr4/Atn/LexerActionExecutor.cs" />
      <Compile Include="Assets/Scripts/LevelLogic/DefaultLevelLogic.cs" />
      <Compile Include="Assets/Scripts/GameStates/ActionSelectionState.cs" />
-     <Compile Include="Assets/Scripts/Animation/UnitViewSequencesPlayer.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/TokensStartState.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/RuleStopState.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Lexer.cs" />
@@ -410,7 +410,6 @@
      <Compile Include="Assets/Scripts/Animation/LookAt.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/PlusBlockStartState.cs" />
      <Compile Include="Assets/Scripts/Animation/PistonBody.cs" />
-     <Compile Include="Assets/Scripts/PostfixInterpreter.cs" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />
      <None Include="Assets/Shaders/My First Lighting Shader.shader" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader" />

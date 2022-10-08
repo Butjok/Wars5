@@ -3524,7 +3524,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef49b7490e0b4a1cb80f86dc5134fb51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aim: 1
+  aim: 0
   rotators:
   - {fileID: 9102701130957254639}
   - {fileID: 9102701130657965917}
@@ -3563,7 +3563,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d414ede6cff4560a5fd86748e28dd79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sequence: '-1.5 translate
+  siblings:
+  - {fileID: 7370819031783772978}
+  playOnAwake: 0
+  input: '-1.5 translate
 
     0 aim
 
@@ -3582,6 +3585,8 @@ MonoBehaviour:
 
     1
     shoot'
+  index: -1
+  shuffledIndex: -1
   speed: 0
   acceleration: 0
   steeringSpeed: 0

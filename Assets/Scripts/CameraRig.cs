@@ -11,10 +11,8 @@ public class CameraRig : MonoBehaviour {
     private static CameraRig instance;
     public static CameraRig Instance {
         get {
-            if (!instance) {
+            if (!instance)
                 instance = FindObjectOfType<CameraRig>();
-                Assert.IsTrue(instance);
-            }
             return instance;
         }
     }

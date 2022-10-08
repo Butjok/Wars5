@@ -1,13 +1,32 @@
+using System.Runtime.InteropServices;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.Rendering.PostProcessing;
 
 public static class PostProcessing {
 
-    public static PostProcessProfile Profile => Resources.Load<PostProcessProfile>(nameof(PostProcessProfile));
-    public static ColorGrading ColorGrading => Profile.GetSetting<ColorGrading>();
-    public static ColorParameter ColorFilter => ColorGrading.colorFilter;
-    public static Tweener fadeTweener;
+    static PostProcessing() {
+        profile = nameof(PostProcessProfile).LoadAs<PostProcessProfile>();
+        colorGrading = profile.GetSetting<ColorGrading>();
+        Assert.IsTrue(colorGrading);
+    }
+
+    public static PostProcessProfile profile;
+    public static ColorGrading colorGrading;
+    public static Color ColorFilter {
+        get => colorGrading.colorFilter.value;
+        set => colorGrading.colorFilter.value = value;
+    }
+    
+    private static Tweener fadeTweener;
+
+    public static Tweener Fade(Color color, float duration, Ease ease = default) {
+        fadeTweener?.Kill();
+        fadeTweener = DOTween.To(() => ColorFilter, value => ColorFilter = value, color, duration).SetEase(ease);
+        fadeTweener.onComplete += () => ColorFilter = color;
+        return fadeTweener;
+    }
 
     public static PostProcessLayer.Antialiasing Antialiasing {
         set {
@@ -26,7 +45,7 @@ public static class PostProcessing {
 
         Antialiasing = antialiasing;
 
-        var profile = Profile;
+        var profile = PostProcessing.profile;
         if (!profile)
             return;
 
