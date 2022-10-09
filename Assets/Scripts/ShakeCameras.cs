@@ -17,7 +17,7 @@ public class ShakeCameras : MonoBehaviour {
     public void Shake() {
         foreach (var camera in FindObjectsOfType<Camera>().Where(camera => camera.isActiveAndEnabled)) {
             var distance = Vector3.Distance(transform.position, camera.transform.position);
-            camera.transform.DOShakePosition(duration, strength/distance/distance, vibrato);
+            camera.transform.DOShakePosition(duration, strength / distance / distance, vibrato);
         }
     }
 }
