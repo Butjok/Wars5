@@ -60,7 +60,7 @@ public class BattleViews : MonoBehaviour {
             visible = !visible;
             if (visible) {
                 var lightTank = "light-tank".LoadAs<UnitView>();
-                Play(new[] { TileType.Plain, TileType.Plain }, new[] { lightTank, lightTank }, (new Vector2Int(5, 5), new Vector2Int(5, 5)), true, true);
+                Play(new[] { TileType.Plain, TileType.Plain }, new[] { lightTank, lightTank }, (new Vector2Int(5, 5), new Vector2Int(4, 2)), true, true);
             }
             else
                 Hide(1);
@@ -101,13 +101,13 @@ public class BattleViews : MonoBehaviour {
         for (var side = left; side <=right; side++)
             battleViews[side].Setup(unitViewPrefabs[side], count.before[side]);
 
-        var impactPoints = new Dictionary<UnitView, List<ImpactPoint>>[] { new(), new() };
+        var targets = new Dictionary<UnitView, List<UnitView>>[] { new(), new() };
         var survivors = new List<UnitView>[] { new(), new() };
 
-        impactPoints[left] = BattleView.AssignTargets(battleViews[left].unitViews, battleViews[right].unitViews);
+        targets[left] = BattleView.AssignTargets(battleViews[left].unitViews, battleViews[right].unitViews);
         survivors[right] = new List<UnitView>(battleViews[right].unitViews.Take(count.after[right]));
         if (respond) {
-            impactPoints[right] = BattleView.AssignTargets(survivors[right], battleViews[left].unitViews);
+            targets[right] = BattleView.AssignTargets(survivors[right], battleViews[left].unitViews);
             survivors[left] = new List<UnitView>(battleViews[left].unitViews.Take(count.after[left]));
         }
 
@@ -123,7 +123,7 @@ public class BattleViews : MonoBehaviour {
             Assert.IsTrue(sequencePlayer);
             remaining++;
             sequencePlayer.onComplete = _ => remaining--;
-            sequencePlayer.Play(true, impactPoints[left][unitView]);
+            sequencePlayer.Play(targets[left][unitView], survivors[right], true);
         }
         yield return new WaitUntil(() => remaining == 0);
 
@@ -133,7 +133,7 @@ public class BattleViews : MonoBehaviour {
                 Assert.IsTrue(unitView.respond);
                 remaining++;
                 unitView.respond.onComplete = _ => remaining--;
-                unitView.respond.Play(true, impactPoints[right][unitView]);
+                unitView.respond.Play(targets[right][unitView], survivors[left], true);
             }
             yield return new WaitUntil(() => remaining == 0);
         }

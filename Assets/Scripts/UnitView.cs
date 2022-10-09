@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Security.Cryptography;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
@@ -83,7 +84,12 @@ public class UnitView : MonoBehaviour {
         }
     }
 
+    private bool initialized;
     public void EnsureInitialized() {
+        if (initialized)
+            return;
+        initialized = true;
+        
         walker = GetComponentInChildren<MovePathWalker>();
         Assert.IsTrue(walker);
         
@@ -188,10 +194,18 @@ public class UnitView : MonoBehaviour {
         }
     }
 
+    public void TakeDamage(Projectile projectile,ImpactPoint impactPoint) {
+        EnsureInitialized();
+        bodyTorque.AddWorldForceTorque(impactPoint.transform.position, -impactPoint.transform.forward * projectile.impactForce);
+    }
+    
+    public void Die(Projectile projectile, ImpactPoint impactPoint) {
+        EnsureInitialized();
+        Destroy(gameObject);
+    }
+    
     public void Die() {
-        transform.DOPunchPosition(Vector3.one / 5, .5f).OnComplete(() => {
-            unit.Dispose();
-            unit = null;
-        });
+        EnsureInitialized();
+        Destroy(gameObject);
     }
 }

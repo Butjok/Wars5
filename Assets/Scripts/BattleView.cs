@@ -65,27 +65,24 @@ public class BattleView : MonoBehaviour {
 
 	public void Cleanup() {
 		foreach (var unitView in unitViews)
+			if(unitView)
 			Destroy(unitView.gameObject);
 		unitViews.Clear();
 	}
 
-	public static Dictionary<UnitView, List<ImpactPoint>> AssignTargets(IReadOnlyList<UnitView> attackers, IReadOnlyList<UnitView> targets) {
+	public static Dictionary<UnitView, List<UnitView>> AssignTargets(IReadOnlyList<UnitView> attackers, IReadOnlyList<UnitView> targets) {
 
 		Assert.AreNotEqual(0, attackers.Count);
 		Assert.AreNotEqual(0, targets.Count);
 
-		var impactPoints = new Dictionary<UnitView, List<ImpactPoint>>();
+		var impactPoints = new Dictionary<UnitView, List<UnitView>>();
 		foreach (var unitView in attackers)
-			impactPoints.Add(unitView, new List<ImpactPoint>());
+			impactPoints.Add(unitView, new List<UnitView>());
 
 		for (var i = 0; i < Mathf.Max(attackers.Count, targets.Count); i++) {
-
 			var attacker = attackers[i % attackers.Count];
 			var target = targets[i % targets.Count];
-
-			Assert.AreNotEqual(0, target.impactPoints.Length);
-			var impactPoint = target.impactPoints.Random();
-			impactPoints[attacker].Add(impactPoint);
+			impactPoints[attacker].Add(target);
 		}
 
 		return impactPoints;

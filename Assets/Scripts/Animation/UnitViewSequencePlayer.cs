@@ -41,12 +41,11 @@ public class UnitViewSequencePlayer : MonoBehaviour {
         Assert.AreNotEqual(-1, index);
     }
 
-    [ContextMenu(nameof(Play))]
-    public void Play() {
-        Play(true, null);
-    }
-    public void Play(bool shuffle = true, List<ImpactPoint> impactPoints = null) {
+    public void Play(IReadOnlyList<UnitView> targets, IReadOnlyCollection<UnitView> survivingTargets, bool shuffle=true) {
 
+        Assert.IsNotNull(targets);
+        Assert.IsNotNull(survivingTargets);
+        
         EnsureInitialized();
 
         if (index == 0) {
@@ -55,10 +54,10 @@ public class UnitViewSequencePlayer : MonoBehaviour {
                 sibling.shuffledIndex = shuffledSiblings.IndexOf(sibling);
         }
 
-        StartCoroutine(Sequence(input, impactPoints));
+        StartCoroutine(Sequence(input, targets, survivingTargets));
     }
 
-    private IEnumerator Sequence(string input, List<ImpactPoint> impactPoints = null, int level = 0, Stack<object> stack = null) {
+    private IEnumerator Sequence(string input, IReadOnlyList<UnitView> targets , IReadOnlyCollection<UnitView>survivingTargets, int level = 0, Stack<object> stack = null) {
 
         // wait for al the siblings to get indices and shuffled indices
         if (level == 0)
@@ -88,6 +87,11 @@ public class UnitViewSequencePlayer : MonoBehaviour {
             else
                 switch (token) {
 
+                    case "true":
+                        case "false":
+                            stack.Push(token=="true");
+                            break;
+                    
                     case "+":
                     case "-":
                     case "*":
@@ -110,7 +114,7 @@ public class UnitViewSequencePlayer : MonoBehaviour {
                         }
                         var name = (dynamic)stack.Pop();
                         var subroutine = subroutines.list.Single(item => item.name == name);
-                        yield return Sequence(subroutine.text, impactPoints, level + 1, stack);
+                        yield return Sequence(subroutine.text, targets,survivingTargets, level + 1, stack);
                         break;
 
                     case "spawnPointIndex":
@@ -148,12 +152,11 @@ public class UnitViewSequencePlayer : MonoBehaviour {
                         break;
 
                     case "aim":
-                        unitView.turret.aim = Random.value <= (dynamic)stack.Pop();
+                        unitView.turret.aim = (dynamic)stack.Pop();
                         break;
 
                     case "shoot":
-                        if (Random.value <= (dynamic)stack.Pop())
-                            unitView.turret.Shoot(impactPoints);
+                            unitView.turret.Shoot(targets,survivingTargets, (dynamic)stack.Pop());
                         break;
 
                     case "steer":
@@ -185,7 +188,7 @@ public class UnitViewSequencePlayer : MonoBehaviour {
     private void Awake() {
         EnsureInitialized();
         if (playOnAwake)
-            Play();
+            Play(new UnitView[]{}, new HashSet<UnitView>());
     }
 
     private void Update() {

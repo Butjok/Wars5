@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -31,7 +32,7 @@ public class Turret : MonoBehaviour {
 		}
 	}
 
-	public void Shoot(List<ImpactPoint> impactPoints=null) {
+	public void Shoot(IReadOnlyList<UnitView> targets, IReadOnlyCollection<UnitView>survivingTargets, bool isLastProjectile) {
 
 		Assert.IsTrue(bodyTorque);
 		Assert.IsTrue(computer);
@@ -42,7 +43,15 @@ public class Turret : MonoBehaviour {
 		bodyTorque.AddWorldForceTorque(barrel.position, -barrel.forward * shotForce);
 
 		var projectile = Instantiate(projectilePrefab, barrel.position, barrel.rotation);
+		var impactPoints = new List<ImpactPoint>();
+		if (targets!=null)
+			foreach (var target in targets) {
+				Assert.AreNotEqual(0, target.impactPoints.Length);
+				impactPoints.Add(target.impactPoints.Random());
+			}
 		projectile.impactPoints = impactPoints;
+		projectile.survivingTargets = survivingTargets;
+		projectile.isLastProjectile = isLastProjectile;
 		projectile.ballisticCurve = BallisticCurve.From(barrel.position,barrel.forward,computer.velocity,computer.gravity);
 		if (computer.curve is { } curve)
 			projectile.ballisticCurve.totalTime = curve.totalTime;

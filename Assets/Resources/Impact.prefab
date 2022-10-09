@@ -19446,6 +19446,7 @@ GameObject:
   - component: {fileID: 853938955625880998}
   - component: {fileID: 853938955625881001}
   - component: {fileID: -2354332270506994978}
+  - component: {fileID: 6499111920611067692}
   m_Layer: 18
   m_Name: Impact
   m_TagString: Untagged
@@ -24339,6 +24340,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   time: 7.5
+--- !u!114 &6499111920611067692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 853938955625881003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4121f37f692c4b63bac2c0ddd29bccd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  strength: {x: 0.1, y: 0.1, z: 0.1}
+  duration: 1
+  vibrato: 10
+  shakeOnAwake: 1
 --- !u!1 &853938955714504218
 GameObject:
   m_ObjectHideFlags: 0

@@ -3571,7 +3571,7 @@ MonoBehaviour:
   input: '# MoveAndAttack #
 
 
-    0 aim
+    false aim
 
     -1.25 translate
 
@@ -3606,7 +3606,7 @@ MonoBehaviour:
   input: '# Attack #
 
 
-    0 aim
+    false aim
 
     attackDelay call .5 + wait
 
@@ -3637,12 +3637,12 @@ MonoBehaviour:
   input: '# Respond #
 
 
-    0 aim
+    false aim
 
-    .3 shuffledIndex * 0 .15 random + 1 + wait
+    .3 shuffledIndex * 0 .15 random + 1 +
+    wait
 
-    aimBreakShoot
-    call'
+    aimBreakShoot call'
   playOnAwake: 0
   siblings:
   - {fileID: 6178112097198144541}
@@ -3669,16 +3669,16 @@ MonoBehaviour:
   - name: attackDelay
     text: .05 shuffledIndex * 0 .025 random +
   - name: aimBreakShoot
-    text: '1 aim
+    text: 'true aim
 
       .4 wait
 
       1 break
 
-      .05 shuffledIndex * .4 + wait
+      .05 shuffledIndex * .4 +
+      wait
 
-      1
-      shoot'
+      true shoot'
 --- !u!1 &8368482287768561904
 GameObject:
   m_ObjectHideFlags: 0
