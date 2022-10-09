@@ -3639,7 +3639,7 @@ MonoBehaviour:
 
     0 aim
 
-    .25 shuffledIndex * 0 .25 random + 1 + wait
+    .3 shuffledIndex * 0 .15 random + 1 + wait
 
     aimBreakShoot
     call'

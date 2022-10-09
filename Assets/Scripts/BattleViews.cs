@@ -60,7 +60,7 @@ public class BattleViews : MonoBehaviour {
             visible = !visible;
             if (visible) {
                 var lightTank = "light-tank".LoadAs<UnitView>();
-                Play(new[] { TileType.Plain, TileType.Plain }, new[] { lightTank, lightTank }, (new Vector2Int(5, 2), new Vector2Int(5, 2)), true, true);
+                Play(new[] { TileType.Plain, TileType.Plain }, new[] { lightTank, lightTank }, (new Vector2Int(5, 5), new Vector2Int(5, 5)), true, true);
             }
             else
                 Hide(1);
