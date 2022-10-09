@@ -24,7 +24,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 1
-  controlID: 7808
+  controlID: 9355
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -47,7 +47,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 255
     y: 83
-    width: 1322
+    width: 1214
     height: 643
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
@@ -95,23 +95,23 @@ MonoBehaviour:
       serializedVersion: 2
       x: 0
       y: 21
-      width: 1322
+      width: 1214
       height: 622
     m_Scale: {x: 2, y: 2}
-    m_Translation: {x: 661, y: 311}
+    m_Translation: {x: 607, y: 311}
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -330.5
+      x: -303.5
       y: -155.5
-      width: 661
+      width: 607
       height: 311
     m_MinimalGUI: 1
   m_defaultScale: 2
-  m_LastWindowPixelSize: {x: 2644, y: 1286}
+  m_LastWindowPixelSize: {x: 2428, y: 1286}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
   m_LowResolutionForAspectRatios: 01000000000000000000
@@ -142,7 +142,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 8096}
   vertical: 0
-  controlID: 7789
+  controlID: 9356
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -200,7 +200,7 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: daab0000
+      m_SelectedIDs: e8a90000
       m_LastClickedID: 0
       m_ExpandedIDs: dedef2ffeafff2ff2821f3ff4a36fffff254ffffecfaffff30110100aef804004cf90400
       m_RenameOverlay:
@@ -243,7 +243,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 200
     y: 0
-    width: 1324
+    width: 1216
     height: 664
   m_MinSize: {x: 102, y: 121}
   m_MaxSize: {x: 4002, y: 4021}
@@ -602,9 +602,9 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 1524
+    x: 1416
     y: 0
-    width: 213
+    width: 321
     height: 664
   m_MinSize: {x: 276, y: 121}
   m_MaxSize: {x: 4001, y: 4021}
@@ -633,9 +633,9 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 1579
+    x: 1471
     y: 83
-    width: 212
+    width: 320
     height: 643
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
@@ -678,7 +678,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 7809
+  controlID: 9313
 --- !u!114 &12
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -746,21 +746,21 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scenes
+    - Assets/Resources
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Scenes
+  - Assets/Resources
   m_LastFoldersGridSize: 16
   m_LastProjectPath: /Users/butjok/Documents/GitHub/Wars5
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 198}
-    m_SelectedIDs: 0ac10000
-    m_LastClickedID: 49418
+    scrollPos: {x: 0, y: 258}
+    m_SelectedIDs: 0ec10000
+    m_LastClickedID: 49422
     m_ExpandedIDs: 0000000006c1000008c100000ac100000cc100000ec1000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -814,8 +814,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: daab0000
-    m_LastClickedInstanceID: 43994
+    m_SelectedInstanceIDs: e8a90000
+    m_LastClickedInstanceID: 43496
     m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: c62300004e830000dc610100aa31000050a60000126d000094a700008ce300007076000082320100d6e3f3ff3c9d0100a8b50000b676000064770000ba7600006e7700004834010034340100c2dd00009e7400003c75000000750000a8ac0000987400004e7500000000000044710000dc140400ae9701009cf80200
     m_RenameOverlay:
@@ -841,7 +841,7 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
     m_NewAssetIndexInList: -1
-    m_ScrollPosition: {x: 0, y: 180}
+    m_ScrollPosition: {x: 0, y: 111}
     m_GridSize: 16
   m_SkipHiddenPackages: 0
   m_DirectoriesAreaWidth: 207
