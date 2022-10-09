@@ -1,3 +1,4 @@
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -5,8 +6,8 @@ public class SplatMapSetter : MonoBehaviour {
 
     public BoxCollider boxCollider;
     public Material material;
-    public Renderer renderer;
-    public bool instanceMaterial = true;
+    [HideIf("material")] public Renderer renderer;
+    [HideIf("material")] public bool instanceMaterial = true;
     public Texture2D splat;
     public bool flipX;
     public bool flipY;

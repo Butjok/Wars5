@@ -3573,11 +3573,11 @@ MonoBehaviour:
 
     0 aim
 
-    -1.5 translate
+    -1.25 translate
 
-    .7 .8 random setSpeed
+    .7125  setSpeed
 
-    shuffledDelay
+    attackDelay
     call 1 + wait
 
     aimBreakShoot call'
@@ -3608,7 +3608,7 @@ MonoBehaviour:
 
     0 aim
 
-    shuffledDelay call .5 + wait
+    attackDelay call .5 + wait
 
     aimBreakShoot
     call'
@@ -3639,7 +3639,7 @@ MonoBehaviour:
 
     0 aim
 
-    shuffledDelay call 1 + wait
+    .25 shuffledIndex * 0 .25 random + 1 + wait
 
     aimBreakShoot
     call'
@@ -3666,8 +3666,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   list:
-  - name: shuffledDelay
-    text: .1 shuffledIndex * 0 .025 random +
+  - name: attackDelay
+    text: .05 shuffledIndex * 0 .025 random +
   - name: aimBreakShoot
     text: '1 aim
 
@@ -3675,9 +3675,10 @@ MonoBehaviour:
 
       1 break
 
-      .75 wait
+      .05 shuffledIndex * .4 + wait
 
-      1 shoot'
+      1
+      shoot'
 --- !u!1 &8368482287768561904
 GameObject:
   m_ObjectHideFlags: 0
@@ -4586,19 +4587,19 @@ PrefabInstance:
       objectReference: {fileID: 3978655096192631730}
     - target: {fileID: 5793958539712425122, guid: fb3d0e4b87008f747afef3004299e118, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 196.62712
       objectReference: {fileID: 0}
     - target: {fileID: 5793958539712425122, guid: fb3d0e4b87008f747afef3004299e118, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 80.837524
       objectReference: {fileID: 0}
     - target: {fileID: 5793958539712425122, guid: fb3d0e4b87008f747afef3004299e118, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -3.4028235e+38
+      value: 72.87471
       objectReference: {fileID: 0}
     - target: {fileID: 5793958539712425122, guid: fb3d0e4b87008f747afef3004299e118, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -3.4028235e+38
+      value: 925.8972
       objectReference: {fileID: 0}
     - target: {fileID: 7216561255274665977, guid: fb3d0e4b87008f747afef3004299e118, type: 3}
       propertyPath: m_Pivot.x

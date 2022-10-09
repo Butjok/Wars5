@@ -15,7 +15,8 @@ public static class Mouse
         hit = default;
         
         var camera = Camera.main;
-        if (!camera || !camera.rect.Contains(viewportPosition))
+        //Debug.Log(camera);
+        if (!camera)
             return false;
         
         var ray = camera.ScreenPointToRay(Input.mousePosition);

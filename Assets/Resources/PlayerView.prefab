@@ -91,7 +91,7 @@ MonoBehaviour:
   volumeTrigger: {fileID: 1233890263557541478}
   volumeLayer:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 49160
   stopNaNPropagation: 1
   finalBlitToCameraTarget: 1
   antialiasingMode: 3
@@ -275,6 +275,7 @@ MonoBehaviour:
   startDuration: 3
   time: 0
   axis: 1
+  randomizePhase: 1
 --- !u!1 &5718838059235115999
 GameObject:
   m_ObjectHideFlags: 0

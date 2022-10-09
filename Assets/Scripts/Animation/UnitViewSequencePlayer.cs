@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using NaughtyAttributes;
 using UnityEngine;
@@ -17,7 +18,7 @@ public class UnitViewSequencePlayer : MonoBehaviour {
     public string input = "";
     public bool playOnAwake = false;
 
-    [Foldout(runtimeData)] [ReadOnly] public UnitViewSequencePlayer[] siblings = Array.Empty<UnitViewSequencePlayer>();
+    [Foldout(runtimeData)] public UnitViewSequencePlayer[] siblings = Array.Empty<UnitViewSequencePlayer>();
     [Foldout(runtimeData)] [ReadOnly] public int index = -1;
     [Foldout(runtimeData)] [ReadOnly] public int shuffledIndex = -1;
     [Foldout(runtimeData)] [ReadOnly] public float speed;
@@ -81,7 +82,7 @@ public class UnitViewSequencePlayer : MonoBehaviour {
             if (ignore)
                 continue;
 
-            if (float.TryParse(token, out var floatValue))
+            if (float.TryParse(token, NumberStyles.Float, CultureInfo.InvariantCulture, out var floatValue))
                 stack.Push(floatValue);
 
             else
@@ -193,5 +194,12 @@ public class UnitViewSequencePlayer : MonoBehaviour {
         var angles = transform.rotation.eulerAngles;
         angles.y += steeringSpeed * Time.deltaTime;
         transform.rotation = Quaternion.Euler(angles);
+    }
+
+    [ContextMenu(nameof(Debug))]
+    private void DebugSetSiblings() {
+        var firstLine = input.Split('\n')[0].Trim();
+        var items = FindObjectsOfType<UnitViewSequencePlayer>();
+        siblings = items.Where(sibling => sibling.input.StartsWith(firstLine)).ToArray();
     }
 }

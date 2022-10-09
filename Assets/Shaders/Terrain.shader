@@ -287,7 +287,7 @@ Shader "Custom/Terrain"
            // o.Emission *=  IN.worldPos.y > 0;
 
             float3 normal = UnpackNormal( tex2D (_Normal, TRANSFORM_TEX(position, _Normal) ));
-            //normal = sign(normal) * pow(abs(normal),.75);
+            normal = sign(normal) * pow(abs(normal),.75);
             //normal.z/=2;
             normal=normalize(normal);
             o.Normal = normal;

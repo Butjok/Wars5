@@ -311,7 +311,7 @@ MonoBehaviour:
     up: {x: 0, y: 0, z: 0}
   time: 0
   impactPrefab: {fileID: 853938955625880998, guid: fc6b6381f62f2da4ba2e45ec88c9e907, type: 3}
-  impactForce: 500
+  impactForce: 200
   destroy: 0
 --- !u!33 &3936163103675211883
 MeshFilter:
