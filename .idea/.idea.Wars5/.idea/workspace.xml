@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="lkjfdgodfuoiert">
+    <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Impact.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Impact.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/light-tank.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/light-tank.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/PlainLeft.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/PlainLeft.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Animation/UnitViewSequencePlayer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Animation/UnitViewSequencePlayer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/BattleView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/BattleView.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/BattleViews.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/BattleViews.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/NewBehaviourScript.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/NewBehaviourScript.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PostProcessing.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PostProcessing.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/InputCommandsListener.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/InputCommandsListener.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UnitView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UnitView.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/RiderScriptEditorPersistedState.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/RiderScriptEditorPersistedState.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -44,10 +49,8 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Animation/LookAt.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Animation/Projectile.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/a9b8fc452a6f4a2dba24640d0133afc0157400/c2/41e4a6c7/Mathf.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Users/butjok/Documents/GitHub/Wars5/Assets/Scripts/PostProcessing.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/BattleViews.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.guciodevs.simple-min-max-slider@46ff35d229/Scripts/MinMaxSliderAttribute.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Users/butjok/Documents/GitHub/Wars5/Assets/Scenes/SampleScene.unity" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/EventSystem/EventSystem.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Animation/ExplosionTracer.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.guciodevs.simple-min-max-slider@46ff35d229/Scripts/Editor/MinMaxSliderDrawer.cs" root0="SKIP_HIGHLIGHTING" />
@@ -155,10 +158,10 @@
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="97174">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="30720">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="97174" />
+      <option name="pid" value="30720" />
       <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
@@ -219,14 +222,8 @@
       <workItem from="1665040557464" duration="643000" />
       <workItem from="1665053369529" duration="412000" />
       <workItem from="1665053789241" duration="24137000" />
-      <workItem from="1665158839857" duration="24393000" />
-    </task>
-    <task id="LOCAL-00079" summary="ghhgjhgjghjhjghgj">
-      <created>1663575751245</created>
-      <option name="number" value="00079" />
-      <option name="presentableId" value="LOCAL-00079" />
-      <option name="project" value="LOCAL" />
-      <updated>1663575751245</updated>
+      <workItem from="1665158839857" duration="24579000" />
+      <workItem from="1665266631572" duration="6341000" />
     </task>
     <task id="LOCAL-00080" summary="kljfgdfdg">
       <created>1663657242750</created>
@@ -564,7 +561,14 @@
       <option name="project" value="LOCAL" />
       <updated>1665190503681</updated>
     </task>
-    <option name="localTasksCounter" value="128" />
+    <task id="LOCAL-00128" summary="tyutyutyu">
+      <created>1665193087191</created>
+      <option name="number" value="00128" />
+      <option name="presentableId" value="LOCAL-00128" />
+      <option name="project" value="LOCAL" />
+      <updated>1665193087191</updated>
+    </task>
+    <option name="localTasksCounter" value="129" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -587,7 +591,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="iuwyeriwuyer" />
     <MESSAGE value="fghjk" />
     <MESSAGE value="lhkhlhjkllhhhjhjk" />
     <MESSAGE value="rollback from fixed update -&gt; update" />
@@ -612,7 +615,8 @@
     <MESSAGE value="htgjjhggjhjgh" />
     <MESSAGE value="pierutldkfjg" />
     <MESSAGE value="lkjfdgodfuoiert" />
-    <option name="LAST_COMMIT_MESSAGE" value="lkjfdgodfuoiert" />
+    <MESSAGE value="tyutyutyu" />
+    <option name="LAST_COMMIT_MESSAGE" value="tyutyutyu" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

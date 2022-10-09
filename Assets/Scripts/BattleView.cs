@@ -8,7 +8,6 @@ public class BattleView : MonoBehaviour {
 
     public List<UnitView> unitViews = new();
     public Dictionary<UnitView, List<ImpactPoint>> impactPoints = new();
-    public bool shuffle = true;
     public Transform target;
 
     public Transform[] spawnPoints = Array.Empty<Transform>();
@@ -17,17 +16,12 @@ public class BattleView : MonoBehaviour {
         EnsureInitialized();
     }
 
-    [ContextMenu(nameof(Initialize))]
-    private void Initialize() {
-        spawnPoints = GetComponentsInChildren<Transform>(true).Where(t => t.name.StartsWith("SpawnPoint")).ToArray();
-    }
-
     private bool initialized;
     private void EnsureInitialized() {
         if (initialized)
             return;
         initialized = true;
-        Initialize();
+        spawnPoints = GetComponentsInChildren<Transform>(true).Where(t => t.name.StartsWith("SpawnPoint")).ToArray();
     }
 
     public void Setup(UnitView unitViewPrefab, int count) {
@@ -49,8 +43,14 @@ public class BattleView : MonoBehaviour {
             unitView.turret.computer.Target = target;
         }
 
-        foreach (var unitView in unitViews)
-            unitView.moveAndShoot.siblings = unitViews.Select(item => item.moveAndShoot).ToArray();
+        foreach (var unitView in unitViews) {
+            if (unitView.moveAndAttack)
+                unitView.moveAndAttack.siblings = unitViews.Select(item => item.moveAndAttack).ToArray();
+            if (unitView.attack)
+                unitView.attack.siblings = unitViews.Select(item => item.attack).ToArray();
+            if (unitView.respond)
+                unitView.respond.siblings = unitViews.Select(item => item.respond).ToArray();
+        }
 
         if (unitViews.Count > 0) {
             var manualControl = unitViews[0].GetComponent<ManualControl>();
@@ -60,28 +60,23 @@ public class BattleView : MonoBehaviour {
     }
 
     public void Cleanup() {
-
-        EnsureInitialized();
-
         foreach (var unitView in unitViews)
             Destroy(unitView.gameObject);
         unitViews.Clear();
     }
 
-    public void AssignTargets(IList<UnitView> targets) {
+    public static Dictionary<UnitView, List<ImpactPoint>> AssignTargets(IReadOnlyList<UnitView> attackers, IReadOnlyList<UnitView> targets) {
 
-        EnsureInitialized();
-
-        Assert.AreNotEqual(0, unitViews.Count);
+        Assert.AreNotEqual(0, attackers.Count);
         Assert.AreNotEqual(0, targets.Count);
 
-        impactPoints.Clear();
-        foreach (var unitView in unitViews)
+        var impactPoints = new Dictionary<UnitView, List<ImpactPoint>>();
+        foreach (var unitView in attackers)
             impactPoints.Add(unitView, new List<ImpactPoint>());
 
-        for (var i = 0; i < Mathf.Max(unitViews.Count, targets.Count); i++) {
+        for (var i = 0; i < Mathf.Max(attackers.Count, targets.Count); i++) {
 
-            var attacker = unitViews[i % unitViews.Count];
+            var attacker = attackers[i % attackers.Count];
             var target = targets[i % targets.Count];
 
             Assert.AreNotEqual(0, target.impactPoints.Length);
@@ -89,15 +84,7 @@ public class BattleView : MonoBehaviour {
             impactPoints[attacker].Add(impactPoint);
         }
 
-        /*foreach (var attacker in impactPoints.Keys)
-            if (attacker.turret && attacker.turret.computer)
-                attacker.turret.computer.Target = impactPoints[attacker].Random().transform;*/
-    }
-
-    public void MoveAndShoot() {
-        EnsureInitialized();
-        foreach (var unitView in unitViews)
-            unitView.moveAndShoot.Play(shuffle, impactPoints.TryGetValue(unitView,out var list)?list:null);
+        return impactPoints;
     }
 }
 

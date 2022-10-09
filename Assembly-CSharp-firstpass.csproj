@@ -1052,6 +1052,15 @@
      <Reference Include="Unity.VisualScripting.State">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.VisualScripting.State.dll</HintPath>
      </Reference>
+     <Reference Include="NaughtyAttributes.Editor">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/NaughtyAttributes.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="NaughtyAttributes.Test">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/NaughtyAttributes.Test.dll</HintPath>
+     </Reference>
+     <Reference Include="NaughtyAttributes.Core">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/NaughtyAttributes.Core.dll</HintPath>
+     </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="FullscreenEditor.csproj">

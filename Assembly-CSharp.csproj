@@ -410,6 +410,7 @@
      <Compile Include="Assets/Scripts/Animation/LookAt.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/PlusBlockStartState.cs" />
      <Compile Include="Assets/Scripts/Animation/PistonBody.cs" />
+     <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />
      <None Include="Assets/Shaders/My First Lighting Shader.shader" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader" />
@@ -1498,6 +1499,15 @@
      </Reference>
      <Reference Include="Unity.VisualScripting.State">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.VisualScripting.State.dll</HintPath>
+     </Reference>
+     <Reference Include="NaughtyAttributes.Editor">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/NaughtyAttributes.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="NaughtyAttributes.Test">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/NaughtyAttributes.Test.dll</HintPath>
+     </Reference>
+     <Reference Include="NaughtyAttributes.Core">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/NaughtyAttributes.Core.dll</HintPath>
      </Reference>
   </ItemGroup>
   <ItemGroup>

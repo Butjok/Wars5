@@ -3341,6 +3341,9 @@ GameObject:
   - component: {fileID: 2966008283778994451}
   - component: {fileID: 7239151986368011813}
   - component: {fileID: 7370819031783772978}
+  - component: {fileID: -2748089726501033732}
+  - component: {fileID: 6178112097198144541}
+  - component: {fileID: -2344077628077424413}
   m_Layer: 0
   m_Name: light-tank
   m_TagString: Untagged
@@ -3454,7 +3457,9 @@ MonoBehaviour:
   hpText: {fileID: 0}
   impactPoints: []
   bodyTorque: {fileID: 9102701130869312519}
-  moveAndShoot: {fileID: 7370819031783772978}
+  moveAndAttack: {fileID: 7370819031783772978}
+  attack: {fileID: -2748089726501033732}
+  respond: {fileID: 6178112097198144541}
   movedTint: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
   nextPosition: {x: 0, y: 0}
   nextRotation: {x: 0, y: 0}
@@ -3546,11 +3551,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d82619826ee643c4b5bdcd68f88ee6a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bodyTorque: {fileID: 9102701130869312519}
-  acceleration: 0
   factor: -10
   clamp: 1
   maxTorque: 20
+  acceleration: 0
+  bodyTorque: {fileID: 9102701130869312519}
 --- !u!114 &7370819031783772978
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3563,34 +3568,116 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d414ede6cff4560a5fd86748e28dd79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  siblings:
-  - {fileID: 7370819031783772978}
-  playOnAwake: 0
-  input: '-1.5 translate
+  input: '# MoveAndAttack #
+
 
     0 aim
 
+    -1.5 translate
+
     .7 .8 random setSpeed
 
-    .1 shuffledIndex
-    * 1 + 0 .025 random + wait
+    shuffledDelay
+    call 1 + wait
 
-    1 aim
-
-    .4 wait
-
-    1 break
-
-    .75 wait
-
-    1
-    shoot'
+    aimBreakShoot call'
+  playOnAwake: 0
+  siblings:
+  - {fileID: 7370819031783772978}
   index: -1
   shuffledIndex: -1
   speed: 0
   acceleration: 0
   steeringSpeed: 0
   unitView: {fileID: 0}
+  subroutines: {fileID: 0}
+--- !u!114 &-2748089726501033732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8255700248535380302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d414ede6cff4560a5fd86748e28dd79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  input: '# Attack #
+
+
+    0 aim
+
+    shuffledDelay call .5 + wait
+
+    aimBreakShoot
+    call'
+  playOnAwake: 0
+  siblings:
+  - {fileID: -2748089726501033732}
+  index: -1
+  shuffledIndex: -1
+  speed: 0
+  acceleration: 0
+  steeringSpeed: 0
+  unitView: {fileID: 0}
+  subroutines: {fileID: 0}
+--- !u!114 &6178112097198144541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8255700248535380302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d414ede6cff4560a5fd86748e28dd79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  input: '# Respond #
+
+
+    0 aim
+
+    shuffledDelay call 1 + wait
+
+    aimBreakShoot
+    call'
+  playOnAwake: 0
+  siblings:
+  - {fileID: 6178112097198144541}
+  index: -1
+  shuffledIndex: -1
+  speed: 0
+  acceleration: 0
+  steeringSpeed: 0
+  unitView: {fileID: 0}
+  subroutines: {fileID: 0}
+--- !u!114 &-2344077628077424413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8255700248535380302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0092df7504864f80b57c11423f08d250, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  list:
+  - name: shuffledDelay
+    text: .1 shuffledIndex * 0 .025 random +
+  - name: aimBreakShoot
+    text: '1 aim
+
+      .4 wait
+
+      1 break
+
+      .75 wait
+
+      1 shoot'
 --- !u!1 &8368482287768561904
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
@@ -58,35 +60,56 @@ public class BattleViews : MonoBehaviour {
             visible = !visible;
             if (visible) {
                 var lightTank = "light-tank".LoadAs<UnitView>();
-                Show(new[] { TileType.Plain }, new[] { lightTank }, new Vector2Int(2, 5));
+                Play(new[] { TileType.Plain, TileType.Plain }, new[] { lightTank, lightTank }, (new Vector2Int(5, 2), new Vector2Int(5, 2)), true, true);
             }
-            else {
+            else
                 Hide(1);
-            }
         }
     }
 
-    public void Show(TileType[] tileTypes, UnitView[] unitViewPrefabs, Vector2Int count) {
-        StartCoroutine(ShowAnimation(tileTypes, unitViewPrefabs, count));
+    public void Play(TileType[] tileTypes, UnitView[] unitViewPrefabs, (Vector2Int before, Vector2Int after) count,
+        bool move, bool respond) {
+        
+        Assert.AreEqual(2, tileTypes.Length);
+        Assert.AreEqual(2, unitViewPrefabs.Length);
+        
+        Assert.IsTrue(count.before[left] >= count.after[left]);
+        Assert.IsTrue(count.before[right] >= count.after[right]);
+        
+        StartCoroutine(Animation(tileTypes, unitViewPrefabs, count, move, respond));
     }
-    private IEnumerator ShowAnimation(TileType[] tileTypes, UnitView[] unitViewPrefabs, Vector2Int count) {
-
+    
+    private IEnumerator Animation(TileType[] tileTypes, UnitView[] unitViewPrefabs, (Vector2Int before, Vector2Int after) count,
+        bool move, bool respond) {
+        
         yield return PostProcessing.Fade(fadeColor, fadeDuration, fadeEase).WaitForCompletion();
         if (level)
             level.SetActive(false);
 
         var operations = new List<AsyncOperation>();
-        for (var side = left; side < tileTypes.Length; side++) {
+        for (var side = left; side <= right; side++) {
             Assert.IsFalse(battleViews[side], side.ToString());
             var operation = LoadAsync(tileTypes[side], side);
-            operation.allowSceneActivation = true;
-            var side1 = side;
-            operation.completed += _ => battleViews[side1].Setup(unitViewPrefabs[side1], count[side1]);
             operations.Add(operation);
         }
 
         yield return new WaitUntil(() => operations.All(operation => operation.isDone));
+        foreach (var operation in operations)
+            operation.allowSceneActivation = true;
         LightProbes.Tetrahedralize();
+
+        for (var side = left; side <=right; side++)
+            battleViews[side].Setup(unitViewPrefabs[side], count.before[side]);
+
+        var impactPoints = new Dictionary<UnitView, List<ImpactPoint>>[] { new(), new() };
+        var survivors = new List<UnitView>[] { new(), new() };
+
+        impactPoints[left] = BattleView.AssignTargets(battleViews[left].unitViews, battleViews[right].unitViews);
+        survivors[right] = new List<UnitView>(battleViews[right].unitViews.Take(count.after[right]));
+        if (respond) {
+            impactPoints[right] = BattleView.AssignTargets(survivors[right], battleViews[left].unitViews);
+            survivors[left] = new List<UnitView>(battleViews[left].unitViews.Take(count.after[left]));
+        }
 
         PostProcessing.Fade(Color.white, fadeDuration, fadeEase);
 
@@ -94,18 +117,38 @@ public class BattleViews : MonoBehaviour {
             if (cameraRectDrivers[side])
                 cameraRectDrivers[side].Show();
 
-        battleViews[left].MoveAndShoot();
+        var remaining = 0;
+        foreach (var unitView in battleViews[left].unitViews) {
+            var sequencePlayer = move ? unitView.moveAndAttack : unitView.attack;
+            Assert.IsTrue(sequencePlayer);
+            remaining++;
+            sequencePlayer.onComplete = _ => remaining--;
+            sequencePlayer.Play(true, impactPoints[left][unitView]);
+        }
+        yield return new WaitUntil(() => remaining == 0);
+
+        if (respond) {
+            remaining = 0;
+            foreach (var unitView in survivors[right]) {
+                Assert.IsTrue(unitView.respond);
+                remaining++;
+                unitView.respond.onComplete = _ => remaining--;
+                unitView.respond.Play(true, impactPoints[right][unitView]);
+            }
+            yield return new WaitUntil(() => remaining == 0);
+        }
+        
     }
 
     public void Hide(int count) {
-        StartCoroutine(HideAnimation(count));
+        StartCoroutine(HideAnimation());
     }
-    private IEnumerator HideAnimation(int count) {
+    private IEnumerator HideAnimation() {
 
         yield return PostProcessing.Fade(fadeColor, fadeDuration, fadeEase).WaitForCompletion();
 
         var operations = new List<AsyncOperation>();
-        for (var side = left; side < count; side++) {
+        for (var side = left; side <= right; side++) {
             Assert.IsTrue(battleViews[side], side.ToString());
             battleViews[side].Cleanup();
             if (cameraRectDrivers[side])
@@ -115,7 +158,7 @@ public class BattleViews : MonoBehaviour {
         yield return new WaitUntil(() => operations.All(operation => operation.isDone));
 
         PostProcessing.Fade(Color.white, fadeDuration, fadeEase);
-        if(level)
+        if (level)
             level.SetActive(true);
     }
 }

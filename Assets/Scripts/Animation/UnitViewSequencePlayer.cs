@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Serialization;
@@ -9,19 +10,22 @@ using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(UnitView))]
 public class UnitViewSequencePlayer : MonoBehaviour {
-    
-    public UnitViewSequencePlayer[] siblings = Array.Empty<UnitViewSequencePlayer>();
-    public bool playOnAwake = false;
-    [FormerlySerializedAs("sequence")] [TextArea(20, 20)]
-    public string input = "";
 
-    [Space]
-    public int index = -1;
-    public int shuffledIndex = -1;
-    public float speed;
-    public float acceleration;
-    public float steeringSpeed;
-    public UnitView unitView;
+    public const string runtimeData = "Runtime Data";
+
+    [TextArea(10, 15)]
+    public string input = "";
+    public bool playOnAwake = false;
+
+    [Foldout(runtimeData)] [ReadOnly] public UnitViewSequencePlayer[] siblings = Array.Empty<UnitViewSequencePlayer>();
+    [Foldout(runtimeData)] [ReadOnly] public int index = -1;
+    [Foldout(runtimeData)] [ReadOnly] public int shuffledIndex = -1;
+    [Foldout(runtimeData)] [ReadOnly] public float speed;
+    [Foldout(runtimeData)] [ReadOnly] public float acceleration;
+    [Foldout(runtimeData)] [ReadOnly] public float steeringSpeed;
+    [Foldout(runtimeData)] [ReadOnly] public UnitView unitView;
+    [Foldout(runtimeData)] [ReadOnly] public UnitViewSequenceSubroutines subroutines;
+    public Action<UnitViewSequencePlayer> onComplete;
 
     private bool initialized;
     private void EnsureInitialized() {
@@ -33,7 +37,7 @@ public class UnitViewSequencePlayer : MonoBehaviour {
         Assert.IsTrue(unitView);
 
         index = Array.IndexOf(siblings, this);
-        Assert.AreNotEqual(-1,index);
+        Assert.AreNotEqual(-1, index);
     }
 
     [ContextMenu(nameof(Play))]
@@ -50,21 +54,32 @@ public class UnitViewSequencePlayer : MonoBehaviour {
                 sibling.shuffledIndex = shuffledSiblings.IndexOf(sibling);
         }
 
-        StartCoroutine(Execute(impactPoints));
+        StartCoroutine(Sequence(input, impactPoints));
     }
 
-    private IEnumerator Execute(List<ImpactPoint> impactPoints = null) {
+    private IEnumerator Sequence(string input, List<ImpactPoint> impactPoints = null, int level = 0, Stack<object> stack = null) {
+
+        // wait for al the siblings to get indices and shuffled indices
+        if (level == 0)
+            yield return null;
 
         if (string.IsNullOrWhiteSpace(input))
             yield break;
-        
-        // wait for al the siblings to get indices and shuffled indices
-        yield return null;
 
         var tokens = input.Split(new[] { ' ', '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-        var stack = new Stack<float>();
+        if (level == 0)
+            stack = new Stack<object>();
+
+        var ignore = false;
 
         foreach (var token in tokens) {
+
+            if (token == "#") {
+                ignore = !ignore;
+                continue;
+            }
+            if (ignore)
+                continue;
 
             if (float.TryParse(token, out var floatValue))
                 stack.Push(floatValue);
@@ -76,8 +91,8 @@ public class UnitViewSequencePlayer : MonoBehaviour {
                     case "-":
                     case "*":
                     case "/": {
-                        var b = stack.Pop();
-                        var a = stack.Pop();
+                        var b = (dynamic)stack.Pop();
+                        var a = (dynamic)stack.Pop();
                         stack.Push(token switch {
                             "+" => a + b,
                             "-" => a - b,
@@ -86,6 +101,16 @@ public class UnitViewSequencePlayer : MonoBehaviour {
                         });
                         break;
                     }
+
+                    case "call":
+                        if (!subroutines) {
+                            subroutines = GetComponent<UnitViewSequenceSubroutines>();
+                            Assert.IsTrue(subroutines);
+                        }
+                        var name = (dynamic)stack.Pop();
+                        var subroutine = subroutines.list.Single(item => item.name == name);
+                        yield return Sequence(subroutine.text, impactPoints, level + 1, stack);
+                        break;
 
                     case "spawnPointIndex":
                         Assert.AreNotEqual(-1, index);
@@ -98,58 +123,62 @@ public class UnitViewSequencePlayer : MonoBehaviour {
                         break;
 
                     case "random": {
-                        var b = stack.Pop();
-                        var a = stack.Pop();
+                        var b = (dynamic)stack.Pop();
+                        var a = (dynamic)stack.Pop();
                         stack.Push(Random.Range(a, b));
                         break;
                     }
 
                     case "setSpeed":
-                        speed = stack.Pop();
+                        speed = (float)stack.Pop();
                         break;
 
                     case "accelerate":
-                        acceleration = stack.Pop();
-                        yield return new WaitForSeconds(stack.Pop());
+                        acceleration = (dynamic)stack.Pop();
+                        yield return new WaitForSeconds((dynamic)stack.Pop());
                         acceleration = 0;
                         break;
 
                     case "break":
-                        acceleration = -Mathf.Sign(speed) * stack.Pop();
+                        acceleration = -Mathf.Sign(speed) * (dynamic)stack.Pop();
                         yield return new WaitForSeconds(Mathf.Abs(speed / acceleration));
                         acceleration = 0;
                         speed = 0;
                         break;
 
                     case "aim":
-                        unitView.turret.aim = Random.value <= stack.Pop();
+                        unitView.turret.aim = Random.value <= (dynamic)stack.Pop();
                         break;
 
                     case "shoot":
-                        if (Random.value <= stack.Pop())
+                        if (Random.value <= (dynamic)stack.Pop())
                             unitView.turret.Shoot(impactPoints);
                         break;
 
                     case "steer":
-                        steeringSpeed = stack.Pop();
-                        yield return new WaitForSeconds(stack.Pop());
+                        steeringSpeed = (dynamic)stack.Pop();
+                        yield return new WaitForSeconds((dynamic)stack.Pop());
                         steeringSpeed = 0;
                         break;
 
                     case "wait":
-                        yield return new WaitForSeconds(stack.Pop());
+                        yield return new WaitForSeconds((dynamic)stack.Pop());
                         break;
 
                     case "translate":
-                        transform.position += transform.forward * stack.Pop();
+                        transform.position += transform.forward * (dynamic)stack.Pop();
                         break;
 
                     default:
-                        throw new ArgumentOutOfRangeException(token);
+                        stack.Push(token);
+                        break;
                 }
         }
 
-        Assert.AreEqual(0, stack.Count);
+        if (level == 0) {
+            Assert.AreEqual(0, stack.Count);
+            onComplete?.Invoke(this);
+        }
     }
 
     private void Awake() {

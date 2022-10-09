@@ -25,7 +25,9 @@ public class UnitView : MonoBehaviour {
     public TMP_Text hpText;
     public ImpactPoint[] impactPoints = Array.Empty<ImpactPoint>();
     public BodyTorque bodyTorque;
-    public UnitViewSequencePlayer moveAndShoot;
+    [FormerlySerializedAs("moveAndShoot")] public UnitViewSequencePlayer moveAndAttack;
+    [FormerlySerializedAs("shoot")] public UnitViewSequencePlayer attack;
+    public UnitViewSequencePlayer respond;
 
     public Color movedTint = Color.white / 2;
 

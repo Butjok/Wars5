@@ -51,7 +51,8 @@ public class CameraRectDriver : MonoBehaviour {
         return rect;
     }
 
-    private void Update() {
+    public void Update() {
+        EnsureInitialized();
         camera.enabled = camera.rect.width > cameraMinimalRectSize && camera.rect.height > cameraMinimalRectSize;
     }
 
