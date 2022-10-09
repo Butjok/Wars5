@@ -1389,6 +1389,9 @@
      <Reference Include="PPv2URPConverters">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/PPv2URPConverters.dll</HintPath>
      </Reference>
+     <Reference Include="NaughtyAttributes.Test">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/NaughtyAttributes.Test.dll</HintPath>
+     </Reference>
      <Reference Include="Unity.TextMeshPro.Editor">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
      </Reference>
@@ -1476,6 +1479,9 @@
      <Reference Include="Unity.RenderPipelines.Universal.Editor">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.RenderPipelines.Universal.Editor.dll</HintPath>
      </Reference>
+     <Reference Include="NaughtyAttributes.Editor">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/NaughtyAttributes.Editor.dll</HintPath>
+     </Reference>
      <Reference Include="Unity.VisualScripting.Shared.Editor">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.VisualScripting.Shared.Editor.dll</HintPath>
      </Reference>
@@ -1488,6 +1494,9 @@
      <Reference Include="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll</HintPath>
      </Reference>
+     <Reference Include="NaughtyAttributes.Core">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/NaughtyAttributes.Core.dll</HintPath>
+     </Reference>
      <Reference Include="Unity.Mathematics.Editor">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.Mathematics.Editor.dll</HintPath>
      </Reference>
@@ -1499,15 +1508,6 @@
      </Reference>
      <Reference Include="Unity.VisualScripting.State">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.VisualScripting.State.dll</HintPath>
-     </Reference>
-     <Reference Include="NaughtyAttributes.Editor">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/NaughtyAttributes.Editor.dll</HintPath>
-     </Reference>
-     <Reference Include="NaughtyAttributes.Test">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/NaughtyAttributes.Test.dll</HintPath>
-     </Reference>
-     <Reference Include="NaughtyAttributes.Core">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/NaughtyAttributes.Core.dll</HintPath>
      </Reference>
   </ItemGroup>
   <ItemGroup>

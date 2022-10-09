@@ -21020,7 +21020,9 @@ MonoBehaviour:
   hpText: {fileID: 0}
   impactPoints: []
   bodyTorque: {fileID: 0}
-  moveAndShoot: {fileID: 0}
+  moveAndAttack: {fileID: 0}
+  attack: {fileID: 0}
+  respond: {fileID: 0}
   movedTint: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
   nextPosition: {x: 0, y: 0}
   nextRotation: {x: 0, y: 0}
@@ -52332,8 +52334,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 164.32887, y: 247.667}
-  m_SizeDelta: {x: 205.40419, y: 91.84514}
+  m_AnchoredPosition: {x: 149.0105, y: 224.99077}
+  m_SizeDelta: {x: 186.59753, y: 83.43587}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &854730333
 MonoBehaviour:
@@ -83471,7 +83473,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   level: {fileID: 1161495004}
-  fadeColor: {r: 0.42352942, g: 0.39607844, b: 0.33333334, a: 1}
+  fadeColor: {r: 0, g: 0, b: 0, a: 1}
   fadeDuration: 0.25
   fadeEase: 0
   visible: 0
@@ -140091,19 +140093,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 51258076789849872, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 141.3629
+      value: 128.41977
       objectReference: {fileID: 0}
     - target: {fileID: 51258076789849872, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 80.5444
+      value: 73.169815
       objectReference: {fileID: 0}
     - target: {fileID: 51258076789849872, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 248.68242
+      value: 225.64069
       objectReference: {fileID: 0}
     - target: {fileID: 51258076789849872, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 260.03235
+      value: 236.22395
       objectReference: {fileID: 0}
     - target: {fileID: 742884794920560503, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_LocalRotation.w
