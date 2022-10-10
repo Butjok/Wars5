@@ -67,7 +67,7 @@ public class BattleViews : MonoBehaviour {
             visible = !visible;
             if (visible) {
                 var lightTank = "light-tank".LoadAs<UnitView>();
-                var before = new Vector2Int(Random.Range(1, 5 + 1), Random.Range(1, 5 + 1));
+                var before = new Vector2Int(Random.Range(1, 5 + 1), Random.Range(1, 1 + 1));
                 var after = new Vector2Int(Mathf.Min(before[left], Random.Range(0, 5 + 1)), Mathf.Min(before[right], Random.Range(0, 5 + 1)));
                 if (after[right] == 0)
                     after[left] = before[left];
@@ -115,14 +115,15 @@ public class BattleViews : MonoBehaviour {
         for (var side = left; side <= right; side++)
             battleViews[side].Setup(unitViewPrefabs[side], count.before[side]);
 
-        var targets = new Dictionary<UnitView, List<UnitView>>[] { new(), new() };
+        var targetingSetup = new BattleView.TargetingSetup[] { new(), new() };
         var survivors = new List<UnitView>[] { new(), new() };
 
-        targets[left] = BattleView.AssignTargets(battleViews[left].unitViews, battleViews[right].unitViews);
         survivors[right] = new List<UnitView>(battleViews[right].unitViews.Take(count.after[right]));
+        targetingSetup[left] = BattleView.AssignTargets(battleViews[left].unitViews, battleViews[right].unitViews, survivors[right]);
+        
         if (animationSettings.HasFlag(AnimationSettings.Respond) && count.after[right] > 0) {
-            targets[right] = BattleView.AssignTargets(survivors[right], battleViews[left].unitViews);
             survivors[left] = new List<UnitView>(battleViews[left].unitViews.Take(count.after[left]));
+            targetingSetup[right] = BattleView.AssignTargets(survivors[right], battleViews[left].unitViews, survivors[left]);
         }
 
         PostProcessing.Fade(Color.white, fadeDuration, fadeEase);
@@ -137,7 +138,7 @@ public class BattleViews : MonoBehaviour {
             Assert.IsTrue(sequencePlayer);
             remaining++;
             sequencePlayer.onComplete = _ => remaining--;
-            sequencePlayer.Play(targets[left][unitView], survivors[right], true);
+            sequencePlayer.Play(targetingSetup[left], true);
         }
         yield return new WaitUntil(() => remaining == 0);
 
@@ -147,7 +148,7 @@ public class BattleViews : MonoBehaviour {
                 Assert.IsTrue(unitView.respond);
                 remaining++;
                 unitView.respond.onComplete = _ => remaining--;
-                unitView.respond.Play(targets[right][unitView], survivors[left], true);
+                unitView.respond.Play(targetingSetup[right], true);
             }
             yield return new WaitUntil(() => remaining == 0);
         }

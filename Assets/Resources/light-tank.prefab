@@ -3416,12 +3416,6 @@ MonoBehaviour:
   - {fileID: 927793564289675771}
   - {fileID: 8132584864149396507}
   - {fileID: 6049345971769395557}
-  blinkCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
   steeringArms: []
   wheels:
   - {fileID: 9102701130203495310}
@@ -3451,7 +3445,6 @@ MonoBehaviour:
   - {fileID: 9102701130222910143}
   walker: {fileID: 9102701129914540530}
   turret: {fileID: 2966008283778994451}
-  center: {fileID: 7309110000328453102}
   body: {fileID: 9102701130869312513}
   prefab: {fileID: 0}
   hpText: {fileID: 0}
@@ -3460,7 +3453,6 @@ MonoBehaviour:
   moveAndAttack: {fileID: 7370819031783772978}
   attack: {fileID: -2748089726501033732}
   respond: {fileID: 6178112097198144541}
-  movedTint: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
   nextPosition: {x: 0, y: 0}
   nextRotation: {x: 0, y: 0}
   nextMoved: 0
@@ -3539,6 +3531,7 @@ MonoBehaviour:
   shotForce: 666
   projectilePrefab: {fileID: -1139725801542862822, guid: 5eac9382ea034ac42913ae88d9c508fa, type: 3}
   bodyTorque: {fileID: 9102701130869312519}
+  unitView: {fileID: 0}
 --- !u!114 &7239151986368011813
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,13 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 public class BattleView : MonoBehaviour {
 
+    public struct TargetingSetup {
+        public Dictionary<UnitView, List<UnitView>> targets;
+        public Dictionary<UnitView, int> remainingAttackersCount;
+    }
+
     public List<UnitView> unitViews = new();
-    public Dictionary<UnitView, List<ImpactPoint>> impactPoints = new();
     public Transform target;
 
     public Transform[] spawnPoints = Array.Empty<Transform>();
@@ -70,22 +75,31 @@ public class BattleView : MonoBehaviour {
         unitViews.Clear();
     }
 
-    public static Dictionary<UnitView, List<UnitView>> AssignTargets(IReadOnlyList<UnitView> attackers, IReadOnlyList<UnitView> targets) {
+    public static TargetingSetup AssignTargets(IReadOnlyList<UnitView> attackers, IReadOnlyList<UnitView> targets, IReadOnlyCollection<UnitView> survivors) {
 
         Assert.AreNotEqual(0, attackers.Count);
         Assert.AreNotEqual(0, targets.Count);
 
-        var impactPoints = new Dictionary<UnitView, List<UnitView>>();
-        foreach (var unitView in attackers)
-            impactPoints.Add(unitView, new List<UnitView>());
+        var setup = new TargetingSetup {
+            targets = new Dictionary<UnitView, List<UnitView>>(),
+            remainingAttackersCount = new Dictionary<UnitView, int>()
+        };
+
+        foreach (var attacker in attackers)
+            setup.targets.Add(attacker, new List<UnitView>());
+        foreach (var target in targets)
+            setup.remainingAttackersCount.Add(target, survivors.Contains(target) ? 999 : 0);
 
         for (var i = 0; i < Mathf.Max(attackers.Count, targets.Count); i++) {
+
             var attacker = attackers[i % attackers.Count];
             var target = targets[i % targets.Count];
-            impactPoints[attacker].Add(target);
+
+            setup.targets[attacker].Add(target);
+            setup.remainingAttackersCount[target]++;
         }
 
-        return impactPoints;
+        return setup;
     }
 }
 

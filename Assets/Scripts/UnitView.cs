@@ -1,11 +1,8 @@
 using System;
 using System.Linq;
-using System.Security.Cryptography;
-using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.Serialization;
 
 [SelectionBase]
 [RequireComponent(typeof(MovePathWalker))]
@@ -14,23 +11,19 @@ public class UnitView : MonoBehaviour {
     public Unit unit;
     public Renderer[] renderers;
     public MaterialPropertyBlock propertyBlock;
-    [FormerlySerializedAs("curve")] public AnimationCurve blinkCurve = new AnimationCurve();
     public SteeringArm[] steeringArms;
     public Wheel[] wheels;
     public Piston[] wheelPistons;
     public MovePathWalker walker;
     public Turret turret;
-    public Transform center;
     public Body body;
     public UnitView prefab;
     public TMP_Text hpText;
     public ImpactPoint[] impactPoints = Array.Empty<ImpactPoint>();
     public BodyTorque bodyTorque;
-    [FormerlySerializedAs("moveAndShoot")] public UnitViewSequencePlayer moveAndAttack;
-    [FormerlySerializedAs("shoot")] public UnitViewSequencePlayer attack;
+    public UnitViewSequencePlayer moveAndAttack;
+    public UnitViewSequencePlayer attack;
     public UnitViewSequencePlayer respond;
-
-    public Color movedTint = Color.white / 2;
 
     public Vector2Int Position {
         get => transform.position.ToVector2().RoundToInt();
@@ -163,14 +156,6 @@ public class UnitView : MonoBehaviour {
     public bool nextMoved;
 
     public void Blink() {
-        // TODO: move to shader code
-        if (blinkCurve.length > 0)
-            DOTween.To(t => {
-                var value = blinkCurve.Evaluate(t);
-                propertyBlock.SetFloat("_Selected", value);
-                foreach (var renderer in renderers)
-                    renderer.SetPropertyBlock(propertyBlock);
-            }, 0, blinkCurve[blinkCurve.length - 1].time, blinkDuration);
     }
     public float blinkDuration = 1;
 

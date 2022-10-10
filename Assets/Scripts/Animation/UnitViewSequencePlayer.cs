@@ -41,10 +41,7 @@ public class UnitViewSequencePlayer : MonoBehaviour {
         Assert.AreNotEqual(-1, index);
     }
 
-    public void Play(IReadOnlyList<UnitView> targets, IReadOnlyCollection<UnitView> survivingTargets, bool shuffle=true) {
-
-        Assert.IsNotNull(targets);
-        Assert.IsNotNull(survivingTargets);
+    public void Play(BattleView.TargetingSetup targetingSetup, bool shuffle=true) {
         
         EnsureInitialized();
 
@@ -54,10 +51,10 @@ public class UnitViewSequencePlayer : MonoBehaviour {
                 sibling.shuffledIndex = shuffledSiblings.IndexOf(sibling);
         }
 
-        StartCoroutine(Sequence(input, targets, survivingTargets));
+        StartCoroutine(Sequence(input, targetingSetup));
     }
 
-    private IEnumerator Sequence(string input, IReadOnlyList<UnitView> targets , IReadOnlyCollection<UnitView>survivingTargets, int level = 0, Stack<object> stack = null) {
+    private IEnumerator Sequence(string input, BattleView.TargetingSetup targetingSetup, int level = 0, Stack<object> stack = null) {
 
         // wait for al the siblings to get indices and shuffled indices
         if (level == 0)
@@ -114,7 +111,7 @@ public class UnitViewSequencePlayer : MonoBehaviour {
                         }
                         var name = (dynamic)stack.Pop();
                         var subroutine = subroutines.list.Single(item => item.name == name);
-                        yield return Sequence(subroutine.text, targets,survivingTargets, level + 1, stack);
+                        yield return Sequence(subroutine.text, targetingSetup, level + 1, stack);
                         break;
 
                     case "spawnPointIndex":
@@ -156,7 +153,7 @@ public class UnitViewSequencePlayer : MonoBehaviour {
                         break;
 
                     case "shoot":
-                            unitView.turret.Shoot(targets,survivingTargets, (dynamic)stack.Pop());
+                            unitView.turret.Shoot(targetingSetup, (dynamic)stack.Pop());
                         break;
 
                     case "steer":
@@ -188,7 +185,7 @@ public class UnitViewSequencePlayer : MonoBehaviour {
     private void Awake() {
         EnsureInitialized();
         if (playOnAwake)
-            Play(new UnitView[]{}, new HashSet<UnitView>());
+            Play(new BattleView.TargetingSetup());
     }
 
     private void Update() {

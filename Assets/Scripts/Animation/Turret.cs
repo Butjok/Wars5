@@ -16,13 +16,26 @@ public class Turret : MonoBehaviour {
 	public float shotForce = 500;
 	public Projectile projectilePrefab;
 	public BodyTorque bodyTorque;
+	public UnitView unitView;
 
-	public void Awake() {
+	private bool initialized;
+	private void EnsureInitialized() {
+		if(initialized)
+			return;
+		initialized = true;
+		
+		unitView = GetComponentInChildren<UnitView>();
+		Assert.IsTrue(unitView);
+		
 		computer = GetComponent<BallisticComputer>();
 		Assert.IsTrue(computer);
 	}
+	
+	private void Awake() {
+		EnsureInitialized();
+	}
 
-	public void Update() {
+	private void Update() {
 		var possible = computer.curve != null;
 		foreach (var rotator in rotators) {
 			if (aim && possible)
@@ -32,26 +45,23 @@ public class Turret : MonoBehaviour {
 		}
 	}
 
-	public void Shoot(IReadOnlyList<UnitView> targets, IReadOnlyCollection<UnitView>survivingTargets, bool isLastProjectile) {
+	public void Shoot(BattleView.TargetingSetup targetingSetup, bool isLastProjectile) {
 
 		Assert.IsTrue(bodyTorque);
 		Assert.IsTrue(computer);
 		var barrel = computer.barrel;
 		Assert.IsTrue(barrel);
 		Assert.IsTrue(projectilePrefab);
+		
+		EnsureInitialized();
 
 		bodyTorque.AddWorldForceTorque(barrel.position, -barrel.forward * shotForce);
 
 		var projectile = Instantiate(projectilePrefab, barrel.position, barrel.rotation);
-		var impactPoints = new List<ImpactPoint>();
-		if (targets!=null)
-			foreach (var target in targets) {
-				Assert.AreNotEqual(0, target.impactPoints.Length);
-				impactPoints.Add(target.impactPoints.Random());
-			}
-		projectile.impactPoints = impactPoints;
-		projectile.survivingTargets = survivingTargets;
+		projectile.source = this;
+		projectile.targetingSetup = targetingSetup;
 		projectile.isLastProjectile = isLastProjectile;
+		
 		projectile.ballisticCurve = BallisticCurve.From(barrel.position,barrel.forward,computer.velocity,computer.gravity);
 		if (computer.curve is { } curve)
 			projectile.ballisticCurve.totalTime = curve.totalTime;

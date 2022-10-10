@@ -1,12 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 public class Projectile : MonoBehaviour {
 
-    public List<ImpactPoint> impactPoints = new();
+    public Turret source;
+    public BattleView.TargetingSetup targetingSetup;
     public BallisticCurve ballisticCurve;
     public float time;
     public const float adjacentPositionDeltaTime = .1f;
@@ -14,7 +12,6 @@ public class Projectile : MonoBehaviour {
     public float impactForce = 500;
     public bool destroy;
     public bool isLastProjectile;
-    public IReadOnlyCollection<UnitView> survivingTargets = Array.Empty<UnitView>();
 
     public void Update() {
         if (destroy)
@@ -25,17 +22,22 @@ public class Projectile : MonoBehaviour {
             destroy = true;
             transform.position = ballisticCurve.Sample(totalTime);
 
-            foreach (var impactPoint in impactPoints) {
-                Instantiate(impactPrefab, impactPoint.transform.position, impactPoint.transform.rotation).Play();
-                var unitView = impactPoint.unitView;
+            if (targetingSetup.targets != null && targetingSetup.targets.TryGetValue(source.unitView, out var targets)) {
 
-                // TODO: destroy target only if ALL attackers fires all of their projectiles and not only after the last projectile
-                // TODO: of any of them hits the target
-                if (isLastProjectile && !survivingTargets.Contains(unitView))
-                    unitView.Die(this, impactPoint);
-                else
-                    unitView.TakeDamage(this, impactPoint);
-                //impactPoint.unitView.bodyTorque.AddWorldForceTorque(impactPoint.transform.position, -impactPoint.transform.forward * impactForce);
+                foreach (var target in targets) {
+
+                    Assert.AreNotEqual(0, target.impactPoints.Length);
+                    var impactPoint = target.impactPoints.Random();
+                    Instantiate(impactPrefab, impactPoint.transform.position, impactPoint.transform.rotation).Play();
+
+                    if (isLastProjectile)
+                        targetingSetup.remainingAttackersCount[target]--;
+
+                    if (isLastProjectile && targetingSetup.remainingAttackersCount[target] == 0)
+                        target.Die(this, impactPoint);
+                    else
+                        target.TakeDamage(this, impactPoint);
+                }
             }
         }
 
