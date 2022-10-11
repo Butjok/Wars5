@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -79,6 +80,10 @@ public static class MathUtils {
 			if (UnityEngine.Random.Range(0, ++i) == 0)
 				result = item;
 		return result;
+	}
+
+	public static IEnumerable<T> Randomize<T>(this IEnumerable<T> sequence) {
+		return sequence.OrderBy(_ => UnityEngine.Random.value);
 	}
 
 	public static IEnumerable<Vector2Int> Offsets(this Vector2Int range) {
