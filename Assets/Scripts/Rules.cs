@@ -75,7 +75,7 @@ public static class Rules {
         return 20;
     }
     public static int Cp(Unit unit) {
-        return unit.hp.v;
+        return (unit.hp.v);
     }
     public static int MaxHp(UnitType unitType) {
         return 10;
