@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="sdfdsfsdfsdsdfsdf">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/BattleViews.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/BattleViews.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/MathUtils.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/MathUtils.cs" afterDir="false" />
-    </list>
+    <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -38,6 +34,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Animation/LookAt.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Animation/Projectile.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/a9b8fc452a6f4a2dba24640d0133afc0157400/c2/41e4a6c7/Mathf.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/butjok/Documents/GitHub/Wars5/Assets/Scripts/BattleViews.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/BattleViews.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.guciodevs.simple-min-max-slider@46ff35d229/Scripts/MinMaxSliderAttribute.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/EventSystem/EventSystem.cs" root0="SKIP_HIGHLIGHTING" />
@@ -152,10 +149,10 @@
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="91570">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="91570" />
+      <option name="pid" />
       <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
@@ -218,14 +215,7 @@
       <workItem from="1665053789241" duration="24137000" />
       <workItem from="1665158839857" duration="24579000" />
       <workItem from="1665266631572" duration="6341000" />
-      <workItem from="1665440649295" duration="12685000" />
-    </task>
-    <task id="LOCAL-00090" summary="lsjhdfksjdf">
-      <created>1664708133961</created>
-      <option name="number" value="00090" />
-      <option name="presentableId" value="LOCAL-00090" />
-      <option name="project" value="LOCAL" />
-      <updated>1664708133961</updated>
+      <workItem from="1665440649295" duration="12708000" />
     </task>
     <task id="LOCAL-00091" summary="hrhthrtrty">
       <created>1664713187537</created>
@@ -563,7 +553,14 @@
       <option name="project" value="LOCAL" />
       <updated>1665457076822</updated>
     </task>
-    <option name="localTasksCounter" value="139" />
+    <task id="LOCAL-00139" summary="randomize survivors">
+      <created>1665457586531</created>
+      <option name="number" value="00139" />
+      <option name="presentableId" value="LOCAL-00139" />
+      <option name="project" value="LOCAL" />
+      <updated>1665457586531</updated>
+    </task>
+    <option name="localTasksCounter" value="140" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -586,7 +583,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="asdasdasdasd" />
     <MESSAGE value="lkdfjgoeriuteoirtu" />
     <MESSAGE value="nbcvlkjgdfoieurt" />
     <MESSAGE value="ghrfghfghf" />
@@ -611,7 +607,8 @@
     <MESSAGE value="added game parsing from input" />
     <MESSAGE value="fgdfgdfg" />
     <MESSAGE value="sdfdsfsdfsdsdfsdf" />
-    <option name="LAST_COMMIT_MESSAGE" value="sdfdsfsdfsdsdfsdf" />
+    <MESSAGE value="randomize survivors" />
+    <option name="LAST_COMMIT_MESSAGE" value="randomize survivors" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

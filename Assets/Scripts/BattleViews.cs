@@ -74,10 +74,10 @@ public class BattleViews : MonoBehaviour {
 
                 if (firstTime) {
                     firstTime = false;
-                    before[left] = 5;
-                    before[right] = 3;
-                    after[left] = 4;
-                    after[right] = 1;
+                    before[left] = 2;
+                    before[right] = 5;
+                    after[left] = 1;
+                    after[right] = 4;
                 }
                 
                 if (after[right] == 0)

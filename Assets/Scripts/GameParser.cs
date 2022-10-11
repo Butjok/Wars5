@@ -168,6 +168,7 @@ public static class GameParser {
                             return true;
                         }
                         case "local": {
+                            Assert.IsNull(game.localPlayer);
                             playerLocal = true;
                             return true;
                         }
