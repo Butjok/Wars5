@@ -18,7 +18,6 @@ public class Building {
 		this.game = game;
 		this.position = position;
 		this.player.v = player;
-		Assert.IsFalse(game.buildings.ContainsKey(position));
 
 		Assert.IsTrue(!game.buildings.ContainsKey(position) || game.buildings[position] == null);
 		game.buildings[position] = this;

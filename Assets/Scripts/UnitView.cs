@@ -8,6 +8,8 @@ using UnityEngine.Assertions;
 [RequireComponent(typeof(MovePathWalker))]
 public class UnitView : MonoBehaviour {
 
+    public static UnitView DefaultPrefab => "light-tank".LoadAs<UnitView>();
+    
     public Unit unit;
     public Renderer[] renderers;
     public MaterialPropertyBlock propertyBlock;
@@ -141,6 +143,7 @@ public class UnitView : MonoBehaviour {
             UpdateRenderers();
         }
     }
+    
     public void UpdateRenderers() {
         foreach (var renderer in renderers)
             renderer.SetPropertyBlock(propertyBlock);

@@ -6,7 +6,7 @@ using UnityEngine;
 
 public enum ControlFlow { Ignore, Replace, Pause }
 
-public class DefaultLevelLogic {
+public class LevelLogic {
 
     public virtual (ControlFlow controlFlow, IEnumerator state) OnTurnStart(Game game) {
         return (ControlFlow.Pause, PlayMusic(game.CurrentPlayer.co.themes));

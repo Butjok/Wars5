@@ -335,7 +335,7 @@
      <Compile Include="Assets/Scripts/Animation/OrbitingWeight.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/ContextSensitivityInfo.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/LexerActionExecutor.cs" />
-     <Compile Include="Assets/Scripts/LevelLogic/DefaultLevelLogic.cs" />
+     <Compile Include="Assets/Scripts/LevelLogic/LevelLogic.cs" />
      <Compile Include="Assets/Scripts/GameStates/ActionSelectionState.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/TokensStartState.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/RuleStopState.cs" />
@@ -412,6 +412,7 @@
      <Compile Include="Assets/CommandLine/Antlr4/Atn/PlusBlockStartState.cs" />
      <Compile Include="Assets/Scripts/Animation/PistonBody.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
+     <Compile Include="Assets/Scripts/GameParser.cs" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />
      <None Include="Assets/Shaders/My First Lighting Shader.shader" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader" />

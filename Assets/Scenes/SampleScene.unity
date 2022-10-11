@@ -21003,18 +21003,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   renderers: []
-  blinkCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
   steeringArms: []
   wheels: []
   wheelPistons: []
   walker: {fileID: 0}
   turret: {fileID: 0}
-  center: {fileID: 0}
   body: {fileID: 0}
   prefab: {fileID: 0}
   hpText: {fileID: 0}
@@ -21023,7 +21016,6 @@ MonoBehaviour:
   moveAndAttack: {fileID: 0}
   attack: {fileID: 0}
   respond: {fileID: 0}
-  movedTint: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
   nextPosition: {x: 0, y: 0}
   nextRotation: {x: 0, y: 0}
   nextMoved: 0
@@ -52334,8 +52326,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 240.52875, y: 363.17407}
-  m_SizeDelta: {x: 301.20074, y: 134.67993}
+  m_AnchoredPosition: {x: 164.32887, y: 247.667}
+  m_SizeDelta: {x: 205.40419, y: 91.84514}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &854730333
 MonoBehaviour:
@@ -72599,6 +72591,7 @@ MonoBehaviour:
   shotForce: 500
   projectilePrefab: {fileID: 0}
   bodyTorque: {fileID: 0}
+  unitView: {fileID: 0}
 --- !u!114 &1025695620
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83454,6 +83447,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minimapMeshGenerator: {fileID: 1354915080}
   showDialogue: 0
+  parseFromInput: 1
+  input: "game\n\n1 turn\n\nplayers\n\nAlpha Team enum team\n250 credits\nlocal Red
+    player \n\nBravo Team enum team\n100 credits\n# Ai PlayerType enum type #\nEasy
+    AiDifficulty enum difficulty\nGreen player\n\ntiles\n\n. . . . . R H \\\n. .
+    . \\\n. . . . G H G F\n\nunits\n\nInfantry UnitType enum type 2 -2 int2 position
+    R unit\nInfantry UnitType enum type 3 -2 int2 position R unit\n\nInfantry UnitType
+    enum type 1 -2 int2 position G unit"
 --- !u!114 &1238028940
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -140093,19 +140093,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 51258076789849872, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 207.29172
+      value: 141.3629
       objectReference: {fileID: 0}
     - target: {fileID: 51258076789849872, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 118.108734
+      value: 80.5444
       objectReference: {fileID: 0}
     - target: {fileID: 51258076789849872, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 364.22318
+      value: 248.68242
       objectReference: {fileID: 0}
     - target: {fileID: 51258076789849872, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 381.3064
+      value: 260.03235
       objectReference: {fileID: 0}
     - target: {fileID: 742884794920560503, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_LocalRotation.w

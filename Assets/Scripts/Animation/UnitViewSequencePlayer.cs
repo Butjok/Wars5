@@ -196,7 +196,7 @@ public class UnitViewSequencePlayer : MonoBehaviour {
         transform.rotation = Quaternion.Euler(angles);
     }
 
-    [ContextMenu(nameof(Debug))]
+    [ContextMenu(nameof(DebugSetSiblings))]
     private void DebugSetSiblings() {
         var firstLine = input.Split('\n')[0].Trim();
         var items = FindObjectsOfType<UnitViewSequencePlayer>();

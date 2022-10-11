@@ -15,7 +15,7 @@ public class InteropTest : MonoBehaviour {
         red = new Player(game, Color.red, Team.Alpha);
         blue = new Player(game, Color.blue, Team.Alpha, type: PlayerType.Ai);
         game.players = new List<Player> { red, blue };
-        game.realPlayer = red;
+        game.localPlayer = red;
 
         game.turn = 0;
 
@@ -29,7 +29,7 @@ public class InteropTest : MonoBehaviour {
         game.units = new Map2D<Unit>(min, max);
         game.buildings = new Map2D<Building>(min, max);
 
-        game.levelLogic = new DefaultLevelLogic();
+        game.levelLogic = new LevelLogic();
 
         new Unit(red, position: new Vector2Int(0, 0));
         new Unit(blue, position: new Vector2Int(1, 1));

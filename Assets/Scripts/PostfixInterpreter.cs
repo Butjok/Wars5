@@ -16,7 +16,7 @@ public static class PostfixInterpreter {
 
         foreach (var token in tokens) {
 
-            if (token == "ignore") {
+            if (token == "#") {
                 ignore = !ignore;
                 continue;
             }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class TutorialLogic : DefaultLevelLogic {
+public class TutorialLogic : LevelLogic {
 
     public bool showDialogue;
 

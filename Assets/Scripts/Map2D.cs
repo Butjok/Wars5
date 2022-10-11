@@ -61,12 +61,12 @@ public class Map2D<T> : IEnumerable<KeyValuePair<Vector2Int, T>> {
 	public T this[Vector2Int position] {
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		get {
-			Assert.IsTrue(ContainsKey(position));
+			Assert.IsTrue(ContainsKey(position), position.ToString());
 			return data[Index(position)];
 		}
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		set {
-			Assert.IsTrue(InBounds(position));
+			Assert.IsTrue(InBounds(position), position.ToString());
 			var index = Index(position);
 			data[index] = value;
 			hasValue[index] = true;

@@ -6,6 +6,8 @@ using UnityEngine.Assertions;
 
 public class PlayerView : MonoBehaviour {
 
+	public static PlayerView DefaultPrefab => nameof(PlayerView).LoadAs<PlayerView>();
+	
 	public static List<PlayerView> views = new();
 	
 	public static int playerColorId = Shader.PropertyToID("_Color");

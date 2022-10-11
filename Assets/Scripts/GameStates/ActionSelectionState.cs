@@ -64,8 +64,8 @@ public static class ActionSelectionState {
                 foreach (var item in actions)
                     item.Dispose();
 
-                var won = Rules.Won(game.realPlayer);
-                var lost = Rules.Lost(game.realPlayer);
+                var won = Rules.Won(game.localPlayer);
+                var lost = Rules.Lost(game.localPlayer);
 
                 if (won || lost) {
 

@@ -1,16 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="">
+    <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="added correct last projectile calculation">
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/GameParser.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/GameParser.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assembly-CSharp.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Shell.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Shell.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Animation/Projectile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Animation/Projectile.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Animation/Turret.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Animation/Turret.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Animation/UnitViewSequencePlayer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Animation/UnitViewSequencePlayer.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/BattleView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/BattleView.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/BattleViews.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/BattleViews.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Building.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Building.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/ActionSelectionState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/ActionSelectionState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/InteropTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/InteropTest.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/LevelLogic/DefaultLevelLogic.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/LevelLogic/LevelLogic.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/LevelLogic/DefaultLevelLogic.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/LevelLogic/LevelLogic.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/LevelLogic/TutorialLevelLogic.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/LevelLogic/TutorialLevelLogic.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Map2D.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Map2D.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/NewBehaviourScript.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/NewBehaviourScript.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Palette.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Palette.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PlayerView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PlayerView.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PostfixInterpreter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PostfixInterpreter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/ResourceExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/ResourceExtensions.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/UnitView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UnitView.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Input.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectSettings/RiderScriptEditorPersistedState.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/RiderScriptEditorPersistedState.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" afterDir="false" />
     </list>
@@ -157,10 +173,10 @@
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="91570">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" />
+      <option name="pid" value="91570" />
       <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
@@ -223,14 +239,7 @@
       <workItem from="1665053789241" duration="24137000" />
       <workItem from="1665158839857" duration="24579000" />
       <workItem from="1665266631572" duration="6341000" />
-      <workItem from="1665440649295" duration="2290000" />
-    </task>
-    <task id="LOCAL-00086" summary="oiuwer987234rrty">
-      <created>1664277347559</created>
-      <option name="number" value="00086" />
-      <option name="presentableId" value="LOCAL-00086" />
-      <option name="project" value="LOCAL" />
-      <updated>1664277347559</updated>
+      <workItem from="1665440649295" duration="11583000" />
     </task>
     <task id="LOCAL-00087" summary="kljhdsfouiywioer">
       <created>1664665285257</created>
@@ -568,7 +577,14 @@
       <option name="project" value="LOCAL" />
       <updated>1665347076764</updated>
     </task>
-    <option name="localTasksCounter" value="135" />
+    <task id="LOCAL-00135" summary="added correct last projectile calculation">
+      <created>1665443160685</created>
+      <option name="number" value="00135" />
+      <option name="presentableId" value="LOCAL-00135" />
+      <option name="project" value="LOCAL" />
+      <updated>1665443160685</updated>
+    </task>
+    <option name="localTasksCounter" value="136" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -591,7 +607,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="klkdjfglkdjfgl" />
     <MESSAGE value="lfdgkhnlfkg;lkdjfg;dkfjg;dfg" />
     <MESSAGE value="sdfsdf" />
     <MESSAGE value="fghfghfghfg" />
@@ -616,7 +631,27 @@
     <MESSAGE value="fhdvghgfhgfhgfhgf" />
     <MESSAGE value="gfgfhgfhfg" />
     <MESSAGE value="sdfsdfsdf" />
-    <option name="LAST_COMMIT_MESSAGE" value="sdfsdfsdf" />
+    <MESSAGE value="added correct last projectile calculation" />
+    <option name="LAST_COMMIT_MESSAGE" value="added correct last projectile calculation" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/Rules.cs</url>
+          <line>52</line>
+          <properties documentPath="$PROJECT_DIR$/Assets/Scripts/Rules.cs" initialLine="52" containingFunctionPresentation="method 'Lost'">
+            <startOffsets>
+              <option value="1321" />
+            </startOffsets>
+            <endOffsets>
+              <option value="1374" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

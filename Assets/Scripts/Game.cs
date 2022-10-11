@@ -10,9 +10,9 @@ public class Game : MonoBehaviour {
     public Map2D<TileType> tiles;
     public Map2D<Building> buildings;
     public List<Player> players = new();
-    public int? turn;
-    public DefaultLevelLogic levelLogic;
-    public Player realPlayer;
+    public int? turn = 0;
+    public LevelLogic levelLogic = new();
+    public Player localPlayer;
     public GameSettings settings;
 
     public InputCommandsContext input = new();
@@ -24,7 +24,7 @@ public class Game : MonoBehaviour {
         initialized = true;
         settings = new GameSettings();
     }
-    
+
     public void Awake() {
         EnsureInitialized();
         UpdatePostProcessing();
