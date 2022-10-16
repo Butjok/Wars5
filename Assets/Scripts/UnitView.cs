@@ -37,7 +37,7 @@ public class UnitView : MonoBehaviour {
     }
     public Vector2Int Forward {
         get => transform.forward.ToVector2().RoundToInt();
-        set => transform.rotation = Quaternion.LookRotation(value.ToVector3Int(), Vector3.up);
+        set => transform.rotation = Quaternion.LookRotation(value.ToVector3Int(), Vector3.up);// * Quaternion.Euler(0,UnityEngine.Random.Range(-10,10),0);
     }
 
     public int Hp {

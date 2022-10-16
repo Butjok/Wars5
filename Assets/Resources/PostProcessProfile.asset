@@ -30,7 +30,7 @@ MonoBehaviour:
     value: 1.5
   diffusion:
     overrideState: 1
-    value: 3.43
+    value: 3.85
   anamorphicRatio:
     overrideState: 0
     value: 1
@@ -161,7 +161,7 @@ MonoBehaviour:
     value: 0
   saturation:
     overrideState: 0
-    value: -14
+    value: -5
   brightness:
     overrideState: 0
     value: 0
@@ -170,7 +170,7 @@ MonoBehaviour:
     value: 0.25
   contrast:
     overrideState: 0
-    value: 18
+    value: 5
   mixerRedOutRedIn:
     overrideState: 0
     value: 108
@@ -206,7 +206,7 @@ MonoBehaviour:
     value: {x: 1, y: 0.16680259, z: 0.46215582, w: -0.012360943}
   gain:
     overrideState: 1
-    value: {x: 1, y: 0.93002903, z: 0.8792197, w: -0.012361125}
+    value: {x: 1, y: 0.89926445, z: 0.916478, w: -0.012361125}
   masterCurve:
     overrideState: 0
     value:
@@ -1440,7 +1440,7 @@ MonoBehaviour:
   active: 1
   enabled:
     overrideState: 1
-    value: 0
+    value: 1
   shutterAngle:
     overrideState: 1
     value: 270

@@ -126,6 +126,12 @@ public static class GameParser {
                         scanPosition += nextLineDelta;
                         return true;
                     }
+                    if (token == "startPosition") {
+                        Assert.AreEqual(0,tiles.Count);
+                        startPosition = stack.Pop<Vector2Int>();
+                        scanPosition = startPosition;
+                        return true;
+                    }
                     return false;
                 }
 

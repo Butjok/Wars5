@@ -32,7 +32,7 @@ public class Unit : IDisposable {
         Object.DontDestroyOnLoad(view.gameObject);
         view.unit = this;
         view.prefab = viewPrefab;
-        view.transform.rotation = Quaternion.LookRotation((rotation ?? Vector2Int.up).ToVector3Int());
+        view.Forward = rotation ?? Vector2Int.up;
 
         this.position = new ChangeTracker<Vector2Int?>(old => {
 
