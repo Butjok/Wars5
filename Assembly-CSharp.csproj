@@ -153,6 +153,7 @@
      <Compile Include="Assets/CommandLine/Antlr4/Dependents.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Tree/ISyntaxTree.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Sharpen/Collections.cs" />
+     <Compile Include="Assets/Scripts/GameParser.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/TokenStreamRewriter.cs" />
      <Compile Include="Assets/Priority Queue/FastPriorityQueueNode.cs" />
      <Compile Include="Assets/Scripts/Level/ConvexHull.cs" />
@@ -412,7 +413,6 @@
      <Compile Include="Assets/CommandLine/Antlr4/Atn/PlusBlockStartState.cs" />
      <Compile Include="Assets/Scripts/Animation/PistonBody.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
-     <Compile Include="Assets/Scripts/GameParser.cs" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />
      <None Include="Assets/Shaders/My First Lighting Shader.shader" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader" />

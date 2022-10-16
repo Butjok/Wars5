@@ -9,7 +9,6 @@ public class Unit : IDisposable {
 
     public UnitType type;
     public Player player;
-    public UnitView viewPrefab;
     public UnitView view;
 
     public ChangeTracker<Vector2Int?> position;
@@ -24,15 +23,16 @@ public class Unit : IDisposable {
 
     public Unit(Player player, bool moved = false, UnitType type = UnitType.Infantry, Vector2Int? position
         = null, Vector2Int? rotation = null, int hp = int.MaxValue, int fuel = int.MaxValue, UnitView viewPrefab = null) {
-
+        
         if (!viewPrefab)
-            viewPrefab = Resources.Load<UnitView>("test");
+            viewPrefab = UnitView.DefaultPrefab;
         Assert.IsTrue(viewPrefab);
 
         view = Object.Instantiate(viewPrefab);
         Object.DontDestroyOnLoad(view.gameObject);
         view.unit = this;
         view.prefab = viewPrefab;
+        view.transform.rotation = Quaternion.LookRotation((rotation ?? Vector2Int.up).ToVector3Int());
 
         this.position = new ChangeTracker<Vector2Int?>(old => {
 
@@ -52,8 +52,7 @@ public class Unit : IDisposable {
         this.hp = new ChangeTracker<int>(_ => {
             if (this.hp.v <= 0) {
                 view.Die();
-                if (this.position.v is not { } position)
-                    throw new Exception();
+                Assert.IsTrue(this.position.v!=null);
                 player.game.units.Remove((Vector2Int)this.position.v);
             }
             else

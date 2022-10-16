@@ -1,3 +1,4 @@
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Assertions;
 #if UNITY_EDITOR
@@ -18,6 +19,7 @@ public class TerrainHeightmapGenerator : MonoBehaviour {
 	}
 
 	[ContextMenu(nameof(Generate))]
+	[Button]
 	public void Generate() {
 
 		if (!boxCollider) {

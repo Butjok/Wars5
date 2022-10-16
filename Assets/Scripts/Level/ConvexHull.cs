@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public static class ConvexHull {
-	public static CircularList<Vector2> ComputeConvexHull(List<Vector2> points, bool sortInPlace = false){
+	public static CircularList<Vector2> Compute(List<Vector2> points, bool sortInPlace = false){
 		if(!sortInPlace)
 			points = new List<Vector2>(points);
 

@@ -15,7 +15,7 @@ public class ConvexMeshGenerator : MonoBehaviour {
 		input.Clear();
 		for (var i = 0; i < 100; i++)
 			input.Add(Random.insideUnitCircle * Random.value);
-		output = ConvexHull.ComputeConvexHull(input);
+		output = ConvexHull.Compute(input);
 		var vertices=output.Select(v => v.ToVector3()).ToList();
 		vertices.AddRange(vertices.Select(v=>v+Vector3.up));
 		if (output.Count > 2) {

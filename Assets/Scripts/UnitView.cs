@@ -74,8 +74,6 @@ public class UnitView : MonoBehaviour {
 
     public bool Selected {
         set {
-            if (value)
-                Blink();
         }
     }
 
@@ -158,41 +156,12 @@ public class UnitView : MonoBehaviour {
     public Vector2Int nextRotation;
     public bool nextMoved;
 
-    public void Blink() {
-    }
-    public float blinkDuration = 1;
-
-    private void Update() {
-
-        if (Input.GetKeyDown(KeyCode.Return)) {
-            Blink();
-        }
-
-        if (Input.GetKeyDown(KeyCode.Space)) {
-
-            // unit.position.v = new Vector2Int(Random.Range(-3, 3), Random.Range(-3, 3));
-            // unit.rotation.v = MathUtils.offsets.Random();
-            // unit.moved.v = Random.Range(0, 10) > 5;
-
-            /*if (!pathWalker.walking) {
-                Walk();
-            }
-            else
-                pathWalker.time.v = float.MaxValue;*/
-        }
-    }
-
     public void TakeDamage(Projectile projectile,ImpactPoint impactPoint) {
         EnsureInitialized();
         bodyTorque.AddWorldForceTorque(impactPoint.transform.position, -impactPoint.transform.forward * projectile.impactForce);
     }
     
-    public void Die(Projectile projectile, ImpactPoint impactPoint) {
-        EnsureInitialized();
-        Destroy(gameObject);
-    }
-    
-    public void Die() {
+    public void Die(Projectile projectile=null, ImpactPoint impactPoint=null) {
         EnsureInitialized();
         Destroy(gameObject);
     }

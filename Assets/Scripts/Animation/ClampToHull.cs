@@ -26,7 +26,7 @@ public class ClampToHull : MonoBehaviour {
 				}
 			points = roundedPoints;
 		}
-		hull = ConvexHull.ComputeConvexHull(points);
+		hull = ConvexHull.Compute(points);
 	}
 	private void OnDrawGizmos() {
 		Gizmos.color = Color.yellow;
@@ -57,6 +57,10 @@ public class ClampToHull : MonoBehaviour {
 		lineRenderer.SetPositions(positions.ToArray());
 	}
 
+	public void UpdateLineRenderer() {
+		
+	}
+
 	public void Recalculate(Game game) {
 		var points = game.tiles.Keys.ToList();
 		var roundedPoints = new List<Vector2>();
@@ -66,6 +70,6 @@ public class ClampToHull : MonoBehaviour {
 				var radius = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * this.radius;
 				roundedPoints.Add(point + radius);
 			}
-		hull = ConvexHull.ComputeConvexHull(roundedPoints);
+		hull = ConvexHull.Compute(roundedPoints);
 	}
 }
