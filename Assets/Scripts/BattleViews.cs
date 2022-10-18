@@ -186,5 +186,7 @@ public class BattleViews : MonoBehaviour {
         PostProcessing.Fade(Color.white, fadeDuration, fadeEase);
         if (level)
             level.SetActive(true);
+        
+        LightProbes.Tetrahedralize();
     }
 }

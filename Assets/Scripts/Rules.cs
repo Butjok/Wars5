@@ -112,6 +112,9 @@ public static class Rules {
             _ => throw new ArgumentOutOfRangeException(nameof(unitType), unitType, null)
         };
     }
+    public static bool CanAfford(this Player player, UnitType unitType) {
+        return player.credits >= Cost(unitType, player);
+    }
     public static int? Damage(Unit attacker, Unit target, int weaponIndex, int? attackerHp = null, int? targetHp = null) {
         if (Ammo(attacker, weaponIndex) <= 0 || Damage(attacker.type, target.type, weaponIndex) is not { } baseDamage)
             return null;

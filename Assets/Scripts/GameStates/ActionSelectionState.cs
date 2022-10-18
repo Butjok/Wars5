@@ -110,12 +110,12 @@ public static class ActionSelectionState {
                     Debug.Log(actions[index]);
                 }
                 else
-                    UiSound.Instance.notAllowed.Play();
+                    UiSound.Instance.notAllowed.PlayOneShot();
             }
 
             else if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space)) {
                 if (actions.Count == 0)
-                    UiSound.Instance.notAllowed.Play();
+                    UiSound.Instance.notAllowed.PlayOneShot();
                 else {
                     var action = actions[index];
                     game.input.actionFilter = a => a == action;

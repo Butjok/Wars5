@@ -24,7 +24,7 @@ public class UiSound : ScriptableObject {
 
 public static class AudioClipExtensions {
 
-    public static void Play(this AudioClip clip) {
+    public static void PlayOneShot(this AudioClip clip) {
 
         if (!clip)
             return;

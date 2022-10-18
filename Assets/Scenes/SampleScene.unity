@@ -85834,15 +85834,15 @@ MonoBehaviour:
   minimapMeshGenerator: {fileID: 1354915080}
   showDialogue: 0
   parseFromInput: 1
-  input: "game\n\n1 turn\n\nplayers\n\nAlpha Team enum team\n250 credits\nlocal Red
-    player \n\nBravo Team enum team\n10000 credits\n# Ai PlayerType enum type #\nEasy
-    AiDifficulty enum difficulty\nGreen player\n\ntiles\n\n-5 5 int2 startPosition\n\n.
-    . . . . R H . . . . . . . .  \\\n. . . . . . . . . . . . . . \\\n. . . . . .
-    . . . . . . . . \\\n. . . . . . . . . . . . . . \\\n. . . . . . . . . . . . .
-    . \\\n. . . . . . . . . . . . . . \\\n. . . . . . . . . G H G F\n\nunits\n\nInfantry
-    UnitType enum type -2 4 int2 position 0 -1 int2 rotation R unit\nInfantry UnitType
-    enum type 6 3 int2 position 0 -1 int2 rotation R unit\n\nInfantry UnitType enum
-    type 1 2 int2 position G unit"
+  input: "game\n\n1 turn\n\nplayers\n\nAlpha Team enum team\n250 credits\nVladanCo
+    co\nlocal Red player \n\nBravo Team enum team\n10000 credits\n# Ai PlayerType
+    enum type #\nEasy AiDifficulty enum difficulty\nNAtalieCo co\nGreen player\n\ntiles\n\n-5
+    5 int2 startPosition\n\n. . . . . R H . . . . . . . .  \\\n. . . . . . . . .
+    . . . . . \\\n. . . . . . . . . . . . . . \\\n. . . . . . . . . . . . . . \\\n.
+    . . . . . . . . . . . . . \\\n. . . . . . . . . . . . . . \\\n. . . . . . . .
+    . G H G F\n\nunits\n\nInfantry UnitType enum type -2 4 int2 position 0 -1 int2
+    rotation R unit\nInfantry UnitType enum type 6 3 int2 position 0 -1 int2 rotation
+    R unit\n\nInfantry UnitType enum type 1 2 int2 position G unit"
 --- !u!114 &1238028940
 MonoBehaviour:
   m_ObjectHideFlags: 0

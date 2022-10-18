@@ -126,7 +126,7 @@ public static class PathSelectionState {
                     }
                 }
                 else
-                    UiSound.Instance.notAllowed.Play();
+                    UiSound.Instance.notAllowed.PlayOneShot();
             }
             
             yield return null;

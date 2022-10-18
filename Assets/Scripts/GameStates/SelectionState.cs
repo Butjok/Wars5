@@ -103,7 +103,7 @@ public static class SelectionState {
                         CameraRig.Instance.Jump(positions[positionIndex]);
                 }
                 else
-                    UiSound.Instance.notAllowed.Play();
+                    UiSound.Instance.notAllowed.PlayOneShot();
             }
 
             else if ((Input.GetMouseButtonDown(Mouse.left) || Input.GetKeyDown(KeyCode.Space)) &&
@@ -111,14 +111,14 @@ public static class SelectionState {
 
                 if (game.TryGetUnit(mousePosition, out var unit)) {
                     if (unit.player != game.CurrentPlayer || unit.moved.v)
-                        UiSound.Instance.notAllowed.Play();
+                        UiSound.Instance.notAllowed.PlayOneShot();
                     else
                         game.input.selectAt = mousePosition;
                 }
 
                 else if (game.TryGetBuilding(mousePosition, out var building)) {
                     if (building.player.v != game.CurrentPlayer)
-                        UiSound.Instance.notAllowed.Play();
+                        UiSound.Instance.notAllowed.PlayOneShot();
                     else
                         game.input.selectAt = mousePosition;
                 }

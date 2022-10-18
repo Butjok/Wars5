@@ -46,6 +46,13 @@ public static class UnitBuildingState {
             if (game.CurrentPlayer.IsAi)
                 continue;
 
+            if (game.input.cancel) {
+                game.input.Reset();
+                menuView.Hide();
+                yield return SelectionState.New(game);
+                yield break;
+            }
+
             /*if (Input.GetKeyDown(KeyCode.Tab)) {
                 if (availableTypes.Count == 0)
                     UiSound.Instance.notAllowed.Play();
