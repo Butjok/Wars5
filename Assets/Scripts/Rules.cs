@@ -97,6 +97,21 @@ public static class Rules {
         }
         return null;
     }
+    public static int Cost(UnitType unitType, Player player) {
+        return unitType switch {
+            UnitType.Infantry => 1000,
+            UnitType.AntiTank => 2000,
+            UnitType.Artillery => 5000,
+            UnitType.Apc => 5000,
+            UnitType.TransportHelicopter => 7000,
+            UnitType.AttackHelicopter => 8000,
+            UnitType.FighterJet => 15000,
+            UnitType.Bomber => 22000,
+            UnitType.Recon => 3000,
+            UnitType.LightTank => 5000,
+            _ => throw new ArgumentOutOfRangeException(nameof(unitType), unitType, null)
+        };
+    }
     public static int? Damage(Unit attacker, Unit target, int weaponIndex, int? attackerHp = null, int? targetHp = null) {
         if (Ammo(attacker, weaponIndex) <= 0 || Damage(attacker.type, target.type, weaponIndex) is not { } baseDamage)
             return null;
@@ -160,12 +175,15 @@ public static class Rules {
             }
         return false;
     }
-    public static Vector2Int AttackRange(UnitType unitType) {
+    public static Vector2Int AttackRange(UnitType unitType, Player player) {
         if (((UnitType.Infantry | UnitType.AntiTank) & unitType) != 0)
             return new Vector2Int(1, 1);
         if (((UnitType.Artillery) & unitType) != 0)
             return new Vector2Int(2, 3);
         return Vector2Int.zero;
+    }
+    public static Vector2Int AttackRange(Unit unit) {
+        return AttackRange(unit.type, unit.player);
     }
 
     public static int WeaponsCount(UnitType unitType) {
@@ -213,7 +231,7 @@ public static class Rules {
         return CanSupply(unit.type) && AreAllies(unit.player, target.player);
     }
 
-    public static int MoveDistance(UnitType unitType) {
+    public static int MoveDistance(UnitType unitType, Player player) {
         if (((UnitType.Infantry) & unitType) != 0)
             return 7;
         if (((UnitType.AntiTank) & unitType) != 0)
@@ -223,7 +241,7 @@ public static class Rules {
         return 0;
     }
     public static int MoveDistance(Unit unit) {
-        return Min(unit.fuel.v, MoveDistance(unit.type));
+        return Min(unit.fuel.v, MoveDistance(unit.type,unit.player));
     }
     public static int? MoveCost(UnitType unitType, TileType tileType) {
 

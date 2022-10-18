@@ -3,12 +3,17 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
+using Object = UnityEngine.Object;
 
 public static class UnitBuildingState {
 
     public static IEnumerator New(Game game, Building building) {
 
         Assert.IsTrue(building.player.v == game.CurrentPlayer);
+
+        var menuView = Object.FindObjectOfType<UnitBuildMenuView>(true);
+        Assert.IsTrue(menuView);
+        menuView.Show(building);
 
         Debug.Log($"Building state at building: {building}");
 
@@ -33,6 +38,7 @@ public static class UnitBuildingState {
 
                 Debug.Log($"Built unit {unit}");
 
+                menuView.Hide();
                 yield return SelectionState.New(game);
                 yield break;
             }
@@ -40,7 +46,7 @@ public static class UnitBuildingState {
             if (game.CurrentPlayer.IsAi)
                 continue;
 
-            if (Input.GetKeyDown(KeyCode.Tab)) {
+            /*if (Input.GetKeyDown(KeyCode.Tab)) {
                 if (availableTypes.Count == 0)
                     UiSound.Instance.notAllowed.Play();
                 else {
@@ -56,11 +62,12 @@ public static class UnitBuildingState {
                     game.input.buildUnitType = availableTypes[index];
             }
 
-            else if (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(Mouse.right)) {
+            else if (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(Mouse.right) || game.input.cancel) {
                 game.input.Reset();
+                menuView.Hide();
                 yield return SelectionState.New(game);
                 yield break;
-            }
+            }*/
         }
     }
 }

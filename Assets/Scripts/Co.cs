@@ -13,6 +13,9 @@ public class Co : ScriptableObject {
     public Sprite portrait;
     public AudioClip[] themes = { };
 
+    public UnitTypesInfo unitTypesInfo;
+    public UnitTypeInfoDictionary unitTypesInfoOverride = new();
+
     [SerializeField] private UnitTypeUnitViewDictionary unitPrefabsOverrides = new();
     public UnitView GetUnitViewPrefab(UnitType type) {
         return unitPrefabsOverrides.TryGetValue(type, out var prefab) && prefab ? prefab : faction.GetUnitViewPrefab(type);

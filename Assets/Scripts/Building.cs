@@ -8,6 +8,8 @@ public class Building {
     public Vector2Int position;
     public ChangeTracker<Player> player;
     public ChangeTracker<int> cp;
+    
+    public bool IsAccessible => !game.TryGetUnit(position, out _);
 
     public Building(Game game, Vector2Int position, TileType type = TileType.City, Player player = null, int? cp = null) {
 
