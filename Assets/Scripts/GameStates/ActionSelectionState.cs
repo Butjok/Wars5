@@ -59,7 +59,7 @@ public static class ActionSelectionState {
 
                 var action = actions.Single(action => game.input.actionFilter(action));
                 yield return action.Execute();
-                game.input.Reset();
+                game.input.actionFilter = null;
 
                 foreach (var item in actions)
                     item.Dispose();

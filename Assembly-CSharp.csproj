@@ -50,6 +50,7 @@
      <Compile Include="Assets/Scripts/GameStates/BattleAnimation.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/IParserErrorListener.cs" />
      <Compile Include="Assets/Scripts/DynamicShadowDistance.cs" />
+     <Compile Include="Assets/Scripts/StringExtensions.cs" />
      <Compile Include="Assets/CommandLine/AssemblyInfo.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/AbstractPredicateTransition.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequencePlayer.cs" />
@@ -158,6 +159,7 @@
      <Compile Include="Assets/Priority Queue/FastPriorityQueueNode.cs" />
      <Compile Include="Assets/Scripts/Level/ConvexHull.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Tree/ITerminalNode.cs" />
+     <Compile Include="Assets/Scripts/UnitTypesInfo.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Tree/Xpath/XPathRuleElement.cs" />
      <Compile Include="Assets/Scripts/Animation/AABB.cs" />
      <Compile Include="Assets/Scripts/Animation/Rotator.cs" />
@@ -413,8 +415,8 @@
      <Compile Include="Assets/CommandLine/Antlr4/Atn/PlusBlockStartState.cs" />
      <Compile Include="Assets/Scripts/Animation/PistonBody.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
-     <Compile Include="Assets/Scripts/UnitTypesInfo.cs" />
-     <Compile Include="Assets/Scripts/StringExtensions.cs" />
+     <Compile Include="Assets/Scripts/GameMenuView.cs" />
+     <Compile Include="Assets/Scripts/GameStates/GameMenuState.cs" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />
      <None Include="Assets/Shaders/My First Lighting Shader.shader" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader" />

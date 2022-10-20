@@ -66,6 +66,8 @@ public static class PathSelectionState {
         CursorView.Instance.Visible = true;
 
         while (true) {
+            
+            yield return null;
 
             if (game.input.reconstructPathTo is { } targetPosition) {
                 game.input.reconstructPathTo = null;
@@ -128,8 +130,6 @@ public static class PathSelectionState {
                 else
                     UiSound.Instance.notAllowed.PlayOneShot();
             }
-            
-            yield return null;
         }
     }
 }

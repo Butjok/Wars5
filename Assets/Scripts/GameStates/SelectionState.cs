@@ -95,6 +95,9 @@ public static class SelectionState {
 
             if (Input.GetKeyDown(KeyCode.F2))
                 game.input.endTurn = true;
+            
+            else if (Input.GetKeyDown(KeyCode.F3))
+                yield return GameMenuState.New(game);
 
             else if (Input.GetKeyDown(KeyCode.Tab)) {
                 if (positions.Length > 0) {
