@@ -38618,7 +38618,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 9.1858e-41, y: 1.4637249e+13, z: 2.7917346e-24, w: 1.5847567e+29}
+  m_BoundingSphereOverride: {x: 1.02e-43, y: 0, z: 0, w: 102.04999}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -54206,8 +54206,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -422.00342, y: 87.48206}
-  m_SizeDelta: {x: 271.34476, y: 181.20987}
+  m_AnchoredPosition: {x: -538.8368, y: 90.59752}
+  m_SizeDelta: {x: 281.00806, y: 187.6632}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &854730333
 MonoBehaviour:
@@ -144427,19 +144427,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 51258076789849872, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 161.26332
+      value: 167.00629
       objectReference: {fileID: 0}
     - target: {fileID: 51258076789849872, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 151.80171
+      value: 157.20773
       objectReference: {fileID: 0}
     - target: {fileID: 51258076789849872, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -123.27392
+      value: -229.46877
       objectReference: {fileID: 0}
     - target: {fileID: 51258076789849872, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 104.36775
+      value: 108.08456
       objectReference: {fileID: 0}
     - target: {fileID: 742884794920560503, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_LocalRotation.w
