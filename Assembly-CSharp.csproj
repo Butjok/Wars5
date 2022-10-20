@@ -203,7 +203,7 @@
      <Compile Include="Assets/CommandLine/Antlr4/Misc/ArrayList.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/BasicBlockStartState.cs" />
      <Compile Include="Assets/Scripts/BuildingMaterialSwitcher.cs" />
-     <Compile Include="Assets/Scripts/UnitBuildMenuView.cs" />
+     <Compile Include="Assets/Scripts/UnitBuildMenu.cs" />
      <Compile Include="Assets/Scripts/TestRenderer.cs" />
      <Compile Include="Assets/Scripts/PostProcessingFade.cs" />
      <Compile Include="Assets/Priority Queue/Properties/AssemblyInfo.cs" />
@@ -415,8 +415,9 @@
      <Compile Include="Assets/CommandLine/Antlr4/Atn/PlusBlockStartState.cs" />
      <Compile Include="Assets/Scripts/Animation/PistonBody.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
-     <Compile Include="Assets/Scripts/GameMenuView.cs" />
+     <Compile Include="Assets/Scripts/GameMenu.cs" />
      <Compile Include="Assets/Scripts/GameStates/GameMenuState.cs" />
+     <Compile Include="Assets/Scripts/Ai.cs" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />
      <None Include="Assets/Shaders/My First Lighting Shader.shader" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader" />

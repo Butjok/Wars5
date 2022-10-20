@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class GameMenuView : MonoBehaviour {
+public class GameMenu : MonoBehaviour {
 
     public Game game;
 

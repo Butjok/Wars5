@@ -11,7 +11,7 @@ public static class UnitBuildingState {
 
         Assert.IsTrue(building.player.v == game.CurrentPlayer);
 
-        var menuView = Object.FindObjectOfType<UnitBuildMenuView>(true);
+        var menuView = Object.FindObjectOfType<UnitBuildMenu>(true);
         Assert.IsTrue(menuView);
         menuView.Show(building);
 

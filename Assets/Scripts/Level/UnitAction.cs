@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
@@ -40,6 +41,19 @@ public class UnitAction : IDisposable {
 		view.action = this;
 
 		selected = new ChangeTracker<bool>(_ => view.selected.v = selected.v);
+	}
+
+	public (int attacker, int target) CalculateHpsAfterAttack() {
+		var attackDamage = Rules.Damage(unit, targetUnit, weaponIndex, unit.hp.v, targetUnit.hp.v);
+		Assert.IsTrue(attackDamage!=null);
+		var targetHp =Mathf.Max(0, targetUnit.hp.v - (int)attackDamage);
+		var attackerHp = unit.hp.v;
+		if (targetHp > 0 && Rules.CanAttackInResponse(unit,targetUnit,out var responseWeaponIndex)) {
+			var responseDamage = Rules.Damage(targetUnit, unit, responseWeaponIndex, targetHp, attackerHp);
+			Assert.IsTrue(responseDamage!=null);
+			attackerHp = Mathf.Max(0, attackerHp - (int)responseDamage);
+		}
+		return (attackerHp, targetHp);
 	}
 
 	public void Dispose() {

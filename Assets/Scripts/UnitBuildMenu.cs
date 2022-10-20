@@ -7,7 +7,7 @@ using UnityEngine.Assertions;
 using Button = UnityEngine.UI.Button;
 using Image = UnityEngine.UI.Image;
 
-public class UnitBuildMenuView : MonoBehaviour {
+public class UnitBuildMenu : MonoBehaviour {
 
     public TMP_Text credits;
     public TMP_Text description;

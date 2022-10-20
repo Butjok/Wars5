@@ -8,7 +8,7 @@ public static class GameMenuState {
         var oldInput = game.input;
         game.input = new InputCommandsContext();
 
-        var menuView = Object.FindObjectOfType<GameMenuView>(true);
+        var menuView = Object.FindObjectOfType<GameMenu>(true);
         Assert.IsTrue(menuView);
 
         menuView.Show(game);
