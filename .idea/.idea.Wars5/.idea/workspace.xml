@@ -2,19 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Ai.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Ai.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assembly-CSharp.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameMenuView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameMenu.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameMenuView.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameMenu.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/GameMenuState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/GameMenuState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/UnitBuildingState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/UnitBuildingState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Level/UnitAction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Level/UnitAction.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UnitBuildMenuView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UnitBuildMenu.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UnitBuildMenuView.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UnitBuildMenu.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UnitBuildMenuViews.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UnitBuildMenuViews.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectSettings/RiderScriptEditorPersistedState.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/RiderScriptEditorPersistedState.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,12 +89,14 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="Discover.Launch.Via.Unity" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="nodejs_package_manager_path" value="npm" />
-    <property name="vue.rearranger.settings.migration" value="true" />
-  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Discover.Launch.Via.Unity&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;rider.run.widget.enabled.cache&quot;: &quot;false&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="rider.module" />
@@ -223,13 +216,8 @@
       <workItem from="1665889289660" duration="3843000" />
       <workItem from="1665932161237" duration="1487000" />
       <workItem from="1666225024396" duration="4421000" />
-    </task>
-    <task id="LOCAL-00096" summary="ggjkhjkhjk">
-      <created>1664714811786</created>
-      <option name="number" value="00096" />
-      <option name="presentableId" value="LOCAL-00096" />
-      <option name="project" value="LOCAL" />
-      <updated>1664714811787</updated>
+      <workItem from="1666280988762" duration="863000" />
+      <workItem from="1666341487178" duration="683000" />
     </task>
     <task id="LOCAL-00097" summary="lksjdfoiwuer">
       <created>1664795685934</created>
@@ -567,7 +555,14 @@
       <option name="project" value="LOCAL" />
       <updated>1666227377080</updated>
     </task>
-    <option name="localTasksCounter" value="145" />
+    <task id="LOCAL-00145" summary="sdfsdfsdfsdf">
+      <created>1666281258298</created>
+      <option name="number" value="00145" />
+      <option name="presentableId" value="LOCAL-00145" />
+      <option name="project" value="LOCAL" />
+      <updated>1666281258299</updated>
+    </task>
+    <option name="localTasksCounter" value="146" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -598,7 +593,6 @@
     <MESSAGE value="pierutldkfjg" />
     <MESSAGE value="lkjfdgodfuoiert" />
     <MESSAGE value="tyutyutyu" />
-    <MESSAGE value="sdfsdfsdfsdf" />
     <MESSAGE value="/;ldgfkhp;rotijup;irtyu" />
     <MESSAGE value="fghfghfgh" />
     <MESSAGE value="fhdvghgfhgfhgfhgf" />
@@ -614,7 +608,8 @@
     <MESSAGE value="added unit building menu" />
     <MESSAGE value="sdfsdfsdfsdfsdf" />
     <MESSAGE value="game menu" />
-    <option name="LAST_COMMIT_MESSAGE" value="game menu" />
+    <MESSAGE value="sdfsdfsdfsdf" />
+    <option name="LAST_COMMIT_MESSAGE" value="sdfsdfsdfsdf" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
