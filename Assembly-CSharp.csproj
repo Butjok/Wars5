@@ -46,6 +46,7 @@
      <Compile Include="Assets/CommandLine/Antlr4/Tree/Trees.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Misc/NotNullAttribute.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Tree/Pattern/TokenTagToken.cs" />
+     <Compile Include="Assets/Scripts/Ai.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/IAntlrErrorListener.cs" />
      <Compile Include="Assets/Scripts/GameStates/BattleAnimation.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/IParserErrorListener.cs" />
@@ -55,6 +56,7 @@
      <Compile Include="Assets/CommandLine/Antlr4/Atn/AbstractPredicateTransition.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequencePlayer.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/PredicateEvalInfo.cs" />
+     <Compile Include="Assets/Scripts/GameMenu.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/ArrayPredictionContext.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/CommonTokenStream.cs" />
      <Compile Include="Assets/Scripts/GameSettings.cs" />
@@ -143,6 +145,7 @@
      <Compile Include="Assets/CommandLine/Interpreter.cs" />
      <Compile Include="Assets/Scripts/Lazy.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/PlusLoopbackState.cs" />
+     <Compile Include="Assets/Scripts/GameStates/GameSettingsState.cs" />
      <Compile Include="Assets/Scripts/DialogueSpeaker.cs" />
      <Compile Include="Assets/CommandLine/Parsers/CommandLineBaseListener.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/ATNConfig.cs" />
@@ -399,6 +402,7 @@
      <Compile Include="Assets/CommandLine/Antlr4/Tree/Xpath/XPathRuleAnywhereElement.cs" />
      <Compile Include="Assets/Scripts/BattleView.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/CommonTokenFactory.cs" />
+     <Compile Include="Assets/Scripts/GameSettingsMenu.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/IToken.cs" />
      <Compile Include="Assets/Scripts/GameUiView.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/PredictionMode.cs" />
@@ -415,9 +419,6 @@
      <Compile Include="Assets/CommandLine/Antlr4/Atn/PlusBlockStartState.cs" />
      <Compile Include="Assets/Scripts/Animation/PistonBody.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
-     <Compile Include="Assets/Scripts/GameMenu.cs" />
-     <Compile Include="Assets/Scripts/GameStates/GameMenuState.cs" />
-     <Compile Include="Assets/Scripts/Ai.cs" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />
      <None Include="Assets/Shaders/My First Lighting Shader.shader" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader" />
@@ -470,6 +471,7 @@
      <None Include="Assets/SDF Toolkit/Shaders/SDF UI Specular.shader" />
      <None Include="Assets/Shaders/Dithered.shader" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro_Surface.cginc" />
+     <None Include="Assets/Shaders/FrostedGlass.shader" />
      <None Include="Assets/Content/NewImageEffectShader.shader" />
      <None Include="Assets/Shaders/New Amplify Shader.shader" />
      <None Include="Assets/SDF Toolkit/Shaders/SDF Deferred.cginc" />

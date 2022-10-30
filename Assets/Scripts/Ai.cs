@@ -16,6 +16,7 @@ public static class Ai {
         var unmovedPlayerUnits = playerUnits.Where(u => !u.moved.v).ToList();
         var unmovedPlayerArtilleryUnits = unmovedPlayerUnits.Where(u => Rules.IsArtillery(u)).ToList();
 
+        
 
         return null;
     }

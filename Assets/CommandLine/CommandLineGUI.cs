@@ -54,7 +54,7 @@ namespace Butjok.CommandLine
 
         private void OnGUI() {
 
-            if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.BackQuote) {
+            if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.F1) {
                 show = !show;
                 Event.current.Use();
                 action = () => {

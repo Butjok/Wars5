@@ -1,10 +1,16 @@
 using System.Collections;
 using System.Linq;
+using Butjok.CommandLine;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 public static class SelectionState {
 
+    [Command]
+    public static bool triggerVictory;
+    [Command]
+    public static bool triggerDefeat;
+    
     public static IEnumerator New(Game game, bool turnStart = false) {
 
         var unmovedUnits = game.units.Values
@@ -96,8 +102,8 @@ public static class SelectionState {
             if (Input.GetKeyDown(KeyCode.F2))
                 game.input.endTurn = true;
             
-            else if (Input.GetKeyDown(KeyCode.F3))
-                yield return GameMenuState.New(game);
+            else if (Input.GetKeyDown(KeyCode.Escape))
+                yield return GameSettingsState.New(game);
 
             else if (Input.GetKeyDown(KeyCode.Tab)) {
                 if (positions.Length > 0) {
@@ -125,6 +131,17 @@ public static class SelectionState {
                     else
                         game.input.selectAt = mousePosition;
                 }
+            }
+            
+            else if (triggerVictory) {
+                triggerVictory = false;
+                yield return VictoryState.New(game);
+                yield break;
+            }
+            else if (triggerDefeat) {
+                triggerDefeat = false;
+                yield return DefeatState.New(game);
+                yield break;
             }
         }
     }

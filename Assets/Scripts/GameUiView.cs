@@ -15,6 +15,7 @@ public class GameUiView : MonoBehaviour {
 	}
 
 	public GameObject victory, defeat;
+	public GameObject menu;
 
 	public bool Victory {
 		set => victory.SetActive(value);

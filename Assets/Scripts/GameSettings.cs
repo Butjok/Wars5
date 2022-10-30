@@ -20,11 +20,18 @@ public class GameSettings {
 
     public const string playerPrefsKey = nameof(GameSettings);
 
+    public GameSettings ShallowCopy() {
+        return (GameSettings)MemberwiseClone();
+    }
     public static GameSettings Load() {
         var json = PlayerPrefs.GetString(playerPrefsKey);
-        return string.IsNullOrWhiteSpace(json) ? null : JsonConvert.DeserializeObject<GameSettings>(json);
+        return string.IsNullOrWhiteSpace(json) ? new GameSettings() : JsonConvert.DeserializeObject<GameSettings>(json);
     }
     public void Save() {
         PlayerPrefs.SetString(playerPrefsKey, this.ToJson());
+    }
+
+    public bool DiffersFrom(GameSettings other) {
+        return this.ToJson() != other.ToJson();
     }
 }
