@@ -20,17 +20,17 @@ MonoBehaviour:
     overrideState: 1
     value: 5
   threshold:
-    overrideState: 1
+    overrideState: 0
     value: 1.25
   softKnee:
-    overrideState: 1
+    overrideState: 0
     value: 0
   clamp:
     overrideState: 0
     value: 1.5
   diffusion:
     overrideState: 1
-    value: 3.85
+    value: 3.5
   anamorphicRatio:
     overrideState: 0
     value: 1
@@ -160,14 +160,14 @@ MonoBehaviour:
     overrideState: 0
     value: 0
   saturation:
-    overrideState: 0
-    value: -5
+    overrideState: 1
+    value: -1
   brightness:
     overrideState: 0
     value: 0
   postExposure:
     overrideState: 1
-    value: 0.5
+    value: 0.25
   contrast:
     overrideState: 0
     value: 5
