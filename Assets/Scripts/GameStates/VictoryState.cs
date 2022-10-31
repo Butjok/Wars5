@@ -6,8 +6,8 @@ public static class VictoryState {
 	
 		Debug.Log("Victory!");
 		CursorView.Instance.Visible=false;
+		PlayerView.globalVisibility = false;
+		yield return null;
 		GameUiView.Instance.Victory = true;
-		
-		yield break;
 	}
 }

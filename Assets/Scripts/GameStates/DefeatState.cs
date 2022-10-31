@@ -6,10 +6,10 @@ public static class DefeatState {
 	
 		Debug.Log("Defeat...");
 		CursorView.Instance.Visible=false;
-		GameUiView.Instance.Defeat = true;
-
 		MusicPlayer.Instance.Queue = new[] { "slow uzicko".LoadAs<AudioClip>() }.InfiniteSequence();
-		
+		PlayerView.globalVisibility = false;
+		yield return null;
+		GameUiView.Instance.Defeat = true;
 		yield break;
 	}
 }
