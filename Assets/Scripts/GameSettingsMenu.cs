@@ -106,10 +106,12 @@ public class GameSettingsMenu : MonoBehaviour {
     }
     public void SetDefaultValues() {
         game.settings = new GameSettings();
+        game.UpdatePostProcessing();
         UpdateControls();
     }
     public void Cancel() {
         game.settings = oldSettings;
+        game.UpdatePostProcessing();
         GameSettingsState.shouldExit = true;
     }
     public void Ok() {
