@@ -38,7 +38,7 @@ public class UnitBuildMenu : MonoBehaviour {
         return true;
     }
     public void Cancel() {
-        building.game.input.cancel = true;
+        UnitBuildingState.cancel = true;
     }
 
     public void Show(Building building) {

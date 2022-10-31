@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Rendering.PostProcessing;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Object = System.Object;
 
@@ -27,6 +28,7 @@ public class GameSettingsMenu : MonoBehaviour {
     public Toggle shuffleMusicToggle;
 
     public RectTransform buttonsRoot;
+    public Button closeButton;
     
     public float shakeDuration = 1;
     public Vector3 shakeStrength = new Vector3(5, 0, 0);
@@ -64,10 +66,8 @@ public class GameSettingsMenu : MonoBehaviour {
         ambientOcclusionToggle.SetIsOnWithoutNotify(game.settings.enableAmbientOcclusion);
         shuffleMusicToggle.SetIsOnWithoutNotify(game.settings.shuffleMusic);
         
-        var modified = game.settings.DiffersFrom(oldSettings);
-        var buttons = buttonsRoot.GetComponentsInChildren<Button>();
-        foreach (var button in buttons)
-            button.interactable = modified;
+        //okButton.interactable =game.settings.DiffersFrom(oldSettings);
+        closeButton.interactable = !game.settings.DiffersFrom(oldSettings);
     }
 
     public void UpdateSettings() {
@@ -112,16 +112,15 @@ public class GameSettingsMenu : MonoBehaviour {
         game.settings = oldSettings;
         GameSettingsState.shouldExit = true;
     }
-    public void Apply() {
+    public void Ok() {
         game.settings.Save();
-        oldSettings = game.settings.ShallowCopy();
-        UpdateControls();
+        GameSettingsState.shouldExit = true;
     }
 
     private void Update() {
         if (Input.GetKeyDown(KeyCode.Escape))
             Close();
         else if (Input.GetKeyDown(KeyCode.Return))
-            Apply();
+            Ok();
     }
 }

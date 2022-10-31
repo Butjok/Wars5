@@ -7,12 +7,17 @@ using Object = UnityEngine.Object;
 
 public static class UnitBuildingState {
 
+    public static bool cancel;
+    
     public static IEnumerator New(Game game, Building building) {
 
         Assert.IsTrue(building.player.v == game.CurrentPlayer);
 
         var menuView = Object.FindObjectOfType<UnitBuildMenu>(true);
         Assert.IsTrue(menuView);
+
+        PlayerView.globalVisibility = false;
+        yield return null;
         menuView.Show(building);
 
         Debug.Log($"Building state at building: {building}");
@@ -46,9 +51,10 @@ public static class UnitBuildingState {
             if (game.CurrentPlayer.IsAi)
                 continue;
 
-            if (game.input.cancel) {
-                game.input.Reset();
+            if (cancel) {
+                cancel = false;
                 menuView.Hide();
+                PlayerView.globalVisibility = true;
                 yield return SelectionState.New(game);
                 yield break;
             }

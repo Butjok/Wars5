@@ -9,6 +9,7 @@ public class PlayerView : MonoBehaviour {
 	public static PlayerView DefaultPrefab => nameof(PlayerView).LoadAs<PlayerView>();
 	
 	public static List<PlayerView> views = new();
+	public static bool globalVisibility = true;
 	
 	public static int playerColorId = Shader.PropertyToID("_Color");
 
@@ -23,7 +24,8 @@ public class PlayerView : MonoBehaviour {
 	public Renderer[] renderers;
 	public MaterialPropertyBlock propertyBlock;
 	public Camera camera;
-
+	public bool visible;
+	
 	public void Initialize(Player player) {
 
 		this.player = player;
@@ -43,8 +45,8 @@ public class PlayerView : MonoBehaviour {
 			renderer.SetPropertyBlock(propertyBlock);
 	}
 
-	public bool Visible {
-		set => camera.enabled = value;
+	private void Update() {
+		camera.enabled = visible && globalVisibility;
 	}
 
 	public void Awake() {

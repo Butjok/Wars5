@@ -13,10 +13,13 @@ public static class GameSettingsState {
         var menu = Object.FindObjectOfType<GameSettingsMenu>(true);
         Assert.IsTrue(menu);
         
+        PlayerView.globalVisibility = false;
+        yield return null; 
+        
         menu.Show(game);
         CursorView.Instance.Visible = false;
         CameraRig.Instance.enabled = false;
-        
+
         while (true) {
             yield return null;
 
@@ -24,6 +27,7 @@ public static class GameSettingsState {
                 menu.Hide();
                 CursorView.Instance.Visible = true;
                 CameraRig.Instance.enabled = true;
+                PlayerView.globalVisibility = true;
                 yield break;
             }
         }

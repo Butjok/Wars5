@@ -47,7 +47,7 @@ public static class SelectionState {
 
             yield return TurnStartAnimationState.New(game);
 
-            game.CurrentPlayer.view.Visible = true;
+            game.CurrentPlayer.view.visible = true;
         }
 
         CursorView.Instance.Visible = true;
@@ -77,7 +77,7 @@ public static class SelectionState {
                 foreach (var unit in game.units.Values)
                     unit.moved.v = false;
 
-                game.CurrentPlayer.view.Visible = false;
+                game.CurrentPlayer.view.visible = false;
                 CursorView.Instance.Visible = false;
 
                 //MusicPlayer.Instance.source.Stop();
