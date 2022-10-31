@@ -9,6 +9,7 @@ public class GameSettings {
     public float masterVolume = 1;
     public float musicVolume = 1;
     public float sfxVolume = 1;
+    public float uiVolume = 1;
     public bool showBattleAnimation = true;
     public float unitSpeed = 3;
     public PostProcessLayer.Antialiasing antiAliasing = PostProcessLayer.Antialiasing.TemporalAntialiasing;

@@ -17,6 +17,7 @@ public class GameSettingsMenu : MonoBehaviour {
     public Slider masterVolumeSlider;
     public Slider musicVolumeSlider;
     public Slider sfxVolumeSlider;
+    public Slider uiVolumeSlider;
 
     public Toggle showBattleAnimationToggle;
     public Slider unitSpeedSlider;
@@ -55,6 +56,7 @@ public class GameSettingsMenu : MonoBehaviour {
         masterVolumeSlider.SetValueWithoutNotify(game.settings.masterVolume);
         musicVolumeSlider.SetValueWithoutNotify(game.settings.musicVolume);
         sfxVolumeSlider.SetValueWithoutNotify(game.settings.sfxVolume);
+        uiVolumeSlider.SetValueWithoutNotify(game.settings.uiVolume);
 
         showBattleAnimationToggle.SetIsOnWithoutNotify(game.settings.showBattleAnimation);
         unitSpeedSlider.SetValueWithoutNotify(game.settings.unitSpeed);
@@ -75,6 +77,7 @@ public class GameSettingsMenu : MonoBehaviour {
         game.settings.masterVolume = masterVolumeSlider.value;
         game.settings.musicVolume = musicVolumeSlider.value;
         game.settings.sfxVolume = sfxVolumeSlider.value;
+        game.settings.uiVolume = uiVolumeSlider.value;
 
         game.settings.showBattleAnimation = showBattleAnimationToggle.isOn;
         game.settings.unitSpeed = unitSpeedSlider.value;
