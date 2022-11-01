@@ -4,11 +4,11 @@ using UnityEngine.Assertions;
 
 public static class GameSettingsState {
 
-    public static bool shouldReturn;
+    public static bool shouldBreak;
 
     public static IEnumerator New(Game game) {
 
-        shouldReturn = false;
+        shouldBreak = false;
         
         var menu = Object.FindObjectOfType<GameSettingsMenu>(true);
         Assert.IsTrue(menu);
@@ -18,8 +18,8 @@ public static class GameSettingsState {
         while (true) {
             yield return null;
 
-            if (shouldReturn) {
-                shouldReturn = false;
+            if (shouldBreak) {
+                shouldBreak = false;
                 
                 menu.Hide();
                 yield break;

@@ -6,11 +6,13 @@ public static class GameMenuState {
 
     public static bool shouldResume;
     public static bool shouldOpenSettings;
+    public static bool shouldLoadGame;
 
     public static IEnumerator New(Game game) {
 
         shouldResume = false;
         shouldOpenSettings = false;
+        shouldLoadGame = false;
 
         var menu = Object.FindObjectOfType<GameMenu>(true);
         Assert.IsTrue(menu);
@@ -40,6 +42,14 @@ public static class GameMenuState {
                 
                 menu.Hide();
                 yield return GameSettingsState.New(game);
+                menu.Show(game);
+            }
+
+            if (shouldLoadGame) {
+                shouldLoadGame = false;
+                
+                menu.Hide();
+                yield return LoadGameState.New(game);
                 menu.Show(game);
             }
         }

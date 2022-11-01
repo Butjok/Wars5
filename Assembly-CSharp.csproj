@@ -420,6 +420,8 @@
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
      <Compile Include="Assets/Scripts/GameStates/GameMenuState.cs" />
      <Compile Include="Assets/Scripts/GameStates/GameMenu.cs" />
+     <Compile Include="Assets/Scripts/LoadGameMenu.cs" />
+     <Compile Include="Assets/Scripts/GameStates/LoadGameState.cs" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />
      <None Include="Assets/Shaders/My First Lighting Shader.shader" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader" />

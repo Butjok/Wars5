@@ -18,6 +18,9 @@ public class GameMenu : MonoBehaviour {
     public void Resume() {
         GameMenuState.shouldResume = true;
     }
+    public void OpenLoadGame() {
+        GameMenuState.shouldLoadGame = true;
+    }
     public void OpenSettings() {
         GameMenuState.shouldOpenSettings = true;
     }
