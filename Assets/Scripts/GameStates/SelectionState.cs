@@ -103,7 +103,7 @@ public static class SelectionState {
                 game.input.endTurn = true;
             
             else if (Input.GetKeyDown(KeyCode.Escape))
-                yield return GameSettingsState.New(game);
+                yield return GameMenuState.New(game);
 
             else if (Input.GetKeyDown(KeyCode.Tab)) {
                 if (positions.Length > 0) {

@@ -2,20 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_18_10_2022_9_54_[Default_Changelist]/Lightmap-0_comp_light.exr" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_18_10_2022_9_54_[Default_Changelist]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_18_10_2022_9_54__Default_Changelist_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_20_10_2022_9_31_[Default_Changelist]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_20_10_2022_9_31__Default_Changelist_.xml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/GameMenu.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/GameMenu.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/GameMenuState.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/GameMenuState.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assembly-CSharp-Editor.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp-Editor.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assembly-CSharp-firstpass.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp-firstpass.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/PlayerView.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/PlayerView.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assembly-CSharp.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameMenu.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameMenu.cs.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameSettingsMenu.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameSettingsMenu.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/GameSettingsState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/GameSettingsState.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/SelectionState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/SelectionState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PlayerView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PlayerView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FullscreenEditor.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/FullscreenEditor.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectSettings/RiderScriptEditorPersistedState.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/RiderScriptEditorPersistedState.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" afterDir="false" />
@@ -245,35 +243,11 @@
       <workItem from="1665932161237" duration="1487000" />
       <workItem from="1666225024396" duration="4459000" />
       <workItem from="1666645389938" duration="13297000" />
-      <workItem from="1667174886737" duration="933000" />
-    </task>
-    <task id="LOCAL-00098" summary="lkdjfglkdjfg">
-      <created>1664805178076</created>
-      <option name="number" value="00098" />
-      <option name="presentableId" value="LOCAL-00098" />
-      <option name="project" value="LOCAL" />
-      <updated>1664805178076</updated>
-    </task>
-    <task id="LOCAL-00099" summary="lkjgrhljkhfgflghjkhgf">
-      <created>1664806896045</created>
-      <option name="number" value="00099" />
-      <option name="presentableId" value="LOCAL-00099" />
-      <option name="project" value="LOCAL" />
-      <updated>1664806896045</updated>
-    </task>
-    <task id="LOCAL-00100" summary="oiwueroiwuer">
-      <created>1664810269780</created>
-      <option name="number" value="00100" />
-      <option name="presentableId" value="LOCAL-00100" />
-      <option name="project" value="LOCAL" />
-      <updated>1664810269780</updated>
-    </task>
-    <task id="LOCAL-00101" summary="jhghghjgjh">
-      <created>1664810658760</created>
-      <option name="number" value="00101" />
-      <option name="presentableId" value="LOCAL-00101" />
-      <option name="project" value="LOCAL" />
-      <updated>1664810658760</updated>
+      <workItem from="1667174886737" duration="1204000" />
+      <workItem from="1667179510994" duration="248000" />
+      <workItem from="1667201436149" duration="252000" />
+      <workItem from="1667201768639" duration="423000" />
+      <workItem from="1667262293736" duration="2708000" />
     </task>
     <task id="LOCAL-00102" summary="lkifgjldfjg">
       <created>1664811904710</created>
@@ -590,7 +564,35 @@
       <option name="project" value="LOCAL" />
       <updated>1667173254680</updated>
     </task>
-    <option name="localTasksCounter" value="147" />
+    <task id="LOCAL-00147" summary="sdfsdfdsf">
+      <created>1667176391837</created>
+      <option name="number" value="00147" />
+      <option name="presentableId" value="LOCAL-00147" />
+      <option name="project" value="LOCAL" />
+      <updated>1667176391837</updated>
+    </task>
+    <task id="LOCAL-00148" summary="oiioppoi">
+      <created>1667179911810</created>
+      <option name="number" value="00148" />
+      <option name="presentableId" value="LOCAL-00148" />
+      <option name="project" value="LOCAL" />
+      <updated>1667179911810</updated>
+    </task>
+    <task id="LOCAL-00149" summary="fix bug">
+      <created>1667201682165</created>
+      <option name="number" value="00149" />
+      <option name="presentableId" value="LOCAL-00149" />
+      <option name="project" value="LOCAL" />
+      <updated>1667201682165</updated>
+    </task>
+    <task id="LOCAL-00150" summary="add ui volume">
+      <created>1667202249155</created>
+      <option name="number" value="00150" />
+      <option name="presentableId" value="LOCAL-00150" />
+      <option name="project" value="LOCAL" />
+      <updated>1667202249155</updated>
+    </task>
+    <option name="localTasksCounter" value="151" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -613,10 +615,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="hjgjghjghj" />
-    <MESSAGE value="ytyuytuytutyu" />
-    <MESSAGE value="a lot of tinkering with lighting and post processing might have fucked up some things" />
-    <MESSAGE value="htgjjhggjhjgh" />
     <MESSAGE value="pierutldkfjg" />
     <MESSAGE value="lkjfdgodfuoiert" />
     <MESSAGE value="tyutyutyu" />
@@ -638,7 +636,11 @@
     <MESSAGE value="game menu" />
     <MESSAGE value="dfgdfggfd" />
     <MESSAGE value="ghfl;ksjhjgklf;djhlk;gfdlhk;jdgf" />
-    <option name="LAST_COMMIT_MESSAGE" value="ghfl;ksjhjgklf;djhlk;gfdlhk;jdgf" />
+    <MESSAGE value="sdfsdfdsf" />
+    <MESSAGE value="oiioppoi" />
+    <MESSAGE value="fix bug" />
+    <MESSAGE value="add ui volume" />
+    <option name="LAST_COMMIT_MESSAGE" value="add ui volume" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

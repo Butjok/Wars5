@@ -99,7 +99,7 @@ public class GameSettingsMenu : MonoBehaviour {
 
     public void Close() {
         if (!game.settings.DiffersFrom(oldSettings))
-            GameSettingsState.shouldExit = true;
+            GameSettingsState.shouldReturn = true;
         else {
             shakeTweener?.Complete();
             shakeTweener = buttonsRoot.GetComponent<RectTransform>()
@@ -115,11 +115,11 @@ public class GameSettingsMenu : MonoBehaviour {
     public void Cancel() {
         game.settings = oldSettings;
         game.UpdatePostProcessing();
-        GameSettingsState.shouldExit = true;
+        GameSettingsState.shouldReturn = true;
     }
     public void Ok() {
         game.settings.Save();
-        GameSettingsState.shouldExit = true;
+        GameSettingsState.shouldReturn = true;
     }
 
     private void Update() {

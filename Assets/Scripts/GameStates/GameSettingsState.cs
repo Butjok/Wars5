@@ -4,30 +4,24 @@ using UnityEngine.Assertions;
 
 public static class GameSettingsState {
 
-    public static bool shouldExit;
+    public static bool shouldReturn;
 
     public static IEnumerator New(Game game) {
 
-        shouldExit = false;
+        shouldReturn = false;
         
         var menu = Object.FindObjectOfType<GameSettingsMenu>(true);
         Assert.IsTrue(menu);
-        
-        PlayerView.globalVisibility = false;
-        yield return null; 
-        
+
         menu.Show(game);
-        CursorView.Instance.Visible = false;
-        CameraRig.Instance.enabled = false;
 
         while (true) {
             yield return null;
 
-            if (shouldExit) {
+            if (shouldReturn) {
+                shouldReturn = false;
+                
                 menu.Hide();
-                CursorView.Instance.Visible = true;
-                CameraRig.Instance.enabled = true;
-                PlayerView.globalVisibility = true;
                 yield break;
             }
         }
