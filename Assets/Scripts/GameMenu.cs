@@ -8,7 +8,7 @@ public class GameMenu : MonoBehaviour {
     public Game game;
     public GameObject root;
     public TMP_Text versionText;
-    public string versionFormat = "© Copyright {2} {3:yyyy}, v {1}";
+    public string versionFormat = "© Copyright {2} 2023, v {1}";
     public TMP_Text titleText;
     public string titleFormat = "{0}";
     
@@ -41,6 +41,6 @@ public class GameMenu : MonoBehaviour {
     }
 
     private static string Format(string input) {
-        return string.Format(input, Application.productName, Application.version, Application.companyName, DateTime.Now);
+        return string.Format(input, Application.productName, Application.version, Application.companyName);
     }
 }
