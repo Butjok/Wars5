@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using Butjok.CommandLine;
 using UnityEngine;
-using UnityEngine.Assertions;
 
 public class SaveEntry {
 
@@ -16,28 +15,20 @@ public class SaveEntry {
     // static
 
     [Command]
-    public static string Path => System.IO.Path.Combine(Application.persistentDataPath, "Saves");
+    public static string DirectoryPath => Path.Combine(Application.persistentDataPath, "Saves");
     public static string GetFilePath(string fileName) {
-        return System.IO.Path.Combine(Path, fileName);
+        return Path.Combine(DirectoryPath, fileName);
     }
     public const string extension = ".json";
     public const string screenshotExtension = ".png";
 
-    private static void EnsureDirectoryExists() {
-        if (!Directory.Exists(Path))
-            Directory.CreateDirectory(Path);
-    }
+    public static IEnumerable<string> FileNames
+        => !Directory.Exists(DirectoryPath) ? Array.Empty<string>() : Directory.GetFiles(DirectoryPath, "*" + extension);
 
-    public static IEnumerable<string> FileNames {
-        get {
-            EnsureDirectoryExists();
-            return Directory.GetFiles(Path, "*" + extension);
-        }
-    }
     public static SaveEntry Read(string fileName) {
-        EnsureDirectoryExists();
         var path = GetFilePath(fileName);
-        Assert.IsTrue(File.Exists(path));
+        if (!File.Exists(path))
+            return null;
         var json = File.ReadAllText(path);
         var entry = json.FromJson<SaveEntry>();
         entry.fileName = fileName;
@@ -45,7 +36,7 @@ public class SaveEntry {
     }
 
     public static Sprite LoadScreenshot(string fileName) {
-        fileName = System.IO.Path.ChangeExtension(fileName, screenshotExtension);
+        fileName = Path.ChangeExtension(fileName, screenshotExtension);
         var path = GetFilePath(fileName);
         if (!File.Exists(path))
             return null;
@@ -56,15 +47,15 @@ public class SaveEntry {
 
     public static string Save(SaveEntry entry, string fileName = null) {
 
-        EnsureDirectoryExists();
+        if (!Directory.Exists(DirectoryPath))
+            Directory.CreateDirectory(DirectoryPath);
 
         if (fileName == null)
             do
-                fileName = System.IO.Path.ChangeExtension(System.IO.Path.GetRandomFileName(), extension);
+                fileName = Path.ChangeExtension(Path.GetRandomFileName(), extension);
             while (File.Exists(GetFilePath(fileName)));
 
         var path = GetFilePath(fileName);
-        entry.dateTime = DateTime.Now;
         File.WriteAllText(path, entry.ToJson());
         return fileName;
     }
