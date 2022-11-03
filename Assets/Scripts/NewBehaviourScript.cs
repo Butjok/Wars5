@@ -88,8 +88,8 @@ public class NewBehaviourScript : MonoBehaviour {
         });
         Debug.Log(string.Join("\n",SaveDataManager.Names));*/
 
-        foreach (var saveData in SaveDataManager.All.OrderByDescending(s => s.dateTime))
-            Debug.Log(saveData);
+        //foreach (var saveData in SaveDataManager.All.OrderByDescending(s => s.dateTime))
+        //    Debug.Log(saveData);
 
 
         /*var ser = new SerializedLevel(level);

@@ -87,6 +87,7 @@
      <Compile Include="Assets/CommandLine/Antlr4/ITokenSource.cs" />
      <Compile Include="Assets/Scripts/ChangeTracker.cs" />
      <Compile Include="Assets/Scripts/Animation/BlendShapesAnimation.cs" />
+     <Compile Include="Assets/Scripts/GameMenu.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/RecognitionException.cs" />
      <Compile Include="Assets/Scripts/Animation/ImpactPoint.cs" />
      <Compile Include="Assets/Scripts/BuildingView.cs" />
@@ -115,6 +116,7 @@
      <Compile Include="Assets/CommandLine/Antlr4/Atn/LoopEndState.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/ATN.cs" />
      <Compile Include="Assets/Priority Queue/GenericPriorityQueue.cs" />
+     <Compile Include="Assets/Scripts/GameStates/GameMenuState.cs" />
      <Compile Include="Assets/Scripts/FpsCounter.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Tree/Pattern/TextChunk.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Sharpen/DictionaryExtensions.cs" />
@@ -140,7 +142,7 @@
      <Compile Include="Assets/CommandLine/Antlr4/Atn/RuleStartState.cs" />
      <Compile Include="Assets/CommandLine/Parsers/Butjok/CommandLine/Parsers/CommandLineParser.cs" />
      <Compile Include="Assets/CommandLine/Parsers/CommandLineParser.cs" />
-     <Compile Include="Assets/Scripts/SaveData.cs" />
+     <Compile Include="Assets/Scripts/LoadGameMenu.cs" />
      <Compile Include="Assets/CommandLine/Interpreter.cs" />
      <Compile Include="Assets/Scripts/Lazy.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/PlusLoopbackState.cs" />
@@ -305,6 +307,7 @@
      <Compile Include="Assets/Scripts/SubsceneRoot.cs" />
      <Compile Include="Assets/Scripts/Trail.cs" />
      <Compile Include="Assets/CommandLine/Colorizer.cs" />
+     <Compile Include="Assets/Scripts/GameStates/LoadGameState.cs" />
      <Compile Include="Assets/Scripts/InteropTest.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/BufferedTokenStream.cs" />
      <Compile Include="Assets/CommandLine/Parsers/CommandLineListener.cs" />
@@ -418,10 +421,7 @@
      <Compile Include="Assets/CommandLine/Antlr4/Atn/PlusBlockStartState.cs" />
      <Compile Include="Assets/Scripts/Animation/PistonBody.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
-     <Compile Include="Assets/Scripts/GameStates/GameMenuState.cs" />
-     <Compile Include="Assets/Scripts/GameStates/GameMenu.cs" />
-     <Compile Include="Assets/Scripts/LoadGameMenu.cs" />
-     <Compile Include="Assets/Scripts/GameStates/LoadGameState.cs" />
+     <Compile Include="Assets/Scripts/SaveEntry.cs" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />
      <None Include="Assets/Shaders/My First Lighting Shader.shader" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader" />
