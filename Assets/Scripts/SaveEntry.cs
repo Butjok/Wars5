@@ -12,7 +12,7 @@ public class SaveEntry {
     public DateTime dateTime;
     public string sceneName;
     public string commands;
-    
+
     // static
 
     [Command]
@@ -50,13 +50,19 @@ public class SaveEntry {
         if (!File.Exists(path))
             return null;
         var texture = new Texture2D(2, 2);
-        texture.LoadImage(File.ReadAllBytes(path),true);
+        texture.LoadImage(File.ReadAllBytes(path), true);
         return Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
     }
 
     public static string Save(SaveEntry entry, string fileName = null) {
+
         EnsureDirectoryExists();
-        fileName ??= System.IO.Path.ChangeExtension(System.IO.Path.GetRandomFileName(), extension);
+
+        if (fileName == null)
+            do
+                fileName = System.IO.Path.ChangeExtension(System.IO.Path.GetRandomFileName(), extension);
+            while (File.Exists(GetFilePath(fileName)));
+
         var path = GetFilePath(fileName);
         entry.dateTime = DateTime.Now;
         File.WriteAllText(path, entry.ToJson());
