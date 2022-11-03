@@ -86,6 +86,7 @@
      <Compile Include="Assets/Scripts/Animation/BallisticComputer.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/ITokenSource.cs" />
      <Compile Include="Assets/Scripts/ChangeTracker.cs" />
+     <Compile Include="Assets/Scripts/SaveEntry.cs" />
      <Compile Include="Assets/Scripts/Animation/BlendShapesAnimation.cs" />
      <Compile Include="Assets/Scripts/GameMenu.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/RecognitionException.cs" />
@@ -421,7 +422,6 @@
      <Compile Include="Assets/CommandLine/Antlr4/Atn/PlusBlockStartState.cs" />
      <Compile Include="Assets/Scripts/Animation/PistonBody.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
-     <Compile Include="Assets/Scripts/SaveEntry.cs" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />
      <None Include="Assets/Shaders/My First Lighting Shader.shader" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader" />
