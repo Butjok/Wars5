@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Butjok.CommandLine;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -9,6 +10,7 @@ public class PlayerView : MonoBehaviour {
 	public static PlayerView DefaultPrefab => nameof(PlayerView).LoadAs<PlayerView>();
 	
 	public static List<PlayerView> views = new();
+	[Command]
 	public static bool globalVisibility = true;
 	
 	public static int playerColorId = Shader.PropertyToID("_Color");

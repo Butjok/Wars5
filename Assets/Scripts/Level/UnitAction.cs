@@ -99,7 +99,7 @@ public class UnitAction : IDisposable {
 			}
 
 			case UnitActionType.Attack:
-				return BattleAnimation.New(this);
+				return BattleAnimationState.New(this);
 
 			case UnitActionType.GetIn: {
 				unit.position.v = null;

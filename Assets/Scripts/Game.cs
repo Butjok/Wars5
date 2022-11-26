@@ -6,6 +6,15 @@ using UnityEngine.Rendering.PostProcessing;
 
 public class Game : MonoBehaviour {
 
+    private static Game instance;
+    public static Game Instance {
+        get {
+            if (!instance)
+                instance = FindObjectOfType<Game>();
+            return instance;
+        }
+    }
+    
     public Map2D<Unit> units;
     public Map2D<TileType> tiles;
     public Map2D<Building> buildings;

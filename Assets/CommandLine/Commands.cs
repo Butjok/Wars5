@@ -48,7 +48,7 @@ namespace Butjok.CommandLine
 
                 case FieldInfo fieldInfo: {
                     var type = fieldInfo.DeclaringType;
-                    var targets = fieldInfo.IsStatic ? new object[] { null } : UnityEngine.Object.FindObjectsOfType(type);
+                    var targets = fieldInfo.IsStatic ? new object[] { null } : UnityEngine.Object.FindObjectsOfType(type,true);
                     switch (arguments.Count) {
                         case 0:
                             if (targets.Length == 0)
@@ -67,7 +67,7 @@ namespace Butjok.CommandLine
 
                 case PropertyInfo propertyInfo: {
                     var type = propertyInfo.DeclaringType;
-                    var targets = propertyInfo.GetMethod?.IsStatic ?? propertyInfo.SetMethod.IsStatic ? new object[] { null } : UnityEngine.Object.FindObjectsOfType(type);
+                    var targets = propertyInfo.GetMethod?.IsStatic ?? propertyInfo.SetMethod.IsStatic ? new object[] { null } : UnityEngine.Object.FindObjectsOfType(type,true);
                     switch (arguments.Count) {
                         case 0:
                             if (targets.Length == 0)

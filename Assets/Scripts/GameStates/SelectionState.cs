@@ -13,6 +13,9 @@ public static class SelectionState {
     
     public static IEnumerator New(Game game, bool turnStart = false) {
 
+        // weird static variable issue
+        PlayerView.globalVisibility = true;
+        
         var unmovedUnits = game.units.Values
             .Where(unit => unit.player == game.CurrentPlayer && !unit.moved.v)
             .ToList();

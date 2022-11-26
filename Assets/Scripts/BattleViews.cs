@@ -111,6 +111,8 @@ public class BattleViews : MonoBehaviour {
         if (level)
             level.SetActive(false);
 
+        Cursor.visible = false;
+
         var operations = new List<AsyncOperation>();
         for (var side = left; side <= right; side++) {
             Assert.IsFalse(battleViews[side], side.ToString());
@@ -186,6 +188,8 @@ public class BattleViews : MonoBehaviour {
         PostProcessing.Fade(Color.white, fadeDuration, fadeEase);
         if (level)
             level.SetActive(true);
+
+        Cursor.visible = true;
         
         LightProbes.Tetrahedralize();
     }

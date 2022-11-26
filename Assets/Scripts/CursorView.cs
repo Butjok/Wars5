@@ -1,3 +1,4 @@
+using Butjok.CommandLine;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -17,26 +18,29 @@ public class CursorView : MonoBehaviour {
 	}
 
 	public MeshRenderer meshRenderer;
+	[Command]
 	public bool show = true;
 	public TMP_Text text;
+	[Command]
+	public bool enableText = true;
 
 	public bool Visible {
 		set => gameObject.SetActive(value);
 	}
-	
+
 	public void Reset() {
 		meshRenderer = GetComponent<MeshRenderer>();
 	}
 
 	public void LateUpdate() {
-		if (Input.GetKeyDown(KeyCode.Keypad7))
-			show = !show;
-		if (Mouse.TryGetPosition(out Vector2Int mousePosition)) {
+
+		if (Mouse.TryGetPosition(out Vector2Int mousePosition) && (!Game.Instance || Game.Instance.TryGetTile(mousePosition, out _))) {
 			meshRenderer.enabled = show;
-			transform.position =  mousePosition.ToVector3Int();
+			transform.position = mousePosition.ToVector3Int();
 			if (text) {
-				text.enabled = true;
-				text.text = mousePosition.ToString();
+				text.enabled = show && enableText;
+				if (text.enabled)
+					text.text = mousePosition.ToString();
 			}
 		}
 		else {
