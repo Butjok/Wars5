@@ -2,36 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/CameraFrustumProjection.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/CameraFrustumProjection.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Compass.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Compass.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/MissionObjectivesUi.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/MissionObjectivesUi.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_08_10_2022_13_17__Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_08_10_2022_13_17__Default_Changelist_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_29_09_22__18_54__Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_29_09_22__18_54__Default_Changelist_.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Shaders/Building.shader" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Shaders/Building.shader.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assembly-CSharp-Editor.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp-Editor.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assembly-CSharp-firstpass.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp-firstpass.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assembly-CSharp.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CommandLine/Commands.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CommandLine/Commands.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Roboto/Roboto-Regular SDF2.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Roboto/Roboto-Regular SDF2.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Content/light-tank/light-tank.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Content/light-tank/light-tank.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Explosion.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Explosion.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/BattleViews.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/BattleViews.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CameraRig.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CameraRig.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CursorView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CursorView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameMenu.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameMenu.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/BattleAnimation.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/BattleAnimationState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/BattleAnimation.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/BattleAnimationState.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/SelectionState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/SelectionState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Level/UnitAction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Level/UnitAction.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PlayerView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PlayerView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FullscreenEditor.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/FullscreenEditor.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectSettings/RiderScriptEditorPersistedState.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/RiderScriptEditorPersistedState.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -263,14 +243,8 @@
       <workItem from="1669393602205" duration="1659000" />
       <workItem from="1669457093296" duration="1390000" />
       <workItem from="1669461510515" duration="279000" />
-      <workItem from="1669461960433" duration="4467000" />
-    </task>
-    <task id="LOCAL-00108" summary="ccdbdbdvbd">
-      <created>1664831951830</created>
-      <option name="number" value="00108" />
-      <option name="presentableId" value="LOCAL-00108" />
-      <option name="project" value="LOCAL" />
-      <updated>1664831951830</updated>
+      <workItem from="1669461960433" duration="4688000" />
+      <workItem from="1670081143510" duration="1959000" />
     </task>
     <task id="LOCAL-00109" summary="klkdjfglkdjfgl">
       <created>1664836301907</created>
@@ -608,7 +582,14 @@
       <option name="project" value="LOCAL" />
       <updated>1667459122427</updated>
     </task>
-    <option name="localTasksCounter" value="157" />
+    <task id="LOCAL-00157" summary="kjhhjkhjk">
+      <created>1669493856124</created>
+      <option name="number" value="00157" />
+      <option name="presentableId" value="LOCAL-00157" />
+      <option name="project" value="LOCAL" />
+      <updated>1669493856125</updated>
+    </task>
+    <option name="localTasksCounter" value="158" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -630,7 +611,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="sdfsdfsdfsdf" />
     <MESSAGE value="/;ldgfkhp;rotijup;irtyu" />
     <MESSAGE value="fghfghfgh" />
     <MESSAGE value="fhdvghgfhgfhgfhgf" />
@@ -655,7 +635,8 @@
     <MESSAGE value="add first load game menu test" />
     <MESSAGE value="sdfsdf" />
     <MESSAGE value="sdsdfsdffds" />
-    <option name="LAST_COMMIT_MESSAGE" value="sdsdfsdffds" />
+    <MESSAGE value="kjhhjkhjk" />
+    <option name="LAST_COMMIT_MESSAGE" value="kjhhjkhjk" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
