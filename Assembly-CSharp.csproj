@@ -177,6 +177,7 @@
      <Compile Include="Assets/Scripts/GameObjectUtils.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/FailedPredicateException.cs" />
      <Compile Include="Assets/CommandLine/Parsers/Butjok/CommandLine/Parsers/CommandLineListener.cs" />
+     <Compile Include="Assets/Scripts/Level/Testing.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Misc/NullableAttribute.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/StarLoopEntryState.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Misc/IntervalSet.cs" />
@@ -303,6 +304,7 @@
      <Compile Include="Assets/CommandLine/Antlr4/Tree/Xpath/XPathTokenAnywhereElement.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/StarLoopbackState.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/RuleTransition.cs" />
+     <Compile Include="Assets/Scripts/Level/UnitAttackActionViewTest.cs" />
      <Compile Include="Assets/Priority Queue/FastPriorityQueue.cs" />
      <Compile Include="Assets/SDF Toolkit/Examples/Scripts/Rotater.cs" />
      <Compile Include="Assets/CommandLine/Commands.Exceptions.cs" />
@@ -366,6 +368,7 @@
      <Compile Include="Assets/Scripts/Animation/BodyTorque.cs" />
      <Compile Include="Assets/Scripts/TargetFpsSetter.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Tree/TerminalNodeImpl.cs" />
+     <Compile Include="Assets/Scripts/UnitActionView.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Tree/IParseTreeListener.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/TokenTypes.cs" />
      <Compile Include="Assets/Scripts/TerrainHeightmapGenerator.cs" />
@@ -425,9 +428,6 @@
      <Compile Include="Assets/CommandLine/Antlr4/Atn/PlusBlockStartState.cs" />
      <Compile Include="Assets/Scripts/Animation/PistonBody.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
-     <Compile Include="Assets/Scripts/UnitActionView.cs" />
-     <Compile Include="Assets/Scripts/Level/UnitAttackActionViewTest.cs" />
-     <Compile Include="Assets/Scripts/Level/Testing.cs" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />
      <None Include="Assets/Shaders/My First Lighting Shader.shader" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader" />
