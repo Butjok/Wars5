@@ -47,6 +47,7 @@ public class UnitAttackActionView : MonoBehaviour {
             action.unit.view.turret.aim = value;
             uiRoot.gameObject.SetActive(value);
             lineRenderer.enabled = value;
+            action.targetUnit.view.HighlightAsTarget = value;
 
             if (!value)
                 return;

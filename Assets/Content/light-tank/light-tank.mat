@@ -79,6 +79,11 @@ Material:
     m_Ints: []
     m_Floats:
     - _AOIntensity: 0
+    - _AttackHighlight: 0
+    - _AttackHighlightFactor: 0
+    - _AttackHighlightPower: 2.5
+    - _AttackHighlightSpeed: 5
+    - _AttackHighlightStartTime: 0
     - _BounceIntensity: 1
     - _BumpScale: 1
     - _Cutoff: 0.5
@@ -101,6 +106,8 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
+    - _AttackHighlight: {r: 0.25, g: 0.5, b: 5, a: 2.5}
+    - _AttackHighlightColor: {r: 1, g: 0.25131878, b: 0, a: 1}
     - _BounceTint: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

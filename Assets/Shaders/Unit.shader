@@ -14,6 +14,9 @@ Shader "Custom/Unit"
         _Offset ("_Offset", Vector) = (0, 0, .5, 1)
         _OffsetIntensity ("_OffsetIntensity", Range(0,10)) = 0
         _Moved ("_Moved", Range(0,1)) = 0
+        _AttackHighlightFactor ("_AttackHighlightFactor", Range(0,1)) = 0
+        _AttackHighlightColor ("_AttackHighlightColor", Color) = (1,1,1,1)
+        _AttackHighlight ("_AttackHighlight", Vector) = (.25, .5, 5.0, 2.5)
     }
     SubShader
     {
@@ -37,9 +40,9 @@ Shader "Custom/Unit"
             float3 worldPos;
         };
 
-        fixed4 _PlayerColor,_Offset;
+        fixed4 _PlayerColor,_Offset,_AttackHighlightColor,_AttackHighlight;
         half _Selected,_HueShift,_BounceIntensity,_OffsetIntensity;
-        half _Moved;
+        half _Moved,_AttackHighlightFactor,_AttackHighlightStartTime;
         
         void surf (Input IN, inout SurfaceOutputStandard o)
         {
@@ -73,6 +76,19 @@ Shader "Custom/Unit"
             o.Emission=c.rgb*bounce.rgb*_BounceIntensity     * movedTint;
 
             o.Albedo = Tint(o.Albedo,-.0025,1,1);
+            
+            o.Emission += lerp(_AttackHighlight.x, _AttackHighlight.y, pow
+        (sin        ((_Time.y-_AttackHighlightStartTime)*_AttackHighlight.z      )/2+.5, 
+            _AttackHighlight.w)) * 
+            _AttackHighlightColor *  _AttackHighlightFactor;
+            
+            /*o.Emission =smoothstep(.8,.9, frac( (IN.worldPos.x + IN
+            .worldPos.y 
+            + IN
+        .worldPos.z)
+            *10));*/
+            
+            
         }
         ENDCG
     }

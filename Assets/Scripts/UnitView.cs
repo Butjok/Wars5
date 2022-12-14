@@ -79,6 +79,15 @@ public class UnitView : MonoBehaviour {
         }
     }
 
+    public bool HighlightAsTarget {
+        set {
+            propertyBlock.SetFloat("_AttackHighlightFactor", value?1:0);
+            //var time = Shader.GetGlobalVector("_Time");
+            propertyBlock.SetFloat("_AttackHighlightStartTime", Time.timeSinceLevelLoad);
+            UpdateRenderers();
+        }
+    }
+
     private bool initialized;
     public void EnsureInitialized() {
         if (initialized)

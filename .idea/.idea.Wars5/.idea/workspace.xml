@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/SetTextToGameObjectName.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/SetTextToGameObjectName.cs.meta" afterDir="false" />
+    <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="unit action ui">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assembly-CSharp.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Explosion.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Explosion.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/UnitAttackActionView.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/UnitAttackActionView.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Level/UnitAttackActionView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Level/UnitAttackActionView.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UnitView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UnitView.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Shaders/Unit.shader" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Shaders/Unit.shader" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectSettings/RiderScriptEditorPersistedState.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/RiderScriptEditorPersistedState.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -170,10 +170,10 @@
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="62838">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" />
+      <option name="pid" value="62838" />
       <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
@@ -264,14 +264,7 @@
       <workItem from="1671005044416" duration="845000" />
       <workItem from="1671039929508" duration="458000" />
       <workItem from="1671043417661" duration="3000" />
-      <workItem from="1671045940213" duration="1129000" />
-    </task>
-    <task id="LOCAL-00112" summary="sdfsdf">
-      <created>1664837727397</created>
-      <option name="number" value="00112" />
-      <option name="presentableId" value="LOCAL-00112" />
-      <option name="project" value="LOCAL" />
-      <updated>1664837727397</updated>
+      <workItem from="1671045940213" duration="4070000" />
     </task>
     <task id="LOCAL-00113" summary="fghfghfghfg">
       <created>1664945772862</created>
@@ -609,7 +602,14 @@
       <option name="project" value="LOCAL" />
       <updated>1671005861795</updated>
     </task>
-    <option name="localTasksCounter" value="161" />
+    <task id="LOCAL-00161" summary="unit action ui">
+      <created>1671055293280</created>
+      <option name="number" value="00161" />
+      <option name="presentableId" value="LOCAL-00161" />
+      <option name="project" value="LOCAL" />
+      <updated>1671055293281</updated>
+    </task>
+    <option name="localTasksCounter" value="162" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -632,7 +632,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="fhdvghgfhgfhgfhgf" />
     <MESSAGE value="gfgfhgfhfg" />
     <MESSAGE value="added correct last projectile calculation" />
     <MESSAGE value="added game parsing from input" />
@@ -657,7 +656,8 @@
     <MESSAGE value="sdfsdfsdf" />
     <MESSAGE value="unit attack action view" />
     <MESSAGE value="lkjsdlkfsd" />
-    <option name="LAST_COMMIT_MESSAGE" value="lkjsdlkfsd" />
+    <MESSAGE value="unit action ui" />
+    <option name="LAST_COMMIT_MESSAGE" value="unit action ui" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
