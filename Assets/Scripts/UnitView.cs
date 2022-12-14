@@ -26,6 +26,8 @@ public class UnitView : MonoBehaviour {
     public UnitViewSequencePlayer moveAndAttack;
     public UnitViewSequencePlayer attack;
     public UnitViewSequencePlayer respond;
+    public BoxCollider uiBoxCollider;
+    public Transform center;
 
     public Vector2Int Position {
         get => transform.position.ToVector2().RoundToInt();

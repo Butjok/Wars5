@@ -128,7 +128,7 @@ namespace Butjok.CommandLine
         public static bool TryGetCommand(string name,out MethodInfo methodInfo) {
             methodInfo = default;
             var result= commands.TryGetValue(name, out var memberInfo);
-            if (result) {
+            if (result && memberInfo is MethodInfo m) {
                 methodInfo = (MethodInfo)memberInfo;
                 return true;
             }

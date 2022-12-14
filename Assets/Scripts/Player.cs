@@ -6,7 +6,7 @@ using UnityEngine.Playables;
 using Object = UnityEngine.Object;
 
 [Flags]
-public enum Team { None = 0, Alpha = 1, Bravo = 2, Delta = 4 }
+public enum Team { None = 0, Alpha = 1, Bravo = 2, Charlie = 4, Delta = 8 }
 [Flags]
 public enum PlayerType { Human, Ai }
 public enum AiDifficulty { Normal, Easy, Hard }

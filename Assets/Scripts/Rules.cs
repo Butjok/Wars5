@@ -204,6 +204,7 @@ public static class Rules {
         return 99;
     }
     public static int Ammo(Unit unit, int weaponIndex) {
+        Assert.IsTrue(weaponIndex >= 0);
         Assert.IsTrue(weaponIndex < WeaponsCount(unit));
         Assert.IsTrue(weaponIndex < unit.ammo.Count);
         return unit.ammo[weaponIndex];

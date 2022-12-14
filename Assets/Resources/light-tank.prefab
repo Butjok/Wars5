@@ -3453,10 +3453,11 @@ MonoBehaviour:
   moveAndAttack: {fileID: 7370819031783772978}
   attack: {fileID: -2748089726501033732}
   respond: {fileID: 6178112097198144541}
+  uiBoxCollider: {fileID: 3978655096192631730}
+  center: {fileID: 4622332910155901238}
   nextPosition: {x: 0, y: 0}
   nextRotation: {x: 0, y: 0}
   nextMoved: 0
-  blinkDuration: 1
 --- !u!114 &9102701129914540530
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4580,19 +4581,19 @@ PrefabInstance:
       objectReference: {fileID: 3978655096192631730}
     - target: {fileID: 5793958539712425122, guid: fb3d0e4b87008f747afef3004299e118, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 196.62712
+      value: 136.18823
       objectReference: {fileID: 0}
     - target: {fileID: 5793958539712425122, guid: fb3d0e4b87008f747afef3004299e118, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 80.837524
+      value: 86.31824
       objectReference: {fileID: 0}
     - target: {fileID: 5793958539712425122, guid: fb3d0e4b87008f747afef3004299e118, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 72.87471
+      value: 1030.1218
       objectReference: {fileID: 0}
     - target: {fileID: 5793958539712425122, guid: fb3d0e4b87008f747afef3004299e118, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 925.8972
+      value: 566.3524
       objectReference: {fileID: 0}
     - target: {fileID: 7216561255274665977, guid: fb3d0e4b87008f747afef3004299e118, type: 3}
       propertyPath: m_Pivot.x

@@ -237,7 +237,6 @@ public static class GameParser {
         });
 
         Assert.IsNotNull(game.localPlayer);
-        game.players = playerLoop;
 
         if (tiles.Count > 0) {
             

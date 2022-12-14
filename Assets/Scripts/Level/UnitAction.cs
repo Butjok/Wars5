@@ -11,19 +11,11 @@ public enum UnitActionType { Stay, Join, Capture, Attack, GetIn, Drop, Supply }
 public class UnitAction : IDisposable {
 
 	public UnitActionType type;
-	public UnitActionView view;
-	public ChangeTracker<bool> selected;
 	public Unit unit, targetUnit;
 	public MovePath path;
 	public int weaponIndex;
 	public Vector2Int targetPosition;
-
-	public static Dictionary<UnitActionType, Func<UnitActionView>> prefabs;
-	static UnitAction() {
-		prefabs = new Dictionary<UnitActionType, Func<UnitActionView>>();
-		foreach (UnitActionType type in Enum.GetValues(typeof(UnitActionType)))
-			prefabs.Add(type,()=>Resources.Load<UnitActionView>("UnitActionView"));
-	}
+	public MonoBehaviour view;
 
 	public UnitAction(UnitActionType type, Unit unit, MovePath path, Unit targetUnit = null, Building targetBuilding = null, int weaponIndex = -1, Vector2Int targetPosition = default) {
 
@@ -34,13 +26,14 @@ public class UnitAction : IDisposable {
 		this.weaponIndex = weaponIndex;
 		this.targetPosition = targetPosition;
 
-		Assert.IsTrue(prefabs.ContainsKey(type));
-		var prefab = prefabs[type];
-		view = Object.Instantiate(prefab());
-		Object.DontDestroyOnLoad(view);
-		view.action = this;
-
-		selected = new ChangeTracker<bool>(_ => view.selected.v = selected.v);
+		switch (type) {
+			case UnitActionType.Attack: {
+				var view = Object.Instantiate(UnitAttackActionView.Prefab);
+				view.action = this;
+				this.view = view;
+				break;
+			}
+		}
 	}
 
 	public (int attacker, int target) CalculateHpsAfterAttack() {
@@ -57,8 +50,8 @@ public class UnitAction : IDisposable {
 	}
 
 	public void Dispose() {
-		if (view && view.gameObject) {
-			Object.Destroy(view.gameObject);
+		if (view) {
+			Object.Destroy(view);
 			view = null;
 		}
 	}
