@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 
 [RequireComponent(typeof(LineRenderer))]
-public class UnitAttackActionView : MonoBehaviour {
+public class UnitAttackActionView : UnitActionView {
 
     public static UnitAttackActionView Prefab => nameof(UnitAttackActionView).LoadAs<UnitAttackActionView>();
 
@@ -41,7 +41,7 @@ public class UnitAttackActionView : MonoBehaviour {
     }
 
     [Command]
-    public bool Show {
+    public override bool Show {
         set {
 
             action.unit.view.turret.aim = value;
@@ -61,4 +61,8 @@ public class UnitAttackActionView : MonoBehaviour {
             uiText.text = string.Format(uiTextFormat, difference);
         }
     }
+}
+
+public abstract class UnitActionView : MonoBehaviour {
+    public abstract bool Show { set; }
 }

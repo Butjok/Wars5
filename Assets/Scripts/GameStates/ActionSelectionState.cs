@@ -2,15 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public static class ActionSelectionState {
 
+    public static bool cancel = false;
+    
     public static IEnumerator New(Game game, Unit unit, MovePath path, Vector2Int startForward) {
+
+        cancel = false;
 
         game.TryGetUnit(path.Destination, out var other);
 
         var actions = new List<UnitAction>();
-        var index = 0;
+        var index = -1;
 
         // stay/capture
         if (other == null || other == unit) {
@@ -51,11 +56,45 @@ public static class ActionSelectionState {
                 actions.Add(new UnitAction(UnitActionType.Drop, unit, path, targetUnit: cargo, targetPosition: targetPosition));
         }
 
+        var panel = Object.FindObjectOfType<UnitActionsPanel>(true);
+        Assert.IsTrue(panel);
+
+        UnitAction oldAction = null;
+        void SelectAction(UnitAction action) {
+            
+            index = actions.IndexOf(action);
+            Assert.IsTrue(index != -1);
+            Debug.Log(actions[index]);
+            panel.HighlightAction(action);
+            
+            if (oldAction != null && oldAction.view)
+                oldAction.view.Show = false;
+            if (action.view)
+                action.view.Show = true;
+            oldAction = action;
+        }
+
+        PlayerView.globalVisibility = false;
+        yield return null;
+        
+        panel.Show(actions, (_, action) => SelectAction(action));
+        if (actions.Count > 0)
+            SelectAction(actions[0]);
+
+        void HidePanel() {
+            if (oldAction != null && oldAction.view)
+                oldAction.view.Show = false;
+            panel.Hide();
+            PlayerView.globalVisibility = true;
+        }
+
         while (true) {
             yield return null;
 
             // action is selected
             if (game.input.actionFilter != null) {
+
+                HidePanel();
 
                 var action = actions.Single(action => game.input.actionFilter(action));
                 yield return action.Execute();
@@ -92,7 +131,10 @@ public static class ActionSelectionState {
             if (game.CurrentPlayer.IsAi)
                 continue;
 
-            if (Input.GetMouseButtonDown(Mouse.right) || Input.GetKeyDown(KeyCode.Escape)) {
+            if (Input.GetMouseButtonDown(Mouse.right) || Input.GetKeyDown(KeyCode.Escape) || cancel) {
+                cancel = false;
+                
+                HidePanel();
 
                 foreach (var action in actions)
                     action.Dispose();
@@ -107,7 +149,7 @@ public static class ActionSelectionState {
             else if (Input.GetKeyDown(KeyCode.Tab)) {
                 if (actions.Count > 0) {
                     index = (index + 1) % actions.Count;
-                    Debug.Log(actions[index]);
+                    SelectAction(actions[index]);
                 }
                 else
                     UiSound.Instance.notAllowed.PlayOneShot();

@@ -15,7 +15,7 @@ public class UnitAction : IDisposable {
 	public MovePath path;
 	public int weaponIndex;
 	public Vector2Int targetPosition;
-	public MonoBehaviour view;
+	public UnitActionView view;
 
 	public UnitAction(UnitActionType type, Unit unit, MovePath path, Unit targetUnit = null, Building targetBuilding = null, int weaponIndex = -1, Vector2Int targetPosition = default) {
 
@@ -51,7 +51,7 @@ public class UnitAction : IDisposable {
 
 	public void Dispose() {
 		if (view) {
-			Object.Destroy(view);
+			Object.Destroy(view.gameObject);
 			view = null;
 		}
 	}

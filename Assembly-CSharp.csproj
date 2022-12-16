@@ -247,6 +247,7 @@
      <Compile Include="Assets/CommandLine/Antlr4/Dfa/AbstractEdgeMap.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Misc/Pair.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/RuleDependencyAttribute.cs" />
+     <Compile Include="Assets/Scripts/SetTextToGameObjectName.cs" />
      <Compile Include="Assets/Scripts/Animation/HpText.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/EpsilonTransition.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Dfa/DFA.cs" />
@@ -428,7 +429,7 @@
      <Compile Include="Assets/CommandLine/Antlr4/Atn/PlusBlockStartState.cs" />
      <Compile Include="Assets/Scripts/Animation/PistonBody.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
-     <Compile Include="Assets/Scripts/SetTextToGameObjectName.cs" />
+     <Compile Include="Assets/Scripts/UnitActionsPanel.cs" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />
      <None Include="Assets/Shaders/My First Lighting Shader.shader" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader" />
