@@ -5793,10 +5793,10 @@ RectTransform:
   m_Father: {fileID: 1031049207}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 35}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 70.7, y: -62.5}
+  m_SizeDelta: {x: 121.399994, y: 35}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &331651588
 MonoBehaviour:
@@ -5901,8 +5901,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 355726271}
-  - component: {fileID: 355726270}
   - component: {fileID: 355726269}
+  - component: {fileID: 355726272}
   m_Layer: 0
   m_Name: unitattackviewtest
   m_TagString: Untagged
@@ -5922,35 +5922,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b31ef187b40c406bb022871fae90c52b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &355726270
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 355726268}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6fcc691195404ae39f953b9112eaf624, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  settings:
-    masterVolume: 1
-    musicVolume: 1
-    sfxVolume: 1
-    uiVolume: 1
-    showBattleAnimation: 1
-    unitSpeed: 3
-    antiAliasing: 3
-    enableBloom: 1
-    enableScreenSpaceReflections: 1
-    enableAmbientOcclusion: 1
-    shuffleMusic: 0
-  input:
-    cancel: 0
-    endTurn: 0
-    buildUnitType: 0
-    moveUnit: 0
 --- !u!4 &355726271
 Transform:
   m_ObjectHideFlags: 0
@@ -5966,6 +5937,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &355726272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 355726268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3eb270eb4f264317bc9e9d245d17bcfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  game: {fileID: 0}
+  playerIndex: 0
 --- !u!1 &486272033
 GameObject:
   m_ObjectHideFlags: 0
@@ -21046,7 +21031,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &646853378
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41877,7 +41862,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 160}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1031049208
 MonoBehaviour:
@@ -47351,10 +47336,10 @@ RectTransform:
   m_Father: {fileID: 1031049207}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 35}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 70.7, y: -97.5}
+  m_SizeDelta: {x: 121.399994, y: 35}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1282165811
 MonoBehaviour:
@@ -47663,10 +47648,10 @@ RectTransform:
   m_Father: {fileID: 1031049207}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 35}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 70.7, y: -132.5}
+  m_SizeDelta: {x: 121.399994, y: 35}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1452543028
 MonoBehaviour:
@@ -68435,10 +68420,10 @@ RectTransform:
   m_Father: {fileID: 1031049207}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 35}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 70.7, y: -27.5}
+  m_SizeDelta: {x: 121.399994, y: 35}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1737581521
 MonoBehaviour:
@@ -68675,7 +68660,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1740986518}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5947b66d8523b824483742d896233318, type: 3}
   m_Name: 
@@ -68846,7 +68831,7 @@ MonoBehaviour:
   distanceSmoothTime: 50
   distanceStep: -0.1
   distanceBounds: {x: 2, y: 15}
-  rotation: 1
+  rotation: 3
   rotationDuration: 0.33
   rotationEase: 3
   rotationStep: -45

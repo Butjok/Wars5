@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using FullscreenEditor;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.Assertions;
 
-public static class Ai {
+public  class Ai :MonoBehaviour{
 
     public static UnitAction FindBestAction(Game game) {
 
@@ -31,5 +33,41 @@ public static class Ai {
             if (units.TryGetValue(p, out var unit) && unit != null)
                 yield return unit;
     }
+
+    public Game game;
+    public int playerIndex;
     
+    private void OnDrawGizmos() {
+
+        void DrawWireTile(Vector2Int position, Color color) {
+            Gizmos.color = color;
+            Gizmos.DrawWireCube(position.ToVector3Int(), Vector2Int.one.ToVector3Int());
+        }
+        void DrawSolidTile(Vector2Int position, Color color) {
+            Gizmos.color = color;
+            Gizmos.DrawCube(position.ToVector3Int(), Vector2Int.one.ToVector3Int());
+        }
+        
+        if (!game) {
+            game = FindObjectOfType<Game>();
+            if (!game)
+                return;
+        }
+        
+        foreach (var (position, tileType) in game.tiles) 
+            DrawWireTile(position, Color.white);
+        
+        if (game.players.Count == 0)
+            return;
+        
+        var player = game.players[playerIndex % game.players.Count];
+        var enemies = game.players.Where(p => Rules.AreEnemies(player, p)).ToList();
+        var units = game.units.Values.Where(u => u.player == player && u.position.v!=null).ToList();
+        var enemyUnits = game.units.Values.Where(u => enemies.Contains(u.player) && u.position.v!=null).ToList();
+        
+        foreach (var unit in units)
+            DrawSolidTile((Vector2Int)unit.position.v, Color.green);
+        foreach (var unit in enemyUnits)
+            DrawSolidTile((Vector2Int)unit.position.v, Color.red);
+    }
 }

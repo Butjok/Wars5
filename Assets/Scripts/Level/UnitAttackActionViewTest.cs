@@ -3,7 +3,6 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-[RequireComponent(typeof(Game))]
 public class UnitAttackActionViewTest : MonoBehaviour {
 
     public UnitAction action;

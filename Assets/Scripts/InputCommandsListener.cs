@@ -138,6 +138,7 @@ public class InputCommandsListener : MonoBehaviour {
     private void Write() {
         EnsureInitialized();
         File.WriteAllText(outputPath, new SerializedGame(game).ToJson());
+        Debug.Log($"Written to: {outputPath}");
     }
 }
 
