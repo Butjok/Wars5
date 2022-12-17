@@ -56,12 +56,8 @@ public class AiScriptInterpreter {
                                 return rest[0];
 
                             case "if":
-                                Assert.AreEqual(3, rest.Length);
-                                return EvaluateExpression(EvaluateExpression(rest[0]) ? rest[1] : rest[2]);
-
-                            case "when":
-                                Assert.AreEqual(2, rest.Length);
-                                return EvaluateExpression(rest[0]) ? EvaluateExpression(rest[1]) : null;
+                                Assert.IsTrue(rest.Length is 2 or 3);
+                                return EvaluateExpression(rest[0]) ? EvaluateExpression(rest[1]) : (rest.Length == 3 ? EvaluateExpression(rest[2]) : null);
 
                             case "do":
                                 dynamic result = null;
@@ -69,9 +65,9 @@ public class AiScriptInterpreter {
                                     result = EvaluateExpression(subexpression);
                                 return result;
 
-                            case "set!":
+                            case "set":
                                 Assert.AreEqual(2, rest.Length);
-                                var symbol = EvaluateExpression(rest[0]) as AiScriptVisitor.Symbol;
+                                var symbol = rest[0] as AiScriptVisitor.Symbol;
                                 Assert.IsNotNull(symbol);
                                 return environment[symbol.name] = EvaluateExpression(rest[1]);
 
