@@ -1,0 +1,55 @@
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+public class AiScriptVisitor : AiScriptBaseVisitor<dynamic> {
+
+    public static readonly AiScriptVisitor instance = new();
+    
+    public class Symbol {
+        public string name;
+    }
+
+    public static readonly List<dynamic> empty = new();
+    public static readonly Dictionary<char, char> unescape = new() {
+        ['\"'] = '\"',
+        ['\\'] = '\\',
+        ['b'] = '\b',
+        ['n'] = '\n',
+        ['f'] = '\f',
+        ['r'] = '\r',
+        ['t'] = '\t',
+    };
+
+    public override dynamic VisitBoolean(AiScriptParser.BooleanContext context) {
+        return context.GetText() == "#t";
+    }
+
+    public override dynamic VisitInteger(AiScriptParser.IntegerContext context) {
+        return int.Parse(context.GetText());
+    }
+
+    public override dynamic VisitSymbol(AiScriptParser.SymbolContext context) {
+        return new Symbol { name = context.GetText() };
+    }
+
+    public override dynamic VisitString(AiScriptParser.StringContext context) {
+        var sb = new StringBuilder();
+        var text = context.GetText();
+        for (var i = 1; i < text.Length - 1; i++)
+            sb.Append(text[i] != '\\'
+                ? text[i].ToString()
+                : unescape.TryGetValue(text[++i], out var c)
+                    ? c.ToString()
+                    : "\\" + text[i]);
+        return sb.ToString();
+    }
+
+    public override dynamic VisitQuote(AiScriptParser.QuoteContext context) {
+        return new List<dynamic> { new Symbol { name = "quote" }, Visit(context.expression()) };
+    }
+
+    public override dynamic VisitList(AiScriptParser.ListContext context) {
+        return new List<dynamic>(context.expression().Select(Visit));
+    }
+}
