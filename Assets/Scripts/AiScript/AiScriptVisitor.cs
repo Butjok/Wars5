@@ -55,7 +55,9 @@ public class AiScriptVisitor : AiScriptBaseVisitor<dynamic> {
         if (expressions.Length >= 3 && expressions[0] is Symbol { name: "let" }) {
             var pairs = expressions[1] as dynamic[];
             Assert.IsNotNull(pairs);
-            return null;
+            var body = expressions.Skip(2).ToArray();
+            var function = new List<dynamic> {  };
+            var result = new List<dynamic> { };
         }
         else
             return expressions;
