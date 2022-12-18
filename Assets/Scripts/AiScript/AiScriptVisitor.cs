@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine.Assertions;
 
 public class AiScriptVisitor : AiScriptBaseVisitor<dynamic> {
 
@@ -8,9 +9,9 @@ public class AiScriptVisitor : AiScriptBaseVisitor<dynamic> {
     
     public class Symbol {
         public string name;
+        public override string ToString() => name;
     }
 
-    public static readonly List<dynamic> empty = new();
     public static readonly Dictionary<char, char> unescape = new() {
         ['\"'] = '\"',
         ['\\'] = '\\',
@@ -46,10 +47,17 @@ public class AiScriptVisitor : AiScriptBaseVisitor<dynamic> {
     }
 
     public override dynamic VisitQuote(AiScriptParser.QuoteContext context) {
-        return new List<dynamic> { new Symbol { name = "quote" }, Visit(context.expression()) };
+        return new[] { new Symbol { name = "quote" }, Visit(context.expression())};
     }
 
     public override dynamic VisitList(AiScriptParser.ListContext context) {
-        return new List<dynamic>(context.expression().Select(Visit));
+        var expressions = context.expression().Select(Visit).ToArray();
+        if (expressions.Length >= 3 && expressions[0] is Symbol { name: "let" }) {
+            var pairs = expressions[1] as dynamic[];
+            Assert.IsNotNull(pairs);
+            return null;
+        }
+        else
+            return expressions;
     }
 }

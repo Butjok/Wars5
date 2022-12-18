@@ -1,16 +1,25 @@
 using Butjok.CommandLine;
 using UnityEngine;
 
-public static class AiScriptSandbox {
+public class AiScriptSandbox : MonoBehaviour {
 
-    private static readonly AiScriptInterpreter interpreter = new();
+    private  readonly AiScriptInterpreter interpreter = new();
+    public GUISkin skin;
+    public string text="";
+    
+    private void OnGUI() {
+        GUI.skin = skin;
+        //GUIUtility.
+        //text=GUILayout.TextArea(text);
+        //GUILayout.Button("EXECUTE");
+    }
 
     [Command]
-    private static void Execute(string input) {
+    private void Execute(string input) {
         Debug.Log(interpreter.Evaluate(input));
     }
     [Command]
-    private static void ClearEnvironment() {
+    private void ClearEnvironment() {
         interpreter.environment.Clear();
     }
 }
