@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 926a9aa4ea190b5468e282d0aad06d9b, type: 3}
   m_Name: RoslynCSharpSettings
   m_EditorClassIdentifier: 
-  securityCheckCode: 1
+  securityCheckCode: 0
   allowPInvoke: 0
   securityRestrictions:
     assemblyReferences:
@@ -66,6 +66,7 @@ MonoBehaviour:
   - UnityEngine.UIModule.dll
   - mscorlib
   - RoslynCSharp.Examples.dll
+  - Assembly-CSharp
   referenceAssets: []
   defineSymbols: []
   allowHotReloading: 1

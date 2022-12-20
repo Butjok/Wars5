@@ -2,17 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/AiScript/AiTest.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/AiScript/AiTest.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assembly-CSharp-Editor.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp-Editor.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assembly-CSharp-firstpass.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp-firstpass.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assembly-CSharp.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/AiScript/AiScriptVisitor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/AiScript/AiScriptVisitor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/AiScript/AiTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/AiScript/AiTest.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FullscreenEditor.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/FullscreenEditor.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectSettings/RiderScriptEditorPersistedState.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/RiderScriptEditorPersistedState.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoslynCSharp.Compiler.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/RoslynCSharp.Compiler.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoslynCSharp.Editor.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/RoslynCSharp.Editor.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoslynCSharp.Examples.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/RoslynCSharp.Examples.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoslynCSharp.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/RoslynCSharp.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Wars5.sln" beforeDir="false" afterPath="$PROJECT_DIR$/Wars5.sln" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -61,6 +62,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/MinimapMeshGenerator.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.textmeshpro@3.0.6/Scripts/Runtime/TextMeshPro.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/InstancedMeshRenderer.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock:///Users/butjok/Documents/GitHub/Wars5/Assets/RoslynCSharp/AssemblyReferences/mscorlib.asset" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Animation/PistonCompresser.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameStates/SelectionState.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/SplatMapSetter.cs" root0="FORCE_HIGHLIGHTING" />
@@ -170,10 +172,10 @@
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="90835">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" />
+      <option name="pid" value="90835" />
       <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
@@ -272,14 +274,9 @@
       <workItem from="1671284472750" duration="5786000" />
       <workItem from="1671396234450" duration="46000" />
       <workItem from="1671396306692" duration="2396000" />
-      <workItem from="1671508676933" duration="566000" />
-    </task>
-    <task id="LOCAL-00116" summary="nbcvlkjgdfoieurt">
-      <created>1664951955557</created>
-      <option name="number" value="00116" />
-      <option name="presentableId" value="LOCAL-00116" />
-      <option name="project" value="LOCAL" />
-      <updated>1664951955557</updated>
+      <workItem from="1671508676933" duration="911000" />
+      <workItem from="1671509643307" duration="274000" />
+      <workItem from="1671510037378" duration="1500000" />
     </task>
     <task id="LOCAL-00117" summary="ghrfghfghf">
       <created>1664952487735</created>
@@ -617,7 +614,14 @@
       <option name="project" value="LOCAL" />
       <updated>1671399387751</updated>
     </task>
-    <option name="localTasksCounter" value="165" />
+    <task id="LOCAL-00165" summary="add c# roslyn">
+      <created>1671509375361</created>
+      <option name="number" value="00165" />
+      <option name="presentableId" value="LOCAL-00165" />
+      <option name="project" value="LOCAL" />
+      <updated>1671509375361</updated>
+    </task>
+    <option name="localTasksCounter" value="166" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -640,7 +644,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="sdfdsfsdfsdsdfsdf" />
     <MESSAGE value="randomize survivors" />
     <MESSAGE value="ghjghjghj" />
     <MESSAGE value="added unit building menu" />
@@ -665,7 +668,8 @@
     <MESSAGE value="poiopiop" />
     <MESSAGE value="lisp0" />
     <MESSAGE value="postscript" />
-    <option name="LAST_COMMIT_MESSAGE" value="postscript" />
+    <MESSAGE value="add c# roslyn" />
+    <option name="LAST_COMMIT_MESSAGE" value="add c# roslyn" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

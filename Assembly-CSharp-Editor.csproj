@@ -303,6 +303,36 @@
      <Reference Include="UnityEditor.OSXStandalone.Extensions">
      <HintPath>/Applications/Unity/Hub/Editor/2021.3.1f1/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll</HintPath>
      </Reference>
+     <Reference Include="Trivial.Mono.Cecil.Mdb">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/RoslynCSharp/Plugin/Trivial.Mono.Cecil.Mdb.dll</HintPath>
+     </Reference>
+     <Reference Include="Trivial.Mono.Cecil">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/RoslynCSharp/Plugin/Trivial.Mono.Cecil.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.VisualScripting.IonicZip">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.visualscripting@1.7.6/Editor/VisualScripting.Core/Dependencies/DotNetZip/Unity.VisualScripting.IonicZip.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Burst.Cecil.Pdb">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.burst@1.6.5/Unity.Burst.CodeGen/Unity.Burst.Cecil.Pdb.dll</HintPath>
+     </Reference>
+     <Reference Include="log4netPlastic">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.collab-proxy@1.15.15/Lib/Editor/PlasticSCM/log4netPlastic.dll</HintPath>
+     </Reference>
+     <Reference Include="DOTween">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/Plugins/Demigiant/DOTween/DOTween.dll</HintPath>
+     </Reference>
+     <Reference Include="ReportGeneratorMerged">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.testtools.codecoverage@1.0.1/lib/ReportGenerator/ReportGeneratorMerged.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Reflection.Metadata">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/RoslynCSharp/Plugin/System.Reflection.Metadata.dll</HintPath>
+     </Reference>
+     <Reference Include="Trivial.CodeSecurity">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/RoslynCSharp/Plugin/Trivial.CodeSecurity.dll</HintPath>
+     </Reference>
+     <Reference Include="FSharp.Core">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/FSharp.Core.dll</HintPath>
+     </Reference>
      <Reference Include="Unity.Plastic.Newtonsoft.Json">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.collab-proxy@1.15.15/Lib/Editor/PlasticSCM/Unity.Plastic.Newtonsoft.Json.dll</HintPath>
      </Reference>
@@ -318,6 +348,9 @@
      <Reference Include="unityplastic">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.collab-proxy@1.15.15/Lib/Editor/PlasticSCM/unityplastic.dll</HintPath>
      </Reference>
+     <Reference Include="System.Collections.Immutable">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/RoslynCSharp/Plugin/System.Collections.Immutable.dll</HintPath>
+     </Reference>
      <Reference Include="DOTweenEditor">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/Plugins/Demigiant/DOTween/Editor/DOTweenEditor.dll</HintPath>
      </Reference>
@@ -327,56 +360,23 @@
      <Reference Include="Unity.Burst.Cecil.Mdb">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.burst@1.6.5/Unity.Burst.CodeGen/Unity.Burst.Cecil.Mdb.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.VisualScripting.IonicZip">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.visualscripting@1.7.6/Editor/VisualScripting.Core/Dependencies/DotNetZip/Unity.VisualScripting.IonicZip.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.Burst.Cecil.Pdb">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.burst@1.6.5/Unity.Burst.CodeGen/Unity.Burst.Cecil.Pdb.dll</HintPath>
+     <Reference Include="Trivial.ImGUI">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/RoslynCSharp/Plugin/Editor/Trivial.ImGUI.dll</HintPath>
      </Reference>
      <Reference Include="Unity.Burst.Cecil">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.burst@1.6.5/Unity.Burst.CodeGen/Unity.Burst.Cecil.dll</HintPath>
      </Reference>
-     <Reference Include="log4netPlastic">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.collab-proxy@1.15.15/Lib/Editor/PlasticSCM/log4netPlastic.dll</HintPath>
+     <Reference Include="Microsoft.CodeAnalysis.CSharp">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/RoslynCSharp/Plugin/Microsoft.CodeAnalysis.CSharp.dll</HintPath>
      </Reference>
      <Reference Include="Unity.Burst.Cecil.Rocks">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.burst@1.6.5/Unity.Burst.CodeGen/Unity.Burst.Cecil.Rocks.dll</HintPath>
      </Reference>
-     <Reference Include="DOTween">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/Plugins/Demigiant/DOTween/DOTween.dll</HintPath>
+     <Reference Include="Trivial.Mono.Cecil.Pdb">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/RoslynCSharp/Plugin/Trivial.Mono.Cecil.Pdb.dll</HintPath>
      </Reference>
      <Reference Include="Unity.VisualScripting.Antlr3.Runtime">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.visualscripting@1.7.6/Runtime/VisualScripting.Flow/Dependencies/NCalc/Unity.VisualScripting.Antlr3.Runtime.dll</HintPath>
-     </Reference>
-     <Reference Include="ReportGeneratorMerged">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.testtools.codecoverage@1.0.1/lib/ReportGenerator/ReportGeneratorMerged.dll</HintPath>
-     </Reference>
-     <Reference Include="FSharp.Core">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/FSharp.Core.dll</HintPath>
-     </Reference>
-     <Reference Include="Trivial.Mono.Cecil.Mdb">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/RoslynCSharp/Plugin/Trivial.Mono.Cecil.Mdb.dll</HintPath>
-     </Reference>
-     <Reference Include="Trivial.Mono.Cecil">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/RoslynCSharp/Plugin/Trivial.Mono.Cecil.dll</HintPath>
-     </Reference>
-     <Reference Include="System.Reflection.Metadata">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/RoslynCSharp/Plugin/System.Reflection.Metadata.dll</HintPath>
-     </Reference>
-     <Reference Include="Trivial.CodeSecurity">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/RoslynCSharp/Plugin/Trivial.CodeSecurity.dll</HintPath>
-     </Reference>
-     <Reference Include="System.Collections.Immutable">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/RoslynCSharp/Plugin/System.Collections.Immutable.dll</HintPath>
-     </Reference>
-     <Reference Include="Trivial.ImGUI">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/RoslynCSharp/Plugin/Editor/Trivial.ImGUI.dll</HintPath>
-     </Reference>
-     <Reference Include="Microsoft.CodeAnalysis.CSharp">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/RoslynCSharp/Plugin/Microsoft.CodeAnalysis.CSharp.dll</HintPath>
-     </Reference>
-     <Reference Include="Trivial.Mono.Cecil.Pdb">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/RoslynCSharp/Plugin/Trivial.Mono.Cecil.Pdb.dll</HintPath>
      </Reference>
      <Reference Include="Microsoft.CodeAnalysis">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/RoslynCSharp/Plugin/Microsoft.CodeAnalysis.dll</HintPath>
@@ -1035,14 +1035,11 @@
      <Reference Include="Unity.VisualScripting.State.Editor">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.VisualScripting.State.Editor.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.Burst.Editor">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.Burst.Editor.dll</HintPath>
-     </Reference>
      <Reference Include="Unity.Searcher.Editor">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.Searcher.Editor.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.RenderPipelines.Core.Runtime">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.RenderPipelines.Core.Runtime.dll</HintPath>
+     <Reference Include="Unity.Burst.Editor">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.Burst.Editor.dll</HintPath>
      </Reference>
      <Reference Include="Unity.VisualScripting.SettingsProvider.Editor">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.VisualScripting.SettingsProvider.Editor.dll</HintPath>
@@ -1070,6 +1067,9 @@
      </Reference>
      <Reference Include="UnityEngine.UI">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.RenderPipelines.Core.Runtime">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.RenderPipelines.Core.Runtime.dll</HintPath>
      </Reference>
      <Reference Include="Unity.VisualScripting.Core">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.VisualScripting.Core.dll</HintPath>
@@ -1138,17 +1138,9 @@
       <Project>{27f680dc-e909-2372-eead-a89d4eeafd25}</Project>
       <Name>Assembly-CSharp</Name>
     </ProjectReference>
-    <ProjectReference Include="FullscreenEditor.csproj">
-      <Project>{ea66c163-c16e-dd96-3d67-e5c567917ba9}</Project>
-      <Name>FullscreenEditor</Name>
-    </ProjectReference>
     <ProjectReference Include="RoslynCSharp.Editor.csproj">
       <Project>{a6fef2b6-9224-7428-55e0-8d8f7bfc17e1}</Project>
       <Name>RoslynCSharp.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="RoslynCSharp.Examples.csproj">
-      <Project>{0e7e3e31-9dd1-1cd1-2ea8-726b9de3811e}</Project>
-      <Name>RoslynCSharp.Examples</Name>
     </ProjectReference>
     <ProjectReference Include="RoslynCSharp.csproj">
       <Project>{b52f645a-f002-7629-8cab-4518cd1c5973}</Project>
@@ -1157,6 +1149,14 @@
     <ProjectReference Include="RoslynCSharp.Compiler.csproj">
       <Project>{e98445ee-8647-bdce-c23d-ab320d9f2e26}</Project>
       <Name>RoslynCSharp.Compiler</Name>
+    </ProjectReference>
+    <ProjectReference Include="FullscreenEditor.csproj">
+      <Project>{ea66c163-c16e-dd96-3d67-e5c567917ba9}</Project>
+      <Name>FullscreenEditor</Name>
+    </ProjectReference>
+    <ProjectReference Include="RoslynCSharp.Examples.csproj">
+      <Project>{0e7e3e31-9dd1-1cd1-2ea8-726b9de3811e}</Project>
+      <Name>RoslynCSharp.Examples</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
