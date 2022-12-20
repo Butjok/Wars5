@@ -381,6 +381,33 @@
      <Reference Include="FSharp.Core">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/FSharp.Core.dll</HintPath>
      </Reference>
+     <Reference Include="Trivial.Mono.Cecil.Mdb">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/RoslynCSharp/Plugin/Trivial.Mono.Cecil.Mdb.dll</HintPath>
+     </Reference>
+     <Reference Include="Trivial.Mono.Cecil">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/RoslynCSharp/Plugin/Trivial.Mono.Cecil.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Reflection.Metadata">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/RoslynCSharp/Plugin/System.Reflection.Metadata.dll</HintPath>
+     </Reference>
+     <Reference Include="Trivial.CodeSecurity">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/RoslynCSharp/Plugin/Trivial.CodeSecurity.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Collections.Immutable">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/RoslynCSharp/Plugin/System.Collections.Immutable.dll</HintPath>
+     </Reference>
+     <Reference Include="Trivial.ImGUI">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/RoslynCSharp/Plugin/Editor/Trivial.ImGUI.dll</HintPath>
+     </Reference>
+     <Reference Include="Microsoft.CodeAnalysis.CSharp">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/RoslynCSharp/Plugin/Microsoft.CodeAnalysis.CSharp.dll</HintPath>
+     </Reference>
+     <Reference Include="Trivial.Mono.Cecil.Pdb">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/RoslynCSharp/Plugin/Trivial.Mono.Cecil.Pdb.dll</HintPath>
+     </Reference>
+     <Reference Include="Microsoft.CodeAnalysis">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/RoslynCSharp/Plugin/Microsoft.CodeAnalysis.dll</HintPath>
+     </Reference>
      <Reference Include="nunit.framework">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.ext.nunit@1.0.6/net35/unity-custom/nunit.framework.dll</HintPath>
      </Reference>

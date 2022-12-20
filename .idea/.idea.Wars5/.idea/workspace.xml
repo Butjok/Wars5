@@ -2,16 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/AiScript/AiTest.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/AiScript/AiTest.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assembly-CSharp-Editor.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp-Editor.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assembly-CSharp-firstpass.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp-firstpass.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assembly-CSharp.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/AiScript/AiScriptInterpreter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/AiScript/AiScriptInterpreter.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/AiScript/AiScriptVisitor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/AiScript/AiScriptVisitor.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FullscreenEditor.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/FullscreenEditor.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectSettings/RiderScriptEditorPersistedState.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/RiderScriptEditorPersistedState.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wars5.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/Wars5.sln.DotSettings.user" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Wars5.sln" beforeDir="false" afterPath="$PROJECT_DIR$/Wars5.sln" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,6 +51,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/BattleViews.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Level/UnitAttackActionViewTest.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.guciodevs.simple-min-max-slider@46ff35d229/Scripts/MinMaxSliderAttribute.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/RoslynCSharp/Examples/Scripts/MazeCrawlerExample.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Animation/ExplosionTracer.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/EventSystem/EventSystem.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.guciodevs.simple-min-max-slider@46ff35d229/Scripts/Editor/MinMaxSliderDrawer.cs" root0="SKIP_HIGHLIGHTING" />
@@ -79,6 +82,7 @@
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.postprocessing@3.2.2/PostProcessing/Runtime/PostProcessVolume.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameSettingsMenu.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Shaders/InstancedRendering.cginc" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.dbrizov.naughtyattributes@8a8fa5a965/Scripts/Core/DrawerAttributes_SpecialCase/ButtonAttribute.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/InteropTest.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.timeline@1.6.4/Editor/Manipulators/AddDelete/AddDeleteItemModeMix.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/FSharp/Library.fs" root0="FORCE_HIGHLIGHTING" />
@@ -166,10 +170,10 @@
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="87745">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="87745" />
+      <option name="pid" />
       <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
@@ -267,14 +271,8 @@
       <workItem from="1671229149216" duration="2543000" />
       <workItem from="1671284472750" duration="5786000" />
       <workItem from="1671396234450" duration="46000" />
-      <workItem from="1671396306692" duration="2074000" />
-    </task>
-    <task id="LOCAL-00115" summary="lkdfjgoeriuteoirtu">
-      <created>1664948208618</created>
-      <option name="number" value="00115" />
-      <option name="presentableId" value="LOCAL-00115" />
-      <option name="project" value="LOCAL" />
-      <updated>1664948208619</updated>
+      <workItem from="1671396306692" duration="2396000" />
+      <workItem from="1671508676933" duration="566000" />
     </task>
     <task id="LOCAL-00116" summary="nbcvlkjgdfoieurt">
       <created>1664951955557</created>
@@ -612,7 +610,14 @@
       <option name="project" value="LOCAL" />
       <updated>1671232400124</updated>
     </task>
-    <option name="localTasksCounter" value="164" />
+    <task id="LOCAL-00164" summary="postscript">
+      <created>1671399387750</created>
+      <option name="number" value="00164" />
+      <option name="presentableId" value="LOCAL-00164" />
+      <option name="project" value="LOCAL" />
+      <updated>1671399387751</updated>
+    </task>
+    <option name="localTasksCounter" value="165" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -635,7 +640,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="fgdfgdfg" />
     <MESSAGE value="sdfdsfsdfsdsdfsdf" />
     <MESSAGE value="randomize survivors" />
     <MESSAGE value="ghjghjghj" />
@@ -660,7 +664,8 @@
     <MESSAGE value="asdasd" />
     <MESSAGE value="poiopiop" />
     <MESSAGE value="lisp0" />
-    <option name="LAST_COMMIT_MESSAGE" value="lisp0" />
+    <MESSAGE value="postscript" />
+    <option name="LAST_COMMIT_MESSAGE" value="postscript" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

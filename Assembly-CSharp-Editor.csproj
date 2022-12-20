@@ -354,6 +354,33 @@
      <Reference Include="FSharp.Core">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/FSharp.Core.dll</HintPath>
      </Reference>
+     <Reference Include="Trivial.Mono.Cecil.Mdb">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/RoslynCSharp/Plugin/Trivial.Mono.Cecil.Mdb.dll</HintPath>
+     </Reference>
+     <Reference Include="Trivial.Mono.Cecil">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/RoslynCSharp/Plugin/Trivial.Mono.Cecil.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Reflection.Metadata">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/RoslynCSharp/Plugin/System.Reflection.Metadata.dll</HintPath>
+     </Reference>
+     <Reference Include="Trivial.CodeSecurity">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/RoslynCSharp/Plugin/Trivial.CodeSecurity.dll</HintPath>
+     </Reference>
+     <Reference Include="System.Collections.Immutable">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/RoslynCSharp/Plugin/System.Collections.Immutable.dll</HintPath>
+     </Reference>
+     <Reference Include="Trivial.ImGUI">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/RoslynCSharp/Plugin/Editor/Trivial.ImGUI.dll</HintPath>
+     </Reference>
+     <Reference Include="Microsoft.CodeAnalysis.CSharp">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/RoslynCSharp/Plugin/Microsoft.CodeAnalysis.CSharp.dll</HintPath>
+     </Reference>
+     <Reference Include="Trivial.Mono.Cecil.Pdb">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/RoslynCSharp/Plugin/Trivial.Mono.Cecil.Pdb.dll</HintPath>
+     </Reference>
+     <Reference Include="Microsoft.CodeAnalysis">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/RoslynCSharp/Plugin/Microsoft.CodeAnalysis.dll</HintPath>
+     </Reference>
      <Reference Include="nunit.framework">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.ext.nunit@1.0.6/net35/unity-custom/nunit.framework.dll</HintPath>
      </Reference>
@@ -1114,6 +1141,22 @@
     <ProjectReference Include="FullscreenEditor.csproj">
       <Project>{ea66c163-c16e-dd96-3d67-e5c567917ba9}</Project>
       <Name>FullscreenEditor</Name>
+    </ProjectReference>
+    <ProjectReference Include="RoslynCSharp.Editor.csproj">
+      <Project>{a6fef2b6-9224-7428-55e0-8d8f7bfc17e1}</Project>
+      <Name>RoslynCSharp.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="RoslynCSharp.Examples.csproj">
+      <Project>{0e7e3e31-9dd1-1cd1-2ea8-726b9de3811e}</Project>
+      <Name>RoslynCSharp.Examples</Name>
+    </ProjectReference>
+    <ProjectReference Include="RoslynCSharp.csproj">
+      <Project>{b52f645a-f002-7629-8cab-4518cd1c5973}</Project>
+      <Name>RoslynCSharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="RoslynCSharp.Compiler.csproj">
+      <Project>{e98445ee-8647-bdce-c23d-ab320d9f2e26}</Project>
+      <Name>RoslynCSharp.Compiler</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

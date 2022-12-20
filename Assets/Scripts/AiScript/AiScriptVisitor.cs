@@ -58,6 +58,7 @@ public class AiScriptVisitor : AiScriptBaseVisitor<dynamic> {
             var body = expressions.Skip(2).ToArray();
             var function = new List<dynamic> {  };
             var result = new List<dynamic> { };
+            return null;
         }
         else
             return expressions;
