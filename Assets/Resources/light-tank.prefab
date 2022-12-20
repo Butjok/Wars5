@@ -3344,6 +3344,7 @@ GameObject:
   - component: {fileID: -2748089726501033732}
   - component: {fileID: 6178112097198144541}
   - component: {fileID: -2344077628077424413}
+  - component: {fileID: 891210950125677196}
   m_Layer: 0
   m_Name: light-tank
   m_TagString: Untagged
@@ -3673,6 +3674,21 @@ MonoBehaviour:
       wait
 
       true shoot'
+--- !u!114 &891210950125677196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8255700248535380302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c247975a5c364154ac76c06cbb02afd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  code: "\nusing System.Collections.Generic;\nusing UnityEngine;\n\npublic static
+    class AiTestProcessing {\n    public static UnitAction FindAction(Unit unit)
+    {\n         return null;\n    }\n}"
 --- !u!1 &8368482287768561904
 GameObject:
   m_ObjectHideFlags: 0
@@ -4581,19 +4597,19 @@ PrefabInstance:
       objectReference: {fileID: 3978655096192631730}
     - target: {fileID: 5793958539712425122, guid: fb3d0e4b87008f747afef3004299e118, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 136.18823
+      value: 136.34314
       objectReference: {fileID: 0}
     - target: {fileID: 5793958539712425122, guid: fb3d0e4b87008f747afef3004299e118, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 86.31824
+      value: 86.44104
       objectReference: {fileID: 0}
     - target: {fileID: 5793958539712425122, guid: fb3d0e4b87008f747afef3004299e118, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 1030.1218
+      value: 1034.1315
       objectReference: {fileID: 0}
     - target: {fileID: 5793958539712425122, guid: fb3d0e4b87008f747afef3004299e118, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 566.3524
+      value: 567.158
       objectReference: {fileID: 0}
     - target: {fileID: 7216561255274665977, guid: fb3d0e4b87008f747afef3004299e118, type: 3}
       propertyPath: m_Pivot.x

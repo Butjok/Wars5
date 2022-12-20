@@ -54,7 +54,6 @@
      <Compile Include="Assets/Scripts/StringExtensions.cs" />
      <Compile Include="Assets/CommandLine/AssemblyInfo.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/AbstractPredicateTransition.cs" />
-     <Compile Include="Assets/Scripts/AiScript/Parsers/AiScriptVisitor.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequencePlayer.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/PredicateEvalInfo.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/ArrayPredictionContext.cs" />
@@ -116,7 +115,7 @@
      <Compile Include="Assets/CommandLine/Antlr4/IVocabulary.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/LexerSkipAction.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/LoopEndState.cs" />
-     <Compile Include="Assets/Scripts/AiBrain.cs" />
+     <Compile Include="Assets/Scripts/UnitBrain.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/ATN.cs" />
      <Compile Include="Assets/Priority Queue/GenericPriorityQueue.cs" />
      <Compile Include="Assets/Scripts/GameStates/GameMenuState.cs" />
@@ -183,7 +182,7 @@
      <Compile Include="Assets/CommandLine/Antlr4/Misc/NullableAttribute.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/StarLoopEntryState.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Misc/IntervalSet.cs" />
-     <Compile Include="Assets/Scripts/AiScript/AiTest.cs" />
+     <Compile Include="Assets/Scripts/AiTest.cs" />
      <Compile Include="Assets/Scripts/ShadowDistanceOverride.cs" />
      <Compile Include="Assets/Scripts/InstancedRenderer.cs" />
      <Compile Include="Assets/Scripts/Level/LayerMasks.cs" />
@@ -218,16 +217,11 @@
      <Compile Include="Assets/Scripts/PostProcessingFade.cs" />
      <Compile Include="Assets/Priority Queue/Properties/AssemblyInfo.cs" />
      <Compile Include="Assets/Scripts/MoveTypeAtlas.cs" />
-     <Compile Include="Assets/Scripts/AiScript/AiScriptVisitor.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/CharStreams.cs" />
-     <Compile Include="Assets/Scripts/AiScript/Parsers/AiScriptParser.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/LexerTypeAction.cs" />
-     <Compile Include="Assets/Scripts/AiScript/Parsers/AiScriptBaseVisitor.cs" />
      <Compile Include="Assets/Scripts/UnitMap.cs" />
-     <Compile Include="Assets/Scripts/AiScript/Parsers/AiScriptBaseListener.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/RuleVersionAttribute.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/BlockStartState.cs" />
-     <Compile Include="Assets/Scripts/AiScript/AiScriptInterpreter.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/IIntStream.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/LexerActionType.cs" />
      <Compile Include="Assets/Scripts/MovePathBuilder.cs" />
@@ -297,7 +291,6 @@
      <Compile Include="Assets/Scripts/GameStates/DialogueState.cs" />
      <Compile Include="Assets/Scripts/UiSound.cs" />
      <Compile Include="Assets/Scripts/MinimapMeshGenerator.cs" />
-     <Compile Include="Assets/Scripts/AiScript/Parsers/AiScriptLexer.cs" />
      <Compile Include="Assets/Scripts/Animation/Body.cs" />
      <Compile Include="Assets/Scripts/Game.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/LexerPushModeAction.cs" />
@@ -315,7 +308,6 @@
      <Compile Include="Assets/CommandLine/Antlr4/Tree/Xpath/XPathTokenAnywhereElement.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/StarLoopbackState.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/RuleTransition.cs" />
-     <Compile Include="Assets/Scripts/AiScript/AiScriptSandbox.cs" />
      <Compile Include="Assets/Scripts/Level/UnitAttackActionViewTest.cs" />
      <Compile Include="Assets/Priority Queue/FastPriorityQueue.cs" />
      <Compile Include="Assets/SDF Toolkit/Examples/Scripts/Rotater.cs" />
@@ -396,7 +388,6 @@
      <Compile Include="Assets/CommandLine/Antlr4/Atn/DecisionState.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Sharpen/AtomicReference.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/SingletonPredictionContext.cs" />
-     <Compile Include="Assets/Scripts/AiScript/Parsers/AiScriptListener.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Dfa/IEdgeMap.cs" />
      <Compile Include="Assets/CommandLine/Token.cs" />
      <Compile Include="Assets/CommandLine/Theme.cs" />
