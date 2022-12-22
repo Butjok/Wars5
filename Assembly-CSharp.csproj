@@ -291,8 +291,8 @@
      <Compile Include="Assets/Scripts/GameStates/DialogueState.cs" />
      <Compile Include="Assets/Scripts/UiSound.cs" />
      <Compile Include="Assets/Scripts/MinimapMeshGenerator.cs" />
-     <Compile Include="Assets/Scripts/Animation/Body.cs" />
      <Compile Include="Assets/Scripts/Game.cs" />
+     <Compile Include="Assets/Scripts/Animation/Body.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/LexerPushModeAction.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Dfa/SparseEdgeMap.cs" />
      <Compile Include="Assets/Scripts/UnitActionsPanel.cs" />
@@ -432,6 +432,7 @@
      <Compile Include="Assets/CommandLine/Antlr4/Atn/PlusBlockStartState.cs" />
      <Compile Include="Assets/Scripts/Animation/PistonBody.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
+     <Compile Include="Assets/Scripts/TerrainTest.cs" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />
      <None Include="Assets/Shaders/My First Lighting Shader.shader" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader" />
@@ -440,6 +441,7 @@
      <None Include="Assets/TextMesh Pro/Shaders/TMP_Bitmap.shader" />
      <None Include="Assets/Shaders/My First Lighting Shader Overlay.shader" />
      <None Include="Assets/SDF Toolkit/Shaders/SDF Specular.shader" />
+     <None Include="Assets/Shaders/My First Lighting Shader Overlay NoShadow.shader" />
      <None Include="Assets/SDF Toolkit/Shaders/SDF Forward.cginc" />
      <None Include="Assets/Shaders/test.shader" />
      <None Include="Assets/SDF Toolkit/Shaders/SDF.cginc" />
@@ -461,6 +463,7 @@
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Surface-Mobile.shader" />
      <None Include="Assets/Shaders/DirectionalFlow.shader" />
      <None Include="Assets/Shaders/leaves-area-tinted.shader" />
+     <None Include="Assets/Shaders/TerrainTilesTest.shader" />
      <None Include="Assets/JsonDotNet/link.xml" />
      <None Include="Assets/Shaders/InstancedBush.shader" />
      <None Include="Assets/Shaders/Bird.shader" />
