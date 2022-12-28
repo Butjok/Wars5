@@ -18,6 +18,8 @@ public enum TileType {
     Factory = 1 << 6,
     Airport = 1 << 7,
     Shipyard = 1 << 8,
+    
+    PlayerOwned = City | Hq | Factory | Airport | Shipyard
 }
 
 [Flags]

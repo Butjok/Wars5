@@ -49,6 +49,8 @@ public static class Testing {
             new Building(game, building.position, building.type, player);
         }
 
+        game.localPlayer = game.players[0];
+
         return game;
     }
 }

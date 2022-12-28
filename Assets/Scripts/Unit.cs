@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -6,6 +7,8 @@ using Object = UnityEngine.Object;
 using static UnityEngine.Mathf;
 
 public class Unit : IDisposable {
+
+    public static readonly HashSet<Unit> undisposed = new();
 
     public UnitType type;
     public Player player;
@@ -23,6 +26,8 @@ public class Unit : IDisposable {
 
     public Unit(Player player, bool moved = false, UnitType type = UnitType.Infantry, Vector2Int? position
         = null, Vector2Int? rotation = null, int hp = int.MaxValue, int fuel = int.MaxValue, UnitView viewPrefab = null) {
+
+        undisposed.Add(this);
         
         if (!viewPrefab)
             viewPrefab = UnitView.DefaultPrefab;
@@ -80,6 +85,10 @@ public class Unit : IDisposable {
     }
 
     public void Dispose() {
+        
+        Assert.IsTrue(undisposed.Contains(this));
+        undisposed.Remove(this);
+        
         position.v = null;
         if (view && view.gameObject) {
             Object.Destroy(view.gameObject);

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -13,6 +14,8 @@ public enum AiDifficulty { Normal, Easy, Hard }
 
 public class Player : IDisposable {
 
+	public static readonly HashSet<Player> undisposed = new();
+
 	public Game game;
 	public Team team = Team.None;
 	public Color32 color;
@@ -24,6 +27,8 @@ public class Player : IDisposable {
 
 	public Player(Game game, Color32 color, Team team = Team.None, int credits=0, Co co = null, PlayerView viewPrefab = null,
 		PlayerType type = PlayerType.Human, AiDifficulty difficulty=AiDifficulty.Normal) {
+
+		undisposed.Add(this);
 		
 		this.game = game;
 		this.color = color;
@@ -48,6 +53,8 @@ public class Player : IDisposable {
 	}
 
 	public void Dispose() {
+		Assert.IsTrue(undisposed.Contains(this));
+		undisposed.Remove(this);
 		if (view && view.gameObject)
 			Object.Destroy(view.gameObject);
 	}

@@ -2,19 +2,33 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/TerrainTest.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/TerrainTest.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Shaders/My First Lighting Shader Overlay NoShadow.shader" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Shaders/My First Lighting Shader Overlay NoShadow.shader.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Shaders/TerrainTilesTest.shader" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Shaders/TerrainTilesTest.shader.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_13_12_2022_11_08_[Default_Changelist]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_13_12_2022_11_08__Default_Changelist_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_14_12_2022_10_21_[Default_Changelist]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_14_12_2022_10_21__Default_Changelist_.xml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/AiPlaygroundSetup.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/AiPlaygroundSetup.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/DebugTerrainMeshGenerator.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/DebugTerrainMeshGenerator.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/PlayerCollection.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/PlayerCollection.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Shaders/VertexColorChecker.shader" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Shaders/VertexColorChecker.shader.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_15_12_2022_9_57_[Default_Changelist]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_15_12_2022_9_57__Default_Changelist_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_18_12_22,_02_40_[Default_Changelist]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_18_12_22,_21_40_[Default_Changelist]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_18_12_22__02_40__Default_Changelist_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/shelf/Uncommitted_changes_before_Update_at_18_12_22__21_40__Default_Changelist_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assembly-CSharp.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Cursor.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Cursor.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/MovePath.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/MovePath.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/TileMesh.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/TileMesh.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/SerializableDictionaryPropertyDrawers.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Editor/SerializableDictionaryPropertyDrawers.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Level/UnitAction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Level/UnitAction.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/MeshUtils.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/MeshUtils.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Rules.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Rules.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Unit.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectSettings/RiderScriptEditorPersistedState.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/RiderScriptEditorPersistedState.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
@@ -127,7 +141,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="preferences.sourceCode" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.C#" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
@@ -283,14 +297,12 @@
       <workItem from="1671508676933" duration="911000" />
       <workItem from="1671509643307" duration="274000" />
       <workItem from="1671510037378" duration="3413000" />
-      <workItem from="1671658122758" duration="8731000" />
-    </task>
-    <task id="LOCAL-00119" summary="fghfghfghfghfghfgh">
-      <created>1665095262879</created>
-      <option name="number" value="00119" />
-      <option name="presentableId" value="LOCAL-00119" />
-      <option name="project" value="LOCAL" />
-      <updated>1665095262879</updated>
+      <workItem from="1671658122758" duration="8915000" />
+      <workItem from="1671778844606" duration="1198000" />
+      <workItem from="1672001194030" duration="1851000" />
+      <workItem from="1672062325922" duration="3484000" />
+      <workItem from="1672180849603" duration="16000" />
+      <workItem from="1672192162228" duration="5270000" />
     </task>
     <task id="LOCAL-00120" summary="sdfsdfsdf">
       <created>1665096179593</created>
@@ -628,7 +640,14 @@
       <option name="project" value="LOCAL" />
       <updated>1671512998162</updated>
     </task>
-    <option name="localTasksCounter" value="168" />
+    <task id="LOCAL-00168" summary="sdfsdfsdf">
+      <created>1671731215649</created>
+      <option name="number" value="00168" />
+      <option name="presentableId" value="LOCAL-00168" />
+      <option name="project" value="LOCAL" />
+      <updated>1671731215650</updated>
+    </task>
+    <option name="localTasksCounter" value="169" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -637,6 +656,16 @@
   <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
   <component name="UnityUnitTestConfiguration" currentTestLauncher="EditMode" />
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+      </list>
+    </option>
+  </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
@@ -665,7 +694,6 @@
     <MESSAGE value="sdfsdf" />
     <MESSAGE value="sdsdfsdffds" />
     <MESSAGE value="kjhhjkhjk" />
-    <MESSAGE value="sdfsdfsdf" />
     <MESSAGE value="unit attack action view" />
     <MESSAGE value="lkjsdlkfsd" />
     <MESSAGE value="unit action ui" />
@@ -676,7 +704,53 @@
     <MESSAGE value="add c# roslyn" />
     <MESSAGE value="nbmnbmbmn" />
     <MESSAGE value="tyuyuttyu" />
-    <option name="LAST_COMMIT_MESSAGE" value="tyuyuttyu" />
+    <MESSAGE value="sdfsdfsdf" />
+    <option name="LAST_COMMIT_MESSAGE" value="sdfsdfsdf" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/Game.cs</url>
+          <line>72</line>
+          <properties documentPath="$PROJECT_DIR$/Assets/Scripts/Game.cs" initialLine="74" containingFunctionPresentation="method 'OnApplicationQuit'">
+            <startOffsets>
+              <option value="2319" />
+            </startOffsets>
+            <endOffsets>
+              <option value="2320" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/Game.cs</url>
+          <line>74</line>
+          <properties documentPath="$PROJECT_DIR$/Assets/Scripts/Game.cs" initialLine="78" containingFunctionPresentation="method 'OnApplicationQuit'">
+            <startOffsets>
+              <option value="2413" />
+            </startOffsets>
+            <endOffsets>
+              <option value="2414" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/Game.cs</url>
+          <line>73</line>
+          <properties documentPath="$PROJECT_DIR$/Assets/Scripts/Game.cs" initialLine="75" containingFunctionPresentation="method 'OnApplicationQuit'">
+            <startOffsets>
+              <option value="2363" />
+            </startOffsets>
+            <endOffsets>
+              <option value="2364" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

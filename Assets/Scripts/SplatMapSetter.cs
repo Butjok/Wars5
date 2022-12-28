@@ -23,10 +23,12 @@ public class SplatMapSetter : MonoBehaviour {
         }
 
         material.SetTexture(textureName, splat);
-        boxCollider.enabled = true;
-        var bounds = boxCollider.bounds;
-        material.SetVector(boundsName, new Vector4(bounds.min.x, bounds.min.z, bounds.size.x, bounds.size.z));
-        material.SetVector(flipName, new Vector4(flipX ? 1 : 0, flipY ? 1 : 0, 0, 0));
-        boxCollider.enabled = false;
+        if (boxCollider) {
+            boxCollider.enabled = true;
+            var bounds = boxCollider.bounds;
+            material.SetVector(boundsName, new Vector4(bounds.min.x, bounds.min.z, bounds.size.x, bounds.size.z));
+            material.SetVector(flipName, new Vector4(flipX ? 1 : 0, flipY ? 1 : 0, 0, 0));
+            boxCollider.enabled = false;
+        }
     }
 }

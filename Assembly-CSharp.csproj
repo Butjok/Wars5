@@ -54,6 +54,7 @@
      <Compile Include="Assets/Scripts/StringExtensions.cs" />
      <Compile Include="Assets/CommandLine/AssemblyInfo.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/AbstractPredicateTransition.cs" />
+     <Compile Include="Assets/Scripts/PlayerCollection.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequencePlayer.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/PredicateEvalInfo.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/ArrayPredictionContext.cs" />
@@ -239,6 +240,7 @@
      <Compile Include="Assets/CommandLine/Antlr4/Tree/Xpath/XPathWildcardElement.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Sharpen/Runtime.cs" />
      <Compile Include="Assets/Scripts/TileMeshBuilder.cs" />
+     <Compile Include="Assets/Scripts/TerrainTest.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Tree/Xpath/XPathLexer.cs" />
      <Compile Include="Assets/Scripts/Woo.cs" />
      <Compile Include="Assets/Scripts/LevelOverlayUI.cs" />
@@ -432,7 +434,8 @@
      <Compile Include="Assets/CommandLine/Antlr4/Atn/PlusBlockStartState.cs" />
      <Compile Include="Assets/Scripts/Animation/PistonBody.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
-     <Compile Include="Assets/Scripts/TerrainTest.cs" />
+     <Compile Include="Assets/Scripts/DebugTerrainMeshGenerator.cs" />
+     <Compile Include="Assets/Scripts/AiPlaygroundSetup.cs" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />
      <None Include="Assets/Shaders/My First Lighting Shader.shader" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader" />
@@ -441,6 +444,7 @@
      <None Include="Assets/TextMesh Pro/Shaders/TMP_Bitmap.shader" />
      <None Include="Assets/Shaders/My First Lighting Shader Overlay.shader" />
      <None Include="Assets/SDF Toolkit/Shaders/SDF Specular.shader" />
+     <None Include="Assets/Shaders/VertexColorChecker.shader" />
      <None Include="Assets/Shaders/My First Lighting Shader Overlay NoShadow.shader" />
      <None Include="Assets/SDF Toolkit/Shaders/SDF Forward.cginc" />
      <None Include="Assets/Shaders/test.shader" />

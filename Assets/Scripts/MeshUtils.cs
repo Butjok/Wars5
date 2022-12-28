@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -14,4 +15,8 @@ public static class MeshUtils {
 		new(+.5f, -.5f),
    
 	}.Select(vector2 => MathUtils.ToVector3((Vector2)vector2)).ToArray();
+
+	public static IEnumerable<Vector3> QuadAt(Vector3 position) {
+		return quad.Select(vertex => position + vertex);
+	}
 }
