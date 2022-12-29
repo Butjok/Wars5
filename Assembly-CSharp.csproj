@@ -55,6 +55,7 @@
      <Compile Include="Assets/CommandLine/AssemblyInfo.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/AbstractPredicateTransition.cs" />
      <Compile Include="Assets/Scripts/PlayerCollection.cs" />
+     <Compile Include="Assets/Scripts/LevelEditorHistory.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequencePlayer.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/PredicateEvalInfo.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/ArrayPredictionContext.cs" />
@@ -78,6 +79,7 @@
      <Compile Include="Assets/CommandLine/Antlr4/Atn/LexerCustomAction.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Tree/Pattern/ParseTreePatternMatcher.cs" />
      <Compile Include="Assets/Scripts/Level/Mouse.cs" />
+     <Compile Include="Assets/Scripts/LevelEditorTextDisplay.cs" />
      <Compile Include="Assets/Scripts/Animation/Bird.cs" />
      <Compile Include="Assets/Scripts/Animation/MovePath.cs" />
      <Compile Include="Assets/Scripts/LevelLogic/TutorialLevelLogic.cs" />
@@ -115,6 +117,7 @@
      <Compile Include="Assets/CommandLine/Antlr4/CommonToken.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/IVocabulary.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/LexerSkipAction.cs" />
+     <Compile Include="Assets/Scripts/DebugTerrainMeshGenerator.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/LoopEndState.cs" />
      <Compile Include="Assets/Scripts/UnitBrain.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/ATN.cs" />
@@ -138,6 +141,7 @@
      <Compile Include="Assets/CommandLine/Antlr4/LexerInterpreter.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/IRecognizer.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/IAntlrErrorStrategy.cs" />
+     <Compile Include="Assets/Scripts/LevelEditor.cs" />
      <Compile Include="Assets/Scripts/Animation/SteeringArm.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Tree/ErrorNodeImpl.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/ProxyParserErrorListener.cs" />
@@ -413,6 +417,7 @@
      <Compile Include="Assets/CommandLine/Antlr4/Atn/LexerPopModeAction.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/DecisionInfo.cs" />
      <Compile Include="Assets/Scripts/Building.cs" />
+     <Compile Include="Assets/Scripts/AiPlayground.cs" />
      <Compile Include="Assets/Scripts/MovePathMeshBuilder.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Tree/Xpath/XPathRuleAnywhereElement.cs" />
      <Compile Include="Assets/Scripts/BattleView.cs" />
@@ -434,9 +439,6 @@
      <Compile Include="Assets/CommandLine/Antlr4/Atn/PlusBlockStartState.cs" />
      <Compile Include="Assets/Scripts/Animation/PistonBody.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
-     <Compile Include="Assets/Scripts/DebugTerrainMeshGenerator.cs" />
-     <Compile Include="Assets/Scripts/AiPlayground.cs" />
-     <Compile Include="Assets/Scripts/LevelEditor.cs" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />
      <None Include="Assets/Shaders/My First Lighting Shader.shader" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader" />

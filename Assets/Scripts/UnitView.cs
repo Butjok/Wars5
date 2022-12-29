@@ -154,6 +154,7 @@ public class UnitView : MonoBehaviour {
     }
     
     public void UpdateRenderers() {
+        Assert.AreNotEqual(0,renderers.Length);
         foreach (var renderer in renderers)
             renderer.SetPropertyBlock(propertyBlock);
     }

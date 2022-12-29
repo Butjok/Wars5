@@ -27,36 +27,36 @@ public class PathBuilderTest : MonoBehaviour {
 
 	public void Update() {
 
-		if (Input.GetKeyDown(KeyCode.ScrollLock))
-			active = !active;
-
-		if (!active)
-			return;
-
-		if (!mesh)
-			mesh = new Mesh();
-
-		pathBuilder.Clear();
-		if (Mouse.TryGetPosition(out Vector2Int mousePosition) && level.TryGetTile(mousePosition, out _)) {
-			traverser.Traverse(level.tiles.Keys, pathBuilder.startPosition, (position, distance) => 1);
-			if (traverser.IsReachable(mousePosition)) {
-
-				foreach (var position in traverser.ReconstructPath(mousePosition).Skip(1))
-					pathBuilder.Add(position);
-
-						//path = MovePath.Moves(pathBuilder.Positions, Vector2Int.down);
-				mesh = MovePathMeshBuilder.Build(mesh, path, atlas);
-				meshFilter.sharedMesh = mesh;
-			}
-			else {
-				pathBuilder.Clear();
-				mesh.Clear();
-			}
-		}
-		else
-			mesh.Clear();
-
-		meshFilter.sharedMesh = mesh;
+		// if (Input.GetKeyDown(KeyCode.ScrollLock))
+		// 	active = !active;
+		//
+		// if (!active)
+		// 	return;
+		//
+		// if (!mesh)
+		// 	mesh = new Mesh();
+		//
+		// pathBuilder.Clear();
+		// if (Mouse.TryGetPosition(out Vector2Int mousePosition) && level.TryGetTile(mousePosition, out _)) {
+		// 	traverser.Traverse(level.tiles.Keys, pathBuilder.startPosition, (position, distance) => 1);
+		// 	if (traverser.IsReachable(mousePosition)) {
+		//
+		// 		foreach (var position in traverser.ReconstructPath(mousePosition).Skip(1))
+		// 			pathBuilder.Add(position);
+		//
+		// 				//path = MovePath.Moves(pathBuilder.Positions, Vector2Int.down);
+		// 		mesh = MovePathMeshBuilder.Build(mesh, path, atlas);
+		// 		meshFilter.sharedMesh = mesh;
+		// 	}
+		// 	else {
+		// 		pathBuilder.Clear();
+		// 		mesh.Clear();
+		// 	}
+		// }
+		// else
+		// 	mesh.Clear();
+		//
+		// meshFilter.sharedMesh = mesh;
 
 
 /*		var offset = Vector2Int.zero;

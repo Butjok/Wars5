@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="commit before changes to unit view/player view/building view being spawned as children of Game">
+    <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/LevelEditorHistory.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/LevelEditorHistory.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/LevelEditorTextDisplay.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/LevelEditorTextDisplay.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/light-tank.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/light-tank.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/AiPlayground.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/AiPlayground.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/AiPlayground.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/AiPlayground.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/BuildingView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/BuildingView.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assembly-CSharp.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/AiPlayground.unity" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/AiPlayground.unity.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/PathSelectionState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/PathSelectionState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Level/Serialization.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Level/Serialization.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Level/Traverser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Level/Traverser.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/LevelEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/LevelEditor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PathBuilderTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PathBuilderTest.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Rules.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Rules.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Unit.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/RiderScriptEditorPersistedState.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/RiderScriptEditorPersistedState.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,7 +82,6 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameStates/DefeatState.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/MeshUtils.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Map2D.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock:///Users/butjok/Documents/GitHub/Wars5/UserSettings/EditorUserSettings.asset" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/MathUtils.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.render-pipelines.core@12.1.6/Runtime/Debugging/DebugUpdater.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/LevelOverlayUI.cs" root0="FORCE_HIGHLIGHTING" />
@@ -171,10 +178,10 @@
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="30922">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" />
+      <option name="pid" value="30922" />
       <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
@@ -281,14 +288,8 @@
       <workItem from="1672001194030" duration="1851000" />
       <workItem from="1672062325922" duration="3484000" />
       <workItem from="1672180849603" duration="16000" />
-      <workItem from="1672192162228" duration="24118000" />
-    </task>
-    <task id="LOCAL-00122" summary="hjgjghjghj">
-      <created>1665110968287</created>
-      <option name="number" value="00122" />
-      <option name="presentableId" value="LOCAL-00122" />
-      <option name="project" value="LOCAL" />
-      <updated>1665110968287</updated>
+      <workItem from="1672192162228" duration="24237000" />
+      <workItem from="1672285248929" duration="14218000" />
     </task>
     <task id="LOCAL-00123" summary="ytyuytuytutyu">
       <created>1665123405111</created>
@@ -626,7 +627,14 @@
       <option name="project" value="LOCAL" />
       <updated>1672279142239</updated>
     </task>
-    <option name="localTasksCounter" value="171" />
+    <task id="LOCAL-00171" summary="level editor looks good so far">
+      <created>1672282816927</created>
+      <option name="number" value="00171" />
+      <option name="presentableId" value="LOCAL-00171" />
+      <option name="project" value="LOCAL" />
+      <updated>1672282816928</updated>
+    </task>
+    <option name="localTasksCounter" value="172" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -659,7 +667,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="sdfsdfsdfsdfsdf" />
     <MESSAGE value="dfgdfggfd" />
     <MESSAGE value="ghfl;ksjhjgklf;djhlk;gfdlhk;jdgf" />
     <MESSAGE value="sdfsdfdsf" />
@@ -684,49 +691,37 @@
     <MESSAGE value="sdfsdfsdf" />
     <MESSAGE value="sdfsdf" />
     <MESSAGE value="commit before changes to unit view/player view/building view being spawned as children of Game" />
-    <option name="LAST_COMMIT_MESSAGE" value="commit before changes to unit view/player view/building view being spawned as children of Game" />
+    <MESSAGE value="level editor looks good so far" />
+    <option name="LAST_COMMIT_MESSAGE" value="level editor looks good so far" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/Game.cs</url>
-          <line>72</line>
-          <properties documentPath="$PROJECT_DIR$/Assets/Scripts/Game.cs" initialLine="74" containingFunctionPresentation="method 'OnApplicationQuit'">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/GameStates/ActionSelectionState.cs</url>
+          <line>58</line>
+          <properties documentPath="$PROJECT_DIR$/Assets/Scripts/GameStates/ActionSelectionState.cs" initialLine="58" containingFunctionPresentation="method 'New'">
             <startOffsets>
-              <option value="2319" />
+              <option value="2492" />
             </startOffsets>
             <endOffsets>
-              <option value="2320" />
+              <option value="2552" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="1" />
+          <option name="timeStamp" value="11" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/Game.cs</url>
-          <line>74</line>
-          <properties documentPath="$PROJECT_DIR$/Assets/Scripts/Game.cs" initialLine="78" containingFunctionPresentation="method 'OnApplicationQuit'">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/GameStates/ActionSelectionState.cs</url>
+          <line>40</line>
+          <properties documentPath="$PROJECT_DIR$/Assets/Scripts/GameStates/ActionSelectionState.cs" initialLine="40" containingFunctionPresentation="method 'New'">
             <startOffsets>
-              <option value="2413" />
+              <option value="1528" />
             </startOffsets>
             <endOffsets>
-              <option value="2414" />
+              <option value="1575" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/Game.cs</url>
-          <line>73</line>
-          <properties documentPath="$PROJECT_DIR$/Assets/Scripts/Game.cs" initialLine="75" containingFunctionPresentation="method 'OnApplicationQuit'">
-            <startOffsets>
-              <option value="2363" />
-            </startOffsets>
-            <endOffsets>
-              <option value="2364" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="3" />
+          <option name="timeStamp" value="12" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

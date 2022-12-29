@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Butjok.CommandLine;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -31,7 +32,23 @@ public class LevelEditor : MonoBehaviour {
 
     public Transform unitsRoot;
 
+    public LevelEditorHistory history = new();
+
+    public TMP_Text uiText;
+    public LevelEditorTextDisplay textDisplay;
+
+    [Command]
+    public bool LogHistory {
+        get => history.log;
+        set => history.log = value;
+    }
+
+    [Command]
+    public void Break() { }
+
     private void Start() {
+
+        textDisplay = new LevelEditorTextDisplay(uiText);
 
         var red = new SerializedPlayer {
             color = Palette.red,
@@ -55,47 +72,40 @@ public class LevelEditor : MonoBehaviour {
         players.Add(blue);
         playerId = red.id;
 
-        StartCoroutine(TilesMode());
-    }
+        for (var y = 0; y < 10; y++)
+        for (var x = 0; x < 10; x++)
+            AddTile(new Vector2Int(x, y), TileType.Plain);
 
-    public Dictionary<string, object> text = new();
-    public TMP_Text uiText;
-    public void UpdateText() {
-        uiText.text = string.Join("\n", text
-            .OrderBy(pair => pair.Key)
-            .Select(pair => $"{pair.Key}: {pair.Value}"));
-    }
-    public void ClearText() {
-        text.Clear();
-        UpdateText();
-    }
-    public void SetText(string key, object value) {
-        text[key] = value;
-        UpdateText();
-    }
-
-    public IEnumerator PlayersMode() {
-
-        ClearText();
-        SetText(mode, nameof(PlayersMode));
-
-        while (true) {
-            yield return null;
-
-            var modeToSwitchTo = HandleModeSelect(PlayersMode);
-            if (modeToSwitchTo != null) {
-                yield return modeToSwitchTo;
-                yield break;
-            }
+        // red hq
+        { 
+            var position = new Vector2Int(0, 0);
+            RemoveTile(position);
+            AddBuilding(position, new SerializedBuilding {
+                type = TileType.Hq,
+                playerId = red.id,
+                position = position
+            });
         }
+        // blue hq
+        {
+            var position = new Vector2Int(9, 9);
+            RemoveTile(position);
+            AddBuilding(position, new SerializedBuilding {
+                type = TileType.Hq,
+                playerId = blue.id,
+                position = position
+            });
+        }
+
+        StartCoroutine(TilesMode());
     }
 
     public IEnumerator TilesMode() {
 
-        ClearText();
-        SetText(mode, nameof(TilesMode));
-        SetText(nameof(tileType), tileType);
-        SetText(player, PlayerColor.Name());
+        textDisplay.Clear();
+        textDisplay.Set(mode, nameof(TilesMode));
+        textDisplay.Set(nameof(tileType), tileType);
+        textDisplay.Set(player, PlayerColor(playerId).Name());
 
         while (true) {
             yield return null;
@@ -107,79 +117,179 @@ public class LevelEditor : MonoBehaviour {
             }
 
             if (HandlePlayerSelect()) { }
+            else if (HandleHistory()) { }
 
             else if (Input.GetKeyDown(KeyCode.Tab)) {
                 var offset = Input.GetKey(KeyCode.LeftShift) ? -1 : 1;
                 tileType = tileTypes2[(Array.IndexOf(tileTypes2, tileType) + offset).PositiveModulo(tileTypes2.Length)];
-                SetText(nameof(tileType), tileType);
+                textDisplay.Set(nameof(tileType), tileType);
             }
 
             else if (Input.GetMouseButton(Mouse.left) && Mouse.TryGetPosition(out Vector2Int mousePosition)) {
-                {
-                    RemoveTile(mousePosition);
 
-                    var go = GameObject.CreatePrimitive(PrimitiveType.Quad);
-                    go.SetLayerRecursively(Layers.Terrain);
+                var actionBuilder = history.CreateCompoundActionBuilder($"place {tileType} at {mousePosition}");
 
-                    go.transform.position = mousePosition.ToVector3Int();
-                    go.transform.rotation = Quaternion.Euler(90, 0, 0);
-                    var propertyBlock = new MaterialPropertyBlock();
+                var removeOldTile = tiles.TryGetValue(mousePosition, out var oldTileType) && oldTileType != tileType;
+                var addNewTile = removeOldTile || oldTileType == default;
 
-                    Color color = default;
-                    if (TileType.PlayerOwned.HasFlag(tileType))
-                        propertyBlock.SetColor("_Tint", PlayerColor);
-                    else {
-                        var found = tileTypeColors.TryGetValue(tileType, out color);
-                        Assert.IsTrue(found);
-                        propertyBlock.SetColor("_Tint", color);
-                    }
-                    propertyBlock.SetFloat("_Glossiness", color.a);
+                if (removeOldTile)
+                    actionBuilder
+                        .EnqueueCommitAction(() => RemoveTile(mousePosition))
+                        .PushRevertAction(() => AddTile(mousePosition, oldTileType));
 
-                    var meshRenderer = go.GetComponent<MeshRenderer>();
-                    meshRenderer.sharedMaterial = tileMaterial;
-                    meshRenderer.SetPropertyBlock(propertyBlock);
-
-                    tiles.Add(mousePosition, tileType);
-                    tileViews.Add(mousePosition, go);
+                if (addNewTile) {
+                    var savedTileType = tileType;
+                    actionBuilder
+                        .EnqueueCommitAction(() => AddTile(mousePosition, savedTileType))
+                        .PushRevertAction(() => RemoveTile(mousePosition));
                 }
 
-                if (TileType.PlayerOwned.HasFlag(tileType)) {
-
-                    var building = new SerializedBuilding {
+                SerializedBuilding building = null;
+                if (TileType.Buildings.HasFlag(tileType))
+                    building = new SerializedBuilding {
                         type = tileType,
                         playerId = playerId,
                         position = mousePosition
                     };
+
+                var removeOldBuilding = buildings.TryGetValue(mousePosition, out var oldBuilding) && (building == null || !oldBuilding.HasSameData(building));
+                var addNewBuilding = building != null && (removeOldBuilding || oldBuilding == null);
+
+                if (removeOldBuilding)
+                    actionBuilder
+                        .EnqueueCommitAction(() => RemoveBuilding(mousePosition))
+                        .PushRevertAction(() => AddBuilding(mousePosition, oldBuilding));
+
+                if (addNewBuilding) {
+                    // assign new id
                     building.id = numerator[building];
-
-                    // var found = buildingViewPrefabs.TryGetValue(tileType, out var viewPrefab);
-                    // Assert.IsTrue(found);
-                    // Assert.IsTrue(viewPrefab);
-                    // var view = Instantiate(viewPrefab);
-
-                    var go = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                    var view = go.AddComponent<BuildingView>();
-                    view.renderers = new[] { go.GetComponent<MeshRenderer>() };
-
-                    view.Position = mousePosition;
-                    view.PlayerColor = PlayerColor;
-
-                    buildings.Add(mousePosition, building);
-                    buildingViews.Add(building, view);
+                    actionBuilder
+                        .EnqueueCommitAction(() => AddBuilding(mousePosition, building))
+                        .PushRevertAction(() => RemoveBuilding(mousePosition));
                 }
+
+                actionBuilder.Execute();
             }
 
-            else if (Input.GetMouseButton(Mouse.right) && Mouse.TryGetPosition(out mousePosition))
-                RemoveTile(mousePosition);
+            else if (Input.GetMouseButton(Mouse.right) && Mouse.TryGetPosition(out mousePosition)) {
+
+                var actionBuilder = history.CreateCompoundActionBuilder($"remove tile at {mousePosition}");
+
+                if (tiles.TryGetValue(mousePosition, out var oldTileType))
+                    actionBuilder
+                        .EnqueueCommitAction(() => RemoveTile(mousePosition))
+                        .PushRevertAction(() => AddTile(mousePosition, oldTileType));
+
+                if (buildings.TryGetValue(mousePosition, out var oldBuilding))
+                    actionBuilder
+                        .EnqueueCommitAction(() => RemoveBuilding(mousePosition))
+                        .PushRevertAction(() => AddBuilding(mousePosition, oldBuilding));
+
+                actionBuilder.Execute();
+            }
         }
+    }
+
+    public void AddTile(Vector2Int position, TileType tileType) {
+
+        Assert.IsFalse(tiles.ContainsKey(position));
+
+        var go = GameObject.CreatePrimitive(PrimitiveType.Quad);
+        go.SetLayerRecursively(Layers.Terrain);
+
+        go.transform.position = position.ToVector3Int();
+        go.transform.rotation = Quaternion.Euler(90, 0, 0);
+        var propertyBlock = new MaterialPropertyBlock();
+
+        if (!tileTypeColors.TryGetValue(tileType, out var color))
+            color = nullPlayerColor;
+
+        propertyBlock.SetColor("_Tint", color);
+        propertyBlock.SetFloat("_Glossiness", color.a);
+
+        var meshRenderer = go.GetComponent<MeshRenderer>();
+        meshRenderer.sharedMaterial = tileMaterial;
+        meshRenderer.SetPropertyBlock(propertyBlock);
+
+        tiles.Add(position, tileType);
+        tileViews.Add(position, go);
+    }
+
+    public void RemoveTile(Vector2Int position) {
+
+        Assert.IsTrue(tiles.ContainsKey(position));
+
+        var found = tileViews.TryGetValue(position, out var view);
+        Assert.IsTrue(found);
+
+        Destroy(view.gameObject);
+        tileViews.Remove(position);
+        tiles.Remove(position);
+    }
+
+    public void AddBuilding(Vector2Int position, SerializedBuilding building) {
+
+        Assert.IsFalse(buildings.ContainsKey(position));
+
+        var go = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        var view = go.AddComponent<BuildingView>();
+        view.renderers = new[] { go.GetComponent<MeshRenderer>() };
+
+        view.Position = position;
+        view.PlayerColor = PlayerColor(building.playerId);
+
+        buildings.Add(position, building);
+        buildingViews.Add(building, view);
+    }
+
+    public void RemoveBuilding(Vector2Int position) {
+
+        var found = buildings.TryGetValue(position, out var building);
+        Assert.IsTrue(found);
+
+        var foundView = buildingViews.TryGetValue(building, out var view);
+        Assert.IsTrue(foundView);
+
+        Destroy(view.gameObject);
+        buildingViews.Remove(building);
+        buildings.Remove(position);
+    }
+
+    public void AddUnit(Vector2Int position, SerializedUnit unit) {
+
+        Assert.IsFalse(units.ContainsKey(position));
+
+        var found = unitViewPrefabs.TryGetValue(unitType, out var viewPrefab);
+        Assert.IsTrue(found);
+        Assert.IsTrue(viewPrefab);
+        var view = Instantiate(viewPrefab, unitsRoot);
+
+        view.Position = position;
+        view.PlayerColor = PlayerColor(playerId);
+
+        units.Add(position, unit);
+        unitViews.Add(unit, view);
+    }
+
+    public void RemoveUnit(Vector2Int position) {
+
+        var found = units.TryGetValue(position, out var unit);
+        Assert.IsTrue(found);
+
+        var foundView = unitViews.TryGetValue(unit, out var view);
+        Assert.IsTrue(foundView);
+
+        Destroy(view.gameObject);
+        unitViews.Remove(unit);
+        units.Remove(position);
     }
 
     public IEnumerator UnitsMode() {
 
-        ClearText();
-        SetText(mode, nameof(UnitsMode));
-        SetText(nameof(unitType), unitType);
-        SetText(player, PlayerColor.Name());
+        textDisplay.Clear();
+        textDisplay.Set(mode, nameof(UnitsMode));
+        textDisplay.Set(nameof(unitType), unitType);
+        textDisplay.Set(player, PlayerColor(playerId).Name());
 
         while (true) {
             yield return null;
@@ -191,52 +301,62 @@ public class LevelEditor : MonoBehaviour {
             }
 
             if (HandlePlayerSelect()) { }
+            else if (HandleHistory()) { }
 
             else if (Input.GetKeyDown(KeyCode.Tab)) {
                 var offset = Input.GetKey(KeyCode.LeftShift) ? -1 : 1;
                 unitType = unitTypes[(Array.IndexOf(unitTypes, unitType) + offset).PositiveModulo(unitTypes.Length)];
-                SetText(nameof(unitType), unitType);
+                textDisplay.Set(nameof(unitType), unitType);
             }
 
             else if (Input.GetMouseButton(Mouse.left) && Mouse.TryGetPosition(out Vector2Int mousePosition)) {
 
-                RemoveUnit(mousePosition);
+                var actionBuilder = history.CreateCompoundActionBuilder($"place {unitType} at {mousePosition}");
 
                 var unit = new SerializedUnit {
                     type = unitType,
                     playerId = playerId,
                     position = mousePosition
                 };
-                unit.id = numerator[unit];
 
-                var found = unitViewPrefabs.TryGetValue(unitType, out var viewPrefab);
-                Assert.IsTrue(found);
-                Assert.IsTrue(viewPrefab);
-                var view = Instantiate(viewPrefab, unitsRoot);
+                var removeOldUnit = units.TryGetValue(mousePosition, out var oldUnit) && !oldUnit.HasSameData(unit);
+                var addNewUnit = oldUnit == null || removeOldUnit;
 
-                unit.viewPrefabName = viewPrefab.name;
+                if (removeOldUnit)
+                    actionBuilder
+                        .EnqueueCommitAction(() => RemoveUnit(mousePosition))
+                        .PushRevertAction(() => AddUnit(mousePosition, oldUnit));
 
-                view.Position = mousePosition;
-                view.PlayerColor = PlayerColor;
+                if (addNewUnit) {
+                    // assign new id
+                    unit.id = numerator[unit];
+                    actionBuilder
+                        .EnqueueCommitAction(() => AddUnit(mousePosition, unit))
+                        .PushRevertAction(() => RemoveUnit(mousePosition));
+                }
 
-                units.Add(mousePosition, unit);
-                unitViews.Add(unit, view);
+                actionBuilder.Execute();
             }
 
-            else if (Input.GetMouseButton(Mouse.right) && Mouse.TryGetPosition(out mousePosition))
-                RemoveUnit(mousePosition);
+            else if (Input.GetMouseButton(Mouse.right) && Mouse.TryGetPosition(out mousePosition)) {
+                if (units.TryGetValue(mousePosition, out var oldUnit))
+                    history.Execute(
+                        () => RemoveUnit(mousePosition),
+                        () => AddUnit(mousePosition, oldUnit),
+                        $"remove unit at {mousePosition}");
+            }
         }
     }
 
     public IEnumerator PlayMode(Func<IEnumerator> modeAfterPlayEnd) {
 
         Assert.AreNotEqual(0, player.Length);
-        var positions = tiles.Keys.Concat(units.Keys).ToArray();
+        var positions = tiles.Keys.Concat(buildings.Keys).Concat(units.Keys).ToArray();
         Assert.AreNotEqual(0, positions.Length);
         Assert.IsTrue(unitsRoot);
 
-        ClearText();
-        SetText(mode, nameof(PlayMode));
+        textDisplay.Clear();
+        textDisplay.Set(mode, nameof(PlayMode));
 
         var go = new GameObject(nameof(Game));
         var game = go.AddComponent<Game>();
@@ -260,9 +380,16 @@ public class LevelEditor : MonoBehaviour {
             var unit = units[position];
             var foundPlayer = playerLookup.TryGetValue(unit.playerId, out var player);
             Assert.IsTrue(foundPlayer);
-            var prefab = Resources.Load<UnitView>(unit.viewPrefabName);
+            var foundViewPrefab = unitViewPrefabs.TryGetValue(unit.type, out var prefab);
+            Assert.IsTrue(foundViewPrefab);
             Assert.IsTrue(prefab);
             new Unit(player, type: unit.type, position: unit.position, viewPrefab: prefab);
+        }
+
+        foreach (var position in buildings.Keys) {
+            var building = buildings[position];
+            var player = playerLookup.TryGetValue(building.playerId, out var p) ? p : null;
+            new Building(game, position, building.type, player);
         }
 
         game.levelLogic = new LevelLogic();
@@ -273,7 +400,7 @@ public class LevelEditor : MonoBehaviour {
         while (true) {
             yield return null;
 
-            if (Input.GetKeyDown(KeyCode.F3)) {
+            if (Input.GetKeyDown(KeyCode.F5)) {
 
                 unitsRoot.gameObject.SetActive(true);
                 Destroy(go);
@@ -284,57 +411,46 @@ public class LevelEditor : MonoBehaviour {
         }
     }
 
-    public void RemoveTile(Vector2Int position) {
-        if (tiles.TryGetValue(position, out _)) {
-            var found = tileViews.TryGetValue(position, out var view);
-            Assert.IsTrue(found);
-            Destroy(view.gameObject);
-            tileViews.Remove(position);
-            tiles.Remove(position);
-        }
-        if (buildings.TryGetValue(position, out var building)) {
-            var found = buildingViews.TryGetValue(building, out var view);
-            Assert.IsTrue(found);
-            Destroy(view.gameObject);
-            buildingViews.Remove(building);
-            buildings.Remove(position);
-        }
-    }
-
-    public void RemoveUnit(Vector2Int position) {
-        if (units.TryGetValue(position, out var unit)) {
-            var found = unitViews.TryGetValue(unit, out var view);
-            Assert.IsTrue(found);
-            Destroy(view.gameObject);
-            unitViews.Remove(unit);
-            units.Remove(position);
-        }
-    }
-
     public IEnumerator HandleModeSelect(Func<IEnumerator> modeAfterPlayEnd) {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-            return PlayersMode();
-        if (Input.GetKeyDown(KeyCode.Alpha2))
+        if (Input.GetKeyDown(KeyCode.T))
             return TilesMode();
-        if (Input.GetKeyDown(KeyCode.Alpha3))
+        if (Input.GetKeyDown(KeyCode.U))
             return UnitsMode();
-        if (Input.GetKeyDown(KeyCode.F3))
+        if (Input.GetKeyDown(KeyCode.F5))
             return PlayMode(modeAfterPlayEnd);
         return null;
     }
 
     public bool HandlePlayerSelect() {
-        if (Input.GetKeyDown(KeyCode.P) && players.Count > 0) {
-            var offset = Input.GetKey(KeyCode.LeftShift) ? -1 : 1;
-            var index = players.FindIndex(p => p.id == playerId);
-            playerId = players[(index + offset).PositiveModulo(players.Count)].id;
-            SetText(player, PlayerColor.Name());
+        if (Input.GetKeyDown(KeyCode.P)) {
+            if (players.Count > 0) {
+                //var offset = Input.GetKey(KeyCode.LeftShift) ? -1 : 1;
+                var offset = 1;
+                var index = players.FindIndex(p => p.id == playerId);
+                playerId = players[(index + offset).PositiveModulo(players.Count)].id;
+                textDisplay.Set(player, PlayerColor(playerId).Name());
+            }
+            else
+                playerId = -1;
+            return true;
+        }
+        return false;
+    }
+    public bool HandleHistory() {
+        if (Input.GetKeyDown(KeyCode.PageDown)) {
+            history.TryUndo();
+            return true;
+        }
+        if (Input.GetKeyDown(KeyCode.PageUp)) {
+            history.TryRedo();
             return true;
         }
         return false;
     }
 
-    public Color32 PlayerColor => players.SingleOrDefault(p => p.id == playerId)?.color ?? nullPlayerColor;
+    public Color32 PlayerColor(int playerId) {
+        return players.SingleOrDefault(p => p.id == playerId)?.color ?? nullPlayerColor;
+    }
 }
 
 [Serializable]

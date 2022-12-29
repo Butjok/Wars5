@@ -75,7 +75,7 @@ Shader "Custom/Unit"
             
             o.Emission=c.rgb*bounce.rgb*_BounceIntensity     * movedTint;
 
-            o.Albedo = Tint(o.Albedo,-.0025,1,1);
+            o.Albedo = Tint(o.Albedo,-.0025,1,1) ;//* _PlayerColor;
             
             o.Emission += lerp(_AttackHighlight.x, _AttackHighlight.y, pow
         (sin        ((_Time.y-_AttackHighlightStartTime)*_AttackHighlight.z      )/2+.5, 

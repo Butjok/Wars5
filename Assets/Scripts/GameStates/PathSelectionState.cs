@@ -21,9 +21,11 @@ public static class PathSelectionState {
         Assert.IsTrue(unit.position.v != null, "unit.position.v != null");
         var unitPosition = (Vector2Int)unit.position.v;
         Assert.IsTrue(game.tiles.ContainsKey(unitPosition));
+
+        var moveDistance = Rules.MoveDistance(unit);
         
         var traverser = new Traverser();
-        traverser.Traverse(game.tiles.Keys, unitPosition, cost);
+        traverser.Traverse(game.tiles.Keys, unitPosition, cost, moveDistance);
 
         var startForward = unit.view.transform.forward.ToVector2().RoundToInt();
 
@@ -54,7 +56,9 @@ public static class PathSelectionState {
         tileMeshRenderer.sharedMaterial = tileMeshMaterial;
         tileMeshRenderer.shadowCastingMode = ShadowCastingMode.Off;
 
-        tileMeshFilter.sharedMesh = TileMeshBuilder.Build(tileMeshFilter.sharedMesh, game.tiles.Keys.Where(traverser.IsReachable));
+        tileMeshFilter.sharedMesh = TileMeshBuilder.Build(
+            tileMeshFilter.sharedMesh, 
+            game.tiles.Keys.Where(position => traverser.IsReachable(position,moveDistance)));
 
         var oldPositions = new List<Vector2Int> { unitPosition };
 
@@ -118,7 +122,7 @@ public static class PathSelectionState {
 
             else if (Input.GetMouseButtonDown(Mouse.left) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return)) {
 
-                if (Mouse.TryGetPosition(out Vector2Int mousePosition) && traverser.IsReachable(mousePosition)) {
+                if (Mouse.TryGetPosition(out Vector2Int mousePosition) && traverser.IsReachable(mousePosition, moveDistance)) {
                     if (pathBuilder.Positions.Last() == mousePosition)
                         game.input.moveUnit = true;
                     else {

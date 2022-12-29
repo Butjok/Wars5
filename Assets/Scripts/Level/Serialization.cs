@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -12,6 +13,12 @@ public struct SerializedVector2Int {
     }
     public static implicit operator SerializedVector2Int(Vector2Int vector2Int) {
         return new SerializedVector2Int { x = vector2Int.x, y = vector2Int.y };
+    }
+    static public bool operator ==(SerializedVector2Int a, SerializedVector2Int b) {
+        return a.x == b.x && a.y == b.y;
+    }
+    public static bool operator !=(SerializedVector2Int a, SerializedVector2Int b) {
+        return !(a == b);
     }
 }
 
@@ -60,21 +67,18 @@ public class SerializedUnit {
     public int id;
     public UnitType type;
     public int playerId;
-    public string viewPrefabName;
     public SerializedVector2Int? position;
     public bool moved;
-    public int hp;
-    public int fuel;
-    public int[] ammo;
-    public int[] cargo;
+    public int hp=10;
+    public int fuel=999;
+    public int[] ammo={99,99,99};
+    public int[] cargo={};
 
     public SerializedUnit() { }
     public SerializedUnit(Unit unit, Numerator id) {
         this.id = id[unit];
         type = unit.type;
         playerId = id[unit.player];
-        if (unit.view && unit.view.prefab)
-            viewPrefabName = unit.view.prefab.name;
         position = unit.position.v;
         moved = unit.moved.v;
         hp = unit.hp.v;
@@ -86,6 +90,17 @@ public class SerializedUnit {
     public override string ToString() {
         return $"{type}{position} {playerId}";
     }
+
+    public bool HasSameData(SerializedUnit other) {
+        return type == other.type &&
+               playerId == other.playerId &&
+               Nullable.Equals(position, other.position) &&
+               moved == other.moved &&
+               hp == other.hp &&
+               fuel == other.fuel &&
+               ammo.SequenceEqual(other.ammo) &&
+               cargo.SequenceEqual(other.cargo);
+    }
 }
 
 public class SerializedBuilding {
@@ -94,7 +109,7 @@ public class SerializedBuilding {
     public TileType type;
     public SerializedVector2Int position;
     public int playerId;
-    public int cp;
+    public int cp=20;
 
     public SerializedBuilding() { }
     public SerializedBuilding(Building building, Numerator id) {
@@ -107,6 +122,13 @@ public class SerializedBuilding {
 
     public override string ToString() {
         return $"{type}{position} {playerId}";
+    }
+
+    public bool HasSameData(SerializedBuilding other) {
+        return type == other.type && 
+               position.Equals(other.position) && 
+               playerId == other.playerId && 
+               cp == other.cp;
     }
 }
 
@@ -127,11 +149,11 @@ public struct SerializedTile {
 
 public class SerializedGame {
 
-    public SerializedUnit[] units;
-    public SerializedTile[] tiles;
-    public SerializedPlayer[] players;
+    public SerializedUnit[] units={};
+    public SerializedTile[] tiles={};
+    public SerializedPlayer[] players={};
     public int? turn;
-    public SerializedBuilding[] buildings;
+    public SerializedBuilding[] buildings={};
     public string levelLogicTypeName;
 
     public SerializedGame() { }

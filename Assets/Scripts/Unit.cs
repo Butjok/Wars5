@@ -37,6 +37,7 @@ public class Unit : IDisposable {
         view.unit = this;
         view.prefab = viewPrefab;
         view.Forward = rotation ?? Vector2Int.up;
+        view.PlayerColor = player.color;
 
         this.position = new ChangeTracker<Vector2Int?>(old => {
 

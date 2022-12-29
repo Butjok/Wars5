@@ -13,7 +13,7 @@ public class Traverser {
 	private Dictionary<Vector2Int, Info> infos = new();
 	private SimplePriorityQueue<Vector2Int> queue = new();
 
-	public void Traverse(IEnumerable<Vector2Int> positions, Vector2Int start, Func<Vector2Int, int, int?> cost) {
+	public void Traverse(IEnumerable<Vector2Int> positions, Vector2Int start, Func<Vector2Int, int, int?> cost, int maxDistance) {
 
 		infos.Clear();
 		queue.Clear();
@@ -28,7 +28,7 @@ public class Traverser {
 
 			var position = queue.Dequeue();
 			var distance = infos[position].distance;
-			if (distance == int.MaxValue)
+			if (distance > maxDistance)
 				break;
 
 			foreach (var offset in Rules.offsets) {
@@ -66,7 +66,7 @@ public class Traverser {
 	public int GetDistance(Vector2Int position) {
 		return infos.TryGetValue(position, out var info) ? info.distance : int.MaxValue;
 	}
-	public bool IsReachable(Vector2Int position) {
-		return GetDistance(position) < int.MaxValue;
+	public bool IsReachable(Vector2Int position, int maxDistance) {
+		return GetDistance(position) <= maxDistance;
 	}
 }

@@ -19,7 +19,7 @@ public enum TileType {
     Airport = 1 << 7,
     Shipyard = 1 << 8,
     
-    PlayerOwned = City | Hq | Factory | Airport | Shipyard
+    Buildings = City | Hq | Factory | Airport | Shipyard
 }
 
 [Flags]
@@ -88,17 +88,13 @@ public static class Rules {
     }
     public static int? Damage(UnitType attackerType, UnitType targetType, int weaponIndex) {
         Assert.IsTrue(weaponIndex < WeaponsCount(attackerType));
-        switch (attacker: attackerType, target: targetType) {
-            case (UnitType.Infantry, UnitType.Infantry):
-                return 5;
-            case (UnitType.Infantry, UnitType.AntiTank):
-                return 5;
-            case (UnitType.Infantry, UnitType.Artillery):
-                return 3;
-            case (UnitType.Infantry, UnitType.Apc):
-                return 3;
-        }
-        return null;
+        return (attacker: attackerType, target: targetType) switch {
+            (UnitType.Infantry, UnitType.Infantry) => 5,
+            (UnitType.Infantry, UnitType.AntiTank) => 5,
+            (UnitType.Infantry, UnitType.Artillery) => 3,
+            (UnitType.Infantry, UnitType.Apc) => 3,
+            _ => null
+        };
     }
     public static int Cost(UnitType unitType, Player player) {
         return unitType switch {
@@ -182,22 +178,22 @@ public static class Rules {
         return false;
     }
     public static Vector2Int AttackRange(UnitType unitType, Player player) {
-        if (((UnitType.Infantry | UnitType.AntiTank) & unitType) != 0)
-            return new Vector2Int(1, 1);
-        if (((UnitType.Artillery) & unitType) != 0)
-            return new Vector2Int(2, 3);
-        return Vector2Int.zero;
+        return unitType switch {
+            UnitType.Infantry or UnitType.AntiTank or UnitType.LightTank or UnitType.Recon => new Vector2Int(1,1),
+            UnitType.Artillery => new Vector2Int(2,3),
+            _ => Vector2Int.zero
+        };
     }
     public static Vector2Int AttackRange(Unit unit) {
         return AttackRange(unit.type, unit.player);
     }
 
     public static int WeaponsCount(UnitType unitType) {
-        if (((UnitType.Infantry | UnitType.Artillery) & unitType) != 0)
-            return 1;
-        if (((UnitType.AntiTank) & unitType) != 0)
-            return 2;
-        return 0;
+        return unitType switch {
+            UnitType.Infantry or UnitType.Artillery => 1,
+            UnitType.AntiTank => 2,
+            _ => 0
+        };
     }
     public static IEnumerable<int> Weapons(UnitType unitType) {
         for (var i = 0; i < WeaponsCount(unitType); i++)
@@ -221,9 +217,10 @@ public static class Rules {
         return 1;
     }
     public static int CargoCapacity(UnitType unitType) {
-        if (unitType == UnitType.Apc)
-            return 1;
-        return 0;
+        return unitType switch {
+            UnitType.Apc => 1,
+            _ => 0
+        };
     }
     public static bool CanLoadAsCargo(Unit receiver, Unit target) {
         var cargoSize = receiver.cargo.Sum(u => Size(u));
@@ -239,33 +236,38 @@ public static class Rules {
     }
 
     public static int MoveDistance(UnitType unitType, Player player) {
-        if (((UnitType.Infantry) & unitType) != 0)
-            return 7;
-        if (((UnitType.AntiTank) & unitType) != 0)
-            return 5;
-        if (((UnitType.Artillery | UnitType.Apc | UnitType.Recon) & unitType) != 0)
-            return 5;
-        return 0;
+        return unitType switch {
+            UnitType.Infantry => 3,
+            UnitType.AntiTank => 2,
+            UnitType.LightTank => 5,
+            UnitType.Artillery  or UnitType.Apc or UnitType.Recon => 5,
+            _ => 0
+        };
     }
     public static int MoveDistance(Unit unit) {
         return Min(unit.fuel.v, MoveDistance(unit.type,unit.player));
     }
     public static int? MoveCost(UnitType unitType, TileType tileType) {
 
-        int? foot = (TileType.Sea & tileType) != 0 ? null : 1;
-        int? tracks = ((TileType.Sea | TileType.Mountain) & tileType) != 0 ? null : 1;
+        int? foot = tileType switch {
+            TileType.Sea => null,
+            TileType.Mountain => 2,
+            _ => 1
+        };
+        int? tracks = tileType switch {
+            TileType.Sea or TileType.Mountain => null,
+            _ => 1
+        };
         int? tires = tracks;
         int? air = null;
         int? sea = null;
 
-        if (((UnitType.Infantry | UnitType.AntiTank) & unitType) != 0)
-            return foot;
-        if (((UnitType.Artillery | UnitType.Apc) & unitType) != 0)
-            return tracks;
-        if (((UnitType.Recon) & unitType) != 0)
-            return tires;
-
-        return null;
+        return unitType switch {
+            UnitType.Infantry or UnitType.AntiTank => foot,
+            UnitType.Artillery or UnitType.LightTank or UnitType.Apc => tracks,
+            UnitType.Recon => tires,
+            _ => null
+        };
     }
     public static bool CanStay(UnitType unitType, TileType tileType) {
         return MoveCost(unitType, tileType) != null;
@@ -276,7 +278,10 @@ public static class Rules {
                (!unit.player.game.TryGetUnit(position, out var other) || other == unit);
     }
     public static bool CanCapture(UnitType unitType, TileType buildingType) {
-        return ((UnitType.Infantry | UnitType.AntiTank) & unitType) != 0;
+        return unitType switch {
+            UnitType.Infantry or UnitType.AntiTank => true,
+            _ => false
+        };
     }
     public static bool CanCapture(Unit unit, Building building) {
         return CanCapture(unit.type, building.type) &&
