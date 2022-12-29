@@ -42,8 +42,8 @@ public class InputCommandsListener : MonoBehaviour {
             Execute(File.ReadAllText(inputPath));
         }
 
-        if (Input.GetKeyDown(KeyCode.F5))
-            Write();
+        // if (Input.GetKeyDown(KeyCode.F5))
+            // Write();
     }
 
     [Command]
@@ -133,13 +133,13 @@ public class InputCommandsListener : MonoBehaviour {
             }
         });
     }
-
-    [Command]
-    private void Write() {
-        EnsureInitialized();
-        File.WriteAllText(outputPath, new SerializedGame(game).ToJson());
-        Debug.Log($"Written to: {outputPath}");
-    }
+    //
+    // [Command]
+    // private void Write() {
+    //     EnsureInitialized();
+    //     File.WriteAllText(outputPath, new SerializedGame(game).ToJson());
+    //     Debug.Log($"Written to: {outputPath}");
+    // }
 }
 
 [Serializable]

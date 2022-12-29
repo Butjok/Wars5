@@ -1,11 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Butjok.CommandLine;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Serialization;
 
 public class LevelEditor : MonoBehaviour {
 
@@ -30,7 +32,8 @@ public class LevelEditor : MonoBehaviour {
     public Numerator numerator = new();
     public Color nullPlayerColor = Color.white;
 
-    public Transform unitsRoot;
+    public Transform editModeRoot;
+    public Transform playModeRoot;
 
     public LevelEditorHistory history = new();
 
@@ -49,55 +52,66 @@ public class LevelEditor : MonoBehaviour {
     private void Start() {
 
         textDisplay = new LevelEditorTextDisplay(uiText);
+        
+        Load("default");
+        
+        editModeRoot.gameObject.SetActive(true);
+        playModeRoot.gameObject.SetActive(false);
+        
+        StartCoroutine(UnitsMode());
 
-        var red = new SerializedPlayer {
-            color = Palette.red,
-            team = Team.Alpha,
-            coName = nameof(Co.Natalie),
-            credits = 16000,
-            type = PlayerType.Human
-        };
-        red.id = numerator[red];
-
-        var blue = new SerializedPlayer {
-            color = Palette.blue,
-            team = Team.Bravo,
-            coName = nameof(Co.Vladan),
-            credits = 16000,
-            type = PlayerType.Human
-        };
-        blue.id = numerator[blue];
-
-        players.Add(red);
-        players.Add(blue);
-        playerId = red.id;
-
-        for (var y = 0; y < 10; y++)
-        for (var x = 0; x < 10; x++)
-            AddTile(new Vector2Int(x, y), TileType.Plain);
-
-        // red hq
-        { 
-            var position = new Vector2Int(0, 0);
-            RemoveTile(position);
-            AddBuilding(position, new SerializedBuilding {
-                type = TileType.Hq,
-                playerId = red.id,
-                position = position
-            });
-        }
-        // blue hq
-        {
-            var position = new Vector2Int(9, 9);
-            RemoveTile(position);
-            AddBuilding(position, new SerializedBuilding {
-                type = TileType.Hq,
-                playerId = blue.id,
-                position = position
-            });
-        }
-
-        StartCoroutine(TilesMode());
+        // var red = new SerializedPlayer {
+        //     color = Palette.red,
+        //     team = Team.Alpha,
+        //     coName = nameof(Co.Natalie),
+        //     credits = 16000,
+        //     type = PlayerType.Human
+        // };
+        // red.id = numerator[red];
+        //
+        // var blue = new SerializedPlayer {
+        //     color = Palette.blue,
+        //     team = Team.Bravo,
+        //     coName = nameof(Co.Vladan),
+        //     credits = 16000,
+        //     type = PlayerType.Human
+        // };
+        // blue.id = numerator[blue];
+        //
+        // players.Add(red);
+        // players.Add(blue);
+        // playerId = red.id;
+        //
+        // for (var y = 0; y < 10; y++)
+        // for (var x = 0; x < 10; x++)
+        //     AddTile(new Vector2Int(x, y), TileType.Plain);
+        //
+        // // red hq
+        // { 
+        //     var position = new Vector2Int(0, 0);
+        //     RemoveTile(position);
+        //     AddTile(position, TileType.Hq);
+        //     var hq = new SerializedBuilding {
+        //         type = TileType.Hq,
+        //         playerId = red.id,
+        //         position = position.ToTuple()
+        //     };
+        //     hq.id = numerator[hq];
+        //     AddBuilding(position, hq);
+        // }
+        // // blue hq
+        // {
+        //     var position = new Vector2Int(9, 9);
+        //     RemoveTile(position);
+        //     AddTile(position, TileType.Hq);
+        //     var hq = new SerializedBuilding {
+        //         type = TileType.Hq,
+        //         playerId = blue.id,
+        //         position = position.ToTuple()
+        //     };
+        //     hq.id = numerator[hq];
+        //     AddBuilding(position, hq);
+        // }
     }
 
     public IEnumerator TilesMode() {
@@ -149,7 +163,7 @@ public class LevelEditor : MonoBehaviour {
                     building = new SerializedBuilding {
                         type = tileType,
                         playerId = playerId,
-                        position = mousePosition
+                        position = mousePosition.ToTuple()
                     };
 
                 var removeOldBuilding = buildings.TryGetValue(mousePosition, out var oldBuilding) && (building == null || !oldBuilding.HasSameData(building));
@@ -186,6 +200,19 @@ public class LevelEditor : MonoBehaviour {
                         .PushRevertAction(() => AddBuilding(mousePosition, oldBuilding));
 
                 actionBuilder.Execute();
+            }
+            
+            // picker
+            else if (Input.GetKeyDown(KeyCode.L) && Mouse.TryGetPosition(out mousePosition) &&
+                     tiles.TryGetValue(mousePosition, out var tileType)) {
+                
+                this.tileType = tileType;
+                textDisplay.Set(nameof(tileType), tileType);
+
+                if (buildings.TryGetValue(mousePosition, out var building)) {
+                    playerId = building.playerId;
+                    textDisplay.Set(player, PlayerColor(playerId).Name());
+                }
             }
         }
     }
@@ -262,7 +289,7 @@ public class LevelEditor : MonoBehaviour {
         var found = unitViewPrefabs.TryGetValue(unitType, out var viewPrefab);
         Assert.IsTrue(found);
         Assert.IsTrue(viewPrefab);
-        var view = Instantiate(viewPrefab, unitsRoot);
+        var view = Instantiate(viewPrefab, position.ToVector3Int(), Quaternion.identity,  editModeRoot);
 
         view.Position = position;
         view.PlayerColor = PlayerColor(playerId);
@@ -316,7 +343,7 @@ public class LevelEditor : MonoBehaviour {
                 var unit = new SerializedUnit {
                     type = unitType,
                     playerId = playerId,
-                    position = mousePosition
+                    position = mousePosition.ToTuple()
                 };
 
                 var removeOldUnit = units.TryGetValue(mousePosition, out var oldUnit) && !oldUnit.HasSameData(unit);
@@ -345,6 +372,16 @@ public class LevelEditor : MonoBehaviour {
                         () => AddUnit(mousePosition, oldUnit),
                         $"remove unit at {mousePosition}");
             }
+            
+            else if (Input.GetKeyDown(KeyCode.L) && Mouse.TryGetPosition(out mousePosition) &&
+                     units.TryGetValue(mousePosition, out var unit)) {
+                
+                unitType = unit.type;
+                playerId = unit.playerId;
+                
+                textDisplay.Set(nameof(unitType), unitType);
+                textDisplay.Set(player, PlayerColor(playerId).Name());
+            }
         }
     }
 
@@ -353,7 +390,7 @@ public class LevelEditor : MonoBehaviour {
         Assert.AreNotEqual(0, player.Length);
         var positions = tiles.Keys.Concat(buildings.Keys).Concat(units.Keys).ToArray();
         Assert.AreNotEqual(0, positions.Length);
-        Assert.IsTrue(unitsRoot);
+        Assert.IsTrue(editModeRoot);
 
         textDisplay.Clear();
         textDisplay.Set(mode, nameof(PlayMode));
@@ -383,7 +420,7 @@ public class LevelEditor : MonoBehaviour {
             var foundViewPrefab = unitViewPrefabs.TryGetValue(unit.type, out var prefab);
             Assert.IsTrue(foundViewPrefab);
             Assert.IsTrue(prefab);
-            new Unit(player, type: unit.type, position: unit.position, viewPrefab: prefab);
+            new Unit(player, type: unit.type, position: unit.position?.ToVector2Int(), viewPrefab: prefab);
         }
 
         foreach (var position in buildings.Keys) {
@@ -395,14 +432,16 @@ public class LevelEditor : MonoBehaviour {
         game.levelLogic = new LevelLogic();
         game.StartCoroutine(SelectionState.New(game, true));
 
-        unitsRoot.gameObject.SetActive(false);
+        editModeRoot.gameObject.SetActive(false);
+        playModeRoot.gameObject.SetActive(true);
 
         while (true) {
             yield return null;
 
             if (Input.GetKeyDown(KeyCode.F5)) {
 
-                unitsRoot.gameObject.SetActive(true);
+                editModeRoot.gameObject.SetActive(true);
+                playModeRoot.gameObject.SetActive((false));
                 Destroy(go);
 
                 yield return modeAfterPlayEnd();
@@ -450,6 +489,54 @@ public class LevelEditor : MonoBehaviour {
 
     public Color32 PlayerColor(int playerId) {
         return players.SingleOrDefault(p => p.id == playerId)?.color ?? nullPlayerColor;
+    }
+
+    public string SavePath(string name) => Path.Combine(Application.persistentDataPath, name);
+    
+    [Command]
+    public void Save(string name) {
+
+        var level = new SerializedLevel {
+            players = players.ToArray(),
+            tiles = tiles.Select(pair => (pair.Key.ToTuple(), pair.Value)).ToArray(),
+            buildings = buildings.Values.ToArray(),
+            units = units.Values.ToArray()
+        };
+        var json = level.ToJson();
+
+        File.WriteAllText(SavePath(name), json);
+    }
+    
+    [Command]
+    public void Load(string name) {
+
+        var path = SavePath(name);
+        Assert.IsTrue(File.Exists(path),path);
+        var level = File.ReadAllText(path).FromJson<SerializedLevel>();
+
+        players.Clear();
+        foreach (var position in tiles.Keys.ToArray())
+            RemoveTile(position);
+        foreach (var position in buildings.Keys.ToArray())
+            RemoveBuilding(position);
+        foreach (var position in units.Keys.ToArray())
+            RemoveUnit(position);
+        
+        players.AddRange(level.players);
+        playerId = players.Count == 0 ? -1 : players[0].id;
+        
+        tiles.Clear();
+        foreach (var tile in level.tiles)
+            AddTile(tile.position.ToVector2Int(), tile.tileType);
+        
+        buildings.Clear();
+        foreach (var building in level.buildings)
+            AddBuilding(building.position.ToVector2Int(), building);
+        
+        units.Clear();
+        foreach (var unit in level.units)
+            if (unit.position?.ToVector2Int() is { } position)
+                AddUnit(position, unit);
     }
 }
 

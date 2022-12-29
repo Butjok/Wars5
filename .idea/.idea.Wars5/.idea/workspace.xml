@@ -2,24 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/LevelEditorHistory.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/LevelEditorHistory.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/LevelEditorTextDisplay.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/LevelEditorTextDisplay.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assembly-CSharp.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/AiPlayground.unity" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/AiPlayground.unity.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/PathSelectionState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/PathSelectionState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/LevelEditor.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/LevelEditor.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/InputViewer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Editor/InputViewer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/InputCommandsListener.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/InputCommandsListener.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Level/Serialization.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Level/Serialization.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Level/Traverser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Level/Traverser.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/LevelEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/LevelEditor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PathBuilderTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PathBuilderTest.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Rules.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Rules.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/RiderScriptEditorPersistedState.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/RiderScriptEditorPersistedState.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/MathUtils.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/MathUtils.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -289,21 +279,8 @@
       <workItem from="1672062325922" duration="3484000" />
       <workItem from="1672180849603" duration="16000" />
       <workItem from="1672192162228" duration="24237000" />
-      <workItem from="1672285248929" duration="14218000" />
-    </task>
-    <task id="LOCAL-00123" summary="ytyuytuytutyu">
-      <created>1665123405111</created>
-      <option name="number" value="00123" />
-      <option name="presentableId" value="LOCAL-00123" />
-      <option name="project" value="LOCAL" />
-      <updated>1665123405111</updated>
-    </task>
-    <task id="LOCAL-00124" summary="a lot of tinkering with lighting and post processing might have fucked up some things">
-      <created>1665128361354</created>
-      <option name="number" value="00124" />
-      <option name="presentableId" value="LOCAL-00124" />
-      <option name="project" value="LOCAL" />
-      <updated>1665128361354</updated>
+      <workItem from="1672285248929" duration="15875000" />
+      <workItem from="1672329778064" duration="4976000" />
     </task>
     <task id="LOCAL-00125" summary="htgjjhggjhjgh">
       <created>1665131818807</created>
@@ -634,7 +611,21 @@
       <option name="project" value="LOCAL" />
       <updated>1672282816928</updated>
     </task>
-    <option name="localTasksCounter" value="172" />
+    <task id="LOCAL-00172" summary="level ed improvements">
+      <created>1672325791252</created>
+      <option name="number" value="00172" />
+      <option name="presentableId" value="LOCAL-00172" />
+      <option name="project" value="LOCAL" />
+      <updated>1672325791252</updated>
+    </task>
+    <task id="LOCAL-00173" summary="asdasd">
+      <created>1672327276123</created>
+      <option name="number" value="00173" />
+      <option name="presentableId" value="LOCAL-00173" />
+      <option name="project" value="LOCAL" />
+      <updated>1672327276123</updated>
+    </task>
+    <option name="localTasksCounter" value="174" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -667,7 +658,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="dfgdfggfd" />
     <MESSAGE value="ghfl;ksjhjgklf;djhlk;gfdlhk;jdgf" />
     <MESSAGE value="sdfsdfdsf" />
     <MESSAGE value="oiioppoi" />
@@ -681,7 +671,6 @@
     <MESSAGE value="unit attack action view" />
     <MESSAGE value="lkjsdlkfsd" />
     <MESSAGE value="unit action ui" />
-    <MESSAGE value="asdasd" />
     <MESSAGE value="poiopiop" />
     <MESSAGE value="lisp0" />
     <MESSAGE value="postscript" />
@@ -692,24 +681,13 @@
     <MESSAGE value="sdfsdf" />
     <MESSAGE value="commit before changes to unit view/player view/building view being spawned as children of Game" />
     <MESSAGE value="level editor looks good so far" />
-    <option name="LAST_COMMIT_MESSAGE" value="level editor looks good so far" />
+    <MESSAGE value="level ed improvements" />
+    <MESSAGE value="asdasd" />
+    <option name="LAST_COMMIT_MESSAGE" value="asdasd" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/GameStates/ActionSelectionState.cs</url>
-          <line>58</line>
-          <properties documentPath="$PROJECT_DIR$/Assets/Scripts/GameStates/ActionSelectionState.cs" initialLine="58" containingFunctionPresentation="method 'New'">
-            <startOffsets>
-              <option value="2492" />
-            </startOffsets>
-            <endOffsets>
-              <option value="2552" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Scripts/GameStates/ActionSelectionState.cs</url>
           <line>40</line>

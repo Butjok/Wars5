@@ -3,22 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public struct SerializedVector2Int {
-    public int x, y;
-    public override string ToString() {
-        return $"({x}, {y})";
+public static class Vector2IntUtils {
+    public static Vector2Int ToVector2Int(this (int x, int y) tuple) {
+        return new Vector2Int(tuple.x, tuple.y);
     }
-    public static implicit operator Vector2Int(SerializedVector2Int serializedVector2Int) {
-        return new Vector2Int(serializedVector2Int.x, serializedVector2Int.y);
-    }
-    public static implicit operator SerializedVector2Int(Vector2Int vector2Int) {
-        return new SerializedVector2Int { x = vector2Int.x, y = vector2Int.y };
-    }
-    static public bool operator ==(SerializedVector2Int a, SerializedVector2Int b) {
-        return a.x == b.x && a.y == b.y;
-    }
-    public static bool operator !=(SerializedVector2Int a, SerializedVector2Int b) {
-        return !(a == b);
+    public static (int x, int y) ToTuple(this Vector2Int vector) {
+        return (vector.x, vector.y);
     }
 }
 
@@ -67,7 +57,7 @@ public class SerializedUnit {
     public int id;
     public UnitType type;
     public int playerId;
-    public SerializedVector2Int? position;
+    public (int x, int y)? position;
     public bool moved;
     public int hp=10;
     public int fuel=999;
@@ -79,7 +69,7 @@ public class SerializedUnit {
         this.id = id[unit];
         type = unit.type;
         playerId = id[unit.player];
-        position = unit.position.v;
+        position = unit.position.v?.ToTuple();
         moved = unit.moved.v;
         hp = unit.hp.v;
         fuel = unit.fuel.v;
@@ -107,7 +97,7 @@ public class SerializedBuilding {
 
     public int id;
     public TileType type;
-    public SerializedVector2Int position;
+    public (int x, int y) position;
     public int playerId;
     public int cp=20;
 
@@ -115,7 +105,7 @@ public class SerializedBuilding {
     public SerializedBuilding(Building building, Numerator id) {
         this.id = id[building];
         type = building.type;
-        position = building.position;
+        position = building.position.ToTuple();
         playerId = id[building.player.v];
         cp = building.cp.v;
     }
@@ -132,51 +122,33 @@ public class SerializedBuilding {
     }
 }
 
-public struct SerializedTile {
-
-    public SerializedVector2Int position;
-    public TileType type;
-
-    public SerializedTile(Vector2Int position, TileType type) {
-        this.position = position;
-        this.type = type;
-    }
-
-    public override string ToString() {
-        return $"{type}{position}";
-    }
-}
-
-public class SerializedGame {
+public class SerializedLevel {
 
     public SerializedUnit[] units={};
-    public SerializedTile[] tiles={};
+    public ((int x, int y) position, TileType tileType)[] tiles={};
     public SerializedPlayer[] players={};
-    public int? turn;
     public SerializedBuilding[] buildings={};
-    public string levelLogicTypeName;
 
-    public SerializedGame() { }
-    public SerializedGame(Game game) {
-
-        var units = game.units.Values.ToList();
-        void addCargo(Unit unit) {
-            if (unit.cargo == null)
-                return;
-            foreach (var cargo in unit.cargo.Where(cargo => !units.Contains(cargo))) {
-                units.Add(cargo);
-                addCargo(cargo);
-            }
-        }
-        foreach (var unit in game.units.Values)
-            addCargo(unit);
-
-        var id = new Numerator();
-        this.units = units.Select(unit => new SerializedUnit(unit, id)).ToArray();
-        tiles = game.tiles.Select(kv => new SerializedTile(kv.Key, kv.Value)).ToArray();
-        players = game.players.Select(player => new SerializedPlayer(player, id)).ToArray();
-        turn = game.turn;
-        buildings = game.buildings.Values.Select(building => new SerializedBuilding(building, id)).ToArray();
-        levelLogicTypeName = game.levelLogic?.GetType().Name;
-    }
+    // public SerializedGame() { }
+    // public SerializedGame(Game game) {
+    //
+    //     var units = game.units.Values.ToList();
+    //     void addCargo(Unit unit) {
+    //         if (unit.cargo == null)
+    //             return;
+    //         foreach (var cargo in unit.cargo.Where(cargo => !units.Contains(cargo))) {
+    //             units.Add(cargo);
+    //             addCargo(cargo);
+    //         }
+    //     }
+    //     foreach (var unit in game.units.Values)
+    //         addCargo(unit);
+    //
+    //     var id = new Numerator();
+    //     this.units = units.Select(unit => new SerializedUnit(unit, id)).ToArray();
+    //     tiles = game.tiles.Select(kv => new SerializedTile(kv.Key, kv.Value)).ToArray();
+    //     players = game.players.Select(player => new SerializedPlayer(player, id)).ToArray();
+    //     turn = game.turn;
+    //     buildings = game.buildings.Values.Select(building => new SerializedBuilding(building, id)).ToArray();
+    // }
 }

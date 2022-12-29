@@ -97,9 +97,6 @@ public static class MathUtils {
 		}
 	}
 
-	public static (int x, int y) ToTuple(this Vector2Int vector) {
-		return (vector.x, vector.y);
-	}
 	public static int ManhattanLength(this Vector2Int vector) {
 		return Mathf.Abs(vector.x) + Mathf.Abs(vector.y);
 	}
