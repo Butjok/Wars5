@@ -154,7 +154,8 @@ public class UnitView : MonoBehaviour {
     }
     
     public void UpdateRenderers() {
-        Assert.AreNotEqual(0,renderers.Length);
+        if (renderers.Length == 0)
+            Debug.LogWarning( $"zero renderers assigned for the UnitView",this);
         foreach (var renderer in renderers)
             renderer.SetPropertyBlock(propertyBlock);
     }
