@@ -243,7 +243,7 @@ public static class Rules {
             return 7;
         if (((UnitType.AntiTank) & unitType) != 0)
             return 5;
-        if (((UnitType.Artillery | UnitType.Apc) & unitType) != 0)
+        if (((UnitType.Artillery | UnitType.Apc | UnitType.Recon) & unitType) != 0)
             return 5;
         return 0;
     }
@@ -253,8 +253,8 @@ public static class Rules {
     public static int? MoveCost(UnitType unitType, TileType tileType) {
 
         int? foot = (TileType.Sea & tileType) != 0 ? null : 1;
-        int? tires = null;
         int? tracks = ((TileType.Sea | TileType.Mountain) & tileType) != 0 ? null : 1;
+        int? tires = tracks;
         int? air = null;
         int? sea = null;
 
@@ -262,6 +262,8 @@ public static class Rules {
             return foot;
         if (((UnitType.Artillery | UnitType.Apc) & unitType) != 0)
             return tracks;
+        if (((UnitType.Recon) & unitType) != 0)
+            return tires;
 
         return null;
     }

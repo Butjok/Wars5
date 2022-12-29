@@ -1,23 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="sdfsdf">
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/LevelEditor.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/LevelEditor.cs.meta" afterDir="false" />
+    <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="commit before changes to unit view/player view/building view being spawned as children of Game">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assembly-CSharp.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/light-tank.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/light-tank.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/AiPlayground.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/AiPlayground.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/AiPlaygroundSetup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/AiPlayground.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/AiPlaygroundSetup.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/AiPlayground.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Building.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Building.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/AiPlayground.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/AiPlayground.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/BuildingView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/BuildingView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/SerializableDictionaryPropertyDrawers.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Editor/SerializableDictionaryPropertyDrawers.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Palette.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Palette.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/LevelEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/LevelEditor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Rules.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Rules.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UnitBrain.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UnitBrain.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Unit.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/RiderScriptEditorPersistedState.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/RiderScriptEditorPersistedState.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,6 +74,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameStates/DefeatState.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/MeshUtils.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Map2D.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock:///Users/butjok/Documents/GitHub/Wars5/UserSettings/EditorUserSettings.asset" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/MathUtils.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.render-pipelines.core@12.1.6/Runtime/Debugging/DebugUpdater.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/LevelOverlayUI.cs" root0="FORCE_HIGHLIGHTING" />
@@ -286,14 +281,7 @@
       <workItem from="1672001194030" duration="1851000" />
       <workItem from="1672062325922" duration="3484000" />
       <workItem from="1672180849603" duration="16000" />
-      <workItem from="1672192162228" duration="20319000" />
-    </task>
-    <task id="LOCAL-00121" summary="sdfsdfdsfsdfdsf">
-      <created>1665097748006</created>
-      <option name="number" value="00121" />
-      <option name="presentableId" value="LOCAL-00121" />
-      <option name="project" value="LOCAL" />
-      <updated>1665097748006</updated>
+      <workItem from="1672192162228" duration="24118000" />
     </task>
     <task id="LOCAL-00122" summary="hjgjghjghj">
       <created>1665110968287</created>
@@ -631,7 +619,14 @@
       <option name="project" value="LOCAL" />
       <updated>1672260259187</updated>
     </task>
-    <option name="localTasksCounter" value="170" />
+    <task id="LOCAL-00170" summary="commit before changes to unit view/player view/building view being spawned as children of Game">
+      <created>1672279142239</created>
+      <option name="number" value="00170" />
+      <option name="presentableId" value="LOCAL-00170" />
+      <option name="project" value="LOCAL" />
+      <updated>1672279142239</updated>
+    </task>
+    <option name="localTasksCounter" value="171" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -664,7 +659,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="added unit building menu" />
     <MESSAGE value="sdfsdfsdfsdfsdf" />
     <MESSAGE value="dfgdfggfd" />
     <MESSAGE value="ghfl;ksjhjgklf;djhlk;gfdlhk;jdgf" />
@@ -689,7 +683,8 @@
     <MESSAGE value="tyuyuttyu" />
     <MESSAGE value="sdfsdfsdf" />
     <MESSAGE value="sdfsdf" />
-    <option name="LAST_COMMIT_MESSAGE" value="sdfsdf" />
+    <MESSAGE value="commit before changes to unit view/player view/building view being spawned as children of Game" />
+    <option name="LAST_COMMIT_MESSAGE" value="commit before changes to unit view/player view/building view being spawned as children of Game" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

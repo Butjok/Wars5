@@ -42,8 +42,7 @@ public class Player : IDisposable {
 		
 		viewPrefab = viewPrefab ? viewPrefab : PlayerView.DefaultPrefab;
 		Assert.IsTrue(viewPrefab);
-		view = Object.Instantiate(viewPrefab);
-		Object.DontDestroyOnLoad(view.gameObject);
+		view = Object.Instantiate(viewPrefab, game.transform);
 		view.Initialize(this);
 		view.visible = false;
 	}

@@ -33,8 +33,7 @@ public class Unit : IDisposable {
             viewPrefab = UnitView.DefaultPrefab;
         Assert.IsTrue(viewPrefab);
 
-        view = Object.Instantiate(viewPrefab);
-        Object.DontDestroyOnLoad(view.gameObject);
+        view = Object.Instantiate(viewPrefab, player.game.transform);
         view.unit = this;
         view.prefab = viewPrefab;
         view.Forward = rotation ?? Vector2Int.up;
