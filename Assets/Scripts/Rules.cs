@@ -34,6 +34,7 @@ public enum UnitType {
     Bomber = 1 << 7,
     Recon = 1 << 8,
     LightTank = 1 << 9,
+    Rockets = 1 << 10,
 }
 
 public static class Rules {

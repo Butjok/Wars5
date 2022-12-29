@@ -11,4 +11,16 @@ public class BuildingView : MonoBehaviour {
 	public void Reset() {
 		renderers = GetComponents<MeshRenderer>();
 	}
+	public Vector2Int Position {
+		set {
+			transform.position = value.ToVector3Int();
+		}
+	}
+	public Color PlayerColor {
+		set {
+			materialPropertyBlock.SetColor("_Color", value);
+			foreach (var renderer in renderers)
+				renderer.SetPropertyBlock(materialPropertyBlock);
+		}
+	}
 }

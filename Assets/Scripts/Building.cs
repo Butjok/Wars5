@@ -1,7 +1,8 @@
+using System;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class Building {
+public class Building : IDisposable {
 
     public TileType type;
     public Game game;
@@ -34,4 +35,5 @@ public class Building {
     public override string ToString() {
         return $"{type}{position} {player.v}";
     }
+    public void Dispose() { }
 }

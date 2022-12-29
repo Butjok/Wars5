@@ -5,4 +5,5 @@ using UnityEditor;
 [CustomPropertyDrawer(typeof(TileTypeGameObjectDictionary))]
 [CustomPropertyDrawer(typeof(UnitTypeInfoDictionary))]
 [CustomPropertyDrawer(typeof(TileTypeColorDictionary))]
+[CustomPropertyDrawer(typeof(TileTypeBuildingViewDictionary))]
 public class WarsSerializableDictionaryPropertyDrawer : SerializableDictionaryPropertyDrawer { }

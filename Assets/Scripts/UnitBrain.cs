@@ -33,4 +33,10 @@ public static class AiTestProcessing {
     public void Trigger() {
         var action = FindAction();
     }
+
+    public bool debugDraw;
+    private void OnDrawGizmos() {
+        if (debugDraw)
+            Gizmos.DrawLine(transform.position, transform.position + Vector3.up);
+    }
 }

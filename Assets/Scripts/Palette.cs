@@ -7,11 +7,13 @@ public static class Palette {
     public static Color32 red = new Color32(255, 87, 17, 255);
     public static Color32 green = new Color32(134, 255, 0, 255);
     public static Color32 blue = new Color32(2, 81, 255, 255);
+    public static Color32 white = Color.white;
 
     public static IReadOnlyDictionary<Color32, string> names = new Dictionary<Color32, string> {
         [red] = "Red",
         [green] = "Green",
         [blue] = "Blue",
+        [white] = "White"
     };
     public static IReadOnlyDictionary<string, Color32> colors;
 
