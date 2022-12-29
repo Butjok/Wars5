@@ -1,6 +1,8 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -73,5 +75,13 @@ public class Game : MonoBehaviour {
         if (Player.undisposed.Count != 0) { }
         if (Unit.undisposed.Count != 0) { }
         if (UnitAction.undisposed.Count != 0) { }
+    }
+
+    public float fadeDuration = 2;
+    public Ease fadeEase = Ease.Unset;
+    public void StartGame() {
+        PostProcessing.ColorFilter = Color.black;
+        PostProcessing.Fade(Color.white, fadeDuration, fadeEase);
+        StartCoroutine(SelectionState.New(this, true));
     }
 }

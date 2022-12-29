@@ -50,7 +50,7 @@ public class NewBehaviourScript : MonoBehaviour {
         }
 
         game.levelLogic = new TutorialLogic(showDialogue);
-        game.StartCoroutine(SelectionState.New(game, true));
+        game.StartGame();
 
         var commandsListener = gameObject.AddComponent<InputCommandsListener>();
 #if WORKSTATION_MACBOOK

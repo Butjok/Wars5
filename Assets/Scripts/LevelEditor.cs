@@ -52,12 +52,12 @@ public class LevelEditor : MonoBehaviour {
     private void Start() {
 
         textDisplay = new LevelEditorTextDisplay(uiText);
-        
+
         Load("default");
-        
+
         editModeRoot.gameObject.SetActive(true);
         playModeRoot.gameObject.SetActive(false);
-        
+
         StartCoroutine(UnitsMode());
 
         // var red = new SerializedPlayer {
@@ -201,11 +201,11 @@ public class LevelEditor : MonoBehaviour {
 
                 actionBuilder.Execute();
             }
-            
+
             // picker
             else if (Input.GetKeyDown(KeyCode.L) && Mouse.TryGetPosition(out mousePosition) &&
                      tiles.TryGetValue(mousePosition, out var tileType)) {
-                
+
                 this.tileType = tileType;
                 textDisplay.Set(nameof(tileType), tileType);
 
@@ -289,7 +289,7 @@ public class LevelEditor : MonoBehaviour {
         var found = unitViewPrefabs.TryGetValue(unitType, out var viewPrefab);
         Assert.IsTrue(found);
         Assert.IsTrue(viewPrefab);
-        var view = Instantiate(viewPrefab, position.ToVector3Int(), Quaternion.identity,  editModeRoot);
+        var view = Instantiate(viewPrefab, position.ToVector3Int(), Quaternion.identity, editModeRoot);
 
         view.Position = position;
         view.PlayerColor = PlayerColor(playerId);
@@ -336,7 +336,7 @@ public class LevelEditor : MonoBehaviour {
                 textDisplay.Set(nameof(unitType), unitType);
             }
 
-            else if (Input.GetMouseButton(Mouse.left) && Mouse.TryGetPosition(out Vector2Int mousePosition)) {
+            else if (playerId != -1 && Input.GetMouseButton(Mouse.left) && Mouse.TryGetPosition(out Vector2Int mousePosition)) {
 
                 var actionBuilder = history.CreateCompoundActionBuilder($"place {unitType} at {mousePosition}");
 
@@ -372,13 +372,13 @@ public class LevelEditor : MonoBehaviour {
                         () => AddUnit(mousePosition, oldUnit),
                         $"remove unit at {mousePosition}");
             }
-            
+
             else if (Input.GetKeyDown(KeyCode.L) && Mouse.TryGetPosition(out mousePosition) &&
                      units.TryGetValue(mousePosition, out var unit)) {
-                
+
                 unitType = unit.type;
                 playerId = unit.playerId;
-                
+
                 textDisplay.Set(nameof(unitType), unitType);
                 textDisplay.Set(player, PlayerColor(playerId).Name());
             }
@@ -430,7 +430,7 @@ public class LevelEditor : MonoBehaviour {
         }
 
         game.levelLogic = new LevelLogic();
-        game.StartCoroutine(SelectionState.New(game, true));
+        game.StartGame();
 
         editModeRoot.gameObject.SetActive(false);
         playModeRoot.gameObject.SetActive(true);
@@ -461,16 +461,23 @@ public class LevelEditor : MonoBehaviour {
     }
 
     public bool HandlePlayerSelect() {
+
         if (Input.GetKeyDown(KeyCode.P)) {
+
             if (players.Count > 0) {
                 //var offset = Input.GetKey(KeyCode.LeftShift) ? -1 : 1;
                 var offset = 1;
                 var index = players.FindIndex(p => p.id == playerId);
-                playerId = players[(index + offset).PositiveModulo(players.Count)].id;
-                textDisplay.Set(player, PlayerColor(playerId).Name());
+                if (index == players.Count - 1)
+                    playerId = -1;
+                else
+                    playerId = players[(index + offset).PositiveModulo(players.Count)].id;
             }
             else
                 playerId = -1;
+
+            textDisplay.Set(player, PlayerColor(playerId).Name());
+
             return true;
         }
         return false;
@@ -491,8 +498,9 @@ public class LevelEditor : MonoBehaviour {
         return players.SingleOrDefault(p => p.id == playerId)?.color ?? nullPlayerColor;
     }
 
+    [Command]
     public string SavePath(string name) => Path.Combine(Application.persistentDataPath, name);
-    
+
     [Command]
     public void Save(string name) {
 
@@ -506,12 +514,12 @@ public class LevelEditor : MonoBehaviour {
 
         File.WriteAllText(SavePath(name), json);
     }
-    
+
     [Command]
     public void Load(string name) {
 
         var path = SavePath(name);
-        Assert.IsTrue(File.Exists(path),path);
+        Assert.IsTrue(File.Exists(path), path);
         var level = File.ReadAllText(path).FromJson<SerializedLevel>();
 
         players.Clear();
@@ -521,18 +529,18 @@ public class LevelEditor : MonoBehaviour {
             RemoveBuilding(position);
         foreach (var position in units.Keys.ToArray())
             RemoveUnit(position);
-        
+
         players.AddRange(level.players);
         playerId = players.Count == 0 ? -1 : players[0].id;
-        
+
         tiles.Clear();
         foreach (var tile in level.tiles)
             AddTile(tile.position.ToVector2Int(), tile.tileType);
-        
+
         buildings.Clear();
         foreach (var building in level.buildings)
             AddBuilding(building.position.ToVector2Int(), building);
-        
+
         units.Clear();
         foreach (var unit in level.units)
             if (unit.position?.ToVector2Int() is { } position)
