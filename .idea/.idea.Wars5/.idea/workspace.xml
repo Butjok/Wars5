@@ -1,22 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="leved update">
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/EntryPoint.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/EntryPoint.cs.meta" afterDir="false" />
+    <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="entry point">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assembly-CSharp.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/PostProcessProfile.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/PostProcessProfile.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/LevelEditor.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/LevelEditor.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/LevelEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/LevelEditor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/NewBehaviourScript.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/NewBehaviourScript.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Shaders/SimpleCheckerWhite.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Shaders/SimpleCheckerWhite.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/EntryPoint.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/EntryPoint.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/EntryPoint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/EntryPoint.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/RiderScriptEditorPersistedState.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/RiderScriptEditorPersistedState.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,6 +94,7 @@
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.postprocessing@3.2.2/PostProcessing/Runtime/PostProcessEffectSettings.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.cinemachine@2.8.9/Runtime/Behaviours/CinemachineBrain.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.postprocessing@3.2.2/PostProcessing/Runtime/PostProcessLayer.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/butjok/Documents/GitHub/Wars5/UserSettings/EditorUserSettings.asset" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Level/Traverser.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Level/Mouse.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameStates/GameSettingsState.cs" root0="FORCE_HIGHLIGHTING" />
@@ -290,14 +281,7 @@
       <workItem from="1672180849603" duration="16000" />
       <workItem from="1672192162228" duration="24237000" />
       <workItem from="1672285248929" duration="15875000" />
-      <workItem from="1672329778064" duration="10742000" />
-    </task>
-    <task id="LOCAL-00126" summary="pierutldkfjg">
-      <created>1665172637286</created>
-      <option name="number" value="00126" />
-      <option name="presentableId" value="LOCAL-00126" />
-      <option name="project" value="LOCAL" />
-      <updated>1665172637287</updated>
+      <workItem from="1672329778064" duration="11436000" />
     </task>
     <task id="LOCAL-00127" summary="lkjfdgodfuoiert">
       <created>1665190503681</created>
@@ -635,7 +619,14 @@
       <option name="project" value="LOCAL" />
       <updated>1672338063598</updated>
     </task>
-    <option name="localTasksCounter" value="175" />
+    <task id="LOCAL-00175" summary="entry point">
+      <created>1672349692909</created>
+      <option name="number" value="00175" />
+      <option name="presentableId" value="LOCAL-00175" />
+      <option name="project" value="LOCAL" />
+      <updated>1672349692910</updated>
+    </task>
+    <option name="localTasksCounter" value="176" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -668,7 +659,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="sdfsdfdsf" />
     <MESSAGE value="oiioppoi" />
     <MESSAGE value="fix bug" />
     <MESSAGE value="add ui volume" />
@@ -693,7 +683,8 @@
     <MESSAGE value="level ed improvements" />
     <MESSAGE value="asdasd" />
     <MESSAGE value="leved update" />
-    <option name="LAST_COMMIT_MESSAGE" value="leved update" />
+    <MESSAGE value="entry point" />
+    <option name="LAST_COMMIT_MESSAGE" value="entry point" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

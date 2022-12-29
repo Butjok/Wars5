@@ -64,6 +64,10 @@ public class EntryPoint : MonoBehaviour {
             videoPlayer.loopPointReached += _ => splashCompleted = true;
 
             while (!splashCompleted) {
+
+                // debug
+                // break;
+                
                 yield return null;
                 if (Input.anyKeyDown)
                     break;
@@ -96,6 +100,10 @@ public class EntryPoint : MonoBehaviour {
             .AppendCallback(() => pressAnyKeyText.enabled = true);
 
         while (true) {
+            
+            // debug
+            // break;
+            
             yield return null;
             if (Input.anyKeyDown)
                 break;
