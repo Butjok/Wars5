@@ -950,6 +950,9 @@
      <Reference Include="Unity.VisualScripting.Flow.Editor">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.VisualScripting.Flow.Editor.dll</HintPath>
      </Reference>
+     <Reference Include="Unity.Recorder.Editor">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.Recorder.Editor.dll</HintPath>
+     </Reference>
      <Reference Include="SimpleMinMaxSlider">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/SimpleMinMaxSlider.dll</HintPath>
      </Reference>
@@ -959,14 +962,14 @@
      <Reference Include="Unity.RenderPipelines.Universal.Shaders">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.RenderPipelines.Universal.Shaders.dll</HintPath>
      </Reference>
+     <Reference Include="Unity.Recorder.Base">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.Recorder.Base.dll</HintPath>
+     </Reference>
      <Reference Include="Unity.RenderPipelines.Universal.Runtime">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
      </Reference>
      <Reference Include="PPv2URPConverters">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/PPv2URPConverters.dll</HintPath>
-     </Reference>
-     <Reference Include="NaughtyAttributes.Test">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/NaughtyAttributes.Test.dll</HintPath>
      </Reference>
      <Reference Include="Unity.TextMeshPro.Editor">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
@@ -1028,6 +1031,9 @@
      <Reference Include="Unity.RenderPipelines.Core.Runtime">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.RenderPipelines.Core.Runtime.dll</HintPath>
      </Reference>
+     <Reference Include="NaughtyAttributes.Test">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/NaughtyAttributes.Test.dll</HintPath>
+     </Reference>
      <Reference Include="Unity.VisualScripting.Core">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.VisualScripting.Core.dll</HintPath>
      </Reference>
@@ -1084,6 +1090,9 @@
      </Reference>
      <Reference Include="Unity.VisualScripting.State">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.VisualScripting.State.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Recorder">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.Recorder.dll</HintPath>
      </Reference>
   </ItemGroup>
   <ItemGroup>

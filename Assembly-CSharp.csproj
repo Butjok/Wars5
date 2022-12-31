@@ -143,6 +143,7 @@
      <Compile Include="Assets/CommandLine/Antlr4/IRecognizer.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/IAntlrErrorStrategy.cs" />
      <Compile Include="Assets/Scripts/LevelEditor.cs" />
+     <Compile Include="Assets/Scripts/Marketing/MarketingUiDrawing.cs" />
      <Compile Include="Assets/Scripts/Animation/SteeringArm.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Tree/ErrorNodeImpl.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/ProxyParserErrorListener.cs" />
@@ -189,6 +190,7 @@
      <Compile Include="Assets/CommandLine/Antlr4/Atn/StarLoopEntryState.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Misc/IntervalSet.cs" />
      <Compile Include="Assets/Scripts/AiTest.cs" />
+     <Compile Include="Assets/Scripts/AnimationScript.cs" />
      <Compile Include="Assets/Scripts/ShadowDistanceOverride.cs" />
      <Compile Include="Assets/Scripts/InstancedRenderer.cs" />
      <Compile Include="Assets/Scripts/Level/LayerMasks.cs" />
@@ -198,6 +200,7 @@
      <Compile Include="Assets/Scripts/Faction.cs" />
      <Compile Include="Assets/Scripts/DifferenceEffect.cs" />
      <Compile Include="Assets/Scripts/InputCommandsListener.cs" />
+     <Compile Include="Assets/Scripts/GameStates/BlogPostStackMachineVisualizationStackValue.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Dfa/DFAState.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Misc/Utils.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Tree/Pattern/RuleTagToken.cs" />
@@ -228,6 +231,7 @@
      <Compile Include="Assets/Scripts/UnitMap.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/RuleVersionAttribute.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/BlockStartState.cs" />
+     <Compile Include="Assets/Scripts/CoroutineStateMachine.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/IIntStream.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/LexerActionType.cs" />
      <Compile Include="Assets/Scripts/MovePathBuilder.cs" />
@@ -265,6 +269,7 @@
      <Compile Include="Assets/Scripts/PostProcessing.cs" />
      <Compile Include="Assets/Scripts/Palette.cs" />
      <Compile Include="Assets/CommandLine/Parsers/Butjok/CommandLine/Parsers/CommandLineBaseVisitor.cs" />
+     <Compile Include="Assets/Scripts/GameStates/BlogPostStackMachineVisualization.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/BailErrorStrategy.cs" />
      <Compile Include="Assets/Priority Queue/SimplePriorityQueue.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Tree/ParseTreeWalker.cs" />
@@ -320,6 +325,7 @@
      <Compile Include="Assets/SDF Toolkit/Examples/Scripts/Rotater.cs" />
      <Compile Include="Assets/CommandLine/Commands.Exceptions.cs" />
      <Compile Include="Assets/Scripts/TangentSpaceVisualizer.cs" />
+     <Compile Include="Assets/Scripts/PlayerData.cs" />
      <Compile Include="Assets/Scripts/SubsceneRoot.cs" />
      <Compile Include="Assets/Scripts/Trail.cs" />
      <Compile Include="Assets/CommandLine/Colorizer.cs" />
@@ -1433,6 +1439,9 @@
      <Reference Include="Unity.VisualScripting.Flow.Editor">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.VisualScripting.Flow.Editor.dll</HintPath>
      </Reference>
+     <Reference Include="Unity.Recorder.Editor">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.Recorder.Editor.dll</HintPath>
+     </Reference>
      <Reference Include="SimpleMinMaxSlider">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/SimpleMinMaxSlider.dll</HintPath>
      </Reference>
@@ -1442,14 +1451,14 @@
      <Reference Include="Unity.RenderPipelines.Universal.Shaders">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.RenderPipelines.Universal.Shaders.dll</HintPath>
      </Reference>
+     <Reference Include="Unity.Recorder.Base">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.Recorder.Base.dll</HintPath>
+     </Reference>
      <Reference Include="Unity.RenderPipelines.Universal.Runtime">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
      </Reference>
      <Reference Include="PPv2URPConverters">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/PPv2URPConverters.dll</HintPath>
-     </Reference>
-     <Reference Include="NaughtyAttributes.Test">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/NaughtyAttributes.Test.dll</HintPath>
      </Reference>
      <Reference Include="Unity.TextMeshPro.Editor">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
@@ -1511,6 +1520,9 @@
      <Reference Include="Unity.RenderPipelines.Core.Runtime">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.RenderPipelines.Core.Runtime.dll</HintPath>
      </Reference>
+     <Reference Include="NaughtyAttributes.Test">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/NaughtyAttributes.Test.dll</HintPath>
+     </Reference>
      <Reference Include="Unity.VisualScripting.Core">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.VisualScripting.Core.dll</HintPath>
      </Reference>
@@ -1567,6 +1579,9 @@
      </Reference>
      <Reference Include="Unity.VisualScripting.State">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.VisualScripting.State.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Recorder">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.Recorder.dll</HintPath>
      </Reference>
   </ItemGroup>
   <ItemGroup>

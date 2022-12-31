@@ -28,6 +28,8 @@ public class Piston : MonoBehaviour {
         force -= velocity * drag;
         force += forceThisFrame;
         velocity += force * Time.deltaTime;
+        if (float.IsNaN(velocity))
+            velocity = 0;
         
         length += velocity * Time.deltaTime;
         length = Mathf.Clamp(length, clamp[0], clamp[1]);
