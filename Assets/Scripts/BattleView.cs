@@ -26,7 +26,7 @@ public class BattleView : MonoBehaviour {
             return;
         initialized = true;
         spawnPoints = GetComponentsInChildren<Transform>(true).Where(t => t.name.StartsWith("SpawnPoint")).ToArray();
-        if (FindObjectOfType<Level>())
+        if (FindObjectOfType<Main>())
             foreach (var spawnPoint in spawnPoints)
                 spawnPoint.gameObject.SetActive(false);
     }

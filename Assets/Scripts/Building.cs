@@ -5,27 +5,27 @@ using UnityEngine.Assertions;
 public class Building : IDisposable {
 
     public TileType type;
-    public Level level;
+    public Main main;
     public Vector2Int position;
     public ChangeTracker<Player> player;
     public ChangeTracker<int> cp;
     
-    public bool IsAccessible => !level.TryGetUnit(position, out _);
+    public bool IsAccessible => !main.TryGetUnit(position, out _);
 
-    public Building(Level level, Vector2Int position, TileType type = TileType.City, Player player = null, int? cp = null) {
+    public Building(Main main, Vector2Int position, TileType type = TileType.City, Player player = null, int? cp = null) {
 
         this.player = new ChangeTracker<Player>(_ => { });
         this.cp = new ChangeTracker<int>(_ => { });
 
         this.type = type;
-        this.level = level;
+        this.main = main;
         this.position = position;
         this.player.v = player;
         this.cp.v = cp ?? Rules.MaxCp(type);
 
-        Assert.IsTrue(!level.buildings.ContainsKey(position) || level.buildings[position] == null);
-        level.buildings[position] = this;
-        level.tiles[position] = type;
+        Assert.IsTrue(!main.buildings.ContainsKey(position) || main.buildings[position] == null);
+        main.buildings[position] = this;
+        main.tiles[position] = type;
     }
 
     public static implicit operator TileType(Building building) {

@@ -8,8 +8,8 @@ public enum ControlFlow { Ignore, Replace, Pause }
 
 public class LevelLogic {
 
-    public virtual (ControlFlow controlFlow, IEnumerator state) OnTurnStart(Level level) {
-        return (ControlFlow.Pause, PlayMusic(level.CurrentPlayer.co.themes));
+    public virtual (ControlFlow controlFlow, IEnumerator state) OnTurnStart(Main main) {
+        return (ControlFlow.Pause, PlayMusic(main.CurrentPlayer.co.themes));
     }
     
     protected IEnumerator PlayMusic(IEnumerable<AudioClip> clips) {
@@ -24,19 +24,19 @@ public class LevelLogic {
         yield break;
     }
 
-    public virtual (ControlFlow controlFlow, IEnumerator state) OnTurnEnd(Level level) {
+    public virtual (ControlFlow controlFlow, IEnumerator state) OnTurnEnd(Main main) {
         return (ControlFlow.Ignore, null);
     }
 
-    public virtual (ControlFlow controlFlow, IEnumerator state) OnActionCompletion(Level level, UnitAction action) {
+    public virtual (ControlFlow controlFlow, IEnumerator state) OnActionCompletion(Main main, UnitAction action) {
         return (ControlFlow.Ignore, null);
     }
 
-    public virtual IEnumerator OnVictory(Level level) {
+    public virtual IEnumerator OnVictory(Main main) {
         return null;
     }
 
-    public virtual IEnumerator OnDefeat(Level level) {
+    public virtual IEnumerator OnDefeat(Main main) {
         return null;
     }
 }

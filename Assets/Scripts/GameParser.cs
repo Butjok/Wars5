@@ -29,11 +29,11 @@ public static class GameParser {
 
     private enum State { None, Players, Tiles, Units, Game }
 
-    public static void Parse(Level level, string input) {
-        Parse(level, input, Vector2Int.zero, Vector2Int.right, Vector2Int.down);
+    public static void Parse(Main main, string input) {
+        Parse(main, input, Vector2Int.zero, Vector2Int.right, Vector2Int.down);
     }
 
-    public static void Parse(Level level, string input,
+    public static void Parse(Main main, string input,
         Vector2Int startPosition, Vector2Int nextTileDelta, Vector2Int nextLineDelta) {
 
         var state = State.None;
@@ -102,7 +102,7 @@ public static class GameParser {
                 case State.Game: {
                     switch (token) {
                         case "turn": {
-                            level.turn = stack.Pop<int>();
+                            main.turn = stack.Pop<int>();
                             return true;
                         }
                         default:
@@ -116,7 +116,7 @@ public static class GameParser {
                         if (buildingTypes.TryGetValue(token, out var buildingType)) {
                             var player = FindPlayer(stack.Pop<string>());
                             var position = scanPosition;
-                            delayedActions.Add(() => new Building(level, position, buildingType, player));
+                            delayedActions.Add(() => new Building(main, position, buildingType, player));
                         }
                         scanPosition += nextTileDelta;
                         return true;
@@ -141,11 +141,11 @@ public static class GameParser {
                             var colorName = stack.Pop<string>();
                             var found = Palette.TryGetColor(colorName, out var color);
                             Assert.IsTrue(found);
-                            var player = new Player(level, color, playerTeam, playerCredits, playerCo, playerViewPrefab, playerType, playerDifficulty);
+                            var player = new Player(main, color, playerTeam, playerCredits, playerCo, playerViewPrefab, playerType, playerDifficulty);
                             players.Add(color, player);
                             playerLoop.Add(player);
                             if (playerLocal)
-                                level.localPlayer = player;
+                                main.localPlayer = player;
                             ResetPlayerValues();
                             return true;
                         }
@@ -174,7 +174,7 @@ public static class GameParser {
                             return true;
                         }
                         case "local": {
-                            Assert.IsNull(level.localPlayer);
+                            Assert.IsNull(main.localPlayer);
                             playerLocal = true;
                             return true;
                         }
@@ -236,7 +236,7 @@ public static class GameParser {
             return false;
         });
 
-        Assert.IsNotNull(level.localPlayer);
+        Assert.IsNotNull(main.localPlayer);
 
         if (tiles.Count > 0) {
             
@@ -244,12 +244,12 @@ public static class GameParser {
             var min = new Vector2Int(positions.Min(i => i.x), positions.Min(i => i.y));
             var max = new Vector2Int(positions.Max(i => i.x), positions.Max(i => i.y));
 
-            level.tiles = new Map2D<TileType>(min, max);
-            level.buildings = new Map2D<Building>(min, max);
-            level.units = new Map2D<Unit>(min, max);
+            main.tiles = new Map2D<TileType>(min, max);
+            main.buildings = new Map2D<Building>(min, max);
+            main.units = new Map2D<Unit>(min, max);
             
             foreach (var (position, tileType) in tiles)
-                level.tiles[position] = tileType;
+                main.tiles[position] = tileType;
         }
 
         foreach (var action in delayedActions)

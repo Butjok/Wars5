@@ -395,8 +395,8 @@ public class LevelEditor : MonoBehaviour {
         textDisplay.Clear();
         textDisplay.Set(mode, nameof(PlayMode));
 
-        var go = new GameObject(nameof(Level));
-        var game = go.AddComponent<Level>();
+        var go = new GameObject(nameof(Main));
+        var game = go.AddComponent<Main>();
 
         var playerLookup = new Dictionary<int, Player>();
         foreach (var player in players)

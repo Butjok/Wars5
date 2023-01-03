@@ -10,7 +10,7 @@ using UnityEngine.Video;
 
 public class EntryPoint : MonoBehaviour {
 
-    public Level level;
+    public Main main;
     public LevelLogic levelLogic;
     public string startState = "SplashState";
     

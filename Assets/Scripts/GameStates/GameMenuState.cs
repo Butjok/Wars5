@@ -8,7 +8,7 @@ public static class GameMenuState {
     public static bool shouldOpenSettings;
     public static bool shouldLoadGame;
 
-    public static IEnumerator New(Level level) {
+    public static IEnumerator New(Main main) {
 
         shouldResume = false;
         shouldOpenSettings = false;
@@ -22,7 +22,7 @@ public static class GameMenuState {
         CursorView.Instance.Visible = false;
         CameraRig.Instance.enabled = false;
 
-        menu.Show(level);
+        menu.Show(main);
         
         while (true) {
             yield return null;
@@ -41,16 +41,16 @@ public static class GameMenuState {
                 shouldOpenSettings = false;
                 
                 menu.Hide();
-                yield return GameSettingsState.New(level);
-                menu.Show(level);
+                yield return GameSettingsState.New(main);
+                menu.Show(main);
             }
 
             if (shouldLoadGame) {
                 shouldLoadGame = false;
                 
                 menu.Hide();
-                yield return LoadGameState.New(level);
-                menu.Show(level);
+                yield return LoadGameState.New(main);
+                menu.Show(main);
             }
         }
     }

@@ -19,13 +19,13 @@ public static class Testing {
     }
     public static Team[] teamLoop = { Team.Alpha, Team.Bravo, Team.Charlie, Team.Delta };
 
-    public static Level CreateGame(Options options = null) {
+    public static Main CreateGame(Options options = null) {
 
         options ??= new Options();
 
         var go = new GameObject(nameof(Testing));
         Object.DontDestroyOnLoad(go);
-        var game = go.AddComponent<Level>();
+        var game = go.AddComponent<Main>();
         
         var index = 0;
         foreach (var color in options.colors)

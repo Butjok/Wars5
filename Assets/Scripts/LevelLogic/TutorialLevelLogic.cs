@@ -11,13 +11,13 @@ public class TutorialLogic : LevelLogic {
         this.showDialogue = showDialogue;
     }
 
-    public override (ControlFlow controlFlow, IEnumerator state) OnTurnStart(Level level) {
+    public override (ControlFlow controlFlow, IEnumerator state) OnTurnStart(Main main) {
 
-        return level.turn switch {
+        return main.turn switch {
 
             0 => (ControlFlow.Pause,
                 showDialogue
-                    ? DialogueState.New(level, new[] {
+                    ? DialogueState.New(main, new[] {
                         new DialogueUi.Speech {
                             speaker = DialogueSpeaker.Natalie,
                             lines = new[] {
@@ -48,7 +48,7 @@ public class TutorialLogic : LevelLogic {
                     })
                     : PlayMusic(new[] { "violin uzicko" })),
 
-            _ => base.OnTurnStart(level)
+            _ => base.OnTurnStart(main)
         };
         
         /*return game.turn switch {
@@ -72,8 +72,8 @@ public class TutorialLogic : LevelLogic {
         };*/
     }
 
-    public override IEnumerator OnVictory(Level level) {
-        return DialogueState.New(level, new[] {
+    public override IEnumerator OnVictory(Main main) {
+        return DialogueState.New(main, new[] {
             new DialogueUi.Speech {
                 speaker = DialogueSpeaker.Natalie,
                 lines = new[] {
@@ -87,8 +87,8 @@ public class TutorialLogic : LevelLogic {
         });
     }
 
-    public override IEnumerator OnDefeat(Level level) {
-        return DialogueState.New(level, new[] {
+    public override IEnumerator OnDefeat(Main main) {
+        return DialogueState.New(main, new[] {
             new DialogueUi.Speech {
                 speaker = DialogueSpeaker.Natalie,
                 lines = new[] {
@@ -107,7 +107,7 @@ public class TutorialLogic : LevelLogic {
 
     public bool madeFirstMove = false;
 
-    public override (ControlFlow controlFlow, IEnumerator state) OnActionCompletion(Level level, UnitAction action) {
+    public override (ControlFlow controlFlow, IEnumerator state) OnActionCompletion(Main main, UnitAction action) {
 
         /*if (!madeFirstMove) {
             madeFirstMove = true;

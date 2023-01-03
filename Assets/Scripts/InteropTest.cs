@@ -9,7 +9,7 @@ public class InteropTest : MonoBehaviour {
 
     public void Awake() {
 
-        var game = GetComponent<Level>();
+        var game = GetComponent<Main>();
         Assert.IsTrue(game);
 
         red = new Player(game, Color.red, Team.Alpha);

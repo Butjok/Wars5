@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class GameMenu : MonoBehaviour {
 
-    public Level level;
+    public Main main;
     public GameObject root;
     public TMP_Text versionText;
     public string versionFormat = "© Copyright {2} 2022–{3}, v {1}";
@@ -27,8 +27,8 @@ public class GameMenu : MonoBehaviour {
         GameMenuState.shouldOpenSettings = true;
     }
 
-    public void Show(Level level) {
-        this.level = level;
+    public void Show(Main main) {
+        this.main = main;
         root.SetActive(true);
         titleText.text = Format(titleFormat);
         versionText.text = Format(versionFormat);

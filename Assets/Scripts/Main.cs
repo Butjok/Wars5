@@ -6,13 +6,13 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class Level : MonoBehaviour {
+public class Main : MonoBehaviour {
 
-    private static Level instance;
-    public static Level Instance {
+    private static Main instance;
+    public static Main Instance {
         get {
             if (!instance)
-                instance = FindObjectOfType<Level>();
+                instance = FindObjectOfType<Main>();
             return instance;
         }
     }

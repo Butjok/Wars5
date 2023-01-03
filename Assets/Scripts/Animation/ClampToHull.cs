@@ -61,8 +61,8 @@ public class ClampToHull : MonoBehaviour {
 		
 	}
 
-	public void Recalculate(Level level) {
-		var points = level.tiles.Keys.ToList();
+	public void Recalculate(Main main) {
+		var points = main.tiles.Keys.ToList();
 		var roundedPoints = new List<Vector2>();
 		foreach (var point in points)
 			for (var i = 0; i < circleSamples; i++) {

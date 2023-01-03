@@ -14,28 +14,25 @@ public class Campaign {
         public Type levelLogicType = typeof(LevelLogic);
         public SerializedLevel initialState;
     }
-    
-    public static readonly Campaign main = new() {
-        missions = new List<Mission> {
-            new() {
-                name = "Tutorial",
-                sceneName = "SampleScene",
-                initialState = new SerializedLevel(),
-                isCompleted = true
-            },
-            new() {
-                name = "FirstBattle",
-                sceneName = "SampleScene",
-                initialState = new SerializedLevel(),
-                isAvailable = "Tutorial isCompleted"
-            }
-        }
-    };
 
-    public static Campaign Load() => PlayerPrefs.GetString(nameof(Campaign))?.FromJson<Campaign>() ?? main;
+    public static Campaign Load() => PlayerPrefs.GetString(nameof(Campaign))?.FromJson<Campaign>() ?? new Campaign();
     public void Save() => PlayerPrefs.SetString(nameof(Campaign), this.ToJson()); 
 
-    public List<Mission> missions = new();
+    public List<Mission> missions = new() {
+        new Mission {
+            name = "Tutorial",
+            sceneName = "SampleScene",
+            initialState = new SerializedLevel(),
+            isCompleted = true
+        },
+        new Mission {
+            name = "FirstBattle",
+            sceneName = "SampleScene",
+            initialState = new SerializedLevel(),
+            isAvailable = "Tutorial isCompleted"
+        }
+    };
+    
     public Mission this[string missionName] {
         get {
             var mission = missions.SingleOrDefault(mission => mission.name == missionName);

@@ -8,7 +8,7 @@ using UnityEngine.Assertions;
 public class DebugTerrainMeshGenerator : MonoBehaviour {
 
     public MeshFilter meshFilter;
-    public Level level;
+    public Main main;
 
     public TileTypeColorDictionary colors = new() {
         [TileType.Plain] = Color.green,
@@ -19,23 +19,23 @@ public class DebugTerrainMeshGenerator : MonoBehaviour {
 
     [Button]
     public void Generate() {
-        Assert.IsTrue(level);
-        meshFilter.sharedMesh = Generate(level);
+        Assert.IsTrue(main);
+        meshFilter.sharedMesh = Generate(main);
     }
 
-    public Mesh Generate(Level level) {
+    public Mesh Generate(Main main) {
 
         var mesh = new Mesh();
         var vertices = new List<Vector3>();
         var triangles = new List<int>();
         var colors = new List<Color>();
 
-        foreach (var position in level.tiles.Keys) {
+        foreach (var position in main.tiles.Keys) {
 
             Color color;
             
-            var tileType = level.tiles[position];
-            var building = level.buildings.TryGetValue(position, out var b) ? b : null;
+            var tileType = main.tiles[position];
+            var building = main.buildings.TryGetValue(position, out var b) ? b : null;
             if (building != null)
                 color = building.player.v?.color ?? Color.white;
             else {

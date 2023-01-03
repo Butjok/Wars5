@@ -3,7 +3,7 @@ using UnityEngine;
 
 public static class DialogueState {
 
-	public static IEnumerator New(Level level, DialogueUi.Speech[] speeches) {
+	public static IEnumerator New(Main main, DialogueUi.Speech[] speeches) {
 
 		var ui = DialogueUi.Instance;
 		var index = Vector2Int.zero;

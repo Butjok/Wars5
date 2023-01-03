@@ -8,7 +8,7 @@ using Object = UnityEngine.Object;
 [RequireComponent(typeof(DebugTerrainMeshGenerator))]
 public class AiPlayground : MonoBehaviour {
 
-    public Level level;
+    public Main main;
     public DebugTerrainMeshGenerator terrainMeshGenerator;
     public UnitBrain unitBrain;
 
@@ -16,14 +16,14 @@ public class AiPlayground : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.KeypadEnter)) {
 
-            if (!level)
-                level = FindObjectOfType<Level>();
-            if (!level)
+            if (!main)
+                main = FindObjectOfType<Main>();
+            if (!main)
                 return;
 
             if (!Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.RightShift) &&
                 Mouse.TryGetPosition(out Vector2Int mousePosition) &&
-                level.TryGetUnit(mousePosition, out var selectedUnit) &&
+                main.TryGetUnit(mousePosition, out var selectedUnit) &&
                 selectedUnit.view) {
 
                 if (unitBrain)

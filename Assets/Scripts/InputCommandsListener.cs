@@ -11,7 +11,7 @@ public class InputCommandsListener : MonoBehaviour {
     public string outputPath = "";
 
     public DateTime? lastWriteTime;
-    public Level level;
+    public Main main;
 
     public bool executeOnStart = true;
     public List<string> history = new();
@@ -21,8 +21,8 @@ public class InputCommandsListener : MonoBehaviour {
         if (initialized)
             return;
         initialized = true;
-        level = GetComponent<Level>();
-        Assert.IsTrue(level);
+        main = GetComponent<Main>();
+        Assert.IsTrue(main);
     }
     
     private void Awake() {
@@ -61,43 +61,43 @@ public class InputCommandsListener : MonoBehaviour {
             switch (command) {
 
                 case "endTurn":
-                    level.input.endTurn = true;
+                    main.input.endTurn = true;
                     return true;
 
                 case "select":
-                    level.input.selectAt = stack.Pop<Vector2Int>();
+                    main.input.selectAt = stack.Pop<Vector2Int>();
                     return true;
 
                 case "appendToPath":
-                    level.input.appendToPath.Enqueue(stack.Pop<Vector2Int>());
+                    main.input.appendToPath.Enqueue(stack.Pop<Vector2Int>());
                     return true;
 
                 case "reconstructPath":
-                    level.input.reconstructPathTo = stack.Pop<Vector2Int>();
+                    main.input.reconstructPathTo = stack.Pop<Vector2Int>();
                     return true;
 
                 case "move":
-                    level.input.moveUnit = true;
+                    main.input.moveUnit = true;
                     return true;
 
                 case "stay":
-                    level.input.actionFilter = action => action.type == UnitActionType.Stay;
+                    main.input.actionFilter = action => action.type == UnitActionType.Stay;
                     return true;
 
                 case "capture":
-                    level.input.actionFilter = action => action.type == UnitActionType.Capture;
+                    main.input.actionFilter = action => action.type == UnitActionType.Capture;
                     return true;
 
                 case "join":
-                    level.input.actionFilter = action => action.type == UnitActionType.Join;
+                    main.input.actionFilter = action => action.type == UnitActionType.Join;
                     return true;
 
                 case "getIn":
-                    level.input.actionFilter = action => action.type == UnitActionType.GetIn;
+                    main.input.actionFilter = action => action.type == UnitActionType.GetIn;
                     return true;
 
                 case "supply":
-                    level.input.actionFilter = action => action.type == UnitActionType.Supply &&
+                    main.input.actionFilter = action => action.type == UnitActionType.Supply &&
                                                         action.targetPosition == stack.Pop<Vector2Int>();
                     return true;
 
@@ -106,7 +106,7 @@ public class InputCommandsListener : MonoBehaviour {
                     var position = stack.Pop<Vector2Int>();
                     var index = stack.Pop<int>();
 
-                    level.input.actionFilter = action => action.type == UnitActionType.Drop &&
+                    main.input.actionFilter = action => action.type == UnitActionType.Drop &&
                                                         index < action.unit.cargo.Count &&
                                                         action.targetUnit == action.unit.cargo[index] &&
                                                         action.targetPosition == position;
@@ -118,14 +118,14 @@ public class InputCommandsListener : MonoBehaviour {
                     var weaponIndex = stack.Pop<int>();
                     var position = stack.Pop<Vector2Int>();
 
-                    level.input.actionFilter = action => action.type == UnitActionType.Attack &&
+                    main.input.actionFilter = action => action.type == UnitActionType.Attack &&
                                                         action.targetUnit.position.v == position &&
                                                         action.weaponIndex == weaponIndex;
                     return true;
                 }
 
                 case "build":
-                    level.input.buildUnitType = stack.Pop<UnitType>();
+                    main.input.buildUnitType = stack.Pop<UnitType>();
                     return true;
                         
                 default:

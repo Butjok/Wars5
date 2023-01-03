@@ -304,7 +304,7 @@
      <Compile Include="Assets/Scripts/GameStates/DialogueState.cs" />
      <Compile Include="Assets/Scripts/UiSound.cs" />
      <Compile Include="Assets/Scripts/MinimapMeshGenerator.cs" />
-     <Compile Include="Assets/Scripts/Level.cs" />
+     <Compile Include="Assets/Scripts/Main.cs" />
      <Compile Include="Assets/Scripts/Animation/Body.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/LexerPushModeAction.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Dfa/SparseEdgeMap.cs" />
@@ -468,6 +468,7 @@
      <None Include="Assets/Shaders/leaves.shader" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro_Mobile.cginc" />
      <None Include="Assets/SDF Toolkit/Documentation/SDF Toolkit Readme.txt" />
+     <None Include="Assets/Shaders/MissionLink.shader" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF SSD.shader" />
      <None Include="Assets/SDF Toolkit/Shaders/SDF UI Unlit.shader" />
      <None Include="Assets/Shaders/MovePath.shader" />

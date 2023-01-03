@@ -20,15 +20,15 @@ public class AiTestProcessing {
     }
 }";
 
-    public Level level;
+    public Main main;
     
     private void Start() {
-        level = Testing.CreateGame();
+        main = Testing.CreateGame();
     }
     
     [Button]
     public void Execute() {
-        var unit = level.units.Values.First();
+        var unit = main.units.Values.First();
         var domain = ScriptDomain.CreateDomain("AiTesting");
         var scriptType = domain.CompileAndLoadMainSource(code);
         Assert.IsNotNull(scriptType);
