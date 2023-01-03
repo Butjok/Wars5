@@ -7,7 +7,7 @@ public static class LoadGameState {
 
     public static bool shouldBreak;
 
-    public static IEnumerator New(Game game) {
+    public static IEnumerator New(Level level) {
 
         shouldBreak = false;
 
@@ -18,7 +18,7 @@ public static class LoadGameState {
         var menu = Object.FindObjectOfType<LoadGameMenu>(true);
         Assert.IsTrue(menu);
 
-        menu.Show(game, saves);
+        menu.Show(level, saves);
 
         while (true) {
             yield return null;

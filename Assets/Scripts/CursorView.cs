@@ -34,7 +34,7 @@ public class CursorView : MonoBehaviour {
 
 	public void LateUpdate() {
 
-		if (Mouse.TryGetPosition(out Vector2Int mousePosition) && (!Game.Instance || Game.Instance.TryGetTile(mousePosition, out _))) {
+		if (Mouse.TryGetPosition(out Vector2Int mousePosition) && (!Level.Instance || Level.Instance.TryGetTile(mousePosition, out _))) {
 			meshRenderer.enabled = show;
 			transform.position = mousePosition.ToVector3Int();
 			if (text) {

@@ -65,8 +65,8 @@ public class UnitAction : IDisposable {
 
         Assert.IsTrue(path.Count >= 1);
 
-        unit.player.game.TryGetUnit(path.Destination, out var unitAtPathEnd);
-        unit.player.game.TryGetBuilding(path.Destination, out var buildingAtPathEnd);
+        unit.player.level.TryGetUnit(path.Destination, out var unitAtPathEnd);
+        unit.player.level.TryGetBuilding(path.Destination, out var buildingAtPathEnd);
 
         unit.moved.v = true;
 

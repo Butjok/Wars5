@@ -18,7 +18,7 @@ public class NewBehaviourScript : MonoBehaviour {
 
     private void Awake() {
 
-        var game = gameObject.AddComponent<Game>();
+        var game = gameObject.AddComponent<Level>();
 
         if (parseFromInput)
             GameParser.Parse(game, input);
@@ -96,7 +96,7 @@ public class NewBehaviourScript : MonoBehaviour {
         var deser = ser.ToJson().FromJson<SerializedLevel>();*/
 
         if (minimapMeshGenerator) {
-            minimapMeshGenerator.game = game;
+            minimapMeshGenerator.level = game;
             minimapMeshGenerator.Rebuild();
         }
     }

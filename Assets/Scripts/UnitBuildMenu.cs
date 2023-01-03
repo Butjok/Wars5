@@ -23,7 +23,7 @@ public class UnitBuildMenu : MonoBehaviour {
     public string descriptionFormat = "{0}";
     public string typeNameFormat = "{0}";
     public Image thumbnail;
-    public Game game;
+    public Level level;
     public UnitType defaultUnitType = UnitType.Infantry;
     public Button build;
     public Building building;
@@ -34,7 +34,7 @@ public class UnitBuildMenu : MonoBehaviour {
     public bool TryBuild() {
         if (!building.player.v.CanAfford(unitType))
             return false;
-        building.game.input.buildUnitType = unitType;
+        building.level.input.buildUnitType = unitType;
         return true;
     }
     public void Cancel() {
@@ -124,9 +124,9 @@ public class UnitBuildMenu : MonoBehaviour {
     [Button]
     private void ToggleVisibility() {
         if (!Visible) {
-            game = FindObjectOfType<Game>();
-            Assert.IsTrue(game);
-            var building = game.buildings.Values.Where(building => building.IsAccessible).OrderBy(_ => UnityEngine.Random.value).First();
+            level = FindObjectOfType<Level>();
+            Assert.IsTrue(level);
+            var building = level.buildings.Values.Where(building => building.IsAccessible).OrderBy(_ => UnityEngine.Random.value).First();
             Show(building);
         }
         else

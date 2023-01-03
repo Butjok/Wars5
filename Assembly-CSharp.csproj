@@ -134,6 +134,7 @@
      <Compile Include="Assets/Scripts/DialogueUi.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Tree/Pattern/ParseTreeMatch.cs" />
      <Compile Include="Assets/Scripts/Animation/BarrelAssembly.cs" />
+     <Compile Include="Assets/Scripts/StateMachineBehaviour.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/ATNState.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/PredictionContextCache.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/ParserRuleContext.cs" />
@@ -303,7 +304,7 @@
      <Compile Include="Assets/Scripts/GameStates/DialogueState.cs" />
      <Compile Include="Assets/Scripts/UiSound.cs" />
      <Compile Include="Assets/Scripts/MinimapMeshGenerator.cs" />
-     <Compile Include="Assets/Scripts/Game.cs" />
+     <Compile Include="Assets/Scripts/Level.cs" />
      <Compile Include="Assets/Scripts/Animation/Body.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/LexerPushModeAction.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Dfa/SparseEdgeMap.cs" />

@@ -10,6 +10,9 @@ using UnityEngine.Video;
 
 public class EntryPoint : MonoBehaviour {
 
+    public Level level;
+    public LevelLogic levelLogic;
+    
     private void Awake() {
 
         Assert.AreEqual(1, FindObjectsOfType<EntryPoint>(true).Length);

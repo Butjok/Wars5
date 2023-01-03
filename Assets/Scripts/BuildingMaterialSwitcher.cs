@@ -16,10 +16,10 @@ public class BuildingMaterialSwitcher : MonoBehaviour {
 		//view.building = new Building(NewBehaviourScript.level2, Vector2Int.zero);
 	}
 	public void Update() {
-		if (!view || view.renderers.Length == 0 || view.building?.game?.units == null)
+		if (!view || view.renderers.Length == 0 || view.building?.level?.units == null)
 			return;
 		var shouldBeOpaque = true;
-		var units = view.building.game.units;
+		var units = view.building.level.units;
 		foreach (var position in units.positions)
 			if (units.TryGetValue(position, out var unit))
 				if (unit.view.transform.position.ToVector2().RoundToInt() == view.transform.position.ToVector2().RoundToInt()) {

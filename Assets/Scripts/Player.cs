@@ -16,7 +16,7 @@ public class Player : IDisposable {
 
 	public static readonly HashSet<Player> undisposed = new();
 
-	public Game game;
+	public Level level;
 	public Team team = Team.None;
 	public Color32 color;
 	public Co co;
@@ -25,12 +25,12 @@ public class Player : IDisposable {
 	public PlayerView view;
 	public int credits;
 
-	public Player(Game game, Color32 color, Team team = Team.None, int credits=0, Co co = null, PlayerView viewPrefab = null,
+	public Player(Level level, Color32 color, Team team = Team.None, int credits=0, Co co = null, PlayerView viewPrefab = null,
 		PlayerType type = PlayerType.Human, AiDifficulty difficulty=AiDifficulty.Normal) {
 
 		undisposed.Add(this);
 		
-		this.game = game;
+		this.level = level;
 		this.color = color;
 		this.team = team;
 		this.credits = credits;
@@ -38,11 +38,11 @@ public class Player : IDisposable {
 		this.type = type;
 		this.difficulty = difficulty;
 		
-		game.players.Add(this);
+		level.players.Add(this);
 		
 		viewPrefab = viewPrefab ? viewPrefab : PlayerView.DefaultPrefab;
 		Assert.IsTrue(viewPrefab);
-		view = Object.Instantiate(viewPrefab, game.transform);
+		view = Object.Instantiate(viewPrefab, level.transform);
 		view.Initialize(this);
 		view.visible = false;
 	}

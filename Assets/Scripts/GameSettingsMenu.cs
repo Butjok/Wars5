@@ -10,7 +10,7 @@ using Object = System.Object;
 
 public class GameSettingsMenu : MonoBehaviour {
 
-    public Game game;
+    public Level level;
     public GameSettings oldSettings;
     public GameObject root;
 
@@ -42,10 +42,10 @@ public class GameSettingsMenu : MonoBehaviour {
 
     public const PostProcessLayer.Antialiasing antiAliasing = PostProcessLayer.Antialiasing.TemporalAntialiasing;
 
-    public void Show(Game game) {
+    public void Show(Level level) {
 
-        this.game = game;
-        oldSettings = game.settings.ShallowCopy();
+        this.level = level;
+        oldSettings = level.settings.ShallowCopy();
 
         root.SetActive(true);
         UpdateControls();
@@ -53,42 +53,42 @@ public class GameSettingsMenu : MonoBehaviour {
 
     public void UpdateControls() {
 
-        masterVolumeSlider.SetValueWithoutNotify(game.settings.masterVolume);
-        musicVolumeSlider.SetValueWithoutNotify(game.settings.musicVolume);
-        sfxVolumeSlider.SetValueWithoutNotify(game.settings.sfxVolume);
-        uiVolumeSlider.SetValueWithoutNotify(game.settings.uiVolume);
+        masterVolumeSlider.SetValueWithoutNotify(level.settings.masterVolume);
+        musicVolumeSlider.SetValueWithoutNotify(level.settings.musicVolume);
+        sfxVolumeSlider.SetValueWithoutNotify(level.settings.sfxVolume);
+        uiVolumeSlider.SetValueWithoutNotify(level.settings.uiVolume);
 
-        showBattleAnimationToggle.SetIsOnWithoutNotify(game.settings.showBattleAnimation);
-        unitSpeedSlider.SetValueWithoutNotify(game.settings.unitSpeed);
-        unitSpeedText.text = Mathf.RoundToInt( game.settings.unitSpeed).ToString();
-        antiAliasingToggle.SetIsOnWithoutNotify(game.settings.antiAliasing == antiAliasing);
-        motionBlurShutterAngleSlider.SetValueWithoutNotify(game.settings.motionBlurShutterAngle is { } value ? value : 0);
-        bloomToggle.SetIsOnWithoutNotify(game.settings.enableBloom);
-        screenSpaceReflectionsToggle.SetIsOnWithoutNotify(game.settings.enableScreenSpaceReflections);
-        ambientOcclusionToggle.SetIsOnWithoutNotify(game.settings.enableAmbientOcclusion);
-        shuffleMusicToggle.SetIsOnWithoutNotify(game.settings.shuffleMusic);
+        showBattleAnimationToggle.SetIsOnWithoutNotify(level.settings.showBattleAnimation);
+        unitSpeedSlider.SetValueWithoutNotify(level.settings.unitSpeed);
+        unitSpeedText.text = Mathf.RoundToInt( level.settings.unitSpeed).ToString();
+        antiAliasingToggle.SetIsOnWithoutNotify(level.settings.antiAliasing == antiAliasing);
+        motionBlurShutterAngleSlider.SetValueWithoutNotify(level.settings.motionBlurShutterAngle is { } value ? value : 0);
+        bloomToggle.SetIsOnWithoutNotify(level.settings.enableBloom);
+        screenSpaceReflectionsToggle.SetIsOnWithoutNotify(level.settings.enableScreenSpaceReflections);
+        ambientOcclusionToggle.SetIsOnWithoutNotify(level.settings.enableAmbientOcclusion);
+        shuffleMusicToggle.SetIsOnWithoutNotify(level.settings.shuffleMusic);
         
         //okButton.interactable =game.settings.DiffersFrom(oldSettings);
-        closeButton.interactable = !game.settings.DiffersFrom(oldSettings);
+        closeButton.interactable = !level.settings.DiffersFrom(oldSettings);
     }
 
     public void UpdateSettings() {
 
-        game.settings.masterVolume = masterVolumeSlider.value;
-        game.settings.musicVolume = musicVolumeSlider.value;
-        game.settings.sfxVolume = sfxVolumeSlider.value;
-        game.settings.uiVolume = uiVolumeSlider.value;
+        level.settings.masterVolume = masterVolumeSlider.value;
+        level.settings.musicVolume = musicVolumeSlider.value;
+        level.settings.sfxVolume = sfxVolumeSlider.value;
+        level.settings.uiVolume = uiVolumeSlider.value;
 
-        game.settings.showBattleAnimation = showBattleAnimationToggle.isOn;
-        game.settings.unitSpeed = unitSpeedSlider.value;
-        game.settings.antiAliasing = antiAliasingToggle.isOn ? antiAliasing : PostProcessLayer.Antialiasing.None;
-        game.settings.motionBlurShutterAngle = Mathf.Approximately(motionBlurShutterAngleSlider.value, 0) ? null : motionBlurShutterAngleSlider.value;
-        game.settings.enableBloom = bloomToggle.isOn;
-        game.settings.enableScreenSpaceReflections = screenSpaceReflectionsToggle.isOn;
-        game.settings.enableAmbientOcclusion = ambientOcclusionToggle.isOn;
-        game.settings.shuffleMusic = shuffleMusicToggle.isOn;
+        level.settings.showBattleAnimation = showBattleAnimationToggle.isOn;
+        level.settings.unitSpeed = unitSpeedSlider.value;
+        level.settings.antiAliasing = antiAliasingToggle.isOn ? antiAliasing : PostProcessLayer.Antialiasing.None;
+        level.settings.motionBlurShutterAngle = Mathf.Approximately(motionBlurShutterAngleSlider.value, 0) ? null : motionBlurShutterAngleSlider.value;
+        level.settings.enableBloom = bloomToggle.isOn;
+        level.settings.enableScreenSpaceReflections = screenSpaceReflectionsToggle.isOn;
+        level.settings.enableAmbientOcclusion = ambientOcclusionToggle.isOn;
+        level.settings.shuffleMusic = shuffleMusicToggle.isOn;
         
-        game.UpdatePostProcessing();
+        level.UpdatePostProcessing();
 
         UpdateControls();
     }
@@ -98,7 +98,7 @@ public class GameSettingsMenu : MonoBehaviour {
     }
 
     public void Close() {
-        if (!game.settings.DiffersFrom(oldSettings))
+        if (!level.settings.DiffersFrom(oldSettings))
             GameSettingsState.shouldBreak = true;
         else {
             shakeTweener?.Complete();
@@ -108,17 +108,17 @@ public class GameSettingsMenu : MonoBehaviour {
         }
     }
     public void SetDefaultValues() {
-        game.settings = new GameSettings();
-        game.UpdatePostProcessing();
+        level.settings = new GameSettings();
+        level.UpdatePostProcessing();
         UpdateControls();
     }
     public void Cancel() {
-        game.settings = oldSettings;
-        game.UpdatePostProcessing();
+        level.settings = oldSettings;
+        level.UpdatePostProcessing();
         GameSettingsState.shouldBreak = true;
     }
     public void Ok() {
-        game.settings.Save();
+        level.settings.Save();
         GameSettingsState.shouldBreak = true;
     }
 

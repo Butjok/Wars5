@@ -395,8 +395,8 @@ public class LevelEditor : MonoBehaviour {
         textDisplay.Clear();
         textDisplay.Set(mode, nameof(PlayMode));
 
-        var go = new GameObject(nameof(Game));
-        var game = go.AddComponent<Game>();
+        var go = new GameObject(nameof(Level));
+        var game = go.AddComponent<Level>();
 
         var playerLookup = new Dictionary<int, Player>();
         foreach (var player in players)
@@ -504,7 +504,7 @@ public class LevelEditor : MonoBehaviour {
     [Command]
     public void Save(string name) {
 
-        var level = new SerializedLevel {
+        var level = new LevelConfiguration {
             players = players.ToArray(),
             tiles = tiles.Select(pair => (pair.Key.ToTuple(), pair.Value)).ToArray(),
             buildings = buildings.Values.ToArray(),
@@ -520,7 +520,7 @@ public class LevelEditor : MonoBehaviour {
 
         var path = SavePath(name);
         Assert.IsTrue(File.Exists(path), path);
-        var level = File.ReadAllText(path).FromJson<SerializedLevel>();
+        var level = File.ReadAllText(path).FromJson<LevelConfiguration>();
 
         players.Clear();
         foreach (var position in tiles.Keys.ToArray())

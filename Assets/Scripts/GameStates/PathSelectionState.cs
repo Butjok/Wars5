@@ -7,12 +7,12 @@ using UnityEngine.Rendering;
 
 public static class PathSelectionState {
 
-    public static IEnumerator New(Game game, Unit unit) {
+    public static IEnumerator New(Level level, Unit unit) {
         
         int? cost(Vector2Int position, int length) {
             if (length >= Rules.MoveDistance(unit) ||
-                !game.TryGetTile(position, out var tile) ||
-                game.TryGetUnit(position, out var other) && !Rules.CanPass(unit, other))
+                !level.TryGetTile(position, out var tile) ||
+                level.TryGetUnit(position, out var other) && !Rules.CanPass(unit, other))
                 return null;
 
             return Rules.MoveCost(unit, tile);
@@ -20,12 +20,12 @@ public static class PathSelectionState {
         
         Assert.IsTrue(unit.position.v != null, "unit.position.v != null");
         var unitPosition = (Vector2Int)unit.position.v;
-        Assert.IsTrue(game.tiles.ContainsKey(unitPosition));
+        Assert.IsTrue(level.tiles.ContainsKey(unitPosition));
 
         var moveDistance = Rules.MoveDistance(unit);
         
         var traverser = new Traverser();
-        traverser.Traverse(game.tiles.Keys, unitPosition, cost, moveDistance);
+        traverser.Traverse(level.tiles.Keys, unitPosition, cost, moveDistance);
 
         var startForward = unit.view.transform.forward.ToVector2().RoundToInt();
 
@@ -58,7 +58,7 @@ public static class PathSelectionState {
 
         tileMeshFilter.sharedMesh = TileMeshBuilder.Build(
             tileMeshFilter.sharedMesh, 
-            game.tiles.Keys.Where(position => traverser.IsReachable(position,moveDistance)));
+            level.tiles.Keys.Where(position => traverser.IsReachable(position,moveDistance)));
 
         var oldPositions = new List<Vector2Int> { unitPosition };
 
@@ -73,8 +73,8 @@ public static class PathSelectionState {
             
             yield return null;
 
-            if (game.input.reconstructPathTo is { } targetPosition) {
-                game.input.reconstructPathTo = null;
+            if (level.input.reconstructPathTo is { } targetPosition) {
+                level.input.reconstructPathTo = null;
 
                 var positions = traverser.ReconstructPath(targetPosition)?.Skip(1);
                 if (positions != null) {
@@ -84,22 +84,22 @@ public static class PathSelectionState {
                 }
             }
             else
-                while (game.input.appendToPath.Count > 0)
-                    pathBuilder.Add(game.input.appendToPath.Dequeue());
+                while (level.input.appendToPath.Count > 0)
+                    pathBuilder.Add(level.input.appendToPath.Dequeue());
             
-            if (game.input.moveUnit) {
-                game.input.moveUnit = false;
+            if (level.input.moveUnit) {
+                level.input.moveUnit = false;
                 cleanUp();
                 CursorView.Instance.Visible = false;
-                yield return UnitMovementAnimationState.New(game, unit, new MovePath(pathBuilder.Positions, startForward));
+                yield return UnitMovementAnimationState.New(level, unit, new MovePath(pathBuilder.Positions, startForward));
                 yield break;
             }
 
-            else if (game.input.cancel) {
-                game.input.cancel = false;
+            else if (level.input.cancel) {
+                level.input.cancel = false;
                 unit.view.Selected = false;
                 cleanUp();
-                yield return SelectionState.New(game);
+                yield return SelectionState.New(level);
                 yield break;
             }
 
@@ -113,10 +113,10 @@ public static class PathSelectionState {
             if (Input.GetMouseButtonDown(Mouse.right) || Input.GetKeyDown(KeyCode.Escape)) {
 
                 unit.view.Selected = false;
-                game.input.Reset();
+                level.input.Reset();
 
                 cleanUp();
-                yield return SelectionState.New(game);
+                yield return SelectionState.New(level);
                 yield break;
             }
 
@@ -124,7 +124,7 @@ public static class PathSelectionState {
 
                 if (Mouse.TryGetPosition(out Vector2Int mousePosition) && traverser.IsReachable(mousePosition, moveDistance)) {
                     if (pathBuilder.Positions.Last() == mousePosition)
-                        game.input.moveUnit = true;
+                        level.input.moveUnit = true;
                     else {
                         pathBuilder.Clear();
                         foreach (var position in traverser.ReconstructPath(mousePosition).Skip(1))

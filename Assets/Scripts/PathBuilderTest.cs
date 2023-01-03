@@ -22,7 +22,7 @@ public class PathBuilderTest : MonoBehaviour {
 	public MovePathBuilder pathBuilder = new(Vector2Int.zero);
 	public bool followMousePath = true;
 
-	public Game level;
+	public Level level;
 	public Traverser traverser = new Traverser();
 
 	public void Update() {

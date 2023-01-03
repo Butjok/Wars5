@@ -33,7 +33,7 @@ public class Unit : IDisposable {
             viewPrefab = UnitView.DefaultPrefab;
         Assert.IsTrue(viewPrefab);
 
-        view = Object.Instantiate(viewPrefab, player.game.transform);
+        view = Object.Instantiate(viewPrefab, player.level.transform);
         view.unit = this;
         view.prefab = viewPrefab;
         view.Forward = rotation ?? Vector2Int.up;
@@ -42,10 +42,10 @@ public class Unit : IDisposable {
         this.position = new ChangeTracker<Vector2Int?>(old => {
 
             if (old is { } oldPosition)
-                player.game.units.Remove(oldPosition);
+                player.level.units.Remove(oldPosition);
 
             if (this.position.v is { } newPosition) {
-                player.game.units[newPosition] = this;
+                player.level.units[newPosition] = this;
                 view.Visible = true;
                 view.Position = newPosition;
             }
@@ -58,7 +58,7 @@ public class Unit : IDisposable {
             if (this.hp.v <= 0) {
                 view.Die();
                 Assert.IsTrue(this.position.v!=null);
-                player.game.units.Remove((Vector2Int)this.position.v);
+                player.level.units.Remove((Vector2Int)this.position.v);
             }
             else
                 view.Hp = this.hp.v;

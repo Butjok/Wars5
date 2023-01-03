@@ -122,7 +122,7 @@ public class SerializedBuilding {
     }
 }
 
-public class SerializedLevel {
+public class LevelConfiguration {
 
     public SerializedUnit[] units={};
     public ((int x, int y) position, TileType tileType)[] tiles={};

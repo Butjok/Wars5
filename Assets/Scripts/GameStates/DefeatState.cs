@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 
 public static class DefeatState {
-	public static IEnumerator New(Game game) {
+	public static IEnumerator New(Level level) {
 	
 		Debug.Log("Defeat...");
 		CursorView.Instance.Visible=false;

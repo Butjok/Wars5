@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 public class LoadGameMenu : MonoBehaviour {
 
-    public Game game;
+    public Level level;
     public GameObject root;
     public Image screenshotImage;
     public Button entryButtonPrefab;
@@ -24,9 +24,9 @@ public class LoadGameMenu : MonoBehaviour {
     public Dictionary<string, Sprite> screenshotCache = new();
     public List<Button> entryButtons = new();
 
-    public void Show(Game game, IEnumerable<SaveEntry> saveEntries) {
+    public void Show(Level level, IEnumerable<SaveEntry> saveEntries) {
 
-        this.game = game;
+        this.level = level;
         root.SetActive(true);
 
         foreach (var entry in saveEntries) {

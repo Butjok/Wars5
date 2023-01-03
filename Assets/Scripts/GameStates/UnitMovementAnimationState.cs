@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class UnitMovementAnimationState {
 
-	public static IEnumerator New(Game game,Unit unit,MovePath path) {
+	public static IEnumerator New(Level level,Unit unit,MovePath path) {
 
 		var startForward = unit.view.transform.forward.ToVector2().RoundToInt();
 		var play = true;
@@ -12,7 +12,7 @@ public static class UnitMovementAnimationState {
 		if (path.moves.Count > 0) {
 			unit.view.walker.onComplete = () => play = false;
 			unit.view.walker.moves = path.moves;
-			unit.view.walker.speed = game.settings.unitSpeed;
+			unit.view.walker.speed = level.settings.unitSpeed;
 			unit.view.walker.enabled = true;
 		}
 		else
@@ -41,6 +41,6 @@ public static class UnitMovementAnimationState {
 			unit.view.Position = path.Destination;
 			unit.view.Forward = path.moves.Last().forward;
 		}
-		yield return ActionSelectionState.New(game,unit,path,startForward);
+		yield return ActionSelectionState.New(level,unit,path,startForward);
 	}
 }

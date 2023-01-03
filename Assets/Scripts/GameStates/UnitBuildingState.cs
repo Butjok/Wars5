@@ -9,9 +9,9 @@ public static class UnitBuildingState {
 
     public static bool cancel;
     
-    public static IEnumerator New(Game game, Building building) {
+    public static IEnumerator New(Level level, Building building) {
 
-        Assert.IsTrue(building.player.v == game.CurrentPlayer);
+        Assert.IsTrue(building.player.v == level.CurrentPlayer);
 
         var menuView = Object.FindObjectOfType<UnitBuildMenu>(true);
         Assert.IsTrue(menuView);
@@ -22,9 +22,9 @@ public static class UnitBuildingState {
 
         Debug.Log($"Building state at building: {building}");
 
-        Assert.IsTrue(game.TryGetBuilding(building.position, out var check));
+        Assert.IsTrue(level.TryGetBuilding(building.position, out var check));
         Assert.AreEqual(building, check);
-        Assert.IsFalse(game.TryGetUnit(building.position, out _));
+        Assert.IsFalse(level.TryGetUnit(building.position, out _));
         Assert.IsNotNull(building.player.v);
 
         var types = Enum.GetValues(typeof(UnitType)).Cast<UnitType>();
@@ -34,28 +34,28 @@ public static class UnitBuildingState {
         while (true) {
             yield return null;
 
-            if (game.input.buildUnitType != 0) {
+            if (level.input.buildUnitType != 0) {
 
-                Assert.IsTrue(availableTypes.Contains(game.input.buildUnitType));
+                Assert.IsTrue(availableTypes.Contains(level.input.buildUnitType));
 
-                var unit = new Unit(building.player.v, true, game.input.buildUnitType, building.position, viewPrefab: Resources.Load<UnitView>("light-tank"));
-                game.input.Reset();
+                var unit = new Unit(building.player.v, true, level.input.buildUnitType, building.position, viewPrefab: Resources.Load<UnitView>("light-tank"));
+                level.input.Reset();
 
                 Debug.Log($"Built unit {unit}");
 
                 menuView.Hide();
-                yield return SelectionState.New(game);
+                yield return SelectionState.New(level);
                 yield break;
             }
 
-            if (game.CurrentPlayer.IsAi)
+            if (level.CurrentPlayer.IsAi)
                 continue;
 
             if (cancel) {
                 cancel = false;
                 menuView.Hide();
                 PlayerView.globalVisibility = true;
-                yield return SelectionState.New(game);
+                yield return SelectionState.New(level);
                 yield break;
             }
 

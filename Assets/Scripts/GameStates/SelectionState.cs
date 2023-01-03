@@ -11,19 +11,19 @@ public static class SelectionState {
     [Command]
     public static bool triggerDefeat;
     
-    public static IEnumerator New(Game game, bool turnStart = false) {
+    public static IEnumerator New(Level level, bool turnStart = false) {
 
         // weird static variable issue
         PlayerView.globalVisibility = true;
         
-        var unmovedUnits = game.units.Values
-            .Where(unit => unit.player == game.CurrentPlayer && !unit.moved.v)
+        var unmovedUnits = level.units.Values
+            .Where(unit => unit.player == level.CurrentPlayer && !unit.moved.v)
             .ToList();
         
-        var accessibleBuildings = game.buildings.Values
-            .Where(building => building.player.v == game.CurrentPlayer &&
+        var accessibleBuildings = level.buildings.Values
+            .Where(building => building.player.v == level.CurrentPlayer &&
                                Rules.BuildableUnits(building) != 0 &&
-                               !game.TryGetUnit(building.position, out _))
+                               !level.TryGetUnit(building.position, out _))
             .ToList();
 
         var positions = unmovedUnits.Select(unit => {
@@ -40,7 +40,7 @@ public static class SelectionState {
 
         if (turnStart) {
 
-            var (controlFlow, nextState) = game.levelLogic.OnTurnStart(game);
+            var (controlFlow, nextState) = level.levelLogic.OnTurnStart(level);
             if (nextState != null)
                 yield return nextState;
             if (controlFlow == ControlFlow.Replace)
@@ -48,9 +48,9 @@ public static class SelectionState {
 
             //MusicPlayer.Instance.Queue = game.CurrentPlayer.co.themes.InfiniteSequence(game.settings.shuffleMusic);
 
-            yield return TurnStartAnimationState.New(game);
+            yield return TurnStartAnimationState.New(level);
 
-            game.CurrentPlayer.view.visible = true;
+            level.CurrentPlayer.view.visible = true;
         }
 
         CursorView.Instance.Visible = true;
@@ -58,55 +58,55 @@ public static class SelectionState {
         while (true) {
             yield return null;
 
-            if (game.input.selectAt is { } position) {
-                game.input.selectAt = null;
+            if (level.input.selectAt is { } position) {
+                level.input.selectAt = null;
                 
-                if (game.TryGetUnit(position, out var unit)) {
+                if (level.TryGetUnit(position, out var unit)) {
                     unit.view.Selected = true;
-                    yield return PathSelectionState.New(game,unit);
+                    yield return PathSelectionState.New(level,unit);
                     yield break;
                 }
-                else if (game.TryGetBuilding(position, out var building)) {
-                    yield return UnitBuildingState.New(game,building);
+                else if (level.TryGetBuilding(position, out var building)) {
+                    yield return UnitBuildingState.New(level,building);
                     yield break;
                 }   
             }
 
             // end turn
-            else if (game.input.endTurn) {
+            else if (level.input.endTurn) {
 
-                game.input.Reset();
+                level.input.Reset();
 
-                foreach (var unit in game.units.Values)
+                foreach (var unit in level.units.Values)
                     unit.moved.v = false;
 
-                game.CurrentPlayer.view.visible = false;
+                level.CurrentPlayer.view.visible = false;
                 CursorView.Instance.Visible = false;
 
                 //MusicPlayer.Instance.source.Stop();
                 //MusicPlayer.Instance.queue = null;
 
-                Assert.IsTrue(game.turn != null);
-                game.turn = (int)game.turn + 1;
+                Assert.IsTrue(level.turn != null);
+                level.turn = (int)level.turn + 1;
 
-                var (controlFlow, nextState) = game.levelLogic.OnTurnEnd(game);
+                var (controlFlow, nextState) = level.levelLogic.OnTurnEnd(level);
                 if (nextState != null)
                     yield return nextState;
                 if (controlFlow == ControlFlow.Replace)
                     yield break;
 
-                yield return New(game, true);
+                yield return New(level, true);
                 yield break;
             }
 
-            if (game.CurrentPlayer.IsAi)
+            if (level.CurrentPlayer.IsAi)
                 continue;
 
             if (Input.GetKeyDown(KeyCode.F2))
-                game.input.endTurn = true;
+                level.input.endTurn = true;
             
             else if (Input.GetKeyDown(KeyCode.Escape))
-                yield return GameMenuState.New(game);
+                yield return GameMenuState.New(level);
 
             else if (Input.GetKeyDown(KeyCode.Tab)) {
                 if (positions.Length > 0) {
@@ -121,29 +121,29 @@ public static class SelectionState {
             else if ((Input.GetMouseButtonDown(Mouse.left) || Input.GetKeyDown(KeyCode.Space)) &&
                      Mouse.TryGetPosition(out Vector2Int mousePosition)) {
 
-                if (game.TryGetUnit(mousePosition, out var unit)) {
-                    if (unit.player != game.CurrentPlayer || unit.moved.v)
+                if (level.TryGetUnit(mousePosition, out var unit)) {
+                    if (unit.player != level.CurrentPlayer || unit.moved.v)
                         UiSound.Instance.notAllowed.PlayOneShot();
                     else
-                        game.input.selectAt = mousePosition;
+                        level.input.selectAt = mousePosition;
                 }
 
-                else if (game.TryGetBuilding(mousePosition, out var building)) {
-                    if (building.player.v != game.CurrentPlayer)
+                else if (level.TryGetBuilding(mousePosition, out var building)) {
+                    if (building.player.v != level.CurrentPlayer)
                         UiSound.Instance.notAllowed.PlayOneShot();
                     else
-                        game.input.selectAt = mousePosition;
+                        level.input.selectAt = mousePosition;
                 }
             }
             
             else if (triggerVictory) {
                 triggerVictory = false;
-                yield return VictoryState.New(game);
+                yield return VictoryState.New(level);
                 yield break;
             }
             else if (triggerDefeat) {
                 triggerDefeat = false;
-                yield return DefeatState.New(game);
+                yield return DefeatState.New(level);
                 yield break;
             }
         }

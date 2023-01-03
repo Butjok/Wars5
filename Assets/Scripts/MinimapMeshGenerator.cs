@@ -6,7 +6,7 @@ using UnityEngine.Rendering;
 
 public class MinimapMeshGenerator : MonoBehaviour {
 
-	public Game game;
+	public Level level;
 	public Mesh mesh;
 	public MeshFilter meshFilter;
 	public Camera renderCamera;
@@ -84,9 +84,9 @@ public class MinimapMeshGenerator : MonoBehaviour {
 		var colors = new List<Color>();
 		var uvs = new List<Vector2>();
 
-		foreach (var position in game.tiles.Keys) {
-			Color color = game.TryGetBuilding(position, out var building) && building.player.v != null ? building.player.v.color : default;
-			color.a = tileIds[game.tiles[position]];
+		foreach (var position in level.tiles.Keys) {
+			Color color = level.TryGetBuilding(position, out var building) && building.player.v != null ? building.player.v.color : default;
+			color.a = tileIds[level.tiles[position]];
 			foreach (var vertex in Quad(position.ToVector3Int())) {
 				vertices.Add(vertex);
 				triangles.Add(triangles.Count);
@@ -116,7 +116,7 @@ public class MinimapMeshGenerator : MonoBehaviour {
 		var colors = new List<Color>();
 		var uvs = new List<Vector2>();
 
-		foreach (var unit in game.units.Values) {
+		foreach (var unit in level.units.Values) {
 			Color color = unit.player.color;
 			color.a = unitIds[unit.type];
 			if (unit.position.v is not { } position)
@@ -189,9 +189,9 @@ public class MinimapMeshGenerator : MonoBehaviour {
 		var textMeshes = new List<Mesh>();
 
 		var positions = new HashSet<Vector2Int>();
-		positions.UnionWith(game.tiles.Keys);
-		positions.UnionWith(game.buildings.Keys);
-		positions.UnionWith(game.units.Keys);
+		positions.UnionWith(level.tiles.Keys);
+		positions.UnionWith(level.buildings.Keys);
+		positions.UnionWith(level.units.Keys);
 
 		foreach (var position in positions) {
 
