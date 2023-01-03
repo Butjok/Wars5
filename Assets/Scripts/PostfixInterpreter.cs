@@ -1,17 +1,19 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 public static class PostfixInterpreter {
 
-    public static void Execute(string input, Func<string, Stack<object>, bool> execute = null) {
+    public static Stack Execute(string input, Func<string, Stack, bool> execute = null) {
+
+        var stack = new Stack();
 
         if (string.IsNullOrWhiteSpace(input))
-            return;
+            return stack;
 
         var tokens = input.Split(new[] { ' ', '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-        var stack = new Stack<object>();
         var ignore = false;
 
         foreach (var token in tokens) {
@@ -20,7 +22,7 @@ public static class PostfixInterpreter {
                 ignore = !ignore;
                 continue;
             }
-            
+
             if (ignore)
                 continue;
 
@@ -48,6 +50,22 @@ public static class PostfixInterpreter {
                         break;
                     }
 
+                    case "and":
+                    case "or": {
+                        var b = stack.Pop<bool>();
+                        var a = stack.Pop<bool>();
+                        stack.Push(token == "and" ? a && b : a || b);
+                        break;
+                    }
+                    
+                    case "not":
+                        stack.Push(!stack.Pop<bool>());
+                        break;
+                        
+                    case "dup":
+                        stack.Push(stack.Peek());
+                        break;
+
                     case "enum": {
 
                         var type = Type.GetType(stack.Pop<string>());
@@ -73,11 +91,11 @@ public static class PostfixInterpreter {
                         break;
                 }
         }
-        
-        Assert.AreEqual(0, stack.Count);
+
+        return stack;
     }
 
-    public static T Pop<T>(this Stack<object> stack) {
+    public static T Pop<T>(this Stack stack) {
         return (T)stack.Pop();
     }
 }

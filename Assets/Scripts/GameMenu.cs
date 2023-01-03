@@ -1,7 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.Resources;
+using NaughtyAttributes;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameMenu : MonoBehaviour {
@@ -46,14 +47,3 @@ public class GameMenu : MonoBehaviour {
     }
 }
 
-public class Campaign {
-    
-}
-public abstract class Mission {
-    public string name;
-    public string description;
-    public Sprite thumbnail;
-    public abstract void Load(Level level);
-    public virtual LevelLogic LevelLogic() => new();
-
-}

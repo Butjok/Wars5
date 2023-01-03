@@ -12,6 +12,7 @@ public class EntryPoint : MonoBehaviour {
 
     public Level level;
     public LevelLogic levelLogic;
+    public string startState = "SplashState";
     
     private void Awake() {
 

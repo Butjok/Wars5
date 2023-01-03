@@ -504,7 +504,7 @@ public class LevelEditor : MonoBehaviour {
     [Command]
     public void Save(string name) {
 
-        var level = new LevelConfiguration {
+        var level = new SerializedLevel {
             players = players.ToArray(),
             tiles = tiles.Select(pair => (pair.Key.ToTuple(), pair.Value)).ToArray(),
             buildings = buildings.Values.ToArray(),
@@ -520,7 +520,7 @@ public class LevelEditor : MonoBehaviour {
 
         var path = SavePath(name);
         Assert.IsTrue(File.Exists(path), path);
-        var level = File.ReadAllText(path).FromJson<LevelConfiguration>();
+        var level = File.ReadAllText(path).FromJson<SerializedLevel>();
 
         players.Clear();
         foreach (var position in tiles.Keys.ToArray())
