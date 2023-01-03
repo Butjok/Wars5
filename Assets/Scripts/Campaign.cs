@@ -15,8 +15,9 @@ public class Campaign {
         public SerializedLevel initialState;
     }
 
+    public static void Clear() => PlayerPrefs.DeleteKey(nameof(Campaign));
     public static Campaign Load() => PlayerPrefs.GetString(nameof(Campaign))?.FromJson<Campaign>() ?? new Campaign();
-    public void Save() => PlayerPrefs.SetString(nameof(Campaign), this.ToJson()); 
+    public void Save() => PlayerPrefs.SetString(nameof(Campaign), this.ToJson());
 
     public List<Mission> missions = new() {
         new Mission {
@@ -26,13 +27,19 @@ public class Campaign {
             isCompleted = true
         },
         new Mission {
-            name = "FirstBattle",
+            name = "FirstMission",
             sceneName = "SampleScene",
             initialState = new SerializedLevel(),
             isAvailable = "Tutorial isCompleted"
+        },
+        new Mission {
+            name = "SecondMission",
+            sceneName = "SampleScene",
+            initialState = new SerializedLevel(),
+            isAvailable = "FirstMission isCompleted"
         }
     };
-    
+
     public Mission this[string missionName] {
         get {
             var mission = missions.SingleOrDefault(mission => mission.name == missionName);

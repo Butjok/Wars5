@@ -3,22 +3,24 @@ using System.Linq;
 using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class CampaignView : MonoBehaviour {
 
     [Serializable]
-    public class MissionView {
+    public class Mission {
         public string name;
         public string humanFriendlyName;
         public MeshRenderer[] renderers = { };
         public string availableUniformName = "_Available";
         public string completedUniformName = "_Completed";
-        public Collider collider;
+        public BoxCollider collider;
         public TMP_Text text;
         public Color availableTextColor = Color.white;
         public Color unavailableTextColor = Color.grey;
         public Color completedTextColor = Color.green;
     }
+    
     [Serializable]
     public class Link {
         public string from;
@@ -28,18 +30,20 @@ public class CampaignView : MonoBehaviour {
         public string animationStartTimeUniformName = "_StartTime";
     }
 
-    public MissionView[] missionViews = { };
+    [FormerlySerializedAs("missionViews")] public Mission[] missions = { new() };
     public Link[] links = { };
 
-    public MissionView FindMissionView(Collider collider) {
-        return missionViews.SingleOrDefault(mv => mv.collider == collider);
+    public UIFrame selectionFrame;
+
+    public Mission Find(Collider collider) {
+        return missions.SingleOrDefault(mv => mv.collider == collider);
     }
 
-    public void ActualizeMissionViews(Campaign campaign) {
+    public void Actualize(Campaign campaign) {
         
         var propertyBlock = new MaterialPropertyBlock();
         
-        foreach (var missionView in missionViews) {
+        foreach (var missionView in missions) {
 
             var isCompleted = campaign[missionView.name].isCompleted;
             var isAvailable = campaign.IsAvailable(missionView.name);
@@ -81,6 +85,39 @@ public class CampaignView : MonoBehaviour {
 
         return true;
     }
+
+    public void Deselect() {
+        selectionFrame.gameObject.SetActive(false);
+    }
+    public void Select(Mission mission) {
+        Deselect();
+        selectionFrame.gameObject.SetActive(true);
+        selectionFrame.JumpTo(mission.collider,selectionFrameJumpDuration);
+    }
+
+    private void Start() {
+        // Campaign.Clear();
+        Actualize(Campaign.Load());
+    }
+
+    public float selectionFrameJumpDuration = .25f;
+    public int index = -1;
+    private void Update() {
+        if (Input.GetKeyDown(KeyCode.Tab)) {
+            index = (index + 1) % missions.Length;
+            Select(missions[index]);
+        }
+    }
+
+    public void StartMission() {
+        
+    }
+    public void Cancel() {
+        
+    }
+    
+    public void Show(){}
+    public void Hide() { }
 
     public LineRenderer lineRenderer;
     [Button]

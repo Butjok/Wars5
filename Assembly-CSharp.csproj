@@ -450,6 +450,8 @@
      <Compile Include="Assets/Scripts/Campaign.cs" />
      <Compile Include="Assets/Scripts/MainMenuView.cs" />
      <Compile Include="Assets/Scripts/CampaignView.cs" />
+     <Compile Include="Assets/Scripts/CampaignViewTest.cs" />
+     <Compile Include="Assets/Scripts/CampaignOverviewState.cs" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />
      <None Include="Assets/Shaders/My First Lighting Shader.shader" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader" />
@@ -1587,6 +1589,9 @@
      </Reference>
      <Reference Include="Unity.Recorder">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.Recorder.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.2D.Sprite.Editor">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
      </Reference>
   </ItemGroup>
   <ItemGroup>

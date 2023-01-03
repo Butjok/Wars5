@@ -50,6 +50,11 @@ public static class PostfixInterpreter {
                         break;
                     }
 
+                    case "true":
+                    case "false":
+                        stack.Push(token == "true");
+                        break;
+
                     case "and":
                     case "or": {
                         var b = stack.Pop<bool>();
@@ -57,11 +62,11 @@ public static class PostfixInterpreter {
                         stack.Push(token == "and" ? a && b : a || b);
                         break;
                     }
-                    
+
                     case "not":
                         stack.Push(!stack.Pop<bool>());
                         break;
-                        
+
                     case "dup":
                         stack.Push(stack.Peek());
                         break;
