@@ -48,7 +48,7 @@ public class Player : IDisposable {
 	}
 
 	public override string ToString() {
-		return color.Name();
+		return color.GetName().ToString();
 	}
 
 	public void Dispose() {

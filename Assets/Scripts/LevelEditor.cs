@@ -119,7 +119,7 @@ public class LevelEditor : MonoBehaviour {
         textDisplay.Clear();
         textDisplay.Set(mode, nameof(TilesMode));
         textDisplay.Set(nameof(tileType), tileType);
-        textDisplay.Set(player, PlayerColor(playerId).Name());
+        textDisplay.Set(player, PlayerColor(playerId).GetName());
 
         while (true) {
             yield return null;
@@ -211,7 +211,7 @@ public class LevelEditor : MonoBehaviour {
 
                 if (buildings.TryGetValue(mousePosition, out var building)) {
                     playerId = building.playerId;
-                    textDisplay.Set(player, PlayerColor(playerId).Name());
+                    textDisplay.Set(player, PlayerColor(playerId).GetName());
                 }
             }
         }
@@ -316,7 +316,7 @@ public class LevelEditor : MonoBehaviour {
         textDisplay.Clear();
         textDisplay.Set(mode, nameof(UnitsMode));
         textDisplay.Set(nameof(unitType), unitType);
-        textDisplay.Set(player, PlayerColor(playerId).Name());
+        textDisplay.Set(player, PlayerColor(playerId).GetName());
 
         while (true) {
             yield return null;
@@ -380,7 +380,7 @@ public class LevelEditor : MonoBehaviour {
                 playerId = unit.playerId;
 
                 textDisplay.Set(nameof(unitType), unitType);
-                textDisplay.Set(player, PlayerColor(playerId).Name());
+                textDisplay.Set(player, PlayerColor(playerId).GetName());
             }
         }
     }
@@ -400,7 +400,7 @@ public class LevelEditor : MonoBehaviour {
 
         var playerLookup = new Dictionary<int, Player>();
         foreach (var player in players)
-            playerLookup.Add(player.id, new Player(game, player.color, player.team, player.credits, type: player.type));
+            playerLookup.Add(player.id, new Player(game, player.colorName.ToColor32(), player.team, player.credits, type: player.type));
         game.localPlayer = playerLookup[players[0].id];
 
         var min = new Vector2Int(positions.Min(p => p.x), positions.Min(p => p.y));
@@ -476,7 +476,7 @@ public class LevelEditor : MonoBehaviour {
             else
                 playerId = -1;
 
-            textDisplay.Set(player, PlayerColor(playerId).Name());
+            textDisplay.Set(player, PlayerColor(playerId).GetName());
 
             return true;
         }
@@ -495,7 +495,7 @@ public class LevelEditor : MonoBehaviour {
     }
 
     public Color32 PlayerColor(int playerId) {
-        return players.SingleOrDefault(p => p.id == playerId)?.color ?? nullPlayerColor;
+        return players.SingleOrDefault(p => p.id == playerId)?.colorName.ToColor32() ?? nullPlayerColor;
     }
 
     [Command]

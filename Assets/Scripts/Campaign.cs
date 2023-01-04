@@ -15,10 +15,6 @@ public class Campaign {
         public SerializedLevel initialState;
     }
 
-    public static void Clear() => PlayerPrefs.DeleteKey(nameof(Campaign));
-    public static Campaign Load() => PlayerPrefs.GetString(nameof(Campaign))?.FromJson<Campaign>() ?? new Campaign();
-    public void Save() => PlayerPrefs.SetString(nameof(Campaign), this.ToJson());
-
     public List<Mission> missions = new() {
         new Mission {
             name = "Tutorial",

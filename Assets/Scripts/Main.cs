@@ -30,7 +30,7 @@ public class Main : MonoBehaviour {
 
     public void Awake() {
         UpdatePostProcessing();
-        settings = GameSettings.Load();
+        settings = PersistentData.Read().gameSettings;
     }
 
     public void UpdatePostProcessing() {

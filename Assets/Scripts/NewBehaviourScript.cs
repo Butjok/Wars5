@@ -24,8 +24,8 @@ public class NewBehaviourScript : MonoBehaviour {
             GameParser.Parse(game, input);
         else {
 
-            var red = new Player(game, Palette.red, Team.Alpha, co: Co.Natalie);
-            var green = new Player(game, Palette.green, Team.Bravo, co: Co.Vladan);
+            var red = new Player(game, KnownColor.red, Team.Alpha, co: Co.Natalie);
+            var green = new Player(game, KnownColor.blue, Team.Bravo, co: Co.Vladan);
 
             game.localPlayer = red;
 

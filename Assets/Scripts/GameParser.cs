@@ -42,7 +42,7 @@ public static class GameParser {
         var playerLoop = new List<Player>();
 
         Player FindPlayer(string colorNamePrefix) {
-            return players.Values.SingleOrDefault(player => player.color.Name().StartsWith(colorNamePrefix));
+            return players.Values.SingleOrDefault(player => player.color.GetName().ToString().StartsWith(colorNamePrefix));
         }
 
         Team playerTeam;
@@ -138,9 +138,8 @@ public static class GameParser {
                 case State.Players: {
                     switch (token) {
                         case "player": {
-                            var colorName = stack.Pop<string>();
-                            var found = Palette.TryGetColor(colorName, out var color);
-                            Assert.IsTrue(found);
+                            var colorName = stack.Pop<KnownColor.Name>();
+                            var color = colorName.ToColor32();
                             var player = new Player(main, color, playerTeam, playerCredits, playerCo, playerViewPrefab, playerType, playerDifficulty);
                             players.Add(color, player);
                             playerLoop.Add(player);

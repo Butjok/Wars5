@@ -118,7 +118,9 @@ public class GameSettingsMenu : MonoBehaviour {
         GameSettingsState.shouldBreak = true;
     }
     public void Ok() {
-        main.settings.Save();
+        var persistentData = PersistentData.Read();
+        persistentData.gameSettings = main.settings;
+        persistentData.Save();
         GameSettingsState.shouldBreak = true;
     }
 

@@ -29,7 +29,7 @@ public class SerializedPlayer {
 
     public int id;
     public Team team;
-    public Color32 color;
+    public KnownColor.Name colorName;
     public string coName;
     public PlayerType type;
     public AiDifficulty difficulty;
@@ -39,7 +39,7 @@ public class SerializedPlayer {
     public SerializedPlayer(Player player, Numerator id) {
         this.id = id[player];
         team = player.team;
-        color = player.color;
+        colorName = player.color.GetName();
         if (player.co)
             coName = player.co.name;
         type = player.type;
@@ -48,7 +48,7 @@ public class SerializedPlayer {
     }
 
     public override string ToString() {
-        return color.Name();
+        return colorName.ToString();
     }
 }
 
@@ -128,6 +128,7 @@ public class SerializedLevel {
     public ((int x, int y) position, TileType tileType)[] tiles={};
     public SerializedPlayer[] players={};
     public SerializedBuilding[] buildings={};
+    public int turn = -1;
 
     // public SerializedGame() { }
     // public SerializedGame(Game game) {
