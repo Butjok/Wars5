@@ -72,3 +72,19 @@ public static class Serializer2 {
         return null;
     }
 }
+/*
+ 
+Plain TileType enum 1 1 int2 addTile
+Plain TileType enum 1 2 int2 addTile
+Plain TileType enum 2 3 int2 addTile
+
+City TileType enum  # type # 
+3 3 int2            # position # 
+None ColorName enum # color #
+10                  # cp #
+addBuilding
+
+Red ColorName enum
+
+ 
+ */

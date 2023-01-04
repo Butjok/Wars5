@@ -138,7 +138,7 @@ public static class GameParser {
                 case State.Players: {
                     switch (token) {
                         case "player": {
-                            var colorName = stack.Pop<KnownColor.Name>();
+                            var colorName = stack.Pop<ColorName>();
                             var color = colorName.ToColor32();
                             var player = new Player(main, color, playerTeam, playerCredits, playerCo, playerViewPrefab, playerType, playerDifficulty);
                             players.Add(color, player);

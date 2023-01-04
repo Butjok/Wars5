@@ -29,7 +29,7 @@ public class SerializedPlayer {
 
     public int id;
     public Team team;
-    public KnownColor.Name colorName;
+    public ColorName colorName;
     public string coName;
     public PlayerType type;
     public AiDifficulty difficulty;
