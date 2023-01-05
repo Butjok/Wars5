@@ -90,18 +90,16 @@ public static class GameParser {
 
         PostfixInterpreter.Execute(input, (token, stack) => {
 
-            if (token is "players" or "tiles" or "units" or "game") {
-                state = Enum.Parse<State>(token, true);
+            if (token == "set-state") {
+                state = Enum.Parse<State>(stack.Pop<string>());
                 return true;
             }
-
-            Assert.IsTrue(state != State.None);
 
             switch (state) {
                 
                 case State.Game: {
                     switch (token) {
-                        case "turn": {
+                        case "set-turn": {
                             main.turn = stack.Pop<int>();
                             return true;
                         }
@@ -121,12 +119,12 @@ public static class GameParser {
                         scanPosition += nextTileDelta;
                         return true;
                     }
-                    if (token == "\\") {
+                    if (token == "nl") {
                         scanPosition.x = startPosition.x;
                         scanPosition += nextLineDelta;
                         return true;
                     }
-                    if (token == "startPosition") {
+                    if (token == "set-start-position") {
                         Assert.AreEqual(0,tiles.Count);
                         startPosition = stack.Pop<Vector2Int>();
                         scanPosition = startPosition;
@@ -137,44 +135,45 @@ public static class GameParser {
 
                 case State.Players: {
                     switch (token) {
-                        case "player": {
+                        case "add-player": {
                             var colorName = stack.Pop<ColorName>();
                             var color = colorName.ToColor32();
                             var player = new Player(main, color, playerTeam, playerCredits, playerCo, playerViewPrefab, playerType, playerDifficulty);
                             players.Add(color, player);
                             playerLoop.Add(player);
-                            if (playerLocal)
+                            if (playerLocal) {
+                                Assert.IsNull(main.localPlayer);
                                 main.localPlayer = player;
+                            }
                             ResetPlayerValues();
                             return true;
                         }
-                        case "team": {
+                        case "set-team": {
                             playerTeam = stack.Pop<Team>();
                             return true;
                         }
-                        case "credits": {
+                        case "set-credits": {
                             playerCredits = stack.Pop<int>();
                             return true;
                         }
-                        case "co": {
+                        case "set-co": {
                             playerCo = stack.Pop<string>().LoadAs<Co>();
                             return true;
                         }
-                        case "prefab": {
+                        case "set-prefab": {
                             playerViewPrefab = stack.Pop<string>().LoadAs<PlayerView>();
                             return true;
                         }
-                        case "type": {
+                        case "set-type": {
                             playerType = stack.Pop<PlayerType>();
                             return true;
                         }
-                        case "difficulty": {
+                        case "set-difficulty": {
                             playerDifficulty = stack.Pop<AiDifficulty>();
                             return true;
                         }
-                        case "local": {
-                            Assert.IsNull(main.localPlayer);
-                            playerLocal = true;
+                        case "set-local": {
+                            playerLocal = stack.Pop<bool>();
                             return true;
                         }
                         default:
@@ -184,7 +183,7 @@ public static class GameParser {
 
                 case State.Units: {
                     switch (token) {
-                        case "unit": {
+                        case "add-unit": {
                             var player = FindPlayer(stack.Pop<string>());
                             Assert.IsNotNull(player);
                             var moved = unitMoved;
@@ -198,31 +197,31 @@ public static class GameParser {
                             ResetUnitValues();
                             return true;
                         }
-                        case "position": {
+                        case "set-position": {
                             unitPosition = stack.Pop<Vector2Int>();
                             return true;
                         }
-                        case "moved": {
+                        case "set-moved": {
                             unitMoved = stack.Pop<bool>();
                             return true;
                         }
-                        case "type": {
+                        case "set-type": {
                             unitType = stack.Pop<UnitType>();
                             return true;
                         }
-                        case "rotation": {
+                        case "set-look-direction": {
                             unitRotation = stack.Pop<Vector2Int>();
                             return true;
                         }
-                        case "hp": {
+                        case "set-hp": {
                             unitHp = stack.Pop<int>();
                             return true;
                         }
-                        case "fuel": {
+                        case "set-fuel": {
                             unitFuel = stack.Pop<int>();
                             return true;
                         }
-                        case "prefab": {
+                        case "set-prefab": {
                             unitViewPrefab = stack.Pop<string>().LoadAs<UnitView>();
                             return true;
                         }

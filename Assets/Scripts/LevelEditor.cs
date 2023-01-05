@@ -11,6 +11,12 @@ using UnityEngine.Serialization;
 
 public class LevelEditor : MonoBehaviour {
 
+    #if false
+    public class SerializedBuilding {
+    }
+    public class SerializedUnit {}
+    public class SerializedPlayer {}
+    
     public const string mode = "mode";
     public const string player = "player";
 
@@ -29,7 +35,7 @@ public class LevelEditor : MonoBehaviour {
     public Material tileMaterial;
     public TileTypeColorDictionary tileTypeColors = new();
     public UnitTypeUnitViewDictionary unitViewPrefabs = new();
-    public Numerator numerator = new();
+    public int nextId = 0;
     public Color nullPlayerColor = Color.white;
 
     public Transform editModeRoot;
@@ -546,6 +552,7 @@ public class LevelEditor : MonoBehaviour {
             if (unit.position?.ToVector2Int() is { } position)
                 AddUnit(position, unit);
     }
+#endif
 }
 
 [Serializable]

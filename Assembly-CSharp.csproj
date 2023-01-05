@@ -64,7 +64,6 @@
      <Compile Include="Assets/CommandLine/Antlr4/Tree/Pattern/Chunk.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/MergeCache.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/ITokenFactory.cs" />
-     <Compile Include="Assets/Scripts/Level/Serialization.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Recognizer.cs" />
      <Compile Include="Assets/Scripts/MainMenuView.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/BlockEndState.cs" />
@@ -173,6 +172,7 @@
      <Compile Include="Assets/Scripts/GameParser.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/TokenStreamRewriter.cs" />
      <Compile Include="Assets/Priority Queue/FastPriorityQueueNode.cs" />
+     <Compile Include="Assets/Scripts/Serializer/Serializer2.cs" />
      <Compile Include="Assets/Scripts/Level/ConvexHull.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Tree/ITerminalNode.cs" />
      <Compile Include="Assets/Scripts/UnitTypesInfo.cs" />
@@ -294,6 +294,7 @@
      <Compile Include="Assets/CommandLine/Levenshtein.cs" />
      <Compile Include="Assets/Scripts/Animation/PistonCompresser.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Tree/Xpath/XPathElement.cs" />
+     <Compile Include="Assets/Scripts/SavedGamesView.cs" />
      <Compile Include="Assets/Scripts/Animation/PlaceOnTerrain.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Dfa/DFASerializer.cs" />
      <Compile Include="Assets/Scripts/CampaignOverviewState.cs" />
@@ -452,8 +453,7 @@
      <Compile Include="Assets/CommandLine/Antlr4/Atn/PlusBlockStartState.cs" />
      <Compile Include="Assets/Scripts/Animation/PistonBody.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
-     <Compile Include="Assets/Scripts/SavedGamesView.cs" />
-     <Compile Include="Assets/Scripts/Serializer/Serializer2.cs" />
+     <Compile Include="Assets/Scripts/ImageLoadTest.cs" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />
      <None Include="Assets/Shaders/My First Lighting Shader.shader" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader" />

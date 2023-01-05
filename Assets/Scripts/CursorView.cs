@@ -23,6 +23,7 @@ public class CursorView : MonoBehaviour {
 	public TMP_Text text;
 	[Command]
 	public bool enableText = true;
+	public Main main;
 
 	public bool Visible {
 		set => gameObject.SetActive(value);
@@ -34,7 +35,12 @@ public class CursorView : MonoBehaviour {
 
 	public void LateUpdate() {
 
-		if (Mouse.TryGetPosition(out Vector2Int mousePosition) && (!Main.Instance || Main.Instance.TryGetTile(mousePosition, out _))) {
+		if (!main) {
+			main = FindObjectOfType<Main>();
+			Assert.IsTrue(main);
+		}
+		
+		if (Mouse.TryGetPosition(out Vector2Int mousePosition) && main.TryGetTile(mousePosition, out _)) {
 			meshRenderer.enabled = show;
 			transform.position = mousePosition.ToVector3Int();
 			if (text) {

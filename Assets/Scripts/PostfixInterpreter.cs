@@ -13,7 +13,7 @@ public static class PostfixInterpreter {
         if (string.IsNullOrWhiteSpace(input))
             return stack;
 
-        var tokens = input.Split(new[] { ' ', '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+        var tokens = input.Split(new[] { ' ', '\r', '\n', '\t' }, StringSplitOptions.RemoveEmptyEntries);
         var ignore = false;
 
         foreach (var token in tokens) {

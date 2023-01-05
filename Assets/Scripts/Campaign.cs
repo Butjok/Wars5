@@ -12,26 +12,26 @@ public class Campaign {
         public string isAvailable = "true";
         public bool isCompleted;
         public Type levelLogicType = typeof(LevelLogic);
-        public SerializedLevel initialState;
+        public string initialState;
     }
 
     public List<Mission> missions = new() {
         new Mission {
             name = "Tutorial",
             sceneName = "SampleScene",
-            initialState = new SerializedLevel(),
+            initialState = "",
             isCompleted = true
         },
         new Mission {
             name = "FirstMission",
             sceneName = "SampleScene",
-            initialState = new SerializedLevel(),
+            initialState = "",
             isAvailable = "Tutorial isCompleted"
         },
         new Mission {
             name = "SecondMission",
             sceneName = "SampleScene",
-            initialState = new SerializedLevel(),
+            initialState = "",
             isAvailable = "FirstMission isCompleted"
         }
     };

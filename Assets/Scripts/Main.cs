@@ -8,15 +8,6 @@ using UnityEngine.Assertions;
 
 public class Main : MonoBehaviour {
 
-    private static Main instance;
-    public static Main Instance {
-        get {
-            if (!instance)
-                instance = FindObjectOfType<Main>();
-            return instance;
-        }
-    }
-
     public Map2D<Unit> units;
     public Map2D<TileType> tiles;
     public Map2D<Building> buildings;
@@ -72,9 +63,11 @@ public class Main : MonoBehaviour {
     }
 
     private void OnApplicationQuit() {
-        if (Player.undisposed.Count != 0) { }
-        if (Unit.undisposed.Count != 0) { }
-        if (UnitAction.undisposed.Count != 0) { }
+        Debug.Log(@$"""
+undisposed:
+    players: {Player.undisposed.Count}
+    units: {Unit.undisposed.Count}
+    unitActions: {UnitAction.undisposed.Count}""");
     }
 
     public float fadeDuration = 2;

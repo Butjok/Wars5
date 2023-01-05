@@ -74,17 +74,54 @@ public static class Serializer2 {
 }
 /*
  
-Plain TileType enum 1 1 int2 addTile
-Plain TileType enum 1 2 int2 addTile
-Plain TileType enum 2 3 int2 addTile
+Game set-state
 
-City TileType enum  # type # 
-3 3 int2            # position # 
-None ColorName enum # color #
-10                  # cp #
-addBuilding
+0 set-turn
 
-Red ColorName enum
+Players set-state
 
+Alpha Team enum 	    set-team
+250 			        set-credits
+VladanCo 		        set-co
+true 			        set-local
+Red ColorName enum 	    add-player 
+
+Bravo Team enum 	    set-team
+10000 			        set-credits
+Easy AiDifficulty enum 	set-difficulty
+NatalieCo 		        set-co
+Green ColorName enum 	add-player
+
+Tiles set-state
+
+-5 5 int2 set-start-position
+
+. . . . . R H . . . . . . . .  nl
+. . . . . . . . . . . . . . nl
+. . . . . . . . . . . . . . nl
+. . . . . . . . . . . . . . nl
+. . . . . . . . . . . . . . nl
+. . . . . . . . . . . . . . nl
+. . . . . . . . . G H G F
+
+Units set-state
+
+Infantry UnitType enum 	set-type 
+-2 4 int2 		        set-position 
+0 -1 int2 		        set-look-direction
+R 			            add-unit
+
+Infantry UnitType enum 	set-type 
+6 3 int2 			    set-position 
+0 -1 int2 		        set-look-direction
+R 			            add-unit
+
+Infantry UnitType enum 	set-type 
+1 2 int2 			    set-position 
+G 			            add-unit
+
+Infantry UnitType enum 	set-type 
+2 3 int2 			    set-position 
+G 			            add-unit
  
  */
