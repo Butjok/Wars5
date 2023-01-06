@@ -1,5 +1,5 @@
+using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -73,17 +73,17 @@ public static class GameLoader {
 
         main.Clear();
 
-        PostfixInterpreter.Execute(input, (token, stack) => {
-
+        var stack = new Stack();
+        foreach (var token in input.Tokenize()) {
             switch (token) {
 
                 case "game.set-turn": {
                     main.turn = stack.Pop<int>();
-                    return true;
+                    break;
                 }
                 case "game.load-scene": {
                     var name = stack.Pop<string>();
-                    return true;
+                    break;
                 }
 
                 case "player.create": {
@@ -91,7 +91,7 @@ public static class GameLoader {
                     Assert.IsTrue(playerLookupId == null || !playerLookup.ContainsKey(playerLookupId), playerLookupId);
 
                     var player = new Player(main, playerColor, playerTeam, playerCredits, playerCo, playerViewPrefab, playerType, playerDifficulty);
-                    
+
                     if (playerLookupId != null)
                         playerLookup.Add(playerLookupId, player);
 
@@ -102,113 +102,114 @@ public static class GameLoader {
 
                     stack.Push(player);
                     ResetPlayerValues();
-                    return true;
+                    break;
                 }
 
                 case "player.set-lookup-id": {
                     playerLookupId = stack.Pop<string>();
-                    return true;
+                    break;
                 }
                 case "player.set-color": {
                     var b = stack.Pop<dynamic>();
                     var g = stack.Pop<dynamic>();
                     var r = stack.Pop<dynamic>();
                     playerColor = new Color(r, g, b);
-                    return true;
+                    break;
                 }
                 case "player.set-team": {
                     playerTeam = stack.Pop<Team>();
-                    return true;
+                    break;
                 }
                 case "player.set-credits": {
                     playerCredits = stack.Pop<int>();
-                    return true;
+                    break;
                 }
                 case "player.set-co": {
                     playerCo = stack.Pop<string>().LoadAs<Co>();
-                    return true;
+                    break;
                 }
                 case "player.set-prefab": {
                     playerViewPrefab = stack.Pop<string>().LoadAs<PlayerView>();
-                    return true;
+                    break;
                 }
                 case "player.set-ai": {
                     playerType = PlayerType.Ai;
                     playerDifficulty = stack.Pop<AiDifficulty>();
-                    return true;
+                    break;
                 }
                 case "player.mark-as-local": {
                     playerLocal = true;
-                    return true;
+                    break;
                 }
 
                 case "unit.create": {
                     Assert.AreNotEqual(default, unitType);
                     var player = stack.Pop<Player>();
-                    var unit = new Unit(player, unitType, position: unitPosition, rotation: unitRotation, hp: unitHp, fuel: unitFuel, moved: unitMoved, viewPrefab: unitViewPrefab);
+                    var unit = new Unit(player, unitType, unitPosition, unitRotation, unitHp, unitFuel, unitMoved, unitViewPrefab);
                     stack.Push(unit);
                     ResetUnitValues();
-                    return true;
+                    break;
                 }
                 case "unit.get-player": {
                     stack.Push(stack.Pop<Unit>().player);
-                    return true;
+                    break;
                 }
                 case "unit.set-position": {
                     unitPosition = stack.Pop<Vector2Int>();
-                    return true;
+                    break;
                 }
                 case "unit.set-moved": {
                     unitMoved = true;
-                    return true;
+                    break;
                 }
                 case "unit.set-type": {
                     unitType = stack.Pop<UnitType>();
-                    return true;
+                    break;
                 }
                 case "unit.set-look-direction": {
                     unitRotation = stack.Pop<Vector2Int>();
-                    return true;
+                    break;
                 }
                 case "unit.set-hp": {
                     unitHp = stack.Pop<int>();
-                    return true;
+                    break;
                 }
                 case "unit.set-fuel": {
                     unitFuel = stack.Pop<int>();
-                    return true;
+                    break;
                 }
                 case "unit.set-prefab": {
                     unitViewPrefab = stack.Pop<string>().LoadAs<UnitView>();
-                    return true;
+                    break;
                 }
                 case "unit.put-into": {
                     var unit = stack.Pop<Unit>();
                     var carrier = stack.Pop<Unit>();
                     carrier.cargo.Add(unit);
                     unit.carrier.v = carrier;
-                    return true;
+                    break;
                 }
 
                 case "nl": {
                     scanPosition.x = startPosition.x;
                     scanPosition += nextLineOffset;
-                    return true;
+                    break;
                 }
                 case "tilemap.set-next-line-offset": {
                     nextLineOffset = stack.Pop<Vector2Int>();
-                    return true;
+                    break;
                 }
                 case "tilemap.set-start-position": {
                     Assert.AreEqual(0, main.tiles.Count);
                     startPosition = stack.Pop<Vector2Int>();
                     scanPosition = startPosition;
-                    return true;
+                    break;
                 }
                 case "n": {
                     hasPlayer = false;
-                    return true;
+                    break;
                 }
+
                 default: {
                     if (parseMnemonic.TryGetValue(token, out var tileType)) {
                         main.tiles.Add(scanPosition, tileType);
@@ -224,13 +225,13 @@ public static class GameLoader {
                         }
                         scanPosition += nextTileDelta;
                         hasPlayer = true;
-                        return true;
                     }
-                    return false;
+                    else
+                        stack.ExecuteToken(token);
+                    break;
                 }
-
             }
-        });
+        }
 
         Assert.IsNotNull(main.localPlayer);
 

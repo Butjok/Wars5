@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -74,20 +75,22 @@ public class Campaign {
         if (mission.isCompleted)
             return true;
 
-        var stack = PostfixInterpreter.Execute(mission.isAvailable, (token, stack) => {
+        var stack = new Stack();
+        foreach (var token in mission.isAvailable.Tokenize()) {
             switch (token) {
                 case "isCompleted":
                     var other = TryFind(stack.Pop<string>());
                     Assert.IsNotNull(other);
                     stack.Push(other.isCompleted);
-                    return true;
+                    break;
                 case "isAvailable":
                     stack.Push(IsAvailable(stack.Pop<string>()));
-                    return true;
+                    break;
                 default:
-                    return false;
+                    stack.ExecuteToken(token);
+                    break;
             }
-        });
+        }
         Assert.AreEqual(1, stack.Count);
         return stack.Pop<bool>();
     }

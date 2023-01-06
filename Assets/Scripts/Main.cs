@@ -1,5 +1,8 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Butjok.CommandLine;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -15,7 +18,9 @@ public class Main : MonoBehaviour {
     public Player localPlayer;
     public GameSettings settings = new();
 
-    public InputCommandsContext input = new();
+    public Stack stack = new();
+    public Queue<string> commands = new();
+    public GUISkin guiSkin;
 
     public void Awake() {
         
@@ -26,9 +31,9 @@ public class Main : MonoBehaviour {
         
         UpdatePostProcessing();
         
-        PersistentData.Clear();
         settings = PersistentData.Read().gameSettings;
-        PersistentData.Read().Save();
+
+        guiSkin = Resources.Load<GUISkin>("CommandLine");
     }
 
     public void UpdatePostProcessing() {
@@ -75,13 +80,23 @@ public class Main : MonoBehaviour {
         Debug.Log(@$"UNDISPOSED: players: {Player.undisposed.Count} buildings: {Building.undisposed.Count} units: {Unit.undisposed.Count} unitActions: {UnitAction.undisposed.Count}");
     }
 
+    private void OnGUI() {
+        if (guiSkin)
+            GUI.skin = guiSkin;
+        var content = new GUIContent($"Stack: {stack.Count}");
+        var style = GUI.skin.label;
+        var size = style.CalcSize(content);
+        var rect = new Rect(Screen.width - size.x, 0, size.x, size.y);
+        GUI.Label(rect, content, style);
+    }
+
     public float fadeDuration = 2;
     public Ease fadeEase = Ease.Unset;
     public void RestartGame() {
         PostProcessing.ColorFilter = Color.black;
         PostProcessing.Fade(Color.white, fadeDuration, fadeEase);
         StopAllCoroutines();
-        StartCoroutine(SelectionState.New(this, true));
+        StartCoroutine( SelectionState.Run(this, true));
     }
     
     public void Clear() {
@@ -103,5 +118,10 @@ public class Main : MonoBehaviour {
         foreach (var building in buildings.Values.ToArray())
             building.Dispose();
         buildings.Clear();
+    }
+
+    [Command]
+    public void EnqueueCommand(string command) {
+        commands.Enqueue(command);
     }
 }

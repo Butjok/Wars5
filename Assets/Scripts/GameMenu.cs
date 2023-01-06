@@ -1,7 +1,5 @@
 using System;
-using System.Resources;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameMenu : MonoBehaviour {
@@ -12,19 +10,6 @@ public class GameMenu : MonoBehaviour {
     public string versionFormat = "© Copyright {2} 2022–{3}, v {1}";
     public TMP_Text titleText;
     public string titleFormat = "{0}";
-
-    public void Quit() {
-        Application.Quit();
-    }
-    public void Resume() {
-        GameMenuState.shouldResume = true;
-    }
-    public void OpenLoadGame() {
-        GameMenuState.shouldLoadGame = true;
-    }
-    public void OpenSettings() {
-        GameMenuState.shouldOpenSettings = true;
-    }
 
     public void Show(Main main) {
         this.main = main;
@@ -38,7 +23,10 @@ public class GameMenu : MonoBehaviour {
 
     private void Update() {
         if (Input.GetKeyDown(KeyCode.Escape))
-            Resume();
+            main.commands.Enqueue(GameMenuState.close);
+    }
+    public void EnqueueCommand(string command) {
+        main.commands.Enqueue(command);
     }
 
     private static string Format(string input) {

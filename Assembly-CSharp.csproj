@@ -202,7 +202,7 @@
      <Compile Include="Assets/Scripts/Faction.cs" />
      <Compile Include="Assets/Scripts/DifferenceEffect.cs" />
      <Compile Include="Assets/Scripts/InputCommandsListener.cs" />
-     <Compile Include="Assets/Scripts/GameStates/BlogPostStackMachineVisualizationStackValue.cs" />
+     <Compile Include="Assets/Scripts/Animation/BlogPostStackMachineVisualizationStackValue.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Dfa/DFAState.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Misc/Utils.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Tree/Pattern/RuleTagToken.cs" />
@@ -272,7 +272,7 @@
      <Compile Include="Assets/Scripts/PostProcessing.cs" />
      <Compile Include="Assets/Scripts/Palette.cs" />
      <Compile Include="Assets/CommandLine/Parsers/Butjok/CommandLine/Parsers/CommandLineBaseVisitor.cs" />
-     <Compile Include="Assets/Scripts/GameStates/BlogPostStackMachineVisualization.cs" />
+     <Compile Include="Assets/Scripts/Animation/BlogPostStackMachineVisualization.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/BailErrorStrategy.cs" />
      <Compile Include="Assets/Priority Queue/SimplePriorityQueue.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Tree/ParseTreeWalker.cs" />
@@ -354,7 +354,7 @@
      <Compile Include="Assets/Scripts/Animation/AccelerationTorque.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Tree/IParseTree.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Misc/IIntSet.cs" />
-     <Compile Include="Assets/Scripts/GameStates/UnitBuildingState.cs" />
+     <Compile Include="Assets/Scripts/GameStates/UnitBuildState.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/LexerATNSimulator.cs" />
      <Compile Include="Assets/Scripts/LoadSubscene.cs" />
      <Compile Include="Assets/CommandLine/Parsers/CommandLineVisitor.cs" />
@@ -622,6 +622,7 @@
      <None Include="Assets/TextMesh Pro/Shaders/TMP_Bitmap-Mobile.shader" />
      <None Include="Assets/Shaders/My First Shader.shader" />
      <None Include="Assets/Shaders/Textured With Detail.shader" />
+     <None Include="Assets/Resources/Missions/FirstMission.txt" />
      <Folder Include="Assets/Content/Factory" />
      <Folder Include="Assets/Scenes" />
      <None Include="Assets/TextMesh Pro/Fonts/LiberationSans - OFL.txt" />

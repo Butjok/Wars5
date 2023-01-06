@@ -61,7 +61,7 @@ public class LoadGameMenu : MonoBehaviour {
     }
 
     public void Close() {
-        LoadGameState.shouldBreak = true;
+        main.commands.Enqueue(LoadGameState.close);
     }
     private void Update() {
         if (Input.GetKeyDown(KeyCode.Escape))

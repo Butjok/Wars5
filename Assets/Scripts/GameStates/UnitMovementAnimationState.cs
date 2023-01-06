@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class UnitMovementAnimationState {
 
-	public static IEnumerator New(Main main,Unit unit,MovePath path) {
+	public static IEnumerator Run(Main main,Unit unit,MovePath path) {
 
 		var startForward = unit.view.transform.forward.ToVector2().RoundToInt();
 		var play = true;
@@ -41,6 +41,6 @@ public static class UnitMovementAnimationState {
 			unit.view.Position = path.Destination;
 			unit.view.LookDirection = path.moves.Last().forward;
 		}
-		yield return ActionSelectionState.New(main,unit,path,startForward);
+		yield return ActionSelectionState.Run(main,unit,path,startForward);
 	}
 }

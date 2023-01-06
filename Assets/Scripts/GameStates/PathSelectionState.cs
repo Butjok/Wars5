@@ -7,9 +7,16 @@ using UnityEngine.Rendering;
 
 public static class PathSelectionState {
 
-    public static IEnumerator New(Main main, Unit unit) {
-        
-        int? cost(Vector2Int position, int length) {
+    public const string prefix = "path-selection-state.";
+
+    public const string cancel = prefix + "cancel";
+    public const string move = prefix + "move";
+    public const string reconstructPath = prefix + "reconstruct-path";
+    public const string appendToPath = prefix + "append-to-path";
+    
+    public static IEnumerator Run(Main main, Unit unit) {
+
+        int? Cost(Vector2Int position, int length) {
             if (length >= Rules.MoveDistance(unit) ||
                 !main.TryGetTile(position, out var tile) ||
                 main.TryGetUnit(position, out var other) && !Rules.CanPass(unit, other))
@@ -17,15 +24,15 @@ public static class PathSelectionState {
 
             return Rules.MoveCost(unit, tile);
         }
-        
+
         Assert.IsTrue(unit.position.v != null, "unit.position.v != null");
         var unitPosition = (Vector2Int)unit.position.v;
         Assert.IsTrue(main.tiles.ContainsKey(unitPosition));
 
         var moveDistance = Rules.MoveDistance(unit);
-        
+
         var traverser = new Traverser();
-        traverser.Traverse(main.tiles.Keys, unitPosition, cost, moveDistance);
+        traverser.Traverse(main.tiles.Keys, unitPosition, Cost, moveDistance);
 
         var startForward = unit.view.transform.forward.ToVector2().RoundToInt();
 
@@ -57,12 +64,12 @@ public static class PathSelectionState {
         tileMeshRenderer.shadowCastingMode = ShadowCastingMode.Off;
 
         tileMeshFilter.sharedMesh = TileMeshBuilder.Build(
-            tileMeshFilter.sharedMesh, 
-            main.tiles.Keys.Where(position => traverser.IsReachable(position,moveDistance)));
+            tileMeshFilter.sharedMesh,
+            main.tiles.Keys.Where(position => traverser.IsReachable(position, moveDistance)));
 
         var oldPositions = new List<Vector2Int> { unitPosition };
 
-        void cleanUp() {
+        void CleanUp() {
             Object.Destroy(pathMeshGameObject);
             Object.Destroy(tileMeshGameObject);
         }
@@ -70,69 +77,66 @@ public static class PathSelectionState {
         CursorView.Instance.Visible = true;
 
         while (true) {
-            
             yield return null;
 
-            if (main.input.reconstructPathTo is { } targetPosition) {
-                main.input.reconstructPathTo = null;
+            if (Input.GetMouseButtonDown(Mouse.right) || Input.GetKeyDown(KeyCode.Escape))
+                main.commands.Enqueue(cancel);
 
-                var positions = traverser.ReconstructPath(targetPosition)?.Skip(1);
-                if (positions != null) {
-                    pathBuilder.Clear();
-                    foreach (var position in positions)
-                        pathBuilder.Add(position);
+            else if (Input.GetMouseButtonDown(Mouse.left) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return)) {
+
+                if (Mouse.TryGetPosition(out Vector2Int mousePosition) && traverser.IsReachable(mousePosition, moveDistance)) {
+                    if (pathBuilder.Positions.Last() == mousePosition)
+                        main.commands.Enqueue(move);
+                    else {
+                        main.stack.Push(mousePosition);
+                        main.commands.Enqueue(reconstructPath);
+                    }
                 }
-            }
-            else
-                while (main.input.appendToPath.Count > 0)
-                    pathBuilder.Add(main.input.appendToPath.Dequeue());
-            
-            if (main.input.moveUnit) {
-                main.input.moveUnit = false;
-                cleanUp();
-                CursorView.Instance.Visible = false;
-                yield return UnitMovementAnimationState.New(main, unit, new MovePath(pathBuilder.Positions, startForward));
-                yield break;
+                else
+                    UiSound.Instance.notAllowed.PlayOneShot();
             }
 
-            else if (main.input.cancel) {
-                main.input.cancel = false;
-                unit.view.Selected = false;
-                cleanUp();
-                yield return SelectionState.New(main);
-                yield break;
-            }
+            while (main.commands.TryDequeue(out var input))
+                foreach (var token in input.Tokenize())
+                    switch (token) {
+
+                        case reconstructPath: {
+                            var targetPosition = main.stack.Pop<Vector2Int>();
+                            var positions = traverser.ReconstructPath(targetPosition)?.Skip(1);
+                            if (positions != null) {
+                                pathBuilder.Clear();
+                                foreach (var position in positions)
+                                    pathBuilder.Add(position);
+                            }
+                            break;
+                        }
+
+                        case appendToPath:
+                            pathBuilder.Add(main.stack.Pop<Vector2Int>());
+                            break;
+
+                        case move:
+                            CleanUp();
+                            CursorView.Instance.Visible = false;
+                            yield return UnitMovementAnimationState.Run(main, unit, new MovePath(pathBuilder.Positions, startForward));
+                            yield break;
+
+                        case cancel:
+                            unit.view.Selected = false;
+                            CleanUp();
+                            yield return SelectionState.Run(main);
+                            yield break;
+                        
+                        default:
+                            main.stack.ExecuteToken(token);
+                            break;
+                    }
 
             if (!oldPositions.SequenceEqual(pathBuilder.Positions)) {
                 oldPositions.Clear();
                 oldPositions.AddRange(pathBuilder.Positions);
                 var path = new MovePath(pathBuilder.Positions, startForward);
                 pathMeshFilter.sharedMesh = MovePathMeshBuilder.Build(pathMeshFilter.sharedMesh, path, moveTypeAtlas);
-            }
-
-            if (Input.GetMouseButtonDown(Mouse.right) || Input.GetKeyDown(KeyCode.Escape)) {
-
-                unit.view.Selected = false;
-                main.input.Reset();
-
-                cleanUp();
-                yield return SelectionState.New(main);
-                yield break;
-            }
-
-            else if (Input.GetMouseButtonDown(Mouse.left) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return)) {
-
-                if (Mouse.TryGetPosition(out Vector2Int mousePosition) && traverser.IsReachable(mousePosition, moveDistance)) {
-                    if (pathBuilder.Positions.Last() == mousePosition)
-                        main.input.moveUnit = true;
-                    else {
-                        pathBuilder.Clear();
-                        foreach (var position in traverser.ReconstructPath(mousePosition).Skip(1))
-                            pathBuilder.Add(position);
-                    }
-                }
-                else
-                    UiSound.Instance.notAllowed.PlayOneShot();
             }
         }
     }

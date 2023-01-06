@@ -1,14 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="save load game commands upgrade">
+    <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="good commit before big refactoring">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assembly-CSharp.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Missions/FirstMission.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Missions/FirstMission.txt.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CommandLine/Assets/CommandLine.guiskin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CommandLine/Assets/CommandLine.guiskin.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Missions/FirstMission.txt.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Missions/FirstMission.txt.gz.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Missions/Tutorial.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Missions/Tutorial.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/DialogueUi.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DialogueUi.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoader.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameMenu.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameMenu.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameSettingsMenu.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameSettingsMenu.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/ActionSelectionState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/ActionSelectionState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/BattleAnimationState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/BattleAnimationState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/BlogPostStackMachineVisualization.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Animation/BlogPostStackMachineVisualization.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/BlogPostStackMachineVisualization.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Animation/BlogPostStackMachineVisualization.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/BlogPostStackMachineVisualizationStackValue.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Animation/BlogPostStackMachineVisualizationStackValue.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/BlogPostStackMachineVisualizationStackValue.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Animation/BlogPostStackMachineVisualizationStackValue.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/DialogueState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/DialogueState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/GameMenuState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/GameMenuState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/GameSettingsState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/GameSettingsState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/LoadGameState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/LoadGameState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/PathSelectionState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/PathSelectionState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/SelectionState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/SelectionState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/TurnStartAnimationState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/TurnStartAnimationState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/UnitBuildingState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/UnitBuildState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/UnitBuildingState.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/UnitBuildState.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/UnitMovementAnimationState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/UnitMovementAnimationState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/VictoryState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/VictoryState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/InputCommandsListener.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/InputCommandsListener.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Level/UnitAction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Level/UnitAction.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/LevelLogic/TutorialLevelLogic.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/LevelLogic/TutorialLevelLogic.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/LoadGameMenu.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/LoadGameMenu.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Main.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Main.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PersistentData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PersistentData.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PostfixInterpreter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PostfixInterpreter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UnitActionsPanel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UnitActionsPanel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UnitBuildMenu.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UnitBuildMenu.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wars5.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/Wars5.sln.DotSettings.user" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -296,14 +330,7 @@
       <workItem from="1672772371201" duration="12801000" />
       <workItem from="1672856370566" duration="13527000" />
       <workItem from="1672871614643" duration="7451000" />
-      <workItem from="1672994600747" duration="24351000" />
-    </task>
-    <task id="LOCAL-00138" summary="sdfdsfsdfsdsdfsdf">
-      <created>1665457076821</created>
-      <option name="number" value="00138" />
-      <option name="presentableId" value="LOCAL-00138" />
-      <option name="project" value="LOCAL" />
-      <updated>1665457076822</updated>
+      <workItem from="1672994600747" duration="35852000" />
     </task>
     <task id="LOCAL-00139" summary="randomize survivors">
       <created>1665457586531</created>
@@ -641,7 +668,14 @@
       <option name="project" value="LOCAL" />
       <updated>1673022365031</updated>
     </task>
-    <option name="localTasksCounter" value="187" />
+    <task id="LOCAL-00187" summary="good commit before big refactoring">
+      <created>1673031150202</created>
+      <option name="number" value="00187" />
+      <option name="presentableId" value="LOCAL-00187" />
+      <option name="project" value="LOCAL" />
+      <updated>1673031150202</updated>
+    </task>
+    <option name="localTasksCounter" value="188" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -674,7 +708,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="unit action ui" />
     <MESSAGE value="poiopiop" />
     <MESSAGE value="lisp0" />
     <MESSAGE value="postscript" />
@@ -699,7 +732,8 @@
     <MESSAGE value="kjjk" />
     <MESSAGE value="dfgdfgdfg" />
     <MESSAGE value="save load game commands upgrade" />
-    <option name="LAST_COMMIT_MESSAGE" value="save load game commands upgrade" />
+    <MESSAGE value="good commit before big refactoring" />
+    <option name="LAST_COMMIT_MESSAGE" value="good commit before big refactoring" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

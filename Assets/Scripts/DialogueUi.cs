@@ -66,7 +66,7 @@ public class DialogueUi : MonoBehaviour {
         }
     }
 
-    public void Refresh(DialogueSpeaker speaker, Line line) {
+    public void Set(DialogueSpeaker speaker, Line line) {
 
         if (line.changeMood is { } newMood)
             moods[speaker] = newMood;

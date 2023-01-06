@@ -3,6 +3,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Serialization;
 using Button = UnityEngine.UI.Button;
 using Image = UnityEngine.UI.Image;
 
@@ -22,9 +23,8 @@ public class UnitBuildMenu : MonoBehaviour {
     public string descriptionFormat = "{0}";
     public string typeNameFormat = "{0}";
     public Image thumbnail;
-    public Main main;
     public UnitType defaultUnitType = UnitType.Infantry;
-    public Button build;
+    [FormerlySerializedAs("build")] public Button buildButton;
     public Building building;
     public UnitType unitType;
     public Button[] unitTypeButtons = Array.Empty<Button>();
@@ -33,11 +33,12 @@ public class UnitBuildMenu : MonoBehaviour {
     public bool TryBuild() {
         if (!building.player.v.CanAfford(unitType))
             return false;
-        building.main.input.buildUnitType = unitType;
+        building.main.stack.Push(unitType);
+        building.main.commands.Enqueue(UnitBuildState.build);
         return true;
     }
     public void Cancel() {
-        UnitBuildingState.cancel = true;
+        building.main.commands.Enqueue(UnitBuildState.close);
     }
 
     public void Show(Building building) {
@@ -97,41 +98,11 @@ public class UnitBuildMenu : MonoBehaviour {
                     : string.Format(attackRangeFormat, attackRange[0], attackRange[1])
                 : attackRangeNotAvailable;
 
-            build.interactable = player.CanAfford(unitType);
+            buildButton.interactable = player.CanAfford(unitType);
         }
     }
+    
     public string UnitTypeName {
         set => UnitType = Enum.Parse<UnitType>(value);
-    }
-
-    private void SelectRandomUnitType() {
-        UnitType = new[] {
-            UnitType.Infantry,
-            UnitType.AntiTank,
-            UnitType.Artillery,
-            UnitType.Apc,
-            UnitType.TransportHelicopter,
-            UnitType.AttackHelicopter,
-            UnitType.FighterJet,
-            UnitType.Bomber,
-            UnitType.Recon,
-            UnitType.LightTank,
-        }.Random();
-    }
-
-    private void ToggleVisibility() {
-        if (!Visible) {
-            main = FindObjectOfType<Main>();
-            Assert.IsTrue(main);
-            var building = main.buildings.Values.Where(building => building.IsAccessible).OrderBy(_ => UnityEngine.Random.value).First();
-            Show(building);
-        }
-        else
-            Hide();
-    }
-
-    private void FindUnitTypeButtons() {
-        if (unitTypeButtonsContainer)
-            unitTypeButtons = unitTypeButtonsContainer.GetComponentsInChildren<Button>();
     }
 }
