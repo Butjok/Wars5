@@ -24,8 +24,7 @@ public class Unit : IDisposable {
 
     public static implicit operator UnitType(Unit unit) => unit.type;
 
-    public Unit(Player player, bool moved = false, UnitType type = UnitType.Infantry, Vector2Int? position
-        = null, Vector2Int? rotation = null, int hp = int.MaxValue, int fuel = int.MaxValue, UnitView viewPrefab = null) {
+    public Unit(Player player, UnitType type = UnitType.Infantry, Vector2Int? position = null, Vector2Int? rotation = null, int hp = int.MaxValue, int fuel = int.MaxValue, bool moved = false, UnitView viewPrefab = null) {
 
         undisposed.Add(this);
         

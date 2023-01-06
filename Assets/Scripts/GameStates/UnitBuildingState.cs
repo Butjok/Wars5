@@ -38,7 +38,7 @@ public static class UnitBuildingState {
 
                 Assert.IsTrue(availableTypes.Contains(main.input.buildUnitType));
 
-                var unit = new Unit(building.player.v, true, main.input.buildUnitType, building.position, viewPrefab: Resources.Load<UnitView>("light-tank"));
+                var unit = new Unit(building.player.v, main.input.buildUnitType, position: building.position, moved: true, viewPrefab: Resources.Load<UnitView>("light-tank"));
                 main.input.Reset();
 
                 Debug.Log($"Built unit {unit}");

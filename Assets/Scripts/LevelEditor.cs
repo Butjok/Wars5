@@ -8,12 +8,70 @@ using TMPro;
 using UnityEditor.XR;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
+
+public  class LevelEditorState : MonoBehaviour {
+
+    public  string sceneName = "LevelEditor";
+    public readonly UnitType[] unitTypes = {
+        UnitType.Infantry,
+        UnitType.AntiTank,
+        UnitType.Artillery,
+        UnitType.Apc,
+        UnitType.TransportHelicopter,
+        UnitType.AttackHelicopter,
+        UnitType.FighterJet,
+        UnitType.Bomber,
+        UnitType.Recon,
+        UnitType.LightTank,
+        UnitType.Rockets,
+    };
+
+    public TMP_Text uiText;
+
+    public  IEnumerator New(Main main) {
+        if (SceneManager.GetActiveScene().name != sceneName)
+            SceneManager.LoadScene(sceneName);
+
+        // init empty map
+        {
+            main.Clear();
+
+            var red = new Player(main, Color.red, Team.Alpha);
+            var blue = new Player(main, Color.blue, Team.Bravo);
+
+            for (var y = 0; y < 10; y++)
+            for (var x = 0; x < 10; x++)
+                main.tiles.Add(new Vector2Int(x, y), TileType.Plain);
+
+            var redHq = new Building(main, new Vector2Int(0, 0), TileType.Hq, red);
+            var blueHq = new Building(main, new Vector2Int(9, 9), TileType.Hq, blue);
+
+            var redInfantry = new Unit(red, UnitType.Infantry, new Vector2Int(1, 1));
+            var blueInfantry = new Unit(blue, UnitType.Infantry, new Vector2Int(8, 8));
+        }
+
+        var cursorView = CursorView.Instance;
+        if (cursorView)
+            cursorView.Visible = true;
+
+        var textDisplay = new LevelEditorTextDisplay(uiText);
+        
+        var unitTypeIndex = -1;
+
+        while (true) {
+            yield return null;
+
+            
+        }
+    }
+}
 
 public class LevelEditor : MonoBehaviour {
 
-    
-    #if false
+
+#if false
     public class SerializedBuilding {
     }
     public class SerializedUnit {}

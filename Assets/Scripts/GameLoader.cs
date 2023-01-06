@@ -145,7 +145,7 @@ public static class GameLoader {
                 case "unit.create": {
                     Assert.AreNotEqual(default, unitType);
                     var player = stack.Pop<Player>();
-                    var unit = new Unit(player, unitMoved, unitType, unitPosition, unitRotation, unitHp, unitFuel, unitViewPrefab);
+                    var unit = new Unit(player, unitType, position: unitPosition, rotation: unitRotation, hp: unitHp, fuel: unitFuel, moved: unitMoved, viewPrefab: unitViewPrefab);
                     stack.Push(unit);
                     ResetUnitValues();
                     return true;
@@ -186,6 +186,7 @@ public static class GameLoader {
                     var unit = stack.Pop<Unit>();
                     var carrier = stack.Pop<Unit>();
                     carrier.cargo.Add(unit);
+                    unit.carrier.v = carrier;
                     return true;
                 }
 
