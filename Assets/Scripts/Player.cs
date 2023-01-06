@@ -18,14 +18,14 @@ public class Player : IDisposable {
 
 	public Main main;
 	public Team team = Team.None;
-	public Color32 color;
+	public Color color;
 	public Co co;
 	public PlayerType type = PlayerType.Human;
 	public AiDifficulty difficulty = AiDifficulty.Normal;
 	public PlayerView view;
 	public int credits;
 
-	public Player(Main main, Color32 color, Team team = Team.None, int credits=0, Co co = null, PlayerView viewPrefab = null,
+	public Player(Main main, Color color, Team team = Team.None, int credits=0, Co co = null, PlayerView viewPrefab = null,
 		PlayerType type = PlayerType.Human, AiDifficulty difficulty=AiDifficulty.Normal) {
 
 		undisposed.Add(this);
@@ -48,7 +48,7 @@ public class Player : IDisposable {
 	}
 
 	public override string ToString() {
-		return color.GetName().ToString();
+		return color.ToString();
 	}
 
 	public void Dispose() {

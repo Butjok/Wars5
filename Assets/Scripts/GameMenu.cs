@@ -1,6 +1,5 @@
 using System;
 using System.Resources;
-using NaughtyAttributes;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;

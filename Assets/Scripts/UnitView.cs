@@ -37,7 +37,7 @@ public class UnitView : MonoBehaviour {
             ResetSteeringArms();
         }
     }
-    public Vector2Int Forward {
+    public Vector2Int LookDirection {
         get => transform.forward.ToVector2().RoundToInt();
         set => transform.rotation = Quaternion.LookRotation(value.ToVector3Int(), Vector3.up);// * Quaternion.Euler(0,UnityEngine.Random.Range(-10,10),0);
     }

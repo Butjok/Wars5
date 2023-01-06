@@ -1,19 +1,5 @@
 {
   "dependencies": {
-    "com.dbrizov.naughtyattributes": {
-      "version": "https://github.com/dbrizov/NaughtyAttributes.git#upm",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "8a8fa5a9659a6d63f196391c71e06c4286c8acd7"
-    },
-    "com.guciodevs.simple-min-max-slider": {
-      "version": "https://github.com/GucioDevs/SimpleMinMaxSlider.git#upm",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "46ff35d22982657d55f7861ddc01b115a2db1554"
-    },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
       "depth": 0,
@@ -76,7 +62,7 @@
       }
     },
     "com.unity.ide.rider": {
-      "version": "3.0.13",
+      "version": "3.0.17",
       "depth": 0,
       "source": "registry",
       "dependencies": {

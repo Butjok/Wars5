@@ -169,7 +169,7 @@
      <Compile Include="Assets/CommandLine/Antlr4/Dependents.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Tree/ISyntaxTree.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Sharpen/Collections.cs" />
-     <Compile Include="Assets/Scripts/GameParser.cs" />
+     <Compile Include="Assets/Scripts/GameLoader.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/TokenStreamRewriter.cs" />
      <Compile Include="Assets/Priority Queue/FastPriorityQueueNode.cs" />
      <Compile Include="Assets/Scripts/Serializer/Serializer2.cs" />
@@ -217,6 +217,7 @@
      <Compile Include="Assets/SDF Toolkit/Examples/Scripts/SpotSwitch.cs" />
      <Compile Include="Assets/SDF Toolkit/Examples/Scripts/CursorSpotlight.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/ATNType.cs" />
+     <Compile Include="Assets/Scripts/ImageLoadTest.cs" />
      <Compile Include="Assets/Scripts/Player.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/PredictionContext.cs" />
      <Compile Include="Assets/Scripts/UnitBuildMenuViews.cs" />
@@ -311,7 +312,6 @@
      <Compile Include="Assets/Scripts/Main.cs" />
      <Compile Include="Assets/Scripts/Animation/Body.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/LexerPushModeAction.cs" />
-     <Compile Include="Assets/Scripts/Campaign.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Dfa/SparseEdgeMap.cs" />
      <Compile Include="Assets/Scripts/UnitActionsPanel.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/ITokenStream.cs" />
@@ -453,99 +453,194 @@
      <Compile Include="Assets/CommandLine/Antlr4/Atn/PlusBlockStartState.cs" />
      <Compile Include="Assets/Scripts/Animation/PistonBody.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
-     <Compile Include="Assets/Scripts/ImageLoadTest.cs" />
+     <Compile Include="Assets/Scripts/PersistentData.cs" />
+     <Compile Include="Assets/Scripts/GameSaver.cs" />
+     <Folder Include="Assets" />
+     <Folder Include="Assets/CommandLine/Assets/Resources" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />
      <None Include="Assets/Shaders/My First Lighting Shader.shader" />
+     <Folder Include="Assets/Particles" />
+     <Folder Include="Assets/CommandLine/Antlr4/Tree/Pattern" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader" />
+     <None Include="Assets/Resources/Missions/Tutorial.txt" />
+     <Folder Include="Assets/TextMesh Pro/Sprites" />
+     <Folder Include="Assets/CommandLine/Parsers" />
+     <Folder Include="Assets/JsonDotNet/Assemblies/Standalone" />
+     <Folder Include="Assets/TextMesh Pro/Resources/Sprite Assets" />
+     <Folder Include="Assets/Content" />
      <None Include="Assets/Content/MovePathUnlit.shader" />
+     <Folder Include="Assets/CommandLine/Antlr4/Dfa" />
      <None Include="Assets/Shaders/My Lighting.cginc" />
+     <Folder Include="Assets/Scenery Materials" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_Bitmap.shader" />
      <None Include="Assets/Shaders/My First Lighting Shader Overlay.shader" />
+     <Folder Include="Assets/JsonDotNet" />
+     <Folder Include="Assets/CommandLine/Antlr4/Tree/Xpath" />
+     <Folder Include="Assets/Scripts/GameStates" />
      <None Include="Assets/SDF Toolkit/Shaders/SDF Specular.shader" />
      <None Include="Assets/Shaders/VertexColorChecker.shader" />
      <None Include="Assets/Shaders/My First Lighting Shader Overlay NoShadow.shader" />
+     <Folder Include="Assets/Textures/Splat Maps" />
      <None Include="Assets/SDF Toolkit/Shaders/SDF Forward.cginc" />
      <None Include="Assets/Shaders/test.shader" />
      <None Include="Assets/SDF Toolkit/Shaders/SDF.cginc" />
      <None Include="Assets/Shaders/DistortionFlow.shader" />
      <None Include="Assets/Shaders/Flow.cginc" />
      <None Include="Assets/Shaders/leaves.shader" />
+     <Folder Include="Assets/Content/UI" />
+     <Folder Include="Assets/Scripts/Level" />
+     <Folder Include="Assets/TextMesh Pro/Resources/Fonts &amp; Materials" />
+     <Folder Include="Assets/Fonts" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro_Mobile.cginc" />
      <None Include="Assets/SDF Toolkit/Documentation/SDF Toolkit Readme.txt" />
      <None Include="Assets/Shaders/MissionLink.shader" />
+     <Folder Include="Assets/JsonDotNet/Assemblies/AOT" />
+     <Folder Include="Assets/JsonDotNet/Assemblies/Windows" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF SSD.shader" />
+     <Folder Include="Assets/TextMesh Pro/Resources" />
      <None Include="Assets/SDF Toolkit/Shaders/SDF UI Unlit.shader" />
+     <Folder Include="Assets/Scenes/blog-post0" />
      <None Include="Assets/Shaders/MovePath.shader" />
      <None Include="Assets/Shaders/InstancedRendering.cginc" />
      <None Include="Assets/Shaders/vface.shader" />
      <None Include="Assets/Shaders/NewSurfaceShader.shader" />
      <None Include="Assets/SDF Toolkit/Shaders/SDF Meta.cginc" />
      <None Include="Assets/Shaders/Stone.shader" />
+     <Folder Include="Assets/CommandLine/Antlr4/Atn" />
+     <Folder Include="Assets/SDF Toolkit" />
+     <Folder Include="Assets/CommandLine/Parsers/Butjok" />
      <None Include="Assets/Shaders/Terrain.shader" />
+     <Folder Include="Assets/Scripts/Foliage" />
      <None Include="Assets/Shaders/Utils.cginc" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Surface-Mobile.shader" />
      <None Include="Assets/Shaders/DirectionalFlow.shader" />
+     <Folder Include="Assets/HDRPDefaultResources" />
+     <Folder Include="Assets/Materials" />
      <None Include="Assets/Shaders/leaves-area-tinted.shader" />
+     <Folder Include="Assets/Textures" />
      <None Include="Assets/Shaders/TerrainTilesTest.shader" />
+     <Folder Include="Assets/Scenes/LoadingTest" />
+     <Folder Include="Assets/Scenes/LoadingTestSubscene" />
+     <Folder Include="Assets/TextMesh Pro" />
      <None Include="Assets/JsonDotNet/link.xml" />
      <None Include="Assets/Shaders/InstancedBush.shader" />
      <None Include="Assets/Shaders/Bird.shader" />
      <None Include="Assets/Roboto/LICENSE.txt" />
-     <None Include="Assets/RoslynCSharp/Error On Import.txt" />
+     <Folder Include="Assets/JsonDotNet/Documentation" />
+     <Folder Include="Assets/StoneTest" />
+     <Folder Include="Assets/SDF Toolkit/Examples/Contours" />
      <None Include="Assets/Shaders/Building.shader" />
+     <Folder Include="Assets/SDF Toolkit/Examples" />
+     <Folder Include="Assets/Scripts/Marketing" />
      <None Include="Assets/Shaders/Unit.shader" />
+     <Folder Include="Assets/CommandLine/Antlr4/Tree" />
      <None Include="Assets/Shaders/Difference.shader" />
+     <Folder Include="Assets/JsonDotNet/Assemblies" />
      <None Include="Assets/SDF Toolkit/Shaders/SDF Standard.cginc" />
+     <Folder Include="Assets/Scenes/BattleViews_Profiles" />
+     <Folder Include="Assets/Priority Queue" />
      <None Include="Assets/Shaders/water.shader" />
      <None Include="Assets/Shaders/ShrinkToTerrain.shader" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Surface.shader" />
      <None Include="Assets/Shaders/MinimapUnit.shader" />
      <None Include="Assets/Shaders/Minimap.shader" />
      <None Include="Assets/TextMesh Pro/Sprites/EmojiOne Attribution.txt" />
+     <Folder Include="Assets/SDF Toolkit/Examples/Example" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_Bitmap-Custom-Atlas.shader" />
+     <Folder Include="Assets/SDF Toolkit/Examples/Materials" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF.shader" />
+     <Folder Include="Assets/SerializableDictionary" />
+     <Folder Include="Assets/CommandLine/Antlr4" />
+     <Folder Include="Assets/Scripts" />
+     <Folder Include="Assets/Dialogue" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile SSD.shader" />
      <None Include="Assets/TextMesh Pro/Resources/LineBreaking Leading Characters.txt" />
+     <Folder Include="Assets/CommandLine/Parsers/Butjok/CommandLine" />
+     <Folder Include="Assets/Scenes/PlainRight" />
+     <Folder Include="Assets/Priority Queue/Properties" />
+     <Folder Include="Assets/Resources/Dialogue" />
      <None Include="Assets/SDF Toolkit/Shaders/SDF Unlit.shader" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro_Properties.cginc" />
      <None Include="Assets/SDF Toolkit/Shaders/SDF Unlit.cginc" />
+     <Folder Include="Assets/Content/mrap" />
+     <Folder Include="Assets/Dithered" />
      <None Include="Assets/SDF Toolkit/Shaders/SDF UI Specular.shader" />
+     <Folder Include="Assets/Scenes/SampleScene" />
      <None Include="Assets/Shaders/Dithered.shader" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro_Surface.cginc" />
      <None Include="Assets/Shaders/FrostedGlass.shader" />
+     <Folder Include="Assets/TextMesh Pro/Shaders" />
      <None Include="Assets/Content/NewImageEffectShader.shader" />
+     <Folder Include="Assets/Shaders" />
+     <Folder Include="Assets/CommandLine" />
      <None Include="Assets/Shaders/New Amplify Shader.shader" />
+     <Folder Include="Assets/Textures/Circuitry" />
      <None Include="Assets/SDF Toolkit/Shaders/SDF Deferred.cginc" />
+     <Folder Include="Assets/TextMesh Pro/Resources/Style Sheets" />
+     <Folder Include="Assets/Textures/Lava" />
+     <Folder Include="Assets/TextMesh Pro/Fonts" />
      <None Include="Assets/Out.json" />
+     <Folder Include="Assets/CommandLine/Parsers/Butjok/CommandLine/Parsers" />
      <None Include="Assets/Shaders/Trajectory.shader" />
+     <Folder Include="Assets/Resources" />
+     <Folder Include="Assets/SerializableDictionary/Example" />
+     <Folder Include="Assets/CommandLine/Antlr4/Misc" />
+     <Folder Include="Assets/Content/light-tank" />
      <None Include="Assets/TextMesh Pro/Resources/LineBreaking Following Characters.txt" />
      <None Include="Assets/SDF Toolkit/Shaders/SDF Metallic.shader" />
+     <Folder Include="Assets/CommandLine/Assets" />
+     <Folder Include="Assets/Minimap" />
+     <Folder Include="Assets/CommandLine/Antlr4/Sharpen" />
+     <None Include="Assets/Resources/Missions/SecondMission.txt" />
      <None Include="Assets/SDF Toolkit/Shaders/SDFToolkit.hlsl" />
+     <Folder Include="Assets/Scripts/Serializer" />
      <None Include="Assets/Shaders/My Shadows.cginc" />
+     <Folder Include="Assets/Textures/Detail" />
+     <Folder Include="Assets/Textures/Cookies" />
+     <Folder Include="Assets/Textures/Bumps" />
      <None Include="Assets/Shaders/SimpleInstanced.shader" />
+     <Folder Include="Assets/SDF Toolkit/Shaders" />
+     <Folder Include="Assets/Music" />
+     <Folder Include="Assets/SDF Toolkit/Examples/Materials/Textures" />
+     <Folder Include="Assets/Scenes/BattleViews" />
      <None Include="Assets/Shaders/Texture Splatting.shader" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Masking.shader" />
      <None Include="Assets/SDF Toolkit/Shaders/SDF Shadow.cginc" />
      <None Include="Assets/Shaders/rough.shader" />
+     <Folder Include="Assets/Scenes/Explosion" />
+     <Folder Include="Assets/BattleView" />
      <None Include="Assets/Shaders/SDF.cginc" />
      <None Include="Assets/File.json" />
      <None Include="Assets/Shaders/InstancedIndirectColor.shader" />
+     <Folder Include="Assets/Content/minimap" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF Overlay.shader" />
+     <Folder Include="Assets/Scenes/SampleScene_Profiles" />
      <None Include="Assets/Shaders/SimpleChecker.shader" />
+     <Folder Include="Assets/Scripts/LevelLogic" />
      <None Include="Assets/Shaders/Bush.shader" />
      <None Include="Assets/Shaders/Hole.shader" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_Bitmap-Mobile.shader" />
      <None Include="Assets/Shaders/My First Shader.shader" />
      <None Include="Assets/Shaders/Textured With Detail.shader" />
+     <None Include="Assets/Resources/Missions/FirstMission.txt" />
+     <Folder Include="Assets/Content/Factory" />
+     <Folder Include="Assets/Scenes" />
      <None Include="Assets/TextMesh Pro/Fonts/LiberationSans - OFL.txt" />
      <None Include="Assets/SDF Toolkit/Shaders/SDF UI Metallic.shader" />
+     <Folder Include="Assets/TextMesh Pro/Documentation" />
      <None Include="Assets/Shaders/UnlitMinimap.shader" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader" />
      <None Include="Assets/Shaders/UnlitLeaves.shader" />
      <None Include="Assets/Shaders/LookingThroughWater.cginc" />
+     <Folder Include="Assets/SDF Toolkit/Examples/Scripts" />
+     <Folder Include="Assets/Scenes/PlainLeft" />
      <None Include="Assets/Shaders/Waves.shader" />
+     <Folder Include="Assets/Roboto" />
      <None Include="Assets/TextMesh Pro/Sprites/EmojiOne.json" />
+     <Folder Include="Assets/SDF Toolkit/Documentation" />
+     <Folder Include="Assets/Resources/Missions" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_Sprite.shader" />
+     <Folder Include="Assets/Scripts/Animation" />
      <None Include="Assets/!TODO.txt" />
      <None Include="Assets/Output.json" />
      <Reference Include="UnityEngine">
@@ -791,12 +886,6 @@
      <Reference Include="UnityEditor.UnityConnectModule">
      <HintPath>/Applications/Unity/Hub/Editor/2021.3.1f1/Unity.app/Contents/Managed/UnityEngine/UnityEditor.UnityConnectModule.dll</HintPath>
      </Reference>
-     <Reference Include="Trivial.Mono.Cecil.Mdb">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/RoslynCSharp/Plugin/Trivial.Mono.Cecil.Mdb.dll</HintPath>
-     </Reference>
-     <Reference Include="Trivial.Mono.Cecil">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/RoslynCSharp/Plugin/Trivial.Mono.Cecil.dll</HintPath>
-     </Reference>
      <Reference Include="Unity.Burst.Cecil.Pdb">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.burst@1.6.5/Unity.Burst.CodeGen/Unity.Burst.Cecil.Pdb.dll</HintPath>
      </Reference>
@@ -806,20 +895,11 @@
      <Reference Include="ReportGeneratorMerged">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.testtools.codecoverage@1.0.1/lib/ReportGenerator/ReportGeneratorMerged.dll</HintPath>
      </Reference>
-     <Reference Include="System.Reflection.Metadata">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/RoslynCSharp/Plugin/System.Reflection.Metadata.dll</HintPath>
-     </Reference>
-     <Reference Include="Trivial.CodeSecurity">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/RoslynCSharp/Plugin/Trivial.CodeSecurity.dll</HintPath>
-     </Reference>
      <Reference Include="FSharp.Core">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/FSharp.Core.dll</HintPath>
      </Reference>
      <Reference Include="Newtonsoft.Json">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/JsonDotNet/Assemblies/Standalone/Newtonsoft.Json.dll</HintPath>
-     </Reference>
-     <Reference Include="System.Collections.Immutable">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/RoslynCSharp/Plugin/System.Collections.Immutable.dll</HintPath>
      </Reference>
      <Reference Include="Unity.Burst.Unsafe">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.burst@1.6.5/Unity.Burst.Unsafe.dll</HintPath>
@@ -830,20 +910,11 @@
      <Reference Include="Unity.Burst.Cecil">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.burst@1.6.5/Unity.Burst.CodeGen/Unity.Burst.Cecil.dll</HintPath>
      </Reference>
-     <Reference Include="Microsoft.CodeAnalysis.CSharp">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/RoslynCSharp/Plugin/Microsoft.CodeAnalysis.CSharp.dll</HintPath>
-     </Reference>
      <Reference Include="Unity.Burst.Cecil.Rocks">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.burst@1.6.5/Unity.Burst.CodeGen/Unity.Burst.Cecil.Rocks.dll</HintPath>
      </Reference>
-     <Reference Include="Trivial.Mono.Cecil.Pdb">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/RoslynCSharp/Plugin/Trivial.Mono.Cecil.Pdb.dll</HintPath>
-     </Reference>
      <Reference Include="Unity.VisualScripting.Antlr3.Runtime">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.visualscripting@1.7.6/Runtime/VisualScripting.Flow/Dependencies/NCalc/Unity.VisualScripting.Antlr3.Runtime.dll</HintPath>
-     </Reference>
-     <Reference Include="Microsoft.CodeAnalysis">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/RoslynCSharp/Plugin/Microsoft.CodeAnalysis.dll</HintPath>
      </Reference>
      <Reference Include="mscorlib">
      <HintPath>/Applications/Unity/Hub/Editor/2021.3.1f1/Unity.app/Contents/UnityReferenceAssemblies/unity-4.8-api/mscorlib.dll</HintPath>
@@ -1448,9 +1519,6 @@
      <Reference Include="Unity.Recorder.Editor">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.Recorder.Editor.dll</HintPath>
      </Reference>
-     <Reference Include="SimpleMinMaxSlider">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/SimpleMinMaxSlider.dll</HintPath>
-     </Reference>
      <Reference Include="Unity.VSCode.Editor">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
      </Reference>
@@ -1502,9 +1570,6 @@
      <Reference Include="com.unity.cinemachine.editor">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/com.unity.cinemachine.editor.dll</HintPath>
      </Reference>
-     <Reference Include="NaughtyAttributes.Editor">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/NaughtyAttributes.Editor.dll</HintPath>
-     </Reference>
      <Reference Include="Unity.RenderPipeline.Universal.ShaderLibrary">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.RenderPipeline.Universal.ShaderLibrary.dll</HintPath>
      </Reference>
@@ -1525,9 +1590,6 @@
      </Reference>
      <Reference Include="PPv2URPConverters">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/PPv2URPConverters.dll</HintPath>
-     </Reference>
-     <Reference Include="NaughtyAttributes.Test">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/NaughtyAttributes.Test.dll</HintPath>
      </Reference>
      <Reference Include="Unity.VisualStudio.Editor">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.VisualStudio.Editor.dll</HintPath>
@@ -1583,9 +1645,6 @@
      <Reference Include="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll</HintPath>
      </Reference>
-     <Reference Include="NaughtyAttributes.Core">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/NaughtyAttributes.Core.dll</HintPath>
-     </Reference>
      <Reference Include="Unity.TestTools.CodeCoverage.Editor">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.TestTools.CodeCoverage.Editor.dll</HintPath>
      </Reference>
@@ -1601,25 +1660,9 @@
       <Project>{cfaf5f5f-ffc3-ed7f-1757-4a565014486c}</Project>
       <Name>Assembly-CSharp-firstpass</Name>
     </ProjectReference>
-    <ProjectReference Include="RoslynCSharp.Editor.csproj">
-      <Project>{a6fef2b6-9224-7428-55e0-8d8f7bfc17e1}</Project>
-      <Name>RoslynCSharp.Editor</Name>
-    </ProjectReference>
     <ProjectReference Include="FullscreenEditor.csproj">
       <Project>{ea66c163-c16e-dd96-3d67-e5c567917ba9}</Project>
       <Name>FullscreenEditor</Name>
-    </ProjectReference>
-    <ProjectReference Include="RoslynCSharp.Examples.csproj">
-      <Project>{0e7e3e31-9dd1-1cd1-2ea8-726b9de3811e}</Project>
-      <Name>RoslynCSharp.Examples</Name>
-    </ProjectReference>
-    <ProjectReference Include="RoslynCSharp.csproj">
-      <Project>{b52f645a-f002-7629-8cab-4518cd1c5973}</Project>
-      <Name>RoslynCSharp</Name>
-    </ProjectReference>
-    <ProjectReference Include="RoslynCSharp.Compiler.csproj">
-      <Project>{e98445ee-8647-bdce-c23d-ab320d9f2e26}</Project>
-      <Name>RoslynCSharp.Compiler</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using DG.Tweening;
-using NaughtyAttributes;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -18,7 +17,6 @@ public class AnimationScript : MonoBehaviour {
             Animate();
     }
 
-    [Button]
     [ContextMenu(nameof(Animate))]
     public void Animate() {
         StartCoroutine(Execute());

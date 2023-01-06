@@ -39,7 +39,7 @@ public static class UnitMovementAnimationState {
 		unit.view.walker.enabled = false;
 		if (path.moves.Count != 0) {
 			unit.view.Position = path.Destination;
-			unit.view.Forward = path.moves.Last().forward;
+			unit.view.LookDirection = path.moves.Last().forward;
 		}
 		yield return ActionSelectionState.New(main,unit,path,startForward);
 	}

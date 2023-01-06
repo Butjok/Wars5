@@ -70,6 +70,11 @@
      <Compile Include="Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/Implementation/ScriptCompiledAssemblyImpl.cs" />
      <Compile Include="Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/Interface/ScriptAssembly.cs" />
      <None Include="Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/RoslynCSharp.asmdef" />
+     <Folder Include="Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/Implementation" />
+     <Folder Include="Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime" />
+     <Folder Include="Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/Modding" />
+     <Folder Include="Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/Project" />
+     <Folder Include="Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/Interface" />
      <Reference Include="UnityEngine">
      <HintPath>/Applications/Unity/Hub/Editor/2021.3.1f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
      </Reference>

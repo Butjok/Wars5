@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Butjok.CommandLine;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using UnityEngine;
@@ -12,45 +14,32 @@ public class NewBehaviourScript : MonoBehaviour {
     public MinimapMeshGenerator minimapMeshGenerator;
     public bool showDialogue = true;
 
-    public bool parseFromInput = false;
-    [TextArea(25, 50)]
-    public string input = "";
+    public TextAsset source;
+    public Main main;
 
     private void Awake() {
+        main = gameObject.AddComponent<Main>();
+        main.levelLogic = new TutorialLogic(showDialogue);
+    }
+    
+    [Command]
+    public void SaveAndLoad() {
+        var result = GameSaver.SaveToString(main);
+        GameLoader.Load(main,result);
+        main.RestartGame();
+    }
 
-        var game = gameObject.AddComponent<Main>();
+    private void Start() {
+        GameLoader.Load(main, source.text);
+        main.RestartGame();
+    }
 
-        if (parseFromInput)
-            GameParser.Parse(game, input);
-        else {
+#if false
+    private void Awake() {
 
-            var red = new Player(game, KnownColor.red, Team.Alpha, co: Co.Natalie);
-            var green = new Player(game, KnownColor.blue, Team.Bravo, co: Co.Vladan);
 
-            game.localPlayer = red;
-
-            var size = 5;
-            var min = new Vector2Int(-size, -size);
-            var max = new Vector2Int(size, size);
-
-            game.tiles = new Map2D<TileType>(min, max);
-            game.units = new Map2D<Unit>(min, max);
-            game.buildings = new Map2D<Building>(min, max);
-
-            foreach (var position in game.tiles.positions)
-                game.tiles[position] = TileType.Plain;
-
-            new Building(game, new Vector2Int(-2, -3), TileType.Factory, red);
-            new Building(game, min, TileType.Hq, red);
-            new Building(game, max, TileType.Hq, green);
-
-            new Unit(green, position: new Vector2Int(1, 1), viewPrefab: Resources.Load<UnitView>("mrap0-export")).hp.v = 5;
-            new Unit(red, position: new Vector2Int(2, 2), viewPrefab: Resources.Load<UnitView>("light-tank")).hp.v = 7;
-            new Unit(red, position: new Vector2Int(2, 1), viewPrefab: Resources.Load<UnitView>("light-tank"));
-        }
-
-        game.levelLogic = new TutorialLogic(showDialogue);
-        game.StartGame();
+        main.levelLogic = new TutorialLogic(showDialogue);
+        
 
         var commandsListener = gameObject.AddComponent<InputCommandsListener>();
 #if WORKSTATION_MACBOOK
@@ -59,21 +48,21 @@ public class NewBehaviourScript : MonoBehaviour {
 
         game.settings.motionBlurShutterAngle = null;
 #elif WORKSTATION_PCY
-		commandsListener.inputPath = "/Users/butjok/Documents/GitHub/Wars5/Input.txt";
-		commandsListener.outputPath = "/Users/butjok/Documents/GitHub/Wars5/Output.json";
-		
-		game.settings.motionBlurShutterAngle = 270;
+        commandsListener.inputPath = "/Users/butjok/Documents/GitHub/Wars5/Input.txt";
+        commandsListener.outputPath = "/Users/butjok/Documents/GitHub/Wars5/Output.json";
+
+        main.settings.motionBlurShutterAngle = 270;
 #endif
 
-        game.UpdatePostProcessing();
+        main.UpdatePostProcessing();
 
         var battleViews = GetComponent<BattleViews>();
 
         CursorView.Instance.Visible = false;
 
-        var clampToHull = CameraRig.Instance.GetComponent<ClampToHull>();
-        if (clampToHull)
-            clampToHull.Recalculate(game);
+        // var clampToHull = CameraRig.Instance.GetComponent<ClampToHull>();
+        // if (clampToHull)
+        //     clampToHull.Recalculate(game);
 
         //var pathBuilderTest = FindObjectOfType<PathBuilderTest>();
         //if (pathBuilderTest)
@@ -96,10 +85,11 @@ public class NewBehaviourScript : MonoBehaviour {
         var deser = ser.ToJson().FromJson<SerializedLevel>();*/
 
         if (minimapMeshGenerator) {
-            minimapMeshGenerator.main = game;
+            minimapMeshGenerator.main = main;
             minimapMeshGenerator.Rebuild();
         }
     }
+    #endif
 
     public void Write(string text, string relativePath = "Out.json") {
         var path = Path.Combine(Application.dataPath, relativePath);
@@ -119,11 +109,6 @@ public class NewBehaviourScript : MonoBehaviour {
     }*/
 
 
-    // Start is ca
-    // lled before the first frame update
-    void Start() {
-        //	var items = PlayerSettings.GetPreloadedAssets();
-    }
 
     // Update is called once per frame
     void Update() { }

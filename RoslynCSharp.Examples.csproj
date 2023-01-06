@@ -68,7 +68,12 @@
      <Compile Include="Assets/RoslynCSharp/Examples/ExampleScripts/Ex04_CompilerReferences.cs" />
      <Compile Include="Assets/RoslynCSharp/Examples/ExampleScripts/Ex06_CompileFromSource.cs" />
      <None Include="Assets/RoslynCSharp/Examples/CodeTemplates/MazeCrawlerSolution.txt" />
+     <Folder Include="Assets/RoslynCSharp/Examples/CodeTemplates" />
      <None Include="Assets/RoslynCSharp/Examples/CodeTemplates/MazeCrawlerTemplate.txt" />
+     <Folder Include="Assets/RoslynCSharp/Examples/Scripts" />
+     <Folder Include="Assets/RoslynCSharp/Examples" />
+     <Folder Include="Assets/RoslynCSharp/Examples/ExampleScripts" />
+     <Folder Include="Assets/RoslynCSharp/Examples/Sprites" />
      <None Include="Assets/RoslynCSharp/Examples/RoslynCSharp.Examples.asmdef" />
      <Reference Include="UnityEngine">
      <HintPath>/Applications/Unity/Hub/Editor/2021.3.1f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>

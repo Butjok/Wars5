@@ -16,8 +16,8 @@ public class UnitAttackActionViewTest : MonoBehaviour {
             }
         });
 
-        var unit0 = game.FindUnitsOf(game.players[Color.red]).First();
-        var unit1 = game.FindUnitsOf(game.players[Color.blue]).First();
+        var unit0 = game.FindUnitsOf(game.players[0]).First();
+        var unit1 = game.FindUnitsOf(game.players[1]).First();
 
         if (unit0.position.v is not { } position)
             throw new Exception();

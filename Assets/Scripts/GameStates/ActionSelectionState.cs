@@ -140,7 +140,7 @@ public static class ActionSelectionState {
                     action.Dispose();
 
                 unit.view.Position = path[0];
-                unit.view.Forward = startForward;
+                unit.view.LookDirection = startForward;
 
                 yield return PathSelectionState.New(main, unit);
                 yield break;

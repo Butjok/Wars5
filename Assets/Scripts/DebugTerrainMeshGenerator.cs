@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -17,7 +16,6 @@ public class DebugTerrainMeshGenerator : MonoBehaviour {
         [TileType.Mountain] = new Color(0.57f, 0.46f, 0.27f)
     };
 
-    [Button]
     public void Generate() {
         Assert.IsTrue(main);
         meshFilter.sharedMesh = Generate(main);

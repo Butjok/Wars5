@@ -70,6 +70,10 @@ public static class PostfixInterpreter {
                     case "dup":
                         stack.Push(stack.Peek());
                         break;
+                    
+                    case "pop":
+                        stack.Pop();
+                        break;
 
                     case "enum": {
 

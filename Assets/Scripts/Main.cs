@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
@@ -8,10 +6,10 @@ using UnityEngine.Assertions;
 
 public class Main : MonoBehaviour {
 
-    public Map2D<Unit> units;
-    public Map2D<TileType> tiles;
-    public Map2D<Building> buildings;
-    public PlayerCollection players = new();
+    public Dictionary<Vector2Int, TileType> tiles = new();
+    public Dictionary<Vector2Int, Unit> units = new();
+    public Dictionary<Vector2Int, Building> buildings = new();
+    public List<Player> players = new();
     public int? turn = 0;
     public LevelLogic levelLogic = new();
     public Player localPlayer;
@@ -20,8 +18,17 @@ public class Main : MonoBehaviour {
     public InputCommandsContext input = new();
 
     public void Awake() {
+        
+        Player.undisposed.Clear();
+        Building.undisposed.Clear();
+        Unit.undisposed.Clear();
+        UnitAction.undisposed.Clear();
+        
         UpdatePostProcessing();
+        
+        PersistentData.Clear();
         settings = PersistentData.Read().gameSettings;
+        PersistentData.Read().Save();
     }
 
     public void UpdatePostProcessing() {
@@ -37,6 +44,7 @@ public class Main : MonoBehaviour {
         get {
             Assert.AreNotEqual(0, players.Count);
             Assert.IsTrue(turn != null);
+            Assert.IsTrue(turn>=0);
             return players[(int)turn % players.Count];
         }
     }
@@ -63,18 +71,37 @@ public class Main : MonoBehaviour {
     }
 
     private void OnApplicationQuit() {
-        Debug.Log(@$"""
-undisposed:
-    players: {Player.undisposed.Count}
-    units: {Unit.undisposed.Count}
-    unitActions: {UnitAction.undisposed.Count}""");
+        Clear();
+        Debug.Log(@$"UNDISPOSED: players: {Player.undisposed.Count} buildings: {Building.undisposed.Count} units: {Unit.undisposed.Count} unitActions: {UnitAction.undisposed.Count}");
     }
 
     public float fadeDuration = 2;
     public Ease fadeEase = Ease.Unset;
-    public void StartGame() {
+    public void RestartGame() {
         PostProcessing.ColorFilter = Color.black;
         PostProcessing.Fade(Color.white, fadeDuration, fadeEase);
+        StopAllCoroutines();
         StartCoroutine(SelectionState.New(this, true));
+    }
+    
+    public void Clear() {
+        
+        turn = null;
+
+        foreach (var player in players.ToArray())
+            player.Dispose();
+        players.Clear();
+
+        localPlayer = null;
+
+        tiles.Clear();
+        
+        foreach (var unit in units.Values.ToArray())
+            unit.Dispose();
+        units.Clear();
+
+        foreach (var building in buildings.Values.ToArray())
+            building.Dispose();
+        buildings.Clear();
     }
 }

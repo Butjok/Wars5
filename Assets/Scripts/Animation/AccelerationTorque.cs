@@ -1,4 +1,3 @@
-using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -8,10 +7,10 @@ public class AccelerationTorque : MonoBehaviour {
 
     public float factor = 100;
     public bool clamp;
-    [EnableIf("clamp")] public float maxTorque;
+    public float maxTorque;
 
-    [Foldout("Runtime Data")] [ReadOnly] public double acceleration;
-    [Foldout("Runtime Data")] [ReadOnly] public BodyTorque bodyTorque;
+     public double acceleration;
+    public BodyTorque bodyTorque;
 
     public Vector2? oldPosition;
     public double? oldSpeed;

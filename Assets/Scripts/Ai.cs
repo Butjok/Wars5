@@ -23,7 +23,7 @@ public  class Ai :MonoBehaviour{
         return null;
     }
 
-    public static IEnumerable<Vector2Int> RangePositions(Map2D<TileType> tiles, Vector2Int position, Vector2Int range) {
+    /*public static IEnumerable<Vector2Int> RangePositions(Map2D<TileType> tiles, Vector2Int position, Vector2Int range) {
         return range.Offsets()
             .Select(offset => position + offset)
             .Where(position => tiles.TryGetValue(position, out var tileType) && tileType != 0);
@@ -32,7 +32,7 @@ public  class Ai :MonoBehaviour{
         foreach (var p in RangePositions(tiles, position, range))
             if (units.TryGetValue(p, out var unit) && unit != null)
                 yield return unit;
-    }
+    }*/
 
     public Main main;
     public int playerIndex;

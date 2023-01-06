@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class PlayerCollection : IEnumerable<Player> {
+public class PlayerCollection_ : IEnumerable<Player> {
 
     private readonly List<Player> list = new();
     private readonly Dictionary<Color32, Player> lookup = new();

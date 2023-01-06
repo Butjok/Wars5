@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class Map2D<T> : IEnumerable<KeyValuePair<Vector2Int, T>> {
+public class Map2D_<T> : IEnumerable<KeyValuePair<Vector2Int, T>> {
 
 	public Vector2Int Min { get; }
 	public Vector2Int Max { get; }
@@ -14,7 +14,7 @@ public class Map2D<T> : IEnumerable<KeyValuePair<Vector2Int, T>> {
 	private T[] data;
 	private bool[] hasValue;
 
-	public Map2D(Vector2Int min, Vector2Int max) {
+	public Map2D_(Vector2Int min, Vector2Int max) {
 		
 		Assert.IsTrue(max.x >= min.x);
 		Assert.IsTrue(max.y >= min.y);

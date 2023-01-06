@@ -21,12 +21,12 @@ public class InteropTest : MonoBehaviour {
         var min = new Vector2Int(0, 0);
         var max = new Vector2Int(9, 9);
 
-        game.tiles = new Map2D<TileType>(min, max);
-        foreach (var position in game.tiles.Keys)
-            game.tiles[position] = TileType.Plain;
-
-        game.units = new Map2D<Unit>(min, max);
-        game.buildings = new Map2D<Building>(min, max);
+        // game.tiles = new Map2D<TileType>(min, max);
+        // foreach (var position in game.tiles.Keys)
+        //     game.tiles[position] = TileType.Plain;
+        //
+        // game.units = new Map2D<Unit>(min, max);
+        // game.buildings = new Map2D<Building>(min, max);
 
         game.levelLogic = new LevelLogic();
 

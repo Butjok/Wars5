@@ -1,26 +1,373 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="kjjk">
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/ImageLoadTest.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/ImageLoadTest.cs.meta" afterDir="false" />
+    <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Assets/Resources/Missions/FirstMission.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Resources/Missions/FirstMission.txt.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Resources/Missions/SecondMission.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Resources/Missions/SecondMission.txt.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Resources/Missions/Tutorial.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/GameSaver.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/GameSaver.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/PersistentData.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/PersistentData.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assembly-CSharp-Editor.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp-Editor.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assembly-CSharp-firstpass.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp-firstpass.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assembly-CSharp.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/AssemblyReferences.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/AssemblyReferences/RoslynCSharp.Examples.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/AssemblyReferences/RoslynCSharp.Examples.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/AssemblyReferences/System.Core.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/AssemblyReferences/System.Core.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/AssemblyReferences/System.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/AssemblyReferences/System.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/AssemblyReferences/UnityEngine.AIModule.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/AssemblyReferences/UnityEngine.AIModule.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/AssemblyReferences/UnityEngine.AnimationModule.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/AssemblyReferences/UnityEngine.AnimationModule.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/AssemblyReferences/UnityEngine.AssetBundleModule.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/AssemblyReferences/UnityEngine.AssetBundleModule.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/AssemblyReferences/UnityEngine.AudioModule.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/AssemblyReferences/UnityEngine.AudioModule.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/AssemblyReferences/UnityEngine.CoreModule.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/AssemblyReferences/UnityEngine.CoreModule.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/AssemblyReferences/UnityEngine.InputModule.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/AssemblyReferences/UnityEngine.InputModule.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/AssemblyReferences/UnityEngine.ParticleSystemModule.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/AssemblyReferences/UnityEngine.ParticleSystemModule.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/AssemblyReferences/UnityEngine.Physics2DModule.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/AssemblyReferences/UnityEngine.Physics2DModule.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/AssemblyReferences/UnityEngine.PhysicsModule.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/AssemblyReferences/UnityEngine.PhysicsModule.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/AssemblyReferences/UnityEngine.UIModule.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/AssemblyReferences/UnityEngine.UIModule.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/AssemblyReferences/UnityEngine.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/AssemblyReferences/UnityEngine.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/AssemblyReferences/mscorlib.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/AssemblyReferences/mscorlib.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/AssemblyReferences/netstandard.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/AssemblyReferences/netstandard.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Error On Import.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Error On Import.txt.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/Assembly Reference Asset.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/Assembly Reference Asset.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/Breadcrumb.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/Breadcrumb.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/CodeTemplates.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/CodeTemplates/MazeCrawlerSolution.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/CodeTemplates/MazeCrawlerSolution.txt.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/CodeTemplates/MazeCrawlerTemplate.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/CodeTemplates/MazeCrawlerTemplate.txt.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/EscapeTheMazeExample.unity" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/EscapeTheMazeExample.unity.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/EscapeTheMazeExample_Legacy.unity" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/EscapeTheMazeExample_Legacy.unity.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/ExampleScripts.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/ExampleScripts/Ex01_CreateScriptDomain.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/ExampleScripts/Ex01_CreateScriptDomain.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/ExampleScripts/Ex02_LoadAssembly.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/ExampleScripts/Ex02_LoadAssembly.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/ExampleScripts/Ex03_LoadAssemblyAsync.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/ExampleScripts/Ex03_LoadAssemblyAsync.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/ExampleScripts/Ex04_CompilerReferences.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/ExampleScripts/Ex04_CompilerReferences.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/ExampleScripts/Ex05_CompilerDefines.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/ExampleScripts/Ex05_CompilerDefines.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/ExampleScripts/Ex06_CompileFromSource.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/ExampleScripts/Ex06_CompileFromSource.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/ExampleScripts/Ex07_CompileFromFile.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/ExampleScripts/Ex07_CompileFromFile.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/ExampleScripts/Ex07a_CompileFromSyntaxTree.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/ExampleScripts/Ex07a_CompileFromSyntaxTree.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/ExampleScripts/Ex08_CompileAsync.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/ExampleScripts/Ex08_CompileAsync.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/ExampleScripts/Ex09_FindTypes.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/ExampleScripts/Ex09_FindTypes.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/ExampleScripts/Ex10_StaticMethods.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/ExampleScripts/Ex10_StaticMethods.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/ExampleScripts/Ex11_StaticFields.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/ExampleScripts/Ex11_StaticFields.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/ExampleScripts/Ex12_StaticProperties.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/ExampleScripts/Ex12_StaticProperties.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/ExampleScripts/Ex12a_StaticEvents.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/ExampleScripts/Ex12a_StaticEvents.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/ExampleScripts/Ex12b_StaticBroadcast.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/ExampleScripts/Ex12b_StaticBroadcast.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/ExampleScripts/Ex13_CreateInstance.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/ExampleScripts/Ex13_CreateInstance.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/ExampleScripts/Ex14_InstanceMethods.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/ExampleScripts/Ex14_InstanceMethods.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/ExampleScripts/Ex15_InstanceFields.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/ExampleScripts/Ex15_InstanceFields.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/ExampleScripts/Ex16_InstanceProperties.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/ExampleScripts/Ex16_InstanceProperties.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/ExampleScripts/Ex16a_InstanceEvents.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/ExampleScripts/Ex16a_InstanceEvents.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/ExampleScripts/Ex16b_InstanceBehaviourBroadcast.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/ExampleScripts/Ex16b_InstanceBehaviourBroadcast.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/ExampleScripts/Ex16c_InstanceBroadcast.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/ExampleScripts/Ex16c_InstanceBroadcast.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/ExampleScripts/Ex17_ReferenceCompiledCode.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/ExampleScripts/Ex17_ReferenceCompiledCode.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/RoslynCSharp.Examples.asmdef" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/RoslynCSharp.Examples.asmdef.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/Scripts.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/Scripts/MazeCrawler.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/Scripts/MazeCrawler.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/Scripts/MazeCrawlerExample.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/Scripts/MazeCrawlerExample.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/Scripts/TestCrawler.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/Scripts/TestCrawler.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/Sprites.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/Sprites/Breadcrumb.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/Sprites/Breadcrumb.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/Sprites/MazeMouse.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/Sprites/MazeMouse.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/Sprites/MazeTile.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/Sprites/MazeTile.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/Sprites/MazeTileEntryPoint.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/Sprites/MazeTileEntryPoint.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/Sprites/MazeWall.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/Sprites/MazeWall.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/Sprites/UIIcons.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Examples/Sprites/UIIcons.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Plugin.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Plugin/Editor.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Plugin/Editor/Trivial.ImGUI.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Plugin/Editor/Trivial.ImGUI.dll.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Plugin/Microsoft.CodeAnalysis.CSharp.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Plugin/Microsoft.CodeAnalysis.CSharp.dll.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Plugin/Microsoft.CodeAnalysis.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Plugin/Microsoft.CodeAnalysis.dll.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Plugin/System-ValueTuple_CompatibilityPackage.unitypackage" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Plugin/System-ValueTuple_CompatibilityPackage.unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Plugin/System.AppContext.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Plugin/System.AppContext.dll.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Plugin/System.Collections.Immutable.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Plugin/System.Collections.Immutable.dll.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Plugin/System.Console.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Plugin/System.Console.dll.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Plugin/System.Diagnostics.FileVersionInfo.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Plugin/System.Diagnostics.FileVersionInfo.dll.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Plugin/System.Diagnostics.StackTrace.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Plugin/System.Diagnostics.StackTrace.dll.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Plugin/System.IO.FileSystem.Primitives.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Plugin/System.IO.FileSystem.Primitives.dll.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Plugin/System.IO.FileSystem.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Plugin/System.IO.FileSystem.dll.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Plugin/System.Reflection.Metadata.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Plugin/System.Reflection.Metadata.dll.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Plugin/System.Security.Cryptography.Algorithms.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Plugin/System.Security.Cryptography.Algorithms.dll.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Plugin/System.Security.Cryptography.Encoding.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Plugin/System.Security.Cryptography.Encoding.dll.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Plugin/System.Security.Cryptography.Primitives.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Plugin/System.Security.Cryptography.Primitives.dll.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Plugin/System.Security.Cryptography.X509Certificates.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Plugin/System.Security.Cryptography.X509Certificates.dll.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Plugin/System.Threading.Tasks.Extensions.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Plugin/System.Threading.Tasks.Extensions.dll.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Plugin/System.Threading.Thread.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Plugin/System.Threading.Thread.dll.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Plugin/System.Xml.XPath.XDocument.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Plugin/System.Xml.XPath.XDocument.dll.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Plugin/System.Xml.XPath.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Plugin/System.Xml.XPath.dll.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Plugin/System.Xml.XmlDocument.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Plugin/System.Xml.XmlDocument.dll.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Plugin/Trivial.CodeSecurity.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Plugin/Trivial.CodeSecurity.dll.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Plugin/Trivial.Mono.Cecil.Mdb.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Plugin/Trivial.Mono.Cecil.Mdb.dll.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Plugin/Trivial.Mono.Cecil.Pdb.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Plugin/Trivial.Mono.Cecil.Pdb.dll.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Plugin/Trivial.Mono.Cecil.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Plugin/Trivial.Mono.Cecil.dll.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Resources.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Resources/RoslynCSharpSettings.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Resources/RoslynCSharpSettings.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/ScriptingReference.chm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/ScriptingReference.chm.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp.Compiler.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp.Compiler/Runtime.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp.Compiler/Runtime/AssemblyOutput.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp.Compiler/Runtime/AssemblyOutput.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp.Compiler/Runtime/AssemblyReference.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp.Compiler/Runtime/AssemblyReference/AssemblyReference.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp.Compiler/Runtime/AssemblyReference/AssemblyReference.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp.Compiler/Runtime/AssemblyReference/AssemblyReferenceException.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp.Compiler/Runtime/AssemblyReference/AssemblyReferenceException.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp.Compiler/Runtime/AssemblyReference/AssemblyReferenceFromAssemblyObject.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp.Compiler/Runtime/AssemblyReference/AssemblyReferenceFromAssemblyObject.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp.Compiler/Runtime/AssemblyReference/AssemblyReferenceFromFile.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp.Compiler/Runtime/AssemblyReference/AssemblyReferenceFromFile.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp.Compiler/Runtime/AssemblyReference/AssemblyReferenceFromImage.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp.Compiler/Runtime/AssemblyReference/AssemblyReferenceFromImage.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp.Compiler/Runtime/AssemblyReference/AssemblyReferenceFromStream.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp.Compiler/Runtime/AssemblyReference/AssemblyReferenceFromStream.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp.Compiler/Runtime/CompilationError.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp.Compiler/Runtime/CompilationError.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp.Compiler/Runtime/CompilationResult.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp.Compiler/Runtime/CompilationResult.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp.Compiler/Runtime/IAssemblyProcessor.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp.Compiler/Runtime/IAssemblyProcessor.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp.Compiler/Runtime/IMetadataReferenceProvider.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp.Compiler/Runtime/IMetadataReferenceProvider.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp.Compiler/Runtime/RoslynCSharp.Compiler.asmdef" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp.Compiler/Runtime/RoslynCSharp.Compiler.asmdef.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp.Compiler/Runtime/RoslynCSharpCodeDomCompiler.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp.Compiler/Runtime/RoslynCSharpCodeDomCompiler.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp.Compiler/Runtime/RoslynCSharpCompiler.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp.Compiler/Runtime/RoslynCSharpCompiler.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Editor.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Editor/AssemblyReferenceAssetInspector.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Editor/AssemblyReferenceAssetInspector.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Editor/HotReloading.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Editor/HotReloading/RealtimeScriptWatcher.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Editor/HotReloading/RealtimeScriptWatcher.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Editor/HotReloading/RealtimeScriptingService.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Editor/HotReloading/RealtimeScriptingService.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Editor/InputDialog.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Editor/InputDialog.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Editor/InputObjectDialog.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Editor/InputObjectDialog.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Editor/PluginConflictDetector.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Editor/PluginConflictDetector.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Editor/RoslynCSharp.Editor.asmdef" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Editor/RoslynCSharp.Editor.asmdef.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Editor/RoslynSecurityWindow.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Editor/RoslynSecurityWindow.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Editor/RoslynSettingsWindow.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Editor/RoslynSettingsWindow.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Editor/SecuritySettingsDrawer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Editor/SecuritySettingsDrawer.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Editor/UIContainer.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Editor/UIContainer/TreeNode.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Editor/UIContainer/TreeNode.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Editor/UIContainer/TreeView.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Editor/UIContainer/TreeView.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Editor/UIContainer/TreeViewDrawer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Editor/UIContainer/TreeViewDrawer.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/AssemblyReferenceAsset.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/AssemblyReferenceAsset.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/AsyncCompileOperation.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/AsyncCompileOperation.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/AsyncLoadOperation.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/AsyncLoadOperation.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/AsyncOperation.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/AsyncOperation.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/Implementation.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/Implementation/ScriptAssemblyImpl.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/Implementation/ScriptAssemblyImpl.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/Implementation/ScriptCompiledAssemblyImpl.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/Implementation/ScriptCompiledAssemblyImpl.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/Implementation/ScriptProxyImpl.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/Implementation/ScriptProxyImpl.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/Implementation/ScriptTypeImpl.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/Implementation/ScriptTypeImpl.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/Interface.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/Interface/IScriptDataProxy.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/Interface/IScriptDataProxy.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/Interface/IScriptEventProxy.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/Interface/IScriptEventProxy.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/Interface/ScriptAssembly.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/Interface/ScriptAssembly.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/Interface/ScriptEventHandler.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/Interface/ScriptEventHandler.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/Interface/ScriptEventHandlerProxy.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/Interface/ScriptEventHandlerProxy.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/Interface/ScriptFieldDataProxy.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/Interface/ScriptFieldDataProxy.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/Interface/ScriptPropertyDataProxy.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/Interface/ScriptPropertyDataProxy.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/Interface/ScriptProxy.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/Interface/ScriptProxy.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/Interface/ScriptType.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/Interface/ScriptType.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/Modding.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/Modding/IModScriptReplacedReceiver.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/Modding/IModScriptReplacedReceiver.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/Modding/ModReplaceableBehaviourAttribute.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/Modding/ModReplaceableBehaviourAttribute.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/Modding/ModScriptReplacer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/Modding/ModScriptReplacer.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/Modding/ModScriptReplacerReport.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/Modding/ModScriptReplacerReport.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/Project.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/Project/CSharpProject.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/Project/CSharpProject.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/Project/CSharpProjectFile.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/Project/CSharpProjectFile.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/Project/CSharpProjectParser.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/Project/CSharpProjectParser.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/RoslynCSharp.asmdef" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/RoslynCSharp.asmdef.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/RoslynCSharp.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/RoslynCSharp.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/RoslynCSharpSecurityAllowance.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/RoslynCSharpSecurityAllowance.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/ScriptDomain.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/ScriptDomain.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/ScriptExecution.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/Scripts/RoslynCSharp/Runtime/ScriptExecution.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/UserGuide.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RoslynCSharp/UserGuide.pdf.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Campaign.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Campaign.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CursorView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CursorView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameParser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameParser.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Level/Serialization.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Level/Serialization.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Ai.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Ai.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/AiPlayground.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/AiPlayground.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/AiTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/AiTest.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Animation/AccelerationTorque.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Animation/AccelerationTorque.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Animation/ClampToHull.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Animation/ClampToHull.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Animation/UnitViewSequencePlayer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Animation/UnitViewSequencePlayer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/AnimationScript.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/AnimationScript.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Building.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Building.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/BuildingMaterialSwitcher.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/BuildingMaterialSwitcher.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Campaign.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Campaign.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CampaignView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CampaignView.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/DebugTerrainMeshGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DebugTerrainMeshGenerator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameMenu.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameMenu.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameParser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoader.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameParser.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoader.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/ActionSelectionState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/ActionSelectionState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/UnitMovementAnimationState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/UnitMovementAnimationState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/InteropTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/InteropTest.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Level/Testing.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Level/Testing.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Level/UnitAction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Level/UnitAction.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Level/UnitAttackActionViewTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Level/UnitAttackActionViewTest.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/LevelEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/LevelEditor.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Main.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Main.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Map2D.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Map2D.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/NewBehaviourScript.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/NewBehaviourScript.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Palette.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Palette.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PlayerCollection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PlayerCollection.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/PostfixInterpreter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PostfixInterpreter.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/SavedGamesView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/SavedGamesView.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Serializer/Serializer2.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Serializer/Serializer2.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/SplatMapSetter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/SplatMapSetter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TerrainHeightmapGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TerrainHeightmapGenerator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Unit.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UnitBrain.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UnitBrain.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UnitBuildMenu.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UnitBuildMenu.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UnitView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UnitView.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FullscreenEditor.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/FullscreenEditor.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/packages-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/packages-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectSettings/RiderScriptEditorPersistedState.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/RiderScriptEditorPersistedState.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoslynCSharp.Compiler.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/RoslynCSharp.Compiler.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoslynCSharp.Editor.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/RoslynCSharp.Editor.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoslynCSharp.Examples.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/RoslynCSharp.Examples.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoslynCSharp.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/RoslynCSharp.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Wars5.sln" beforeDir="false" afterPath="$PROJECT_DIR$/Wars5.sln" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,7 +395,6 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.visualscripting@1.7.6/Runtime/VisualScripting.Core/Profiling/ProfiledSegment.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CameraRectDriver.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.dbrizov.naughtyattributes@8a8fa5a965/Scripts/Editor/Utility/PropertyUtility.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.testtools.codecoverage@1.0.1/Samples~/Tutorial/Asteroids/Scripts/Managers/GameManager.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/a9b8fc452a6f4a2dba24640d0133afc0157400/13/293c0096/YieldInstruction.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.postprocessing@3.2.2/PostProcessing/Runtime/Effects/ColorGrading.cs" root0="SKIP_HIGHLIGHTING" />
@@ -63,13 +409,9 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/de1f8ef4975b4eacbeb0accc1b22c9b02a000/c4/c0bf61ac/DOTweenComponent.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/BattleViews.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Level/UnitAttackActionViewTest.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.guciodevs.simple-min-max-slider@46ff35d229/Scripts/MinMaxSliderAttribute.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/RoslynCSharp/Examples/Scripts/MazeCrawlerExample.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Animation/ExplosionTracer.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/EventSystem/EventSystem.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/a9b8fc452a6f4a2dba24640d0133afc0157400/06/1c041b99/Vector2.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.guciodevs.simple-min-max-slider@46ff35d229/Scripts/Editor/MinMaxSliderDrawer.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.dbrizov.naughtyattributes@8a8fa5a965/Scripts/Core/MetaAttributes/FoldoutAttribute.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/de1f8ef4975b4eacbeb0accc1b22c9b02a000/09/717a7bbd/TweenExtensions.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Main.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Animation/Turret.cs" root0="FORCE_HIGHLIGHTING" />
@@ -91,7 +433,6 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameStates/DefeatState.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/MeshUtils.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Map2D.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock:///Users/butjok/Documents/GitHub/Wars5/UserSettings/EditorUserSettings.asset" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/MathUtils.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.render-pipelines.core@12.1.6/Runtime/Debugging/DebugUpdater.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/LevelOverlayUI.cs" root0="FORCE_HIGHLIGHTING" />
@@ -100,13 +441,13 @@
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.postprocessing@3.2.2/PostProcessing/Runtime/PostProcessVolume.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameSettingsMenu.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Shaders/InstancedRendering.cginc" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.dbrizov.naughtyattributes@8a8fa5a965/Scripts/Core/DrawerAttributes_SpecialCase/ButtonAttribute.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/InteropTest.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.timeline@1.6.4/Editor/Manipulators/AddDelete/AddDeleteItemModeMix.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/FSharp/Library.fs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/CommandLine/CommandLine.g4" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.postprocessing@3.2.2/PostProcessing/Runtime/ParameterOverride.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Rules.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/de80aed0bd3646409e8bfb15c101f005e2000/3c/ecbe0be7/Stack.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/BattleView.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/CommandLine/Editor/GenerateTokens.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Building.cs" root0="FORCE_HIGHLIGHTING" />
@@ -138,7 +479,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.C#" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.Other File Types" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
@@ -189,10 +530,10 @@
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="34246">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="37982">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="34246" />
+      <option name="pid" value="37982" />
       <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
@@ -313,14 +654,8 @@
       <workItem from="1672698085243" duration="3971000" />
       <workItem from="1672772371201" duration="12801000" />
       <workItem from="1672856370566" duration="13527000" />
-      <workItem from="1672871614643" duration="6633000" />
-    </task>
-    <task id="LOCAL-00136" summary="added game parsing from input">
-      <created>1665456644053</created>
-      <option name="number" value="00136" />
-      <option name="presentableId" value="LOCAL-00136" />
-      <option name="project" value="LOCAL" />
-      <updated>1665456644053</updated>
+      <workItem from="1672871614643" duration="7451000" />
+      <workItem from="1672994600747" duration="22036000" />
     </task>
     <task id="LOCAL-00137" summary="fgdfgdfg">
       <created>1665456908373</created>
@@ -658,7 +993,14 @@
       <option name="project" value="LOCAL" />
       <updated>1672872807350</updated>
     </task>
-    <option name="localTasksCounter" value="185" />
+    <task id="LOCAL-00185" summary="dfgdfgdfg">
+      <created>1672880063431</created>
+      <option name="number" value="00185" />
+      <option name="presentableId" value="LOCAL-00185" />
+      <option name="project" value="LOCAL" />
+      <updated>1672880063431</updated>
+    </task>
+    <option name="localTasksCounter" value="186" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -691,7 +1033,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="unit attack action view" />
     <MESSAGE value="lkjsdlkfsd" />
     <MESSAGE value="unit action ui" />
     <MESSAGE value="poiopiop" />
@@ -716,7 +1057,15 @@
     <MESSAGE value="asdasdasd" />
     <MESSAGE value="nbkbkjhjkhjhjk" />
     <MESSAGE value="kjjk" />
-    <option name="LAST_COMMIT_MESSAGE" value="kjjk" />
+    <MESSAGE value="dfgdfgdfg" />
+    <option name="LAST_COMMIT_MESSAGE" value="dfgdfgdfg" />
+  </component>
+  <component name="XDebuggerManager">
+    <watches-manager>
+      <configuration name="UNITY_DEBUG_RUN_CONFIGURATION">
+        <watch expression="stack" />
+      </configuration>
+    </watches-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

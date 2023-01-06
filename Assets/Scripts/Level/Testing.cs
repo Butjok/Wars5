@@ -31,25 +31,25 @@ public static class Testing {
         foreach (var color in options.colors)
             new Player(game, color, teamLoop[index++ % teamLoop.Length]);
 
-        game.tiles = new Map2D<TileType>(options.min, options.max);
-        game.units = new Map2D<Unit>(options.min, options.max);
-        game.buildings = new Map2D<Building>(options.min, options.max);
+       // game.tiles = new Map2D<TileType>(options.min, options.max);
+        //game.units = new Map2D<Unit>(options.min, options.max);
+       // game.buildings = new Map2D<Building>(options.min, options.max);
 
-        for (var x = options.min.x; x <= options.max.x; x++)
-        for (var y = options.min.y; y <= options.max.y; y++)
-            game.tiles[new Vector2Int(x, y)] = TileType.Plain;
-
-        foreach (var unit in options.units) {
-            Assert.IsTrue(game.players.TryGet(unit.color, out var player));
-            new Unit(player, type: unit.type, position: unit.position);
-        }
-
-        foreach (var building in options.buildings) {
-            game.players.TryGet(building.color, out var player);
-            new Building(game, building.position, building.type, player);
-        }
-
-        game.localPlayer = game.players[0];
+        // for (var x = options.min.x; x <= options.max.x; x++)
+        // for (var y = options.min.y; y <= options.max.y; y++)
+        //     game.tiles[new Vector2Int(x, y)] = TileType.Plain;
+        //
+        // foreach (var unit in options.units) {
+        //     Assert.IsTrue(game.players.TryGet(unit.color, out var player));
+        //     new Unit(player, type: unit.type, position: unit.position);
+        // }
+        //
+        // foreach (var building in options.buildings) {
+        //     game.players.TryGet(building.color, out var player);
+        //     new Building(game, building.position, building.type, player);
+        // }
+        //
+        // game.localPlayer = game.players[0];
 
         return game;
     }

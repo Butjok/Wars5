@@ -18,36 +18,11 @@ public static class Serializer2 {
         return tw;
     }
 
-    public static TextWriter WritePlayer(this TextWriter tw, Player p) {
-        tw
-            .WriteWord(p.color.GetName())
-            .WriteWord(p.credits, "cr");
-        if (p.IsAi)
-            tw.WriteWord(p.difficulty);
-        tw.WriteWord(p.type);
-        if (p.co)
-            tw.WriteWord(p.co.name);
-        return tw;
-    }
     
     public static TextWriter WriteUnit(this TextWriter tw, Unit u) {
-        tw
-            .WriteWord(u.type)
-            .WriteWord(u.hp.v, "hp")
-            .WriteWord("at").WriteWord(u.position.v)
-            .WriteWord(u.fuel.v, "fuel");
-        if (u.view)
-            tw.WriteWord(u.view.transform.rotation.eulerAngles.y, "deg");
-        if (u.moved.v)
-            tw.WriteWord("moved");
-        foreach (var ammo in u.ammo)
-            tw.WriteWord(ammo, "ammo");
-        if (u.cargo.Count > 0) {
-            tw.WriteWord("[");
-            foreach (var su in u.cargo)
-                tw.WriteUnit(su);
-            tw.WriteWord("]");
-        }
+
+        tw.WriteLine("");
+        
         return tw;
     }
 

@@ -8,14 +8,14 @@ using Object = UnityEngine.Object;
 public enum UnitActionType { Stay, Join, Capture, Attack, GetIn, Drop, Supply }
 public class UnitAction : IDisposable {
 
+    public static readonly HashSet<UnitAction> undisposed = new();
+    
     public UnitActionType type;
     public Unit unit, targetUnit;
     public MovePath path;
     public int weaponIndex;
     public Vector2Int targetPosition;
     public UnitActionView view;
-
-    public static readonly HashSet<UnitAction> undisposed = new();
 
     public UnitAction(UnitActionType type, Unit unit, MovePath path, Unit targetUnit = null, Building targetBuilding = null, int weaponIndex = -1, Vector2Int targetPosition = default) {
 
@@ -111,6 +111,7 @@ public class UnitAction : IDisposable {
                 unit.cargo.Remove(targetUnit);
                 targetUnit.position.v = targetPosition;
                 targetUnit.carrier.v = null;
+                targetUnit.moved.v = true;
                 break;
             }
 

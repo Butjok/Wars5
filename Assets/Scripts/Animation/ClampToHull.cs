@@ -61,14 +61,13 @@ public class ClampToHull : MonoBehaviour {
 		
 	}
 
-	public void Recalculate(Main main) {
-		var points = main.tiles.Keys.ToList();
+	public void Recalculate(IEnumerable<Vector2Int> positions) {
 		var roundedPoints = new List<Vector2>();
-		foreach (var point in points)
+		foreach (var position in positions)
 			for (var i = 0; i < circleSamples; i++) {
 				var angle = 2 * Mathf.PI * ((float)i / circleSamples);
 				var radius = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * this.radius;
-				roundedPoints.Add(point + radius);
+				roundedPoints.Add(position + radius);
 			}
 		hull = ConvexHull.Compute(roundedPoints);
 	}

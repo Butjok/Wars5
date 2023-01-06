@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -105,7 +104,6 @@ public class UnitBuildMenu : MonoBehaviour {
         set => UnitType = Enum.Parse<UnitType>(value);
     }
 
-    [Button]
     private void SelectRandomUnitType() {
         UnitType = new[] {
             UnitType.Infantry,
@@ -121,7 +119,6 @@ public class UnitBuildMenu : MonoBehaviour {
         }.Random();
     }
 
-    [Button]
     private void ToggleVisibility() {
         if (!Visible) {
             main = FindObjectOfType<Main>();
@@ -133,7 +130,6 @@ public class UnitBuildMenu : MonoBehaviour {
             Hide();
     }
 
-    [Button]
     private void FindUnitTypeButtons() {
         if (unitTypeButtonsContainer)
             unitTypeButtons = unitTypeButtonsContainer.GetComponentsInChildren<Button>();
