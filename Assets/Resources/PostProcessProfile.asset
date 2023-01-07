@@ -30,13 +30,13 @@ MonoBehaviour:
     value: 1.5
   diffusion:
     overrideState: 1
-    value: 3.5
+    value: 2.5
   anamorphicRatio:
     overrideState: 0
     value: 1
   color:
     overrideState: 0
-    value: {r: 1, g: 0.83318925, b: 0.49411762, a: 1}
+    value: {r: 1.2596959, g: 1.0486474, b: 0.6265503, a: 1}
   fastMode:
     overrideState: 1
     value: 0
@@ -88,10 +88,10 @@ MonoBehaviour:
     value: 1
   focusDistance:
     overrideState: 1
-    value: 9.99
+    value: 7.72
   aperture:
     overrideState: 1
-    value: 8.7
+    value: 1.3
   focalLength:
     overrideState: 1
     value: 93.93
@@ -151,7 +151,7 @@ MonoBehaviour:
     value: 1
   temperature:
     overrideState: 0
-    value: -43
+    value: 57
   tint:
     overrideState: 0
     value: 9
@@ -169,10 +169,10 @@ MonoBehaviour:
     value: 0
   postExposure:
     overrideState: 1
-    value: 0.25
+    value: 0.5
   contrast:
     overrideState: 0
-    value: 5
+    value: 17
   mixerRedOutRedIn:
     overrideState: 0
     value: 108
@@ -202,7 +202,7 @@ MonoBehaviour:
     value: 136
   lift:
     overrideState: 0
-    value: {x: 0.8855928, y: 1, z: 0.8857236, w: 0.0093870675}
+    value: {x: 1, y: 1, z: 1, w: -0.03770028}
   gamma:
     overrideState: 0
     value: {x: 1, y: 0.16680259, z: 0.46215582, w: -0.012360943}
@@ -1639,12 +1639,12 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 1.25
+    value: 1.2
   color:
     overrideState: 0
     value: {r: 0, g: 0, b: 0, a: 1}
   ambientOnly:
-    overrideState: 1
+    overrideState: 0
     value: 1
   noiseFilterTolerance:
     overrideState: 0
@@ -1657,7 +1657,7 @@ MonoBehaviour:
     value: -12
   thicknessModifier:
     overrideState: 0
-    value: 2.16
+    value: 10
   directLightingStrength:
     overrideState: 0
     value: 0
