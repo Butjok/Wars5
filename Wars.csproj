@@ -45,83 +45,83 @@
      <Compile Include="Assets/Scripts/GameStates/BattleAnimationState.cs" />
      <Compile Include="Assets/Scripts/Editor/MyLightingShaderGUI.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequencePlayer.cs" />
-     <Compile Include="Assets/Scripts/MainMenuView.cs" />
-     <Compile Include="Assets/Scripts/EntryPoint.cs" />
-     <Compile Include="Assets/Scripts/LevelLogic/TutorialLevelLogic.cs" />
-     <Compile Include="Assets/Scripts/GameMenu.cs" />
-     <Compile Include="Assets/Scripts/Animation/ImpactPoint.cs" />
-     <Compile Include="Assets/Scripts/BuildingView.cs" />
-     <Compile Include="Assets/Scripts/GameStates/SelectionState.cs" />
-     <Compile Include="Assets/Scripts/Co.cs" />
-     <Compile Include="Assets/Scripts/Editor/SerializableDictionaryPropertyDrawers.cs" />
-     <Compile Include="Assets/Scripts/HardFollowToggler.cs" />
-     <Compile Include="Assets/Scripts/Animation/Wind.cs" />
-     <Compile Include="Assets/Scripts/CursorView.cs" />
-     <Compile Include="Assets/Scripts/DebugTerrainMeshGenerator.cs" />
-     <Compile Include="Assets/Scripts/UnitBrain.cs" />
-     <Compile Include="Assets/Scripts/GameStates/GameMenuState.cs" />
-     <Compile Include="Assets/Scripts/Animation/Wheel.cs" />
-     <Compile Include="Assets/Scripts/Editor/FullscreenPlayMode.cs" />
-     <Compile Include="Assets/Scripts/LevelEditor.cs" />
-     <Compile Include="Assets/Scripts/Marketing/MarketingUiDrawing.cs" />
-     <Compile Include="Assets/Scripts/Animation/SteeringArm.cs" />
-     <Compile Include="Assets/Scripts/LoadGameMenu.cs" />
-     <Compile Include="Assets/Scripts/GameStates/GameSettingsState.cs" />
-     <Compile Include="Assets/Scripts/GameLoader.cs" />
-     <Compile Include="Assets/Scripts/GameSaver.cs" />
-     <Compile Include="Assets/Scripts/Level/Testing.cs" />
-     <Compile Include="Assets/Scripts/AiTest.cs" />
-     <Compile Include="Assets/Scripts/AnimationScript.cs" />
-     <Compile Include="Assets/Scripts/Faction.cs" />
-     <Compile Include="Assets/Scripts/InputCommandsListener.cs" />
-     <Compile Include="Assets/Scripts/InGameOverlayMenuView.cs" />
-     <Compile Include="Assets/Scripts/Player.cs" />
-     <Compile Include="Assets/Scripts/UnitBuildMenuViews.cs" />
-     <Compile Include="Assets/Scripts/BuildingMaterialSwitcher.cs" />
-     <Compile Include="Assets/Scripts/UnitBuildMenu.cs" />
-     <Compile Include="Assets/Scripts/PostProcessingFade.cs" />
      <Compile Include="Assets/Scripts/GameStates/DefeatState.cs" />
+     <Compile Include="Assets/Scripts/MainMenuView.cs" />
      <Compile Include="Assets/Scripts/PostProcessing.cs" />
+     <Compile Include="Assets/Scripts/EntryPoint.cs" />
      <Compile Include="Assets/Scripts/Rules.cs" />
      <Compile Include="Assets/Scripts/HardFollow.cs" />
      <Compile Include="Assets/Scripts/Traverser.cs" />
      <Compile Include="Assets/Scripts/GameStates/VictoryState.cs" />
+     <Compile Include="Assets/Scripts/LevelLogic/TutorialLevelLogic.cs" />
      <Compile Include="Assets/Scripts/SavedGamesView.cs" />
      <Compile Include="Assets/Scripts/CampaignOverviewState.cs" />
      <Compile Include="Assets/Scripts/Animation/Turret.cs" />
      <Compile Include="Assets/Scripts/CampaignView.cs" />
+     <Compile Include="Assets/Scripts/GameMenu.cs" />
+     <Compile Include="Assets/Scripts/Animation/ImpactPoint.cs" />
+     <Compile Include="Assets/Scripts/BuildingView.cs" />
      <Compile Include="Assets/Scripts/GameStates/DialogueState.cs" />
      <Compile Include="Assets/Scripts/MinimapMeshGenerator.cs" />
      <Compile Include="Assets/Scripts/Main.cs" />
      <Compile Include="Assets/Scripts/Animation/Body.cs" />
+     <Compile Include="Assets/Scripts/GameStates/SelectionState.cs" />
+     <Compile Include="Assets/Scripts/Co.cs" />
      <Compile Include="Assets/Scripts/UnitActionsPanel.cs" />
+     <Compile Include="Assets/Scripts/Editor/SerializableDictionaryPropertyDrawers.cs" />
+     <Compile Include="Assets/Scripts/HardFollowToggler.cs" />
+     <Compile Include="Assets/Scripts/Animation/Wind.cs" />
+     <Compile Include="Assets/Scripts/CursorView.cs" />
      <Compile Include="Assets/Scripts/PlayerView.cs" />
      <Compile Include="Assets/Scripts/Level/UnitAttackActionViewTest.cs" />
+     <Compile Include="Assets/Scripts/DebugTerrainMeshGenerator.cs" />
+     <Compile Include="Assets/Scripts/UnitBrain.cs" />
      <Compile Include="Assets/Scripts/GameStates/LoadGameState.cs" />
      <Compile Include="Assets/Scripts/Unit.cs" />
+     <Compile Include="Assets/Scripts/GameStates/GameMenuState.cs" />
      <Compile Include="Assets/Scripts/Animation/AccelerationTorque.cs" />
+     <Compile Include="Assets/Scripts/Animation/Wheel.cs" />
      <Compile Include="Assets/Scripts/GameStates/UnitBuildState.cs" />
      <Compile Include="Assets/Scripts/CampaignViewTest.cs" />
      <Compile Include="Assets/Scripts/NewBehaviourScript.cs" />
      <Compile Include="Assets/Scripts/UnitActionUiContainer.cs" />
+     <Compile Include="Assets/Scripts/Editor/FullscreenPlayMode.cs" />
+     <Compile Include="Assets/Scripts/LevelEditor.cs" />
+     <Compile Include="Assets/Scripts/Marketing/MarketingUiDrawing.cs" />
+     <Compile Include="Assets/Scripts/Animation/SteeringArm.cs" />
      <Compile Include="Assets/Scripts/BattleViews.cs" />
      <Compile Include="Assets/Scripts/GameStates/TurnStartAnimationState.cs" />
+     <Compile Include="Assets/Scripts/LoadGameMenu.cs" />
+     <Compile Include="Assets/Scripts/GameStates/GameSettingsState.cs" />
      <Compile Include="Assets/Scripts/LevelLogic/LevelLogic.cs" />
      <Compile Include="Assets/Scripts/GameStates/ActionSelectionState.cs" />
      <Compile Include="Assets/Scripts/MissionObjectivesUi.cs" />
      <Compile Include="Assets/Scripts/Animation/Projectile.cs" />
      <Compile Include="Assets/Scripts/BodyTorque.cs" />
+     <Compile Include="Assets/Scripts/GameLoader.cs" />
      <Compile Include="Assets/Scripts/UnitActionView.cs" />
      <Compile Include="Assets/Scripts/UnitView.cs" />
+     <Compile Include="Assets/Scripts/GameSaver.cs" />
+     <Compile Include="Assets/Scripts/Level/Testing.cs" />
+     <Compile Include="Assets/Scripts/AiTest.cs" />
+     <Compile Include="Assets/Scripts/AnimationScript.cs" />
      <Compile Include="Assets/Scripts/GameStates/UnitMovementAnimationState.cs" />
+     <Compile Include="Assets/Scripts/Faction.cs" />
+     <Compile Include="Assets/Scripts/InputCommandsListener.cs" />
      <Compile Include="Assets/Scripts/PathBuilderTest.cs" />
      <Compile Include="Assets/Scripts/UnitActionViewTest.cs" />
+     <Compile Include="Assets/Scripts/InGameOverlayMenuView.cs" />
      <Compile Include="Assets/Scripts/Building.cs" />
      <Compile Include="Assets/Scripts/AiPlayground.cs" />
+     <Compile Include="Assets/Scripts/Player.cs" />
      <Compile Include="Assets/Scripts/Editor/InputViewer.cs" />
+     <Compile Include="Assets/Scripts/UnitBuildMenuViews.cs" />
      <Compile Include="Assets/Scripts/BattleView.cs" />
+     <Compile Include="Assets/Scripts/BuildingMaterialSwitcher.cs" />
      <Compile Include="Assets/Scripts/GameSettingsMenu.cs" />
+     <Compile Include="Assets/Scripts/UnitBuildMenu.cs" />
      <Compile Include="Assets/Scripts/GameStates/PathSelectionState.cs" />
+     <Compile Include="Assets/Scripts/PostProcessingFade.cs" />
      <Compile Include="Assets/Scripts/Level/UnitAttackActionView.cs" />
      <Compile Include="Assets/Scripts/Level/UnitAction.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
@@ -382,20 +382,8 @@
      <Reference Include="UnityEditor.OSXStandalone.Extensions">
      <HintPath>/Applications/Unity/Hub/Editor/2021.3.1f1/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.Plastic.Newtonsoft.Json">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.collab-proxy@1.15.15/Lib/Editor/PlasticSCM/Unity.Plastic.Newtonsoft.Json.dll</HintPath>
-     </Reference>
      <Reference Include="Newtonsoft.Json">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/JsonDotNet/Assemblies/Standalone/Newtonsoft.Json.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.Plastic.Antlr3.Runtime">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.collab-proxy@1.15.15/Lib/Editor/PlasticSCM/Unity.Plastic.Antlr3.Runtime.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.VisualScripting.YamlDotNet">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.visualscripting@1.7.6/Editor/VisualScripting.Core/Dependencies/YamlDotNet/Unity.VisualScripting.YamlDotNet.dll</HintPath>
-     </Reference>
-     <Reference Include="unityplastic">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.collab-proxy@1.15.15/Lib/Editor/PlasticSCM/unityplastic.dll</HintPath>
      </Reference>
      <Reference Include="DOTweenEditor">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/Plugins/Demigiant/DOTween/Editor/DOTweenEditor.dll</HintPath>
@@ -406,17 +394,11 @@
      <Reference Include="Unity.Burst.Cecil.Mdb">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.burst@1.6.5/Unity.Burst.CodeGen/Unity.Burst.Cecil.Mdb.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.VisualScripting.IonicZip">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.visualscripting@1.7.6/Editor/VisualScripting.Core/Dependencies/DotNetZip/Unity.VisualScripting.IonicZip.dll</HintPath>
-     </Reference>
      <Reference Include="Unity.Burst.Cecil.Pdb">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.burst@1.6.5/Unity.Burst.CodeGen/Unity.Burst.Cecil.Pdb.dll</HintPath>
      </Reference>
      <Reference Include="Unity.Burst.Cecil">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.burst@1.6.5/Unity.Burst.CodeGen/Unity.Burst.Cecil.dll</HintPath>
-     </Reference>
-     <Reference Include="log4netPlastic">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.collab-proxy@1.15.15/Lib/Editor/PlasticSCM/log4netPlastic.dll</HintPath>
      </Reference>
      <Reference Include="Unity.Burst.Cecil.Rocks">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.burst@1.6.5/Unity.Burst.CodeGen/Unity.Burst.Cecil.Rocks.dll</HintPath>
@@ -424,14 +406,8 @@
      <Reference Include="DOTween">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/Plugins/Demigiant/DOTween/DOTween.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.VisualScripting.Antlr3.Runtime">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.visualscripting@1.7.6/Runtime/VisualScripting.Flow/Dependencies/NCalc/Unity.VisualScripting.Antlr3.Runtime.dll</HintPath>
-     </Reference>
      <Reference Include="ReportGeneratorMerged">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.testtools.codecoverage@1.0.1/lib/ReportGenerator/ReportGeneratorMerged.dll</HintPath>
-     </Reference>
-     <Reference Include="FSharp.Core">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/FSharp.Core.dll</HintPath>
      </Reference>
      <Reference Include="mscorlib">
      <HintPath>/Applications/Unity/Hub/Editor/2021.3.1f1/Unity.app/Contents/UnityReferenceAssemblies/unity-4.8-api/mscorlib.dll</HintPath>

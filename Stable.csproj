@@ -41,83 +41,52 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets/Scripts/Stable/DynamicShadowDistance.cs" />
-     <Compile Include="Assets/Scripts/Stable/StringExtensions.cs" />
-     <Compile Include="Assets/Scripts/Stable/LevelEditorHistory.cs" />
-     <Compile Include="Assets/Scripts/Stable/GameSettings.cs" />
-     <Compile Include="Assets/Scripts/Stable/SplatMapSetter.cs" />
-     <Compile Include="Assets/Scripts/Stable/ShakeCameras.cs" />
-     <Compile Include="Assets/Scripts/Stable/Foliage/Editor/FoliageParser.cs" />
-     <Compile Include="Assets/Scripts/Stable/TrackSpinner.cs" />
-     <Compile Include="Assets/Scripts/Stable/MovePathTest.cs" />
-     <Compile Include="Assets/Scripts/Stable/ManualControl.cs" />
-     <Compile Include="Assets/Scripts/Stable/InstancedMeshRenderer.cs" />
-     <Compile Include="Assets/Scripts/Stable/MovePathSampler.cs" />
-     <Compile Include="Assets/Scripts/Stable/TerrainBumpiness.cs" />
-     <Compile Include="Assets/Scripts/Stable/Bird.cs" />
-     <Compile Include="Assets/Scripts/Stable/Mouse.cs" />
-     <Compile Include="Assets/Scripts/Stable/LevelEditorTextDisplay.cs" />
-     <Compile Include="Assets/Scripts/Stable/MovePath.cs" />
-     <Compile Include="Assets/Scripts/Stable/Piston.cs" />
-     <Compile Include="Assets/Scripts/Stable/BallisticComputer.cs" />
-     <Compile Include="Assets/Scripts/Stable/ChangeTracker.cs" />
-     <Compile Include="Assets/Scripts/Stable/SaveEntry.cs" />
-     <Compile Include="Assets/Scripts/Stable/BlendShapesAnimation.cs" />
-     <Compile Include="Assets/Scripts/Stable/FpsCounter.cs" />
-     <Compile Include="Assets/Scripts/Stable/DialogueUi.cs" />
-     <Compile Include="Assets/Scripts/Stable/BarrelAssembly.cs" />
-     <Compile Include="Assets/Scripts/Stable/StateMachineBehaviour.cs" />
-     <Compile Include="Assets/Scripts/Stable/BallisticMotion.cs" />
-     <Compile Include="Assets/Scripts/Stable/ImpactTest.cs" />
-     <Compile Include="Assets/Scripts/Stable/Lazy.cs" />
-     <Compile Include="Assets/Scripts/Stable/DialogueSpeaker.cs" />
-     <Compile Include="Assets/Scripts/Stable/CameraFrustumProjection.cs" />
-     <Compile Include="Assets/Scripts/Stable/Lifetime.cs" />
-     <Compile Include="Assets/Scripts/Stable/ConvexHull.cs" />
-     <Compile Include="Assets/Scripts/Stable/UnitTypesInfo.cs" />
-     <Compile Include="Assets/Scripts/Stable/AABB.cs" />
-     <Compile Include="Assets/Scripts/Stable/Rotator.cs" />
-     <Compile Include="Assets/Scripts/Stable/ConvexMeshGenerator.cs" />
-     <Compile Include="Assets/Scripts/Stable/GameObjectUtils.cs" />
-     <Compile Include="Assets/Scripts/Stable/ShadowDistanceOverride.cs" />
-     <Compile Include="Assets/Scripts/Stable/InstancedRenderer.cs" />
-     <Compile Include="Assets/Scripts/Stable/LayerMasks.cs" />
-     <Compile Include="Assets/Scripts/Stable/DifferenceEffect.cs" />
-     <Compile Include="Assets/Scripts/Stable/BlogPostStackMachineVisualizationStackValue.cs" />
-     <Compile Include="Assets/Scripts/Stable/FoliageRenderer.cs" />
-     <Compile Include="Assets/Scripts/Stable/CameraRectDriver.cs" />
-     <Compile Include="Assets/Scripts/Stable/BallisticCurve.cs" />
-     <Compile Include="Assets/Scripts/Stable/MeshUtils.cs" />
-     <Compile Include="Assets/Scripts/Stable/Accelerometer.cs" />
-     <Compile Include="Assets/Scripts/Stable/ImageLoadTest.cs" />
-     <Compile Include="Assets/Scripts/Stable/TestRenderer.cs" />
-     <Compile Include="Assets/Scripts/Stable/MoveTypeAtlas.cs" />
      <Compile Include="Assets/Scripts/Stable/CoroutineStateMachine.cs" />
      <Compile Include="Assets/Scripts/Stable/MovePathBuilder.cs" />
      <Compile Include="Assets/Scripts/Stable/MusicPlayer.cs" />
      <Compile Include="Assets/Scripts/Stable/Stepping.cs" />
+     <Compile Include="Assets/Scripts/Stable/DynamicShadowDistance.cs" />
+     <Compile Include="Assets/Scripts/Stable/StringExtensions.cs" />
+     <Compile Include="Assets/Scripts/Stable/LevelEditorHistory.cs" />
      <Compile Include="Assets/Scripts/Stable/Foliage/TransformList.cs" />
      <Compile Include="Assets/Scripts/Stable/TileMeshBuilder.cs" />
      <Compile Include="Assets/Scripts/Stable/TerrainTest.cs" />
      <Compile Include="Assets/Scripts/Stable/Woo.cs" />
      <Compile Include="Assets/Scripts/Stable/SinMovement.cs" />
+     <Compile Include="Assets/Scripts/Stable/GameSettings.cs" />
      <Compile Include="Assets/Scripts/Stable/SetTextToGameObjectName.cs" />
      <Compile Include="Assets/Scripts/Stable/HpText.cs" />
      <Compile Include="Assets/Scripts/Stable/Speedometer.cs" />
+     <Compile Include="Assets/Scripts/Stable/SplatMapSetter.cs" />
      <Compile Include="Assets/Scripts/Stable/Palette.cs" />
      <Compile Include="Assets/Scripts/Stable/BlogPostStackMachineVisualization.cs" />
+     <Compile Include="Assets/Scripts/Stable/ShakeCameras.cs" />
      <Compile Include="Assets/Scripts/Stable/Compass.cs" />
+     <Compile Include="Assets/Scripts/Stable/Foliage/Editor/FoliageParser.cs" />
+     <Compile Include="Assets/Scripts/Stable/TrackSpinner.cs" />
+     <Compile Include="Assets/Scripts/Stable/MovePathTest.cs" />
      <Compile Include="Assets/Scripts/Stable/UIFrame.cs" />
      <Compile Include="Assets/Scripts/Stable/MovePathWalker.cs" />
+     <Compile Include="Assets/Scripts/Stable/ManualControl.cs" />
      <Compile Include="Assets/Scripts/Stable/Spinner.cs" />
+     <Compile Include="Assets/Scripts/Stable/InstancedMeshRenderer.cs" />
+     <Compile Include="Assets/Scripts/Stable/MovePathSampler.cs" />
+     <Compile Include="Assets/Scripts/Stable/TerrainBumpiness.cs" />
+     <Compile Include="Assets/Scripts/Stable/Mouse.cs" />
+     <Compile Include="Assets/Scripts/Stable/LevelEditorTextDisplay.cs" />
+     <Compile Include="Assets/Scripts/Stable/Bird.cs" />
+     <Compile Include="Assets/Scripts/Stable/MovePath.cs" />
      <Compile Include="Assets/Scripts/Stable/PistonCompresser.cs" />
      <Compile Include="Assets/Scripts/Stable/PlaceOnTerrain.cs" />
+     <Compile Include="Assets/Scripts/Stable/Piston.cs" />
+     <Compile Include="Assets/Scripts/Stable/BallisticComputer.cs" />
+     <Compile Include="Assets/Scripts/Stable/ChangeTracker.cs" />
+     <Compile Include="Assets/Scripts/Stable/SaveEntry.cs" />
      <Compile Include="Assets/Scripts/Stable/PostfixInterpreter.cs" />
-     <Compile Include="Assets/Scripts/Stable/UnitType.cs" />
+     <Compile Include="Assets/Scripts/Stable/BlendShapesAnimation.cs" />
      <Compile Include="Assets/Scripts/Stable/Maths.cs" />
      <Compile Include="Assets/Scripts/Stable/UiSound.cs" />
      <Compile Include="Assets/Scripts/Stable/UiFollow.cs" />
-     <Compile Include="Assets/Scripts/Stable/TileType.cs" />
      <Compile Include="Assets/Scripts/Stable/CloudMovement.cs" />
      <Compile Include="Assets/Scripts/Stable/Foliage.cs" />
      <Compile Include="Assets/Scripts/Stable/PersistentData.cs" />
@@ -125,24 +94,55 @@
      <Compile Include="Assets/Scripts/Stable/SubsceneRoot.cs" />
      <Compile Include="Assets/Scripts/Stable/Trail.cs" />
      <Compile Include="Assets/Scripts/Stable/BuoyancyMovement.cs" />
+     <Compile Include="Assets/Scripts/Stable/FpsCounter.cs" />
+     <Compile Include="Assets/Scripts/Stable/DialogueUi.cs" />
+     <Compile Include="Assets/Scripts/Stable/BarrelAssembly.cs" />
+     <Compile Include="Assets/Scripts/Stable/StateMachineBehaviour.cs" />
+     <Compile Include="Assets/Scripts/Stable/BallisticMotion.cs" />
+     <Compile Include="Assets/Scripts/Stable/ImpactTest.cs" />
      <Compile Include="Assets/Scripts/Stable/CameraRig.cs" />
      <Compile Include="Assets/Scripts/Stable/OrbitingWeight.cs" />
+     <Compile Include="Assets/Scripts/Stable/Lazy.cs" />
+     <Compile Include="Assets/Scripts/Stable/DialogueSpeaker.cs" />
      <Compile Include="Assets/Scripts/Stable/ClampToHull.cs" />
+     <Compile Include="Assets/Scripts/Stable/CameraFrustumProjection.cs" />
      <Compile Include="Assets/Scripts/Stable/FlipCamera.cs" />
+     <Compile Include="Assets/Scripts/Stable/Lifetime.cs" />
      <Compile Include="Assets/Scripts/Stable/TargetFpsSetter.cs" />
      <Compile Include="Assets/Scripts/Stable/TerrainHeightmapGenerator.cs" />
      <Compile Include="Assets/Scripts/Stable/MovementSound.cs" />
+     <Compile Include="Assets/Scripts/Stable/ConvexHull.cs" />
+     <Compile Include="Assets/Scripts/Stable/UnitTypesInfo.cs" />
+     <Compile Include="Assets/Scripts/Stable/AABB.cs" />
+     <Compile Include="Assets/Scripts/Stable/Rotator.cs" />
      <Compile Include="Assets/Scripts/Stable/MovePathView.cs" />
      <Compile Include="Assets/Scripts/Stable/MathUtils.cs" />
-     <Compile Include="Assets/Scripts/Stable/JsonUtils.cs" />
+     <Compile Include="Assets/Scripts/Stable/ConvexMeshGenerator.cs" />
+     <Compile Include="Assets/Scripts/Stable/GameObjectUtils.cs" />
+     <Compile Include="Assets/Scripts/Stable/ShadowDistanceOverride.cs" />
+     <Compile Include="Assets/Scripts/Stable/InstancedRenderer.cs" />
+     <Compile Include="Assets/Scripts/Stable/LayerMasks.cs" />
+     <Compile Include="Assets/Scripts/Stable/DifferenceEffect.cs" />
+     <Compile Include="Assets/Scripts/Stable/BlogPostStackMachineVisualizationStackValue.cs" />
      <Compile Include="Assets/Scripts/Stable/CircleTest.cs" />
+     <Compile Include="Assets/Scripts/Stable/FoliageRenderer.cs" />
+     <Compile Include="Assets/Scripts/Stable/CameraRectDriver.cs" />
      <Compile Include="Assets/Scripts/Stable/Map2D.cs" />
+     <Compile Include="Assets/Scripts/Stable/BallisticCurve.cs" />
+     <Compile Include="Assets/Scripts/Stable/MeshUtils.cs" />
+     <Compile Include="Assets/Scripts/Stable/Accelerometer.cs" />
+     <Compile Include="Assets/Scripts/Stable/ImageLoadTest.cs" />
      <Compile Include="Assets/Scripts/Stable/MovePathMeshBuilder.cs" />
+     <Compile Include="Assets/Scripts/Stable/TestRenderer.cs" />
      <Compile Include="Assets/Scripts/Stable/GameUiView.cs" />
+     <Compile Include="Assets/Scripts/Stable/MoveTypeAtlas.cs" />
      <Compile Include="Assets/Scripts/Stable/Barrel.cs" />
      <Compile Include="Assets/Scripts/Stable/ResourceExtensions.cs" />
      <Compile Include="Assets/Scripts/Stable/LookAt.cs" />
      <Compile Include="Assets/Scripts/Stable/PistonBody.cs" />
+     <Compile Include="Assets/Scripts/Stable/TileType.cs" />
+     <Compile Include="Assets/Scripts/Stable/JsonUtils.cs" />
+     <Compile Include="Assets/Scripts/Stable/UnitType.cs" />
      <Folder Include="Assets/Scripts/Stable/Foliage" />
      <Folder Include="Assets/Scripts/Stable/Foliage/Editor" />
      <None Include="Assets/Scripts/Stable/Stable.asmdef" />
@@ -396,20 +396,8 @@
      <Reference Include="UnityEditor.OSXStandalone.Extensions">
      <HintPath>/Applications/Unity/Hub/Editor/2021.3.1f1/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.Plastic.Newtonsoft.Json">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.collab-proxy@1.15.15/Lib/Editor/PlasticSCM/Unity.Plastic.Newtonsoft.Json.dll</HintPath>
-     </Reference>
      <Reference Include="Newtonsoft.Json">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/JsonDotNet/Assemblies/Standalone/Newtonsoft.Json.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.Plastic.Antlr3.Runtime">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.collab-proxy@1.15.15/Lib/Editor/PlasticSCM/Unity.Plastic.Antlr3.Runtime.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.VisualScripting.YamlDotNet">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.visualscripting@1.7.6/Editor/VisualScripting.Core/Dependencies/YamlDotNet/Unity.VisualScripting.YamlDotNet.dll</HintPath>
-     </Reference>
-     <Reference Include="unityplastic">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.collab-proxy@1.15.15/Lib/Editor/PlasticSCM/unityplastic.dll</HintPath>
      </Reference>
      <Reference Include="DOTweenEditor">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/Plugins/Demigiant/DOTween/Editor/DOTweenEditor.dll</HintPath>
@@ -420,17 +408,11 @@
      <Reference Include="Unity.Burst.Cecil.Mdb">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.burst@1.6.5/Unity.Burst.CodeGen/Unity.Burst.Cecil.Mdb.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.VisualScripting.IonicZip">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.visualscripting@1.7.6/Editor/VisualScripting.Core/Dependencies/DotNetZip/Unity.VisualScripting.IonicZip.dll</HintPath>
-     </Reference>
      <Reference Include="Unity.Burst.Cecil.Pdb">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.burst@1.6.5/Unity.Burst.CodeGen/Unity.Burst.Cecil.Pdb.dll</HintPath>
      </Reference>
      <Reference Include="Unity.Burst.Cecil">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.burst@1.6.5/Unity.Burst.CodeGen/Unity.Burst.Cecil.dll</HintPath>
-     </Reference>
-     <Reference Include="log4netPlastic">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.collab-proxy@1.15.15/Lib/Editor/PlasticSCM/log4netPlastic.dll</HintPath>
      </Reference>
      <Reference Include="Unity.Burst.Cecil.Rocks">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.burst@1.6.5/Unity.Burst.CodeGen/Unity.Burst.Cecil.Rocks.dll</HintPath>
@@ -438,14 +420,8 @@
      <Reference Include="DOTween">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/Plugins/Demigiant/DOTween/DOTween.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.VisualScripting.Antlr3.Runtime">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.visualscripting@1.7.6/Runtime/VisualScripting.Flow/Dependencies/NCalc/Unity.VisualScripting.Antlr3.Runtime.dll</HintPath>
-     </Reference>
      <Reference Include="ReportGeneratorMerged">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.testtools.codecoverage@1.0.1/lib/ReportGenerator/ReportGeneratorMerged.dll</HintPath>
-     </Reference>
-     <Reference Include="FSharp.Core">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/FSharp.Core.dll</HintPath>
      </Reference>
      <Reference Include="mscorlib">
      <HintPath>/Applications/Unity/Hub/Editor/2021.3.1f1/Unity.app/Contents/UnityReferenceAssemblies/unity-4.8-api/mscorlib.dll</HintPath>
