@@ -84,9 +84,11 @@
      <Compile Include="Assets/Scripts/Stable/SaveEntry.cs" />
      <Compile Include="Assets/Scripts/Stable/PostfixInterpreter.cs" />
      <Compile Include="Assets/Scripts/Stable/BlendShapesAnimation.cs" />
+     <Compile Include="Assets/Scripts/Stable/UnitType.cs" />
      <Compile Include="Assets/Scripts/Stable/Maths.cs" />
      <Compile Include="Assets/Scripts/Stable/UiSound.cs" />
      <Compile Include="Assets/Scripts/Stable/UiFollow.cs" />
+     <Compile Include="Assets/Scripts/Stable/TileType.cs" />
      <Compile Include="Assets/Scripts/Stable/CloudMovement.cs" />
      <Compile Include="Assets/Scripts/Stable/Foliage.cs" />
      <Compile Include="Assets/Scripts/Stable/PersistentData.cs" />
@@ -120,6 +122,7 @@
      <Compile Include="Assets/Scripts/Stable/ConvexMeshGenerator.cs" />
      <Compile Include="Assets/Scripts/Stable/GameObjectUtils.cs" />
      <Compile Include="Assets/Scripts/Stable/ShadowDistanceOverride.cs" />
+     <Compile Include="Assets/Scripts/Stable/JsonUtils.cs" />
      <Compile Include="Assets/Scripts/Stable/InstancedRenderer.cs" />
      <Compile Include="Assets/Scripts/Stable/LayerMasks.cs" />
      <Compile Include="Assets/Scripts/Stable/DifferenceEffect.cs" />
@@ -140,9 +143,6 @@
      <Compile Include="Assets/Scripts/Stable/ResourceExtensions.cs" />
      <Compile Include="Assets/Scripts/Stable/LookAt.cs" />
      <Compile Include="Assets/Scripts/Stable/PistonBody.cs" />
-     <Compile Include="Assets/Scripts/Stable/TileType.cs" />
-     <Compile Include="Assets/Scripts/Stable/JsonUtils.cs" />
-     <Compile Include="Assets/Scripts/Stable/UnitType.cs" />
      <Folder Include="Assets/Scripts/Stable/Foliage" />
      <Folder Include="Assets/Scripts/Stable/Foliage/Editor" />
      <None Include="Assets/Scripts/Stable/Stable.asmdef" />
