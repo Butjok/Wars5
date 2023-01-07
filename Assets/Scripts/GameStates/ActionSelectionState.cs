@@ -6,11 +6,14 @@ using UnityEngine.Assertions;
 
 public static class ActionSelectionState {
 
-    public static bool cancel = false;
+    public const string prefix = "action-selection-state.";
     
-    public static IEnumerator New(Main main, Unit unit, MovePath path, Vector2Int startForward) {
-
-        cancel = false;
+    public const string cancel = prefix + "cancel";
+    public const string cycleActions = prefix + "cycle-actions";
+    public const string execute = prefix + "execute";
+    public const string filterWithType = prefix + "filter-with-type";
+    
+    public static IEnumerator Run(Main main, Unit unit, MovePath path, Vector2Int startForward) {
 
         main.TryGetUnit(path.Destination, out var other);
 
@@ -56,17 +59,19 @@ public static class ActionSelectionState {
                 actions.Add(new UnitAction(UnitActionType.Drop, unit, path, targetUnit: cargo, targetPosition: targetPosition));
         }
 
+        main.stack.Push(actions);
+
         var panel = Object.FindObjectOfType<UnitActionsPanel>(true);
         Assert.IsTrue(panel);
 
         UnitAction oldAction = null;
         void SelectAction(UnitAction action) {
-            
+
             index = actions.IndexOf(action);
             Assert.IsTrue(index != -1);
             Debug.Log(actions[index]);
             panel.HighlightAction(action);
-            
+
             if (oldAction != null && oldAction.view)
                 oldAction.view.Show = false;
             if (action.view)
@@ -76,8 +81,8 @@ public static class ActionSelectionState {
 
         PlayerView.globalVisibility = false;
         yield return null;
-        
-        panel.Show(actions, (_, action) => SelectAction(action));
+
+        panel.Show(main, actions, (_, action) => SelectAction(action));
         if (actions.Count > 0)
             SelectAction(actions[0]);
 
@@ -91,78 +96,100 @@ public static class ActionSelectionState {
         while (true) {
             yield return null;
 
-            // action is selected
-            if (main.input.actionFilter != null) {
+            if (!main.CurrentPlayer.IsAi) {
 
-                HidePanel();
+                if (Input.GetMouseButtonDown(Mouse.right) || Input.GetKeyDown(KeyCode.Escape))
+                    main.commands.Enqueue(cancel);
 
-                var action = actions.Single(action => main.input.actionFilter(action));
-                yield return action.Execute();
-                main.input.actionFilter = null;
+                else if (Input.GetKeyDown(KeyCode.Tab))
+                    main.commands.Enqueue(cycleActions);
 
-                foreach (var item in actions)
-                    item.Dispose();
-
-                var won = Rules.Won(main.localPlayer);
-                var lost = Rules.Lost(main.localPlayer);
-
-                if (won || lost) {
-
-                    foreach (var u in main.units.Values)
-                        u.moved.v = false;
-
-                    var nextState = won ? main.levelLogic.OnVictory(main) : main.levelLogic.OnDefeat(main);
-                    yield return nextState;
-
-                    yield return won ? VictoryState.New(main) : DefeatState.New(main);
-                    yield break;
-                }
-
-                else {
-                    var (controlFlow, nextState) = main.levelLogic.OnActionCompletion(main, action);
-                    yield return nextState;
-                    if (controlFlow == ControlFlow.Replace)
-                        yield break;
-                    yield return SelectionState.New(main);
-                    yield break;
+                else if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space)) {
+                    if (actions.Count == 0)
+                        UiSound.Instance.notAllowed.PlayOneShot();
+                    else {
+                        main.stack.Pop();
+                        main.stack.Push(new List<UnitAction>{actions[index]});
+                        main.commands.Enqueue(execute);
+                    }
                 }
             }
 
-            if (main.CurrentPlayer.IsAi)
-                continue;
+            while (main.commands.TryDequeue(out var input))
+                foreach (var token in input.Tokenize())
+                    switch (token) {
 
-            if (Input.GetMouseButtonDown(Mouse.right) || Input.GetKeyDown(KeyCode.Escape) || cancel) {
-                cancel = false;
-                
-                HidePanel();
+                        case filterWithType: {
+                            var type = main.stack.Pop<UnitActionType>();
+                            main.stack.Push(main.stack.Pop<List<UnitAction>>().Where(action => action.type == type).ToList());
+                            break;
+                        }
 
-                foreach (var action in actions)
-                    action.Dispose();
+                        case execute: {
 
-                unit.view.Position = path[0];
-                unit.view.Forward = startForward;
+                            var filteredActions = main.stack.Pop<List<UnitAction>>();
+                            Assert.AreEqual(1, filteredActions.Count);
+                            var action = filteredActions[0];
 
-                yield return PathSelectionState.New(main, unit);
-                yield break;
-            }
+                            HidePanel();
+                            yield return action.Execute();
 
-            else if (Input.GetKeyDown(KeyCode.Tab)) {
-                if (actions.Count > 0) {
-                    index = (index + 1) % actions.Count;
-                    SelectAction(actions[index]);
-                }
-                else
-                    UiSound.Instance.notAllowed.PlayOneShot();
-            }
+                            foreach (var item in filteredActions)
+                                item.Dispose();
 
-            else if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space)) {
-                if (actions.Count == 0)
-                    UiSound.Instance.notAllowed.PlayOneShot();
-                else {
-                    var action = actions[index];
-                    main.input.actionFilter = a => a == action;
-                }
-            }
+                            var won = Rules.Won(main.localPlayer);
+                            var lost = Rules.Lost(main.localPlayer);
+
+                            if (won || lost) {
+
+                                foreach (var u in main.units.Values)
+                                    u.moved.v = false;
+
+                                var nextState = won ? main.levelLogic.OnVictory(main) : main.levelLogic.OnDefeat(main);
+                                yield return nextState;
+
+                                yield return won ? VictoryState.Run(main) : DefeatState.New(main);
+                                yield break;
+                            }
+
+                            else {
+                                var (controlFlow, nextState) = main.levelLogic.OnActionCompletion(main, action);
+                                yield return nextState;
+                                if (controlFlow == ControlFlow.Replace)
+                                    yield break;
+                                yield return SelectionState.Run(main);
+                                yield break;
+                            }
+                        }
+
+                        case cancel:
+
+                            main.stack.Pop();
+
+                            HidePanel();
+
+                            foreach (var action in actions)
+                                action.Dispose();
+
+                            unit.view.Position = path[0];
+                            unit.view.LookDirection = startForward;
+
+                            yield return PathSelectionState.Run(main, unit);
+                            yield break;
+
+                        case cycleActions:
+                            if (actions.Count > 0) {
+                                index = (index + 1) % actions.Count;
+                                SelectAction(actions[index]);
+                            }
+                            else
+                                UiSound.Instance.notAllowed.PlayOneShot();
+                            break;
+
+                        default:
+                            main.stack.ExecuteToken(token);
+                            break;
+                    }
         }
     }
 }

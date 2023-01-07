@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class BattleAnimationState {
 
-    public static IEnumerator New(UnitAction action, bool skipAnimation = false) {
+    public static IEnumerator Run(UnitAction action, bool skipAnimation = false) {
 
         var attacker = action.unit;
         var target = action.targetUnit;

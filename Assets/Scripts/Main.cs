@@ -2,35 +2,38 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Butjok.CommandLine;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 public class Main : MonoBehaviour {
 
-    private static Main instance;
-    public static Main Instance {
-        get {
-            if (!instance)
-                instance = FindObjectOfType<Main>();
-            return instance;
-        }
-    }
-
-    public Map2D<Unit> units;
-    public Map2D<TileType> tiles;
-    public Map2D<Building> buildings;
-    public PlayerCollection players = new();
+    public Dictionary<Vector2Int, TileType> tiles = new();
+    public Dictionary<Vector2Int, Unit> units = new();
+    public Dictionary<Vector2Int, Building> buildings = new();
+    public List<Player> players = new();
     public int? turn = 0;
     public LevelLogic levelLogic = new();
     public Player localPlayer;
     public GameSettings settings = new();
 
-    public InputCommandsContext input = new();
+    public Stack stack = new();
+    public Queue<string> commands = new();
+    public GUISkin guiSkin;
 
     public void Awake() {
+        
+        Player.undisposed.Clear();
+        Building.undisposed.Clear();
+        Unit.undisposed.Clear();
+        UnitAction.undisposed.Clear();
+        
         UpdatePostProcessing();
-        settings = GameSettings.Load();
+        
+        settings = PersistentData.Read().gameSettings;
+
+        guiSkin = Resources.Load<GUISkin>("CommandLine");
     }
 
     public void UpdatePostProcessing() {
@@ -46,6 +49,7 @@ public class Main : MonoBehaviour {
         get {
             Assert.AreNotEqual(0, players.Count);
             Assert.IsTrue(turn != null);
+            Assert.IsTrue(turn>=0);
             return players[(int)turn % players.Count];
         }
     }
@@ -72,16 +76,52 @@ public class Main : MonoBehaviour {
     }
 
     private void OnApplicationQuit() {
-        if (Player.undisposed.Count != 0) { }
-        if (Unit.undisposed.Count != 0) { }
-        if (UnitAction.undisposed.Count != 0) { }
+        Clear();
+        Debug.Log(@$"UNDISPOSED: players: {Player.undisposed.Count} buildings: {Building.undisposed.Count} units: {Unit.undisposed.Count} unitActions: {UnitAction.undisposed.Count}");
+    }
+
+    private void OnGUI() {
+        if (guiSkin)
+            GUI.skin = guiSkin;
+        var content = new GUIContent($"Stack: {stack.Count}");
+        var style = GUI.skin.label;
+        var size = style.CalcSize(content);
+        var rect = new Rect(Screen.width - size.x, 0, size.x, size.y);
+        GUI.Label(rect, content, style);
     }
 
     public float fadeDuration = 2;
     public Ease fadeEase = Ease.Unset;
-    public void StartGame() {
+    public void RestartGame() {
         PostProcessing.ColorFilter = Color.black;
         PostProcessing.Fade(Color.white, fadeDuration, fadeEase);
-        StartCoroutine(SelectionState.New(this, true));
+        StopAllCoroutines();
+        StartCoroutine( SelectionState.Run(this, true));
+    }
+    
+    public void Clear() {
+        
+        turn = null;
+
+        foreach (var player in players.ToArray())
+            player.Dispose();
+        players.Clear();
+
+        localPlayer = null;
+
+        tiles.Clear();
+        
+        foreach (var unit in units.Values.ToArray())
+            unit.Dispose();
+        units.Clear();
+
+        foreach (var building in buildings.Values.ToArray())
+            building.Dispose();
+        buildings.Clear();
+    }
+
+    [Command]
+    public void EnqueueCommand(string command) {
+        commands.Enqueue(command);
     }
 }

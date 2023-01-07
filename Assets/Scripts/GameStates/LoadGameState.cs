@@ -5,11 +5,11 @@ using Object = UnityEngine.Object;
 
 public static class LoadGameState {
 
-    public static bool shouldBreak;
+    public const string prefix = "load-game-state.";
 
-    public static IEnumerator New(Main main) {
-
-        shouldBreak = false;
+    public const string close = prefix + "close";
+    
+    public static IEnumerator Run(Main main) {
 
         var saves = SaveEntry.FileNames
             .Select(SaveEntry.Read)
@@ -17,18 +17,23 @@ public static class LoadGameState {
 
         var menu = Object.FindObjectOfType<LoadGameMenu>(true);
         Assert.IsTrue(menu);
-
         menu.Show(main, saves);
 
         while (true) {
             yield return null;
-
-            if (shouldBreak) {
-                shouldBreak = false;
-
-                menu.Hide();
-                yield break;
-            }
+            
+            while (main.commands.TryDequeue(out var input))
+                foreach (var token in input.Tokenize())
+                    switch (token) {
+                        
+                        case close:
+                            menu.Hide();
+                            yield break;
+                        
+                        default:
+                            main.stack.ExecuteToken(token);
+                            break;
+                    }
         }
 
     }

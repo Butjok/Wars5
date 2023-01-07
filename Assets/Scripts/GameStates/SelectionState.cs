@@ -1,25 +1,28 @@
 using System.Collections;
 using System.Linq;
-using Butjok.CommandLine;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 public static class SelectionState {
 
-    [Command]
-    public static bool triggerVictory;
-    [Command]
-    public static bool triggerDefeat;
+    public const string prefix = "selection-state.";
+
+    public const string endTurn = prefix + "end-turn";
+    public const string openGameMenu = prefix + "open-game-menu";
+    public const string cyclePositions = prefix + "cycle-positions";
+    public const string select = prefix + "select";
+    public const string triggerVictory = prefix + "trigger-victory";
+    public const string triggerDefeat = prefix + "trigger-defeat";
     
-    public static IEnumerator New(Main main, bool turnStart = false) {
+    public static IEnumerator Run(Main main, bool turnStart = false) {
 
         // weird static variable issue
         PlayerView.globalVisibility = true;
-        
+
         var unmovedUnits = main.units.Values
             .Where(unit => unit.player == main.CurrentPlayer && !unit.moved.v)
             .ToList();
-        
+
         var accessibleBuildings = main.buildings.Values
             .Where(building => building.player.v == main.CurrentPlayer &&
                                Rules.BuildableUnits(building) != 0 &&
@@ -32,7 +35,7 @@ public static class SelectionState {
             })
             .Union(accessibleBuildings.Select(building => building.position))
             .ToArray();
-        
+
         if (CameraRig.Instance)
             positions = positions.OrderBy(position => Vector2.Distance(CameraRig.Instance.transform.position.ToVector2(), position)).ToArray();
 
@@ -48,7 +51,7 @@ public static class SelectionState {
 
             //MusicPlayer.Instance.Queue = game.CurrentPlayer.co.themes.InfiniteSequence(game.settings.shuffleMusic);
 
-            yield return TurnStartAnimationState.New(main);
+            yield return TurnStartAnimationState.Run(main);
 
             main.CurrentPlayer.view.visible = true;
         }
@@ -58,94 +61,106 @@ public static class SelectionState {
         while (true) {
             yield return null;
 
-            if (main.input.selectAt is { } position) {
-                main.input.selectAt = null;
+            if (!main.CurrentPlayer.IsAi) {
                 
-                if (main.TryGetUnit(position, out var unit)) {
-                    unit.view.Selected = true;
-                    yield return PathSelectionState.New(main,unit);
-                    yield break;
-                }
-                else if (main.TryGetBuilding(position, out var building)) {
-                    yield return UnitBuildingState.New(main,building);
-                    yield break;
-                }   
-            }
+                if (Input.GetKeyDown(KeyCode.F2))
+                    main.commands.Enqueue(endTurn);
 
-            // end turn
-            else if (main.input.endTurn) {
+                else if (Input.GetKeyDown(KeyCode.Escape))
+                    main.commands.Enqueue(openGameMenu);
 
-                main.input.Reset();
+                else if (Input.GetKeyDown(KeyCode.Tab))
+                    main.commands.Enqueue(cyclePositions);
 
-                foreach (var unit in main.units.Values)
-                    unit.moved.v = false;
-
-                main.CurrentPlayer.view.visible = false;
-                CursorView.Instance.Visible = false;
-
-                //MusicPlayer.Instance.source.Stop();
-                //MusicPlayer.Instance.queue = null;
-
-                Assert.IsTrue(main.turn != null);
-                main.turn = (int)main.turn + 1;
-
-                var (controlFlow, nextState) = main.levelLogic.OnTurnEnd(main);
-                if (nextState != null)
-                    yield return nextState;
-                if (controlFlow == ControlFlow.Replace)
-                    yield break;
-
-                yield return New(main, true);
-                yield break;
-            }
-
-            if (main.CurrentPlayer.IsAi)
-                continue;
-
-            if (Input.GetKeyDown(KeyCode.F2))
-                main.input.endTurn = true;
-            
-            else if (Input.GetKeyDown(KeyCode.Escape))
-                yield return GameMenuState.New(main);
-
-            else if (Input.GetKeyDown(KeyCode.Tab)) {
-                if (positions.Length > 0) {
-                    positionIndex = (positionIndex + 1) % positions.Length;
-                    if (CameraRig.Instance)
-                        CameraRig.Instance.Jump(positions[positionIndex]);
-                }
-                else
-                    UiSound.Instance.notAllowed.PlayOneShot();
-            }
-
-            else if ((Input.GetMouseButtonDown(Mouse.left) || Input.GetKeyDown(KeyCode.Space)) &&
-                     Mouse.TryGetPosition(out Vector2Int mousePosition)) {
-
-                if (main.TryGetUnit(mousePosition, out var unit)) {
-                    if (unit.player != main.CurrentPlayer || unit.moved.v)
-                        UiSound.Instance.notAllowed.PlayOneShot();
-                    else
-                        main.input.selectAt = mousePosition;
-                }
-
-                else if (main.TryGetBuilding(mousePosition, out var building)) {
-                    if (building.player.v != main.CurrentPlayer)
-                        UiSound.Instance.notAllowed.PlayOneShot();
-                    else
-                        main.input.selectAt = mousePosition;
+                else if ((Input.GetMouseButtonDown(Mouse.left) || Input.GetKeyDown(KeyCode.Space)) &&
+                         Mouse.TryGetPosition(out Vector2Int mousePosition)) {
+                    
+                    main.stack.Push(mousePosition);
+                    main.commands.Enqueue(@select);
                 }
             }
-            
-            else if (triggerVictory) {
-                triggerVictory = false;
-                yield return VictoryState.New(main);
-                yield break;
-            }
-            else if (triggerDefeat) {
-                triggerDefeat = false;
-                yield return DefeatState.New(main);
-                yield break;
-            }
+
+            while (main.commands.TryDequeue(out var input))
+                foreach (var token in input.Tokenize()) {
+                    switch (token) {
+
+                        case @select: {
+
+                            var position = main.stack.Pop<Vector2Int>();
+
+                            if (main.TryGetUnit(position, out var unit)) {
+                                if (unit.player != main.CurrentPlayer || unit.moved.v)
+                                    UiSound.Instance.notAllowed.PlayOneShot();
+                                else {
+                                    unit.view.Selected = true;
+                                    yield return PathSelectionState.Run(main, unit);
+                                    yield break;
+                                }
+                            }
+
+                            else if (main.TryGetBuilding(position, out var building)) {
+                                if (building.player.v != main.CurrentPlayer)
+                                    UiSound.Instance.notAllowed.PlayOneShot();
+                                else {
+                                    yield return UnitBuildState.New(main, building);
+                                    yield break;
+                                }
+                            }
+                            break;
+                        }
+
+                        case endTurn: {
+
+                            foreach (var unit in main.units.Values)
+                                unit.moved.v = false;
+
+                            main.CurrentPlayer.view.visible = false;
+                            CursorView.Instance.Visible = false;
+
+                            //MusicPlayer.Instance.source.Stop();
+                            //MusicPlayer.Instance.queue = null;
+
+                            Assert.IsTrue(main.turn != null);
+                            main.turn = (int)main.turn + 1;
+
+                            var (controlFlow, nextState) = main.levelLogic.OnTurnEnd(main);
+                            if (nextState != null)
+                                yield return nextState;
+                            if (controlFlow == ControlFlow.Replace)
+                                yield break;
+
+                            yield return Run(main, true);
+                            yield break;
+                        }
+
+                        case openGameMenu:
+                            yield return GameMenuState.Run(main);
+                            break;
+
+                        case cyclePositions: {
+                            if (positions.Length > 0) {
+                                positionIndex = (positionIndex + 1) % positions.Length;
+                                if (CameraRig.Instance)
+                                    CameraRig.Instance.Jump(positions[positionIndex]);
+                            }
+                            else
+                                UiSound.Instance.notAllowed.PlayOneShot();
+                            break;
+                        }
+
+                        case triggerVictory:
+                            yield return VictoryState.Run(main);
+                            yield break;
+
+                        case triggerDefeat:
+                            yield return DefeatState.New(main);
+                            yield break;
+                        
+                        default:
+                            main.stack.ExecuteToken(token);
+                            break;
+                    }
+                }
         }
     }
 }

@@ -27,11 +27,11 @@ public class AiPlayground : MonoBehaviour {
                 selectedUnit.view) {
 
                 if (unitBrain)
-                    unitBrain.debugDraw = false;
+                    // unitBrain.debugDraw = false;
                 
                 unitBrain = selectedUnit.view.GetComponent<UnitBrain>();
                 if (unitBrain) {
-                    unitBrain.debugDraw = true;
+                    // unitBrain.debugDraw = true;
                     Selection.objects = new Object[] { unitBrain };
                 }
                 else
@@ -40,7 +40,7 @@ public class AiPlayground : MonoBehaviour {
             else {
                 Selection.objects = null;
                 if (unitBrain) {
-                    unitBrain.debugDraw = false;
+                    // unitBrain.debugDraw = false;
                     unitBrain = null;
                 }
             }

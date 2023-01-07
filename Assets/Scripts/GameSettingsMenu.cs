@@ -99,7 +99,7 @@ public class GameSettingsMenu : MonoBehaviour {
 
     public void Close() {
         if (!main.settings.DiffersFrom(oldSettings))
-            GameSettingsState.shouldBreak = true;
+            main.commands.Enqueue(GameSettingsState.close);
         else {
             shakeTweener?.Complete();
             shakeTweener = buttonsRoot.GetComponent<RectTransform>()
@@ -115,11 +115,13 @@ public class GameSettingsMenu : MonoBehaviour {
     public void Cancel() {
         main.settings = oldSettings;
         main.UpdatePostProcessing();
-        GameSettingsState.shouldBreak = true;
+        main.commands.Enqueue(GameSettingsState.close);
     }
     public void Ok() {
-        main.settings.Save();
-        GameSettingsState.shouldBreak = true;
+        var persistentData = PersistentData.Read();
+        persistentData.gameSettings = main.settings;
+        persistentData.Save();
+        main.commands.Enqueue(GameSettingsState.close);
     }
 
     private void Update() {

@@ -53,6 +53,9 @@
      <Compile Include="Assets/RoslynCSharp/Scripts/RoslynCSharp/Editor/HotReloading/RealtimeScriptWatcher.cs" />
      <Compile Include="Assets/RoslynCSharp/Scripts/RoslynCSharp/Editor/RoslynSecurityWindow.cs" />
      <Compile Include="Assets/RoslynCSharp/Scripts/RoslynCSharp/Editor/InputDialog.cs" />
+     <Folder Include="Assets/RoslynCSharp/Scripts/RoslynCSharp/Editor" />
+     <Folder Include="Assets/RoslynCSharp/Scripts/RoslynCSharp/Editor/UIContainer" />
+     <Folder Include="Assets/RoslynCSharp/Scripts/RoslynCSharp/Editor/HotReloading" />
      <None Include="Assets/RoslynCSharp/Scripts/RoslynCSharp/Editor/RoslynCSharp.Editor.asmdef" />
      <Reference Include="UnityEngine">
      <HintPath>/Applications/Unity/Hub/Editor/2021.3.1f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
@@ -993,11 +996,11 @@
      <Reference Include="UnityEngine.UI">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
      </Reference>
-     <Reference Include="UnityEngine.TestRunner">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/UnityEngine.TestRunner.dll</HintPath>
-     </Reference>
      <Reference Include="UnityEditor.TestRunner">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.TestRunner">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/UnityEngine.TestRunner.dll</HintPath>
      </Reference>
   </ItemGroup>
   <ItemGroup>

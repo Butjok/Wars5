@@ -1,8 +1,11 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 public class Building : IDisposable {
+
+    public static readonly HashSet<Building> undisposed = new();
 
     public TileType type;
     public Main main;
@@ -14,6 +17,8 @@ public class Building : IDisposable {
 
     public Building(Main main, Vector2Int position, TileType type = TileType.City, Player player = null, int? cp = null) {
 
+        undisposed.Add(this);
+        
         this.player = new ChangeTracker<Player>(_ => { });
         this.cp = new ChangeTracker<int>(_ => { });
 
@@ -35,5 +40,7 @@ public class Building : IDisposable {
     public override string ToString() {
         return $"{type}{position} {player.v}";
     }
-    public void Dispose() { }
+    public void Dispose() {
+        undisposed.Remove(this);
+    }
 }

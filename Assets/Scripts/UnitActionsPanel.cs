@@ -16,8 +16,12 @@ public class UnitActionsPanel : MonoBehaviour {
     public Action<Button, UnitAction> onClick;
 
     public Dictionary<UnitAction, Button> buttons = new();
+    public Main main;
 
-    public void Show(IEnumerable<UnitAction> actions, Action<Button, UnitAction> onClick) {
+    public void Show(Main main,IEnumerable<UnitAction> actions, Action<Button, UnitAction> onClick) {
+
+        this.main = main;
+        
         this.onClick = onClick;
         foreach (var action in actions) {
             var button = Instantiate(buttonPrefab, buttonPrefab.transform.parent);
@@ -52,6 +56,6 @@ public class UnitActionsPanel : MonoBehaviour {
     }
 
     public void Cancel() {
-        ActionSelectionState.cancel = true;
+        main.commands.Enqueue("action-selection-state.cancel");
     }
 }

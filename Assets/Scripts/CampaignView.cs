@@ -1,8 +1,8 @@
 using System;
 using System.Linq;
-using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.Serialization;
 
 public class CampaignView : MonoBehaviour {
@@ -45,7 +45,9 @@ public class CampaignView : MonoBehaviour {
         
         foreach (var missionView in missions) {
 
-            var isCompleted = campaign[missionView.name].isCompleted;
+            var mission = campaign.TryFind(missionView.name);
+            Assert.IsNotNull(mission);
+            var isCompleted = mission.isCompleted;
             var isAvailable = campaign.IsAvailable(missionView.name);
             
             if (missionView.text) {
@@ -97,7 +99,7 @@ public class CampaignView : MonoBehaviour {
 
     private void Start() {
         // Campaign.Clear();
-        Actualize(Campaign.Load());
+        Actualize(PersistentData.Read().campaign);
     }
 
     public float selectionFrameJumpDuration = .25f;
@@ -120,7 +122,6 @@ public class CampaignView : MonoBehaviour {
     public void Hide() { }
 
     public LineRenderer lineRenderer;
-    [Button]
     public void AnimateLineRenderer() {
         var propertyBlock = new MaterialPropertyBlock();
         propertyBlock.SetFloat("_StartTime", Time.timeSinceLevelLoad);

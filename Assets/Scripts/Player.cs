@@ -6,11 +6,7 @@ using UnityEngine.Assertions;
 using UnityEngine.Playables;
 using Object = UnityEngine.Object;
 
-[Flags]
-public enum Team { None = 0, Alpha = 1, Bravo = 2, Charlie = 4, Delta = 8 }
-[Flags]
-public enum PlayerType { Human, Ai }
-public enum AiDifficulty { Normal, Easy, Hard }
+
 
 public class Player : IDisposable {
 
@@ -18,14 +14,14 @@ public class Player : IDisposable {
 
 	public Main main;
 	public Team team = Team.None;
-	public Color32 color;
+	public Color color;
 	public Co co;
 	public PlayerType type = PlayerType.Human;
 	public AiDifficulty difficulty = AiDifficulty.Normal;
 	public PlayerView view;
 	public int credits;
 
-	public Player(Main main, Color32 color, Team team = Team.None, int credits=0, Co co = null, PlayerView viewPrefab = null,
+	public Player(Main main, Color color, Team team = Team.None, int credits=0, Co co = null, PlayerView viewPrefab = null,
 		PlayerType type = PlayerType.Human, AiDifficulty difficulty=AiDifficulty.Normal) {
 
 		undisposed.Add(this);
@@ -48,7 +44,7 @@ public class Player : IDisposable {
 	}
 
 	public override string ToString() {
-		return color.Name();
+		return color.ToString();
 	}
 
 	public void Dispose() {

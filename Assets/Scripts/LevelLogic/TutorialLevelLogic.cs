@@ -17,7 +17,7 @@ public class TutorialLogic : LevelLogic {
 
             0 => (ControlFlow.Pause,
                 showDialogue
-                    ? DialogueState.New(main, new[] {
+                    ? DialogueState.Run(main, new[] {
                         new DialogueUi.Speech {
                             speaker = DialogueSpeaker.Natalie,
                             lines = new[] {
@@ -73,7 +73,7 @@ public class TutorialLogic : LevelLogic {
     }
 
     public override IEnumerator OnVictory(Main main) {
-        return DialogueState.New(main, new[] {
+        return DialogueState.Run(main, new[] {
             new DialogueUi.Speech {
                 speaker = DialogueSpeaker.Natalie,
                 lines = new[] {
@@ -88,7 +88,7 @@ public class TutorialLogic : LevelLogic {
     }
 
     public override IEnumerator OnDefeat(Main main) {
-        return DialogueState.New(main, new[] {
+        return DialogueState.Run(main, new[] {
             new DialogueUi.Speech {
                 speaker = DialogueSpeaker.Natalie,
                 lines = new[] {

@@ -5,12 +5,78 @@ using System.IO;
 using System.Linq;
 using Butjok.CommandLine;
 using TMPro;
+using UnityEditor.XR;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
+
+public  class LevelEditorState : MonoBehaviour {
+
+    public  string sceneName = "LevelEditor";
+    public readonly UnitType[] unitTypes = {
+        UnitType.Infantry,
+        UnitType.AntiTank,
+        UnitType.Artillery,
+        UnitType.Apc,
+        UnitType.TransportHelicopter,
+        UnitType.AttackHelicopter,
+        UnitType.FighterJet,
+        UnitType.Bomber,
+        UnitType.Recon,
+        UnitType.LightTank,
+        UnitType.Rockets,
+    };
+
+    public TMP_Text uiText;
+
+    public  IEnumerator New(Main main) {
+        if (SceneManager.GetActiveScene().name != sceneName)
+            SceneManager.LoadScene(sceneName);
+
+        // init empty map
+        {
+            main.Clear();
+
+            var red = new Player(main, Color.red, Team.Alpha);
+            var blue = new Player(main, Color.blue, Team.Bravo);
+
+            for (var y = 0; y < 10; y++)
+            for (var x = 0; x < 10; x++)
+                main.tiles.Add(new Vector2Int(x, y), TileType.Plain);
+
+            var redHq = new Building(main, new Vector2Int(0, 0), TileType.Hq, red);
+            var blueHq = new Building(main, new Vector2Int(9, 9), TileType.Hq, blue);
+
+            var redInfantry = new Unit(red, UnitType.Infantry, new Vector2Int(1, 1));
+            var blueInfantry = new Unit(blue, UnitType.Infantry, new Vector2Int(8, 8));
+        }
+
+        var cursorView = CursorView.Instance;
+        if (cursorView)
+            cursorView.Visible = true;
+
+        var textDisplay = new LevelEditorTextDisplay(uiText);
+        
+        var unitTypeIndex = -1;
+
+        while (true) {
+            yield return null;
+
+            
+        }
+    }
+}
 
 public class LevelEditor : MonoBehaviour {
 
+
+#if false
+    public class SerializedBuilding {
+    }
+    public class SerializedUnit {}
+    public class SerializedPlayer {}
+    
     public const string mode = "mode";
     public const string player = "player";
 
@@ -29,7 +95,7 @@ public class LevelEditor : MonoBehaviour {
     public Material tileMaterial;
     public TileTypeColorDictionary tileTypeColors = new();
     public UnitTypeUnitViewDictionary unitViewPrefabs = new();
-    public Numerator numerator = new();
+    public int nextId = 0;
     public Color nullPlayerColor = Color.white;
 
     public Transform editModeRoot;
@@ -119,7 +185,7 @@ public class LevelEditor : MonoBehaviour {
         textDisplay.Clear();
         textDisplay.Set(mode, nameof(TilesMode));
         textDisplay.Set(nameof(tileType), tileType);
-        textDisplay.Set(player, PlayerColor(playerId).Name());
+        textDisplay.Set(player, PlayerColor(playerId).GetName());
 
         while (true) {
             yield return null;
@@ -211,7 +277,7 @@ public class LevelEditor : MonoBehaviour {
 
                 if (buildings.TryGetValue(mousePosition, out var building)) {
                     playerId = building.playerId;
-                    textDisplay.Set(player, PlayerColor(playerId).Name());
+                    textDisplay.Set(player, PlayerColor(playerId).GetName());
                 }
             }
         }
@@ -316,7 +382,7 @@ public class LevelEditor : MonoBehaviour {
         textDisplay.Clear();
         textDisplay.Set(mode, nameof(UnitsMode));
         textDisplay.Set(nameof(unitType), unitType);
-        textDisplay.Set(player, PlayerColor(playerId).Name());
+        textDisplay.Set(player, PlayerColor(playerId).GetName());
 
         while (true) {
             yield return null;
@@ -380,7 +446,7 @@ public class LevelEditor : MonoBehaviour {
                 playerId = unit.playerId;
 
                 textDisplay.Set(nameof(unitType), unitType);
-                textDisplay.Set(player, PlayerColor(playerId).Name());
+                textDisplay.Set(player, PlayerColor(playerId).GetName());
             }
         }
     }
@@ -400,7 +466,7 @@ public class LevelEditor : MonoBehaviour {
 
         var playerLookup = new Dictionary<int, Player>();
         foreach (var player in players)
-            playerLookup.Add(player.id, new Player(game, player.color, player.team, player.credits, type: player.type));
+            playerLookup.Add(player.id, new Player(game, player.colorName.ToColor32(), player.team, player.credits, type: player.type));
         game.localPlayer = playerLookup[players[0].id];
 
         var min = new Vector2Int(positions.Min(p => p.x), positions.Min(p => p.y));
@@ -476,7 +542,7 @@ public class LevelEditor : MonoBehaviour {
             else
                 playerId = -1;
 
-            textDisplay.Set(player, PlayerColor(playerId).Name());
+            textDisplay.Set(player, PlayerColor(playerId).GetName());
 
             return true;
         }
@@ -495,7 +561,7 @@ public class LevelEditor : MonoBehaviour {
     }
 
     public Color32 PlayerColor(int playerId) {
-        return players.SingleOrDefault(p => p.id == playerId)?.color ?? nullPlayerColor;
+        return players.SingleOrDefault(p => p.id == playerId)?.colorName.ToColor32() ?? nullPlayerColor;
     }
 
     [Command]
@@ -546,6 +612,7 @@ public class LevelEditor : MonoBehaviour {
             if (unit.position?.ToVector2Int() is { } position)
                 AddUnit(position, unit);
     }
+#endif
 }
 
 [Serializable]

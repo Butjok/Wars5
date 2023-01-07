@@ -24,8 +24,7 @@ public class Unit : IDisposable {
 
     public static implicit operator UnitType(Unit unit) => unit.type;
 
-    public Unit(Player player, bool moved = false, UnitType type = UnitType.Infantry, Vector2Int? position
-        = null, Vector2Int? rotation = null, int hp = int.MaxValue, int fuel = int.MaxValue, UnitView viewPrefab = null) {
+    public Unit(Player player, UnitType type = UnitType.Infantry, Vector2Int? position = null, Vector2Int? rotation = null, int hp = int.MaxValue, int fuel = int.MaxValue, bool moved = false, UnitView viewPrefab = null) {
 
         undisposed.Add(this);
         
@@ -36,7 +35,7 @@ public class Unit : IDisposable {
         view = Object.Instantiate(viewPrefab, player.main.transform);
         view.unit = this;
         view.prefab = viewPrefab;
-        view.Forward = rotation ?? Vector2Int.up;
+        view.LookDirection = rotation ?? Vector2Int.up;
         view.PlayerColor = player.color;
 
         this.position = new ChangeTracker<Vector2Int?>(old => {
@@ -45,7 +44,8 @@ public class Unit : IDisposable {
                 player.main.units.Remove(oldPosition);
 
             if (this.position.v is { } newPosition) {
-                player.main.units[newPosition] = this;
+                Assert.IsFalse(player.main.units.ContainsKey(newPosition), newPosition.ToString());
+                player.main.units.Add(newPosition,this);
                 view.Visible = true;
                 view.Position = newPosition;
             }
@@ -54,6 +54,7 @@ public class Unit : IDisposable {
         });
 
         this.moved = new ChangeTracker<bool>(_ => view.Moved = this.moved.v);
+        
         this.hp = new ChangeTracker<int>(_ => {
             if (this.hp.v <= 0) {
                 view.Die();
@@ -63,6 +64,7 @@ public class Unit : IDisposable {
             else
                 view.Hp = this.hp.v;
         });
+        
         this.fuel = new ChangeTracker<int>(_ => view.Fuel = this.fuel.v);
         carrier = new ChangeTracker<Unit>(_ => view.Carrier = carrier.v);
 
@@ -85,6 +87,9 @@ public class Unit : IDisposable {
     }
 
     public void Dispose() {
+        
+        foreach (var unit in cargo)
+            unit.Dispose();
         
         Assert.IsTrue(undisposed.Contains(this));
         undisposed.Remove(this);

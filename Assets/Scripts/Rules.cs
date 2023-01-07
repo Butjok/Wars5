@@ -5,38 +5,6 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using static UnityEngine.Mathf;
 
-[Flags]
-public enum TileType {
-
-    Plain = 1 << 0,
-    Road = 1 << 1,
-    Sea = 1 << 2,
-    Mountain = 1 << 3,
-
-    City = 1 << 4,
-    Hq = 1 << 5,
-    Factory = 1 << 6,
-    Airport = 1 << 7,
-    Shipyard = 1 << 8,
-    
-    Buildings = City | Hq | Factory | Airport | Shipyard
-}
-
-[Flags]
-public enum UnitType {
-    Infantry = 1 << 0,
-    AntiTank = 1 << 1,
-    Artillery = 1 << 2,
-    Apc = 1 << 3,
-    TransportHelicopter = 1 << 4,
-    AttackHelicopter = 1 << 5,
-    FighterJet = 1 << 6,
-    Bomber = 1 << 7,
-    Recon = 1 << 8,
-    LightTank = 1 << 9,
-    Rockets = 1 << 10,
-}
-
 public static class Rules {
 
     public static Vector2Int[] offsets = { Vector2Int.up, Vector2Int.left, Vector2Int.down, Vector2Int.right };

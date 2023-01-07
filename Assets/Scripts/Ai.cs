@@ -5,8 +5,11 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public  class Ai :MonoBehaviour{
+public  class Ai :MonoBehaviour {
 
+    public const string a = "hello,l world!!!asdasdssdfsasdasdsdfasdasd";
+    public int x = 3128;
+    
     public static UnitAction FindBestAction(Main main) {
 
         var player = main.CurrentPlayer;
@@ -23,7 +26,7 @@ public  class Ai :MonoBehaviour{
         return null;
     }
 
-    public static IEnumerable<Vector2Int> RangePositions(Map2D<TileType> tiles, Vector2Int position, Vector2Int range) {
+    /*public static IEnumerable<Vector2Int> RangePositions(Map2D<TileType> tiles, Vector2Int position, Vector2Int range) {
         return range.Offsets()
             .Select(offset => position + offset)
             .Where(position => tiles.TryGetValue(position, out var tileType) && tileType != 0);
@@ -32,7 +35,7 @@ public  class Ai :MonoBehaviour{
         foreach (var p in RangePositions(tiles, position, range))
             if (units.TryGetValue(p, out var unit) && unit != null)
                 yield return unit;
-    }
+    }*/
 
     public Main main;
     public int playerIndex;

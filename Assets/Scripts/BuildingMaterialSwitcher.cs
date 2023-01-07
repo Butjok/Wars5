@@ -20,7 +20,7 @@ public class BuildingMaterialSwitcher : MonoBehaviour {
 			return;
 		var shouldBeOpaque = true;
 		var units = view.building.main.units;
-		foreach (var position in units.positions)
+		foreach (var position in units.Keys)
 			if (units.TryGetValue(position, out var unit))
 				if (unit.view.transform.position.ToVector2().RoundToInt() == view.transform.position.ToVector2().RoundToInt()) {
 					shouldBeOpaque = false;

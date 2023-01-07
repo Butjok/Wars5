@@ -54,7 +54,9 @@
      <Compile Include="Assets/RoslynCSharp/Scripts/RoslynCSharp.Compiler/Runtime/RoslynCSharpCodeDomCompiler.cs" />
      <Compile Include="Assets/RoslynCSharp/Scripts/RoslynCSharp.Compiler/Runtime/AssemblyOutput.cs" />
      <Compile Include="Assets/RoslynCSharp/Scripts/RoslynCSharp.Compiler/Runtime/CompilationResult.cs" />
+     <Folder Include="Assets/RoslynCSharp/Scripts/RoslynCSharp.Compiler/Runtime" />
      <None Include="Assets/RoslynCSharp/Scripts/RoslynCSharp.Compiler/Runtime/RoslynCSharp.Compiler.asmdef" />
+     <Folder Include="Assets/RoslynCSharp/Scripts/RoslynCSharp.Compiler/Runtime/AssemblyReference" />
      <Reference Include="UnityEngine">
      <HintPath>/Applications/Unity/Hub/Editor/2021.3.1f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
      </Reference>

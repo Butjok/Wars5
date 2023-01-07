@@ -4,15 +4,13 @@ using UnityEngine.Assertions;
 
 public static class GameMenuState {
 
-    public static bool shouldResume;
-    public static bool shouldOpenSettings;
-    public static bool shouldLoadGame;
+    public const string prefix = "game-menu-state.";
 
-    public static IEnumerator New(Main main) {
+    public const string close = prefix + "close";
+    public const string openSettingsMenu = prefix + "open-settings-menu";
+    public const string openLoadGameMenu = prefix + "open-load-game-menu";
 
-        shouldResume = false;
-        shouldOpenSettings = false;
-        shouldLoadGame = false;
+    public static IEnumerator Run(Main main) {
 
         var menu = Object.FindObjectOfType<GameMenu>(true);
         Assert.IsTrue(menu);
@@ -23,35 +21,37 @@ public static class GameMenuState {
         CameraRig.Instance.enabled = false;
 
         menu.Show(main);
-        
+
         while (true) {
             yield return null;
 
-            if (shouldResume) {
-                shouldResume = false;
-                
-                menu.Hide();
-                CursorView.Instance.Visible = true;
-                CameraRig.Instance.enabled = true;
-                PlayerView.globalVisibility = true;
-                yield break;
-            }
-            
-            if (shouldOpenSettings) {
-                shouldOpenSettings = false;
-                
-                menu.Hide();
-                yield return GameSettingsState.New(main);
-                menu.Show(main);
-            }
+            while (main.commands.TryDequeue(out var input))
+                foreach (var token in input.Tokenize())
+                    switch (token) {
 
-            if (shouldLoadGame) {
-                shouldLoadGame = false;
-                
-                menu.Hide();
-                yield return LoadGameState.New(main);
-                menu.Show(main);
-            }
+                        case close:
+                            menu.Hide();
+                            CursorView.Instance.Visible = true;
+                            CameraRig.Instance.enabled = true;
+                            PlayerView.globalVisibility = true;
+                            yield break;
+
+                        case openSettingsMenu:
+                            menu.Hide();
+                            yield return GameSettingsState.Run(main);
+                            menu.Show(main);
+                            break;
+
+                        case openLoadGameMenu:
+                            menu.Hide();
+                            yield return LoadGameState.Run(main);
+                            menu.Show(main);
+                            break;
+
+                        default:
+                            main.stack.ExecuteToken(token);
+                            break;
+                    }
         }
     }
 }

@@ -3,10 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(UnitView))]
@@ -18,14 +16,14 @@ public class UnitViewSequencePlayer : MonoBehaviour {
     public string input = "";
     public bool playOnAwake = false;
 
-    [Foldout(runtimeData)] public UnitViewSequencePlayer[] siblings = Array.Empty<UnitViewSequencePlayer>();
-    [Foldout(runtimeData)] [ReadOnly] public int index = -1;
-    [Foldout(runtimeData)] [ReadOnly] public int shuffledIndex = -1;
-    [Foldout(runtimeData)] [ReadOnly] public float speed;
-    [Foldout(runtimeData)] [ReadOnly] public float acceleration;
-    [Foldout(runtimeData)] [ReadOnly] public float steeringSpeed;
-    [Foldout(runtimeData)] [ReadOnly] public UnitView unitView;
-    [Foldout(runtimeData)] [ReadOnly] public UnitViewSequenceSubroutines subroutines;
+    public UnitViewSequencePlayer[] siblings = Array.Empty<UnitViewSequencePlayer>();
+    public int index = -1;
+    public int shuffledIndex = -1;
+    public float speed;
+    public float acceleration;
+    public float steeringSpeed;
+    public UnitView unitView;
+    public UnitViewSequenceSubroutines subroutines;
     public Action<UnitViewSequencePlayer> onComplete;
 
     private bool initialized;
@@ -41,8 +39,8 @@ public class UnitViewSequencePlayer : MonoBehaviour {
         Assert.AreNotEqual(-1, index);
     }
 
-    public void Play(BattleView.TargetingSetup targetingSetup, bool shuffle=true) {
-        
+    public void Play(BattleView.TargetingSetup targetingSetup, bool shuffle = true) {
+
         EnsureInitialized();
 
         if (index == 0) {
@@ -85,10 +83,10 @@ public class UnitViewSequencePlayer : MonoBehaviour {
                 switch (token) {
 
                     case "true":
-                        case "false":
-                            stack.Push(token=="true");
-                            break;
-                    
+                    case "false":
+                        stack.Push(token == "true");
+                        break;
+
                     case "+":
                     case "-":
                     case "*":
@@ -153,7 +151,7 @@ public class UnitViewSequencePlayer : MonoBehaviour {
                         break;
 
                     case "shoot":
-                            unitView.turret.Shoot(targetingSetup, (dynamic)stack.Pop());
+                        unitView.turret.Shoot(targetingSetup, (dynamic)stack.Pop());
                         break;
 
                     case "steer":
