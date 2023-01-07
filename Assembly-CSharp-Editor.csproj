@@ -41,21 +41,8 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets/CommandLine/Editor/GenerateTokens.cs" />
-     <Compile Include="Assets/Scripts/Editor/MyLightingShaderGUI.cs" />
-     <Compile Include="Assets/Scripts/Foliage/Editor/FoliageParser.cs" />
-     <Compile Include="Assets/Scripts/Editor/SerializableDictionaryPropertyDrawers.cs" />
-     <Compile Include="Assets/Scripts/Editor/FullscreenPlayMode.cs" />
      <Compile Include="Assets/SDF Toolkit/Editor/SDFShaderGUI.cs" />
-     <Compile Include="Assets/SerializableDictionary/Editor/SerializableDictionaryPropertyDrawer.cs" />
-     <Compile Include="Assets/SerializableDictionary/Example/Editor/UserSerializableDictionaryPropertyDrawers.cs" />
      <Compile Include="Assets/SDF Toolkit/Editor/SDFTextureGeneratorWindow.cs" />
-     <Compile Include="Assets/Scripts/Editor/InputViewer.cs" />
-     <Folder Include="Assets/SerializableDictionary/Editor" />
-     <Folder Include="Assets/Scripts/Editor" />
-     <Folder Include="Assets/Scripts/Foliage/Editor" />
-     <Folder Include="Assets/CommandLine/Editor" />
-     <Folder Include="Assets/SerializableDictionary/Example/Editor" />
      <Folder Include="Assets/SDF Toolkit/Editor" />
      <Reference Include="UnityEngine">
      <HintPath>/Applications/Unity/Hub/Editor/2021.3.1f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
@@ -1109,10 +1096,6 @@
      </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
-      <Project>{cfaf5f5f-ffc3-ed7f-1757-4a565014486c}</Project>
-      <Name>Assembly-CSharp-firstpass</Name>
-    </ProjectReference>
     <ProjectReference Include="Assembly-CSharp.csproj">
       <Project>{27f680dc-e909-2372-eead-a89d4eeafd25}</Project>
       <Name>Assembly-CSharp</Name>
@@ -1120,6 +1103,30 @@
     <ProjectReference Include="FullscreenEditor.csproj">
       <Project>{ea66c163-c16e-dd96-3d67-e5c567917ba9}</Project>
       <Name>FullscreenEditor</Name>
+    </ProjectReference>
+    <ProjectReference Include="DOTween.Modules.csproj">
+      <Project>{f8cd9e74-1601-dd96-87ab-1cdbe561b5b5}</Project>
+      <Name>DOTween.Modules</Name>
+    </ProjectReference>
+    <ProjectReference Include="CommandLine.csproj">
+      <Project>{cfa2bab9-b41f-c1bf-2356-298545c86cc5}</Project>
+      <Name>CommandLine</Name>
+    </ProjectReference>
+    <ProjectReference Include="PriorityQueue.csproj">
+      <Project>{fb12a0d3-860b-b4f2-3adb-4a59d5e1cffc}</Project>
+      <Name>PriorityQueue</Name>
+    </ProjectReference>
+    <ProjectReference Include="SerializableDictionary.csproj">
+      <Project>{2528cbf2-fe47-72f6-8962-6beddbb0cda3}</Project>
+      <Name>SerializableDictionary</Name>
+    </ProjectReference>
+    <ProjectReference Include="Wars.csproj">
+      <Project>{c705eacd-da30-c6e7-d413-bb0e9e9a2f77}</Project>
+      <Name>Wars</Name>
+    </ProjectReference>
+    <ProjectReference Include="Stable.csproj">
+      <Project>{4d4a23ac-500a-28e4-edf9-8f813c1b07c8}</Project>
+      <Name>Stable</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

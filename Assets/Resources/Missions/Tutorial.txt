@@ -5,28 +5,28 @@ SampleScene			game.load-scene
 
 R				player.set-lookup-id
 1 0 0				player.set-color
-Alpha Team type enum 		player.set-team
+Alpha team 			player.set-team
 250 				player.set-credits
 VladanCo 			player.set-co
 				player.mark-as-local
 				player.create
 
 				dup
-Infantry UnitType type enum	unit.set-type 
+Infantry unit-type		unit.set-type 
 -2 4 int2 			unit.set-position 
 0 -1 int2 			unit.set-look-direction
 				unit.create
 				pop
 
 				dup
-Apc UnitType type enum 		unit.set-type 
+Apc unit-type	 		unit.set-type 
 6 3 int2 			unit.set-position 
 0 -1 int2 			unit.set-look-direction
 				unit.create
 				
 				dup
 				unit.get-player
-Infantry UnitType type enum	unit.set-type  
+Infantry unit-type		unit.set-type  
 6 2 int2 			unit.set-position 
 1 0 int2 			unit.set-look-direction
 				unit.create
@@ -38,19 +38,19 @@ Infantry UnitType type enum	unit.set-type
 
 G				player.set-lookup-id
 0 1 0				player.set-color
-Bravo Team type enum 		player.set-team
+Bravo team	 		player.set-team
 10000 				player.set-credits
 NatalieCo 			player.set-co
 				player.create
 
 				dup
-Infantry UnitType type enum 	unit.set-type 
+Infantry unit-type	 	unit.set-type 
 1 2 int2 			unit.set-position 
 				unit.create
 				pop
 
 				dup
-Infantry UnitType type enum 	unit.set-type 
+Infantry unit-type	 	unit.set-type 
 2 3 int2 			unit.set-position 
 				unit.create
 				pop

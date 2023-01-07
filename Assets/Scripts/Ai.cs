@@ -5,8 +5,11 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public  class Ai :MonoBehaviour{
+public  class Ai :MonoBehaviour {
 
+    public int x = 1;
+    public int y = 123;
+    
     public static UnitAction FindBestAction(Main main) {
 
         var player = main.CurrentPlayer;

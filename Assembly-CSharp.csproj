@@ -41,476 +41,46 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/LexerATNConfig.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/InterpreterRuleContext.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Tree/Trees.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Misc/NotNullAttribute.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Tree/Pattern/TokenTagToken.cs" />
-     <Compile Include="Assets/Scripts/Ai.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/IAntlrErrorListener.cs" />
-     <Compile Include="Assets/Scripts/GameStates/BattleAnimationState.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/IParserErrorListener.cs" />
-     <Compile Include="Assets/Scripts/DynamicShadowDistance.cs" />
-     <Compile Include="Assets/Scripts/StringExtensions.cs" />
-     <Compile Include="Assets/CommandLine/AssemblyInfo.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/AbstractPredicateTransition.cs" />
-     <Compile Include="Assets/Scripts/PlayerCollection.cs" />
-     <Compile Include="Assets/Scripts/LevelEditorHistory.cs" />
-     <Compile Include="Assets/Scripts/Animation/UnitViewSequencePlayer.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/PredicateEvalInfo.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/ArrayPredictionContext.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/CommonTokenStream.cs" />
-     <Compile Include="Assets/Scripts/GameSettings.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Tree/Pattern/Chunk.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/MergeCache.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/ITokenFactory.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Recognizer.cs" />
-     <Compile Include="Assets/Scripts/MainMenuView.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/BlockEndState.cs" />
-     <Compile Include="Assets/Scripts/SplatMapSetter.cs" />
-     <Compile Include="Assets/Scripts/EntryPoint.cs" />
-     <Compile Include="Assets/Scripts/ShakeCameras.cs" />
-     <Compile Include="Assets/Scripts/Animation/TrackSpinner.cs" />
-     <Compile Include="Assets/Scripts/Animation/MovePathTest.cs" />
-     <Compile Include="Assets/CommandLine/Parsers/Butjok/CommandLine/Parsers/CommandLineLexer.cs" />
-     <Compile Include="Assets/Scripts/Animation/ManualControl.cs" />
-     <Compile Include="Assets/Scripts/InstancedMeshRenderer.cs" />
-     <Compile Include="Assets/Scripts/Animation/MovePathSampler.cs" />
-     <Compile Include="Assets/Scripts/Animation/TerrainBumpiness.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/LexerCustomAction.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Tree/Pattern/ParseTreePatternMatcher.cs" />
-     <Compile Include="Assets/Scripts/Level/Mouse.cs" />
-     <Compile Include="Assets/Scripts/LevelEditorTextDisplay.cs" />
-     <Compile Include="Assets/Scripts/Animation/Bird.cs" />
-     <Compile Include="Assets/Scripts/Animation/MovePath.cs" />
-     <Compile Include="Assets/Scripts/LevelLogic/TutorialLevelLogic.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/ParseInfo.cs" />
-     <Compile Include="Assets/SDF Toolkit/SDFTextureGenerator.cs" />
-     <Compile Include="Assets/Scripts/Animation/Piston.cs" />
-     <Compile Include="Assets/Scripts/Animation/BallisticComputer.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/ITokenSource.cs" />
-     <Compile Include="Assets/Scripts/ChangeTracker.cs" />
-     <Compile Include="Assets/Scripts/SaveEntry.cs" />
-     <Compile Include="Assets/Scripts/Animation/BlendShapesAnimation.cs" />
-     <Compile Include="Assets/Scripts/GameMenu.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/RecognitionException.cs" />
-     <Compile Include="Assets/Scripts/Animation/ImpactPoint.cs" />
-     <Compile Include="Assets/Scripts/BuildingView.cs" />
-     <Compile Include="Assets/SerializableDictionary/Example/UserSerializableDictionaries.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/UnbufferedTokenStream.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/ILexerAction.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/DefaultErrorStrategy.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Tree/Xpath/XPathWildcardAnywhereElement.cs" />
-     <Compile Include="Assets/SerializableDictionary/SerializableDictionary.cs" />
-     <Compile Include="Assets/Scripts/GameStates/SelectionState.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/RangeTransition.cs" />
-     <Compile Include="Assets/Scripts/Co.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/SimulatorState.cs" />
-     <Compile Include="Assets/Scripts/HardFollowToggler.cs" />
-     <Compile Include="Assets/Scripts/Animation/Wind.cs" />
-     <Compile Include="Assets/CommandLine/Parsers/CommandLineBaseVisitor.cs" />
-     <Compile Include="Assets/Scripts/CursorView.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/ATNSimulator.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/ErrorInfo.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/UnbufferedCharStream.cs" />
-     <Compile Include="Assets/CommandLine/CommandLineGUI.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Misc/ParseCanceledException.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/CommonToken.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/IVocabulary.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/LexerSkipAction.cs" />
-     <Compile Include="Assets/Scripts/DebugTerrainMeshGenerator.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/LoopEndState.cs" />
-     <Compile Include="Assets/Scripts/UnitBrain.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/ATN.cs" />
-     <Compile Include="Assets/Priority Queue/GenericPriorityQueue.cs" />
-     <Compile Include="Assets/Scripts/GameStates/GameMenuState.cs" />
-     <Compile Include="Assets/Scripts/FpsCounter.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Tree/Pattern/TextChunk.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Sharpen/DictionaryExtensions.cs" />
-     <Compile Include="Assets/Scripts/Animation/Wheel.cs" />
-     <Compile Include="Assets/SDF Toolkit/UIMaterialLink.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Dfa/AcceptStateInfo.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Tree/Xpath/XPathLexerErrorListener.cs" />
-     <Compile Include="Assets/Scripts/DialogueUi.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Tree/Pattern/ParseTreeMatch.cs" />
-     <Compile Include="Assets/Scripts/Animation/BarrelAssembly.cs" />
-     <Compile Include="Assets/Scripts/StateMachineBehaviour.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/ATNState.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/PredictionContextCache.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/ParserRuleContext.cs" />
-     <Compile Include="Assets/Scripts/Animation/BallisticMotion.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/NoViableAltException.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/LexerInterpreter.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/IRecognizer.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/IAntlrErrorStrategy.cs" />
-     <Compile Include="Assets/Scripts/LevelEditor.cs" />
-     <Compile Include="Assets/Scripts/Marketing/MarketingUiDrawing.cs" />
-     <Compile Include="Assets/Scripts/Animation/SteeringArm.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Tree/ErrorNodeImpl.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/ProxyParserErrorListener.cs" />
-     <Compile Include="Assets/Scripts/Animation/ImpactTest.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/RuleStartState.cs" />
-     <Compile Include="Assets/CommandLine/Parsers/Butjok/CommandLine/Parsers/CommandLineParser.cs" />
-     <Compile Include="Assets/CommandLine/Parsers/CommandLineParser.cs" />
-     <Compile Include="Assets/Scripts/LoadGameMenu.cs" />
-     <Compile Include="Assets/CommandLine/Interpreter.cs" />
-     <Compile Include="Assets/Scripts/Lazy.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/PlusLoopbackState.cs" />
-     <Compile Include="Assets/Scripts/GameStates/GameSettingsState.cs" />
-     <Compile Include="Assets/Scripts/DialogueSpeaker.cs" />
-     <Compile Include="Assets/CommandLine/Parsers/CommandLineBaseListener.cs" />
-     <Compile Include="Assets/Scripts/CameraFrustumProjection.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/ATNConfig.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/PrecedencePredicateTransition.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Sharpen/SequenceEqualityComparer.cs" />
-     <Compile Include="Assets/Scripts/Animation/Lifetime.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Tree/Xpath/XPathTokenElement.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/NotSetTransition.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Dependents.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Tree/ISyntaxTree.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Sharpen/Collections.cs" />
-     <Compile Include="Assets/Scripts/GameLoader.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/TokenStreamRewriter.cs" />
-     <Compile Include="Assets/Priority Queue/FastPriorityQueueNode.cs" />
-     <Compile Include="Assets/Scripts/Serializer/Serializer2.cs" />
-     <Compile Include="Assets/Scripts/Level/ConvexHull.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Tree/ITerminalNode.cs" />
-     <Compile Include="Assets/Scripts/UnitTypesInfo.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Tree/Xpath/XPathRuleElement.cs" />
-     <Compile Include="Assets/Scripts/Animation/AABB.cs" />
-     <Compile Include="Assets/Scripts/Animation/Rotator.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/ConsoleErrorListener.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Sharpen/ListExtensions.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/AtomTransition.cs" />
-     <Compile Include="Assets/Scripts/Level/ConvexMeshGenerator.cs" />
-     <Compile Include="Assets/CommandLine/Commands.cs" />
-     <Compile Include="Assets/Scripts/GameObjectUtils.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/FailedPredicateException.cs" />
-     <Compile Include="Assets/CommandLine/Parsers/Butjok/CommandLine/Parsers/CommandLineListener.cs" />
-     <Compile Include="Assets/Scripts/Level/Testing.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Misc/NullableAttribute.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/StarLoopEntryState.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Misc/IntervalSet.cs" />
-     <Compile Include="Assets/Scripts/AiTest.cs" />
-     <Compile Include="Assets/Scripts/AnimationScript.cs" />
-     <Compile Include="Assets/Scripts/ShadowDistanceOverride.cs" />
-     <Compile Include="Assets/Scripts/InstancedRenderer.cs" />
-     <Compile Include="Assets/Scripts/Level/LayerMasks.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Tree/Pattern/TagChunk.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/SetTransition.cs" />
-     <Compile Include="Assets/Priority Queue/IPriorityQueue.cs" />
-     <Compile Include="Assets/Scripts/Faction.cs" />
-     <Compile Include="Assets/Scripts/DifferenceEffect.cs" />
-     <Compile Include="Assets/Scripts/InputCommandsListener.cs" />
-     <Compile Include="Assets/Scripts/Animation/BlogPostStackMachineVisualizationStackValue.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Dfa/DFAState.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Misc/Utils.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Tree/Pattern/RuleTagToken.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Misc/MurmurHash.cs" />
-     <Compile Include="Assets/Scripts/FoliageRenderer.cs" />
-     <Compile Include="Assets/Scripts/CameraRectDriver.cs" />
-     <Compile Include="Assets/Scripts/Animation/BallisticCurve.cs" />
-     <Compile Include="Assets/Scripts/MeshUtils.cs" />
-     <Compile Include="Assets/Scripts/InGameOverlayMenuView.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Tree/IParseTreeVisitor.cs" />
-     <Compile Include="Assets/Scripts/Animation/Accelerometer.cs" />
-     <Compile Include="Assets/SDF Toolkit/Examples/Scripts/SpotSwitch.cs" />
-     <Compile Include="Assets/SDF Toolkit/Examples/Scripts/CursorSpotlight.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/ATNType.cs" />
-     <Compile Include="Assets/Scripts/ImageLoadTest.cs" />
-     <Compile Include="Assets/Scripts/Player.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/PredictionContext.cs" />
-     <Compile Include="Assets/Scripts/UnitBuildMenuViews.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Misc/ArrayList.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/BasicBlockStartState.cs" />
-     <Compile Include="Assets/Scripts/BuildingMaterialSwitcher.cs" />
-     <Compile Include="Assets/Scripts/UnitBuildMenu.cs" />
-     <Compile Include="Assets/Scripts/TestRenderer.cs" />
-     <Compile Include="Assets/Scripts/PostProcessingFade.cs" />
-     <Compile Include="Assets/Priority Queue/Properties/AssemblyInfo.cs" />
-     <Compile Include="Assets/Scripts/MoveTypeAtlas.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/CharStreams.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/LexerTypeAction.cs" />
-     <Compile Include="Assets/Scripts/UnitMap.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/RuleVersionAttribute.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/BlockStartState.cs" />
-     <Compile Include="Assets/Scripts/CoroutineStateMachine.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/IIntStream.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/LexerActionType.cs" />
-     <Compile Include="Assets/Scripts/MovePathBuilder.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Misc/Interval.cs" />
-     <Compile Include="Assets/CommandLine/Parsers/Butjok/CommandLine/Parsers/CommandLineBaseListener.cs" />
-     <Compile Include="Assets/Scripts/MusicPlayer.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/LexerMoreAction.cs" />
-     <Compile Include="Assets/CommandLine/Parsers/Butjok/CommandLine/Parsers/CommandLineVisitor.cs" />
-     <Compile Include="Assets/Scripts/Animation/Stepping.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/LL1Analyzer.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/AmbiguityInfo.cs" />
-     <Compile Include="Assets/Priority Queue/GenericPriorityQueueNode.cs" />
-     <Compile Include="Assets/Scripts/Foliage/TransformList.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/ParserInterpreter.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Tree/Xpath/XPathWildcardElement.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Sharpen/Runtime.cs" />
-     <Compile Include="Assets/Scripts/TileMeshBuilder.cs" />
-     <Compile Include="Assets/Scripts/TerrainTest.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Tree/Xpath/XPathLexer.cs" />
-     <Compile Include="Assets/Scripts/Woo.cs" />
-     <Compile Include="Assets/Scripts/LevelOverlayUI.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Tree/ITree.cs" />
-     <Compile Include="Assets/Scripts/Animation/SinMovement.cs" />
-     <Compile Include="Assets/Priority Queue/IFixedSizePriorityQueue.cs" />
-     <Compile Include="Assets/Scripts/GameStates/DefeatState.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Dfa/AbstractEdgeMap.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Misc/Pair.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/RuleDependencyAttribute.cs" />
-     <Compile Include="Assets/Scripts/SetTextToGameObjectName.cs" />
-     <Compile Include="Assets/Scripts/Animation/HpText.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/EpsilonTransition.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Dfa/DFA.cs" />
-     <Compile Include="Assets/Scripts/Animation/Speedometer.cs" />
-     <Compile Include="Assets/SDF Toolkit/Examples/Scripts/CameraDistance.cs" />
-     <Compile Include="Assets/Scripts/PostProcessing.cs" />
-     <Compile Include="Assets/Scripts/Palette.cs" />
-     <Compile Include="Assets/CommandLine/Parsers/Butjok/CommandLine/Parsers/CommandLineBaseVisitor.cs" />
-     <Compile Include="Assets/Scripts/Animation/BlogPostStackMachineVisualization.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/BailErrorStrategy.cs" />
-     <Compile Include="Assets/Priority Queue/SimplePriorityQueue.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Tree/ParseTreeWalker.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Tree/IRuleNode.cs" />
-     <Compile Include="Assets/Scripts/Rules.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/ProxyErrorListener.cs" />
-     <Compile Include="Assets/SDF Toolkit/Examples/Scripts/Sun.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/Transition.cs" />
-     <Compile Include="Assets/Scripts/Compass.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Tree/AbstractParseTreeVisitor.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/LexerChannelAction.cs" />
-     <Compile Include="Assets/Scripts/Animation/HardFollow.cs" />
-     <Compile Include="Assets/Scripts/Animation/UIFrame.cs" />
-     <Compile Include="Assets/Scripts/Level/Traverser.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/AntlrFileStream.cs" />
-     <Compile Include="Assets/Scripts/Animation/MovePathWalker.cs" />
-     <Compile Include="Assets/Scripts/Animation/Spinner.cs" />
-     <Compile Include="Assets/Scripts/GameStates/VictoryState.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/ATNDeserializationOptions.cs" />
-     <Compile Include="Assets/CommandLine/Levenshtein.cs" />
-     <Compile Include="Assets/Scripts/Animation/PistonCompresser.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Tree/Xpath/XPathElement.cs" />
-     <Compile Include="Assets/Scripts/SavedGamesView.cs" />
-     <Compile Include="Assets/Scripts/Animation/PlaceOnTerrain.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Dfa/DFASerializer.cs" />
-     <Compile Include="Assets/Scripts/CampaignOverviewState.cs" />
-     <Compile Include="Assets/Scripts/Animation/Turret.cs" />
-     <Compile Include="Assets/Scripts/CampaignView.cs" />
-     <Compile Include="Assets/Scripts/PostfixInterpreter.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Dfa/ArrayEdgeMap.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Dfa/EmptyEdgeMap.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/ActionTransition.cs" />
-     <Compile Include="Assets/Scripts/Animation/Maths.cs" />
-     <Compile Include="Assets/Scripts/GameStates/DialogueState.cs" />
-     <Compile Include="Assets/Scripts/UiSound.cs" />
-     <Compile Include="Assets/Scripts/MinimapMeshGenerator.cs" />
-     <Compile Include="Assets/Scripts/Main.cs" />
-     <Compile Include="Assets/Scripts/Animation/Body.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/LexerPushModeAction.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Dfa/SparseEdgeMap.cs" />
-     <Compile Include="Assets/Scripts/UnitActionsPanel.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/ITokenStream.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Misc/Args.cs" />
-     <Compile Include="Assets/Scripts/Animation/UiFollow.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/ConflictInfo.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/WildcardTransition.cs" />
-     <Compile Include="Assets/Scripts/Animation/CloudMovement.cs" />
-     <Compile Include="Assets/SDF Toolkit/Examples/Scripts/Twinkle.cs" />
-     <Compile Include="Assets/Scripts/Foliage.cs" />
-     <Compile Include="Assets/Scripts/PlayerView.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Tree/Xpath/XPathTokenAnywhereElement.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/StarLoopbackState.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/RuleTransition.cs" />
-     <Compile Include="Assets/Scripts/Level/UnitAttackActionViewTest.cs" />
-     <Compile Include="Assets/Priority Queue/FastPriorityQueue.cs" />
-     <Compile Include="Assets/SDF Toolkit/Examples/Scripts/Rotater.cs" />
-     <Compile Include="Assets/CommandLine/Commands.Exceptions.cs" />
-     <Compile Include="Assets/Scripts/TangentSpaceVisualizer.cs" />
-     <Compile Include="Assets/Scripts/PlayerData.cs" />
-     <Compile Include="Assets/Scripts/SubsceneRoot.cs" />
-     <Compile Include="Assets/Scripts/Trail.cs" />
-     <Compile Include="Assets/CommandLine/Colorizer.cs" />
-     <Compile Include="Assets/Scripts/GameStates/LoadGameState.cs" />
-     <Compile Include="Assets/Scripts/InteropTest.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/BufferedTokenStream.cs" />
-     <Compile Include="Assets/CommandLine/Parsers/CommandLineListener.cs" />
-     <Compile Include="Assets/Scripts/Animation/BuoyancyMovement.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/BaseErrorListener.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Tree/ParseTreeProperty.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Vocabulary.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/ATNConfigSet.cs" />
-     <Compile Include="Assets/Scripts/Unit.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/InputMismatchException.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Misc/MultiMap.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/ICharStream.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Sharpen/Arrays.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/ATNDeserializer.cs" />
-     <Compile Include="Assets/Priority Queue/StablePriorityQueue.cs" />
-     <Compile Include="Assets/Scripts/Animation/AccelerationTorque.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Tree/IParseTree.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Misc/IIntSet.cs" />
-     <Compile Include="Assets/Scripts/GameStates/UnitBuildState.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/LexerATNSimulator.cs" />
-     <Compile Include="Assets/Scripts/LoadSubscene.cs" />
-     <Compile Include="Assets/CommandLine/Parsers/CommandLineVisitor.cs" />
-     <Compile Include="Assets/Scripts/CampaignViewTest.cs" />
-     <Compile Include="Assets/Scripts/NewBehaviourScript.cs" />
-     <Compile Include="Assets/Scripts/UnitActionUiContainer.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/LookaheadEventInfo.cs" />
-     <Compile Include="Assets/SerializableDictionary/Example/SerializableDictionaryExample.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/PredicateTransition.cs" />
-     <Compile Include="Assets/Scripts/BattleViews.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/ProfilingATNSimulator.cs" />
-     <Compile Include="Assets/Scripts/CameraRig.cs" />
-     <Compile Include="Assets/Scripts/GameStates/TurnStartAnimationState.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/LexerModeAction.cs" />
-     <Compile Include="Assets/Scripts/Animation/OrbitingWeight.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/ContextSensitivityInfo.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/LexerActionExecutor.cs" />
-     <Compile Include="Assets/Scripts/LevelLogic/LevelLogic.cs" />
-     <Compile Include="Assets/Scripts/GameStates/ActionSelectionState.cs" />
-     <Compile Include="Assets/Scripts/MissionObjectivesUi.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/TokensStartState.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/RuleStopState.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Lexer.cs" />
-     <Compile Include="Assets/Scripts/Animation/ClampToHull.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Tree/Pattern/ParseTreePattern.cs" />
-     <Compile Include="Assets/Scripts/Animation/Projectile.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/LexerNoViableAltException.cs" />
-     <Compile Include="Assets/CommandLine/History.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/ParserATNSimulator.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/IWritableToken.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/StateType.cs" />
-     <Compile Include="Assets/Scripts/Animation/ExplosionTracer.cs" />
-     <Compile Include="Assets/Scripts/FlipCamera.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/AntlrInputStream.cs" />
-     <Compile Include="Assets/Scripts/Animation/BodyTorque.cs" />
-     <Compile Include="Assets/Scripts/TargetFpsSetter.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Tree/TerminalNodeImpl.cs" />
-     <Compile Include="Assets/Scripts/UnitActionView.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Tree/IParseTreeListener.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/TokenTypes.cs" />
-     <Compile Include="Assets/Scripts/TerrainHeightmapGenerator.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Sharpen/BitSet.cs" />
-     <Compile Include="Assets/Scripts/Animation/MovementSound.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Parser.cs" />
-     <Compile Include="Assets/Scripts/UnitView.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/EmptyPredictionContext.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/TransitionType.cs" />
-     <Compile Include="Assets/Scripts/Animation/MovePathView.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/DecisionEventInfo.cs" />
-     <Compile Include="Assets/Scripts/MathUtils.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/DecisionState.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Sharpen/AtomicReference.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/SingletonPredictionContext.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Dfa/IEdgeMap.cs" />
-     <Compile Include="Assets/CommandLine/Token.cs" />
-     <Compile Include="Assets/CommandLine/Theme.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/ListTokenSource.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Misc/RuleDependencyChecker.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Tree/Xpath/XPath.cs" />
-     <Compile Include="Assets/Scripts/GameStates/UnitMovementAnimationState.cs" />
-     <Compile Include="Assets/CommandLine/Parsers/CommandLineLexer.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/RuleContext.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/DiagnosticErrorListener.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/SemanticContext.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/StarBlockStartState.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Tree/IErrorNode.cs" />
-     <Compile Include="Assets/Scripts/PathBuilderTest.cs" />
-     <Compile Include="Assets/Scripts/CircleTest.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Dfa/LexerDFASerializer.cs" />
-     <Compile Include="Assets/SDF Toolkit/Examples/Scripts/MovingLight.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Dfa/SingletonEdgeMap.cs" />
-     <Compile Include="Assets/Scripts/UnitActionViewTest.cs" />
-     <Compile Include="Assets/Scripts/Map2D.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/LexerPopModeAction.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/DecisionInfo.cs" />
-     <Compile Include="Assets/Scripts/Building.cs" />
-     <Compile Include="Assets/Scripts/AiPlayground.cs" />
-     <Compile Include="Assets/Scripts/MovePathMeshBuilder.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Tree/Xpath/XPathRuleAnywhereElement.cs" />
-     <Compile Include="Assets/Scripts/BattleView.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/CommonTokenFactory.cs" />
-     <Compile Include="Assets/Scripts/GameSettingsMenu.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/IToken.cs" />
-     <Compile Include="Assets/Scripts/GameUiView.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/PredictionMode.cs" />
-     <Compile Include="Assets/Scripts/GameStates/PathSelectionState.cs" />
-     <Compile Include="Assets/Scripts/Level/UnitAttackActionView.cs" />
-     <Compile Include="Assets/Scripts/Animation/Barrel.cs" />
-     <Compile Include="Assets/Scripts/ResourceExtensions.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/BasicState.cs" />
-     <Compile Include="Assets/Scripts/Level/UnitAction.cs" />
-     <Compile Include="Assets/SDF Toolkit/Examples/Scripts/ToggleUI.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/LexerIndexedCustomAction.cs" />
-     <Compile Include="Assets/Priority Queue/StablePriorityQueueNode.cs" />
-     <Compile Include="Assets/Scripts/Animation/LookAt.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/PlusBlockStartState.cs" />
-     <Compile Include="Assets/Scripts/Animation/PistonBody.cs" />
-     <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
-     <Compile Include="Assets/Scripts/PersistentData.cs" />
-     <Compile Include="Assets/Scripts/GameSaver.cs" />
+     <Compile Include="Assets/ExplosionTracer.cs" />
      <Folder Include="Assets" />
-     <Folder Include="Assets/CommandLine/Assets/Resources" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />
      <None Include="Assets/Shaders/My First Lighting Shader.shader" />
      <Folder Include="Assets/Particles" />
-     <Folder Include="Assets/CommandLine/Antlr4/Tree/Pattern" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets/Resources/Missions/Tutorial.txt" />
      <Folder Include="Assets/TextMesh Pro/Sprites" />
-     <Folder Include="Assets/CommandLine/Parsers" />
      <Folder Include="Assets/JsonDotNet/Assemblies/Standalone" />
      <Folder Include="Assets/TextMesh Pro/Resources/Sprite Assets" />
      <Folder Include="Assets/Content" />
      <None Include="Assets/Content/MovePathUnlit.shader" />
-     <Folder Include="Assets/CommandLine/Antlr4/Dfa" />
      <None Include="Assets/Shaders/My Lighting.cginc" />
      <Folder Include="Assets/Scenery Materials" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_Bitmap.shader" />
      <None Include="Assets/Shaders/My First Lighting Shader Overlay.shader" />
      <Folder Include="Assets/JsonDotNet" />
-     <Folder Include="Assets/CommandLine/Antlr4/Tree/Xpath" />
-     <Folder Include="Assets/Scripts/GameStates" />
-     <None Include="Assets/SDF Toolkit/Shaders/SDF Specular.shader" />
      <None Include="Assets/Shaders/VertexColorChecker.shader" />
      <None Include="Assets/Shaders/My First Lighting Shader Overlay NoShadow.shader" />
      <Folder Include="Assets/Textures/Splat Maps" />
-     <None Include="Assets/SDF Toolkit/Shaders/SDF Forward.cginc" />
      <None Include="Assets/Shaders/test.shader" />
-     <None Include="Assets/SDF Toolkit/Shaders/SDF.cginc" />
      <None Include="Assets/Shaders/DistortionFlow.shader" />
      <None Include="Assets/Shaders/Flow.cginc" />
      <None Include="Assets/Shaders/leaves.shader" />
      <Folder Include="Assets/Content/UI" />
-     <Folder Include="Assets/Scripts/Level" />
      <Folder Include="Assets/TextMesh Pro/Resources/Fonts &amp; Materials" />
      <Folder Include="Assets/Fonts" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro_Mobile.cginc" />
-     <None Include="Assets/SDF Toolkit/Documentation/SDF Toolkit Readme.txt" />
      <None Include="Assets/Shaders/MissionLink.shader" />
      <Folder Include="Assets/JsonDotNet/Assemblies/AOT" />
      <Folder Include="Assets/JsonDotNet/Assemblies/Windows" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF SSD.shader" />
      <Folder Include="Assets/TextMesh Pro/Resources" />
-     <None Include="Assets/SDF Toolkit/Shaders/SDF UI Unlit.shader" />
      <Folder Include="Assets/Scenes/blog-post0" />
      <None Include="Assets/Shaders/MovePath.shader" />
      <None Include="Assets/Shaders/InstancedRendering.cginc" />
      <None Include="Assets/Shaders/vface.shader" />
      <None Include="Assets/Shaders/NewSurfaceShader.shader" />
-     <None Include="Assets/SDF Toolkit/Shaders/SDF Meta.cginc" />
      <None Include="Assets/Shaders/Stone.shader" />
-     <Folder Include="Assets/CommandLine/Antlr4/Atn" />
-     <Folder Include="Assets/SDF Toolkit" />
-     <Folder Include="Assets/CommandLine/Parsers/Butjok" />
      <None Include="Assets/Shaders/Terrain.shader" />
-     <Folder Include="Assets/Scripts/Foliage" />
      <None Include="Assets/Shaders/Utils.cginc" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Surface-Mobile.shader" />
      <None Include="Assets/Shaders/DirectionalFlow.shader" />
@@ -528,43 +98,27 @@
      <None Include="Assets/Roboto/LICENSE.txt" />
      <Folder Include="Assets/JsonDotNet/Documentation" />
      <Folder Include="Assets/StoneTest" />
-     <Folder Include="Assets/SDF Toolkit/Examples/Contours" />
      <None Include="Assets/Shaders/Building.shader" />
-     <Folder Include="Assets/SDF Toolkit/Examples" />
-     <Folder Include="Assets/Scripts/Marketing" />
      <None Include="Assets/Shaders/Unit.shader" />
-     <Folder Include="Assets/CommandLine/Antlr4/Tree" />
      <None Include="Assets/Shaders/Difference.shader" />
      <Folder Include="Assets/JsonDotNet/Assemblies" />
-     <None Include="Assets/SDF Toolkit/Shaders/SDF Standard.cginc" />
      <Folder Include="Assets/Scenes/BattleViews_Profiles" />
-     <Folder Include="Assets/Priority Queue" />
      <None Include="Assets/Shaders/water.shader" />
      <None Include="Assets/Shaders/ShrinkToTerrain.shader" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Surface.shader" />
      <None Include="Assets/Shaders/MinimapUnit.shader" />
      <None Include="Assets/Shaders/Minimap.shader" />
      <None Include="Assets/TextMesh Pro/Sprites/EmojiOne Attribution.txt" />
-     <Folder Include="Assets/SDF Toolkit/Examples/Example" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_Bitmap-Custom-Atlas.shader" />
-     <Folder Include="Assets/SDF Toolkit/Examples/Materials" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF.shader" />
-     <Folder Include="Assets/SerializableDictionary" />
-     <Folder Include="Assets/CommandLine/Antlr4" />
-     <Folder Include="Assets/Scripts" />
      <Folder Include="Assets/Dialogue" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile SSD.shader" />
      <None Include="Assets/TextMesh Pro/Resources/LineBreaking Leading Characters.txt" />
-     <Folder Include="Assets/CommandLine/Parsers/Butjok/CommandLine" />
      <Folder Include="Assets/Scenes/PlainRight" />
-     <Folder Include="Assets/Priority Queue/Properties" />
      <Folder Include="Assets/Resources/Dialogue" />
-     <None Include="Assets/SDF Toolkit/Shaders/SDF Unlit.shader" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro_Properties.cginc" />
-     <None Include="Assets/SDF Toolkit/Shaders/SDF Unlit.cginc" />
      <Folder Include="Assets/Content/mrap" />
      <Folder Include="Assets/Dithered" />
-     <None Include="Assets/SDF Toolkit/Shaders/SDF UI Specular.shader" />
      <Folder Include="Assets/Scenes/SampleScene" />
      <None Include="Assets/Shaders/Dithered.shader" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro_Surface.cginc" />
@@ -572,40 +126,27 @@
      <Folder Include="Assets/TextMesh Pro/Shaders" />
      <None Include="Assets/Content/NewImageEffectShader.shader" />
      <Folder Include="Assets/Shaders" />
-     <Folder Include="Assets/CommandLine" />
      <None Include="Assets/Shaders/New Amplify Shader.shader" />
      <Folder Include="Assets/Textures/Circuitry" />
-     <None Include="Assets/SDF Toolkit/Shaders/SDF Deferred.cginc" />
      <Folder Include="Assets/TextMesh Pro/Resources/Style Sheets" />
      <Folder Include="Assets/Textures/Lava" />
      <Folder Include="Assets/TextMesh Pro/Fonts" />
      <None Include="Assets/Out.json" />
-     <Folder Include="Assets/CommandLine/Parsers/Butjok/CommandLine/Parsers" />
      <None Include="Assets/Shaders/Trajectory.shader" />
      <Folder Include="Assets/Resources" />
-     <Folder Include="Assets/SerializableDictionary/Example" />
-     <Folder Include="Assets/CommandLine/Antlr4/Misc" />
      <Folder Include="Assets/Content/light-tank" />
      <None Include="Assets/TextMesh Pro/Resources/LineBreaking Following Characters.txt" />
-     <None Include="Assets/SDF Toolkit/Shaders/SDF Metallic.shader" />
-     <Folder Include="Assets/CommandLine/Assets" />
      <Folder Include="Assets/Minimap" />
-     <Folder Include="Assets/CommandLine/Antlr4/Sharpen" />
      <None Include="Assets/Resources/Missions/SecondMission.txt" />
-     <None Include="Assets/SDF Toolkit/Shaders/SDFToolkit.hlsl" />
-     <Folder Include="Assets/Scripts/Serializer" />
      <None Include="Assets/Shaders/My Shadows.cginc" />
      <Folder Include="Assets/Textures/Detail" />
      <Folder Include="Assets/Textures/Cookies" />
      <Folder Include="Assets/Textures/Bumps" />
      <None Include="Assets/Shaders/SimpleInstanced.shader" />
-     <Folder Include="Assets/SDF Toolkit/Shaders" />
      <Folder Include="Assets/Music" />
-     <Folder Include="Assets/SDF Toolkit/Examples/Materials/Textures" />
      <Folder Include="Assets/Scenes/BattleViews" />
      <None Include="Assets/Shaders/Texture Splatting.shader" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Masking.shader" />
-     <None Include="Assets/SDF Toolkit/Shaders/SDF Shadow.cginc" />
      <None Include="Assets/Shaders/rough.shader" />
      <Folder Include="Assets/Scenes/Explosion" />
      <Folder Include="Assets/BattleView" />
@@ -616,7 +157,6 @@
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF Overlay.shader" />
      <Folder Include="Assets/Scenes/SampleScene_Profiles" />
      <None Include="Assets/Shaders/SimpleChecker.shader" />
-     <Folder Include="Assets/Scripts/LevelLogic" />
      <None Include="Assets/Shaders/Bush.shader" />
      <None Include="Assets/Shaders/Hole.shader" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_Bitmap-Mobile.shader" />
@@ -626,21 +166,17 @@
      <Folder Include="Assets/Content/Factory" />
      <Folder Include="Assets/Scenes" />
      <None Include="Assets/TextMesh Pro/Fonts/LiberationSans - OFL.txt" />
-     <None Include="Assets/SDF Toolkit/Shaders/SDF UI Metallic.shader" />
      <Folder Include="Assets/TextMesh Pro/Documentation" />
      <None Include="Assets/Shaders/UnlitMinimap.shader" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader" />
      <None Include="Assets/Shaders/UnlitLeaves.shader" />
      <None Include="Assets/Shaders/LookingThroughWater.cginc" />
-     <Folder Include="Assets/SDF Toolkit/Examples/Scripts" />
      <Folder Include="Assets/Scenes/PlainLeft" />
      <None Include="Assets/Shaders/Waves.shader" />
      <Folder Include="Assets/Roboto" />
      <None Include="Assets/TextMesh Pro/Sprites/EmojiOne.json" />
-     <Folder Include="Assets/SDF Toolkit/Documentation" />
      <Folder Include="Assets/Resources/Missions" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_Sprite.shader" />
-     <Folder Include="Assets/Scripts/Animation" />
      <None Include="Assets/!TODO.txt" />
      <None Include="Assets/Output.json" />
      <Reference Include="UnityEngine">
@@ -886,18 +422,6 @@
      <Reference Include="UnityEditor.UnityConnectModule">
      <HintPath>/Applications/Unity/Hub/Editor/2021.3.1f1/Unity.app/Contents/Managed/UnityEngine/UnityEditor.UnityConnectModule.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.Burst.Cecil.Pdb">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.burst@1.6.5/Unity.Burst.CodeGen/Unity.Burst.Cecil.Pdb.dll</HintPath>
-     </Reference>
-     <Reference Include="DOTween">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/Plugins/Demigiant/DOTween/DOTween.dll</HintPath>
-     </Reference>
-     <Reference Include="ReportGeneratorMerged">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.testtools.codecoverage@1.0.1/lib/ReportGenerator/ReportGeneratorMerged.dll</HintPath>
-     </Reference>
-     <Reference Include="FSharp.Core">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/FSharp.Core.dll</HintPath>
-     </Reference>
      <Reference Include="Newtonsoft.Json">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/JsonDotNet/Assemblies/Standalone/Newtonsoft.Json.dll</HintPath>
      </Reference>
@@ -907,14 +431,26 @@
      <Reference Include="Unity.Burst.Cecil.Mdb">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.burst@1.6.5/Unity.Burst.CodeGen/Unity.Burst.Cecil.Mdb.dll</HintPath>
      </Reference>
+     <Reference Include="Unity.Burst.Cecil.Pdb">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.burst@1.6.5/Unity.Burst.CodeGen/Unity.Burst.Cecil.Pdb.dll</HintPath>
+     </Reference>
      <Reference Include="Unity.Burst.Cecil">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.burst@1.6.5/Unity.Burst.CodeGen/Unity.Burst.Cecil.dll</HintPath>
      </Reference>
      <Reference Include="Unity.Burst.Cecil.Rocks">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.burst@1.6.5/Unity.Burst.CodeGen/Unity.Burst.Cecil.Rocks.dll</HintPath>
      </Reference>
+     <Reference Include="DOTween">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/Plugins/Demigiant/DOTween/DOTween.dll</HintPath>
+     </Reference>
      <Reference Include="Unity.VisualScripting.Antlr3.Runtime">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.visualscripting@1.7.6/Runtime/VisualScripting.Flow/Dependencies/NCalc/Unity.VisualScripting.Antlr3.Runtime.dll</HintPath>
+     </Reference>
+     <Reference Include="ReportGeneratorMerged">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.testtools.codecoverage@1.0.1/lib/ReportGenerator/ReportGeneratorMerged.dll</HintPath>
+     </Reference>
+     <Reference Include="FSharp.Core">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/FSharp.Core.dll</HintPath>
      </Reference>
      <Reference Include="mscorlib">
      <HintPath>/Applications/Unity/Hub/Editor/2021.3.1f1/Unity.app/Contents/UnityReferenceAssemblies/unity-4.8-api/mscorlib.dll</HintPath>
@@ -1656,13 +1192,37 @@
      </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
-      <Project>{cfaf5f5f-ffc3-ed7f-1757-4a565014486c}</Project>
-      <Name>Assembly-CSharp-firstpass</Name>
+    <ProjectReference Include="SerializableDictionary.csproj">
+      <Project>{2528cbf2-fe47-72f6-8962-6beddbb0cda3}</Project>
+      <Name>SerializableDictionary</Name>
+    </ProjectReference>
+    <ProjectReference Include="DOTween.Modules.csproj">
+      <Project>{f8cd9e74-1601-dd96-87ab-1cdbe561b5b5}</Project>
+      <Name>DOTween.Modules</Name>
+    </ProjectReference>
+    <ProjectReference Include="CommandLine.csproj">
+      <Project>{cfa2bab9-b41f-c1bf-2356-298545c86cc5}</Project>
+      <Name>CommandLine</Name>
     </ProjectReference>
     <ProjectReference Include="FullscreenEditor.csproj">
       <Project>{ea66c163-c16e-dd96-3d67-e5c567917ba9}</Project>
       <Name>FullscreenEditor</Name>
+    </ProjectReference>
+    <ProjectReference Include="SDFToolkit.csproj">
+      <Project>{fd6851fd-d03a-6132-2e86-6a707fc31825}</Project>
+      <Name>SDFToolkit</Name>
+    </ProjectReference>
+    <ProjectReference Include="Wars.csproj">
+      <Project>{c705eacd-da30-c6e7-d413-bb0e9e9a2f77}</Project>
+      <Name>Wars</Name>
+    </ProjectReference>
+    <ProjectReference Include="PriorityQueue.csproj">
+      <Project>{fb12a0d3-860b-b4f2-3adb-4a59d5e1cffc}</Project>
+      <Name>PriorityQueue</Name>
+    </ProjectReference>
+    <ProjectReference Include="Stable.csproj">
+      <Project>{4d4a23ac-500a-28e4-edf9-8f813c1b07c8}</Project>
+      <Name>Stable</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
