@@ -33,6 +33,7 @@ public static class GameLoader {
         int playerCredits;
         PlayerView playerViewPrefab;
         bool playerLocal;
+        Vector2Int? playerUnitLookDirection;
         Color playerColor;
         string playerLookupId;
 
@@ -46,6 +47,7 @@ public static class GameLoader {
             playerLocal = false;
             playerColor = Palette.none;
             playerLookupId = null;
+            playerUnitLookDirection = null;
         }
         ResetPlayerValues();
 
@@ -53,7 +55,7 @@ public static class GameLoader {
         var hasPlayer = true;
 
         Vector2Int? unitPosition;
-        Vector2Int unitRotation;
+        Vector2Int? unitLookDirection;
         UnitType unitType;
         bool unitMoved;
         int unitHp;
@@ -62,7 +64,7 @@ public static class GameLoader {
 
         void ResetUnitValues() {
             unitPosition = null;
-            unitRotation = Vector2Int.up;
+            unitLookDirection = null;
             unitType = UnitType.Infantry;
             unitMoved = false;
             unitHp = 10;
@@ -90,7 +92,7 @@ public static class GameLoader {
 
                     Assert.IsTrue(playerLookupId == null || !playerLookup.ContainsKey(playerLookupId), playerLookupId);
 
-                    var player = new Player(main, playerColor, playerTeam, playerCredits, playerCo, playerViewPrefab, playerType, playerDifficulty);
+                    var player = new Player(main, playerColor, playerTeam, playerCredits, playerCo, playerViewPrefab, playerType, playerDifficulty, playerUnitLookDirection);
 
                     if (playerLookupId != null)
                         playerLookup.Add(playerLookupId, player);
@@ -142,10 +144,15 @@ public static class GameLoader {
                     break;
                 }
 
+                case "player.set-unit-look-direction": {
+                    playerUnitLookDirection = stack.Pop<Vector2Int>();
+                    break;
+                }
+
                 case "unit.create": {
                     Assert.AreNotEqual(default, unitType);
                     var player = stack.Pop<Player>();
-                    var unit = new Unit(player, unitType, unitPosition, unitRotation, unitHp, unitFuel, unitMoved, unitViewPrefab);
+                    var unit = new Unit(player, unitType, unitPosition, unitLookDirection, unitHp, unitFuel, unitMoved, unitViewPrefab);
                     stack.Push(unit);
                     ResetUnitValues();
                     break;
@@ -167,7 +174,7 @@ public static class GameLoader {
                     break;
                 }
                 case "unit.set-look-direction": {
-                    unitRotation = stack.Pop<Vector2Int>();
+                    unitLookDirection = stack.Pop<Vector2Int>();
                     break;
                 }
                 case "unit.set-hp": {

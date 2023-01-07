@@ -8,27 +8,25 @@ R				player.set-lookup-id
 Alpha team 			player.set-team
 250 				player.set-credits
 VladanCo 			player.set-co
+1 0 int2			player.set-unit-look-direction
 				player.mark-as-local
 				player.create
 
 				dup
 Infantry unit-type		unit.set-type 
 -2 4 int2 			unit.set-position 
-0 -1 int2 			unit.set-look-direction
 				unit.create
 				pop
 
 				dup
 Apc unit-type	 		unit.set-type 
 6 3 int2 			unit.set-position 
-0 -1 int2 			unit.set-look-direction
 				unit.create
 				
 				dup
 				unit.get-player
 Infantry unit-type		unit.set-type  
 6 2 int2 			unit.set-position 
-1 0 int2 			unit.set-look-direction
 				unit.create
 				pop
 						
@@ -41,6 +39,7 @@ G				player.set-lookup-id
 Bravo team	 		player.set-team
 10000 				player.set-credits
 NatalieCo 			player.set-co
+-1 0 int2			player.set-unit-look-direction
 				player.create
 
 				dup

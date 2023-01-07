@@ -15,6 +15,8 @@ public class PlayerView : MonoBehaviour {
 	
 	public static int playerColorId = Shader.PropertyToID("_Color");
 
+	public Vector2Int unitLookDirection;
+
 	public static Func<int>[] layers = {
 		() => Layers.Player0,
 		() => Layers.Player1,

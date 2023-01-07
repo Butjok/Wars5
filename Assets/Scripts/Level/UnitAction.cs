@@ -127,6 +127,9 @@ public class UnitAction : IDisposable {
                 throw new ArgumentOutOfRangeException();
         }
 
+        if (unit is { hp: { v: > 0 } })
+            unit.view.LookDirection = unit.player.view.unitLookDirection;
+
         return null;
     }
 

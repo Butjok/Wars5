@@ -2,18 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Assembly-CSharp-Editor-firstpass.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp-Editor-firstpass.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assembly-CSharp-firstpass.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp-firstpass.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assembly-CSharp.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CommandLine.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/CommandLine.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DOTween.Modules.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/DOTween.Modules.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FullscreenEditor.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/FullscreenEditor.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PriorityQueue.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/PriorityQueue.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SDFToolkit.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/SDFToolkit.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SerializableDictionary.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/SerializableDictionary.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stable.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Stable.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Missions/Tutorial.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Missions/Tutorial.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoader.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Level/UnitAction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Level/UnitAction.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PlayerView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PlayerView.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Unit.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UnitView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UnitView.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wars.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Wars.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,9 +44,6 @@
     <setting file="file://$PROJECT_DIR$/Assets/CommandLine/CommandLine.g4" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/CommandLine/CommandLineGUI.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/CommandLine/Editor/GenerateTokens.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/vfedotov/Documents/GitHub/Wars5/Assets/Resources/PostProcessProfile.asset" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/vfedotov/Documents/GitHub/Wars5/Assets/Resources/PostProcessProfile.asset" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/vfedotov/Documents/GitHub/Wars5/Assets/Scripts/Ai.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Ai.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Animation/Projectile.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Animation/Turret.cs" root0="FORCE_HIGHLIGHTING" />
@@ -105,16 +99,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.35008976" />
-    <property name="DebuggerViewTab_PTCS_LastProportionKey" value="0.0" />
-    <property name="Discover.Launch.Via.Unity" value="true" />
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.Other File Types" />
-    <property name="vue.rearranger.settings.migration" value="true" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Discover.Launch.Via.Unity": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "rider.run.widget.enabled.cache": "false",
+    "settings.editor.selected.configurable": "preferences.sourceCode.Other File Types",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="rider.module" />
@@ -290,13 +283,7 @@
       <workItem from="1672871614643" duration="7451000" />
       <workItem from="1672994600747" duration="35852000" />
       <workItem from="1673065825576" duration="176000" />
-    </task>
-    <task id="LOCAL-00141" summary="sdfsdf">
-      <created>1665933652211</created>
-      <option name="number" value="00141" />
-      <option name="presentableId" value="LOCAL-00141" />
-      <option name="project" value="LOCAL" />
-      <updated>1665933652211</updated>
+      <workItem from="1673116691980" duration="1261000" />
     </task>
     <task id="LOCAL-00142" summary="added unit building menu">
       <created>1666055940341</created>
@@ -634,7 +621,14 @@
       <option name="project" value="LOCAL" />
       <updated>1673063815797</updated>
     </task>
-    <option name="localTasksCounter" value="190" />
+    <task id="LOCAL-00190" summary="tweaked PostProcessProfile.asset also made quite a few improvement notes">
+      <created>1673106130801</created>
+      <option name="number" value="00190" />
+      <option name="presentableId" value="LOCAL-00190" />
+      <option name="project" value="LOCAL" />
+      <updated>1673106130801</updated>
+    </task>
+    <option name="localTasksCounter" value="191" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -666,7 +660,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="postscript" />
     <MESSAGE value="add c# roslyn" />
     <MESSAGE value="nbmnbmbmn" />
     <MESSAGE value="tyuyuttyu" />
@@ -691,7 +684,8 @@
     <MESSAGE value="good commit before big refactoring" />
     <MESSAGE value="improved editor performance? fixed &quot;Infantry UnitType type enum&quot; errors" />
     <MESSAGE value="ghjghjghj" />
-    <option name="LAST_COMMIT_MESSAGE" value="ghjghjghj" />
+    <MESSAGE value="tweaked PostProcessProfile.asset also made quite a few improvement notes" />
+    <option name="LAST_COMMIT_MESSAGE" value="tweaked PostProcessProfile.asset also made quite a few improvement notes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

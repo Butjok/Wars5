@@ -22,7 +22,7 @@ public class Player : IDisposable {
 	public int credits;
 
 	public Player(Main main, Color color, Team team = Team.None, int credits=0, Co co = null, PlayerView viewPrefab = null,
-		PlayerType type = PlayerType.Human, AiDifficulty difficulty=AiDifficulty.Normal) {
+		PlayerType type = PlayerType.Human, AiDifficulty difficulty=AiDifficulty.Normal, Vector2Int? unitLookDirection=null) {
 
 		undisposed.Add(this);
 		
@@ -41,6 +41,7 @@ public class Player : IDisposable {
 		view = Object.Instantiate(viewPrefab, main.transform);
 		view.Initialize(this);
 		view.visible = false;
+		view.unitLookDirection = unitLookDirection ?? Vector2Int.up;
 	}
 
 	public override string ToString() {

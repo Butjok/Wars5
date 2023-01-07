@@ -35,7 +35,7 @@ public class Unit : IDisposable {
         view = Object.Instantiate(viewPrefab, player.main.transform);
         view.unit = this;
         view.prefab = viewPrefab;
-        view.LookDirection = rotation ?? Vector2Int.up;
+        view.LookDirection = rotation ?? player.view.unitLookDirection;
         view.PlayerColor = player.color;
 
         this.position = new ChangeTracker<Vector2Int?>(old => {
