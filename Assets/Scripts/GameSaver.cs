@@ -30,7 +30,7 @@ public static class GameSaver {
 
         void WriteUnit(Unit unit) {
 
-            Line($"{unit.type} UnitType enum", "unit.set-type");
+            Line($"{unit.type} UnitType type enum", "unit.set-type");
             if (unit.position.v is { } position)
                 Line($"{position.x} {position.y} int2", "unit.set-position");
             if (unit.view)
@@ -64,7 +64,7 @@ public static class GameSaver {
 
             Line(lookupId, "player.set-lookup-id");
             Line($"{player.color.r} {player.color.g} {player.color.b}", "player.set-color");
-            Line($"{player.team} Team enum", "player.set-team");
+            Line($"{player.team} Team type enum", "player.set-team");
             Line(player.credits, "player.set-credits");
             if (player.co)
                 Line(player.co.name, "player.set-co");

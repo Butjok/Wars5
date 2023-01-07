@@ -7,8 +7,7 @@ using UnityEngine.Assertions;
 
 public  class Ai :MonoBehaviour {
 
-    public int x = 1;
-    public int y = 123;
+    public const string a = "hello world!!!ssdfsasdasdsdf";
     
     public static UnitAction FindBestAction(Main main) {
 

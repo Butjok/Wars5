@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Assertions;
 
 [RequireComponent(typeof(SkinnedMeshRenderer))]
 public class BlendShapesAnimation : MonoBehaviour {
