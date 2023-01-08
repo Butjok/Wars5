@@ -51,6 +51,7 @@ public class PlayerView : MonoBehaviour {
 
 	private void Update() {
 		camera.enabled = visible && globalVisibility;
+		//camera.enabled = false;
 	}
 
 	public void Awake() {

@@ -18,6 +18,7 @@ public class GameSettings {
     public bool enableScreenSpaceReflections = true;
     public bool enableAmbientOcclusion = true;
     public bool shuffleMusic = false;
+    public bool enableDepthOfField = true;
 
     public GameSettings ShallowCopy() {
         return (GameSettings)MemberwiseClone();

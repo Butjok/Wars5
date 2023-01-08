@@ -10,12 +10,11 @@ using UnityEngine.Assertions;
 public class CameraRig : MonoBehaviour {
 
 	private static CameraRig instance;
-	public static CameraRig Instance {
-		get {
-			if (!instance)
-				instance = FindObjectOfType<CameraRig>();
-			return instance;
-		}
+	public static bool TryFind(out CameraRig result) {
+		if (!instance)
+			instance = FindObjectOfType<CameraRig>();
+		result = instance;
+		return result;
 	}
 
 	public LayerMask raycastLayerMask;

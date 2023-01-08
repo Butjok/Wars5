@@ -191,8 +191,10 @@ public static class ActionSelectionState {
 
                                     attacker.position.v = action.path.Last();
 
-                                    if (newTargetHp <= 0) {
-                                        var animation = CameraRig.Instance.Jump(target.view.transform.position.ToVector2());
+                                    CameraRig.TryFind(out var cameraRig);
+
+                                    if (newTargetHp <= 0 && cameraRig) {
+                                        var animation = cameraRig.Jump(target.view.transform.position.ToVector2());
                                         while (animation.active)
                                             yield return null;
                                     }
@@ -201,8 +203,8 @@ public static class ActionSelectionState {
                                     if (newTargetHp > 0 && targetWeaponIndex != -1)
                                         target.ammo[targetWeaponIndex]--;
 
-                                    if (newAttackerHp <= 0) {
-                                        var animation = CameraRig.Instance.Jump(attacker.view.transform.position.ToVector2());
+                                    if (newAttackerHp <= 0 && cameraRig) {
+                                        var animation = cameraRig.Jump(attacker.view.transform.position.ToVector2());
                                         while (animation.active)
                                             yield return null;
                                     }
@@ -246,7 +248,7 @@ public static class ActionSelectionState {
                                 item.Dispose();
                             
                             if (unit is { hp: { v: > 0 } } && unit.view.LookDirection != unit.player.view.unitLookDirection)
-                                yield return new MoveSequence(unit.view.transform, null, unit.player.main.settings.unitSpeed*1.5f, unit.player.view.unitLookDirection).Animation();
+                                yield return new MoveSequence(unit.view.transform, null, unit.player.main.settings.unitSpeed, unit.player.view.unitLookDirection).Animation();
                             
                             var won = Rules.Won(main.localPlayer);
                             var lost = Rules.Lost(main.localPlayer);

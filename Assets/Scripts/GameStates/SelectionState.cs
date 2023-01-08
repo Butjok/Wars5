@@ -36,8 +36,9 @@ public static class SelectionState {
             .Union(accessibleBuildings.Select(building => building.position))
             .ToArray();
 
-        if (CameraRig.Instance)
-            positions = positions.OrderBy(position => Vector2.Distance(CameraRig.Instance.transform.position.ToVector2(), position)).ToArray();
+        CameraRig.TryFind(out var cameraRig);
+        if (cameraRig)
+            positions = positions.OrderBy(position => Vector2.Distance(cameraRig.transform.position.ToVector2(), position)).ToArray();
 
         var positionIndex = -1;
 

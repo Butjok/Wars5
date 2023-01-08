@@ -13,6 +13,8 @@ public class TutorialLogic : LevelLogic {
 
     public override (ControlFlow controlFlow, IEnumerator state) OnTurnStart(Main main) {
 
+        CameraRig.TryFind(out var cameraRig);
+        
         return main.turn switch {
 
             0 => (ControlFlow.Pause,
@@ -27,8 +29,8 @@ public class TutorialLogic : LevelLogic {
                                 },
                                 new DialogueUi.Line {
                                     action = () => {
-                                        if (CameraRig.Instance)
-                                            CameraRig.Instance.Jump(new Vector2Int(2, 1));
+                                        if (cameraRig)
+                                            cameraRig.Jump(new Vector2Int(2, 1));
                                     }
                                 },
                                 new DialogueUi.Line {
@@ -39,8 +41,8 @@ public class TutorialLogic : LevelLogic {
                                 },
                                 new DialogueUi.Line {
                                     action = () => {
-                                        if (CameraRig.Instance)
-                                            CameraRig.Instance.Jump(new Vector2(5,0));
+                                        if (cameraRig)
+                                            cameraRig.Jump(new Vector2(5,0));
                                     }
                                 },
                             }

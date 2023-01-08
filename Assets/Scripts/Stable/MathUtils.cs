@@ -123,4 +123,15 @@ public static class MathUtils {
 	public static int ZeroSign(this float value) {
 		return Mathf.Approximately(value, 0) ? 0 : Sign(value);
 	}
+	
+	public static Vector2 Abs(this Vector2 v) {
+		return  new Vector2(Mathf.Abs(v.x), Mathf.Abs(v.y));
+	}
+	public static float SignedDistanceBox(this Vector2 samplePosition, Vector2 halfSize) {
+
+		var componentWiseEdgeDistance = Abs(samplePosition) - halfSize;
+		var outsideDistance = Vector2.Max(componentWiseEdgeDistance, Vector2.zero).magnitude;
+		var insideDistance = Mathf.Min(Mathf.Max(componentWiseEdgeDistance.x, componentWiseEdgeDistance.y), 0);
+		return outsideDistance + insideDistance;
+	}
 }

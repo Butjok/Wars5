@@ -18,6 +18,7 @@ Shader "Custom/Terrain"
         _Ocean ("_Ocean", 2D) = "white" {}
         _Grid ("_Grid", 2D) = "black" {}
         _Splat ("_Splat", 2D) = "black" {}
+_Distance ("_Distance", 2D) = "black" {}
         
         
         _Glossiness ("Smoothness", Range(0,1)) = 0.5
@@ -26,7 +27,22 @@ Shader "Custom/Terrain"
         _Radius ("_Radius", Range(0,10)) = 0.0
         _K ("_K", Range(0,10)) = 0.0
         _Rounding ("_Rounding", Range(-1,1)) = 0.0
-        
+
+
+_LineDistance("Mayor Line Distance", Range(0, 2)) = 1
+_LineThickness("Mayor Line Thickness", Range(0, 0.1)) = 0.05
+_BorderOffset("_BorderOffset", Range(-2, 2)) = 1
+_BorderPower("_BorderPower", Range(-2, 2)) = 1
+_BorderThinkness("_BorderThinkness", Range(-2, 2)) = 1
+_BorderSharpness("_BorderSharpness", Range(-2, 2)) = 1
+_OutsideSmoothness("_OutsideSmoothness", Range(-2, 2)) = 1
+_OutsideOffset("_OutsideOffset", Range(-2, 2)) = 1
+
+_OutsideColor ("_OutsideColor", Color) = (1,1,1,1)
+[HDR] _BorderColor ("_BorderColor", Color) = (1,1,1,1)
+
+_OutsideIntensity ("_OutsideIntensity", Range(0,1)) = 0.0
+
     }
     SubShader
     {
@@ -47,9 +63,15 @@ Shader "Custom/Terrain"
 
         #include "Assets/Shaders/Utils.cginc"
 
-        sampler2D _Grass,_Grid,_Splat,_DarkGreen,_Wheat,_YellowGrass,_Ocean,_OceanMask,_GrassTinted,_GrassTint;
+        sampler2D _Grass,_Grid,_Splat,_DarkGreen,_Wheat,_YellowGrass,_Ocean,_OceanMask,_GrassTinted,_GrassTint,_Distance;
         sampler2D _Normal;
         float4 _Normal_ST;
+
+float _LineDistance;
+float _LineThickness,_BorderPower;
+float _BorderOffset, _BorderThinkness, _BorderSharpness,_OutsideSmoothness,_OutsideOffset,_OutsideIntensity;
+float3 _OutsideColor,_BorderColor;
+float4 _Bounds;
 
         struct Input
         {
@@ -64,151 +86,6 @@ Shader "Custom/Terrain"
         #define SIZE 128
         int2 _From;
         int _Size=3;
-         int2 _Positions[SIZE] = {
-            int2(0,0),
-            int2(1,1),
-            int2(2,2),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-
-             int2(999,999),
-            int2(999,999),
-             int2(999,999),
-            int2(999,999),
-             int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999),
-            int2(999,999)
-        };
 
         #include "Assets/Shaders/SDF.cginc"
         
@@ -220,12 +97,6 @@ Shader "Custom/Terrain"
             int2 cell = round(position);
 
             half minDist = 999;
-            for (int i = 0; i < _Size; i++)
-            {
-                half dist= sdfBox(position - _Positions[i], half2(.5,.5));
-                if(minDist>dist)
-                    minDist = dist;
-            }
 
             half radiusDistance = length(_From-position)-(_Time.y - _SelectTime)*50*_TimeDirection;
             //minDist = max(minDist,radiusDistance);
@@ -269,7 +140,7 @@ Shader "Custom/Terrain"
             o.Albedo =  lerp(o.Albedo, yellowGrass, yellowGrassIntensity);
 
 
-            o.Albedo = lerp(o.Albedo, finalWheat, wheatIntensity);
+            //o.Albedo = lerp(o.Albedo, finalWheat, wheatIntensity);
 
             float3 ocean = tex2D (_Ocean, IN.uv_MainTex);
             o.Albedo=lerp(o.Albedo, ocean ,1-oceanMask);
@@ -298,6 +169,24 @@ Shader "Custom/Terrain"
             o.Albedo *= lerp(float3(1,1,1), 1-tex2D (_Grid, position-.5), gridMask);
 
             //o.Albedo = tint(o.Albedo, .0, .975, 1);
+
+float2 uv = (IN.worldPos.xz - _Bounds.xy) / (_Bounds.zw - _Bounds.xy);
+fixed4 c = tex2D (_Distance, uv);
+float dist = c.r;
+float distanceChange = fwidth(dist) * 0.5;
+float majorLineDistance = abs(frac(dist / _LineDistance + 0.5) - 0.5) * _LineDistance;
+float majorLines = smoothstep(_LineThickness - distanceChange, _LineThickness + distanceChange, majorLineDistance);
+
+float border2 = smoothstep(_BorderThinkness+_BorderSharpness,_BorderThinkness-_BorderSharpness,abs(dist - _BorderOffset));
+float outside = smoothstep(0, _OutsideSmoothness, dist - _OutsideOffset);
+
+//o.Emission = border2*_BorderColor;
+o.Albedo *= lerp(float3(1,1,1), _OutsideColor, outside * _OutsideIntensity);
+//o.Albedo *= (1-majorLines);
+o.Albedo = pow(o.Albedo, lerp(1, _BorderPower, border2));
+o.Albedo *= lerp(float3(1,1,1), _BorderColor, border2);
+
+
         }
         ENDCG
     }

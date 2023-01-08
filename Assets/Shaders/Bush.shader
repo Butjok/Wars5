@@ -68,7 +68,7 @@ Shader "Custom/Bush"
 
             o.Albedo = _Grass;
             o.Albedo = lerp(o.Albedo, _DarkGrass, splat.r);
-            o.Albedo = lerp(o.Albedo, _Wheat, splat.g);
+            //o.Albedo = lerp(o.Albedo, _Wheat, splat.g);
             o.Albedo = lerp(o.Albedo, _YellowGrass, splat.b);
 
             //o.Albedo=splat;

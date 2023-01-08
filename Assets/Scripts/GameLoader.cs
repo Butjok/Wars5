@@ -241,9 +241,8 @@ public static class GameLoader {
         }
 
         Assert.IsNotNull(main.localPlayer);
-
-        var cameraRig = CameraRig.Instance;
-        if (cameraRig) {
+        
+        if (CameraRig.TryFind(out var cameraRig)) {
             var clampToHull = cameraRig.GetComponent<ClampToHull>();
             if (clampToHull)
                 clampToHull.Recalculate(main.tiles.Keys);

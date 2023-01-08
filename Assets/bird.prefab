@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 749388171709751640}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 6, z: 0}
+  m_LocalPosition: {x: 0, y: 15, z: 0}
   m_LocalScale: {x: 1.2678123, y: 1.2678123, z: 1.2678123}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -50,7 +50,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 749388171709751640}
   m_Enabled: 1
-  m_CastShadows: 3
+  m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 74d1f3a3f1c1e894587b3dccb9d5e1e8, type: 2}
+  - {fileID: 2100000, guid: 5a4468345758e4695a3f41f39e1dbd05, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -218,6 +218,8 @@ MonoBehaviour:
   steeringSpeed: 45
   nextTimestamp: 0
   box: {fileID: 0}
+  meshRenderer: {fileID: 6546187855384593529}
+  visibilityDistance: 10
 --- !u!114 &7280669306027067087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,3 +238,4 @@ MonoBehaviour:
   speed: 999
   alwaysAbove: 1
   rayOriginHeight: 100
+  instant: 0

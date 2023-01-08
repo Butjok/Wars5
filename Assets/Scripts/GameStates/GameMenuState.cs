@@ -19,9 +19,12 @@ public static class GameMenuState {
         yield return null;
 
         CursorView.TryFind(out var cursor);
+        CameraRig.TryFind(out var cameraRig);
+        
         if (cursor)
             cursor.Visible = false;
-        CameraRig.Instance.enabled = false;
+        if (cameraRig)
+            cameraRig.enabled = false;
 
         menu.Show(main);
 
@@ -36,7 +39,8 @@ public static class GameMenuState {
                             menu.Hide();
                             if (cursor)
                                 cursor.Visible = true;
-                            CameraRig.Instance.enabled = true;
+                            if (cameraRig)
+                                cameraRig.enabled = true;
                             PlayerView.globalVisibility = true;
                             yield break;
 
