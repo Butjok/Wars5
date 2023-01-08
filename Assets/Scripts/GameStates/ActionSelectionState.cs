@@ -246,7 +246,7 @@ public static class ActionSelectionState {
                                 item.Dispose();
                             
                             if (unit is { hp: { v: > 0 } } && unit.view.LookDirection != unit.player.view.unitLookDirection)
-                                yield return new MoveSequence(unit.view.transform, null, unit.player.main.settings.unitSpeed, unit.player.view.unitLookDirection).Animation();
+                                yield return new MoveSequence(unit.view.transform, null, unit.player.main.settings.unitSpeed*2, unit.player.view.unitLookDirection).Animation();
                             
                             var won = Rules.Won(main.localPlayer);
                             var lost = Rules.Lost(main.localPlayer);
