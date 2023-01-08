@@ -1,55 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/DepthOfFieldDistanceSetter.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/DepthOfFieldDistanceSetter.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts2/SDFtest.shader" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts2/SDFtest.shader.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts2/TileAreaMeshBuilder.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts2/TileAreaMeshBuilder.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts2/TileAreaTest.shader" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts2/TileAreaTest.shader.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts2/WorldBoxSectionTextureGenerator.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts2/WorldBoxSectionTextureGenerator.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assembly-CSharp.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Content/bird_png.PNG.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Content/bird_png.PNG.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Content/hull-border.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Content/hull-border.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/PostProcessProfile.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/PostProcessProfile.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenery Materials/Brown1.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenery Materials/Brown1.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/PlainLeft.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/PlainLeft.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/BodyTorque.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/BodyTorque.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoader.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/ActionSelectionState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/ActionSelectionState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/GameMenuState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/GameMenuState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/SelectionState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/SelectionState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/LevelLogic/TutorialLevelLogic.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/LevelLogic/TutorialLevelLogic.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PlayerView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PlayerView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Stable/Bird.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Stable/Bird.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Stable/CameraRig.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Stable/CameraRig.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Stable/Compass.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Stable/Compass.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Stable/GameSettings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Stable/GameSettings.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Stable/MathUtils.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Stable/MathUtils.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Stable/ShadowDistanceOverride.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Stable/ShadowDistanceOverride.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts2/Scripts2.asmdef" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts2/Scripts2.asmdef" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Shaders/Bush.shader" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Shaders/Bush.shader" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Shaders/Stone.shader" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Shaders/Stone.shader" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Shaders/Terrain.shader" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Shaders/Terrain.shader" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Shaders/leaves-area-tinted.shader" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Shaders/leaves-area-tinted.shader" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Terrain.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Terrain.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/bird.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/bird.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Scripts2.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Scripts2.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserSettings/Search.settings" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Search.settings" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wars.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Wars.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wars5.sln" beforeDir="false" afterPath="$PROJECT_DIR$/Wars5.sln" afterDir="false" />
-    </list>
+    <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -93,6 +45,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/PostProcessing.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/a9b8fc452a6f4a2dba24640d0133afc0157400/f0/f1f07630/Texture2D.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/de1f8ef4975b4eacbeb0accc1b22c9b02a000/c4/c0bf61ac/DOTweenComponent.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/butjok/Documents/GitHub/Wars5/Assets/Scripts/GameStates/ActionSelectionState.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/a9b8fc452a6f4a2dba24640d0133afc0157400/06/1c041b99/Vector2.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/EventSystem/EventSystem.cs" root0="SKIP_HIGHLIGHTING" />
@@ -332,14 +285,7 @@
       <workItem from="1673116691980" duration="1327000" />
       <workItem from="1673137084517" duration="3318000" />
       <workItem from="1673143140886" duration="633000" />
-      <workItem from="1673176657729" duration="25340000" />
-    </task>
-    <task id="LOCAL-00147" summary="sdfsdfdsf">
-      <created>1667176391837</created>
-      <option name="number" value="00147" />
-      <option name="presentableId" value="LOCAL-00147" />
-      <option name="project" value="LOCAL" />
-      <updated>1667176391837</updated>
+      <workItem from="1673176657729" duration="25403000" />
     </task>
     <task id="LOCAL-00148" summary="oiioppoi">
       <created>1667179911810</created>
@@ -677,7 +623,14 @@
       <option name="project" value="LOCAL" />
       <updated>1673143160216</updated>
     </task>
-    <option name="localTasksCounter" value="196" />
+    <task id="LOCAL-00196" summary="- made bird to disappear when close to camera&#10;- first stab at walkable tiles mesh generation with distance fields">
+      <created>1673208981249</created>
+      <option name="number" value="00196" />
+      <option name="presentableId" value="LOCAL-00196" />
+      <option name="project" value="LOCAL" />
+      <updated>1673208981250</updated>
+    </task>
+    <option name="localTasksCounter" value="197" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -710,7 +663,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="sdfsdfsdf" />
     <MESSAGE value="commit before changes to unit view/player view/building view being spawned as children of Game" />
     <MESSAGE value="level editor looks good so far" />
     <MESSAGE value="level ed improvements" />
@@ -735,7 +687,8 @@
     <MESSAGE value="starting to make a higlightin cursor" />
     <MESSAGE value="asdasd" />
     <MESSAGE value="added bg + dof" />
-    <option name="LAST_COMMIT_MESSAGE" value="added bg + dof" />
+    <MESSAGE value="- made bird to disappear when close to camera&#10;- first stab at walkable tiles mesh generation with distance fields" />
+    <option name="LAST_COMMIT_MESSAGE" value="- made bird to disappear when close to camera&#10;- first stab at walkable tiles mesh generation with distance fields" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
