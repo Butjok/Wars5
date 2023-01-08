@@ -45,8 +45,6 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/PostProcessing.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/a9b8fc452a6f4a2dba24640d0133afc0157400/f0/f1f07630/Texture2D.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/de1f8ef4975b4eacbeb0accc1b22c9b02a000/c4/c0bf61ac/DOTweenComponent.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Users/butjok/Documents/GitHub/Wars5/Assets/Scripts/GameStates/ActionSelectionState.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/a9b8fc452a6f4a2dba24640d0133afc0157400/06/1c041b99/Vector2.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/EventSystem/EventSystem.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/de1f8ef4975b4eacbeb0accc1b22c9b02a000/09/717a7bbd/TweenExtensions.cs" root0="SKIP_HIGHLIGHTING" />
@@ -286,13 +284,7 @@
       <workItem from="1673137084517" duration="3318000" />
       <workItem from="1673143140886" duration="633000" />
       <workItem from="1673176657729" duration="25403000" />
-    </task>
-    <task id="LOCAL-00148" summary="oiioppoi">
-      <created>1667179911810</created>
-      <option name="number" value="00148" />
-      <option name="presentableId" value="LOCAL-00148" />
-      <option name="project" value="LOCAL" />
-      <updated>1667179911810</updated>
+      <workItem from="1673211740852" duration="297000" />
     </task>
     <task id="LOCAL-00149" summary="fix bug">
       <created>1667201682165</created>
@@ -630,7 +622,14 @@
       <option name="project" value="LOCAL" />
       <updated>1673208981250</updated>
     </task>
-    <option name="localTasksCounter" value="197" />
+    <task id="LOCAL-00197" summary="add grenzerkompanie music">
+      <created>1673214131832</created>
+      <option name="number" value="00197" />
+      <option name="presentableId" value="LOCAL-00197" />
+      <option name="project" value="LOCAL" />
+      <updated>1673214131832</updated>
+    </task>
+    <option name="localTasksCounter" value="198" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -663,7 +662,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="commit before changes to unit view/player view/building view being spawned as children of Game" />
     <MESSAGE value="level editor looks good so far" />
     <MESSAGE value="level ed improvements" />
     <MESSAGE value="leved update" />
@@ -688,7 +686,8 @@
     <MESSAGE value="asdasd" />
     <MESSAGE value="added bg + dof" />
     <MESSAGE value="- made bird to disappear when close to camera&#10;- first stab at walkable tiles mesh generation with distance fields" />
-    <option name="LAST_COMMIT_MESSAGE" value="- made bird to disappear when close to camera&#10;- first stab at walkable tiles mesh generation with distance fields" />
+    <MESSAGE value="add grenzerkompanie music" />
+    <option name="LAST_COMMIT_MESSAGE" value="add grenzerkompanie music" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
