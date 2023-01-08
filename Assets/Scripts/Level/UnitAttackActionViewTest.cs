@@ -22,7 +22,6 @@ public class UnitAttackActionViewTest : MonoBehaviour {
         if (unit0.position.v is not { } position)
             throw new Exception();
         
-        var path = new MovePath(new[]{ position }, Vector2Int.up);
-        action = new UnitAction(UnitActionType.Attack, unit0, path, unit1, weaponIndex:0);
+        action = new UnitAction(UnitActionType.Attack, unit0, new[]{ position }, unit1, weaponIndex:0);
     }
 }

@@ -1,28 +1,31 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
+using Object = UnityEngine.Object;
 
 public static class ActionSelectionState {
 
     public const string prefix = "action-selection-state.";
-    
+
     public const string cancel = prefix + "cancel";
     public const string cycleActions = prefix + "cycle-actions";
     public const string execute = prefix + "execute";
     public const string filterWithType = prefix + "filter-with-type";
-    
-    public static IEnumerator Run(Main main, Unit unit, MovePath path, Vector2Int startForward) {
 
-        main.TryGetUnit(path.Destination, out var other);
+    public static IEnumerator Run(Main main, Unit unit, IReadOnlyList<Vector2Int> path, Vector2Int? _initialLookDirection = null) {
+
+        var destination = path.Last();
+        main.TryGetUnit(destination, out var other);
 
         var actions = new List<UnitAction>();
         var index = -1;
 
         // stay/capture
         if (other == null || other == unit) {
-            if (main.TryGetBuilding(path.Destination, out var building) && Rules.CanCapture(unit, building))
+            if (main.TryGetBuilding(destination, out var building) && Rules.CanCapture(unit, building))
                 actions.Add(new UnitAction(UnitActionType.Capture, unit, path, null, building));
             else
                 actions.Add(new UnitAction(UnitActionType.Stay, unit, path));
@@ -38,7 +41,7 @@ public static class ActionSelectionState {
 
         // attack
         if (!Rules.IsArtillery(unit) || path.Count == 1)
-            foreach (var otherPosition in main.AttackPositions(path.Destination, Rules.AttackRange(unit)))
+            foreach (var otherPosition in main.AttackPositions(destination, Rules.AttackRange(unit)))
                 if (main.TryGetUnit(otherPosition, out other))
                     for (var weapon = 0; weapon < Rules.WeaponsCount(unit); weapon++)
                         if (Rules.CanAttack(unit, other, path, weapon))
@@ -46,7 +49,7 @@ public static class ActionSelectionState {
 
         // supply
         foreach (var offset in Rules.offsets) {
-            var otherPosition = path.Destination + offset;
+            var otherPosition = destination + offset;
             if (main.TryGetUnit(otherPosition, out other) && Rules.CanSupply(unit, other))
                 actions.Add(new UnitAction(UnitActionType.Supply, unit, path, other, targetPosition: otherPosition));
         }
@@ -54,7 +57,7 @@ public static class ActionSelectionState {
         // drop out
         foreach (var cargo in unit.cargo)
         foreach (var offset in Rules.offsets) {
-            var targetPosition = path.Destination + offset;
+            var targetPosition = destination + offset;
             if (!main.TryGetUnit(targetPosition, out other) && Rules.CanStay(cargo, targetPosition))
                 actions.Add(new UnitAction(UnitActionType.Drop, unit, path, targetUnit: cargo, targetPosition: targetPosition));
         }
@@ -109,7 +112,7 @@ public static class ActionSelectionState {
                         UiSound.Instance.notAllowed.PlayOneShot();
                     else {
                         main.stack.Pop();
-                        main.stack.Push(new List<UnitAction>{actions[index]});
+                        main.stack.Push(new List<UnitAction> { actions[index] });
                         main.commands.Enqueue(execute);
                     }
                 }
@@ -132,11 +135,119 @@ public static class ActionSelectionState {
                             var action = filteredActions[0];
 
                             HidePanel();
-                            yield return action.Execute();
 
-                            foreach (var item in filteredActions)
+                            /*
+                             * Action execution
+                             */
+
+                            main.TryGetBuilding(destination, out var building);
+                            unit.moved.v = true;
+
+                            Debug.Log($"EXECUTING: {unit} {action.type} {action.targetUnit}");
+
+                            switch (action.type) {
+
+                                case UnitActionType.Stay: {
+                                    unit.position.v = destination;
+                                    break;
+                                }
+
+                                case UnitActionType.Join: {
+                                    other.hp.v = Mathf.Min(Rules.MaxHp(other), other.hp.v + unit.hp.v);
+                                    unit.Dispose();
+                                    unit = null;
+                                    break;
+                                }
+
+                                case UnitActionType.Capture: {
+                                    unit.position.v = destination;
+                                    building.cp.v -= Rules.Cp(unit);
+                                    if (building.cp.v <= 0) {
+                                        building.player.v = unit.player;
+                                        building.cp.v = Rules.MaxCp(building);
+                                    }
+                                    break;
+                                }
+
+                                case UnitActionType.Attack: {
+
+                                    var attacker = action.unit;
+                                    var target = action.targetUnit;
+
+                                    if (Rules.Damage(attacker, target, action.weaponIndex) is not { } damageToTarget)
+                                        throw new Exception();
+
+                                    var newTargetHp = Mathf.Max(0, target.hp.v - damageToTarget);
+                                    var newAttackerHp = attacker.hp.v;
+                                    var targetWeaponIndex = -1;
+                                    if (newTargetHp > 0 && Rules.CanAttackInResponse(target, attacker, out targetWeaponIndex)) {
+                                        if (Rules.Damage(target, attacker, targetWeaponIndex, newTargetHp) is not { } damageToAttacker)
+                                            throw new Exception();
+                                        newAttackerHp = Mathf.Max(0, newAttackerHp - damageToAttacker);
+                                    }
+
+                                    if (main.settings.showBattleAnimation)
+                                        Debug.Log("BattleAnimationView");
+
+                                    attacker.position.v = action.path.Last();
+
+                                    if (newTargetHp <= 0) {
+                                        var animation = CameraRig.Instance.Jump(target.view.transform.position.ToVector2());
+                                        while (animation.active)
+                                            yield return null;
+                                    }
+                                    target.hp.v = newTargetHp;
+
+                                    if (newTargetHp > 0 && targetWeaponIndex != -1)
+                                        target.ammo[targetWeaponIndex]--;
+
+                                    if (newAttackerHp <= 0) {
+                                        var animation = CameraRig.Instance.Jump(attacker.view.transform.position.ToVector2());
+                                        while (animation.active)
+                                            yield return null;
+                                    }
+                                    attacker.hp.v = newAttackerHp;
+
+                                    if (newAttackerHp > 0)
+                                        attacker.ammo[action.weaponIndex]--;
+
+                                    break;
+                                }
+
+                                case UnitActionType.GetIn: {
+                                    unit.position.v = null;
+                                    unit.carrier.v = other;
+                                    other.cargo.Add(unit);
+                                    break;
+                                }
+
+                                case UnitActionType.Drop: {
+                                    unit.position.v = destination;
+                                    unit.cargo.Remove(action.targetUnit);
+                                    action.targetUnit.position.v = action.targetPosition;
+                                    action.targetUnit.carrier.v = null;
+                                    action.targetUnit.moved.v = true;
+                                    break;
+                                }
+
+                                case UnitActionType.Supply: {
+                                    unit.position.v = destination;
+                                    action.targetUnit.fuel.v = Rules.MaxFuel(action.targetUnit);
+                                    foreach (var weaponIndex in Rules.Weapons(action.targetUnit))
+                                        action.targetUnit.ammo[weaponIndex] = Rules.MaxAmmo(action.targetUnit, weaponIndex);
+                                    break;
+                                }
+
+                                default:
+                                    throw new ArgumentOutOfRangeException();
+                            }
+                            
+                            foreach (var item in actions.Except(new[]{action}))
                                 item.Dispose();
-
+                            
+                            if (unit is { hp: { v: > 0 } } && unit.view.LookDirection != unit.player.view.unitLookDirection)
+                                yield return new Path(unit.view.transform, null, unit.player.main.settings.unitSpeed, unit.player.view.unitLookDirection).Animation();
+                            
                             var won = Rules.Won(main.localPlayer);
                             var lost = Rules.Lost(main.localPlayer);
 
@@ -145,16 +256,17 @@ public static class ActionSelectionState {
                                 foreach (var u in main.units.Values)
                                     u.moved.v = false;
 
-                                var nextState = won ? main.levelLogic.OnVictory(main) : main.levelLogic.OnDefeat(main);
+                                var nextState = won ? main.levelLogic.OnVictory(main,action) : main.levelLogic.OnDefeat(main,action);
                                 yield return nextState;
-
-                                yield return won ? VictoryState.Run(main) : DefeatState.New(main);
+                                yield return won ? VictoryState.Run(main,action) : DefeatState.Run(main,action);
+                                action.Dispose();
                                 yield break;
                             }
 
                             else {
                                 var (controlFlow, nextState) = main.levelLogic.OnActionCompletion(main, action);
                                 yield return nextState;
+                                action.Dispose();
                                 if (controlFlow == ControlFlow.Replace)
                                     yield break;
                                 yield return SelectionState.Run(main);
@@ -172,7 +284,8 @@ public static class ActionSelectionState {
                                 action.Dispose();
 
                             unit.view.Position = path[0];
-                            unit.view.LookDirection = startForward;
+                            if (_initialLookDirection is { } initialLookDirection)
+                                unit.view.LookDirection = initialLookDirection;
 
                             yield return PathSelectionState.Run(main, unit);
                             yield break;

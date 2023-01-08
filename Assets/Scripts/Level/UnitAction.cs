@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
@@ -12,12 +13,12 @@ public class UnitAction : IDisposable {
     
     public UnitActionType type;
     public Unit unit, targetUnit;
-    public MovePath path;
+    public IReadOnlyList<Vector2Int> path;
     public int weaponIndex;
     public Vector2Int targetPosition;
     public UnitActionView view;
 
-    public UnitAction(UnitActionType type, Unit unit, MovePath path, Unit targetUnit = null, Building targetBuilding = null, int weaponIndex = -1, Vector2Int targetPosition = default) {
+    public UnitAction(UnitActionType type, Unit unit, IReadOnlyList<Vector2Int> path, Unit targetUnit = null, Building targetBuilding = null, int weaponIndex = -1, Vector2Int targetPosition = default) {
 
         undisposed.Add(this);
         
@@ -61,81 +62,9 @@ public class UnitAction : IDisposable {
         }
     }
 
-    public IEnumerator Execute() {
-
-        Assert.IsTrue(path.Count >= 1);
-
-        unit.player.main.TryGetUnit(path.Destination, out var unitAtPathEnd);
-        unit.player.main.TryGetBuilding(path.Destination, out var buildingAtPathEnd);
-
-        unit.moved.v = true;
-
-        Debug.Log($"EXECUTING: {unit} {type} {targetUnit}");
-
-        switch (type) {
-
-            case UnitActionType.Stay: {
-                unit.position.v = path.Destination;
-                break;
-            }
-
-            case UnitActionType.Join: {
-                unitAtPathEnd.hp.v = Mathf.Min(Rules.MaxHp(unitAtPathEnd), unitAtPathEnd.hp.v + unit.hp.v);
-                unit.Dispose();
-                unit = null;
-                break;
-            }
-
-            case UnitActionType.Capture: {
-                unit.position.v = path.Destination;
-                buildingAtPathEnd.cp.v -= Rules.Cp(unit);
-                if (buildingAtPathEnd.cp.v <= 0) {
-                    buildingAtPathEnd.player.v = unit.player;
-                    buildingAtPathEnd.cp.v = Rules.MaxCp(buildingAtPathEnd);
-                }
-                break;
-            }
-
-            case UnitActionType.Attack:
-                return BattleAnimationState.Run(this);
-
-            case UnitActionType.GetIn: {
-                unit.position.v = null;
-                unit.carrier.v = unitAtPathEnd;
-                unitAtPathEnd.cargo.Add(unit);
-                break;
-            }
-
-            case UnitActionType.Drop: {
-                unit.position.v = path.Destination;
-                unit.cargo.Remove(targetUnit);
-                targetUnit.position.v = targetPosition;
-                targetUnit.carrier.v = null;
-                targetUnit.moved.v = true;
-                break;
-            }
-
-            case UnitActionType.Supply: {
-                unit.position.v = path.Destination;
-                targetUnit.fuel.v = Rules.MaxFuel(targetUnit);
-                foreach (var weaponIndex in Rules.Weapons(targetUnit))
-                    targetUnit.ammo[weaponIndex] = Rules.MaxAmmo(targetUnit, weaponIndex);
-                break;
-            }
-
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
-
-        if (unit is { hp: { v: > 0 } })
-            unit.view.LookDirection = unit.player.view.unitLookDirection;
-
-        return null;
-    }
-
     public override string ToString() {
         var text = type.ToString();
-        text += $" - {path[0]} -> {path.Destination}";
+        text += $" - {path[0]} -> {path.Last()}";
         if (targetUnit != null)
             text += $" - {targetUnit}";
         return text;

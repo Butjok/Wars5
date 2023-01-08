@@ -104,7 +104,7 @@ public class SavedGame {
     public string initializationCode;
     public string screenshotPath;
 
-    public static string ScreenshotDirectoryPath => Path.Combine(Application.persistentDataPath, "Screenshots");
+    public static string ScreenshotDirectoryPath => System.IO.Path.Combine(Application.persistentDataPath, "Screenshots");
     public const string screenshotExtension = ".png";
 
     public Texture2D LoadScreenshot() {
@@ -116,7 +116,7 @@ public class SavedGame {
     }
     public void SaveScreenshot(Texture2D texture) {
         if (string.IsNullOrWhiteSpace(screenshotPath))
-            screenshotPath = Path.ChangeExtension(Path.Combine(ScreenshotDirectoryPath, Guid.NewGuid().ToString()), screenshotExtension);
+            screenshotPath = System.IO.Path.ChangeExtension(System.IO.Path.Combine(ScreenshotDirectoryPath, Guid.NewGuid().ToString()), screenshotExtension);
         var data = texture.EncodeToPNG();
         File.WriteAllBytes(screenshotPath, data);
     }

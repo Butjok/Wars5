@@ -34,8 +34,6 @@ public static class PathSelectionState {
         var traverser = new Traverser();
         traverser.Traverse(main.tiles.Keys, unitPosition, Cost, moveDistance);
 
-        var startForward = unit.view.transform.forward.ToVector2().RoundToInt();
-
         var pathMeshGameObject = new GameObject();
         Object.DontDestroyOnLoad(pathMeshGameObject);
 
@@ -45,7 +43,7 @@ public static class PathSelectionState {
         var pathMeshFilter = pathMeshGameObject.AddComponent<MeshFilter>();
         var pathMeshRenderer = pathMeshGameObject.AddComponent<MeshRenderer>();
 
-        var moveTypeAtlas = Resources.Load<MoveTypeAtlas>(nameof(MoveTypeAtlas));
+        var moveTypeAtlas = Resources.Load<PathAtlas>(nameof(PathAtlas));
         Assert.IsTrue(moveTypeAtlas);
 
         var pathMaterial = Resources.Load<Material>("MovePath");
@@ -54,7 +52,7 @@ public static class PathSelectionState {
         pathMeshRenderer.sharedMaterial = pathMaterial;
         pathMeshFilter.sharedMesh = new Mesh();
 
-        var pathBuilder = new MovePathBuilder(unitPosition);
+        var pathBuilder = new PathBuilder(unitPosition);
 
         var tileMeshFilter = tileMeshGameObject.AddComponent<MeshFilter>();
         tileMeshFilter.sharedMesh = new Mesh();
@@ -118,7 +116,7 @@ public static class PathSelectionState {
                         case move:
                             CleanUp();
                             CursorView.Instance.Visible = false;
-                            yield return UnitMovementAnimationState.Run(main, unit, new MovePath(pathBuilder.Positions, startForward));
+                            yield return UnitMovementAnimationState.Run(main, unit, pathBuilder.Positions);
                             yield break;
 
                         case cancel:
@@ -135,8 +133,10 @@ public static class PathSelectionState {
             if (!oldPositions.SequenceEqual(pathBuilder.Positions)) {
                 oldPositions.Clear();
                 oldPositions.AddRange(pathBuilder.Positions);
-                var path = new MovePath(pathBuilder.Positions, startForward);
-                pathMeshFilter.sharedMesh = MovePathMeshBuilder.Build(pathMeshFilter.sharedMesh, path, moveTypeAtlas);
+                pathMeshFilter.sharedMesh = PathMeshBuilder.Build(
+                    pathMeshFilter.sharedMesh, 
+                    new Path(unit.view.transform, pathBuilder.Positions),
+                    moveTypeAtlas);
             }
         }
     }

@@ -106,7 +106,7 @@ public static class Rules {
         Assert.IsTrue(weaponIndex < WeaponsCount(attackerType));
         return Damage(attackerType, targetType, weaponIndex) != null;
     }
-    public static bool CanAttack(Unit attacker, Unit target, List<Vector2Int> path, int weaponIndex) {
+    public static bool CanAttack(Unit attacker, Unit target, IReadOnlyList<Vector2Int> path, int weaponIndex) {
 
         Assert.IsTrue(path.Count >= 1);
         Assert.IsTrue(weaponIndex < WeaponsCount(attacker));

@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class MovePathMeshBuilder {
+public static class PathMeshBuilder {
 	
 	public static readonly List<Vector3> vertices = new();
 	public static readonly List<Vector2> uvs = new();
 	public static readonly List<int> triangles = new();
 	
-	public static Mesh Build(Mesh mesh, MovePath path, MoveTypeAtlas atlas) {
+	public static Mesh Build(Mesh mesh, Path path, PathAtlas atlas) {
 
 		if (!mesh)
 			mesh = new Mesh();
@@ -20,23 +20,23 @@ public static class MovePathMeshBuilder {
 
 		var uvOffset = Vector2.zero;
 		
-		foreach (var move in path.moves) {
+		foreach (var move in path.segments) {
 
-			if (move.type is MovePath.MoveType.RotateLeft or MovePath.MoveType.RotateRight or MovePath.MoveType.RotateBack)
+			if (move.type is Path.Segment.Type.RotateLeft or Path.Segment.Type.RotateRight or Path.Segment.Type.Rotate180)
 				continue;
 
-			var position = move.type == MovePath.MoveType.Start
-				? move.midpoint.RoundToInt()
-				: (move.midpoint + (Vector2)move.forward / 2).RoundToInt();
+			var position = move.type == Path.Segment.Type.StartMoving
+				? move.startPoint.RoundToInt()
+				: (move.startPoint + (Vector2)move.startDirection / 2).RoundToInt();
 
 			var translate = Matrix4x4.Translate(position.ToVector3Int());
-			var rotate = Matrix4x4.Rotate(Quaternion.LookRotation(move.forward.ToVector3Int(), Vector3.up));
+			var rotate = Matrix4x4.Rotate(Quaternion.LookRotation(move.startDirection.ToVector3Int(), Vector3.up));
 			var transform = translate * rotate;
 			
 			foreach (var vertex in MeshUtils.quad)
 				vertices.Add(transform * vertex.ToVector4());
 
-			var rect = atlas[move.type];
+			var rect = atlas.atlas[move.type];
 			var pp = new Vector2(rect.xMax, rect.yMax);
 			var pm = new Vector2(rect.xMax, rect.yMin);
 			var mp = new Vector2(rect.xMin, rect.yMax);

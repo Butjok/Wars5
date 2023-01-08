@@ -6,4 +6,5 @@ using UnityEditor;
 [CustomPropertyDrawer(typeof(UnitTypeInfoDictionary))]
 [CustomPropertyDrawer(typeof(TileTypeColorDictionary))]
 [CustomPropertyDrawer(typeof(TileTypeBuildingViewDictionary))]
+[CustomPropertyDrawer(typeof(PathSegmentTypeRectDictionary))]
 public class WarsSerializableDictionaryPropertyDrawer : SerializableDictionaryPropertyDrawer { }

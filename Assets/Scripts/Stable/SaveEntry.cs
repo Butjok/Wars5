@@ -15,9 +15,9 @@ public class SaveEntry {
     // static
 
     [Command]
-    public static string DirectoryPath => Path.Combine(Application.persistentDataPath, "Saves");
+    public static string DirectoryPath => System.IO.Path.Combine(Application.persistentDataPath, "Saves");
     public static string GetFilePath(string fileName) {
-        return Path.Combine(DirectoryPath, fileName);
+        return System.IO.Path.Combine(DirectoryPath, fileName);
     }
     public const string extension = ".json";
     public const string screenshotExtension = ".png";
@@ -36,7 +36,7 @@ public class SaveEntry {
     }
 
     public static Sprite LoadScreenshot(string fileName) {
-        fileName = Path.ChangeExtension(fileName, screenshotExtension);
+        fileName = System.IO.Path.ChangeExtension(fileName, screenshotExtension);
         var path = GetFilePath(fileName);
         if (!File.Exists(path))
             return null;
@@ -52,7 +52,7 @@ public class SaveEntry {
 
         if (fileName == null)
             do
-                fileName = Path.ChangeExtension(Path.GetRandomFileName(), extension);
+                fileName = System.IO.Path.ChangeExtension(System.IO.Path.GetRandomFileName(), extension);
             while (File.Exists(GetFilePath(fileName)));
 
         var path = GetFilePath(fileName);

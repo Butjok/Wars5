@@ -72,7 +72,7 @@ public class TutorialLogic : LevelLogic {
         };*/
     }
 
-    public override IEnumerator OnVictory(Main main) {
+    public override IEnumerator OnVictory(Main main, UnitAction winningAction) {
         return DialogueState.Run(main, new[] {
             new DialogueUi.Speech {
                 speaker = DialogueSpeaker.Natalie,
@@ -87,7 +87,7 @@ public class TutorialLogic : LevelLogic {
         });
     }
 
-    public override IEnumerator OnDefeat(Main main) {
+    public override IEnumerator OnDefeat(Main main, UnitAction defeatingAction) {
         return DialogueState.Run(main, new[] {
             new DialogueUi.Speech {
                 speaker = DialogueSpeaker.Natalie,

@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 
 public static class DefeatState {
-	public static IEnumerator New(Main main) {
+	public static IEnumerator Run(Main main,UnitAction defeatingAction) {
 	
 		Debug.Log("Defeat...");
 		CursorView.Instance.Visible=false;

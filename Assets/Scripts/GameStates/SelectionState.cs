@@ -149,11 +149,11 @@ public static class SelectionState {
                         }
 
                         case triggerVictory:
-                            yield return VictoryState.Run(main);
+                            yield return VictoryState.Run(main,null);
                             yield break;
 
                         case triggerDefeat:
-                            yield return DefeatState.New(main);
+                            yield return DefeatState.Run(main,null);
                             yield break;
                         
                         default:

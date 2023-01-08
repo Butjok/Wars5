@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.Assertions;
 
 [SelectionBase]
-[RequireComponent(typeof(MovePathWalker))]
 public class UnitView : MonoBehaviour {
 
     public static UnitView DefaultPrefab => "light-tank".LoadAs<UnitView>();
@@ -16,7 +15,6 @@ public class UnitView : MonoBehaviour {
     public SteeringArm[] steeringArms;
     public Wheel[] wheels;
     public Piston[] wheelPistons;
-    public MovePathWalker walker;
     public Turret turret;
     public Body body;
     public UnitView prefab;
@@ -93,9 +91,6 @@ public class UnitView : MonoBehaviour {
         if (initialized)
             return;
         initialized = true;
-        
-        walker = GetComponentInChildren<MovePathWalker>();
-        Assert.IsTrue(walker);
         
         turret = GetComponentInChildren<Turret>();
 

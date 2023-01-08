@@ -32,11 +32,11 @@ public class LevelLogic {
         return (ControlFlow.Ignore, null);
     }
 
-    public virtual IEnumerator OnVictory(Main main) {
+    public virtual IEnumerator OnVictory(Main main,UnitAction winningAction) {
         return null;
     }
 
-    public virtual IEnumerator OnDefeat(Main main) {
+    public virtual IEnumerator OnDefeat(Main main,UnitAction defeatingAction) {
         return null;
     }
 }

@@ -92,7 +92,7 @@ public class NewBehaviourScript : MonoBehaviour {
     #endif
 
     public void Write(string text, string relativePath = "Out.json") {
-        var path = Path.Combine(Application.dataPath, relativePath);
+        var path = System.IO.Path.Combine(Application.dataPath, relativePath);
         File.WriteAllText(path, text);
     }
 
