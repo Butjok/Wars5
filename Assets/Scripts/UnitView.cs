@@ -37,7 +37,11 @@ public class UnitView : MonoBehaviour {
     }
     public Vector2Int LookDirection {
         get => transform.forward.ToVector2().RoundToInt();
-        set => transform.rotation = Quaternion.LookRotation(value.ToVector3Int(), Vector3.up);
+        set {
+            transform.rotation = Quaternion.LookRotation(value.ToVector3Int(), Vector3.up);
+            PlaceOnTerrain();
+            ResetSteeringArms();
+        }
     }
 
     public int Hp {

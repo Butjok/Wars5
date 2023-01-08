@@ -105,7 +105,6 @@
      <Compile Include="Assets/Scripts/Level/Testing.cs" />
      <Compile Include="Assets/Scripts/AiTest.cs" />
      <Compile Include="Assets/Scripts/AnimationScript.cs" />
-     <Compile Include="Assets/Scripts/GameStates/UnitMovementAnimationState.cs" />
      <Compile Include="Assets/Scripts/Faction.cs" />
      <Compile Include="Assets/Scripts/InputCommandsListener.cs" />
      <Compile Include="Assets/Scripts/UnitActionViewTest.cs" />
@@ -125,6 +124,7 @@
      <Compile Include="Assets/Scripts/Level/UnitAction.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
      <Compile Include="Assets/Scripts/UnitMoveSequenceTest.cs" />
+     <Compile Include="Assets/Scripts/HighlightingCursorView.cs" />
      <None Include="Assets/Scripts/Wars.asmdef" />
      <Folder Include="Assets/Scripts/Editor" />
      <Folder Include="Assets/Scripts/GameStates" />

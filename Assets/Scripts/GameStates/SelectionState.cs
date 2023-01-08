@@ -13,7 +13,7 @@ public static class SelectionState {
     public const string select = prefix + "select";
     public const string triggerVictory = prefix + "trigger-victory";
     public const string triggerDefeat = prefix + "trigger-defeat";
-    
+
     public static IEnumerator Run(Main main, bool turnStart = false) {
 
         // weird static variable issue
@@ -56,13 +56,17 @@ public static class SelectionState {
             main.CurrentPlayer.view.visible = true;
         }
 
-        CursorView.Instance.Visible = true;
+        CursorView.TryFind(out var cursor);
+        if (cursor)
+            cursor.Visible = true;
+
+        HighlightingCursorView.TryFind(out var highlightingCursor);
 
         while (true) {
             yield return null;
 
             if (!main.CurrentPlayer.IsAi) {
-                
+
                 if (Input.GetKeyDown(KeyCode.F2))
                     main.commands.Enqueue(endTurn);
 
@@ -74,7 +78,7 @@ public static class SelectionState {
 
                 else if ((Input.GetMouseButtonDown(Mouse.left) || Input.GetKeyDown(KeyCode.Space)) &&
                          Mouse.TryGetPosition(out Vector2Int mousePosition)) {
-                    
+
                     main.stack.Push(mousePosition);
                     main.commands.Enqueue(@select);
                 }
@@ -115,7 +119,10 @@ public static class SelectionState {
                                 unit.moved.v = false;
 
                             main.CurrentPlayer.view.visible = false;
-                            CursorView.Instance.Visible = false;
+                            if (cursor)
+                                cursor.Visible = false;
+                            if (highlightingCursor)
+                                highlightingCursor.Hide();
 
                             //MusicPlayer.Instance.source.Stop();
                             //MusicPlayer.Instance.queue = null;
@@ -140,22 +147,22 @@ public static class SelectionState {
                         case cyclePositions: {
                             if (positions.Length > 0) {
                                 positionIndex = (positionIndex + 1) % positions.Length;
-                                if (CameraRig.Instance)
-                                    CameraRig.Instance.Jump(positions[positionIndex]);
+                                if (highlightingCursor)
+                                highlightingCursor.ShowAt(positions[positionIndex]);
                             }
-                            else
-                                UiSound.Instance.notAllowed.PlayOneShot();
+                            else if (highlightingCursor)
+                            highlightingCursor.Hide();
                             break;
                         }
 
                         case triggerVictory:
-                            yield return VictoryState.Run(main,null);
+                            yield return VictoryState.Run(main, null);
                             yield break;
 
                         case triggerDefeat:
-                            yield return DefeatState.Run(main,null);
+                            yield return DefeatState.Run(main, null);
                             yield break;
-                        
+
                         default:
                             main.stack.ExecuteToken(token);
                             break;

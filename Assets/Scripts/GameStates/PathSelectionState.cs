@@ -13,7 +13,7 @@ public static class PathSelectionState {
     public const string move = prefix + "move";
     public const string reconstructPath = prefix + "reconstruct-path";
     public const string appendToPath = prefix + "append-to-path";
-    
+
     public static IEnumerator Run(Main main, Unit unit) {
 
         int? Cost(Vector2Int position, int length) {
@@ -43,7 +43,7 @@ public static class PathSelectionState {
         var pathMeshFilter = pathMeshGameObject.AddComponent<MeshFilter>();
         var pathMeshRenderer = pathMeshGameObject.AddComponent<MeshRenderer>();
 
-        var moveTypeAtlas = Resources.Load<PathAtlas>(nameof(PathAtlas));
+        var moveTypeAtlas = Resources.Load<MoveSequenceAtlas>(nameof(MoveSequenceAtlas));
         Assert.IsTrue(moveTypeAtlas);
 
         var pathMaterial = Resources.Load<Material>("MovePath");
@@ -72,7 +72,9 @@ public static class PathSelectionState {
             Object.Destroy(tileMeshGameObject);
         }
 
-        CursorView.Instance.Visible = true;
+        CursorView.TryFind(out var cursor);
+        if (cursor)
+            cursor.Visible = true;
 
         while (true) {
             yield return null;
@@ -83,7 +85,7 @@ public static class PathSelectionState {
             else if (Input.GetMouseButtonDown(Mouse.left) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return)) {
 
                 if (Mouse.TryGetPosition(out Vector2Int mousePosition) && traverser.IsReachable(mousePosition, moveDistance)) {
-                    if (pathBuilder.Positions.Last() == mousePosition)
+                    if (pathBuilder.positions.Last() == mousePosition)
                         main.commands.Enqueue(move);
                     else {
                         main.stack.Push(mousePosition);
@@ -115,8 +117,25 @@ public static class PathSelectionState {
 
                         case move:
                             CleanUp();
-                            CursorView.Instance.Visible = false;
-                            yield return UnitMovementAnimationState.Run(main, unit, pathBuilder.Positions);
+                            if (cursor)
+                                cursor.Visible = false;
+
+                            var initialLookDirection = unit.view.LookDirection;
+                            var animation = new MoveSequence(unit.view.transform, pathBuilder.positions, main.settings.unitSpeed).Animation();
+
+                            while (animation.MoveNext()) {
+                                yield return null;
+
+                                if (Input.GetMouseButtonDown(Mouse.left) || Input.GetMouseButtonDown(Mouse.right) ||
+                                    Input.GetKeyDown(KeyCode.Space)) {
+                                    unit.view.Position = pathBuilder.positions[^1];
+                                    if (pathBuilder.positions.Count >= 2)
+                                        unit.view.LookDirection = pathBuilder.positions[^1] - pathBuilder.positions[^2];
+                                    break;
+                                }
+                            }
+
+                            yield return ActionSelectionState.Run(main, unit, pathBuilder.positions, initialLookDirection);
                             yield break;
 
                         case cancel:
@@ -124,18 +143,18 @@ public static class PathSelectionState {
                             CleanUp();
                             yield return SelectionState.Run(main);
                             yield break;
-                        
+
                         default:
                             main.stack.ExecuteToken(token);
                             break;
                     }
 
-            if (!oldPositions.SequenceEqual(pathBuilder.Positions)) {
+            if (!oldPositions.SequenceEqual(pathBuilder.positions)) {
                 oldPositions.Clear();
-                oldPositions.AddRange(pathBuilder.Positions);
-                pathMeshFilter.sharedMesh = PathMeshBuilder.Build(
-                    pathMeshFilter.sharedMesh, 
-                    new Path(unit.view.transform, pathBuilder.Positions),
+                oldPositions.AddRange(pathBuilder.positions);
+                pathMeshFilter.sharedMesh = MoveSequenceMeshBuilder.Build(
+                    pathMeshFilter.sharedMesh,
+                    new MoveSequence(unit.view.transform, pathBuilder.positions),
                     moveTypeAtlas);
             }
         }

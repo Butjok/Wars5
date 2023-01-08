@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class Path {
+public class MoveSequence {
 
     public struct Segment {
 
@@ -40,7 +40,7 @@ public class Path {
     public Vector2Int? _finalDirection;
     public Vector2Int finalPosition;
 
-    public Path(Transform target, IEnumerable<Vector2Int> _positions, float speed = 1, Vector2Int? _finalDirection = null) {
+    public MoveSequence(Transform target, IEnumerable<Vector2Int> _positions, float speed = 1, Vector2Int? _finalDirection = null) {
 
         this.target = target;
         this.speed = speed;

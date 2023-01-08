@@ -7,14 +7,11 @@ using UnityEngine.Assertions;
 public class CursorView : MonoBehaviour {
 
 	private static CursorView instance;
-	public static CursorView Instance {
-		get {
-			if (!instance) {
-				instance = FindObjectOfType<CursorView>();
-				Assert.IsTrue(instance);
-			}
-			return instance;
-		}
+	public static bool TryFind(out CursorView result) {
+		if (!instance)
+			instance = FindObjectOfType<CursorView>();
+		result = instance;
+		return result;
 	}
 
 	public MeshRenderer meshRenderer;

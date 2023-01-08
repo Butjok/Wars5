@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class PathMeshBuilder {
+public static class MoveSequenceMeshBuilder {
 	
 	public static readonly List<Vector3> vertices = new();
 	public static readonly List<Vector2> uvs = new();
 	public static readonly List<int> triangles = new();
 	
-	public static Mesh Build(Mesh mesh, Path path, PathAtlas atlas) {
+	public static Mesh Build(Mesh mesh, MoveSequence moveSequence, MoveSequenceAtlas atlas) {
 
 		if (!mesh)
 			mesh = new Mesh();
@@ -20,12 +20,12 @@ public static class PathMeshBuilder {
 
 		var uvOffset = Vector2.zero;
 		
-		foreach (var move in path.segments) {
+		foreach (var move in moveSequence.segments) {
 
-			if (move.type is Path.Segment.Type.RotateLeft or Path.Segment.Type.RotateRight or Path.Segment.Type.Rotate180)
+			if (move.type is MoveSequence.Segment.Type.RotateLeft or MoveSequence.Segment.Type.RotateRight or MoveSequence.Segment.Type.Rotate180)
 				continue;
 
-			var position = move.type == Path.Segment.Type.StartMoving
+			var position = move.type == MoveSequence.Segment.Type.StartMoving
 				? move.startPoint.RoundToInt()
 				: (move.startPoint + (Vector2)move.startDirection / 2).RoundToInt();
 
@@ -36,7 +36,7 @@ public static class PathMeshBuilder {
 			foreach (var vertex in MeshUtils.quad)
 				vertices.Add(transform * vertex.ToVector4());
 
-			var rect = atlas.atlas[move.type];
+			var rect = atlas.uv[move.type];
 			var pp = new Vector2(rect.xMax, rect.yMax);
 			var pm = new Vector2(rect.xMax, rect.yMin);
 			var mp = new Vector2(rect.xMin, rect.yMax);

@@ -6,10 +6,8 @@ using UnityEngine.Assertions;
 public class PathBuilder {
 
     public readonly Vector2Int startPosition;
-    private List<Vector2Int> positions = new();
-    private HashSet<Vector2Int> set = new();
-
-    public IReadOnlyList<Vector2Int> Positions => positions;
+    public List<Vector2Int> positions = new();
+    public HashSet<Vector2Int> set = new();
 
     public PathBuilder(Vector2Int startPosition) {
         this.startPosition = startPosition;

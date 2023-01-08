@@ -1,63 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Stable/Path.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Stable/Path.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Stable/PathAtlas.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/UnitMoveSequenceTest.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/UnitMoveSequenceTest.cs.meta" afterDir="false" />
+    <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="got rid on MovePath class">
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/HighlightingCursorView.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/HighlightingCursorView.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assembly-CSharp-Editor-firstpass.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp-Editor-firstpass.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assembly-CSharp-firstpass.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp-firstpass.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assembly-CSharp.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/SerializableDictionaryPropertyDrawers.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Editor/SerializableDictionaryPropertyDrawers.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/PathAtlas.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/PathAtlas.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CursorView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CursorView.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/ActionSelectionState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/ActionSelectionState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/BattleAnimationState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/BattleAnimationState.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/DefeatState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/DefeatState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/GameMenuState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/GameMenuState.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/PathSelectionState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/PathSelectionState.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/SelectionState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/SelectionState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/UnitMovementAnimationState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/UnitMovementAnimationState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/UnitMovementAnimationState.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/UnitMovementAnimationState.cs.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/VictoryState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/VictoryState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Level/UnitAction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Level/UnitAction.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Level/UnitAttackActionViewTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Level/UnitAttackActionViewTest.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/LevelLogic/LevelLogic.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/LevelLogic/LevelLogic.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/LevelLogic/TutorialLevelLogic.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/LevelLogic/TutorialLevelLogic.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/NewBehaviourScript.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/NewBehaviourScript.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PathBuilderTest.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PathBuilderTest.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Rules.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Rules.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Stable/MovePath.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Stable/MovePath.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Stable/MovePathBuilder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Stable/PathBuilder.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Stable/MovePathBuilder.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Stable/PathBuilder.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Stable/MovePathMeshBuilder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Stable/PathMeshBuilder.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Stable/MovePathMeshBuilder.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Stable/PathMeshBuilder.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Stable/MovePathSampler.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Stable/MovePathSampler.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Stable/MovePathTest.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Stable/MovePathTest.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Stable/MovePathView.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Stable/MovePathView.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Stable/MovePathWalker.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Stable/MovePathWalker.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Stable/MoveTypeAtlas.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Stable/MoveTypeAtlas.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Stable/PathAtlas.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Stable/PersistentData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Stable/PersistentData.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Stable/SaveEntry.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Stable/SaveEntry.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/LevelEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/LevelEditor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/LoadGameMenu.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/LoadGameMenu.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Main.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Main.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Stable/Path.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Stable/MoveSequence.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Stable/Path.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Stable/MoveSequence.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Stable/PathAtlas.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Stable/MoveSequenceAtlas.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Stable/PathAtlas.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Stable/MoveSequenceAtlas.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Stable/PathBuilder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Stable/PathBuilder.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Stable/PathMeshBuilder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Stable/MoveSequenceMeshBuilder.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Stable/PathMeshBuilder.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Stable/MoveSequenceMeshBuilder.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/UnitView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UnitView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CommandLine.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/CommandLine.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DOTween.Modules.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/DOTween.Modules.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FullscreenEditor.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/FullscreenEditor.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PriorityQueue.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/PriorityQueue.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SDFToolkit.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/SDFToolkit.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SerializableDictionary.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/SerializableDictionary.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Stable.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Stable.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Wars.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Wars.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wars5.sln" beforeDir="false" afterPath="$PROJECT_DIR$/Wars5.sln" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -127,8 +99,10 @@
     <setting file="file://$PROJECT_DIR$/Assets/CommandLine/CommandLine.g4" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.postprocessing@3.2.2/PostProcessing/Runtime/ParameterOverride.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/de80aed0bd3646409e8bfb15c101f005e2000/3c/ecbe0be7/Stack.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/butjok/Documents/GitHub/Wars5/Assets/Scripts/Stable/PathMeshBuilder.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/CommandLine/Editor/GenerateTokens.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/CommandLine/CommandLineGUI.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock:///Users/butjok/Documents/GitHub/Wars5/Assets/Scripts/GameStates/ActionSelectionState.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Level/UnitAttackActionViewTest.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.postprocessing@3.2.2/PostProcessing/Runtime/PostProcessEffectSettings.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameSaver.cs" root0="FORCE_HIGHLIGHTING" />
@@ -155,6 +129,9 @@
   <component name="PropertiesComponent">
     <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.35008976" />
     <property name="DebuggerViewTab_PTCS_LastProportionKey" value="0.0" />
+    <property name="Discover.Launch.Via.Unity" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
@@ -204,10 +181,10 @@
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="1337">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="1337" />
+      <option name="pid" />
       <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
@@ -332,13 +309,7 @@
       <workItem from="1672994600747" duration="35852000" />
       <workItem from="1673065825576" duration="176000" />
       <workItem from="1673116691980" duration="1327000" />
-    </task>
-    <task id="LOCAL-00143" summary="sdfsdfsdfsdfsdf">
-      <created>1666057015332</created>
-      <option name="number" value="00143" />
-      <option name="presentableId" value="LOCAL-00143" />
-      <option name="project" value="LOCAL" />
-      <updated>1666057015332</updated>
+      <workItem from="1673137084517" duration="2194000" />
     </task>
     <task id="LOCAL-00144" summary="game menu">
       <created>1666227377080</created>
@@ -676,7 +647,14 @@
       <option name="project" value="LOCAL" />
       <updated>1673118024480</updated>
     </task>
-    <option name="localTasksCounter" value="192" />
+    <task id="LOCAL-00192" summary="got rid on MovePath class">
+      <created>1673137130625</created>
+      <option name="number" value="00192" />
+      <option name="presentableId" value="LOCAL-00192" />
+      <option name="project" value="LOCAL" />
+      <updated>1673137130626</updated>
+    </task>
+    <option name="localTasksCounter" value="193" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -709,7 +687,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="add c# roslyn" />
     <MESSAGE value="nbmnbmbmn" />
     <MESSAGE value="tyuyuttyu" />
     <MESSAGE value="sdfsdfsdf" />
@@ -734,7 +711,8 @@
     <MESSAGE value="ghjghjghj" />
     <MESSAGE value="tweaked PostProcessProfile.asset also made quite a few improvement notes" />
     <MESSAGE value="asdasd" />
-    <option name="LAST_COMMIT_MESSAGE" value="asdasd" />
+    <MESSAGE value="got rid on MovePath class" />
+    <option name="LAST_COMMIT_MESSAGE" value="got rid on MovePath class" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -751,19 +729,6 @@
             </endOffsets>
           </properties>
           <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/Stable/Path.cs</url>
-          <line>240</line>
-          <properties documentPath="$PROJECT_DIR$/Assets/Scripts/Stable/Path.cs" initialLine="229" containingFunctionPresentation="method 'Animation'">
-            <startOffsets>
-              <option value="9523" />
-            </startOffsets>
-            <endOffsets>
-              <option value="9589" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="12" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -52,7 +52,7 @@ public  class LevelEditorState : MonoBehaviour {
             var blueInfantry = new Unit(blue, UnitType.Infantry, new Vector2Int(8, 8));
         }
 
-        var cursorView = CursorView.Instance;
+        CursorView.TryFind(out var cursorView);
         if (cursorView)
             cursorView.Visible = true;
 
