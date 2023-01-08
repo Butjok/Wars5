@@ -1,34 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="got rid on MovePath class">
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/HighlightingCursorView.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/HighlightingCursorView.cs.meta" afterDir="false" />
+    <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/PathAtlas.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/PathAtlas.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CursorView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CursorView.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/ActionSelectionState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/ActionSelectionState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/DefeatState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/DefeatState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/GameMenuState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/GameMenuState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/PathSelectionState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/PathSelectionState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/SelectionState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/SelectionState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/UnitMovementAnimationState.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/UnitMovementAnimationState.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/VictoryState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/VictoryState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/LevelEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/LevelEditor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/LoadGameMenu.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/LoadGameMenu.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Main.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Main.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Stable/Path.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Stable/MoveSequence.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Stable/Path.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Stable/MoveSequence.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Stable/PathAtlas.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Stable/MoveSequenceAtlas.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Stable/PathAtlas.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Stable/MoveSequenceAtlas.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Stable/PathBuilder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Stable/PathBuilder.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Stable/PathMeshBuilder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Stable/MoveSequenceMeshBuilder.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Stable/PathMeshBuilder.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Stable/MoveSequenceMeshBuilder.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UnitView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UnitView.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Stable.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Stable.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Wars.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Wars.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -70,6 +49,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/MinimapMeshGenerator.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/a9b8fc452a6f4a2dba24640d0133afc0157400/e9/ffc20f82/Color32.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/a9b8fc452a6f4a2dba24640d0133afc0157400/c2/41e4a6c7/Mathf.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/butjok/Documents/GitHub/Wars5/Assets/Scripts/GameStates/ActionSelectionState.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/PostProcessing.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/a9b8fc452a6f4a2dba24640d0133afc0157400/f0/f1f07630/Texture2D.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/de1f8ef4975b4eacbeb0accc1b22c9b02a000/c4/c0bf61ac/DOTweenComponent.cs" root0="SKIP_HIGHLIGHTING" />
@@ -77,6 +57,7 @@
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/EventSystem/EventSystem.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/de1f8ef4975b4eacbeb0accc1b22c9b02a000/09/717a7bbd/TweenExtensions.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.textmeshpro@3.0.6/Scripts/Runtime/TextMeshPro.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/butjok/Documents/GitHub/Wars5/Assets/Scripts/GameStates/ActionSelectionState.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/PostProcessingFade.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Ai.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Building.cs" root0="FORCE_HIGHLIGHTING" />
@@ -131,6 +112,7 @@
     <property name="DebuggerViewTab_PTCS_LastProportionKey" value="0.0" />
     <property name="Discover.Launch.Via.Unity" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
@@ -309,21 +291,7 @@
       <workItem from="1672994600747" duration="35852000" />
       <workItem from="1673065825576" duration="176000" />
       <workItem from="1673116691980" duration="1327000" />
-      <workItem from="1673137084517" duration="2194000" />
-    </task>
-    <task id="LOCAL-00144" summary="game menu">
-      <created>1666227377080</created>
-      <option name="number" value="00144" />
-      <option name="presentableId" value="LOCAL-00144" />
-      <option name="project" value="LOCAL" />
-      <updated>1666227377080</updated>
-    </task>
-    <task id="LOCAL-00145" summary="dfgdfggfd">
-      <created>1666232463322</created>
-      <option name="number" value="00145" />
-      <option name="presentableId" value="LOCAL-00145" />
-      <option name="project" value="LOCAL" />
-      <updated>1666232463322</updated>
+      <workItem from="1673137084517" duration="3318000" />
     </task>
     <task id="LOCAL-00146" summary="ghfl;ksjhjgklf;djhlk;gfdlhk;jdgf">
       <created>1667173254680</created>
@@ -654,7 +622,21 @@
       <option name="project" value="LOCAL" />
       <updated>1673137130626</updated>
     </task>
-    <option name="localTasksCounter" value="193" />
+    <task id="LOCAL-00193" summary="starting to make a higlightin cursor">
+      <created>1673139560571</created>
+      <option name="number" value="00193" />
+      <option name="presentableId" value="LOCAL-00193" />
+      <option name="project" value="LOCAL" />
+      <updated>1673139560571</updated>
+    </task>
+    <task id="LOCAL-00194" summary="asdasd">
+      <created>1673139951086</created>
+      <option name="number" value="00194" />
+      <option name="presentableId" value="LOCAL-00194" />
+      <option name="project" value="LOCAL" />
+      <updated>1673139951086</updated>
+    </task>
+    <option name="localTasksCounter" value="195" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -687,7 +669,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="nbmnbmbmn" />
     <MESSAGE value="tyuyuttyu" />
     <MESSAGE value="sdfsdfsdf" />
     <MESSAGE value="commit before changes to unit view/player view/building view being spawned as children of Game" />
@@ -710,9 +691,10 @@
     <MESSAGE value="improved editor performance? fixed &quot;Infantry UnitType type enum&quot; errors" />
     <MESSAGE value="ghjghjghj" />
     <MESSAGE value="tweaked PostProcessProfile.asset also made quite a few improvement notes" />
-    <MESSAGE value="asdasd" />
     <MESSAGE value="got rid on MovePath class" />
-    <option name="LAST_COMMIT_MESSAGE" value="got rid on MovePath class" />
+    <MESSAGE value="starting to make a higlightin cursor" />
+    <MESSAGE value="asdasd" />
+    <option name="LAST_COMMIT_MESSAGE" value="asdasd" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

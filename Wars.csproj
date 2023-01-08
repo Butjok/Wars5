@@ -41,6 +41,7 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets/Scripts/HighlightingCursorView.cs" />
      <Compile Include="Assets/Scripts/Ai.cs" />
      <Compile Include="Assets/Scripts/GameStates/BattleAnimationState.cs" />
      <Compile Include="Assets/Scripts/Editor/MyLightingShaderGUI.cs" />
@@ -75,6 +76,7 @@
      <Compile Include="Assets/Scripts/PlayerView.cs" />
      <Compile Include="Assets/Scripts/Level/UnitAttackActionViewTest.cs" />
      <Compile Include="Assets/Scripts/DebugTerrainMeshGenerator.cs" />
+     <Compile Include="Assets/Scripts/UnitMoveSequenceTest.cs" />
      <Compile Include="Assets/Scripts/UnitBrain.cs" />
      <Compile Include="Assets/Scripts/GameStates/LoadGameState.cs" />
      <Compile Include="Assets/Scripts/Unit.cs" />
@@ -123,8 +125,6 @@
      <Compile Include="Assets/Scripts/Level/UnitAttackActionView.cs" />
      <Compile Include="Assets/Scripts/Level/UnitAction.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
-     <Compile Include="Assets/Scripts/UnitMoveSequenceTest.cs" />
-     <Compile Include="Assets/Scripts/HighlightingCursorView.cs" />
      <None Include="Assets/Scripts/Wars.asmdef" />
      <Folder Include="Assets/Scripts/Editor" />
      <Folder Include="Assets/Scripts/GameStates" />
