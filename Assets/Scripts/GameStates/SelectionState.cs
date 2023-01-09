@@ -76,10 +76,10 @@ public static class SelectionState {
                 if (Input.GetKeyDown(KeyCode.F2))
                     main.commands.Enqueue(endTurn);
 
-                else if (Input.GetKeyDown(KeyCode.Escape) && (!preselectionCursor || !preselectionCursor.Visible))
+                else if ((Input.GetKeyDown(KeyCode.Escape)) && (!preselectionCursor || !preselectionCursor.Visible))
                     main.commands.Enqueue(openGameMenu);
 
-                else if (Input.GetKeyDown(KeyCode.Escape) && preselectionCursor && preselectionCursor.Visible)
+                else if ((Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(Mouse.right)) && preselectionCursor && preselectionCursor.Visible)
                     preselectionCursor.Hide();
 
                 else if (Input.GetKeyDown(KeyCode.Tab))

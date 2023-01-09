@@ -2,41 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/OffscreenArrow.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/OffscreenArrow.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Shaders/Thumbnail.shader" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Shaders/Thumbnail.shader.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assembly-CSharp-Editor-firstpass.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp-Editor-firstpass.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assembly-CSharp-firstpass.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp-firstpass.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assembly-CSharp.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Building.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Building.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/ActionSelectionState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/ActionSelectionState.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/SelectionState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/SelectionState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/HighlightingCursorView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PreselectionCursor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/HighlightingCursorView.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PreselectionCursor.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/LevelLogic/TutorialLevelLogic.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/LevelLogic/TutorialLevelLogic.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Rules.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Rules.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Stable/Bird.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Stable/Bird.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Stable/CameraRig.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Stable/CameraRig.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Stable/ClampToHull.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Stable/ClampToHull.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Stable/MathUtils.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Stable/MathUtils.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Stable/PlaceOnTerrain.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Stable/PlaceOnTerrain.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Unit.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UnitBuildMenu.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UnitBuildMenu.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CommandLine.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/CommandLine.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DOTween.Modules.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/DOTween.Modules.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FullscreenEditor.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/FullscreenEditor.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PriorityQueue.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/PriorityQueue.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SDFToolkit.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/SDFToolkit.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Scripts2.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Scripts2.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SerializableDictionary.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/SerializableDictionary.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stable.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Stable.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserSettings/Search.settings" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Search.settings" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wars.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Wars.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -191,10 +159,10 @@
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="21786">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="21786" />
+      <option name="pid" />
       <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
@@ -324,14 +292,8 @@
       <workItem from="1673176657729" duration="25403000" />
       <workItem from="1673211740852" duration="297000" />
       <workItem from="1673214423578" duration="17000" />
-      <workItem from="1673289761187" duration="13753000" />
-    </task>
-    <task id="LOCAL-00150" summary="add ui volume">
-      <created>1667202249155</created>
-      <option name="number" value="00150" />
-      <option name="presentableId" value="LOCAL-00150" />
-      <option name="project" value="LOCAL" />
-      <updated>1667202249155</updated>
+      <workItem from="1673289761187" duration="13986000" />
+      <workItem from="1673305310490" duration="785000" />
     </task>
     <task id="LOCAL-00151" summary="game menu">
       <created>1667271576214</created>
@@ -669,7 +631,14 @@
       <option name="project" value="LOCAL" />
       <updated>1673214432356</updated>
     </task>
-    <option name="localTasksCounter" value="199" />
+    <task id="LOCAL-00199" summary="add offscreen pointer + preselection + preselection polish">
+      <created>1673305006795</created>
+      <option name="number" value="00199" />
+      <option name="presentableId" value="LOCAL-00199" />
+      <option name="project" value="LOCAL" />
+      <updated>1673305006795</updated>
+    </task>
+    <option name="localTasksCounter" value="200" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -702,7 +671,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="level ed improvements" />
     <MESSAGE value="leved update" />
     <MESSAGE value="entry point" />
     <MESSAGE value="hfghfgh" />
@@ -727,7 +695,8 @@
     <MESSAGE value="- made bird to disappear when close to camera&#10;- first stab at walkable tiles mesh generation with distance fields" />
     <MESSAGE value="add grenzerkompanie music" />
     <MESSAGE value="sdfsdfsdfsdfsdf" />
-    <option name="LAST_COMMIT_MESSAGE" value="sdfsdfsdfsdfsdf" />
+    <MESSAGE value="add offscreen pointer + preselection + preselection polish" />
+    <option name="LAST_COMMIT_MESSAGE" value="add offscreen pointer + preselection + preselection polish" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
