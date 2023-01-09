@@ -42,23 +42,25 @@ public static class ActionSelectionState {
         // attack
         if (!Rules.IsArtillery(unit) || path.Count == 1)
             foreach (var otherPosition in main.AttackPositions(destination, Rules.AttackRange(unit)))
-                if (main.TryGetUnit(otherPosition, out other))
+                if (main.TryGetUnit(otherPosition, out var target))
                     for (var weapon = 0; weapon < Rules.WeaponsCount(unit); weapon++)
-                        if (Rules.CanAttack(unit, other, path, weapon))
-                            actions.Add(new UnitAction(UnitActionType.Attack, unit, path, other, weaponIndex: weapon, targetPosition: otherPosition));
+                        if (Rules.CanAttack(unit, target, path, weapon))
+                            actions.Add(new UnitAction(UnitActionType.Attack, unit, path, target, weaponIndex: weapon, targetPosition: otherPosition));
 
         // supply
         foreach (var offset in Rules.offsets) {
             var otherPosition = destination + offset;
-            if (main.TryGetUnit(otherPosition, out other) && Rules.CanSupply(unit, other))
-                actions.Add(new UnitAction(UnitActionType.Supply, unit, path, other, targetPosition: otherPosition));
+            if (main.TryGetUnit(otherPosition, out var target) && Rules.CanSupply(unit, target))
+                actions.Add(new UnitAction(UnitActionType.Supply, unit, path, target, targetPosition: otherPosition));
         }
 
         // drop out
         foreach (var cargo in unit.cargo)
         foreach (var offset in Rules.offsets) {
             var targetPosition = destination + offset;
-            if (!main.TryGetUnit(targetPosition, out other) && Rules.CanStay(cargo, targetPosition))
+            if ((!main.TryGetUnit(targetPosition, out var other2) || other2 == unit) &&
+                main.TryGetTile(targetPosition, out var tileType) &&
+                Rules.CanStay(cargo, tileType))
                 actions.Add(new UnitAction(UnitActionType.Drop, unit, path, targetUnit: cargo, targetPosition: targetPosition));
         }
 
@@ -194,7 +196,7 @@ public static class ActionSelectionState {
                                     CameraRig.TryFind(out var cameraRig);
 
                                     if (newTargetHp <= 0 && cameraRig) {
-                                        var animation = cameraRig.Jump(target.view.transform.position.ToVector2());
+                                        var animation = cameraRig.Jump(((Vector2Int)target.position.v).Raycast());
                                         while (animation.active)
                                             yield return null;
                                     }
@@ -204,7 +206,7 @@ public static class ActionSelectionState {
                                         target.ammo[targetWeaponIndex]--;
 
                                     if (newAttackerHp <= 0 && cameraRig) {
-                                        var animation = cameraRig.Jump(attacker.view.transform.position.ToVector2());
+                                        var animation = cameraRig.Jump(((Vector2Int)attacker.position.v).Raycast());
                                         while (animation.active)
                                             yield return null;
                                     }
@@ -243,13 +245,16 @@ public static class ActionSelectionState {
                                 default:
                                     throw new ArgumentOutOfRangeException();
                             }
-                            
-                            foreach (var item in actions.Except(new[]{action}))
+
+                            foreach (var item in actions.Except(new[] { action }))
                                 item.Dispose();
-                            
+
                             if (unit is { hp: { v: > 0 } } && unit.view.LookDirection != unit.player.view.unitLookDirection)
-                                yield return new MoveSequence(unit.view.transform, null, unit.player.main.settings.unitSpeed, unit.player.view.unitLookDirection).Animation();
-                            
+                            yield return new MoveSequence(unit.view.transform, null, unit.player.main.settings.unitSpeed*2f, unit.player.view.unitLookDirection).Animation();
+
+                            // if (unit.view.LookDirection != unit.player.view.unitLookDirection)
+                                // unit.view.LookDirection = unit.player.view.unitLookDirection;
+
                             var won = Rules.Won(main.localPlayer);
                             var lost = Rules.Lost(main.localPlayer);
 
@@ -258,9 +263,9 @@ public static class ActionSelectionState {
                                 foreach (var u in main.units.Values)
                                     u.moved.v = false;
 
-                                var nextState = won ? main.levelLogic.OnVictory(main,action) : main.levelLogic.OnDefeat(main,action);
+                                var nextState = won ? main.levelLogic.OnVictory(main, action) : main.levelLogic.OnDefeat(main, action);
                                 yield return nextState;
-                                yield return won ? VictoryState.Run(main,action) : DefeatState.Run(main,action);
+                                yield return won ? VictoryState.Run(main, action) : DefeatState.Run(main, action);
                                 action.Dispose();
                                 yield break;
                             }

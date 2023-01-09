@@ -69,7 +69,7 @@ public class UnitBuildMenu : MonoBehaviour {
             if (!TryBuild())
                 UiSound.Instance.notAllowed.PlayOneShot();
         }
-        else if (Input.GetKeyDown(KeyCode.Escape)) {
+        else if (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(Mouse.right)) {
             Cancel();
         }
     }

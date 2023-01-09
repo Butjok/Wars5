@@ -50,7 +50,7 @@ public class ClampToHull : MonoBehaviour {
 		lineRenderer.positionCount = hull.Count; //+1;
 		var positions = new List<Vector3>();
 		foreach (var point2d in hull) {
-			var point3d = placeOnTerrain && placeOnTerrain.Raycast(point2d, out var hit) ? hit.point : point2d.ToVector3();
+			var point3d = placeOnTerrain && PlaceOnTerrain.TryRaycast(point2d, out var hit) ? hit.point : point2d.ToVector3();
 			positions.Add(point3d + Vector3.up * offset);
 		}
 		//positions.Add(positions[0]);

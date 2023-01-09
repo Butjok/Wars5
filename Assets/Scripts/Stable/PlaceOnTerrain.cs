@@ -5,25 +5,25 @@ public class PlaceOnTerrain : MonoBehaviour {
 	public LayerMask mask;
 	public float speed = 1;
 	public bool alwaysAbove = true;
-	public float rayOriginHeight = 100;
+	public const float rayOriginHeight = 100;
 	public bool instant = false;
 
-	public bool Raycast(Vector2 position, out RaycastHit hit) {
+	public static bool TryRaycast(Vector2 position, out RaycastHit hit) {
 		var rayOrigin = position.ToVector3() + Vector3.up * rayOriginHeight;
-		return Physics.Raycast(rayOrigin, Vector3.down, out hit, float.MaxValue, mask);
+		return Physics.Raycast(rayOrigin, Vector3.down, out hit, float.MaxValue, 1 << LayerMask.NameToLayer("Terrain"));
 	}
 
-	public bool Raycast(out RaycastHit hit) {
-		return Raycast(transform.position.ToVector2(), out hit);
+	public  bool TryRaycast(out RaycastHit hit) {
+		return TryRaycast(transform.position.ToVector2(), out hit);
 	}
 
 	public void Start() {
-		if (Raycast(out var hit))
+		if (TryRaycast(out var hit))
 			transform.position = hit.point;
 	}
 
 	public void LateUpdate() {
-		if (!Raycast(out var hit))
+		if (!TryRaycast(out var hit))
 			return;
 		if (instant) {
 			transform.position = hit.point;

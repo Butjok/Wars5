@@ -27,7 +27,7 @@ public class Unit : IDisposable {
     public Unit(Player player, UnitType type = UnitType.Infantry, Vector2Int? position = null, Vector2Int? rotation = null, int hp = int.MaxValue, int fuel = int.MaxValue, bool moved = false, UnitView viewPrefab = null) {
 
         undisposed.Add(this);
-        
+
         if (!viewPrefab)
             viewPrefab = UnitView.DefaultPrefab;
         Assert.IsTrue(viewPrefab);
@@ -45,7 +45,7 @@ public class Unit : IDisposable {
 
             if (this.position.v is { } newPosition) {
                 Assert.IsFalse(player.main.units.ContainsKey(newPosition), newPosition.ToString());
-                player.main.units.Add(newPosition,this);
+                player.main.units.Add(newPosition, this);
                 view.Visible = true;
                 view.Position = newPosition;
             }
@@ -54,17 +54,17 @@ public class Unit : IDisposable {
         });
 
         this.moved = new ChangeTracker<bool>(_ => view.Moved = this.moved.v);
-        
+
         this.hp = new ChangeTracker<int>(_ => {
             if (this.hp.v <= 0) {
                 view.Die();
-                Assert.IsTrue(this.position.v!=null);
+                Assert.IsTrue(this.position.v != null);
                 player.main.units.Remove((Vector2Int)this.position.v);
             }
             else
                 view.Hp = this.hp.v;
         });
-        
+
         this.fuel = new ChangeTracker<int>(_ => view.Fuel = this.fuel.v);
         carrier = new ChangeTracker<Unit>(_ => view.Carrier = carrier.v);
 
@@ -87,13 +87,13 @@ public class Unit : IDisposable {
     }
 
     public void Dispose() {
-        
+
         foreach (var unit in cargo)
             unit.Dispose();
-        
+
         Assert.IsTrue(undisposed.Contains(this));
         undisposed.Remove(this);
-        
+
         position.v = null;
         if (view && view.gameObject) {
             Object.Destroy(view.gameObject);
@@ -103,5 +103,14 @@ public class Unit : IDisposable {
 
     public override string ToString() {
         return $"{type}{position.v} {player}";
+    }
+}
+
+public static class EntityExtensions {
+    public static Vector3 Raycast(this Vector2Int position2d) {
+        return PlaceOnTerrain.TryRaycast(position2d, out var hit) ? hit.point : position2d.ToVector3Int();
+    }
+    public static Vector3 Raycast(this Vector2 position2d) {
+        return PlaceOnTerrain.TryRaycast(position2d, out var hit) ? hit.point : position2d.ToVector3();
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Linq;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -19,6 +20,9 @@ public static class SelectionState {
         // weird static variable issue
         PlayerView.globalVisibility = true;
 
+        // 1 frame skip to let units' views to update to correct positions
+        // yield return null;
+
         var unmovedUnits = main.units.Values
             .Where(unit => unit.player == main.CurrentPlayer && !unit.moved.v)
             .ToList();
@@ -29,18 +33,21 @@ public static class SelectionState {
                                !main.TryGetUnit(building.position, out _))
             .ToList();
 
-        var positions = unmovedUnits.Select(unit => {
-                Assert.IsTrue(unit.position.v != null);
-                return (Vector2Int)unit.position.v;
-            })
-            .Union(accessibleBuildings.Select(building => building.position))
+        var positions = unmovedUnits.Select(unit => (priority:1, coordinates:((Vector2Int)unit.position.v).Raycast()))
+            .Concat(accessibleBuildings.Select(building => (priority:0, coordinates:building.position.Raycast())))
             .ToArray();
 
         CameraRig.TryFind(out var cameraRig);
         if (cameraRig)
-            positions = positions.OrderBy(position => Vector2.Distance(cameraRig.transform.position.ToVector2(), position)).ToArray();
+            positions = positions
+                .OrderByDescending(position=>position.priority)
+                .ThenBy(position => Vector2.Distance(cameraRig.transform.position.ToVector2(), position.coordinates)).ToArray();
 
         var positionIndex = -1;
+
+        PreselectionCursor.TryFind(out var preselectionCursor);
+        if (preselectionCursor)
+            preselectionCursor.Hide();
 
         if (turnStart) {
 
@@ -61,8 +68,6 @@ public static class SelectionState {
         if (cursor)
             cursor.Visible = true;
 
-        HighlightingCursorView.TryFind(out var highlightingCursor);
-
         while (true) {
             yield return null;
 
@@ -71,14 +76,23 @@ public static class SelectionState {
                 if (Input.GetKeyDown(KeyCode.F2))
                     main.commands.Enqueue(endTurn);
 
-                else if (Input.GetKeyDown(KeyCode.Escape))
+                else if (Input.GetKeyDown(KeyCode.Escape) && (!preselectionCursor || !preselectionCursor.Visible))
                     main.commands.Enqueue(openGameMenu);
+
+                else if (Input.GetKeyDown(KeyCode.Escape) && preselectionCursor && preselectionCursor.Visible)
+                    preselectionCursor.Hide();
 
                 else if (Input.GetKeyDown(KeyCode.Tab))
                     main.commands.Enqueue(cyclePositions);
 
+                else if (Input.GetKeyDown(KeyCode.Space) && preselectionCursor.Visible) {
+                    
+                    main.stack.Push(preselectionCursor.transform.position);
+                    main.commands.Enqueue(@select);
+                }
+
                 else if ((Input.GetMouseButtonDown(Mouse.left) || Input.GetKeyDown(KeyCode.Space)) &&
-                         Mouse.TryGetPosition(out Vector2Int mousePosition)) {
+                         Mouse.TryGetPosition(out Vector3 mousePosition)) {
 
                     main.stack.Push(mousePosition);
                     main.commands.Enqueue(@select);
@@ -91,22 +105,32 @@ public static class SelectionState {
 
                         case @select: {
 
-                            var position = main.stack.Pop<Vector2Int>();
+                            var position = main.stack.Pop<Vector3>();
 
-                            if (main.TryGetUnit(position, out var unit)) {
+                            var camera = Camera.main;
+                            if (camera && cameraRig && preselectionCursor && !preselectionCursor.VisibleOnTheScreen(camera, position)) {
+                                Debug.DrawLine(position, position+Vector3.up,Color.yellow,3);
+                                cameraRig.Jump(position);
+                            }
+
+                            if (main.TryGetUnit(position.ToVector2().RoundToInt(), out var unit)) {
                                 if (unit.player != main.CurrentPlayer || unit.moved.v)
                                     UiSound.Instance.notAllowed.PlayOneShot();
                                 else {
                                     unit.view.Selected = true;
+                                    if (preselectionCursor)
+                                        preselectionCursor.Hide();
                                     yield return PathSelectionState.Run(main, unit);
                                     yield break;
                                 }
                             }
 
-                            else if (main.TryGetBuilding(position, out var building)) {
+                            else if (main.TryGetBuilding(position.ToVector2().RoundToInt(), out var building)) {
                                 if (building.player.v != main.CurrentPlayer)
                                     UiSound.Instance.notAllowed.PlayOneShot();
                                 else {
+                                    if (preselectionCursor)
+                                        preselectionCursor.Hide();
                                     yield return UnitBuildState.New(main, building);
                                     yield break;
                                 }
@@ -122,8 +146,8 @@ public static class SelectionState {
                             main.CurrentPlayer.view.visible = false;
                             if (cursor)
                                 cursor.Visible = false;
-                            if (highlightingCursor)
-                                highlightingCursor.Hide();
+                            if (preselectionCursor)
+                                preselectionCursor.Hide();
 
                             //MusicPlayer.Instance.source.Stop();
                             //MusicPlayer.Instance.queue = null;
@@ -148,19 +172,32 @@ public static class SelectionState {
                         case cyclePositions: {
                             if (positions.Length > 0) {
                                 positionIndex = (positionIndex + 1) % positions.Length;
-                                if (highlightingCursor)
-                                highlightingCursor.ShowAt(positions[positionIndex]);
+                                if (preselectionCursor) {
+                                    var position = positions[positionIndex];
+                                    if (preselectionCursor)
+                                        preselectionCursor.ShowAt(position.coordinates);
+                                    var mainCamera = Camera.main;
+                                    if (mainCamera) {
+                                        // var screenPosition = mainCamera.WorldToViewportPoint(position.ToVector3Int());
+                                        // if (!new Rect(0, 0, 1, 1).Contains(screenPosition) && cameraRig)
+                                        //     cameraRig.Jump(position);
+                                    }
+                                }
                             }
-                            else if (highlightingCursor)
-                            highlightingCursor.Hide();
+                            else if (preselectionCursor)
+                                preselectionCursor.Hide();
                             break;
                         }
 
                         case triggerVictory:
+                            if (preselectionCursor)
+                                preselectionCursor.Hide();
                             yield return VictoryState.Run(main, null);
                             yield break;
 
                         case triggerDefeat:
+                            if (preselectionCursor)
+                                preselectionCursor.Hide();
                             yield return DefeatState.Run(main, null);
                             yield break;
 

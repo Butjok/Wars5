@@ -30,7 +30,7 @@ public class TutorialLogic : LevelLogic {
                                 new DialogueUi.Line {
                                     action = () => {
                                         if (cameraRig)
-                                            cameraRig.Jump(new Vector2Int(2, 1));
+                                            cameraRig.Jump(new Vector2Int(2, 1).ToVector3Int());
                                     }
                                 },
                                 new DialogueUi.Line {
@@ -42,7 +42,7 @@ public class TutorialLogic : LevelLogic {
                                 new DialogueUi.Line {
                                     action = () => {
                                         if (cameraRig)
-                                            cameraRig.Jump(new Vector2(5,0));
+                                            cameraRig.Jump(new Vector2Int(5,0).ToVector3Int());
                                     }
                                 },
                             }

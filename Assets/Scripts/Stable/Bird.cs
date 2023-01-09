@@ -14,12 +14,12 @@ public class Bird : MonoBehaviour {
     public float nextTimestamp;
     public BoxCollider box;
     public MeshRenderer meshRenderer;
-    public float visibilityDistance = 7.5f;
+    public float minVisibilityHeight = 10;
 
     public void Update() {
 
         var camera = Camera.main;
-        meshRenderer.shadowCastingMode = camera && Vector3.Distance(camera.transform.position, transform.position) < visibilityDistance
+        meshRenderer.shadowCastingMode = camera && camera.transform.position.y < minVisibilityHeight
             ? ShadowCastingMode.ShadowsOnly
             : ShadowCastingMode.On;
 

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -13,7 +14,7 @@ public static class MathUtils {
 		return a.x * b.y - a.y * b.x;
 	}
 
-	public static Vector2Int RoundToInt(this Vector2 a) {
+	[Pure]public static Vector2Int RoundToInt(this Vector2 a) {
 		return new Vector2Int(Mathf.RoundToInt(a.x), Mathf.RoundToInt(a.y));
 	}
 

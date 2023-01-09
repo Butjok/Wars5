@@ -200,7 +200,7 @@ public static class Rules {
         return unitType == UnitType.Apc;
     }
     public static bool CanSupply(Unit unit, Unit target) {
-        return CanSupply(unit.type) && AreAllies(unit.player, target.player);
+        return CanSupply(unit.type) && AreAllies(unit.player, target.player) && (unit!=target);
     }
 
     public static int MoveDistance(UnitType unitType, Player player) {

@@ -36,6 +36,8 @@ public class Building : IDisposable {
     public static implicit operator TileType(Building building) {
         return building.type;
     }
+    
+    public Vector3 Position3d => position.ToVector3Int();
 
     public override string ToString() {
         return $"{type}{position} {player.v}";

@@ -78,7 +78,7 @@ public class CameraRig : MonoBehaviour {
 	public float teleportCooldown = .2f;
 	public float teleportDuration = .5f;
 	public Ease teleportEase = Ease.OutExpo;
-	public TweenerCore<Vector3, Vector3, VectorOptions> teleportAnimation;
+	public Tween teleportAnimation;
 
 	public PlaceOnTerrain placeOnTerrain;
 	[Command]
@@ -118,12 +118,12 @@ public class CameraRig : MonoBehaviour {
 		EnsureInitialized();
 	}
 
-	public TweenerCore<Vector3, Vector3, VectorOptions> Jump(Vector2 position) {
+	public Tween Jump(Vector3 targetPosition) {
 		teleportAnimation?.Kill();
-		var targetPosition = position.ToVector3();
-		if (placeOnTerrain && placeOnTerrain.Raycast(position, out var hit))
-			targetPosition = hit.point;
+		placeOnTerrain.enabled = false;
 		teleportAnimation = transform.DOMove(targetPosition, teleportDuration).SetEase(teleportEase);
+		teleportAnimation.onComplete+= () => placeOnTerrain.enabled = true;
+		teleportAnimation.onKill += teleportAnimation.onComplete;
 		return teleportAnimation;
 	}
 
@@ -204,7 +204,7 @@ public class CameraRig : MonoBehaviour {
 		// TELEPORT
 
 		if (Input.GetMouseButtonDown(2)) {
-			if (lastClickTime + teleportCooldown > Time.unscaledTime && Mouse.TryGetPosition(out Vector2 target)) {
+			if (lastClickTime + teleportCooldown > Time.unscaledTime && Mouse.TryGetPosition(out Vector3 target)) {
 				Jump(target);
 			}
 			else
