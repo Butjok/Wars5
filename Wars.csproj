@@ -106,6 +106,7 @@
      <Compile Include="Assets/Scripts/UnitView.cs" />
      <Compile Include="Assets/Scripts/GameSaver.cs" />
      <Compile Include="Assets/Scripts/Level/Testing.cs" />
+     <Compile Include="Assets/Scripts/OffscreenArrow.cs" />
      <Compile Include="Assets/Scripts/AiTest.cs" />
      <Compile Include="Assets/Scripts/AnimationScript.cs" />
      <Compile Include="Assets/Scripts/Faction.cs" />
@@ -126,7 +127,6 @@
      <Compile Include="Assets/Scripts/Level/UnitAttackActionView.cs" />
      <Compile Include="Assets/Scripts/Level/UnitAction.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
-     <Compile Include="Assets/Scripts/OffscreenArrow.cs" />
      <None Include="Assets/Scripts/Wars.asmdef" />
      <Folder Include="Assets/Scripts/Editor" />
      <Folder Include="Assets/Scripts/GameStates" />

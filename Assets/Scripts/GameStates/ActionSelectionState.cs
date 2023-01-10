@@ -250,7 +250,7 @@ public static class ActionSelectionState {
                                 item.Dispose();
 
                             if (unit is { hp: { v: > 0 } } && unit.view.LookDirection != unit.player.view.unitLookDirection)
-                            yield return new MoveSequence(unit.view.transform, null, unit.player.main.settings.unitSpeed*2f, unit.player.view.unitLookDirection).Animation();
+                            main.StartCoroutine( new MoveSequence(unit.view.transform, null, unit.player.main.settings.unitSpeed, unit.player.view.unitLookDirection).Animation());
 
                             // if (unit.view.LookDirection != unit.player.view.unitLookDirection)
                                 // unit.view.LookDirection = unit.player.view.unitLookDirection;

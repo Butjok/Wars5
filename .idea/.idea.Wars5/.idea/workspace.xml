@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameStates/SelectionState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameStates/SelectionState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -293,14 +291,8 @@
       <workItem from="1673211740852" duration="297000" />
       <workItem from="1673214423578" duration="17000" />
       <workItem from="1673289761187" duration="13986000" />
-      <workItem from="1673305310490" duration="785000" />
-    </task>
-    <task id="LOCAL-00151" summary="game menu">
-      <created>1667271576214</created>
-      <option name="number" value="00151" />
-      <option name="presentableId" value="LOCAL-00151" />
-      <option name="project" value="LOCAL" />
-      <updated>1667271576214</updated>
+      <workItem from="1673305310490" duration="983000" />
+      <workItem from="1673306887718" duration="93000" />
     </task>
     <task id="LOCAL-00152" summary="laod game">
       <created>1667274152678</created>
@@ -638,7 +630,14 @@
       <option name="project" value="LOCAL" />
       <updated>1673305006795</updated>
     </task>
-    <option name="localTasksCounter" value="200" />
+    <task id="LOCAL-00200" summary="changed selection logic to old version">
+      <created>1673306325991</created>
+      <option name="number" value="00200" />
+      <option name="presentableId" value="LOCAL-00200" />
+      <option name="project" value="LOCAL" />
+      <updated>1673306325992</updated>
+    </task>
+    <option name="localTasksCounter" value="201" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -671,7 +670,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="leved update" />
     <MESSAGE value="entry point" />
     <MESSAGE value="hfghfgh" />
     <MESSAGE value="sdfsdf" />
@@ -696,7 +694,8 @@
     <MESSAGE value="add grenzerkompanie music" />
     <MESSAGE value="sdfsdfsdfsdfsdf" />
     <MESSAGE value="add offscreen pointer + preselection + preselection polish" />
-    <option name="LAST_COMMIT_MESSAGE" value="add offscreen pointer + preselection + preselection polish" />
+    <MESSAGE value="changed selection logic to old version" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed selection logic to old version" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
