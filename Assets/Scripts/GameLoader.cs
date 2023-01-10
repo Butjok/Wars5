@@ -36,6 +36,8 @@ public static class GameLoader {
         Vector2Int? playerUnitLookDirection;
         Color playerColor;
         string playerLookupId;
+        int? playerAbilityActivationTurn;
+        int playerPowerMeter;
 
         void ResetPlayerValues() {
             playerTeam = Team.None;
@@ -48,6 +50,8 @@ public static class GameLoader {
             playerColor = Palette.none;
             playerLookupId = null;
             playerUnitLookDirection = null;
+            playerAbilityActivationTurn = null;
+            playerPowerMeter = 0;
         }
         ResetPlayerValues();
 
@@ -87,6 +91,11 @@ public static class GameLoader {
                     var name = stack.Pop<string>();
                     break;
                 }
+                case "game.set-mission-name": {
+                    var name = stack.Pop<Campaign.Mission.Name>();
+                    main.missionName = name;
+                    break;
+                }
 
                 case "player.create": {
 
@@ -101,6 +110,9 @@ public static class GameLoader {
                         Assert.IsNull(main.localPlayer);
                         main.localPlayer = player;
                     }
+
+                    player.abilityActivationTurn = playerAbilityActivationTurn;
+                    player.powerMeter = playerPowerMeter;
 
                     stack.Push(player);
                     ResetPlayerValues();
@@ -143,9 +155,17 @@ public static class GameLoader {
                     playerLocal = true;
                     break;
                 }
-
                 case "player.set-unit-look-direction": {
                     playerUnitLookDirection = stack.Pop<Vector2Int>();
+                    break;
+                }
+                case "player.set-ability-activation-turn": {
+                    playerAbilityActivationTurn = stack.Pop<int>();
+                    break;
+                }
+
+                case "player.set-power-meter": {
+                    playerPowerMeter = stack.Pop<int>();
                     break;
                 }
 

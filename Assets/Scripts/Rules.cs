@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -42,6 +43,16 @@ public static class Rules {
         return !AreEnemies(p1, pl2);
     }
 
+    public static int MaxAbilityMeter(Player player) {
+        return 6;
+    }
+    public static bool CanUseAbility(Player player) {
+        return player.abilityActivationTurn==null && player.powerMeter == MaxAbilityMeter(player);
+    }
+    public static bool AbilityInUse(Player player) {
+        return player.abilityActivationTurn != null;
+    }
+    
     public static int MaxCp(TileType buildingType) {
         return 20;
     }

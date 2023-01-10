@@ -39,7 +39,9 @@ public class PersistentData {
 public class Campaign {
 
     public class Mission {
-        public string id;
+        public enum Name { Tutorial,FirstMission,SecondMission }
+        
+        public Name name;
         public string isAvailable = "true";
         public bool isCompleted;
         public string initializationCode;
@@ -47,29 +49,29 @@ public class Campaign {
 
     public List<Mission> missions = new() {
         new Mission {
-            id = "Tutorial",
+            name = Mission.Name.Tutorial,
             initializationCode = "Missions/Tutorial".LoadAs<TextAsset>().text,
             isCompleted = true
         },
         new Mission {
-            id = "FirstMission",
+            name = Mission.Name.FirstMission,
             initializationCode = "Missions/FirstMission".LoadAs<TextAsset>().text,
-            isAvailable = "Tutorial isCompleted"
+            isAvailable = "Tutorial Campaign+Mission+Name type enum isCompleted"
         },
         new Mission {
-            id = "SecondMission",
+            name = Mission.Name.SecondMission,
             initializationCode = "Missions/SecondMission".LoadAs<TextAsset>().text,
-            isAvailable = "FirstMission isCompleted"
+            isAvailable = "FirstMission Campaign+Mission+Name type enum isCompleted"
         }
     };
 
-    public Mission TryFind(string id) {
-        return missions.SingleOrDefault(mission => mission.id == id);
+    public Mission TryFind(Mission.Name name) {
+        return missions.SingleOrDefault(mission => mission.name == name);
     }
 
-    public bool IsAvailable(string id) {
+    public bool IsAvailable(Mission.Name name) {
 
-        var mission = TryFind(id);
+        var mission = TryFind(name);
         Assert.IsNotNull(mission);
 
         if (mission.isCompleted)
@@ -79,12 +81,12 @@ public class Campaign {
         foreach (var token in mission.isAvailable.Tokenize()) {
             switch (token) {
                 case "isCompleted":
-                    var other = TryFind(stack.Pop<string>());
+                    var other = TryFind(stack.Pop<Mission.Name>());
                     Assert.IsNotNull(other);
                     stack.Push(other.isCompleted);
                     break;
                 case "isAvailable":
-                    stack.Push(IsAvailable(stack.Pop<string>()));
+                    stack.Push(IsAvailable(stack.Pop<Mission.Name>()));
                     break;
                 default:
                     stack.ExecuteToken(token);

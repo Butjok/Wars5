@@ -66,10 +66,13 @@ public static class GameSaver {
             Line($"{player.color.r} {player.color.g} {player.color.b}", "player.set-color");
             Line($"{player.team} Team type enum", "player.set-team");
             Line(player.credits, "player.set-credits");
+            Line(player.powerMeter, "player.set-power-meter");
             if (player.co)
                 Line(player.co.name, "player.set-co");
             if (main.localPlayer == player)
                 Line("player.mark-as-local");
+            if (player.abilityActivationTurn!=null)
+                Line(player.abilityActivationTurn, "player.set-ability-activation-turn");
             Line("player.create");
             Line();
 

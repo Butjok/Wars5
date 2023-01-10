@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -20,6 +21,8 @@ public class Player : IDisposable {
 	public AiDifficulty difficulty = AiDifficulty.Normal;
 	public PlayerView view;
 	public int credits;
+	public int powerMeter;
+	public int? abilityActivationTurn;
 
 	public Player(Main main, Color color, Team team = Team.None, int credits=0, Co co = null, PlayerView viewPrefab = null,
 		PlayerType type = PlayerType.Human, AiDifficulty difficulty=AiDifficulty.Normal, Vector2Int? unitLookDirection=null) {

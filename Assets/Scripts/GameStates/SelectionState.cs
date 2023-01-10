@@ -6,206 +6,225 @@ using UnityEngine.Assertions;
 
 public static class SelectionState {
 
-    public const string prefix = "selection-state.";
+	public const string prefix = "selection-state.";
 
-    public const string endTurn = prefix + "end-turn";
-    public const string openGameMenu = prefix + "open-game-menu";
-    public const string cyclePositions = prefix + "cycle-positions";
-    public const string select = prefix + "select";
-    public const string triggerVictory = prefix + "trigger-victory";
-    public const string triggerDefeat = prefix + "trigger-defeat";
+	public const string endTurn = prefix + "end-turn";
+	public const string openGameMenu = prefix + "open-game-menu";
+	public const string cyclePositions = prefix + "cycle-positions";
+	public const string select = prefix + "select";
+	public const string triggerVictory = prefix + "trigger-victory";
+	public const string triggerDefeat = prefix + "trigger-defeat";
+	public const string useAbility = prefix + "use-ability";
 
-    public static IEnumerator Run(Main main, bool turnStart = false) {
+	public static IEnumerator Run(Main main, bool turnStart = false) {
 
-        // weird static variable issue
-        PlayerView.globalVisibility = true;
+		// stop the ability
+		var player = main.CurrentPlayer;
+		if ( player.abilityActivationTurn!=null && main.turn != player.abilityActivationTurn) {
+			player.abilityActivationTurn = null;
+			Debug.Log($"stopping ability of {player}");
+		}
 
-        // 1 frame skip to let units' views to update to correct positions
-        // yield return null;
+		// weird static variable issue
+		PlayerView.globalVisibility = true;
 
-        var unmovedUnits = main.units.Values
-            .Where(unit => unit.player == main.CurrentPlayer && !unit.moved.v)
-            .ToList();
+		// 1 frame skip to let units' views to update to correct positions
+		// yield return null;
 
-        var accessibleBuildings = main.buildings.Values
-            .Where(building => building.player.v == main.CurrentPlayer &&
-                               Rules.BuildableUnits(building) != 0 &&
-                               !main.TryGetUnit(building.position, out _))
-            .ToList();
+		var unmovedUnits = main.units.Values
+			.Where(unit => unit.player == player && !unit.moved.v)
+			.ToList();
 
-        var positions = unmovedUnits.Select(unit => (priority:1, coordinates:((Vector2Int)unit.position.v).Raycast()))
-            .Concat(accessibleBuildings.Select(building => (priority:0, coordinates:building.position.Raycast())))
-            .ToArray();
+		var accessibleBuildings = main.buildings.Values
+			.Where(building => building.player.v == player &&
+			                   Rules.BuildableUnits(building) != 0 &&
+			                   !main.TryGetUnit(building.position, out _))
+			.ToList();
 
-        CameraRig.TryFind(out var cameraRig);
-        if (cameraRig)
-            positions = positions
-                .OrderByDescending(position=>position.priority)
-                .ThenBy(position => Vector2.Distance(cameraRig.transform.position.ToVector2(), position.coordinates)).ToArray();
+		var positions = unmovedUnits.Select(unit => (priority: 1, coordinates: ((Vector2Int)unit.position.v).Raycast()))
+			.Concat(accessibleBuildings.Select(building => (priority: 0, coordinates: building.position.Raycast())))
+			.ToArray();
 
-        var positionIndex = -1;
+		CameraRig.TryFind(out var cameraRig);
+		if (cameraRig)
+			positions = positions
+				.OrderByDescending(position => position.priority)
+				.ThenBy(position => Vector2.Distance(cameraRig.transform.position.ToVector2(), position.coordinates)).ToArray();
 
-        PreselectionCursor.TryFind(out var preselectionCursor);
-        if (preselectionCursor)
-            preselectionCursor.Hide();
+		var positionIndex = -1;
 
-        if (turnStart) {
+		PreselectionCursor.TryFind(out var preselectionCursor);
+		if (preselectionCursor)
+			preselectionCursor.Hide();
 
-            var (controlFlow, nextState) = main.levelLogic.OnTurnStart(main);
-            if (nextState != null)
-                yield return nextState;
-            if (controlFlow == ControlFlow.Replace)
-                yield break;
+		if (turnStart) {
 
-            //MusicPlayer.Instance.Queue = game.CurrentPlayer.co.themes.InfiniteSequence(game.settings.shuffleMusic);
+			var (controlFlow, nextState) = main.levelLogic.OnTurnStart(main);
+			if (nextState != null)
+				yield return nextState;
+			if (controlFlow == ControlFlow.Replace)
+				yield break;
 
-            yield return TurnStartAnimationState.Run(main);
+			//MusicPlayer.Instance.Queue = game.CurrentPlayer.co.themes.InfiniteSequence(game.settings.shuffleMusic);
 
-            main.CurrentPlayer.view.visible = true;
-        }
+			yield return TurnStartAnimationState.Run(main);
 
-        CursorView.TryFind(out var cursor);
-        if (cursor)
-            cursor.Visible = true;
+			player.view.visible = true;
+		}
 
-        while (true) {
-            yield return null;
+		CursorView.TryFind(out var cursor);
+		if (cursor)
+			cursor.Visible = true;
 
-            if (!main.CurrentPlayer.IsAi) {
+		while (true) {
+			yield return null;
 
-                if (Input.GetKeyDown(KeyCode.F2))
-                    main.commands.Enqueue(endTurn);
+			if (!player.IsAi) {
 
-                else if ((Input.GetKeyDown(KeyCode.Escape)) && (!preselectionCursor || !preselectionCursor.Visible))
-                    main.commands.Enqueue(openGameMenu);
+				if (Input.GetKeyDown(KeyCode.F2))
+					main.commands.Enqueue(endTurn);
 
-                else if ((Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(Mouse.right)) && preselectionCursor && preselectionCursor.Visible)
-                    preselectionCursor.Hide();
+				else if ((Input.GetKeyDown(KeyCode.Escape)) && (!preselectionCursor || !preselectionCursor.Visible))
+					main.commands.Enqueue(openGameMenu);
 
-                else if (Input.GetKeyDown(KeyCode.Tab))
-                    main.commands.Enqueue(cyclePositions);
+				else if ((Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(Mouse.right)) && preselectionCursor && preselectionCursor.Visible)
+					preselectionCursor.Hide();
 
-                else if (Input.GetKeyDown(KeyCode.Space) && preselectionCursor.Visible) {
-                    
-                    main.stack.Push(preselectionCursor.transform.position);
-                    main.commands.Enqueue(@select);
-                }
+				else if (Input.GetKeyDown(KeyCode.Tab))
+					main.commands.Enqueue(cyclePositions);
 
-                else if ((Input.GetMouseButtonDown(Mouse.left) || Input.GetKeyDown(KeyCode.Space)) &&
-                         Mouse.TryGetPosition(out Vector3 mousePosition)) {
+				else if (Input.GetKeyDown(KeyCode.Space) && preselectionCursor.Visible) {
 
-                    main.stack.Push(mousePosition);
-                    main.commands.Enqueue(@select);
-                }
-            }
+					main.stack.Push(preselectionCursor.transform.position);
+					main.commands.Enqueue(@select);
+				}
 
-            while (main.commands.TryDequeue(out var input))
-                foreach (var token in input.Tokenize()) {
-                    switch (token) {
+				else if ((Input.GetMouseButtonDown(Mouse.left) || Input.GetKeyDown(KeyCode.Space)) &&
+				         Mouse.TryGetPosition(out Vector3 mousePosition)) {
 
-                        case @select: {
+					main.stack.Push(mousePosition);
+					main.commands.Enqueue(@select);
+				}
 
-                            var position = main.stack.Pop<Vector3>();
+				else if (Input.GetKeyDown(KeyCode.F6))
+					main.commands.Enqueue(useAbility);
+			}
 
-                            var camera = Camera.main;
-                            if (camera && cameraRig && preselectionCursor && !preselectionCursor.VisibleOnTheScreen(camera, position)) {
-                                Debug.DrawLine(position, position+Vector3.up,Color.yellow,3);
-                                cameraRig.Jump(position);
-                            }
+			while (main.commands.TryDequeue(out var input))
+				foreach (var token in input.Tokenize()) {
+					switch (token) {
 
-                            if (main.TryGetUnit(position.ToVector2().RoundToInt(), out var unit)) {
-                                if (unit.player != main.CurrentPlayer || unit.moved.v)
-                                    UiSound.Instance.notAllowed.PlayOneShot();
-                                else {
-                                    unit.view.Selected = true;
-                                    if (preselectionCursor)
-                                        preselectionCursor.Hide();
-                                    yield return PathSelectionState.Run(main, unit);
-                                    yield break;
-                                }
-                            }
+						case @select: {
 
-                            else if (main.TryGetBuilding(position.ToVector2().RoundToInt(), out var building)) {
-                                if (building.player.v != main.CurrentPlayer)
-                                    UiSound.Instance.notAllowed.PlayOneShot();
-                                else {
-                                    if (preselectionCursor)
-                                        preselectionCursor.Hide();
-                                    yield return UnitBuildState.New(main, building);
-                                    yield break;
-                                }
-                            }
-                            break;
-                        }
+							var position = main.stack.Pop<Vector3>();
 
-                        case endTurn: {
+							var camera = Camera.main;
+							if (camera && cameraRig && preselectionCursor && !preselectionCursor.VisibleOnTheScreen(camera, position)) {
+								Debug.DrawLine(position, position + Vector3.up, Color.yellow, 3);
+								cameraRig.Jump(position);
+							}
 
-                            foreach (var unit in main.units.Values)
-                                unit.moved.v = false;
+							if (main.TryGetUnit(position.ToVector2().RoundToInt(), out var unit)) {
+								if (unit.player != player || unit.moved.v)
+									UiSound.Instance.notAllowed.PlayOneShot();
+								else {
+									unit.view.Selected = true;
+									if (preselectionCursor)
+										preselectionCursor.Hide();
+									yield return PathSelectionState.Run(main, unit);
+									yield break;
+								}
+							}
 
-                            main.CurrentPlayer.view.visible = false;
-                            if (cursor)
-                                cursor.Visible = false;
-                            if (preselectionCursor)
-                                preselectionCursor.Hide();
+							else if (main.TryGetBuilding(position.ToVector2().RoundToInt(), out var building)) {
+								if (building.player.v != player)
+									UiSound.Instance.notAllowed.PlayOneShot();
+								else {
+									if (preselectionCursor)
+										preselectionCursor.Hide();
+									yield return UnitBuildState.New(main, building);
+									yield break;
+								}
+							}
+							break;
+						}
 
-                            //MusicPlayer.Instance.source.Stop();
-                            //MusicPlayer.Instance.queue = null;
+						case endTurn: {
 
-                            Assert.IsTrue(main.turn != null);
-                            main.turn = (int)main.turn + 1;
+							foreach (var unit in main.units.Values)
+								unit.moved.v = false;
 
-                            var (controlFlow, nextState) = main.levelLogic.OnTurnEnd(main);
-                            if (nextState != null)
-                                yield return nextState;
-                            if (controlFlow == ControlFlow.Replace)
-                                yield break;
+							player.view.visible = false;
+							if (cursor)
+								cursor.Visible = false;
+							if (preselectionCursor)
+								preselectionCursor.Hide();
 
-                            yield return Run(main, true);
-                            yield break;
-                        }
+							//MusicPlayer.Instance.source.Stop();
+							//MusicPlayer.Instance.queue = null;
+							
+							Assert.IsTrue(main.turn != null);
+							main.turn = (int)main.turn + 1;
 
-                        case openGameMenu:
-                            yield return GameMenuState.Run(main);
-                            break;
+							var (controlFlow, nextState) = main.levelLogic.OnTurnEnd(main);
+							if (nextState != null)
+								yield return nextState;
+							if (controlFlow == ControlFlow.Replace)
+								yield break;
 
-                        case cyclePositions: {
-                            if (positions.Length > 0) {
-                                positionIndex = (positionIndex + 1) % positions.Length;
-                                if (preselectionCursor) {
-                                    var position = positions[positionIndex];
-                                    if (preselectionCursor)
-                                        preselectionCursor.ShowAt(position.coordinates);
-                                    var mainCamera = Camera.main;
-                                    if (mainCamera) {
-                                        // var screenPosition = mainCamera.WorldToViewportPoint(position.ToVector3Int());
-                                        // if (!new Rect(0, 0, 1, 1).Contains(screenPosition) && cameraRig)
-                                        //     cameraRig.Jump(position);
-                                    }
-                                }
-                            }
-                            else if (preselectionCursor)
-                                preselectionCursor.Hide();
-                            break;
-                        }
+							yield return Run(main, true);
+							yield break;
+						}
 
-                        case triggerVictory:
-                            if (preselectionCursor)
-                                preselectionCursor.Hide();
-                            yield return VictoryState.Run(main, null);
-                            yield break;
+						case openGameMenu:
+							yield return GameMenuState.Run(main);
+							break;
 
-                        case triggerDefeat:
-                            if (preselectionCursor)
-                                preselectionCursor.Hide();
-                            yield return DefeatState.Run(main, null);
-                            yield break;
+						case cyclePositions: {
+							if (positions.Length > 0) {
+								positionIndex = (positionIndex + 1) % positions.Length;
+								if (preselectionCursor) {
+									var position = positions[positionIndex];
+									if (preselectionCursor)
+										preselectionCursor.ShowAt(position.coordinates);
+									var mainCamera = Camera.main;
+									if (mainCamera) {
+										// var screenPosition = mainCamera.WorldToViewportPoint(position.ToVector3Int());
+										// if (!new Rect(0, 0, 1, 1).Contains(screenPosition) && cameraRig)
+										//     cameraRig.Jump(position);
+									}
+								}
+							}
+							else if (preselectionCursor)
+								preselectionCursor.Hide();
+							break;
+						}
 
-                        default:
-                            main.stack.ExecuteToken(token);
-                            break;
-                    }
-                }
-        }
-    }
+						case useAbility: {
+							if (Rules.CanUseAbility(player))
+								yield return main.StartAbility(player);
+							else
+								UiSound.Instance.notAllowed.PlayOneShot();
+							break;
+						}
+
+						case triggerVictory:
+							if (preselectionCursor)
+								preselectionCursor.Hide();
+							yield return VictoryState.Run(main, null);
+							yield break;
+
+						case triggerDefeat:
+							if (preselectionCursor)
+								preselectionCursor.Hide();
+							yield return DefeatState.Run(main, null);
+							yield break;
+
+						default:
+							main.stack.ExecuteToken(token);
+							break;
+					}
+				}
+		}
+	}
 }

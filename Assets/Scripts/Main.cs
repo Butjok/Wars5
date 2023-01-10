@@ -9,6 +9,7 @@ using UnityEngine.Assertions;
 
 public class Main : MonoBehaviour {
 
+    public Campaign.Mission.Name missionName;
     public Dictionary<Vector2Int, TileType> tiles = new();
     public Dictionary<Vector2Int, Unit> units = new();
     public Dictionary<Vector2Int, Building> buildings = new();
@@ -123,5 +124,11 @@ public class Main : MonoBehaviour {
     [Command]
     public void EnqueueCommand(string command) {
         commands.Enqueue(command);
+    }
+    
+    public IEnumerator StartAbility(Player player) {
+        player.abilityActivationTurn = turn;
+        Debug.Log($"starting ability of {player}");
+        yield break;
     }
 }

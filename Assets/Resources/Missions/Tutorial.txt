@@ -1,5 +1,6 @@
-SampleScene			game.load-scene
-0 				game.set-turn
+Tutorial Campaign+Mission+Name type enum	game.set-mission-name
+SampleScene					game.load-scene
+0 						game.set-turn
 
 
 
@@ -10,6 +11,7 @@ Alpha team 			player.set-team
 VladanCo 			player.set-co
 1 0 int2			player.set-unit-look-direction
 				player.mark-as-local
+6				player.set-power-meter
 				player.create
 
 				dup

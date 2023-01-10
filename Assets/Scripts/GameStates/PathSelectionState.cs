@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Rendering;
@@ -121,21 +122,36 @@ public static class PathSelectionState {
                                 cursor.Visible = false;
 
                             var initialLookDirection = unit.view.LookDirection;
-                            var animation = new MoveSequence(unit.view.transform, pathBuilder.positions, main.settings.unitSpeed).Animation();
+                            var path = pathBuilder.positions;
+                            var animation = new MoveSequence(unit.view.transform, path, main.settings.unitSpeed).Animation();
 
+                            var triggerPosition = new Vector2Int(0,3);
+                            
                             while (animation.MoveNext()) {
                                 yield return null;
 
-                                if (Input.GetMouseButtonDown(Mouse.left) || Input.GetMouseButtonDown(Mouse.right) ||
-                                    Input.GetKeyDown(KeyCode.Space)) {
-                                    unit.view.Position = pathBuilder.positions[^1];
-                                    if (pathBuilder.positions.Count >= 2)
-                                        unit.view.LookDirection = pathBuilder.positions[^1] - pathBuilder.positions[^2];
+                                if (path.Contains(triggerPosition)) {
+                                    var position = unit.view.transform.position.ToVector2().RoundToInt();
+                                    if (position == triggerPosition) {
+
+                                        if (CameraRig.TryFind(out var cameraRig))
+                                            yield return cameraRig.Jump(triggerPosition.Raycast()).WaitForCompletion();
+                                        
+                                        unit.Dispose();
+                                        yield return SelectionState.Run(main);
+                                        yield break;            
+                                    }
+                                }
+
+                                else if ((Input.GetMouseButtonDown(Mouse.left) || Input.GetMouseButtonDown(Mouse.right) || Input.GetKeyDown(KeyCode.Space))) {
+                                    unit.view.Position = path[^1];
+                                    if (path.Count >= 2)
+                                        unit.view.LookDirection = path[^1] - path[^2];
                                     break;
                                 }
                             }
 
-                            yield return ActionSelectionState.Run(main, unit, pathBuilder.positions, initialLookDirection);
+                            yield return ActionSelectionState.Run(main, unit,path , initialLookDirection);
                             yield break;
 
                         case cancel:
