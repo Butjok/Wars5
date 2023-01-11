@@ -42,6 +42,7 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets/ExplosionTracer.cs" />
+     <Compile Include="Assets/Scenes/PlayableTest/NewPlayableAsset.cs" />
      <Folder Include="Assets" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />
      <None Include="Assets/Shaders/My First Lighting Shader.shader" />
@@ -176,6 +177,7 @@
      <None Include="Assets/Shaders/LookingThroughWater.cginc" />
      <Folder Include="Assets/Scenes/PlainLeft" />
      <None Include="Assets/Shaders/Waves.shader" />
+     <Folder Include="Assets/Scenes/PlayableTest" />
      <Folder Include="Assets/Roboto" />
      <None Include="Assets/TextMesh Pro/Sprites/EmojiOne.json" />
      <Folder Include="Assets/Resources/Missions" />
@@ -1144,6 +1146,12 @@
      </Reference>
      <Reference Include="Unity.RenderPipelines.Core.Editor">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.RenderPipelines.Core.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Timeline">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Timeline.Editor">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
      </Reference>
   </ItemGroup>
   <ItemGroup>
