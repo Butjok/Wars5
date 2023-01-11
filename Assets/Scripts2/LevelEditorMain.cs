@@ -7,14 +7,14 @@ using UnityEngine;
 using UnityEngine.Assertions;
 
 public class LevelEditorMain : Main {
-    
+
     public TMP_Text textDisplay;
     public MeshFilter meshFilter;
     public MeshCollider meshCollider;
     public LevelEditor2 levelEditor;
-    
+
     private void Start() {
-         levelEditor = new LevelEditor2(this, textDisplay, meshFilter, meshCollider);
+        levelEditor = new LevelEditor2(this, textDisplay, meshFilter, meshCollider);
         StartCoroutine(levelEditor.Run());
     }
 
@@ -74,8 +74,8 @@ public class LevelEditor2 {
 
         main.Clear();
 
-        var red = new Player(main, Color.red, Team.Alpha);
-        var blue = new Player(main, Color.blue, Team.Bravo);
+        var red = new Player(main, Color.red, Team.Alpha, credits:16000);
+        var blue = new Player(main, Color.blue, Team.Bravo, credits:16000);
         main.localPlayer = red;
         player = red;
 
@@ -94,7 +94,7 @@ public class LevelEditor2 {
 
         LoadColors();
         RebuildTilemapMesh();
-        
+
         yield return TilesMode();
     }
 
@@ -133,7 +133,7 @@ public class LevelEditor2 {
                 main.stack.Push(position2);
                 main.commands.Enqueue(removeTile);
             }
-            else if (Input.GetKeyDown(KeyCode.F5)) 
+            else if (Input.GetKeyDown(KeyCode.F5))
                 main.commands.Enqueue(play);
 
             while (main.commands.TryDequeue(out var command))
@@ -168,7 +168,7 @@ public class LevelEditor2 {
                                 new Building(main, position, tileType, player);
 
                             RebuildTilemapMesh();
-                            
+
                             break;
                         }
 
@@ -189,11 +189,12 @@ public class LevelEditor2 {
         }
     }
 
-    public  Dictionary<TileType, float[]> colors = new();
-    
-     public void LoadColors() {
-         colors = "TileTypeColors".LoadAs<TextAsset>().text.FromJson<Dictionary<TileType,float[]>>();
-     }
+    public Dictionary<TileType, string> colors = new();
+
+    public void LoadColors() {
+        colors = "TileTypeColors".LoadAs<TextAsset>().text.FromJson<Dictionary<TileType, string>>();
+        RebuildTilemapMesh();
+    }
 
     public void RebuildTilemapMesh() {
         var vertices = new List<Vector3>();
@@ -201,17 +202,21 @@ public class LevelEditor2 {
         var colors = new List<Color>();
         foreach (var position in main.tiles.Keys) {
             var tileType = main.tiles[position];
-            var color = this.colors.TryGetValue(tileType, out var c) ? c : new float[] { 1,1,1,0};
+            var color = main.buildings.TryGetValue(position, out var building) && building.player.v != null
+                ? building.player.v.color
+                : this.colors.TryGetValue(tileType, out var htmlColor) && ColorUtility.TryParseHtmlString(htmlColor, out var c)
+                    ? c
+                    : new Color(1,1,1,0);
             foreach (var vertex in MeshUtils.QuadAt(position.ToVector3Int())) {
                 vertices.Add(vertex);
                 triangles.Add(triangles.Count);
-                colors.Add(new Color(color[0], color[1], color[2], color[3]));
+                colors.Add(color);
             }
         }
         var mesh = new Mesh {
             vertices = vertices.ToArray(),
             triangles = triangles.ToArray(),
-            colors=colors.ToArray()
+            colors = colors.ToArray()
         };
         mesh.RecalculateBounds();
         mesh.RecalculateNormals();
@@ -269,8 +274,8 @@ public class LevelEditor2 {
                 main.stack.Push(Input.GetKeyDown(KeyCode.PageUp) ? -1 : 1);
                 main.commands.Enqueue(cycleLookDirection);
             }
-                
-            else if (Input.GetKeyDown(KeyCode.F5)) 
+
+            else if (Input.GetKeyDown(KeyCode.F5))
                 main.commands.Enqueue(play);
 
             while (main.commands.TryDequeue(out var command))

@@ -37,7 +37,7 @@ Shader "Custom/VertexColorChecker" {
 			// Albedo comes from a texture tinted by color
 			int x = round(IN.worldPos.x);
 			int y = round(IN.worldPos.z);
-			o.Albedo = IN.color.rgb;
+			o.Albedo = Tint(IN.color.rgb, 0, 1.5, .5);
 			if ((x+y) % 2 == 0) {
 				o.Albedo = Tint(o.Albedo, 0, 1.1, .85);
 			}

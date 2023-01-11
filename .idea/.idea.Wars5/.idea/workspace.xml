@@ -1,29 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Resources/TileTypeColors.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Resources/TileTypeColors.json.meta" afterDir="false" />
+    <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="first stab at level editor v2">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assembly-CSharp.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Cursor.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Cursor.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/MovePath.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/MovePath.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/TileMesh.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/TileMesh.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/LevelEditor.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/LevelEditor.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Building.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Building.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Main.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Main.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts2/LevelEditor2.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts2/LevelEditorMain.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts2/LevelEditor2.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts2/LevelEditorMain.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts2/Scripts2.asmdef" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts2/Scripts2.asmdef" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Shaders/Custom_VertexColorChecker.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Shaders/Custom_VertexColorChecker.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/quad.fbx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/quad.fbx.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/CommandLine.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/CommandLine.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Scripts2.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Scripts2.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wars5.sln" beforeDir="false" afterPath="$PROJECT_DIR$/Wars5.sln" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/TileTypeColors.json" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/TileTypeColors.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts2/LevelEditorMain.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts2/LevelEditorMain.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Shaders/VertexColorChecker.shader" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Shaders/VertexColorChecker.shader" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -317,14 +299,7 @@
       <workItem from="1673306887718" duration="93000" />
       <workItem from="1673370954930" duration="4304000" />
       <workItem from="1673466118423" duration="4569000" />
-      <workItem from="1673474835226" duration="4933000" />
-    </task>
-    <task id="LOCAL-00156" summary="sdsdfsdffds">
-      <created>1667459122427</created>
-      <option name="number" value="00156" />
-      <option name="presentableId" value="LOCAL-00156" />
-      <option name="project" value="LOCAL" />
-      <updated>1667459122427</updated>
+      <workItem from="1673474835226" duration="5554000" />
     </task>
     <task id="LOCAL-00157" summary="kjhhjkhjk">
       <created>1669493856124</created>
@@ -662,7 +637,14 @@
       <option name="project" value="LOCAL" />
       <updated>1673471216532</updated>
     </task>
-    <option name="localTasksCounter" value="205" />
+    <task id="LOCAL-00205" summary="first stab at level editor v2">
+      <created>1673479910190</created>
+      <option name="number" value="00205" />
+      <option name="presentableId" value="LOCAL-00205" />
+      <option name="project" value="LOCAL" />
+      <updated>1673479910191</updated>
+    </task>
+    <option name="localTasksCounter" value="206" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -695,7 +677,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="fdgdfg" />
     <MESSAGE value="mnknnjkjkjkjkljkl" />
     <MESSAGE value="jnjjklkjjkjkh" />
     <MESSAGE value="asdasdasd" />
@@ -720,7 +701,8 @@
     <MESSAGE value="started LevelEditor2.cs" />
     <MESSAGE value="sdfsdf" />
     <MESSAGE value="jhjk" />
-    <option name="LAST_COMMIT_MESSAGE" value="jhjk" />
+    <MESSAGE value="first stab at level editor v2" />
+    <option name="LAST_COMMIT_MESSAGE" value="first stab at level editor v2" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
