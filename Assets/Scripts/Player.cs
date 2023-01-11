@@ -48,6 +48,12 @@ public class Player : IDisposable {
 	}
 
 	public override string ToString() {
+		if (color == Color.red)
+			return "Red";
+		if (color == Color.green)
+			return "Green";
+		if (color == Color.blue)
+			return "Blue";
 		return color.ToString();
 	}
 

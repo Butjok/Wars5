@@ -43,6 +43,8 @@ public class Building : IDisposable {
         return $"{type}{position} {player.v}";
     }
     public void Dispose() {
+        main.tiles.Remove(position);
+        main.buildings.Remove(position);
         undisposed.Remove(this);
     }
 }

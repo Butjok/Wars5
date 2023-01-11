@@ -176,9 +176,9 @@
      <Compile Include="Assets/CommandLine/Antlr4/Atn/PrecedencePredicateTransition.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/LexerNoViableAltException.cs" />
      <Compile Include="Assets/CommandLine/History.cs" />
-     <Compile Include="Assets/CommandLine/Antlr4/Atn/ParserATNSimulator.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/IWritableToken.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/StateType.cs" />
+     <Compile Include="Assets/CommandLine/Antlr4/Atn/ParserATNSimulator.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Sharpen/SequenceEqualityComparer.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Tree/Xpath/XPathTokenElement.cs" />
      <Compile Include="Assets/CommandLine/Antlr4/Atn/NotSetTransition.cs" />

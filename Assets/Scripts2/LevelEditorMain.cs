@@ -1,9 +1,36 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Butjok.CommandLine;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
+
+public class LevelEditorMain : Main {
+    
+    public TMP_Text textDisplay;
+    public MeshFilter meshFilter;
+    public MeshCollider meshCollider;
+    public LevelEditor2 levelEditor;
+    
+    private void Start() {
+         levelEditor = new LevelEditor2(this, textDisplay, meshFilter, meshCollider);
+        StartCoroutine(levelEditor.Run());
+    }
+
+    [Command]
+    public void LoadColors() {
+        levelEditor.LoadColors();
+    }
+    [Command]
+    public void Save(string name) {
+        levelEditor.Save(name);
+    }
+    [Command]
+    public void Load(string name) {
+        levelEditor.Load(name);
+    }
+}
 
 public class LevelEditor2 {
 
@@ -25,12 +52,17 @@ public class LevelEditor2 {
     public const string play = prefix + "play";
 
     public const string mode = nameof(mode);
+    public const string autosave = prefix + "autosave";
 
     public Main main;
     public LevelEditorTextDisplay textDisplay;
+    public MeshFilter meshFilter;
+    public MeshCollider meshCollider;
 
-    public LevelEditor2(Main main, TMP_Text text) {
+    public LevelEditor2(Main main, TMP_Text text, MeshFilter meshFilter, MeshCollider meshCollider) {
         this.main = main;
+        this.meshFilter = meshFilter;
+        this.meshCollider = meshCollider;
         textDisplay = new LevelEditorTextDisplay(text);
         textDisplay.Clear();
     }
@@ -44,13 +76,14 @@ public class LevelEditor2 {
 
         var red = new Player(main, Color.red, Team.Alpha);
         var blue = new Player(main, Color.blue, Team.Bravo);
+        main.localPlayer = red;
         player = red;
 
         var min = new Vector2Int(-5, -5);
         var max = new Vector2Int(5, 5);
 
-        for (var y = min.y; y <= min.y; y++)
-        for (var x = min.x; x <= min.x; x++)
+        for (var y = min.y; y <= max.y; y++)
+        for (var x = min.x; x <= max.x; x++)
             main.tiles.Add(new Vector2Int(x, y), TileType.Plain);
 
         new Building(main, min, TileType.Hq, red);
@@ -59,6 +92,9 @@ public class LevelEditor2 {
         new Unit(red, UnitType.Infantry, min);
         new Unit(blue, UnitType.Infantry, max);
 
+        LoadColors();
+        RebuildTilemapMesh();
+        
         yield return TilesMode();
     }
 
@@ -88,6 +124,8 @@ public class LevelEditor2 {
                 main.commands.Enqueue(cyclePlayer);
             }
             else if (Input.GetMouseButton(Mouse.left) && Mouse.TryGetPosition(out Vector2Int position)) {
+                main.stack.Push(player);
+                main.stack.Push(tileType);
                 main.stack.Push(position);
                 main.commands.Enqueue(placeTile);
             }
@@ -95,6 +133,8 @@ public class LevelEditor2 {
                 main.stack.Push(position2);
                 main.commands.Enqueue(removeTile);
             }
+            else if (Input.GetKeyDown(KeyCode.F5)) 
+                main.commands.Enqueue(play);
 
             while (main.commands.TryDequeue(out var command))
                 foreach (var token in command.Tokenize())
@@ -108,20 +148,35 @@ public class LevelEditor2 {
                             tileType = CycleValue(tileType, tileTypes, main.stack.Pop<int>());
                             textDisplay.Set(nameof(tileType), tileType);
                             break;
-                        
+
                         case cyclePlayer:
                             player = CycleValue(player, main.players, main.stack.Pop<int>());
                             textDisplay.Set(nameof(player), player);
                             break;
 
                         case placeTile: {
+
+                            var position = main.stack.Pop<Vector2Int>();
+                            var tileType = main.stack.Pop<TileType>();
+                            var player = main.stack.Pop<Player>();
+
+                            if (main.tiles.ContainsKey(position))
+                                TryRemoveTile(position);
+
+                            main.tiles.Add(position, tileType);
+                            if (TileType.Buildings.HasFlag(tileType))
+                                new Building(main, position, tileType, player);
+
+                            RebuildTilemapMesh();
+                            
                             break;
                         }
 
-                        case removeTile: {
+                        case removeTile:
+                            TryRemoveTile(main.stack.Pop<Vector2Int>());
+                            RebuildTilemapMesh();
                             break;
-                        }
-                        
+
                         case play:
                             yield return Play();
                             yield return TilesMode();
@@ -132,6 +187,46 @@ public class LevelEditor2 {
                             break;
                     }
         }
+    }
+
+    public  Dictionary<TileType, float[]> colors = new();
+    
+     public void LoadColors() {
+         colors = "TileTypeColors".LoadAs<TextAsset>().text.FromJson<Dictionary<TileType,float[]>>();
+     }
+
+    public void RebuildTilemapMesh() {
+        var vertices = new List<Vector3>();
+        var triangles = new List<int>();
+        var colors = new List<Color>();
+        foreach (var position in main.tiles.Keys) {
+            var tileType = main.tiles[position];
+            var color = this.colors.TryGetValue(tileType, out var c) ? c : new float[] { 1,1,1,0};
+            foreach (var vertex in MeshUtils.QuadAt(position.ToVector3Int())) {
+                vertices.Add(vertex);
+                triangles.Add(triangles.Count);
+                colors.Add(new Color(color[0], color[1], color[2], color[3]));
+            }
+        }
+        var mesh = new Mesh {
+            vertices = vertices.ToArray(),
+            triangles = triangles.ToArray(),
+            colors=colors.ToArray()
+        };
+        mesh.RecalculateBounds();
+        mesh.RecalculateNormals();
+        mesh.RecalculateTangents();
+        meshFilter.sharedMesh = mesh;
+        meshCollider.sharedMesh = mesh;
+    }
+
+    public bool TryRemoveTile(Vector2Int position) {
+        if (!main.tiles.ContainsKey(position))
+            return false;
+        main.tiles.Remove(position);
+        if (main.buildings.TryGetValue(position, out var building))
+            building.Dispose();
+        return true;
     }
 
     public UnitType unitType = UnitType.Infantry;
@@ -150,7 +245,7 @@ public class LevelEditor2 {
 
             if (Input.GetKeyDown(KeyCode.F8))
                 main.commands.Enqueue(selectTilesMode);
-            
+
             else if (Input.GetKeyDown(KeyCode.Tab)) {
                 main.stack.Push(Input.GetKey(KeyCode.LeftShift) ? -1 : 1);
                 main.commands.Enqueue(cycleUnitType);
@@ -160,16 +255,23 @@ public class LevelEditor2 {
                 main.commands.Enqueue(cyclePlayer);
             }
             else if (Input.GetMouseButton(Mouse.left) && Mouse.TryGetPosition(out Vector2Int position)) {
+                main.stack.Push(player);
+                main.stack.Push(unitType);
                 main.stack.Push(position);
+                main.stack.Push(lookDirection);
                 main.commands.Enqueue(placeUnit);
             }
             else if (Input.GetMouseButton(Mouse.right) && Mouse.TryGetPosition(out Vector2Int position2)) {
                 main.stack.Push(position2);
                 main.commands.Enqueue(removeUnit);
             }
-            else if (Input.GetKeyDown(KeyCode.F5)) {
-                
+            else if (Input.GetKeyDown(KeyCode.PageUp) || Input.GetKeyDown(KeyCode.PageDown)) {
+                main.stack.Push(Input.GetKeyDown(KeyCode.PageUp) ? -1 : 1);
+                main.commands.Enqueue(cycleLookDirection);
             }
+                
+            else if (Input.GetKeyDown(KeyCode.F5)) 
+                main.commands.Enqueue(play);
 
             while (main.commands.TryDequeue(out var command))
                 foreach (var token in command.Tokenize())
@@ -188,7 +290,7 @@ public class LevelEditor2 {
                             unitType = CycleValue(unitType, unitTypes, main.stack.Pop<int>());
                             textDisplay.Set(nameof(unitType), unitType);
                             break;
-                        
+
                         case cycleLookDirection:
                             lookDirection = CycleValue(lookDirection, lookDirections, main.stack.Pop<int>());
                             textDisplay.Set(nameof(lookDirection), lookDirection);
@@ -200,12 +302,23 @@ public class LevelEditor2 {
                             yield break;
 
                         case placeUnit: {
+
+                            var lookDirection = main.stack.Pop<Vector2Int>();
+                            var position = main.stack.Pop<Vector2Int>();
+                            var unitType = main.stack.Pop<UnitType>();
+                            var player = main.stack.Pop<Player>();
+
+                            if (main.units.ContainsKey(position))
+                                TryRemoveUnit(position);
+
+                            new Unit(player, unitType, position, lookDirection);
+
                             break;
                         }
 
-                        case removeUnit: {
+                        case removeUnit:
+                            TryRemoveUnit(main.stack.Pop<Vector2Int>());
                             break;
-                        }
 
                         default:
                             main.stack.ExecuteToken(token);
@@ -214,8 +327,39 @@ public class LevelEditor2 {
         }
     }
 
+    public bool TryRemoveUnit(Vector2Int position) {
+        if (!main.units.TryGetValue(position, out var unit))
+            return false;
+        unit.Dispose();
+        return true;
+    }
+
     public IEnumerator Play() {
-        yield break;
+        var save = GameSaver.SaveToString(main);
+        var playerIndex = main.players.IndexOf(player);
+        main.levelLogic = new LevelLogic();
+        var play = SelectionState.Run(main, true);
+        main.StartCoroutine(play);
+        while (true) {
+            yield return null;
+            if (Input.GetKeyDown(KeyCode.F5)) {
+                main.StopCoroutine(play);
+                break;
+            }
+        }
+        GameLoader.Load(main, save);
+        player = main.players[playerIndex];
+    }
+
+    public void Save(string name) {
+        PlayerPrefs.SetString(name, GameSaver.SaveToString(main));
+    }
+    public void Load(string name) {
+        var commands = PlayerPrefs.GetString(name);
+        Assert.IsNotNull(commands);
+        GameLoader.Load(main, commands);
+        player = main.players.Count == 0 ? null : main.players[0];
+        RebuildTilemapMesh();
     }
 
     public static T CycleValue<T>(T value, T[] values, int offset = 1) {

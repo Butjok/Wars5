@@ -14,7 +14,7 @@ public class Main : MonoBehaviour {
     public Dictionary<Vector2Int, Unit> units = new();
     public Dictionary<Vector2Int, Building> buildings = new();
     public List<Player> players = new();
-    public int? turn = 0;
+    public int turn = 0;
     public LevelLogic levelLogic = new();
     public Player localPlayer;
     public GameSettings settings = new();
@@ -102,7 +102,7 @@ public class Main : MonoBehaviour {
     
     public void Clear() {
         
-        turn = null;
+        turn = 0;
 
         foreach (var player in players.ToArray())
             player.Dispose();

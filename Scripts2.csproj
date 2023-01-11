@@ -41,9 +41,9 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets/Scripts2/LevelEditorMain.cs" />
      <Compile Include="Assets/Scripts2/WorldBoxSectionTextureGenerator.cs" />
      <Compile Include="Assets/Scripts2/TileAreaMeshBuilder.cs" />
-     <Compile Include="Assets/Scripts2/LevelEditor2.cs" />
      <None Include="Assets/Scripts2/Scripts2.asmdef" />
      <None Include="Assets/Scripts2/SDFtest.shader" />
      <Folder Include="Assets/Scripts2" />
@@ -942,6 +942,10 @@
     <ProjectReference Include="Stable.csproj">
       <Project>{4d4a23ac-500a-28e4-edf9-8f813c1b07c8}</Project>
       <Name>Stable</Name>
+    </ProjectReference>
+    <ProjectReference Include="CommandLine.csproj">
+      <Project>{cfa2bab9-b41f-c1bf-2356-298545c86cc5}</Project>
+      <Name>CommandLine</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
