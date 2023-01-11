@@ -9,7 +9,7 @@ public class CampaignView : MonoBehaviour {
 
     [Serializable]
     public class Mission {
-        public Campaign.Mission.Name name;
+        public MissionName name;
         public string humanFriendlyName;
         public MeshRenderer[] renderers = { };
         public string availableUniformName = "_Available";

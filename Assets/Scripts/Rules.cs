@@ -47,7 +47,7 @@ public static class Rules {
         return 6;
     }
     public static bool CanUseAbility(Player player) {
-        return player.abilityActivationTurn==null && player.powerMeter == MaxAbilityMeter(player);
+        return !AbilityInUse(player) && player.powerMeter == MaxAbilityMeter(player);
     }
     public static bool AbilityInUse(Player player) {
         return player.abilityActivationTurn != null;

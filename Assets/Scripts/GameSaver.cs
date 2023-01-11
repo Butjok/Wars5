@@ -50,6 +50,7 @@ public static class GameSaver {
         }
 
         Line(SceneManager.GetActiveScene().name, "game.load-scene");
+        Line($"{main.missionName} MissionName type enum", "game.set-mission-name");
         if (main.turn != null)
             Line(main.turn, "game.set-turn");
 

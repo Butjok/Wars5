@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Globalization;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -9,7 +10,7 @@ public static class PostfixInterpreter {
     public static string[] Tokenize(this string input) {
         return input.Split(new[] { ' ', '\r', '\n', '\t' }, StringSplitOptions.RemoveEmptyEntries);
     }
-    
+
     public static void ExecuteToken(this Stack stack, string token) {
 
         if (int.TryParse(token, out var intValue))
@@ -61,17 +62,10 @@ public static class PostfixInterpreter {
                     stack.Pop();
                     break;
 
-                case "unit-type":
-                    stack.Push(Enum.Parse<UnitType>(stack.Pop<string>(), true));
-                    break;
-
-                case "team":
-                    stack.Push(Enum.Parse<Team>(stack.Pop<string>(), true));
-                    break;
-
                 case "type": {
                     var typeName = stack.Pop<string>();
-                    var type = Type.GetType(typeName);
+                    var type = Type.GetType(typeName) ?? 
+                               AppDomain.CurrentDomain.GetAssemblies().SelectMany(assembly => assembly.GetTypes()).FirstOrDefault(t => t.Name == typeName);
                     Assert.IsNotNull(type, typeName);
                     stack.Push(type);
                     break;

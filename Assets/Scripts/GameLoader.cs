@@ -92,7 +92,7 @@ public static class GameLoader {
                     break;
                 }
                 case "game.set-mission-name": {
-                    var name = stack.Pop<Campaign.Mission.Name>();
+                    var name = stack.Pop<MissionName>();
                     main.missionName = name;
                     break;
                 }

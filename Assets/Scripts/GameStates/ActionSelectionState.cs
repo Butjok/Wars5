@@ -250,10 +250,10 @@ public static class ActionSelectionState {
                                 item.Dispose();
 
                             if (unit is { hp: { v: > 0 } } && unit.view.LookDirection != unit.player.view.unitLookDirection)
-                            main.StartCoroutine( new MoveSequence(unit.view.transform, null, unit.player.main.settings.unitSpeed, unit.player.view.unitLookDirection).Animation());
+                                main.StartCoroutine(new MoveSequence(unit.view.transform, null, unit.player.main.settings.unitSpeed, unit.player.view.unitLookDirection).Animation());
 
                             // if (unit.view.LookDirection != unit.player.view.unitLookDirection)
-                                // unit.view.LookDirection = unit.player.view.unitLookDirection;
+                            // unit.view.LookDirection = unit.player.view.unitLookDirection;
 
                             var won = Rules.Won(main.localPlayer);
                             var lost = Rules.Lost(main.localPlayer);
