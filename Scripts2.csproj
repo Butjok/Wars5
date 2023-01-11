@@ -43,6 +43,7 @@
   <ItemGroup>
      <Compile Include="Assets/Scripts2/WorldBoxSectionTextureGenerator.cs" />
      <Compile Include="Assets/Scripts2/TileAreaMeshBuilder.cs" />
+     <Compile Include="Assets/Scripts2/LevelEditor2.cs" />
      <None Include="Assets/Scripts2/Scripts2.asmdef" />
      <None Include="Assets/Scripts2/SDFtest.shader" />
      <Folder Include="Assets/Scripts2" />
@@ -922,6 +923,9 @@
      </Reference>
      <Reference Include="netstandard">
      <HintPath>/Applications/Unity/Hub/Editor/2021.3.1f1/Unity.app/Contents/UnityReferenceAssemblies/unity-4.8-api/Facades/netstandard.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.TextMeshPro">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
      </Reference>
      <Reference Include="UnityEditor.UI">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
