@@ -88,13 +88,13 @@ MonoBehaviour:
     value: 1
   focusDistance:
     overrideState: 1
-    value: 10.3684635
+    value: 15.583412
   aperture:
     overrideState: 0
     value: 32
   focalLength:
     overrideState: 1
-    value: 97.41553
+    value: 148.51219
   kernelSize:
     overrideState: 1
     value: 3
@@ -1630,7 +1630,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1cb7e9e120078f43bce4f0b1be547a7, type: 3}
   m_Name: AmbientOcclusion
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   enabled:
     overrideState: 1
     value: 1

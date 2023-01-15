@@ -231,10 +231,16 @@ public static class Rules {
             _ => 1
         };
         int? tracks = tileType switch {
-            TileType.Sea or TileType.Mountain => null,
+            TileType.Sea or TileType.Mountain or TileType.River => null,
+            TileType.Forest => 2,
             _ => 1
         };
-        int? tires = tracks;
+        int? tires = tileType switch {
+            TileType.Sea or TileType.Mountain or TileType.River => null,
+            TileType.Forest => 3,
+            TileType.Plain => 2,
+            _ => 1
+        };
         int? air = null;
         int? sea = null;
 
