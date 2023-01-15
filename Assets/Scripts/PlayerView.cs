@@ -15,8 +15,6 @@ public class PlayerView : MonoBehaviour {
 	
 	public static int playerColorId = Shader.PropertyToID("_Color");
 
-	public Vector2Int unitLookDirection;
-
 	public static Func<int>[] layers = {
 		() => Layers.Player0,
 		() => Layers.Player1,
@@ -39,6 +37,7 @@ public class PlayerView : MonoBehaviour {
 		Assert.AreNotEqual(0, availableLayers.Length);
 		var layer = availableLayers[0];
 		gameObject.SetLayerRecursively(layer);
+		if(camera)
 		camera.cullingMask |= 1 << layer;
 
 		propertyBlock = new MaterialPropertyBlock();
@@ -50,6 +49,7 @@ public class PlayerView : MonoBehaviour {
 	}
 
 	private void Update() {
+		if(camera)
 		camera.enabled = visible && globalVisibility;
 		//camera.enabled = false;
 	}

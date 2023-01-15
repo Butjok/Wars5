@@ -23,6 +23,8 @@ public class Main : MonoBehaviour {
     public Queue<string> commands = new();
     public GUISkin guiSkin;
 
+    public MeshFilter tileAreaMeshFilter;
+
     public void Awake() {
         
         Player.undisposed.Clear();

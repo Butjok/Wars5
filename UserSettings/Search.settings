@@ -10,9 +10,9 @@ scopes = {
 	"last_search.8040E7BB" = ""
 	"OpenInspectorPreview.8040E7BB" = "0"
 	"currentGroup.8040E7BB" = "all"
-	"last_search.7BEC51F9" = "unitbuildmenu"
+	"last_search.7BEC51F9" = ""
 	"OpenInspectorPreview.7BEC51F9" = "0"
-	"currentGroup.7BEC51F9" = "all"
+	"currentGroup.7BEC51F9" = "asset"
 }
 providers = {
 	find = {
@@ -55,8 +55,39 @@ providers = {
 		priority = 210
 		defaultAction = null
 	}
+	menu = {
+		active = true
+		priority = 80
+		defaultAction = null
+	}
+	settings = {
+		active = true
+		priority = 100
+		defaultAction = null
+	}
+	help = {
+		active = true
+		priority = -1
+		defaultAction = null
+	}
+	calculator = {
+		active = true
+		priority = 10
+		defaultAction = null
+	}
+	static_methods = {
+		active = true
+		priority = 85
+		defaultAction = null
+	}
 }
 recentSearches = [
+	"post"
+	"samplescene.untiy"
+	"sam"
+	"lev"
+	"of"
+	"s"
 	"uni"
 	"se"
 	"p"

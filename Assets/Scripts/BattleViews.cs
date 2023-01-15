@@ -67,7 +67,7 @@ public class BattleViews : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Alpha9)) {
             visible = !visible;
             if (visible) {
-                var lightTank = "light-tank".LoadAs<UnitView>();
+                var lightTank = "LightTank".LoadAs<UnitView>();
                 var before = new Vector2Int(Random.Range(1, 5 + 1), Random.Range(1, 5 + 1));
                 var after = new Vector2Int(Mathf.Min(before[left], Random.Range(0, 5 + 1)), Mathf.Min(before[right], Random.Range(0, 5 + 1)));
 

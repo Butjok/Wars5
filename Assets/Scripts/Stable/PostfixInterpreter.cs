@@ -71,6 +71,14 @@ public static class PostfixInterpreter {
                     break;
                 }
 
+                case "load": {
+                    var type = stack.Pop<Type>();
+                    var name = stack.Pop<string>();
+                    var resource = Resources.Load(name, type);
+                    stack.Push(resource);
+                    break;
+                }
+
                 case "enum": {
                     var type = stack.Pop<Type>();
                     var success = Enum.TryParse(type, stack.Pop<string>(), out var result);

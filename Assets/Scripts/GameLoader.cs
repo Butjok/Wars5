@@ -47,7 +47,7 @@ public static class GameLoader {
             playerCredits = 0;
             playerViewPrefab = PlayerView.DefaultPrefab;
             playerLocal = false;
-            playerColor = Palette.none;
+            playerColor = Palette.white;
             playerLookupId = null;
             playerUnitLookDirection = null;
             playerAbilityActivationTurn = null;
@@ -205,8 +205,8 @@ public static class GameLoader {
                     unitFuel = stack.Pop<int>();
                     break;
                 }
-                case "unit.set-prefab": {
-                    unitViewPrefab = stack.Pop<string>().LoadAs<UnitView>();
+                case "unit.set-view-prefab": {
+                    unitViewPrefab = stack.Pop<UnitView>();
                     break;
                 }
                 case "unit.put-into": {

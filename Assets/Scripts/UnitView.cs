@@ -7,7 +7,9 @@ using UnityEngine.Assertions;
 [SelectionBase]
 public class UnitView : MonoBehaviour {
 
-    public static UnitView DefaultPrefab => "light-tank".LoadAs<UnitView>();
+    public static UnitView DefaultPrefab => "WbLightTank".LoadAs<UnitView>();
+    
+    
     
     public Unit unit;
     public Renderer[] renderers;
@@ -125,6 +127,7 @@ public class UnitView : MonoBehaviour {
         if (resetPistons)
             foreach (var wheelPiston in wheelPistons)
                 wheelPiston.Reset();
+        if(body)
         body.Update();
     }
 

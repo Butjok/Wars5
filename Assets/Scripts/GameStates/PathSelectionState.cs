@@ -38,9 +38,7 @@ public static class PathSelectionState {
         var pathMeshGameObject = new GameObject();
         Object.DontDestroyOnLoad(pathMeshGameObject);
 
-        var tileMeshGameObject = new GameObject();
-        Object.DontDestroyOnLoad(tileMeshGameObject);
-
+        
         var pathMeshFilter = pathMeshGameObject.AddComponent<MeshFilter>();
         var pathMeshRenderer = pathMeshGameObject.AddComponent<MeshRenderer>();
 
@@ -55,22 +53,16 @@ public static class PathSelectionState {
 
         var pathBuilder = new PathBuilder(unitPosition);
 
-        var tileMeshFilter = tileMeshGameObject.AddComponent<MeshFilter>();
-        tileMeshFilter.sharedMesh = new Mesh();
-        var tileMeshRenderer = tileMeshGameObject.AddComponent<MeshRenderer>();
-        var tileMeshMaterial = Resources.Load<Material>("TileMesh");
-        tileMeshRenderer.sharedMaterial = tileMeshMaterial;
-        tileMeshRenderer.shadowCastingMode = ShadowCastingMode.Off;
-
-        tileMeshFilter.sharedMesh = TileMeshBuilder.Build(
-            tileMeshFilter.sharedMesh,
-            main.tiles.Keys.Where(position => traverser.IsReachable(position, moveDistance)));
+        //var tileAreaMeshBuilder = Object.FindObjectOfType<TileAreaMeshuild>()
+        if(main.tileAreaMeshFilter)
+        main.tileAreaMeshFilter.sharedMesh = TileAreaMeshBuilder.Build(main.tiles.Keys.Where(position => traverser.IsReachable(position, moveDistance)));
 
         var oldPositions = new List<Vector2Int> { unitPosition };
 
         void CleanUp() {
             Object.Destroy(pathMeshGameObject);
-            Object.Destroy(tileMeshGameObject);
+            if(main.tileAreaMeshFilter)
+            main.tileAreaMeshFilter.sharedMesh = null;
         }
 
         CursorView.TryFind(out var cursor);

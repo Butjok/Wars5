@@ -33,8 +33,11 @@ public static class GameSaver {
             Line($"{unit.type} UnitType type enum", "unit.set-type");
             if (unit.position.v is { } position)
                 Line($"{position.x} {position.y} int2", "unit.set-position");
-            if (unit.view)
+            if (unit.view) {
                 Line($"{unit.view.LookDirection.x} {unit.view.LookDirection.y} int2", "unit.set-look-direction");
+                if (unit.view.prefab)
+                    Line($"{unit.view.prefab.name} UnitView type load", "unit.set-view-prefab");
+            }
             Line("unit.create");
 
             if (unit.cargo.Count != 0) {
@@ -68,6 +71,7 @@ public static class GameSaver {
             Line($"{player.team} Team type enum", "player.set-team");
             Line(player.credits, "player.set-credits");
             Line(player.powerMeter, "player.set-power-meter");
+            Line($"{player.unitLookDirection.x} {player.unitLookDirection.y} int2", "player.set-unit-look-direction");
             if (player.co)
                 Line(player.co.name, "player.set-co");
             if (main.localPlayer == player)
