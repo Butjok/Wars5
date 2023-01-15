@@ -406,7 +406,7 @@ public class LevelEditor2 {
                 break;
             }
         }
-        GameLoader.Load(main, save);
+        GameLoader.Load(main, save,true);
         player = main.players[playerIndex];
     }
 
