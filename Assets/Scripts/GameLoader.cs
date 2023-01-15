@@ -10,6 +10,8 @@ public static class GameLoader {
         ["_"] = TileType.Road,
         ["~"] = TileType.Sea,
         ["^"] = TileType.Mountain,
+        ["w"] = TileType.Forest,
+        ["="] = TileType.River,
         ["c"] = TileType.City,
         ["h"] = TileType.Hq,
         ["f"] = TileType.Factory,

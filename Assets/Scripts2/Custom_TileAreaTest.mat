@@ -30,16 +30,16 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _BorderOffset: 0.02
+    - _BorderOffset: 0.025
     - _BorderSharpness: 0.005
     - _BorderThinkness: 0.015
     - _CutoffDistance: 0.1
     - _FillOffset: 0.05
     - _FillSharpness: 0.005
-    - _Glossiness: 0.903
+    - _Glossiness: 0
     - _Metallic: 0
     m_Colors:
-    - _BorderColor: {r: 1, g: 0.4, b: 0, a: 1}
+    - _BorderColor: {r: 1, g: 0.4142865, b: 0, a: 1}
     - _Color: {r: 1, g: 0.97139204, b: 0.08962262, a: 1}
-    - _FillColor: {r: 1, g: 0.4, b: 0, a: 0.023529412}
+    - _FillColor: {r: 1, g: 0.15684961, b: 0, a: 0.08235294}
   m_BuildTextureStacks: []

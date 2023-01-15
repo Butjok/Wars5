@@ -16,7 +16,6 @@ public static class Rules {
     public static UnitType BuildableUnits(TileType buildingType) {
         return buildingType switch {
             TileType.Factory => UnitType.Infantry | UnitType.AntiTank | UnitType.Artillery | UnitType.Apc,
-            TileType.Airport => UnitType.TransportHelicopter | UnitType.AttackHelicopter | UnitType.FighterJet | UnitType.FighterJet | UnitType.Bomber,
             _ => 0
         };
     }
@@ -81,12 +80,9 @@ public static class Rules {
             UnitType.AntiTank => 2000,
             UnitType.Artillery => 5000,
             UnitType.Apc => 5000,
-            UnitType.TransportHelicopter => 7000,
-            UnitType.AttackHelicopter => 8000,
-            UnitType.FighterJet => 15000,
-            UnitType.Bomber => 22000,
             UnitType.Recon => 3000,
             UnitType.LightTank => 5000,
+            UnitType.MediumTank => 8000,
             _ => throw new ArgumentOutOfRangeException(nameof(unitType), unitType, null)
         };
     }

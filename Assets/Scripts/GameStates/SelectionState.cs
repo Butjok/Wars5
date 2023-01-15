@@ -134,7 +134,8 @@ public static class SelectionState {
                                 }
                             }
 
-                            else if (main.TryGetBuilding(position.ToVector2().RoundToInt(), out var building)) {
+                            else if (main.TryGetBuilding(position.ToVector2().RoundToInt(), out var building) &&
+                                     Rules.BuildableUnits(building) != 0) {
                                 if (building.player.v != player)
                                     UiSound.Instance.notAllowed.PlayOneShot();
                                 else {

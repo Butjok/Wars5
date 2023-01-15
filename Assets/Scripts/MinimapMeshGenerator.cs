@@ -69,12 +69,9 @@ public class MinimapMeshGenerator : MonoBehaviour {
 		[UnitType.AntiTank] = 1,
 		[UnitType.Artillery] = 2,
 		[UnitType.Apc] = 3,
-		[UnitType.TransportHelicopter] = 4,
-		[UnitType.AttackHelicopter] = 5,
-		[UnitType.FighterJet] = 6,
-		[UnitType.Bomber] = 7,
 		[UnitType.Recon] = 8,
 		[UnitType.LightTank] = 9,
+		[UnitType.MediumTank] = 10,
 	};
 
 	public Mesh BuildTilesMesh() {

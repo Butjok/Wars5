@@ -131,10 +131,10 @@ public static class GameSaver {
                         var foundLookupId = getLookupId.TryGetValue(building.player.v, out lookupId);
                         Assert.IsTrue(foundLookupId);
                     }
-                    tw.Write($"{lookupId} {building.cp.v} {mnemonic}\t");
+                    tw.Write($"{$"{lookupId} {building.cp.v} {mnemonic}",-8}");
                 }
                 else 
-                    tw.Write($"{mnemonic}\t");
+                    tw.Write($"{mnemonic,-8}");
             }
         }
     }

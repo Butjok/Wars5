@@ -7,12 +7,14 @@ public enum TileType {
     Road = 1 << 1,
     Sea = 1 << 2,
     Mountain = 1 << 3,
+    Forest = 1 << 4,
+    River = 1 << 5,
 
-    City = 1 << 4,
-    Hq = 1 << 5,
-    Factory = 1 << 6,
-    Airport = 1 << 7,
-    Shipyard = 1 << 8,
+    City = 1 << 6,
+    Hq = 1 << 7,
+    Factory = 1 << 8,
+    Airport = 1 << 9,
+    Shipyard = 1 << 10,
     
     Buildings = City | Hq | Factory | Airport | Shipyard
 }

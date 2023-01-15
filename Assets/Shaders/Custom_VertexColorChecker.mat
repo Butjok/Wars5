@@ -27,10 +27,13 @@ Material:
     m_Colors:
     - _ColorA: {r: 1, g: 1, b: 1, a: 1}
     - _ColorB: {r: 0.745283, g: 0.6501975, b: 0.49568352, a: 1}
-    - _ColorMountain: {r: 1, g: 1, b: 1, a: 1}
-    - _ColorPlain: {r: 0.39046335, g: 0.509434, b: 0, a: 1}
-    - _ColorRoad: {r: 0.3207547, g: 0.27178872, b: 0.18609825, a: 1}
-    - _ColorSea: {r: 0.112896055, g: 0.15627535, b: 0.5566038, a: 1}
+    - _ColorForest: {r: 0.21386245, g: 0.33018863, b: 0, a: 0}
+    - _ColorMountain: {r: 0.509434, g: 0.36875883, b: 0.14177641, a: 0}
+    - _ColorPlain: {r: 0.39046332, g: 0.509434, b: 0, a: 0}
+    - _ColorRiver: {r: 0, g: 0.41533375, b: 1, a: 1}
+    - _ColorRoad: {r: 0.32075468, g: 0.27178866, b: 0.18609822, a: 0}
+    - _ColorSea: {r: 0.23629403, g: 0.29594347, b: 0.8490566, a: 1}
+    - _Emissive: {r: 0, g: 0, b: 0, a: 1}
     - _Scale: {r: 1, g: 1, b: 0, a: 0}
     - _Tint: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

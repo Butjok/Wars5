@@ -19,11 +19,6 @@ public  class LevelEditorState : MonoBehaviour {
         UnitType.AntiTank,
         UnitType.Artillery,
         UnitType.Apc,
-        UnitType.TransportHelicopter,
-        UnitType.AttackHelicopter,
-        UnitType.FighterJet,
-        UnitType.Bomber,
-        UnitType.Recon,
         UnitType.LightTank,
         UnitType.Rockets,
     };

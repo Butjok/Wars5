@@ -127,7 +127,7 @@ public class LevelEditor2 {
     }
 
     public TileType tileType = TileType.Plain;
-    public TileType[] tileTypes = { TileType.Plain, TileType.Road, TileType.Sea, TileType.Mountain, TileType.City, TileType.Hq, TileType.Factory, TileType.Airport, TileType.Shipyard };
+    public TileType[] tileTypes = { TileType.Plain, TileType.Road, TileType.Forest,TileType.River, TileType.Sea, TileType.Mountain, TileType.City, TileType.Hq, TileType.Factory, TileType.Airport, TileType.Shipyard };
 
     public Player player;
 
@@ -182,11 +182,14 @@ public class LevelEditor2 {
                             textDisplay.Set(nameof(tileType), tileType);
                             break;
 
-                        case cyclePlayer:
-                            player = CycleValue(player, main.players, main.stack.Pop<int>());
+                        case cyclePlayer: {
+                            var playersWithNull = new List<Player>(main.players);
+                            playersWithNull.Add(null);
+                            player = CycleValue(player, playersWithNull, main.stack.Pop<int>());
                             textDisplay.Set(nameof(player), player);
-                            SetLookDirection(player.unitLookDirection);
+                            SetLookDirection(player?.unitLookDirection ?? Vector2Int.up);
                             break;
+                        }
 
                         case placeTile: {
 
@@ -233,7 +236,7 @@ public class LevelEditor2 {
         colors = "TileTypeColors".LoadAs<TextAsset>().text.FromJson<Dictionary<TileType, string>>();
         RebuildTilemapMesh();
     }
-
+    
     public void RebuildTilemapMesh() {
         var vertices = new List<Vector3>();
         var triangles = new List<int>();
@@ -244,7 +247,7 @@ public class LevelEditor2 {
                 ? building.player.v.color
                 : this.colors.TryGetValue(tileType, out var htmlColor) && ColorUtility.TryParseHtmlString(htmlColor, out var c)
                     ? c
-                    : new Color(1, 1, 1, 0);
+                    : Palette.white;
             color.a = (int)main.tiles[position];
             foreach (var vertex in MeshUtils.QuadAt(position.ToVector3Int())) {
                 vertices.Add(vertex);
@@ -274,10 +277,15 @@ public class LevelEditor2 {
     }
 
     public UnitType unitType = UnitType.Infantry;
-    public UnitType[] unitTypes = { UnitType.Infantry, UnitType.AntiTank, UnitType.Artillery, UnitType.Apc, UnitType.TransportHelicopter, UnitType.AttackHelicopter, UnitType.FighterJet, UnitType.Bomber, UnitType.Recon, UnitType.LightTank, UnitType.Rockets, };
+    public UnitType[] unitTypes = { UnitType.Infantry, UnitType.AntiTank, UnitType.Artillery, UnitType.Apc, UnitType.Recon, UnitType.LightTank, UnitType.MediumTank, UnitType.Rockets, };
 
     public IEnumerator UnitsMode() {
 
+        if (player == null) {
+            Assert.AreNotEqual(0,main.players.Count);
+            player = main.players[0];
+        }
+        
         textDisplay.Clear();
         textDisplay.Set(mode, nameof(UnitsMode));
         textDisplay.Set(nameof(unitType), unitType);

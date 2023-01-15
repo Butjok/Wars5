@@ -22,6 +22,7 @@ _FillTex ("_FillTex", 2D) = "white" {}
     SubShader {
         Tags {"Queue" = "Transparent" "RenderType"="Transparent" }
         LOD 200
+        ZTest Always
         
         CGPROGRAM
         // Physically based Standard lighting model, and enable shadows on all light types
