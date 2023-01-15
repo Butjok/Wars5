@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,12 +20,12 @@ public static class GameLoader {
         ["s"] = TileType.Shipyard
     };
 
-    public static void Load(Main main, string input) {
-        Load(main, input, Vector2Int.zero, Vector2Int.right, Vector2Int.down);
+    public static void Load(Main main, string input, bool spawnBuildingViews=false) {
+        Load(main, input, Vector2Int.zero, Vector2Int.right, Vector2Int.down,spawnBuildingViews);
     }
 
     public static void Load(Main main, string input,
-        Vector2Int startPosition, Vector2Int nextTileDelta, Vector2Int nextLineOffset) {
+        Vector2Int startPosition, Vector2Int nextTileDelta, Vector2Int nextLineOffset, bool spawnBuildingViews=false) {
 
         var playerLookup = new Dictionary<string, Player>();
 
@@ -250,7 +251,10 @@ public static class GameLoader {
                                 var found = playerLookup.TryGetValue(id, out player);
                                 Assert.IsTrue(found, id);
                             }
-                            new Building(main, scanPosition, tileType, player, cp);
+                            BuildingView viewPrefab = null;
+                            if (spawnBuildingViews)
+                                viewPrefab = "WbFactory".LoadAs<BuildingView>();
+                            new Building(main, scanPosition, tileType, player, cp, viewPrefab);
                         }
                         scanPosition += nextTileDelta;
                         hasPlayer = true;

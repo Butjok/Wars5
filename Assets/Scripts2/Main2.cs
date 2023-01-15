@@ -14,6 +14,7 @@ public class Main2 : Main {
     public LevelEditor2 levelEditor;
 
     public UnitTypeUnitViewDictionary unitPrefabs = new();
+    public TileTypeBuildingViewDictionary buildingPrefabs = new();
 
     private void Start() {
         levelEditor = new LevelEditor2(this, textDisplay, meshFilter, meshCollider);
@@ -47,6 +48,9 @@ public class Main2 : Main {
 
 [Serializable]
 public class UnitTypeUnitViewDictionary : SerializableDictionary<UnitType, UnitView> { }
+
+[Serializable]
+public class TileTypeBuildingViewDictionary : SerializableDictionary<TileType, BuildingView> { }
 
 public class LevelEditor2 {
 
@@ -83,7 +87,7 @@ public class LevelEditor2 {
         textDisplay.Clear();
     }
 
-    public Vector2Int lookDirection = Vector2Int.up;
+    public Vector2Int lookDirection = Vector2Int.right;
     public Vector2Int[] lookDirections = Rules.offsets;
 
     public void SetLookDirection(Vector2Int value) {
@@ -154,6 +158,7 @@ public class LevelEditor2 {
             else if (Input.GetMouseButton(Mouse.left) && Mouse.TryGetPosition(out Vector2Int position)) {
                 main.stack.Push(player);
                 main.stack.Push(tileType);
+                main.stack.Push(lookDirection);
                 main.stack.Push(position);
                 main.commands.Enqueue(placeTile);
             }
@@ -194,6 +199,7 @@ public class LevelEditor2 {
                         case placeTile: {
 
                             var position = main.stack.Pop<Vector2Int>();
+                            var lookDirection = main.stack.Pop<Vector2Int>();
                             var tileType = main.stack.Pop<TileType>();
                             var player = main.stack.Pop<Player>();
 
@@ -202,7 +208,8 @@ public class LevelEditor2 {
 
                             main.tiles.Add(position, tileType);
                             if (TileType.Buildings.HasFlag(tileType))
-                                new Building(main, position, tileType, player);
+                                new Building(main, position, tileType, player, viewPrefab: ((Main2)main).buildingPrefabs[tileType],
+                                    lookDirection:lookDirection);
 
                             RebuildTilemapMesh();
 
@@ -412,7 +419,7 @@ public class LevelEditor2 {
         var text = PlayerPrefs.GetString(name);
         Assert.IsNotNull(text);
         Debug.Log(text);
-        GameLoader.Load(main, text);
+        GameLoader.Load(main, text, true);
         player = main.players.Count == 0 ? null : main.players[0];
         RebuildTilemapMesh();
     }

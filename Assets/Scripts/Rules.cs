@@ -215,7 +215,8 @@ public static class Rules {
             UnitType.Infantry => 3,
             UnitType.AntiTank => 2,
             UnitType.LightTank => 5,
-            UnitType.Artillery  or UnitType.Apc or UnitType.Recon => 5,
+            UnitType.MediumTank => 4,
+            UnitType.Artillery  or UnitType.Apc or UnitType.Recon or UnitType.Rockets => 5,
             _ => 0
         };
     }
@@ -239,8 +240,8 @@ public static class Rules {
 
         return unitType switch {
             UnitType.Infantry or UnitType.AntiTank => foot,
-            UnitType.Artillery or UnitType.LightTank or UnitType.Apc => tracks,
-            UnitType.Recon => tires,
+            UnitType.Artillery or UnitType.LightTank or UnitType.Apc or UnitType.MediumTank => tracks,
+            UnitType.Recon or UnitType.Rockets => tires,
             _ => null
         };
     }

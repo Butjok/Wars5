@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="added unit whiteboxes">
+    <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="add rockets and abrams whiteboxes">
+      <change afterPath="$PROJECT_DIR$/Assets/Content/LevelEditorTile.fbx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Content/LevelEditorTile.fbx.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Content/whiteboxes/Resources/WbMdTank.prefab" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Content/whiteboxes/Resources/WbMdTank.prefab.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Content/whiteboxes/Resources/WbRockets.prefab" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Content/whiteboxes/Resources/WbRockets.prefab.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Content/whiteboxes/WbMdTank.fbx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Content/whiteboxes/WbMdTank.fbx.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Content/whiteboxes/WbRockets.fbx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Content/whiteboxes/WbRockets.fbx.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Cursor.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Cursor.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/MovePath.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/MovePath.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Content/whiteboxes/wb-apc.fbx" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Content/whiteboxes/wb-apc.fbx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Content/whiteboxes/wb-unit-dark.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Content/whiteboxes/wb-unit-dark.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Content/whiteboxes/wb-unit-orange.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Content/whiteboxes/wb-unit-orange.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Content/whiteboxes/wb-unit.shader" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Content/whiteboxes/wb-unit.shader" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Resources/PostProcessProfile.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/PostProcessProfile.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/TileMesh.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/TileMesh.mat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/LevelEditor.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/LevelEditor.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameLoader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameLoader.cs" afterDir="false" />
@@ -313,14 +324,7 @@
       <workItem from="1673517955875" duration="79000" />
       <workItem from="1673541102101" duration="1477000" />
       <workItem from="1673777931151" duration="12884000" />
-      <workItem from="1673794178072" duration="8988000" />
-    </task>
-    <task id="LOCAL-00159" summary="unit attack action view">
-      <created>1671004607813</created>
-      <option name="number" value="00159" />
-      <option name="presentableId" value="LOCAL-00159" />
-      <option name="project" value="LOCAL" />
-      <updated>1671004607814</updated>
+      <workItem from="1673794178072" duration="11567000" />
     </task>
     <task id="LOCAL-00160" summary="lkjsdlkfsd">
       <created>1671005861795</created>
@@ -658,7 +662,14 @@
       <option name="project" value="LOCAL" />
       <updated>1673794494054</updated>
     </task>
-    <option name="localTasksCounter" value="208" />
+    <task id="LOCAL-00208" summary="add rockets and abrams whiteboxes">
+      <created>1673810827419</created>
+      <option name="number" value="00208" />
+      <option name="presentableId" value="LOCAL-00208" />
+      <option name="project" value="LOCAL" />
+      <updated>1673810827419</updated>
+    </task>
+    <option name="localTasksCounter" value="209" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -691,7 +702,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="asdasdasd" />
     <MESSAGE value="nbkbkjhjkhjhjk" />
     <MESSAGE value="kjjk" />
     <MESSAGE value="dfgdfgdfg" />
@@ -716,7 +726,8 @@
     <MESSAGE value="first stab at level editor v2" />
     <MESSAGE value="rebuilt lightprboes - changed light cookie" />
     <MESSAGE value="added unit whiteboxes" />
-    <option name="LAST_COMMIT_MESSAGE" value="added unit whiteboxes" />
+    <MESSAGE value="add rockets and abrams whiteboxes" />
+    <option name="LAST_COMMIT_MESSAGE" value="add rockets and abrams whiteboxes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
