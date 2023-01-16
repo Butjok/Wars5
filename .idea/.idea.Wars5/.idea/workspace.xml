@@ -3,23 +3,14 @@
   <component name="ChangeListManager">
     <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assembly-CSharp.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Resources/Cursor.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Cursor.mat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Resources/MovePath.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/MovePath.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/PostProcessProfile.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/PostProcessProfile.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Resources/TileMesh.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/TileMesh.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/LevelEditor.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/LevelEditor.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Stable/Palette.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Stable/Palette.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Stable/PlaceOnTerrain.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Stable/PlaceOnTerrain.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts2/Scripts2.asmdef" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts2/Scripts2.asmdef" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts2/Main2.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts2/Main2.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Scripts2.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Scripts2.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wars.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Wars.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Wars5.sln" beforeDir="false" afterPath="$PROJECT_DIR$/Wars5.sln" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -309,21 +300,8 @@
       <workItem from="1673814036530" duration="2151000" />
       <workItem from="1673817386505" duration="460000" />
       <workItem from="1673821227502" duration="2300000" />
-      <workItem from="1673825906291" duration="4510000" />
-    </task>
-    <task id="LOCAL-00165" summary="add c# roslyn">
-      <created>1671509375361</created>
-      <option name="number" value="00165" />
-      <option name="presentableId" value="LOCAL-00165" />
-      <option name="project" value="LOCAL" />
-      <updated>1671509375361</updated>
-    </task>
-    <task id="LOCAL-00166" summary="nbmnbmbmn">
-      <created>1671511790250</created>
-      <option name="number" value="00166" />
-      <option name="presentableId" value="LOCAL-00166" />
-      <option name="project" value="LOCAL" />
-      <updated>1671511790250</updated>
+      <workItem from="1673825906291" duration="4721000" />
+      <workItem from="1673868330380" duration="1025000" />
     </task>
     <task id="LOCAL-00167" summary="tyuyuttyu">
       <created>1671512998162</created>
@@ -654,7 +632,21 @@
       <option name="project" value="LOCAL" />
       <updated>1673817869291</updated>
     </task>
-    <option name="localTasksCounter" value="214" />
+    <task id="LOCAL-00214" summary="add Shapes library (might be a bad idea?)">
+      <created>1673830596640</created>
+      <option name="number" value="00214" />
+      <option name="presentableId" value="LOCAL-00214" />
+      <option name="project" value="LOCAL" />
+      <updated>1673830596640</updated>
+    </task>
+    <task id="LOCAL-00215" summary="actually add Shapes library">
+      <created>1673830670121</created>
+      <option name="number" value="00215" />
+      <option name="presentableId" value="LOCAL-00215" />
+      <option name="project" value="LOCAL" />
+      <updated>1673830670121</updated>
+    </task>
+    <option name="localTasksCounter" value="216" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -692,8 +684,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="save load game commands upgrade" />
-    <MESSAGE value="good commit before big refactoring" />
     <MESSAGE value="improved editor performance? fixed &quot;Infantry UnitType type enum&quot; errors" />
     <MESSAGE value="ghjghjghj" />
     <MESSAGE value="tweaked PostProcessProfile.asset also made quite a few improvement notes" />
@@ -717,7 +707,9 @@
     <MESSAGE value="change move cost" />
     <MESSAGE value="asdasd" />
     <MESSAGE value="reverted &quot;Tutorial&quot; level used at SampleScene" />
-    <option name="LAST_COMMIT_MESSAGE" value="reverted &quot;Tutorial&quot; level used at SampleScene" />
+    <MESSAGE value="add Shapes library (might be a bad idea?)" />
+    <MESSAGE value="actually add Shapes library" />
+    <option name="LAST_COMMIT_MESSAGE" value="actually add Shapes library" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -42,9 +42,9 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets/Scripts2/Main2.cs" />
+     <Compile Include="Assets/Scripts2/ShapesTest.cs" />
      <Compile Include="Assets/Scripts2/Editor/WarsSerializableDictionaryPropertyDrawer2.cs" />
      <Compile Include="Assets/Scripts2/WorldBoxSectionTextureGenerator.cs" />
-     <Compile Include="Assets/Scripts2/ShapesTest.cs" />
      <Folder Include="Assets/Scripts2/Editor" />
      <None Include="Assets/Scripts2/Scripts2.asmdef" />
      <None Include="Assets/Scripts2/SDFtest.shader" />

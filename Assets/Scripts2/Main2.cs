@@ -394,6 +394,10 @@ public class LevelEditor2 {
     }
 
     public IEnumerator Play() {
+        
+        textDisplay.Clear();
+        textDisplay.Set(mode, nameof(Play));
+        
         var save = GameSaver.SaveToString(main);
         var playerIndex = main.players.IndexOf(player);
         main.levelLogic = new LevelLogic();
