@@ -83,14 +83,10 @@ public class Main : MonoBehaviour {
         Debug.Log(@$"UNDISPOSED: players: {Player.undisposed.Count} buildings: {Building.undisposed.Count} units: {Unit.undisposed.Count} unitActions: {UnitAction.undisposed.Count}");
     }
 
-    private void OnGUI() {
+    protected  virtual void OnGUI() {
         if (guiSkin)
             GUI.skin = guiSkin;
-        var content = new GUIContent($"Stack: {stack.Count}");
-        var style = GUI.skin.label;
-        var size = style.CalcSize(content);
-        var rect = new Rect(Screen.width - size.x, 0, size.x, size.y);
-        GUI.Label(rect, content, style);
+        GUILayout.Label($"stack: {stack.Count}");
     }
 
     public float fadeDuration = 2;

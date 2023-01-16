@@ -1,31 +1,11 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public static class GameLoader {
-
-    public static readonly Dictionary<string, TileType> parseMnemonic = new() {
-        ["."] = TileType.Plain,
-        ["_"] = TileType.Road,
-        ["~"] = TileType.Sea,
-        ["^"] = TileType.Mountain,
-        ["w"] = TileType.Forest,
-        ["="] = TileType.River,
-        ["c"] = TileType.City,
-        ["h"] = TileType.Hq,
-        ["f"] = TileType.Factory,
-        ["a"] = TileType.Airport,
-        ["s"] = TileType.Shipyard
-    };
-
-    public static void Load(Main main, string input, bool spawnBuildingViews=false) {
-        Load(main, input, Vector2Int.zero, Vector2Int.right, Vector2Int.down,spawnBuildingViews);
-    }
-
-    public static void Load(Main main, string input,
-        Vector2Int startPosition, Vector2Int nextTileDelta, Vector2Int nextLineOffset, bool spawnBuildingViews=false) {
+public static class GameReader {
+    
+    public static void LoadInto(Main main, string input, bool spawnBuildingViews = false) {
 
         var playerLookup = new Dictionary<string, Player>();
 
@@ -58,8 +38,25 @@ public static class GameLoader {
         }
         ResetPlayerValues();
 
-        var scanPosition = startPosition;
-        var hasPlayer = true;
+        Vector2Int? tilePosition;
+        TileType tileType;
+        void ResetTileValues() {
+            tilePosition = null;
+            tileType = 0;
+        }
+        ResetTileValues();
+
+        Vector2Int? buildingPosition;
+        TileType buildingType;
+        int buildingCp;
+        Vector2Int? buildingLookDirection;
+        void ResetBuildingValues() {
+            buildingPosition = null;
+            buildingType = 0;
+            buildingCp = 20;
+            buildingLookDirection = null;
+        }
+        ResetBuildingValues();
 
         Vector2Int? unitPosition;
         Vector2Int? unitLookDirection;
@@ -80,8 +77,6 @@ public static class GameLoader {
         }
         ResetUnitValues();
 
-        main.Clear();
-
         var stack = new Stack();
         foreach (var token in input.Tokenize()) {
             switch (token) {
@@ -100,7 +95,7 @@ public static class GameLoader {
                     break;
                 }
 
-                case "player.create": {
+                case "player.add": {
 
                     Assert.IsTrue(playerLookupId == null || !playerLookup.ContainsKey(playerLookupId), playerLookupId);
 
@@ -122,10 +117,6 @@ public static class GameLoader {
                     break;
                 }
 
-                case "player.set-lookup-id": {
-                    playerLookupId = stack.Pop<string>();
-                    break;
-                }
                 case "player.set-color": {
                     var b = stack.Pop<dynamic>();
                     var g = stack.Pop<dynamic>();
@@ -172,11 +163,56 @@ public static class GameLoader {
                     break;
                 }
 
-                case "unit.create": {
+                case "tile.add": {
+                    Assert.AreNotEqual((TileType)0, tileType);
+                    if (tilePosition is not { } position)
+                        throw new AssertionException("tilePosition is null", tileType.ToString());
+                    Assert.IsTrue(!main.tiles.ContainsKey(position), position.ToString());
+                    main.tiles.Add(position, tileType);
+                    ResetTileValues();
+                    break;
+                }
+                case "tile.set-position": {
+                    tilePosition = stack.Pop<Vector2Int>();
+                    break;
+                }
+                case "tile.set-type": {
+                    tileType = stack.Pop<TileType>();
+                    break;
+                }
+
+                case "building.add": {
+                    Assert.AreNotEqual((TileType)0, buildingType);
+                    if (buildingPosition is not { } position)
+                        throw new AssertionException("buildingPosition is null", buildingType.ToString());
+                    Assert.IsTrue(!main.buildings.ContainsKey(position), position.ToString());
+                    var player = stack.Pop<Player>();
+                    var viewPrefab = spawnBuildingViews ? "WbFactory".LoadAs<BuildingView>() : null;
+                    stack.Push(new Building(main, position, buildingType, player, buildingCp, viewPrefab, buildingLookDirection));
+                    ResetBuildingValues();
+                    break;
+                }
+                case "building.set-type": {
+                    buildingType = stack.Pop<TileType>();
+                    break;
+                }
+                case "building.set-position": {
+                    buildingPosition = stack.Pop<Vector2Int>();
+                    break;
+                }
+                case "building.set-cp": {
+                    buildingCp = stack.Pop<int>();
+                    break;
+                }
+                case "building.set-look-direction": {
+                    buildingLookDirection = stack.Pop<Vector2Int>();
+                    break;
+                }
+
+                case "unit.add": {
                     Assert.AreNotEqual(default, unitType);
                     var player = stack.Pop<Player>();
-                    var unit = new Unit(player, unitType, unitPosition, unitLookDirection, unitHp, unitFuel, unitMoved, unitViewPrefab);
-                    stack.Push(unit);
+                    stack.Push(new Unit(player, unitType, unitPosition, unitLookDirection, unitHp, unitFuel, unitMoved, unitViewPrefab));
                     ResetUnitValues();
                     break;
                 }
@@ -220,58 +256,10 @@ public static class GameLoader {
                     break;
                 }
 
-                case "nl": {
-                    scanPosition.x = startPosition.x;
-                    scanPosition += nextLineOffset;
+                default:
+                    stack.ExecuteToken(token);
                     break;
-                }
-                case "tilemap.set-next-line-offset": {
-                    nextLineOffset = stack.Pop<Vector2Int>();
-                    break;
-                }
-                case "tilemap.set-start-position": {
-                    Assert.AreEqual(0, main.tiles.Count);
-                    startPosition = stack.Pop<Vector2Int>();
-                    scanPosition = startPosition;
-                    break;
-                }
-                case "n": {
-                    hasPlayer = false;
-                    break;
-                }
-
-                default: {
-                    if (parseMnemonic.TryGetValue(token, out var tileType)) {
-                        main.tiles.Add(scanPosition, tileType);
-                        if (TileType.Buildings.HasFlag(tileType)) {
-                            var cp = stack.Pop<int>();
-                            Player player = null;
-                            if (hasPlayer) {
-                                var id = stack.Pop<string>();
-                                var found = playerLookup.TryGetValue(id, out player);
-                                Assert.IsTrue(found, id);
-                            }
-                            BuildingView viewPrefab = null;
-                            if (spawnBuildingViews)
-                                viewPrefab = "WbFactory".LoadAs<BuildingView>();
-                            new Building(main, scanPosition, tileType, player, cp, viewPrefab);
-                        }
-                        scanPosition += nextTileDelta;
-                        hasPlayer = true;
-                    }
-                    else
-                        stack.ExecuteToken(token);
-                    break;
-                }
             }
-        }
-
-        Assert.IsNotNull(main.localPlayer);
-        
-        if (CameraRig.TryFind(out var cameraRig)) {
-            var clampToHull = cameraRig.GetComponent<ClampToHull>();
-            if (clampToHull)
-                clampToHull.Recalculate(main.tiles.Keys);
         }
     }
 }

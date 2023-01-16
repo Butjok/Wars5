@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -11,6 +13,10 @@ public static class PostfixInterpreter {
         return input.Split(new[] { ' ', '\r', '\n', '\t' }, StringSplitOptions.RemoveEmptyEntries);
     }
 
+    public static DateTime launchTime;
+    public static readonly Dictionary<string, Type> typeCache ;
+    public static readonly List<Type> allTypes ;
+
     public static void ExecuteToken(this Stack stack, string token) {
 
         if (int.TryParse(token, out var intValue))
@@ -18,6 +24,9 @@ public static class PostfixInterpreter {
 
         else if (float.TryParse(token, NumberStyles.Any, CultureInfo.InvariantCulture, out var floatValue))
             stack.Push(floatValue);
+        
+        else if (token.StartsWith("#"))
+            return;
 
         else
             switch (token) {
@@ -40,6 +49,10 @@ public static class PostfixInterpreter {
                 case "true":
                 case "false":
                     stack.Push(token == "true");
+                    break;
+                
+                case "null":
+                    stack.Push(null);
                     break;
 
                 case "and":
@@ -64,17 +77,24 @@ public static class PostfixInterpreter {
 
                 case "type": {
                     var typeName = stack.Pop<string>();
-                    var type = Type.GetType(typeName) ?? 
-                               AppDomain.CurrentDomain.GetAssemblies().SelectMany(assembly => assembly.GetTypes()).FirstOrDefault(t => t.Name == typeName);
+                    Type type=null;
+                    foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies()) {
+                        type = assembly.GetType(typeName);
+                        if (type != null)
+                            break;
+                    }
                     Assert.IsNotNull(type, typeName);
                     stack.Push(type);
                     break;
                 }
 
-                case "load": {
+                case "load":
+                case "load-resource": {
                     var type = stack.Pop<Type>();
                     var name = stack.Pop<string>();
                     var resource = Resources.Load(name, type);
+                    if(!resource)
+                        Debug.Log($"resource '{name}' ({type}) was not loaded");
                     stack.Push(resource);
                     break;
                 }

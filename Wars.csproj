@@ -102,10 +102,10 @@
      <Compile Include="Assets/Scripts/MissionObjectivesUi.cs" />
      <Compile Include="Assets/Scripts/Animation/Projectile.cs" />
      <Compile Include="Assets/Scripts/BodyTorque.cs" />
-     <Compile Include="Assets/Scripts/GameLoader.cs" />
+     <Compile Include="Assets/Scripts/GameReader.cs" />
      <Compile Include="Assets/Scripts/UnitActionView.cs" />
      <Compile Include="Assets/Scripts/UnitView.cs" />
-     <Compile Include="Assets/Scripts/GameSaver.cs" />
+     <Compile Include="Assets/Scripts/GameWriter.cs" />
      <Compile Include="Assets/Scripts/Level/Testing.cs" />
      <Compile Include="Assets/Scripts/OffscreenArrow.cs" />
      <Compile Include="Assets/Scripts/AiTest.cs" />

@@ -51,7 +51,7 @@ public  class LevelEditorState : MonoBehaviour {
         if (cursorView)
             cursorView.Visible = true;
 
-        var textDisplay = new LevelEditorTextDisplay(uiText);
+        //var textDisplay = new LevelEditorTextDisplay(uiText);
         
         var unitTypeIndex = -1;
 

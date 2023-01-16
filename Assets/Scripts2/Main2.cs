@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using Butjok.CommandLine;
 using TMPro;
 using UnityEngine;
@@ -8,7 +10,6 @@ using UnityEngine.Assertions;
 
 public class Main2 : Main {
 
-    public TMP_Text textDisplay;
     public MeshFilter meshFilter;
     public MeshCollider meshCollider;
     public LevelEditor2 levelEditor;
@@ -17,7 +18,7 @@ public class Main2 : Main {
     public TileTypeBuildingViewDictionary buildingPrefabs = new();
 
     private void Start() {
-        levelEditor = new LevelEditor2(this, textDisplay, meshFilter, meshCollider);
+        levelEditor = new LevelEditor2(this, meshFilter, meshCollider);
         StartCoroutine(levelEditor.Run());
     }
 
@@ -35,7 +36,7 @@ public class Main2 : Main {
     }
 
     [Command]
-    public void DebugSetPlayerColor(int index ,Color color) {
+    public void DebugSetPlayerColor(int index, Color color) {
         if (index >= 0 && index < players.Count) {
             var player = players[index];
             player.color = color;
@@ -43,6 +44,31 @@ public class Main2 : Main {
                 if (unit.player == player && unit.view)
                     unit.view.PlayerColor = color;
         }
+    }
+
+    public Dictionary<string, Func<object>> screenText = new();
+    public HashSet<Predicate<string>> screenTextFilters = new() { _ => true };
+
+    public void ClearScreenTextFilters() {
+        screenTextFilters.Clear();
+    }
+    public void ResetScreenTextFilters() {
+        ClearScreenTextFilters();
+        screenTextFilters.Add(_ => true);
+    }
+    public void AddScreenTextPrefixFilter(params string[] prefixes) {
+        foreach (var prefix in prefixes)
+            screenTextFilters.Add(name => name.StartsWith(prefix));
+    }
+    public void AddScreenTextFilter(params string[] names) {
+        foreach (var name in names)
+            screenTextFilters.Add(names.Contains);
+    }
+    protected override void OnGUI() {
+        base.OnGUI();
+
+        foreach (var (name, value) in screenText.Where(kv => screenTextFilters.Any(filter => filter(kv.Key))).OrderBy(kv => kv.Key))
+            GUILayout.Label($"{name}: {value()}");
     }
 }
 
@@ -68,79 +94,80 @@ public class LevelEditor2 {
     public const string removeUnit = prefix + "remove-unit";
     public const string cycleLookDirection = prefix + "cycle-look-direction";
 
+    public const string pickTile = prefix + "pick-tile";
+    public const string pickUnit = prefix + "pick-unit";
+
     public const string cyclePlayer = prefix + "cycle-players";
     public const string play = prefix + "play";
 
     public const string mode = nameof(mode);
     public const string autosave = prefix + "autosave";
 
-    public Main main;
+    public Stack<(Action perform, Action revert)> undos = new();
+    public Stack<(Action perform, Action revert)> redos = new();
+
+    public Main2 main;
     public LevelEditorTextDisplay textDisplay;
     public MeshFilter meshFilter;
     public MeshCollider meshCollider;
 
-    public LevelEditor2(Main main, TMP_Text text, MeshFilter meshFilter, MeshCollider meshCollider) {
+    public LevelEditor2(Main2 main, MeshFilter meshFilter, MeshCollider meshCollider) {
         this.main = main;
         this.meshFilter = meshFilter;
         this.meshCollider = meshCollider;
-        textDisplay = new LevelEditorTextDisplay(text);
-        textDisplay.Clear();
     }
 
     public Vector2Int lookDirection = Vector2Int.right;
     public Vector2Int[] lookDirections = Rules.offsets;
 
-    public void SetLookDirection(Vector2Int value) {
-        lookDirection = value;
-        textDisplay.Set(nameof(lookDirection), lookDirection);
-        if (CursorView.TryFind(out var cursorView))
-            cursorView.LookDirection = lookDirection;
-    }
-
     public IEnumerator Run() {
 
-        // main.Clear();
-        //
-        // var red = new Player(main, Palette.red, Team.Alpha, credits: 16000, unitLookDirection: Vector2Int.right);
-        // var blue = new Player(main, Palette.blue, Team.Bravo, credits: 16000, unitLookDirection: Vector2Int.left);
-        // main.localPlayer = red;
-        // player = red;
-        //
-        // var min = new Vector2Int(-5, -5);
-        // var max = new Vector2Int(5, 5);
-        //
-        // for (var y = min.y; y <= max.y; y++)
-        // for (var x = min.x; x <= max.x; x++)
-        //     main.tiles.Add(new Vector2Int(x, y), TileType.Plain);
-        //
-        // new Building(main, min, TileType.Hq, red);
-        // new Building(main, max, TileType.Hq, blue);
-        //
-        // new Unit(red, UnitType.Infantry, min);
-        // new Unit(blue, UnitType.Infantry, max);
-        //
-        // LoadColors();
-        // RebuildTilemapMesh();
-        //
-        // if (main.players.Count > 0)
-        //     SetLookDirection(main.players[0].unitLookDirection);
+        main.Clear();
+
+        var red = new Player(main, Palette.red, Team.Alpha, credits: 16000, unitLookDirection: Vector2Int.right);
+        var blue = new Player(main, Palette.blue, Team.Bravo, credits: 16000, unitLookDirection: Vector2Int.left);
+        main.localPlayer = red;
+        player = red;
+
+        var min = new Vector2Int(-5, -5);
+        var max = new Vector2Int(5, 5);
+
+        for (var y = min.y; y <= max.y; y++)
+        for (var x = min.x; x <= max.x; x++)
+            main.tiles.Add(new Vector2Int(x, y), TileType.Plain);
+
+        new Building(main, min, TileType.Hq, red, viewPrefab: "WbFactory".LoadAs<BuildingView>());
+        new Building(main, max, TileType.Hq, blue, viewPrefab: "WbFactory".LoadAs<BuildingView>());
+
+        new Unit(red, UnitType.Infantry, min);
+        new Unit(blue, UnitType.Infantry, max);
+
+        LoadColors();
+        RebuildTilemapMesh();
+
+        if (main.players.Count > 0)
+            lookDirection = main.players[0].unitLookDirection;
+
+        //Load("test");
         
-        Load("test");
+        main.screenText["tile-type"] = () => tileType;
+        main.screenText["player"] = () => main.players.IndexOf(player);
+        main.screenText["look-direction"] = () => lookDirection;
+        main.screenText["unit-type"] = () => unitType;
 
         yield return TilesMode();
     }
 
     public TileType tileType = TileType.Plain;
-    public TileType[] tileTypes = { TileType.Plain, TileType.Road, TileType.Forest,TileType.River, TileType.Sea, TileType.Mountain, TileType.City, TileType.Hq, TileType.Factory, TileType.Airport, TileType.Shipyard };
+    public TileType[] tileTypes = { TileType.Plain, TileType.Road, TileType.Forest, TileType.Mountain, TileType.River, TileType.Sea, TileType.City, TileType.Hq, TileType.Factory, TileType.Airport, TileType.Shipyard };
 
     public Player player;
 
     public IEnumerator TilesMode() {
 
-        textDisplay.Clear();
-        textDisplay.Set(mode, nameof(TilesMode));
-        textDisplay.Set(nameof(tileType), tileType);
-        textDisplay.Set(nameof(player), player);
+        main.ClearScreenTextFilters();
+        main.AddScreenTextPrefixFilter("tiles-mode.");
+        main.AddScreenTextFilter("tile-type", "player","look-direction");
 
         while (true) {
             yield return null;
@@ -155,15 +182,15 @@ public class LevelEditor2 {
                 main.stack.Push(Input.GetKey(KeyCode.LeftShift) ? -1 : 1);
                 main.commands.Enqueue(cyclePlayer);
             }
-            else if (Input.GetMouseButton(Mouse.left) && Mouse.TryGetPosition(out Vector2Int position)) {
+            else if (Input.GetMouseButton(Mouse.left) && Mouse.TryGetPosition(out Vector2Int addPosition)) {
                 main.stack.Push(player);
                 main.stack.Push(tileType);
                 main.stack.Push(lookDirection);
-                main.stack.Push(position);
+                main.stack.Push(addPosition);
                 main.commands.Enqueue(placeTile);
             }
-            else if (Input.GetMouseButton(Mouse.right) && Mouse.TryGetPosition(out Vector2Int position2)) {
-                main.stack.Push(position2);
+            else if (Input.GetMouseButton(Mouse.right) && Mouse.TryGetPosition(out Vector2Int removePosition)) {
+                main.stack.Push(removePosition);
                 main.commands.Enqueue(removeTile);
             }
             else if (Input.GetKeyDown(KeyCode.F5))
@@ -172,6 +199,10 @@ public class LevelEditor2 {
             else if (Input.GetKeyDown(KeyCode.PageUp) || Input.GetKeyDown(KeyCode.PageDown)) {
                 main.stack.Push(Input.GetKeyDown(KeyCode.PageUp) ? -1 : 1);
                 main.commands.Enqueue(cycleLookDirection);
+            }
+            else if (Input.GetKeyDown(KeyCode.LeftAlt) && Mouse.TryGetPosition(out Vector2Int pickPosition)) {
+                main.stack.Push(pickPosition);
+                main.commands.Enqueue(pickTile);
             }
 
             while (main.commands.TryDequeue(out var command))
@@ -184,15 +215,13 @@ public class LevelEditor2 {
 
                         case cycleTileType:
                             tileType = CycleValue(tileType, tileTypes, main.stack.Pop<int>());
-                            textDisplay.Set(nameof(tileType), tileType);
                             break;
 
                         case cyclePlayer: {
                             var playersWithNull = new List<Player>(main.players);
                             playersWithNull.Add(null);
                             player = CycleValue(player, playersWithNull, main.stack.Pop<int>());
-                            textDisplay.Set(nameof(player), player);
-                            SetLookDirection(player?.unitLookDirection ?? Vector2Int.up);
+                            lookDirection = player?.unitLookDirection ?? Vector2Int.up;
                             break;
                         }
 
@@ -208,8 +237,8 @@ public class LevelEditor2 {
 
                             main.tiles.Add(position, tileType);
                             if (TileType.Buildings.HasFlag(tileType))
-                                new Building(main, position, tileType, player, viewPrefab: ((Main2)main).buildingPrefabs[tileType],
-                                    lookDirection:lookDirection);
+                                new Building(main, position, tileType, player, viewPrefab: main.buildingPrefabs[tileType],
+                                    lookDirection: lookDirection);
 
                             RebuildTilemapMesh();
 
@@ -222,13 +251,20 @@ public class LevelEditor2 {
                             break;
 
                         case cycleLookDirection:
-                            SetLookDirection(CycleValue(lookDirection, lookDirections, main.stack.Pop<int>()));
+                            lookDirection = CycleValue(lookDirection, lookDirections, main.stack.Pop<int>());
                             break;
 
                         case play:
                             yield return Play();
                             yield return TilesMode();
                             yield break;
+
+                        case pickTile: {
+                            var position = main.stack.Pop<Vector2Int>();
+                            if (main.tiles.TryGetValue(position, out var pickedTileType))
+                                tileType = pickedTileType;
+                            break;
+                        }
 
                         default:
                             main.stack.ExecuteToken(token);
@@ -243,7 +279,7 @@ public class LevelEditor2 {
         colors = "TileTypeColors".LoadAs<TextAsset>().text.FromJson<Dictionary<TileType, string>>();
         RebuildTilemapMesh();
     }
-    
+
     public void RebuildTilemapMesh() {
         var vertices = new List<Vector3>();
         var triangles = new List<int>();
@@ -289,15 +325,14 @@ public class LevelEditor2 {
     public IEnumerator UnitsMode() {
 
         if (player == null) {
-            Assert.AreNotEqual(0,main.players.Count);
+            Assert.AreNotEqual(0, main.players.Count);
             player = main.players[0];
+            lookDirection = player.unitLookDirection;
         }
-        
-        textDisplay.Clear();
-        textDisplay.Set(mode, nameof(UnitsMode));
-        textDisplay.Set(nameof(unitType), unitType);
-        textDisplay.Set(nameof(lookDirection), lookDirection);
-        textDisplay.Set(nameof(player), player);
+
+        main.ClearScreenTextFilters();
+        main.AddScreenTextPrefixFilter("units-mode.");
+        main.AddScreenTextFilter("unit-type", "look-direction", "player");
 
         while (true) {
             yield return null;
@@ -328,9 +363,13 @@ public class LevelEditor2 {
                 main.stack.Push(Input.GetKeyDown(KeyCode.PageUp) ? -1 : 1);
                 main.commands.Enqueue(cycleLookDirection);
             }
-
             else if (Input.GetKeyDown(KeyCode.F5))
                 main.commands.Enqueue(play);
+
+            else if (Input.GetKeyDown(KeyCode.LeftAlt) && Mouse.TryGetPosition(out Vector2Int pickPosition)) {
+                main.stack.Push(pickPosition);
+                main.commands.Enqueue(pickUnit);
+            }
 
             while (main.commands.TryDequeue(out var command))
                 foreach (var token in command.Tokenize())
@@ -342,17 +381,15 @@ public class LevelEditor2 {
 
                         case cyclePlayer:
                             player = CycleValue(player, main.players, main.stack.Pop<int>());
-                            textDisplay.Set(nameof(player), player);
-                            SetLookDirection(player.unitLookDirection);
+                            lookDirection = player.unitLookDirection;
                             break;
 
                         case cycleUnitType:
                             unitType = CycleValue(unitType, unitTypes, main.stack.Pop<int>());
-                            textDisplay.Set(nameof(unitType), unitType);
                             break;
 
                         case cycleLookDirection:
-                            SetLookDirection(CycleValue(lookDirection, lookDirections, main.stack.Pop<int>()));
+                            lookDirection = CycleValue(lookDirection, lookDirections, main.stack.Pop<int>());
                             break;
 
                         case play:
@@ -370,7 +407,8 @@ public class LevelEditor2 {
                             if (main.units.ContainsKey(position))
                                 TryRemoveUnit(position);
 
-                            new Unit(player, unitType, position, lookDirection, viewPrefab: ((Main2)main).unitPrefabs[unitType]);
+                            var viewPrefab = main.unitPrefabs.TryGetValue(unitType, out var p) ? p : UnitView.DefaultPrefab; 
+                            new Unit(player, unitType, position, lookDirection, viewPrefab: viewPrefab);
 
                             break;
                         }
@@ -394,11 +432,14 @@ public class LevelEditor2 {
     }
 
     public IEnumerator Play() {
-        
-        textDisplay.Clear();
-        textDisplay.Set(mode, nameof(Play));
-        
-        var save = GameSaver.SaveToString(main);
+
+        main.ClearScreenTextFilters();
+        main.AddScreenTextPrefixFilter("play-mode.");
+
+        using var tw = new StringWriter();
+        GameWriter.Write(tw, main);
+        var save = tw.ToString();
+        Debug.Log(save);
         var playerIndex = main.players.IndexOf(player);
         main.levelLogic = new LevelLogic();
         var play = SelectionState.Run(main, true);
@@ -410,20 +451,32 @@ public class LevelEditor2 {
                 break;
             }
         }
-        GameLoader.Load(main, save,true);
-        player = main.players[playerIndex];
+
+        main.Clear();
+        GameReader.LoadInto(main, save, true);
+        player = playerIndex == -1 ? null : main.players[playerIndex];
     }
 
+    public static string SaveDirectory => Path.Combine(Application.persistentDataPath, "Saves");
+    public static string GetSaveFilePath(string name) => Path.Combine(SaveDirectory, name);
+
     public void Save(string name) {
-        var text = GameSaver.SaveToString(main);
-        PlayerPrefs.SetString(name, text);
-        Debug.Log(text);
+        using var tw = new StringWriter();
+        GameWriter.Write(tw, main);
+        var text = tw.ToString();
+        if (!Directory.Exists(SaveDirectory))
+            Directory.CreateDirectory(SaveDirectory);
+        var path = GetSaveFilePath(name);
+        File.WriteAllText(path, text);
+        Debug.Log($"Saved to: {path}\n\n{text}");
     }
     public void Load(string name) {
-        var text = PlayerPrefs.GetString(name);
-        Assert.IsNotNull(text);
-        Debug.Log(text);
-        GameLoader.Load(main, text, true);
+        var path = GetSaveFilePath(name);
+        Assert.IsTrue(File.Exists(path), path);
+        var text = File.ReadAllText(path);
+        Debug.Log($"Reading from: {path}\n\n{text}");
+        main.Clear();
+        GameReader.LoadInto(main, text, true);
         player = main.players.Count == 0 ? null : main.players[0];
         RebuildTilemapMesh();
     }
