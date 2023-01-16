@@ -44,6 +44,7 @@
      <Compile Include="Assets/Scripts2/Main2.cs" />
      <Compile Include="Assets/Scripts2/Editor/WarsSerializableDictionaryPropertyDrawer2.cs" />
      <Compile Include="Assets/Scripts2/WorldBoxSectionTextureGenerator.cs" />
+     <Compile Include="Assets/Scripts2/ShapesTest.cs" />
      <Folder Include="Assets/Scripts2/Editor" />
      <None Include="Assets/Scripts2/Scripts2.asmdef" />
      <None Include="Assets/Scripts2/SDFtest.shader" />
@@ -951,6 +952,10 @@
     <ProjectReference Include="SerializableDictionary.csproj">
       <Project>{2528cbf2-fe47-72f6-8962-6beddbb0cda3}</Project>
       <Name>SerializableDictionary</Name>
+    </ProjectReference>
+    <ProjectReference Include="ShapesRuntime.csproj">
+      <Project>{12b46e2d-c8b4-27c4-fe3e-45f12104fea2}</Project>
+      <Name>ShapesRuntime</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
