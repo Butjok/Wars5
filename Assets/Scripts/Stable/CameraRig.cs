@@ -219,9 +219,9 @@ public class CameraRig : MonoBehaviour {
 		if (rotation == targetRotation)
 			return false;
 		rotation = targetRotation;
-
+		
 		rotationSequence = DOTween.Sequence()
-			.Append(transform.DORotate(new Vector3(0, rotation * rotationStep, 0), rotationDuration)
+			.Append(transform.DORotateQuaternion(Quaternion.Euler(0, rotation * rotationStep, 0), rotationDuration)
 				.SetEase(rotationEase))
 			.AppendCallback(() => rotationSequence = null);
 		return true;

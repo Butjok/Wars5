@@ -161,16 +161,16 @@ MonoBehaviour:
     value: 0
   saturation:
     overrideState: 0
-    value: 5
+    value: -10
   brightness:
     overrideState: 0
     value: 0
   postExposure:
-    overrideState: 1
-    value: 0.25
+    overrideState: 0
+    value: 0.5
   contrast:
     overrideState: 0
-    value: 5
+    value: 10
   mixerRedOutRedIn:
     overrideState: 0
     value: 108
@@ -1575,7 +1575,7 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 1.5
+    value: 1.25
   color:
     overrideState: 0
     value: {r: 0, g: 0, b: 0, a: 1}
@@ -1599,7 +1599,7 @@ MonoBehaviour:
     value: 0
   radius:
     overrideState: 1
-    value: 0.21
+    value: 0.5
   quality:
     overrideState: 1
-    value: 4
+    value: 0

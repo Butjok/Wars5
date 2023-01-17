@@ -1,27 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="sadsdsad">
+    <list default="true" id="e226aab0-537f-4447-b5f6-ada46f842a4d" name="Default Changelist" comment="tweak level editor colors etc">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Wars5/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assembly-CSharp.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Assembly-CSharp.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Content/whiteboxes/Resources/WbApc.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Content/whiteboxes/Resources/WbApc.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Content/whiteboxes/Resources/WbFactory.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Content/whiteboxes/Resources/WbFactory.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Content/whiteboxes/Resources/WbHowitzer.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Content/whiteboxes/Resources/WbHowitzer.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Content/whiteboxes/Resources/WbLightTank.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Content/whiteboxes/Resources/WbLightTank.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Content/whiteboxes/Resources/WbMdTank.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Content/whiteboxes/Resources/WbMdTank.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Content/whiteboxes/Resources/WbRecon.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Content/whiteboxes/Resources/WbRecon.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Content/whiteboxes/Resources/WbRockets.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Content/whiteboxes/Resources/WbRockets.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Content/whiteboxes/wb-unit-blue.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Content/whiteboxes/wb-unit-blue.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Content/whiteboxes/wb-unit-dark.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Content/whiteboxes/wb-unit-dark.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Content/whiteboxes/wb-unit-orange.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Content/whiteboxes/wb-unit-orange.mat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/LevelEditor.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/LevelEditor.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Stable/CameraRig.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Stable/CameraRig.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts2/Main2.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts2/Main2.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Shaders/Custom_VertexColorChecker.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Shaders/Custom_VertexColorChecker.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserSettings/Search.settings" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Search.settings" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,6 +50,7 @@
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.textmeshpro@3.0.6/Scripts/Runtime/TextMeshPro.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/a9b8fc452a6f4a2dba24640d0133afc0157400/2c/63d2abe5/AssertionException.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/a9b8fc452a6f4a2dba24640d0133afc0157400/66/389036c0/AssertionMessageUtil.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/de1f8ef4975b4eacbeb0accc1b22c9b02a000/bd/4f8bc964/ShortcutExtensions.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/a9b8fc452a6f4a2dba24640d0133afc0157400/93/bfa08440/Assert.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Ai.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/PostProcessingFade.cs" root0="FORCE_HIGHLIGHTING" />
@@ -89,6 +75,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/CommandLine/Editor/GenerateTokens.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="mock:///Users/butjok/Documents/GitHub/Wars5/UserSettings/EditorUserSettings.asset" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/CommandLine/CommandLineGUI.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/de1f8ef4975b4eacbeb0accc1b22c9b02a000/6d/bd980a9f/DOTween.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Level/UnitAttackActionViewTest.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.postprocessing@3.2.2/PostProcessing/Runtime/PostProcessEffectSettings.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameWriter.cs" root0="FORCE_HIGHLIGHTING" />
@@ -318,14 +305,7 @@
       <workItem from="1673817386505" duration="460000" />
       <workItem from="1673821227502" duration="2300000" />
       <workItem from="1673825906291" duration="4721000" />
-      <workItem from="1673868330380" duration="21765000" />
-    </task>
-    <task id="LOCAL-00171" summary="level editor looks good so far">
-      <created>1672282816927</created>
-      <option name="number" value="00171" />
-      <option name="presentableId" value="LOCAL-00171" />
-      <option name="project" value="LOCAL" />
-      <updated>1672282816928</updated>
+      <workItem from="1673868330380" duration="23933000" />
     </task>
     <task id="LOCAL-00172" summary="level ed improvements">
       <created>1672325791252</created>
@@ -663,7 +643,14 @@
       <option name="project" value="LOCAL" />
       <updated>1673915715475</updated>
     </task>
-    <option name="localTasksCounter" value="220" />
+    <task id="LOCAL-00220" summary="tweak level editor colors etc">
+      <created>1673920269447</created>
+      <option name="number" value="00220" />
+      <option name="presentableId" value="LOCAL-00220" />
+      <option name="project" value="LOCAL" />
+      <updated>1673920269448</updated>
+    </task>
+    <option name="localTasksCounter" value="221" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -701,7 +688,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="starting to make a higlightin cursor" />
     <MESSAGE value="added bg + dof" />
     <MESSAGE value="- made bird to disappear when close to camera&#10;- first stab at walkable tiles mesh generation with distance fields" />
     <MESSAGE value="add grenzerkompanie music" />
@@ -726,7 +712,8 @@
     <MESSAGE value="- reworked GameWriter.cs and GameReader.cs &#10;- improved level editor screen text" />
     <MESSAGE value="asdasdasd" />
     <MESSAGE value="sadsdsad" />
-    <option name="LAST_COMMIT_MESSAGE" value="sadsdsad" />
+    <MESSAGE value="tweak level editor colors etc" />
+    <option name="LAST_COMMIT_MESSAGE" value="tweak level editor colors etc" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
