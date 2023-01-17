@@ -22,8 +22,14 @@ public class CursorView : MonoBehaviour {
 	public bool enableText = true;
 	public Main main;
 
+	public bool showOnlyOnTiles = true;
+
 	public bool Visible {
 		set => gameObject.SetActive(value);
+	}
+	public Vector2Int LookDirection {
+		get => transform.forward.ToVector2().RoundToInt();
+		set => transform.rotation = Quaternion.LookRotation(value.ToVector3Int(), Vector3.up);
 	}
 
 	public void Reset() {
@@ -37,7 +43,7 @@ public class CursorView : MonoBehaviour {
 			Assert.IsTrue(main);
 		}
 		
-		if (Mouse.TryGetPosition(out Vector2Int mousePosition) && main.TryGetTile(mousePosition, out _)) {
+		if (Mouse.TryGetPosition(out Vector2Int mousePosition) && (!showOnlyOnTiles || main.TryGetTile(mousePosition, out _))) {
 			meshRenderer.enabled = show;
 			transform.position = mousePosition.ToVector3Int();
 			if (text) {

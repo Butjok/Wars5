@@ -6,13 +6,14 @@ public enum UnitType {
     AntiTank = 1 << 1,
     Artillery = 1 << 2,
     Apc = 1 << 3,
-    TransportHelicopter = 1 << 4,
-    AttackHelicopter = 1 << 5,
-    FighterJet = 1 << 6,
-    Bomber = 1 << 7,
+    // TransportHelicopter = 1 << 4,
+    // AttackHelicopter = 1 << 5,
+    // FighterJet = 1 << 6,
+    // Bomber = 1 << 7,
     Recon = 1 << 8,
     LightTank = 1 << 9,
     Rockets = 1 << 10,
+    MediumTank = 1 << 11
 }
 
 [Flags]

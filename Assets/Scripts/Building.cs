@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
+using Object = UnityEngine.Object;
 
 public class Building : IDisposable {
 
@@ -12,10 +13,12 @@ public class Building : IDisposable {
     public Vector2Int position;
     public ChangeTracker<Player> player;
     public ChangeTracker<int> cp;
+    public BuildingView view;
     
     public bool IsAccessible => !main.TryGetUnit(position, out _);
 
-    public Building(Main main, Vector2Int position, TileType type = TileType.City, Player player = null, int? cp = null) {
+    public Building(Main main, Vector2Int position, TileType type = TileType.City, Player player = null, int? cp = null,
+        BuildingView viewPrefab=null, Vector2Int? lookDirection=null) {
 
         undisposed.Add(this);
         
@@ -31,6 +34,14 @@ public class Building : IDisposable {
         Assert.IsTrue(!main.buildings.ContainsKey(position) || main.buildings[position] == null);
         main.buildings[position] = this;
         main.tiles[position] = type;
+
+        if (viewPrefab) {
+            view = Object.Instantiate(viewPrefab, main.transform);
+            view.prefab = viewPrefab;
+            view.Position = position;
+            view.LookDirection = lookDirection ?? Vector2Int.up;
+            view.PlayerColor = player?.color ?? Palette.white;
+        }
     }
 
     public static implicit operator TileType(Building building) {
@@ -43,6 +54,10 @@ public class Building : IDisposable {
         return $"{type}{position} {player.v}";
     }
     public void Dispose() {
+        if (view) {
+            Object.Destroy(view.gameObject);
+            view = null;
+        }
         main.tiles.Remove(position);
         main.buildings.Remove(position);
         undisposed.Remove(this);

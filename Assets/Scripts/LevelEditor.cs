@@ -19,11 +19,6 @@ public  class LevelEditorState : MonoBehaviour {
         UnitType.AntiTank,
         UnitType.Artillery,
         UnitType.Apc,
-        UnitType.TransportHelicopter,
-        UnitType.AttackHelicopter,
-        UnitType.FighterJet,
-        UnitType.Bomber,
-        UnitType.Recon,
         UnitType.LightTank,
         UnitType.Rockets,
     };
@@ -56,7 +51,7 @@ public  class LevelEditorState : MonoBehaviour {
         if (cursorView)
             cursorView.Visible = true;
 
-        var textDisplay = new LevelEditorTextDisplay(uiText);
+        //var textDisplay = new LevelEditorTextDisplay(uiText);
         
         var unitTypeIndex = -1;
 

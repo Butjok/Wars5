@@ -22,17 +22,19 @@ public class NewBehaviourScript : MonoBehaviour {
         main.levelLogic = new TutorialLogic(showDialogue);
     }
     
-    [Command]
-    public void SaveAndLoad() {
-        var result = GameSaver.SaveToString(main);
-        GameLoader.Load(main,result);
-        main.RestartGame();
-    }
-
-    private void Start() {
-        GameLoader.Load(main, source.text);
-        main.RestartGame();
-    }
+    // [Command]
+    // public void SaveAndLoad() {
+    //     var result = GameWriter.SaveToString(main);
+    //     main.Clear();
+    //     GameReader.LoadInto(main,result);
+    //     main.RestartGame();
+    // }
+    //
+    // private void Start() {
+    //     main.Clear();
+    //     GameReader.LoadInto(main, source.text);
+    //     main.RestartGame();
+    // }
 
 #if false
     private void Awake() {

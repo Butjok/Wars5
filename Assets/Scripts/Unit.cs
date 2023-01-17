@@ -24,7 +24,7 @@ public class Unit : IDisposable {
 
     public static implicit operator UnitType(Unit unit) => unit.type;
 
-    public Unit(Player player, UnitType type = UnitType.Infantry, Vector2Int? position = null, Vector2Int? rotation = null, int hp = int.MaxValue, int fuel = int.MaxValue, bool moved = false, UnitView viewPrefab = null) {
+    public Unit(Player player, UnitType type = UnitType.Infantry, Vector2Int? position = null, Vector2Int? lookDirection = null, int hp = int.MaxValue, int fuel = int.MaxValue, bool moved = false, UnitView viewPrefab = null) {
 
         undisposed.Add(this);
 
@@ -35,7 +35,7 @@ public class Unit : IDisposable {
         view = Object.Instantiate(viewPrefab, player.main.transform);
         view.unit = this;
         view.prefab = viewPrefab;
-        view.LookDirection = rotation ?? player.view.unitLookDirection;
+        view.LookDirection = lookDirection ?? player.unitLookDirection;
         view.PlayerColor = player.color;
 
         this.position = new ChangeTracker<Vector2Int?>(old => {

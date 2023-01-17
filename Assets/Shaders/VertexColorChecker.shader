@@ -6,6 +6,16 @@ Shader "Custom/VertexColorChecker" {
 		_Scale ("_Scale", Vector) = (1,1,0,0)
 		_Glossiness ("Smoothness", Range(0,1)) = 0.5
 		_Metallic ("Metallic", Range(0,1)) = 0.0
+
+		_ColorPlain ("_ColorPlain", Color) = (1,1,1,1)
+		_ColorRoad ("_ColorRoad", Color) = (1,1,1,1)
+		_ColorSea ("_ColorSea", Color) = (1,1,1,1)
+		_ColorMountain ("_ColorMountain", Color) = (1,1,1,1)
+		_ColorForest ("_ColorForest", Color) = (1,1,1,1)
+		_ColorRiver ("_ColorRiver", Color) = (1,1,1,1)
+
+		_Emissive ("_Emissive", Color) = (0,0,0,1)
+	
 	}
 	SubShader {
 		Tags { "RenderType"="Opaque" }
@@ -13,7 +23,7 @@ Shader "Custom/VertexColorChecker" {
 		
 		CGPROGRAM
 		// Physically based Standard lighting model, and enable shadows on all light types
-		#pragma surface surf Standard fullforwardshadows
+		#pragma surface surf Standard fullforwardshadows vertex:vert
 
 		// Use shader model 3.0 target, to get nicer looking lighting
 		#pragma target 3.0
@@ -32,18 +42,60 @@ Shader "Custom/VertexColorChecker" {
 		half _Metallic;
 		fixed4 _ColorA, _ColorB, _Tint;
 		half2 _Scale;
+		fixed4 _ColorPlain, _ColorRoad, _ColorSea, _ColorMountain,_ColorForest, _ColorRiver,_Emissive;
+
+		void vert (inout appdata_full v) {
+			float type = v.color.a;
+			if (abs(type - 4) < .01) {
+				v.vertex.y -= 0.1;
+			}
+			else if (abs(type - 8) < .01) {
+				//v.vertex.y += 0.1;
+			}
+		}
 
 		void surf (Input IN, inout SurfaceOutputStandard o) {
 			// Albedo comes from a texture tinted by color
 			int x = round(IN.worldPos.x);
 			int y = round(IN.worldPos.z);
-			o.Albedo = Tint(IN.color.rgb, 0, 1.5, .5);
+			
+			float epsilon = .01;
+			o.Smoothness = 0;
+			
+			float4 color = float4(0,0,0,0);
+			
+			float type = IN.color.a;
+			if (abs(type - 1) < epsilon) {
+				color = _ColorPlain; 
+			}
+			else if (abs(type - 2) < epsilon) {
+				color = _ColorRoad;
+			}
+			else if (abs(type - 4) < epsilon) {
+				color = _ColorSea;
+			}
+			else if (abs(type - 8) < epsilon) {
+				color = _ColorMountain;
+			}
+			else if (abs(type - 16) < epsilon) {
+				color = _ColorForest;
+			}
+			else if (abs(type - 32) < epsilon) {
+				color = _ColorRiver;
+			}
+			else {
+				color = _ColorPlain;
+			}
+			
+			
 			if ((x+y) % 2 == 0) {
-				o.Albedo = Tint(o.Albedo, 0, 1.1, .85);
+				color.rgb = Tint(color.rgb, 0, 1.00, .95);
 			}
 			// Metallic and smoothness come from slider variables
-			o.Metallic = _Metallic;
-			o.Smoothness = IN.color.a;
+			o.Albedo = color.rgb;
+			o.Metallic = 0;
+			o.Emission = _Emissive;
+			o.Smoothness = color.a;
 		}
 		ENDCG
 	}

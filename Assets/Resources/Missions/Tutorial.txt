@@ -16,19 +16,22 @@ VladanCo 				player.set-co
 
 					dup
 Infantry UnitType type enum 		unit.set-type 
--2 4 int2 				unit.set-position 
+-2 4 int2 				unit.set-position
+LightTank UnitView type load		unit.set-view-prefab 
 					unit.create
 					pop
 
 					dup
 Apc UnitType type enum			unit.set-type 
-6 3 int2 				unit.set-position 
+6 3 int2 				unit.set-position
+LightTank UnitView type load		unit.set-view-prefab 
 					unit.create
 				
 					dup
 					unit.get-player
 Infantry UnitType type enum		unit.set-type  
-6 2 int2 				unit.set-position 
+6 2 int2 				unit.set-position
+LightTank UnitView type load		unit.set-view-prefab 
 					unit.create
 					pop
 						
@@ -47,12 +50,14 @@ NatalieCo 				player.set-co
 					dup
 Infantry UnitType type enum 		unit.set-type 
 1 2 int2 				unit.set-position 
+LightTank UnitView type load		unit.set-view-prefab
 					unit.create
 					pop
 
 					dup
 Infantry UnitType type enum		unit.set-type 
-2 3 int2 				unit.set-position 
+2 3 int2 				unit.set-position
+LightTank UnitView type load		unit.set-view-prefab 
 					unit.create
 					pop
 				
@@ -63,11 +68,11 @@ Infantry UnitType type enum		unit.set-type
 -5 5 int2 				tilemap.set-start-position
 0 -1 int2				tilemap.set-next-line-offset
 
-.	.	.	.	.	R 10 h	.	.	.	.	.	.	.	.	nl
+.	.	.	.	.	null 10 h	.	.	.	.	.	.	.	.	nl
 .	.	.	.	.	.	.	.	.	.	.	.	.	.	nl
 .	.	.	.	.	.	.	.	.	.	.	.	.	.	nl
 .	.	.	.	.	.	.	.	.	.	.	.	.	.	nl
 .	.	.	.	.	.	.	.	.	.	.	.	.	.	nl
 .	.	.	.	.	.	.	.	.	.	.	.	.	.	nl
-.	.	.	.	.	.	.	.	.	G 20 h	G 20 f	.	.	.
+.	.	.	.	.	.	.	.	.	1 20 h	1 20 f	.	.	.
 

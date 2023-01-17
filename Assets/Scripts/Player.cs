@@ -23,6 +23,7 @@ public class Player : IDisposable {
 	public int credits;
 	public int powerMeter;
 	public int? abilityActivationTurn;
+	public Vector2Int unitLookDirection = Vector2Int.up;
 
 	public Player(Main main, Color color, Team team = Team.None, int credits=0, Co co = null, PlayerView viewPrefab = null,
 		PlayerType type = PlayerType.Human, AiDifficulty difficulty=AiDifficulty.Normal, Vector2Int? unitLookDirection=null) {
@@ -36,6 +37,7 @@ public class Player : IDisposable {
 		this.co = co ? co : Co.Natalie;
 		this.type = type;
 		this.difficulty = difficulty;
+		this.unitLookDirection = unitLookDirection ?? Vector2Int.up;
 		
 		main.players.Add(this);
 		
@@ -44,7 +46,6 @@ public class Player : IDisposable {
 		view = Object.Instantiate(viewPrefab, main.transform);
 		view.Initialize(this);
 		view.visible = false;
-		view.unitLookDirection = unitLookDirection ?? Vector2Int.up;
 	}
 
 	public override string ToString() {

@@ -33,26 +33,6 @@ public class UnitTypesInfo : ScriptableObject {
             thumbnail = null,
             description = ""
         },
-        [UnitType.TransportHelicopter] = new Record {
-            name = nameof(UnitType.TransportHelicopter).ToWords(),
-            thumbnail = null,
-            description = ""
-        },
-        [UnitType.AttackHelicopter] = new Record {
-            name = nameof(UnitType.AttackHelicopter).ToWords(),
-            thumbnail = null,
-            description = ""
-        },
-        [UnitType.FighterJet] = new Record {
-            name = nameof(UnitType.FighterJet).ToWords(),
-            thumbnail = null,
-            description = ""
-        },
-        [UnitType.Bomber] = new Record {
-            name = nameof(UnitType.Bomber).ToWords(),
-            thumbnail = null,
-            description = ""
-        },
         [UnitType.Recon] = new Record {
             name = nameof(UnitType.Recon).ToWords(),
             thumbnail = null,
