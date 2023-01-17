@@ -88,8 +88,10 @@ public static class SelectionState {
                 else if ((Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(Mouse.right)) && preselectionCursor && preselectionCursor.Visible)
                     preselectionCursor.Hide();
 
-                else if (Input.GetKeyDown(KeyCode.Tab))
+                else if (Input.GetKeyDown(KeyCode.Tab)) {
+                    main.stack.Push(Input.GetKey(KeyCode.LeftShift) ? -1 : 1);
                     main.commands.Enqueue(cyclePositions);
+                }
 
                 else if (Input.GetKeyDown(KeyCode.Space) && preselectionCursor.Visible) {
 
@@ -180,8 +182,9 @@ public static class SelectionState {
                             break;
 
                         case cyclePositions: {
+                            var offset = main.stack.Pop<int>();
                             if (positions.Length > 0) {
-                                positionIndex = (positionIndex + 1) % positions.Length;
+                                positionIndex = (positionIndex + offset).PositiveModulo(positions.Length) ;
                                 if (preselectionCursor) {
                                     var position = positions[positionIndex];
                                     if (preselectionCursor)

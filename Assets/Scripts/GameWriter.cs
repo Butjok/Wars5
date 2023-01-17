@@ -62,6 +62,16 @@ public static class GameWriter {
         }
         WriteLine(tw);
 
+        foreach (var group in main.triggers.GroupBy(kv=>kv.Value)) {
+            var trigger = group.Key;
+            WriteLine(tw, $"{trigger.ToString().Replace(" ", "")} Trigger type enum", "trigger.select");
+            foreach (var a in group) {
+                var position = a.Key;
+                WriteLine(tw, $"{position.x} {position.y} int2", "trigger.add-position");
+            }
+            WriteLine(tw);
+        }
+
         return tw;
     }
 

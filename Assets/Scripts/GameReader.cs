@@ -77,6 +77,8 @@ public static class GameReader {
         }
         ResetUnitValues();
 
+        Trigger? trigger = null;
+
         var stack = new Stack();
         foreach (var token in input.Tokenize()) {
             switch (token) {
@@ -253,6 +255,19 @@ public static class GameReader {
                     var carrier = stack.Pop<Unit>();
                     carrier.cargo.Add(unit);
                     unit.carrier.v = carrier;
+                    break;
+                }
+
+                case "trigger.select": {
+                    trigger = stack.Pop<Trigger>();
+                    break;
+                }
+                
+                case "trigger.add-position": {
+                    var position = stack.Pop<Vector2Int>();
+                    if (trigger is not { } value)
+                        throw new AssertionException("trigger is null", position.ToString());
+                    main.triggers.Add(position, value);
                     break;
                 }
 

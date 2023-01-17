@@ -15,6 +15,8 @@ Shader "Custom/VertexColorChecker" {
 		_ColorRiver ("_ColorRiver", Color) = (1,1,1,1)
 
 		_Emissive ("_Emissive", Color) = (0,0,0,1)
+
+		_Road ("_Road", 2D) = "white" {}
 	
 	}
 	SubShader {
@@ -30,10 +32,10 @@ Shader "Custom/VertexColorChecker" {
 
 		#include "Utils.cginc"
 
-		sampler2D _MainTex;
+		sampler2D _MainTex,_Road;
 
 		struct Input {
-			float2 uv_MainTex;
+//			float2 uv_Road;
 			float3 worldPos;
 			float4 color : COLOR;
 		};
@@ -47,7 +49,7 @@ Shader "Custom/VertexColorChecker" {
 		void vert (inout appdata_full v) {
 			float type = v.color.a;
 			if (abs(type - 4) < .01) {
-				v.vertex.y -= 0.1;
+//				v.vertex.y -= 0.1;
 			}
 			else if (abs(type - 8) < .01) {
 				//v.vertex.y += 0.1;
@@ -69,7 +71,8 @@ Shader "Custom/VertexColorChecker" {
 				color = _ColorPlain; 
 			}
 			else if (abs(type - 2) < epsilon) {
-				color = _ColorRoad;
+				color = tex2D(_Road, IN.worldPos.xz - float2(x,y) + .5);
+				color *= _ColorRoad;
 			}
 			else if (abs(type - 4) < epsilon) {
 				color = _ColorSea;
@@ -89,10 +92,16 @@ Shader "Custom/VertexColorChecker" {
 			
 			
 			if ((x+y) % 2 == 0) {
-				color.rgb = Tint(color.rgb, 0, 1.00, .95);
+				color.rgb = Tint(color.rgb, 0, 1.00, .925);
 			}
+			
+			half2 distances = abs(IN.worldPos.xz - float2(x,y));
+			half2 distance = max(distances.x, distances.y);
+			half border = smoothstep(.475, .5, distance);
+			
 			// Metallic and smoothness come from slider variables
 			o.Albedo = color.rgb;
+			o.Albedo *= lerp(1,(1-border),.25);
 			o.Metallic = 0;
 			o.Emission = _Emissive;
 			o.Smoothness = color.a;

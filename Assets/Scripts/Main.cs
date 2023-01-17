@@ -4,15 +4,17 @@ using System.Collections.Generic;
 using System.Linq;
 using Butjok.CommandLine;
 using DG.Tweening;
+using Shapes;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class Main : MonoBehaviour {
+public class Main : ImmediateModeShapeDrawer {
 
     [Command]public MissionName missionName;
     public Dictionary<Vector2Int, TileType> tiles = new();
     public Dictionary<Vector2Int, Unit> units = new();
     public Dictionary<Vector2Int, Building> buildings = new();
+    public Dictionary<Vector2Int, Trigger> triggers = new();
     public List<Player> players = new();
     [Command]public int turn = 0;
     public LevelLogic levelLogic = new();
@@ -118,10 +120,19 @@ public class Main : MonoBehaviour {
         foreach (var building in buildings.Values.ToArray())
             building.Dispose();
         buildings.Clear();
+        
+        triggers.Clear();
     }
 
     [Command]
     public void EnqueueCommand(string command) {
         commands.Enqueue(command);
     }
+}
+
+[Flags]
+public enum Trigger {
+    A = 1 << 0,
+    B = 1 << 1,
+    C = 1 << 2
 }

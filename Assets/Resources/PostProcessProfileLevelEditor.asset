@@ -149,12 +149,12 @@ MonoBehaviour:
     value: 1
   temperature:
     overrideState: 0
-    value: 57
+    value: 7.94
   tint:
     overrideState: 0
-    value: 9
+    value: -63.9
   colorFilter:
-    overrideState: 1
+    overrideState: 0
     value: {r: 1, g: 1, b: 1, a: 1}
   hueShift:
     overrideState: 0
@@ -167,9 +167,9 @@ MonoBehaviour:
     value: 0
   postExposure:
     overrideState: 0
-    value: 0.5
+    value: -0.125
   contrast:
-    overrideState: 0
+    overrideState: 1
     value: 10
   mixerRedOutRedIn:
     overrideState: 0
@@ -200,13 +200,13 @@ MonoBehaviour:
     value: 136
   lift:
     overrideState: 0
-    value: {x: 1, y: 1, z: 1, w: -0.03770028}
+    value: {x: 1, y: 1, z: 1, w: 0}
   gamma:
     overrideState: 0
-    value: {x: 1, y: 0.16680259, z: 0.46215582, w: -0.012360943}
+    value: {x: 1, y: 1, z: 1, w: -0.19193856}
   gain:
     overrideState: 1
-    value: {x: 1, y: 0.89926445, z: 0.916478, w: -0.012361125}
+    value: {x: 1, y: 0.9424367, z: 0.8597081, w: -0.012361125}
   masterCurve:
     overrideState: 0
     value:
@@ -1459,7 +1459,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40b924e2dad56384a8df2a1e111bb675, type: 3}
   m_Name: Vignette
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   enabled:
     overrideState: 1
     value: 1
@@ -1474,7 +1474,7 @@ MonoBehaviour:
     value: {x: 0.5, y: 0.5}
   intensity:
     overrideState: 1
-    value: 0.33
+    value: 0.2
   smoothness:
     overrideState: 0
     value: 0.2
@@ -1593,7 +1593,7 @@ MonoBehaviour:
     value: -12
   thicknessModifier:
     overrideState: 0
-    value: 10
+    value: 1.06
   directLightingStrength:
     overrideState: 0
     value: 0
