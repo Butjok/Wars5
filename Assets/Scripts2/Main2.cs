@@ -46,6 +46,8 @@ public class Main2 : Main {
             foreach (var unit in units.Values)
                 if (unit.player == player && unit.view)
                     unit.view.PlayerColor = color;
+            foreach (var building in FindBuildingsOf(player))
+                building.view.PlayerColor = color;
         }
     }
 
