@@ -9,12 +9,12 @@ using UnityEngine.Assertions;
 
 public class Main : MonoBehaviour {
 
-    public MissionName missionName;
+    [Command]public MissionName missionName;
     public Dictionary<Vector2Int, TileType> tiles = new();
     public Dictionary<Vector2Int, Unit> units = new();
     public Dictionary<Vector2Int, Building> buildings = new();
     public List<Player> players = new();
-    public int turn = 0;
+    [Command]public int turn = 0;
     public LevelLogic levelLogic = new();
     public Player localPlayer;
     public GameSettings settings = new();
@@ -78,7 +78,7 @@ public class Main : MonoBehaviour {
         return range.Offsets().Select(offset => offset + position).Where(p => tiles.ContainsKey(p));
     }
 
-    private void OnApplicationQuit() {
+    protected virtual void OnApplicationQuit() {
         Clear();
         Debug.Log(@$"UNDISPOSED: players: {Player.undisposed.Count} buildings: {Building.undisposed.Count} units: {Unit.undisposed.Count} unitActions: {UnitAction.undisposed.Count}");
     }
@@ -86,6 +86,7 @@ public class Main : MonoBehaviour {
     protected  virtual void OnGUI() {
         if (guiSkin)
             GUI.skin = guiSkin;
+        // GUILayout.Label("");
         GUILayout.Label($"stack: {stack.Count}");
     }
 

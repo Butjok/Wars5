@@ -24,10 +24,10 @@ public class UnitAttackActionView : UnitActionView {
     }
     private void Update() {
 
-        if (lineRenderer.enabled) {
+        if (lineRenderer.enabled && action.unit.view.body && action.targetUnit.view.body) {
 
-            var source = action.unit.view.center.position;
-            var destination = action.targetUnit.view.center.position;
+            var source = action.unit.view.body.transform.position;
+            var destination = action.targetUnit.view.body.transform.position;
             if (Vector3.Distance(source, destination) < 2 * radius) {
                 lineRenderer.positionCount = 0;
                 return;
@@ -44,7 +44,11 @@ public class UnitAttackActionView : UnitActionView {
     public override bool Show {
         set {
 
-            action.unit.view.turret.aim = value;
+            if (action.unit.view.turret) {
+                action.unit.view.turret.aim = value;
+                if (action.unit.view.turret.computer && action.targetUnit.view.body)
+                    action.unit.view.turret.computer.Target = action.targetUnit.view.body.transform;
+            }
             uiRoot.gameObject.SetActive(value);
             lineRenderer.enabled = value;
             action.targetUnit.view.HighlightAsTarget = value;
@@ -52,7 +56,6 @@ public class UnitAttackActionView : UnitActionView {
             if (!value)
                 return;
 
-            action.unit.view.turret.computer.Target = action.targetUnit.view.body.transform;
 
             uiFrame.boxCollider = action.targetUnit.view.uiBoxCollider;
 

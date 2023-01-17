@@ -42,6 +42,8 @@ namespace Butjok.CommandLine
         private readonly List<string> matches = new List<string>();
         private Action action;
 
+        public int depth = -1000;
+
         private void Awake() {
             if (dontDestroyOnLoad)
                 DontDestroyOnLoad(gameObject);
@@ -77,6 +79,7 @@ namespace Butjok.CommandLine
             }
 
             GUI.skin = guiSkin;
+            GUI.depth = depth;
 
             if (Event.current.type == EventType.KeyDown) {
                 switch (Event.current.keyCode) {
@@ -158,8 +161,11 @@ namespace Butjok.CommandLine
             var oldInput = input;
             var rect = GUILayoutUtility.GetRect(new GUIContent(input), GUI.skin.textField, GUILayout.Width(Screen.width));
             GUI.SetNextControlName("CommandLineGUI.Input");
+
+            // GUI.depth--;
             input = GUI.TextField(rect, input).Replace("`","");
-            GUI.Label(rect, Colorizer.Colorize(input, theme));
+            // GUI.depth++;
+            GUI.Label(rect, Colorizer.Colorize(input, theme), GUI.skin.GetStyle("inputOverlayText"));
             if (input != oldInput) {
                 History.SetText(input);
                 index = -1;

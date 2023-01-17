@@ -225,7 +225,7 @@ public static class GameReader {
                     break;
                 }
                 case "unit.set-moved": {
-                    unitMoved = true;
+                    unitMoved = stack.Pop<bool>();
                     break;
                 }
                 case "unit.set-type": {

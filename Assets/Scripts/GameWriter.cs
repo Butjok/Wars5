@@ -108,6 +108,7 @@ public static class GameWriter {
     public static TextWriter Write(TextWriter tw, Unit unit) {
 
         WriteLine(tw, $"{unit.type} UnitType type enum", "unit.set-type");
+        WriteLine(tw, unit.moved.v ? "true" : "false", "unit.set-moved");
         if (unit.position.v is { } position)
             WriteLine(tw, $"{position.x} {position.y} int2", "unit.set-position");
         if (unit.view) {

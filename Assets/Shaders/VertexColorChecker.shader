@@ -50,7 +50,7 @@ Shader "Custom/VertexColorChecker" {
 				v.vertex.y -= 0.1;
 			}
 			else if (abs(type - 8) < .01) {
-				v.vertex.y += 0.1;
+				//v.vertex.y += 0.1;
 			}
 		}
 
@@ -89,7 +89,7 @@ Shader "Custom/VertexColorChecker" {
 			
 			
 			if ((x+y) % 2 == 0) {
-				color.rgb = Tint(color.rgb, 0, 1.00, .90);
+				color.rgb = Tint(color.rgb, 0, 1.00, .95);
 			}
 			// Metallic and smoothness come from slider variables
 			o.Albedo = color.rgb;

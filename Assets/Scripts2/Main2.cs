@@ -1,12 +1,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using Butjok.CommandLine;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
+using Debug = UnityEngine.Debug;
 
 public class Main2 : Main {
 
@@ -70,6 +73,19 @@ public class Main2 : Main {
         foreach (var (name, value) in screenText.Where(kv => screenTextFilters.Any(filter => filter(kv.Key))).OrderBy(kv => kv.Key))
             GUILayout.Label($"{name}: {value()}");
     }
+    [Command]
+    public void OpenSaveFile(string name) {
+        levelEditor.OpenSaveFile(name);
+    }
+    [Command]
+    public void PopSaveFile(string name) {
+        levelEditor.PopSaveFile(name);
+    }
+
+    protected override void OnApplicationQuit() {
+        levelEditor.Save("autosave");
+        base.OnApplicationQuit();
+    }
 }
 
 [Serializable]
@@ -124,32 +140,32 @@ public class LevelEditor2 {
 
         main.Clear();
 
-        var red = new Player(main, Palette.red, Team.Alpha, credits: 16000, unitLookDirection: Vector2Int.right);
-        var blue = new Player(main, Palette.blue, Team.Bravo, credits: 16000, unitLookDirection: Vector2Int.left);
-        main.localPlayer = red;
-        player = red;
+        // var red = new Player(main, Palette.red, Team.Alpha, credits: 16000, unitLookDirection: Vector2Int.right);
+        // var blue = new Player(main, Palette.blue, Team.Bravo, credits: 16000, unitLookDirection: Vector2Int.left);
+        // main.localPlayer = red;
+        // player = red;
+        //
+        // var min = new Vector2Int(-5, -5);
+        // var max = new Vector2Int(5, 5);
+        //
+        // for (var y = min.y; y <= max.y; y++)
+        // for (var x = min.x; x <= max.x; x++)
+        //     main.tiles.Add(new Vector2Int(x, y), TileType.Plain);
+        //
+        // new Building(main, min, TileType.Hq, red, viewPrefab: "WbFactory".LoadAs<BuildingView>());
+        // new Building(main, max, TileType.Hq, blue, viewPrefab: "WbFactory".LoadAs<BuildingView>());
+        //
+        // new Unit(red, UnitType.Infantry, min);
+        // new Unit(blue, UnitType.Infantry, max);
+        //
+        // LoadColors();
+        // RebuildTilemapMesh();
+        //
+        // if (main.players.Count > 0)
+        //     lookDirection = main.players[0].unitLookDirection;
 
-        var min = new Vector2Int(-5, -5);
-        var max = new Vector2Int(5, 5);
+        Load("autosave");
 
-        for (var y = min.y; y <= max.y; y++)
-        for (var x = min.x; x <= max.x; x++)
-            main.tiles.Add(new Vector2Int(x, y), TileType.Plain);
-
-        new Building(main, min, TileType.Hq, red, viewPrefab: "WbFactory".LoadAs<BuildingView>());
-        new Building(main, max, TileType.Hq, blue, viewPrefab: "WbFactory".LoadAs<BuildingView>());
-
-        new Unit(red, UnitType.Infantry, min);
-        new Unit(blue, UnitType.Infantry, max);
-
-        LoadColors();
-        RebuildTilemapMesh();
-
-        if (main.players.Count > 0)
-            lookDirection = main.players[0].unitLookDirection;
-
-        //Load("test");
-        
         main.screenText["tile-type"] = () => tileType;
         main.screenText["player"] = () => main.players.IndexOf(player);
         main.screenText["look-direction"] = () => lookDirection;
@@ -167,7 +183,10 @@ public class LevelEditor2 {
 
         main.ClearScreenTextFilters();
         main.AddScreenTextPrefixFilter("tiles-mode.");
-        main.AddScreenTextFilter("tile-type", "player","look-direction");
+        main.AddScreenTextFilter("tile-type", "player", "look-direction");
+
+        if (CursorView.TryFind(out var cursorView))
+            cursorView.Visible = true;
 
         while (true) {
             yield return null;
@@ -233,7 +252,7 @@ public class LevelEditor2 {
                             var player = main.stack.Pop<Player>();
 
                             if (main.tiles.ContainsKey(position))
-                                TryRemoveTile(position);
+                                TryRemoveTile(position, false);
 
                             main.tiles.Add(position, tileType);
                             if (TileType.Buildings.HasFlag(tileType))
@@ -246,7 +265,7 @@ public class LevelEditor2 {
                         }
 
                         case removeTile:
-                            TryRemoveTile(main.stack.Pop<Vector2Int>());
+                            TryRemoveTile(main.stack.Pop<Vector2Int>(), true);
                             RebuildTilemapMesh();
                             break;
 
@@ -263,6 +282,9 @@ public class LevelEditor2 {
                             var position = main.stack.Pop<Vector2Int>();
                             if (main.tiles.TryGetValue(position, out var pickedTileType))
                                 tileType = pickedTileType;
+                            if (main.buildings.TryGetValue(position, out var building)) {
+                                player = building.player.v;
+                            }
                             break;
                         }
 
@@ -310,12 +332,14 @@ public class LevelEditor2 {
         meshCollider.sharedMesh = mesh;
     }
 
-    public bool TryRemoveTile(Vector2Int position) {
+    public bool TryRemoveTile(Vector2Int position, bool removeUnit) {
         if (!main.tiles.ContainsKey(position))
             return false;
         main.tiles.Remove(position);
         if (main.buildings.TryGetValue(position, out var building))
             building.Dispose();
+        if (removeUnit && main.units.TryGetValue(position, out var unit))
+            unit.Dispose();
         return true;
     }
 
@@ -334,6 +358,9 @@ public class LevelEditor2 {
         main.AddScreenTextPrefixFilter("units-mode.");
         main.AddScreenTextFilter("unit-type", "look-direction", "player");
 
+        if (CursorView.TryFind(out var cursorView))
+            cursorView.Visible = true;
+
         while (true) {
             yield return null;
 
@@ -348,7 +375,7 @@ public class LevelEditor2 {
                 main.stack.Push(Input.GetKey(KeyCode.LeftShift) ? -1 : 1);
                 main.commands.Enqueue(cyclePlayer);
             }
-            else if (Input.GetMouseButton(Mouse.left) && Mouse.TryGetPosition(out Vector2Int position)) {
+            else if (Input.GetMouseButton(Mouse.left) && Mouse.TryGetPosition(out Vector2Int position) && main.tiles.ContainsKey(position)) {
                 main.stack.Push(player);
                 main.stack.Push(unitType);
                 main.stack.Push(position);
@@ -407,7 +434,7 @@ public class LevelEditor2 {
                             if (main.units.ContainsKey(position))
                                 TryRemoveUnit(position);
 
-                            var viewPrefab = main.unitPrefabs.TryGetValue(unitType, out var p) ? p : UnitView.DefaultPrefab; 
+                            var viewPrefab = main.unitPrefabs.TryGetValue(unitType, out var p) ? p : UnitView.DefaultPrefab;
                             new Unit(player, unitType, position, lookDirection, viewPrefab: viewPrefab);
 
                             break;
@@ -416,6 +443,16 @@ public class LevelEditor2 {
                         case removeUnit:
                             TryRemoveUnit(main.stack.Pop<Vector2Int>());
                             break;
+
+                        case pickUnit: {
+                            var position = main.stack.Pop<Vector2Int>();
+                            if (main.units.TryGetValue(position, out var unit)) {
+                                unitType = unit.type;
+                                player = unit.player;
+                                lookDirection = player.unitLookDirection;
+                            }
+                            break;
+                        }
 
                         default:
                             main.stack.ExecuteToken(token);
@@ -435,6 +472,9 @@ public class LevelEditor2 {
 
         main.ClearScreenTextFilters();
         main.AddScreenTextPrefixFilter("play-mode.");
+
+        if (CursorView.TryFind(out var cursorView))
+            cursorView.Visible = false;
 
         using var tw = new StringWriter();
         GameWriter.Write(tw, main);
@@ -457,24 +497,41 @@ public class LevelEditor2 {
         player = playerIndex == -1 ? null : main.players[playerIndex];
     }
 
-    public static string SaveDirectory => Path.Combine(Application.persistentDataPath, "Saves");
-    public static string GetSaveFilePath(string name) => Path.Combine(SaveDirectory, name);
+    public static string SaveRootDirectoryPath => Path.Combine(Application.dataPath, "Saves");
+    public static string GetSavePath(string name) => Path.Combine(SaveRootDirectoryPath, name);
 
     public void Save(string name) {
         using var tw = new StringWriter();
         GameWriter.Write(tw, main);
         var text = tw.ToString();
-        if (!Directory.Exists(SaveDirectory))
-            Directory.CreateDirectory(SaveDirectory);
-        var path = GetSaveFilePath(name);
-        File.WriteAllText(path, text);
-        Debug.Log($"Saved to: {path}\n\n{text}");
+        if (!Directory.Exists(SaveRootDirectoryPath))
+            Directory.CreateDirectory(SaveRootDirectoryPath);
+        var path = GetSavePath(name);
+        if (!Directory.Exists(path))
+            Directory.CreateDirectory(path);
+        var saveName = DateTime.Now.ToString("G", CultureInfo.GetCultureInfo("de-DE")) + ".txt";
+        var filePath = Path.Combine(path, saveName);
+        File.WriteAllText(filePath, text);
+        Debug.Log($"Saved to: {filePath}");
     }
+
+    public static bool TryGetLatestSaveFilePath(string name, out string filePath) {
+        filePath = default;
+        var path = GetSavePath(name);
+        if (!Directory.Exists(path))
+            return false;
+        var files = Directory.GetFiles(path).Where(path=>path.EndsWith(".txt")).ToArray();
+        if (files.Length == 0)
+            return false;
+        filePath = files.OrderBy(File.GetLastWriteTime).Last();
+        return true;
+    }
+
     public void Load(string name) {
-        var path = GetSaveFilePath(name);
-        Assert.IsTrue(File.Exists(path), path);
-        var text = File.ReadAllText(path);
-        Debug.Log($"Reading from: {path}\n\n{text}");
+        var found = TryGetLatestSaveFilePath(name, out var filePath);
+        Assert.IsTrue(found, name);
+        var text = File.ReadAllText(filePath);
+        Debug.Log($"Reading from: {filePath}");
         main.Clear();
         GameReader.LoadInto(main, text, true);
         player = main.players.Count == 0 ? null : main.players[0];
@@ -490,5 +547,21 @@ public class LevelEditor2 {
         var index = values.IndexOf(value);
         Assert.AreNotEqual(-1, index);
         return values[(index + offset).PositiveModulo(values.Count)];
+    }
+
+    public void OpenSaveFile(string name) {
+        var found = TryGetLatestSaveFilePath(name, out var filePath);
+        
+        Assert.IsTrue(found);
+        ProcessStartInfo startInfo = new ProcessStartInfo("/usr/local/bin/subl");
+        startInfo.WindowStyle = ProcessWindowStyle.Normal;
+        startInfo.Arguments = '"' + filePath + '"';
+
+        Process.Start(startInfo);
+    }
+
+    public void PopSaveFile(string name) {
+        if( TryGetLatestSaveFilePath(name, out var filePath))
+            File.Delete(filePath);
     }
 }
