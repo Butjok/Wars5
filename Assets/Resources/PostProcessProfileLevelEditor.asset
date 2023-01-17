@@ -167,10 +167,10 @@ MonoBehaviour:
     value: 0
   postExposure:
     overrideState: 1
-    value: 0.45
+    value: 0.25
   contrast:
     overrideState: 0
-    value: 17
+    value: 5
   mixerRedOutRedIn:
     overrideState: 0
     value: 108
@@ -1547,7 +1547,7 @@ MonoBehaviour:
     value: 8
   maximumMarchDistance:
     overrideState: 1
-    value: 5
+    value: 1
   distanceFade:
     overrideState: 1
     value: 0
@@ -1575,7 +1575,7 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 1.25
+    value: 1.5
   color:
     overrideState: 0
     value: {r: 0, g: 0, b: 0, a: 1}

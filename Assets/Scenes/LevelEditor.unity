@@ -915,7 +915,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.01
+  near clip plane: 0.1
   far clip plane: 100
   field of view: 30
   orthographic: 0
@@ -1090,14 +1090,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 123505722}
-  m_LocalRotation: {x: 0.26154226, y: 0.18802586, z: -0.052023984, w: 0.94527}
-  m_LocalPosition: {x: 1.3836125, y: 2.924773, z: -6.6866856}
+  m_LocalRotation: {x: 0.24636742, y: 0.36882606, z: -0.10204873, w: 0.89042497}
+  m_LocalPosition: {x: -4.1409082, y: 2.924773, z: -5.591481}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 23
-  m_LocalEulerAnglesHint: {x: 30.932, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 30.932, y: 45, z: 0}
 --- !u!1 &169325633
 GameObject:
   m_ObjectHideFlags: 0
@@ -4547,7 +4547,7 @@ MonoBehaviour:
   m_Lens:
     FieldOfView: 30
     OrthographicSize: 5
-    NearClipPlane: 0.01
+    NearClipPlane: 0.1
     FarClipPlane: 100
     Dutch: 0
     ModeOverride: 0
@@ -5013,8 +5013,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -946.9696, y: 832.33435}
-  m_SizeDelta: {x: 515.2256, y: 155.45575}
+  m_AnchoredPosition: {x: 317.4364, y: 996.32526}
+  m_SizeDelta: {x: 424.6245, y: 105.808655}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1215465040
 MonoBehaviour:
@@ -5545,7 +5545,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09fb11ac8c956dd47bfdc32f007aeba7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDistance: 45
+  maxDistance: 100
   rayPosition: {x: 0, y: 1}
   multiplier: 1.5
   camera: {fileID: 123505723}
@@ -5723,22 +5723,22 @@ MonoBehaviour:
   speed: 1
   speedMultiplier: 1
   velocitySmoothTime: 25
-  distance: 18
+  distance: 22
   distanceSmoothTime: 50
   distanceStep: -0.15
-  distanceBounds: {x: 2, y: 30}
-  rotation: -1
-  rotationDuration: 0.25
+  distanceBounds: {x: 2, y: 75}
+  rotation: -2
+  rotationDuration: 0.15
   rotationEase: 3
   rotationStep: -22.5
   rotationAmplitude: 1.7
   rotationPeriod: 0
-  clampRotation: 1
+  clampRotation: 0
   rotationRange: {x: -2, y: 2}
-  pitchAngle: 55
+  pitchAngle: 52
   pitchAngleSmoothTime: 0.02
-  pitchAngleSpeed: 90
-  pitchAngleBounds: {x: 20, y: 55}
+  pitchAngleSpeed: 135
+  pitchAngleBounds: {x: 10, y: 80}
   compassResetCooldown: 0.2
   teleportCooldown: 0.2
   teleportDuration: 0.75
@@ -5752,8 +5752,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1296023394}
-  m_LocalRotation: {x: 0, y: 0.19509031, z: 0, w: 0.98078537}
-  m_LocalPosition: {x: 3.251398, y: 0, z: -2.1774526}
+  m_LocalRotation: {x: 0, y: 0.38268343, z: 0, w: 0.92387956}
+  m_LocalPosition: {x: -0.6896908, y: 0, z: -2.1402636}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5763,7 +5763,7 @@ Transform:
   - {fileID: 543686331}
   m_Father: {fileID: 0}
   m_RootOrder: 24
-  m_LocalEulerAnglesHint: {x: 0, y: 22.5, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 45, z: 0}
 --- !u!1 &1338114981
 GameObject:
   m_ObjectHideFlags: 0
@@ -6607,6 +6607,7 @@ MonoBehaviour:
     - {fileID: 9118462907687674175, guid: 9b1ec837ecaa7487c858241777aa2d87, type: 3}
     - {fileID: 9118462907687674175, guid: 9b1ec837ecaa7487c858241777aa2d87, type: 3}
     - {fileID: 9118462907687674175, guid: 9b1ec837ecaa7487c858241777aa2d87, type: 3}
+  autosaveLifespanInDays: 30
 --- !u!4 &1460102030
 Transform:
   m_ObjectHideFlags: 0
@@ -6657,8 +6658,8 @@ MeshRenderer:
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
+  m_MotionVectors: 2
+  m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
@@ -8405,7 +8406,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1839789769}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5c30b57adcb147fb89d8bbb49c00d0f0, type: 3}
   m_Name: 
@@ -8427,7 +8428,7 @@ Light:
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
-  m_CookieSize: 30
+  m_CookieSize: 50
   m_Shadows:
     m_Type: 1
     m_Resolution: -1

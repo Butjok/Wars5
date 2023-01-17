@@ -19,6 +19,7 @@ public class Main2 : Main {
 
     public UnitTypeUnitViewDictionary unitPrefabs = new();
     public TileTypeBuildingViewDictionary buildingPrefabs = new();
+    public int autosaveLifespanInDays = 30;
 
     private void Start() {
         levelEditor = new LevelEditor2(this, meshFilter, meshCollider);
@@ -83,9 +84,22 @@ public class Main2 : Main {
     public void PopSaveFile(string name) {
         levelEditor.PopSaveFile(name);
     }
+    [Command]
+    public int DeleteOldAutosaves() {
+        var count = 0;
+        foreach (var filePath in LevelEditor2.GetSaveFilePaths("autosave").ToArray()) {
+            var lastAccessTime = File.GetLastAccessTime(filePath);
+            if (DateTime.Now.Subtract(lastAccessTime).Days > autosaveLifespanInDays) {
+                File.Delete(filePath);
+                count++;
+            }
+        }
+        return count;
+    }
 
     protected override void OnApplicationQuit() {
         levelEditor.Save("autosave");
+        DeleteOldAutosaves();
         base.OnApplicationQuit();
     }
 }
@@ -481,7 +495,7 @@ public class LevelEditor2 {
         using var tw = new StringWriter();
         GameWriter.Write(tw, main);
         var save = tw.ToString();
-        Debug.Log(save);
+        // Debug.Log(save);
         var playerIndex = main.players.IndexOf(player);
         main.levelLogic = new LevelLogic();
         var play = SelectionState.Run(main, true);
@@ -522,11 +536,18 @@ public class LevelEditor2 {
         var path = GetSavePath(name);
         if (!Directory.Exists(path))
             return false;
-        var files = Directory.GetFiles(path).Where(path=>path.EndsWith(".txt")).ToArray();
+        var files = GetSaveFilePaths(name).ToArray();
         if (files.Length == 0)
             return false;
         filePath = files.OrderBy(File.GetLastWriteTime).Last();
         return true;
+    }
+
+    public static IEnumerable<string> GetSaveFilePaths(string name) {
+        var path = GetSavePath(name);
+        if (!Directory.Exists(path))
+            return Enumerable.Empty<string>();
+        return Directory.GetFiles(path).Where(p => p.EndsWith(".txt"));
     }
 
     public void Load(string name) {
@@ -553,7 +574,7 @@ public class LevelEditor2 {
 
     public void OpenSaveFile(string name) {
         var found = TryGetLatestSaveFilePath(name, out var filePath);
-        
+
         Assert.IsTrue(found);
         ProcessStartInfo startInfo = new ProcessStartInfo("/usr/local/bin/subl");
         startInfo.WindowStyle = ProcessWindowStyle.Normal;
@@ -563,7 +584,7 @@ public class LevelEditor2 {
     }
 
     public void PopSaveFile(string name) {
-        if( TryGetLatestSaveFilePath(name, out var filePath))
+        if (TryGetLatestSaveFilePath(name, out var filePath))
             File.Delete(filePath);
     }
 }

@@ -226,4 +226,10 @@ public class CameraRig : MonoBehaviour {
 			.AppendCallback(() => rotationSequence = null);
 		return true;
 	}
+
+	[Command]
+	public float Fov {
+		get => virtualCamera.m_Lens.FieldOfView;
+		set => virtualCamera.m_Lens.FieldOfView = value;
+	}
 }
