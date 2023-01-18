@@ -88,6 +88,23 @@ public static class PostfixInterpreter {
                     break;
                 }
 
+                case "find-with-tag": {
+                    var tag = stack.Pop<string>();
+                    var gameObject = GameObject.FindWithTag(tag);
+                    Assert.IsTrue(gameObject);
+                    stack.Push(gameObject);
+                    break;
+                }
+
+                case "get-component": {
+                    var type = stack.Pop<Type>();
+                    var gameObject = stack.Pop<GameObject>();
+                    var component = gameObject.GetComponent(type);
+                    Assert.IsTrue(component);
+                    stack.Push(component);
+                    break;
+                }
+
                 case "load":
                 case "load-resource": {
                     var type = stack.Pop<Type>();

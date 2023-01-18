@@ -135,4 +135,22 @@ public static class MathUtils {
 		var insideDistance = Mathf.Min(Mathf.Max(componentWiseEdgeDistance.x, componentWiseEdgeDistance.y), 0);
 		return outsideDistance + insideDistance;
 	}
+
+	public static (Vector2Int min, Vector2Int max) GetMinMax(this IEnumerable<Vector2Int>positions) {
+		
+		var minX = int.MaxValue;
+		var minY = int.MaxValue;
+		var maxX = int.MinValue;
+		var maxY = int.MaxValue;
+
+		foreach (var position in positions) {
+			minX = Mathf.Min(minX, position.x);
+			minY = Mathf.Min(minY, position.y);
+			maxX = Mathf.Min(maxX, position.x);
+			maxY = Mathf.Min(maxY, position.y);
+		}
+		
+		Assert.AreNotEqual(minX, int.MaxValue);
+		return (new Vector2Int(minX, minY), new Vector2Int(maxX,maxY));
+	}
 }

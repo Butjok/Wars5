@@ -77,6 +77,16 @@ public static class GameReader {
         }
         ResetUnitValues();
 
+        int bridgeHp ;
+        BridgeView bridgeView;
+        HashSet<Vector2Int> bridgePositions =new HashSet<Vector2Int>();
+        void ResetBridgeValues() {
+            bridgeHp = 20;
+            bridgeView = null;
+            bridgePositions.Clear();
+        }
+        ResetBridgeValues();
+
         Trigger? trigger = null;
 
         var stack = new Stack();
@@ -268,6 +278,31 @@ public static class GameReader {
                     if (trigger is not { } value)
                         throw new AssertionException("trigger is null", position.ToString());
                     main.triggers.Add(position, value);
+                    break;
+                }
+
+                case "bridge.add": {
+                    Assert.AreNotEqual(0,bridgePositions.Count);
+                    Assert.IsTrue(bridgeView);
+                    var bridge = new Bridge(main,bridgePositions,bridgeView, bridgeHp);
+                    main.bridges.Add(bridge);
+                    stack.Push(bridge);
+                    ResetBridgeValues();
+                    break;
+                }
+
+                case "bridge.set-view": {
+                    bridgeView = stack.Pop<BridgeView>();
+                    break;
+                }
+
+                case "bridge.add-position": {
+                    bridgePositions.Add(stack.Pop<Vector2Int>());
+                    break;
+                }
+
+                case "bridge.set-hp": {
+                    bridgeHp = stack.Pop<int>();
                     break;
                 }
 

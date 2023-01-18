@@ -10,129 +10,135 @@ using UnityEngine.Assertions;
 
 public class Main : ImmediateModeShapeDrawer {
 
-    [Command]public MissionName missionName;
-    public Dictionary<Vector2Int, TileType> tiles = new();
-    public Dictionary<Vector2Int, Unit> units = new();
-    public Dictionary<Vector2Int, Building> buildings = new();
-    public Dictionary<Vector2Int, Trigger> triggers = new();
-    public List<Player> players = new();
-    [Command]public int turn = 0;
-    public LevelLogic levelLogic = new();
-    public Player localPlayer;
-    public GameSettings settings = new();
+	public List<Bridge> bridges = new();
 
-    public Stack stack = new();
-    public Queue<string> commands = new();
-    public GUISkin guiSkin;
+	[Command] public MissionName missionName;
+	public Dictionary<Vector2Int, TileType> tiles = new();
+	public Dictionary<Vector2Int, Unit> units = new();
+	public Dictionary<Vector2Int, Building> buildings = new();
+	public Dictionary<Vector2Int, Trigger> triggers = new();
+	public List<Player> players = new();
+	[Command] public int turn = 0;
+	public LevelLogic levelLogic = new();
+	public Player localPlayer;
+	public GameSettings settings = new();
 
-    public MeshFilter tileAreaMeshFilter;
+	public Stack stack = new();
+	public Queue<string> commands = new();
+	public GUISkin guiSkin;
 
-    public void Awake() {
-        
-        Player.undisposed.Clear();
-        Building.undisposed.Clear();
-        Unit.undisposed.Clear();
-        UnitAction.undisposed.Clear();
-        
-        UpdatePostProcessing();
-        
-        settings = PersistentData.Read().gameSettings;
+	public MeshFilter tileAreaMeshFilter;
 
-        guiSkin = Resources.Load<GUISkin>("CommandLine");
-    }
+	public void Awake() {
 
-    public void UpdatePostProcessing() {
-        PostProcessing.Setup(
-            settings.antiAliasing,
-            settings.motionBlurShutterAngle,
-            settings.enableBloom,
-            settings.enableScreenSpaceReflections,
-            settings.enableAmbientOcclusion);
-    }
+		Player.undisposed.Clear();
+		Building.undisposed.Clear();
+		Unit.undisposed.Clear();
+		UnitAction.undisposed.Clear();
 
-    public Player CurrentPlayer {
-        get {
-            Assert.AreNotEqual(0, players.Count);
-            Assert.IsTrue(turn != null);
-            Assert.IsTrue(turn>=0);
-            return players[(int)turn % players.Count];
-        }
-    }
+		UpdatePostProcessing();
 
-    public bool TryGetTile(Vector2Int position, out TileType tile) {
-        return tiles.TryGetValue(position, out tile) && tile != 0;
-    }
-    public bool TryGetUnit(Vector2Int position, out Unit unit) {
-        return units.TryGetValue(position, out unit) && unit != null;
-    }
-    public bool TryGetBuilding(Vector2Int position, out Building building) {
-        return buildings.TryGetValue(position, out building) && building != null;
-    }
+		settings = PersistentData.Read().gameSettings;
 
-    public IEnumerable<Unit> FindUnitsOf(Player player) {
-        return units.Values.Where(unit => unit.player == player);
-    }
-    public IEnumerable<Building> FindBuildingsOf(Player player) {
-        return buildings.Values.Where(building => building.player.v == player);
-    }
+		guiSkin = Resources.Load<GUISkin>("CommandLine");
+	}
 
-    public IEnumerable<Vector2Int> AttackPositions(Vector2Int position, Vector2Int range) {
-        return range.Offsets().Select(offset => offset + position).Where(p => tiles.ContainsKey(p));
-    }
+	public void UpdatePostProcessing() {
+		PostProcessing.Setup(
+			settings.antiAliasing,
+			settings.motionBlurShutterAngle,
+			settings.enableBloom,
+			settings.enableScreenSpaceReflections,
+			settings.enableAmbientOcclusion);
+	}
 
-    protected virtual void OnApplicationQuit() {
-        Clear();
-        Debug.Log(@$"UNDISPOSED: players: {Player.undisposed.Count} buildings: {Building.undisposed.Count} units: {Unit.undisposed.Count} unitActions: {UnitAction.undisposed.Count}");
-    }
+	public Player CurrentPlayer {
+		get {
+			Assert.AreNotEqual(0, players.Count);
+			Assert.IsTrue(turn != null);
+			Assert.IsTrue(turn >= 0);
+			return players[(int)turn % players.Count];
+		}
+	}
 
-    protected  virtual void OnGUI() {
-        if (guiSkin)
-            GUI.skin = guiSkin;
-        // GUILayout.Label("");
-        GUILayout.Label($"stack: {stack.Count}");
-    }
+	public bool TryGetTile(Vector2Int position, out TileType tile) {
+		return tiles.TryGetValue(position, out tile) && tile != 0;
+	}
+	public bool TryGetUnit(Vector2Int position, out Unit unit) {
+		return units.TryGetValue(position, out unit) && unit != null;
+	}
+	public bool TryGetBuilding(Vector2Int position, out Building building) {
+		return buildings.TryGetValue(position, out building) && building != null;
+	}
 
-    public float fadeDuration = 2;
-    public Ease fadeEase = Ease.Unset;
-    public void RestartGame() {
-        PostProcessing.ColorFilter = Color.black;
-        PostProcessing.Fade(Color.white, fadeDuration, fadeEase);
-        StopAllCoroutines();
-        StartCoroutine( SelectionState.Run(this, true));
-    }
-    
-    public void Clear() {
-        
-        turn = 0;
+	public IEnumerable<Unit> FindUnitsOf(Player player) {
+		return units.Values.Where(unit => unit.player == player);
+	}
+	public IEnumerable<Building> FindBuildingsOf(Player player) {
+		return buildings.Values.Where(building => building.player.v == player);
+	}
 
-        foreach (var player in players.ToArray())
-            player.Dispose();
-        players.Clear();
+	public IEnumerable<Vector2Int> AttackPositions(Vector2Int position, Vector2Int range) {
+		return range.Offsets().Select(offset => offset + position).Where(p => tiles.ContainsKey(p));
+	}
 
-        localPlayer = null;
+	protected virtual void OnApplicationQuit() {
+		Clear();
+		Debug.Log(@$"UNDISPOSED: players: {Player.undisposed.Count} buildings: {Building.undisposed.Count} units: {Unit.undisposed.Count} unitActions: {UnitAction.undisposed.Count}");
+	}
 
-        tiles.Clear();
-        
-        foreach (var unit in units.Values.ToArray())
-            unit.Dispose();
-        units.Clear();
+	protected virtual void OnGUI() {
+		if (guiSkin)
+			GUI.skin = guiSkin;
+		// GUILayout.Label("");
+		GUILayout.Label($"stack: {stack.Count}");
+	}
 
-        foreach (var building in buildings.Values.ToArray())
-            building.Dispose();
-        buildings.Clear();
-        
-        triggers.Clear();
-    }
+	public float fadeDuration = 2;
+	public Ease fadeEase = Ease.Unset;
+	public void RestartGame() {
+		PostProcessing.ColorFilter = Color.black;
+		PostProcessing.Fade(Color.white, fadeDuration, fadeEase);
+		StopAllCoroutines();
+		StartCoroutine(SelectionState.Run(this, true));
+	}
 
-    [Command]
-    public void EnqueueCommand(string command) {
-        commands.Enqueue(command);
-    }
+	public void Clear() {
+
+		turn = 0;
+
+		foreach (var player in players.ToArray())
+			player.Dispose();
+		players.Clear();
+
+		localPlayer = null;
+
+		tiles.Clear();
+
+		foreach (var unit in units.Values.ToArray())
+			unit.Dispose();
+		units.Clear();
+
+		foreach (var building in buildings.Values.ToArray())
+			building.Dispose();
+		buildings.Clear();
+
+		triggers.Clear();
+
+		foreach (var bridge in bridges)
+			bridge.view.bridge = null;
+		bridges.Clear();
+	}
+
+	[Command]
+	public void EnqueueCommand(string command) {
+		commands.Enqueue(command);
+	}
 }
 
 [Flags]
 public enum Trigger {
-    A = 1 << 0,
-    B = 1 << 1,
-    C = 1 << 2
+	A = 1 << 0,
+	B = 1 << 1,
+	C = 1 << 2
 }
