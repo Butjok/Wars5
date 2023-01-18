@@ -45,11 +45,10 @@ public static class GameWriter {
 			WriteLine(tw, "\n");
 		}
 
-		/*
-		 * TODO: SOME TILES ARE BEING REMOVES BY COLLAPSING BRIDGES AND WE NEED TO WRITE THEM HERE AS WELL 
-		 */
+		var tiles = main.tiles
+			.Concat(main.bridges.SelectMany(bridge => bridge.tiles));
 
-		foreach (var (position, tileType) in main.tiles.OrderBy(kv => kv.Key.x).ThenBy(kv => kv.Key.y)) {
+		foreach (var (position, tileType) in tiles.OrderBy(kv => kv.Key.x).ThenBy(kv => kv.Key.y)) {
 			if (TileType.Buildings.HasFlag(tileType))
 				continue;
 			WriteLine(tw, $"{position.x} {position.y} int2", "tile.set-position");

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -297,7 +298,9 @@ public static class GameReader {
                 }
 
                 case "bridge.add-position": {
-                    bridgePositions.Add(stack.Pop<Vector2Int>());
+                    var position = stack.Pop<Vector2Int>();
+                    Assert.IsFalse(main.bridges.Any(bridge => bridge.tiles.ContainsKey(position)));
+                    bridgePositions.Add(position);
                     break;
                 }
 
