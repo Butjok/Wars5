@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -57,7 +58,7 @@ namespace Butjok.CommandLine
             return context.GetText() == "true";
         }
         public override dynamic VisitReal(CommandLineParser.RealContext context) {
-            return float.Parse(context.GetText());
+            return float.Parse(context.GetText(), NumberStyles.Any, CultureInfo.InvariantCulture);
         }
         public override dynamic VisitParenthesis(CommandLineParser.ParenthesisContext context) {
             return Visit(context.value());

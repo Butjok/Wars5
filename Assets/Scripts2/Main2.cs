@@ -24,6 +24,7 @@ public class Main2 : Main {
     public int autosaveLifespanInDays = 30;
 
     private void Start() {
+        CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
         StartCoroutine(Run());
     }
 
