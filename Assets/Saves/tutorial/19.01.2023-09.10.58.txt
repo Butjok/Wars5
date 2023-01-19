@@ -29,9 +29,9 @@ Hq TileType type enum                                            building.set-ty
                                                                  dup
 Infantry UnitType type enum                                      unit.set-type
 false                                                            unit.set-moved
-5 3 int2                                                       unit.set-position
+-4 -4 int2                                                       unit.set-position
 1 0 int2                                                         unit.set-look-direction
-LightTank UnitView type load-resource                          unit.set-view-prefab
+WbLightTank UnitView type load-resource                          unit.set-view-prefab
                                                                  unit.add
                                                                  pop
 
@@ -62,9 +62,9 @@ Hq TileType type enum                                            building.set-ty
                                                                  dup
 Infantry UnitType type enum                                      unit.set-type
 false                                                            unit.set-moved
-1 0 int2                                                         unit.set-position
+4 4 int2                                                         unit.set-position
 -1 0 int2                                                        unit.set-look-direction
-LightTank UnitView type load-resource                          unit.set-view-prefab
+WbLightTank UnitView type load-resource                          unit.set-view-prefab
                                                                  unit.add
                                                                  pop
 

@@ -30,11 +30,11 @@ public class NewBehaviourScript : MonoBehaviour {
     //     main.RestartGame();
     // }
     //
-    // private void Start() {
-    //     main.Clear();
-    //     GameReader.LoadInto(main, source.text);
-    //     main.RestartGame();
-    // }
+    private void Start() {
+        main.Clear();
+        GameReader.LoadInto(main, source.text);
+        main.RestartGame();
+    }
 
 #if false
     private void Awake() {
