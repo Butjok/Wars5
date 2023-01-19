@@ -90,9 +90,9 @@ public static class PostfixInterpreter {
 
                 case "find-with-tag": {
                     var tag = stack.Pop<string>();
-                    var gameObject = GameObject.FindWithTag(tag);
-                    Assert.IsTrue(gameObject);
-                    stack.Push(gameObject);
+                    var gameObjects = GameObject.FindGameObjectsWithTag(tag);
+                    Assert.AreEqual(1, gameObjects.Length);
+                    stack.Push(gameObjects[0]);
                     break;
                 }
 

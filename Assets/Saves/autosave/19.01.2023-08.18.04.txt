@@ -1425,4 +1425,14 @@ C Trigger type enum                                              trigger.select
 3 -8 int2                                                        trigger.add-position
 3 -10 int2                                                       trigger.add-position
 
+Bridge find-with-tag                                             
+BridgeView type get-component                                    bridge.set-view
+0                                                                bridge.set-hp
+
+3 -8 int2                                                        bridge.add-position
+3 -9 int2                                                        bridge.add-position
+3 -10 int2                                                       bridge.add-position
+                                                                 bridge.add
+                                                                 pop
+
 
