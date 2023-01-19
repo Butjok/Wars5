@@ -46,10 +46,8 @@ public static class GameWriter {
 			WriteLine(tw, "\n");
 		}
 
-		// TODO: FIX THIS
 		var tiles = main.tiles
-			.Concat(main.bridges.SelectMany(bridge => bridge.tiles))
-			.Distinct();
+			.Union(main.bridges.SelectMany(bridge => bridge.tiles));
 
 		foreach (var (position, tileType) in tiles.OrderBy(kv => kv.Key.x).ThenBy(kv => kv.Key.y)) {
 			if (TileType.Buildings.HasFlag(tileType))

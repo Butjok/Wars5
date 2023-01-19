@@ -83,8 +83,8 @@ public class Main : ImmediateModeShapeDrawer {
 	}
 
 	protected virtual void OnApplicationQuit() {
-		Clear();
-		Debug.Log(@$"UNDISPOSED: players: {Player.undisposed.Count} buildings: {Building.undisposed.Count} units: {Unit.undisposed.Count} unitActions: {UnitAction.undisposed.Count}");
+		//Clear();
+		//Debug.Log(@$"UNDISPOSED: players: {Player.undisposed.Count} buildings: {Building.undisposed.Count} units: {Unit.undisposed.Count} unitActions: {UnitAction.undisposed.Count}");
 	}
 
 	protected virtual void OnGUI() {
@@ -103,33 +103,6 @@ public class Main : ImmediateModeShapeDrawer {
 		StartCoroutine(SelectionState.Run(this, true));
 	}
 
-	public void Clear() {
-
-		turn = 0;
-
-		foreach (var player in players.ToArray())
-			player.Dispose();
-		players.Clear();
-
-		localPlayer = null;
-
-		tiles.Clear();
-
-		foreach (var unit in units.Values.ToArray())
-			unit.Dispose();
-		units.Clear();
-
-		foreach (var building in buildings.Values.ToArray())
-			building.Dispose();
-		buildings.Clear();
-
-		triggers.Clear();
-
-		foreach (var bridge in bridges)
-			bridge.view.bridge = null;
-		bridges.Clear();
-	}
-
 	[Command]
 	public void EnqueueCommand(string command) {
 		commands.Enqueue(command);
@@ -140,5 +113,8 @@ public class Main : ImmediateModeShapeDrawer {
 public enum Trigger {
 	A = 1 << 0,
 	B = 1 << 1,
-	C = 1 << 2
+	C = 1 << 2,
+	D = 1 << 3,
+	E = 1 << 4,
+	F = 1 << 5
 }

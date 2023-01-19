@@ -31,7 +31,7 @@ public  class LevelEditorState : MonoBehaviour {
 
         // init empty map
         {
-            main.Clear();
+            //main.Clear();
 
             var red = new Player(main, Color.red, Team.Alpha);
             var blue = new Player(main, Color.blue, Team.Bravo);

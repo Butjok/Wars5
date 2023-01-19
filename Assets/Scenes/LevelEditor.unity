@@ -5586,8 +5586,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 329.56793, y: 922.7555}
-  m_SizeDelta: {x: 361.31653, y: 89.470825}
+  m_AnchoredPosition: {x: 376.32843, y: 970.0763}
+  m_SizeDelta: {x: 379.6846, y: 94.05908}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1215465040
 MonoBehaviour:
@@ -7484,11 +7484,12 @@ MonoBehaviour:
   showBridges: 0
   bridgesThicknessSpace: 1
   bridgesThickness: 5
-  bridgesBlendMode: 2
+  bridgesBlendMode: 1
   bridgesCompareFunction: 8
-  bridgesFillAlpha: 0.25
-  bridgesBorderRadius: 0.1
-  bridgeColor: {r: 1, g: 1, b: 1, a: 1}
+  bridgesFillAlpha: 0.5
+  bridgesBorderRadius: 0.05
+  bridgesColorsCycle:
+  - {r: 1, g: 1, b: 1, a: 1}
   bridgeIndex: 0
   maxBridges: 3
   tileType: 1

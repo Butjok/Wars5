@@ -31,7 +31,7 @@ public class NewBehaviourScript : MonoBehaviour {
     // }
     //
     private void Start() {
-        main.Clear();
+        //main.Clear();
         GameReader.LoadInto(main, source.text);
         main.RestartGame();
     }

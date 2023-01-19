@@ -170,9 +170,15 @@ public static class GameReader {
                     playerAbilityActivationTurn = stack.Pop<int>();
                     break;
                 }
-
                 case "player.set-power-meter": {
                     playerPowerMeter = stack.Pop<int>();
+                    break;
+                }
+
+                case "player.select-by-index": {
+                    var index = stack.Pop<int>();
+                    Assert.IsTrue(index >= 0 && index < main.players.Count, index.ToString());
+                    stack.Push(main.players[index]);
                     break;
                 }
 

@@ -90,6 +90,7 @@ public class Main2 : Main {
 	public const string selectTilesMode = prefix + "select-tiles-mode";
 	public const string selectUnitsMode = prefix + "select-units-mode";
 	public const string selectTriggersMode = prefix + "select-triggers-mode";
+	public const string selectBridgesMode = prefix + "select-bridges-mode";
 
 	public const string cycleTileType = prefix + "cycle-tile-type";
 	public const string placeTile = prefix + "place-tile";
@@ -111,10 +112,6 @@ public class Main2 : Main {
 	public const string play = prefix + "play";
 
 	public const string cycleTrigger = prefix + "cycle-trigger";
-
-	public const string placeBridge = prefix + "place-bridge";
-	public const string removeBridge = prefix + "remove-bridge";
-	public const string cycleBridgeIndex = prefix + "cycle-bridge-index";
 
 	public const string mode = nameof(mode);
 	public const string autosave = prefix + "autosave";
@@ -143,6 +140,10 @@ public class Main2 : Main {
 	public Vector3 triggerTextOffset = new Vector3(0, 0.01f, 0);
 
 	public bool showBridges;
+	[Command]
+	public void ToggleBridges() {
+		showBridges = !showBridges;
+	}
 
 	public ThicknessSpace bridgesThicknessSpace = ThicknessSpace.Pixels;
 	public float bridgesThickness = 5;
@@ -150,7 +151,7 @@ public class Main2 : Main {
 	public CompareFunction bridgesCompareFunction = CompareFunction.Always;
 	public float bridgesFillAlpha = .25f;
 	public float bridgesBorderRadius = .1f;
-	[ColorUsage(false)] public Color bridgeColor = Color.white;
+	public Color[] bridgesColorsCycle = new[] { Color.red, Color.green, Color.blue, };
 
 	public int bridgeIndex = 0;
 	public int maxBridges = 3;
@@ -201,6 +202,33 @@ public class Main2 : Main {
 					Draw.Text(textElement, position3d + triggerTextOffset, rotation, trigger.ToString(), triggerTextSize, color);
 				}
 			}
+
+			if (showBridges) {
+
+				Draw.ThicknessSpace = bridgesThicknessSpace;
+
+				var index = 0;
+				foreach (var bridge in bridges) {
+					var color = bridgesColorsCycle.Length == 0 ? Color.white : bridgesColorsCycle[(index++) % bridgesColorsCycle.Length];
+
+					foreach (var position in bridge.tiles.Keys) {
+
+						Draw.BlendMode = bridgesBlendMode;
+						Draw.ZTest = bridgesCompareFunction;
+
+						var position3d = position.ToVector3Int();
+						var rotation = Quaternion.Euler(90, 0, 0);
+						var quad = new Rect(-Vector2.one / 2, Vector2.one);
+
+						Draw.RectangleBorder(position3d, rotation, quad, bridgesThickness, bridgesBorderRadius, color);
+
+						var fillColor = color;
+						fillColor.a = bridgesFillAlpha;
+
+						Draw.Rectangle(position3d, rotation, quad, bridgesBorderRadius, fillColor);
+					}
+				}
+			}
 		}
 	}
 
@@ -247,6 +275,7 @@ public class Main2 : Main {
 		screenText["look-direction"] = () => lookDirection;
 		screenText["unit-type"] = () => unitType;
 		screenText["trigger-name"] = () => trigger;
+		screenText["bridge-index"] = () => bridgeIndex;
 
 		yield return TilesMode();
 	}
@@ -737,15 +766,53 @@ public class Main2 : Main {
 	}
 
 	[Command]
-	public void Load(string name) {
+	public void Clear() {
+
+		turn = 0;
+
+		foreach (var player in players.ToArray())
+			player.Dispose();
+		players.Clear();
+
+		localPlayer = null;
+
+		tiles.Clear();
+
+		foreach (var unit in units.Values.ToArray())
+			unit.Dispose();
+		units.Clear();
+
+		foreach (var building in buildings.Values.ToArray())
+			building.Dispose();
+		buildings.Clear();
+
+		triggers.Clear();
+
+		foreach (var bridge in bridges)
+			bridge.view.bridge = null;
+		bridges.Clear();
+
+		RebuildTilemapMesh();
+	}
+
+	public void LoadInternal(string name, bool clear = true) {
 		var found = TryGetLatestSaveFilePath(name, out var filePath);
 		Assert.IsTrue(found, name);
 		var text = File.ReadAllText(filePath);
 		Debug.Log($"Reading from: {filePath}");
-		Clear();
+		if (clear)
+			Clear();
 		GameReader.LoadInto(this, text, true);
 		player = players.Count == 0 ? null : players[0];
 		RebuildTilemapMesh();
+	}
+	[Command]
+	public void Load(string name) {
+		LoadInternal(name, true);
+	}
+	[Command]
+	public void LoadAdditively(string name) {
+		LoadInternal(name, false);
 	}
 
 	public static T CycleValue<T>(T value, T[] values, int offset = 1) {
