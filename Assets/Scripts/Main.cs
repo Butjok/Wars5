@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Butjok.CommandLine;
 using DG.Tweening;
 using Shapes;
@@ -10,6 +11,8 @@ using UnityEngine.Assertions;
 
 public class Main : ImmediateModeShapeDrawer {
 
+	
+	
 	public List<Bridge> bridges = new();
 
 	[Command] public MissionName missionName;
@@ -23,7 +26,7 @@ public class Main : ImmediateModeShapeDrawer {
 	public Player localPlayer;
 	public GameSettings settings = new();
 
-	public Stack stack = new();
+	public DebugStack stack = new();
 	public Queue<string> commands = new();
 	public GUISkin guiSkin;
 
