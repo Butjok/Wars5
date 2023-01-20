@@ -8,7 +8,7 @@ Tutorial MissionName type enum                                   game.set-missio
 #Player0Red
 #
 
-0                                                                player.select-by-index
+0                                                                player.on-additive-load-get-by-index
 
 
                                                                  pop
@@ -18,7 +18,7 @@ Tutorial MissionName type enum                                   game.set-missio
 #Player1Green
 #
 
-1                                                                player.select-by-index
+1                                                                player.on-additive-load-get-by-index
 
 
                                                                  dup
@@ -121,7 +121,6 @@ Plain TileType type enum                                         tile.set-type
 3 -3 int2                                                        tile.set-position
 Plain TileType type enum                                         tile.set-type
                                                                  tile.add
-
 
 
 

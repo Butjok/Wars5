@@ -2,8 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Reflection;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -14,13 +12,8 @@ public static class PostfixInterpreter {
         return input.Split(new[] { ' ', '\r', '\n', '\t' }, StringSplitOptions.RemoveEmptyEntries);
     }
 
-    public static DateTime launchTime;
-    public static readonly Dictionary<string, Type> typeCache ;
-    public static readonly List<Type> allTypes ;
-
-    public static void ExecuteToken(this DebugStack stack, string token,
-        [CallerFilePath] string callerFilePath=null, [CallerLineNumber]int callerLineNumber = 0) {
-
+    public static void ExecuteToken(this DebugStack stack, string token) {
+        
         if (int.TryParse(token, out var intValue))
             stack.Push(intValue);
 
@@ -149,14 +142,14 @@ public static class PostfixInterpreter {
 public class DebugStack {
 		
     public Stack stack = new();
-    public Stack<string> infos = new();
+    public Stack<string> stackTrace = new();
 		
     public void Push(object value, [CallerFilePath] string callerFilePath=null, [CallerLineNumber] int callerLineNumber=0) {
         stack.Push(value);
-        infos.Push($"{callerFilePath}:{callerLineNumber}");
+        stackTrace.Push(Environment.StackTrace);
     }
     public object Pop() {
-        infos.Pop();
+        stackTrace.Pop();
         return stack.Pop();
     }
     public object Peek() {
