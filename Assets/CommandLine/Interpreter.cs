@@ -8,6 +8,7 @@ using System.Text;
 using Antlr4.Runtime;
 using Butjok.CommandLine.Parsers;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace Butjok.CommandLine
 {
@@ -83,8 +84,15 @@ namespace Butjok.CommandLine
 
         public override dynamic VisitEnum(CommandLineParser.EnumContext context) {
             var typeName = context.Identifier(0).GetText();
+            Type type=null;
+            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies()) {
+                type = assembly.GetType(typeName);
+                if (type != null)
+                    break;
+            }
+            Assert.IsNotNull(type, typeName);
             var valueName = context.Identifier(1).GetText();
-            return Enum.Parse(Type.GetType(typeName), valueName);
+            return Enum.Parse(type, valueName);
         }
 
         public const string unsupported = "Operators are not supported with Api Compatibility Level .NET Standard 2.0. Please change the Api Compatibility Level to .NET 4.x in Edit > Project Settings > Player > Other Settings > Configuration.";

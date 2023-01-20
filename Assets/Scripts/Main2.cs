@@ -165,6 +165,15 @@ public class Main2 : Main {
         bridge.Hp = hp;
     }
 
+    [Command]
+    public void RemoveTrigger(Trigger trigger) {
+        foreach (var position in triggers.Keys.ToArray()) {
+            triggers[position] &= ~trigger;
+            if (triggers[position] == 0)
+                triggers.Remove(position);
+        }
+    }
+
     public override void DrawShapes(Camera cam) {
         using (Draw.Command(cam)) {
 
