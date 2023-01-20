@@ -153,4 +153,11 @@ public static class MathUtils {
 		Assert.AreNotEqual(minX, int.MaxValue);
 		return (new Vector2Int(minX, minY), new Vector2Int(maxX,maxY));
 	}
+
+	public static T Cycle<T>(this T value, IEnumerable<T> _values, int offset = 1) {
+		var values = _values.ToArray();
+		var index = Array.IndexOf(values, value);
+		var nextIndex = index == -1 ? 0 : (index + offset).PositiveModulo(values.Length);
+		return values[nextIndex];
+	}
 }

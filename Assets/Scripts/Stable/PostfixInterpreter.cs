@@ -139,7 +139,13 @@ public static class PostfixInterpreter {
             }
     }
 
-    public static T Pop<T>(this Stack stack) {
+    public static T Pop<T>(this IStack stack) {
         return (T)stack.Pop();
     }
+}
+
+public interface IStack {
+    void Push(object value);
+    object Pop();
+    int Count { get; }
 }
