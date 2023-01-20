@@ -11,21 +11,7 @@ using UnityEngine.Assertions;
 
 public class Main : ImmediateModeShapeDrawer {
 
-	public class DebugStack {
-		
-		public Stack stack = new();
-		public Stack<string> infos = new();
-		
-		public void Push(object value, [CallerFilePath] string callerFilePath=null, [CallerLineNumber] int callerLineNumber=0) {
-			stack.Push(value);
-			infos.Push($"{callerFilePath}:{callerLineNumber}");
-		}
-		public object Pop() {
-			infos.Pop();
-			return stack.Pop();
-		}
-		public int Count => stack.Count;
-	}
+	
 	
 	public List<Bridge> bridges = new();
 

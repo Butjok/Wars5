@@ -727,9 +727,9 @@ public class Main2 : Main {
     public static string SaveRootDirectoryPath => Path.Combine(Application.dataPath, "Saves");
     public static string GetSavePath(string name) => Path.Combine(SaveRootDirectoryPath, name);
 
-    public void SaveInternal(string name, Func<TextWriter, Player, TextWriter> playerWriter = null) {
+    public void SaveInternal(string name) {
         using var tw = new StringWriter();
-        GameWriter.Write(tw, this, playerWriter);
+        GameWriter.Write(tw, this);
         var text = tw.ToString();
         if (!Directory.Exists(SaveRootDirectoryPath))
             Directory.CreateDirectory(SaveRootDirectoryPath);
@@ -745,10 +745,6 @@ public class Main2 : Main {
     [Command]
     public void Save(string name) {
         SaveInternal(name);
-    }
-    [Command]
-    public void SaveAsAdditive(string name) {
-        SaveInternal(name, GameWriter.SelectPlayer);
     }
 
     public static bool TryGetLatestSaveFilePath(string name, out string filePath) {
@@ -806,6 +802,7 @@ public class Main2 : Main {
         public string input = "";
         public bool spawnBuildingViews = true;
         public bool checkLocalPlayerIsSet = true;
+        public bool selectExistingPlayersInsteadOfCreatingNewOnes = false;
     }
 
     public void LoadInternal(ReadingOptions options) {
@@ -823,7 +820,7 @@ public class Main2 : Main {
         else
             input = options.input;
 
-        GameReader.ReadInto(this, input, options.spawnBuildingViews);
+        GameReader.ReadInto(this, input, options.spawnBuildingViews, options.selectExistingPlayersInsteadOfCreatingNewOnes);
 
         player = players.Count == 0 ? null : players[0];
 
@@ -839,15 +836,15 @@ public class Main2 : Main {
     }
     [Command]
     public void LoadAdditively(string name) {
-        LoadInternal(new ReadingOptions { saveName = name, clearGame = false });
+        LoadInternal(new ReadingOptions { saveName = name, clearGame = false, selectExistingPlayersInsteadOfCreatingNewOnes = true});
     }
     [Command]
     public void LoadFromText(string text) {
-        LoadInternal(new ReadingOptions { input = name });
+        LoadInternal(new ReadingOptions { input = text });
     }
     [Command]
     public void LoadFromTextAdditively(string text) {
-        LoadInternal(new ReadingOptions { input = name, clearGame = false });
+        LoadInternal(new ReadingOptions { input = text, clearGame = false, selectExistingPlayersInsteadOfCreatingNewOnes = true});
     }
 
     [Command]

@@ -1,0 +1,114 @@
+LevelEditor                                                      game.load-scene
+Tutorial MissionName type enum                                   game.set-mission-name
+0                                                                game.set-turn
+                                                                 
+
+
+#
+#Player0Red
+#
+
+1 0 0                                                            player.set-color
+None Team type enum                                              player.set-team
+0                                                                player.set-credits
+0                                                                player.set-power-meter
+0 1 int2                                                         player.set-unit-look-direction
+0                                                                player.set-index
+NatalieCo                                                        player.set-co
+                                                                 player.mark-as-local
+                                                                 player.add
+
+
+                                                                 dup
+Infantry UnitType type enum                                      unit.set-type
+false                                                            unit.set-moved
+0 -5 int2                                                        unit.set-position
+1 0 int2                                                         unit.set-look-direction
+WbLightTank UnitView type load-resource                          unit.set-view-prefab
+                                                                 unit.add
+                                                                 pop
+
+                                                                 pop
+                                                                 
+
+#
+#Player1Green
+#
+
+0 1 0                                                            player.set-color
+None Team type enum                                              player.set-team
+0                                                                player.set-credits
+0                                                                player.set-power-meter
+0 1 int2                                                         player.set-unit-look-direction
+1                                                                player.set-index
+NatalieCo                                                        player.set-co
+                                                                 player.add
+
+
+                                                                 dup
+Infantry UnitType type enum                                      unit.set-type
+false                                                            unit.set-moved
+3 -4 int2                                                        unit.set-position
+0 1 int2                                                         unit.set-look-direction
+WbLightTank UnitView type load-resource                          unit.set-view-prefab
+                                                                 unit.add
+                                                                 pop
+
+                                                                 pop
+                                                                 
+
+0 -6 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+0 -5 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+0 -4 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+1 -6 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+1 -5 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+1 -4 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+2 -6 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+2 -5 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+2 -4 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+3 -6 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+3 -5 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+3 -4 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+3 7 int2                                                         tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+
+
+

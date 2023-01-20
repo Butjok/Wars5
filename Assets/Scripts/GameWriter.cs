@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 
 public static class GameWriter {
 
-	public static TextWriter Write(TextWriter tw, Main main, Func<TextWriter, Player,TextWriter > playerWriter=null) {
+	public static TextWriter Write(TextWriter tw, Main main) {
 
 		WriteLine(tw, SceneManager.GetActiveScene().name, "game.load-scene");
 		WriteLine(tw, $"{main.missionName} MissionName type enum", "game.set-mission-name");
@@ -24,7 +24,7 @@ public static class GameWriter {
 
 			WriteLine(tw);
 
-			(playerWriter ?? AddPlayer)(tw, player);
+			AddPlayer(tw, player);
 			WriteLine(tw);
 
 			foreach (var building in player.main.FindBuildingsOf(player)) {
@@ -134,6 +134,8 @@ public static class GameWriter {
 		WriteLine(tw, player.credits, "player.set-credits");
 		WriteLine(tw, player.powerMeter, "player.set-power-meter");
 		WriteLine(tw, $"{player.unitLookDirection.x} {player.unitLookDirection.y} int2", "player.set-unit-look-direction");
+		var index = player.main.players.IndexOf(player);
+		WriteLine(tw, index,"player.set-index");
 		if (player.co)
 			WriteLine(tw, player.co.name, "player.set-co");
 		if (player.main.localPlayer == player)

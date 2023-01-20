@@ -76,7 +76,7 @@ public class Campaign {
         if (mission.isCompleted)
             return true;
 
-        var stack = new Stack();
+        var stack = new DebugStack();
         foreach (var token in mission.isAvailable.Tokenize()) {
             switch (token) {
                 case "isCompleted":

@@ -6,7 +6,8 @@ using UnityEngine.Assertions;
 
 public static class GameReader {
     
-    public static void ReadInto(Main main, string input, bool spawnBuildingViews = false) {
+    public static void ReadInto(Main main, string input, bool spawnBuildingViews = false,
+        bool selectExistingPlayersInsteadOfCreatingNewOnes = false) {
 
         Team playerTeam;
         Co playerCo;
@@ -19,6 +20,7 @@ public static class GameReader {
         Color? playerColor;
         int? playerAbilityActivationTurn;
         int playerPowerMeter;
+        int playerIndex;
 
         void ResetPlayerValues() {
             playerTeam = Team.None;
@@ -32,6 +34,7 @@ public static class GameReader {
             playerUnitLookDirection = null;
             playerAbilityActivationTurn = null;
             playerPowerMeter = 0;
+            playerIndex = -1;
         }
         ResetPlayerValues();
 
@@ -105,20 +108,30 @@ public static class GameReader {
 
                 case "player.add": {
 
-                    if (playerColor is not { } color)
-                        throw new AssertionException("color is null", null);
-                    
-                    var player = new Player(main, color, playerTeam, playerCredits, playerCo, playerViewPrefab, playerType, playerDifficulty, playerUnitLookDirection);
-
-                    if (playerLocal) {
-                        Assert.IsNull(main.localPlayer);
-                        main.localPlayer = player;
+                    if (selectExistingPlayersInsteadOfCreatingNewOnes) {
+                        
+                        Assert.AreNotEqual(-1,playerIndex);
+                        Assert.IsTrue(playerIndex >= 0 && playerIndex < main.players.Count);
+                        main.stack.Push(main.players[playerIndex]);
+                        
                     }
+                    else {
+                        if (playerColor is not { } color)
+                            throw new AssertionException("color is null", null);
 
-                    player.abilityActivationTurn = playerAbilityActivationTurn;
-                    player.powerMeter = playerPowerMeter;
+                        var player = new Player(main, color, playerTeam, playerCredits, playerCo, playerViewPrefab, playerType, playerDifficulty, playerUnitLookDirection);
 
-                    main.stack.Push(player);
+                        if (playerLocal) {
+                            Assert.IsNull(main.localPlayer);
+                            main.localPlayer = player;
+                        }
+
+                        player.abilityActivationTurn = playerAbilityActivationTurn;
+                        player.powerMeter = playerPowerMeter;
+
+                        main.stack.Push(player);
+                    }
+                    
                     ResetPlayerValues();
                     break;
                 }
@@ -165,6 +178,10 @@ public static class GameReader {
                 }
                 case "player.set-power-meter": {
                     playerPowerMeter = main.stack.Pop<int>();
+                    break;
+                }
+                case "player.set-index": {
+                    playerIndex = main.stack.Pop<int>();
                     break;
                 }
 
