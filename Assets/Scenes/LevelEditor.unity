@@ -152,7 +152,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71efba51ee724feb82554e2b024e84fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useCullingMasks: 0
   intact: {fileID: 658553484}
   destroyed: {fileID: 1954838898}
   hp: 0
@@ -5647,8 +5646,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 329.56793, y: 922.7555}
-  m_SizeDelta: {x: 361.31653, y: 89.470825}
+  m_AnchoredPosition: {x: 375.82846, y: 970.0763}
+  m_SizeDelta: {x: 379.6846, y: 94.05908}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1215465040
 MonoBehaviour:
@@ -7484,7 +7483,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9f3770c027d425eb7a3cfccb9dc2e34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useCullingMasks: 0
   missionName: 0
   turn: 0
   settings:
@@ -7529,35 +7527,22 @@ MonoBehaviour:
   - {x: -1, y: 0}
   - {x: 0, y: -1}
   - {x: 1, y: 0}
-  triggerNames: 010000000200000004000000
-  trigger: 1
-  triggerThicknessSpace: 1
-  triggerThickness: 2.5
-  triggerBlendMode: 1
-  triggerCompareFunction: 8
-  triggerFillAlpha: 0.5
-  triggerBorderRadius: 0.05
-  triggerColorA: {r: 1, g: 0, b: 0, a: 1}
-  triggerColorB: {r: 0, g: 1, b: 0, a: 1}
-  triggerColorC: {r: 0, g: 0, b: 1, a: 1}
-  triggerTextSize: 2
-  triggerTextOffset: {x: 0, y: 0.01, z: 0}
+  triggerNames: 000000000100000002000000030000000400000005000000
+  triggerName: 0
   showBridges: 0
-  bridgesThicknessSpace: 1
-  bridgesThickness: 5
-  bridgesBlendMode: 1
-  bridgesCompareFunction: 8
-  bridgesFillAlpha: 0.5
-  bridgesBorderRadius: 0.05
-  bridgesColorsCycle:
-  - {r: 1, g: 1, b: 1, a: 1}
-  bridgeIndex: 0
-  maxBridges: 3
   tileType: 1
   tileTypes: 0100000002000000100000000800000020000000040000004000000080000000000100000002000000040000
   unitType: 1
   unitTypes: 0100000002000000040000000800000000010000000200000008000000040000
-  showTriggers: 0
+  triggerColors:
+    m_keys: 000000000100000002000000030000000400000005000000
+    m_values:
+    - {r: 1, g: 0, b: 0, a: 1}
+    - {r: 0, g: 1, b: 0, a: 1}
+    - {r: 0, g: 0, b: 1, a: 1}
+    - {r: 0, g: 1, b: 1, a: 1}
+    - {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+    - {r: 1, g: 0, b: 1, a: 1}
 --- !u!4 &1460102030
 Transform:
   m_ObjectHideFlags: 0

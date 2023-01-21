@@ -5,11 +5,11 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using Butjok.CommandLine;
 using DG.Tweening;
-using Shapes;
+
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class Main : ImmediateModeShapeDrawer {
+public class Main : MonoBehaviour {
 
 	
 	
@@ -19,7 +19,14 @@ public class Main : ImmediateModeShapeDrawer {
 	public Dictionary<Vector2Int, TileType> tiles = new();
 	public Dictionary<Vector2Int, Unit> units = new();
 	public Dictionary<Vector2Int, Building> buildings = new();
-	public Dictionary<Vector2Int, Trigger> triggers = new();
+	public Dictionary<TriggerName, HashSet<Vector2Int>> triggers = new() {
+		[TriggerName.A] = new HashSet<Vector2Int>(),
+		[TriggerName.B] = new HashSet<Vector2Int>(),
+		[TriggerName.C] = new HashSet<Vector2Int>(),
+		[TriggerName.D] = new HashSet<Vector2Int>(),
+		[TriggerName.E] = new HashSet<Vector2Int>(),
+		[TriggerName.F] = new HashSet<Vector2Int>(),
+	};
 	public List<Player> players = new();
 	[Command] public int turn = 0;
 	public LevelLogic levelLogic = new();
@@ -112,12 +119,4 @@ public class Main : ImmediateModeShapeDrawer {
 	}
 }
 
-[Flags]
-public enum Trigger {
-	A = 1 << 0,
-	B = 1 << 1,
-	C = 1 << 2,
-	D = 1 << 3,
-	E = 1 << 4,
-	F = 1 << 5
-}
+public enum TriggerName { A,B,C,D,E,F }

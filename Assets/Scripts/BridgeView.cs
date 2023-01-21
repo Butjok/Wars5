@@ -1,9 +1,8 @@
 using System;
 using System.Collections;
-using Shapes;
 using UnityEngine;
 
-public class BridgeView : ImmediateModeShapeDrawer {
+public class BridgeView : MonoBehaviour {
 
 	public Bridge bridge;
 
@@ -18,20 +17,6 @@ public class BridgeView : ImmediateModeShapeDrawer {
 				intact.SetActive(value > 0);
 			if (destroyed) 
 				destroyed.SetActive(value <= 0);
-		}
-	}
-
-	public TextElement textElement;
-	private void Awake() {
-		textElement = new TextElement();
-	}
-	private void OnDestroy() {
-		textElement.Dispose();
-	}
-
-	public override void DrawShapes(Camera cam) {
-		using (Draw.Command(cam)) {
-			//Draw.Text(textElement, transform.position, hp.ToString());
 		}
 	}
 

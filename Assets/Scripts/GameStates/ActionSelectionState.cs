@@ -252,6 +252,8 @@ public static class ActionSelectionState {
                             if (unit is { hp: { v: > 0 } } && unit.view.LookDirection != unit.player.unitLookDirection)
                                 main.StartCoroutine(new MoveSequence(unit.view.transform, null, unit.player.main.settings.unitSpeed, unit.player.unitLookDirection).Animation());
 
+                            
+
                             // if (unit.view.LookDirection != unit.player.view.unitLookDirection)
                             // unit.view.LookDirection = unit.player.view.unitLookDirection;
 

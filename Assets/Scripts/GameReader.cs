@@ -87,7 +87,7 @@ public static class GameReader {
         }
         ResetBridgeValues();
 
-        Trigger? trigger = null;
+        TriggerName? trigger = null;
 
         foreach (var token in input.Tokenize()) {
             switch (token) {
@@ -279,7 +279,7 @@ public static class GameReader {
                 }
 
                 case "trigger.select": {
-                    trigger = main.stack.Pop<Trigger>();
+                    trigger = main.stack.Pop<TriggerName>();
                     break;
                 }
                 
@@ -287,7 +287,8 @@ public static class GameReader {
                     var position = main.stack.Pop<Vector2Int>();
                     if (trigger is not { } value)
                         throw new AssertionException("trigger is null", position.ToString());
-                    main.triggers.Add(position, value);
+                    Assert.IsTrue(main.triggers.ContainsKey(value), value.ToString());
+                    main.triggers[value].Add(position);
                     break;
                 }
 
