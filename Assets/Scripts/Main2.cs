@@ -430,6 +430,10 @@ public class Main2 : Main {
         var forestVertices = forestMesh.vertices;
         var forestTriangles = forestMesh.triangles;
 
+        var mountainMesh = "mountain-placeholder".LoadAs<Mesh>();
+        var mountainVertices = mountainMesh.vertices;
+        var mountainTriangles = mountainMesh.triangles;
+
         foreach (var position in tiles.Keys) {
 
             var tileType = tiles[position];
@@ -440,15 +444,17 @@ public class Main2 : Main {
                     : Palette.white;
             color.a = (int)tiles[position];
 
-            var source = tileType == TileType.Forest
-                ? (forestVertices,forestTriangles,Enumerable.Repeat(color, forestVertices.Length))
-                :(quadVertices,quadTriangles,Enumerable.Repeat(color, quadVertices.Length));
+            var source = tileType switch {
+                TileType.Forest => (forestVertices, forestTriangles, Enumerable.Repeat(color, forestVertices.Length)),
+                TileType.Mountain => (mountainVertices, mountainTriangles, Enumerable.Repeat(color, mountainVertices.Length)),
+                _ => (quadVertices, quadTriangles, Enumerable.Repeat(color, quadVertices.Length))
+            };
 
             Random.InitState(position.GetHashCode());
             MeshUtils.AppendMesh(
                 (vertices, triangles, colors),
                 source,
-                Matrix4x4.TRS(position.ToVector3Int(), Quaternion.Euler(0,Random.Range(0,4)*90,0), Vector3.one));
+                Matrix4x4.TRS(position.ToVector3Int(), Quaternion.Euler(0, Random.Range(0, 4) * 90, 0), Vector3.one));
         }
         var mesh = new Mesh {
             vertices = vertices.ToArray(),
