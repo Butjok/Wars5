@@ -12,6 +12,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Rendering;
 using Debug = UnityEngine.Debug;
+using Random = UnityEngine.Random;
 
 public class Main2 : Main {
 
@@ -162,6 +163,15 @@ public class Main2 : Main {
         if (bridge == null)
             return;
         bridge.Hp = hp;
+    }
+
+    [Command]
+    public void RemoveTrigger(Trigger trigger) {
+        foreach (var position in triggers.Keys.ToArray()) {
+            triggers[position] &= ~trigger;
+            if (triggers[position] == 0)
+                triggers.Remove(position);
+        }
     }
 
     public override void DrawShapes(Camera cam) {
@@ -407,10 +417,25 @@ public class Main2 : Main {
     }
 
     public void RebuildTilemapMesh() {
+
         var vertices = new List<Vector3>();
         var triangles = new List<int>();
         var colors = new List<Color>();
+
+        var quadMesh = "quad".LoadAs<Mesh>();
+        var quadVertices = quadMesh.vertices;
+        var quadTriangles = quadMesh.triangles;
+
+        var forestMesh = "forest-placeholder".LoadAs<Mesh>();
+        var forestVertices = forestMesh.vertices;
+        var forestTriangles = forestMesh.triangles;
+
+        var mountainMesh = "mountain-placeholder".LoadAs<Mesh>();
+        var mountainVertices = mountainMesh.vertices;
+        var mountainTriangles = mountainMesh.triangles;
+
         foreach (var position in tiles.Keys) {
+
             var tileType = tiles[position];
             var color = buildings.TryGetValue(position, out var building) && building.player.v != null
                 ? building.player.v.color
@@ -418,11 +443,18 @@ public class Main2 : Main {
                     ? c
                     : Palette.white;
             color.a = (int)tiles[position];
-            foreach (var vertex in MeshUtils.QuadAt(position.ToVector3Int())) {
-                vertices.Add(vertex);
-                triangles.Add(triangles.Count);
-                colors.Add(color);
-            }
+
+            var source = tileType switch {
+                TileType.Forest => (forestVertices, forestTriangles, Enumerable.Repeat(color, forestVertices.Length)),
+                TileType.Mountain => (mountainVertices, mountainTriangles, Enumerable.Repeat(color, mountainVertices.Length)),
+                _ => (quadVertices, quadTriangles, Enumerable.Repeat(color, quadVertices.Length))
+            };
+
+            Random.InitState(position.GetHashCode());
+            MeshUtils.AppendMesh(
+                (vertices, triangles, colors),
+                source,
+                Matrix4x4.TRS(position.ToVector3Int(), Quaternion.Euler(0, Random.Range(0, 4) * 90, 0), Vector3.one));
         }
         var mesh = new Mesh {
             vertices = vertices.ToArray(),
@@ -826,7 +858,7 @@ public class Main2 : Main {
 
         RebuildTilemapMesh();
 
-        if (options.checkLocalPlayerIsSet && players.Count>0)
+        if (options.checkLocalPlayerIsSet && players.Count > 0)
             Assert.IsNotNull(localPlayer, "local player is not set");
     }
 
@@ -836,7 +868,7 @@ public class Main2 : Main {
     }
     [Command]
     public void LoadAdditively(string name) {
-        LoadInternal(new ReadingOptions { saveName = name, clearGame = false, selectExistingPlayersInsteadOfCreatingNewOnes = true});
+        LoadInternal(new ReadingOptions { saveName = name, clearGame = false, selectExistingPlayersInsteadOfCreatingNewOnes = true });
     }
     [Command]
     public void LoadFromText(string text) {
@@ -844,7 +876,7 @@ public class Main2 : Main {
     }
     [Command]
     public void LoadFromTextAdditively(string text) {
-        LoadInternal(new ReadingOptions { input = text, clearGame = false, selectExistingPlayersInsteadOfCreatingNewOnes = true});
+        LoadInternal(new ReadingOptions { input = text, clearGame = false, selectExistingPlayersInsteadOfCreatingNewOnes = true });
     }
 
     [Command]

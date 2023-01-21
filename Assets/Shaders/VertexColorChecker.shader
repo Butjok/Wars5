@@ -79,9 +79,13 @@ Shader "Custom/VertexColorChecker" {
 			}
 			else if (abs(type - 8) < epsilon) {
 				color = _ColorMountain;
+				if (IN.worldPos.y > .001)
+					color *= 0.5;
 			}
 			else if (abs(type - 16) < epsilon) {
 				color = _ColorForest;
+				if (IN.worldPos.y > .001)
+					color *= 2.5;
 			}
 			else if (abs(type - 32) < epsilon) {
 				color = _ColorRiver;

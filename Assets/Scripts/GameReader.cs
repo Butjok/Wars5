@@ -180,15 +180,8 @@ public static class GameReader {
                     playerPowerMeter = main.stack.Pop<int>();
                     break;
                 }
-                case "player.set-index": {
+                case "player.on-additive-load-get-by-index": {
                     playerIndex = main.stack.Pop<int>();
-                    break;
-                }
-
-                case "player.select-by-index": {
-                    var index = main.stack.Pop<int>();
-                    Assert.IsTrue(index >= 0 && index < main.players.Count, index.ToString());
-                    main.stack.Push(main.players[index]);
                     break;
                 }
 

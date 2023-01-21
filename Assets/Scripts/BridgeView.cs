@@ -31,7 +31,7 @@ public class BridgeView : ImmediateModeShapeDrawer {
 
 	public override void DrawShapes(Camera cam) {
 		using (Draw.Command(cam)) {
-			Draw.Text(textElement, transform.position, hp.ToString());
+			//Draw.Text(textElement, transform.position, hp.ToString());
 		}
 	}
 
