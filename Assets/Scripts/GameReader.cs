@@ -199,11 +199,10 @@ public static class GameReader {
                 }
 
                 case "tile.add": {
-                    Assert.AreNotEqual((TileType)0, tileType);
-                    if (tilePosition is not { } position)
-                        throw new AssertionException("tilePosition is null", tileType.ToString());
+                    var position = main.stack.Pop<Vector2Int>();
+                    var type = main.stack.Pop<TileType>();
                     Assert.IsTrue(!main.tiles.ContainsKey(position), position.ToString());
-                    main.tiles.Add(position, tileType);
+                    main.tiles.Add(position, type);
                     ResetTileValues();
                     break;
                 }

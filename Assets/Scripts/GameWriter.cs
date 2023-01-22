@@ -50,13 +50,12 @@ public static class GameWriter {
 		var tiles = main.tiles
 			.Union(main.bridges.SelectMany(bridge => bridge.tiles));
 
-		foreach (var (position, tileType) in tiles.OrderBy(kv => kv.Key.x).ThenBy(kv => kv.Key.y)) {
+		foreach (var (position, tileType) in tiles.OrderBy(kv=>kv.Value).ThenBy(kv => kv.Key.x).ThenBy(kv => kv.Key.y)) {
 			if (TileType.Buildings.HasFlag(tileType))
 				continue;
-			WriteLine(tw, $"{position.x} {position.y} int2", "tile.set-position");
-			WriteLine(tw, $"{tileType} TileType type enum", "tile.set-type");
-			WriteLine(tw, "tile.add");
-			WriteLine(tw);
+			//WriteLine(tw, $"{position.x} {position.y} int2", "tile.set-position");
+			//WriteLine(tw, $"{tileType} TileType type enum", "tile.set-type");
+			WriteLine(tw, $"{tileType} TileType type enum {position.x} {position.y} int2", "tile.add");
 		}
 		WriteLine(tw);
 
@@ -114,13 +113,6 @@ public static class GameWriter {
 	public static TextWriter WriteComment(TextWriter tw, string text = "") {
 		text = text.Replace(" ", "").Replace("\r", "").Replace("\n", "").Replace("\t", "");
 		tw.WriteLine($"#{text}");
-		return tw;
-	}
-
-	public static TextWriter AddTile(TextWriter tw, Vector2Int position, TileType tileType) {
-		WriteLine(tw, $"{position.x} {position.y} int2", "tile.set-position");
-		WriteLine(tw, $"{tileType} TileType type enum", "tile.set-type");
-		WriteLine(tw, "tile.add");
 		return tw;
 	}
 

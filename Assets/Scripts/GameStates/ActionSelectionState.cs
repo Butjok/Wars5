@@ -259,11 +259,11 @@ public static class ActionSelectionState {
 
                                     if (CameraRig.TryFind(out var cameraRig)) {
                                         yield return cameraRig.Jump(((Vector2Int)playerUnitsInTrigger[0].position.v).Raycast());
-                                        yield return new WaitForSeconds(2);
+                                        yield return new WaitForSeconds(1);
                                     }
 
                                     trigger.Clear();
-                                    //((Main2)main).LoadAdditively("1");
+                                    ((Main2)main).LoadAdditively("1");
                                 }
                             }
 
