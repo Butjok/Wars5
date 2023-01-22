@@ -143,8 +143,6 @@ WbRecon UnitView type load-resource                              unit.set-view-p
 
 Plain TileType type enum -21 -13 int2                            tile.add
 Plain TileType type enum -11 -26 int2                            tile.add
-Plain TileType type enum -11 -20 int2                            tile.add
-Plain TileType type enum -11 -19 int2                            tile.add
 Plain TileType type enum -10 -26 int2                            tile.add
 Plain TileType type enum -10 -24 int2                            tile.add
 Plain TileType type enum -10 -23 int2                            tile.add
@@ -155,6 +153,7 @@ Plain TileType type enum -9 -26 int2                             tile.add
 Plain TileType type enum -9 -24 int2                             tile.add
 Plain TileType type enum -9 -23 int2                             tile.add
 Plain TileType type enum -9 -22 int2                             tile.add
+Plain TileType type enum -9 -21 int2                             tile.add
 Plain TileType type enum -9 -17 int2                             tile.add
 Plain TileType type enum -9 -16 int2                             tile.add
 Plain TileType type enum -9 -15 int2                             tile.add
@@ -162,6 +161,7 @@ Plain TileType type enum -9 -14 int2                             tile.add
 Plain TileType type enum -9 -12 int2                             tile.add
 Plain TileType type enum -9 -11 int2                             tile.add
 Plain TileType type enum -9 -10 int2                             tile.add
+Plain TileType type enum -9 -9 int2                              tile.add
 Plain TileType type enum -8 -26 int2                             tile.add
 Plain TileType type enum -8 -24 int2                             tile.add
 Plain TileType type enum -8 -23 int2                             tile.add
@@ -174,9 +174,12 @@ Plain TileType type enum -8 -15 int2                             tile.add
 Plain TileType type enum -8 -12 int2                             tile.add
 Plain TileType type enum -8 -11 int2                             tile.add
 Plain TileType type enum -8 -10 int2                             tile.add
+Plain TileType type enum -8 -9 int2                              tile.add
 Plain TileType type enum -7 -11 int2                             tile.add
 Plain TileType type enum -7 -10 int2                             tile.add
+Plain TileType type enum -7 -9 int2                              tile.add
 Plain TileType type enum -6 -26 int2                             tile.add
+Plain TileType type enum -6 -24 int2                             tile.add
 Plain TileType type enum -6 -22 int2                             tile.add
 Plain TileType type enum -6 -20 int2                             tile.add
 Plain TileType type enum -6 -19 int2                             tile.add
@@ -184,6 +187,8 @@ Plain TileType type enum -6 -18 int2                             tile.add
 Plain TileType type enum -6 -17 int2                             tile.add
 Plain TileType type enum -6 -11 int2                             tile.add
 Plain TileType type enum -6 -10 int2                             tile.add
+Plain TileType type enum -6 -9 int2                              tile.add
+Plain TileType type enum -6 -8 int2                              tile.add
 Plain TileType type enum -5 -26 int2                             tile.add
 Plain TileType type enum -5 -25 int2                             tile.add
 Plain TileType type enum -5 -23 int2                             tile.add
@@ -193,6 +198,8 @@ Plain TileType type enum -5 -17 int2                             tile.add
 Plain TileType type enum -5 -13 int2                             tile.add
 Plain TileType type enum -5 -11 int2                             tile.add
 Plain TileType type enum -5 -10 int2                             tile.add
+Plain TileType type enum -5 -9 int2                              tile.add
+Plain TileType type enum -5 -8 int2                              tile.add
 Plain TileType type enum -4 -26 int2                             tile.add
 Plain TileType type enum -4 -25 int2                             tile.add
 Plain TileType type enum -4 -24 int2                             tile.add
@@ -221,6 +228,7 @@ Plain TileType type enum -2 -15 int2                             tile.add
 Plain TileType type enum -2 -14 int2                             tile.add
 Plain TileType type enum -2 -11 int2                             tile.add
 Plain TileType type enum -2 -10 int2                             tile.add
+Plain TileType type enum -2 -9 int2                              tile.add
 Plain TileType type enum -1 -25 int2                             tile.add
 Plain TileType type enum -1 -24 int2                             tile.add
 Plain TileType type enum -1 -14 int2                             tile.add
@@ -253,7 +261,6 @@ Road TileType type enum -7 -15 int2                              tile.add
 Road TileType type enum -7 -14 int2                              tile.add
 Road TileType type enum -7 -13 int2                              tile.add
 Road TileType type enum -7 -12 int2                              tile.add
-Road TileType type enum -6 -24 int2                              tile.add
 Road TileType type enum -6 -21 int2                              tile.add
 Road TileType type enum -6 -16 int2                              tile.add
 Road TileType type enum -6 -12 int2                              tile.add
@@ -281,6 +288,8 @@ Mountain TileType type enum -12 -19 int2                         tile.add
 Mountain TileType type enum -11 -23 int2                         tile.add
 Mountain TileType type enum -11 -22 int2                         tile.add
 Mountain TileType type enum -11 -21 int2                         tile.add
+Mountain TileType type enum -11 -20 int2                         tile.add
+Mountain TileType type enum -11 -19 int2                         tile.add
 Mountain TileType type enum -11 -18 int2                         tile.add
 Mountain TileType type enum -10 -19 int2                         tile.add
 Mountain TileType type enum -5 -19 int2                          tile.add
@@ -293,13 +302,14 @@ Forest TileType type enum -11 -17 int2                           tile.add
 Forest TileType type enum -10 -18 int2                           tile.add
 Forest TileType type enum -10 -17 int2                           tile.add
 Forest TileType type enum -10 -16 int2                           tile.add
-Forest TileType type enum -9 -21 int2                            tile.add
 Forest TileType type enum -9 -20 int2                            tile.add
 Forest TileType type enum -9 -19 int2                            tile.add
 Forest TileType type enum -9 -18 int2                            tile.add
 Forest TileType type enum -8 -20 int2                            tile.add
 Forest TileType type enum -8 -19 int2                            tile.add
 Forest TileType type enum -8 -14 int2                            tile.add
+Forest TileType type enum -8 -8 int2                             tile.add
+Forest TileType type enum -7 -8 int2                             tile.add
 Forest TileType type enum -6 -23 int2                            tile.add
 Forest TileType type enum -6 -15 int2                            tile.add
 Forest TileType type enum -6 -14 int2                            tile.add
@@ -309,15 +319,22 @@ Forest TileType type enum -5 -15 int2                            tile.add
 Forest TileType type enum -5 -14 int2                            tile.add
 Forest TileType type enum -4 -22 int2                            tile.add
 Forest TileType type enum -4 -18 int2                            tile.add
+Forest TileType type enum -4 -9 int2                             tile.add
+Forest TileType type enum -4 -8 int2                             tile.add
 Forest TileType type enum -3 -22 int2                            tile.add
 Forest TileType type enum -3 -20 int2                            tile.add
 Forest TileType type enum -3 -19 int2                            tile.add
 Forest TileType type enum -3 -18 int2                            tile.add
+Forest TileType type enum -3 -9 int2                             tile.add
+Forest TileType type enum -3 -8 int2                             tile.add
 Forest TileType type enum -2 -23 int2                            tile.add
 Forest TileType type enum -2 -22 int2                            tile.add
 Forest TileType type enum -2 -18 int2                            tile.add
+Forest TileType type enum -2 -8 int2                             tile.add
 Forest TileType type enum -1 -23 int2                            tile.add
 Forest TileType type enum -1 -22 int2                            tile.add
+Forest TileType type enum -1 -9 int2                             tile.add
+Forest TileType type enum -1 -8 int2                             tile.add
 
                                                                  null
 City TileType type enum                                          building.set-type
@@ -736,7 +753,7 @@ BridgeView type get-component                                    bridge.set-view
                                                                  pop
 
 
--8.267097 2.95639E-05 -18.53789 float3                           camera-rig.set-position
-315                                                              camera-rig.set-rotation
-24.0902                                                          camera-rig.set-distance
-64.57202                                                         camera-rig.set-pitch-angle
+-8.274858 3.433227E-05 -15.69907 float3                          camera-rig.set-position
+292.5                                                            camera-rig.set-rotation
+30.67288                                                         camera-rig.set-distance
+58.6653                                                          camera-rig.set-pitch-angle
