@@ -5,9 +5,15 @@ using UnityEngine;
 using UnityEngine.Assertions;
 
 public static class GameReader {
-    
+
     public static void ReadInto(Main main, string input, bool spawnBuildingViews = false,
-        bool selectExistingPlayersInsteadOfCreatingNewOnes = false) {
+        bool selectExistingPlayersInsteadOfCreatingNewOnes = false, bool loadCameraRig=true) {
+
+        ReadInto(main, input, Vector2Int.one, spawnBuildingViews, selectExistingPlayersInsteadOfCreatingNewOnes);
+    }
+
+    public static void ReadInto(Main main, string input, Vector2Int transform, bool spawnBuildingViews = false,
+        bool selectExistingPlayersInsteadOfCreatingNewOnes = false, bool loadCameraRig=true) {
 
         Team playerTeam;
         Co playerCo;
@@ -77,9 +83,9 @@ public static class GameReader {
         }
         ResetUnitValues();
 
-        int bridgeHp ;
+        int bridgeHp;
         BridgeView bridgeView;
-        HashSet<Vector2Int> bridgePositions =new HashSet<Vector2Int>();
+        HashSet<Vector2Int> bridgePositions = new HashSet<Vector2Int>();
         void ResetBridgeValues() {
             bridgeHp = 20;
             bridgeView = null;
@@ -89,7 +95,14 @@ public static class GameReader {
 
         TriggerName? trigger = null;
 
+        CameraRig.TryFind(out var cameraRig);
+
+        var readTokens = new List<string>();
+        
         foreach (var token in input.Tokenize()) {
+
+            readTokens.Add(token);
+            
             switch (token) {
 
                 case "game.set-turn": {
@@ -109,11 +122,11 @@ public static class GameReader {
                 case "player.add": {
 
                     if (selectExistingPlayersInsteadOfCreatingNewOnes) {
-                        
-                        Assert.AreNotEqual(-1,playerIndex);
+
+                        Assert.AreNotEqual(-1, playerIndex);
                         Assert.IsTrue(playerIndex >= 0 && playerIndex < main.players.Count);
                         main.stack.Push(main.players[playerIndex]);
-                        
+
                     }
                     else {
                         if (playerColor is not { } color)
@@ -131,7 +144,7 @@ public static class GameReader {
 
                         main.stack.Push(player);
                     }
-                    
+
                     ResetPlayerValues();
                     break;
                 }
@@ -169,7 +182,7 @@ public static class GameReader {
                     break;
                 }
                 case "player.set-unit-look-direction": {
-                    playerUnitLookDirection = main.stack.Pop<Vector2Int>();
+                    playerUnitLookDirection = main.stack.Pop<Vector2Int>() * transform;
                     break;
                 }
                 case "player.set-ability-activation-turn": {
@@ -195,7 +208,7 @@ public static class GameReader {
                     break;
                 }
                 case "tile.set-position": {
-                    tilePosition = main.stack.Pop<Vector2Int>();
+                    tilePosition = main.stack.Pop<Vector2Int>() * (transform);
                     break;
                 }
                 case "tile.set-type": {
@@ -219,7 +232,7 @@ public static class GameReader {
                     break;
                 }
                 case "building.set-position": {
-                    buildingPosition = main.stack.Pop<Vector2Int>();
+                    buildingPosition = main.stack.Pop<Vector2Int>() * (transform);
                     break;
                 }
                 case "building.set-cp": {
@@ -227,7 +240,7 @@ public static class GameReader {
                     break;
                 }
                 case "building.set-look-direction": {
-                    buildingLookDirection = main.stack.Pop<Vector2Int>();
+                    buildingLookDirection = main.stack.Pop<Vector2Int>() * transform;
                     break;
                 }
 
@@ -243,7 +256,7 @@ public static class GameReader {
                     break;
                 }
                 case "unit.set-position": {
-                    unitPosition = main.stack.Pop<Vector2Int>();
+                    unitPosition = main.stack.Pop<Vector2Int>() * transform;
                     break;
                 }
                 case "unit.set-moved": {
@@ -255,7 +268,7 @@ public static class GameReader {
                     break;
                 }
                 case "unit.set-look-direction": {
-                    unitLookDirection = main.stack.Pop<Vector2Int>();
+                    unitLookDirection = main.stack.Pop<Vector2Int>() * transform;
                     break;
                 }
                 case "unit.set-hp": {
@@ -282,9 +295,9 @@ public static class GameReader {
                     trigger = main.stack.Pop<TriggerName>();
                     break;
                 }
-                
+
                 case "trigger.add-position": {
-                    var position = main.stack.Pop<Vector2Int>();
+                    var position = main.stack.Pop<Vector2Int>() * transform;
                     if (trigger is not { } value)
                         throw new AssertionException("trigger is null", position.ToString());
                     Assert.IsTrue(main.triggers.ContainsKey(value), value.ToString());
@@ -293,11 +306,9 @@ public static class GameReader {
                 }
 
                 case "bridge.add": {
-                    Assert.AreNotEqual(0,bridgePositions.Count);
+                    Assert.AreNotEqual(0, bridgePositions.Count);
                     Assert.IsTrue(bridgeView);
-                    var bridge = new Bridge(main,bridgePositions,bridgeView, bridgeHp);
-                    main.bridges.Add(bridge);
-                    main.stack.Push(bridge);
+                    main.stack.Push(new Bridge(main, bridgePositions, bridgeView, bridgeHp));
                     ResetBridgeValues();
                     break;
                 }
@@ -308,7 +319,7 @@ public static class GameReader {
                 }
 
                 case "bridge.add-position": {
-                    var position = main.stack.Pop<Vector2Int>();
+                    var position = main.stack.Pop<Vector2Int>() * transform;
                     Assert.IsFalse(main.bridges.Any(bridge => bridge.tiles.ContainsKey(position)));
                     bridgePositions.Add(position);
                     break;
@@ -316,6 +327,31 @@ public static class GameReader {
 
                 case "bridge.set-hp": {
                     bridgeHp = main.stack.Pop<int>();
+                    break;
+                }
+
+                case "camera-rig.set-position": {
+                    var position = main.stack.Pop<Vector3>();
+                    if (loadCameraRig&& cameraRig)
+                        cameraRig.transform.position = position;
+                    break;
+                }
+                case "camera-rig.set-rotation": {
+                    var angle = main.stack.Pop<dynamic>();
+                    if (loadCameraRig&& cameraRig)
+                        cameraRig.transform.rotation = Quaternion.Euler(0, angle, 0);
+                    break;
+                }
+                case "camera-rig.set-distance": {
+                    var distance = main.stack.Pop<dynamic>();
+                    if (loadCameraRig&& cameraRig)
+                        cameraRig.targetDistance=                        cameraRig.distance = distance;
+                    break;
+                }
+                case "camera-rig.set-pitch-angle": {
+                    var pitchAngle = main.stack.Pop<dynamic>();
+                    if (loadCameraRig&& cameraRig)
+                        cameraRig.pitchAngle = pitchAngle;
                     break;
                 }
 

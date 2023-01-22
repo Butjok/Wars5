@@ -252,7 +252,20 @@ public static class ActionSelectionState {
                             if (unit is { hp: { v: > 0 } } && unit.view.LookDirection != unit.player.unitLookDirection)
                                 main.StartCoroutine(new MoveSequence(unit.view.transform, null, unit.player.main.settings.unitSpeed, unit.player.unitLookDirection).Animation());
 
-                            
+                            if (main.triggers.TryGetValue(TriggerName.A, out var trigger)) {
+
+                                var playerUnitsInTrigger = main.units.Values.Where(u => u.player == main.localPlayer && u.position.v is { } position && trigger.Contains(position)).ToArray();
+                                if (playerUnitsInTrigger.Length > 0) {
+
+                                    if (CameraRig.TryFind(out var cameraRig)) {
+                                        yield return cameraRig.Jump(((Vector2Int)playerUnitsInTrigger[0].position.v).Raycast());
+                                        yield return new WaitForSeconds(2);
+                                    }
+
+                                    trigger.Clear();
+                                    //((Main2)main).LoadAdditively("1");
+                                }
+                            }
 
                             // if (unit.view.LookDirection != unit.player.view.unitLookDirection)
                             // unit.view.LookDirection = unit.player.view.unitLookDirection;

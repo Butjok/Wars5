@@ -35,11 +35,11 @@ public static class Rules {
     public static bool Won(Player player) {
         return Enemies(player).All(Lost);
     }
-    public static bool AreEnemies(Player p1, Player pl2) {
-        return (p1.team & pl2.team) == 0;
+    public static bool AreEnemies(Player p1, Player p2) {
+        return (p1.team & p2.team) == 0;
     }
-    public static bool AreAllies(Player p1, Player pl2) {
-        return !AreEnemies(p1, pl2);
+    public static bool AreAllies(Player p1, Player p2) {
+        return p1 == p2 || !AreEnemies(p1, p2);
     }
 
     public static int MaxAbilityMeter(Player player) {

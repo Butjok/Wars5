@@ -7,10 +7,12 @@ using UnityEngine;
 using UnityEngine.Assertions;
 
 public static class PostfixInterpreter {
-
+    
     public static string[] Tokenize(this string input) {
         return input.Split(new[] { ' ', '\r', '\n', '\t' }, StringSplitOptions.RemoveEmptyEntries);
     }
+
+    public static Dictionary<string, Type> typeCache = new();
 
     public static void ExecuteToken(this DebugStack stack, string token) {
         
@@ -72,13 +74,16 @@ public static class PostfixInterpreter {
 
                 case "type": {
                     var typeName = stack.Pop<string>();
-                    Type type=null;
-                    foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies()) {
-                        type = assembly.GetType(typeName);
-                        if (type != null)
-                            break;
+                    if (!typeCache.TryGetValue(typeName, out var type) || type == null)
+                    {
+                        foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies()) {
+                            type = assembly.GetType(typeName);
+                            if (type != null)
+                                break;
+                        }
+                        Assert.IsNotNull(type, typeName);
+                        typeCache[typeName] = type;
                     }
-                    Assert.IsNotNull(type, typeName);
                     stack.Push(type);
                     break;
                 }
@@ -126,6 +131,14 @@ public static class PostfixInterpreter {
                     break;
                 }
 
+                case "float3": {
+                    var z = stack.Pop<dynamic>();
+                    var y = stack.Pop<dynamic>();
+                    var x = stack.Pop<dynamic>();
+                    stack.Push(new Vector3(x, y, z));
+                    break;
+                }
+
                 default:
                     stack.Push(token);
                     if (char.IsLower(token[0]))
@@ -144,15 +157,20 @@ public class DebugStack {
     public Stack stack = new();
     public Stack<string> stackTrace = new();
 		
-    public void Push(object value, [CallerFilePath] string callerFilePath=null, [CallerLineNumber] int callerLineNumber=0) {
+    public void Push(object value) {
         stack.Push(value);
-        stackTrace.Push(Environment.StackTrace);
+        //stackTrace.Push(Environment.StackTrace);
     }
     public object Pop() {
-        stackTrace.Pop();
+        if (stack.Count==0) {
+            throw new InvalidOperationException("stack is empty");
+        }
         return stack.Pop();
     }
     public object Peek() {
+        if (stack.Count==0) {
+            throw new InvalidOperationException("stack is empty");
+        }
         return stack.Peek();
     }
     public int Count => stack.Count;

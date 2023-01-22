@@ -1,8 +1,9 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class Bridge {
+public class Bridge:IDisposable {
 
     public Dictionary<Vector2Int, TileType> tiles = new();
     public Main main;
@@ -19,11 +20,19 @@ public class Bridge {
             Assert.IsFalse(main.buildings.TryGetValue(position, out _), position.ToString());
             tiles.Add(position, tileType);
         }
-
+        
         view.bridge = this;
         this.view = view;
         this.main = main;
         Hp = hp;
+
+        main.bridges.Add(this);
+    }
+
+    public void Dispose() {
+        main.bridges.Remove(this);
+        view.bridge = null;
+        view = null;
     }
 
     public const int maxHp = 20;

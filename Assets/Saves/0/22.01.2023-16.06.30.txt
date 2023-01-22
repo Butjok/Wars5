@@ -1,0 +1,2168 @@
+LevelEditor                                                      game.load-scene
+Tutorial MissionName type enum                                   game.set-mission-name
+0                                                                game.set-turn
+                                                                 
+
+
+#
+#Player0Red
+#
+
+1 0 0                                                            player.set-color
+None Team type enum                                              player.set-team
+0                                                                player.set-credits
+0                                                                player.set-power-meter
+0 1 int2                                                         player.set-unit-look-direction
+0                                                                player.on-additive-load-get-by-index
+NatalieCo                                                        player.set-co
+                                                                 player.mark-as-local
+                                                                 player.add
+
+                                                                 dup
+Hq TileType type enum                                            building.set-type
+2 -32 int2                                                       building.set-position
+20                                                               building.set-cp
+0 1 int2                                                         building.set-look-direction
+                                                                 building.add
+                                                                 pop
+
+                                                                 dup
+City TileType type enum                                          building.set-type
+2 -29 int2                                                       building.set-position
+20                                                               building.set-cp
+0 1 int2                                                         building.set-look-direction
+                                                                 building.add
+                                                                 pop
+
+                                                                 dup
+City TileType type enum                                          building.set-type
+-5 -31 int2                                                      building.set-position
+20                                                               building.set-cp
+0 1 int2                                                         building.set-look-direction
+                                                                 building.add
+                                                                 pop
+
+
+                                                                 dup
+Infantry UnitType type enum                                      unit.set-type
+false                                                            unit.set-moved
+-12 -7 int2                                                      unit.set-position
+-1 0 int2                                                        unit.set-look-direction
+WbLightTank UnitView type load-resource                          unit.set-view-prefab
+                                                                 unit.add
+                                                                 pop
+
+                                                                 dup
+Apc UnitType type enum                                           unit.set-type
+false                                                            unit.set-moved
+-2 -30 int2                                                      unit.set-position
+0 1 int2                                                         unit.set-look-direction
+WbApc UnitView type load-resource                                unit.set-view-prefab
+                                                                 unit.add
+
+                                                                 dup
+                                                                 dup
+                                                                 unit.get-player
+Infantry UnitType type enum                                      unit.set-type
+true                                                             unit.set-moved
+0 1 int2                                                         unit.set-look-direction
+WbLightTank UnitView type load-resource                          unit.set-view-prefab
+                                                                 unit.add
+                                                                 unit.put-into
+
+                                                                 pop
+
+                                                                 pop
+                                                                 
+
+#
+#Player1Blue
+#
+
+0 0 1                                                            player.set-color
+None Team type enum                                              player.set-team
+0                                                                player.set-credits
+0                                                                player.set-power-meter
+0 1 int2                                                         player.set-unit-look-direction
+1                                                                player.on-additive-load-get-by-index
+NatalieCo                                                        player.set-co
+                                                                 player.add
+
+                                                                 dup
+Hq TileType type enum                                            building.set-type
+-30 -5 int2                                                      building.set-position
+20                                                               building.set-cp
+-1 0 int2                                                        building.set-look-direction
+                                                                 building.add
+                                                                 pop
+
+
+                                                                 dup
+AntiTank UnitType type enum                                      unit.set-type
+false                                                            unit.set-moved
+-30 -7 int2                                                      unit.set-position
+0 1 int2                                                         unit.set-look-direction
+WbLightTank UnitView type load-resource                          unit.set-view-prefab
+                                                                 unit.add
+                                                                 pop
+
+                                                                 pop
+                                                                 
+
+-30 -7 int2                                                      tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-30 -6 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-16 -7 int2                                                      tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-15 -7 int2                                                      tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-14 -32 int2                                                     tile.set-position
+Mountain TileType type enum                                      tile.set-type
+                                                                 tile.add
+
+-14 -31 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-14 -30 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-14 -29 int2                                                     tile.set-position
+Mountain TileType type enum                                      tile.set-type
+                                                                 tile.add
+
+-14 -28 int2                                                     tile.set-position
+Mountain TileType type enum                                      tile.set-type
+                                                                 tile.add
+
+-14 -27 int2                                                     tile.set-position
+Mountain TileType type enum                                      tile.set-type
+                                                                 tile.add
+
+-14 -26 int2                                                     tile.set-position
+Mountain TileType type enum                                      tile.set-type
+                                                                 tile.add
+
+-14 -7 int2                                                      tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-13 -32 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-13 -31 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-13 -30 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-13 -29 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-13 -28 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-13 -27 int2                                                     tile.set-position
+Mountain TileType type enum                                      tile.set-type
+                                                                 tile.add
+
+-13 -26 int2                                                     tile.set-position
+Mountain TileType type enum                                      tile.set-type
+                                                                 tile.add
+
+-13 -25 int2                                                     tile.set-position
+Mountain TileType type enum                                      tile.set-type
+                                                                 tile.add
+
+-13 -24 int2                                                     tile.set-position
+Mountain TileType type enum                                      tile.set-type
+                                                                 tile.add
+
+-13 -7 int2                                                      tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-12 -32 int2                                                     tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-12 -31 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-12 -30 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-12 -29 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-12 -28 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-12 -27 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-12 -26 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-12 -25 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-12 -24 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-12 -23 int2                                                     tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-12 -22 int2                                                     tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-12 -21 int2                                                     tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-12 -20 int2                                                     tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-12 -19 int2                                                     tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-12 -7 int2                                                      tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-11 -32 int2                                                     tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-11 -31 int2                                                     tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-11 -30 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-11 -29 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-11 -28 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-11 -27 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-11 -26 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-11 -25 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-11 -24 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-11 -23 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-11 -22 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-11 -21 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-11 -20 int2                                                     tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-11 -19 int2                                                     tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-11 -18 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-11 -17 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-11 -16 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-11 -15 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-11 -14 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-11 -13 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-11 -12 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-11 -11 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-11 -7 int2                                                      tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-11 -2 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-11 -1 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-11 0 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-11 1 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-10 -32 int2                                                     tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-10 -31 int2                                                     tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-10 -30 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-10 -29 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-10 -28 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-10 -27 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-10 -26 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-10 -25 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-10 -24 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-10 -23 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-10 -22 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-10 -21 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-10 -20 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-10 -19 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-10 -18 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-10 -17 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-10 -16 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-10 -15 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-10 -14 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-10 -13 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-10 -12 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-10 -11 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-10 -10 int2                                                     tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-10 -9 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-10 -8 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-10 -7 int2                                                      tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-10 -6 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-10 -5 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-10 -4 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-10 -3 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-10 -2 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-10 -1 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-10 0 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-10 1 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-9 -32 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-9 -31 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-9 -30 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-9 -29 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-9 -28 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-9 -27 int2                                                      tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-9 -26 int2                                                      tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-9 -25 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-9 -24 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-9 -23 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-9 -22 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-9 -21 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-9 -20 int2                                                      tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-9 -19 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-9 -18 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-9 -17 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-9 -16 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-9 -15 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-9 -14 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-9 -13 int2                                                      tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-9 -12 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-9 -11 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-9 -10 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-9 -9 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-9 -8 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-9 -7 int2                                                       tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-9 -6 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-9 -5 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-9 -4 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-9 -3 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-9 -2 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-9 -1 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-9 0 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-9 1 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-8 -32 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-8 -31 int2                                                      tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-8 -30 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-8 -29 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-8 -28 int2                                                      tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-8 -27 int2                                                      tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-8 -26 int2                                                      tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-8 -25 int2                                                      tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-8 -24 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-8 -23 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-8 -22 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-8 -21 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-8 -20 int2                                                      tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-8 -19 int2                                                      tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-8 -18 int2                                                      tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-8 -17 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-8 -16 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-8 -15 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-8 -14 int2                                                      tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-8 -13 int2                                                      tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-8 -12 int2                                                      tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-8 -11 int2                                                      tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-8 -10 int2                                                      tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-8 -9 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-8 -8 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-8 -7 int2                                                       tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-8 -6 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-8 -5 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-8 -4 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-8 -3 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-8 -2 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-8 -1 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-8 0 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-8 1 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-7 -32 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-7 -31 int2                                                      tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-7 -30 int2                                                      tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-7 -29 int2                                                      tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-7 -28 int2                                                      tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-7 -27 int2                                                      tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-7 -26 int2                                                      tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-7 -25 int2                                                      tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-7 -24 int2                                                      tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-7 -23 int2                                                      tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-7 -22 int2                                                      tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-7 -21 int2                                                      tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-7 -20 int2                                                      tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-7 -19 int2                                                      tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-7 -18 int2                                                      tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-7 -17 int2                                                      tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-7 -16 int2                                                      tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-7 -15 int2                                                      tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-7 -14 int2                                                      tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-7 -13 int2                                                      tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-7 -12 int2                                                      tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-7 -11 int2                                                      tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-7 -10 int2                                                      tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-7 -9 int2                                                       tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-7 -8 int2                                                       tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-7 -7 int2                                                       tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-7 -6 int2                                                       tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-7 -5 int2                                                       tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-7 -4 int2                                                       tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-7 -3 int2                                                       tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-7 -2 int2                                                       tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-7 -1 int2                                                       tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-7 0 int2                                                        tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-7 1 int2                                                        tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-6 -32 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-6 -31 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-6 -30 int2                                                      tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-6 -29 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-6 -28 int2                                                      tile.set-position
+Mountain TileType type enum                                      tile.set-type
+                                                                 tile.add
+
+-6 -27 int2                                                      tile.set-position
+Mountain TileType type enum                                      tile.set-type
+                                                                 tile.add
+
+-6 -26 int2                                                      tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-6 -25 int2                                                      tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-6 -24 int2                                                      tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-6 -23 int2                                                      tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-6 -22 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-6 -21 int2                                                      tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-6 -20 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-6 -19 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-6 -18 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-6 -17 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-6 -16 int2                                                      tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-6 -15 int2                                                      tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-6 -14 int2                                                      tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-6 -13 int2                                                      tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-6 -12 int2                                                      tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-6 -11 int2                                                      tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-6 -10 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-6 -9 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-6 -8 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-6 -7 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-6 -6 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-6 -5 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-6 -4 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-6 -3 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-6 -2 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-6 -1 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-6 0 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-6 1 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-5 -32 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-5 -30 int2                                                      tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-5 -29 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-5 -28 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-5 -27 int2                                                      tile.set-position
+Mountain TileType type enum                                      tile.set-type
+                                                                 tile.add
+
+-5 -26 int2                                                      tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-5 -25 int2                                                      tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-5 -24 int2                                                      tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-5 -23 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-5 -22 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-5 -21 int2                                                      tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-5 -20 int2                                                      tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-5 -19 int2                                                      tile.set-position
+Mountain TileType type enum                                      tile.set-type
+                                                                 tile.add
+
+-5 -18 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-5 -17 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-5 -16 int2                                                      tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-5 -15 int2                                                      tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-5 -14 int2                                                      tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-5 -13 int2                                                      tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-5 -12 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-5 -11 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-5 -10 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-5 -9 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-5 -8 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-5 -7 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-5 -6 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-5 -5 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-5 -4 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-5 -3 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-5 -2 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-5 -1 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-5 0 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-5 1 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-4 -32 int2                                                      tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-4 -31 int2                                                      tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-4 -30 int2                                                      tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-4 -29 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-4 -28 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-4 -27 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-4 -26 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-4 -25 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-4 -24 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-4 -23 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-4 -22 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-4 -21 int2                                                      tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-4 -20 int2                                                      tile.set-position
+Mountain TileType type enum                                      tile.set-type
+                                                                 tile.add
+
+-4 -19 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-4 -18 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-4 -17 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-4 -16 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-4 -15 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-4 -14 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-4 -13 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-4 -12 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-4 -11 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-4 -10 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-4 -9 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-4 -8 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-4 -7 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-4 -6 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-4 -5 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-4 -4 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-4 -3 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-4 -2 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-4 -1 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-4 0 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-4 1 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-3 -32 int2                                                      tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-3 -31 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-3 -30 int2                                                      tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-3 -29 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-3 -28 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-3 -27 int2                                                      tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-3 -26 int2                                                      tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-3 -25 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-3 -24 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-3 -23 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-3 -22 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-3 -21 int2                                                      tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-3 -20 int2                                                      tile.set-position
+Mountain TileType type enum                                      tile.set-type
+                                                                 tile.add
+
+-3 -19 int2                                                      tile.set-position
+Mountain TileType type enum                                      tile.set-type
+                                                                 tile.add
+
+-3 -18 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-3 -17 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-3 -16 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-3 -15 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-3 -14 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-3 -13 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-3 -12 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-3 -11 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-3 -10 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-3 -9 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-3 -8 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-3 -7 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-3 -6 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-3 -5 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-3 -4 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-3 -3 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-3 -2 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-3 -1 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-3 0 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-3 1 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-2 -32 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-2 -31 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-2 -30 int2                                                      tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-2 -29 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-2 -28 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-2 -27 int2                                                      tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-2 -26 int2                                                      tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-2 -25 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-2 -24 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-2 -23 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-2 -22 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-2 -21 int2                                                      tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-2 -19 int2                                                      tile.set-position
+Mountain TileType type enum                                      tile.set-type
+                                                                 tile.add
+
+-2 -18 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-2 -17 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-2 -16 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-2 -15 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-2 -14 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-2 -13 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-2 -12 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-2 -11 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-2 -10 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-2 -9 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-2 -8 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-2 -7 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-2 -6 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-2 -5 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-2 -4 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-2 -3 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-2 -2 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-2 -1 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-2 0 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-2 1 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-1 -32 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-1 -31 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-1 -30 int2                                                      tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-1 -29 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-1 -28 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-1 -27 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-1 -26 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-1 -25 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-1 -24 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-1 -23 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-1 -22 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-1 -21 int2                                                      tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+-1 -20 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-1 -19 int2                                                      tile.set-position
+Mountain TileType type enum                                      tile.set-type
+                                                                 tile.add
+
+-1 -18 int2                                                      tile.set-position
+Mountain TileType type enum                                      tile.set-type
+                                                                 tile.add
+
+-1 -17 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-1 -16 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-1 -15 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-1 -14 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-1 -13 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-1 -12 int2                                                      tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+-1 -11 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-1 -10 int2                                                      tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-1 -9 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-1 -8 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-1 -7 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-1 -6 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-1 -5 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-1 -4 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-1 -3 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-1 -2 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-1 -1 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-1 0 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-1 1 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+-1 17 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+0 -32 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+0 -31 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+0 -30 int2                                                       tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+0 -29 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+0 -28 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+0 -27 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+0 -26 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+0 -25 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+0 -24 int2                                                       tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+0 -23 int2                                                       tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+0 -22 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+0 -21 int2                                                       tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+0 -20 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+0 -19 int2                                                       tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+0 -18 int2                                                       tile.set-position
+Mountain TileType type enum                                      tile.set-type
+                                                                 tile.add
+
+0 -17 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+0 -16 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+0 -15 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+0 -14 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+0 -13 int2                                                       tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+0 -12 int2                                                       tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+0 -11 int2                                                       tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+0 -10 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+0 -9 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+0 -8 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+0 -7 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+0 -6 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+0 -5 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+0 -4 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+0 -3 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+0 -2 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+0 -1 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+0 0 int2                                                         tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+0 1 int2                                                         tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+1 -32 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+1 -31 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+1 -30 int2                                                       tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+1 -29 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+1 -28 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+1 -27 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+1 -26 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+1 -25 int2                                                       tile.set-position
+Mountain TileType type enum                                      tile.set-type
+                                                                 tile.add
+
+1 -24 int2                                                       tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+1 -23 int2                                                       tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+1 -22 int2                                                       tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+1 -21 int2                                                       tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+1 -19 int2                                                       tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+1 -18 int2                                                       tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+1 -17 int2                                                       tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+1 -16 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+1 -15 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+1 -14 int2                                                       tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+1 -13 int2                                                       tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+1 -12 int2                                                       tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+1 -11 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+1 -10 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+1 -9 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+1 -8 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+1 -7 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+1 -6 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+1 -5 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+1 -4 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+1 -3 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+1 -2 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+1 -1 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+1 0 int2                                                         tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+1 1 int2                                                         tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+2 -31 int2                                                       tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+2 -30 int2                                                       tile.set-position
+Road TileType type enum                                          tile.set-type
+                                                                 tile.add
+
+2 -28 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+2 -27 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+2 -26 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+2 -25 int2                                                       tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+2 -24 int2                                                       tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+2 -23 int2                                                       tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+2 -22 int2                                                       tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+2 -21 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+2 -20 int2                                                       tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+2 -19 int2                                                       tile.set-position
+Mountain TileType type enum                                      tile.set-type
+                                                                 tile.add
+
+2 -18 int2                                                       tile.set-position
+Mountain TileType type enum                                      tile.set-type
+                                                                 tile.add
+
+2 -17 int2                                                       tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+2 -16 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+2 -15 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+2 -14 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+2 -13 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+2 -12 int2                                                       tile.set-position
+Forest TileType type enum                                        tile.set-type
+                                                                 tile.add
+
+2 -11 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+2 -10 int2                                                       tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+2 -9 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+2 -8 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+2 -7 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+2 -6 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+2 -5 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+2 -4 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+2 -3 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+2 -2 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+2 -1 int2                                                        tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+2 0 int2                                                         tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+2 1 int2                                                         tile.set-position
+Plain TileType type enum                                         tile.set-type
+                                                                 tile.add
+
+
+                                                                 null
+City TileType type enum                                          building.set-type
+-2 -20 int2                                                      building.set-position
+20                                                               building.set-cp
+0 1 int2                                                         building.set-look-direction
+                                                                 building.add
+                                                                 pop
+
+                                                                 null
+City TileType type enum                                          building.set-type
+1 -20 int2                                                       building.set-position
+20                                                               building.set-cp
+0 1 int2                                                         building.set-look-direction
+                                                                 building.add
+                                                                 pop
+
+
+A TriggerName type enum                                          trigger.select
+-13 -26 int2                                                     trigger.add-position
+-14 -27 int2                                                     trigger.add-position
+-14 -28 int2                                                     trigger.add-position
+-13 -28 int2                                                     trigger.add-position
+-13 -29 int2                                                     trigger.add-position
+-14 -29 int2                                                     trigger.add-position
+-14 -30 int2                                                     trigger.add-position
+-14 -26 int2                                                     trigger.add-position
+-13 -27 int2                                                     trigger.add-position
+-13 -30 int2                                                     trigger.add-position
+-13 -32 int2                                                     trigger.add-position
+-14 -32 int2                                                     trigger.add-position
+-14 -31 int2                                                     trigger.add-position
+-13 -31 int2                                                     trigger.add-position
+
+B TriggerName type enum                                          trigger.select
+
+C TriggerName type enum                                          trigger.select
+
+D TriggerName type enum                                          trigger.select
+
+E TriggerName type enum                                          trigger.select
+
+F TriggerName type enum                                          trigger.select
+
+
+-11.29168 -0.000237069 -17.35266 float3                          camera-rig.set-position
+292.5                                                            camera-rig.set-rotation
+38.27188                                                         camera-rig.set-distance
+51.91087                                                         camera-rig.set-pitch-angle

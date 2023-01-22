@@ -51,7 +51,6 @@ public class CameraRig : MonoBehaviour {
 	public float distanceStep = -0.2f;
 	public Vector2 distanceBounds = new(1, 30);
 
-	public int rotation;
 	public float rotationDuration = .3f;
 	public Ease rotationEase = Ease.OutSine;
 	public float rotationStep = -90;
@@ -93,7 +92,7 @@ public class CameraRig : MonoBehaviour {
 
 	public void OnCompassClick() {
 		if (rotationSequence == null) {
-			TryRotate(rotation + 1);
+			TryRotate( 1);
 			compassLastClickTime = Time.unscaledTime;
 		}
 		else if (compassLastClickTime + compassResetCooldown > Time.unscaledTime) {
@@ -162,7 +161,7 @@ public class CameraRig : MonoBehaviour {
 		if (rotationSequence == null) {
 			var rotationDirection = Sign(Input.GetAxisRaw("RotateCamera"));
 			if (rotationDirection != 0)
-				TryRotate(rotation + rotationDirection);
+				TryRotate( rotationDirection);
 		}
 
 		// ZOOM
@@ -212,16 +211,17 @@ public class CameraRig : MonoBehaviour {
 		}
 	}
 
-	public bool TryRotate(int targetRotation) {
+	public bool TryRotate(int direction) {
 
-		if (clampRotation)
+		/*if (clampRotation)
 			targetRotation = Mathf.Clamp(targetRotation, rotationRange[0], rotationRange[1]);
 		if (rotation == targetRotation)
-			return false;
-		rotation = targetRotation;
+			return false;*/
+
+		var currentRotation = Mathf.RoundToInt( transform.eulerAngles.y / rotationStep);
 		
 		rotationSequence = DOTween.Sequence()
-			.Append(transform.DORotateQuaternion(Quaternion.Euler(0, rotation * rotationStep, 0), rotationDuration)
+			.Append(transform.DORotateQuaternion(Quaternion.Euler(0, (currentRotation+direction) * rotationStep, 0), rotationDuration)
 				.SetEase(rotationEase))
 			.AppendCallback(() => rotationSequence = null);
 		return true;

@@ -75,9 +75,19 @@ public static class GameWriter {
 			WriteLine(tw);
 		}
 
-		foreach (var bridge in main.bridges)
+		foreach (var bridge in main.bridges) {
 			AddBridge(tw, bridge);
+			WriteLine(tw, "pop");
+		}
 		WriteLine(tw);
+
+		if (CameraRig.TryFind(out var cameraRig)) {
+			var position = cameraRig.transform.position;
+			WriteLine(tw, $"{position.x} {position.y} {position.z} float3", "camera-rig.set-position");
+			WriteLine(tw, cameraRig.transform.rotation.eulerAngles.y, "camera-rig.set-rotation");
+			WriteLine(tw, cameraRig.distance, "camera-rig.set-distance");
+			WriteLine(tw, cameraRig.pitchAngle, "camera-rig.set-pitch-angle");
+		}
 
 		return tw;
 	}
@@ -96,7 +106,6 @@ public static class GameWriter {
 			WriteLine(tw, $"{position.x} {position.y} int2", "bridge.add-position");
 
 		WriteLine(tw, "bridge.add");
-		WriteLine(tw, "pop");
 		WriteLine(tw);
 
 		return tw;
@@ -167,7 +176,8 @@ public static class GameWriter {
 		if (unit.cargo.Count != 0) {
 			WriteLine(tw);
 			foreach (var cargo in unit.cargo) {
-				WriteLine(tw, "dup");
+				WriteLine(tw, "dup"); // duplicate unit as a carrier
+				WriteLine(tw, "dup"); // duplicate unit to get its player
 				WriteLine(tw, "unit.get-player");
 				AddUnit(tw, cargo);
 				WriteLine(tw, "unit.put-into");

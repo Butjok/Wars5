@@ -39,7 +39,7 @@ public class Main : MonoBehaviour {
 
 	public MeshFilter tileAreaMeshFilter;
 
-	public void Awake() {
+	virtual public void Awake() {
 
 		Player.undisposed.Clear();
 		Building.undisposed.Clear();
