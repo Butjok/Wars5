@@ -252,18 +252,26 @@ public static class ActionSelectionState {
                             if (unit is { hp: { v: > 0 } } && unit.view.LookDirection != unit.player.unitLookDirection)
                                 main.StartCoroutine(new MoveSequence(unit.view.transform, null, unit.player.main.settings.unitSpeed, unit.player.unitLookDirection).Animation());
 
-                            if (main.triggers.TryGetValue(TriggerName.A, out var trigger)) {
+                            if (main.triggers.TryGetValue(TriggerName.A, out var reconTrigger)) {
 
-                                var playerUnitsInTrigger = main.units.Values.Where(u => u.player == main.localPlayer && u.position.v is { } position && trigger.Contains(position)).ToArray();
-                                if (playerUnitsInTrigger.Length > 0) {
+                                var unitsInReconTrigger = main.units.Values.Where(u => u.player == main.localPlayer && u.position.v is { } position && reconTrigger.Contains(position)).ToArray();
+                                if (unitsInReconTrigger.Length > 0) {
 
                                     if (CameraRig.TryFind(out var cameraRig)) {
-                                        yield return cameraRig.Jump(((Vector2Int)playerUnitsInTrigger[0].position.v).Raycast());
-                                        yield return new WaitForSeconds(1);
+                                        yield return cameraRig.Jump(((Vector2Int)unitsInReconTrigger[0].position.v).Raycast());
+                                        // yield return new WaitForSeconds(1);
                                     }
 
-                                    trigger.Clear();
+                                    reconTrigger.Clear();
                                     ((Main2)main).LoadAdditively("1");
+                                }
+                            }
+
+                            if (main.triggers.TryGetValue(TriggerName.B, out var aggroTrigger)) {
+                                var unitsInAggroTrigger = main.units.Values.Where(u => u.player == main.localPlayer && u.position.v is { } position && aggroTrigger.Contains(position)).ToArray();
+                                if (unitsInAggroTrigger.Length > 0) {
+                                    aggroTrigger.Clear();
+                                    Debug.Log("ENEMY NOTICED YOU");
                                 }
                             }
 

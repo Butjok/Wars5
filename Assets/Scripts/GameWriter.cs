@@ -77,6 +77,7 @@ public static class GameWriter {
 		foreach (var bridge in main.bridges) {
 			AddBridge(tw, bridge);
 			WriteLine(tw, "pop");
+			WriteLine(tw);
 		}
 		WriteLine(tw);
 
@@ -99,13 +100,11 @@ public static class GameWriter {
 		WriteLine(tw, $"{gameObject.tag} find-with-tag", "");
 		WriteLine(tw, "BridgeView type get-component", "bridge.set-view");
 		WriteLine(tw, bridge.Hp, "bridge.set-hp");
-		WriteLine(tw);
 
 		foreach (var position in bridge.tiles.Keys)
 			WriteLine(tw, $"{position.x} {position.y} int2", "bridge.add-position");
 
 		WriteLine(tw, "bridge.add");
-		WriteLine(tw);
 
 		return tw;
 	}
