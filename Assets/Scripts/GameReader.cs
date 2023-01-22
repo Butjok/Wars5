@@ -7,13 +7,13 @@ using UnityEngine.Assertions;
 public static class GameReader {
 
     public static void ReadInto(Main main, string input, bool spawnBuildingViews = false,
-        bool selectExistingPlayersInsteadOfCreatingNewOnes = false, bool loadCameraRig=true) {
+        bool selectExistingPlayersInsteadOfCreatingNewOnes = false, bool loadCameraRig = true) {
 
         ReadInto(main, input, Vector2Int.one, spawnBuildingViews, selectExistingPlayersInsteadOfCreatingNewOnes);
     }
 
     public static void ReadInto(Main main, string input, Vector2Int transform, bool spawnBuildingViews = false,
-        bool selectExistingPlayersInsteadOfCreatingNewOnes = false, bool loadCameraRig=true) {
+        bool selectExistingPlayersInsteadOfCreatingNewOnes = false, bool loadCameraRig = true) {
 
         Team playerTeam;
         Co playerCo;
@@ -98,11 +98,11 @@ public static class GameReader {
         CameraRig.TryFind(out var cameraRig);
 
         var readTokens = new List<string>();
-        
+
         foreach (var token in input.Tokenize()) {
 
             readTokens.Add(token);
-            
+
             switch (token) {
 
                 case "game.set-turn": {
@@ -331,26 +331,26 @@ public static class GameReader {
 
                 case "camera-rig.set-position": {
                     var position = main.stack.Pop<Vector3>();
-                    if (loadCameraRig&& cameraRig)
+                    if (loadCameraRig && cameraRig)
                         cameraRig.transform.position = position;
                     break;
                 }
                 case "camera-rig.set-rotation": {
                     var angle = main.stack.Pop<dynamic>();
-                    if (loadCameraRig&& cameraRig)
+                    if (loadCameraRig && cameraRig)
                         cameraRig.transform.rotation = Quaternion.Euler(0, angle, 0);
                     break;
                 }
                 case "camera-rig.set-distance": {
                     var distance = main.stack.Pop<dynamic>();
-                    if (loadCameraRig&& cameraRig)
-                        cameraRig.targetDistance=                        cameraRig.distance = distance;
+                    if (loadCameraRig && cameraRig)
+                        cameraRig.targetDistance = cameraRig.distance = distance;
                     break;
                 }
                 case "camera-rig.set-pitch-angle": {
                     var pitchAngle = main.stack.Pop<dynamic>();
-                    if (loadCameraRig&& cameraRig)
-                        cameraRig.pitchAngle = pitchAngle;
+                    if (loadCameraRig && cameraRig)
+                        cameraRig.tagetPitchAngle = cameraRig.pitchAngle = pitchAngle;
                     break;
                 }
 
