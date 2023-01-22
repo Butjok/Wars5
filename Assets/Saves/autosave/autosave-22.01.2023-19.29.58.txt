@@ -143,6 +143,14 @@ WbRecon UnitView type load-resource                              unit.set-view-p
 
 Plain TileType type enum -21 -13 int2                            tile.add
 Plain TileType type enum -11 -26 int2                            tile.add
+Plain TileType type enum -11 -20 int2                            tile.add
+Plain TileType type enum -11 -19 int2                            tile.add
+Plain TileType type enum -10 -26 int2                            tile.add
+Plain TileType type enum -10 -24 int2                            tile.add
+Plain TileType type enum -10 -23 int2                            tile.add
+Plain TileType type enum -10 -22 int2                            tile.add
+Plain TileType type enum -10 -21 int2                            tile.add
+Plain TileType type enum -10 -20 int2                            tile.add
 Plain TileType type enum -9 -26 int2                             tile.add
 Plain TileType type enum -9 -24 int2                             tile.add
 Plain TileType type enum -9 -23 int2                             tile.add
@@ -269,6 +277,7 @@ Mountain TileType type enum -12 -26 int2                         tile.add
 Mountain TileType type enum -12 -25 int2                         tile.add
 Mountain TileType type enum -12 -24 int2                         tile.add
 Mountain TileType type enum -12 -20 int2                         tile.add
+Mountain TileType type enum -12 -19 int2                         tile.add
 Mountain TileType type enum -11 -23 int2                         tile.add
 Mountain TileType type enum -11 -22 int2                         tile.add
 Mountain TileType type enum -11 -21 int2                         tile.add
@@ -309,15 +318,6 @@ Forest TileType type enum -2 -22 int2                            tile.add
 Forest TileType type enum -2 -18 int2                            tile.add
 Forest TileType type enum -1 -23 int2                            tile.add
 Forest TileType type enum -1 -22 int2                            tile.add
-River TileType type enum -12 -19 int2                            tile.add
-River TileType type enum -11 -20 int2                            tile.add
-River TileType type enum -11 -19 int2                            tile.add
-River TileType type enum -10 -26 int2                            tile.add
-River TileType type enum -10 -24 int2                            tile.add
-River TileType type enum -10 -23 int2                            tile.add
-River TileType type enum -10 -22 int2                            tile.add
-River TileType type enum -10 -21 int2                            tile.add
-River TileType type enum -10 -20 int2                            tile.add
 
                                                                  null
 City TileType type enum                                          building.set-type
@@ -736,7 +736,7 @@ BridgeView type get-component                                    bridge.set-view
                                                                  pop
 
 
--8.101108 2.95639E-05 -19.31945 float3                           camera-rig.set-position
+-8.267097 2.95639E-05 -18.53789 float3                           camera-rig.set-position
 315                                                              camera-rig.set-rotation
-27.88532                                                         camera-rig.set-distance
-60.83211                                                         camera-rig.set-pitch-angle
+24.0902                                                          camera-rig.set-distance
+64.57202                                                         camera-rig.set-pitch-angle
