@@ -36,10 +36,10 @@ public static class Rules {
         return Enemies(player).All(Lost);
     }
     public static bool AreEnemies(Player p1, Player p2) {
-        return (p1.team & p2.team) == 0;
+        return p1 != p2 && (p1.team & p2.team) == 0;
     }
     public static bool AreAllies(Player p1, Player p2) {
-        return p1 == p2 || !AreEnemies(p1, p2);
+        return !AreEnemies(p1, p2);
     }
 
     public static int MaxAbilityMeter(Player player) {

@@ -22,7 +22,10 @@ public class Building : IDisposable {
 
         undisposed.Add(this);
         
-        this.player = new ChangeTracker<Player>(_ => { });
+        this.player = new ChangeTracker<Player>(_ => {
+            if (view)
+                view.PlayerColor = this.player.v.color;
+        });
         this.cp = new ChangeTracker<int>(_ => { });
 
         this.type = type;
