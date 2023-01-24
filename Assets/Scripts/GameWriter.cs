@@ -81,14 +81,20 @@ public static class GameWriter {
 		}
 		WriteLine(tw);
 
-		if (CameraRig.TryFind(out var cameraRig)) {
-			var position = cameraRig.transform.position;
-			WriteLine(tw, $"{position.x} {position.y} {position.z} float3", "camera-rig.set-position");
-			WriteLine(tw, cameraRig.transform.rotation.eulerAngles.y, "camera-rig.set-rotation");
-			WriteLine(tw, cameraRig.distance, "camera-rig.set-distance");
-			WriteLine(tw, cameraRig.pitchAngle, "camera-rig.set-pitch-angle");
-		}
+		if (CameraRig.TryFind(out var cameraRig))
+			WriteCameraRig(tw,cameraRig);
 
+		return tw;
+	}
+
+	public static TextWriter WriteCameraRig(TextWriter tw,  CameraRig cameraRig) {
+
+		var position = cameraRig.transform.position;
+		WriteLine(tw, $"{position.x} {position.y} {position.z} float3", "camera-rig.set-position");
+		WriteLine(tw, cameraRig.transform.rotation.eulerAngles.y, "camera-rig.set-rotation");
+		WriteLine(tw, cameraRig.distance, "camera-rig.set-distance");
+		WriteLine(tw, cameraRig.pitchAngle, "camera-rig.set-pitch-angle");
+		
 		return tw;
 	}
 

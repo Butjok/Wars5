@@ -2924,7 +2924,7 @@ MonoBehaviour:
   arrow: {fileID: 958601231}
   margin: {x: 75, y: 75}
   diagonal: 0
-  thumbnail: {fileID: 0}
+  thumbnail: {fileID: 521655422}
 --- !u!23 &390773771
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -7797,7 +7797,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1421f13b99013f4fa5802d1db0495c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  views: []
   target: {fileID: 0}
   selectRandomTarget: 1
   manualControl: {fileID: 1296023396}
@@ -9090,6 +9089,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9f3770c027d425eb7a3cfccb9dc2e34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  followLastUnit: 1
   missionName: 0
   turn: 0
   settings:

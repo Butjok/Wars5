@@ -39,8 +39,24 @@ public static class SelectionState {
                                !main.TryGetUnit(building.position, out _))
             .ToList();
 
-        var positions = unmovedUnits.Select(unit => (priority: 1, coordinates: ((Vector2Int)unit.Position).Raycast()))
-            .Concat(accessibleBuildings.Select(building => (priority: 0, coordinates: building.position.Raycast())))
+        Sprite GetUnitThumbnail(Unit unit) {
+            return unit.Player.co.unitTypesInfoOverride.TryGetValue(unit.type, out var @record) && record.thumbnail ||
+                     UnitTypesInfo.TryGet(unit.type, out record) && record.thumbnail
+                ? record.thumbnail
+                : null;
+        }
+        // make thumbnails for buildings as well
+        
+        var positions = unmovedUnits.Select(unit => (
+                priority: 1, 
+                coordinates: ((Vector2Int)unit.Position).Raycast(),
+                thumbnail: GetUnitThumbnail(unit)))
+            
+            .Concat(accessibleBuildings.Select(building => (
+                priority: 0, 
+                coordinates: building.position.Raycast(),
+                thumbnail:(Sprite)null)))
+            
             .ToArray();
 
         CameraRig.TryFind(out var cameraRig);
@@ -188,7 +204,8 @@ public static class SelectionState {
                                 if (preselectionCursor) {
                                     var position = positions[positionIndex];
                                     if (preselectionCursor)
-                                        preselectionCursor.ShowAt(position.coordinates);
+                                        preselectionCursor.ShowAt(position.coordinates, position.thumbnail);
+                                    
                                     var mainCamera = Camera.main;
                                     if (mainCamera) {
                                         // var screenPosition = mainCamera.WorldToViewportPoint(position.ToVector3Int());

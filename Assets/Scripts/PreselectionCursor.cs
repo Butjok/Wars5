@@ -20,10 +20,11 @@ public class PreselectionCursor : MonoBehaviour {
     public bool diagonal = false;
     public Image thumbnail;
 
-    public void ShowAt(Vector3 position) {
+    public void ShowAt(Vector3 position, Sprite thumbnail=null) {
         transform.position = position;
         gameObject.SetActive(true);
         root.gameObject.SetActive(true);
+        this.thumbnail.sprite = thumbnail;
     }
     public void Hide() {
         gameObject.SetActive(false);

@@ -36,7 +36,22 @@ public class UnitView : MonoBehaviour {
         }
     }
     public Vector2Int LookDirection {
-        get => transform.forward.ToVector2().RoundToInt();
+        get {
+            var lookDirection = transform.forward.ToVector2().RoundToInt();
+            
+            // zero -> up
+            if (lookDirection == Vector2Int.zero)
+                return Vector2Int.up;
+            
+            // weird -> prefer X
+            if (lookDirection.x != 0 && lookDirection.y != 0)
+                return new Vector2Int(lookDirection.x > 0 ? 1 : -1, 0);
+            
+            // non-normalized
+            return lookDirection.x != 0 
+                ? new Vector2Int(lookDirection.x > 0 ? 1 : -1, 0) 
+                : new Vector2Int(0, lookDirection.y > 0 ? 1 : -1);
+        }
         set {
             transform.rotation = Quaternion.LookRotation(value.ToVector3Int(), Vector3.up);
             PlaceOnTerrain();

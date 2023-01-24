@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using DG.Tweening;
 using UnityEngine;
@@ -78,8 +79,12 @@ public static class PathSelectionState {
             else if (Input.GetMouseButtonDown(Mouse.left) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return)) {
 
                 if (Mouse.TryGetPosition(out Vector2Int mousePosition) && traverser.IsReachable(mousePosition, moveDistance)) {
-                    if (pathBuilder.positions.Last() == mousePosition)
+                    if (pathBuilder.positions.Last() == mousePosition) {
+                        var isLastUnmovedUnit = main.FindUnitsOf(main.CurrentPlayer).Count(u => !u.Moved) == 1;
+                        main.stack.Push(main.followLastUnit && main.CurrentPlayer != main.localPlayer && 
+                                        isLastUnmovedUnit && pathBuilder.positions.Count > 1);
                         main.commands.Enqueue(move);
+                    }
                     else {
                         main.stack.Push(mousePosition);
                         main.commands.Enqueue(reconstructPath);
@@ -110,6 +115,8 @@ public static class PathSelectionState {
 
                         case move: {
 
+                            var followUnitMove = main.stack.Pop<bool>();
+
                             CleanUp();
                             if (cursor)
                                 cursor.Visible = false;
@@ -118,35 +125,35 @@ public static class PathSelectionState {
                             var path = pathBuilder.positions;
                             var animation = new MoveSequence(unit.view.transform, path, main.settings.unitSpeed).Animation();
 
-                            var intersection = main.triggers.TryGetValue(TriggerName.A, out var trigger)
-                                ? trigger.Intersect(path).ToHashSet()
-                                : new HashSet<Vector2Int>();
+                            CameraRig.TryFind(out var cameraRig);
+                            HardFollow hardFollow = null;
+                            if (followUnitMove && cameraRig)
+                                hardFollow = cameraRig.GetComponent<HardFollow>();
+
+                            string cameraRigSettings = null;
+                            if (cameraRig) {
+                                using var sw = new StringWriter();
+                                GameWriter.WriteCameraRig(sw, cameraRig);
+                                cameraRigSettings = sw.ToString();
+                            }
+                            if (hardFollow) {
+                                hardFollow.enabled = true;
+                                hardFollow.target = unit.view;
+                            }
 
                             while (animation.MoveNext()) {
                                 yield return null;
 
-                                //if (intersection.Count == 0) {
-                                    if (Input.GetMouseButtonDown(Mouse.left) || Input.GetMouseButtonDown(Mouse.right) || Input.GetKeyDown(KeyCode.Space)) {
-                                        unit.view.Position = path[^1];
-                                        if (path.Count >= 2)
-                                            unit.view.LookDirection = path[^1] - path[^2];
-                                        break;
-                                    }
-                                /*}
-                                else {
-                                    var position = unit.view.Position;
-                                    if (intersection.Contains(position)) {
-                                        trigger?.Clear();
-
-                                        if (CameraRig.TryFind(out var cameraRig))
-                                            yield return cameraRig.Jump(unit.view.transform.position);
-
-                                        Debug.Log("unit gets destroyed");
-                                        
-                                        yield break;
-                                    }
-                                }*/
+                                if (Input.GetMouseButtonDown(Mouse.left) || Input.GetMouseButtonDown(Mouse.right) || Input.GetKeyDown(KeyCode.Space)) {
+                                    unit.view.Position = path[^1];
+                                    if (path.Count >= 2)
+                                        unit.view.LookDirection = path[^1] - path[^2];
+                                    break;
+                                }
                             }
+                            
+                            if (hardFollow)
+                                hardFollow.enabled = false;
 
                             yield return ActionSelectionState.Run(main, unit, path, initialLookDirection);
                             yield break;

@@ -13,7 +13,7 @@ Alpha Team type enum                                             player.set-team
 16000                                                            player.set-credits
 0                                                                player.set-power-meter
 1 0 int2                                                         player.set-unit-look-direction
-NatalieCo                                                        player.set-co
+Natalie                                                        player.set-co
                                                                  player.mark-as-local
                                                                  player.add
 
@@ -47,7 +47,7 @@ Bravo Team type enum                                             player.set-team
 16000                                                            player.set-credits
 0                                                                player.set-power-meter
 -1 0 int2                                                        player.set-unit-look-direction
-NatalieCo                                                        player.set-co
+Vladan                                                        player.set-co
                                                                  player.add
 
                                                                  dup

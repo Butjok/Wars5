@@ -11,7 +11,8 @@ using UnityEngine.Assertions;
 
 public class Main : MonoBehaviour {
 
-	
+	[Command]
+	public bool followLastUnit;
 	
 	public List<Bridge> bridges = new();
 
