@@ -1113,7 +1113,7 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 200
-  field of view: 35
+  field of view: 15
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -6152,7 +6152,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
-    FieldOfView: 35
+    FieldOfView: 15
     OrthographicSize: 5
     NearClipPlane: 0.1
     FarClipPlane: 200
@@ -6959,8 +6959,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 329.56793, y: 922.7555}
-  m_SizeDelta: {x: 361.31653, y: 89.470825}
+  m_AnchoredPosition: {x: -33.717167, y: 1529.9073}
+  m_SizeDelta: {x: 865.32855, y: 214.27637}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1215465040
 MonoBehaviour:
@@ -8005,7 +8005,7 @@ MonoBehaviour:
     m_Bits: 1
   arm: {fileID: 176445437}
   virtualCamera: {fileID: 980433792}
-  speed: 1
+  speed: 0.5
   speedMultiplier: 1
   velocitySmoothTime: 25
   distance: 15.895
@@ -9141,7 +9141,7 @@ MonoBehaviour:
   showPlayBorderOnTop: 1
   showPlayBorderOnBottom: 0
   playBorderHeight: 21
-  playBorderColor: {r: 0.5019608, g: 1, b: 0, a: 1}
+  playBorderColor: {r: 1, g: 1, b: 1, a: 1}
   playBorderStyle:
     m_Name: 
     m_Normal:

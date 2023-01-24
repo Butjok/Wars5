@@ -256,13 +256,14 @@ public static class ActionSelectionState {
                                 var unitsInReconTrigger = main.units.Values.Where(u => u.Player == main.localPlayer && u.Position is { } position && reconTrigger.Contains(position)).ToArray();
                                 if (unitsInReconTrigger.Length > 0) {
 
-                                    if (CameraRig.TryFind(out var cameraRig)) {
-                                        yield return cameraRig.Jump(((Vector2Int)unitsInReconTrigger[0].Position).Raycast());
-                                        // yield return new WaitForSeconds(1);
-                                    }
-
                                     reconTrigger.Clear();
                                     ((Main2)main).LoadAdditively("1");
+                                    
+                                    if (CameraRig.TryFind(out var cameraRig)) {
+                                        yield return new WaitForSeconds(1);
+                                        yield return cameraRig.Jump(new Vector2Int(-21,-14).Raycast());
+                                        
+                                    }
                                 }
                             }
 
