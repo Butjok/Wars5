@@ -40,6 +40,8 @@ public class Player : IDisposable {
 	public readonly PlayerType type;
 	public readonly AiDifficulty difficulty;
 	public readonly PlayerView view;
+
+	public int maxCredits = Rules.defaultMaxCredits;
 	
 	private int credits;
 	public int Credits {

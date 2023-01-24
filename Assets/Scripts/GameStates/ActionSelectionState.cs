@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Drawing;
 using UnityEngine;
 using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
@@ -14,8 +15,9 @@ public static class ActionSelectionState {
     public const string cycleActions = prefix + "cycle-actions";
     public const string execute = prefix + "execute";
     public const string filterWithType = prefix + "filter-with-type";
+    public const string launchMissile = prefix + "launch-missile";
 
-    public static IEnumerator Run(Main main, Unit unit, IReadOnlyList<Vector2Int> path, Vector2Int? _initialLookDirection = null) {
+    public static IEnumerator Run(Main main, Unit unit, IReadOnlyList<Vector2Int> path, Vector2Int? initialLookDirection = null) {
 
         var destination = path.Last();
         main.TryGetUnit(destination, out var other);
@@ -29,6 +31,14 @@ public static class ActionSelectionState {
                 actions.Add(new UnitAction(UnitActionType.Capture, unit, path, null, building));
             else
                 actions.Add(new UnitAction(UnitActionType.Stay, unit, path));
+
+            if (main.TryGetBuilding(destination, out building) &&
+                unit.type is UnitType.Infantry or UnitType.AntiTank &&
+                building.type is TileType.MissileSilo &&
+                building.Player == unit.Player) {
+
+                actions.Add(new UnitAction(UnitActionType.LaunchMissile, unit, path, targetBuilding: building));
+            }
         }
 
         // join
@@ -43,7 +53,7 @@ public static class ActionSelectionState {
         if ((!Rules.IsArtillery(unit) || path.Count == 1) && Rules.TryGetAttackRange(unit, out var attackRange))
             foreach (var otherPosition in main.AttackPositions(destination, attackRange))
                 if (main.TryGetUnit(otherPosition, out var target))
-                    foreach (var (weaponName,_) in Rules.GetDamageValues(unit, target))
+                    foreach (var (weaponName, _) in Rules.GetDamageValues(unit, target))
                         actions.Add(new UnitAction(UnitActionType.Attack, unit, path, target, weaponName: weaponName, targetPosition: otherPosition));
 
         // supply
@@ -95,6 +105,59 @@ public static class ActionSelectionState {
                 oldAction.view.Show = false;
             panel.Hide();
             PlayerView.globalVisibility = true;
+        }
+
+        IEnumerator MissileTargetSelection(UnitAction action) {
+
+            while (true) {
+                yield return null;
+
+                if (Input.GetMouseButtonDown(Mouse.left) && Mouse.TryGetPosition(out Vector2Int mousePosition) &&
+                    main.TryGetTile(mousePosition, out _)) {
+
+                    main.stack.Push(action.targetBuilding);
+                    main.stack.Push(mousePosition);
+                    main.commands.Enqueue(launchMissile);
+                }
+                else if (Input.GetMouseButtonDown(Mouse.right) || Input.GetKeyDown(KeyCode.Escape))
+                    main.commands.Enqueue(cancel);
+
+                while (main.commands.TryDequeue(out var input2))
+                    foreach (var token2 in input2.Tokenize())
+                        switch (token2) {
+
+                            case launchMissile: {
+
+                                var position = main.stack.Pop<Vector2Int>();
+                                var missileSilo = main.stack.Pop<Building>();
+                                Assert.AreEqual(TileType.MissileSilo, missileSilo.type);
+
+                                Debug.Log($"Launching missile from {missileSilo.position} to {position}");
+                                using (Draw.ingame.WithDuration(1)) {
+                                    Draw.ingame.Arrow((Vector3)missileSilo.position.ToVector3Int(), (Vector3)position.ToVector3Int(), Color.red);
+                                }
+
+                                unit.Position = destination;
+                                unit.Moved = true;
+
+                                yield break;
+                            }
+
+                            case cancel:
+
+                                HidePanel();
+
+                                foreach (var action1 in actions)
+                                    action1.Dispose();
+
+                                yield return Run(main, unit, path, initialLookDirection);
+                                yield break;
+
+                            default:
+                                main.stack.ExecuteToken(token2);
+                                break;
+                        }
+            }
         }
 
         while (true) {
@@ -174,8 +237,8 @@ public static class ActionSelectionState {
 
                                     var attacker = action.unit;
                                     var target = action.targetUnit;
-                                    
-                                    if (!Rules.TryGetDamage(attacker,target,action.weaponName, out var damageToTarget))
+
+                                    if (!Rules.TryGetDamage(attacker, target, action.weaponName, out var damageToTarget))
                                         throw new Exception();
 
                                     var newTargetHp = Mathf.Max(0, target.Hp - damageToTarget);
@@ -199,7 +262,7 @@ public static class ActionSelectionState {
                                         while (animation.active)
                                             yield return null;
                                     }
-                                    target.Hp= newTargetHp;
+                                    target.Hp = newTargetHp;
 
                                     //if (newTargetHp > 0 && targetWeaponIndex != -1)
                                     //    target.ammo[targetWeaponIndex]--;
@@ -237,9 +300,12 @@ public static class ActionSelectionState {
                                     unit.Position = destination;
                                     action.targetUnit.Fuel = int.MaxValue;
                                     foreach (var weaponName in action.targetUnit.Ammo.Keys)
-                                        action.targetUnit.SetAmmo(weaponName,int.MaxValue);
+                                        action.targetUnit.SetAmmo(weaponName, int.MaxValue);
                                     break;
                                 }
+
+                                case UnitActionType.LaunchMissile:
+                                    break;
 
                                 default:
                                     throw new ArgumentOutOfRangeException();
@@ -258,11 +324,11 @@ public static class ActionSelectionState {
 
                                     reconTrigger.Clear();
                                     ((Main2)main).LoadAdditively("1");
-                                    
+
                                     if (CameraRig.TryFind(out var cameraRig)) {
                                         yield return new WaitForSeconds(1);
-                                        yield return cameraRig.Jump(new Vector2Int(-21,-14).Raycast());
-                                        
+                                        yield return cameraRig.Jump(new Vector2Int(-21, -14).Raycast());
+
                                     }
                                 }
                             }
@@ -314,8 +380,8 @@ public static class ActionSelectionState {
                                 action.Dispose();
 
                             unit.view.Position = path[0];
-                            if (_initialLookDirection is { } initialLookDirection)
-                                unit.view.LookDirection = initialLookDirection;
+                            if (initialLookDirection is { } value)
+                                unit.view.LookDirection = value;
 
                             yield return PathSelectionState.Run(main, unit);
                             yield break;

@@ -9,7 +9,7 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class Main : MonoBehaviour {
+public class Main : StateRunner {
 
 	[Command]
 	public bool followLastUnit;

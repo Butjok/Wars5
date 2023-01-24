@@ -49,7 +49,7 @@ public static class Rules {
         return Enemies(player).All(Lost);
     }
     public static bool AreEnemies(Player p1, Player p2) {
-        return p1 != p2 && (p1.team == Team.None || p1.team == Team.None || p1.team != p2.team);
+        return p1 != p2 && (p1.team == Team.None || p2.team == Team.None || p1.team != p2.team);
     }
     public static bool AreAllies(Player p1, Player p2) {
         return !AreEnemies(p1, p2);
@@ -57,7 +57,7 @@ public static class Rules {
 
     public const int defaultMaxCredits = 16000;
     public static int MaxCredits(Player player) {
-        return defaultMaxCredits;
+        return player.maxCredits;
     }
 
     public const int defaultMaxAbilityMeter = 6;
@@ -153,7 +153,7 @@ public static class Rules {
     }
     public static bool TryGetDamage(Unit attacker, Unit target, WeaponName weaponName, out int damage) {
         damage = 0;
-        if (GetAmmo(attacker, weaponName) <= 0 || !TryGetDamage(attacker.type, target.type, weaponName, out var baseDamage))
+        if (!AreEnemies(attacker.Player,target.Player) || GetAmmo(attacker, weaponName) <= 0 || !TryGetDamage(attacker.type, target.type, weaponName, out var baseDamage))
             return false;
         damage = CeilToInt((float)(attacker.Hp) / MaxHp(attacker) * baseDamage);
         return true;
@@ -266,7 +266,7 @@ public static class Rules {
         }
         return false;
     }
-    public static int Size(UnitType unitType) {
+    public static int CargoSize(UnitType unitType) {
         return 1;
     }
     public static int CargoCapacity(UnitType unitType) {
@@ -276,11 +276,11 @@ public static class Rules {
         };
     }
     public static bool CanLoadAsCargo(Unit receiver, Unit target) {
-        var cargoSize = receiver.Cargo.Sum(u => Size(u));
+        var cargoSize = receiver.Cargo.Sum(u => CargoSize(u));
         return CanLoadAsCargo(receiver.type, target.type) &&
                (target.Carrier == null || target.Carrier == receiver) &&
                AreAllies(receiver.Player, target.Player) &&
-               cargoSize + Size(target) <= CargoCapacity(receiver);
+               cargoSize + CargoSize(target) <= CargoCapacity(receiver);
     }
     public static bool CanSupply(UnitType unitType) {
         return unitType == UnitType.Apc;

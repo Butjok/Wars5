@@ -120,6 +120,15 @@ WbRecon UnitView type load-resource                              unit.set-view-p
                                                                  unit.add
                                                                  pop
 
+                                                                 dup
+Infantry UnitType type enum                                      unit.set-type
+false                                                            unit.set-moved
+-9 -10 int2                                                      unit.set-position
+0 1 int2                                                         unit.set-look-direction
+WbLightTank UnitView type load-resource                          unit.set-view-prefab
+                                                                 unit.add
+                                                                 pop
+
                                                                  pop
                                                                  
 
@@ -165,6 +174,7 @@ Plain TileType type enum -10 -23 int2                            tile.add
 Plain TileType type enum -10 -22 int2                            tile.add
 Plain TileType type enum -10 -21 int2                            tile.add
 Plain TileType type enum -10 -20 int2                            tile.add
+Plain TileType type enum -10 -10 int2                            tile.add
 Plain TileType type enum -9 -26 int2                             tile.add
 Plain TileType type enum -9 -24 int2                             tile.add
 Plain TileType type enum -9 -23 int2                             tile.add
@@ -371,6 +381,14 @@ Factory TileType type enum                                       building.set-ty
                                                                  null
 City TileType type enum                                          building.set-type
 -6 -13 int2                                                      building.set-position
+20                                                               building.set-cp
+0 1 int2                                                         building.set-look-direction
+                                                                 building.add
+                                                                 pop
+
+                                                                 null
+MissileSilo TileType type enum                                   building.set-type
+-11 -10 int2                                                     building.set-position
 20                                                               building.set-cp
 0 1 int2                                                         building.set-look-direction
                                                                  building.add
@@ -753,7 +771,7 @@ BridgeView type get-component                                    bridge.set-view
                                                                  pop
 
 
--5.291458 0 -16.29786 float3                                     camera-rig.set-position
-225                                                              camera-rig.set-rotation
-10.9699                                                          camera-rig.set-distance
-10                                                               camera-rig.set-pitch-angle
+-9.044018 -4.547474E-13 -9.834075 float3                         camera-rig.set-position
+247.5                                                            camera-rig.set-rotation
+31.09533                                                         camera-rig.set-distance
+43.93692                                                         camera-rig.set-pitch-angle

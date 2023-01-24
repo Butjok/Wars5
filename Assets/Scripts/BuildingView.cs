@@ -2,6 +2,9 @@ using System;
 using UnityEngine;
 
 public class BuildingView : MonoBehaviour {
+
+	public static BuildingView DefaultPrefab => "WbFactory".LoadAs<BuildingView>();
+	
 	public BuildingView prefab;
 	public Building building;
 	public MeshRenderer[] renderers = { };

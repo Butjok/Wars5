@@ -6,17 +6,18 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
 
-public enum UnitActionType { Stay, Join, Capture, Attack, GetIn, Drop, Supply }
+public enum UnitActionType { Stay, Join, Capture, Attack, GetIn, Drop, Supply, LaunchMissile }
 public class UnitAction : IDisposable {
 
     public static readonly HashSet<UnitAction> undisposed = new();
     
-    public UnitActionType type;
-    public Unit unit, targetUnit;
-    public IReadOnlyList<Vector2Int> path;
-    public WeaponName weaponName;
-    public Vector2Int targetPosition;
-    public UnitActionView view;
+    public readonly UnitActionType type;
+    public readonly Unit unit, targetUnit;
+    public readonly IReadOnlyList<Vector2Int> path;
+    public readonly WeaponName weaponName;
+    public readonly Vector2Int targetPosition;
+    public readonly UnitActionView view;
+    public readonly Building targetBuilding;
 
     public UnitAction(UnitActionType type, Unit unit, IReadOnlyList<Vector2Int> path, Unit targetUnit = null, Building targetBuilding = null, WeaponName weaponName=default, Vector2Int targetPosition = default) {
 
@@ -28,6 +29,7 @@ public class UnitAction : IDisposable {
         this.targetUnit = targetUnit;
         this.weaponName = weaponName;
         this.targetPosition = targetPosition;
+        this.targetBuilding = targetBuilding;
 
         switch (type) {
             case UnitActionType.Attack: {
@@ -56,10 +58,8 @@ public class UnitAction : IDisposable {
     public void Dispose() {
         Assert.IsTrue(undisposed.Contains(this));
         undisposed.Remove(this);
-        if (view) {
+        if (view)
             Object.Destroy(view.gameObject);
-            view = null;
-        }
     }
 
     public override string ToString() {

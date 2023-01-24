@@ -16,5 +16,7 @@ public enum TileType {
     Airport = 1 << 9,
     Shipyard = 1 << 10,
     
-    Buildings = City | Hq | Factory | Airport | Shipyard
+    MissileSilo = 1 << 11,
+    
+    Buildings = City | Hq | Factory | Airport | Shipyard | MissileSilo
 }

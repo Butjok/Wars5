@@ -45,6 +45,20 @@ public class Main2 : Main {
         players[index].unitLookDirection = lookDirection;
         return true;
     }
+    [Command]
+    public bool TrySetPlayerCredits(int index, int amount) {
+        if (index < 0 || index >= players.Count)
+            return false;
+        players[index].Credits = amount;
+        return true;
+    }
+    [Command]
+    public bool TrySetPlayerCreditsMax(int index, int amount) {
+        if (index < 0 || index >= players.Count)
+            return false;
+        players[index].maxCredits = amount;
+        return true;
+    }
 
     public Dictionary<string, Func<object>> screenText = new();
     public HashSet<Predicate<string>> screenTextFilters = new() { _ => true };
@@ -73,16 +87,16 @@ public class Main2 : Main {
     public void UpdatePlayBorderStyle() {
 
         Assert.IsTrue(guiSkin);
-        
+
         playBorderTexture = new Texture2D(1, 1);
         playBorderTexture.SetPixel(0, 0, playBorderColor);
         playBorderTexture.Apply();
-        
+
         playBorderStyle = new GUIStyle(guiSkin.label);
         playBorderStyle.normal.background = playBorderTexture;
         playBorderStyle.alignment = TextAnchor.MiddleRight;
         playBorderStyle.normal.textColor = Color.black;
-        
+
         playBorderStyle.onNormal = playBorderStyle.normal;
     }
 
@@ -138,13 +152,13 @@ public class Main2 : Main {
             GUILayout.Label($"player: {inspectedUnit.Player}");
             GUILayout.Label($"position: {inspectedUnit.Position}");
             GUILayout.Label($"moved: {inspectedUnit.Moved}");
-            GUILayout.Label($"hp: {inspectedUnit.Hp}");
+            GUILayout.Label($"hp: {inspectedUnit.Hp} / {MaxHp(inspectedUnit)}");
 
-            GUILayout.Label($"fuel: {inspectedUnit.Fuel}");
+            GUILayout.Label($"fuel: {inspectedUnit.Fuel} / {MaxFuel(inspectedUnit)}");
             if (inspectedUnit.Ammo.Count > 0) {
                 GUILayout.Label($"ammo:");
-                foreach (var (weaponType, amount) in inspectedUnit.Ammo)
-                    GUILayout.Label($"- {weaponType}: {amount}");
+                foreach (var (weaponName, amount) in inspectedUnit.Ammo)
+                    GUILayout.Label($"- {weaponName}: {amount} / {MaxAmmo(inspectedUnit, weaponName)}");
             }
 
             if (inspectedUnit.Carrier is { Disposed: false }) {
@@ -157,9 +171,9 @@ public class Main2 : Main {
                 GUILayout.EndHorizontal();
             }
             if (inspectedUnit.Cargo.Count > 0) {
-                GUILayout.Label($"cargo:");
+                GUILayout.Label($"cargo ({inspectedUnit.Cargo.Sum(c => CargoSize(c))} / {CargoCapacity(inspectedUnit)}):");
                 foreach (var cargo in inspectedUnit.Cargo)
-                    GUILayout.Label($"- {cargo}");
+                    GUILayout.Label($"- {cargo} ({CargoSize(cargo)})");
             }
 
             GUILayout.BeginHorizontal();
@@ -399,7 +413,7 @@ public class Main2 : Main {
     }
 
     public TileType tileType = TileType.Plain;
-    public TileType[] tileTypes = { TileType.Plain, TileType.Road, TileType.Forest, TileType.Mountain, TileType.River, TileType.Sea, TileType.City, TileType.Hq, TileType.Factory, TileType.Airport, TileType.Shipyard };
+    public TileType[] tileTypes = { TileType.Plain, TileType.Road, TileType.Forest, TileType.Mountain, TileType.River, TileType.Sea, TileType.City, TileType.Hq, TileType.Factory, TileType.Airport, TileType.Shipyard, TileType.MissileSilo };
 
     public Player player;
 
@@ -477,9 +491,15 @@ public class Main2 : Main {
                                 TryRemoveTile(position, false);
 
                             tiles.Add(position, tileType);
-                            if (TileType.Buildings.HasFlag(tileType))
-                                new Building(this, position, tileType, player, viewPrefab: buildingPrefabs[tileType],
-                                    lookDirection: lookDirection);
+                            if (TileType.Buildings.HasFlag(tileType)) {
+                                
+                                var viewPrefab = BuildingView.DefaultPrefab;
+                                if (buildingPrefabs.TryGetValue(tileType, out var v) && v)
+                                    viewPrefab = v;
+                                Assert.IsTrue(viewPrefab);
+                                
+                                new Building(this, position, tileType, player, viewPrefab: viewPrefab, lookDirection: lookDirection);
+                            }
 
                             RebuildTilemapMesh();
 

@@ -6959,8 +6959,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 124.30887, y: 1265.8014}
-  m_SizeDelta: {x: 646.0874, y: 159.98694}
+  m_AnchoredPosition: {x: 134.50613, y: 1265.8014}
+  m_SizeDelta: {x: 645.81366, y: 159.98694}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1215465040
 MonoBehaviour:
@@ -9141,7 +9141,7 @@ MonoBehaviour:
   showPlayBorderOnTop: 1
   showPlayBorderOnBottom: 0
   playBorderHeight: 21
-  playBorderColor: {r: 1, g: 1, b: 1, a: 1}
+  playBorderColor: {r: 0.66, g: 1, b: 0, a: 1}
   playBorderStyle:
     m_Name: 
     m_Normal:
@@ -9219,7 +9219,7 @@ MonoBehaviour:
   triggerName: 0
   showBridges: 0
   tileType: 1
-  tileTypes: 0100000002000000100000000800000020000000040000004000000080000000000100000002000000040000
+  tileTypes: 010000000200000010000000080000002000000004000000400000008000000000010000000200000004000000080000
   unitType: 1
   unitTypes: 0000000001000000030000000400000002000000050000000700000006000000
   offset: 0.01
