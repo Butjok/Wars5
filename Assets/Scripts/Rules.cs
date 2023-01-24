@@ -58,7 +58,7 @@ public static class Rules {
         return 6;
     }
     public static bool CanUseAbility(Player player) {
-        return !AbilityInUse(player) && player.powerMeter == MaxAbilityMeter(player);
+        return !AbilityInUse(player) && player.abilityMeter == MaxAbilityMeter(player);
     }
     public static bool AbilityInUse(Player player) {
         return player.abilityActivationTurn != null;
@@ -167,6 +167,7 @@ public static class Rules {
             UnitType.Recon => 3000,
             UnitType.LightTank => 5000,
             UnitType.MediumTank => 8000,
+            UnitType.Rockets=> 12000,
             _ => throw new ArgumentOutOfRangeException(nameof(unitType), unitType, null)
         };
     }
@@ -288,7 +289,10 @@ public static class Rules {
         };
     }
     public static int MoveDistance(Unit unit) {
-        return Min(unit.Fuel, MoveDistance(unit.type, unit.Player));
+        var moveDistance = MoveDistance(unit.type, unit.Player);
+        if (unit.Player.co == Co.Natalie && unit.Player.abilityActivationTurn != null)
+            moveDistance += 5;
+        return Min(unit.Fuel, moveDistance);
     }
     public static int? MoveCost(UnitType unitType, TileType tileType) {
 

@@ -43,9 +43,20 @@ public static class UnitBuildState {
 
                             var type = main.stack.Pop<UnitType>();
                             Assert.IsTrue(availableTypes.Contains(type));
+                            Assert.IsTrue(building.Player.CanAfford(type));
 
-                            var unit = new Unit(building.Player, type,  building.position, moved: true, viewPrefab: Resources.Load<UnitView>("light-tank"));
+                            var viewPrefab = UnitView.DefaultPrefab;
+                            if (building.Player.co.unitTypesInfoOverride.TryGetValue(type, out var info) && info.viewPrefab)
+                                viewPrefab = info.viewPrefab;
+                            else if (UnitTypesInfo.TryGet(type, out info) && info.viewPrefab)
+                                viewPrefab = info.viewPrefab;
+                            Assert.IsTrue(viewPrefab, type.ToString());
+                            
+                            var unit = new Unit(building.Player, type,  building.position, moved: true, viewPrefab:viewPrefab);
+                            unit.Moved = true;
                             Debug.Log($"Built unit {unit}");
+
+                            building.Player.credits -= Rules.Cost(type, building.Player);
 
                             menuView.Hide();
                             yield return  SelectionState.Run(main);

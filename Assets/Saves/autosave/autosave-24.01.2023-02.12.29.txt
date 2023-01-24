@@ -10,7 +10,7 @@ Tutorial MissionName type enum                                   game.set-missio
 
 1 0 0                                                            player.set-color
 None Team type enum                                              player.set-team
-9999                                                             player.set-credits
+999999                                                           player.set-credits
 0                                                                player.set-power-meter
 0 1 int2                                                         player.set-unit-look-direction
 0                                                                player.on-additive-load-get-by-index
@@ -753,7 +753,7 @@ BridgeView type get-component                                    bridge.set-view
                                                                  pop
 
 
--3.198287 3.433227E-05 -19.19771 float3                          camera-rig.set-position
+-7.360724 3.433227E-05 -17.42141 float3                          camera-rig.set-position
 292.5                                                            camera-rig.set-rotation
-26.93249                                                         camera-rig.set-distance
-58.6653                                                          camera-rig.set-pitch-angle
+18.33538                                                         camera-rig.set-distance
+49.749                                                           camera-rig.set-pitch-angle

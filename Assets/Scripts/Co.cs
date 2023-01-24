@@ -26,7 +26,6 @@ public class Co : ScriptableObject {
     public Sprite portrait;
     public AudioClip[] themes = { };
 
-    public UnitTypeInfoDictionary unitTypesInfo;
     public UnitTypeInfoDictionary unitTypesInfoOverride = new();
 
     [SerializeField] private UnitTypeUnitViewDictionary unitPrefabsOverrides = new();

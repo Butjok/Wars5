@@ -123,8 +123,25 @@ public class Main2 : Main {
         }
 
         if (showPlayInfo) {
-            GUILayout.Label($"turn: {turn}");
+            GUILayout.Label($"<color=#{ColorUtility.ToHtmlStringRGB(CurrentPlayer.color)}>turn: {turn}</color>");
+            GUILayout.Label($"credits: {CurrentPlayer.credits}");
+            GUILayout.Label($"power: {(CurrentPlayer.abilityActivationTurn != null ? "[ACTIVE] " : "")}{CurrentPlayer.abilityMeter}");
         }
+    }
+
+    [Command]
+    public bool TrySetPlayerAbilityMeter(int index, int value) {
+        if (index < 0 || index >= players.Count)
+            return false;
+        players[index].abilityMeter = value;
+        return true;
+    }
+    [Command]
+    public bool TrySetPlayerAbilityActivationTurn(int index, int? value) {
+        if (index < 0 || index >= players.Count)
+            return false;
+        players[index].abilityActivationTurn = value;
+        return true;
     }
 
     public Texture2D playBorderTexture;

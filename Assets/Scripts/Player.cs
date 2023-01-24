@@ -21,7 +21,7 @@ public class Player : IDisposable {
 	public AiDifficulty difficulty = AiDifficulty.Normal;
 	public PlayerView view;
 	public int credits;
-	public int powerMeter;
+	public int abilityMeter;
 	public int? abilityActivationTurn;
 	public Vector2Int unitLookDirection = Vector2Int.up;
 

@@ -12,36 +12,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae62c6ebeaec4402b7062a498fdb9897, type: 3}
   m_Name: UnitTypesInfo
   m_EditorClassIdentifier: 
-  get:
-    m_keys: 01000000020000000400000008000000100000002000000040000000800000000001000000020000
+  map:
+    m_keys: 0000000001000000020000000300000004000000050000000700000006000000
     m_values:
     - name: Infantry
       thumbnail: {fileID: 0}
       description: 
+      viewPrefab: {fileID: 9003102762145158827, guid: 08f9f58ec16d949629f61fe16c2af3ee, type: 3}
     - name: Anti tank
       thumbnail: {fileID: 0}
       description: 
+      viewPrefab: {fileID: 9003102762145158827, guid: 08f9f58ec16d949629f61fe16c2af3ee, type: 3}
     - name: Artillery
       thumbnail: {fileID: 0}
       description: 
+      viewPrefab: {fileID: 1190363638125491070, guid: 8e441059e35ac481c908828fefe3d3a8, type: 3}
     - name: Apc
       thumbnail: {fileID: 0}
       description: 
-    - name: Transport helicopter
-      thumbnail: {fileID: 0}
-      description: 
-    - name: Attack helicopter
-      thumbnail: {fileID: 0}
-      description: 
-    - name: Fighter jet
-      thumbnail: {fileID: 0}
-      description: 
-    - name: Bomber
-      thumbnail: {fileID: 0}
-      description: 
+      viewPrefab: {fileID: 1444498860476638596, guid: cf6d407dd0d9e49efb1a9222356b2d5a, type: 3}
     - name: Recon
       thumbnail: {fileID: 0}
       description: 
+      viewPrefab: {fileID: 7337368045880514279, guid: b0224aa3af02644029e4cfacde45f5ac, type: 3}
     - name: Light tank
       thumbnail: {fileID: 0}
       description: 
+      viewPrefab: {fileID: 9003102762145158827, guid: 08f9f58ec16d949629f61fe16c2af3ee, type: 3}
+    - name: Medium tank
+      thumbnail: {fileID: 0}
+      description: 
+      viewPrefab: {fileID: 2868793983043866757, guid: 9a3ad2859f76f4faabc1ee7e19a50787, type: 3}
+    - name: Rockets
+      thumbnail: {fileID: 0}
+      description: 
+      viewPrefab: {fileID: 3714029163961711533, guid: d61710f56e83148c7bbb1f7e5471b187, type: 3}

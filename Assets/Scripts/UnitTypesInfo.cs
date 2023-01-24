@@ -3,16 +3,22 @@ using UnityEngine;
 
 [CreateAssetMenu(menuName = nameof(UnitTypesInfo))]
 public class UnitTypesInfo : ScriptableObject {
+
+    public static UnitTypesInfo Instance => nameof(UnitTypesInfo).LoadAs<UnitTypesInfo>();
+    public static bool TryGet(UnitType unitType, out Record record) {
+        return Instance.map.TryGetValue(unitType, out record);
+    }
     
     [Serializable]
     public struct Record {
         public string name;
         public Sprite thumbnail;
-        [TextArea(10, 20)]
+        
         public string description;
+        public UnitView viewPrefab;
     }
     
-    public UnitTypeInfoDictionary get = new() {
+    [SerializeField] private UnitTypeInfoDictionary map = new() {
         [UnitType.Infantry] = new Record {
             name = nameof(UnitType.Infantry).ToWords(),
             thumbnail = null,

@@ -106,7 +106,7 @@ public static class SelectionState {
                     main.commands.Enqueue(@select);
                 }
 
-                else if (Input.GetKeyDown(KeyCode.F6))
+                else if (Input.GetKeyDown(KeyCode.F6) && Rules.CanUseAbility(main.CurrentPlayer))
                     main.commands.Enqueue(useAbility);
             }
 
@@ -235,6 +235,8 @@ public static class SelectionState {
         Assert.IsTrue(!Rules.AbilityInUse(player));
 
         player.abilityActivationTurn = turn;
+        player.abilityMeter = 0;
+        
         Debug.Log($"starting ability of {player}");
 
         yield break;

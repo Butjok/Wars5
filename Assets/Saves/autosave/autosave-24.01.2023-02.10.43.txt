@@ -10,11 +10,11 @@ Tutorial MissionName type enum                                   game.set-missio
 
 1 0 0                                                            player.set-color
 None Team type enum                                              player.set-team
-999999                                                                player.set-credits
+999999                                                           player.set-credits
 0                                                                player.set-power-meter
 0 1 int2                                                         player.set-unit-look-direction
 0                                                                player.on-additive-load-get-by-index
-Natalie                                                        player.set-co
+Natalie                                                          player.set-co
                                                                  player.mark-as-local
                                                                  player.add
 
@@ -133,7 +133,7 @@ None Team type enum                                              player.set-team
 0                                                                player.set-power-meter
 0 -1 int2                                                        player.set-unit-look-direction
 1                                                                player.on-additive-load-get-by-index
-Vladan                                                        player.set-co
+Natalie                                                          player.set-co
                                                                  player.add
 
                                                                  dup
@@ -753,7 +753,7 @@ BridgeView type get-component                                    bridge.set-view
                                                                  pop
 
 
--19.14119 3.433227E-05 -13.87374 float3                          camera-rig.set-position
+-4.089187 3.433227E-05 -18.27485 float3                          camera-rig.set-position
 292.5                                                            camera-rig.set-rotation
-28.23335                                                         camera-rig.set-distance
+25.49169                                                         camera-rig.set-distance
 58.6653                                                          camera-rig.set-pitch-angle

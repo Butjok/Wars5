@@ -82,7 +82,7 @@ public class UnitBuildMenu : MonoBehaviour {
 
             var player = building.Player;
             if (!player.co.unitTypesInfoOverride.TryGetValue(unitType, out var info)) {
-                var found = player.co.unitTypesInfo.TryGetValue(unitType, out info);
+                var found = UnitTypesInfo.TryGet(unitType, out info);
                 Assert.IsTrue(found, unitType.ToString());
             }
 
