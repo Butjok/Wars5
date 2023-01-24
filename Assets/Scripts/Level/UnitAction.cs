@@ -14,11 +14,11 @@ public class UnitAction : IDisposable {
     public UnitActionType type;
     public Unit unit, targetUnit;
     public IReadOnlyList<Vector2Int> path;
-    public int weaponIndex;
+    public WeaponName weaponName;
     public Vector2Int targetPosition;
     public UnitActionView view;
 
-    public UnitAction(UnitActionType type, Unit unit, IReadOnlyList<Vector2Int> path, Unit targetUnit = null, Building targetBuilding = null, int weaponIndex = -1, Vector2Int targetPosition = default) {
+    public UnitAction(UnitActionType type, Unit unit, IReadOnlyList<Vector2Int> path, Unit targetUnit = null, Building targetBuilding = null, WeaponName weaponName=default, Vector2Int targetPosition = default) {
 
         undisposed.Add(this);
         
@@ -26,7 +26,7 @@ public class UnitAction : IDisposable {
         this.unit = unit;
         this.path = path;
         this.targetUnit = targetUnit;
-        this.weaponIndex = weaponIndex;
+        this.weaponName = weaponName;
         this.targetPosition = targetPosition;
 
         switch (type) {
@@ -41,15 +41,15 @@ public class UnitAction : IDisposable {
 
     public (int attacker, int target) CalculateHpsAfterAttack() {
         Assert.AreEqual(UnitActionType.Attack, type);
-        var attackDamage = Rules.Damage(unit, targetUnit, weaponIndex, unit.hp.v, targetUnit.hp.v);
-        Assert.IsTrue(attackDamage != null);
-        var targetHp = Mathf.Max(0, targetUnit.hp.v - (int)attackDamage);
-        var attackerHp = unit.hp.v;
-        if (targetHp > 0 && Rules.CanAttackInResponse(unit, targetUnit, out var responseWeaponIndex)) {
+        var isValid = Rules.TryGetDamage(unit, targetUnit, weaponName, out var attackDamage);
+        Assert.IsTrue(isValid);
+        var targetHp = Mathf.Max(0, targetUnit.Hp - (int)attackDamage);
+        var attackerHp = unit.Hp;
+        /*if (targetHp > 0 && Rules.CanAttackInResponse(unit, targetUnit, out var responseWeaponIndex)) {
             var responseDamage = Rules.Damage(targetUnit, unit, responseWeaponIndex, targetHp, attackerHp);
             Assert.IsTrue(responseDamage != null);
             attackerHp = Mathf.Max(0, attackerHp - (int)responseDamage);
-        }
+        }*/
         return (attackerHp, targetHp);
     }
 

@@ -5,22 +5,139 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
 using static UnityEngine.Mathf;
+using static Rules;
+
+public enum WeaponName {
+    Rifle ,
+    RocketLauncher ,
+    Cannon ,
+    MachineGun ,
+}
 
 public class Unit : IDisposable {
 
     public static readonly HashSet<Unit> undisposed = new();
 
-    public UnitType type;
-    public Player player;
-    public UnitView view;
+    public readonly UnitType type;
+    public readonly UnitView view;
 
-    public ChangeTracker<Vector2Int?> position;
-    public ChangeTracker<bool> moved;
-    public ChangeTracker<int> hp;
-    public ChangeTracker<int> fuel;
-    public ListChangeTracker<int> ammo;
-    public ListChangeTracker<Unit> cargo;
-    public ChangeTracker<Unit> carrier;
+    private bool initialized = false;
+
+    private Vector2Int? position;
+    public Vector2Int? Position {
+        get => position;
+        set {
+            if (initialized) {
+                if (position == value)
+                    return;
+                if (position is { } oldPosition)
+                    player.main.units.Remove(oldPosition);
+            }
+            position = value;
+
+            if (position is { } newPosition) {
+                Assert.IsFalse(player.main.units.ContainsKey(newPosition), newPosition.ToString());
+                player.main.units.Add(newPosition, this);
+                view.Visible = true;
+                view.Position = newPosition;
+            }
+            else
+                view.Visible = false;
+        }
+    }
+
+    private bool moved;
+    public bool Moved {
+        get => moved;
+        set {
+            if (initialized && moved == value)
+                return;
+            moved = value;
+
+            view.Moved = moved;
+        }
+    }
+
+    private int hp;
+    public int Hp {
+        get => ModifiedHp(this,hp);
+        set {
+            if (initialized && hp == value)
+                return;
+            hp = Clamp(value, 0, initialized ? MaxHp(this) : MaxHp(type));
+
+            if (hp <= 0)
+                Dispose();
+            else
+                view.Hp = hp;
+        }
+    }
+
+    private int fuel;
+    public int Fuel {
+        get => ModifiedFuel(this,fuel);
+        set {
+            if (initialized && fuel == value)
+                return;
+            fuel = Clamp(value, 0, initialized ? MaxFuel(this) : MaxFuel(type));
+
+            view.Fuel = fuel;
+        }
+    }
+
+    private Player player;
+    public Player Player {
+        get => player;
+        set {
+            if (initialized && player == value)
+                return;
+            player = value;
+
+            // alpha = 0!
+            view.PlayerColor = player?.color?? new Color(0, 0, 0, 0);
+        }
+    }
+
+    private Unit carrier;
+    public Unit Carrier {
+        get => carrier;
+        set {
+            if (initialized && carrier == value)
+                return;
+            carrier = value;
+
+            view.Carrier = carrier;
+        }
+    }
+
+    private Dictionary<WeaponName, int> ammo = new();
+    public IReadOnlyDictionary<WeaponName, int> Ammo => ammo;
+    public void SetAmmo(WeaponName weaponName, int value) {
+
+        var found = ammo.TryGetValue(weaponName, out var amount);
+        Assert.IsTrue(found, weaponName.ToString());
+
+        if (initialized && amount == value)
+            return;
+        ammo[weaponName] = Clamp(value, 0, initialized ? MaxAmmo(this, weaponName) : MaxAmmo(type, weaponName));
+
+        // complete later
+    }
+
+    private List<Unit> cargo = new();
+    public IReadOnlyList<Unit> Cargo => cargo;
+    public void AddCargo(Unit unit) {
+        Assert.IsTrue(CanLoadAsCargo(this, unit), $"{unit} -> {this}");
+        cargo.Add(unit);
+        view.HasCargo = true;
+    }
+    public void RemoveCargo(Unit unit) {
+        var index = cargo.IndexOf(unit);
+        Assert.AreNotEqual(-1, index, unit.ToString());
+        cargo.RemoveAt(index);
+        view.HasCargo = cargo.Count > 0;
+    }
+
 
     public static implicit operator UnitType(Unit unit) => unit.type;
 
@@ -36,54 +153,22 @@ public class Unit : IDisposable {
         view.unit = this;
         view.prefab = viewPrefab;
         view.LookDirection = lookDirection ?? player.unitLookDirection;
-        view.PlayerColor = player.color;
-
-        this.position = new ChangeTracker<Vector2Int?>(old => {
-
-            if (old is { } oldPosition)
-                player.main.units.Remove(oldPosition);
-
-            if (this.position.v is { } newPosition) {
-                Assert.IsFalse(player.main.units.ContainsKey(newPosition), newPosition.ToString());
-                player.main.units.Add(newPosition, this);
-                view.Visible = true;
-                view.Position = newPosition;
-            }
-            else
-                view.Visible = false;
-        });
-
-        this.moved = new ChangeTracker<bool>(_ => view.Moved = this.moved.v);
-
-        this.hp = new ChangeTracker<int>(_ => {
-            if (this.hp.v <= 0) {
-                view.Die();
-                Assert.IsTrue(this.position.v != null);
-                player.main.units.Remove((Vector2Int)this.position.v);
-            }
-            else
-                view.Hp = this.hp.v;
-        });
-
-        this.fuel = new ChangeTracker<int>(_ => view.Fuel = this.fuel.v);
-        carrier = new ChangeTracker<Unit>(_ => view.Carrier = carrier.v);
 
         this.type = type;
-        this.player = player;
-        this.moved.v = moved;
+        Player = player;
+        Moved = moved;
         Assert.AreNotEqual(0, hp);
-        this.hp.v = Clamp(hp, 0, Rules.MaxHp(type));
-        this.fuel.v = Clamp(fuel, 0, Rules.MaxFuel(type));
+        Hp = hp;
+        Fuel = fuel;
 
-        ammo = new ListChangeTracker<int>(onChange: (_, _) => view.LowAmmo = ammo.Any(count => count <= 3));
-        for (var weapon = 0; weapon < Rules.WeaponsCount(type); weapon++)
-            ammo.Add(Rules.MaxAmmo(type, weapon));
+        foreach (var weaponName in GetWeapons(type)) {
+            ammo.Add(weaponName,0);
+            SetAmmo(weaponName, int.MaxValue);
+        }
 
-        cargo = new ListChangeTracker<Unit>(
-            onAdd: (_, _) => view.HasCargo = cargo.Count > 0,
-            onRemove: (_, _) => view.HasCargo = cargo.Count > 0);
+        Position = position;
 
-        this.position.v = position;
+        initialized = true;
     }
 
     public void Dispose() {
@@ -94,15 +179,12 @@ public class Unit : IDisposable {
         Assert.IsTrue(undisposed.Contains(this));
         undisposed.Remove(this);
 
-        position.v = null;
-        if (view && view.gameObject) {
-            Object.Destroy(view.gameObject);
-            view = null;
-        }
+        Position = null;
+        Object.Destroy(view.gameObject);
     }
 
     public override string ToString() {
-        return $"{type}{position.v} {player}";
+        return $"{type}{Position} {Player}";
     }
 }
 

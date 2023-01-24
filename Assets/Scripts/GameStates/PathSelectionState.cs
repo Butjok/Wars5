@@ -26,8 +26,8 @@ public static class PathSelectionState {
             return Rules.MoveCost(unit, tile);
         }
 
-        Assert.IsTrue(unit.position.v != null, "unit.position.v != null");
-        var unitPosition = (Vector2Int)unit.position.v;
+        if (unit.Position is not { } unitPosition)
+            throw new AssertionException("unit.position.v != null", "");
         Assert.IsTrue(main.tiles.ContainsKey(unitPosition));
 
         var moveDistance = Rules.MoveDistance(unit);

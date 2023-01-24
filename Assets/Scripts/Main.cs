@@ -82,10 +82,10 @@ public class Main : MonoBehaviour {
 	}
 
 	public IEnumerable<Unit> FindUnitsOf(Player player) {
-		return units.Values.Where(unit => unit.player == player);
+		return units.Values.Where(unit => unit.Player == player);
 	}
 	public IEnumerable<Building> FindBuildingsOf(Player player) {
-		return buildings.Values.Where(building => building.player.v == player);
+		return buildings.Values.Where(building => building.Player == player);
 	}
 
 	public IEnumerable<Vector2Int> AttackPositions(Vector2Int position, Vector2Int range) {

@@ -14,7 +14,7 @@ None Team type enum                                              player.set-team
 0                                                                player.set-power-meter
 0 1 int2                                                         player.set-unit-look-direction
 0                                                                player.on-additive-load-get-by-index
-NatalieCo                                                        player.set-co
+Natalie                                                        player.set-co
                                                                  player.mark-as-local
                                                                  player.add
 
@@ -32,7 +32,7 @@ None Team type enum                                              player.set-team
 0                                                                player.set-power-meter
 0 -1 int2                                                        player.set-unit-look-direction
 1                                                                player.on-additive-load-get-by-index
-NatalieCo                                                        player.set-co
+Vladan                                                        player.set-co
                                                                  player.add
 
                                                                  dup

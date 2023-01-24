@@ -82,7 +82,7 @@ public class MinimapMeshGenerator : MonoBehaviour {
 		var uvs = new List<Vector2>();
 
 		foreach (var position in main.tiles.Keys) {
-			Color color = main.TryGetBuilding(position, out var building) && building.player.v != null ? building.player.v.color : default;
+			Color color = main.TryGetBuilding(position, out var building) && building.Player != null ? building.Player.color : default;
 			color.a = tileIds[main.tiles[position]];
 			foreach (var vertex in Quad(position.ToVector3Int())) {
 				vertices.Add(vertex);
@@ -114,9 +114,9 @@ public class MinimapMeshGenerator : MonoBehaviour {
 		var uvs = new List<Vector2>();
 
 		foreach (var unit in main.units.Values) {
-			Color color = unit.player.color;
+			Color color = unit.Player.color;
 			color.a = unitIds[unit.type];
-			if (unit.position.v is not { } position)
+			if (unit.Position is not { } position)
 				continue;
 			foreach (var vertex in Quad(position.ToVector3Int())) {
 				vertices.Add(vertex + Vector3.up * .1f);

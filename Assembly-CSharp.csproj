@@ -46,9 +46,11 @@
      <Folder Include="Assets" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Triangle Darken.shader" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Rect Multiplicative.shader" />
+     <None Include="Assets/Saves/autosave/autosave-24.01.2023-01.35.10.txt" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />
      <None Include="Assets/Shaders/My First Lighting Shader.shader" />
      <None Include="Assets/Saves/full-map/19.01.2023-19.29.32.txt" />
+     <None Include="Assets/Saves/autosave/autosave-24.01.2023-01.33.39.txt" />
      <Folder Include="Assets/Saves/tutorial.1" />
      <None Include="Assets/Shapes/Shaders/Core/Line 3D Core.cginc" />
      <None Include="Assets/Resources/TileTypeColors.json" />
@@ -99,7 +101,6 @@
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Triangle Transparent.shader" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Line 3D Opaque.shader" />
      <None Include="Assets/Dialogues2.txt" />
-     <None Include="Assets/Saves/autosave/autosave-22.01.2023-19.35.07.txt" />
      <None Include="Assets/Shapes/Shaders/FillUtils.cginc" />
      <Folder Include="Assets/Saves" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Torus Screen.shader" />
@@ -134,7 +135,6 @@
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Texture Multiplicative.shader" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Disc LinearBurn.shader" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro_Mobile.cginc" />
-     <None Include="Assets/Saves/autosave/autosave-22.01.2023-19.38.18.txt" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Cuboid Lighten.shader" />
      <None Include="Assets/Shapes/Shaders/Shapes.cginc" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Disc Darken.shader" />
@@ -194,7 +194,6 @@
      <None Include="Assets/Saves/1/1-22.01.2023-18.23.49.txt" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Polyline 2D ColorDodge.shader" />
      <None Include="Assets/Saves/1/1-22.01.2023-18.36.36.txt" />
-     <None Include="Assets/Saves/autosave/autosave-22.01.2023-19.46.09.txt" />
      <None Include="Assets/Roboto/LICENSE.txt" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Quad Screen.shader" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Cuboid Additive.shader" />
@@ -340,7 +339,6 @@
      <Folder Include="Assets/Textures/Bumps" />
      <None Include="Assets/Shaders/SimpleInstanced.shader" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Texture ColorBurn.shader" />
-     <None Include="Assets/Saves/autosave/autosave-22.01.2023-19.36.51.txt" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Cone Opaque.shader" />
      <Folder Include="Assets/Music" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Regular Polygon Subtractive.shader" />
@@ -415,7 +413,6 @@
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Triangle Opaque.shader" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Triangle ColorDodge.shader" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Sphere Additive.shader" />
-     <None Include="Assets/Saves/autosave/autosave-22.01.2023-19.49.19.txt" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Polyline 2D Opaque.shader" />
      <None Include="Assets/Shaders/UnlitMinimap.shader" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Regular Polygon Screen.shader" />
@@ -1330,6 +1327,9 @@
      <Reference Include="Unity.TestTools.CodeCoverage.Editor.OpenCover.Model">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.TestTools.CodeCoverage.Editor.OpenCover.Model.dll</HintPath>
      </Reference>
+     <Reference Include="Unity.Formats.Fbx.Editor">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.Formats.Fbx.Editor.dll</HintPath>
+     </Reference>
      <Reference Include="Unity.Searcher.Editor">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.Searcher.Editor.dll</HintPath>
      </Reference>
@@ -1344,6 +1344,9 @@
      </Reference>
      <Reference Include="Unity.RenderPipelines.Core.ShaderLibrary">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.RenderPipelines.Core.ShaderLibrary.dll</HintPath>
+     </Reference>
+     <Reference Include="Autodesk.Fbx">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Autodesk.Fbx.dll</HintPath>
      </Reference>
      <Reference Include="UnityEngine.UI">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
@@ -1363,6 +1366,9 @@
      <Reference Include="com.unity.cinemachine.editor">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/com.unity.cinemachine.editor.dll</HintPath>
      </Reference>
+     <Reference Include="Unity.Formats.Fbx.Runtime">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.Formats.Fbx.Runtime.dll</HintPath>
+     </Reference>
      <Reference Include="Unity.RenderPipeline.Universal.ShaderLibrary">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.RenderPipeline.Universal.ShaderLibrary.dll</HintPath>
      </Reference>
@@ -1380,6 +1386,9 @@
      </Reference>
      <Reference Include="Unity.VisualStudio.Editor">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.VisualStudio.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Autodesk.Fbx.Editor">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Autodesk.Fbx.Editor.dll</HintPath>
      </Reference>
      <Reference Include="Unity.Timeline">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
@@ -1425,18 +1434,6 @@
      </Reference>
      <Reference Include="Unity.RenderPipelines.Core.Editor">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.RenderPipelines.Core.Editor.dll</HintPath>
-     </Reference>
-     <Reference Include="Autodesk.Fbx">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Autodesk.Fbx.dll</HintPath>
-     </Reference>
-     <Reference Include="Autodesk.Fbx.Editor">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Autodesk.Fbx.Editor.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.Formats.Fbx.Editor">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.Formats.Fbx.Editor.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.Formats.Fbx.Runtime">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.Formats.Fbx.Runtime.dll</HintPath>
      </Reference>
   </ItemGroup>
   <ItemGroup>

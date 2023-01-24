@@ -31,7 +31,7 @@ public class UnitBuildMenu : MonoBehaviour {
     public Transform unitTypeButtonsContainer;
 
     public bool TryBuild() {
-        if (!building.player.v.CanAfford(unitType))
+        if (!building.Player.CanAfford(unitType))
             return false;
         building.main.stack.Push(unitType);
         building.main.commands.Enqueue(UnitBuildState.build);
@@ -44,7 +44,7 @@ public class UnitBuildMenu : MonoBehaviour {
     public void Show(Building building) {
         this.building = building;
         gameObject.SetActive(true);
-        var player = building.player.v;
+        var player = building.Player;
         credits.text = string.Format(creditsFormat, player.credits);
         UnitType = defaultUnitType;
         foreach (var button in unitTypeButtons) {
@@ -80,9 +80,11 @@ public class UnitBuildMenu : MonoBehaviour {
 
             unitType = value;
 
-            var player = building.player.v;
-            if (!player.co.unitTypesInfoOverride.TryGetValue(unitType, out var info))
-                info = player.co.unitTypesInfo.get[unitType];
+            var player = building.Player;
+            if (!player.co.unitTypesInfoOverride.TryGetValue(unitType, out var info)) {
+                var found = player.co.unitTypesInfo.TryGetValue(unitType, out info);
+                Assert.IsTrue(found, unitType.ToString());
+            }
 
             typeName.text = string.Format(typeNameFormat, info.name);
             description.text = string.Format(descriptionFormat, info.description);

@@ -1,28 +1,33 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 [CreateAssetMenu(menuName = nameof(Faction))]
 public class Faction : ScriptableObject {
-	[SerializeField] private UnitTypeUnitViewDictionary unitPrefabs = new();
-	public UnitView GetUnitViewPrefab(UnitType type) {
-		return unitPrefabs.TryGetValue(type, out var prefab)&&prefab ? prefab : WarsResources.test.v;
-	}
-}
 
-public class Factions {
+    public const string Novoslavia = nameof(Novoslavia);
+    public const string UnitedTreaty = nameof(UnitedTreaty);
 
-	public const string Novoslavia = nameof(Novoslavia);
-	public const string UnitedTreaty = nameof(UnitedTreaty);
-	public static string[] names = { Novoslavia, UnitedTreaty };
+    public static bool TryGet(string name, out Faction faction) {
+        faction = null;
+        switch (name) {
+            case Novoslavia:
+                faction = Novoslavia.LoadAs<Faction>();
+                break;
+            case UnitedTreaty:
+                faction = UnitedTreaty.LoadAs<Faction>();
+                break;
+        }
+        return faction != null;
+    }
 
-	public static Lazy<Faction> novoslavia = new(() => Resources.Load<Faction>(Novoslavia));
-	public static Lazy<Faction> unitedTreaty = new(() => Resources.Load<Faction>(UnitedTreaty));
-
-	private static Dictionary<string, Lazy<Faction>> get = new() {
-		[Novoslavia] = novoslavia,
-		[UnitedTreaty] = unitedTreaty,
-	};
+    [SerializeField] private UnitTypeUnitViewDictionary unitPrefabs = new();
+    public UnitView GetUnitViewPrefab(UnitType type) {
+        var prefab = unitPrefabs.TryGetValue(type, out var p) && p ? p : UnitView.DefaultPrefab;
+        Assert.IsTrue(prefab);
+        return prefab;
+    }
 }
 
 [Serializable]

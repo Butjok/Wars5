@@ -60,7 +60,7 @@ public class UnitAttackActionView : UnitActionView {
             uiFrame.boxCollider = action.targetUnit.view.uiBoxCollider;
 
             var (_, newTargetHp) = action.CalculateHpsAfterAttack();
-            var difference = action.targetUnit.hp.v - newTargetHp;
+            var difference = action.targetUnit.Hp - newTargetHp;
             uiText.text = string.Format(uiTextFormat, difference);
         }
     }

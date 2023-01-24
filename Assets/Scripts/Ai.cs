@@ -5,11 +5,11 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public  class Ai :MonoBehaviour {
+public class Ai : MonoBehaviour {
 
     public const string a = "hello,l world!!!asdasdssdfsasdasdsdfasdasd";
     public int x = 3128;
-    
+
     public static UnitAction FindBestAction(Main main) {
 
         var player = main.CurrentPlayer;
@@ -17,11 +17,10 @@ public  class Ai :MonoBehaviour {
         var tiles = main.tiles;
         var units = main.units.Values.ToList();
         var enemies = main.players.Where(p => Rules.AreEnemies(player, p)).ToList();
-        var playerUnits = units.Where(u => u.player == player).ToList();
-        var unmovedPlayerUnits = playerUnits.Where(u => !u.moved.v).ToList();
+        var playerUnits = units.Where(u => u.Player == player).ToList();
+        var unmovedPlayerUnits = playerUnits.Where(u => !u.Moved).ToList();
         var unmovedPlayerArtilleryUnits = unmovedPlayerUnits.Where(u => Rules.IsArtillery(u)).ToList();
 
-        
 
         return null;
     }
@@ -39,7 +38,7 @@ public  class Ai :MonoBehaviour {
 
     public Main main;
     public int playerIndex;
-    
+
     private void OnDrawGizmos() {
 
         void DrawWireTile(Vector2Int position, Color color) {
@@ -50,27 +49,27 @@ public  class Ai :MonoBehaviour {
             Gizmos.color = color;
             Gizmos.DrawCube(position.ToVector3Int(), Vector2Int.one.ToVector3Int());
         }
-        
+
         if (!main) {
             main = FindObjectOfType<Main>();
             if (!main)
                 return;
         }
-        
-        foreach (var (position, tileType) in main.tiles) 
+
+        foreach (var (position, tileType) in main.tiles)
             DrawWireTile(position, Color.white);
-        
+
         if (main.players.Count == 0)
             return;
-        
+
         var player = main.players[playerIndex % main.players.Count];
         var enemies = main.players.Where(p => Rules.AreEnemies(player, p)).ToList();
-        var units = main.units.Values.Where(u => u.player == player && u.position.v!=null).ToList();
-        var enemyUnits = main.units.Values.Where(u => enemies.Contains(u.player) && u.position.v!=null).ToList();
-        
+        var units = main.units.Values.Where(u => u.Player == player && u.Position != null).ToList();
+        var enemyUnits = main.units.Values.Where(u => enemies.Contains(u.Player) && u.Position != null).ToList();
+
         foreach (var unit in units)
-            DrawSolidTile((Vector2Int)unit.position.v, Color.green);
+            DrawSolidTile((Vector2Int)unit.Position, Color.green);
         foreach (var unit in enemyUnits)
-            DrawSolidTile((Vector2Int)unit.position.v, Color.red);
+            DrawSolidTile((Vector2Int)unit.Position, Color.red);
     }
 }

@@ -19,9 +19,9 @@ public class UnitAttackActionViewTest : MonoBehaviour {
         var unit0 = game.FindUnitsOf(game.players[0]).First();
         var unit1 = game.FindUnitsOf(game.players[1]).First();
 
-        if (unit0.position.v is not { } position)
+        if (unit0.Position is not { } position)
             throw new Exception();
         
-        action = new UnitAction(UnitActionType.Attack, unit0, new[]{ position }, unit1, weaponIndex:0);
+        action = new UnitAction(UnitActionType.Attack, unit0, new[]{ position }, unit1);
     }
 }

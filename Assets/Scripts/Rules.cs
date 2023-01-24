@@ -13,18 +13,30 @@ public static class Rules {
     public static int Income(TileType buildingType) {
         return 1000;
     }
-    public static UnitType BuildableUnits(TileType buildingType) {
-        return buildingType switch {
-            TileType.Factory => UnitType.Infantry | UnitType.AntiTank | UnitType.Artillery | UnitType.Apc,
-            _ => 0
-        };
+    public static int Income(Building building) {
+        return Income(building.type);
+    }
+
+    public static IEnumerable<UnitType> GetBuildableUnitTypes(TileType buildingType) {
+        switch (buildingType) {
+            case TileType.Factory:
+                yield return UnitType.Infantry;
+                yield return UnitType.AntiTank;
+                yield return UnitType.Artillery;
+                yield return UnitType.Apc;
+                yield return UnitType.Recon;
+                yield return UnitType.LightTank;
+                yield return UnitType.MediumTank;
+                yield return UnitType.Rockets;
+                break;
+        }
     }
 
     public static bool Lost(Player player) {
         var hasUnits = player.main.FindUnitsOf(player).Any();
         var buildings = player.main.FindBuildingsOf(player).ToList();
         var hasIncome = buildings.Any(building => Income(building) > 0);
-        var canBuildUnits = buildings.Any(building => BuildableUnits(building) != 0);
+        var canBuildUnits = buildings.Any(building => GetBuildableUnitTypes(building).Any());
         var hasHq = buildings.Any(building => building.type == TileType.Hq);
         return !hasHq ||
                !hasUnits && (!canBuildUnits || !hasIncome);
@@ -36,7 +48,7 @@ public static class Rules {
         return Enemies(player).All(Lost);
     }
     public static bool AreEnemies(Player p1, Player p2) {
-        return p1 != p2 && (p1.team & p2.team) == 0;
+        return p1 != p2 && (p1.team == Team.None || p1.team == Team.None || p1.team != p2.team);
     }
     public static bool AreAllies(Player p1, Player p2) {
         return !AreEnemies(p1, p2);
@@ -51,29 +63,101 @@ public static class Rules {
     public static bool AbilityInUse(Player player) {
         return player.abilityActivationTurn != null;
     }
-    
+
+    public static int MaxCp(Building building) {
+        return MaxCp(building.type);
+    }
     public static int MaxCp(TileType buildingType) {
         return 20;
     }
     public static int Cp(Unit unit) {
-        return (unit.hp.v);
+        return unit.Hp;
+    }
+
+    public static int MaxHp(Unit unit) {
+        return MaxHp(unit.type);
     }
     public static int MaxHp(UnitType unitType) {
         return 10;
     }
+    public static int ModifiedHp(Unit unit, int originalValue) {
+        return originalValue;
+    }
+
     public static int MaxFuel(UnitType unitType) {
         return 99;
     }
-    public static int? Damage(UnitType attackerType, UnitType targetType, int weaponIndex) {
-        Assert.IsTrue(weaponIndex < WeaponsCount(attackerType));
-        return (attacker: attackerType, target: targetType) switch {
-            (UnitType.Infantry, UnitType.Infantry) => 5,
-            (UnitType.Infantry, UnitType.AntiTank) => 5,
-            (UnitType.Infantry, UnitType.Artillery) => 3,
-            (UnitType.Infantry, UnitType.Apc) => 3,
+    public static int MaxFuel(Unit unit) {
+        return MaxFuel(unit.type);
+    }
+    public static int ModifiedFuel(Unit unit, int originalValue) {
+        return originalValue;
+    }
+
+    public static int GetAmmo(Unit unit, WeaponName weaponName) {
+        var found = unit.Ammo.TryGetValue(weaponName, out var amount);
+        Assert.IsTrue(found, weaponName.ToString());
+        return amount;
+    }
+
+    public static IEnumerable<WeaponName> GetWeapons(UnitType type) {
+        switch (type) {
+
+            case UnitType.Infantry:
+                yield return WeaponName.Rifle;
+                break;
+
+            case UnitType.AntiTank:
+                yield return WeaponName.RocketLauncher;
+                yield return WeaponName.Rifle;
+                break;
+
+            case UnitType.Artillery:
+                yield return WeaponName.Cannon;
+                break;
+
+            case UnitType.Recon:
+                yield return WeaponName.MachineGun;
+                break;
+
+            case UnitType.LightTank or UnitType.MediumTank:
+                yield return WeaponName.Cannon;
+                yield return WeaponName.MachineGun;
+                break;
+
+            case UnitType.Rockets:
+                yield return WeaponName.RocketLauncher;
+                break;
+        }
+    }
+
+    public static bool TryGetDamage(UnitType attackerType, UnitType targetType, WeaponName weaponName, out int damage) {
+        int? result = (attackerType, targetType, weaponName) switch {
+
+            (UnitType.Infantry or UnitType.AntiTank, UnitType.Infantry or UnitType.AntiTank, WeaponName.Rifle) => 5,
+            (UnitType.Infantry or UnitType.AntiTank, UnitType.Artillery or UnitType.Apc, WeaponName.Rifle) => 3,
+
+            (UnitType.AntiTank, UnitType.Artillery or UnitType.Apc, WeaponName.RocketLauncher) => 5,
+
             _ => null
         };
+        damage = result is { } value ? value : -1;
+        return result != null;
     }
+    public static bool TryGetDamage(Unit attacker, Unit target, WeaponName weaponName, out int damage) {
+        damage = 0;
+        if (GetAmmo(attacker, weaponName) <= 0 || !TryGetDamage(attacker.type, target.type, weaponName, out var baseDamage))
+            return false;
+        damage = CeilToInt((float)(attacker.Hp) / MaxHp(attacker) * baseDamage);
+        return true;
+    }
+
+    public static IEnumerable<(WeaponName weaponName, int damage)> GetDamageValues(Unit attacker, Unit target) {
+        foreach (var weaponName in attacker.Ammo.Keys)
+            if (TryGetDamage(attacker, target, weaponName, out var damage))
+                yield return (weaponName, damage);
+    }
+
     public static int Cost(UnitType unitType, Player player) {
         return unitType switch {
             UnitType.Infantry => 1000,
@@ -89,53 +173,33 @@ public static class Rules {
     public static bool CanAfford(this Player player, UnitType unitType) {
         return player.credits >= Cost(unitType, player);
     }
-    public static int? Damage(Unit attacker, Unit target, int weaponIndex, int? attackerHp = null, int? targetHp = null) {
-        if (Ammo(attacker, weaponIndex) <= 0 || Damage(attacker.type, target.type, weaponIndex) is not { } baseDamage)
-            return null;
-        return CeilToInt((float)(attackerHp ?? attacker.hp.v) / MaxHp(attacker) * baseDamage);
+
+    public static bool CanAttack(UnitType attackerType, UnitType targetType, WeaponName weaponName) {
+        return TryGetDamage(attackerType, targetType, weaponName, out _);
     }
-    public static int? PreferredWeapon(Unit attacker, Unit target) {
-        if (WeaponsCount(attacker) == 0)
-            return null;
-        var bestWeapon = 0;
-        var bestDamage = 0;
-        foreach (var weaponIndex in Weapons(attacker)) {
-            if (Damage(attacker, target, weaponIndex) is not { } damage)
-                continue;
-            if (damage > bestDamage) {
-                bestDamage = damage;
-                bestWeapon = weaponIndex;
-            }
-        }
-        return bestWeapon;
+    public static bool CanAttack(Unit attacker, Unit target, WeaponName weaponName) {
+        return AreEnemies(attacker.Player, target.Player) &&
+               TryGetDamage(attacker, target, weaponName, out _);
     }
-    public static bool CanAttack(UnitType attackerType, UnitType targetType, int weaponIndex) {
-        Assert.IsTrue(weaponIndex < WeaponsCount(attackerType));
-        return Damage(attackerType, targetType, weaponIndex) != null;
-    }
-    public static bool CanAttack(Unit attacker, Unit target, IReadOnlyList<Vector2Int> path, int weaponIndex) {
+    public static bool CanAttack(Unit attacker, Unit target, IReadOnlyList<Vector2Int> path, WeaponName weaponName) {
 
         Assert.IsTrue(path.Count >= 1);
-        Assert.IsTrue(weaponIndex < WeaponsCount(attacker));
-        var _targetPosiiton = target.position.v;
-        Assert.IsTrue(_targetPosiiton != null);
-        var targetPosition = (Vector2Int)_targetPosiiton;
+        if (target.Position is not { } targetPosition)
+            throw new AssertionException("target.Position == null", "");
         Assert.IsTrue(MathUtils.ManhattanDistance(path.Last(), targetPosition).IsIn(AttackRange(attacker)));
 
-        return CanAttack(attacker.type, target.type, weaponIndex) &&
-               AreEnemies(attacker.player, target.player) &&
-               Ammo(attacker, weaponIndex) > 0 &&
+        return CanAttack(attacker, target, weaponName) &&
                (!IsArtillery(attacker) || path.Count == 1);
     }
     public static bool IsArtillery(UnitType unitType) {
-        return (UnitType.Artillery & unitType) != 0;
+        return unitType is UnitType.Artillery or UnitType.Rockets;
     }
-    
+
     public static bool CanAttackInResponse(UnitType unitType) {
         return !IsArtillery(unitType);
     }
-    
-    public static bool CanAttackInResponse(Unit attacker, Unit target, out int weaponIndex) {
+
+    /*public static bool CanAttackInResponse(Unit attacker, Unit target, out int weaponIndex) {
 
         if (!CanAttackInResponse(target.type)) {
             weaponIndex = -1;
@@ -151,16 +215,16 @@ public static class Rules {
                 weaponIndex = i;
             }
         return false;
-    }
+    }*/
     public static Vector2Int AttackRange(UnitType unitType, Player player) {
         return unitType switch {
-            UnitType.Infantry or UnitType.AntiTank or UnitType.LightTank or UnitType.Recon => new Vector2Int(1,1),
-            UnitType.Artillery => new Vector2Int(2,3),
+            UnitType.Infantry or UnitType.AntiTank or UnitType.LightTank or UnitType.Recon => new Vector2Int(1, 1),
+            UnitType.Artillery => new Vector2Int(2, 3),
             _ => Vector2Int.zero
         };
     }
     public static Vector2Int AttackRange(Unit unit) {
-        return AttackRange(unit.type, unit.player);
+        return AttackRange(unit.type, unit.Player);
     }
 
     public static int WeaponsCount(UnitType unitType) {
@@ -174,18 +238,20 @@ public static class Rules {
         for (var i = 0; i < WeaponsCount(unitType); i++)
             yield return i;
     }
+    public static int MaxAmmo(Unit unit, WeaponName weaponName) {
+        return MaxAmmo(unit.type, weaponName);
+    }
+    public static int MaxAmmo(UnitType type, WeaponName weaponName) {
+        return 99;
+    }
     public static int MaxAmmo(UnitType type, int weaponIndex) {
         return 99;
     }
-    public static int Ammo(Unit unit, int weaponIndex) {
-        Assert.IsTrue(weaponIndex >= 0);
-        Assert.IsTrue(weaponIndex < WeaponsCount(unit));
-        Assert.IsTrue(weaponIndex < unit.ammo.Count);
-        return unit.ammo[weaponIndex];
-    }
     public static bool CanLoadAsCargo(UnitType receiverType, UnitType targetType) {
-        if (receiverType == UnitType.Apc && ((UnitType.Infantry | UnitType.AntiTank) & targetType) != 0)
-            return true;
+        switch (receiverType,targetType) {
+            case (UnitType.Apc, UnitType.Infantry or UnitType.AntiTank):
+                return true;
+        }
         return false;
     }
     public static int Size(UnitType unitType) {
@@ -198,16 +264,17 @@ public static class Rules {
         };
     }
     public static bool CanLoadAsCargo(Unit receiver, Unit target) {
-        var cargoSize = receiver.cargo.Sum(u => Size(u));
+        var cargoSize = receiver.Cargo.Sum(u => Size(u));
         return CanLoadAsCargo(receiver.type, target.type) &&
-               AreAllies(receiver.player, target.player) &&
+               (target.Carrier == null || target.Carrier == receiver) &&
+               AreAllies(receiver.Player, target.Player) &&
                cargoSize + Size(target) <= CargoCapacity(receiver);
     }
     public static bool CanSupply(UnitType unitType) {
         return unitType == UnitType.Apc;
     }
     public static bool CanSupply(Unit unit, Unit target) {
-        return CanSupply(unit.type) && AreAllies(unit.player, target.player) && (unit!=target);
+        return CanSupply(unit.type) && AreAllies(unit.Player, target.Player) && (unit != target);
     }
 
     public static int MoveDistance(UnitType unitType, Player player) {
@@ -216,12 +283,12 @@ public static class Rules {
             UnitType.AntiTank => 2,
             UnitType.LightTank => 5,
             UnitType.MediumTank => 4,
-            UnitType.Artillery  or UnitType.Apc or UnitType.Recon or UnitType.Rockets => 5,
+            UnitType.Artillery or UnitType.Apc or UnitType.Recon or UnitType.Rockets => 5,
             _ => 0
         };
     }
     public static int MoveDistance(Unit unit) {
-        return Min(unit.fuel.v, MoveDistance(unit.type,unit.player));
+        return Min(unit.Fuel, MoveDistance(unit.type, unit.Player));
     }
     public static int? MoveCost(UnitType unitType, TileType tileType) {
 
@@ -255,9 +322,9 @@ public static class Rules {
         return MoveCost(unitType, tileType) != null;
     }
     public static bool CanStay(Unit unit, Vector2Int position) {
-        return unit.player.main.TryGetTile(position, out var tile) &&
+        return unit.Player.main.TryGetTile(position, out var tile) &&
                CanStay(unit, tile) &&
-               (!unit.player.main.TryGetUnit(position, out var other) || other == unit);
+               (!unit.Player.main.TryGetUnit(position, out var other) || other == unit);
     }
     public static bool CanCapture(UnitType unitType, TileType buildingType) {
         return unitType switch {
@@ -267,12 +334,12 @@ public static class Rules {
     }
     public static bool CanCapture(Unit unit, Building building) {
         return CanCapture(unit.type, building.type) &&
-               (building.player.v == null || AreEnemies(unit.player, building.player.v));
+               (building.Player == null || AreEnemies(unit.Player, building.Player));
     }
     public static bool CanPass(Unit unit, Unit other) {
-        return AreAllies(unit.player, other.player);
+        return AreAllies(unit.Player, other.Player);
     }
     public static bool CanJoin(Unit unit, Unit other) {
-        return other != unit && unit.player == other.player && other.hp.v < MaxHp(other);
+        return other != unit && unit.Player == other.Player && other.Hp < MaxHp(other);
     }
 }

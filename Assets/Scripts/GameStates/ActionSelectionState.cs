@@ -43,9 +43,8 @@ public static class ActionSelectionState {
         if (!Rules.IsArtillery(unit) || path.Count == 1)
             foreach (var otherPosition in main.AttackPositions(destination, Rules.AttackRange(unit)))
                 if (main.TryGetUnit(otherPosition, out var target))
-                    for (var weapon = 0; weapon < Rules.WeaponsCount(unit); weapon++)
-                        if (Rules.CanAttack(unit, target, path, weapon))
-                            actions.Add(new UnitAction(UnitActionType.Attack, unit, path, target, weaponIndex: weapon, targetPosition: otherPosition));
+                    foreach (var (weaponName,_) in Rules.GetDamageValues(unit, target))
+                        actions.Add(new UnitAction(UnitActionType.Attack, unit, path, target, weaponName: weaponName, targetPosition: otherPosition));
 
         // supply
         foreach (var offset in Rules.offsets) {
@@ -55,7 +54,7 @@ public static class ActionSelectionState {
         }
 
         // drop out
-        foreach (var cargo in unit.cargo)
+        foreach (var cargo in unit.Cargo)
         foreach (var offset in Rules.offsets) {
             var targetPosition = destination + offset;
             if ((!main.TryGetUnit(targetPosition, out var other2) || other2 == unit) &&
@@ -143,30 +142,30 @@ public static class ActionSelectionState {
                              */
 
                             main.TryGetBuilding(destination, out var building);
-                            unit.moved.v = true;
+                            unit.Moved = true;
 
                             Debug.Log($"EXECUTING: {unit} {action.type} {action.targetUnit}");
 
                             switch (action.type) {
 
                                 case UnitActionType.Stay: {
-                                    unit.position.v = destination;
+                                    unit.Position = destination;
                                     break;
                                 }
 
                                 case UnitActionType.Join: {
-                                    other.hp.v = Mathf.Min(Rules.MaxHp(other), other.hp.v + unit.hp.v);
+                                    other.Hp = Mathf.Min(Rules.MaxHp(other), other.Hp + unit.Hp);
                                     unit.Dispose();
                                     unit = null;
                                     break;
                                 }
 
                                 case UnitActionType.Capture: {
-                                    unit.position.v = destination;
-                                    building.cp.v -= Rules.Cp(unit);
-                                    if (building.cp.v <= 0) {
-                                        building.player.v = unit.player;
-                                        building.cp.v = Rules.MaxCp(building);
+                                    unit.Position = destination;
+                                    building.Cp -= Rules.Cp(unit);
+                                    if (building.Cp <= 0) {
+                                        building.Player = unit.Player;
+                                        building.Cp = Rules.MaxCp(building);
                                     }
                                     break;
                                 }
@@ -175,70 +174,70 @@ public static class ActionSelectionState {
 
                                     var attacker = action.unit;
                                     var target = action.targetUnit;
-
-                                    if (Rules.Damage(attacker, target, action.weaponIndex) is not { } damageToTarget)
+                                    
+                                    if (!Rules.TryGetDamage(attacker,target,action.weaponName, out var damageToTarget))
                                         throw new Exception();
 
-                                    var newTargetHp = Mathf.Max(0, target.hp.v - damageToTarget);
-                                    var newAttackerHp = attacker.hp.v;
+                                    var newTargetHp = Mathf.Max(0, target.Hp - damageToTarget);
+                                    var newAttackerHp = attacker.Hp;
                                     var targetWeaponIndex = -1;
-                                    if (newTargetHp > 0 && Rules.CanAttackInResponse(target, attacker, out targetWeaponIndex)) {
+                                    /*if (newTargetHp > 0 && Rules.CanAttackInResponse(target, attacker, out targetWeaponIndex)) {
                                         if (Rules.Damage(target, attacker, targetWeaponIndex, newTargetHp) is not { } damageToAttacker)
                                             throw new Exception();
                                         newAttackerHp = Mathf.Max(0, newAttackerHp - damageToAttacker);
-                                    }
+                                    }*/
 
                                     if (main.settings.showBattleAnimation)
                                         Debug.Log("BattleAnimationView");
 
-                                    attacker.position.v = action.path.Last();
+                                    attacker.Position = action.path.Last();
 
                                     CameraRig.TryFind(out var cameraRig);
 
                                     if (newTargetHp <= 0 && cameraRig) {
-                                        var animation = cameraRig.Jump(((Vector2Int)target.position.v).Raycast());
+                                        var animation = cameraRig.Jump(((Vector2Int)target.Position).Raycast());
                                         while (animation.active)
                                             yield return null;
                                     }
-                                    target.hp.v = newTargetHp;
+                                    target.Hp= newTargetHp;
 
-                                    if (newTargetHp > 0 && targetWeaponIndex != -1)
-                                        target.ammo[targetWeaponIndex]--;
+                                    //if (newTargetHp > 0 && targetWeaponIndex != -1)
+                                    //    target.ammo[targetWeaponIndex]--;
 
                                     if (newAttackerHp <= 0 && cameraRig) {
-                                        var animation = cameraRig.Jump(((Vector2Int)attacker.position.v).Raycast());
+                                        var animation = cameraRig.Jump(destination.Raycast());
                                         while (animation.active)
                                             yield return null;
                                     }
-                                    attacker.hp.v = newAttackerHp;
+                                    attacker.Hp = newAttackerHp;
 
-                                    if (newAttackerHp > 0)
-                                        attacker.ammo[action.weaponIndex]--;
+                                    //if (newAttackerHp > 0)
+                                    // attacker.ammo[action.weaponIndex]--;
 
                                     break;
                                 }
 
                                 case UnitActionType.GetIn: {
-                                    unit.position.v = null;
-                                    unit.carrier.v = other;
-                                    other.cargo.Add(unit);
+                                    unit.Position = null;
+                                    unit.Carrier = other;
+                                    other.AddCargo(unit);
                                     break;
                                 }
 
                                 case UnitActionType.Drop: {
-                                    unit.position.v = destination;
-                                    unit.cargo.Remove(action.targetUnit);
-                                    action.targetUnit.position.v = action.targetPosition;
-                                    action.targetUnit.carrier.v = null;
-                                    action.targetUnit.moved.v = true;
+                                    unit.Position = destination;
+                                    unit.RemoveCargo(action.targetUnit);
+                                    action.targetUnit.Position = action.targetPosition;
+                                    action.targetUnit.Carrier = null;
+                                    action.targetUnit.Moved = true;
                                     break;
                                 }
 
                                 case UnitActionType.Supply: {
-                                    unit.position.v = destination;
-                                    action.targetUnit.fuel.v = Rules.MaxFuel(action.targetUnit);
-                                    foreach (var weaponIndex in Rules.Weapons(action.targetUnit))
-                                        action.targetUnit.ammo[weaponIndex] = Rules.MaxAmmo(action.targetUnit, weaponIndex);
+                                    unit.Position = destination;
+                                    action.targetUnit.Fuel = int.MaxValue;
+                                    foreach (var weaponName in action.targetUnit.Ammo.Keys)
+                                        action.targetUnit.SetAmmo(weaponName,int.MaxValue);
                                     break;
                                 }
 
@@ -249,16 +248,16 @@ public static class ActionSelectionState {
                             foreach (var item in actions.Except(new[] { action }))
                                 item.Dispose();
 
-                            if (unit is { hp: { v: > 0 } } && unit.view.LookDirection != unit.player.unitLookDirection)
-                                main.StartCoroutine(new MoveSequence(unit.view.transform, null, unit.player.main.settings.unitSpeed, unit.player.unitLookDirection).Animation());
+                            if (unit is { Hp: >0 } && unit.view.LookDirection != unit.Player.unitLookDirection)
+                                main.StartCoroutine(new MoveSequence(unit.view.transform, null, unit.Player.main.settings.unitSpeed, unit.Player.unitLookDirection).Animation());
 
                             if (main.triggers.TryGetValue(TriggerName.A, out var reconTrigger)) {
 
-                                var unitsInReconTrigger = main.units.Values.Where(u => u.player == main.localPlayer && u.position.v is { } position && reconTrigger.Contains(position)).ToArray();
+                                var unitsInReconTrigger = main.units.Values.Where(u => u.Player == main.localPlayer && u.Position is { } position && reconTrigger.Contains(position)).ToArray();
                                 if (unitsInReconTrigger.Length > 0) {
 
                                     if (CameraRig.TryFind(out var cameraRig)) {
-                                        yield return cameraRig.Jump(((Vector2Int)unitsInReconTrigger[0].position.v).Raycast());
+                                        yield return cameraRig.Jump(((Vector2Int)unitsInReconTrigger[0].Position).Raycast());
                                         // yield return new WaitForSeconds(1);
                                     }
 
@@ -268,7 +267,7 @@ public static class ActionSelectionState {
                             }
 
                             if (main.triggers.TryGetValue(TriggerName.B, out var aggroTrigger)) {
-                                var unitsInAggroTrigger = main.units.Values.Where(u => u.player == main.localPlayer && u.position.v is { } position && aggroTrigger.Contains(position)).ToArray();
+                                var unitsInAggroTrigger = main.units.Values.Where(u => u.Player == main.localPlayer && u.Position is { } position && aggroTrigger.Contains(position)).ToArray();
                                 if (unitsInAggroTrigger.Length > 0) {
                                     aggroTrigger.Clear();
                                     Debug.Log("ENEMY NOTICED YOU");
@@ -284,7 +283,7 @@ public static class ActionSelectionState {
                             if (won || lost) {
 
                                 foreach (var u in main.units.Values)
-                                    u.moved.v = false;
+                                    u.Moved = false;
 
                                 var nextState = won ? main.levelLogic.OnVictory(main, action) : main.levelLogic.OnDefeat(main, action);
                                 yield return nextState;

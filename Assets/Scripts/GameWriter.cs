@@ -59,7 +59,7 @@ public static class GameWriter {
 		}
 		WriteLine(tw);
 
-		foreach (var building in main.buildings.Values.Where(building => building.player.v == null)) {
+		foreach (var building in main.buildings.Values.Where(building => building.Player== null)) {
 			WriteLine(tw, "null");
 			AddBuilding(tw, building);
 			WriteLine(tw, "pop");
@@ -118,7 +118,7 @@ public static class GameWriter {
 	public static TextWriter AddBuilding(TextWriter tw, Building building) {
 		WriteLine(tw, $"{building.type} TileType type enum", "building.set-type");
 		WriteLine(tw, $"{building.position.x} {building.position.y} int2", "building.set-position");
-		WriteLine(tw, building.cp.v, "building.set-cp");
+		WriteLine(tw, building.Cp, "building.set-cp");
 		WriteLine(tw, $"{building.view.LookDirection.x} {building.view.LookDirection.y} int2", "building.set-look-direction");
 		WriteLine(tw, "building.add");
 		return tw;
@@ -154,8 +154,8 @@ public static class GameWriter {
 	public static TextWriter AddUnit(TextWriter tw, Unit unit) {
 
 		WriteLine(tw, $"{unit.type} UnitType type enum", "unit.set-type");
-		WriteLine(tw, unit.moved.v ? "true" : "false", "unit.set-moved");
-		if (unit.position.v is { } position)
+		WriteLine(tw, unit.Moved ? "true" : "false", "unit.set-moved");
+		if (unit.Position is { } position)
 			WriteLine(tw, $"{position.x} {position.y} int2", "unit.set-position");
 		if (unit.view) {
 			WriteLine(tw, $"{unit.view.LookDirection.x} {unit.view.LookDirection.y} int2", "unit.set-look-direction");
@@ -164,9 +164,9 @@ public static class GameWriter {
 		}
 		WriteLine(tw, "unit.add");
 
-		if (unit.cargo.Count != 0) {
+		if (unit.Cargo.Count != 0) {
 			WriteLine(tw);
-			foreach (var cargo in unit.cargo) {
+			foreach (var cargo in unit.Cargo) {
 				WriteLine(tw, "dup"); // duplicate unit as a carrier
 				WriteLine(tw, "dup"); // duplicate unit to get its player
 				WriteLine(tw, "unit.get-player");

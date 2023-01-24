@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67453e58fd034fe48c2d4f30fd467693, type: 3}
-  m_Name: NatalieCo
+  m_Name: Vladan
   m_EditorClassIdentifier: 
-  faction: {fileID: 11400000, guid: f2bdcf45cd872604e89764fc561c95d7, type: 2}
+  faction: {fileID: 0}
   viewPrefab: {fileID: 0}
   portrait: {fileID: 0}
   themes:
-  - {fileID: 8300000, guid: b7d514ef81faa40778e1102742f751a1, type: 3}
+  - {fileID: 8300000, guid: b93258455601d40448783e356d7ec73f, type: 3}
   unitTypesInfo: {fileID: 11400000, guid: 467db4d1f2d2b484d8761a2560c4e526, type: 2}
   unitTypesInfoOverride:
     m_keys: 

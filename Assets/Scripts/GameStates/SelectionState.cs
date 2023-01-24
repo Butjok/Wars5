@@ -30,16 +30,16 @@ public static class SelectionState {
         // yield return null;
 
         var unmovedUnits = main.units.Values
-            .Where(unit => unit.player == player && !unit.moved.v)
+            .Where(unit => unit.Player == player && !unit.Moved)
             .ToList();
 
         var accessibleBuildings = main.buildings.Values
-            .Where(building => building.player.v == player &&
-                               Rules.BuildableUnits(building) != 0 &&
+            .Where(building => building.Player == player &&
+                               Rules.GetBuildableUnitTypes(building).Any() &&
                                !main.TryGetUnit(building.position, out _))
             .ToList();
 
-        var positions = unmovedUnits.Select(unit => (priority: 1, coordinates: ((Vector2Int)unit.position.v).Raycast()))
+        var positions = unmovedUnits.Select(unit => (priority: 1, coordinates: ((Vector2Int)unit.Position).Raycast()))
             .Concat(accessibleBuildings.Select(building => (priority: 0, coordinates: building.position.Raycast())))
             .ToArray();
 
@@ -125,7 +125,7 @@ public static class SelectionState {
                             }
 
                             if (main.TryGetUnit(position.ToVector2().RoundToInt(), out var unit)) {
-                                if (unit.player != player || unit.moved.v)
+                                if (unit.Player != player || unit.Moved)
                                     UiSound.Instance.notAllowed.PlayOneShot();
                                 else {
                                     unit.view.Selected = true;
@@ -137,8 +137,8 @@ public static class SelectionState {
                             }
 
                             else if (main.TryGetBuilding(position.ToVector2().RoundToInt(), out var building) &&
-                                     Rules.BuildableUnits(building) != 0) {
-                                if (building.player.v != player)
+                                     Rules.GetBuildableUnitTypes(building).Any()) {
+                                if (building.Player != player)
                                     UiSound.Instance.notAllowed.PlayOneShot();
                                 else {
                                     if (preselectionCursor)
@@ -153,7 +153,7 @@ public static class SelectionState {
                         case endTurn: {
 
                             foreach (var unit in main.units.Values)
-                                unit.moved.v = false;
+                                unit.Moved = false;
 
                             player.view.visible = false;
                             if (cursor)

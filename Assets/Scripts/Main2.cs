@@ -58,9 +58,9 @@ public class Main2 : Main {
     /// Recursive goes through the units' cargos and update all units' view color for a specified player.
     /// </summary>
     public void RecursivelySetUnitColor(Player player, Unit unit, Color color) {
-        if (unit.player == player && unit.view)
+        if (unit.Player == player && unit.view)
             unit.view.PlayerColor = color;
-        foreach (var cargo in unit.cargo)
+        foreach (var cargo in unit.Cargo)
             RecursivelySetUnitColor(player, cargo, color);
     }
 
@@ -405,7 +405,7 @@ public class Main2 : Main {
                             if (tiles.TryGetValue(position, out var pickedTileType))
                                 tileType = pickedTileType;
                             if (buildings.TryGetValue(position, out var building)) {
-                                player = building.player.v;
+                                player = building.Player;
                             }
                             break;
                         }
@@ -455,8 +455,8 @@ public class Main2 : Main {
         foreach (var position in tiles.Keys) {
 
             var tileType = tiles[position];
-            var color = buildings.TryGetValue(position, out var building) && building.player.v != null
-                ? building.player.v.color
+            var color = buildings.TryGetValue(position, out var building) && building.Player != null
+                ? building.Player.color
                 : Palette.white;
             color.a = (int)tiles[position];
 
@@ -610,7 +610,7 @@ public class Main2 : Main {
                             var position = stack.Pop<Vector2Int>();
                             if (units.TryGetValue(position, out var unit)) {
                                 unitType = unit.type;
-                                player = unit.player;
+                                player = unit.Player;
                                 lookDirection = player.unitLookDirection;
                             }
                             break;

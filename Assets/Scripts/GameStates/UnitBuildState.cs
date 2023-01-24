@@ -13,7 +13,7 @@ public static class UnitBuildState {
     
     public static IEnumerator New(Main main, Building building) {
 
-        Assert.IsTrue(building.player.v == main.CurrentPlayer);
+        Assert.IsTrue(building.Player == main.CurrentPlayer);
 
         var menuView = Object.FindObjectOfType<UnitBuildMenu>(true);
         Assert.IsTrue(menuView);
@@ -27,10 +27,9 @@ public static class UnitBuildState {
         Assert.IsTrue(main.TryGetBuilding(building.position, out var check));
         Assert.AreEqual(building, check);
         Assert.IsFalse(main.TryGetUnit(building.position, out _));
-        Assert.IsNotNull(building.player.v);
+        Assert.IsNotNull(building.Player);
 
-        var types = Enum.GetValues(typeof(UnitType)).Cast<UnitType>();
-        var availableTypes = types.Where(type => (Rules.BuildableUnits(building.type) & type) != 0).ToList();
+        var availableTypes = Rules.GetBuildableUnitTypes(building.type);
         var index = -1;
 
         while (true) {
@@ -45,7 +44,7 @@ public static class UnitBuildState {
                             var type = main.stack.Pop<UnitType>();
                             Assert.IsTrue(availableTypes.Contains(type));
 
-                            var unit = new Unit(building.player.v, type,  building.position, moved: true, viewPrefab: Resources.Load<UnitView>("light-tank"));
+                            var unit = new Unit(building.Player, type,  building.position, moved: true, viewPrefab: Resources.Load<UnitView>("light-tank"));
                             Debug.Log($"Built unit {unit}");
 
                             menuView.Hide();

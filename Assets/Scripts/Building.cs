@@ -3,66 +3,88 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
+using static UnityEngine.Mathf;
+using static Rules;
 
 public class Building : IDisposable {
 
     public static readonly HashSet<Building> undisposed = new();
 
-    public TileType type;
-    public Main main;
-    public Vector2Int position;
-    public ChangeTracker<Player> player;
-    public ChangeTracker<int> cp;
-    public BuildingView view;
-    
-    public bool IsAccessible => !main.TryGetUnit(position, out _);
+    public readonly TileType type;
+    public readonly Main main;
+    public readonly Vector2Int position;
+    public readonly BuildingView view;
 
-    public Building(Main main, Vector2Int position, TileType type = TileType.City, Player player = null, int? cp = null,
-        BuildingView viewPrefab=null, Vector2Int? lookDirection=null) {
+    private Player player;
+    public Player Player {
+        get => player;
+        set {
+            if (initialized && player == value)
+                return;
+            player = value;
+
+            if (view)
+                view.PlayerColor = player?.color ?? new Color(0, 0, 0, 0);
+        }
+    }
+
+    private int cp;
+    public int Cp {
+        get => cp;
+        set {
+            if (initialized && cp == value)
+                return;
+            cp = Clamp(value, 0, initialized ? MaxCp(this) : MaxCp(type));
+
+            // do nothing yet
+        }
+    }
+
+    private bool initialized;
+
+    public Building(Main main, Vector2Int position, TileType type = TileType.City, Player player = null, int cp = int.MaxValue,
+        BuildingView viewPrefab = null, Vector2Int? lookDirection = null) {
 
         undisposed.Add(this);
-        
-        this.player = new ChangeTracker<Player>(_ => {
-            if (view)
-                view.PlayerColor = this.player.v.color;
-        });
-        this.cp = new ChangeTracker<int>(_ => { });
-
-        this.type = type;
-        this.main = main;
-        this.position = position;
-        this.player.v = player;
-        this.cp.v = cp ?? Rules.MaxCp(type);
-
-        Assert.IsTrue(!main.buildings.ContainsKey(position) || main.buildings[position] == null);
-        main.buildings[position] = this;
-        main.tiles[position] = type;
 
         if (viewPrefab) {
             view = Object.Instantiate(viewPrefab, main.transform);
             view.prefab = viewPrefab;
             view.Position = position;
             view.LookDirection = lookDirection ?? Vector2Int.up;
-            view.PlayerColor = player?.color ?? Palette.white;
         }
+
+        this.type = type;
+        this.main = main;
+        this.position = position;
+        Player = player;
+        Cp = cp;
+
+        Assert.IsTrue(!main.buildings.ContainsKey(position) || main.buildings[position] == null);
+        main.buildings[position] = this;
+        main.tiles[position] = type;
+
+        initialized = true;
     }
 
     public static implicit operator TileType(Building building) {
         return building.type;
     }
-    
+
     public Vector3 Position3d => position.ToVector3Int();
 
     public override string ToString() {
-        return $"{type}{position} {player.v}";
+        return $"{type}{position} {Player}";
     }
     public void Dispose() {
-        if (view) {
+        
+        Assert.IsTrue(undisposed.Contains(this));
+        undisposed.Remove(this);
+        
+        if (view)
             Object.Destroy(view.gameObject);
-            view = null;
-        }
+        
         main.tiles.Remove(position);
         main.buildings.Remove(position);
-        undisposed.Remove(this);
     }
 }

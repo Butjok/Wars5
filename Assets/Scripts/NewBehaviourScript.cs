@@ -117,23 +117,3 @@ public class NewBehaviourScript : MonoBehaviour {
 }
 
 
-public static class WarsResources {
-    public static Lazy<UnitView> test = new(() => Resources.Load<UnitView>("Test"));
-}
-
-
-public static class Cos {
-
-    public const string Natalie = nameof(Natalie);
-    public const string Vladan = nameof(Vladan);
-    public static string[] names = { Natalie, Vladan };
-
-    public static Lazy<Co> natalie = new(() => Resources.Load<Co>(Natalie));
-    public static Lazy<Co> vladan = new(() => Resources.Load<Co>(Vladan));
-
-    private static Dictionary<string, Lazy<Co>> get = new() {
-        [Natalie] = natalie,
-        [Vladan] = vladan,
-    };
-}
-

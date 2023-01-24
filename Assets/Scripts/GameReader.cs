@@ -66,7 +66,7 @@ public static class GameReader {
 
         Vector2Int? unitPosition;
         Vector2Int? unitLookDirection;
-        UnitType unitType;
+        UnitType? unitType;
         bool unitMoved;
         int unitHp;
         int unitFuel;
@@ -75,7 +75,7 @@ public static class GameReader {
         void ResetUnitValues() {
             unitPosition = null;
             unitLookDirection = null;
-            unitType = UnitType.Infantry;
+            unitType = null;
             unitMoved = false;
             unitHp = 10;
             unitFuel = 99;
@@ -165,7 +165,9 @@ public static class GameReader {
                     break;
                 }
                 case "player.set-co": {
-                    playerCo = main.stack.Pop<string>().LoadAs<Co>();
+                    var coName = main.stack.Pop<string>();
+                    var found = Co.TryGet(coName, out playerCo);
+                    Assert.IsTrue(found, coName);
                     break;
                 }
                 case "player.set-prefab": {
@@ -244,14 +246,15 @@ public static class GameReader {
                 }
 
                 case "unit.add": {
-                    Assert.AreNotEqual(default, unitType);
+                    if (unitType is not { } type)
+                        throw new AssertionException("unitType == null", "");
                     var player = main.stack.Pop<Player>();
-                    main.stack.Push(new Unit(player, unitType, unitPosition, unitLookDirection, unitHp, unitFuel, unitMoved, unitViewPrefab));
+                    main.stack.Push(new Unit(player, type, unitPosition, unitLookDirection, unitHp, unitFuel, unitMoved, unitViewPrefab));
                     ResetUnitValues();
                     break;
                 }
                 case "unit.get-player": {
-                    main.stack.Push(main.stack.Pop<Unit>().player);
+                    main.stack.Push(main.stack.Pop<Unit>().Player);
                     break;
                 }
                 case "unit.set-position": {
@@ -285,8 +288,8 @@ public static class GameReader {
                 case "unit.put-into": {
                     var unit = main.stack.Pop<Unit>();
                     var carrier = main.stack.Pop<Unit>();
-                    carrier.cargo.Add(unit);
-                    unit.carrier.v = carrier;
+                    carrier.AddCargo(unit);
+                    unit.Carrier = carrier;
                     break;
                 }
 

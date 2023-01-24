@@ -8,9 +8,7 @@ using UnityEngine.Assertions;
 public class UnitView : MonoBehaviour {
 
     public static UnitView DefaultPrefab => "WbLightTank".LoadAs<UnitView>();
-    
-    
-    
+
     public Unit unit;
     public Renderer[] renderers;
     public MaterialPropertyBlock propertyBlock;
@@ -59,7 +57,7 @@ public class UnitView : MonoBehaviour {
     public bool Visible {
         set {
             // show
-            if (value && unit.position.v is { } position) {
+            if (value && unit.Position is { } position) {
                 gameObject.SetActive(true);
                 Position = position;
             }
@@ -164,8 +162,8 @@ public class UnitView : MonoBehaviour {
 
     [ContextMenu(nameof(Move))]
     public void Move() {
-        unit.position.v = nextPosition;
-        unit.moved.v = nextMoved;
+        unit.Position = nextPosition;
+        unit.Moved = nextMoved;
     }
     public Vector2Int nextPosition;
     public Vector2Int nextRotation;
