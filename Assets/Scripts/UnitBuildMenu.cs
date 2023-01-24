@@ -45,7 +45,7 @@ public class UnitBuildMenu : MonoBehaviour {
         this.building = building;
         gameObject.SetActive(true);
         var player = building.Player;
-        credits.text = string.Format(creditsFormat, player.credits);
+        credits.text = string.Format(creditsFormat, player.Credits);
         UnitType = defaultUnitType;
         foreach (var button in unitTypeButtons) {
             var type = Enum.Parse<UnitType>(button.name);
@@ -93,13 +93,12 @@ public class UnitBuildMenu : MonoBehaviour {
             var cost = Rules.Cost(unitType, player);
             this.cost.text = string.Format(costFormat, cost);
 
-            var attackRange = Rules.AttackRange(unitType, player);
-            this.attackRange.text = attackRange[1] > 0
+            this.attackRange.text = Rules.TryGetAttackRange(unitType, player, out var attackRange)
                 ? attackRange[0] == attackRange[1]
                     ? string.Format(attackRangeFormatCollapsed, attackRange[0])
                     : string.Format(attackRangeFormat, attackRange[0], attackRange[1])
                 : attackRangeNotAvailable;
-
+            
             buildButton.interactable = player.CanAfford(unitType);
         }
     }

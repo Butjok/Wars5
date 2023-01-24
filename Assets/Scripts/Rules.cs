@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Forms;
 using UnityEngine;
 using UnityEngine.Assertions;
 using static UnityEngine.Mathf;
@@ -54,11 +55,17 @@ public static class Rules {
         return !AreEnemies(p1, p2);
     }
 
+    public const int defaultMaxCredits = 16000;
+    public static int MaxCredits(Player player) {
+        return defaultMaxCredits;
+    }
+
+    public const int defaultMaxAbilityMeter = 6;
     public static int MaxAbilityMeter(Player player) {
-        return 6;
+        return defaultMaxAbilityMeter;
     }
     public static bool CanUseAbility(Player player) {
-        return !AbilityInUse(player) && player.abilityMeter == MaxAbilityMeter(player);
+        return !AbilityInUse(player) && player.AbilityMeter == MaxAbilityMeter(player);
     }
     public static bool AbilityInUse(Player player) {
         return player.abilityActivationTurn != null;
@@ -167,12 +174,12 @@ public static class Rules {
             UnitType.Recon => 3000,
             UnitType.LightTank => 5000,
             UnitType.MediumTank => 8000,
-            UnitType.Rockets=> 12000,
+            UnitType.Rockets => 12000,
             _ => throw new ArgumentOutOfRangeException(nameof(unitType), unitType, null)
         };
     }
     public static bool CanAfford(this Player player, UnitType unitType) {
-        return player.credits >= Cost(unitType, player);
+        return player.Credits >= Cost(unitType, player);
     }
 
     public static bool CanAttack(UnitType attackerType, UnitType targetType, WeaponName weaponName) {
@@ -187,7 +194,8 @@ public static class Rules {
         Assert.IsTrue(path.Count >= 1);
         if (target.Position is not { } targetPosition)
             throw new AssertionException("target.Position == null", "");
-        Assert.IsTrue(MathUtils.ManhattanDistance(path.Last(), targetPosition).IsIn(AttackRange(attacker)));
+        if (TryGetAttackRange(attacker, out var attackRange))
+            Assert.IsTrue(MathUtils.ManhattanDistance(path.Last(), targetPosition).IsIn(attackRange));
 
         return CanAttack(attacker, target, weaponName) &&
                (!IsArtillery(attacker) || path.Count == 1);
@@ -217,15 +225,18 @@ public static class Rules {
             }
         return false;
     }*/
-    public static Vector2Int AttackRange(UnitType unitType, Player player) {
-        return unitType switch {
-            UnitType.Infantry or UnitType.AntiTank or UnitType.LightTank or UnitType.Recon => new Vector2Int(1, 1),
+
+    public static bool TryGetAttackRange(UnitType unitType, Player player, out Vector2Int attackRange) {
+        attackRange = unitType switch {
+            UnitType.Infantry or UnitType.AntiTank or UnitType.Recon or UnitType.LightTank or UnitType.MediumTank => new Vector2Int(1, 1),
             UnitType.Artillery => new Vector2Int(2, 3),
+            UnitType.Rockets => new Vector2Int(3, 5),
             _ => Vector2Int.zero
         };
+        return attackRange != Vector2Int.zero;
     }
-    public static Vector2Int AttackRange(Unit unit) {
-        return AttackRange(unit.type, unit.Player);
+    public static bool TryGetAttackRange(Unit unit, out Vector2Int attackRange) {
+        return TryGetAttackRange(unit.type, unit.Player, out attackRange);
     }
 
     public static int WeaponsCount(UnitType unitType) {
@@ -249,7 +260,7 @@ public static class Rules {
         return 99;
     }
     public static bool CanLoadAsCargo(UnitType receiverType, UnitType targetType) {
-        switch (receiverType,targetType) {
+        switch (receiverType, targetType) {
             case (UnitType.Apc, UnitType.Infantry or UnitType.AntiTank):
                 return true;
         }
@@ -294,36 +305,39 @@ public static class Rules {
             moveDistance += 5;
         return Min(unit.Fuel, moveDistance);
     }
-    public static int? MoveCost(UnitType unitType, TileType tileType) {
+    public static bool TryGetMoveCost(UnitType unitType, TileType tileType, out int cost) {
 
-        int? foot = tileType switch {
-            TileType.Sea => null,
+        const int unreachable = -1;
+        
+        int foot = tileType switch {
+            TileType.Sea => unreachable,
             TileType.Mountain => 2,
             _ => 1
         };
-        int? tracks = tileType switch {
-            TileType.Sea or TileType.Mountain or TileType.River => null,
+        int tracks = tileType switch {
+            TileType.Sea or TileType.Mountain or TileType.River => unreachable,
             TileType.Forest => 2,
             _ => 1
         };
-        int? tires = tileType switch {
-            TileType.Sea or TileType.Mountain or TileType.River => null,
+        int tires = tileType switch {
+            TileType.Sea or TileType.Mountain or TileType.River => unreachable,
             TileType.Forest => 3,
             TileType.Plain => 2,
             _ => 1
         };
-        int? air = null;
-        int? sea = null;
+        int air = unreachable;
+        int sea = unreachable;
 
-        return unitType switch {
+        cost = unitType switch {
             UnitType.Infantry or UnitType.AntiTank => foot,
             UnitType.Artillery or UnitType.LightTank or UnitType.Apc or UnitType.MediumTank => tracks,
             UnitType.Recon or UnitType.Rockets => tires,
-            _ => null
+            _ => unreachable
         };
+        return cost != unreachable;
     }
     public static bool CanStay(UnitType unitType, TileType tileType) {
-        return MoveCost(unitType, tileType) != null;
+        return TryGetMoveCost(unitType, tileType, out _);
     }
     public static bool CanStay(Unit unit, Vector2Int position) {
         return unit.Player.main.TryGetTile(position, out var tile) &&

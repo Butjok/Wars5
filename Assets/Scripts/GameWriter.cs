@@ -132,10 +132,10 @@ public static class GameWriter {
 
 	public static TextWriter AddPlayer(TextWriter tw, Player player) {
 
-		WriteLine(tw, $"{player.color.r} {player.color.g} {player.color.b}", "player.set-color");
+		WriteLine(tw, $"{player.Color.r} {player.Color.g} {player.Color.b}", "player.set-color");
 		WriteLine(tw, $"{player.team} Team type enum", "player.set-team");
-		WriteLine(tw, player.credits, "player.set-credits");
-		WriteLine(tw, player.abilityMeter, "player.set-power-meter");
+		WriteLine(tw, player.Credits, "player.set-credits");
+		WriteLine(tw, player.AbilityMeter, "player.set-power-meter");
 		WriteLine(tw, $"{player.unitLookDirection.x} {player.unitLookDirection.y} int2", "player.set-unit-look-direction");
 		var index = player.main.players.IndexOf(player);
 		WriteLine(tw, index,"player.on-additive-load-get-by-index");

@@ -6,34 +6,66 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Playables;
 using Object = UnityEngine.Object;
-
-
+using static UnityEngine.Mathf;
+using static Rules;
 
 public class Player : IDisposable {
 
 	public static readonly HashSet<Player> undisposed = new();
 
-	public Main main;
-	public Team team = Team.None;
-	public Color color;
-	public Co co;
-	public PlayerType type = PlayerType.Human;
-	public AiDifficulty difficulty = AiDifficulty.Normal;
-	public PlayerView view;
-	public int credits;
-	public int abilityMeter;
+	public readonly Main main;
+	public readonly Team team ;
+	
+	private Color color;
+	public Color Color {
+		get => color;
+		set {
+			color = value;
+			if (initialized) {
+				foreach (var unit in main.FindUnitsOf(this))
+					RecursivelyUpdateUnitColor(unit);
+				foreach (var building in main.FindBuildingsOf(this))
+					building.view.PlayerColor = Color;
+			}
+		}
+	}
+	public void RecursivelyUpdateUnitColor(Unit unit) {
+		if (unit.Player == this && unit.view)
+			unit.view.PlayerColor = Color;
+		foreach (var cargo in unit.Cargo)
+			RecursivelyUpdateUnitColor(cargo);
+	}
+	
+	public readonly Co co;
+	public readonly PlayerType type;
+	public readonly AiDifficulty difficulty;
+	public readonly PlayerView view;
+	
+	private int credits;
+	public int Credits {
+		get => credits;
+		set => credits = Clamp(value, 0, initialized ? MaxCredits(this) : defaultMaxCredits);
+	}
+
+	private int abilityMeter;
+	public int AbilityMeter {
+		get => abilityMeter;
+		set => abilityMeter = Clamp(value, 0, initialized ? defaultMaxAbilityMeter : MaxAbilityMeter(this));
+	}
 	public int? abilityActivationTurn;
 	public Vector2Int unitLookDirection = Vector2Int.up;
 
+	private bool initialized;
+	
 	public Player(Main main, Color color, Team team = Team.None, int credits=0, Co co = null, PlayerView viewPrefab = null,
 		PlayerType type = PlayerType.Human, AiDifficulty difficulty=AiDifficulty.Normal, Vector2Int? unitLookDirection=null) {
 
 		undisposed.Add(this);
 		
 		this.main = main;
-		this.color = color;
+		Color = color;
 		this.team = team;
-		this.credits = credits;
+		Credits = credits;
 		this.co = co ? co : Co.Natalie;
 		this.type = type;
 		this.difficulty = difficulty;
@@ -46,16 +78,18 @@ public class Player : IDisposable {
 		view = Object.Instantiate(viewPrefab, main.transform);
 		view.Initialize(this);
 		view.visible = false;
+
+		initialized = true;
 	}
 
 	public override string ToString() {
-		if (color == Color.red)
+		if (Color == Color.red)
 			return "Red";
-		if (color == Color.green)
+		if (Color == Color.green)
 			return "Green";
-		if (color == Color.blue)
+		if (Color == Color.blue)
 			return "Blue";
-		return color.ToString();
+		return Color.ToString();
 	}
 
 	public void Dispose() {
@@ -65,7 +99,7 @@ public class Player : IDisposable {
 			Object.Destroy(view.gameObject);
 	}
 
-	public bool IsAi => (type & PlayerType.Ai) != 0;
+	public bool IsAi => type == PlayerType.Ai;
 
 	public UnitAction FindAction() {
 		return null;

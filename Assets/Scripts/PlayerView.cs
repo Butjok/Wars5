@@ -43,7 +43,7 @@ public class PlayerView : MonoBehaviour {
 		propertyBlock = new MaterialPropertyBlock();
 		renderers = GetComponentsInChildren<Renderer>();
 
-		propertyBlock.SetColor(playerColorId, player.color);
+		propertyBlock.SetColor(playerColorId, player.Color);
 		foreach (var renderer in renderers)
 			renderer.SetPropertyBlock(propertyBlock);
 	}

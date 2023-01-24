@@ -140,7 +140,7 @@ public static class GameReader {
                         }
 
                         player.abilityActivationTurn = playerAbilityActivationTurn;
-                        player.abilityMeter = playerPowerMeter;
+                        player.AbilityMeter = playerPowerMeter;
 
                         main.stack.Push(player);
                     }

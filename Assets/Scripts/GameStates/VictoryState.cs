@@ -9,6 +9,6 @@ public static class VictoryState {
             cursor.Visible = false;
         PlayerView.globalVisibility = false;
         yield return null;
-        GameUiView.Instance.Victory = true;
+        // GameUiView.Instance.Victory = true;
     }
 }

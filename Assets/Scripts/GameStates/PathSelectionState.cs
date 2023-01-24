@@ -24,7 +24,7 @@ public static class PathSelectionState {
                 main.TryGetUnit(position, out var other) && !Rules.CanPass(unit, other))
                 return null;
 
-            return Rules.MoveCost(unit, tile);
+            return Rules.TryGetMoveCost(unit, tile, out var cost) ? cost : null;
         }
 
         if (unit.Position is not { } unitPosition)

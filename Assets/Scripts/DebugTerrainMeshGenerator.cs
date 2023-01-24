@@ -35,7 +35,7 @@ public class DebugTerrainMeshGenerator : MonoBehaviour {
             var tileType = main.tiles[position];
             var building = main.buildings.TryGetValue(position, out var b) ? b : null;
             if (building != null)
-                color = building.Player?.color ?? Color.white;
+                color = building.Player?.Color ?? Color.white;
             else {
                 var found = this.colors.TryGetValue(tileType, out color);
                 Assert.IsTrue(found, tileType.ToString());

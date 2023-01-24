@@ -9128,12 +9128,20 @@ MonoBehaviour:
     - {fileID: 9118462907687674175, guid: 9b1ec837ecaa7487c858241777aa2d87, type: 3}
     - {fileID: 9118462907687674175, guid: 9b1ec837ecaa7487c858241777aa2d87, type: 3}
   autosaveLifespanInDays: 30
+  playModeText: '[PLAYING]'
+  jumpButtonText: "\u27B2"
+  inspectionCircleRadius: 0.4
+  inspectionCircleLineWidth: 5
+  inspectionCircleColor: {r: 0, g: 0, b: 0, a: 1}
+  inspectionTextColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  attackPositionColor: {r: 1, g: 0.46666667, b: 0, a: 0.87058824}
+  fullAbilityStripeColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   playBorderTexture: {fileID: 0}
   showPlayBorder: 0
   showPlayBorderOnTop: 1
-  showPlayBorderOnBottom: 1
-  playBorderHeight: 3
-  playBorderColor: {r: 0.43529412, g: 0.8862745, b: 0, a: 1}
+  showPlayBorderOnBottom: 0
+  playBorderHeight: 21
+  playBorderColor: {r: 0.5019608, g: 1, b: 0, a: 1}
   playBorderStyle:
     m_Name: 
     m_Normal:
@@ -9213,7 +9221,8 @@ MonoBehaviour:
   tileType: 1
   tileTypes: 0100000002000000100000000800000020000000040000004000000080000000000100000002000000040000
   unitType: 1
-  unitTypes: 0100000002000000040000000800000000010000000200000008000000040000
+  unitTypes: 0000000001000000030000000400000002000000050000000700000006000000
+  offset: 0.01
   triggerColors:
     m_keys: 000000000100000002000000030000000400000005000000
     m_values:

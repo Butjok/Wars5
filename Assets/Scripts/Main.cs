@@ -98,12 +98,6 @@ public class Main : MonoBehaviour {
 		//Debug.Log(@$"UNDISPOSED: players: {Player.undisposed.Count} buildings: {Building.undisposed.Count} units: {Unit.undisposed.Count} unitActions: {UnitAction.undisposed.Count}");
 	}
 
-	protected virtual void OnGUI() {
-		if (guiSkin)
-			GUI.skin = guiSkin;
-		// GUILayout.Label("");
-		GUILayout.Label($"stack: {stack.Count}");
-	}
 
 	public float fadeDuration = 2;
 	public Ease fadeEase = Ease.Unset;

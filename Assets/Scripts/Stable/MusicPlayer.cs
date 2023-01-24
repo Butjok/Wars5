@@ -5,15 +5,14 @@ using UnityEngine;
 public class MusicPlayer : MonoBehaviour {
 
     private static MusicPlayer instance;
-    public static MusicPlayer Instance {
-        get {
-            if (!instance) {
-                var gameObject = new GameObject(nameof(MusicPlayer));
-                DontDestroyOnLoad(gameObject);
-                instance = gameObject.AddComponent<MusicPlayer>();
-            }
-            return instance;
+    public static bool TryGet(out MusicPlayer musicPlayer) {
+        if (!instance) {
+            var gameObject = new GameObject(nameof(MusicPlayer));
+            DontDestroyOnLoad(gameObject);
+            instance = gameObject.AddComponent<MusicPlayer>();
         }
+        musicPlayer= instance;
+        return musicPlayer ;
     }
 
     public AudioSource source;

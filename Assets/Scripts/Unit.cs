@@ -94,7 +94,7 @@ public class Unit : IDisposable {
             player = value;
 
             // alpha = 0!
-            view.PlayerColor = player?.color?? new Color(0, 0, 0, 0);
+            view.PlayerColor = player?.Color?? new Color(0, 0, 0, 0);
         }
     }
 
@@ -182,6 +182,8 @@ public class Unit : IDisposable {
         Position = null;
         Object.Destroy(view.gameObject);
     }
+
+    public bool Disposed => !undisposed.Contains(this);
 
     public override string ToString() {
         return $"{type}{Position} {Player}";

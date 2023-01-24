@@ -56,7 +56,7 @@ public static class UnitBuildState {
                             unit.Moved = true;
                             Debug.Log($"Built unit {unit}");
 
-                            building.Player.credits -= Rules.Cost(type, building.Player);
+                            building.Player.Credits -= Rules.Cost(type, building.Player);
 
                             menuView.Hide();
                             yield return  SelectionState.Run(main);

@@ -40,8 +40,8 @@ public static class ActionSelectionState {
             actions.Add(new UnitAction(UnitActionType.GetIn, unit, path, other));
 
         // attack
-        if (!Rules.IsArtillery(unit) || path.Count == 1)
-            foreach (var otherPosition in main.AttackPositions(destination, Rules.AttackRange(unit)))
+        if ((!Rules.IsArtillery(unit) || path.Count == 1) && Rules.TryGetAttackRange(unit, out var attackRange))
+            foreach (var otherPosition in main.AttackPositions(destination, attackRange))
                 if (main.TryGetUnit(otherPosition, out var target))
                     foreach (var (weaponName,_) in Rules.GetDamageValues(unit, target))
                         actions.Add(new UnitAction(UnitActionType.Attack, unit, path, target, weaponName: weaponName, targetPosition: otherPosition));

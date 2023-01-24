@@ -12,6 +12,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using Debug = UnityEngine.Debug;
 using Random = UnityEngine.Random;
+using static Rules;
 
 public class Main2 : Main {
 
@@ -30,19 +31,10 @@ public class Main2 : Main {
 
     [Command]
     public bool TrySetPlayerColor(int index, Color color) {
-
         if (index < 0 || index >= players.Count)
             return false;
-
         var player = players[index];
-        player.color = color;
-
-        foreach (var unit in units.Values)
-            RecursivelySetUnitColor(player, unit, color);
-
-        foreach (var building in FindBuildingsOf(player))
-            building.view.PlayerColor = color;
-
+        player.Color = color;
         return true;
     }
     [Command]
@@ -52,16 +44,6 @@ public class Main2 : Main {
             return false;
         players[index].unitLookDirection = lookDirection;
         return true;
-    }
-
-    /// <summary>
-    /// Recursive goes through the units' cargos and update all units' view color for a specified player.
-    /// </summary>
-    public void RecursivelySetUnitColor(Player player, Unit unit, Color color) {
-        if (unit.Player == player && unit.view)
-            unit.view.PlayerColor = color;
-        foreach (var cargo in unit.Cargo)
-            RecursivelySetUnitColor(player, cargo, color);
     }
 
     public Dictionary<string, Func<object>> screenText = new();
@@ -90,23 +72,26 @@ public class Main2 : Main {
     [Command]
     public void UpdatePlayBorderStyle() {
 
+        Assert.IsTrue(guiSkin);
+        
         playBorderTexture = new Texture2D(1, 1);
         playBorderTexture.SetPixel(0, 0, playBorderColor);
         playBorderTexture.Apply();
-
-        playBorderStyle = new GUIStyle {
-            normal = new GUIStyleState {
-                background = playBorderTexture
-            }
-        };
+        
+        playBorderStyle = new GUIStyle(guiSkin.label);
+        playBorderStyle.normal.background = playBorderTexture;
+        playBorderStyle.alignment = TextAnchor.MiddleRight;
+        playBorderStyle.normal.textColor = Color.black;
+        
         playBorderStyle.onNormal = playBorderStyle.normal;
     }
 
-    protected override void OnGUI() {
-        base.OnGUI();
+    public string playModeText = "[PLAYING]";
 
-        foreach (var (name, value) in screenText.Where(kv => screenTextFilters.Any(filter => filter(kv.Key))).OrderBy(kv => kv.Key))
-            GUILayout.Label($"{name}: {value()}");
+    protected void OnGUI() {
+
+        if (guiSkin)
+            GUI.skin = guiSkin;
 
         if (showPlayBorder) {
             var width = Screen.width;
@@ -114,7 +99,7 @@ public class Main2 : Main {
 
             if (showPlayBorderOnTop) {
                 var rect = new Rect(0, 0, width, height);
-                GUI.Label(rect, GUIContent.none, playBorderStyle);
+                GUI.Label(rect, playModeText, playBorderStyle);
             }
             if (showPlayBorderOnBottom) {
                 var rect = new Rect(0, Screen.height - height, width, height);
@@ -123,17 +108,85 @@ public class Main2 : Main {
         }
 
         if (showPlayInfo) {
-            GUILayout.Label($"<color=#{ColorUtility.ToHtmlStringRGB(CurrentPlayer.color)}>turn: {turn}</color>");
-            GUILayout.Label($"credits: {CurrentPlayer.credits}");
-            GUILayout.Label($"power: {(CurrentPlayer.abilityActivationTurn != null ? "[ACTIVE] " : "")}{CurrentPlayer.abilityMeter}");
+            var filled = CurrentPlayer.AbilityMeter;
+            var max = MaxAbilityMeter(CurrentPlayer);
+            if (AbilityInUse(CurrentPlayer))
+                filled = max;
+            var abilityStripe = new string('*', filled) + new string(' ', max - filled);
+            if (AbilityInUse(CurrentPlayer))
+                abilityStripe += " [ACTIVE]";
+            if (filled == max)
+                abilityStripe = $"<color=#{ColorUtility.ToHtmlStringRGB(fullAbilityStripeColor)}>{abilityStripe}</color>";
+            var credits = CurrentPlayer.Credits;
+            var playerHtmlColor = ColorUtility.ToHtmlStringRGB(CurrentPlayer.Color);
+            GUILayout.Label($"{turn} / <color=#{playerHtmlColor}>{CurrentPlayer.co.name}</color> / {credits} / {abilityStripe}");
+        }
+        else {
+            GUILayout.Label($"stack: {stack.Count}");
+
+            foreach (var (name, value) in screenText.Where(kv => screenTextFilters.Any(filter => filter(kv.Key))).OrderBy(kv => kv.Key))
+                GUILayout.Label($"{name}: {value()}");
+        }
+
+        if (inspectedUnit != null) {
+
+            CameraRig.TryFind(out var cameraRig);
+
+            GUILayout.Space(25);
+
+            GUILayout.Label($"type: {inspectedUnit.type}");
+            GUILayout.Label($"player: {inspectedUnit.Player}");
+            GUILayout.Label($"position: {inspectedUnit.Position}");
+            GUILayout.Label($"moved: {inspectedUnit.Moved}");
+            GUILayout.Label($"hp: {inspectedUnit.Hp}");
+
+            GUILayout.Label($"fuel: {inspectedUnit.Fuel}");
+            if (inspectedUnit.Ammo.Count > 0) {
+                GUILayout.Label($"ammo:");
+                foreach (var (weaponType, amount) in inspectedUnit.Ammo)
+                    GUILayout.Label($"- {weaponType}: {amount}");
+            }
+
+            if (inspectedUnit.Carrier is { Disposed: false }) {
+                GUILayout.BeginHorizontal();
+                GUILayout.Label($"carrier: {inspectedUnit.Carrier}");
+                if (GUILayout.Button(jumpButtonText)) {
+                    if (cameraRig)
+                        cameraRig.Jump(inspectedUnit.Carrier.view.transform.position);
+                }
+                GUILayout.EndHorizontal();
+            }
+            if (inspectedUnit.Cargo.Count > 0) {
+                GUILayout.Label($"cargo:");
+                foreach (var cargo in inspectedUnit.Cargo)
+                    GUILayout.Label($"- {cargo}");
+            }
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Label($"view: {inspectedUnit.view}");
+            if (GUILayout.Button(jumpButtonText)) {
+                if (cameraRig)
+                    cameraRig.Jump(inspectedUnit.view.transform.position);
+            }
+            GUILayout.EndHorizontal();
         }
     }
+
+    public string jumpButtonText = "➲";
+
+    public float inspectionCircleRadius = .4f;
+    public float inspectionCircleLineWidth = 2;
+    [ColorUsage(false, true)] public Color inspectionCircleColor = Color.yellow;
+    public Color inspectionTextColor = Color.yellow;
+    public Color attackPositionColor = Color.red;
+
+    public Color fullAbilityStripeColor = Color.yellow;
 
     [Command]
     public bool TrySetPlayerAbilityMeter(int index, int value) {
         if (index < 0 || index >= players.Count)
             return false;
-        players[index].abilityMeter = value;
+        players[index].AbilityMeter = value;
         return true;
     }
     [Command]
@@ -200,8 +253,37 @@ public class Main2 : Main {
                     Draw.ingame.Label2D(center.ToVector3(), $"Bridge{index}", 14, LabelAlignment.Center, Color.black);
                 }
             }
+
+        if (Input.GetKeyDown(KeyCode.Return) && Mouse.TryGetPosition(out Vector2Int mousePosition))
+            TryGetUnit(mousePosition, out inspectedUnit);
+
+
+        if (inspectedUnit != null) {
+            if (inspectedUnit.Disposed)
+                inspectedUnit = null;
+            else if (inspectedUnit.Position is { } position) {
+                Vector3 position3d = position.ToVector3Int();
+
+                using (Draw.ingame.WithLineWidth(inspectionCircleLineWidth)) {
+                    Draw.ingame.CircleXZ(position3d, inspectionCircleRadius, inspectionCircleColor);
+                }
+
+                var attackPositions = Enumerable.Empty<Vector2Int>();
+                if (TryGetAttackRange(inspectedUnit, out var attackRange)) {
+                    if (IsArtillery(inspectedUnit))
+                        attackPositions = AttackPositions(position, attackRange);
+                    else {
+                        //traverser.Traverse(tiles.Keys, position, Rules.MoveCost(), Rules.MoveDistance(inspectedUnit));
+                    }
+                }
+
+                foreach (var attackPosition in attackPositions)
+                    Draw.ingame.SolidPlane((Vector3)attackPosition.ToVector3Int() + Vector3.up * offset, Vector3.up, Vector2.one, attackPositionColor);
+            }
+        }
     }
 
+    public Traverser traverser = new();
     public const string prefix = "level-editor.";
 
     public const string selectTilesMode = prefix + "select-tiles-mode";
@@ -220,6 +302,7 @@ public class Main2 : Main {
     public const string placeUnit = prefix + "place-unit";
     public const string removeUnit = prefix + "remove-unit";
     public const string cycleLookDirection = prefix + "cycle-look-direction";
+    public const string inspectUnit = prefix + "inspect-unit";
 
     public const string pickTile = prefix + "pick-tile";
     public const string pickTrigger = prefix + "pick-trigger";
@@ -237,7 +320,7 @@ public class Main2 : Main {
     public Stack<(Action perform, Action revert)> redos = new();
 
     public Vector2Int lookDirection = Vector2Int.right;
-    public Vector2Int[] lookDirections = Rules.offsets;
+    public Vector2Int[] lookDirections = offsets;
     public TriggerName[] triggerNames = { TriggerName.A, TriggerName.B, TriggerName.C, TriggerName.D, TriggerName.E, TriggerName.F };
     public TriggerName triggerName = TriggerName.A;
 
@@ -473,7 +556,7 @@ public class Main2 : Main {
 
             var tileType = tiles[position];
             var color = buildings.TryGetValue(position, out var building) && building.Player != null
-                ? building.Player.color
+                ? building.Player.Color
                 : Palette.white;
             color.a = (int)tiles[position];
 
@@ -489,15 +572,15 @@ public class Main2 : Main {
                 source,
                 Matrix4x4.TRS(position.ToVector3Int(), Quaternion.Euler(0, Random.Range(0, 4) * 90, 0), Vector3.one));
         }
-        
+
         var mesh = new Mesh {
             vertices = vertices.ToArray(),
             triangles = triangles.ToArray(),
             colors = colors.ToArray()
         };
-        
+
         mesh.Optimize();
-        
+
         mesh.RecalculateBounds();
         mesh.RecalculateNormals();
         mesh.RecalculateTangents();
@@ -506,7 +589,7 @@ public class Main2 : Main {
             Destroy(meshFilter.sharedMesh);
         if (meshCollider.sharedMesh)
             Destroy(meshCollider.sharedMesh);
-        
+
         meshFilter.sharedMesh = mesh;
         meshCollider.sharedMesh = mesh;
     }
@@ -561,8 +644,8 @@ public class Main2 : Main {
                 stack.Push(lookDirection);
                 commands.Enqueue(placeUnit);
             }
-            else if (Input.GetMouseButton(Mouse.right) && Mouse.TryGetPosition(out Vector2Int position2)) {
-                stack.Push(position2);
+            else if (Input.GetMouseButton(Mouse.right) && Mouse.TryGetPosition(out position)) {
+                stack.Push(position);
                 commands.Enqueue(removeUnit);
             }
             else if (Input.GetKeyDown(KeyCode.PageUp) || Input.GetKeyDown(KeyCode.PageDown)) {
@@ -572,10 +655,14 @@ public class Main2 : Main {
             else if (Input.GetKeyDown(KeyCode.F5))
                 commands.Enqueue(play);
 
-            else if (Input.GetKeyDown(KeyCode.LeftAlt) && Mouse.TryGetPosition(out Vector2Int pickPosition)) {
-                stack.Push(pickPosition);
+            else if (Input.GetKeyDown(KeyCode.LeftAlt) && Mouse.TryGetPosition(out position)) {
+                stack.Push(position);
                 commands.Enqueue(pickUnit);
             }
+            /*else if (Input.GetKeyDown(KeyCode.Return) && Mouse.TryGetPosition(out position)) {
+                stack.Push(position);
+                commands.Enqueue(inspectUnit);
+            }*/
 
             while (commands.TryDequeue(out var command))
                 foreach (var token in command.Tokenize())
@@ -613,9 +700,13 @@ public class Main2 : Main {
                             if (units.ContainsKey(position))
                                 TryRemoveUnit(position);
 
-                            var viewPrefab = unitPrefabs.TryGetValue(unitType, out var p) ? p : UnitView.DefaultPrefab;
-                            new Unit(player, unitType, position, lookDirection, viewPrefab: viewPrefab);
+                            var viewPrefab = UnitView.DefaultPrefab;
+                            if (player.co.unitTypesInfoOverride.TryGetValue(unitType, out var record) && record.viewPrefab)
+                                viewPrefab = record.viewPrefab;
+                            else if (UnitTypesInfo.TryGet(unitType, out record) && record.viewPrefab)
+                                viewPrefab = record.viewPrefab;
 
+                            new Unit(player, unitType, position, lookDirection, viewPrefab: viewPrefab);
                             break;
                         }
 
@@ -633,12 +724,20 @@ public class Main2 : Main {
                             break;
                         }
 
+                        case inspectUnit: {
+                            var position = stack.Pop<Vector2Int>();
+                            units.TryGetValue(position, out inspectedUnit);
+                            break;
+                        }
+
                         default:
                             stack.ExecuteToken(token);
                             break;
                     }
         }
     }
+
+    public Unit inspectedUnit;
 
     public bool TryRemoveUnit(Vector2Int position) {
         if (!units.TryGetValue(position, out var unit))
@@ -736,12 +835,13 @@ public class Main2 : Main {
                         color += triggerColor;
                 }
 
-                Draw.ingame.SolidPlane((Vector3)position.ToVector3Int(), Vector3.up, Vector2.one, color);
+                Draw.ingame.SolidPlane((Vector3)position.ToVector3Int() + Vector3.up * offset, Vector3.up, Vector2.one, color);
                 Draw.ingame.Label2D((Vector3)position.ToVector3Int(), string.Join(",", triggerNames), Color.white);
             }
         }
     }
 
+    public float offset = .01f;
     public TriggerNameColorDictionary triggerColors = new() {
         [TriggerName.A] = Color.red,
         [TriggerName.B] = Color.green,

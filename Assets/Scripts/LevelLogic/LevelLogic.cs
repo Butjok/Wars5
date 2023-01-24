@@ -13,7 +13,8 @@ public class LevelLogic {
     }
     
     protected IEnumerator PlayMusic(IEnumerable<AudioClip> clips) {
-        MusicPlayer.Instance.Queue = clips.InfiniteSequence();
+        if (MusicPlayer.TryGet(out var musicPlayer))
+            musicPlayer.Queue = clips.InfiniteSequence();
         yield break;
     }
     protected IEnumerator PlayMusic(IEnumerable<string> clipNames) {
