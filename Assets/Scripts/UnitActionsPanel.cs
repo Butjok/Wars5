@@ -27,7 +27,7 @@ public class UnitActionsPanel : MonoBehaviour {
             var button = Instantiate(buttonPrefab, buttonPrefab.transform.parent);
             buttons[action] = button;
             button.gameObject.SetActive(true);
-            button.GetComponentInChildren<TMP_Text>().text = action.type.ToString();
+            button.GetComponentInChildren<TMP_Text>().text = action.ToString();
             button.onClick.AddListener(() => onClick(button,action));
         }
         gameObject.SetActive(true);

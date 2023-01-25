@@ -64,9 +64,10 @@ public class UnitAction : IDisposable {
 
     public override string ToString() {
         var text = type.ToString();
-        text += $" - {path[0]} -> {path.Last()}";
         if (targetUnit != null)
-            text += $" - {targetUnit}";
+            text += $" {targetUnit}";
+        if (type == UnitActionType.Drop)
+            text += $" to {targetPosition}"; 
         return text;
     }
 }
