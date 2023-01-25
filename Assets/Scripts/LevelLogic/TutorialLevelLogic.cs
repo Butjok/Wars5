@@ -11,6 +11,7 @@ public class TutorialLogic : LevelLogic {
         this.showDialogue = showDialogue;
     }
 
+    #if false
     public override (ControlFlow controlFlow, IEnumerator state) OnTurnStart(Main main) {
 
         CameraRig.TryFind(out var cameraRig);
@@ -131,4 +132,5 @@ public class TutorialLogic : LevelLogic {
 
         return (ControlFlow.Ignore, null);
     }
+#endif
 }

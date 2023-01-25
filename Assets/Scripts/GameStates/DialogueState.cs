@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public static class DialogueState {
@@ -6,7 +7,7 @@ public static class DialogueState {
     public const string prefix = "dialogue-state.";
     public const string next = prefix + "next";
     
-    public static IEnumerator Run(Main main, DialogueUi.Speech[] speeches) {
+    public static IEnumerator<StateChange> Run(Main main, DialogueUi.Speech[] speeches) {
 
         var ui = DialogueUi.Instance;
         var index = Vector2Int.zero;
@@ -15,7 +16,7 @@ public static class DialogueState {
         ui.Set(speeches[0].speaker, speeches[0].lines[0]);
 
         while (true) {
-            yield return null;
+            yield return StateChange.none;
 
             if (Input.GetKeyDown(KeyCode.Space))
                 main.commands.Enqueue(next);
@@ -43,7 +44,7 @@ public static class DialogueState {
                             }
                             else {
                                 ui.Visible = false;
-                                yield break;
+                                yield return StateChange.Pop();
                             }
                             
                             break;

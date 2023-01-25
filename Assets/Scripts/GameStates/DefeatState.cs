@@ -1,17 +1,20 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public static class DefeatState {
-    public static IEnumerator Run(Main main, UnitAction defeatingAction) {
+    public static IEnumerator<StateChange> Run(Main main, UnitAction defeatingAction) {
 
+        defeatingAction.Dispose();
+        
         Debug.Log("Defeat...");
         if (CursorView.TryFind(out var cursor))
-            cursor.Visible = false;
+            cursor.show = false;
         if (MusicPlayer.TryGet(out var musicPlayer))
             musicPlayer.Queue = new[] { "slow uzicko".LoadAs<AudioClip>() }.InfiniteSequence();
         PlayerView.globalVisibility = false;
-        yield return null;
+        yield return StateChange.none;
         // GameUiView.Instance.Defeat = true;
-        yield break;
+        
     }
 }

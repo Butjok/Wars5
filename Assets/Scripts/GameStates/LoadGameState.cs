@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
@@ -9,7 +10,7 @@ public static class LoadGameState {
 
     public const string close = prefix + "close";
     
-    public static IEnumerator Run(Main main) {
+    public static IEnumerator<StateChange> Run(Main main) {
 
         var saves = SaveEntry.FileNames
             .Select(SaveEntry.Read)
@@ -20,7 +21,7 @@ public static class LoadGameState {
         menu.Show(main, saves);
 
         while (true) {
-            yield return null;
+            yield return StateChange.none;
             
             while (main.commands.TryDequeue(out var input))
                 foreach (var token in input.Tokenize())
@@ -28,7 +29,8 @@ public static class LoadGameState {
                         
                         case close:
                             menu.Hide();
-                            yield break;
+                            yield return StateChange.Pop();
+                            break;
                         
                         default:
                             main.stack.ExecuteToken(token);

@@ -49,7 +49,7 @@ public  class LevelEditorState : MonoBehaviour {
 
         CursorView.TryFind(out var cursorView);
         if (cursorView)
-            cursorView.Visible = true;
+            cursorView.show = true;
 
         //var textDisplay = new LevelEditorTextDisplay(uiText);
         

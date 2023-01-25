@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -8,14 +9,14 @@ public static class GameSettingsState {
 
     public const string close = prefix + "close";
     
-    public static IEnumerator Run(Main main) {
+    public static IEnumerator<StateChange> Run(Main main) {
 
         var menu = Object.FindObjectOfType<GameSettingsMenu>(true);
         Assert.IsTrue(menu);
         menu.Show(main);
 
         while (true) {
-            yield return null;
+            yield return StateChange.none;
 
             while (main.commands.TryDequeue(out var input))
                 foreach (var token in input.Tokenize())
@@ -23,7 +24,8 @@ public static class GameSettingsState {
                         
                         case close:
                             menu.Hide();
-                            yield break;
+                            yield return StateChange.Pop();
+                            break;
                         
                         default:
                             main.stack.ExecuteToken(token);

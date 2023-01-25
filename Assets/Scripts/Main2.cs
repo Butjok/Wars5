@@ -26,7 +26,7 @@ public class Main2 : Main {
 
     private void Start() {
         CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
-        StartCoroutine(Run());
+        PushState("level-editor", Run());
     }
 
     [Command]
@@ -79,10 +79,6 @@ public class Main2 : Main {
             screenTextFilters.Add(names.Contains);
     }
 
-    public override void Awake() {
-        base.Awake();
-    }
-
     [Command]
     public void UpdatePlayBorderStyle() {
 
@@ -102,10 +98,11 @@ public class Main2 : Main {
 
     public string playModeText = "[PLAYING]";
 
+    public GUISkin guiSkin;
+
     protected void OnGUI() {
 
-        if (guiSkin)
-            GUI.skin = guiSkin;
+        GUI.skin = guiSkin;
 
         if (showPlayBorder) {
             var width = Screen.width;
@@ -121,6 +118,8 @@ public class Main2 : Main {
             }
         }
 
+        GUILayout.Label($"[{stack.Count}]: " + (string.Join(" / ", StateNames.Reverse())));
+
         if (showPlayInfo) {
             var filled = CurrentPlayer.AbilityMeter;
             var max = MaxAbilityMeter(CurrentPlayer);
@@ -135,12 +134,9 @@ public class Main2 : Main {
             var playerHtmlColor = ColorUtility.ToHtmlStringRGB(CurrentPlayer.Color);
             GUILayout.Label($"{turn} / <color=#{playerHtmlColor}>{CurrentPlayer.co.name}</color> / {credits} / {abilityStripe}");
         }
-        else {
-            GUILayout.Label($"stack: {stack.Count}");
-
+        else
             foreach (var (name, value) in screenText.Where(kv => screenTextFilters.Any(filter => filter(kv.Key))).OrderBy(kv => kv.Key))
                 GUILayout.Label($"{name}: {value()}");
-        }
 
         if (inspectedUnit != null) {
 
@@ -242,13 +238,25 @@ public class Main2 : Main {
         return DeleteAutosaves(_ => true);
     }
 
-    protected override void OnApplicationQuit() {
+    protected  void OnApplicationQuit() {
+        
         Save("autosave");
         DeleteOldAutosaves();
-        base.OnApplicationQuit();
+
+        Clear();
+        if (Player.undisposed.Count>0)
+            Debug.LogError($"undisposed players: {Player.undisposed.Count}");
+        if (Building.undisposed.Count>0)
+            Debug.LogError($"undisposed buildings: {Building.undisposed.Count}");
+        if (Unit.undisposed.Count > 0)
+            Debug.LogError($"undisposed units: {Unit.undisposed.Count}");
+        if (UnitAction.undisposed.Count>0)
+            Debug.LogError($"undisposed unit actions: {UnitAction.undisposed.Count}");
     }
 
-    private void Update() {
+    protected override void Update() {
+        base.Update();
+
         if (showBridges)
             foreach (var bridge in bridges) {
                 var index = bridges.IndexOf(bridge);
@@ -372,7 +380,7 @@ public class Main2 : Main {
         triggers[triggerName].Clear();
     }
 
-    public IEnumerator Run() {
+    public IEnumerator<StateChange> Run() {
 
         Clear();
 
@@ -409,7 +417,7 @@ public class Main2 : Main {
         screenText["unit-type"] = () => unitType;
         screenText["trigger-name"] = () => triggerName;
 
-        yield return TilesMode();
+        yield return StateChange.ReplaceWith("tiles-mode", TilesMode());
     }
 
     public TileType tileType = TileType.Plain;
@@ -417,17 +425,17 @@ public class Main2 : Main {
 
     public Player player;
 
-    public IEnumerator TilesMode() {
+    public IEnumerator<StateChange> TilesMode() {
 
         ClearScreenTextFilters();
         AddScreenTextPrefixFilter("tiles-mode.");
         AddScreenTextFilter("tile-type", "player", "look-direction");
 
         if (CursorView.TryFind(out var cursorView))
-            cursorView.Visible = true;
+            cursorView.show = true;
 
         while (true) {
-            yield return null;
+            yield return StateChange.none;
 
             if (Input.GetKeyDown(KeyCode.F8))
                 commands.Enqueue(selectUnitsMode);
@@ -467,8 +475,8 @@ public class Main2 : Main {
                     switch (token) {
 
                         case selectUnitsMode:
-                            yield return UnitsMode();
-                            yield break;
+                            yield return StateChange.ReplaceWith("units-mode", UnitsMode());
+                            break;
 
                         case cycleTileType:
                             tileType = tileType.Cycle(tileTypes, stack.Pop<int>());
@@ -492,12 +500,12 @@ public class Main2 : Main {
 
                             tiles.Add(position, tileType);
                             if (TileType.Buildings.HasFlag(tileType)) {
-                                
+
                                 var viewPrefab = BuildingView.DefaultPrefab;
                                 if (buildingPrefabs.TryGetValue(tileType, out var v) && v)
                                     viewPrefab = v;
                                 Assert.IsTrue(viewPrefab);
-                                
+
                                 new Building(this, position, tileType, player, viewPrefab: viewPrefab, lookDirection: lookDirection);
                             }
 
@@ -516,9 +524,9 @@ public class Main2 : Main {
                             break;
 
                         case play:
-                            yield return Play();
-                            yield return TilesMode();
-                            yield break;
+                            yield return StateChange.Push("play", Play());
+                            yield return StateChange.ReplaceWith("tiles-mode", TilesMode());
+                            break;
 
                         case pickTile: {
                             var position = stack.Pop<Vector2Int>();
@@ -628,7 +636,7 @@ public class Main2 : Main {
     public UnitType unitType = UnitType.Infantry;
     public UnitType[] unitTypes = { UnitType.Infantry, UnitType.AntiTank, UnitType.Artillery, UnitType.Apc, UnitType.Recon, UnitType.LightTank, UnitType.MediumTank, UnitType.Rockets, };
 
-    public IEnumerator UnitsMode() {
+    public IEnumerator<StateChange> UnitsMode() {
 
         if (player == null) {
             Assert.AreNotEqual(0, players.Count);
@@ -641,10 +649,10 @@ public class Main2 : Main {
         AddScreenTextFilter("unit-type", "look-direction", "player");
 
         if (CursorView.TryFind(out var cursorView))
-            cursorView.Visible = true;
+            cursorView.show = true;
 
         while (true) {
-            yield return null;
+            yield return StateChange.none;
 
             if (Input.GetKeyDown(KeyCode.F8))
                 commands.Enqueue(selectTriggersMode);
@@ -689,8 +697,8 @@ public class Main2 : Main {
                     switch (token) {
 
                         case selectTriggersMode:
-                            yield return TriggersMode();
-                            yield break;
+                            yield return StateChange.ReplaceWith("triggers-mode", TriggersMode());
+                            break;
 
                         case cyclePlayer:
                             player = player.Cycle(players, stack.Pop<int>());
@@ -706,9 +714,9 @@ public class Main2 : Main {
                             break;
 
                         case play:
-                            yield return Play();
-                            yield return UnitsMode();
-                            yield break;
+                            yield return StateChange.Push("play", Play());
+                            yield return StateChange.ReplaceWith("units-mode", UnitsMode());
+                            break;
 
                         case placeUnit: {
 
@@ -766,17 +774,17 @@ public class Main2 : Main {
         return true;
     }
 
-    public IEnumerator TriggersMode() {
+    public IEnumerator<StateChange> TriggersMode() {
 
         ClearScreenTextFilters();
         AddScreenTextPrefixFilter("triggers-mode.");
         AddScreenTextFilter("trigger-name");
 
         if (CursorView.TryFind(out var cursorView))
-            cursorView.Visible = true;
+            cursorView.show = true;
 
         while (true) {
-            yield return null;
+            yield return StateChange.none;
 
             if (Input.GetKeyDown(KeyCode.F8))
                 commands.Enqueue(selectTilesMode);
@@ -806,8 +814,8 @@ public class Main2 : Main {
                     switch (token) {
 
                         case selectTilesMode:
-                            yield return TilesMode();
-                            yield break;
+                            yield return StateChange.ReplaceWith("tiles-mode", TilesMode());
+                            break;
 
                         case cycleTrigger:
                             triggerName = triggerName.Cycle(triggerNames, stack.Pop<int>());
@@ -828,9 +836,9 @@ public class Main2 : Main {
                         }
 
                         case play:
-                            yield return Play();
-                            yield return TriggersMode();
-                            yield break;
+                            yield return StateChange.Push("play", Play());
+                            yield return StateChange.ReplaceWith("triggers-mode", TriggersMode());
+                            break;
 
                         case pickTrigger: {
                             var position = stack.Pop<Vector2Int>();
@@ -873,13 +881,13 @@ public class Main2 : Main {
 
     public bool showPlayInfo;
 
-    public IEnumerator Play() {
+    public IEnumerator<StateChange> Play() {
 
         ClearScreenTextFilters();
         AddScreenTextPrefixFilter("play-mode.");
 
         if (CursorView.TryFind(out var cursorView))
-            cursorView.Visible = false;
+            cursorView.show = false;
 
         using var tw = new StringWriter();
         GameWriter.Write(tw, this);
@@ -888,20 +896,11 @@ public class Main2 : Main {
         var playerIndex = players.IndexOf(player);
         levelLogic = new LevelLogic();
 
-        var play = SelectionState.Run(this, true);
-        StartCoroutine(play);
-
         UpdatePlayBorderStyle();
         showPlayInfo = true;
         showPlayBorder = true;
 
-        while (true) {
-            yield return null;
-            if (Input.GetKeyDown(KeyCode.F5)) {
-                StopCoroutine(play);
-                break;
-            }
-        }
+        yield return StateChange.Push("selection", SelectionState.Run(this, true));
 
         showPlayInfo = false;
         showPlayBorder = false;

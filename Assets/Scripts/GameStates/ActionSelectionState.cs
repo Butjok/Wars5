@@ -17,7 +17,7 @@ public static class ActionSelectionState {
     public const string filterWithType = prefix + "filter-with-type";
     public const string launchMissile = prefix + "launch-missile";
 
-    public static IEnumerator Run(Main main, Unit unit, IReadOnlyList<Vector2Int> path, Vector2Int? initialLookDirection = null) {
+    public static IEnumerator<StateChange> Run(Main main, Unit unit, IReadOnlyList<Vector2Int> path, Vector2Int? initialLookDirection = null) {
 
         var destination = path.Last();
         main.TryGetUnit(destination, out var other);
@@ -25,7 +25,7 @@ public static class ActionSelectionState {
         var actions = new List<UnitAction>();
         var index = -1;
 
-        // stay/capture
+        // stay / capture / launch missile
         if (other == null || other == unit) {
             if (main.TryGetBuilding(destination, out var building) && Rules.CanCapture(unit, building))
                 actions.Add(new UnitAction(UnitActionType.Capture, unit, path, null, building));
@@ -35,7 +35,7 @@ public static class ActionSelectionState {
             if (main.TryGetBuilding(destination, out building) &&
                 unit.type is UnitType.Infantry or UnitType.AntiTank &&
                 building.type is TileType.MissileSilo &&
-                building.Player == unit.Player) {
+                Rules.AreAllies(unit.Player, building.Player)) {
 
                 actions.Add(new UnitAction(UnitActionType.LaunchMissile, unit, path, targetBuilding: building));
             }
@@ -73,6 +73,7 @@ public static class ActionSelectionState {
                 actions.Add(new UnitAction(UnitActionType.Drop, unit, path, targetUnit: cargo, targetPosition: targetPosition));
         }
 
+        // !! important
         main.stack.Push(actions);
 
         var panel = Object.FindObjectOfType<UnitActionsPanel>(true);
@@ -94,7 +95,7 @@ public static class ActionSelectionState {
         }
 
         PlayerView.globalVisibility = false;
-        yield return null;
+        yield return StateChange.none;
 
         panel.Show(main, actions, (_, action) => SelectAction(action));
         if (actions.Count > 0)
@@ -106,18 +107,42 @@ public static class ActionSelectionState {
             panel.Hide();
             PlayerView.globalVisibility = true;
         }
+        void CleanUp() {
+            HidePanel();
+            foreach (var action in actions)
+                action.Dispose();
+        }
 
-        IEnumerator MissileTargetSelection(UnitAction action) {
+        IEnumerator<StateChange> MissileTargetSelection(UnitAction action) {
+
+            var missileBlastRange = new Vector2Int(0, 3);
+
+            var oldShowCursorView = false;
+            if (CursorView.TryFind(out var cursorView)) {
+                oldShowCursorView = cursorView.show;
+                cursorView.show = true;
+            }
+
+            void CleanUpSubstate() {
+                if (cursorView)
+                    cursorView.show = oldShowCursorView;
+            }
+
+            Vector2Int? launchPosition = null;
 
             while (true) {
-                yield return null;
+                yield return StateChange.none;
 
-                if (Input.GetMouseButtonDown(Mouse.left) && Mouse.TryGetPosition(out Vector2Int mousePosition) &&
-                    main.TryGetTile(mousePosition, out _)) {
+                if (Input.GetMouseButtonDown(Mouse.left) && Mouse.TryGetPosition(out Vector2Int mousePosition)) {
 
-                    main.stack.Push(action.targetBuilding);
-                    main.stack.Push(mousePosition);
-                    main.commands.Enqueue(launchMissile);
+                    if (launchPosition != mousePosition) {
+                        launchPosition = mousePosition;
+                    }
+                    else {
+                        main.stack.Push(action.targetBuilding);
+                        main.stack.Push(launchPosition);
+                        main.commands.Enqueue(launchMissile);
+                    }
                 }
                 else if (Input.GetMouseButtonDown(Mouse.right) || Input.GetKeyDown(KeyCode.Escape))
                     main.commands.Enqueue(cancel);
@@ -133,43 +158,51 @@ public static class ActionSelectionState {
                                 Assert.AreEqual(TileType.MissileSilo, missileSilo.type);
 
                                 Debug.Log($"Launching missile from {missileSilo.position} to {position}");
-                                using (Draw.ingame.WithDuration(1)) {
+                                using (Draw.ingame.WithDuration(1))
+                                using (Draw.ingame.WithLineWidth(2))
                                     Draw.ingame.Arrow((Vector3)missileSilo.position.ToVector3Int(), (Vector3)position.ToVector3Int(), Color.red);
-                                }
 
                                 unit.Position = destination;
-                                unit.Moved = true;
 
-                                yield break;
+                                var attackPositions = main.AttackPositions(position, missileBlastRange);
+                                var targetedBridges = main.bridges.Where(bridge => bridge.tiles.Keys.Intersect(attackPositions).Any());
+                                foreach (var bridge in targetedBridges)
+                                    bridge.Hp -= 10;
+
+                                CleanUpSubstate();
+                                yield return StateChange.Pop();
+                                break;
                             }
 
                             case cancel:
-
-                                HidePanel();
-
-                                foreach (var action1 in actions)
-                                    action1.Dispose();
-
-                                yield return Run(main, unit, path, initialLookDirection);
-                                yield break;
+                                CleanUpSubstate();
+                                CleanUp();
+                                yield return StateChange.PopThenPush(2, "action-selection", Run(main, unit, path, initialLookDirection));
+                                break;
 
                             default:
                                 main.stack.ExecuteToken(token2);
                                 break;
                         }
+
+                if (launchPosition is { } position1)
+                    foreach (var attackPosition in main.AttackPositions(position1, missileBlastRange))
+                        Draw.ingame.SolidPlane((Vector3)attackPosition.ToVector3Int(), Vector3.up, Vector2.one, Color.red);
             }
         }
 
         while (true) {
-            yield return null;
+            yield return StateChange.none;
 
             if (!main.CurrentPlayer.IsAi) {
 
                 if (Input.GetMouseButtonDown(Mouse.right) || Input.GetKeyDown(KeyCode.Escape))
                     main.commands.Enqueue(cancel);
 
-                else if (Input.GetKeyDown(KeyCode.Tab))
+                else if (Input.GetKeyDown(KeyCode.Tab)) {
+                    main.stack.Push(Input.GetKey(KeyCode.LeftShift) ? -1 : 1);
                     main.commands.Enqueue(cycleActions);
+                }
 
                 else if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space)) {
                     if (actions.Count == 0)
@@ -205,7 +238,6 @@ public static class ActionSelectionState {
                              */
 
                             main.TryGetBuilding(destination, out var building);
-                            unit.Moved = true;
 
                             Debug.Log($"EXECUTING: {unit} {action.type} {action.targetUnit}");
 
@@ -219,7 +251,6 @@ public static class ActionSelectionState {
                                 case UnitActionType.Join: {
                                     other.Hp = Mathf.Min(Rules.MaxHp(other), other.Hp + unit.Hp);
                                     unit.Dispose();
-                                    unit = null;
                                     break;
                                 }
 
@@ -257,21 +288,17 @@ public static class ActionSelectionState {
 
                                     CameraRig.TryFind(out var cameraRig);
 
-                                    if (newTargetHp <= 0 && cameraRig) {
-                                        var animation = cameraRig.Jump(((Vector2Int)target.Position).Raycast());
-                                        while (animation.active)
-                                            yield return null;
-                                    }
+                                    if (newTargetHp <= 0 && cameraRig)
+                                        yield return StateChange.Push("jump-to-target", StateChange.WaitForCompletion(cameraRig.Jump(((Vector2Int)target.Position).Raycast())));
+
                                     target.Hp = newTargetHp;
 
                                     //if (newTargetHp > 0 && targetWeaponIndex != -1)
                                     //    target.ammo[targetWeaponIndex]--;
 
-                                    if (newAttackerHp <= 0 && cameraRig) {
-                                        var animation = cameraRig.Jump(destination.Raycast());
-                                        while (animation.active)
-                                            yield return null;
-                                    }
+                                    if (newAttackerHp <= 0 && cameraRig)
+                                        yield return StateChange.Push("jump-to-attacker", StateChange.WaitForCompletion(cameraRig.Jump(destination.Raycast())));
+
                                     attacker.Hp = newAttackerHp;
 
                                     //if (newAttackerHp > 0)
@@ -305,11 +332,15 @@ public static class ActionSelectionState {
                                 }
 
                                 case UnitActionType.LaunchMissile:
+                                    yield return StateChange.Push("missile-target-selection", MissileTargetSelection(action));
+                                    unit.Position = destination;
                                     break;
 
                                 default:
                                     throw new ArgumentOutOfRangeException();
                             }
+
+                            unit.Moved = true;
 
                             foreach (var item in actions.Except(new[] { action }))
                                 item.Dispose();
@@ -326,9 +357,8 @@ public static class ActionSelectionState {
                                     ((Main2)main).LoadAdditively("1");
 
                                     if (CameraRig.TryFind(out var cameraRig)) {
-                                        yield return new WaitForSeconds(1);
-                                        yield return cameraRig.Jump(new Vector2Int(-21, -14).Raycast());
-
+                                        yield return StateChange.Push("wait", StateChange.WaitForSeconds(.5f));
+                                        cameraRig.Jump(new Vector2Int(-21, -14).Raycast());
                                     }
                                 }
                             }
@@ -352,48 +382,42 @@ public static class ActionSelectionState {
                                 foreach (var u in main.units.Values)
                                     u.Moved = false;
 
-                                var nextState = won ? main.levelLogic.OnVictory(main, action) : main.levelLogic.OnDefeat(main, action);
-                                yield return nextState;
-                                yield return won ? VictoryState.Run(main, action) : DefeatState.Run(main, action);
-                                action.Dispose();
-                                yield break;
+                                if (won)
+                                    yield return StateChange.ReplaceWith("victory", VictoryState.Run(main, action));
+                                else
+                                    yield return StateChange.ReplaceWith("defeat", DefeatState.Run(main, action));
                             }
 
                             else {
-                                var (controlFlow, nextState) = main.levelLogic.OnActionCompletion(main, action);
-                                yield return nextState;
-                                action.Dispose();
-                                if (controlFlow == ControlFlow.Replace)
-                                    yield break;
-                                yield return SelectionState.Run(main);
-                                yield break;
+                                yield return main.levelLogic.OnActionCompletion(main, action);
+                                yield return StateChange.ReplaceWith("selection", SelectionState.Run(main));
                             }
+
+                            break;
                         }
 
                         case cancel:
 
-                            main.stack.Pop();
-
-                            HidePanel();
-
-                            foreach (var action in actions)
-                                action.Dispose();
+                            main.stack.Pop(); // pop actions
+                            CleanUp();
 
                             unit.view.Position = path[0];
                             if (initialLookDirection is { } value)
                                 unit.view.LookDirection = value;
 
-                            yield return PathSelectionState.Run(main, unit);
-                            yield break;
+                            yield return StateChange.ReplaceWith("path-selection", PathSelectionState.Run(main, unit));
+                            break;
 
-                        case cycleActions:
+                        case cycleActions: {
+                            var offset = main.stack.Pop<int>();
                             if (actions.Count > 0) {
-                                index = (index + 1) % actions.Count;
+                                index = (index + offset).PositiveModulo(actions.Count);
                                 SelectAction(actions[index]);
                             }
                             else
                                 UiSound.Instance.notAllowed.PlayOneShot();
                             break;
+                        }
 
                         default:
                             main.stack.ExecuteToken(token);

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -10,8 +11,8 @@ public static class UnitBuildState {
     public const string prefix = "unit-build-state.";
     public const string build = prefix + "build";
     public const string close = prefix + "close";
-    
-    public static IEnumerator New(Main main, Building building) {
+
+    public static IEnumerator<StateChange> New(Main main, Building building) {
 
         Assert.IsTrue(building.Player == main.CurrentPlayer);
 
@@ -19,7 +20,7 @@ public static class UnitBuildState {
         Assert.IsTrue(menuView);
 
         PlayerView.globalVisibility = false;
-        yield return null;
+        yield return StateChange.none;
         menuView.Show(building);
 
         Debug.Log($"Building state at building: {building}");
@@ -33,8 +34,8 @@ public static class UnitBuildState {
         var index = -1;
 
         while (true) {
-            yield return null;
-            
+            yield return StateChange.none;
+
             while (main.commands.TryDequeue(out var input))
                 foreach (var token in input.Tokenize())
                     switch (token) {
@@ -51,25 +52,25 @@ public static class UnitBuildState {
                             else if (UnitTypesInfo.TryGet(type, out info) && info.viewPrefab)
                                 viewPrefab = info.viewPrefab;
                             Assert.IsTrue(viewPrefab, type.ToString());
-                            
-                            var unit = new Unit(building.Player, type,  building.position, moved: true, viewPrefab:viewPrefab);
+
+                            var unit = new Unit(building.Player, type, building.position, moved: true, viewPrefab: viewPrefab);
                             unit.Moved = true;
                             Debug.Log($"Built unit {unit}");
 
                             building.Player.Credits -= Rules.Cost(type, building.Player);
 
                             menuView.Hide();
-                            yield return  SelectionState.Run(main);
-                            yield break;            
+                            yield return StateChange.ReplaceWith("selection", SelectionState.Run(main));
+                            break;
                         }
 
                         case close: {
                             menuView.Hide();
                             PlayerView.globalVisibility = true;
-                            yield return SelectionState.Run(main);
-                            yield break;
+                            yield return StateChange.ReplaceWith("selection", SelectionState.Run(main));
+                            break;
                         }
-                        
+
                         default:
                             main.stack.ExecuteToken(token);
                             break;

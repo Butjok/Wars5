@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
 using UnityEngine;
@@ -10,18 +11,19 @@ public static class SelectionState {
 
     public const string endTurn = prefix + "end-turn";
     public const string openGameMenu = prefix + "open-game-menu";
+    public const string exitToLevelEditor = prefix + "exit-to-level-editor";
     public const string cyclePositions = prefix + "cycle-positions";
     public const string select = prefix + "select";
     public const string triggerVictory = prefix + "trigger-victory";
     public const string triggerDefeat = prefix + "trigger-defeat";
     public const string useAbility = prefix + "use-ability";
 
-    public static IEnumerator Run(Main main, bool turnStart = false) {
+    public static IEnumerator<StateChange> Run(Main main, bool turnStart = false) {
 
         // stop the ability
         var player = main.CurrentPlayer;
         if (player.abilityActivationTurn != null && main.turn != player.abilityActivationTurn)
-            yield return StopAbility(player);
+            yield return StateChange.Push("stop-ability", StateChange.WaitForCompletion(StopAbility(player)));
 
         // weird static variable issue
         PlayerView.globalVisibility = true;
@@ -41,22 +43,20 @@ public static class SelectionState {
 
         Sprite GetUnitThumbnail(Unit unit) {
             return unit.Player.co.unitTypesInfoOverride.TryGetValue(unit.type, out var @record) && record.thumbnail ||
-                     UnitTypesInfo.TryGet(unit.type, out record) && record.thumbnail
+                   UnitTypesInfo.TryGet(unit.type, out record) && record.thumbnail
                 ? record.thumbnail
                 : null;
         }
         // make thumbnails for buildings as well
-        
+
         var positions = unmovedUnits.Select(unit => (
-                priority: 1, 
+                priority: 1,
                 coordinates: ((Vector2Int)unit.Position).Raycast(),
                 thumbnail: GetUnitThumbnail(unit)))
-            
             .Concat(accessibleBuildings.Select(building => (
-                priority: 0, 
+                priority: 0,
                 coordinates: building.position.Raycast(),
-                thumbnail:(Sprite)null)))
-            
+                thumbnail: (Sprite)null)))
             .ToArray();
 
         CameraRig.TryFind(out var cameraRig);
@@ -73,25 +73,21 @@ public static class SelectionState {
 
         if (turnStart) {
 
-            var (controlFlow, nextState) = main.levelLogic.OnTurnStart(main);
-            if (nextState != null)
-                yield return nextState;
-            if (controlFlow == ControlFlow.Replace)
-                yield break;
+            yield return main.levelLogic.OnTurnStart(main);
 
             //MusicPlayer.Instance.Queue = game.CurrentPlayer.co.themes.InfiniteSequence(game.settings.shuffleMusic);
 
-            yield return TurnStartAnimationState.Run(main);
+            Debug.Log($"Start of turn #{main.turn}");
 
             player.view.visible = true;
         }
 
         CursorView.TryFind(out var cursor);
         if (cursor)
-            cursor.Visible = true;
+            cursor.show = true;
 
         while (true) {
-            yield return null;
+            yield return StateChange.none;
 
             if (!player.IsAi) {
 
@@ -100,6 +96,9 @@ public static class SelectionState {
 
                 else if ((Input.GetKeyDown(KeyCode.Escape)) && (!preselectionCursor || !preselectionCursor.Visible))
                     main.commands.Enqueue(openGameMenu);
+
+                else if (Input.GetKeyDown(KeyCode.F5) && main.inLevelEditor)
+                    main.commands.Enqueue(exitToLevelEditor);
 
                 else if ((Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(Mouse.right)) && preselectionCursor && preselectionCursor.Visible)
                     preselectionCursor.Hide();
@@ -147,8 +146,7 @@ public static class SelectionState {
                                     unit.view.Selected = true;
                                     if (preselectionCursor)
                                         preselectionCursor.Hide();
-                                    yield return PathSelectionState.Run(main, unit);
-                                    yield break;
+                                    yield return StateChange.ReplaceWith("path-selection", PathSelectionState.Run(main, unit));
                                 }
                             }
 
@@ -159,8 +157,7 @@ public static class SelectionState {
                                 else {
                                     if (preselectionCursor)
                                         preselectionCursor.Hide();
-                                    yield return UnitBuildState.New(main, building);
-                                    yield break;
+                                    yield return StateChange.ReplaceWith("unit-building", UnitBuildState.New(main, building));
                                 }
                             }
                             break;
@@ -173,39 +170,37 @@ public static class SelectionState {
 
                             player.view.visible = false;
                             if (cursor)
-                                cursor.Visible = false;
+                                cursor.show = false;
                             if (preselectionCursor)
                                 preselectionCursor.Hide();
 
                             //MusicPlayer.Instance.source.Stop();
                             //MusicPlayer.Instance.queue = null;
 
-                            Assert.IsTrue(main.turn != null);
-                            main.turn = (int)main.turn + 1;
+                            main.turn = main.turn + 1;
 
-                            var (controlFlow, nextState) = main.levelLogic.OnTurnEnd(main);
-                            if (nextState != null)
-                                yield return nextState;
-                            if (controlFlow == ControlFlow.Replace)
-                                yield break;
-
-                            yield return Run(main, true);
-                            yield break;
+                            yield return main.levelLogic.OnTurnEnd(main);
+                            yield return StateChange.ReplaceWith("selection", Run(main, true));
+                            break;
                         }
 
                         case openGameMenu:
-                            yield return GameMenuState.Run(main);
+                            yield return StateChange.ReplaceWith("game-menu", GameMenuState.Run(main));
+                            break;
+
+                        case exitToLevelEditor:
+                            yield return StateChange.Pop();
                             break;
 
                         case cyclePositions: {
                             var offset = main.stack.Pop<int>();
                             if (positions.Length > 0) {
-                                positionIndex = (positionIndex + offset).PositiveModulo(positions.Length) ;
+                                positionIndex = (positionIndex + offset).PositiveModulo(positions.Length);
                                 if (preselectionCursor) {
                                     var position = positions[positionIndex];
                                     if (preselectionCursor)
                                         preselectionCursor.ShowAt(position.coordinates, position.thumbnail);
-                                    
+
                                     var mainCamera = Camera.main;
                                     if (mainCamera) {
                                         // var screenPosition = mainCamera.WorldToViewportPoint(position.ToVector3Int());
@@ -221,7 +216,7 @@ public static class SelectionState {
 
                         case useAbility: {
                             if (Rules.CanUseAbility(player))
-                                yield return StartAbility(player, (int)main.turn);
+                                yield return StateChange.Push("start-ability", StateChange.WaitForCompletion(StartAbility(player, main.turn)));
                             else
                                 UiSound.Instance.notAllowed.PlayOneShot();
                             break;
@@ -230,14 +225,14 @@ public static class SelectionState {
                         case triggerVictory:
                             if (preselectionCursor)
                                 preselectionCursor.Hide();
-                            yield return VictoryState.Run(main, null);
-                            yield break;
+                            yield return StateChange.ReplaceWith("victory", VictoryState.Run(main, null));
+                            break;
 
                         case triggerDefeat:
                             if (preselectionCursor)
                                 preselectionCursor.Hide();
-                            yield return DefeatState.Run(main, null);
-                            yield break;
+                            yield return StateChange.ReplaceWith("defeat", DefeatState.Run(main, null));
+                            break;
 
                         default:
                             main.stack.ExecuteToken(token);
@@ -253,10 +248,10 @@ public static class SelectionState {
 
         player.abilityActivationTurn = turn;
         player.AbilityMeter = 0;
-        
+
         Debug.Log($"starting ability of {player}");
 
-        yield break;
+        yield return null;
     }
 
     public static IEnumerator StopAbility(Player player) {
@@ -265,6 +260,6 @@ public static class SelectionState {
         player.abilityActivationTurn = null;
         Debug.Log($"stopping ability of {player}");
 
-        yield break;
+        yield return null;
     }
 }

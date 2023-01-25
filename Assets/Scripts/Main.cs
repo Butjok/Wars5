@@ -13,6 +13,7 @@ public class Main : StateRunner {
 
 	[Command]
 	public bool followLastUnit;
+	public bool inLevelEditor = true;
 	
 	public List<Bridge> bridges = new();
 
@@ -36,7 +37,6 @@ public class Main : StateRunner {
 
 	public DebugStack stack = new();
 	public Queue<string> commands = new();
-	public GUISkin guiSkin;
 
 	public MeshFilter tileAreaMeshFilter;
 
@@ -50,8 +50,6 @@ public class Main : StateRunner {
 		UpdatePostProcessing();
 
 		settings = PersistentData.Read().gameSettings;
-
-		guiSkin = Resources.Load<GUISkin>("CommandLine");
 	}
 
 	public void UpdatePostProcessing() {
@@ -92,20 +90,15 @@ public class Main : StateRunner {
 	public IEnumerable<Vector2Int> AttackPositions(Vector2Int position, Vector2Int range) {
 		return range.Offsets().Select(offset => offset + position).Where(p => tiles.ContainsKey(p));
 	}
-
-	protected virtual void OnApplicationQuit() {
-		//Clear();
-		//Debug.Log(@$"UNDISPOSED: players: {Player.undisposed.Count} buildings: {Building.undisposed.Count} units: {Unit.undisposed.Count} unitActions: {UnitAction.undisposed.Count}");
-	}
-
+	
 
 	public float fadeDuration = 2;
 	public Ease fadeEase = Ease.Unset;
 	public void RestartGame() {
 		PostProcessing.ColorFilter = Color.black;
 		PostProcessing.Fade(Color.white, fadeDuration, fadeEase);
-		StopAllCoroutines();
-		StartCoroutine(SelectionState.Run(this, true));
+		ClearStates();
+		PushState("selection", SelectionState.Run(this, true));
 	}
 
 	[Command]

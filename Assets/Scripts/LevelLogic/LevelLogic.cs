@@ -4,40 +4,39 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public enum ControlFlow { Ignore, Replace, Pause }
-
 public class LevelLogic {
 
-    public virtual (ControlFlow controlFlow, IEnumerator state) OnTurnStart(Main main) {
-        return (ControlFlow.Pause, PlayMusic(main.CurrentPlayer.co.themes));
+    public virtual StateChange OnTurnStart(Main main) {
+        PlayMusic(main.CurrentPlayer.co.themes);
+        return StateChange.none;
     }
-    
-    protected IEnumerator PlayMusic(IEnumerable<AudioClip> clips) {
+
+    protected static void PlayMusic(IEnumerable<AudioClip> clips) {
         if (MusicPlayer.TryGet(out var musicPlayer))
             musicPlayer.Queue = clips.InfiniteSequence();
-        yield break;
     }
-    protected IEnumerator PlayMusic(IEnumerable<string> clipNames) {
-        return PlayMusic(clipNames.Select(name => name.LoadAs<AudioClip>()));
+    protected static void PlayMusic(IEnumerable<string> clipNames) {
+        PlayMusic(clipNames.Select(name => name.LoadAs<AudioClip>()));
     }
     protected IEnumerator ExecuteAction(Action action) {
         action();
-        yield break;
+        yield return null;
     }
 
-    public virtual (ControlFlow controlFlow, IEnumerator state) OnTurnEnd(Main main) {
-        return (ControlFlow.Ignore, null);
+    public virtual StateChange OnTurnEnd(Main main) {
+        return StateChange.none;
     }
 
-    public virtual (ControlFlow controlFlow, IEnumerator state) OnActionCompletion(Main main, UnitAction action) {
-        return (ControlFlow.Ignore, null);
+    public virtual StateChange OnActionCompletion(Main main, UnitAction action) {
+        action.Dispose();
+        return StateChange.none;
     }
 
-    public virtual IEnumerator OnVictory(Main main,UnitAction winningAction) {
-        return null;
+    public virtual StateChange OnVictory(Main main, UnitAction winningAction) {
+        return StateChange.none;
     }
 
-    public virtual IEnumerator OnDefeat(Main main,UnitAction defeatingAction) {
-        return null;
+    public virtual StateChange OnDefeat(Main main, UnitAction defeatingAction) {
+        return StateChange.none;
     }
 }

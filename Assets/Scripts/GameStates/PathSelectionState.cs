@@ -16,7 +16,7 @@ public static class PathSelectionState {
     public const string reconstructPath = prefix + "reconstruct-path";
     public const string appendToPath = prefix + "append-to-path";
 
-    public static IEnumerator Run(Main main, Unit unit) {
+    public static IEnumerator<StateChange> Run(Main main, Unit unit) {
 
         int? Cost(Vector2Int position, int length) {
             if (length >= Rules.MoveDistance(unit) ||
@@ -68,10 +68,10 @@ public static class PathSelectionState {
 
         CursorView.TryFind(out var cursor);
         if (cursor)
-            cursor.Visible = true;
+            cursor.show = true;
 
         while (true) {
-            yield return null;
+            yield return StateChange.none;
 
             if (Input.GetMouseButtonDown(Mouse.right) || Input.GetKeyDown(KeyCode.Escape))
                 main.commands.Enqueue(cancel);
@@ -119,7 +119,7 @@ public static class PathSelectionState {
 
                             CleanUp();
                             if (cursor)
-                                cursor.Visible = false;
+                                cursor.show = false;
 
                             var initialLookDirection = unit.view.LookDirection;
                             var path = pathBuilder.positions;
@@ -142,7 +142,7 @@ public static class PathSelectionState {
                             }
 
                             while (animation.MoveNext()) {
-                                yield return null;
+                                yield return StateChange.none;
 
                                 if (Input.GetMouseButtonDown(Mouse.left) || Input.GetMouseButtonDown(Mouse.right) || Input.GetKeyDown(KeyCode.Space)) {
                                     unit.view.Position = path[^1];
@@ -155,15 +155,15 @@ public static class PathSelectionState {
                             if (hardFollow)
                                 hardFollow.enabled = false;
 
-                            yield return ActionSelectionState.Run(main, unit, path, initialLookDirection);
-                            yield break;
+                            yield return StateChange.ReplaceWith("action-selection",ActionSelectionState.Run(main, unit, path, initialLookDirection));
+                            break;
                         }
 
                         case cancel:
                             unit.view.Selected = false;
                             CleanUp();
-                            yield return SelectionState.Run(main);
-                            yield break;
+                            yield return  StateChange.ReplaceWith("selection",SelectionState.Run(main));
+                            break;
 
                         default:
                             main.stack.ExecuteToken(token);
