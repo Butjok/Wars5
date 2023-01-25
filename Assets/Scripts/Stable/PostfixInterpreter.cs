@@ -2,13 +2,16 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 public static class PostfixInterpreter {
     
-    public static string[] Tokenize(this string input) {
+    public static IEnumerable<string> Tokenize(this string input) {
+        if (string.IsNullOrWhiteSpace(input))
+            return Enumerable.Empty<string>();
         return input.Split(new[] { ' ', '\r', '\n', '\t' }, StringSplitOptions.RemoveEmptyEntries);
     }
 
