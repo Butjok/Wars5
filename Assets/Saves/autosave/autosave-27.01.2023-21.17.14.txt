@@ -5,10 +5,10 @@ Tutorial MissionName type enum                                   game.set-missio
 
 
 #
-#Player0Red
+#Player0RGBA(1.000,0.300,0.000,1.000)
 #
 
-1 0 0                                                            player.set-color
+1 0.3 0                                                          player.set-color
 None Team type enum                                              player.set-team
 16000                                                            player.set-credits
 0                                                                player.set-power-meter
@@ -124,10 +124,10 @@ WbRecon UnitView type load-resource                              unit.set-view-p
                                                                  
 
 #
-#Player1Blue
+#Player1RGBA(0.000,0.300,1.000,1.000)
 #
 
-0 0 1                                                            player.set-color
+0 0.3 1                                                          player.set-color
 None Team type enum                                              player.set-team
 0                                                                player.set-credits
 0                                                                player.set-power-meter
@@ -753,7 +753,7 @@ BridgeView type get-component                                    bridge.set-view
                                                                  pop
 
 
--7.093776 0 -18.20075 float3                                     camera-rig.set-position
+-6.624815 -3.814697E-06 -17.33992 float3                         camera-rig.set-position
 247.5                                                            camera-rig.set-rotation
-46.91629                                                         camera-rig.set-distance
+47.44305                                                         camera-rig.set-distance
 43.93692                                                         camera-rig.set-pitch-angle

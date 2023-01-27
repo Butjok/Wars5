@@ -20,7 +20,7 @@ public struct BallisticCurve {
 		var g = gravity.magnitude;
 
 		var d = v * v * v * v - g * (g * x * x + 2 * y * v * v);
-		if (d < Epsilon) {
+		if (d < 0) {
 			curveLow = curveHigh = default;
 			return false;
 		}
