@@ -23,7 +23,7 @@ public class Turret : MonoBehaviour {
 		initialized = true;
 		
 		unitView = GetComponentInChildren<UnitView>();
-		Assert.IsTrue(unitView);
+		//Assert.IsTrue(unitView);
 		
 		computer = GetComponent<BallisticComputer>();
 		Assert.IsTrue(computer);

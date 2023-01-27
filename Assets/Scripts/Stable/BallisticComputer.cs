@@ -24,7 +24,7 @@ public class BallisticComputer : MonoBehaviour {
 	}
 
 	public void UpdateBallisticCurve() {
-		if (Target && BallisticCurve.Calculate(barrel.position, Target.position, velocity, gravity, out var low, out var high)) {
+		if (Target && BallisticCurve.TryCalculate(barrel.position, Target.position, velocity, gravity, out var low, out var high)) {
 			var curve = angle == Angle.Low ? low : high;
 			virtualTarget.position = curve.from + curve.forward * Cos(curve.theta) + curve.up * Sin(curve.theta);
 			this.curve = curve;
@@ -46,7 +46,7 @@ public class BallisticComputer : MonoBehaviour {
 				Gizmos.DrawLine(a, b);
 		}
 
-		if (showIdealTrajectory && Target && BallisticCurve.Calculate(barrel.position, Target.position, velocity, gravity, out var low, out var high)) {
+		if (showIdealTrajectory && Target && BallisticCurve.TryCalculate(barrel.position, Target.position, velocity, gravity, out var low, out var high)) {
 			var curve = angle == Angle.Low ? low : high;
 			Gizmos.color = Color.yellow;
 			foreach (var (a, b)in curve.Segments())

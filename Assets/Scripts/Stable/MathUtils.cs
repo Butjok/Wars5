@@ -160,4 +160,13 @@ public static class MathUtils {
 		var nextIndex = index == -1 ? 0 : (index + offset).PositiveModulo(values.Length);
 		return values[nextIndex];
 	}
+
+	public static Quaternion SlerpWithMaxSpeed(this Quaternion rotation, Quaternion targetRotation, float maxSpeed = 9999) {
+		var angle = Quaternion.Angle(rotation, targetRotation);
+		if (Mathf.Approximately(0, angle))
+			return rotation;
+		var maxSpeedThisFrame = Time.deltaTime * maxSpeed;
+		var angleToRotate = Mathf.Min(maxSpeedThisFrame, angle);
+		return Quaternion.Slerp(rotation, targetRotation, angleToRotate / angle);
+	}
 }

@@ -6,7 +6,7 @@ using static UnityEngine.Mathf;
 [Serializable]
 public struct BallisticCurve {
 
-	public static bool Calculate(
+	public static bool TryCalculate(
 		Vector3 from, Vector3 to, float velocity, Vector3 gravity,
 		out BallisticCurve curveLow, out BallisticCurve curveHigh) {
 

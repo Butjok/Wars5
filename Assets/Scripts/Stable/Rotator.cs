@@ -29,8 +29,8 @@ public class Rotator : MonoBehaviour {
 		if (!from || !target)
 			return;
 		
-		var normal = relativeTo.rotation * localNormal;
-		var forward = relativeTo.rotation * Quaternion.AngleAxis(angle, localNormal) * localForward;
+		var normal = (relativeTo ? relativeTo.rotation : Quaternion.identity) * localNormal;
+		var forward = (relativeTo ? relativeTo.rotation : Quaternion.identity) * Quaternion.AngleAxis(angle, localNormal) * localForward;
 		var plane = new Plane(normal, from.position);
 		var projected = plane.ClosestPointOnPlane(target.position);
 
@@ -44,6 +44,6 @@ public class Rotator : MonoBehaviour {
 		if (doClamp)
 			angle = Clamp(angle, clamp[0], clamp[1]);
 
-		transform.rotation = relativeTo.rotation * Quaternion.AngleAxis(angle, localNormal);
+		transform.rotation = (relativeTo ? relativeTo.rotation : Quaternion.identity) * Quaternion.AngleAxis(angle, localNormal);
 	}
 }

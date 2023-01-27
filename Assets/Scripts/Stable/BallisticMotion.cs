@@ -25,9 +25,8 @@ public class BallisticMotion : MonoBehaviour {
 			if (delta != Vector3.zero)
 				transform.rotation = Quaternion.LookRotation(delta, up);
 		}
-		if (curve.totalTime is { } totalTime)
-			time = (time + Time.deltaTime) % totalTime;
-		else
-			time += Time.deltaTime;
+		time += Time.deltaTime;
+		if (curve.totalTime is { } totalTime && time > totalTime)
+			Destroy(gameObject);
 	}
 }

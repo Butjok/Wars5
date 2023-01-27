@@ -85,6 +85,15 @@ WbHowitzer UnitView type load-resource                           unit.set-view-p
                                                                  pop
 
                                                                  dup
+Infantry UnitType type enum                                      unit.set-type
+false                                                            unit.set-moved
+-6 -24 int2                                                      unit.set-position
+0 1 int2                                                         unit.set-look-direction
+WbLightTank UnitView type load-resource                          unit.set-view-prefab
+                                                                 unit.add
+                                                                 pop
+
+                                                                 dup
 Recon UnitType type enum                                         unit.set-type
 false                                                            unit.set-moved
 -7 -21 int2                                                      unit.set-position
@@ -100,17 +109,6 @@ false                                                            unit.set-moved
 0 1 int2                                                         unit.set-look-direction
 WbApc UnitView type load-resource                                unit.set-view-prefab
                                                                  unit.add
-
-                                                                 dup
-                                                                 dup
-                                                                 unit.get-player
-Infantry UnitType type enum                                      unit.set-type
-true                                                             unit.set-moved
-0 1 int2                                                         unit.set-look-direction
-WbLightTank UnitView type load-resource                          unit.set-view-prefab
-                                                                 unit.add
-                                                                 unit.put-into
-
                                                                  pop
 
                                                                  dup
@@ -755,7 +753,7 @@ BridgeView type get-component                                    bridge.set-view
                                                                  pop
 
 
--7.160794 -2.384185E-06 -22.07651 float3                         camera-rig.set-position
+-7.093776 0 -18.20075 float3                                     camera-rig.set-position
 247.5                                                            camera-rig.set-rotation
-22.67637                                                         camera-rig.set-distance
+46.91629                                                         camera-rig.set-distance
 43.93692                                                         camera-rig.set-pitch-angle
