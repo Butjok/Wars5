@@ -24,12 +24,12 @@ public static class GameWriter {
 
 			WriteLine(tw);
 
-			AddPlayer(tw, player);
+			WritePlayer(tw, player);
 			WriteLine(tw);
 
 			foreach (var building in player.main.FindBuildingsOf(player)) {
 				WriteLine(tw, "dup");
-				AddBuilding(tw, building);
+				WriteBuilding(tw, building);
 				WriteLine(tw, "pop");
 				WriteLine(tw);
 			}
@@ -38,7 +38,7 @@ public static class GameWriter {
 
 			foreach (var unit in player.main.FindUnitsOf(player)) {
 				WriteLine(tw, "dup");
-				AddUnit(tw, unit);
+				WriteUnit(tw, unit);
 				WriteLine(tw, "pop");
 				WriteLine(tw);
 			}
@@ -61,7 +61,7 @@ public static class GameWriter {
 
 		foreach (var building in main.buildings.Values.Where(building => building.Player== null)) {
 			WriteLine(tw, "null");
-			AddBuilding(tw, building);
+			WriteBuilding(tw, building);
 			WriteLine(tw, "pop");
 			WriteLine(tw);
 		}
@@ -75,7 +75,7 @@ public static class GameWriter {
 		}
 
 		foreach (var bridge in main.bridges) {
-			AddBridge(tw, bridge);
+			WRiteBridge(tw, bridge);
 			WriteLine(tw, "pop");
 			WriteLine(tw);
 		}
@@ -98,7 +98,7 @@ public static class GameWriter {
 		return tw;
 	}
 
-	public static TextWriter AddBridge(TextWriter tw, Bridge bridge) {
+	public static TextWriter WRiteBridge(TextWriter tw, Bridge bridge) {
 
 		var gameObject = bridge.view.gameObject;
 		Assert.AreNotEqual("Untagged", gameObject.tag);
@@ -121,7 +121,7 @@ public static class GameWriter {
 		return tw;
 	}
 
-	public static TextWriter AddBuilding(TextWriter tw, Building building) {
+	public static TextWriter WriteBuilding(TextWriter tw, Building building) {
 		WriteLine(tw, $"{building.type} TileType type enum", "building.set-type");
 		WriteLine(tw, $"{building.position.x} {building.position.y} int2", "building.set-position");
 		WriteLine(tw, building.Cp, "building.set-cp");
@@ -129,12 +129,14 @@ public static class GameWriter {
 		if (building.type == TileType.MissileSilo) {
 			WriteLine(tw, building.missileSiloLastLaunchTurn, "building.missile-silo.set-last-launch-turn");
 			WriteLine(tw, building.missileSiloLaunchCooldown, "building.missile-silo.set-launch-cooldown");
+			WriteLine(tw, building.missileSiloAmmo, "building.missile-silo.set-ammo");
+			WriteLine(tw, $"{building.missileSiloRange[0]} {building.missileSiloRange[1]} int2", "building.missile-silo.set-range");
 		}
 		WriteLine(tw, "building.add");
 		return tw;
 	}
 
-	public static TextWriter AddPlayer(TextWriter tw, Player player) {
+	public static TextWriter WritePlayer(TextWriter tw, Player player) {
 
 		WriteLine(tw, $"{player.Color.r} {player.Color.g} {player.Color.b}", "player.set-color");
 		WriteLine(tw, $"{player.team} Team type enum", "player.set-team");
@@ -154,14 +156,7 @@ public static class GameWriter {
 		return tw;
 	}
 
-	public static TextWriter SelectPlayer(TextWriter tw, Player player) {
-		var index = player.main.players.IndexOf(player);
-		Assert.AreNotEqual(-1, index);
-		WriteLine(tw, index, "player.select-by-index");
-		return tw;
-	}
-
-	public static TextWriter AddUnit(TextWriter tw, Unit unit) {
+	public static TextWriter WriteUnit(TextWriter tw, Unit unit) {
 
 		WriteLine(tw, $"{unit.type} UnitType type enum", "unit.set-type");
 		WriteLine(tw, unit.Moved ? "true" : "false", "unit.set-moved");
@@ -180,7 +175,7 @@ public static class GameWriter {
 				WriteLine(tw, "dup"); // duplicate unit as a carrier
 				WriteLine(tw, "dup"); // duplicate unit to get its player
 				WriteLine(tw, "unit.get-player");
-				AddUnit(tw, cargo);
+				WriteUnit(tw, cargo);
 				WriteLine(tw, "unit.put-into");
 				WriteLine(tw);
 			}

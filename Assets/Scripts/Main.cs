@@ -79,6 +79,15 @@ public class Main : StateRunner {
 	public bool TryGetBuilding(Vector2Int position, out Building building) {
 		return buildings.TryGetValue(position, out building) && building != null;
 	}
+	public bool TryGetBridge(Vector2Int position, out Bridge bridge) {
+		bridge = null;
+		foreach (var b in  bridges)
+			if (b.tiles.ContainsKey(position)) {
+				bridge = b;
+				return true;
+			}
+		return false;
+	}
 
 	public IEnumerable<Unit> FindUnitsOf(Player player) {
 		return units.Values.Where(unit => unit.Player == player);

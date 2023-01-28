@@ -17,6 +17,8 @@ public class Building : IDisposable {
     
     public int missileSiloLastLaunchTurn = -99;
     public int missileSiloLaunchCooldown = 1;
+    public int missileSiloAmmo = 999;
+    public Vector2Int missileSiloRange = new Vector2Int(0, 999);
 
     private Player player;
     public Player Player {

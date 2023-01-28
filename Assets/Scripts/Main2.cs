@@ -238,19 +238,19 @@ public class Main2 : Main {
         return DeleteAutosaves(_ => true);
     }
 
-    protected  void OnApplicationQuit() {
-        
+    protected void OnApplicationQuit() {
+
         Save("autosave");
         DeleteOldAutosaves();
 
         Clear();
-        if (Player.undisposed.Count>0)
+        if (Player.undisposed.Count > 0)
             Debug.LogError($"undisposed players: {Player.undisposed.Count}");
-        if (Building.undisposed.Count>0)
+        if (Building.undisposed.Count > 0)
             Debug.LogError($"undisposed buildings: {Building.undisposed.Count}");
         if (Unit.undisposed.Count > 0)
             Debug.LogError($"undisposed units: {Unit.undisposed.Count}");
-        if (UnitAction.undisposed.Count>0)
+        if (UnitAction.undisposed.Count > 0)
             Debug.LogError($"undisposed unit actions: {UnitAction.undisposed.Count}");
     }
 
@@ -549,8 +549,41 @@ public class Main2 : Main {
 
     [Command]
     public string InspectPlayer(int index) {
+        if (index < 0 || index > players.Count)
+            return null;
+
         using var sw = new StringWriter();
-        GameWriter.AddPlayer(sw, players[index]);
+        GameWriter.WritePlayer(sw, players[index]);
+        return sw.ToString();
+    }
+
+    [Command]
+    public string InspectUnit(Vector2Int position) {
+        if (!TryGetUnit(position, out var unit))
+            return null;
+
+        using var sw = new StringWriter();
+        GameWriter.WriteUnit(sw, unit);
+        return sw.ToString();
+    }
+
+    [Command]
+    public string InspectBuilding(Vector2Int position) {
+        if (!TryGetBuilding(position, out var building))
+            return null;
+
+        using var sw = new StringWriter();
+        GameWriter.WriteBuilding(sw, building);
+        return sw.ToString();
+    }
+
+    [Command]
+    public string InspectBridge(Vector2Int position) {
+        if (!TryGetBridge(position, out var bridge))
+            return null;
+
+        using var sw = new StringWriter();
+        GameWriter.WRiteBridge(sw, bridge);
         return sw.ToString();
     }
 

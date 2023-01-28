@@ -46,9 +46,11 @@ Factory TileType type enum                                       building.set-ty
 MissileSilo TileType type enum                                   building.set-type
 -6 -25 int2                                                      building.set-position
 20                                                               building.set-cp
-1 0 int2                                                         building.set-look-direction
--99                                                              building.missile-silo.set-last-launch-turn
-2                                                                building.missile-silo.set-launch-cooldown
+0 1 int2                                                         building.set-look-direction
+0                                                                building.missile-silo.set-last-launch-turn
+1                                                                building.missile-silo.set-launch-cooldown
+998                                                              building.missile-silo.set-ammo
+0 999 int2                                                       building.missile-silo.set-range
                                                                  building.add
                                                                  pop
 
@@ -88,8 +90,8 @@ WbHowitzer UnitView type load-resource                           unit.set-view-p
 
                                                                  dup
 Infantry UnitType type enum                                      unit.set-type
-false                                                            unit.set-moved
--6 -24 int2                                                      unit.set-position
+true                                                             unit.set-moved
+-6 -25 int2                                                      unit.set-position
 0 1 int2                                                         unit.set-look-direction
 WbLightTank UnitView type load-resource                          unit.set-view-prefab
                                                                  unit.add
@@ -755,7 +757,7 @@ BridgeView type get-component                                    bridge.set-view
                                                                  pop
 
 
--4.897285 -9.536743E-06 -22.38847 float3                         camera-rig.set-position
+-7.955132 -1.907349E-06 -22.31978 float3                         camera-rig.set-position
 247.5                                                            camera-rig.set-rotation
-28.76225                                                         camera-rig.set-distance
+35.36611                                                         camera-rig.set-distance
 43.93692                                                         camera-rig.set-pitch-angle

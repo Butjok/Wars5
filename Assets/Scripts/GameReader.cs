@@ -58,6 +58,8 @@ public static class GameReader {
         Vector2Int? buildingLookDirection;
         int buildingMissileSiloLastLaunchTurn ;
         int buildingMissileSiloLaunchCooldown ;
+        int buildingMissileSiloLaunchAmmo ;
+        Vector2Int buildingMissileSiloRange;
         void ResetBuildingValues() {
             buildingPosition = null;
             buildingType = 0;
@@ -65,6 +67,8 @@ public static class GameReader {
             buildingLookDirection = null;
             buildingMissileSiloLastLaunchTurn = -99;
             buildingMissileSiloLaunchCooldown = 1;
+            buildingMissileSiloLaunchAmmo = 999;
+            buildingMissileSiloRange = new Vector2Int(0, 999);
         }
         ResetBuildingValues();
 
@@ -222,16 +226,24 @@ public static class GameReader {
                 }
 
                 case "building.add": {
+                    
                     Assert.AreNotEqual((TileType)0, buildingType);
                     if (buildingPosition is not { } position)
                         throw new AssertionException("buildingPosition is null", buildingType.ToString());
                     Assert.IsTrue(!main.buildings.ContainsKey(position), position.ToString());
+                    
                     var player = main.stack.Pop<Player>();
                     var viewPrefab = !spawnBuildingViews ? null : ((Main2)main).buildingPrefabs.TryGetValue(buildingType,out var p) ? p : "WbFactory".LoadAs<BuildingView>();
+                    
                     var building = new Building(main, position, buildingType, player, buildingCp, viewPrefab, buildingLookDirection);
+                    
                     building.missileSiloLastLaunchTurn = buildingMissileSiloLastLaunchTurn;
                     building.missileSiloLaunchCooldown = buildingMissileSiloLaunchCooldown;
+                    building.missileSiloAmmo = buildingMissileSiloLaunchAmmo;
+                    building.missileSiloRange = buildingMissileSiloRange;
+                    
                     main.stack.Push(building);
+                    
                     ResetBuildingValues();
                     break;
                 }
@@ -257,6 +269,14 @@ public static class GameReader {
                 }
                 case "building.missile-silo.set-launch-cooldown": {
                     buildingMissileSiloLaunchCooldown=main.stack.Pop<int>();
+                    break;
+                }
+                case "building.missile-silo.set-ammo": {
+                    buildingMissileSiloLaunchAmmo=main.stack.Pop<int>();
+                    break;
+                }
+                case "building.missile-silo.set-range": {
+                    buildingMissileSiloRange=main.stack.Pop<Vector2Int>();
                     break;
                 }
 

@@ -38,35 +38,61 @@ public class MissileSiloView : BuildingView {
         if (target)
             targetPosition = target.position;
 
+        if (TryCalculateHorizontalTargetRotation(out var horizontalTargetRotation))
+            transform.rotation = transform.rotation.SlerpWithMaxSpeed(horizontalTargetRotation, speeds[0]);
+
+        barrel.localRotation = barrel.localRotation.SlerpWithMaxSpeed(
+            aim && TryCalculateBarrelTargetLocalRotation(out var barrelTargetLocalRotation)
+                ? barrelTargetLocalRotation
+                : Quaternion.identity, speeds[1]);
+    }
+
+    public bool TryCalculateHorizontalTargetRotation(out Quaternion targetRotation) {
+        targetRotation = Quaternion.identity;
+
         var groundPlane = new Plane(transform.up, transform.position);
         var targetPositionOnGroundPlane = groundPlane.ClosestPointOnPlane(aim ? targetPosition : transform.position + lookDirection.ToVector3Int());
         var newForward = targetPositionOnGroundPlane - transform.position;
-        if (newForward != Vector3.zero)
-            transform.rotation = transform.rotation.SlerpWithMaxSpeed(Quaternion.LookRotation(newForward, transform.up), speeds[0]);
+        if (newForward == Vector3.zero)
+            return false;
+
+        targetRotation = Quaternion.LookRotation(newForward, transform.up);
+        return true;
+    }
+
+    public bool TryCalculateBarrelTargetLocalRotation(out Quaternion rotation) {
+
+        rotation = Quaternion.identity;
+        if (!TryCalculateCurve(out var curve))
+            return false;
+
+        foreach (var (start, end) in curve.Segments())
+            Draw.ingame.Line(start, end, Color.red);
+
+        var aimingPosition = transform.position + curve.forward * Mathf.Cos(curve.theta) + curve.up * Mathf.Sin(curve.theta);
+        var angle = Vector3.SignedAngle(transform.forward, aimingPosition, transform.right);
+
+        var clampedAngle = Mathf.Clamp(angle, angleBounds[0], angleBounds[1]);
+        rotation = Quaternion.Euler(clampedAngle, 0, 0);
+        return true;
+    }
+
+    public void SnapToTargetRotationInstantly() {
         
-        if (aim) {
-            if (TryCalculateCurve(out var curve)) {
-                
-                foreach (var (start, end) in curve.Segments())
-                    Draw.ingame.Line(start, end);
+        if (TryCalculateHorizontalTargetRotation(out var horizontalTargetRotation))
+            transform.rotation = horizontalTargetRotation;
 
-                var aimingPosition = transform.position + curve.forward * Mathf.Cos(curve.theta) + curve.up * Mathf.Sin(curve.theta);
-                var angle = Vector3.SignedAngle(transform.forward, aimingPosition, transform.right);
-
-                var clampedAngle = Mathf.Clamp(angle, angleBounds[0], angleBounds[1]);
-                barrel.localRotation = barrel.localRotation.SlerpWithMaxSpeed(Quaternion.Euler(clampedAngle, 0, 0), speeds[1]);
-            }
-        }
-        else
-            barrel.localRotation = barrel.localRotation.SlerpWithMaxSpeed(Quaternion.identity, speeds[1]);
+        barrel.localRotation = aim && TryCalculateBarrelTargetLocalRotation(out var barrelTargetLocalRotation)
+            ? barrelTargetLocalRotation
+            : Quaternion.identity;
     }
 
     [Command]
     public BallisticMotion TryLaunchMissile() {
-        
+
         if (!TryCalculateCurve(out var curve))
             return null;
-            
+
         var projectile = Instantiate(projectilePrefab, transform.position, barrel.rotation);
         projectile.gameObject.SetActive(true);
         projectile.time = 0;
@@ -75,7 +101,7 @@ public class MissileSiloView : BuildingView {
     }
 
     public bool TryCalculateCurve(out BallisticCurve curve) {
-        
+
         var stepsTaken = 0;
         for (var velocity = minVelocity;; velocity += velocityStep, stepsTaken++) {
 
