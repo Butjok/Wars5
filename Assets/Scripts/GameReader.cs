@@ -391,6 +391,12 @@ public static class GameReader {
                         cameraRig.tagetPitchAngle = cameraRig.pitchAngle = pitchAngle;
                     break;
                 }
+                case "camera-rig.set-fov": {
+                    var fov = main.stack.Pop<dynamic>();
+                    if (loadCameraRig && cameraRig)
+                        cameraRig.Fov = fov;
+                    break;
+                }
 
                 default:
                     main.stack.ExecuteToken(token);

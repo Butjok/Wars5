@@ -1,35 +1,57 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Assertions;
+using UnityEngine.Formats.Alembic.Importer;
 
+[RequireComponent(typeof(AlembicStreamPlayer))]
 public class BridgeView : MonoBehaviour {
 
 	public Bridge bridge;
+	public AlembicStreamPlayer alembicStreamPlayer;
 
 	public GameObject intact;
+	public GameObject destruction;
 	public GameObject destroyed;
 
 	public int hp;
-	public int Hp {
-		set {
-			hp = value;
-			if (intact) 
-				intact.SetActive(value > 0);
-			if (destroyed) 
-				destroyed.SetActive(value <= 0);
+	public void SetHp(int value, bool animateDestruction = false) {
+		
+		hp = value;
+
+		if (value > 0) {
+			intact.SetActive(true);
+			destroyed.SetActive(false);
+			destruction.SetActive(false);
 		}
+		
+		if (value <= 0) {
+			
+			// turn off everything
+			intact.SetActive(false);
+			destroyed.SetActive(false);
+			destruction.SetActive(false);
+			
+			if (animateDestruction)
+				StartCoroutine(DestructionAnimation());
+			else
+				destroyed.SetActive(true);
+		}
+	}
+	
+	private void Awake() {
+		alembicStreamPlayer = GetComponent<AlembicStreamPlayer>();
+		Assert.IsTrue(alembicStreamPlayer);
 	}
 
 	public IEnumerator DestructionAnimation() {
-
-		if (CameraRig.TryFind(out var cameraRig)) {
-			var (min, max) = bridge.tiles.Keys.GetMinMax();
-			var center = Vector2.Lerp(min, max, .5f);
-			yield return cameraRig.Jump(center.Raycast());
+		destruction.SetActive(true);
+		alembicStreamPlayer.CurrentTime = 0;
+		while (alembicStreamPlayer.CurrentTime <= alembicStreamPlayer.EndTime) {
+			yield return null;
+			alembicStreamPlayer.CurrentTime += Time.deltaTime;
 		}
-			
-		Debug.Log("BRIDGE GETS DESTROYED!!!");
-
-		Hp = 0;
+		destruction.SetActive(false);
+		destroyed.SetActive(true);
 	}
 }

@@ -124,8 +124,8 @@ MonoBehaviour:
     up: {x: 0, y: 0, z: 0}
   orient: 1
   up: {x: 0, y: 1, z: 0}
-  startSpinSpeed: 270
-  spinDeceleration: 270
+  startSpinSpeed: 450
+  spinDeceleration: 180
   spinAngle: 0
   fallingDown: 0
   lastHeight: -3.4028235e+38

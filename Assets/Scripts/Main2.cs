@@ -220,6 +220,8 @@ public class Main2 : Main {
         foreach (var filePath in GetSaveFilePaths("autosave").ToArray()) {
             if (predicate(filePath)) {
                 File.Delete(filePath);
+                if (File.Exists(filePath + ".meta"))
+                    File.Delete(filePath + ".meta");
                 count++;
             }
         }
@@ -357,7 +359,7 @@ public class Main2 : Main {
     [Command]
     public bool TrySetBridgeHp(Vector2Int position, int hp) {
         if (TryFindBridge(position, out var bridge)) {
-            bridge.Hp = hp;
+            bridge.SetHp(hp);
             return true;
         }
         return false;
@@ -1082,8 +1084,11 @@ public class Main2 : Main {
 
     [Command]
     public void PopSaveFile(string name) {
-        if (TryGetLatestSaveFilePath(name, out var filePath))
+        if (TryGetLatestSaveFilePath(name, out var filePath)) {
             File.Delete(filePath);
+            if (File.Exists(filePath + ".meta"))
+                File.Delete(filePath + ".meta");
+        }
     }
 }
 

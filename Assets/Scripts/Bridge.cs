@@ -24,7 +24,7 @@ public class Bridge:IDisposable {
         view.bridge = this;
         this.view = view;
         this.main = main;
-        Hp = hp;
+        SetHp(hp);
 
         main.bridges.Add(this);
     }
@@ -37,19 +37,20 @@ public class Bridge:IDisposable {
 
     public const int maxHp = 20;
     private int hp = maxHp;
-    public int Hp {
-        get => hp;
-        set {
-            var oldHp = hp;
-            hp = view.Hp = Mathf.Clamp(value, 0, maxHp);
-            if (oldHp > 0 && hp == 0)
-                RemoveTiles();
-            else if (oldHp == 0 && hp > 0) {
-                Debug.Log("bridge's tiles were restored but units not");
-                RestoreTiles();
-            }
+
+    public void SetHp(int value, bool animateDestruction=false) {
+        var oldHp = hp;
+        hp = Mathf.Clamp(value, 0, maxHp);
+        view.SetHp(hp, animateDestruction);
+        if (oldHp > 0 && hp == 0)
+            RemoveTiles();
+        else if (oldHp == 0 && hp > 0) {
+            Debug.Log("bridge's tiles were restored but units not");
+            RestoreTiles();
         }
     }
+    
+    public int Hp => hp;
 
     public void RemoveTiles(bool removeBuilding = true, bool removeUnits = true) {
         foreach (var position in tiles.Keys) {

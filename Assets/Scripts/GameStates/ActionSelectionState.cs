@@ -193,10 +193,9 @@ public static class ActionSelectionState {
                                 missileSilo1.missileSiloLastLaunchTurn = main.turn;
                                 missileSilo1.missileSiloAmmo--;
 
-                                var attackPositions = main.PositionsInRange(targetPosition, missileBlastRange);
-                                var targetedBridges = main.bridges.Where(bridge => bridge.tiles.Keys.Intersect(attackPositions).Any());
+                                var targetedBridges = main.bridges.Where(bridge => bridge.tiles.ContainsKey(targetPosition));
                                 foreach (var bridge in targetedBridges)
-                                    bridge.Hp -= 10;
+                                    bridge.SetHp(bridge.Hp-10,true);
 
                                 CleanUpSubstate();
                                 yield return StateChange.Pop();

@@ -94,6 +94,7 @@ public static class GameWriter {
 		WriteLine(tw, cameraRig.transform.rotation.eulerAngles.y, "camera-rig.set-rotation");
 		WriteLine(tw, cameraRig.distance, "camera-rig.set-distance");
 		WriteLine(tw, cameraRig.pitchAngle, "camera-rig.set-pitch-angle");
+		WriteLine(tw, cameraRig.Fov, "camera-rig.set-fov");
 		
 		return tw;
 	}

@@ -57,12 +57,13 @@ MonoBehaviour:
   barrel: {fileID: 2865247307531774005}
   speeds: {x: 180, y: 90}
   angleBounds: {x: -80, y: 0}
-  minVelocity: 7.5
+  minVelocity: 5
   velocityStep: 0.1
-  gravity: 6.6
+  gravity: 5
   aim: 0
   projectilePrefab: {fileID: 2494640514362811810, guid: 80f5652440fb340679d17fc2baf72cbc, type: 3}
   selectHighCurve: 1
+  lookDirection: {x: 0, y: 0}
 --- !u!1 &2865247306582224816
 GameObject:
   m_ObjectHideFlags: 0
