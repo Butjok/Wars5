@@ -70,15 +70,16 @@ public class MissileSiloView : BuildingView {
             Draw.ingame.Line(start, end, Color.red);
 
         var aimingPosition = transform.position + curve.forward * Mathf.Cos(curve.theta) + curve.up * Mathf.Sin(curve.theta);
-        var angle = Vector3.SignedAngle(transform.forward, aimingPosition, transform.right);
 
+        var angle = Vector3.SignedAngle(transform.forward, aimingPosition - transform.position, transform.right);
         var clampedAngle = Mathf.Clamp(angle, angleBounds[0], angleBounds[1]);
+
         rotation = Quaternion.Euler(clampedAngle, 0, 0);
         return true;
     }
 
     public void SnapToTargetRotationInstantly() {
-        
+
         if (TryCalculateHorizontalTargetRotation(out var horizontalTargetRotation))
             transform.rotation = horizontalTargetRotation;
 
