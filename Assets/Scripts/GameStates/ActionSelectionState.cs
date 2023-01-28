@@ -364,7 +364,7 @@ public static class ActionSelectionState {
                                 case UnitActionType.Supply: {
                                     unit.Position = destination;
                                     action.targetUnit.Fuel = int.MaxValue;
-                                    foreach (var weaponName in action.targetUnit.Ammo.Keys)
+                                    foreach (var weaponName in action.targetUnit.Ammo.Keys.ToArray())
                                         action.targetUnit.SetAmmo(weaponName, int.MaxValue);
                                     break;
                                 }

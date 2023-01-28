@@ -75,7 +75,7 @@ public static class GameWriter {
 		}
 
 		foreach (var bridge in main.bridges) {
-			WRiteBridge(tw, bridge);
+			WriteBridge(tw, bridge);
 			WriteLine(tw, "pop");
 			WriteLine(tw);
 		}
@@ -98,7 +98,7 @@ public static class GameWriter {
 		return tw;
 	}
 
-	public static TextWriter WRiteBridge(TextWriter tw, Bridge bridge) {
+	public static TextWriter WriteBridge(TextWriter tw, Bridge bridge) {
 
 		var gameObject = bridge.view.gameObject;
 		Assert.AreNotEqual("Untagged", gameObject.tag);

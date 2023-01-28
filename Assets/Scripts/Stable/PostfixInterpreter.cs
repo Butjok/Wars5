@@ -57,14 +57,14 @@ public static class PostfixInterpreter {
 
                 case "and":
                 case "or": {
-                    var b = stack.Pop<bool>();
-                    var a = stack.Pop<bool>();
+                    var b = stack.Pop<dynamic>();
+                    var a = stack.Pop<dynamic>();
                     stack.Push(token == "and" ? a && b : a || b);
                     break;
                 }
 
                 case "not":
-                    stack.Push(!stack.Pop<bool>());
+                    stack.Push(!stack.Pop<dynamic>());
                     break;
 
                 case "dup":
@@ -108,7 +108,7 @@ public static class PostfixInterpreter {
                     break;
                 }
 
-                case "load":
+                case "load": // obsolete
                 case "load-resource": {
                     var type = stack.Pop<Type>();
                     var name = stack.Pop<string>();

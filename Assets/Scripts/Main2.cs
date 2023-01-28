@@ -583,7 +583,7 @@ public class Main2 : Main {
             return null;
 
         using var sw = new StringWriter();
-        GameWriter.WRiteBridge(sw, bridge);
+        GameWriter.WriteBridge(sw, bridge);
         return sw.ToString();
     }
 
