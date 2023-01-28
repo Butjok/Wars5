@@ -18,15 +18,6 @@ public static class PathSelectionState {
 
     public static IEnumerator<StateChange> Run(Main main, Unit unit) {
 
-        int? Cost(Vector2Int position, int length) {
-            if (length >= Rules.MoveDistance(unit) ||
-                !main.TryGetTile(position, out var tile) ||
-                main.TryGetUnit(position, out var other) && !Rules.CanPass(unit, other))
-                return null;
-
-            return Rules.TryGetMoveCost(unit, tile, out var cost) ? cost : null;
-        }
-
         if (unit.Position is not { } unitPosition)
             throw new AssertionException("unit.position.v != null", "");
         Assert.IsTrue(main.tiles.ContainsKey(unitPosition));
@@ -34,7 +25,7 @@ public static class PathSelectionState {
         var moveDistance = Rules.MoveDistance(unit);
 
         var traverser = new Traverser();
-        traverser.Traverse(main.tiles.Keys, unitPosition, Cost, moveDistance);
+        traverser.Traverse(main.tiles.Keys, unitPosition, Rules.MoveCostFunction(unit), moveDistance);
 
         var pathMeshGameObject = new GameObject();
         Object.DontDestroyOnLoad(pathMeshGameObject);
@@ -81,7 +72,7 @@ public static class PathSelectionState {
                 if (Mouse.TryGetPosition(out Vector2Int mousePosition) && traverser.IsReachable(mousePosition, moveDistance)) {
                     if (pathBuilder.positions.Last() == mousePosition) {
                         var isLastUnmovedUnit = main.FindUnitsOf(main.CurrentPlayer).Count(u => !u.Moved) == 1;
-                        main.stack.Push(main.followLastUnit && main.CurrentPlayer != main.localPlayer && 
+                        main.stack.Push(main.followLastUnit && main.CurrentPlayer != main.localPlayer &&
                                         isLastUnmovedUnit && pathBuilder.positions.Count > 1);
                         main.commands.Enqueue(move);
                     }
@@ -151,18 +142,18 @@ public static class PathSelectionState {
                                     break;
                                 }
                             }
-                            
+
                             if (hardFollow)
                                 hardFollow.enabled = false;
 
-                            yield return StateChange.ReplaceWith("action-selection",ActionSelectionState.Run(main, unit, path, initialLookDirection));
+                            yield return StateChange.ReplaceWith("action-selection", ActionSelectionState.Run(main, unit, path, initialLookDirection));
                             break;
                         }
 
                         case cancel:
                             unit.view.Selected = false;
                             CleanUp();
-                            yield return  StateChange.ReplaceWith("selection",SelectionState.Run(main));
+                            yield return StateChange.ReplaceWith("selection", SelectionState.Run(main));
                             break;
 
                         default:

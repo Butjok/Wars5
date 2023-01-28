@@ -305,6 +305,7 @@ public static class Rules {
             moveDistance += 5;
         return Min(unit.Fuel, moveDistance);
     }
+    
     public static bool TryGetMoveCost(UnitType unitType, TileType tileType, out int cost) {
 
         const int unreachable = -1;
@@ -336,6 +337,23 @@ public static class Rules {
         };
         return cost != unreachable;
     }
+    
+    public static Traverser.TryGetCostDelegate MoveCostFunction(Unit unit) {
+
+        bool TryGetCost(Vector2Int position, int distance, out int cost) {
+            cost = 0;
+
+            if (distance >= MoveDistance(unit) ||
+                !unit.Player.main.TryGetTile(position, out var tile) ||
+                unit.Player.main.TryGetUnit(position, out var other) && !CanPass(unit, other))
+                return false;
+
+            return TryGetMoveCost(unit, tile, out cost);    
+        }
+
+        return TryGetCost;
+    }
+    
     public static bool CanStay(UnitType unitType, TileType tileType) {
         return TryGetMoveCost(unitType, tileType, out _);
     }

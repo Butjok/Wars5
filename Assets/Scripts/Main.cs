@@ -5,115 +5,114 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using Butjok.CommandLine;
 using DG.Tweening;
-
 using UnityEngine;
 using UnityEngine.Assertions;
 
 public class Main : StateRunner {
 
-	[Command]
-	public bool followLastUnit;
-	public bool inLevelEditor = true;
-	
-	public List<Bridge> bridges = new();
+    [Command]
+    public bool followLastUnit;
+    public bool inLevelEditor = true;
 
-	[Command] public MissionName missionName;
-	public Dictionary<Vector2Int, TileType> tiles = new();
-	public Dictionary<Vector2Int, Unit> units = new();
-	public Dictionary<Vector2Int, Building> buildings = new();
-	public Dictionary<TriggerName, HashSet<Vector2Int>> triggers = new() {
-		[TriggerName.A] = new HashSet<Vector2Int>(),
-		[TriggerName.B] = new HashSet<Vector2Int>(),
-		[TriggerName.C] = new HashSet<Vector2Int>(),
-		[TriggerName.D] = new HashSet<Vector2Int>(),
-		[TriggerName.E] = new HashSet<Vector2Int>(),
-		[TriggerName.F] = new HashSet<Vector2Int>(),
-	};
-	public List<Player> players = new();
-	[Command] public int turn = 0;
-	public LevelLogic levelLogic = new();
-	public Player localPlayer;
-	public GameSettings settings = new();
+    public List<Bridge> bridges = new();
 
-	public DebugStack stack = new();
-	public Queue<string> commands = new();
+    [Command] public MissionName missionName;
+    public Dictionary<Vector2Int, TileType> tiles = new();
+    public Dictionary<Vector2Int, Unit> units = new();
+    public Dictionary<Vector2Int, Building> buildings = new();
+    public Dictionary<TriggerName, HashSet<Vector2Int>> triggers = new() {
+        [TriggerName.A] = new HashSet<Vector2Int>(),
+        [TriggerName.B] = new HashSet<Vector2Int>(),
+        [TriggerName.C] = new HashSet<Vector2Int>(),
+        [TriggerName.D] = new HashSet<Vector2Int>(),
+        [TriggerName.E] = new HashSet<Vector2Int>(),
+        [TriggerName.F] = new HashSet<Vector2Int>(),
+    };
+    public List<Player> players = new();
+    [Command] public int turn = 0;
+    public LevelLogic levelLogic = new();
+    public Player localPlayer;
+    public GameSettings settings = new();
 
-	public MeshFilter tileAreaMeshFilter;
+    public DebugStack stack = new();
+    public Queue<string> commands = new();
 
-	virtual public void Awake() {
+    public MeshFilter tileAreaMeshFilter;
 
-		Player.undisposed.Clear();
-		Building.undisposed.Clear();
-		Unit.undisposed.Clear();
-		UnitAction.undisposed.Clear();
+    virtual public void Awake() {
 
-		UpdatePostProcessing();
+        Player.undisposed.Clear();
+        Building.undisposed.Clear();
+        Unit.undisposed.Clear();
+        UnitAction.undisposed.Clear();
 
-		settings = PersistentData.Read().gameSettings;
-	}
+        UpdatePostProcessing();
 
-	public void UpdatePostProcessing() {
-		PostProcessing.Setup(
-			settings.antiAliasing,
-			settings.motionBlurShutterAngle,
-			settings.enableBloom,
-			settings.enableScreenSpaceReflections,
-			settings.enableAmbientOcclusion);
-	}
+        settings = PersistentData.Read().gameSettings;
+    }
 
-	public Player CurrentPlayer {
-		get {
-			Assert.AreNotEqual(0, players.Count);
-			Assert.IsTrue(turn != null);
-			Assert.IsTrue(turn >= 0);
-			return players[(int)turn % players.Count];
-		}
-	}
+    public void UpdatePostProcessing() {
+        PostProcessing.Setup(
+            settings.antiAliasing,
+            settings.motionBlurShutterAngle,
+            settings.enableBloom,
+            settings.enableScreenSpaceReflections,
+            settings.enableAmbientOcclusion);
+    }
 
-	public bool TryGetTile(Vector2Int position, out TileType tile) {
-		return tiles.TryGetValue(position, out tile) && tile != 0;
-	}
-	public bool TryGetUnit(Vector2Int position, out Unit unit) {
-		return units.TryGetValue(position, out unit) && unit != null;
-	}
-	public bool TryGetBuilding(Vector2Int position, out Building building) {
-		return buildings.TryGetValue(position, out building) && building != null;
-	}
-	public bool TryGetBridge(Vector2Int position, out Bridge bridge) {
-		bridge = null;
-		foreach (var b in  bridges)
-			if (b.tiles.ContainsKey(position)) {
-				bridge = b;
-				return true;
-			}
-		return false;
-	}
+    public Player CurrentPlayer {
+        get {
+            Assert.AreNotEqual(0, players.Count);
+            Assert.IsTrue(turn != null);
+            Assert.IsTrue(turn >= 0);
+            return players[(int)turn % players.Count];
+        }
+    }
 
-	public IEnumerable<Unit> FindUnitsOf(Player player) {
-		return units.Values.Where(unit => unit.Player == player);
-	}
-	public IEnumerable<Building> FindBuildingsOf(Player player) {
-		return buildings.Values.Where(building => building.Player == player);
-	}
+    public bool TryGetTile(Vector2Int position, out TileType tile) {
+        return tiles.TryGetValue(position, out tile) && tile != 0;
+    }
+    public bool TryGetUnit(Vector2Int position, out Unit unit) {
+        return units.TryGetValue(position, out unit) && unit != null;
+    }
+    public bool TryGetBuilding(Vector2Int position, out Building building) {
+        return buildings.TryGetValue(position, out building) && building != null;
+    }
+    public bool TryGetBridge(Vector2Int position, out Bridge bridge) {
+        bridge = null;
+        foreach (var b in bridges)
+            if (b.tiles.ContainsKey(position)) {
+                bridge = b;
+                return true;
+            }
+        return false;
+    }
 
-	public IEnumerable<Vector2Int> PositionsInRange(Vector2Int position, Vector2Int range) {
-		return range.Offsets().Select(offset => offset + position).Where(p => tiles.ContainsKey(p));
-	}
-	
+    public IEnumerable<Unit> FindUnitsOf(Player player) {
+        return units.Values.Where(unit => unit.Player == player);
+    }
+    public IEnumerable<Building> FindBuildingsOf(Player player) {
+        return buildings.Values.Where(building => building.Player == player);
+    }
 
-	public float fadeDuration = 2;
-	public Ease fadeEase = Ease.Unset;
-	public void RestartGame() {
-		PostProcessing.ColorFilter = Color.black;
-		PostProcessing.Fade(Color.white, fadeDuration, fadeEase);
-		ClearStates();
-		PushState("selection", SelectionState.Run(this, true));
-	}
+    public IEnumerable<Vector2Int> PositionsInRange(Vector2Int position, Vector2Int range) {
+        return range.Offsets().Select(offset => offset + position).Where(p => tiles.ContainsKey(p));
+    }
 
-	[Command]
-	public void EnqueueCommand(string command) {
-		commands.Enqueue(command);
-	}
+
+    public float fadeDuration = 2;
+    public Ease fadeEase = Ease.Unset;
+    public void RestartGame() {
+        PostProcessing.ColorFilter = Color.black;
+        PostProcessing.Fade(Color.white, fadeDuration, fadeEase);
+        ClearStates();
+        PushState("selection", SelectionState.Run(this, true));
+    }
+
+    [Command]
+    public void EnqueueCommand(string command) {
+        commands.Enqueue(command);
+    }
 }
 
-public enum TriggerName { A,B,C,D,E,F }
+public enum TriggerName { A, B, C, D, E, F }

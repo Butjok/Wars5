@@ -1,0 +1,763 @@
+LevelEditor                                                      game.load-scene
+Tutorial MissionName type enum                                   game.set-mission-name
+0                                                                game.set-turn
+                                                                 
+
+
+#
+#Player0RGBA(1.000,0.300,0.000,1.000)
+#
+
+1 0.3 0                                                          player.set-color
+None Team type enum                                              player.set-team
+16000                                                            player.set-credits
+0                                                                player.set-power-meter
+0 1 int2                                                         player.set-unit-look-direction
+0                                                                player.on-additive-load-get-by-index
+Natalie                                                          player.set-co
+                                                                 player.mark-as-local
+                                                                 player.add
+
+                                                                 dup
+Hq TileType type enum                                            building.set-type
+-1 -26 int2                                                      building.set-position
+20                                                               building.set-cp
+0 -1 int2                                                        building.set-look-direction
+                                                                 building.add
+                                                                 pop
+
+                                                                 dup
+Factory TileType type enum                                       building.set-type
+-1 -20 int2                                                      building.set-position
+20                                                               building.set-cp
+1 0 int2                                                         building.set-look-direction
+                                                                 building.add
+                                                                 pop
+
+                                                                 dup
+Factory TileType type enum                                       building.set-type
+-2 -20 int2                                                      building.set-position
+20                                                               building.set-cp
+1 0 int2                                                         building.set-look-direction
+                                                                 building.add
+                                                                 pop
+
+                                                                 dup
+MissileSilo TileType type enum                                   building.set-type
+-6 -25 int2                                                      building.set-position
+20                                                               building.set-cp
+0 1 int2                                                         building.set-look-direction
+-99                                                              building.missile-silo.set-last-launch-turn
+1                                                                building.missile-silo.set-launch-cooldown
+999                                                              building.missile-silo.set-ammo
+0 999 int2                                                       building.missile-silo.set-range
+                                                                 building.add
+                                                                 pop
+
+                                                                 dup
+City TileType type enum                                          building.set-type
+-11 -24 int2                                                     building.set-position
+20                                                               building.set-cp
+0 -1 int2                                                        building.set-look-direction
+                                                                 building.add
+                                                                 pop
+
+                                                                 dup
+Factory TileType type enum                                       building.set-type
+-1 -17 int2                                                      building.set-position
+20                                                               building.set-cp
+0 -1 int2                                                        building.set-look-direction
+                                                                 building.add
+                                                                 pop
+
+                                                                 dup
+Factory TileType type enum                                       building.set-type
+-1 -15 int2                                                      building.set-position
+20                                                               building.set-cp
+0 -1 int2                                                        building.set-look-direction
+                                                                 building.add
+                                                                 pop
+
+
+                                                                 dup
+Artillery UnitType type enum                                     unit.set-type
+false                                                            unit.set-moved
+-5 -20 int2                                                      unit.set-position
+0 1 int2                                                         unit.set-look-direction
+WbHowitzer UnitView type load-resource                           unit.set-view-prefab
+                                                                 unit.add
+                                                                 pop
+
+                                                                 dup
+Infantry UnitType type enum                                      unit.set-type
+false                                                            unit.set-moved
+-6 -24 int2                                                      unit.set-position
+0 1 int2                                                         unit.set-look-direction
+WbLightTank UnitView type load-resource                          unit.set-view-prefab
+                                                                 unit.add
+                                                                 pop
+
+                                                                 dup
+Recon UnitType type enum                                         unit.set-type
+false                                                            unit.set-moved
+-7 -21 int2                                                      unit.set-position
+0 1 int2                                                         unit.set-look-direction
+WbRecon UnitView type load-resource                              unit.set-view-prefab
+                                                                 unit.add
+                                                                 pop
+
+                                                                 dup
+Apc UnitType type enum                                           unit.set-type
+false                                                            unit.set-moved
+-8 -24 int2                                                      unit.set-position
+0 1 int2                                                         unit.set-look-direction
+WbApc UnitView type load-resource                                unit.set-view-prefab
+                                                                 unit.add
+                                                                 pop
+
+                                                                 dup
+Recon UnitType type enum                                         unit.set-type
+false                                                            unit.set-moved
+-7 -15 int2                                                      unit.set-position
+0 1 int2                                                         unit.set-look-direction
+WbRecon UnitView type load-resource                              unit.set-view-prefab
+                                                                 unit.add
+                                                                 pop
+
+                                                                 pop
+                                                                 
+
+#
+#Player1RGBA(0.000,0.300,1.000,1.000)
+#
+
+0 0.3 1                                                          player.set-color
+None Team type enum                                              player.set-team
+0                                                                player.set-credits
+0                                                                player.set-power-meter
+0 -1 int2                                                        player.set-unit-look-direction
+1                                                                player.on-additive-load-get-by-index
+Natalie                                                          player.set-co
+                                                                 player.add
+
+                                                                 dup
+Hq TileType type enum                                            building.set-type
+-24 -8 int2                                                      building.set-position
+20                                                               building.set-cp
+1 0 int2                                                         building.set-look-direction
+                                                                 building.add
+                                                                 pop
+
+
+                                                                 dup
+Recon UnitType type enum                                         unit.set-type
+false                                                            unit.set-moved
+-24 -9 int2                                                      unit.set-position
+0 -1 int2                                                        unit.set-look-direction
+WbRecon UnitView type load-resource                              unit.set-view-prefab
+                                                                 unit.add
+                                                                 pop
+
+                                                                 pop
+                                                                 
+
+Plain TileType type enum -24 -9 int2                             tile.add
+Plain TileType type enum -11 -26 int2                            tile.add
+Plain TileType type enum -10 -26 int2                            tile.add
+Plain TileType type enum -10 -24 int2                            tile.add
+Plain TileType type enum -10 -23 int2                            tile.add
+Plain TileType type enum -10 -22 int2                            tile.add
+Plain TileType type enum -10 -21 int2                            tile.add
+Plain TileType type enum -10 -20 int2                            tile.add
+Plain TileType type enum -9 -26 int2                             tile.add
+Plain TileType type enum -9 -24 int2                             tile.add
+Plain TileType type enum -9 -23 int2                             tile.add
+Plain TileType type enum -9 -22 int2                             tile.add
+Plain TileType type enum -9 -21 int2                             tile.add
+Plain TileType type enum -9 -17 int2                             tile.add
+Plain TileType type enum -9 -16 int2                             tile.add
+Plain TileType type enum -9 -15 int2                             tile.add
+Plain TileType type enum -9 -14 int2                             tile.add
+Plain TileType type enum -9 -12 int2                             tile.add
+Plain TileType type enum -9 -11 int2                             tile.add
+Plain TileType type enum -9 -10 int2                             tile.add
+Plain TileType type enum -9 -9 int2                              tile.add
+Plain TileType type enum -8 -26 int2                             tile.add
+Plain TileType type enum -8 -24 int2                             tile.add
+Plain TileType type enum -8 -23 int2                             tile.add
+Plain TileType type enum -8 -22 int2                             tile.add
+Plain TileType type enum -8 -21 int2                             tile.add
+Plain TileType type enum -8 -18 int2                             tile.add
+Plain TileType type enum -8 -17 int2                             tile.add
+Plain TileType type enum -8 -16 int2                             tile.add
+Plain TileType type enum -8 -15 int2                             tile.add
+Plain TileType type enum -8 -12 int2                             tile.add
+Plain TileType type enum -8 -11 int2                             tile.add
+Plain TileType type enum -8 -10 int2                             tile.add
+Plain TileType type enum -8 -9 int2                              tile.add
+Plain TileType type enum -7 -11 int2                             tile.add
+Plain TileType type enum -7 -10 int2                             tile.add
+Plain TileType type enum -7 -9 int2                              tile.add
+Plain TileType type enum -6 -26 int2                             tile.add
+Plain TileType type enum -6 -24 int2                             tile.add
+Plain TileType type enum -6 -22 int2                             tile.add
+Plain TileType type enum -6 -20 int2                             tile.add
+Plain TileType type enum -6 -19 int2                             tile.add
+Plain TileType type enum -6 -18 int2                             tile.add
+Plain TileType type enum -6 -17 int2                             tile.add
+Plain TileType type enum -6 -11 int2                             tile.add
+Plain TileType type enum -6 -10 int2                             tile.add
+Plain TileType type enum -6 -9 int2                              tile.add
+Plain TileType type enum -6 -8 int2                              tile.add
+Plain TileType type enum -5 -26 int2                             tile.add
+Plain TileType type enum -5 -25 int2                             tile.add
+Plain TileType type enum -5 -23 int2                             tile.add
+Plain TileType type enum -5 -22 int2                             tile.add
+Plain TileType type enum -5 -18 int2                             tile.add
+Plain TileType type enum -5 -17 int2                             tile.add
+Plain TileType type enum -5 -13 int2                             tile.add
+Plain TileType type enum -5 -11 int2                             tile.add
+Plain TileType type enum -5 -10 int2                             tile.add
+Plain TileType type enum -5 -9 int2                              tile.add
+Plain TileType type enum -5 -8 int2                              tile.add
+Plain TileType type enum -4 -26 int2                             tile.add
+Plain TileType type enum -4 -25 int2                             tile.add
+Plain TileType type enum -4 -24 int2                             tile.add
+Plain TileType type enum -4 -23 int2                             tile.add
+Plain TileType type enum -4 -17 int2                             tile.add
+Plain TileType type enum -4 -15 int2                             tile.add
+Plain TileType type enum -4 -14 int2                             tile.add
+Plain TileType type enum -4 -13 int2                             tile.add
+Plain TileType type enum -4 -11 int2                             tile.add
+Plain TileType type enum -4 -10 int2                             tile.add
+Plain TileType type enum -3 -26 int2                             tile.add
+Plain TileType type enum -3 -25 int2                             tile.add
+Plain TileType type enum -3 -24 int2                             tile.add
+Plain TileType type enum -3 -23 int2                             tile.add
+Plain TileType type enum -3 -17 int2                             tile.add
+Plain TileType type enum -3 -15 int2                             tile.add
+Plain TileType type enum -3 -14 int2                             tile.add
+Plain TileType type enum -3 -13 int2                             tile.add
+Plain TileType type enum -3 -11 int2                             tile.add
+Plain TileType type enum -3 -10 int2                             tile.add
+Plain TileType type enum -2 -26 int2                             tile.add
+Plain TileType type enum -2 -25 int2                             tile.add
+Plain TileType type enum -2 -24 int2                             tile.add
+Plain TileType type enum -2 -17 int2                             tile.add
+Plain TileType type enum -2 -15 int2                             tile.add
+Plain TileType type enum -2 -14 int2                             tile.add
+Plain TileType type enum -2 -11 int2                             tile.add
+Plain TileType type enum -2 -10 int2                             tile.add
+Plain TileType type enum -2 -9 int2                              tile.add
+Plain TileType type enum -1 -25 int2                             tile.add
+Plain TileType type enum -1 -24 int2                             tile.add
+Plain TileType type enum -1 -14 int2                             tile.add
+Plain TileType type enum -1 -13 int2                             tile.add
+Plain TileType type enum -1 -11 int2                             tile.add
+Plain TileType type enum -1 -10 int2                             tile.add
+Road TileType type enum -14 -13 int2                             tile.add
+Road TileType type enum -13 -13 int2                             tile.add
+Road TileType type enum -12 -13 int2                             tile.add
+Road TileType type enum -11 -25 int2                             tile.add
+Road TileType type enum -11 -13 int2                             tile.add
+Road TileType type enum -10 -25 int2                             tile.add
+Road TileType type enum -10 -13 int2                             tile.add
+Road TileType type enum -9 -25 int2                              tile.add
+Road TileType type enum -9 -13 int2                              tile.add
+Road TileType type enum -8 -25 int2                              tile.add
+Road TileType type enum -8 -13 int2                              tile.add
+Road TileType type enum -7 -26 int2                              tile.add
+Road TileType type enum -7 -25 int2                              tile.add
+Road TileType type enum -7 -24 int2                              tile.add
+Road TileType type enum -7 -23 int2                              tile.add
+Road TileType type enum -7 -22 int2                              tile.add
+Road TileType type enum -7 -21 int2                              tile.add
+Road TileType type enum -7 -20 int2                              tile.add
+Road TileType type enum -7 -19 int2                              tile.add
+Road TileType type enum -7 -18 int2                              tile.add
+Road TileType type enum -7 -17 int2                              tile.add
+Road TileType type enum -7 -16 int2                              tile.add
+Road TileType type enum -7 -15 int2                              tile.add
+Road TileType type enum -7 -14 int2                              tile.add
+Road TileType type enum -7 -13 int2                              tile.add
+Road TileType type enum -7 -12 int2                              tile.add
+Road TileType type enum -6 -21 int2                              tile.add
+Road TileType type enum -6 -16 int2                              tile.add
+Road TileType type enum -6 -12 int2                              tile.add
+Road TileType type enum -5 -21 int2                              tile.add
+Road TileType type enum -5 -16 int2                              tile.add
+Road TileType type enum -5 -12 int2                              tile.add
+Road TileType type enum -4 -21 int2                              tile.add
+Road TileType type enum -4 -16 int2                              tile.add
+Road TileType type enum -4 -12 int2                              tile.add
+Road TileType type enum -3 -21 int2                              tile.add
+Road TileType type enum -3 -16 int2                              tile.add
+Road TileType type enum -3 -12 int2                              tile.add
+Road TileType type enum -2 -21 int2                              tile.add
+Road TileType type enum -2 -16 int2                              tile.add
+Road TileType type enum -2 -12 int2                              tile.add
+Road TileType type enum -1 -21 int2                              tile.add
+Road TileType type enum -1 -16 int2                              tile.add
+Mountain TileType type enum -13 -19 int2                         tile.add
+Mountain TileType type enum -13 -18 int2                         tile.add
+Mountain TileType type enum -12 -26 int2                         tile.add
+Mountain TileType type enum -12 -25 int2                         tile.add
+Mountain TileType type enum -12 -24 int2                         tile.add
+Mountain TileType type enum -12 -20 int2                         tile.add
+Mountain TileType type enum -12 -19 int2                         tile.add
+Mountain TileType type enum -11 -23 int2                         tile.add
+Mountain TileType type enum -11 -22 int2                         tile.add
+Mountain TileType type enum -11 -21 int2                         tile.add
+Mountain TileType type enum -11 -20 int2                         tile.add
+Mountain TileType type enum -11 -19 int2                         tile.add
+Mountain TileType type enum -11 -18 int2                         tile.add
+Mountain TileType type enum -10 -19 int2                         tile.add
+Mountain TileType type enum -5 -19 int2                          tile.add
+Mountain TileType type enum -4 -20 int2                          tile.add
+Mountain TileType type enum -4 -19 int2                          tile.add
+Mountain TileType type enum -2 -19 int2                          tile.add
+Mountain TileType type enum -1 -19 int2                          tile.add
+Mountain TileType type enum -1 -18 int2                          tile.add
+Forest TileType type enum -11 -17 int2                           tile.add
+Forest TileType type enum -10 -18 int2                           tile.add
+Forest TileType type enum -10 -17 int2                           tile.add
+Forest TileType type enum -10 -16 int2                           tile.add
+Forest TileType type enum -9 -20 int2                            tile.add
+Forest TileType type enum -9 -19 int2                            tile.add
+Forest TileType type enum -9 -18 int2                            tile.add
+Forest TileType type enum -8 -20 int2                            tile.add
+Forest TileType type enum -8 -19 int2                            tile.add
+Forest TileType type enum -8 -14 int2                            tile.add
+Forest TileType type enum -8 -8 int2                             tile.add
+Forest TileType type enum -7 -8 int2                             tile.add
+Forest TileType type enum -6 -23 int2                            tile.add
+Forest TileType type enum -6 -15 int2                            tile.add
+Forest TileType type enum -6 -14 int2                            tile.add
+Forest TileType type enum -5 -24 int2                            tile.add
+Forest TileType type enum -5 -20 int2                            tile.add
+Forest TileType type enum -5 -15 int2                            tile.add
+Forest TileType type enum -5 -14 int2                            tile.add
+Forest TileType type enum -4 -22 int2                            tile.add
+Forest TileType type enum -4 -18 int2                            tile.add
+Forest TileType type enum -4 -9 int2                             tile.add
+Forest TileType type enum -4 -8 int2                             tile.add
+Forest TileType type enum -3 -22 int2                            tile.add
+Forest TileType type enum -3 -20 int2                            tile.add
+Forest TileType type enum -3 -19 int2                            tile.add
+Forest TileType type enum -3 -18 int2                            tile.add
+Forest TileType type enum -3 -9 int2                             tile.add
+Forest TileType type enum -3 -8 int2                             tile.add
+Forest TileType type enum -2 -23 int2                            tile.add
+Forest TileType type enum -2 -22 int2                            tile.add
+Forest TileType type enum -2 -18 int2                            tile.add
+Forest TileType type enum -2 -8 int2                             tile.add
+Forest TileType type enum -1 -23 int2                            tile.add
+Forest TileType type enum -1 -22 int2                            tile.add
+Forest TileType type enum -1 -9 int2                             tile.add
+Forest TileType type enum -1 -8 int2                             tile.add
+
+                                                                 null
+City TileType type enum                                          building.set-type
+-2 -13 int2                                                      building.set-position
+20                                                               building.set-cp
+0 1 int2                                                         building.set-look-direction
+                                                                 building.add
+                                                                 pop
+
+                                                                 null
+Factory TileType type enum                                       building.set-type
+-1 -12 int2                                                      building.set-position
+20                                                               building.set-cp
+0 1 int2                                                         building.set-look-direction
+                                                                 building.add
+                                                                 pop
+
+                                                                 null
+City TileType type enum                                          building.set-type
+-6 -13 int2                                                      building.set-position
+20                                                               building.set-cp
+0 1 int2                                                         building.set-look-direction
+                                                                 building.add
+                                                                 pop
+
+
+A TriggerName type enum                                          trigger.select
+-13 -26 int2                                                     trigger.add-position
+-23 -17 int2                                                     trigger.add-position
+-12 -23 int2                                                     trigger.add-position
+-22 -26 int2                                                     trigger.add-position
+-22 -12 int2                                                     trigger.add-position
+-19 -26 int2                                                     trigger.add-position
+-12 -22 int2                                                     trigger.add-position
+-12 -21 int2                                                     trigger.add-position
+-13 -24 int2                                                     trigger.add-position
+-13 -25 int2                                                     trigger.add-position
+-23 -26 int2                                                     trigger.add-position
+-23 -21 int2                                                     trigger.add-position
+-13 -19 int2                                                     trigger.add-position
+-13 -18 int2                                                     trigger.add-position
+-13 -17 int2                                                     trigger.add-position
+-18 -26 int2                                                     trigger.add-position
+-23 -18 int2                                                     trigger.add-position
+-23 -12 int2                                                     trigger.add-position
+-13 -23 int2                                                     trigger.add-position
+-18 -25 int2                                                     trigger.add-position
+-16 -24 int2                                                     trigger.add-position
+-22 -24 int2                                                     trigger.add-position
+-22 -23 int2                                                     trigger.add-position
+-23 -20 int2                                                     trigger.add-position
+-21 -26 int2                                                     trigger.add-position
+-23 -14 int2                                                     trigger.add-position
+-17 -26 int2                                                     trigger.add-position
+-17 -25 int2                                                     trigger.add-position
+-17 -24 int2                                                     trigger.add-position
+-17 -23 int2                                                     trigger.add-position
+-17 -22 int2                                                     trigger.add-position
+-17 -21 int2                                                     trigger.add-position
+-17 -20 int2                                                     trigger.add-position
+-17 -19 int2                                                     trigger.add-position
+-17 -18 int2                                                     trigger.add-position
+-17 -17 int2                                                     trigger.add-position
+-16 -16 int2                                                     trigger.add-position
+-16 -15 int2                                                     trigger.add-position
+-16 -14 int2                                                     trigger.add-position
+-17 -14 int2                                                     trigger.add-position
+-17 -15 int2                                                     trigger.add-position
+-17 -16 int2                                                     trigger.add-position
+-15 -14 int2                                                     trigger.add-position
+-15 -15 int2                                                     trigger.add-position
+-14 -15 int2                                                     trigger.add-position
+-14 -16 int2                                                     trigger.add-position
+-14 -17 int2                                                     trigger.add-position
+-14 -18 int2                                                     trigger.add-position
+-14 -19 int2                                                     trigger.add-position
+-14 -20 int2                                                     trigger.add-position
+-13 -20 int2                                                     trigger.add-position
+-12 -20 int2                                                     trigger.add-position
+-13 -21 int2                                                     trigger.add-position
+-13 -22 int2                                                     trigger.add-position
+-14 -23 int2                                                     trigger.add-position
+-14 -24 int2                                                     trigger.add-position
+-14 -25 int2                                                     trigger.add-position
+-14 -26 int2                                                     trigger.add-position
+-15 -26 int2                                                     trigger.add-position
+-23 -13 int2                                                     trigger.add-position
+-23 -16 int2                                                     trigger.add-position
+-23 -19 int2                                                     trigger.add-position
+-23 -22 int2                                                     trigger.add-position
+-22 -25 int2                                                     trigger.add-position
+-23 -15 int2                                                     trigger.add-position
+-20 -26 int2                                                     trigger.add-position
+-16 -26 int2                                                     trigger.add-position
+-16 -25 int2                                                     trigger.add-position
+-16 -23 int2                                                     trigger.add-position
+-16 -22 int2                                                     trigger.add-position
+-16 -21 int2                                                     trigger.add-position
+-16 -20 int2                                                     trigger.add-position
+-16 -19 int2                                                     trigger.add-position
+-16 -18 int2                                                     trigger.add-position
+-16 -17 int2                                                     trigger.add-position
+-15 -21 int2                                                     trigger.add-position
+-15 -22 int2                                                     trigger.add-position
+-15 -23 int2                                                     trigger.add-position
+-15 -24 int2                                                     trigger.add-position
+-15 -25 int2                                                     trigger.add-position
+-15 -20 int2                                                     trigger.add-position
+-15 -19 int2                                                     trigger.add-position
+-15 -18 int2                                                     trigger.add-position
+-15 -17 int2                                                     trigger.add-position
+-15 -16 int2                                                     trigger.add-position
+-14 -21 int2                                                     trigger.add-position
+-14 -22 int2                                                     trigger.add-position
+-15 -13 int2                                                     trigger.add-position
+-10 -13 int2                                                     trigger.add-position
+-11 -13 int2                                                     trigger.add-position
+-12 -13 int2                                                     trigger.add-position
+-13 -13 int2                                                     trigger.add-position
+-14 -13 int2                                                     trigger.add-position
+-15 -12 int2                                                     trigger.add-position
+-15 -11 int2                                                     trigger.add-position
+-22 -11 int2                                                     trigger.add-position
+-21 -11 int2                                                     trigger.add-position
+-20 -11 int2                                                     trigger.add-position
+-19 -11 int2                                                     trigger.add-position
+-18 -11 int2                                                     trigger.add-position
+-17 -11 int2                                                     trigger.add-position
+-16 -11 int2                                                     trigger.add-position
+-16 -12 int2                                                     trigger.add-position
+-16 -13 int2                                                     trigger.add-position
+-17 -13 int2                                                     trigger.add-position
+-18 -13 int2                                                     trigger.add-position
+-19 -13 int2                                                     trigger.add-position
+-17 -12 int2                                                     trigger.add-position
+-18 -12 int2                                                     trigger.add-position
+-19 -12 int2                                                     trigger.add-position
+-20 -12 int2                                                     trigger.add-position
+-21 -12 int2                                                     trigger.add-position
+-22 -13 int2                                                     trigger.add-position
+-21 -13 int2                                                     trigger.add-position
+-20 -14 int2                                                     trigger.add-position
+-19 -14 int2                                                     trigger.add-position
+-20 -13 int2                                                     trigger.add-position
+-23 -11 int2                                                     trigger.add-position
+-23 -23 int2                                                     trigger.add-position
+-23 -24 int2                                                     trigger.add-position
+-23 -25 int2                                                     trigger.add-position
+-21 -25 int2                                                     trigger.add-position
+-20 -25 int2                                                     trigger.add-position
+-19 -25 int2                                                     trigger.add-position
+-19 -24 int2                                                     trigger.add-position
+-20 -24 int2                                                     trigger.add-position
+-20 -23 int2                                                     trigger.add-position
+-21 -23 int2                                                     trigger.add-position
+-21 -24 int2                                                     trigger.add-position
+-18 -24 int2                                                     trigger.add-position
+-18 -23 int2                                                     trigger.add-position
+-18 -22 int2                                                     trigger.add-position
+-19 -22 int2                                                     trigger.add-position
+-20 -21 int2                                                     trigger.add-position
+-21 -21 int2                                                     trigger.add-position
+-22 -21 int2                                                     trigger.add-position
+-21 -22 int2                                                     trigger.add-position
+-19 -23 int2                                                     trigger.add-position
+-18 -21 int2                                                     trigger.add-position
+-18 -20 int2                                                     trigger.add-position
+-19 -19 int2                                                     trigger.add-position
+-20 -18 int2                                                     trigger.add-position
+-21 -18 int2                                                     trigger.add-position
+-22 -18 int2                                                     trigger.add-position
+-22 -19 int2                                                     trigger.add-position
+-21 -20 int2                                                     trigger.add-position
+-19 -21 int2                                                     trigger.add-position
+-18 -18 int2                                                     trigger.add-position
+-18 -16 int2                                                     trigger.add-position
+-19 -15 int2                                                     trigger.add-position
+-20 -15 int2                                                     trigger.add-position
+-21 -15 int2                                                     trigger.add-position
+-21 -16 int2                                                     trigger.add-position
+-21 -17 int2                                                     trigger.add-position
+-20 -19 int2                                                     trigger.add-position
+-18 -17 int2                                                     trigger.add-position
+-18 -15 int2                                                     trigger.add-position
+-21 -14 int2                                                     trigger.add-position
+-20 -17 int2                                                     trigger.add-position
+-20 -16 int2                                                     trigger.add-position
+-22 -15 int2                                                     trigger.add-position
+-22 -16 int2                                                     trigger.add-position
+-22 -17 int2                                                     trigger.add-position
+-22 -20 int2                                                     trigger.add-position
+-19 -20 int2                                                     trigger.add-position
+-19 -18 int2                                                     trigger.add-position
+-19 -17 int2                                                     trigger.add-position
+-22 -22 int2                                                     trigger.add-position
+-18 -19 int2                                                     trigger.add-position
+-21 -19 int2                                                     trigger.add-position
+-20 -20 int2                                                     trigger.add-position
+-20 -22 int2                                                     trigger.add-position
+-19 -16 int2                                                     trigger.add-position
+-22 -14 int2                                                     trigger.add-position
+-18 -14 int2                                                     trigger.add-position
+-12 -26 int2                                                     trigger.add-position
+-12 -25 int2                                                     trigger.add-position
+-12 -24 int2                                                     trigger.add-position
+-11 -23 int2                                                     trigger.add-position
+-11 -22 int2                                                     trigger.add-position
+-11 -21 int2                                                     trigger.add-position
+
+B TriggerName type enum                                          trigger.select
+-13 -26 int2                                                     trigger.add-position
+-13 -25 int2                                                     trigger.add-position
+-13 -24 int2                                                     trigger.add-position
+-13 -23 int2                                                     trigger.add-position
+-12 -23 int2                                                     trigger.add-position
+-12 -22 int2                                                     trigger.add-position
+-12 -21 int2                                                     trigger.add-position
+-13 -21 int2                                                     trigger.add-position
+-13 -20 int2                                                     trigger.add-position
+-14 -20 int2                                                     trigger.add-position
+-14 -19 int2                                                     trigger.add-position
+-14 -18 int2                                                     trigger.add-position
+-14 -17 int2                                                     trigger.add-position
+-14 -16 int2                                                     trigger.add-position
+-14 -15 int2                                                     trigger.add-position
+-15 -15 int2                                                     trigger.add-position
+-15 -14 int2                                                     trigger.add-position
+-15 -13 int2                                                     trigger.add-position
+-15 -12 int2                                                     trigger.add-position
+-15 -11 int2                                                     trigger.add-position
+-14 -13 int2                                                     trigger.add-position
+-13 -13 int2                                                     trigger.add-position
+-12 -13 int2                                                     trigger.add-position
+-11 -13 int2                                                     trigger.add-position
+-10 -13 int2                                                     trigger.add-position
+-14 -26 int2                                                     trigger.add-position
+-15 -26 int2                                                     trigger.add-position
+-16 -26 int2                                                     trigger.add-position
+-17 -26 int2                                                     trigger.add-position
+-18 -26 int2                                                     trigger.add-position
+-18 -25 int2                                                     trigger.add-position
+-19 -25 int2                                                     trigger.add-position
+-20 -25 int2                                                     trigger.add-position
+-21 -25 int2                                                     trigger.add-position
+-22 -25 int2                                                     trigger.add-position
+-22 -26 int2                                                     trigger.add-position
+-21 -26 int2                                                     trigger.add-position
+-20 -26 int2                                                     trigger.add-position
+-19 -26 int2                                                     trigger.add-position
+-17 -25 int2                                                     trigger.add-position
+-16 -25 int2                                                     trigger.add-position
+-15 -25 int2                                                     trigger.add-position
+-14 -24 int2                                                     trigger.add-position
+-14 -23 int2                                                     trigger.add-position
+-14 -22 int2                                                     trigger.add-position
+-13 -22 int2                                                     trigger.add-position
+-14 -21 int2                                                     trigger.add-position
+-14 -25 int2                                                     trigger.add-position
+-15 -24 int2                                                     trigger.add-position
+-15 -23 int2                                                     trigger.add-position
+-15 -22 int2                                                     trigger.add-position
+-15 -21 int2                                                     trigger.add-position
+-15 -20 int2                                                     trigger.add-position
+-15 -19 int2                                                     trigger.add-position
+-15 -18 int2                                                     trigger.add-position
+-15 -17 int2                                                     trigger.add-position
+-15 -16 int2                                                     trigger.add-position
+-16 -14 int2                                                     trigger.add-position
+-16 -13 int2                                                     trigger.add-position
+-16 -12 int2                                                     trigger.add-position
+-16 -11 int2                                                     trigger.add-position
+-17 -11 int2                                                     trigger.add-position
+-18 -11 int2                                                     trigger.add-position
+-19 -11 int2                                                     trigger.add-position
+-20 -11 int2                                                     trigger.add-position
+-21 -11 int2                                                     trigger.add-position
+-22 -11 int2                                                     trigger.add-position
+-23 -11 int2                                                     trigger.add-position
+-23 -12 int2                                                     trigger.add-position
+-23 -13 int2                                                     trigger.add-position
+-23 -14 int2                                                     trigger.add-position
+-23 -15 int2                                                     trigger.add-position
+-23 -16 int2                                                     trigger.add-position
+-23 -17 int2                                                     trigger.add-position
+-23 -18 int2                                                     trigger.add-position
+-23 -19 int2                                                     trigger.add-position
+-22 -19 int2                                                     trigger.add-position
+-22 -20 int2                                                     trigger.add-position
+-22 -21 int2                                                     trigger.add-position
+-22 -22 int2                                                     trigger.add-position
+-22 -23 int2                                                     trigger.add-position
+-22 -24 int2                                                     trigger.add-position
+-23 -25 int2                                                     trigger.add-position
+-23 -26 int2                                                     trigger.add-position
+-23 -24 int2                                                     trigger.add-position
+-23 -23 int2                                                     trigger.add-position
+-23 -22 int2                                                     trigger.add-position
+-21 -23 int2                                                     trigger.add-position
+-21 -24 int2                                                     trigger.add-position
+-20 -24 int2                                                     trigger.add-position
+-19 -24 int2                                                     trigger.add-position
+-19 -23 int2                                                     trigger.add-position
+-19 -22 int2                                                     trigger.add-position
+-19 -21 int2                                                     trigger.add-position
+-20 -20 int2                                                     trigger.add-position
+-21 -20 int2                                                     trigger.add-position
+-21 -21 int2                                                     trigger.add-position
+-23 -21 int2                                                     trigger.add-position
+-23 -20 int2                                                     trigger.add-position
+-21 -22 int2                                                     trigger.add-position
+-20 -23 int2                                                     trigger.add-position
+-18 -24 int2                                                     trigger.add-position
+-17 -24 int2                                                     trigger.add-position
+-18 -23 int2                                                     trigger.add-position
+-18 -22 int2                                                     trigger.add-position
+-20 -21 int2                                                     trigger.add-position
+-20 -22 int2                                                     trigger.add-position
+-16 -22 int2                                                     trigger.add-position
+-16 -21 int2                                                     trigger.add-position
+-17 -20 int2                                                     trigger.add-position
+-18 -20 int2                                                     trigger.add-position
+-19 -20 int2                                                     trigger.add-position
+-17 -23 int2                                                     trigger.add-position
+-16 -24 int2                                                     trigger.add-position
+-16 -23 int2                                                     trigger.add-position
+-17 -21 int2                                                     trigger.add-position
+-17 -22 int2                                                     trigger.add-position
+-17 -19 int2                                                     trigger.add-position
+-18 -18 int2                                                     trigger.add-position
+-18 -19 int2                                                     trigger.add-position
+-16 -20 int2                                                     trigger.add-position
+-16 -19 int2                                                     trigger.add-position
+-16 -18 int2                                                     trigger.add-position
+-16 -17 int2                                                     trigger.add-position
+-16 -16 int2                                                     trigger.add-position
+-17 -15 int2                                                     trigger.add-position
+-17 -16 int2                                                     trigger.add-position
+-17 -17 int2                                                     trigger.add-position
+-17 -18 int2                                                     trigger.add-position
+-16 -15 int2                                                     trigger.add-position
+-17 -13 int2                                                     trigger.add-position
+-17 -14 int2                                                     trigger.add-position
+-17 -12 int2                                                     trigger.add-position
+-18 -12 int2                                                     trigger.add-position
+-19 -12 int2                                                     trigger.add-position
+-20 -12 int2                                                     trigger.add-position
+-21 -12 int2                                                     trigger.add-position
+-22 -12 int2                                                     trigger.add-position
+-22 -13 int2                                                     trigger.add-position
+-22 -14 int2                                                     trigger.add-position
+-22 -15 int2                                                     trigger.add-position
+-22 -16 int2                                                     trigger.add-position
+-22 -17 int2                                                     trigger.add-position
+-21 -17 int2                                                     trigger.add-position
+-21 -18 int2                                                     trigger.add-position
+-20 -19 int2                                                     trigger.add-position
+-19 -18 int2                                                     trigger.add-position
+-20 -17 int2                                                     trigger.add-position
+-18 -21 int2                                                     trigger.add-position
+-19 -19 int2                                                     trigger.add-position
+-20 -18 int2                                                     trigger.add-position
+-22 -18 int2                                                     trigger.add-position
+-21 -19 int2                                                     trigger.add-position
+-18 -17 int2                                                     trigger.add-position
+-19 -16 int2                                                     trigger.add-position
+-19 -15 int2                                                     trigger.add-position
+-20 -15 int2                                                     trigger.add-position
+-21 -15 int2                                                     trigger.add-position
+-21 -16 int2                                                     trigger.add-position
+-20 -16 int2                                                     trigger.add-position
+-19 -17 int2                                                     trigger.add-position
+-18 -16 int2                                                     trigger.add-position
+-18 -14 int2                                                     trigger.add-position
+-19 -13 int2                                                     trigger.add-position
+-20 -13 int2                                                     trigger.add-position
+-21 -13 int2                                                     trigger.add-position
+-21 -14 int2                                                     trigger.add-position
+-18 -15 int2                                                     trigger.add-position
+-19 -14 int2                                                     trigger.add-position
+-20 -14 int2                                                     trigger.add-position
+-18 -13 int2                                                     trigger.add-position
+
+C TriggerName type enum                                          trigger.select
+
+D TriggerName type enum                                          trigger.select
+
+E TriggerName type enum                                          trigger.select
+
+F TriggerName type enum                                          trigger.select
+
+Bridge find-with-tag BridgeView type get-component               bridge.set-view
+20                                                               bridge.set-hp
+-10 -13 int2                                                     bridge.add-position
+-11 -13 int2                                                     bridge.add-position
+-12 -13 int2                                                     bridge.add-position
+-13 -13 int2                                                     bridge.add-position
+-14 -13 int2                                                     bridge.add-position
+                                                                 bridge.add
+                                                                 pop
+
+
+-7.133796 7.629395E-06 -17.72236 float3                          camera-rig.set-position
+315                                                              camera-rig.set-rotation
+31.32155                                                         camera-rig.set-distance
+40.36793                                                         camera-rig.set-pitch-angle
+30                                                               camera-rig.set-fov
