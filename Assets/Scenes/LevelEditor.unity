@@ -6836,7 +6836,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 134.50613, y: 1265.8014}
+  m_AnchoredPosition: {x: 147.00613, y: 1265.8014}
   m_SizeDelta: {x: 645.81366, y: 159.98694}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1215465040
@@ -8923,11 +8923,12 @@ MonoBehaviour:
     - {fileID: 3714029163961711533, guid: d61710f56e83148c7bbb1f7e5471b187, type: 3}
     - {fileID: 2868793983043866757, guid: 9a3ad2859f76f4faabc1ee7e19a50787, type: 3}
   buildingPrefabs:
-    m_keys: 000100008000000040000000
+    m_keys: 00010000800000004000000000080000
     m_values:
     - {fileID: 9118462907687674175, guid: 9b1ec837ecaa7487c858241777aa2d87, type: 3}
     - {fileID: 9118462907687674175, guid: 9b1ec837ecaa7487c858241777aa2d87, type: 3}
     - {fileID: 9118462907687674175, guid: 9b1ec837ecaa7487c858241777aa2d87, type: 3}
+    - {fileID: 2865247306183004627, guid: 3df43b62eb30d41628e52bd20c22cab4, type: 3}
   autosaveLifespanInDays: 30
   playModeText: '[PLAYING]'
   guiSkin: {fileID: 11400000, guid: cc28327acba3541d2be6ecb0c74f5061, type: 2}

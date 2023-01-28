@@ -145,7 +145,7 @@ public static class PostfixInterpreter {
                 default:
                     stack.Push(token);
                     if (char.IsLower(token[0]))
-                        Debug.Log($"Unrecognized command: {token} - it was pushed on a stack as a string");
+                        Debug.LogError($"Unrecognized command: {token} - it was pushed on a stack as a string");
                     break;
             }
     }

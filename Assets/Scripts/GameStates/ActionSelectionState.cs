@@ -35,7 +35,8 @@ public static class ActionSelectionState {
             if (main.TryGetBuilding(destination, out building) &&
                 unit.type is UnitType.Infantry or UnitType.AntiTank &&
                 building.type is TileType.MissileSilo &&
-                Rules.AreAllies(unit.Player, building.Player)) {
+                Rules.AreAllies(unit.Player, building.Player) &&
+                main.turn >= building.missileSiloLastLaunchTurn + building.missileSiloLaunchCooldown * main.players.Count) {
 
                 actions.Add(new UnitAction(UnitActionType.LaunchMissile, unit, path, targetBuilding: building));
             }
@@ -51,7 +52,7 @@ public static class ActionSelectionState {
 
         // attack
         if ((!Rules.IsArtillery(unit) || path.Count == 1) && Rules.TryGetAttackRange(unit, out var attackRange))
-            foreach (var otherPosition in main.AttackPositions(destination, attackRange))
+            foreach (var otherPosition in main.PositionsInRange(destination, attackRange))
                 if (main.TryGetUnit(otherPosition, out var target))
                     foreach (var (weaponName, _) in Rules.GetDamageValues(unit, target))
                         actions.Add(new UnitAction(UnitActionType.Attack, unit, path, target, weaponName: weaponName, targetPosition: otherPosition));
@@ -122,14 +123,22 @@ public static class ActionSelectionState {
                 oldShowCursorView = cursorView.show;
                 cursorView.show = true;
             }
+            
+            var missileSiloView = action.targetBuilding.view as MissileSiloView;
 
             void CleanUpSubstate() {
                 if (cursorView)
                     cursorView.show = oldShowCursorView;
+                
+                if (missileSiloView)
+                    missileSiloView.aim = false;
             }
 
             Vector2Int? launchPosition = null;
-
+            
+            if (missileSiloView)
+                missileSiloView.aim = true;
+            
             while (true) {
                 yield return StateChange.none;
 
@@ -153,18 +162,29 @@ public static class ActionSelectionState {
 
                             case launchMissile: {
 
-                                var position = main.stack.Pop<Vector2Int>();
+                                var targetPosition = main.stack.Pop<Vector2Int>();
                                 var missileSilo = main.stack.Pop<Building>();
                                 Assert.AreEqual(TileType.MissileSilo, missileSilo.type);
 
-                                Debug.Log($"Launching missile from {missileSilo.position} to {position}");
+                                Debug.Log($"Launching missile from {missileSilo.position} to {targetPosition}");
                                 using (Draw.ingame.WithDuration(1))
                                 using (Draw.ingame.WithLineWidth(2))
-                                    Draw.ingame.Arrow((Vector3)missileSilo.position.ToVector3Int(), (Vector3)position.ToVector3Int(), Color.red);
+                                    Draw.ingame.Arrow((Vector3)missileSilo.position.ToVector3Int(), (Vector3)targetPosition.ToVector3Int(), Color.red);
+
+                                if (missileSiloView) {
+                                    var missile = missileSiloView.TryLaunchMissile();
+                                    Assert.IsTrue(missile);
+                                    if (missile.curve.totalTime is not { } flightTime)
+                                        throw new AssertionException("missile.curve.totalTime = null", null);
+                                    if (CameraRig.TryFind(out var cameraRig))
+                                        cameraRig.Jump(Vector2.Lerp(missileSilo.position, targetPosition,.5f).Raycast());
+                                    yield return StateChange.Push("missile-flight", Wait.ForSeconds(flightTime));
+                                }
 
                                 unit.Position = destination;
+                                missileSilo.missileSiloLastLaunchTurn = main.turn;
 
-                                var attackPositions = main.AttackPositions(position, missileBlastRange);
+                                var attackPositions = main.PositionsInRange(targetPosition, missileBlastRange);
                                 var targetedBridges = main.bridges.Where(bridge => bridge.tiles.Keys.Intersect(attackPositions).Any());
                                 foreach (var bridge in targetedBridges)
                                     bridge.Hp -= 10;
@@ -186,8 +206,11 @@ public static class ActionSelectionState {
                         }
 
                 if (launchPosition is { } position1)
-                    foreach (var attackPosition in main.AttackPositions(position1, missileBlastRange))
+                    foreach (var attackPosition in main.PositionsInRange(position1, missileBlastRange))
                         Draw.ingame.SolidPlane((Vector3)attackPosition.ToVector3Int(), Vector3.up, Vector2.one, Color.red);
+
+                if (Mouse.TryGetPosition(out mousePosition) && missileSiloView)
+                    missileSiloView.targetPosition = mousePosition.Raycast();
             }
         }
 
@@ -289,7 +312,7 @@ public static class ActionSelectionState {
                                     CameraRig.TryFind(out var cameraRig);
 
                                     if (newTargetHp <= 0 && cameraRig)
-                                        yield return StateChange.Push("jump-to-target", StateChange.WaitForCompletion(cameraRig.Jump(((Vector2Int)target.Position).Raycast())));
+                                        yield return StateChange.Push("jump-to-target", Wait.ForCompletion(cameraRig.Jump(((Vector2Int)target.Position).Raycast())));
 
                                     target.Hp = newTargetHp;
 
@@ -297,7 +320,7 @@ public static class ActionSelectionState {
                                     //    target.ammo[targetWeaponIndex]--;
 
                                     if (newAttackerHp <= 0 && cameraRig)
-                                        yield return StateChange.Push("jump-to-attacker", StateChange.WaitForCompletion(cameraRig.Jump(destination.Raycast())));
+                                        yield return StateChange.Push("jump-to-attacker", Wait.ForCompletion(cameraRig.Jump(destination.Raycast())));
 
                                     attacker.Hp = newAttackerHp;
 
@@ -357,7 +380,7 @@ public static class ActionSelectionState {
                                     ((Main2)main).LoadAdditively("1");
 
                                     if (CameraRig.TryFind(out var cameraRig)) {
-                                        yield return StateChange.Push("wait", StateChange.WaitForSeconds(.5f));
+                                        yield return StateChange.Push("wait", Wait.ForSeconds(.5f));
                                         cameraRig.Jump(new Vector2Int(-21, -14).Raycast());
                                     }
                                 }

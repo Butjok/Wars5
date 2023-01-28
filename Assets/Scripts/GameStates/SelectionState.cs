@@ -23,7 +23,7 @@ public static class SelectionState {
         // stop the ability
         var player = main.CurrentPlayer;
         if (player.abilityActivationTurn != null && main.turn != player.abilityActivationTurn)
-            yield return StateChange.Push("stop-ability", StateChange.WaitForCompletion(StopAbility(player)));
+            yield return StateChange.Push("stop-ability", Wait.ForCompletion(StopAbility(player)));
 
         // weird static variable issue
         PlayerView.globalVisibility = true;
@@ -216,7 +216,7 @@ public static class SelectionState {
 
                         case useAbility: {
                             if (Rules.CanUseAbility(player))
-                                yield return StateChange.Push("start-ability", StateChange.WaitForCompletion(StartAbility(player, main.turn)));
+                                yield return StateChange.Push("start-ability", Wait.ForCompletion(StartAbility(player, main.turn)));
                             else
                                 UiSound.Instance.notAllowed.PlayOneShot();
                             break;

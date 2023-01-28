@@ -87,7 +87,7 @@ public class Main : StateRunner {
 		return buildings.Values.Where(building => building.Player == player);
 	}
 
-	public IEnumerable<Vector2Int> AttackPositions(Vector2Int position, Vector2Int range) {
+	public IEnumerable<Vector2Int> PositionsInRange(Vector2Int position, Vector2Int range) {
 		return range.Offsets().Select(offset => offset + position).Where(p => tiles.ContainsKey(p));
 	}
 	

@@ -293,7 +293,7 @@ public class Main2 : Main {
                 var attackPositions = Enumerable.Empty<Vector2Int>();
                 if (TryGetAttackRange(inspectedUnit, out var attackRange)) {
                     if (IsArtillery(inspectedUnit))
-                        attackPositions = AttackPositions(position, attackRange);
+                        attackPositions = PositionsInRange(position, attackRange);
                     else {
                         //traverser.Traverse(tiles.Keys, position, Rules.MoveCost(), Rules.MoveDistance(inspectedUnit));
                     }
@@ -323,7 +323,6 @@ public class Main2 : Main {
     public const string cycleUnitType = prefix + "cycle-unit";
     public const string placeUnit = prefix + "place-unit";
     public const string removeUnit = prefix + "remove-unit";
-    public const string cycleLookDirection = prefix + "cycle-look-direction";
     public const string inspectUnit = prefix + "inspect-unit";
 
     public const string pickTile = prefix + "pick-tile";
@@ -341,8 +340,6 @@ public class Main2 : Main {
     public Stack<(Action perform, Action revert)> undos = new();
     public Stack<(Action perform, Action revert)> redos = new();
 
-    public Vector2Int lookDirection = Vector2Int.right;
-    public Vector2Int[] lookDirections = offsets;
     public TriggerName[] triggerNames = { TriggerName.A, TriggerName.B, TriggerName.C, TriggerName.D, TriggerName.E, TriggerName.F };
     public TriggerName triggerName = TriggerName.A;
 
@@ -404,16 +401,12 @@ public class Main2 : Main {
             new Unit(blue, UnitType.Infantry, max);
 
             RebuildTilemapMesh();
-
-            if (players.Count > 0)
-                lookDirection = players[0].unitLookDirection;
         }
         else
             Load("autosave");
 
         screenText["tile-type"] = () => tileType;
         screenText["player"] = () => players.IndexOf(player);
-        screenText["look-direction"] = () => lookDirection;
         screenText["unit-type"] = () => unitType;
         screenText["trigger-name"] = () => triggerName;
 
@@ -450,7 +443,6 @@ public class Main2 : Main {
             else if (Input.GetMouseButton(Mouse.left) && Mouse.TryGetPosition(out Vector2Int addPosition)) {
                 stack.Push(player);
                 stack.Push(tileType);
-                stack.Push(lookDirection);
                 stack.Push(addPosition);
                 commands.Enqueue(placeTile);
             }
@@ -461,10 +453,10 @@ public class Main2 : Main {
             else if (Input.GetKeyDown(KeyCode.F5))
                 commands.Enqueue(play);
 
-            else if (Input.GetKeyDown(KeyCode.PageUp) || Input.GetKeyDown(KeyCode.PageDown)) {
-                stack.Push(Input.GetKeyDown(KeyCode.PageUp) ? -1 : 1);
-                commands.Enqueue(cycleLookDirection);
-            }
+            // else if (Input.GetKeyDown(KeyCode.PageUp) || Input.GetKeyDown(KeyCode.PageDown)) {
+            //     stack.Push(Input.GetKeyDown(KeyCode.PageUp) ? -1 : 1);
+            //     commands.Enqueue(cycleLookDirection);
+            // }
             else if (Input.GetKeyDown(KeyCode.LeftAlt) && Mouse.TryGetPosition(out Vector2Int pickPosition)) {
                 stack.Push(pickPosition);
                 commands.Enqueue(pickTile);
@@ -484,14 +476,12 @@ public class Main2 : Main {
 
                         case cyclePlayer: {
                             player = player.Cycle(players.Concat(new[] { (Player)null }), stack.Pop<int>());
-                            lookDirection = player?.unitLookDirection ?? Vector2Int.up;
                             break;
                         }
 
                         case placeTile: {
 
                             var position = stack.Pop<Vector2Int>();
-                            var lookDirection = stack.Pop<Vector2Int>();
                             var tileType = stack.Pop<TileType>();
                             var player = stack.Pop<Player>();
 
@@ -506,7 +496,7 @@ public class Main2 : Main {
                                     viewPrefab = v;
                                 Assert.IsTrue(viewPrefab);
 
-                                new Building(this, position, tileType, player, viewPrefab: viewPrefab, lookDirection: lookDirection);
+                                new Building(this, position, tileType, player, viewPrefab: viewPrefab, lookDirection: player?.unitLookDirection ?? Vector2Int.up);
                             }
 
                             RebuildTilemapMesh();
@@ -517,10 +507,6 @@ public class Main2 : Main {
                         case removeTile:
                             TryRemoveTile(stack.Pop<Vector2Int>(), true);
                             RebuildTilemapMesh();
-                            break;
-
-                        case cycleLookDirection:
-                            lookDirection = lookDirection.Cycle(lookDirections, stack.Pop<int>());
                             break;
 
                         case play:
@@ -560,6 +546,13 @@ public class Main2 : Main {
     private Mesh mountainMesh;
     private Vector3[] mountainVertices;
     private int[] mountainTriangles;
+
+    [Command]
+    public string InspectPlayer(int index) {
+        using var sw = new StringWriter();
+        GameWriter.AddPlayer(sw, players[index]);
+        return sw.ToString();
+    }
 
     public void RebuildTilemapMesh() {
 
@@ -641,7 +634,6 @@ public class Main2 : Main {
         if (player == null) {
             Assert.AreNotEqual(0, players.Count);
             player = players[0];
-            lookDirection = player.unitLookDirection;
         }
 
         ClearScreenTextFilters();
@@ -669,17 +661,16 @@ public class Main2 : Main {
                 stack.Push(player);
                 stack.Push(unitType);
                 stack.Push(position);
-                stack.Push(lookDirection);
                 commands.Enqueue(placeUnit);
             }
             else if (Input.GetMouseButton(Mouse.right) && Mouse.TryGetPosition(out position)) {
                 stack.Push(position);
                 commands.Enqueue(removeUnit);
             }
-            else if (Input.GetKeyDown(KeyCode.PageUp) || Input.GetKeyDown(KeyCode.PageDown)) {
-                stack.Push(Input.GetKeyDown(KeyCode.PageUp) ? -1 : 1);
-                commands.Enqueue(cycleLookDirection);
-            }
+            // else if (Input.GetKeyDown(KeyCode.PageUp) || Input.GetKeyDown(KeyCode.PageDown)) {
+            //     stack.Push(Input.GetKeyDown(KeyCode.PageUp) ? -1 : 1);
+            //     commands.Enqueue(cycleLookDirection);
+            // }
             else if (Input.GetKeyDown(KeyCode.F5))
                 commands.Enqueue(play);
 
@@ -702,15 +693,10 @@ public class Main2 : Main {
 
                         case cyclePlayer:
                             player = player.Cycle(players, stack.Pop<int>());
-                            lookDirection = player.unitLookDirection;
                             break;
 
                         case cycleUnitType:
                             unitType = unitType.Cycle(unitTypes, stack.Pop<int>());
-                            break;
-
-                        case cycleLookDirection:
-                            lookDirection = lookDirection.Cycle(lookDirections, stack.Pop<int>());
                             break;
 
                         case play:
@@ -720,7 +706,6 @@ public class Main2 : Main {
 
                         case placeUnit: {
 
-                            var lookDirection = stack.Pop<Vector2Int>();
                             var position = stack.Pop<Vector2Int>();
                             var unitType = stack.Pop<UnitType>();
                             var player = stack.Pop<Player>();
@@ -734,7 +719,7 @@ public class Main2 : Main {
                             else if (UnitTypesInfo.TryGet(unitType, out record) && record.viewPrefab)
                                 viewPrefab = record.viewPrefab;
 
-                            new Unit(player, unitType, position, lookDirection, viewPrefab: viewPrefab);
+                            new Unit(player, unitType, position, player.unitLookDirection, viewPrefab: viewPrefab);
                             break;
                         }
 
@@ -747,7 +732,6 @@ public class Main2 : Main {
                             if (units.TryGetValue(position, out var unit)) {
                                 unitType = unit.type;
                                 player = unit.Player;
-                                lookDirection = player.unitLookDirection;
                             }
                             break;
                         }

@@ -56,11 +56,15 @@ public static class GameReader {
         TileType buildingType;
         int buildingCp;
         Vector2Int? buildingLookDirection;
+        int buildingMissileSiloLastLaunchTurn ;
+        int buildingMissileSiloLaunchCooldown ;
         void ResetBuildingValues() {
             buildingPosition = null;
             buildingType = 0;
             buildingCp = 20;
             buildingLookDirection = null;
+            buildingMissileSiloLastLaunchTurn = -99;
+            buildingMissileSiloLaunchCooldown = 1;
         }
         ResetBuildingValues();
 
@@ -223,8 +227,11 @@ public static class GameReader {
                         throw new AssertionException("buildingPosition is null", buildingType.ToString());
                     Assert.IsTrue(!main.buildings.ContainsKey(position), position.ToString());
                     var player = main.stack.Pop<Player>();
-                    var viewPrefab = spawnBuildingViews ? "WbFactory".LoadAs<BuildingView>() : null;
-                    main.stack.Push(new Building(main, position, buildingType, player, buildingCp, viewPrefab, buildingLookDirection));
+                    var viewPrefab = !spawnBuildingViews ? null : ((Main2)main).buildingPrefabs.TryGetValue(buildingType,out var p) ? p : "WbFactory".LoadAs<BuildingView>();
+                    var building = new Building(main, position, buildingType, player, buildingCp, viewPrefab, buildingLookDirection);
+                    building.missileSiloLastLaunchTurn = buildingMissileSiloLastLaunchTurn;
+                    building.missileSiloLaunchCooldown = buildingMissileSiloLaunchCooldown;
+                    main.stack.Push(building);
                     ResetBuildingValues();
                     break;
                 }
@@ -242,6 +249,14 @@ public static class GameReader {
                 }
                 case "building.set-look-direction": {
                     buildingLookDirection = main.stack.Pop<Vector2Int>() * transform;
+                    break;
+                }
+                case "building.missile-silo.set-last-launch-turn": {
+                    buildingMissileSiloLastLaunchTurn=main.stack.Pop<int>();
+                    break;
+                }
+                case "building.missile-silo.set-launch-cooldown": {
+                    buildingMissileSiloLaunchCooldown=main.stack.Pop<int>();
                     break;
                 }
 

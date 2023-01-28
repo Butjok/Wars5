@@ -46,22 +46,24 @@ public class StateRunner : MonoBehaviour {
     }
 }
 
-public struct StateChange {
-
-    public static IEnumerator<StateChange> WaitForSeconds(float delay) {
+public static class Wait {
+    public static IEnumerator<StateChange> ForSeconds(float delay) {
         var startTime = Time.time;
         while (Time.time < startTime + delay)
-            yield return none;
+            yield return StateChange.none;
     }
-    public static IEnumerator<StateChange> WaitForCompletion(IEnumerator iEnumerator) {
+    public static IEnumerator<StateChange> ForCompletion(IEnumerator iEnumerator) {
         while (iEnumerator.MoveNext())
-            yield return none;
+            yield return StateChange.none;
     }
-    public static IEnumerator<StateChange> WaitForCompletion(Tween tween) {
+    public static IEnumerator<StateChange> ForCompletion(Tween tween) {
         while (tween.IsActive() && !tween.IsComplete())
-            yield return none;
+            yield return StateChange.none;
     }
-    
+}
+
+public struct StateChange {
+
     public static StateChange none = default;
     public static StateChange PopThenPush(int popCount, string stateName, IEnumerator<StateChange> state) => new(popCount, stateName, state);
     public static StateChange Pop(int count=1) => PopThenPush(count, null, null);

@@ -126,6 +126,10 @@ public static class GameWriter {
 		WriteLine(tw, $"{building.position.x} {building.position.y} int2", "building.set-position");
 		WriteLine(tw, building.Cp, "building.set-cp");
 		WriteLine(tw, $"{building.view.LookDirection.x} {building.view.LookDirection.y} int2", "building.set-look-direction");
+		if (building.type == TileType.MissileSilo) {
+			WriteLine(tw, building.missileSiloLastLaunchTurn, "building.missile-silo.set-last-launch-turn");
+			WriteLine(tw, building.missileSiloLaunchCooldown, "building.missile-silo.set-launch-cooldown");
+		}
 		WriteLine(tw, "building.add");
 		return tw;
 	}

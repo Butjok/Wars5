@@ -4,6 +4,7 @@ using System.Linq;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Assertions;
+using static UnityEngine.Mathf;
 
 public static class MathUtils {
 
@@ -168,5 +169,34 @@ public static class MathUtils {
 		var maxSpeedThisFrame = Time.deltaTime * maxSpeed;
 		var angleToRotate = Mathf.Min(maxSpeedThisFrame, angle);
 		return Quaternion.Slerp(rotation, targetRotation, angleToRotate / angle);
+	}
+
+	public static Vector2 Average(this IEnumerable<Vector2Int> positions) {
+		var accumulator = Vector2.zero;
+		var count = 0;
+		foreach (var position in positions) {
+			accumulator += position;
+			count++;
+		}
+		Assert.AreNotEqual(0,count);
+		return accumulator / count;
+	}
+
+	public static Vector2 Center(this IEnumerable<Vector2Int> positions) {
+		
+		var min = new Vector2Int(int.MaxValue,int.MaxValue);
+		var max = new Vector2Int(int.MinValue, int.MinValue);
+
+		foreach (var position in positions) {
+			min.x = Min(min.x, position.x);
+			min.y = Min(min.y, position.y);
+			max.x = Max(min.x, position.x);
+			max.y = Max(min.y, position.y);
+		}
+		
+		Assert.AreNotEqual(min, new Vector2Int(int.MaxValue,int.MaxValue));
+		Assert.AreNotEqual(max, new Vector2Int(int.MinValue, int.MinValue));
+
+		return Vector2.Lerp(min,max,.5f);
 	}
 }

@@ -47,6 +47,8 @@ MissileSilo TileType type enum                                   building.set-ty
 -6 -25 int2                                                      building.set-position
 20                                                               building.set-cp
 1 0 int2                                                         building.set-look-direction
+-99                                                              building.missile-silo.set-last-launch-turn
+1                                                                building.missile-silo.set-launch-cooldown
                                                                  building.add
                                                                  pop
 
@@ -753,7 +755,7 @@ BridgeView type get-component                                    bridge.set-view
                                                                  pop
 
 
--6.624815 -3.814697E-06 -17.33992 float3                         camera-rig.set-position
+-6.184759 -3.814697E-06 -16.7004 float3                          camera-rig.set-position
 247.5                                                            camera-rig.set-rotation
-47.44305                                                         camera-rig.set-distance
+39.87885                                                         camera-rig.set-distance
 43.93692                                                         camera-rig.set-pitch-angle

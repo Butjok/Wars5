@@ -14,6 +14,9 @@ public class Building : IDisposable {
     public readonly Main main;
     public readonly Vector2Int position;
     public readonly BuildingView view;
+    
+    public int missileSiloLastLaunchTurn = -99;
+    public int missileSiloLaunchCooldown = 1;
 
     private Player player;
     public Player Player {
