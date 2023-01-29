@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
@@ -7,7 +6,6 @@ using System.IO;
 using System.Linq;
 using Butjok.CommandLine;
 using Drawing;
-using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
 using Debug = UnityEngine.Debug;
@@ -24,14 +22,16 @@ public class Main2 : Main {
     public TileTypeBuildingViewDictionary buildingPrefabs = new();
     public int autosaveLifespanInDays = 30;
 
+    public AiPlayerCommander aiPlayerCommander;
+    
     private void Start() {
         CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
-        PushState("level-editor", Run());
+        PushState("LevelEditor", Run());
     }
 
     [Command]
     public float pathFindingDrawDuration = 10;
-    
+
     [Command]
     public void FindPath(Vector2Int start, Vector2Int goal) {
         if (units.TryGetValue(start, out var unit)) {
@@ -41,7 +41,7 @@ public class Main2 : Main {
                 var path = new List<Vector2Int>();
                 if (traverser.TryReconstructPath(goal, path)) {
                     for (var i = 1; i < path.Count; i++)
-                        Draw.ingame.Arrow((Vector3)path[i-1].ToVector3Int(), (Vector3)path[i].ToVector3Int(), Color.black);
+                        Draw.ingame.Arrow((Vector3)path[i - 1].ToVector3Int(), (Vector3)path[i].ToVector3Int(), Color.black);
                 }
             }
         }
@@ -136,7 +136,9 @@ public class Main2 : Main {
             }
         }
 
-        GUILayout.Label($"[{stack.Count}]: " + (string.Join(" / ", StateNames.Reverse())));
+        GUILayout.Label($"[{stack.Count}]: " + string.Join(" / ", stateNames.Select(stateName => {
+            return stateName.EndsWith("State") ? stateName.Substring(0, stateName.Length - "State".Length) : stateName;
+        }).Reverse()));
 
         if (showPlayInfo) {
             var filled = CurrentPlayer.AbilityMeter;
@@ -262,7 +264,7 @@ public class Main2 : Main {
     protected override void OnApplicationQuit() {
 
         base.OnApplicationQuit();
-        
+
         Save("autosave");
         DeleteOldAutosaves();
 
@@ -327,7 +329,7 @@ public class Main2 : Main {
             }
         }
     }
-    
+
     public const string prefix = "level-editor.";
 
     public const string selectTilesMode = prefix + "select-tiles-mode";
@@ -432,7 +434,7 @@ public class Main2 : Main {
         screenText["unit-type"] = () => unitType;
         screenText["trigger-name"] = () => triggerName;
 
-        yield return StateChange.ReplaceWith("tiles-mode", TilesMode());
+        yield return StateChange.ReplaceWith(nameof(TilesMode), TilesMode());
     }
 
     public TileType tileType = TileType.Plain;
@@ -489,7 +491,7 @@ public class Main2 : Main {
                     switch (token) {
 
                         case selectUnitsMode:
-                            yield return StateChange.ReplaceWith("units-mode", UnitsMode());
+                            yield return StateChange.ReplaceWith(nameof(UnitsMode), UnitsMode());
                             break;
 
                         case cycleTileType:
@@ -532,8 +534,8 @@ public class Main2 : Main {
                             break;
 
                         case play:
-                            yield return StateChange.Push("play", Play());
-                            yield return StateChange.ReplaceWith("tiles-mode", TilesMode());
+                            yield return StateChange.Push(nameof(Play), Play());
+                            yield return StateChange.ReplaceWith(nameof(TilesMode), TilesMode());
                             break;
 
                         case pickTile: {
@@ -743,7 +745,7 @@ public class Main2 : Main {
                     switch (token) {
 
                         case selectTriggersMode:
-                            yield return StateChange.ReplaceWith("triggers-mode", TriggersMode());
+                            yield return StateChange.ReplaceWith(nameof(TriggersMode), TriggersMode());
                             break;
 
                         case cyclePlayer:
@@ -755,8 +757,8 @@ public class Main2 : Main {
                             break;
 
                         case play:
-                            yield return StateChange.Push("play", Play());
-                            yield return StateChange.ReplaceWith("units-mode", UnitsMode());
+                            yield return StateChange.Push(nameof(Play), Play());
+                            yield return StateChange.ReplaceWith(nameof(UnitsMode), UnitsMode());
                             break;
 
                         case placeUnit: {
@@ -853,7 +855,7 @@ public class Main2 : Main {
                     switch (token) {
 
                         case selectTilesMode:
-                            yield return StateChange.ReplaceWith("tiles-mode", TilesMode());
+                            yield return StateChange.ReplaceWith(nameof(TilesMode), TilesMode());
                             break;
 
                         case cycleTrigger:
@@ -875,8 +877,8 @@ public class Main2 : Main {
                         }
 
                         case play:
-                            yield return StateChange.Push("play", Play());
-                            yield return StateChange.ReplaceWith("triggers-mode", TriggersMode());
+                            yield return StateChange.Push(nameof(Play), Play());
+                            yield return StateChange.ReplaceWith(nameof(TriggersMode), TriggersMode());
                             break;
 
                         case pickTrigger: {
@@ -939,7 +941,13 @@ public class Main2 : Main {
         showPlayInfo = true;
         showPlayBorder = true;
 
-        yield return StateChange.Push("selection", SelectionState.Run(this, true));
+        if(aiPlayerCommander)
+            aiPlayerCommander.StartPlaying();
+        
+        yield return StateChange.Push(nameof(SelectionState), SelectionState.Run(this, true));
+
+        if(aiPlayerCommander)
+            aiPlayerCommander.StopPlaying();
 
         showPlayInfo = false;
         showPlayBorder = false;

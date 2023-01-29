@@ -146,14 +146,14 @@ public static class PathSelectionState {
                             if (hardFollow)
                                 hardFollow.enabled = false;
 
-                            yield return StateChange.ReplaceWith("action-selection", ActionSelectionState.Run(main, unit, path, initialLookDirection));
+                            yield return StateChange.ReplaceWith(nameof(ActionSelectionState), ActionSelectionState.Run(main, unit, path, initialLookDirection));
                             break;
                         }
 
                         case cancel:
                             unit.view.Selected = false;
                             CleanUp();
-                            yield return StateChange.ReplaceWith("selection", SelectionState.Run(main));
+                            yield return StateChange.ReplaceWith(nameof(SelectionState), SelectionState.Run(main));
                             break;
 
                         default:

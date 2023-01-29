@@ -1,8 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Butjok.CommandLine;
 using Drawing;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -182,7 +180,7 @@ public static class ActionSelectionState {
 
                                     if (CameraRig.TryFind(out var cameraRig))
                                         cameraRig.Jump(Vector2.Lerp(missileSilo1.position, targetPosition, .5f).Raycast());
-                                    yield return StateChange.Push("missile-flight", Wait.ForSeconds(flightTime));
+                                    yield return StateChange.Push("MissileFlight", Wait.ForSeconds(flightTime));
                                 }
 
                                 unit.Position = destination;
@@ -205,7 +203,7 @@ public static class ActionSelectionState {
                             case cancel:
                                 CleanUpSubstate();
                                 CleanUp();
-                                yield return StateChange.PopThenPush(2, "action-selection", Run(main, unit, path, initialLookDirection));
+                                yield return StateChange.PopThenPush(2, nameof(ActionSelectionState), Run(main, unit, path, initialLookDirection));
                                 break;
 
                             default:
@@ -326,7 +324,7 @@ public static class ActionSelectionState {
                                     CameraRig.TryFind(out var cameraRig);
 
                                     if (newTargetHp <= 0 && cameraRig)
-                                        yield return StateChange.Push("jump-to-target", Wait.ForCompletion(cameraRig.Jump(((Vector2Int)target.Position).Raycast())));
+                                        yield return StateChange.Push("JumpToAttackTarget", Wait.ForCompletion(cameraRig.Jump(((Vector2Int)target.Position).Raycast())));
 
                                     target.SetHp(newTargetHp, true);
 
@@ -334,7 +332,7 @@ public static class ActionSelectionState {
                                     //    target.ammo[targetWeaponIndex]--;
 
                                     if (newAttackerHp <= 0 && cameraRig)
-                                        yield return StateChange.Push("jump-to-attacker", Wait.ForCompletion(cameraRig.Jump(destination.Raycast())));
+                                        yield return StateChange.Push("JumpToAttacker", Wait.ForCompletion(cameraRig.Jump(destination.Raycast())));
 
                                     attacker.SetHp(newAttackerHp, true);
 
@@ -369,7 +367,7 @@ public static class ActionSelectionState {
                                 }
 
                                 case UnitActionType.LaunchMissile:
-                                    yield return StateChange.Push("missile-target-selection", MissileTargetSelection(action));
+                                    yield return StateChange.Push(nameof(MissileTargetSelection), MissileTargetSelection(action));
                                     if (!unit.Disposed)
                                         unit.Position = destination;
                                     break;
@@ -396,7 +394,7 @@ public static class ActionSelectionState {
                                     ((Main2)main).LoadAdditively("1");
 
                                     if (CameraRig.TryFind(out var cameraRig)) {
-                                        yield return StateChange.Push("wait", Wait.ForSeconds(.5f));
+                                        yield return StateChange.Push("MapRevealWait", Wait.ForSeconds(.5f));
                                         cameraRig.Jump(new Vector2Int(-21, -14).Raycast());
                                     }
                                 }
@@ -422,14 +420,14 @@ public static class ActionSelectionState {
                                     u.Moved = false;
 
                                 if (won)
-                                    yield return StateChange.ReplaceWith("victory", VictoryState.Run(main, action));
+                                    yield return StateChange.ReplaceWith(nameof(VictoryState), VictoryState.Run(main, action));
                                 else
-                                    yield return StateChange.ReplaceWith("defeat", DefeatState.Run(main, action));
+                                    yield return StateChange.ReplaceWith(nameof(DefeatState), DefeatState.Run(main, action));
                             }
 
                             else {
                                 yield return main.levelLogic.OnActionCompletion(main, action);
-                                yield return StateChange.ReplaceWith("selection", SelectionState.Run(main));
+                                yield return StateChange.ReplaceWith(nameof(SelectionState), SelectionState.Run(main));
                             }
 
                             break;
@@ -444,7 +442,7 @@ public static class ActionSelectionState {
                             if (initialLookDirection is { } value)
                                 unit.view.LookDirection = value;
 
-                            yield return StateChange.ReplaceWith("path-selection", PathSelectionState.Run(main, unit));
+                            yield return StateChange.ReplaceWith(nameof(PathSelectionState), PathSelectionState.Run(main, unit));
                             break;
 
                         case cycleActions: {

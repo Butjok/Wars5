@@ -1,16 +1,14 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using Butjok.CommandLine;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 public class StateRunner : MonoBehaviour {
 
-    private Stack<IEnumerator<StateChange>> states = new();
-    private Stack<string> stateNames = new();
-    public IEnumerable<string> StateNames => stateNames;
+    public Stack<IEnumerator<StateChange>> states = new();
+    public Stack<string> stateNames = new();
+    public HashSet<IEnumerator<StateChange>> startedStates = new();
 
     public void PushState(string stateName, IEnumerator<StateChange> state) {
         states.Push(state);
@@ -23,27 +21,36 @@ public class StateRunner : MonoBehaviour {
 
     protected virtual void Update() {
         if (states.TryPeek(out var state)) {
-            if (state.MoveNext()) {
 
+            var ended = !state.MoveNext();
+            startedStates.Add(state);
+
+            if (ended) {
+                startedStates.Remove(states.Pop()); 
+                stateNames.Pop();
+            }
+            else {
                 var stateChange = state.Current;
 
                 for (var i = 0; i < stateChange.popCount; i++) {
-                    states.Pop();
+                    startedStates.Remove(states.Pop()); 
                     stateNames.Pop();
                 }
 
-                if (stateChange.state != null) {
-                    Assert.IsNotNull(stateChange.stateName);
-                    states.Push(stateChange.state);
-                    stateNames.Push(stateChange.stateName);
-                }
-            }
-            else {
-                states.Pop();
-                stateNames.Pop();
+                if (stateChange.state != null)
+                    PushState(stateChange.stateName, stateChange.state);
             }
         }
     }
+
+    public bool IsInState(string stateName) {
+        return stateNames.TryPeek(out var topStateName) && topStateName == stateName &&
+               states.TryPeek(out var state) && startedStates.Contains(state);
+    }
+}
+
+abstract public class State {
+    public abstract IEnumerator<StateChange> Run();
 }
 
 public static class Wait {
@@ -66,7 +73,7 @@ public struct StateChange {
 
     public static StateChange none = default;
     public static StateChange PopThenPush(int popCount, string stateName, IEnumerator<StateChange> state) => new(popCount, stateName, state);
-    public static StateChange Pop(int count=1) => PopThenPush(count, null, null);
+    public static StateChange Pop(int count = 1) => PopThenPush(count, default, null);
     public static StateChange Push(string stateName, IEnumerator<StateChange> state) => PopThenPush(0, stateName, state);
     public static StateChange ReplaceWith(string stateName, IEnumerator<StateChange> state) => PopThenPush(1, stateName, state);
 
@@ -75,6 +82,8 @@ public struct StateChange {
     public readonly string stateName;
 
     private StateChange(int popCount, string stateName, IEnumerator<StateChange> state = null) {
+        if (state != null)
+            Assert.IsNotNull(stateName);
         this.stateName = stateName;
         this.state = state;
         this.popCount = popCount;

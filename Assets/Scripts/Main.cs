@@ -116,7 +116,7 @@ public class Main : StateRunner {
         PostProcessing.ColorFilter = Color.black;
         PostProcessing.Fade(Color.white, fadeDuration, fadeEase);
         ClearStates();
-        PushState("selection", SelectionState.Run(this, true));
+        PushState(nameof(SelectionState), SelectionState.Run(this, true));
     }
 
     [Command]

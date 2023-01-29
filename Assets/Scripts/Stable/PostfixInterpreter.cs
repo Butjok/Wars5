@@ -143,10 +143,6 @@ public static class PostfixInterpreter {
                     break;
             }
     }
-
-    public static T Pop<T>(this DebugStack stack) {
-        return (T)stack.Pop();
-    }
 }
 
 public class DebugStack {
@@ -164,11 +160,17 @@ public class DebugStack {
         }
         return stack.Pop();
     }
+    public T Pop<T>() {
+        return (T)Pop();
+    }
     public object Peek() {
         if (stack.Count==0) {
             throw new InvalidOperationException("stack is empty");
         }
         return stack.Peek();
+    }
+    public T Peek<T>() {
+        return (T)Peek();
     }
     public int Count => stack.Count;
 }

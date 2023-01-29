@@ -10,7 +10,7 @@ public enum UnitActionType { Stay, Join, Capture, Attack, GetIn, Drop, Supply, L
 public class UnitAction : IDisposable {
 
     public static readonly HashSet<UnitAction> undisposed = new();
-    
+
     public readonly UnitActionType type;
     public readonly Unit unit, targetUnit;
     public readonly IReadOnlyList<Vector2Int> path;
@@ -19,10 +19,11 @@ public class UnitAction : IDisposable {
     public readonly UnitActionView view;
     public readonly Building targetBuilding;
 
-    public UnitAction(UnitActionType type, Unit unit, IReadOnlyList<Vector2Int> path, Unit targetUnit = null, Building targetBuilding = null, WeaponName weaponName=default, Vector2Int targetPosition = default) {
+    public UnitAction(UnitActionType type, Unit unit, IReadOnlyList<Vector2Int> path, Unit targetUnit = null, Building targetBuilding = null, WeaponName weaponName = default, Vector2Int targetPosition = default,
+        bool spawnView = true) {
 
         undisposed.Add(this);
-        
+
         this.type = type;
         this.unit = unit;
         this.path = path;
@@ -31,14 +32,15 @@ public class UnitAction : IDisposable {
         this.targetPosition = targetPosition;
         this.targetBuilding = targetBuilding;
 
-        switch (type) {
-            case UnitActionType.Attack: {
-                var view = Object.Instantiate(UnitAttackActionView.Prefab);
-                view.action = this;
-                this.view = view;
-                break;
+        if (spawnView)
+            switch (type) {
+                case UnitActionType.Attack: {
+                    var view = Object.Instantiate(UnitAttackActionView.Prefab);
+                    view.action = this;
+                    this.view = view;
+                    break;
+                }
             }
-        }
     }
 
     public (int attacker, int target) CalculateHpsAfterAttack() {
@@ -67,7 +69,7 @@ public class UnitAction : IDisposable {
         if (targetUnit != null)
             text += $" {targetUnit}";
         if (type == UnitActionType.Drop)
-            text += $" to {targetPosition}"; 
+            text += $" to {targetPosition}";
         return text;
     }
 }

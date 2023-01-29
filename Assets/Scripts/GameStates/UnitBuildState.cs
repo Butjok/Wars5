@@ -58,14 +58,14 @@ public static class UnitBuildState {
                             building.Player.Credits -= Rules.Cost(type, building.Player);
 
                             menuView.Hide();
-                            yield return StateChange.ReplaceWith("selection", SelectionState.Run(main));
+                            yield return StateChange.ReplaceWith(nameof(SelectionState), SelectionState.Run(main));
                             break;
                         }
 
                         case close: {
                             menuView.Hide();
                             PlayerView.globalVisibility = true;
-                            yield return StateChange.ReplaceWith("selection", SelectionState.Run(main));
+                            yield return StateChange.ReplaceWith(nameof(SelectionState), SelectionState.Run(main));
                             break;
                         }
 

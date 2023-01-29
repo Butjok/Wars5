@@ -48,13 +48,13 @@ public static class GameMenuState {
 
                         case openSettingsMenu:
                             menu.Hide();
-                            yield return StateChange.Push("settings", GameSettingsState.Run(main));
+                            yield return StateChange.Push(nameof(GameSettingsState), GameSettingsState.Run(main));
                             menu.Show(main);
                             break;
 
                         case openLoadGameMenu:
                             menu.Hide();
-                            yield return StateChange.Push("load-game",LoadGameState.Run(main));
+                            yield return StateChange.Push(nameof(LoadGameState),LoadGameState.Run(main));
                             menu.Show(main);
                             break;
 

@@ -23,7 +23,7 @@ public static class SelectionState {
         // stop the ability
         var player = main.CurrentPlayer;
         if (player.abilityActivationTurn != null && main.turn != player.abilityActivationTurn)
-            yield return StateChange.Push("stop-ability", Wait.ForCompletion(StopAbility(player)));
+            yield return StateChange.Push(nameof(StopAbility), Wait.ForCompletion(StopAbility(player)));
 
         // weird static variable issue
         PlayerView.globalVisibility = true;
@@ -110,12 +110,12 @@ public static class SelectionState {
 
                 else if (Input.GetKeyDown(KeyCode.Space) && preselectionCursor.Visible) {
 
-                    main.stack.Push(preselectionCursor.transform.position);
+                    main.stack.Push(preselectionCursor.transform.position.ToVector2().RoundToInt());
                     main.commands.Enqueue(@select);
                 }
 
                 else if ((Input.GetMouseButtonDown(Mouse.left) || Input.GetKeyDown(KeyCode.Space)) &&
-                         Mouse.TryGetPosition(out Vector3 mousePosition)) {
+                         Mouse.TryGetPosition(out Vector2Int mousePosition)) {
 
                     main.stack.Push(mousePosition);
                     main.commands.Enqueue(@select);
@@ -131,33 +131,34 @@ public static class SelectionState {
 
                         case @select: {
 
-                            var position = main.stack.Pop<Vector3>();
-
+                            var position = main.stack.Pop<Vector2Int>();
+                            var position3d = position.Raycast();
+                            
                             var camera = Camera.main;
-                            if (camera && cameraRig && preselectionCursor && !preselectionCursor.VisibleOnTheScreen(camera, position)) {
-                                Debug.DrawLine(position, position + Vector3.up, Color.yellow, 3);
-                                cameraRig.Jump(position);
+                            if (camera && cameraRig && preselectionCursor && !preselectionCursor.VisibleOnTheScreen(camera, position3d)) {
+                                Debug.DrawLine(position3d, position3d + Vector3.up, Color.yellow, 3);
+                                cameraRig.Jump(position3d);
                             }
 
-                            if (main.TryGetUnit(position.ToVector2().RoundToInt(), out var unit)) {
+                            if (main.TryGetUnit(position, out var unit)) {
                                 if (unit.Player != player || unit.Moved)
                                     UiSound.Instance.notAllowed.PlayOneShot();
                                 else {
                                     unit.view.Selected = true;
                                     if (preselectionCursor)
                                         preselectionCursor.Hide();
-                                    yield return StateChange.ReplaceWith("path-selection", PathSelectionState.Run(main, unit));
+                                    yield return StateChange.ReplaceWith(nameof(PathSelectionState), PathSelectionState.Run(main, unit));
                                 }
                             }
 
-                            else if (main.TryGetBuilding(position.ToVector2().RoundToInt(), out var building) &&
+                            else if (main.TryGetBuilding(position, out var building) &&
                                      Rules.GetBuildableUnitTypes(building).Any()) {
                                 if (building.Player != player)
                                     UiSound.Instance.notAllowed.PlayOneShot();
                                 else {
                                     if (preselectionCursor)
                                         preselectionCursor.Hide();
-                                    yield return StateChange.ReplaceWith("unit-building", UnitBuildState.New(main, building));
+                                    yield return StateChange.ReplaceWith(nameof(UnitBuildState), UnitBuildState.New(main, building));
                                 }
                             }
                             break;
@@ -180,12 +181,12 @@ public static class SelectionState {
                             main.turn = main.turn + 1;
 
                             yield return main.levelLogic.OnTurnEnd(main);
-                            yield return StateChange.ReplaceWith("selection", Run(main, true));
+                            yield return StateChange.ReplaceWith(nameof(SelectionState), Run(main, true));
                             break;
                         }
 
                         case openGameMenu:
-                            yield return StateChange.ReplaceWith("game-menu", GameMenuState.Run(main));
+                            yield return StateChange.ReplaceWith(nameof(GameMenuState), GameMenuState.Run(main));
                             break;
 
                         case exitToLevelEditor:
@@ -216,7 +217,7 @@ public static class SelectionState {
 
                         case useAbility: {
                             if (Rules.CanUseAbility(player))
-                                yield return StateChange.Push("start-ability", Wait.ForCompletion(StartAbility(player, main.turn)));
+                                yield return StateChange.Push(nameof(StartAbility), Wait.ForCompletion(StartAbility(player, main.turn)));
                             else
                                 UiSound.Instance.notAllowed.PlayOneShot();
                             break;
@@ -225,13 +226,13 @@ public static class SelectionState {
                         case triggerVictory:
                             if (preselectionCursor)
                                 preselectionCursor.Hide();
-                            yield return StateChange.ReplaceWith("victory", VictoryState.Run(main, null));
+                            yield return StateChange.ReplaceWith(nameof(VictoryState), VictoryState.Run(main, null));
                             break;
 
                         case triggerDefeat:
                             if (preselectionCursor)
                                 preselectionCursor.Hide();
-                            yield return StateChange.ReplaceWith("defeat", DefeatState.Run(main, null));
+                            yield return StateChange.ReplaceWith(nameof(DefeatState), DefeatState.Run(main, null));
                             break;
 
                         default:
