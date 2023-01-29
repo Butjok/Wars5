@@ -10,14 +10,20 @@ using UnityEngine.Assertions;
 public class PersistentData {
 
     [Command]
+    public static string Path => System.IO.Path.Combine(Application.persistentDataPath, nameof(PersistentData) + ".json");
+    
+    private PersistentData() { }
+    
+    [Command]
     public static void Clear() {
-        PlayerPrefs.DeleteKey(nameof(PersistentData));
+        if (File.Exists(Path))
+            File.Delete(Path);
     }
     public static PersistentData Read() {
-        return PlayerPrefs.GetString(nameof(PersistentData))?.FromJson<PersistentData>() ?? new PersistentData();
+        return File.Exists(Path) ? File.ReadAllText(Path).FromJson<PersistentData>() : new PersistentData();
     }
     public void Save() {
-        PlayerPrefs.SetString(nameof(PersistentData), this.ToJson());
+        File.WriteAllText(Path, this.ToJson());
     }
 
     public bool firstTimeLaunch = true;
@@ -55,12 +61,12 @@ public class Campaign {
         new Mission {
             name = MissionName.FirstMission,
             initializationCode = "Missions/FirstMission".LoadAs<TextAsset>().text,
-            isAvailable = "Tutorial Campaign+Mission+Name type enum isCompleted"
+            isAvailable = "Tutorial MissionName type enum isCompleted"
         },
         new Mission {
             name = MissionName.SecondMission,
             initializationCode = "Missions/SecondMission".LoadAs<TextAsset>().text,
-            isAvailable = "FirstMission Campaign+Mission+Name type enum isCompleted"
+            isAvailable = "FirstMission MissionName type enum isCompleted"
         }
     };
 
@@ -102,11 +108,11 @@ public class SavedGame {
 
     public string name;
     public DateTime dateTime;
-    public string missionId;
+    public MissionName missionName;
     public string initializationCode;
     public string screenshotPath;
 
-    public static string ScreenshotDirectoryPath => System.IO.Path.Combine(Application.persistentDataPath, "Screenshots");
+    public static string ScreenshotDirectoryPath => Path.Combine(Application.persistentDataPath, "Screenshots");
     public const string screenshotExtension = ".png";
 
     public Texture2D LoadScreenshot() {
@@ -117,8 +123,10 @@ public class SavedGame {
         return texture;
     }
     public void SaveScreenshot(Texture2D texture) {
+        if (!Directory.Exists(ScreenshotDirectoryPath))
+            Directory.CreateDirectory(ScreenshotDirectoryPath);
         if (string.IsNullOrWhiteSpace(screenshotPath))
-            screenshotPath = System.IO.Path.ChangeExtension(System.IO.Path.Combine(ScreenshotDirectoryPath, Guid.NewGuid().ToString()), screenshotExtension);
+            screenshotPath = Path.ChangeExtension(Path.Combine(ScreenshotDirectoryPath, Guid.NewGuid().ToString()), screenshotExtension);
         var data = texture.EncodeToPNG();
         File.WriteAllBytes(screenshotPath, data);
     }

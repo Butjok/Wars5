@@ -45,7 +45,7 @@ public class GameSettingsMenu : MonoBehaviour {
     public void Show(Main main) {
 
         this.main = main;
-        oldSettings = main.settings.ShallowCopy();
+        oldSettings = main.persistentData.gameSettings.ShallowCopy();
 
         root.SetActive(true);
         UpdateControls();
@@ -53,40 +53,40 @@ public class GameSettingsMenu : MonoBehaviour {
 
     public void UpdateControls() {
 
-        masterVolumeSlider.SetValueWithoutNotify(main.settings.masterVolume);
-        musicVolumeSlider.SetValueWithoutNotify(main.settings.musicVolume);
-        sfxVolumeSlider.SetValueWithoutNotify(main.settings.sfxVolume);
-        uiVolumeSlider.SetValueWithoutNotify(main.settings.uiVolume);
+        masterVolumeSlider.SetValueWithoutNotify(main.persistentData.gameSettings.masterVolume);
+        musicVolumeSlider.SetValueWithoutNotify(main.persistentData.gameSettings.musicVolume);
+        sfxVolumeSlider.SetValueWithoutNotify(main.persistentData.gameSettings.sfxVolume);
+        uiVolumeSlider.SetValueWithoutNotify(main.persistentData.gameSettings.uiVolume);
 
-        showBattleAnimationToggle.SetIsOnWithoutNotify(main.settings.showBattleAnimation);
-        unitSpeedSlider.SetValueWithoutNotify(main.settings.unitSpeed);
-        unitSpeedText.text = Mathf.RoundToInt( main.settings.unitSpeed).ToString();
-        antiAliasingToggle.SetIsOnWithoutNotify(main.settings.antiAliasing == antiAliasing);
-        motionBlurShutterAngleSlider.SetValueWithoutNotify(main.settings.motionBlurShutterAngle is { } value ? value : 0);
-        bloomToggle.SetIsOnWithoutNotify(main.settings.enableBloom);
-        screenSpaceReflectionsToggle.SetIsOnWithoutNotify(main.settings.enableScreenSpaceReflections);
-        ambientOcclusionToggle.SetIsOnWithoutNotify(main.settings.enableAmbientOcclusion);
-        shuffleMusicToggle.SetIsOnWithoutNotify(main.settings.shuffleMusic);
+        showBattleAnimationToggle.SetIsOnWithoutNotify(main.persistentData.gameSettings.showBattleAnimation);
+        unitSpeedSlider.SetValueWithoutNotify(main.persistentData.gameSettings.unitSpeed);
+        unitSpeedText.text = Mathf.RoundToInt( main.persistentData.gameSettings.unitSpeed).ToString();
+        antiAliasingToggle.SetIsOnWithoutNotify(main.persistentData.gameSettings.antiAliasing == antiAliasing);
+        motionBlurShutterAngleSlider.SetValueWithoutNotify(main.persistentData.gameSettings.motionBlurShutterAngle is { } value ? value : 0);
+        bloomToggle.SetIsOnWithoutNotify(main.persistentData.gameSettings.enableBloom);
+        screenSpaceReflectionsToggle.SetIsOnWithoutNotify(main.persistentData.gameSettings.enableScreenSpaceReflections);
+        ambientOcclusionToggle.SetIsOnWithoutNotify(main.persistentData.gameSettings.enableAmbientOcclusion);
+        shuffleMusicToggle.SetIsOnWithoutNotify(main.persistentData.gameSettings.shuffleMusic);
         
         //okButton.interactable =game.settings.DiffersFrom(oldSettings);
-        closeButton.interactable = !main.settings.DiffersFrom(oldSettings);
+        closeButton.interactable = !main.persistentData.gameSettings.DiffersFrom(oldSettings);
     }
 
     public void UpdateSettings() {
 
-        main.settings.masterVolume = masterVolumeSlider.value;
-        main.settings.musicVolume = musicVolumeSlider.value;
-        main.settings.sfxVolume = sfxVolumeSlider.value;
-        main.settings.uiVolume = uiVolumeSlider.value;
+        main.persistentData.gameSettings.masterVolume = masterVolumeSlider.value;
+        main.persistentData.gameSettings.musicVolume = musicVolumeSlider.value;
+        main.persistentData.gameSettings.sfxVolume = sfxVolumeSlider.value;
+        main.persistentData.gameSettings.uiVolume = uiVolumeSlider.value;
 
-        main.settings.showBattleAnimation = showBattleAnimationToggle.isOn;
-        main.settings.unitSpeed = unitSpeedSlider.value;
-        main.settings.antiAliasing = antiAliasingToggle.isOn ? antiAliasing : PostProcessLayer.Antialiasing.None;
-        main.settings.motionBlurShutterAngle = Mathf.Approximately(motionBlurShutterAngleSlider.value, 0) ? null : motionBlurShutterAngleSlider.value;
-        main.settings.enableBloom = bloomToggle.isOn;
-        main.settings.enableScreenSpaceReflections = screenSpaceReflectionsToggle.isOn;
-        main.settings.enableAmbientOcclusion = ambientOcclusionToggle.isOn;
-        main.settings.shuffleMusic = shuffleMusicToggle.isOn;
+        main.persistentData.gameSettings.showBattleAnimation = showBattleAnimationToggle.isOn;
+        main.persistentData.gameSettings.unitSpeed = unitSpeedSlider.value;
+        main.persistentData.gameSettings.antiAliasing = antiAliasingToggle.isOn ? antiAliasing : PostProcessLayer.Antialiasing.None;
+        main.persistentData.gameSettings.motionBlurShutterAngle = Mathf.Approximately(motionBlurShutterAngleSlider.value, 0) ? null : motionBlurShutterAngleSlider.value;
+        main.persistentData.gameSettings.enableBloom = bloomToggle.isOn;
+        main.persistentData.gameSettings.enableScreenSpaceReflections = screenSpaceReflectionsToggle.isOn;
+        main.persistentData.gameSettings.enableAmbientOcclusion = ambientOcclusionToggle.isOn;
+        main.persistentData.gameSettings.shuffleMusic = shuffleMusicToggle.isOn;
         
         main.UpdatePostProcessing();
 
@@ -98,7 +98,7 @@ public class GameSettingsMenu : MonoBehaviour {
     }
 
     public void Close() {
-        if (!main.settings.DiffersFrom(oldSettings))
+        if (!main.persistentData.gameSettings.DiffersFrom(oldSettings))
             main.commands.Enqueue(GameSettingsState.close);
         else {
             shakeTweener?.Complete();
@@ -108,18 +108,18 @@ public class GameSettingsMenu : MonoBehaviour {
         }
     }
     public void SetDefaultValues() {
-        main.settings = new GameSettings();
+        main.persistentData.gameSettings = new GameSettings();
         main.UpdatePostProcessing();
         UpdateControls();
     }
     public void Cancel() {
-        main.settings = oldSettings;
+        main.persistentData.gameSettings = oldSettings;
         main.UpdatePostProcessing();
         main.commands.Enqueue(GameSettingsState.close);
     }
     public void Ok() {
         var persistentData = PersistentData.Read();
-        persistentData.gameSettings = main.settings;
+        persistentData.gameSettings = main.persistentData.gameSettings;
         persistentData.Save();
         main.commands.Enqueue(GameSettingsState.close);
     }

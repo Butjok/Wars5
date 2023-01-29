@@ -15,6 +15,7 @@ public class Player : IDisposable {
 
 	public readonly Main main;
 	public readonly Team team ;
+	public readonly string name;
 	
 	private Color color;
 	public Color Color {
@@ -60,7 +61,7 @@ public class Player : IDisposable {
 	private bool initialized;
 	
 	public Player(Main main, Color color, Team team = Team.None, int credits=0, Co co = null, PlayerView viewPrefab = null,
-		PlayerType type = PlayerType.Human, AiDifficulty difficulty=AiDifficulty.Normal, Vector2Int? unitLookDirection=null) {
+		PlayerType type = PlayerType.Human, AiDifficulty difficulty=AiDifficulty.Normal, Vector2Int? unitLookDirection=null, string name=null) {
 
 		undisposed.Add(this);
 		
@@ -81,17 +82,13 @@ public class Player : IDisposable {
 		view.Initialize(this);
 		view.visible = false;
 
+		this.name = name;
+
 		initialized = true;
 	}
 
 	public override string ToString() {
-		if (Color == Color.red)
-			return "Red";
-		if (Color == Color.green)
-			return "Green";
-		if (Color == Color.blue)
-			return "Blue";
-		return Color.ToString();
+		return name??Color.ToString();
 	}
 
 	public void Dispose() {

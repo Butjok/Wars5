@@ -11,7 +11,7 @@ using UnityEngine.Assertions;
 public class Main : StateRunner {
 
     public Traverser traverser = new();
-    
+
     [Command]
     public bool followLastUnit;
     public bool inLevelEditor = true;
@@ -34,32 +34,40 @@ public class Main : StateRunner {
     [Command] public int turn = 0;
     public LevelLogic levelLogic = new();
     public Player localPlayer;
-    public GameSettings settings = new();
+    public PersistentData persistentData;
 
     public DebugStack stack = new();
     public Queue<string> commands = new();
 
     public MeshFilter tileAreaMeshFilter;
 
-    virtual public void Awake() {
+    public virtual void Awake() {
 
         Player.undisposed.Clear();
         Building.undisposed.Clear();
         Unit.undisposed.Clear();
         UnitAction.undisposed.Clear();
 
-        UpdatePostProcessing();
+        ReloadPersistentData();
+    }
 
-        settings = PersistentData.Read().gameSettings;
+    [Command]
+    public void ReloadPersistentData() {
+        persistentData = PersistentData.Read();
+        UpdatePostProcessing();
+    }
+
+    protected virtual void OnApplicationQuit() {
+        persistentData.Save();
     }
 
     public void UpdatePostProcessing() {
         PostProcessing.Setup(
-            settings.antiAliasing,
-            settings.motionBlurShutterAngle,
-            settings.enableBloom,
-            settings.enableScreenSpaceReflections,
-            settings.enableAmbientOcclusion);
+            persistentData.gameSettings.antiAliasing,
+            persistentData.gameSettings.motionBlurShutterAngle,
+            persistentData.gameSettings.enableBloom,
+            persistentData.gameSettings.enableScreenSpaceReflections,
+            persistentData.gameSettings.enableAmbientOcclusion);
     }
 
     public Player CurrentPlayer {

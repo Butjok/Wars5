@@ -94,8 +94,8 @@ public static class SelectionState {
                 if (Input.GetKeyDown(KeyCode.F2))
                     main.commands.Enqueue(endTurn);
 
-                else if ((Input.GetKeyDown(KeyCode.Escape)) && (!preselectionCursor || !preselectionCursor.Visible))
-                    main.commands.Enqueue(openGameMenu);
+                //else if ((Input.GetKeyDown(KeyCode.Escape)) && (!preselectionCursor || !preselectionCursor.Visible))
+                //    main.commands.Enqueue(openGameMenu);
 
                 else if (Input.GetKeyDown(KeyCode.F5) && main.inLevelEditor)
                     main.commands.Enqueue(exitToLevelEditor);

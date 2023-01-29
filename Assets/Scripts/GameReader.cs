@@ -28,6 +28,7 @@ public static class GameReader {
         int? playerAbilityActivationTurn;
         int playerPowerMeter;
         int playerIndex;
+        string playerName;
 
         void ResetPlayerValues() {
             playerTeam = Team.None;
@@ -42,6 +43,7 @@ public static class GameReader {
             playerAbilityActivationTurn = null;
             playerPowerMeter = 0;
             playerIndex = -1;
+            playerName = null;
         }
         ResetPlayerValues();
 
@@ -143,7 +145,7 @@ public static class GameReader {
                             if (playerColor is not { } color)
                                 throw new AssertionException("color is null", null);
 
-                            var player = new Player(main, color, playerTeam, playerCredits, playerCo, playerViewPrefab, playerType, playerDifficulty, playerUnitLookDirection);
+                            var player = new Player(main, color, playerTeam, playerCredits, playerCo, playerViewPrefab, playerType, playerDifficulty, playerUnitLookDirection, name:playerName);
 
                             if (playerLocal) {
                                 Assert.IsNull(main.localPlayer);
@@ -208,6 +210,10 @@ public static class GameReader {
                     }
                     case "player.on-additive-load-get-by-index": {
                         playerIndex = main.stack.Pop<int>();
+                        break;
+                    }
+                    case "player.set-name": {
+                        playerName = main.stack.Pop<string>();
                         break;
                     }
 

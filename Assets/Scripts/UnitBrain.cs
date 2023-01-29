@@ -19,7 +19,8 @@ public static class UnitBrain {
         Assert.IsTrue(IsArtillery(artillery));
 
         var hasAttackRange = TryGetAttackRange(artillery, out var attackRange);
-        Assert.IsTrue(hasAttackRange);
+        if (!hasAttackRange)
+            yield break;
         if (artillery.Position is not { } position)
             throw new AssertionException("artillery.Position == null", null);
 
@@ -40,30 +41,30 @@ public static class UnitBrain {
         Assert.IsFalse(IsArtillery(unit));
 
         var hasAttackRange = TryGetAttackRange(unit, out var attackRange);
-        Assert.IsTrue(hasAttackRange);
+        if (!hasAttackRange)
+            yield break;
         if (unit.Position is not { } position)
             throw new AssertionException("unit.Position == null", null);
 
         var main = unit.Player.main;
         main.traverser.Traverse(main.tiles.Keys, position, GetMoveCostFunction(unit));
-        var targetPositions = new HashSet<Vector2Int>();
-        var destinations = new Dictionary<Vector2Int, Vector2Int>();
-        foreach (var reachablePosition in main.traverser.Reachable)
-        foreach (var targetPosition in main.PositionsInRange(reachablePosition, attackRange)) {
-            targetPositions.Add(targetPosition);
-            destinations[targetPosition] = reachablePosition;
-        }
 
-        foreach (var targetPosition in targetPositions) {
-            if (unit.Player.main.TryGetUnit(targetPosition, out var target))
-                foreach (var weaponName in GetWeaponNames(unit))
-                    if (TryGetDamage(unit, target, weaponName, out var damage))
-                        yield return new PotentialAttack {
-                            destination = destinations[(Vector2Int)target.Position],
-                            target = target,
-                            weaponName = weaponName,
-                            damage = damage
-                        };
+        foreach (var reachablePosition in main.traverser.Reachable) {
+
+            if (!CanStay(unit, reachablePosition))
+                continue;
+
+            foreach (var targetPosition in main.PositionsInRange(reachablePosition, attackRange)) {
+                if (unit.Player.main.TryGetUnit(targetPosition, out var target))
+                    foreach (var weaponName in GetWeaponNames(unit))
+                        if (TryGetDamage(unit, target, weaponName, out var damage))
+                            yield return new PotentialAttack {
+                                destination = reachablePosition,
+                                target = target,
+                                weaponName = weaponName,
+                                damage = damage
+                            };
+            }
         }
     }
 
@@ -71,18 +72,32 @@ public static class UnitBrain {
         return IsArtillery(unit) ? GetPotentialImmediateArtilleryAttacks(unit) : GetPotentialImmediateNonArtilleryAttacks(unit);
     }
 
+    public static void GetPotentialCaptures() { }
+
     [Command]
     public static void DrawPotentialImmediateAttacks(float duration) {
-        var main = Object.FindObjectOfType<Main2>();
-        if (main && Mouse.TryGetPosition(out Vector2Int mousePosition) && main.TryGetUnit(mousePosition, out var unit)) {
-            foreach (var group in GetPotentialImmediateAttacks(unit).GroupBy(pa => pa.target)) {
-                using (Draw.ingame.WithDuration(duration))
-                using (Draw.ingame.WithLineWidth(2))
-                using (Draw.ingame.WithColor(Color.red)) {
-                    var text = string.Join("\n", @group.Select(e => $"{e.weaponName}: {e.damage}"));
-                    var position = (Vector3)((Vector2Int)@group.Key.Position).ToVector3Int();
-                    Draw.ingame.Label2D(position, text, 14, LabelAlignment.Center);
-                    Draw.ingame.CircleXZ(position, .4f);
+
+        using (Draw.ingame.WithDuration(duration))
+        using (Draw.ingame.WithLineWidth(2))
+        using (Draw.ingame.WithColor(Color.red)) {
+
+            var traverser = new Traverser();
+            var path = new List<Vector2Int>();
+
+            var main = Object.FindObjectOfType<Main2>();
+            if (main && Mouse.TryGetPosition(out Vector2Int mousePosition) && main.TryGetUnit(mousePosition, out var unit)) {
+                foreach (var group in GetPotentialImmediateAttacks(unit).GroupBy(pa => pa.target)) {
+
+                    var targetPosition3d = (Vector3)((Vector2Int)group.Key.Position).ToVector3Int();
+                    var text = string.Join("\n", group.Select(i => $"{i.weaponName}: {i.damage}"));
+                    Draw.ingame.Label2D(targetPosition3d, text, 14, LabelAlignment.Center, Color.white);
+                    Draw.ingame.CircleXZ(targetPosition3d, .4f);
+
+                    foreach (var potentialAttack in group) {
+                        if (traverser.TryFindPath(unit, potentialAttack.destination, path))
+                            for (var i = 1; i < path.Count; i++)
+                                Draw.ingame.Arrow((Vector3)path[i - 1].ToVector3Int(), (Vector3)path[i].ToVector3Int());
+                    }
                 }
             }
         }

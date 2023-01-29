@@ -21,7 +21,7 @@ public class SavedGamesView : MonoBehaviour {
     }
 
     private void Start() {
-        Show(new PersistentData().savedGames);
+        Show(PersistentData.Read().savedGames);
     }
 
     public void Show(IEnumerable<SavedGame> savedGames) {

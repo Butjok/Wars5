@@ -318,7 +318,7 @@ public static class ActionSelectionState {
                                         newAttackerHp = Mathf.Max(0, newAttackerHp - damageToAttacker);
                                     }*/
 
-                                    if (main.settings.showBattleAnimation)
+                                    if (main.persistentData.gameSettings.showBattleAnimation)
                                         Debug.Log("BattleAnimationView");
 
                                     attacker.Position = action.path.Last();
@@ -381,7 +381,7 @@ public static class ActionSelectionState {
                             if (!unit.Disposed) {
                                 unit.Moved = true;
                                 if (unit.view.LookDirection != unit.Player.unitLookDirection)
-                                    main.StartCoroutine(new MoveSequence(unit.view.transform, null, unit.Player.main.settings.unitSpeed, unit.Player.unitLookDirection).Animation());
+                                    main.StartCoroutine(new MoveSequence(unit.view.transform, null, unit.Player.main.persistentData.gameSettings.unitSpeed, unit.Player.unitLookDirection).Animation());
                             }
 
                             foreach (var item in actions.Except(new[] { action }))

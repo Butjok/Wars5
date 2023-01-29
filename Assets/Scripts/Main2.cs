@@ -259,8 +259,10 @@ public class Main2 : Main {
         return DeleteAutosaves(_ => true);
     }
 
-    protected void OnApplicationQuit() {
+    protected override void OnApplicationQuit() {
 
+        base.OnApplicationQuit();
+        
         Save("autosave");
         DeleteOldAutosaves();
 

@@ -3,15 +3,9 @@ using Butjok.CommandLine;
 using Drawing;
 using Priority_Queue;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public class Traverser {
-
-    public delegate bool TryGetCostDelegate(Vector2Int position, int distance, out int cost);
-
-    private Dictionary<Vector2Int, (int distance, Vector2Int? cameFrom)> infos = new();
-    private SimplePriorityQueue<Vector2Int> queue = new();
-    private List<Vector2Int> reachable = new();
-    public IReadOnlyList<Vector2Int> Reachable => reachable;
 
     public const int infinity = 999;
 
@@ -23,6 +17,13 @@ public class Traverser {
     public static Color debugColor = Color.yellow;
     [Command]
     public static float debugThickness = 2;
+
+    public delegate bool TryGetCostDelegate(Vector2Int position, int distance, out int cost);
+
+    private Dictionary<Vector2Int, (int distance, Vector2Int? cameFrom)> infos = new();
+    private SimplePriorityQueue<Vector2Int> queue = new();
+    private List<Vector2Int> reachable = new();
+    public IReadOnlyList<Vector2Int> Reachable => reachable;
 
     public void Traverse(IEnumerable<Vector2Int> positions, Vector2Int start, TryGetCostDelegate tryGetCost, Vector2Int? goal = null) {
 
@@ -49,15 +50,15 @@ public class Traverser {
                 break;
 
             reachable.Add(position);
-            
+
             if (debugShowVisited)
                 using (Draw.ingame.WithDuration(debugDuration))
                 using (Draw.ingame.WithLineWidth(debugThickness))
-                using(Draw.ingame.WithColor(debugColor)){
+                using (Draw.ingame.WithColor(debugColor)) {
                     Draw.ingame.CircleXZ((Vector3)position.ToVector3Int(), .4f);
                     Draw.ingame.Label2D((Vector3)position.ToVector3Int(), distance.ToString());
                 }
-            
+
             if (goal is { } actualValue && actualValue == position)
                 break;
 
@@ -88,6 +89,13 @@ public class Traverser {
             path.Add((Vector2Int)position);
         path.Reverse();
         return true;
+    }
+
+    public bool TryFindPath(Unit unit, Vector2Int goal, List<Vector2Int>path) {
+        if (unit.Position is not { } position)
+            throw new AssertionException("unit.Position == null", null);
+        Traverse(unit.Player.main.tiles.Keys, position, Rules.GetMoveCostFunction(unit, false), goal);
+        return TryReconstructPath(goal, path);
     }
 
     public bool TryGetDistance(Vector2Int position, out int distance) {
