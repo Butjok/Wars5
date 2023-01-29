@@ -10,6 +10,8 @@ using UnityEngine.Assertions;
 
 public class Main : StateRunner {
 
+    public Traverser traverser = new();
+    
     [Command]
     public bool followLastUnit;
     public bool inLevelEditor = true;

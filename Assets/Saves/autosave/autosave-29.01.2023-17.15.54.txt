@@ -51,6 +51,9 @@ MissileSilo TileType type enum                                   building.set-ty
 1                                                                building.missile-silo.set-launch-cooldown
 999                                                              building.missile-silo.set-ammo
 0 999 int2                                                       building.missile-silo.set-range
+0 3 int2                                                         building.missile-silo.missile.set-blast-range
+5                                                                building.missile-silo.missile.set-unit-damage
+10                                                               building.missile-silo.missile.set-bridge-damage
                                                                  building.add
                                                                  pop
 
@@ -155,6 +158,15 @@ false                                                            unit.set-moved
 -24 -9 int2                                                      unit.set-position
 0 -1 int2                                                        unit.set-look-direction
 WbRecon UnitView type load-resource                              unit.set-view-prefab
+                                                                 unit.add
+                                                                 pop
+
+                                                                 dup
+Infantry UnitType type enum                                      unit.set-type
+false                                                            unit.set-moved
+-7 -24 int2                                                      unit.set-position
+0 -1 int2                                                        unit.set-look-direction
+WbLightTank UnitView type load-resource                          unit.set-view-prefab
                                                                  unit.add
                                                                  pop
 
@@ -757,8 +769,8 @@ BridgeView type get-component                                    bridge.set-view
                                                                  pop
 
 
--7.133796 7.629395E-06 -17.72236 float3                          camera-rig.set-position
-315                                                              camera-rig.set-rotation
-26.62332                                                         camera-rig.set-distance
-40.36793                                                         camera-rig.set-pitch-angle
+-5.529963 -1.621875E-05 -22.10099 float3                         camera-rig.set-position
+292.5                                                            camera-rig.set-rotation
+16.33868                                                         camera-rig.set-distance
+55.41625                                                         camera-rig.set-pitch-angle
 30                                                               camera-rig.set-fov

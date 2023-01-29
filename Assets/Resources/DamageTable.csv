@@ -9,12 +9,12 @@ Infantry,Artillery,Rifle: 15
 Infantry,Rockets,Rifle: 25
 AntiTank,Infantry,Rifle: 65
 AntiTank,AntiTank,Rifle: 55
-AntiTank,Recon,"RocketLauncher: 85, Rifle: 18"
-AntiTank,LightTank,"RocketLauncher: 55, Rifle: 6"
-AntiTank,MediumTank,"RocketLauncher: 15, Rifle: 1"
-AntiTank,Apc,"RocketLauncher: 75, Rifle: 20"
-AntiTank,Artillery,"RocketLauncher: 70, Rifle: 32"
-AntiTank,Rockets,"RocketLauncher: 85, Rifle: 35"
+AntiTank,Recon,RocketLauncher: 85; Rifle: 18
+AntiTank,LightTank,RocketLauncher: 55; Rifle: 6
+AntiTank,MediumTank,RocketLauncher: 15; Rifle: 1
+AntiTank,Apc,RocketLauncher: 75; Rifle: 20
+AntiTank,Artillery,RocketLauncher: 70; Rifle: 32
+AntiTank,Rockets,RocketLauncher: 85; Rifle: 35
 Recon,Infantry,MachineGun: 70
 Recon,AntiTank,MachineGun: 65
 Recon,Recon,MachineGun: 35
@@ -23,22 +23,22 @@ Recon,MediumTank,MachineGun: 1
 Recon,Apc,MachineGun: 45
 Recon,Artillery,MachineGun: 45
 Recon,Rockets,MachineGun: 55
-LightTank,Infantry,"Cannon: 35, MachineGun: 75"
-LightTank,AntiTank,"Cannon: 30, MachineGun: 70"
-LightTank,Recon,"Cannon: 85, MachineGun: 40"
-LightTank,LightTank,"Cannon: 55, MachineGun: 6"
-LightTank,MediumTank,"Cannon: 15, MachineGun: 1"
-LightTank,Apc,"Cannon: 75, MachineGun: 45"
-LightTank,Artillery,"Cannon: 70, MachineGun: 45"
-LightTank,Rockets,"Cannon: 85, MachineGun: 55"
-MediumTank,Infantry,"Cannon: 45, MachineGun: 85"
-MediumTank,AntiTank,"Cannon: 40, MachineGun: 80"
-MediumTank,Recon,"Cannon: 95, MachineGun: 11"
-MediumTank,LightTank,"Cannon: 80, MachineGun: 7"
-MediumTank,MediumTank,"Cannon: 55, MachineGun: 5"
-MediumTank,Apc,"Cannon: 85, MachineGun: 55"
-MediumTank,Artillery,"Cannon: 80, MachineGun: 55"
-MediumTank,Rockets,"Cannon: 95, MachineGun: 75"
+LightTank,Infantry,Cannon: 35; MachineGun: 75
+LightTank,AntiTank,Cannon: 30; MachineGun: 70
+LightTank,Recon,Cannon: 85; MachineGun: 40
+LightTank,LightTank,Cannon: 55; MachineGun: 6
+LightTank,MediumTank,Cannon: 15; MachineGun: 1
+LightTank,Apc,Cannon: 75; MachineGun: 45
+LightTank,Artillery,Cannon: 70; MachineGun: 45
+LightTank,Rockets,Cannon: 85; MachineGun: 55
+MediumTank,Infantry,Cannon: 45; MachineGun: 85
+MediumTank,AntiTank,Cannon: 40; MachineGun: 80
+MediumTank,Recon,Cannon: 95; MachineGun: 11
+MediumTank,LightTank,Cannon: 80; MachineGun: 7
+MediumTank,MediumTank,Cannon: 55; MachineGun: 5
+MediumTank,Apc,Cannon: 85; MachineGun: 55
+MediumTank,Artillery,Cannon: 80; MachineGun: 55
+MediumTank,Rockets,Cannon: 95; MachineGun: 75
 Artillery,Infantry,Cannon: 90
 Artillery,AntiTank,Cannon: 85
 Artillery,Recon,Cannon: 80

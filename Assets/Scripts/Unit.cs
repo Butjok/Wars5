@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
@@ -8,10 +8,10 @@ using static UnityEngine.Mathf;
 using static Rules;
 
 public enum WeaponName {
-    Rifle ,
-    RocketLauncher ,
-    Cannon ,
-    MachineGun ,
+    [UsedImplicitly] Rifle,
+    [UsedImplicitly] RocketLauncher,
+    [UsedImplicitly] Cannon,
+    [UsedImplicitly] MachineGun,
 }
 
 public class Unit : IDisposable {
@@ -21,7 +21,7 @@ public class Unit : IDisposable {
     public readonly UnitType type;
     public readonly UnitView view;
 
-    private bool initialized = false;
+    private readonly bool initialized;
 
     private Vector2Int? position;
     public Vector2Int? Position {
@@ -59,16 +59,17 @@ public class Unit : IDisposable {
     }
 
     private int hp;
-    public int Hp => ModifiedHp(this,hp);
-    
-    public void SetHp(int value, bool animateDeath=false){
+    public int Hp => ModifiedHp(this, hp);
+
+    public void SetHp(int value, bool animateDeath = false) {
         if (initialized && hp == value)
             return;
-        
+
         hp = Clamp(value, 0, initialized ? MaxHp(this) : MaxHp(type));
 
         if (hp <= 0) {
-            view.Die();
+            if (animateDeath)
+                view.Die();
             Dispose();
         }
         else
@@ -77,7 +78,7 @@ public class Unit : IDisposable {
 
     private int fuel;
     public int Fuel {
-        get => ModifiedFuel(this,fuel);
+        get => ModifiedFuel(this, fuel);
         set {
             if (initialized && fuel == value)
                 return;
@@ -96,7 +97,7 @@ public class Unit : IDisposable {
             player = value;
 
             // alpha = 0!
-            view.PlayerColor = player?.Color?? new Color(0, 0, 0, 0);
+            view.PlayerColor = player?.Color ?? new Color(0, 0, 0, 0);
         }
     }
 
@@ -163,7 +164,7 @@ public class Unit : IDisposable {
         SetHp(hp);
         Fuel = fuel;
 
-        foreach (var weaponName in GetWeapons(type)) {
+        foreach (var weaponName in GetWeaponNames(type)) {
             ammo.Add(weaponName,0);
             SetAmmo(weaponName, int.MaxValue);
         }
@@ -175,10 +176,10 @@ public class Unit : IDisposable {
 
     public void Dispose() {
 
+        Assert.IsTrue(undisposed.Contains(this));
+
         foreach (var unit in cargo)
             unit.Dispose();
-
-        Assert.IsTrue(undisposed.Contains(this));
         undisposed.Remove(this);
 
         Position = null;

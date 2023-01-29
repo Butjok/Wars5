@@ -105,7 +105,7 @@ public static class Rules {
         return amount;
     }
 
-    public static IEnumerable<WeaponName> GetWeapons(UnitType type) {
+    public static IEnumerable<WeaponName> GetWeaponNames(UnitType type) {
         return UnitTypeSettings.Loaded.TryGetValue(type, out var entry) ? entry.ammo.Keys : Enumerable.Empty<WeaponName>();
     }
 
@@ -120,7 +120,7 @@ public static class Rules {
         return true;
     }
 
-    public static IEnumerable<(WeaponName weaponName, int damage)> GetDamageValues(Unit attacker, Unit target) {
+    public static IEnumerable<(WeaponName weaponName, int damage)> GetPotentialAttacks(Unit attacker, Unit target) {
         foreach (var weaponName in attacker.Ammo.Keys)
             if (TryGetDamage(attacker, target, weaponName, out var damage))
                 yield return (weaponName, damage);
@@ -259,17 +259,16 @@ public static class Rules {
         return cost != unreachable;
     }
 
-    public static Traverser.TryGetCostDelegate GetMoveCostFunction(Unit unit) {
+    public static Traverser.TryGetCostDelegate GetMoveCostFunction(Unit unit, bool truncateToMoveDistance = true) {
 
         bool TryGetCost(Vector2Int position, int distance, out int cost) {
             cost = 0;
 
-            if (distance >= MoveDistance(unit) ||
-                !unit.Player.main.TryGetTile(position, out var tile) ||
-                unit.Player.main.TryGetUnit(position, out var other) && !CanPass(unit, other))
-                return false;
-
-            return TryGetMoveCost(unit, tile, out cost);
+            var unreachable = !unit.Player.main.TryGetTile(position, out var tile) ||
+                              unit.Player.main.TryGetUnit(position, out var other) && !CanPass(unit, other) ||
+                              !TryGetMoveCost(unit, tile, out cost) ||
+                              truncateToMoveDistance && distance + cost > MoveDistance(unit);
+            return !unreachable;
         }
 
         return TryGetCost;

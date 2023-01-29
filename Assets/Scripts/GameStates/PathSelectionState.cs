@@ -25,7 +25,7 @@ public static class PathSelectionState {
         var moveDistance = Rules.MoveDistance(unit);
 
         var traverser = new Traverser();
-        traverser.Traverse(main.tiles.Keys, unitPosition, Rules.GetMoveCostFunction(unit), moveDistance);
+        traverser.Traverse(main.tiles.Keys, unitPosition, Rules.GetMoveCostFunction(unit));
 
         var pathMeshGameObject = new GameObject();
         Object.DontDestroyOnLoad(pathMeshGameObject);
@@ -47,7 +47,7 @@ public static class PathSelectionState {
 
         //var tileAreaMeshBuilder = Object.FindObjectOfType<TileAreaMeshuild>()
         if (main.tileAreaMeshFilter)
-            main.tileAreaMeshFilter.sharedMesh = TileAreaMeshBuilder.Build(main.tiles.Keys.Where(position => traverser.IsReachable(position, moveDistance)));
+            main.tileAreaMeshFilter.sharedMesh = TileAreaMeshBuilder.Build(traverser.Reachable);
 
         var oldPositions = new List<Vector2Int> { unitPosition };
 
@@ -91,10 +91,10 @@ public static class PathSelectionState {
 
                         case reconstructPath: {
                             var targetPosition = main.stack.Pop<Vector2Int>();
-                            var positions = traverser.ReconstructPath(targetPosition)?.Skip(1);
-                            if (positions != null) {
+                            var path = new List<Vector2Int>();
+                            if (traverser.TryReconstructPath(targetPosition, path)) {
                                 pathBuilder.Clear();
-                                foreach (var position in positions)
+                                foreach (var position in path.Skip(1))
                                     pathBuilder.Add(position);
                             }
                             break;

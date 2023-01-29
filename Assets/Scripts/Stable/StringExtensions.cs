@@ -38,6 +38,6 @@ public static class StringExtensions {
     public static IEnumerable<string> Separate(this string text) {
         if (string.IsNullOrWhiteSpace(text))
             return Enumerable.Empty<string>();
-        return text.Split(new[] { ' ', ',', ':' }, StringSplitOptions.RemoveEmptyEntries);
+        return text.Split(new[] { ' ', ',', ':' , ';'}, StringSplitOptions.RemoveEmptyEntries);
     }
 }

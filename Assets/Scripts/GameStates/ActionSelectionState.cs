@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Butjok.CommandLine;
 using Drawing;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -52,7 +53,7 @@ public static class ActionSelectionState {
         if ((!Rules.IsArtillery(unit) || path.Count == 1) && Rules.TryGetAttackRange(unit, out var attackRange))
             foreach (var otherPosition in main.PositionsInRange(destination, attackRange))
                 if (main.TryGetUnit(otherPosition, out var target))
-                    foreach (var (weaponName, _) in Rules.GetDamageValues(unit, target))
+                    foreach (var (weaponName, _) in Rules.GetPotentialAttacks(unit, target))
                         actions.Add(new UnitAction(UnitActionType.Attack, unit, path, target, weaponName: weaponName, targetPosition: otherPosition));
 
         // supply
@@ -114,8 +115,6 @@ public static class ActionSelectionState {
 
         IEnumerator<StateChange> MissileTargetSelection(UnitAction action) {
 
-            var missileBlastRange = new Vector2Int(0, 3);
-
             var oldShowCursorView = false;
             if (CursorView.TryFind(out var cursorView)) {
                 oldShowCursorView = cursorView.show;
@@ -128,19 +127,19 @@ public static class ActionSelectionState {
             void CleanUpSubstate() {
                 if (cursorView)
                     cursorView.show = oldShowCursorView;
-                
+
                 if (missileSiloView)
                     missileSiloView.aim = false;
             }
 
             Vector2Int? launchPosition = null;
-            
+
             while (true) {
                 yield return StateChange.none;
 
                 if (Input.GetMouseButtonDown(Mouse.left) && Mouse.TryGetPosition(out Vector2Int mousePosition)) {
 
-                    if ((mousePosition- missileSilo.position).ManhattanLength().IsIn(missileSilo.missileSiloRange)) {
+                    if ((mousePosition - missileSilo.position).ManhattanLength().IsIn(missileSilo.missileSiloRange)) {
                         if (launchPosition != mousePosition) {
                             launchPosition = mousePosition;
                         }
@@ -150,10 +149,10 @@ public static class ActionSelectionState {
                             main.commands.Enqueue(launchMissile);
                         }
                     }
-                    else 
+                    else
                         UiSound.Instance.notAllowed.PlayOneShot();
                 }
-                
+
                 else if (Input.GetMouseButtonDown(Mouse.right) || Input.GetKeyDown(KeyCode.Escape))
                     main.commands.Enqueue(cancel);
 
@@ -173,16 +172,16 @@ public static class ActionSelectionState {
                                     Draw.ingame.Arrow((Vector3)missileSilo1.position.ToVector3Int(), (Vector3)targetPosition.ToVector3Int(), Color.red);
 
                                 if (missileSiloView) {
-                                    
+
                                     missileSiloView.SnapToTargetRotationInstantly();
-                                    
+
                                     var missile = missileSiloView.TryLaunchMissile();
                                     Assert.IsTrue(missile);
                                     if (missile.curve.totalTime is not { } flightTime)
                                         throw new AssertionException("missile.curve.totalTime = null", null);
-                                    
+
                                     if (CameraRig.TryFind(out var cameraRig))
-                                        cameraRig.Jump(Vector2.Lerp(missileSilo1.position, targetPosition,.5f).Raycast());
+                                        cameraRig.Jump(Vector2.Lerp(missileSilo1.position, targetPosition, .5f).Raycast());
                                     yield return StateChange.Push("missile-flight", Wait.ForSeconds(flightTime));
                                 }
 
@@ -190,9 +189,13 @@ public static class ActionSelectionState {
                                 missileSilo1.missileSiloLastLaunchTurn = main.turn;
                                 missileSilo1.missileSiloAmmo--;
 
+                                foreach (var position in main.PositionsInRange(targetPosition, missileSilo1.missileBlastRange))
+                                    if (main.TryGetUnit(position, out var unit))
+                                        unit.SetHp(unit.Hp - missileSilo1.missileUnitDamage, true);
+
                                 var targetedBridges = main.bridges.Where(bridge => bridge.tiles.ContainsKey(targetPosition));
                                 foreach (var bridge in targetedBridges)
-                                    bridge.SetHp(bridge.Hp-10,true);
+                                    bridge.SetHp(bridge.Hp - missileSilo1.missileBridgeDamage, true);
 
                                 CleanUpSubstate();
                                 yield return StateChange.Pop();
@@ -211,7 +214,7 @@ public static class ActionSelectionState {
                         }
 
                 if (launchPosition is { } position1)
-                    foreach (var attackPosition in main.PositionsInRange(position1, missileBlastRange))
+                    foreach (var attackPosition in main.PositionsInRange(position1, missileSilo.missileBlastRange))
                         Draw.ingame.SolidPlane((Vector3)attackPosition.ToVector3Int(), Vector3.up, Vector2.one, Color.red);
 
                 if (Mouse.TryGetPosition(out mousePosition) && missileSiloView &&
@@ -325,7 +328,7 @@ public static class ActionSelectionState {
                                     if (newTargetHp <= 0 && cameraRig)
                                         yield return StateChange.Push("jump-to-target", Wait.ForCompletion(cameraRig.Jump(((Vector2Int)target.Position).Raycast())));
 
-                                    target.SetHp(newTargetHp,true);
+                                    target.SetHp(newTargetHp, true);
 
                                     //if (newTargetHp > 0 && targetWeaponIndex != -1)
                                     //    target.ammo[targetWeaponIndex]--;
@@ -333,7 +336,7 @@ public static class ActionSelectionState {
                                     if (newAttackerHp <= 0 && cameraRig)
                                         yield return StateChange.Push("jump-to-attacker", Wait.ForCompletion(cameraRig.Jump(destination.Raycast())));
 
-                                    attacker.SetHp(newAttackerHp,true);
+                                    attacker.SetHp(newAttackerHp, true);
 
                                     //if (newAttackerHp > 0)
                                     // attacker.ammo[action.weaponIndex]--;
@@ -367,20 +370,22 @@ public static class ActionSelectionState {
 
                                 case UnitActionType.LaunchMissile:
                                     yield return StateChange.Push("missile-target-selection", MissileTargetSelection(action));
-                                    unit.Position = destination;
+                                    if (!unit.Disposed)
+                                        unit.Position = destination;
                                     break;
 
                                 default:
                                     throw new ArgumentOutOfRangeException();
                             }
 
-                            unit.Moved = true;
+                            if (!unit.Disposed) {
+                                unit.Moved = true;
+                                if (unit.view.LookDirection != unit.Player.unitLookDirection)
+                                    main.StartCoroutine(new MoveSequence(unit.view.transform, null, unit.Player.main.settings.unitSpeed, unit.Player.unitLookDirection).Animation());
+                            }
 
                             foreach (var item in actions.Except(new[] { action }))
                                 item.Dispose();
-
-                            if (unit is { Hp: >0 } && unit.view.LookDirection != unit.Player.unitLookDirection)
-                                main.StartCoroutine(new MoveSequence(unit.view.transform, null, unit.Player.main.settings.unitSpeed, unit.Player.unitLookDirection).Animation());
 
                             if (main.triggers.TryGetValue(TriggerName.A, out var reconTrigger)) {
 

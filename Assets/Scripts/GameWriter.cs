@@ -132,6 +132,9 @@ public static class GameWriter {
 			WriteLine(tw, building.missileSiloLaunchCooldown, "building.missile-silo.set-launch-cooldown");
 			WriteLine(tw, building.missileSiloAmmo, "building.missile-silo.set-ammo");
 			WriteLine(tw, $"{building.missileSiloRange[0]} {building.missileSiloRange[1]} int2", "building.missile-silo.set-range");
+			WriteLine(tw, $"{building.missileBlastRange[0]} {building.missileBlastRange[1]} int2", "building.missile-silo.missile.set-blast-range");
+			WriteLine(tw, building.missileUnitDamage, "building.missile-silo.missile.set-unit-damage");
+			WriteLine(tw, building.missileBridgeDamage, "building.missile-silo.missile.set-bridge-damage");
 		}
 		WriteLine(tw, "building.add");
 		return tw;

@@ -61,6 +61,9 @@ public static class GameReader {
         int buildingMissileSiloLaunchCooldown;
         int buildingMissileSiloLaunchAmmo;
         Vector2Int buildingMissileSiloRange;
+        Vector2Int buildingMissileSiloBlastRange;
+        int buildingMissileSiloMissileUnitDamage;
+        int buildingMissileSiloMissileBridgeDamage;
         void ResetBuildingValues() {
             buildingPosition = null;
             buildingType = 0;
@@ -70,6 +73,9 @@ public static class GameReader {
             buildingMissileSiloLaunchCooldown = 1;
             buildingMissileSiloLaunchAmmo = 999;
             buildingMissileSiloRange = new Vector2Int(0, 999);
+            buildingMissileSiloBlastRange = new Vector2Int(0, 3);
+            buildingMissileSiloMissileUnitDamage = 5;
+            buildingMissileSiloMissileBridgeDamage = 10;
         }
         ResetBuildingValues();
 
@@ -238,6 +244,9 @@ public static class GameReader {
                         building.missileSiloLaunchCooldown = buildingMissileSiloLaunchCooldown;
                         building.missileSiloAmmo = buildingMissileSiloLaunchAmmo;
                         building.missileSiloRange = buildingMissileSiloRange;
+                        building.missileBlastRange = buildingMissileSiloBlastRange;
+                        building.missileUnitDamage = buildingMissileSiloMissileUnitDamage;
+                        building.missileBridgeDamage = buildingMissileSiloMissileBridgeDamage;
 
                         main.stack.Push(building);
 
@@ -274,6 +283,18 @@ public static class GameReader {
                     }
                     case "building.missile-silo.set-range": {
                         buildingMissileSiloRange = main.stack.Pop<Vector2Int>();
+                        break;
+                    }
+                    case "building.missile-silo.missile.set-blast-range": {
+                        buildingMissileSiloBlastRange = main.stack.Pop<Vector2Int>();
+                        break;
+                    }
+                    case "building.missile-silo.missile.set-unit-damage": {
+                        buildingMissileSiloMissileUnitDamage = main.stack.Pop<int>();
+                        break;
+                    }
+                    case "building.missile-silo.missile.set-bridge-damage": {
+                        buildingMissileSiloMissileBridgeDamage = main.stack.Pop<int>();
                         break;
                     }
 
@@ -414,7 +435,7 @@ public static class GameReader {
                 var text = $"{nameof(GameReader)}: {line+1}:{column+1}: {lines[line]}\n{outline}\n";
                 for (var i = low; i <= high; i++) {
                     text += $"{i,3} ";
-                    text += string.Format(i == line ? "<b>{1}</b>\n" : "{0}\n", lines[i]);
+                    text += string.Format(i == line ? "<b>{0}</b>\n" : "{0}\n", lines[i]);
                 }
                 text += $"{outline}\n\n\n\n";
 

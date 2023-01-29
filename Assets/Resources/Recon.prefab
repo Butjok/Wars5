@@ -122,7 +122,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1347317117878967871}
   - component: {fileID: 1528999263634511347}
-  - component: {fileID: 1528999263634511344}
   - component: {fileID: 9055330345469545590}
   m_Layer: 0
   m_Name: Recon
@@ -166,42 +165,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   renderers: []
-  blinkCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  speedometers: []
   steeringArms: []
   wheels: []
   wheelPistons: []
-  walker: {fileID: 0}
   turret: {fileID: 0}
-  center: {fileID: 8847418254913828974}
   body: {fileID: 0}
   prefab: {fileID: 0}
   hpText: {fileID: 2345026189562245541}
-  movedTint: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
+  impactPoints: []
+  bodyTorque: {fileID: 0}
+  moveAndAttack: {fileID: 0}
+  attack: {fileID: 0}
+  respond: {fileID: 0}
+  uiBoxCollider: {fileID: 0}
+  center: {fileID: 8847418254913828974}
   nextPosition: {x: 0, y: 0}
   nextRotation: {x: 0, y: 0}
   nextMoved: 0
-  blinkDuration: 1
---- !u!114 &1528999263634511344
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1871651826005886085}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 281df90fa841c3f4b8763900bb3212ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moves: []
-  time: 0
-  speed: 1.5
 --- !u!114 &9055330345469545590
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -514,9 +494,9 @@ MonoBehaviour:
   clamp: {x: -0.025, y: 0.025}
   force: 250
   drag: 6
-  constantForce: 0
-  velocity: -3.7210116
-  position: {x: 0.63793296, y: 1.8752322, z: 2.5192797}
+  forceThisFrame: 0
+  velocity: 0
+  position: {x: 0.63793296, y: 1.9002322, z: 2.5192797}
 --- !u!114 &1528999263364611224
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -720,9 +700,9 @@ MonoBehaviour:
   clamp: {x: -0.025, y: 0.025}
   force: 250
   drag: 6
-  constantForce: 0
-  velocity: -3.7210116
-  position: {x: 0.883987, y: 1.8752322, z: 2.5192795}
+  forceThisFrame: 0
+  velocity: 0
+  position: {x: 0.883987, y: 1.9002322, z: 2.5192795}
 --- !u!114 &1528999263529645696
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -895,9 +875,9 @@ MonoBehaviour:
   clamp: {x: -0.025, y: 0.025}
   force: 250
   drag: 6
-  constantForce: 0
-  velocity: -3.7210116
-  position: {x: 0.883987, y: 1.8752322, z: 2.1135263}
+  forceThisFrame: 0
+  velocity: 0
+  position: {x: 0.883987, y: 1.9002322, z: 2.1135263}
 --- !u!114 &1528999263763013440
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1070,9 +1050,9 @@ MonoBehaviour:
   clamp: {x: -0.025, y: 0.025}
   force: 250
   drag: 6
-  constantForce: 0
-  velocity: -3.7210116
-  position: {x: 0.63793296, y: 1.8752322, z: 2.1135263}
+  forceThisFrame: 0
+  velocity: 0
+  position: {x: 0.63793296, y: 1.9002322, z: 2.1135263}
 --- !u!114 &1528999262864511798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1340,10 +1320,6 @@ MonoBehaviour:
   - {fileID: 3925818051842653076}
   - {fileID: 9081338375485741164}
   - {fileID: 1041282248693846575}
-  accelerationTorque: {x: 0, y: 0, z: 0}
-  centerOfMass: {fileID: 8847418254913828974}
-  barrel: {fileID: 0}
-  recoilForce: 100
 --- !u!1 &8007115098570073490
 GameObject:
   m_ObjectHideFlags: 0
@@ -1425,19 +1401,19 @@ PrefabInstance:
       objectReference: {fileID: 3615032729093670319}
     - target: {fileID: 5793958539712425122, guid: fb3d0e4b87008f747afef3004299e118, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 115.597046
+      value: 225.71533
       objectReference: {fileID: 0}
     - target: {fileID: 5793958539712425122, guid: fb3d0e4b87008f747afef3004299e118, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 96.9635
+      value: 154.85327
       objectReference: {fileID: 0}
     - target: {fileID: 5793958539712425122, guid: fb3d0e4b87008f747afef3004299e118, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 1184.266
+      value: -265.20404
       objectReference: {fileID: 0}
     - target: {fileID: 5793958539712425122, guid: fb3d0e4b87008f747afef3004299e118, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 758.57404
+      value: 1702.3018
       objectReference: {fileID: 0}
     - target: {fileID: 7216561255274665977, guid: fb3d0e4b87008f747afef3004299e118, type: 3}
       propertyPath: m_Pivot.x

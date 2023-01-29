@@ -30,6 +30,24 @@ public class Main2 : Main {
     }
 
     [Command]
+    public float pathFindingDrawDuration = 10;
+    
+    [Command]
+    public void FindPath(Vector2Int start, Vector2Int goal) {
+        if (units.TryGetValue(start, out var unit)) {
+            traverser.Traverse(tiles.Keys, start, GetMoveCostFunction(unit, false), goal: goal);
+            using (Draw.ingame.WithDuration(pathFindingDrawDuration)) {
+                Draw.ingame.CircleXZ((Vector3)goal.ToVector3Int(), .4f, Color.cyan);
+                var path = new List<Vector2Int>();
+                if (traverser.TryReconstructPath(goal, path)) {
+                    for (var i = 1; i < path.Count; i++)
+                        Draw.ingame.Arrow((Vector3)path[i-1].ToVector3Int(), (Vector3)path[i].ToVector3Int(), Color.black);
+                }
+            }
+        }
+    }
+
+    [Command]
     public bool TrySetPlayerColor(int index, Color color) {
         if (index < 0 || index >= players.Count)
             return false;
@@ -149,6 +167,7 @@ public class Main2 : Main {
             GUILayout.Label($"position: {inspectedUnit.Position}");
             GUILayout.Label($"moved: {inspectedUnit.Moved}");
             GUILayout.Label($"hp: {inspectedUnit.Hp} / {MaxHp(inspectedUnit)}");
+            GUILayout.Label($"moveDistance: {MoveDistance(inspectedUnit)}");
 
             GUILayout.Label($"fuel: {inspectedUnit.Fuel} / {MaxFuel(inspectedUnit)}");
             if (inspectedUnit.Ammo.Count > 0) {
@@ -306,8 +325,7 @@ public class Main2 : Main {
             }
         }
     }
-
-    public Traverser traverser = new();
+    
     public const string prefix = "level-editor.";
 
     public const string selectTilesMode = prefix + "select-tiles-mode";
