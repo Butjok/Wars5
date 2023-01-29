@@ -14,6 +14,7 @@ public class AiPlayerCommander : MonoBehaviour {
     public Vector2Int selectPosition;
     public Vector2Int movePosition;
 
+    public bool waitForKeyPress = true;
     public KeyCode nextStepKeyCode = KeyCode.RightArrow;
     
     [Command]
@@ -31,14 +32,14 @@ public class AiPlayerCommander : MonoBehaviour {
 
             while (!main.IsInState(nameof(SelectionState)))
                 yield return null;
-            while (!Input.GetKeyDown(nextStepKeyCode))
+            while (waitForKeyPress && !Input.GetKeyDown(nextStepKeyCode))
                 yield return null;
 
             main.commands.Enqueue($"{selectPosition.x} {selectPosition.y} int2 {SelectionState.select}");
 
             while (!main.IsInState(nameof(PathSelectionState)))
                 yield return null;
-            while (!Input.GetKeyDown(nextStepKeyCode))
+            while (waitForKeyPress && !Input.GetKeyDown(nextStepKeyCode))
                 yield return null;
 
             main.commands.Enqueue($"{movePosition.x} {movePosition.y} int2 {PathSelectionState.reconstructPath}");
@@ -46,7 +47,7 @@ public class AiPlayerCommander : MonoBehaviour {
 
             while (!main.IsInState(nameof(ActionSelectionState)))
                 yield return null;
-            while (!Input.GetKeyDown(nextStepKeyCode))
+            while (waitForKeyPress && !Input.GetKeyDown(nextStepKeyCode))
                 yield return null;
 
             var actions = main.stack.Peek<List<UnitAction>>();
