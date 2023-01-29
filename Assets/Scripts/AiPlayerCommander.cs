@@ -14,8 +14,11 @@ public class AiPlayerCommander : MonoBehaviour {
     public Vector2Int selectPosition;
     public Vector2Int movePosition;
 
+    [Command]
     public bool ignorePlayerType = true;
+    [Command]
     public bool waitForKeyPress = true;
+    [Command]
     public KeyCode nextStepKeyCode = KeyCode.RightArrow;
 
     [Command]

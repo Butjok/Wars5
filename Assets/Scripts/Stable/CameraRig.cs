@@ -126,6 +126,8 @@ public class CameraRig : MonoBehaviour {
 		return teleportAnimation;
 	}
 
+	public Vector2 fovBounds = new Vector2(45, 30);
+
 	private void Update() {
 
 		int Sign(float value) => Mathf.Abs(value) < Mathf.Epsilon ? 0 : value > 0 ? 1 : -1;
@@ -174,6 +176,7 @@ public class CameraRig : MonoBehaviour {
 			Mathf.Lerp(distance, targetDistance, Time.deltaTime * distanceSmoothTime);
 
 		VirtualCamera.transform.localPosition = Vector3.back * distance;
+		virtualCamera.m_Lens.FieldOfView = Mathf.Lerp(fovBounds[0], fovBounds[1], (distance - distanceBounds[0]) / (distanceBounds[1]-distanceBounds[0]));
 
 		// DRAGGING
 
