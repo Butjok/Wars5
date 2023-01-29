@@ -19,7 +19,7 @@ public static class GameSettingsState {
             yield return StateChange.none;
 
             while (main.commands.TryDequeue(out var input))
-                foreach (var token in input.Tokenize())
+                foreach (var token in Tokenizer.Tokenize(input))
                     switch (token) {
                         
                         case close:

@@ -161,7 +161,7 @@ public static class ActionSelectionState {
                     main.commands.Enqueue(cancel);
 
                 while (main.commands.TryDequeue(out var input2))
-                    foreach (var token2 in input2.Tokenize())
+                    foreach (var token2 in Tokenizer.Tokenize(input2))
                         switch (token2) {
 
                             case launchMissile: {
@@ -253,7 +253,7 @@ public static class ActionSelectionState {
             }
 
             while (main.commands.TryDequeue(out var input))
-                foreach (var token in input.Tokenize())
+                foreach (var token in Tokenizer.Tokenize(input))
                     switch (token) {
 
                         case filterWithType: {

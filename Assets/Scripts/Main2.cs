@@ -465,7 +465,7 @@ public class Main2 : Main {
             }
 
             while (commands.TryDequeue(out var command))
-                foreach (var token in command.Tokenize())
+                foreach (var token in Tokenizer.Tokenize(command))
                     switch (token) {
 
                         case selectUnitsMode:
@@ -719,7 +719,7 @@ public class Main2 : Main {
             }*/
 
             while (commands.TryDequeue(out var command))
-                foreach (var token in command.Tokenize())
+                foreach (var token in Tokenizer.Tokenize(command))
                     switch (token) {
 
                         case selectTriggersMode:
@@ -829,7 +829,7 @@ public class Main2 : Main {
             }
 
             while (commands.TryDequeue(out var command))
-                foreach (var token in command.Tokenize())
+                foreach (var token in Tokenizer.Tokenize(command))
                     switch (token) {
 
                         case selectTilesMode:

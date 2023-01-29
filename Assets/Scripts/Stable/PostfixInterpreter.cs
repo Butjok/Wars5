@@ -8,12 +8,6 @@ using UnityEngine;
 using UnityEngine.Assertions;
 
 public static class PostfixInterpreter {
-    
-    public static IEnumerable<string> Tokenize(this string input) {
-        if (string.IsNullOrWhiteSpace(input))
-            return Enumerable.Empty<string>();
-        return input.Split(new[] { ' ', '\r', '\n', '\t' }, StringSplitOptions.RemoveEmptyEntries);
-    }
 
     public static Dictionary<string, Type> typeCache = new();
 
@@ -25,7 +19,7 @@ public static class PostfixInterpreter {
         else if (float.TryParse(token, NumberStyles.Any, CultureInfo.InvariantCulture, out var floatValue))
             stack.Push(floatValue);
         
-        else if (token.StartsWith("#"))
+        else if (token[0]=='#')
             return;
 
         else
@@ -37,11 +31,11 @@ public static class PostfixInterpreter {
                 case "/": {
                     var b = stack.Pop<dynamic>();
                     var a = stack.Pop<dynamic>();
-                    stack.Push(token switch {
-                        "+" => a + b,
-                        "-" => a - b,
-                        "*" => a * b,
-                        "/" => a / b
+                    stack.Push(token[0] switch {
+                        '+' => a + b,
+                        '-' => a - b,
+                        '*' => a * b,
+                        '/' => a / b
                     });
                     break;
                 }
@@ -143,7 +137,7 @@ public static class PostfixInterpreter {
                 }
 
                 default:
-                    stack.Push(token);
+                    stack.Push(token.ToString());
                     if (char.IsLower(token[0]))
                         Debug.LogError($"Unrecognized command: {token} - it was pushed on a stack as a string");
                     break;

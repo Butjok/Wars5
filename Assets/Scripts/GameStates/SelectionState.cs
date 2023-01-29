@@ -126,7 +126,7 @@ public static class SelectionState {
             }
 
             while (main.commands.TryDequeue(out var input))
-                foreach (var token in input.Tokenize()) {
+                foreach (var token in Tokenizer.Tokenize(input)) {
                     switch (token) {
 
                         case @select: {

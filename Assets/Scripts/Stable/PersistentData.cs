@@ -77,7 +77,7 @@ public class Campaign {
             return true;
 
         var stack = new DebugStack();
-        foreach (var token in mission.isAvailable.Tokenize()) {
+        foreach (var token in Tokenizer.Tokenize(mission.isAvailable)) {
             switch (token) {
                 case "isCompleted":
                     var other = TryFind(stack.Pop<MissionName>());
