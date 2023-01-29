@@ -38,18 +38,18 @@ public class UnitView : MonoBehaviour {
     public Vector2Int LookDirection {
         get {
             var lookDirection = transform.forward.ToVector2().RoundToInt();
-            
+
             // zero -> up
             if (lookDirection == Vector2Int.zero)
                 return Vector2Int.up;
-            
+
             // weird -> prefer X
             if (lookDirection.x != 0 && lookDirection.y != 0)
                 return new Vector2Int(lookDirection.x > 0 ? 1 : -1, 0);
-            
+
             // non-normalized
-            return lookDirection.x != 0 
-                ? new Vector2Int(lookDirection.x > 0 ? 1 : -1, 0) 
+            return lookDirection.x != 0
+                ? new Vector2Int(lookDirection.x > 0 ? 1 : -1, 0)
                 : new Vector2Int(0, lookDirection.y > 0 ? 1 : -1);
         }
         set {
@@ -59,14 +59,14 @@ public class UnitView : MonoBehaviour {
         }
     }
 
+    public static string[] numbers = { "0","1","2","3","4","5","6","7","8","9","10"};
     public int Hp {
         set {
-            if (!hpText)
-                return;
-            hpText.enabled = value != Rules.MaxHp(unit);
-            if (hpText.enabled)
-                // TODO: remove GC
-                hpText.text = value.ToString();
+            if (hpText) {
+                hpText.enabled = value != Rules.MaxHp(unit);
+                if (hpText.enabled)
+                    hpText.text = numbers[value];
+            }
         }
     }
     public bool Visible {
@@ -92,13 +92,12 @@ public class UnitView : MonoBehaviour {
     }
 
     public bool Selected {
-        set {
-        }
+        set { }
     }
 
     public bool HighlightAsTarget {
         set {
-            propertyBlock.SetFloat("_AttackHighlightFactor", value?1:0);
+            propertyBlock.SetFloat("_AttackHighlightFactor", value ? 1 : 0);
             //var time = Shader.GetGlobalVector("_Time");
             propertyBlock.SetFloat("_AttackHighlightStartTime", Time.timeSinceLevelLoad);
             UpdateRenderers();
@@ -110,38 +109,38 @@ public class UnitView : MonoBehaviour {
         if (initialized)
             return;
         initialized = true;
-        
+
         turret = GetComponentInChildren<Turret>();
 
         steeringArms = GetComponentsInChildren<SteeringArm>();
-        
+
         renderers = GetComponentsInChildren<Renderer>();
 
         wheels = GetComponentsInChildren<Wheel>();
-        foreach (var wheel in  wheels)
+        foreach (var wheel in wheels)
             wheel.EnsureInitialized();
-        
+
         wheelPistons = wheels.Select(wheel => wheel.GetComponent<Piston>()).Distinct().Where(piston => piston).ToArray();
         body = GetComponentInChildren<Body>();
 
         impactPoints = GetComponentsInChildren<ImpactPoint>();
     }
-    
+
     public void Awake() {
         propertyBlock = new MaterialPropertyBlock();
     }
 
     public void PlaceOnTerrain(bool resetPistons = false) {
-        
+
         EnsureInitialized();
-        
+
         foreach (var wheel in wheels)
             wheel.Update();
         if (resetPistons)
             foreach (var wheelPiston in wheelPistons)
                 wheelPiston.Reset();
-        if(body)
-        body.Update();
+        if (body)
+            body.Update();
     }
 
     public void ResetSteeringArms() {
@@ -167,10 +166,10 @@ public class UnitView : MonoBehaviour {
             UpdateRenderers();
         }
     }
-    
+
     public void UpdateRenderers() {
         if (renderers.Length == 0)
-            Debug.LogWarning( $"zero renderers assigned for the UnitView",this);
+            Debug.LogWarning($"zero renderers assigned for the UnitView", this);
         foreach (var renderer in renderers)
             renderer.SetPropertyBlock(propertyBlock);
     }
@@ -184,12 +183,12 @@ public class UnitView : MonoBehaviour {
     public Vector2Int nextRotation;
     public bool nextMoved;
 
-    public void TakeDamage(Projectile projectile,ImpactPoint impactPoint) {
+    public void TakeDamage(Projectile projectile, ImpactPoint impactPoint) {
         EnsureInitialized();
         bodyTorque.AddWorldForceTorque(impactPoint.transform.position, -impactPoint.transform.forward * projectile.impactForce);
     }
-    
-    public void Die(Projectile projectile=null, ImpactPoint impactPoint=null) {
+
+    public void Die(Projectile projectile = null, ImpactPoint impactPoint = null) {
         EnsureInitialized();
         Destroy(gameObject);
     }

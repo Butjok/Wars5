@@ -1,0 +1,49 @@
+{
+  "Infantry": {
+    "moveDistance": 3,
+    "moveCostType": "foot",
+    "attackRange": [
+      1,
+      1
+    ],
+    "weapons": {
+      "Rifle": -1
+    },
+    "fuel": 99,
+    "cost": 1000,
+    "vision": 2
+  },
+  "AntiTank": {
+    "moveDistance": 2,
+    "moveCostType": "foot",
+    "attackRange": [
+      1,
+      1
+    ],
+    "weapons": {
+      "RocketLauncher": 3,
+      "Rifle": -1
+    },
+    "fuel": 70,
+    "cost": 3000,
+    "vision": 2
+  },
+  "Artillery": {
+    "moveDistance": 5,
+    "attackRange": [
+      1,
+      1
+    ],
+    "weapons": {
+      "Rifle": -1
+    },
+    "fuel": 99,
+    "cost": 1000,
+    "vision": 2
+  },
+  "Apc": 3,
+  "Recon": 3,
+  "LightTank": 3,
+  "Rockets": 3,
+  "MediumTank": 3
+}

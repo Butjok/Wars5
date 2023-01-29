@@ -14,6 +14,7 @@ public enum UnitType {
     Rockets ,
     MediumTank 
 }
+public enum MoveCostType {Foot,Tires,Tracks}
 
 public enum Team {
     None , 

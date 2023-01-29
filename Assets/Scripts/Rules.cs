@@ -1,8 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Forms;
 using UnityEngine;
 using UnityEngine.Assertions;
 using static UnityEngine.Mathf;
@@ -92,7 +90,7 @@ public static class Rules {
     }
 
     public static int MaxFuel(UnitType unitType) {
-        return 99;
+        return UnitTypeSettings.Loaded.TryGetValue(unitType, out var entry) ? entry.fuel : 99;
     }
     public static int MaxFuel(Unit unit) {
         return MaxFuel(unit.type);
@@ -108,52 +106,15 @@ public static class Rules {
     }
 
     public static IEnumerable<WeaponName> GetWeapons(UnitType type) {
-        switch (type) {
-
-            case UnitType.Infantry:
-                yield return WeaponName.Rifle;
-                break;
-
-            case UnitType.AntiTank:
-                yield return WeaponName.RocketLauncher;
-                yield return WeaponName.Rifle;
-                break;
-
-            case UnitType.Artillery:
-                yield return WeaponName.Cannon;
-                break;
-
-            case UnitType.Recon:
-                yield return WeaponName.MachineGun;
-                break;
-
-            case UnitType.LightTank or UnitType.MediumTank:
-                yield return WeaponName.Cannon;
-                yield return WeaponName.MachineGun;
-                break;
-
-            case UnitType.Rockets:
-                yield return WeaponName.RocketLauncher;
-                break;
-        }
+        return UnitTypeSettings.Loaded.TryGetValue(type, out var entry) ? entry.ammo.Keys : Enumerable.Empty<WeaponName>();
     }
 
     public static bool TryGetDamage(UnitType attackerType, UnitType targetType, WeaponName weaponName, out int damage) {
-        int? result = (attackerType, targetType, weaponName) switch {
-
-            (UnitType.Infantry or UnitType.AntiTank, UnitType.Infantry or UnitType.AntiTank, WeaponName.Rifle) => 5,
-            (UnitType.Infantry or UnitType.AntiTank, UnitType.Artillery or UnitType.Apc, WeaponName.Rifle) => 3,
-
-            (UnitType.AntiTank, UnitType.Artillery or UnitType.Apc, WeaponName.RocketLauncher) => 5,
-
-            _ => null
-        };
-        damage = result is { } value ? value : -1;
-        return result != null;
+        return DamageTable.Loaded.TryGetValue((attackerType, targetType, weaponName), out damage);
     }
     public static bool TryGetDamage(Unit attacker, Unit target, WeaponName weaponName, out int damage) {
         damage = 0;
-        if (!AreEnemies(attacker.Player,target.Player) || GetAmmo(attacker, weaponName) <= 0 || !TryGetDamage(attacker.type, target.type, weaponName, out var baseDamage))
+        if (!AreEnemies(attacker.Player, target.Player) || GetAmmo(attacker, weaponName) <= 0 || !TryGetDamage(attacker.type, target.type, weaponName, out var baseDamage))
             return false;
         damage = CeilToInt((float)(attacker.Hp) / MaxHp(attacker) * baseDamage);
         return true;
@@ -166,17 +127,9 @@ public static class Rules {
     }
 
     public static int Cost(UnitType unitType, Player player) {
-        return unitType switch {
-            UnitType.Infantry => 1000,
-            UnitType.AntiTank => 2000,
-            UnitType.Artillery => 5000,
-            UnitType.Apc => 5000,
-            UnitType.Recon => 3000,
-            UnitType.LightTank => 5000,
-            UnitType.MediumTank => 8000,
-            UnitType.Rockets => 12000,
-            _ => throw new ArgumentOutOfRangeException(nameof(unitType), unitType, null)
-        };
+        var found = UnitTypeSettings.Loaded.TryGetValue(unitType, out var entry);
+        Assert.IsTrue(found, unitType.ToString());
+        return entry.cost;
     }
     public static bool CanAfford(this Player player, UnitType unitType) {
         return player.Credits >= Cost(unitType, player);
@@ -227,118 +180,86 @@ public static class Rules {
     }*/
 
     public static bool TryGetAttackRange(UnitType unitType, Player player, out Vector2Int attackRange) {
-        attackRange = unitType switch {
-            UnitType.Infantry or UnitType.AntiTank or UnitType.Recon or UnitType.LightTank or UnitType.MediumTank => new Vector2Int(1, 1),
-            UnitType.Artillery => new Vector2Int(2, 3),
-            UnitType.Rockets => new Vector2Int(3, 5),
-            _ => Vector2Int.zero
-        };
+        attackRange = UnitTypeSettings.Loaded.TryGetValue(unitType, out var entry) ? entry.attackRange : Vector2Int.zero;
         return attackRange != Vector2Int.zero;
     }
     public static bool TryGetAttackRange(Unit unit, out Vector2Int attackRange) {
         return TryGetAttackRange(unit.type, unit.Player, out attackRange);
     }
 
-    public static int WeaponsCount(UnitType unitType) {
-        return unitType switch {
-            UnitType.Infantry or UnitType.Artillery => 1,
-            UnitType.AntiTank => 2,
-            _ => 0
-        };
-    }
-    public static IEnumerable<int> Weapons(UnitType unitType) {
-        for (var i = 0; i < WeaponsCount(unitType); i++)
-            yield return i;
-    }
     public static int MaxAmmo(Unit unit, WeaponName weaponName) {
         return MaxAmmo(unit.type, weaponName);
     }
     public static int MaxAmmo(UnitType type, WeaponName weaponName) {
-        return 99;
-    }
-    public static int MaxAmmo(UnitType type, int weaponIndex) {
-        return 99;
+        return UnitTypeSettings.Loaded.TryGetValue(type, out var entry) && entry.ammo.TryGetValue(weaponName, out var amount)
+            ? amount
+            : 99;
     }
     public static bool CanLoadAsCargo(UnitType receiverType, UnitType targetType) {
-        switch (receiverType, targetType) {
-            case (UnitType.Apc, UnitType.Infantry or UnitType.AntiTank):
-                return true;
-        }
-        return false;
+        return UnitTypeSettings.Loaded.TryGetValue(receiverType, out var entry) && entry.canCarry.Contains(targetType);
     }
-    public static int CargoSize(UnitType unitType) {
-        return 1;
+    public static int Weight(UnitType unitType) {
+        return UnitTypeSettings.Loaded.TryGetValue(unitType, out var entry) ? entry.weight : 1;
     }
-    public static int CargoCapacity(UnitType unitType) {
-        return unitType switch {
-            UnitType.Apc => 1,
-            _ => 0
-        };
+    public static int CarryCapacity(UnitType unitType) {
+        return UnitTypeSettings.Loaded.TryGetValue(unitType, out var entry) ? entry.carryCapacity : 0;
     }
     public static bool CanLoadAsCargo(Unit receiver, Unit target) {
-        var cargoSize = receiver.Cargo.Sum(u => CargoSize(u));
+        var cargoSize = receiver.Cargo.Sum(u => Weight(u));
         return CanLoadAsCargo(receiver.type, target.type) &&
                (target.Carrier == null || target.Carrier == receiver) &&
                AreAllies(receiver.Player, target.Player) &&
-               cargoSize + CargoSize(target) <= CargoCapacity(receiver);
+               cargoSize + Weight(target) <= CarryCapacity(receiver);
     }
     public static bool CanSupply(UnitType unitType) {
-        return unitType == UnitType.Apc;
+        return UnitTypeSettings.Loaded.TryGetValue(unitType, out var entry) && entry.specialCommands.HasFlag(UnitTypeSettings.SpecialCommand.CanSupply);
     }
     public static bool CanSupply(Unit unit, Unit target) {
         return CanSupply(unit.type) && AreAllies(unit.Player, target.Player) && (unit != target);
     }
 
-    public static int MoveDistance(UnitType unitType, Player player) {
-        return unitType switch {
-            UnitType.Infantry => 3,
-            UnitType.AntiTank => 2,
-            UnitType.LightTank => 5,
-            UnitType.MediumTank => 4,
-            UnitType.Artillery or UnitType.Apc or UnitType.Recon or UnitType.Rockets => 5,
-            _ => 0
-        };
-    }
     public static int MoveDistance(Unit unit) {
         var moveDistance = MoveDistance(unit.type, unit.Player);
         if (unit.Player.co == Co.Natalie && unit.Player.abilityActivationTurn != null)
             moveDistance += 5;
         return Min(unit.Fuel, moveDistance);
     }
-    
+
+    public static int MoveDistance(UnitType unitType, Player player) {
+        return UnitTypeSettings.Loaded.TryGetValue(unitType, out var settings) ? settings.moveDistance : 0;
+    }
+
     public static bool TryGetMoveCost(UnitType unitType, TileType tileType, out int cost) {
 
         const int unreachable = -1;
-        
-        int foot = tileType switch {
-            TileType.Sea => unreachable,
-            TileType.Mountain => 2,
-            _ => 1
-        };
-        int tracks = tileType switch {
-            TileType.Sea or TileType.Mountain or TileType.River => unreachable,
-            TileType.Forest => 2,
-            _ => 1
-        };
-        int tires = tileType switch {
-            TileType.Sea or TileType.Mountain or TileType.River => unreachable,
-            TileType.Forest => 3,
-            TileType.Plain => 2,
-            _ => 1
-        };
-        int air = unreachable;
-        int sea = unreachable;
 
-        cost = unitType switch {
-            UnitType.Infantry or UnitType.AntiTank => foot,
-            UnitType.Artillery or UnitType.LightTank or UnitType.Apc or UnitType.MediumTank => tracks,
-            UnitType.Recon or UnitType.Rockets => tires,
-            _ => unreachable
-        };
+        if (UnitTypeSettings.Loaded.TryGetValue(unitType, out var entry))
+            cost = entry.moveCostType switch {
+                MoveCostType.Foot => tileType switch {
+                    TileType.Sea => unreachable,
+                    TileType.Forest or TileType.Mountain or TileType.River => 2,
+                    _ => 1
+                },
+                MoveCostType.Tires => tileType switch {
+                    TileType.Sea or TileType.Mountain or TileType.River => unreachable,
+                    TileType.Forest => 3,
+                    TileType.Plain => 2,
+                    _ => 1
+                },
+                MoveCostType.Tracks => tileType switch {
+                    TileType.Sea or TileType.Mountain or TileType.River => unreachable,
+                    TileType.Forest => 2,
+                    _ => 1
+                },
+                _ => unreachable
+            };
+        else
+            cost = unreachable;
+
         return cost != unreachable;
     }
-    
-    public static Traverser.TryGetCostDelegate MoveCostFunction(Unit unit) {
+
+    public static Traverser.TryGetCostDelegate GetMoveCostFunction(Unit unit) {
 
         bool TryGetCost(Vector2Int position, int distance, out int cost) {
             cost = 0;
@@ -348,12 +269,12 @@ public static class Rules {
                 unit.Player.main.TryGetUnit(position, out var other) && !CanPass(unit, other))
                 return false;
 
-            return TryGetMoveCost(unit, tile, out cost);    
+            return TryGetMoveCost(unit, tile, out cost);
         }
 
         return TryGetCost;
     }
-    
+
     public static bool CanStay(UnitType unitType, TileType tileType) {
         return TryGetMoveCost(unitType, tileType, out _);
     }
@@ -363,10 +284,7 @@ public static class Rules {
                (!unit.Player.main.TryGetUnit(position, out var other) || other == unit);
     }
     public static bool CanCapture(UnitType unitType, TileType buildingType) {
-        return unitType switch {
-            UnitType.Infantry or UnitType.AntiTank => true,
-            _ => false
-        };
+        return UnitTypeSettings.Loaded.TryGetValue(unitType, out var entry) && entry.specialCommands.HasFlag(UnitTypeSettings.SpecialCommand.CanCapture);
     }
     public static bool CanCapture(Unit unit, Building building) {
         return CanCapture(unit.type, building.type) &&
@@ -377,5 +295,19 @@ public static class Rules {
     }
     public static bool CanJoin(Unit unit, Unit other) {
         return other != unit && unit.Player == other.Player && other.Hp < MaxHp(other);
+    }
+    public static bool CanLaunchMissile(UnitType unitType) {
+        return UnitTypeSettings.Loaded.TryGetValue(unitType, out var entry) && entry.specialCommands.HasFlag(UnitTypeSettings.SpecialCommand.CanLaunchMissile);
+    }
+    public static bool CanLaunchMissile(Unit unit, Building missileSilo) {
+        Assert.AreEqual(TileType.MissileSilo, missileSilo.type);
+        return CanLaunchMissile(unit.type) &&
+               AreAllies(unit.Player, missileSilo.Player) &&
+               CanLaunchMissile(missileSilo);
+    }
+    public static bool CanLaunchMissile(Building missileSilo) {
+        Assert.AreEqual(TileType.MissileSilo, missileSilo.type);
+        return missileSilo.main.turn >= missileSilo.missileSiloLastLaunchTurn + missileSilo.missileSiloLaunchCooldown * missileSilo.main.players.Count &&
+               missileSilo.missileSiloAmmo > 0;
     }
 }

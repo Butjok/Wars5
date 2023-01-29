@@ -25,7 +25,7 @@ public static class PathSelectionState {
         var moveDistance = Rules.MoveDistance(unit);
 
         var traverser = new Traverser();
-        traverser.Traverse(main.tiles.Keys, unitPosition, Rules.MoveCostFunction(unit), moveDistance);
+        traverser.Traverse(main.tiles.Keys, unitPosition, Rules.GetMoveCostFunction(unit), moveDistance);
 
         var pathMeshGameObject = new GameObject();
         Object.DontDestroyOnLoad(pathMeshGameObject);

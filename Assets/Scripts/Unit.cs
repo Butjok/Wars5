@@ -59,18 +59,20 @@ public class Unit : IDisposable {
     }
 
     private int hp;
-    public int Hp {
-        get => ModifiedHp(this,hp);
-        set {
-            if (initialized && hp == value)
-                return;
-            hp = Clamp(value, 0, initialized ? MaxHp(this) : MaxHp(type));
+    public int Hp => ModifiedHp(this,hp);
+    
+    public void SetHp(int value, bool animateDeath=false){
+        if (initialized && hp == value)
+            return;
+        
+        hp = Clamp(value, 0, initialized ? MaxHp(this) : MaxHp(type));
 
-            if (hp <= 0)
-                Dispose();
-            else
-                view.Hp = hp;
+        if (hp <= 0) {
+            view.Die();
+            Dispose();
         }
+        else
+            view.Hp = hp;
     }
 
     private int fuel;
@@ -158,7 +160,7 @@ public class Unit : IDisposable {
         Player = player;
         Moved = moved;
         Assert.AreNotEqual(0, hp);
-        Hp = hp;
+        SetHp(hp);
         Fuel = fuel;
 
         foreach (var weaponName in GetWeapons(type)) {

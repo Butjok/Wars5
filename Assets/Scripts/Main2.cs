@@ -167,9 +167,9 @@ public class Main2 : Main {
                 GUILayout.EndHorizontal();
             }
             if (inspectedUnit.Cargo.Count > 0) {
-                GUILayout.Label($"cargo ({inspectedUnit.Cargo.Sum(c => CargoSize(c))} / {CargoCapacity(inspectedUnit)}):");
+                GUILayout.Label($"cargo ({inspectedUnit.Cargo.Sum(c => Weight(c))} / {CarryCapacity(inspectedUnit)}):");
                 foreach (var cargo in inspectedUnit.Cargo)
-                    GUILayout.Label($"- {cargo} ({CargoSize(cargo)})");
+                    GUILayout.Label($"- {cargo} ({Weight(cargo)})");
             }
 
             GUILayout.BeginHorizontal();
@@ -274,7 +274,7 @@ public class Main2 : Main {
                     }
 
                     center /= count;
-                    Draw.ingame.Label2D(center.ToVector3(), $"Bridge{index}", 14, LabelAlignment.Center, Color.black);
+                    Draw.ingame.Label2D(center.ToVector3(), $"Bridge{index}: {bridge.Hp}", 14, LabelAlignment.Center, Color.black);
                 }
             }
 

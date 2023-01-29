@@ -33,11 +33,8 @@ public static class ActionSelectionState {
                 actions.Add(new UnitAction(UnitActionType.Stay, unit, path));
 
             if (main.TryGetBuilding(destination, out building) &&
-                unit.type is UnitType.Infantry or UnitType.AntiTank &&
                 building.type is TileType.MissileSilo &&
-                Rules.AreAllies(unit.Player, building.Player) &&
-                main.turn >= building.missileSiloLastLaunchTurn + building.missileSiloLaunchCooldown * main.players.Count &&
-                building.missileSiloAmmo>0) {
+                Rules.CanLaunchMissile(unit, building)) {
 
                 actions.Add(new UnitAction(UnitActionType.LaunchMissile, unit, path, targetBuilding: building));
             }
@@ -286,7 +283,7 @@ public static class ActionSelectionState {
                                 }
 
                                 case UnitActionType.Join: {
-                                    other.Hp = Mathf.Min(Rules.MaxHp(other), other.Hp + unit.Hp);
+                                    other.SetHp(other.Hp + unit.Hp);
                                     unit.Dispose();
                                     break;
                                 }
@@ -328,7 +325,7 @@ public static class ActionSelectionState {
                                     if (newTargetHp <= 0 && cameraRig)
                                         yield return StateChange.Push("jump-to-target", Wait.ForCompletion(cameraRig.Jump(((Vector2Int)target.Position).Raycast())));
 
-                                    target.Hp = newTargetHp;
+                                    target.SetHp(newTargetHp,true);
 
                                     //if (newTargetHp > 0 && targetWeaponIndex != -1)
                                     //    target.ammo[targetWeaponIndex]--;
@@ -336,7 +333,7 @@ public static class ActionSelectionState {
                                     if (newAttackerHp <= 0 && cameraRig)
                                         yield return StateChange.Push("jump-to-attacker", Wait.ForCompletion(cameraRig.Jump(destination.Raycast())));
 
-                                    attacker.Hp = newAttackerHp;
+                                    attacker.SetHp(newAttackerHp,true);
 
                                     //if (newAttackerHp > 0)
                                     // attacker.ammo[action.weaponIndex]--;

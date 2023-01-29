@@ -137,6 +137,8 @@
      <Compile Include="Assets/Scripts/Level/UnitAction.cs" />
      <Compile Include="Assets/Scripts/StateRunner.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
+     <Compile Include="Assets/Scripts/UnitTypeSettings.cs" />
+     <Compile Include="Assets/Scripts/DamageTable.cs" />
      <None Include="Assets/Scripts/Wars.asmdef" />
      <Folder Include="Assets/Scripts/Editor" />
      <Folder Include="Assets/Scripts/GameStates" />

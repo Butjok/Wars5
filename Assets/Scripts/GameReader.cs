@@ -412,8 +412,10 @@ public static class GameReader {
                 var high = Mathf.Min(lines.Length - 1, line + radius);
 
                 var text = $"{nameof(GameReader)}: {line+1}:{column+1}: {lines[line]}\n{outline}\n";
-                for (var i = low; i <= high; i++)
-                    text += string.Format(i == line ? "<b>{0}</b>\n" : "{0}\n", lines[i]);
+                for (var i = low; i <= high; i++) {
+                    text += $"{i,3} ";
+                    text += string.Format(i == line ? "<b>{1}</b>\n" : "{0}\n", lines[i]);
+                }
                 text += $"{outline}\n\n\n\n";
 
                 Debug.LogError(text);
