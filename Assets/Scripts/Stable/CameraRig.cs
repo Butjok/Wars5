@@ -127,6 +127,7 @@ public class CameraRig : MonoBehaviour {
 	}
 
 	public Vector2 fovBounds = new Vector2(45, 30);
+	public float fovLerpPower = 1;
 
 	private void Update() {
 
@@ -176,7 +177,8 @@ public class CameraRig : MonoBehaviour {
 			Mathf.Lerp(distance, targetDistance, Time.deltaTime * distanceSmoothTime);
 
 		VirtualCamera.transform.localPosition = Vector3.back * distance;
-		virtualCamera.m_Lens.FieldOfView = Mathf.Lerp(fovBounds[0], fovBounds[1], (distance - distanceBounds[0]) / (distanceBounds[1]-distanceBounds[0]));
+		var t = (distance - distanceBounds[0]) / (distanceBounds[1]-distanceBounds[0]);
+		virtualCamera.m_Lens.FieldOfView = Mathf.Lerp(fovBounds[0], fovBounds[1], Mathf.Pow(t, fovLerpPower));
 
 		// DRAGGING
 
