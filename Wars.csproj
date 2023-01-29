@@ -51,6 +51,7 @@
      <Compile Include="Assets/Scripts/MainMenuView.cs" />
      <Compile Include="Assets/Scripts/PostProcessing.cs" />
      <Compile Include="Assets/Scripts/EntryPoint.cs" />
+     <Compile Include="Assets/Scripts/AiPlayerCommander.cs" />
      <Compile Include="Assets/Scripts/Rules.cs" />
      <Compile Include="Assets/Scripts/HardFollow.cs" />
      <Compile Include="Assets/Scripts/Traverser.cs" />
@@ -139,7 +140,6 @@
      <Compile Include="Assets/Scripts/Level/UnitAction.cs" />
      <Compile Include="Assets/Scripts/StateRunner.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
-     <Compile Include="Assets/Scripts/AiPlayerCommander.cs" />
      <None Include="Assets/Scripts/Wars.asmdef" />
      <Folder Include="Assets/Scripts/Editor" />
      <Folder Include="Assets/Scripts/GameStates" />

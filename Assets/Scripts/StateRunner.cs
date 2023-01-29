@@ -8,7 +8,7 @@ public class StateRunner : MonoBehaviour {
 
     public Stack<IEnumerator<StateChange>> states = new();
     public Stack<string> stateNames = new();
-    public HashSet<IEnumerator<StateChange>> startedStates = new();
+    public HashSet<IEnumerator<StateChange>> readyForInputStates = new();
 
     public void PushState(string stateName, IEnumerator<StateChange> state) {
         states.Push(state);
@@ -23,17 +23,16 @@ public class StateRunner : MonoBehaviour {
         if (states.TryPeek(out var state)) {
 
             var ended = !state.MoveNext();
-            startedStates.Add(state);
 
             if (ended) {
-                startedStates.Remove(states.Pop()); 
+                readyForInputStates.Remove(states.Pop()); 
                 stateNames.Pop();
             }
             else {
                 var stateChange = state.Current;
 
                 for (var i = 0; i < stateChange.popCount; i++) {
-                    startedStates.Remove(states.Pop()); 
+                    readyForInputStates.Remove(states.Pop()); 
                     stateNames.Pop();
                 }
 
@@ -43,9 +42,16 @@ public class StateRunner : MonoBehaviour {
         }
     }
 
+    public void MarkReadyForInput() {
+        var nonEmpty = states.TryPeek(out var state);
+        Assert.IsTrue(nonEmpty);
+        readyForInputStates.Add(state);
+    }
     public bool IsInState(string stateName) {
-        return stateNames.TryPeek(out var topStateName) && topStateName == stateName &&
-               states.TryPeek(out var state) && startedStates.Contains(state);
+        return stateNames.TryPeek(out var topStateName) && topStateName == stateName;
+    }
+    public bool IsReadyForInput() {
+        return states.TryPeek(out var state) && readyForInputStates.Contains(state);
     }
 }
 

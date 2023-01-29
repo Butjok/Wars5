@@ -225,6 +225,8 @@ public static class ActionSelectionState {
                     missileSiloView.aim = false;
             }
         }
+        
+        main.MarkReadyForInput();
 
         while (true) {
             yield return StateChange.none;

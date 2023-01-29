@@ -86,6 +86,8 @@ public static class SelectionState {
         if (cursor)
             cursor.show = true;
 
+        main.MarkReadyForInput();
+        
         while (true) {
             yield return StateChange.none;
 

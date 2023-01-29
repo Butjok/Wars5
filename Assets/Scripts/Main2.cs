@@ -23,7 +23,7 @@ public class Main2 : Main {
     public int autosaveLifespanInDays = 30;
 
     public AiPlayerCommander aiPlayerCommander;
-    
+
     private void Start() {
         CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
         PushState("LevelEditor", Run());
@@ -136,8 +136,13 @@ public class Main2 : Main {
             }
         }
 
-        GUILayout.Label($"[{stack.Count}]: " + string.Join(" / ", stateNames.Select(stateName => {
-            return stateName.EndsWith("State") ? stateName.Substring(0, stateName.Length - "State".Length) : stateName;
+        GUILayout.Label($"[{stack.Count}]: " + string.Join(" / ", stateNames.Zip(states, (n, s) => (n, s)).Select(ns => {
+            var stateName = ns.n;
+            var state = ns.s;
+            var text = stateName.EndsWith("State") ? stateName.Substring(0, stateName.Length - "State".Length) : stateName;
+            if (readyForInputStates.Contains(state))
+                text = '[' + text + ']';
+            return text;
         }).Reverse()));
 
         if (showPlayInfo) {
@@ -941,12 +946,12 @@ public class Main2 : Main {
         showPlayInfo = true;
         showPlayBorder = true;
 
-        if(aiPlayerCommander)
+        if (aiPlayerCommander)
             aiPlayerCommander.StartPlaying();
-        
+
         yield return StateChange.Push(nameof(SelectionState), SelectionState.Run(this, true));
 
-        if(aiPlayerCommander)
+        if (aiPlayerCommander)
             aiPlayerCommander.StopPlaying();
 
         showPlayInfo = false;

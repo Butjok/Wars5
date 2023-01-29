@@ -60,6 +60,8 @@ public static class PathSelectionState {
         CursorView.TryFind(out var cursor);
         if (cursor)
             cursor.show = true;
+        
+        main.MarkReadyForInput();
 
         while (true) {
             yield return StateChange.none;

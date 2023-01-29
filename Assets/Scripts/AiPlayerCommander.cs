@@ -14,9 +14,10 @@ public class AiPlayerCommander : MonoBehaviour {
     public Vector2Int selectPosition;
     public Vector2Int movePosition;
 
+    public bool ignorePlayerType = true;
     public bool waitForKeyPress = true;
     public KeyCode nextStepKeyCode = KeyCode.RightArrow;
-    
+
     [Command]
     public void StartPlaying() {
         StartCoroutine(Loop());
@@ -30,14 +31,17 @@ public class AiPlayerCommander : MonoBehaviour {
         while (true) {
             yield return null;
 
-            while (!main.IsInState(nameof(SelectionState)))
+            if (!ignorePlayerType && main.CurrentPlayer.type != PlayerType.Ai)
+                continue;
+            
+            while (!main.IsInState(nameof(SelectionState)) || !main.IsReadyForInput())
                 yield return null;
             while (waitForKeyPress && !Input.GetKeyDown(nextStepKeyCode))
                 yield return null;
 
-            main.commands.Enqueue($"{selectPosition.x} {selectPosition.y} int2 {SelectionState.select}");
+            main.commands.Enqueue($"{selectPosition.x} {selectPosition.y} int2 {SelectionState.@select}");
 
-            while (!main.IsInState(nameof(PathSelectionState)))
+            while (!main.IsInState(nameof(PathSelectionState)) || !main.IsReadyForInput())
                 yield return null;
             while (waitForKeyPress && !Input.GetKeyDown(nextStepKeyCode))
                 yield return null;
@@ -45,7 +49,7 @@ public class AiPlayerCommander : MonoBehaviour {
             main.commands.Enqueue($"{movePosition.x} {movePosition.y} int2 {PathSelectionState.reconstructPath}");
             main.commands.Enqueue($"false {PathSelectionState.move}");
 
-            while (!main.IsInState(nameof(ActionSelectionState)))
+            while (!main.IsInState(nameof(ActionSelectionState)) || !main.IsReadyForInput())
                 yield return null;
             while (waitForKeyPress && !Input.GetKeyDown(nextStepKeyCode))
                 yield return null;
