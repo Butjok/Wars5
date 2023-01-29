@@ -118,6 +118,8 @@ public class Main2 : Main {
 
     public GUISkin guiSkin;
 
+    public string stackLeakFormat = "<b><color=yellow>{0}</color></b>";
+    
     protected void OnGUI() {
 
         GUI.skin = guiSkin;
@@ -136,14 +138,19 @@ public class Main2 : Main {
             }
         }
 
-        GUILayout.Label($"[{stack.Count}]: " + string.Join(" / ", stateNames.Zip(states, (n, s) => (n, s)).Select(ns => {
+        var topLine = "";
+        topLine += "[";
+        topLine += stack.Count < 10 ? stack.Count.ToString() : string.Format(stackLeakFormat,stack.Count);
+        topLine += "]: ";
+        topLine += string.Join(" / ", stateNames.Zip(states, (n, s) => (n, s)).Select(ns => {
             var stateName = ns.n;
             var state = ns.s;
             var text = stateName.EndsWith("State") ? stateName.Substring(0, stateName.Length - "State".Length) : stateName;
             if (readyForInputStates.Contains(state))
                 text = '[' + text + ']';
             return text;
-        }).Reverse()));
+        }).Reverse());
+        GUILayout.Label(topLine);
 
         if (showPlayInfo) {
             var filled = CurrentPlayer.AbilityMeter;
