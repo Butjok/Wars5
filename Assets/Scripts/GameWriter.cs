@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 
 public static class GameWriter {
 
-	public static TextWriter Write(TextWriter tw, Main main) {
+	public static TextWriter Write(TextWriter tw, Main main, Predicate<Vector2Int> filter=null) {
 
 		WriteLine(tw, SceneManager.GetActiveScene().name, "game.load-scene");
 		WriteLine(tw, $"{main.missionName} MissionName type enum", "game.set-mission-name");

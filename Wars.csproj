@@ -109,8 +109,10 @@
      <Compile Include="Assets/Scripts/BodyTorque.cs" />
      <Compile Include="Assets/Scripts/GameReader.cs" />
      <Compile Include="Assets/Scripts/UnitActionView.cs" />
+     <Compile Include="Assets/Scripts/UnitTypeSettings.cs" />
      <Compile Include="Assets/Scripts/Bridge.cs" />
      <Compile Include="Assets/Scripts/UnitView.cs" />
+     <Compile Include="Assets/Scripts/DamageTable.cs" />
      <Compile Include="Assets/Scripts/UnitTypesInfo.cs" />
      <Compile Include="Assets/Scripts/GameWriter.cs" />
      <Compile Include="Assets/Scripts/Level/Testing.cs" />
@@ -137,8 +139,6 @@
      <Compile Include="Assets/Scripts/Level/UnitAction.cs" />
      <Compile Include="Assets/Scripts/StateRunner.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
-     <Compile Include="Assets/Scripts/UnitTypeSettings.cs" />
-     <Compile Include="Assets/Scripts/DamageTable.cs" />
      <None Include="Assets/Scripts/Wars.asmdef" />
      <Folder Include="Assets/Scripts/Editor" />
      <Folder Include="Assets/Scripts/GameStates" />

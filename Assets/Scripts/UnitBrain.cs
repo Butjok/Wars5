@@ -8,11 +8,18 @@ using static Rules;
 
 public static class UnitBrain {
 
-    public struct PotentialAttack {
+    public abstract class PotentialAction {
+        public Unit unit;
         public Vector2Int destination;
+    }
+    public class PotentialAttack : PotentialAction {
         public Unit target;
         public WeaponName weaponName;
         public int damage;
+    }
+    public class PotentialCapture : PotentialAction {
+        public Building building;
+        public int newCp;
     }
 
     public static IEnumerable<PotentialAttack> GetPotentialImmediateArtilleryAttacks(Unit artillery) {
@@ -50,7 +57,6 @@ public static class UnitBrain {
         main.traverser.Traverse(main.tiles.Keys, position, GetMoveCostFunction(unit));
 
         foreach (var reachablePosition in main.traverser.Reachable) {
-
             if (!CanStay(unit, reachablePosition))
                 continue;
 
@@ -72,7 +78,25 @@ public static class UnitBrain {
         return IsArtillery(unit) ? GetPotentialImmediateArtilleryAttacks(unit) : GetPotentialImmediateNonArtilleryAttacks(unit);
     }
 
-    public static void GetPotentialCaptures() { }
+    public static IEnumerable<PotentialCapture> GetPotentialImmediateCaptures(Unit unit) {
+
+        if (unit.Position is not { } position)
+            throw new AssertionException("unit.Position == null", null);
+
+        var main = unit.Player.main;
+        main.traverser.Traverse(main.tiles.Keys, position, GetMoveCostFunction(unit));
+
+        foreach (var reachablePosition in main.traverser.Reachable) {
+            if (!main.TryGetBuilding(reachablePosition, out var building) || !CanCapture(unit, building))
+                continue;
+
+            yield return new PotentialCapture {
+                destination = reachablePosition,
+                building = building,
+                newCp = Mathf.Max(0, building.Cp - Cp(unit))
+            };
+        }
+    }
 
     [Command]
     public static void DrawPotentialImmediateAttacks(float duration) {

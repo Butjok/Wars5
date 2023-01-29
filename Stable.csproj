@@ -106,6 +106,7 @@
      <Compile Include="Assets/Scripts/Stable/DialogueSpeaker.cs" />
      <Compile Include="Assets/Scripts/Stable/ClampToHull.cs" />
      <Compile Include="Assets/Scripts/Stable/CameraFrustumProjection.cs" />
+     <Compile Include="Assets/Scripts/Stable/CsvReader.cs" />
      <Compile Include="Assets/Scripts/Stable/FlipCamera.cs" />
      <Compile Include="Assets/Scripts/Stable/Lifetime.cs" />
      <Compile Include="Assets/Scripts/Stable/TargetFpsSetter.cs" />
@@ -139,7 +140,6 @@
      <Compile Include="Assets/Scripts/Stable/ResourceExtensions.cs" />
      <Compile Include="Assets/Scripts/Stable/LookAt.cs" />
      <Compile Include="Assets/Scripts/Stable/PistonBody.cs" />
-     <Compile Include="Assets/Scripts/Stable/CsvReader.cs" />
      <Folder Include="Assets/Scripts/Stable/Foliage" />
      <Folder Include="Assets/Scripts/Stable/Foliage/Editor" />
      <None Include="Assets/Scripts/Stable/Stable.asmdef" />
