@@ -374,7 +374,7 @@ public static class GameReader {
                     }
 
                     case "bridge.set-view": {
-                        bridgeView = main.stack.Pop<BridgeView>();
+                        bridgeView = (BridgeView)main.stack.Pop<object>();
                         break;
                     }
 

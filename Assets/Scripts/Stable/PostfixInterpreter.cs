@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Assertions;
+using Object = UnityEngine.Object;
 
 public static class PostfixInterpreter {
 
@@ -90,6 +91,15 @@ public static class PostfixInterpreter {
                     var gameObjects = GameObject.FindGameObjectsWithTag(tag);
                     Assert.AreEqual(1, gameObjects.Length);
                     stack.Push(gameObjects[0]);
+                    break;
+                }
+
+                case "find-single-object-of-type": {
+                    var includeInactive = stack.Pop<bool>();
+                    var type = stack.Pop<Type>();
+                    var objects = Object.FindObjectsOfType(type, includeInactive);
+                    Assert.AreEqual(1, objects.Length, $"not a single object of type {type} is found, found: {objects.Length}");
+                    stack.Push(objects[0]);
                     break;
                 }
 

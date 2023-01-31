@@ -744,9 +744,8 @@ D TriggerName type enum                                          trigger.select
 E TriggerName type enum                                          trigger.select
 
 F TriggerName type enum                                          trigger.select
-
-Bridge find-with-tag                                             
-BridgeView type get-component                                    bridge.set-view
+                                    
+BridgeView type true find-single-object-of-type                                    bridge.set-view
 20                                                               bridge.set-hp
 -10 -13 int2                                                     bridge.add-position
 -11 -13 int2                                                     bridge.add-position
