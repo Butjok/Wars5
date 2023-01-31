@@ -120,7 +120,7 @@ public static class Rules {
         return true;
     }
 
-    public static IEnumerable<(WeaponName weaponName, int damage)> GetPotentialAttacks(Unit attacker, Unit target) {
+    public static IEnumerable<(WeaponName weaponName, int damage)> GetDamageValues(Unit attacker, Unit target) {
         foreach (var weaponName in attacker.Ammo.Keys)
             if (TryGetDamage(attacker, target, weaponName, out var damage))
                 yield return (weaponName, damage);
@@ -134,14 +134,12 @@ public static class Rules {
     public static bool CanAfford(this Player player, UnitType unitType) {
         return player.Credits >= Cost(unitType, player);
     }
-
-    public static bool CanAttack(UnitType attackerType, UnitType targetType, WeaponName weaponName) {
-        return TryGetDamage(attackerType, targetType, weaponName, out _);
-    }
+    
     public static bool CanAttack(Unit attacker, Unit target, WeaponName weaponName) {
         return AreEnemies(attacker.Player, target.Player) &&
                TryGetDamage(attacker, target, weaponName, out _);
     }
+    
     public static bool CanAttack(Unit attacker, Unit target, IReadOnlyList<Vector2Int> path, WeaponName weaponName) {
 
         Assert.IsTrue(path.Count >= 1);
@@ -195,8 +193,8 @@ public static class Rules {
             ? amount
             : 99;
     }
-    public static bool CanLoadAsCargo(UnitType receiverType, UnitType targetType) {
-        return UnitTypeSettings.Loaded.TryGetValue(receiverType, out var entry) && entry.canCarry.Contains(targetType);
+    public static bool CanGetIn(UnitType unitType, UnitType carrierType) {
+        return UnitTypeSettings.Loaded.TryGetValue(carrierType, out var entry) && entry.canCarry.Contains(unitType);
     }
     public static int Weight(UnitType unitType) {
         return UnitTypeSettings.Loaded.TryGetValue(unitType, out var entry) ? entry.weight : 1;
@@ -204,12 +202,12 @@ public static class Rules {
     public static int CarryCapacity(UnitType unitType) {
         return UnitTypeSettings.Loaded.TryGetValue(unitType, out var entry) ? entry.carryCapacity : 0;
     }
-    public static bool CanLoadAsCargo(Unit receiver, Unit target) {
-        var cargoSize = receiver.Cargo.Sum(u => Weight(u));
-        return CanLoadAsCargo(receiver.type, target.type) &&
-               (target.Carrier == null || target.Carrier == receiver) &&
-               AreAllies(receiver.Player, target.Player) &&
-               cargoSize + Weight(target) <= CarryCapacity(receiver);
+    public static bool CanGetIn(Unit unit, Unit carrier) {
+        var cargoSize = carrier.Cargo.Sum(u => Weight(u));
+        return CanGetIn(unit.type, carrier.type) &&
+               (unit.Carrier == null || unit.Carrier == carrier) &&
+               AreAllies(carrier.Player, unit.Player) &&
+               cargoSize + Weight(unit) <= CarryCapacity(carrier);
     }
     public static bool CanSupply(UnitType unitType) {
         return UnitTypeSettings.Loaded.TryGetValue(unitType, out var entry) && entry.specialCommands.HasFlag(UnitTypeSettings.SpecialCommand.CanSupply);

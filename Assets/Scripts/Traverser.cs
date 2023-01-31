@@ -25,6 +25,12 @@ public class Traverser {
     private List<Vector2Int> reachable = new();
     public IReadOnlyList<Vector2Int> Reachable => reachable;
 
+    public void Traverse(Unit unit, Vector2Int? goal = null) {
+        if (unit.Position is not { } position)
+            throw new AssertionException("unit.Position == null", null);
+        Traverse(unit.Player.main.tiles.Keys, position, Rules.GetMoveCostFunction(unit, goal == null), goal);
+    }
+
     public void Traverse(IEnumerable<Vector2Int> positions, Vector2Int start, TryGetCostDelegate tryGetCost, Vector2Int? goal = null) {
 
         int DistanceToGoal(Vector2Int position) {
@@ -79,23 +85,25 @@ public class Traverser {
         }
     }
 
-    public bool TryReconstructPath(Vector2Int target, List<Vector2Int> path) {
+    public bool TryReconstructPath(Vector2Int goal, ref List<Vector2Int> path) {
 
-        if (!infos.TryGetValue(target, out var info) || info.distance >= infinity)
+        if (!infos.TryGetValue(goal, out var info) || info.distance >= infinity)
             return false;
 
-        path.Clear();
-        for (Vector2Int? position = target; position != null; position = infos[(Vector2Int)position].cameFrom)
+        if (path == null)
+            path = new List<Vector2Int>();
+        else
+            path.Clear();
+        
+        for (Vector2Int? position = goal; position != null; position = infos[(Vector2Int)position].cameFrom)
             path.Add((Vector2Int)position);
         path.Reverse();
         return true;
     }
 
-    public bool TryFindPath(Unit unit, Vector2Int goal, List<Vector2Int>path) {
-        if (unit.Position is not { } position)
-            throw new AssertionException("unit.Position == null", null);
-        Traverse(unit.Player.main.tiles.Keys, position, Rules.GetMoveCostFunction(unit, false), goal);
-        return TryReconstructPath(goal, path);
+    public bool TryFindPath(Unit unit, Vector2Int goal, ref List<Vector2Int> path) {
+        Traverse(unit, goal);
+        return TryReconstructPath(goal, ref path);
     }
 
     public bool TryGetDistance(Vector2Int position, out int distance) {

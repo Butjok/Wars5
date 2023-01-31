@@ -42,7 +42,7 @@ public class StateRunner : MonoBehaviour {
         }
     }
 
-    public void MarkReadyForInput() {
+    public void MarkAsReadyForInput() {
         var nonEmpty = states.TryPeek(out var state);
         Assert.IsTrue(nonEmpty);
         readyForInputStates.Add(state);

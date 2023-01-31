@@ -38,8 +38,8 @@ public class Main2 : Main {
             traverser.Traverse(tiles.Keys, start, GetMoveCostFunction(unit, false), goal: goal);
             using (Draw.ingame.WithDuration(pathFindingDrawDuration)) {
                 Draw.ingame.CircleXZ((Vector3)goal.ToVector3Int(), .4f, Color.cyan);
-                var path = new List<Vector2Int>();
-                if (traverser.TryReconstructPath(goal, path)) {
+                List<Vector2Int> path = null;
+                if (traverser.TryReconstructPath(goal, ref path)) {
                     for (var i = 1; i < path.Count; i++)
                         Draw.ingame.Arrow((Vector3)path[i - 1].ToVector3Int(), (Vector3)path[i].ToVector3Int(), Color.black);
                 }
@@ -391,26 +391,32 @@ public class Main2 : Main {
     }
 
     [Command]
-    public bool TrySetBridgeHp(Vector2Int position, int hp) {
-        if (TryFindBridge(position, out var bridge)) {
-            bridge.SetHp(hp);
-            return true;
-        }
-        return false;
+    public bool TrySetBridgeHp(int hp) {
+        if (!Mouse.TryGetPosition(out Vector2Int position) || !TryFindBridge(position, out var bridge))
+            return false;
+        bridge.SetHp(hp);
+        return true;
     }
     [Command]
-    public bool TryRemoveBridge(Vector2Int position) {
-        if (TryFindBridge(position, out var bridge)) {
-            bridges.Remove(bridge);
-            return true;
-        }
-        return false;
+    public bool TryRemoveBridge() {
+        if (!Mouse.TryGetPosition(out Vector2Int position) || !TryFindBridge(position, out var bridge))
+            return false;
+        bridges.Remove(bridge);
+        return true;
     }
 
     [Command]
     public void RemoveTrigger(TriggerName triggerName) {
         Assert.IsTrue(triggers.ContainsKey(triggerName));
         triggers[triggerName].Clear();
+    }
+
+    [Command]
+    public bool TrySetUnitHp(int hp) {
+        if (!Mouse.TryGetPosition(out Vector2Int position) || !TryGetUnit(position, out var unit))
+            return false;
+        unit.SetHp(hp);
+        return true;
     }
 
     public IEnumerator<StateChange> Run() {
@@ -594,8 +600,8 @@ public class Main2 : Main {
     }
 
     [Command]
-    public string InspectUnit(Vector2Int position) {
-        if (!TryGetUnit(position, out var unit))
+    public string InspectUnit() {
+        if (!Mouse.TryGetPosition(out Vector2Int position)|| !TryGetUnit(position, out var unit))
             return null;
 
         using var sw = new StringWriter();
@@ -604,8 +610,8 @@ public class Main2 : Main {
     }
 
     [Command]
-    public string InspectBuilding(Vector2Int position) {
-        if (!TryGetBuilding(position, out var building))
+    public string InspectBuilding() {
+        if (!Mouse.TryGetPosition(out Vector2Int position)||!TryGetBuilding(position, out var building))
             return null;
 
         using var sw = new StringWriter();
@@ -614,8 +620,8 @@ public class Main2 : Main {
     }
 
     [Command]
-    public string InspectBridge(Vector2Int position) {
-        if (!TryGetBridge(position, out var bridge))
+    public string InspectBridge() {
+        if (!Mouse.TryGetPosition(out Vector2Int position)||!TryGetBridge(position, out var bridge))
             return null;
 
         using var sw = new StringWriter();

@@ -45,6 +45,13 @@ public class Unit : IDisposable {
                 view.Visible = false;
         }
     }
+    public Vector2Int NonNullPosition {
+        get {
+            if (Position is not { } value)
+                throw new AssertionException($"Unit {this} position is null.", null);
+            return value;
+        }
+    }
 
     private bool moved;
     public bool Moved {
@@ -130,7 +137,7 @@ public class Unit : IDisposable {
     private List<Unit> cargo = new();
     public IReadOnlyList<Unit> Cargo => cargo;
     public void AddCargo(Unit unit) {
-        Assert.IsTrue(CanLoadAsCargo(this, unit), $"{unit} -> {this}");
+        Assert.IsTrue(CanGetIn(unit, this), $"{unit} -> {this}");
         cargo.Add(unit);
         view.HasCargo = true;
     }

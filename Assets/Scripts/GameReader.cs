@@ -27,7 +27,6 @@ public static class GameReader {
         Color? playerColor;
         int? playerAbilityActivationTurn;
         int playerPowerMeter;
-        int playerIndex;
         string playerName;
 
         void ResetPlayerValues() {
@@ -42,7 +41,6 @@ public static class GameReader {
             playerUnitLookDirection = null;
             playerAbilityActivationTurn = null;
             playerPowerMeter = 0;
-            playerIndex = -1;
             playerName = null;
         }
         ResetPlayerValues();
@@ -114,6 +112,8 @@ public static class GameReader {
 
         CameraRig.TryFind(out var cameraRig);
 
+        var playerIndex = -1;
+
         foreach (var token in Tokenizer.Tokenize(input)) {
             try {
                 switch (token) {
@@ -136,7 +136,7 @@ public static class GameReader {
 
                         if (selectExistingPlayersInsteadOfCreatingNewOnes) {
 
-                            Assert.AreNotEqual(-1, playerIndex);
+                            playerIndex++;
                             Assert.IsTrue(playerIndex >= 0 && playerIndex < main.players.Count);
                             main.stack.Push(main.players[playerIndex]);
 
@@ -209,7 +209,6 @@ public static class GameReader {
                         break;
                     }
                     case "player.on-additive-load-get-by-index": {
-                        playerIndex = main.stack.Pop<int>();
                         break;
                     }
                     case "player.set-name": {

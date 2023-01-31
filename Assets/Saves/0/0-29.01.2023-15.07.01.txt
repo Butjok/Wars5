@@ -13,9 +13,9 @@ None Team type enum                                              player.set-team
 16000                                                            player.set-credits
 0                                                                player.set-power-meter
 0 1 int2                                                         player.set-unit-look-direction
-0                                                                player.on-additive-load-get-by-index
 Natalie                                                          player.set-co
                                                                  player.mark-as-local
+Red player.set-name                                                                 
                                                                  player.add
 
                                                                  dup
@@ -136,8 +136,8 @@ None Team type enum                                              player.set-team
 0                                                                player.set-credits
 0                                                                player.set-power-meter
 0 -1 int2                                                        player.set-unit-look-direction
-1                                                                player.on-additive-load-get-by-index
 Natalie                                                          player.set-co
+Blue player.set-name
                                                                  player.add
 
                                                                  dup

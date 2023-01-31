@@ -150,7 +150,7 @@ public static class GameWriter {
 		if (player.name != null)
 			WriteLine(tw, player.name, "player.set-name");
 		var index = player.main.players.IndexOf(player);
-		WriteLine(tw, index,"player.on-additive-load-get-by-index");
+		//WriteLine(tw, index,"player.on-additive-load-get-by-index");
 		if (player.co)
 			WriteLine(tw, player.co.name, "player.set-co");
 		if (player.main.localPlayer == player)

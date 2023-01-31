@@ -61,7 +61,7 @@ public static class PathSelectionState {
         if (cursor)
             cursor.show = true;
         
-        main.MarkReadyForInput();
+        main.MarkAsReadyForInput();
 
         while (true) {
             yield return StateChange.none;
@@ -93,8 +93,8 @@ public static class PathSelectionState {
 
                         case reconstructPath: {
                             var targetPosition = main.stack.Pop<Vector2Int>();
-                            var path = new List<Vector2Int>();
-                            if (traverser.TryReconstructPath(targetPosition, path)) {
+                            List<Vector2Int> path = null;
+                            if (traverser.TryReconstructPath(targetPosition, ref path)) {
                                 pathBuilder.Clear();
                                 foreach (var position in path.Skip(1))
                                     pathBuilder.Add(position);

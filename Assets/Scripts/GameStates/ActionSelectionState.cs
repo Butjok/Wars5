@@ -27,38 +27,38 @@ public static class ActionSelectionState {
         // stay / capture / launch missile
         if (other == null || other == unit) {
             if (main.TryGetBuilding(destination, out var building) && Rules.CanCapture(unit, building))
-                actions.Add(new UnitAction(UnitActionType.Capture, unit, path, null, building));
+                actions.Add(new UnitAction(UnitActionType.Capture, unit, path, null, building, spawnView:true));
             else
-                actions.Add(new UnitAction(UnitActionType.Stay, unit, path));
+                actions.Add(new UnitAction(UnitActionType.Stay, unit, path, spawnView:true));
 
             if (main.TryGetBuilding(destination, out building) &&
                 building.type is TileType.MissileSilo &&
                 Rules.CanLaunchMissile(unit, building)) {
 
-                actions.Add(new UnitAction(UnitActionType.LaunchMissile, unit, path, targetBuilding: building));
+                actions.Add(new UnitAction(UnitActionType.LaunchMissile, unit, path, targetBuilding: building, spawnView:true));
             }
         }
 
         // join
         if (other != null && Rules.CanJoin(unit, other))
-            actions.Add(new UnitAction(UnitActionType.Join, unit, path, unit));
+            actions.Add(new UnitAction(UnitActionType.Join, unit, path, unit, spawnView:true));
 
         // load in
-        if (other != null && Rules.CanLoadAsCargo(other, unit))
-            actions.Add(new UnitAction(UnitActionType.GetIn, unit, path, other));
+        if (other != null && Rules.CanGetIn(unit, other))
+            actions.Add(new UnitAction(UnitActionType.GetIn, unit, path, other, spawnView:true));
 
         // attack
         if ((!Rules.IsArtillery(unit) || path.Count == 1) && Rules.TryGetAttackRange(unit, out var attackRange))
             foreach (var otherPosition in main.PositionsInRange(destination, attackRange))
                 if (main.TryGetUnit(otherPosition, out var target))
-                    foreach (var (weaponName, _) in Rules.GetPotentialAttacks(unit, target))
-                        actions.Add(new UnitAction(UnitActionType.Attack, unit, path, target, weaponName: weaponName, targetPosition: otherPosition));
+                    foreach (var (weaponName, _) in Rules.GetDamageValues(unit, target))
+                        actions.Add(new UnitAction(UnitActionType.Attack, unit, path, target, weaponName: weaponName, targetPosition: otherPosition, spawnView:true));
 
         // supply
         foreach (var offset in Rules.offsets) {
             var otherPosition = destination + offset;
             if (main.TryGetUnit(otherPosition, out var target) && Rules.CanSupply(unit, target))
-                actions.Add(new UnitAction(UnitActionType.Supply, unit, path, target, targetPosition: otherPosition));
+                actions.Add(new UnitAction(UnitActionType.Supply, unit, path, target, targetPosition: otherPosition, spawnView:true));
         }
 
         // drop out
@@ -68,7 +68,7 @@ public static class ActionSelectionState {
             if ((!main.TryGetUnit(targetPosition, out var other2) || other2 == unit) &&
                 main.TryGetTile(targetPosition, out var tileType) &&
                 Rules.CanStay(cargo, tileType))
-                actions.Add(new UnitAction(UnitActionType.Drop, unit, path, targetUnit: cargo, targetPosition: targetPosition));
+                actions.Add(new UnitAction(UnitActionType.Drop, unit, path, targetUnit: cargo, targetPosition: targetPosition, spawnView:true));
         }
 
         // !! important
@@ -226,7 +226,7 @@ public static class ActionSelectionState {
             }
         }
         
-        main.MarkReadyForInput();
+        main.MarkAsReadyForInput();
 
         while (true) {
             yield return StateChange.none;
@@ -321,7 +321,7 @@ public static class ActionSelectionState {
                                     if (main.persistentData.gameSettings.showBattleAnimation)
                                         Debug.Log("BattleAnimationView");
 
-                                    attacker.Position = action.path.Last();
+                                    attacker.Position = action.Path.Last();
 
                                     CameraRig.TryFind(out var cameraRig);
 
