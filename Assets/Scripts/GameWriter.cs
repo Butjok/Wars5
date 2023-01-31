@@ -104,7 +104,7 @@ public static class GameWriter {
 		var gameObject = bridge.view.gameObject;
 		Assert.AreNotEqual("Untagged", gameObject.tag);
 		Assert.IsNotNull(gameObject.tag);
-		WriteLine(tw, "BridgeView type find-single-object-of-type", "bridge.set-view");
+		WriteLine(tw, "BridgeView type true find-single-object-of-type", "bridge.set-view");
 		WriteLine(tw, bridge.Hp, "bridge.set-hp");
 
 		foreach (var position in bridge.tiles.Keys)

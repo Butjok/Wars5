@@ -111,7 +111,7 @@ public class AiPlayerCommander : MonoBehaviour {
             yield break;
 
         foreach (var action in PotentialUnitActions(unit)) {
-            while (!Input.GetKeyDown(KeyCode.PageDown)) {
+            while (!Input.GetKeyDown(KeyCode.Alpha0)) {
                 yield return null;
 
                 using (Draw.ingame.WithLineWidth(thickness))
@@ -124,6 +124,9 @@ public class AiPlayerCommander : MonoBehaviour {
 
             yield return null;
             action.Dispose();
+            
+            if(Input.GetKey(KeyCode.RightShift))
+                yield break;
         }
     }
 
