@@ -105,6 +105,9 @@ public class AiPlayerCommander : MonoBehaviour {
         };
     }
 
+    [Command]
+    public int maxPathCost = 999;
+
     public IEnumerator DrawPotentialUnitActionsCoroutine() {
 
         if (!Mouse.TryGetPosition(out Vector2Int position) || !main.TryGetUnit(position, out var unit))
@@ -117,7 +120,8 @@ public class AiPlayerCommander : MonoBehaviour {
                 using (Draw.ingame.WithLineWidth(thickness))
                 using (Draw.ingame.WithColor(GetUnitActionColor(action))) {
                     Draw.ingame.Label2D((Vector3)action.destination.ToVector3Int(), action.ToString(), textSize, LabelAlignment.Center);
-                    for (var i = 1; i < action.Path.Count; i++)
+                    var subPathLength = Traverser.GetSubPathLength(action.Path, unit, out var pathCost, cost => cost <= maxPathCost);
+                    for (var i = 1; i < subPathLength; i++)
                         Draw.ingame.Arrow((Vector3)action.Path[i - 1].ToVector3Int(), (Vector3)action.Path[i].ToVector3Int(), Vector3.up, arrowHeadSize);
                 }
             }
