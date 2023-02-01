@@ -85,7 +85,7 @@ public static class Rules {
     public static int MaxHp(UnitType unitType) {
         return 10;
     }
-    public static int ModifiedHp(Unit unit, int originalValue) {
+    public static int Hp(Unit unit, int originalValue) {
         return originalValue;
     }
 
@@ -95,14 +95,11 @@ public static class Rules {
     public static int MaxFuel(Unit unit) {
         return MaxFuel(unit.type);
     }
-    public static int ModifiedFuel(Unit unit, int originalValue) {
+    public static int Fuel(Unit unit, int originalValue) {
         return originalValue;
     }
-
-    public static int GetAmmo(Unit unit, WeaponName weaponName) {
-        var found = unit.Ammo.TryGetValue(weaponName, out var amount);
-        Assert.IsTrue(found, weaponName.ToString());
-        return amount;
+    public static int Ammo(Unit unit, WeaponName weaponName, int originalAmount) {
+        return originalAmount;
     }
 
     public static IEnumerable<WeaponName> GetWeaponNames(UnitType type) {
@@ -114,14 +111,14 @@ public static class Rules {
     }
     public static bool TryGetDamage(Unit attacker, Unit target, WeaponName weaponName, out int damage) {
         damage = 0;
-        if (!AreEnemies(attacker.Player, target.Player) || GetAmmo(attacker, weaponName) <= 0 || !TryGetDamage(attacker.type, target.type, weaponName, out var baseDamage))
+        if (!AreEnemies(attacker.Player, target.Player) || attacker.GetAmmo( weaponName) <= 0 || !TryGetDamage(attacker.type, target.type, weaponName, out var baseDamage))
             return false;
         damage = CeilToInt((float)(attacker.Hp) / MaxHp(attacker) * baseDamage);
         return true;
     }
 
     public static IEnumerable<(WeaponName weaponName, int damage)> GetDamageValues(Unit attacker, Unit target) {
-        foreach (var weaponName in attacker.Ammo.Keys)
+        foreach (var weaponName in GetWeaponNames(attacker))
             if (TryGetDamage(attacker, target, weaponName, out var damage))
                 yield return (weaponName, damage);
     }

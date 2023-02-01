@@ -110,7 +110,7 @@ public class AiPlayerCommander : MonoBehaviour {
         if (!Mouse.TryGetPosition(out Vector2Int position) || !main.TryGetUnit(position, out var unit))
             yield break;
 
-        foreach (var action in PotentialUnitActions(unit)) {
+        foreach (var action in PotentialUnitActions(unit).ToArray()) {
             while (!Input.GetKeyDown(KeyCode.Alpha0)) {
                 yield return null;
 

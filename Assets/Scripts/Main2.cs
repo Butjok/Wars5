@@ -176,23 +176,27 @@ public class Main2 : Main {
 
             GUILayout.Space(25);
 
-            GUILayout.Label($"type: {inspectedUnit.type}");
-            GUILayout.Label($"player: {inspectedUnit.Player}");
-            GUILayout.Label($"position: {inspectedUnit.Position}");
-            GUILayout.Label($"moved: {inspectedUnit.Moved}");
-            GUILayout.Label($"hp: {inspectedUnit.Hp} / {MaxHp(inspectedUnit)}");
-            GUILayout.Label($"moveDistance: {MoveDistance(inspectedUnit)}");
+            GUILayout.Label($"type:\t{inspectedUnit.type}");
+            GUILayout.Label($"player:\t{inspectedUnit.Player}");
+            GUILayout.Label($"position:\t{inspectedUnit.Position}");
+            GUILayout.Label($"moved:\t{inspectedUnit.Moved}");
+            GUILayout.Label($"hp:\t{inspectedUnit.Hp} / {MaxHp(inspectedUnit)}");
+            GUILayout.Label($"moveDistance:\t{MoveDistance(inspectedUnit)}");
 
-            GUILayout.Label($"fuel: {inspectedUnit.Fuel} / {MaxFuel(inspectedUnit)}");
-            if (inspectedUnit.Ammo.Count > 0) {
+            GUILayout.Label($"fuel:\t{inspectedUnit.Fuel} / {MaxFuel(inspectedUnit)}");
+            var weaponNames = GetWeaponNames(inspectedUnit).ToArray();
+            if (weaponNames.Length>0) {
                 GUILayout.Label($"ammo:");
-                foreach (var (weaponName, amount) in inspectedUnit.Ammo)
-                    GUILayout.Label($"- {weaponName}: {amount} / {MaxAmmo(inspectedUnit, weaponName)}");
+                foreach (var weaponName in weaponNames) {
+                    var amount = inspectedUnit.GetAmmo(weaponName);
+                    var text = amount > 10000  && MaxAmmo(inspectedUnit, weaponName) == int.MaxValue ? "∞" : $"{amount} / {MaxAmmo(inspectedUnit, weaponName)}";
+                    GUILayout.Label($"- {weaponName}:\t{text}");
+                }
             }
 
             if (inspectedUnit.Carrier is { Disposed: false }) {
                 GUILayout.BeginHorizontal();
-                GUILayout.Label($"carrier: {inspectedUnit.Carrier}");
+                GUILayout.Label($"carrier:\t{inspectedUnit.Carrier}");
                 if (GUILayout.Button(jumpButtonText)) {
                     if (cameraRig)
                         cameraRig.Jump(inspectedUnit.Carrier.view.transform.position);
@@ -206,7 +210,7 @@ public class Main2 : Main {
             }
 
             GUILayout.BeginHorizontal();
-            GUILayout.Label($"view: {inspectedUnit.view}");
+            GUILayout.Label($"view:\t{inspectedUnit.view}");
             if (GUILayout.Button(jumpButtonText)) {
                 if (cameraRig)
                     cameraRig.Jump(inspectedUnit.view.transform.position);
