@@ -66,7 +66,7 @@ public class Unit : IDisposable {
     }
 
     private int hp;
-    public int Hp => ModifiedHp(this, hp);
+    public int Hp => Hp(this, hp);
 
     public void SetHp(int value, bool animateDeath = false) {
         if (initialized && hp == value)
@@ -85,7 +85,7 @@ public class Unit : IDisposable {
 
     private int fuel;
     public int Fuel {
-        get => ModifiedFuel(this, fuel);
+        get => Fuel(this, fuel);
         set {
             if (initialized && fuel == value)
                 return;
@@ -121,7 +121,7 @@ public class Unit : IDisposable {
     }
 
     private Dictionary<WeaponName, int> ammo = new();
-    public IReadOnlyDictionary<WeaponName, int> Ammo => ammo;
+    
     public void SetAmmo(WeaponName weaponName, int value) {
 
         var found = ammo.TryGetValue(weaponName, out var amount);
@@ -132,6 +132,12 @@ public class Unit : IDisposable {
         ammo[weaponName] = Clamp(value, 0, initialized ? MaxAmmo(this, weaponName) : MaxAmmo(type, weaponName));
 
         // complete later
+    }
+
+    public int GetAmmo(WeaponName weaponName) {
+        var found = ammo.TryGetValue(weaponName, out var amount);
+        Assert.IsTrue(found, weaponName.ToString());
+        return Ammo(this, weaponName, amount);
     }
 
     private List<Unit> cargo = new();

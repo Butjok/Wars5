@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using Butjok.CommandLine;
 using Drawing;
 using Priority_Queue;
@@ -94,7 +96,7 @@ public class Traverser {
             path = new List<Vector2Int>();
         else
             path.Clear();
-        
+
         for (Vector2Int? position = goal; position != null; position = infos[(Vector2Int)position].cameFrom)
             path.Add((Vector2Int)position);
         path.Reverse();
@@ -104,6 +106,33 @@ public class Traverser {
     public bool TryFindPath(Unit unit, Vector2Int goal, ref List<Vector2Int> path) {
         Traverse(unit, goal);
         return TryReconstructPath(goal, ref path);
+    }
+
+    public static int GetSubPathLength(IEnumerable<Vector2Int> path, TryGetCostDelegate tryGetCost, out int pathCost, Predicate<int> isValidPathCost = null) {
+        pathCost = 0;
+        var length = 0;
+        Vector2Int previousPosition = default;
+        var isFirstItem = true;
+        foreach (var position in path) {
+            var isReachable = tryGetCost(position, pathCost, out var tileCost);
+            if (!isReachable)
+                break;
+            if (isFirstItem)
+                isFirstItem = false;
+            else {
+                Assert.AreEqual(1, (position - previousPosition).ManhattanLength());
+                var newPathCost = pathCost + tileCost;
+                if (isValidPathCost != null && !isValidPathCost(newPathCost))
+                    break;
+                pathCost = newPathCost;
+            }
+            length++;
+            previousPosition = position;
+        }
+        return length;
+    }
+    public static int GetSubPathLength(IEnumerable<Vector2Int> path, Unit unit, out int pathCost, Predicate<int> isValidPathCost = null) {
+        return GetSubPathLength(path, Rules.GetMoveCostFunction(unit), out pathCost,isValidPathCost);
     }
 
     public bool TryGetDistance(Vector2Int position, out int distance) {
