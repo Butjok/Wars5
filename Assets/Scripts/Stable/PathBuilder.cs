@@ -23,10 +23,11 @@ public class PathBuilder {
 
     public void Add(Vector2Int position) {
 
-        var previous = positions.Last();
-        Assert.AreEqual(1, (position - previous).ManhattanLength());
-
         if (!set.Contains(position)) {
+
+            var previous = positions.Last();
+            Assert.AreEqual(1, (position - previous).ManhattanLength());
+
             positions.Add(position);
             set.Add(position);
         }

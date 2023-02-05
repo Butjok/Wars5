@@ -963,13 +963,13 @@ public class Main2 : Main {
         showPlayInfo = true;
         showPlayBorder = true;
 
-        if (aiPlayerCommander)
-            aiPlayerCommander.StartPlaying();
+        //if (aiPlayerCommander)
+//            aiPlayerCommander.StartPlaying();
 
         yield return StateChange.Push(nameof(SelectionState), SelectionState.Run(this, true));
 
-        if (aiPlayerCommander)
-            aiPlayerCommander.StopPlaying();
+  //      if (aiPlayerCommander)
+    //        aiPlayerCommander.StopPlaying();
 
         showPlayInfo = false;
         showPlayBorder = false;
