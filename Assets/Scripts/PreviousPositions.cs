@@ -5,15 +5,28 @@ using UnityEngine;
 using UnityEngine.Assertions;
 public struct PreviousPositions:IEnumerable<Vector2Int> {
 	public Vector2Int? position0, position1, position2, position3;
-	public Vector2Int? this[int index] {
+	public Vector2Int this[int index] {
 		get {
-			return index switch {
-				0 => position0,
-				1 => position1,
-				2 => position2,
-				3 => position3,
-				_ => throw new ArgumentOutOfRangeException(index.ToString())
-			};
+			switch (index) {
+				case 0:
+					if (position0 is not { } p0)
+						throw new AssertionException(index.ToString(),null);
+					return p0;
+				case 1:
+					if (position1 is not { } p1)
+						throw new AssertionException(index.ToString(),null);
+					return p1;
+				case 2:
+					if (position2 is not { } p2)
+						throw new AssertionException(index.ToString(),null);
+					return p2;
+				case 3:
+					if (position3 is not { } p3)
+						throw new AssertionException(index.ToString(),null);
+					return p3;
+				default:
+					throw new ArgumentOutOfRangeException(index.ToString());
+			}
 		}
 		set {
 			switch (index) {

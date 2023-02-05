@@ -284,6 +284,9 @@ public static class Rules {
         return CanCapture(unit.type, building.type) &&
                (building.Player == null || AreEnemies(unit.Player, building.Player));
     }
+    public static bool CanPass(Unit unit, Vector2Int position) {
+        return !unit.Player.main.TryGetUnit(position, out var other) || unit.Player == other.Player;
+    }
     public static bool CanPass(Unit unit, Unit other) {
         return AreAllies(unit.Player, other.Player);
     }

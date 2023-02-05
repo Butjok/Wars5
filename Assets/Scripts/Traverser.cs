@@ -108,7 +108,7 @@ public class Traverser {
         return TryReconstructPath(goal, ref path);
     }
 
-    public static int GetSubPathLength(IEnumerable<Vector2Int> path, TryGetCostDelegate tryGetCost, out int pathCost, Predicate<int> isValidPathCost = null) {
+    public static int TruncatePath(IEnumerable<Vector2Int> path, TryGetCostDelegate tryGetCost, out int pathCost, Predicate<int> isValidPathCost = null) {
         pathCost = 0;
         var length = 0;
         Vector2Int previousPosition = default;
@@ -131,8 +131,8 @@ public class Traverser {
         }
         return length;
     }
-    public static int GetSubPathLength(IEnumerable<Vector2Int> path, Unit unit, out int pathCost, Predicate<int> isValidPathCost = null) {
-        return GetSubPathLength(path, Rules.GetMoveCostFunction(unit), out pathCost,isValidPathCost);
+    public static int TruncatePath(IEnumerable<Vector2Int> path, Unit unit, out int pathCost, Predicate<int> isValidPathCost = null) {
+        return TruncatePath(path, Rules.GetMoveCostFunction(unit), out pathCost,isValidPathCost);
     }
 
     public bool TryGetDistance(Vector2Int position, out int distance) {
