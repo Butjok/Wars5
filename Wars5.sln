@@ -27,6 +27,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpressionEvaluator", "Expr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Antlr4", "Antlr4.csproj", "{e077983a-6b87-9a3d-0ce8-d89551a1fd06}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NaughtyAttributes.Test", "NaughtyAttributes.Test.csproj", "{3a5c68ff-0c37-5a04-eeb5-b476c252a071}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NaughtyAttributes.Core", "NaughtyAttributes.Core.csproj", "{5ccc8ce6-f673-4826-5288-bf1032968ca6}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShapesEditor", "ShapesEditor.csproj", "{7ef8afe9-6f92-dd36-e92c-80c2b583cc97}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ALINEEditor", "ALINEEditor.csproj", "{04a2449b-c7cc-f037-fca8-a9c0695f60cf}"
@@ -34,6 +38,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FullscreenEditor", "FullscreenEditor.csproj", "{ea66c163-c16e-dd96-3d67-e5c567917ba9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ALINEPackageToolsEditor", "ALINEPackageToolsEditor.csproj", "{acc937ff-be72-6096-e219-b39fdc0d4207}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NaughtyAttributes.Editor", "NaughtyAttributes.Editor.csproj", "{2283bc70-f4b1-c827-ae35-47856a659745}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor-firstpass", "Assembly-CSharp-Editor-firstpass.csproj", "{5cc63faa-2c5e-0c5c-4a94-6790d5d823ff}"
 EndProject
@@ -72,6 +78,10 @@ Global
 		{715685b9-cebc-f678-dead-d33022bb204f}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{e077983a-6b87-9a3d-0ce8-d89551a1fd06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{e077983a-6b87-9a3d-0ce8-d89551a1fd06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3a5c68ff-0c37-5a04-eeb5-b476c252a071}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3a5c68ff-0c37-5a04-eeb5-b476c252a071}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5ccc8ce6-f673-4826-5288-bf1032968ca6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5ccc8ce6-f673-4826-5288-bf1032968ca6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7ef8afe9-6f92-dd36-e92c-80c2b583cc97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7ef8afe9-6f92-dd36-e92c-80c2b583cc97}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04a2449b-c7cc-f037-fca8-a9c0695f60cf}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -80,6 +90,8 @@ Global
 		{ea66c163-c16e-dd96-3d67-e5c567917ba9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{acc937ff-be72-6096-e219-b39fdc0d4207}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{acc937ff-be72-6096-e219-b39fdc0d4207}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2283bc70-f4b1-c827-ae35-47856a659745}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2283bc70-f4b1-c827-ae35-47856a659745}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5cc63faa-2c5e-0c5c-4a94-6790d5d823ff}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5cc63faa-2c5e-0c5c-4a94-6790d5d823ff}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37f7a3f5-131f-031e-3cc4-f90f4baa0b08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

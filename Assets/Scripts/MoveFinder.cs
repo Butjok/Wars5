@@ -96,7 +96,9 @@ public static class MoveFinder {
         if (goals != null)
             foreach (var position in goals)
                 goalSet.Add(position);
-        Assert.AreNotEqual(0, goalSet.Count);
+        
+        if (goalSet.Count == 0)
+            return false;
 
         moveNodes.Clear();
         priorityQueue.Clear();
@@ -202,11 +204,13 @@ public static class MoveFinder {
         if (destinationOption is not { } destination)
             return false;
 
+        movePath.Clear();
+        restPath.Clear();
+        
         //
         // reconstruct move up to stay position
         //
 
-        movePath.Clear();
         for (var position = destination; moveNodes.TryGetValue(position, out var node);) {
             movePath.Add(position);
             if (node.cameFrom is { } previousPosition)
@@ -219,8 +223,7 @@ public static class MoveFinder {
         //
         // reconstruct rest path
         // 
-
-        restPath.Clear();
+        
         for (var position = destination; pathNodes.TryGetValue(position, out var node);) {
             restPath.Add(position);
             if (node.cameFrom is { } previousPosition)

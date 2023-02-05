@@ -1097,6 +1097,10 @@
       <Project>{e077983a-6b87-9a3d-0ce8-d89551a1fd06}</Project>
       <Name>Antlr4</Name>
     </ProjectReference>
+    <ProjectReference Include="NaughtyAttributes.Core.csproj">
+      <Project>{5ccc8ce6-f673-4826-5288-bf1032968ca6}</Project>
+      <Name>NaughtyAttributes.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

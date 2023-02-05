@@ -47,6 +47,11 @@ public class StateRunner : MonoBehaviour {
         Assert.IsTrue(nonEmpty);
         readyForInputStates.Add(state);
     }
+    public void RemoveReadyForInputMark() {
+        var nonEmpty = states.TryPeek(out var state);
+        Assert.IsTrue(nonEmpty);
+        readyForInputStates.Remove(state);
+    }
     public bool IsInState(string stateName) {
         return stateNames.TryPeek(out var topStateName) && topStateName == stateName;
     }

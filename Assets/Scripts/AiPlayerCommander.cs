@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using Butjok.CommandLine;
 using Drawing;
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Assertions;
 using static Rules;
@@ -13,6 +14,7 @@ using static Rules;
 
 public class AiPlayerCommander : MonoBehaviour {
 
+    [Serializable]
     public class PotentialUnitAction {
 
         public Unit unit;
@@ -112,26 +114,30 @@ public class AiPlayerCommander : MonoBehaviour {
 
     public PotentialUnitAction selectedAction;
     public NextTask nextTask;
-    public bool issuedUnitSelectionCommand;
     public bool issuedPathSelectionCommand;
     public bool issuedActionSelectionCommand;
-    public bool shouldEndTurn;
 
     private void Update() {
 
-        if (Input.GetKeyDown(KeyCode.Alpha9)) {
+        if (nextTask == NextTask.None)
             nextTask = NextTask.SelectUnit;
-            shouldEndTurn = !TryFindBestMove(out selectedAction);
-            issuedUnitSelectionCommand = issuedPathSelectionCommand = issuedActionSelectionCommand = false;
-            if (selectedAction != null && selectedAction.path[^1] != selectedAction.restPath[^1])
-                selectedAction.type = UnitActionType.Stay;
-        }
 
         switch (nextTask) {
 
             case NextTask.SelectUnit:
-                if (main.IsInState(nameof(SelectionState)) && main.IsReadyForInput() && !issuedUnitSelectionCommand) {
-                    issuedUnitSelectionCommand = true;
+                if (main.IsInState(nameof(SelectionState)) && main.IsReadyForInput()) {
+                    
+                    var shouldEndTurn = !TryFindBestMove(out selectedAction);
+                    issuedPathSelectionCommand = issuedActionSelectionCommand = false;
+
+                    // if unit cannot move the entire path change the action type to stay
+                    // also if an artillery unit is trying to attack somebody but it moves first - change to stay as well
+                    if (selectedAction != null &&
+                        (selectedAction.path[^1] != selectedAction.restPath[^1] ||
+                         selectedAction.path.Count > 1 && IsArtillery(selectedAction.unit)))
+
+                        selectedAction.type = UnitActionType.Stay;
+                    
                     if (shouldEndTurn) {
                         nextTask = NextTask.None;
                         main.commands.Enqueue(SelectionState.endTurn);
@@ -182,6 +188,7 @@ public class AiPlayerCommander : MonoBehaviour {
                             throw new ArgumentOutOfRangeException(selectedAction.type.ToJson());
                     }
 
+                    Assert.AreEqual(1, main.stack.Peek<List<UnitAction>>().Count);
                     main.commands.Enqueue(ActionSelectionState.execute);
                     nextTask = NextTask.None;
                 }
@@ -248,7 +255,7 @@ public class AiPlayerCommander : MonoBehaviour {
                     if (CanAttack(unit, target, weaponName)) {
 
                         if (path == null) {
-                            if (MoveFinder.TryFindMove(unit, goals: main.PositionsInRange(target.NonNullPosition, attackRange))) {
+                            if (MoveFinder.TryFindMove(unit, goals: main.PositionsInRange(target.NonNullPosition, attackRange).Where(position => CanStay(unit, position)))) {
                                 path = MoveFinder.Path;
                                 restPath = MoveFinder.RestPath;
                             }
@@ -311,7 +318,7 @@ public class AiPlayerCommander : MonoBehaviour {
     public static int CalculatePathCost(Unit unit, IEnumerable<Vector2Int> path) {
         return path.Skip(1).Sum(position => {
             var isValid = TryGetMoveCost(unit, position, out var cost);
-            Assert.IsTrue(isValid);
+            Assert.IsTrue(isValid, $"{unit} {position}");
             return cost;
         });
     }
