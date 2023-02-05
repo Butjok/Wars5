@@ -224,6 +224,11 @@ public static class Rules {
         return UnitTypeSettings.Loaded.TryGetValue(unitType, out var settings) ? settings.moveDistance : 0;
     }
 
+    public static bool TryGetMoveCost(Unit unit, Vector2Int position, out int cost) {
+        cost = default;
+        return unit.Player.main.TryGetTile(position, out var tileType) &&
+               TryGetMoveCost(unit.type, tileType, out cost);
+    }
     public static bool TryGetMoveCost(UnitType unitType, TileType tileType, out int cost) {
 
         const int unreachable = -1;

@@ -31,8 +31,8 @@ public static class PostProcessing {
     public static PostProcessLayer.Antialiasing Antialiasing {
         set {
             var layer = Camera.main ? Camera.main.GetComponent<PostProcessLayer>() : null;
-            if (layer)
-                layer.antialiasingMode = value;
+            //if (layer)
+                //layer.antialiasingMode = value;
         }
     }
 

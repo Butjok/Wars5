@@ -134,7 +134,7 @@
      <Compile Include="Assets/Scripts/UnitBuildMenuViews.cs" />
      <Compile Include="Assets/Scripts/BattleView.cs" />
      <Compile Include="Assets/Scripts/BuildingMaterialSwitcher.cs" />
-     <Compile Include="Assets/Scripts/PathFinding.cs" />
+     <Compile Include="Assets/Scripts/MoveFinder.cs" />
      <Compile Include="Assets/Scripts/GameSettingsMenu.cs" />
      <Compile Include="Assets/Scripts/UnitBuildMenu.cs" />
      <Compile Include="Assets/Scripts/GameStates/PathSelectionState.cs" />
@@ -143,6 +143,8 @@
      <Compile Include="Assets/Scripts/Level/UnitAction.cs" />
      <Compile Include="Assets/Scripts/StateRunner.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
+     <Compile Include="Assets/Scripts/MoveFinderDebugDrawer.cs" />
+     <Compile Include="Assets/Scripts/GradientMap.cs" />
      <None Include="Assets/Scripts/Wars.asmdef" />
      <Folder Include="Assets/Scripts/Editor" />
      <Folder Include="Assets/Scripts/GameStates" />
@@ -1086,6 +1088,14 @@
     <ProjectReference Include="ALINE.csproj">
       <Project>{3b447260-4b10-4045-3e9f-0f5a8859983a}</Project>
       <Name>ALINE</Name>
+    </ProjectReference>
+    <ProjectReference Include="ExpressionEvaluator.csproj">
+      <Project>{715685b9-cebc-f678-dead-d33022bb204f}</Project>
+      <Name>ExpressionEvaluator</Name>
+    </ProjectReference>
+    <ProjectReference Include="Antlr4.csproj">
+      <Project>{e077983a-6b87-9a3d-0ce8-d89551a1fd06}</Project>
+      <Name>Antlr4</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -5,12 +5,16 @@ using System.Linq;
 using Butjok.CommandLine;
 using Drawing;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.UIElements;
 using static Rules;
+using Random = UnityEngine.Random;
 
 // ReSharper disable LoopCanBePartlyConvertedToQuery
 
 public class AiPlayerCommander : MonoBehaviour {
+
+    public GradientMap priorityGradientMap = new();
 
     public Main2 main;
     public Vector2Int selectPosition;
@@ -68,6 +72,7 @@ public class AiPlayerCommander : MonoBehaviour {
 
     [Command]
     public void DrawPotentialUnitActions() {
+        StopAllCoroutines();
         StartCoroutine(DrawPotentialUnitActionsCoroutine());
     }
 
@@ -88,20 +93,17 @@ public class AiPlayerCommander : MonoBehaviour {
     [Command]
     public Color colorLaunchMissile = Color.red;
     [Command]
-    public float thickness = 2;
+    public float pathThickness = 2;
+    [Command]
+    public float restPathThickness = 1;
+    [Command]
+    public float actionLineThickness = 1;
     [Command]
     public float arrowHeadSize = .1f;
     [Command]
-    public float textSize = 14;
+    public Color restPathAlpha = new Color(1, 1, 1, .5f);
     [Command]
-    public Color textColor = Color.white;
-    [Command]
-    public Color actionArrowColor = new Color(1f, 0.6f, 0f);
-
-    [Command]
-    public Color pathColor = Color.blue;
-    [Command]
-    public Color restPathColor = Color.blue * new Color(1, 1, 1, .5f);
+    public Vector2 actionLineLerp = new Vector2(.1f, 1);
 
     public Color GetUnitActionTypeColor(UnitActionType type) {
         return type switch {
@@ -115,6 +117,26 @@ public class AiPlayerCommander : MonoBehaviour {
             UnitActionType.LaunchMissile => colorLaunchMissile,
             _ => throw new ArgumentOutOfRangeException(type.ToString())
         };
+    }
+
+    public Stack<string> priorityFormulaHistory = new(); 
+    [Command]
+    public string PriorityFormula {
+        get => priorityFormulaHistory.TryPeek(out var top) ? top : "0";
+        set => priorityFormulaHistory.Push(value);
+    }
+    [Command]
+    public bool TryPopPriorityFormula() {
+        return priorityFormulaHistory.TryPop(out _);
+    }
+
+    private void Awake() {
+        priorityFormulaHistory.Clear();
+        foreach (var line in PlayerPrefs.GetString(nameof(PriorityFormula), "0").Split("\n"))
+            priorityFormulaHistory.Push(line);
+    }
+    private void OnApplicationQuit() {
+        PlayerPrefs.SetString(nameof(PriorityFormula), string.Join("\n", priorityFormulaHistory.Reverse()));
     }
 
     public IEnumerator DrawPotentialUnitActionsCoroutine() {
@@ -134,13 +156,13 @@ public class AiPlayerCommander : MonoBehaviour {
 
         var buildingsToCapture = main.buildings.Values.Where(building => CanCapture(unit, building));
         foreach (var building in buildingsToCapture)
-            if (PathFinding.TryFindMove(unit, building.position))
+            if (MoveFinder.TryFindMove(unit, building.position))
                 actions.Add(new FutureUnitAction {
                     unit = unit,
                     type = UnitActionType.Capture,
                     targetBuilding = building,
-                    path = PathFinding.Path,
-                    restPath = PathFinding.RestPath
+                    path = MoveFinder.Path,
+                    restPath = MoveFinder.RestPath
                 });
 
         //
@@ -149,13 +171,13 @@ public class AiPlayerCommander : MonoBehaviour {
 
         var missileSilos = main.buildings.Values.Where(building => building.type == TileType.MissileSilo && CanLaunchMissile(unit, building));
         foreach (var missileSilo in missileSilos)
-            if (PathFinding.TryFindMove(unit, missileSilo.position))
+            if (MoveFinder.TryFindMove(unit, missileSilo.position))
                 actions.Add(new FutureUnitAction {
                     unit = unit,
                     type = UnitActionType.LaunchMissile,
                     targetBuilding = missileSilo,
-                    path = PathFinding.Path,
-                    restPath = PathFinding.RestPath
+                    path = MoveFinder.Path,
+                    restPath = MoveFinder.RestPath
                 });
 
         //
@@ -173,9 +195,9 @@ public class AiPlayerCommander : MonoBehaviour {
                     if (CanAttack(unit, target, weaponName)) {
 
                         if (path == null) {
-                            if (PathFinding.TryFindMove(unit, goals: main.PositionsInRange(target.NonNullPosition, attackRange))) {
-                                path = PathFinding.Path;
-                                restPath = PathFinding.RestPath;
+                            if (MoveFinder.TryFindMove(unit, goals: main.PositionsInRange(target.NonNullPosition, attackRange))) {
+                                path = MoveFinder.Path;
+                                restPath = MoveFinder.RestPath;
                             }
                             else
                                 break;
@@ -197,48 +219,103 @@ public class AiPlayerCommander : MonoBehaviour {
         // rank actions
         //
 
-        foreach (var action in actions) {
-            //action.priority = ;
+        var minPriority = 0f;
+        var maxPriority = 0f;
+        var priorityRange = 0f;
+
+        int CalculatePathCost(IEnumerable<Vector2Int> path) {
+            return path.Skip(1).Sum(position => {
+                var isValid = TryGetMoveCost(unit, position, out var cost);
+                Assert.IsTrue(isValid);
+                return cost;
+            });
         }
 
-        actions.Sort((a, b) => (a.priority - b.priority) switch {
-            > 0 => 1,
-            < 0 => -1,
-            _ => 0
-        });
+        void PrioritizeActions() {
 
-        foreach (var action in actions) {
-            while (!Input.GetKeyDown(KeyCode.Alpha0)) {
-                yield return null;
+            const int mostExpensiveUnitCost = 16000;
 
-                using (Draw.ingame.WithLineWidth(thickness)) {
+            foreach (var action in actions) {
 
-                    using (Draw.ingame.WithColor(pathColor))
-                        for (var i = 1; i < action.path.Count; i++)
-                            Draw.ingame.Arrow((Vector3)action.path[i - 1].ToVector3Int(), (Vector3)action.path[i].ToVector3Int(), Vector3.up, arrowHeadSize);
-                    using (Draw.ingame.WithColor(restPathColor))
-                        for (var i = 1; i < action.restPath.Count; i++)
-                            Draw.ingame.Arrow((Vector3)action.restPath[i - 1].ToVector3Int(), (Vector3)action.restPath[i].ToVector3Int(), Vector3.up, arrowHeadSize);
+                float damageDealt = 0;
+                float damageDealtInCredits = 0;
+                float damageTaken = 0;
+                float damageTakenInCredits = 0;
 
-                    using (Draw.ingame.WithColor(GetUnitActionTypeColor(action.type))) {
+                if (action.type == UnitActionType.Attack) {
+                    
+                    var isValid = TryGetDamage(action.unit, action.targetUnit, action.weaponName, out var damageDealtInteger);
+                    Assert.IsTrue(isValid);
 
-                        Draw.ingame.Label2D((Vector3)action.restPath[^1].ToVector3Int(), $"{action.priority}: {action}\n", textSize, LabelAlignment.BottomCenter);
+                    damageDealt = damageDealtInteger;
+                    damageDealtInCredits = damageDealt / MaxHp(action.targetUnit) * mostExpensiveUnitCost;
 
-                        if (action.targetUnit is { Position: { } unitPosition })
-                            Draw.ingame.Arrow((Vector3)action.restPath[^1].ToVector3Int(), (Vector3)unitPosition.ToVector3Int(), Vector3.up, arrowHeadSize);
-                        if (action.targetPosition is { } targetPosition)
-                            Draw.ingame.Arrow((Vector3)action.restPath[^1].ToVector3Int(), (Vector3)targetPosition.ToVector3Int(), Vector3.up, arrowHeadSize);
-                        if (action.targetBuilding != null)
-                            Draw.ingame.Arrow((Vector3)action.restPath[^1].ToVector3Int(), (Vector3)action.targetBuilding.position.ToVector3Int(), Vector3.up, arrowHeadSize);
+                    // TODO: add damage taken
+                }
+
+                action.priority = ExpressionEvaluator.Evaluate(PriorityFormula,
+                    ("pathLength", action.path.Count),
+                    ("restPathLength", action.restPath.Count),
+                    ("fullPathLength", action.path.Count + action.restPath.Count - 1),
+                    ("pathCost", CalculatePathCost(action.path)),
+                    ("restPathCost", CalculatePathCost(action.restPath)),
+                    ("fullPathCost", CalculatePathCost(action.path.Concat(action.restPath.Skip(1)))),
+                    (nameof(damageDealt), damageDealt),
+                    (nameof(damageDealtInCredits), damageDealtInCredits),
+                    (nameof(damageTaken), damageTaken),
+                    (nameof(damageTakenInCredits), damageTakenInCredits));
+            }
+
+            minPriority = actions.Min(action => action.priority);
+            maxPriority = actions.Max(action => action.priority);
+            priorityRange = maxPriority - minPriority;
+        }
+        PrioritizeActions();
+
+        var moveFinderDebugDrawer = FindObjectOfType<MoveFinderDebugDrawer>();
+        if (moveFinderDebugDrawer)
+            moveFinderDebugDrawer.Show = false;
+
+        while (!Input.GetKeyDown(KeyCode.Alpha0)) {
+            yield return null;
+
+            PrioritizeActions();
+
+            foreach (var action in actions) {
+
+                var color = Mathf.Approximately(0, priorityRange) ? Color.blue : priorityGradientMap.Sample((action.priority - minPriority) / priorityRange);
+
+                using (Draw.ingame.WithLineWidth(pathThickness))
+                    for (var i = 1; i < action.path.Count; i++)
+                        Draw.ingame.Arrow((Vector3)action.path[i - 1].ToVector3Int(), (Vector3)action.path[i].ToVector3Int(), Vector3.up, arrowHeadSize, color);
+
+                using (Draw.ingame.WithLineWidth(restPathThickness))
+                    for (var i = 1; i < action.restPath.Count; i++)
+                        Draw.ingame.Arrow((Vector3)action.restPath[i - 1].ToVector3Int(), (Vector3)action.restPath[i].ToVector3Int(), Vector3.up, arrowHeadSize, color * restPathAlpha);
+
+                using (Draw.ingame.WithLineWidth(actionLineThickness))
+                using (Draw.ingame.WithColor(GetUnitActionTypeColor(action.type))) {
+
+                    //Draw.ingame.Label2D((Vector3)action.restPath[^1].ToVector3Int(), $"{action.priority}: {action}\n", textSize, LabelAlignment.BottomCenter);
+
+                    var from = (Vector3)action.restPath[^1].ToVector3Int();
+                    if (action.targetUnit is { Position: { } unitPosition }) {
+                        var to = (Vector3)unitPosition.ToVector3Int();
+                        Draw.ingame.Line(Vector3.Lerp(from, to, actionLineLerp[0]), Vector3.Lerp(from, to, actionLineLerp[1]));
+                    }
+                    if (action.targetPosition is { } targetPosition) {
+                        var to = (Vector3)targetPosition.ToVector3Int();
+                        Draw.ingame.Line(Vector3.Lerp(from, to, actionLineLerp[0]), Vector3.Lerp(from, to, actionLineLerp[1]));
+                    }
+                    if (action.targetBuilding != null) {
+                        var to = (Vector3)action.targetBuilding.position.ToVector3Int();
+                        Draw.ingame.Line(Vector3.Lerp(from, to, actionLineLerp[0]), Vector3.Lerp(from, to, actionLineLerp[1]));
                     }
                 }
             }
 
-            yield return null;
-
-            if (Input.GetKey(KeyCode.RightShift))
-                yield break;
         }
+        yield return null;
     }
 
     public class FutureUnitAction {
@@ -256,8 +333,10 @@ public class AiPlayerCommander : MonoBehaviour {
             text += type.ToString();
             if (targetUnit != null)
                 text += $" {targetUnit}";
-            if (type == UnitActionType.Drop)
-                text += $" to {targetPosition}";
+            if (targetBuilding != null)
+                text += $" {targetBuilding}";
+            if (targetPosition is {} actualTargetPosition)
+                text += $" to {actualTargetPosition}";
             if (type == UnitActionType.Attack)
                 text += $" with {weaponName}";
             return text;
