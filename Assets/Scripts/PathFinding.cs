@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,7 @@ using Drawing;
 using Priority_Queue;
 using UnityEngine;
 using UnityEngine.Assertions;
+using Object = UnityEngine.Object;
 
 public static class PathFinding {
 
@@ -27,19 +29,29 @@ public static class PathFinding {
     private static readonly HashSet<Vector2Int> pathClosed = new();
     private static readonly List<Vector2Int> movePath = new();
     private static readonly List<Vector2Int> restPath = new();
+    private static readonly HashSet<Vector2Int> goalSet = new();
 
     public static List<Vector2Int> Path => movePath.ToList();
     public static List<Vector2Int> RestPath => restPath.ToList();
 
-    [Command] public static Vector2Int goal = new(-5, -17);
-    [Command] public static bool TrySetGoal() {
-        if (!Mouse.TryGetPosition(out Vector2Int position))
-            return false;
-        goal = position;
-        return true;
+    public static HashSet<Vector2Int> goals = new(new[] { new Vector2Int(-5, -17) });
+
+    [Command] public static int SetGoal(Vector2Int range) {
+
+        if (!Mouse.TryGetPosition(out Vector2Int mousePosition))
+            return 0;
+
+        var main = Object.FindObjectOfType<Main>();
+        Assert.IsTrue(main);
+
+        goals.Clear();
+        foreach (var position in main.PositionsInRange(mousePosition, range))
+            goals.Add(position);
+
+        return goals.Count;
     }
     [Command]
-    public static void FindMove(bool onlyValidStayPositions = true) {
+    public static void TryFindMove(bool onlyValidStayDestinations = true) {
 
         var main = Object.FindObjectOfType<Main>();
         Assert.IsTrue(main);
@@ -48,10 +60,10 @@ public static class PathFinding {
             return;
 
         main.StopAllCoroutines();
-        if (TryFindMove(unit, goal, onlyValidStayPositions))
+        if (TryFindMove(unit, goals: goals, onlyValidStayDestinations: onlyValidStayDestinations))
             main.StartCoroutine(DrawDebug());
     }
-    
+
     /// <summary>
     /// traverses the map with 2 consecutive pathfinding algos:
     /// <list type="number">
@@ -62,9 +74,20 @@ public static class PathFinding {
     /// </summary>
     /// <param name="unit"></param>
     /// <param name="goal"></param>
-    /// <param name="onlyValidStayPositions"></param>
+    /// <param name="onlyValidStayDestinations">move destinations must be valid Stay action positions</param>
+    /// <param name="onlyValidGetInDestinations">move destinations must be valid GetIn action positions</param>
+    /// <param name="onlyValidJoinDestinations">move destinations must be valid Join action positions</param>
     /// <returns></returns>
-    public static bool TryFindMove(Unit unit, Vector2Int goal, bool onlyValidStayPositions = true) {
+    public static bool TryFindMove(Unit unit, Vector2Int? goal = null, IEnumerable<Vector2Int> goals = null,
+        bool onlyValidStayDestinations = true, bool onlyValidGetInDestinations = false, bool onlyValidJoinDestinations = false) {
+
+        goalSet.Clear();
+        if (goal is { } item)
+            goalSet.Add(item);
+        if (goals != null)
+            foreach (var position in goals)
+                goalSet.Add(position);
+        Assert.AreNotEqual(0,goalSet.Count);
 
         moveNodes.Clear();
         priorityQueue.Clear();
@@ -90,7 +113,7 @@ public static class PathFinding {
                 var neighborPosition = position + offset;
                 if (moveNodes.TryGetValue(neighborPosition, out var neighbor) &&
                     Rules.TryGetMoveCost(unit, neighbor.tileType, out var cost) &&
-                    Rules.CanPass(unit,neighborPosition) &&
+                    Rules.CanPass(unit, neighborPosition) &&
                     priorityQueue.Contains(neighborPosition)) {
 
                     var alternativeG = current.g + cost;
@@ -107,8 +130,14 @@ public static class PathFinding {
 
         destinations.Clear();
         foreach (var (position, node) in moveNodes)
-            if (node.g <= maxCost && (!onlyValidStayPositions || Rules.CanStay(unit, position)))
+
+            if (node.g <= maxCost &&
+                (!onlyValidStayDestinations || Rules.CanStay(unit, position)) &&
+                (!onlyValidGetInDestinations || main.TryGetUnit(position, out var other) && Rules.CanGetIn(unit, other)) &&
+                (!onlyValidJoinDestinations || main.TryGetUnit(position, out other) && Rules.CanJoin(unit, other)))
+
                 destinations.Add(position);
+
         Assert.IsTrue(destinations.Count > 0);
 
         pathNodes.Clear();
@@ -117,7 +146,7 @@ public static class PathFinding {
         foreach (var (position, tileType) in main.tiles) {
             var node = new Node {
                 tileType = tileType,
-                g = position == goal ? 0 : infinity,
+                g = goalSet.Contains(position) ? 0 : infinity,
                 h = infinity
             };
             foreach (var stayPosition in destinations)
@@ -146,7 +175,7 @@ public static class PathFinding {
                 var neighborPosition = position + offset;
                 if (pathNodes.TryGetValue(neighborPosition, out var neighbor) &&
                     Rules.TryGetMoveCost(unit, neighbor.tileType, out var cost) &&
-                    Rules.CanPass(unit,neighborPosition) &&
+                    Rules.CanPass(unit, neighborPosition) &&
                     priorityQueue.Contains(neighborPosition)) {
 
                     var alternativeG = current.g + cost;
@@ -196,22 +225,33 @@ public static class PathFinding {
 
     public static IEnumerator DrawDebug() {
 
-        while (!Input.GetKeyDown(KeyCode.Alpha0)) {
-            yield return null;
-
-            foreach (var position in destinations) {
-                Draw.ingame.SolidPlane((Vector3)position.ToVector3Int(), Vector3.up, Vector2.one, Color.yellow);
-                Draw.ingame.Label2D((Vector3)position.ToVector3Int(), moveNodes[position].g.ToString(), 14, LabelAlignment.Center, Color.black);
-            }
-        }
-        yield return null;
+        var textPosition = new Vector3(50, 100, 0);
 
         while (!Input.GetKeyDown(KeyCode.Alpha0)) {
             yield return null;
 
-            foreach (var position in pathClosed) {
-                Draw.ingame.SolidPlane((Vector3)position.ToVector3Int(), Vector3.up, Vector2.one, Color.yellow);
-                Draw.ingame.Label2D((Vector3)position.ToVector3Int(), pathNodes[position].g.ToString(), 14, LabelAlignment.Center, Color.black);
+            using (Draw.ingame.WithLineWidth(2)) {
+
+                if (Camera.main)
+                    using (Draw.ingame.InScreenSpace(Camera.main)) {
+                        Draw.ingame.Label2D(textPosition, "move destinations", 14, LabelAlignment.TopLeft, Color.cyan);
+                        Draw.ingame.Label2D(textPosition, "\ngoals", 14, LabelAlignment.TopLeft, Color.magenta);
+                        Draw.ingame.Label2D(textPosition, "\n\nA* (starting from goals) closed nodes", 14, LabelAlignment.TopLeft, Color.yellow);
+                    }
+
+                foreach (var position in destinations) {
+                    Draw.ingame.SolidPlane((Vector3)position.ToVector3Int(), Vector3.up, Vector2.one, Color.cyan);
+                    Draw.ingame.Label2D((Vector3)position.ToVector3Int(), moveNodes[position].g.ToString(), 14, LabelAlignment.Center, Color.black);
+                }
+
+                foreach (var position in goals) {
+                    Draw.ingame.CrossXZ((Vector3)position.ToVector3Int(), .5f, Color.magenta);
+                }
+
+                foreach (var position in pathClosed) {
+                    Draw.ingame.SolidPlane((Vector3)position.ToVector3Int(), Vector3.up, Vector2.one, Color.yellow);
+                    Draw.ingame.Label2D((Vector3)position.ToVector3Int(), pathNodes[position].g.ToString(), 14, LabelAlignment.Center, Color.black);
+                }
             }
         }
         yield return null;

@@ -19,7 +19,7 @@
           <option name="outputDir" value="$PROJECT_DIR$/Assets/CommandLine/Parsers" />
           <option name="libDir" value="" />
           <option name="encoding" value="" />
-          <option name="pkg" value="" />
+          <option name="pkg" value="Butjok.CommandLine.Parsers" />
           <option name="language" value="CSharp" />
           <option name="generateVisitor" value="true" />
         </PerGrammarGenerationSettings>
@@ -27,6 +27,16 @@
           <option name="fileName" value="$PROJECT_DIR$/Assets/Scripts/AiScript/AiScript.g4" />
           <option name="autoGen" value="true" />
           <option name="outputDir" value="$PROJECT_DIR$/Assets/Scripts/AiScript/Parsers" />
+          <option name="libDir" value="" />
+          <option name="encoding" value="" />
+          <option name="pkg" value="" />
+          <option name="language" value="CSharp" />
+          <option name="generateVisitor" value="true" />
+        </PerGrammarGenerationSettings>
+        <PerGrammarGenerationSettings>
+          <option name="fileName" value="$PROJECT_DIR$/Assets/ExpressionEvaluator/Arithmetic.g4" />
+          <option name="autoGen" value="true" />
+          <option name="outputDir" value="$PROJECT_DIR$/Assets/ExpressionEvaluator/Parsers" />
           <option name="libDir" value="" />
           <option name="encoding" value="" />
           <option name="pkg" value="" />

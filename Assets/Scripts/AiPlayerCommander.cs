@@ -96,7 +96,12 @@ public class AiPlayerCommander : MonoBehaviour {
     [Command]
     public Color textColor = Color.white;
     [Command]
-    public Color restPathColor = new Color(1, 1, 1, .5f);
+    public Color actionArrowColor = new Color(1f, 0.6f, 0f);
+
+    [Command]
+    public Color pathColor = Color.blue;
+    [Command]
+    public Color restPathColor = Color.blue * new Color(1, 1, 1, .5f);
 
     public Color GetUnitActionTypeColor(UnitActionType type) {
         return type switch {
@@ -121,73 +126,79 @@ public class AiPlayerCommander : MonoBehaviour {
         // generate actions
         //
 
-        var actions = new List<PotentialUnitAction>();
+        var actions = new List<FutureUnitAction>();
 
         //
         // find buildings to capture
         //
-        
+
         var buildingsToCapture = main.buildings.Values.Where(building => CanCapture(unit, building));
         foreach (var building in buildingsToCapture)
-	        if (PathFinding.TryFindMove(unit, building.position))
-		        actions.Add(new PotentialUnitAction {
-			        unit = unit,
-			        type = UnitActionType.Capture,
-			        targetBuilding = building,
-			        path = PathFinding.Path,
-			        restPath = PathFinding.RestPath
-		        });
+            if (PathFinding.TryFindMove(unit, building.position))
+                actions.Add(new FutureUnitAction {
+                    unit = unit,
+                    type = UnitActionType.Capture,
+                    targetBuilding = building,
+                    path = PathFinding.Path,
+                    restPath = PathFinding.RestPath
+                });
 
         //
         // find missile silos to use
         //
-        
+
         var missileSilos = main.buildings.Values.Where(building => building.type == TileType.MissileSilo && CanLaunchMissile(unit, building));
         foreach (var missileSilo in missileSilos)
-	        if (PathFinding.TryFindMove(unit, missileSilo.position))
-		        actions.Add(new PotentialUnitAction {
-			        unit = unit,
-			        type = UnitActionType.LaunchMissile,
-			        targetBuilding = missileSilo,
-			        path = PathFinding.Path,
-			        restPath = PathFinding.RestPath
-		        });
+            if (PathFinding.TryFindMove(unit, missileSilo.position))
+                actions.Add(new FutureUnitAction {
+                    unit = unit,
+                    type = UnitActionType.LaunchMissile,
+                    targetBuilding = missileSilo,
+                    path = PathFinding.Path,
+                    restPath = PathFinding.RestPath
+                });
 
         //
         // find units to attack
         //
-        
+
         if (TryGetAttackRange(unit, out var attackRange)) {
 
-            if (!IsArtillery(unit))
-                foreach (var target in main.units.Values) {
-                    List<Vector2Int> path = null;
-                    List<Vector2Int> restPath = null;
-                    foreach (var weaponName in GetWeaponNames(unit))
-                        if (CanAttack(unit, target, weaponName)) {
-                            if (path == null && PathFinding.TryFindMove(unit, target.NonNullPosition)) {
+            foreach (var target in main.units.Values) {
+
+                List<Vector2Int> path = null;
+                List<Vector2Int> restPath = null;
+
+                foreach (var weaponName in GetWeaponNames(unit))
+                    if (CanAttack(unit, target, weaponName)) {
+
+                        if (path == null) {
+                            if (PathFinding.TryFindMove(unit, goals: main.PositionsInRange(target.NonNullPosition, attackRange))) {
                                 path = PathFinding.Path;
                                 restPath = PathFinding.RestPath;
                             }
-                            if (path != null)
-                                actions.Add(new PotentialUnitAction {
-                                    unit = unit,
-                                    type = UnitActionType.Attack,
-                                    targetUnit = target,
-                                    weaponName = weaponName,
-                                    path = path,
-                                    restPath = restPath
-                                });
+                            else
+                                break;
                         }
-                }
+
+                        actions.Add(new FutureUnitAction {
+                            unit = unit,
+                            type = UnitActionType.Attack,
+                            targetUnit = target,
+                            weaponName = weaponName,
+                            path = path,
+                            restPath = restPath
+                        });
+                    }
+            }
         }
-        
+
         //
         // rank actions
         //
 
         foreach (var action in actions) {
-	        //action.priority = ;
+            //action.priority = ;
         }
 
         actions.Sort((a, b) => (a.priority - b.priority) switch {
@@ -201,12 +212,25 @@ public class AiPlayerCommander : MonoBehaviour {
                 yield return null;
 
                 using (Draw.ingame.WithLineWidth(thickness)) {
-                    Draw.ingame.Label2D((Vector3)action.restPath[^1].ToVector3Int(), action.ToString(), textSize, LabelAlignment.Center, textColor);
-                    var color = GetUnitActionTypeColor(action.type);
-                    for (var i = 1; i < action.path.Count; i++)
-                        Draw.ingame.Arrow((Vector3)action.path[i - 1].ToVector3Int(), (Vector3)action.path[i].ToVector3Int(), Vector3.up, arrowHeadSize, color);
-                    for (var i = 1; i < action.restPath.Count; i++)
-                        Draw.ingame.Arrow((Vector3)action.restPath[i - 1].ToVector3Int(), (Vector3)action.restPath[i].ToVector3Int(), Vector3.up, arrowHeadSize, color * new Color(1,1,1,.5f));
+
+                    using (Draw.ingame.WithColor(pathColor))
+                        for (var i = 1; i < action.path.Count; i++)
+                            Draw.ingame.Arrow((Vector3)action.path[i - 1].ToVector3Int(), (Vector3)action.path[i].ToVector3Int(), Vector3.up, arrowHeadSize);
+                    using (Draw.ingame.WithColor(restPathColor))
+                        for (var i = 1; i < action.restPath.Count; i++)
+                            Draw.ingame.Arrow((Vector3)action.restPath[i - 1].ToVector3Int(), (Vector3)action.restPath[i].ToVector3Int(), Vector3.up, arrowHeadSize);
+
+                    using (Draw.ingame.WithColor(GetUnitActionTypeColor(action.type))) {
+
+                        Draw.ingame.Label2D((Vector3)action.restPath[^1].ToVector3Int(), $"{action.priority}: {action}\n", textSize, LabelAlignment.BottomCenter);
+
+                        if (action.targetUnit is { Position: { } unitPosition })
+                            Draw.ingame.Arrow((Vector3)action.restPath[^1].ToVector3Int(), (Vector3)unitPosition.ToVector3Int(), Vector3.up, arrowHeadSize);
+                        if (action.targetPosition is { } targetPosition)
+                            Draw.ingame.Arrow((Vector3)action.restPath[^1].ToVector3Int(), (Vector3)targetPosition.ToVector3Int(), Vector3.up, arrowHeadSize);
+                        if (action.targetBuilding != null)
+                            Draw.ingame.Arrow((Vector3)action.restPath[^1].ToVector3Int(), (Vector3)action.targetBuilding.position.ToVector3Int(), Vector3.up, arrowHeadSize);
+                    }
                 }
             }
 
@@ -217,19 +241,18 @@ public class AiPlayerCommander : MonoBehaviour {
         }
     }
 
-    public class PotentialUnitAction {
+    public class FutureUnitAction {
         public Unit unit;
         public UnitActionType type;
         public Unit targetUnit;
         public Building targetBuilding;
-        public Vector2Int targetPosition;
+        public Vector2Int? targetPosition;
         public WeaponName weaponName;
         public List<Vector2Int> path;
         public List<Vector2Int> restPath;
         public float priority;
         public override string ToString() {
-	        var text = "";
-	        text += $"{priority}\n";
+            var text = "";
             text += type.ToString();
             if (targetUnit != null)
                 text += $" {targetUnit}";

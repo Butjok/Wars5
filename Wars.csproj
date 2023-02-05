@@ -43,8 +43,10 @@
   <ItemGroup>
      <Compile Include="Assets/Scripts/PreselectionCursor.cs" />
      <Compile Include="Assets/Scripts/Ai.cs" />
+     <Compile Include="Assets/Scripts/PreviousPositions.cs" />
      <Compile Include="Assets/Scripts/Main2.cs" />
      <Compile Include="Assets/Scripts/GameStates/BattleAnimationState.cs" />
+     <Compile Include="Assets/Scripts/Traverser2DebugDrawer.cs" />
      <Compile Include="Assets/Scripts/Editor/MyLightingShaderGUI.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequencePlayer.cs" />
      <Compile Include="Assets/Scripts/GameStates/DefeatState.cs" />
@@ -132,6 +134,7 @@
      <Compile Include="Assets/Scripts/UnitBuildMenuViews.cs" />
      <Compile Include="Assets/Scripts/BattleView.cs" />
      <Compile Include="Assets/Scripts/BuildingMaterialSwitcher.cs" />
+     <Compile Include="Assets/Scripts/PathFinding.cs" />
      <Compile Include="Assets/Scripts/GameSettingsMenu.cs" />
      <Compile Include="Assets/Scripts/UnitBuildMenu.cs" />
      <Compile Include="Assets/Scripts/GameStates/PathSelectionState.cs" />
@@ -140,9 +143,6 @@
      <Compile Include="Assets/Scripts/Level/UnitAction.cs" />
      <Compile Include="Assets/Scripts/StateRunner.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
-     <Compile Include="Assets/Scripts/Traverser2DebugDrawer.cs" />
-     <Compile Include="Assets/Scripts/PreviousPositions.cs" />
-     <Compile Include="Assets/Scripts/PathFinding.cs" />
      <None Include="Assets/Scripts/Wars.asmdef" />
      <Folder Include="Assets/Scripts/Editor" />
      <Folder Include="Assets/Scripts/GameStates" />

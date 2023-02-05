@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stable", "Stable.csproj", "{4d4a23ac-500a-28e4-edf9-8f813c1b07c8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine", "CommandLine.csproj", "{cfa2bab9-b41f-c1bf-2356-298545c86cc5}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShapesRuntime", "ShapesRuntime.csproj", "{12b46e2d-c8b4-27c4-fe3e-45f12104fea2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wars", "Wars.csproj", "{c705eacd-da30-c6e7-d413-bb0e9e9a2f77}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine", "CommandLine.csproj", "{cfa2bab9-b41f-c1bf-2356-298545c86cc5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriorityQueue", "PriorityQueue.csproj", "{fb12a0d3-860b-b4f2-3adb-4a59d5e1cffc}"
 EndProject
@@ -22,6 +22,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DOTween.Modules", "DOTween.Modules.csproj", "{f8cd9e74-1601-dd96-87ab-1cdbe561b5b5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerializableDictionary", "SerializableDictionary.csproj", "{2528cbf2-fe47-72f6-8962-6beddbb0cda3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpressionEvaluator", "ExpressionEvaluator.csproj", "{715685b9-cebc-f678-dead-d33022bb204f}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Antlr4", "Antlr4.csproj", "{e077983a-6b87-9a3d-0ce8-d89551a1fd06}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShapesEditor", "ShapesEditor.csproj", "{7ef8afe9-6f92-dd36-e92c-80c2b583cc97}"
 EndProject
@@ -44,12 +48,12 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{4d4a23ac-500a-28e4-edf9-8f813c1b07c8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4d4a23ac-500a-28e4-edf9-8f813c1b07c8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{cfa2bab9-b41f-c1bf-2356-298545c86cc5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{cfa2bab9-b41f-c1bf-2356-298545c86cc5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{12b46e2d-c8b4-27c4-fe3e-45f12104fea2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{12b46e2d-c8b4-27c4-fe3e-45f12104fea2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{c705eacd-da30-c6e7-d413-bb0e9e9a2f77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{c705eacd-da30-c6e7-d413-bb0e9e9a2f77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{cfa2bab9-b41f-c1bf-2356-298545c86cc5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{cfa2bab9-b41f-c1bf-2356-298545c86cc5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{fb12a0d3-860b-b4f2-3adb-4a59d5e1cffc}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{fb12a0d3-860b-b4f2-3adb-4a59d5e1cffc}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3b447260-4b10-4045-3e9f-0f5a8859983a}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -64,6 +68,10 @@ Global
 		{f8cd9e74-1601-dd96-87ab-1cdbe561b5b5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2528cbf2-fe47-72f6-8962-6beddbb0cda3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2528cbf2-fe47-72f6-8962-6beddbb0cda3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{715685b9-cebc-f678-dead-d33022bb204f}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{715685b9-cebc-f678-dead-d33022bb204f}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{e077983a-6b87-9a3d-0ce8-d89551a1fd06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{e077983a-6b87-9a3d-0ce8-d89551a1fd06}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7ef8afe9-6f92-dd36-e92c-80c2b583cc97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7ef8afe9-6f92-dd36-e92c-80c2b583cc97}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04a2449b-c7cc-f037-fca8-a9c0695f60cf}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
