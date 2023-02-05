@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Butjok.CommandLine;
 using Drawing;
@@ -119,24 +120,32 @@ public class AiPlayerCommander : MonoBehaviour {
         };
     }
 
-    public Stack<string> priorityFormulaHistory = new(); 
+    public Stack<(string text, DateTime dateTime)> priorityFormulaHistory = new();
     [Command]
     public string PriorityFormula {
-        get => priorityFormulaHistory.TryPeek(out var top) ? top : "0";
-        set => priorityFormulaHistory.Push(value);
+        get => priorityFormulaHistory.TryPeek(out var top) ? top.text : "0";
+        set => priorityFormulaHistory.Push((value, DateTime.Now));
     }
     [Command]
     public bool TryPopPriorityFormula() {
         return priorityFormulaHistory.TryPop(out _);
     }
 
+    public static string PriorityFormulasHistoryPath => Path.Combine(Application.dataPath, "PriorityFormula.txt");
+    
     private void Awake() {
-        priorityFormulaHistory.Clear();
-        foreach (var line in PlayerPrefs.GetString(nameof(PriorityFormula), "0").Split("\n"))
-            priorityFormulaHistory.Push(line);
+        if (File.Exists(PriorityFormulasHistoryPath)) {
+            var list = File.ReadAllText(PriorityFormulasHistoryPath).FromJson<List<(string, DateTime)>>();
+            list.Reverse();
+            foreach (var item in list)
+                priorityFormulaHistory.Push(item);
+        }
     }
     private void OnApplicationQuit() {
-        PlayerPrefs.SetString(nameof(PriorityFormula), string.Join("\n", priorityFormulaHistory.Reverse()));
+        var list = new List<(string, DateTime)>();
+        foreach (var item in priorityFormulaHistory)
+            list.Add(item);
+        File.WriteAllText(PriorityFormulasHistoryPath, list.ToJson());
     }
 
     public IEnumerator DrawPotentialUnitActionsCoroutine() {
@@ -232,8 +241,8 @@ public class AiPlayerCommander : MonoBehaviour {
         }
 
         void PrioritizeActions() {
-
-            const int mostExpensiveUnitCost = 16000;
+            
+            var mostExpensiveUnitCost = UnitTypeSettings.Loaded.Values.Max(item => item.cost);
 
             foreach (var action in actions) {
 
@@ -243,7 +252,7 @@ public class AiPlayerCommander : MonoBehaviour {
                 float damageTakenInCredits = 0;
 
                 if (action.type == UnitActionType.Attack) {
-                    
+
                     var isValid = TryGetDamage(action.unit, action.targetUnit, action.weaponName, out var damageDealtInteger);
                     Assert.IsTrue(isValid);
 
@@ -254,6 +263,9 @@ public class AiPlayerCommander : MonoBehaviour {
                 }
 
                 action.priority = ExpressionEvaluator.Evaluate(PriorityFormula,
+                    ("hp", action.unit.Hp),
+                    ("fuel", action.unit.Fuel),
+                    ("hasCargo", action.unit.Cargo.Count > 0 ? 1 : 0),
                     ("pathLength", action.path.Count),
                     ("restPathLength", action.restPath.Count),
                     ("fullPathLength", action.path.Count + action.restPath.Count - 1),
@@ -335,7 +347,7 @@ public class AiPlayerCommander : MonoBehaviour {
                 text += $" {targetUnit}";
             if (targetBuilding != null)
                 text += $" {targetBuilding}";
-            if (targetPosition is {} actualTargetPosition)
+            if (targetPosition is { } actualTargetPosition)
                 text += $" to {actualTargetPosition}";
             if (type == UnitActionType.Attack)
                 text += $" with {weaponName}";

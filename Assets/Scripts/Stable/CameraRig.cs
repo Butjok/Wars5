@@ -41,6 +41,7 @@ public class CameraRig : MonoBehaviour {
 	}
 
 	public float speed = 1.5f;
+	public Vector2 speedRange = new Vector2(1,10);
 	public float speedMultiplier = 1;
 	[NonSerialized] public Vector2 velocity;
 	public float velocitySmoothTime = 0.05f;
