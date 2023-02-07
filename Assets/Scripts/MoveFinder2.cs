@@ -48,6 +48,7 @@ public static class MoveFinder2 {
         public TileType tileType;
         public int g;
         public Vector2Int? cameFrom;
+        public bool closed;
     }
 
     public static Unit unit;
@@ -78,6 +79,7 @@ public static class MoveFinder2 {
         nodes.Clear();
         priorityQueue.Clear();
         destinations.Clear();
+        closed.Clear();
 
         foreach (var (position, tileType) in unit.Player.main.tiles) {
             var node = new Node {
@@ -96,6 +98,10 @@ public static class MoveFinder2 {
             if (!onlyStayPositions || Rules.CanStay(unit, position))
                 destinations.Add(position);
 
+            
+            current.closed = true;
+            nodes[position] = current;
+            
             foreach (var offset in offsets) {
                 var neighborPosition = position + offset;
 
@@ -109,8 +115,8 @@ public static class MoveFinder2 {
 
                         neighbor.g = alternativeG;
                         neighbor.cameFrom = position;
-
                         nodes[neighborPosition] = neighbor;
+                        
                         priorityQueue.UpdatePriority(neighborPosition, neighbor.g);
                     }
                 }
@@ -136,7 +142,8 @@ public static class MoveFinder2 {
         
         if (goals.Count == 0)
             return false;
-        
+
+        // TODO: do not clear queue!!!
         priorityQueue.Clear();
         foreach (var (position,node) in nodes)
             priorityQueue.Enqueue(position, node.g + H(position));
@@ -155,6 +162,12 @@ public static class MoveFinder2 {
                     }
                 throw new AssertionException("no valid destination was found", null);
             }
+            
+            if (current.closed)
+                continue;
+
+            current.closed = true;
+            nodes[position] = current;
 
             foreach (var offset in offsets) {
                 var neighborPosition = position + offset;
@@ -169,8 +182,8 @@ public static class MoveFinder2 {
 
                         neighbor.g = alternativeG;
                         neighbor.cameFrom = position;
-
                         nodes[neighborPosition] = neighbor;
+                        
                         priorityQueue.UpdatePriority(neighborPosition, neighbor.g + H(neighborPosition));
                     }
                 }
