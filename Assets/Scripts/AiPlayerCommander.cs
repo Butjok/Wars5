@@ -23,7 +23,7 @@ public class AiPlayerCommander : MonoBehaviour {
         public Building targetBuilding;
         public Vector2Int? targetPosition;
         public WeaponName weaponName;
-        public List<Vector2Int> fullPath, path;
+        public List<Vector2Int> path, restPath;
 
         public float priority;
 
@@ -132,7 +132,7 @@ public class AiPlayerCommander : MonoBehaviour {
                     // if unit cannot move the entire path change the action type to stay
                     // also if an artillery unit is trying to attack somebody but it moves first - change to stay as well
                     if (selectedAction != null &&
-                        (selectedAction.fullPath[^1] != selectedAction.path[^1] ||
+                        (selectedAction.restPath[^1] != selectedAction.path[^1] ||
                          selectedAction.path.Count > 1 && IsArtillery(selectedAction.unit)))
 
                         selectedAction.type = UnitActionType.Stay;
@@ -218,14 +218,15 @@ public class AiPlayerCommander : MonoBehaviour {
         var buildingsToCapture = main.buildings.Values.Where(building => CanCapture(unit, building));
         foreach (var building in buildingsToCapture) {
             Goal = building.position;
-            if (TryFindPath(out var goal, out var destination))
+            if (TryFindPath(out var path, out var restPath)) {
                 yield return new PotentialUnitAction {
                     unit = unit,
                     type = UnitActionType.Capture,
                     targetBuilding = building,
-                    fullPath = ReconstructPath(goal),
-                    path = ReconstructPath(destination)
+                    path = path,
+                    restPath = restPath
                 };
+            }
         }
 
         //
@@ -251,19 +252,15 @@ public class AiPlayerCommander : MonoBehaviour {
 
             foreach (var target in main.units.Values) {
 
-                List<Vector2Int> fullPath = null;
                 List<Vector2Int> path = null;
+                List<Vector2Int> restPath = null;
 
                 foreach (var weaponName in GetWeaponNames(unit))
                     if (CanAttack(unit, target, weaponName)) {
 
                         if (path == null) {
                             Goals = main.PositionsInRange(target.NonNullPosition, attackRange).Where(position => CanStay(unit, position));
-                            if (TryFindPath(out var goal, out var destination)) {
-                                fullPath = ReconstructPath(goal);
-                                path = ReconstructPath(destination);
-                            }
-                            else
+                            if (!TryFindPath(out path, out restPath))
                                 break;
                         }
 
@@ -272,8 +269,8 @@ public class AiPlayerCommander : MonoBehaviour {
                             type = UnitActionType.Attack,
                             targetUnit = target,
                             weaponName = weaponName,
-                            fullPath = fullPath,
-                            path = path
+                            path=path,
+                            restPath = restPath
                         };
                     }
             }
@@ -307,9 +304,9 @@ public class AiPlayerCommander : MonoBehaviour {
                 ("fuel", action.unit.Fuel),
                 ("hasCargo", action.unit.Cargo.Count > 0 ? 1 : 0),
                 ("pathLength", action.path.Count),
-                ("fullPathLength", action.fullPath.Count),
+                ("fullPathLength", action.path.Count + action.restPath.Count-1),
                 ("pathCost", CalculatePathCost(action.unit, action.path)),
-                ("fullPathCost", CalculatePathCost(action.unit, action.fullPath)),
+                ("fullPathCost", CalculatePathCost(action.unit, action.path.Concat(action.restPath.Skip(1)))),
                 (nameof(damageDealt), damageDealt),
                 (nameof(damageDealtInCredits), damageDealtInCredits),
                 (nameof(damageTaken), damageTaken),
@@ -354,15 +351,15 @@ public class AiPlayerCommander : MonoBehaviour {
                         Draw.ingame.Arrow((Vector3)action.path[i - 1].ToVector3Int(), (Vector3)action.path[i].ToVector3Int(), Vector3.up, arrowHeadSize, color);
 
                 using (Draw.ingame.WithLineWidth(restPathThickness))
-                    for (var i = action.path.Count; i < action.fullPath.Count; i++)
-                        Draw.ingame.Arrow((Vector3)action.fullPath[i - 1].ToVector3Int(), (Vector3)action.fullPath[i].ToVector3Int(), Vector3.up, arrowHeadSize, color * restPathAlpha);
+                    for (var i = 1; i < action.restPath.Count; i++)
+                        Draw.ingame.Arrow((Vector3)action.restPath[i - 1].ToVector3Int(), (Vector3)action.restPath[i].ToVector3Int(), Vector3.up, arrowHeadSize, color * restPathAlpha);
 
                 using (Draw.ingame.WithLineWidth(actionLineThickness))
                 using (Draw.ingame.WithColor(GetUnitActionTypeColor(action.type))) {
 
                     //Draw.ingame.Label2D((Vector3)action.restPath[^1].ToVector3Int(), $"{action.priority}: {action}\n", textSize, LabelAlignment.BottomCenter);
 
-                    var from = (Vector3)action.fullPath[^1].ToVector3Int();
+                    var from = (Vector3)action.restPath[^1].ToVector3Int();
                     if (action.targetUnit is { Position: { } unitPosition }) {
                         var to = (Vector3)unitPosition.ToVector3Int();
                         Draw.ingame.Line(Vector3.Lerp(from, to, actionLineLerp[0]), Vector3.Lerp(from, to, actionLineLerp[1]));

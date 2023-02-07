@@ -48,6 +48,7 @@
      <Compile Include="Assets/Scripts/GameStates/BattleAnimationState.cs" />
      <Compile Include="Assets/Scripts/Traverser2DebugDrawer.cs" />
      <Compile Include="Assets/Scripts/Editor/MyLightingShaderGUI.cs" />
+     <Compile Include="Assets/Scripts/AiPlayerCommanderSwitcher.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequencePlayer.cs" />
      <Compile Include="Assets/Scripts/GameStates/DefeatState.cs" />
      <Compile Include="Assets/Scripts/MainMenuView.cs" />
@@ -146,7 +147,6 @@
      <Compile Include="Assets/Scripts/Level/UnitAction.cs" />
      <Compile Include="Assets/Scripts/StateRunner.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
-     <Compile Include="Assets/Scripts/AiPlayerCommanderSwitcher.cs" />
      <None Include="Assets/Scripts/Wars.asmdef" />
      <Folder Include="Assets/Scripts/Editor" />
      <Folder Include="Assets/Scripts/GameStates" />
