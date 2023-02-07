@@ -100,8 +100,7 @@ public static class MoveFinder2 {
 
                 if (nodes.TryGetValue(neighborPosition, out var neighbor) &&
                     Rules.TryGetMoveCost(unit, neighbor.tileType, out var cost) &&
-                    Rules.CanPass(unit, neighborPosition) &&
-                    priorityQueue.Contains(neighborPosition)) {
+                    Rules.CanPass(unit, neighborPosition)) {
 
                     var alternativeG = current.g + cost;
                     if (alternativeG < neighbor.g) {
@@ -163,8 +162,7 @@ public static class MoveFinder2 {
 
                 if (nodes.TryGetValue(neighborPosition, out var neighbor) &&
                     Rules.TryGetMoveCost(unit, neighbor.tileType, out var cost) &&
-                    Rules.CanPass(unit, neighborPosition) &&
-                    priorityQueue.Contains(neighborPosition)) {
+                    Rules.CanPass(unit, neighborPosition)) {
 
                     var alternativeG = current.g + cost;
                     if (alternativeG < neighbor.g) {

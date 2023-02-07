@@ -1,0 +1,26 @@
+LevelEditor                                                      game.load-scene
+Tutorial MissionName type enum                                   game.set-mission-name
+0                                                                game.set-turn
+                                                                 
+
+
+
+
+A TriggerName type enum                                          trigger.select
+
+B TriggerName type enum                                          trigger.select
+
+C TriggerName type enum                                          trigger.select
+
+D TriggerName type enum                                          trigger.select
+
+E TriggerName type enum                                          trigger.select
+
+F TriggerName type enum                                          trigger.select
+
+
+-11.86704 0 -13.85227 float3                                     camera-rig.set-position
+315                                                              camera-rig.set-rotation
+40                                                               camera-rig.set-distance
+40.36793                                                         camera-rig.set-pitch-angle
+20                                                               camera-rig.set-fov

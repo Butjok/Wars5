@@ -423,31 +423,23 @@ public class Main2 : Main {
         return true;
     }
 
+    [Command]
+    public void ResetToDefaultLevel() {
+        
+        Clear();
+        
+        var red = new Player(this, Palette.red, Team.Alpha, credits: 16000, unitLookDirection: Vector2Int.right);
+        var blue = new Player(this, Palette.blue, Team.Bravo, credits: 16000, unitLookDirection: Vector2Int.left);
+        localPlayer = red;
+        player = red;
+        
+        RebuildTilemapMesh();
+    }
+
     public IEnumerator<StateChange> Run() {
 
-        Clear();
-
-        if (!TryGetLatestSaveFilePath("autosave", out var path)) {
-            var red = new Player(this, Palette.red, Team.Alpha, credits: 16000, unitLookDirection: Vector2Int.right);
-            var blue = new Player(this, Palette.blue, Team.Bravo, credits: 16000, unitLookDirection: Vector2Int.left);
-            localPlayer = red;
-            player = red;
-
-            var min = new Vector2Int(-5, -5);
-            var max = new Vector2Int(5, 5);
-
-            for (var y = min.y; y <= max.y; y++)
-            for (var x = min.x; x <= max.x; x++)
-                tiles.Add(new Vector2Int(x, y), TileType.Plain);
-
-            new Building(this, min, TileType.Hq, red, viewPrefab: "WbFactory".LoadAs<BuildingView>());
-            new Building(this, max, TileType.Hq, blue, viewPrefab: "WbFactory".LoadAs<BuildingView>());
-
-            new Unit(red, UnitType.Infantry, min);
-            new Unit(blue, UnitType.Infantry, max);
-
-            RebuildTilemapMesh();
-        }
+        if (!TryGetLatestSaveFilePath("autosave", out var path))
+            ResetToDefaultLevel();
         else
             Load("autosave");
 
