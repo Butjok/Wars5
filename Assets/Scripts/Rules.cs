@@ -213,14 +213,14 @@ public static class Rules {
         return CanSupply(unit.type) && AreAllies(unit.Player, target.Player) && (unit != target);
     }
 
-    public static int MoveDistance(Unit unit) {
-        var moveDistance = MoveDistance(unit.type, unit.Player);
+    public static int MoveCapacity(Unit unit) {
+        var moveDistance = MoveCapacity(unit.type, unit.Player);
         if (unit.Player.co == Co.Natalie && unit.Player.abilityActivationTurn != null)
             moveDistance += 5;
         return Min(unit.Fuel, moveDistance);
     }
 
-    public static int MoveDistance(UnitType unitType, Player player) {
+    public static int MoveCapacity(UnitType unitType, Player player) {
         return UnitTypeSettings.Loaded.TryGetValue(unitType, out var settings) ? settings.moveDistance : 0;
     }
 
@@ -267,7 +267,7 @@ public static class Rules {
             var unreachable = !unit.Player.main.TryGetTile(position, out var tile) ||
                               unit.Player.main.TryGetUnit(position, out var other) && !CanPass(unit, other) ||
                               !TryGetMoveCost(unit, tile, out cost) ||
-                              truncateToMoveDistance && distance + cost > MoveDistance(unit);
+                              truncateToMoveDistance && distance + cost > MoveCapacity(unit);
             return !unreachable;
         }
 

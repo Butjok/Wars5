@@ -10,6 +10,14 @@ using UnityEngine.Assertions;
 
 public class Main : StateRunner {
 
+    private static Main instance;
+    public static bool TryFind(out Main main) {
+        if (!instance)
+            instance = FindObjectOfType<Main>();
+        main = instance;
+        return instance;
+    }
+    
     public Traverser traverser = new();
 
     [Command]

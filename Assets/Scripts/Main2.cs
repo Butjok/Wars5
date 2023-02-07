@@ -181,7 +181,7 @@ public class Main2 : Main {
             GUILayout.Label($"position:\t{inspectedUnit.Position}");
             GUILayout.Label($"moved:\t{inspectedUnit.Moved}");
             GUILayout.Label($"hp:\t{inspectedUnit.Hp} / {MaxHp(inspectedUnit)}");
-            GUILayout.Label($"moveDistance:\t{MoveDistance(inspectedUnit)}");
+            GUILayout.Label($"moveDistance:\t{MoveCapacity(inspectedUnit)}");
 
             GUILayout.Label($"fuel:\t{inspectedUnit.Fuel} / {MaxFuel(inspectedUnit)}");
             var weaponNames = GetWeaponNames(inspectedUnit).ToArray();

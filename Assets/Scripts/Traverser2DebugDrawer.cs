@@ -119,7 +119,7 @@ public class Traverser2 : Dictionary<Vector2Int, Traverser2.Tile> {
 	}
 
 	public List<Vector2Int> TruncatePathToStay(IEnumerable<Vector2Int> fullPath, Unit unit) {
-		var moveDistance = Rules.MoveDistance(unit);
+		var moveDistance = Rules.MoveCapacity(unit);
 		var validPath = new List<Vector2Int>();
 		var isFirst = true;
 		var distanceAtUnit = 0;

@@ -3,7 +3,7 @@ using Butjok.CommandLine;
 using Drawing;
 using UnityEngine;
 
-public class MoveFinderDebugDrawer : MonoBehaviour {
+/*public class MoveFinderDebugDrawer : MonoBehaviour {
 
     public Vector3 textPosition = new Vector3(50, 100, 0);
 
@@ -49,4 +49,4 @@ public class MoveFinderDebugDrawer : MonoBehaviour {
             }
         }
     }
-}
+}*/

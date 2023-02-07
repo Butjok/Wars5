@@ -9,7 +9,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
 
-public static class MoveFinder {
+public static class MoveFinder3 {
 
     public struct Node {
         public TileType tileType;
@@ -66,9 +66,9 @@ public static class MoveFinder {
 
         var found = TryFindMove(unit, goals: goals, onlyValidStayDestinations: onlyValidStayDestinations);
 
-        var debugDrawer = Object.FindObjectOfType<MoveFinderDebugDrawer>();
-        if (debugDrawer)
-            debugDrawer.Show = found;
+        //var debugDrawer = Object.FindObjectOfType<MoveFinderDebugDrawer>();
+        //if (debugDrawer)
+        //    debugDrawer.Show = found;
 
         return found;
     }
@@ -113,7 +113,7 @@ public static class MoveFinder {
             priorityQueue.Enqueue(position, node.F);
         }
 
-        var maxCost = Rules.MoveDistance(unit);
+        var maxCost = Rules.MoveCapacity(unit);
 
         while (priorityQueue.TryDequeue(out var position)) {
             var current = moveNodes[position];

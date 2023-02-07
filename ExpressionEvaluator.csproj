@@ -41,13 +41,13 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets/ExpressionEvaluator/Parsers/ArithmeticBaseVisitor.cs" />
-     <Compile Include="Assets/ExpressionEvaluator/ExpressionEvaluator.cs" />
-     <Compile Include="Assets/ExpressionEvaluator/Parsers/ArithmeticListener.cs" />
-     <Compile Include="Assets/ExpressionEvaluator/Parsers/ArithmeticParser.cs" />
-     <Compile Include="Assets/ExpressionEvaluator/Parsers/ArithmeticLexer.cs" />
      <Compile Include="Assets/ExpressionEvaluator/Parsers/ArithmeticVisitor.cs" />
      <Compile Include="Assets/ExpressionEvaluator/Parsers/ArithmeticBaseListener.cs" />
+     <Compile Include="Assets/ExpressionEvaluator/Parsers/ArithmeticBaseVisitor.cs" />
+     <Compile Include="Assets/ExpressionEvaluator/Parsers/ArithmeticParser.cs" />
+     <Compile Include="Assets/ExpressionEvaluator/ExpressionEvaluator.cs" />
+     <Compile Include="Assets/ExpressionEvaluator/Parsers/ArithmeticListener.cs" />
+     <Compile Include="Assets/ExpressionEvaluator/Parsers/ArithmeticLexer.cs" />
      <Folder Include="Assets/ExpressionEvaluator/Parsers" />
      <Folder Include="Assets/ExpressionEvaluator" />
      <None Include="Assets/ExpressionEvaluator/ExpressionEvaluator.asmdef" />

@@ -22,7 +22,7 @@ public static class PathSelectionState {
             throw new AssertionException("unit.position.v != null", "");
         Assert.IsTrue(main.tiles.ContainsKey(unitPosition));
 
-        var moveDistance = Rules.MoveDistance(unit);
+        var moveDistance = Rules.MoveCapacity(unit);
 
         var traverser = new Traverser();
         traverser.Traverse(main.tiles.Keys, unitPosition, Rules.GetMoveCostFunction(unit));

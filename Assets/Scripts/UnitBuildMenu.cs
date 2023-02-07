@@ -89,7 +89,7 @@ public class UnitBuildMenu : MonoBehaviour {
             typeName.text = string.Format(typeNameFormat, info.name);
             description.text = string.Format(descriptionFormat, info.description);
             thumbnail.sprite = info.thumbnail;
-            moveDistance.text = Rules.MoveDistance(unitType, player).ToString();
+            moveDistance.text = Rules.MoveCapacity(unitType, player).ToString();
             var cost = Rules.Cost(unitType, player);
             this.cost.text = string.Format(costFormat, cost);
 
