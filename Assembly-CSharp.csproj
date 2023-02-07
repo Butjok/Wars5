@@ -84,7 +84,6 @@
      <Folder Include="Assets/Settings" />
      <None Include="Assets/Content/MovePathUnlit.shader" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Quad Multiplicative.shader" />
-     <Folder Include="Assets/NaughtyAttributes/Samples" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Line 3D Darken.shader" />
      <Folder Include="Assets/Shapes/Shaders/Core" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Sphere LinearBurn.shader" />
@@ -94,6 +93,7 @@
      <None Include="Assets/Shapes/Shaders/DashUtils.cginc" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Polygon Additive.shader" />
      <None Include="Assets/Saves/0/0-22.01.2023-18.22.53.txt" />
+     <None Include="Assets/Saves/autosave/autosave-07.02.2023-08.50.04.txt" />
      <Folder Include="Assets/Scenery Materials" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Cuboid ColorDodge.shader" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Line 2D ColorBurn.shader" />
@@ -117,7 +117,6 @@
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Quad LinearBurn.shader" />
      <None Include="Assets/Shaders/test.shader" />
      <None Include="Assets/Saves/1/1-22.01.2023-19.32.58.txt" />
-     <None Include="Assets/Saves/autosave/autosave-07.02.2023-07.00.59.txt" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Polyline 2D Subtractive.shader" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Disc ColorDodge.shader" />
      <None Include="Assets/Saves/1/1-22.01.2023-19.38.06.txt" />
@@ -127,7 +126,6 @@
      <None Include="Assets/Shaders/Flow.cginc" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Polyline 2D Multiplicative.shader" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Cuboid LinearBurn.shader" />
-     <Folder Include="Assets/NaughtyAttributes/Samples/DemoScene/TestAssets" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Polygon Lighten.shader" />
      <None Include="Assets/Shaders/leaves.shader" />
      <None Include="Assets/Saves/test.1/20.01.2023-09.23.01.txt" />
@@ -206,7 +204,6 @@
      <None Include="Assets/Roboto/LICENSE.txt" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Quad Screen.shader" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Cuboid Additive.shader" />
-     <Folder Include="Assets/NaughtyAttributes/Scripts" />
      <None Include="Assets/Shapes/Shaders/Core/Regular Polygon Core.cginc" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Polyline 2D Lighten.shader" />
      <Folder Include="Assets/JsonDotNet/Documentation" />
@@ -225,7 +222,6 @@
      <None Include="Assets/Shaders/Unit.shader" />
      <None Include="Assets/Saves/1/1-22.01.2023-19.40.42.txt" />
      <Folder Include="Assets/Shapes/Shaders/Generated Materials" />
-     <None Include="Assets/Saves/autosave/autosave-07.02.2023-07.01.18.txt" />
      <None Include="Assets/Resources/Funny.txt" />
      <None Include="Assets/Shaders/Difference.shader" />
      <None Include="Assets/Shaders/TileArea.shader" />
@@ -243,7 +239,6 @@
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Line 2D Additive.shader" />
      <None Include="Assets/Shaders/water.shader" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Cuboid Subtractive.shader" />
-     <None Include="Assets/Saves/autosave/autosave-07.02.2023-07.00.26.txt" />
      <None Include="Assets/Shapes/Shaders/Shapes Math.cginc" />
      <None Include="Assets/Shaders/ShrinkToTerrain.shader" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Regular Polygon ColorDodge.shader" />
@@ -301,7 +296,6 @@
      <None Include="Assets/Saves/0/0-22.01.2023-18.53.34.txt" />
      <None Include="Assets/Saves/test/test-31.01.2023-04.24.37.txt" />
      <None Include="Assets/Shapes/Shaders/Core/Torus Core.cginc" />
-     <None Include="Assets/Saves/autosave/autosave-07.02.2023-07.12.34.txt" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro_Surface.cginc" />
      <None Include="Assets/Shaders/FrostedGlass.shader" />
      <Folder Include="Assets/TextMesh Pro/Shaders" />
@@ -347,10 +341,8 @@
      <Folder Include="Assets/Textures/Detail" />
      <None Include="Assets/Saves/0/0-22.01.2023-19.37.40.txt" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Cone Transparent.shader" />
-     <None Include="Assets/NaughtyAttributes/package.json" />
      <Folder Include="Assets/Content/Whiteboxes/Resources" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Torus Lighten.shader" />
-     <None Include="Assets/Saves/autosave/autosave-07.02.2023-07.01.44.txt" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Torus ColorBurn.shader" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Cone LinearBurn.shader" />
      <Folder Include="Assets/Textures/Cookies" />
@@ -361,6 +353,7 @@
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Texture ColorBurn.shader" />
      <None Include="Assets/Saves/0/0-27.01.2023-21.16.19.txt" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Cone Opaque.shader" />
+     <None Include="Assets/Saves/autosave/autosave-07.02.2023-08.53.15.txt" />
      <Folder Include="Assets/Music" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Regular Polygon Subtractive.shader" />
      <None Include="Assets/Shapes/Shaders/Shapes Config.cginc" />
@@ -368,7 +361,6 @@
      <None Include="Assets/Saves/0/0-22.01.2023-18.53.29.txt" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Torus Subtractive.shader" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Triangle Subtractive.shader" />
-     <Folder Include="Assets/NaughtyAttributes" />
      <None Include="Assets/Shaders/Texture Splatting.shader" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Triangle Additive.shader" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Polygon Transparent.shader" />
@@ -406,7 +398,6 @@
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Texture ColorDodge.shader" />
      <None Include="Assets/Shapes/Shaders/Core/Cuboid Core.cginc" />
      <Folder Include="Assets/Resources/Settings" />
-     <None Include="Assets/Saves/autosave/autosave-07.02.2023-07.04.29.txt" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF Overlay.shader" />
      <Folder Include="Assets/Saves/second-stage" />
      <Folder Include="Assets/Scenes/SampleScene_Profiles" />
@@ -461,7 +452,6 @@
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Sphere Transparent.shader" />
      <Folder Include="Assets/Saves/full-map" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Sphere Opaque.shader" />
-     <Folder Include="Assets/NaughtyAttributes/Samples/DemoScene" />
      <None Include="Assets/Saves/1/1-22.01.2023-18.56.26.txt" />
      <Folder Include="Assets/Resources/Missions" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_Sprite.shader" />
@@ -1502,10 +1492,6 @@
       <Project>{43aaa90b-c5d9-652a-ca3b-1b1dfd4561ce}</Project>
       <Name>ShapesSamples</Name>
     </ProjectReference>
-    <ProjectReference Include="NaughtyAttributes.Editor.csproj">
-      <Project>{2283bc70-f4b1-c827-ae35-47856a659745}</Project>
-      <Name>NaughtyAttributes.Editor</Name>
-    </ProjectReference>
     <ProjectReference Include="ALINE.csproj">
       <Project>{3b447260-4b10-4045-3e9f-0f5a8859983a}</Project>
       <Name>ALINE</Name>
@@ -1513,10 +1499,6 @@
     <ProjectReference Include="Wars.csproj">
       <Project>{c705eacd-da30-c6e7-d413-bb0e9e9a2f77}</Project>
       <Name>Wars</Name>
-    </ProjectReference>
-    <ProjectReference Include="NaughtyAttributes.Test.csproj">
-      <Project>{3a5c68ff-0c37-5a04-eeb5-b476c252a071}</Project>
-      <Name>NaughtyAttributes.Test</Name>
     </ProjectReference>
     <ProjectReference Include="Antlr4.csproj">
       <Project>{e077983a-6b87-9a3d-0ce8-d89551a1fd06}</Project>
@@ -1537,10 +1519,6 @@
     <ProjectReference Include="ShapesRuntime.csproj">
       <Project>{12b46e2d-c8b4-27c4-fe3e-45f12104fea2}</Project>
       <Name>ShapesRuntime</Name>
-    </ProjectReference>
-    <ProjectReference Include="NaughtyAttributes.Core.csproj">
-      <Project>{5ccc8ce6-f673-4826-5288-bf1032968ca6}</Project>
-      <Name>NaughtyAttributes.Core</Name>
     </ProjectReference>
     <ProjectReference Include="ShapesEditor.csproj">
       <Project>{7ef8afe9-6f92-dd36-e92c-80c2b583cc97}</Project>

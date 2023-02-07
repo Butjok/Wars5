@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 using Butjok.CommandLine;
 using Drawing;
 using Priority_Queue;
@@ -11,7 +10,6 @@ public static class MoveFinder2 {
 
     private static readonly HashSet<Vector2Int> goals = new();
     public static IEnumerable<Vector2Int> Goals {
-        get => goals;
         set {
             goals.Clear();
             foreach (var position in value)
@@ -48,13 +46,13 @@ public static class MoveFinder2 {
         public TileType tileType;
         public int g;
         public Vector2Int? cameFrom;
-        public bool closed;
     }
 
     public static Unit unit;
     public static readonly Dictionary<Vector2Int, Node> nodes = new();
     public static readonly SimplePriorityQueue<Vector2Int> priorityQueue = new();
     public static readonly HashSet<Vector2Int> destinations = new();
+    public static readonly HashSet<Vector2Int> closed = new();
 
     public const int infinity = 9999;
     public static readonly IReadOnlyList<Vector2Int> offsets = new[] { Vector2Int.right, Vector2Int.left, Vector2Int.up, Vector2Int.down };
@@ -69,7 +67,7 @@ public static class MoveFinder2 {
             foreach (var position in destinations)
                 Draw.ingame.SolidCircleXZ((Vector3)position.ToVector3Int(), .5f, Color.cyan);
     }
-    
+
     public static void FindDestinations(Unit unit, bool onlyStayPositions = true) {
 
         MoveFinder2.unit = unit;
@@ -90,18 +88,13 @@ public static class MoveFinder2 {
             priorityQueue.Enqueue(position, node.g);
         }
 
-        while (priorityQueue.TryDequeue(out var position)) {
-            var current = nodes[position];
-            if (current.g > moveCapacity)
-                break;
+        while (priorityQueue.TryDequeue(out var position) && nodes.TryGetValue(position, out var current) && current.g < infinity) {
+
+            closed.Add(position);
 
             if (!onlyStayPositions || Rules.CanStay(unit, position))
                 destinations.Add(position);
 
-            
-            current.closed = true;
-            nodes[position] = current;
-            
             foreach (var offset in offsets) {
                 var neighborPosition = position + offset;
 
@@ -116,11 +109,15 @@ public static class MoveFinder2 {
                         neighbor.g = alternativeG;
                         neighbor.cameFrom = position;
                         nodes[neighborPosition] = neighbor;
-                        
+
                         priorityQueue.UpdatePriority(neighborPosition, neighbor.g);
                     }
                 }
             }
+
+            // stop Dijkstra after relaxing neighbour tiles
+            if (current.g > moveCapacity)
+                break;
         }
 
         Assert.AreNotEqual(0, destinations.Count);
@@ -131,43 +128,35 @@ public static class MoveFinder2 {
         TryFindPath(out _, out _);
         using (Draw.ingame.WithDuration(5))
             foreach (var position in closed)
-                Draw.ingame.SolidCircleXZ((Vector3)position.ToVector3Int(), .5f, Color.yellow);   
+                Draw.ingame.SolidCircleXZ((Vector3)position.ToVector3Int(), .5f, Color.yellow);
     }
-
-    public static HashSet<Vector2Int> closed = new();
 
     public static bool TryFindPath(out Vector2Int goal, out Vector2Int destination) {
 
         goal = destination = default;
-        
+
         if (goals.Count == 0)
             return false;
 
-        // TODO: do not clear queue!!!
-        priorityQueue.Clear();
-        foreach (var (position,node) in nodes)
-            priorityQueue.Enqueue(position, node.g + H(position));
-
-        while (priorityQueue.TryDequeue(out var position)) {
-            var current = nodes[position];
-            if (current.g >= infinity)
-                return false;
-            
-            if (goals.Contains(position)) {
+        var minG = infinity;
+        var allGoalsAreClosed = true;
+        foreach (var position in goals) {
+            if (nodes[position].g < minG) {
+                minG = nodes[position].g;
                 goal = position;
-                for (Vector2Int? i = position; i is { } value; i = nodes[value].cameFrom)
-                    if (destinations.Contains(value)) {
-                        destination = value;
-                        return true;
-                    }
-                throw new AssertionException("no valid destination was found", null);
             }
-            
-            if (current.closed)
-                continue;
+            if (allGoalsAreClosed && priorityQueue.Contains(position))
+                allGoalsAreClosed = false;
+        }
+        if (allGoalsAreClosed && minG >= infinity)
+            return false;
 
-            current.closed = true;
-            nodes[position] = current;
+        foreach (var position in priorityQueue)
+            priorityQueue.UpdatePriority(position, nodes[position].g + H(position));
+
+        while (priorityQueue.TryDequeue(out var position) && nodes.TryGetValue(position, out var current) && current.g < infinity) {
+
+            closed.Add(position);
 
             foreach (var offset in offsets) {
                 var neighborPosition = position + offset;
@@ -183,14 +172,30 @@ public static class MoveFinder2 {
                         neighbor.g = alternativeG;
                         neighbor.cameFrom = position;
                         nodes[neighborPosition] = neighbor;
-                        
+
                         priorityQueue.UpdatePriority(neighborPosition, neighbor.g + H(neighborPosition));
                     }
                 }
             }
+
+            if (goals.Contains(position)) {
+                if (current.g < minG) {
+                    minG = current.g;
+                    goal = position;
+                }
+                break;
+            }
         }
 
-        return false;
+        if (minG >= infinity)
+            return false;
+
+        for (Vector2Int? i = goal; i is { } value; i = nodes[value].cameFrom)
+            if (destinations.Contains(value)) {
+                destination = value;
+                return true;
+            }
+        throw new AssertionException("no valid destination was found", null);
     }
 
     public static List<Vector2Int> ReconstructPath(Vector2Int position) {

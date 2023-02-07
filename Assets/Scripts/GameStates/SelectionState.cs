@@ -136,7 +136,7 @@ public static class SelectionState {
                             var position = main.stack.Pop<Vector2Int>();
                             var position3d = position.Raycast();
                             
-                            Debug.Log($"selecting unit at {position}");
+//                            Debug.Log($"selecting unit at {position}");
                             
                             var camera = Camera.main;
                             if (camera && cameraRig && preselectionCursor && !preselectionCursor.VisibleOnTheScreen(camera, position3d)) {

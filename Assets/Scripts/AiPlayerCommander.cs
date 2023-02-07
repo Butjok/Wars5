@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using Butjok.CommandLine;
 using Drawing;
-using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Assertions;
 using static Rules;
@@ -261,7 +260,6 @@ public class AiPlayerCommander : MonoBehaviour {
                         if (path == null) {
                             Goals = main.PositionsInRange(target.NonNullPosition, attackRange).Where(position => CanStay(unit, position));
                             if (TryFindPath(out var goal, out var destination)) {
-                                // Debug.Log($"{unit} -> {target} -> {weaponName}", unit.view);
                                 fullPath = ReconstructPath(goal);
                                 path = ReconstructPath(destination);
                             }

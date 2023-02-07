@@ -1,15 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NaughtyAttributes.Test", "NaughtyAttributes.Test.csproj", "{3a5c68ff-0c37-5a04-eeb5-b476c252a071}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stable", "Stable.csproj", "{4d4a23ac-500a-28e4-edf9-8f813c1b07c8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Antlr4", "Antlr4.csproj", "{e077983a-6b87-9a3d-0ce8-d89551a1fd06}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShapesRuntime", "ShapesRuntime.csproj", "{12b46e2d-c8b4-27c4-fe3e-45f12104fea2}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NaughtyAttributes.Core", "NaughtyAttributes.Core.csproj", "{5ccc8ce6-f673-4826-5288-bf1032968ca6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wars", "Wars.csproj", "{c705eacd-da30-c6e7-d413-bb0e9e9a2f77}"
 EndProject
@@ -31,8 +27,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpressionEvaluator", "Expr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerializableDictionary", "SerializableDictionary.csproj", "{2528cbf2-fe47-72f6-8962-6beddbb0cda3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NaughtyAttributes.Editor", "NaughtyAttributes.Editor.csproj", "{2283bc70-f4b1-c827-ae35-47856a659745}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShapesEditor", "ShapesEditor.csproj", "{7ef8afe9-6f92-dd36-e92c-80c2b583cc97}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ALINEEditor", "ALINEEditor.csproj", "{04a2449b-c7cc-f037-fca8-a9c0695f60cf}"
@@ -52,16 +46,12 @@ Global
 		Debug|Any CPU = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3a5c68ff-0c37-5a04-eeb5-b476c252a071}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3a5c68ff-0c37-5a04-eeb5-b476c252a071}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4d4a23ac-500a-28e4-edf9-8f813c1b07c8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4d4a23ac-500a-28e4-edf9-8f813c1b07c8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{e077983a-6b87-9a3d-0ce8-d89551a1fd06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{e077983a-6b87-9a3d-0ce8-d89551a1fd06}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{12b46e2d-c8b4-27c4-fe3e-45f12104fea2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{12b46e2d-c8b4-27c4-fe3e-45f12104fea2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5ccc8ce6-f673-4826-5288-bf1032968ca6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5ccc8ce6-f673-4826-5288-bf1032968ca6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{c705eacd-da30-c6e7-d413-bb0e9e9a2f77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{c705eacd-da30-c6e7-d413-bb0e9e9a2f77}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{cfa2bab9-b41f-c1bf-2356-298545c86cc5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -82,8 +72,6 @@ Global
 		{715685b9-cebc-f678-dead-d33022bb204f}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2528cbf2-fe47-72f6-8962-6beddbb0cda3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2528cbf2-fe47-72f6-8962-6beddbb0cda3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2283bc70-f4b1-c827-ae35-47856a659745}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2283bc70-f4b1-c827-ae35-47856a659745}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7ef8afe9-6f92-dd36-e92c-80c2b583cc97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7ef8afe9-6f92-dd36-e92c-80c2b583cc97}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04a2449b-c7cc-f037-fca8-a9c0695f60cf}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

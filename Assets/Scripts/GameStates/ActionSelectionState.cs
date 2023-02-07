@@ -82,7 +82,7 @@ public static class ActionSelectionState {
 
             index = actions.IndexOf(action);
             Assert.IsTrue(index != -1);
-            Debug.Log(actions[index]);
+//            Debug.Log(actions[index]);
             panel.HighlightAction(action);
 
             if (oldAction != null && oldAction.view)
@@ -276,7 +276,7 @@ public static class ActionSelectionState {
 
                             main.TryGetBuilding(destination, out var building);
 
-                            Debug.Log($"EXECUTING: {unit} {action.type} {action.targetUnit}");
+//                            Debug.Log($"EXECUTING: {unit} {action.type} {action.targetUnit}");
 
                             switch (action.type) {
 
