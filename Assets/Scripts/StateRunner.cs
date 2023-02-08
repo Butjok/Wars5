@@ -8,7 +8,6 @@ public class StateRunner : MonoBehaviour {
 
     public Stack<IEnumerator<StateChange>> states = new();
     public Stack<string> stateNames = new();
-    public HashSet<IEnumerator<StateChange>> readyForInputStates = new();
 
     public void PushState(string stateName, IEnumerator<StateChange> state) {
         states.Push(state);
@@ -25,14 +24,14 @@ public class StateRunner : MonoBehaviour {
             var ended = !state.MoveNext();
 
             if (ended) {
-                readyForInputStates.Remove(states.Pop()); 
+                states.Pop(); 
                 stateNames.Pop();
             }
             else {
                 var stateChange = state.Current;
 
                 for (var i = 0; i < stateChange.popCount; i++) {
-                    readyForInputStates.Remove(states.Pop()); 
+                    states.Pop(); 
                     stateNames.Pop();
                 }
 
@@ -40,23 +39,6 @@ public class StateRunner : MonoBehaviour {
                     PushState(stateChange.stateName, stateChange.state);
             }
         }
-    }
-
-    public void MarkAsReadyForInput() {
-        var nonEmpty = states.TryPeek(out var state);
-        Assert.IsTrue(nonEmpty);
-        readyForInputStates.Add(state);
-    }
-    public void RemoveReadyForInputMark() {
-        var nonEmpty = states.TryPeek(out var state);
-        Assert.IsTrue(nonEmpty);
-        readyForInputStates.Remove(state);
-    }
-    public bool IsInState(string stateName) {
-        return stateNames.TryPeek(out var topStateName) && topStateName == stateName;
-    }
-    public bool IsReadyForInput() {
-        return states.TryPeek(out var state) && readyForInputStates.Contains(state);
     }
 }
 

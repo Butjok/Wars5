@@ -60,31 +60,38 @@ public static class PathSelectionState {
         CursorView.TryFind(out var cursor);
         if (cursor)
             cursor.show = true;
-        
-        main.MarkAsReadyForInput();
 
+        var issuedAiCommands = false;
         while (true) {
             yield return StateChange.none;
 
-            if (Input.GetMouseButtonDown(Mouse.right) || Input.GetKeyDown(KeyCode.Escape))
-                main.commands.Enqueue(cancel);
-
-            else if (Input.GetMouseButtonDown(Mouse.left) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return)) {
-
-                if (Mouse.TryGetPosition(out Vector2Int mousePosition) && traverser.IsReachable(mousePosition, moveDistance)) {
-                    if (pathBuilder.positions.Last() == mousePosition) {
-                        var isLastUnmovedUnit = main.FindUnitsOf(main.CurrentPlayer).Count(u => !u.Moved) == 1;
-                        main.stack.Push(main.followLastUnit && main.CurrentPlayer != main.localPlayer &&
-                                        isLastUnmovedUnit && pathBuilder.positions.Count > 1);
-                        main.commands.Enqueue(move);
-                    }
-                    else {
-                        main.stack.Push(mousePosition);
-                        main.commands.Enqueue(reconstructPath);
-                    }
+            if (main.autopilot || Input.GetKey(KeyCode.Alpha8)) {
+                if (!issuedAiCommands) {
+                    issuedAiCommands = true;
+                    main.IssueAiCommandsForPathSelectionState();
                 }
-                else
-                    UiSound.Instance.notAllowed.PlayOneShot();
+            }
+            else if (!main.CurrentPlayer.IsAi) {
+                if (Input.GetMouseButtonDown(Mouse.right) || Input.GetKeyDown(KeyCode.Escape))
+                    main.commands.Enqueue(cancel);
+
+                else if (Input.GetMouseButtonDown(Mouse.left) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return)) {
+
+                    if (Mouse.TryGetPosition(out Vector2Int mousePosition) && traverser.IsReachable(mousePosition, moveDistance)) {
+                        if (pathBuilder.positions.Last() == mousePosition) {
+                            var isLastUnmovedUnit = main.FindUnitsOf(main.CurrentPlayer).Count(u => !u.Moved) == 1;
+                            main.stack.Push(main.followLastUnit && main.CurrentPlayer != main.localPlayer &&
+                                            isLastUnmovedUnit && pathBuilder.positions.Count > 1);
+                            main.commands.Enqueue(move);
+                        }
+                        else {
+                            main.stack.Push(mousePosition);
+                            main.commands.Enqueue(reconstructPath);
+                        }
+                    }
+                    else
+                        UiSound.Instance.notAllowed.PlayOneShot();
+                }
             }
 
             while (main.commands.TryDequeue(out var input))

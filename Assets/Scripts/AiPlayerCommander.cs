@@ -24,6 +24,7 @@ public class AiPlayerCommander : MonoBehaviour {
         public Vector2Int? targetPosition;
         public WeaponName weaponName;
         public List<Vector2Int> path, restPath;
+        public string unitName;
 
         public float priority;
 
@@ -121,83 +122,66 @@ public class AiPlayerCommander : MonoBehaviour {
     public bool issuedPathSelectionCommand;
     public bool issuedActionSelectionCommand;
 
-    private void Update() {
+    public void IssueCommandsForSelectionState() {
+        var shouldEndTurn = !TryFindBestMove(out selectedAction);
+        issuedPathSelectionCommand = issuedActionSelectionCommand = false;
 
-        if (nextTask == NextTask.None)
-            nextTask = NextTask.SelectUnit;
+        // if unit cannot move the entire path change the action type to stay
+        // also if an artillery unit is trying to attack somebody but it moves first - change to stay as well
+        if (selectedAction != null &&
+            (selectedAction.restPath[^1] != selectedAction.path[^1] ||
+             selectedAction.path.Count > 1 && IsArtillery(selectedAction.unit)))
 
-        switch (nextTask) {
+            selectedAction.type = UnitActionType.Stay;
 
-            case NextTask.SelectUnit:
-                if (main.IsInState(nameof(SelectionState)) && main.IsReadyForInput()) {
-
-                    var shouldEndTurn = !TryFindBestMove(out selectedAction);
-                    issuedPathSelectionCommand = issuedActionSelectionCommand = false;
-
-                    // if unit cannot move the entire path change the action type to stay
-                    // also if an artillery unit is trying to attack somebody but it moves first - change to stay as well
-                    if (selectedAction != null &&
-                        (selectedAction.restPath[^1] != selectedAction.path[^1] ||
-                         selectedAction.path.Count > 1 && IsArtillery(selectedAction.unit)))
-
-                        selectedAction.type = UnitActionType.Stay;
-
-                    if (shouldEndTurn) {
-                        nextTask = NextTask.None;
-                        main.commands.Enqueue(SelectionState.endTurn);
-                    }
-                    else if (selectedAction != null) {
-                        nextTask = NextTask.SelectPath;
-                        main.commands.Enqueue($"{selectedAction.unit.NonNullPosition.x} {selectedAction.unit.NonNullPosition.y} int2 {SelectionState.select}");
-                    }
-                }
-                break;
-
-            case NextTask.SelectPath:
-                if (main.IsInState(nameof(PathSelectionState)) && main.IsReadyForInput() && !issuedPathSelectionCommand) {
-                    issuedPathSelectionCommand = true;
-                    foreach (var position in selectedAction.path)
-                        main.commands.Enqueue($"{position.x} {position.y} int2 {PathSelectionState.appendToPath}");
-                    main.commands.Enqueue($"false {PathSelectionState.move}");
-                    nextTask = NextTask.SelectAction;
-                }
-                break;
-
-            case NextTask.SelectAction:
-                if (main.IsInState(nameof(ActionSelectionState)) && main.IsReadyForInput() && !issuedActionSelectionCommand) {
-                    issuedActionSelectionCommand = true;
-
-                    switch (selectedAction.type) {
-
-                        case UnitActionType.Stay:
-                        case UnitActionType.Join:
-                        case UnitActionType.Capture:
-                        case UnitActionType.GetIn:
-                            main.stack.Peek<List<UnitAction>>().RemoveAll(action => action.type != selectedAction.type);
-                            break;
-
-                        case UnitActionType.Attack:
-                            main.stack.Peek<List<UnitAction>>().RemoveAll(action => action.type != selectedAction.type || action.targetUnit != selectedAction.targetUnit || action.weaponName != selectedAction.weaponName);
-                            break;
-
-                        case UnitActionType.Supply:
-                            main.stack.Peek<List<UnitAction>>().RemoveAll(action => action.type != selectedAction.type || action.targetUnit != selectedAction.targetUnit);
-                            break;
-
-                        case UnitActionType.Drop:
-                            main.stack.Peek<List<UnitAction>>().RemoveAll(action => action.type != selectedAction.type || action.targetUnit != selectedAction.targetUnit || action.targetPosition != selectedAction.targetPosition);
-                            break;
-
-                        default:
-                            throw new ArgumentOutOfRangeException(selectedAction.type.ToJson());
-                    }
-
-                    Assert.AreEqual(1, main.stack.Peek<List<UnitAction>>().Count);
-                    main.commands.Enqueue(ActionSelectionState.execute);
-                    nextTask = NextTask.None;
-                }
-                break;
+        if (shouldEndTurn) {
+            nextTask = NextTask.None;
+            main.commands.Enqueue(SelectionState.endTurn);
         }
+        else if (selectedAction != null) {
+            nextTask = NextTask.SelectPath;
+            selectedAction.unitName = selectedAction.unit.ToString();
+            main.commands.Enqueue($"{selectedAction.unit.NonNullPosition.x} {selectedAction.unit.NonNullPosition.y} int2 {SelectionState.select}");
+        }
+    }
+    public void IssueCommandsForPathSelectionState() {
+        issuedPathSelectionCommand = true;
+        foreach (var position in selectedAction.path)
+            main.commands.Enqueue($"{position.x} {position.y} int2 {PathSelectionState.appendToPath}");
+        main.commands.Enqueue($"false {PathSelectionState.move}");
+        nextTask = NextTask.SelectAction;
+    }
+    public void IssueCommandsForActionSelectionState() {
+        issuedActionSelectionCommand = true;
+
+        switch (selectedAction.type) {
+
+            case UnitActionType.Stay:
+            case UnitActionType.Join:
+            case UnitActionType.Capture:
+            case UnitActionType.GetIn:
+                main.stack.Peek<List<UnitAction>>().RemoveAll(action => action.type != selectedAction.type);
+                break;
+
+            case UnitActionType.Attack:
+                main.stack.Peek<List<UnitAction>>().RemoveAll(action => action.type != selectedAction.type || action.targetUnit != selectedAction.targetUnit || action.weaponName != selectedAction.weaponName);
+                break;
+
+            case UnitActionType.Supply:
+                main.stack.Peek<List<UnitAction>>().RemoveAll(action => action.type != selectedAction.type || action.targetUnit != selectedAction.targetUnit);
+                break;
+
+            case UnitActionType.Drop:
+                main.stack.Peek<List<UnitAction>>().RemoveAll(action => action.type != selectedAction.type || action.targetUnit != selectedAction.targetUnit || action.targetPosition != selectedAction.targetPosition);
+                break;
+
+            default:
+                throw new ArgumentOutOfRangeException(selectedAction.type.ToJson());
+        }
+
+        Assert.AreEqual(1, main.stack.Peek<List<UnitAction>>().Count);
+        main.commands.Enqueue(ActionSelectionState.execute);
+        nextTask = NextTask.None;
     }
 
     [Command]
@@ -222,8 +206,7 @@ public class AiPlayerCommander : MonoBehaviour {
 
         var buildingsToCapture = main.buildings.Values.Where(building => CanCapture(unit, building));
         foreach (var building in buildingsToCapture) {
-            Goal = building.position;
-            if (TryFindPath(out var path, out var restPath)) {
+            if (TryFindPath( out var path, out var restPath, building.position)) {
                 yield return new PotentialUnitAction {
                     unit = unit,
                     type = UnitActionType.Capture,
@@ -264,8 +247,8 @@ public class AiPlayerCommander : MonoBehaviour {
                     if (CanAttack(unit, target, weaponName)) {
 
                         if (path == null) {
-                            Goals = main.PositionsInRange(target.NonNullPosition, attackRange).Where(position => CanStay(unit, position));
-                            if (!TryFindPath(out path, out restPath))
+                            var targets = main.PositionsInRange(target.NonNullPosition, attackRange).Where(position => CanStay(unit, position));
+                            if (!TryFindPath(out path, out restPath, targets: targets))
                                 break;
                         }
 

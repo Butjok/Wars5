@@ -17,6 +17,19 @@ public class Main : StateRunner {
         main = instance;
         return instance;
     }
+
+    [Command]public bool autopilot = true;
+    public AiPlayerCommander aiPlayerCommander;
+
+    public void IssueAiCommandsForSelectionState() {
+        aiPlayerCommander.IssueCommandsForSelectionState();
+    }
+    public void IssueAiCommandsForPathSelectionState() {
+        aiPlayerCommander.IssueCommandsForPathSelectionState();
+    }
+    public void IssueAiCommandsForActionSelectionState() {
+        aiPlayerCommander.IssueCommandsForActionSelectionState();
+    }
     
     public Traverser traverser = new();
 

@@ -10,28 +10,13 @@ using UnityEngine.Assertions;
 
 public static class MoveFinder2 {
 
-    private static readonly HashSet<Vector2Int> goals = new();
-    public static IEnumerable<Vector2Int> Goals {
-        set {
-            goals.Clear();
-            foreach (var position in value)
-                goals.Add(position);
-        }
-    }
-    public static Vector2Int Goal {
-        set {
-            goals.Clear();
-            goals.Add(value);
-        }
-    }
-
-    [Command]
+    /*[Command]
     public static bool TrySetGoal(Vector2Int range) {
         if (!Mouse.TryGetPosition(out Vector2Int mousePosition))
             return false;
         Goals = Object.FindObjectOfType<Main>().PositionsInRange(mousePosition, range);
         return true;
-    }
+    }*/
 
     public struct Node {
         public int g, h;
@@ -42,6 +27,7 @@ public static class MoveFinder2 {
     public static readonly Dictionary<Vector2Int, Node> nodes = new();
     public static readonly SimplePriorityQueue<Vector2Int> priorityQueue = new();
     public static readonly HashSet<Vector2Int> destinations = new();
+    private static readonly HashSet<Vector2Int> goals = new();
 
     public const int infinity = 99999;
 
@@ -68,7 +54,7 @@ public static class MoveFinder2 {
 
         var tiles = unit.Player.main.tiles;
         foreach (var position in tiles.Keys) {
-            if (!Rules.CanPass(unit, position))
+            if (!Rules.TryGetMoveCost(unit, position, out _) || !Rules.CanPass(unit, position))
                 continue;
             var node = new Node { g = position == startPosition ? 0 : infinity };
             nodes.Add(position, node);
@@ -119,14 +105,26 @@ public static class MoveFinder2 {
             }
             priorityQueue.Enqueue(position, node.g);
         }
+
+        closed.Clear();
     }
 
+    public static readonly HashSet<Vector2Int> closed = new();
 
-    public static bool TryFindPath(out List<Vector2Int> shortPath, out List<Vector2Int> restPath) {
+    public static bool TryFindPath(out List<Vector2Int> shortPath, out List<Vector2Int> restPath,
+        Vector2Int? target = null, IEnumerable<Vector2Int> targets = null) {
 
         shortPath = restPath = null;
         Vector2Int goal = default;
 
+        goals.Clear();
+        if (target is { } value)
+            goals.Add(value);
+        if (targets != null)
+            foreach (var position in targets)
+                goals.Add(position);
+
+        goals.RemoveWhere(position => !Rules.TryGetMoveCost(unit, position, out _) || !Rules.CanPass(unit, position));
         if (goals.Count == 0)
             return false;
 
@@ -154,6 +152,8 @@ public static class MoveFinder2 {
             }
 
             while (priorityQueue.TryDequeue(out var position) && nodes.TryGetValue(position, out var current) && current.g < infinity) {
+
+                closed.Add(position);
 
                 for (var i = 0; i < 4; i++) {
 
@@ -189,6 +189,12 @@ public static class MoveFinder2 {
             }
         }
 
+        if (drawClosed)
+            using (Draw.ingame.WithDuration(5))
+                foreach (var position in closed) {
+                    Draw.ingame.SolidCircleXZ((Vector3)position.ToVector3Int(), .5f, Color.yellow);
+                }
+
         if (minG >= infinity)
             return false;
 
@@ -204,4 +210,6 @@ public static class MoveFinder2 {
 
         return true;
     }
+
+    [Command] public static bool drawClosed;
 }

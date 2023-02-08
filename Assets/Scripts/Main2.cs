@@ -22,8 +22,6 @@ public class Main2 : Main {
     public TileTypeBuildingViewDictionary buildingPrefabs = new();
     public int autosaveLifespanInDays = 30;
 
-    public AiPlayerCommander aiPlayerCommander;
-
     private void Start() {
         CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
         PushState("LevelEditor", Run());
@@ -146,8 +144,8 @@ public class Main2 : Main {
             var stateName = ns.n;
             var state = ns.s;
             var text = stateName.EndsWith("State") ? stateName.Substring(0, stateName.Length - "State".Length) : stateName;
-            if (readyForInputStates.Contains(state))
-                text = '[' + text + ']';
+            //if (readyForInputStates.Contains(state))
+            //    text = '[' + text + ']';
             return text;
         }).Reverse());
         GUILayout.Label(topLine);

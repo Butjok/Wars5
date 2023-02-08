@@ -86,12 +86,17 @@ public static class SelectionState {
         if (cursor)
             cursor.show = true;
 
-        main.MarkAsReadyForInput();
-        
+        var issuedAiCommands = false;
         while (true) {
             yield return StateChange.none;
 
-            if (!player.IsAi) {
+            if (main.autopilot || Input.GetKey(KeyCode.Alpha8)) {
+                if(!issuedAiCommands) {
+                    issuedAiCommands = true;
+                    main.IssueAiCommandsForSelectionState();
+                }   
+            }
+            else if (!main.CurrentPlayer.IsAi) {
 
                 if (Input.GetKeyDown(KeyCode.F2))
                     main.commands.Enqueue(endTurn);
