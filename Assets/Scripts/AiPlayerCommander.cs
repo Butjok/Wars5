@@ -48,7 +48,7 @@ public class AiPlayerCommander : MonoBehaviour {
     public Main2 main;
     public Vector2Int selectPosition;
     public Vector2Int movePosition;
-    [Command]public float textSize = 14;
+    [Command] public float textSize = 14;
 
     [Command]
     public bool playForHuman = true;
@@ -103,10 +103,10 @@ public class AiPlayerCommander : MonoBehaviour {
         }
 
         PrioritizePotentialUnitActions(actions);
-        bestPotentialUnitAction = (priorityPreference == PriorityPreference.Max 
-                ? actions.OrderByDescending(a => a.priority) 
+        bestPotentialUnitAction = (priorityPreference == PriorityPreference.Max
+                ? actions.OrderByDescending(a => a.priority)
                 : actions.OrderBy(a => a.priority))
-            .ThenBy(a => a.path.Count)     // prefer shortest immediate path
+            .ThenBy(a => a.path.Count) // prefer shortest immediate path
             .ThenBy(a => a.restPath.Count) // prefer shortest full path
             .FirstOrDefault();
         return bestPotentialUnitAction != null;
@@ -274,7 +274,7 @@ public class AiPlayerCommander : MonoBehaviour {
                             type = UnitActionType.Attack,
                             targetUnit = target,
                             weaponName = weaponName,
-                            path=path,
+                            path = path,
                             restPath = restPath
                         };
                     }
@@ -309,7 +309,7 @@ public class AiPlayerCommander : MonoBehaviour {
                 ("fuel", action.unit.Fuel),
                 ("hasCargo", action.unit.Cargo.Count > 0 ? 1 : 0),
                 ("pathLength", action.path.Count),
-                ("fullPathLength", action.path.Count + action.restPath.Count-1),
+                ("fullPathLength", action.path.Count + action.restPath.Count - 1),
                 ("pathCost", CalculatePathCost(action.unit, action.path)),
                 ("fullPathCost", CalculatePathCost(action.unit, action.path.Concat(action.restPath.Skip(1)))),
                 (nameof(damageDealt), damageDealt),
@@ -359,24 +359,20 @@ public class AiPlayerCommander : MonoBehaviour {
                     for (var i = 1; i < action.restPath.Count; i++)
                         Draw.ingame.Arrow((Vector3)action.restPath[i - 1].ToVector3Int(), (Vector3)action.restPath[i].ToVector3Int(), Vector3.up, arrowHeadSize, color * restPathAlpha);
 
-                using (Draw.ingame.WithLineWidth(actionLineThickness))
-                using (Draw.ingame.WithColor(GetUnitActionTypeColor(action.type))) {
+                //
 
-                    //
+                Vector3? to = null;
+                var from = (Vector3)action.restPath[^1].ToVector3Int();
+                if (action.targetUnit is { Position: { } unitPosition })
+                    to = unitPosition.ToVector3Int();
+                if (action.targetPosition is { } targetPosition)
+                    to = targetPosition.ToVector3Int();
+                if (action.targetBuilding != null)
+                    to = action.targetBuilding.position.ToVector3Int();
 
-                    Vector3? to = null;
-                    var from = (Vector3)action.restPath[^1].ToVector3Int();
-                    if (action.targetUnit is { Position: { } unitPosition })
-                        to = unitPosition.ToVector3Int();
-                    if (action.targetPosition is { } targetPosition)
-                        to = targetPosition.ToVector3Int();
-                    if (action.targetBuilding != null)
-                        to = action.targetBuilding.position.ToVector3Int();
-
-                    if (to is {} vector) {
-                        Draw.ingame.Line(Vector3.Lerp(from, vector, actionLineLerp[0]), Vector3.Lerp(from, vector, actionLineLerp[1]));
-                        Draw.ingame.Label2D(Vector3.Lerp(from, vector, .5f), $"{action.priority}: {action}\n", textSize, LabelAlignment.BottomCenter);
-                    }
+                if (to is { } vector) {
+                    Draw.ingame.Line(Vector3.Lerp(from, vector, actionLineLerp[0]), Vector3.Lerp(from, vector, actionLineLerp[1]), GetUnitActionTypeColor(action.type));
+                    Draw.ingame.Label2D(Vector3.Lerp(from, vector, .5f), $"{action.priority}: {action}\n", textSize, LabelAlignment.BottomCenter, color);
                 }
             }
         }
