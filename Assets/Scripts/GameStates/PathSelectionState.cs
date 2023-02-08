@@ -65,7 +65,7 @@ public static class PathSelectionState {
         while (true) {
             yield return StateChange.none;
 
-            if (main.autopilot || Input.GetKey(KeyCode.Alpha8)) {
+            if (main.autoplay || Input.GetKey(KeyCode.Alpha8)) {
                 if (!issuedAiCommands) {
                     issuedAiCommands = true;
                     main.IssueAiCommandsForPathSelectionState();

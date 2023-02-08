@@ -8,7 +8,7 @@ Tutorial MissionName type enum                                   game.set-missio
 #Player0Red
 #
 
-1 0.4 0                                                          player.set-color
+1 0.3 0                                                          player.set-color
 None Team type enum                                              player.set-team
 16000                                                            player.set-credits
 0                                                                player.set-power-meter
@@ -134,7 +134,7 @@ WbRecon UnitView type load-resource                              unit.set-view-p
 #Player1Blue
 #
 
-0 0.4 1                                                          player.set-color
+0 0.3 1                                                          player.set-color
 None Team type enum                                              player.set-team
 0                                                                player.set-credits
 0                                                                player.set-power-meter
@@ -803,6 +803,6 @@ BridgeView type true find-single-object-of-type                  bridge.set-view
 
 -10.29139 0 -20.03841 float3                                     camera-rig.set-position
 315                                                              camera-rig.set-rotation
-26.62332                                                         camera-rig.set-distance
+40                                                               camera-rig.set-distance
 40.36793                                                         camera-rig.set-pitch-angle
-24.87567                                                         camera-rig.set-fov
+20                                                               camera-rig.set-fov

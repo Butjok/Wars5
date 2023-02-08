@@ -8,6 +8,14 @@ using UnityEngine.Assertions;
 
 #pragma warning disable 8509
 
+/*
+ * good article to keep in mind: http://theory.stanford.edu/~amitp/GameProgramming/Heuristics.html
+ * it is about:
+ * - types of heuristics
+ * - precomputing the heuristics
+ * - breaking ties
+ */
+
 public static class MoveFinder2 {
 
     /*[Command]

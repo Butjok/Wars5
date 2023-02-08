@@ -18,8 +18,14 @@ public class Main : StateRunner {
         return instance;
     }
 
-    [Command]public bool autopilot = true;
+    [Command]public bool autoplay = true;
     public AiPlayerCommander aiPlayerCommander;
+
+    protected override void Update() {
+        base.Update();
+        if (Input.GetKeyDown(KeyCode.Alpha8))
+            autoplay = (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift));
+    }
 
     public void IssueAiCommandsForSelectionState() {
         aiPlayerCommander.IssueCommandsForSelectionState();

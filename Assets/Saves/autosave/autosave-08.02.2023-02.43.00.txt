@@ -1,6 +1,6 @@
 LevelEditor                                                      game.load-scene
 Tutorial MissionName type enum                                   game.set-mission-name
-2                                                                game.set-turn
+75                                                               game.set-turn
                                                                  
 
 
@@ -8,7 +8,7 @@ Tutorial MissionName type enum                                   game.set-missio
 #Player0Red
 #
 
-1 0.4 0                                                          player.set-color
+1 0.3 0                                                          player.set-color
 None Team type enum                                              player.set-team
 16000                                                            player.set-credits
 0                                                                player.set-power-meter
@@ -25,6 +25,31 @@ Hq TileType type enum                                            building.set-ty
 0 -1 int2                                                        building.set-look-direction
                                                                  building.add
                                                                  pop
+
+                                                                 dup
+Factory TileType type enum                                       building.set-type
+-1 -15 int2                                                      building.set-position
+20                                                               building.set-cp
+0 -1 int2                                                        building.set-look-direction
+                                                                 building.add
+                                                                 pop
+
+
+                                                                 pop
+                                                                 
+
+#
+#Player1Blue
+#
+
+0 0.3 1                                                          player.set-color
+None Team type enum                                              player.set-team
+0                                                                player.set-credits
+0                                                                player.set-power-meter
+0 -1 int2                                                        player.set-unit-look-direction
+Blue                                                             player.set-name
+Natalie                                                          player.set-co
+                                                                 player.add
 
                                                                  dup
 Factory TileType type enum                                       building.set-type
@@ -74,76 +99,6 @@ Factory TileType type enum                                       building.set-ty
                                                                  pop
 
                                                                  dup
-Factory TileType type enum                                       building.set-type
--1 -15 int2                                                      building.set-position
-20                                                               building.set-cp
-0 -1 int2                                                        building.set-look-direction
-                                                                 building.add
-                                                                 pop
-
-
-                                                                 dup
-Artillery UnitType type enum                                     unit.set-type
-false                                                            unit.set-moved
--5 -20 int2                                                      unit.set-position
-0 1 int2                                                         unit.set-look-direction
-WbHowitzer UnitView type load-resource                           unit.set-view-prefab
-                                                                 unit.add
-                                                                 pop
-
-                                                                 dup
-Infantry UnitType type enum                                      unit.set-type
-false                                                            unit.set-moved
--6 -24 int2                                                      unit.set-position
-0 1 int2                                                         unit.set-look-direction
-WbLightTank UnitView type load-resource                          unit.set-view-prefab
-                                                                 unit.add
-                                                                 pop
-
-                                                                 dup
-Recon UnitType type enum                                         unit.set-type
-false                                                            unit.set-moved
--7 -21 int2                                                      unit.set-position
-0 1 int2                                                         unit.set-look-direction
-WbRecon UnitView type load-resource                              unit.set-view-prefab
-                                                                 unit.add
-                                                                 pop
-
-                                                                 dup
-Apc UnitType type enum                                           unit.set-type
-false                                                            unit.set-moved
--8 -24 int2                                                      unit.set-position
-0 1 int2                                                         unit.set-look-direction
-WbApc UnitView type load-resource                                unit.set-view-prefab
-                                                                 unit.add
-                                                                 pop
-
-                                                                 dup
-Recon UnitType type enum                                         unit.set-type
-false                                                            unit.set-moved
--10 -13 int2                                                     unit.set-position
-0 1 int2                                                         unit.set-look-direction
-WbRecon UnitView type load-resource                              unit.set-view-prefab
-                                                                 unit.add
-                                                                 pop
-
-                                                                 pop
-                                                                 
-
-#
-#Player1Blue
-#
-
-0 0.4 1                                                          player.set-color
-None Team type enum                                              player.set-team
-0                                                                player.set-credits
-0                                                                player.set-power-meter
-0 -1 int2                                                        player.set-unit-look-direction
-Blue                                                             player.set-name
-Natalie                                                          player.set-co
-                                                                 player.add
-
-                                                                 dup
 Hq TileType type enum                                            building.set-type
 -24 -8 int2                                                      building.set-position
 20                                                               building.set-cp
@@ -167,11 +122,43 @@ Factory TileType type enum                                       building.set-ty
                                                                  building.add
                                                                  pop
 
+                                                                 dup
+Factory TileType type enum                                       building.set-type
+-13 -25 int2                                                     building.set-position
+20                                                               building.set-cp
+0 -1 int2                                                        building.set-look-direction
+                                                                 building.add
+                                                                 pop
+
+                                                                 dup
+Factory TileType type enum                                       building.set-type
+-14 -26 int2                                                     building.set-position
+20                                                               building.set-cp
+0 -1 int2                                                        building.set-look-direction
+                                                                 building.add
+                                                                 pop
+
+                                                                 dup
+City TileType type enum                                          building.set-type
+-21 -26 int2                                                     building.set-position
+20                                                               building.set-cp
+0 -1 int2                                                        building.set-look-direction
+                                                                 building.add
+                                                                 pop
+
+                                                                 dup
+City TileType type enum                                          building.set-type
+-21 -23 int2                                                     building.set-position
+20                                                               building.set-cp
+0 -1 int2                                                        building.set-look-direction
+                                                                 building.add
+                                                                 pop
+
 
                                                                  dup
 Recon UnitType type enum                                         unit.set-type
 false                                                            unit.set-moved
--24 -9 int2                                                      unit.set-position
+-13 -21 int2                                                     unit.set-position
 0 -1 int2                                                        unit.set-look-direction
 WbRecon UnitView type load-resource                              unit.set-view-prefab
                                                                  unit.add
@@ -180,7 +167,7 @@ WbRecon UnitView type load-resource                              unit.set-view-p
                                                                  dup
 Recon UnitType type enum                                         unit.set-type
 false                                                            unit.set-moved
--23 -12 int2                                                     unit.set-position
+-7 -24 int2                                                      unit.set-position
 0 -1 int2                                                        unit.set-look-direction
 WbRecon UnitView type load-resource                              unit.set-view-prefab
                                                                  unit.add
@@ -189,7 +176,7 @@ WbRecon UnitView type load-resource                              unit.set-view-p
                                                                  dup
 LightTank UnitType type enum                                     unit.set-type
 false                                                            unit.set-moved
--21 -15 int2                                                     unit.set-position
+-7 -21 int2                                                      unit.set-position
 0 -1 int2                                                        unit.set-look-direction
 WbLightTank UnitView type load-resource                          unit.set-view-prefab
                                                                  unit.add
@@ -198,16 +185,7 @@ WbLightTank UnitView type load-resource                          unit.set-view-p
                                                                  dup
 Recon UnitType type enum                                         unit.set-type
 false                                                            unit.set-moved
--23 -10 int2                                                     unit.set-position
-0 -1 int2                                                        unit.set-look-direction
-WbRecon UnitView type load-resource                              unit.set-view-prefab
-                                                                 unit.add
-                                                                 pop
-
-                                                                 dup
-Recon UnitType type enum                                         unit.set-type
-false                                                            unit.set-moved
--19 -14 int2                                                     unit.set-position
+-14 -18 int2                                                     unit.set-position
 0 -1 int2                                                        unit.set-look-direction
 WbRecon UnitView type load-resource                              unit.set-view-prefab
                                                                  unit.add
@@ -216,7 +194,16 @@ WbRecon UnitView type load-resource                              unit.set-view-p
                                                                  dup
 Infantry UnitType type enum                                      unit.set-type
 false                                                            unit.set-moved
--21 -14 int2                                                     unit.set-position
+-18 -21 int2                                                     unit.set-position
+0 -1 int2                                                        unit.set-look-direction
+WbLightTank UnitView type load-resource                          unit.set-view-prefab
+                                                                 unit.add
+                                                                 pop
+
+                                                                 dup
+Infantry UnitType type enum                                      unit.set-type
+true                                                             unit.set-moved
+-8 -22 int2                                                      unit.set-position
 0 -1 int2                                                        unit.set-look-direction
 WbLightTank UnitView type load-resource                          unit.set-view-prefab
                                                                  unit.add
@@ -225,7 +212,16 @@ WbLightTank UnitView type load-resource                          unit.set-view-p
                                                                  dup
 Infantry UnitType type enum                                      unit.set-type
 false                                                            unit.set-moved
--22 -13 int2                                                     unit.set-position
+-19 -22 int2                                                     unit.set-position
+0 -1 int2                                                        unit.set-look-direction
+WbLightTank UnitView type load-resource                          unit.set-view-prefab
+                                                                 unit.add
+                                                                 pop
+
+                                                                 dup
+Infantry UnitType type enum                                      unit.set-type
+true                                                             unit.set-moved
+-15 -20 int2                                                     unit.set-position
 0 -1 int2                                                        unit.set-look-direction
 WbLightTank UnitView type load-resource                          unit.set-view-prefab
                                                                  unit.add
@@ -234,25 +230,7 @@ WbLightTank UnitView type load-resource                          unit.set-view-p
                                                                  dup
 Infantry UnitType type enum                                      unit.set-type
 false                                                            unit.set-moved
--20 -13 int2                                                     unit.set-position
-0 -1 int2                                                        unit.set-look-direction
-WbLightTank UnitView type load-resource                          unit.set-view-prefab
-                                                                 unit.add
-                                                                 pop
-
-                                                                 dup
-Infantry UnitType type enum                                      unit.set-type
-false                                                            unit.set-moved
--20 -15 int2                                                     unit.set-position
-0 -1 int2                                                        unit.set-look-direction
-WbLightTank UnitView type load-resource                          unit.set-view-prefab
-                                                                 unit.add
-                                                                 pop
-
-                                                                 dup
-Infantry UnitType type enum                                      unit.set-type
-false                                                            unit.set-moved
--22 -15 int2                                                     unit.set-position
+-19 -21 int2                                                     unit.set-position
 0 -1 int2                                                        unit.set-look-direction
 WbLightTank UnitView type load-resource                          unit.set-view-prefab
                                                                  unit.add
@@ -261,7 +239,7 @@ WbLightTank UnitView type load-resource                          unit.set-view-p
                                                                  dup
 MediumTank UnitType type enum                                    unit.set-type
 false                                                            unit.set-moved
--23 -14 int2                                                     unit.set-position
+-14 -21 int2                                                     unit.set-position
 0 -1 int2                                                        unit.set-look-direction
 WbMdTank UnitView type load-resource                             unit.set-view-prefab
                                                                  unit.add
@@ -270,7 +248,7 @@ WbMdTank UnitView type load-resource                             unit.set-view-p
                                                                  dup
 Artillery UnitType type enum                                     unit.set-type
 false                                                            unit.set-moved
--22 -14 int2                                                     unit.set-position
+-14 -20 int2                                                     unit.set-position
 0 -1 int2                                                        unit.set-look-direction
 WbHowitzer UnitView type load-resource                           unit.set-view-prefab
                                                                  unit.add
@@ -279,7 +257,7 @@ WbHowitzer UnitView type load-resource                           unit.set-view-p
                                                                  dup
 LightTank UnitType type enum                                     unit.set-type
 false                                                            unit.set-moved
--20 -14 int2                                                     unit.set-position
+-7 -20 int2                                                      unit.set-position
 0 -1 int2                                                        unit.set-look-direction
 WbLightTank UnitView type load-resource                          unit.set-view-prefab
                                                                  unit.add
@@ -288,7 +266,7 @@ WbLightTank UnitView type load-resource                          unit.set-view-p
                                                                  dup
 Infantry UnitType type enum                                      unit.set-type
 false                                                            unit.set-moved
--21 -16 int2                                                     unit.set-position
+-18 -22 int2                                                     unit.set-position
 0 -1 int2                                                        unit.set-look-direction
 WbLightTank UnitView type load-resource                          unit.set-view-prefab
                                                                  unit.add
@@ -297,7 +275,7 @@ WbLightTank UnitView type load-resource                          unit.set-view-p
                                                                  dup
 Rockets UnitType type enum                                       unit.set-type
 false                                                            unit.set-moved
--23 -8 int2                                                      unit.set-position
+-15 -18 int2                                                     unit.set-position
 0 -1 int2                                                        unit.set-look-direction
 WbRockets UnitView type load-resource                            unit.set-view-prefab
                                                                  unit.add
@@ -306,7 +284,7 @@ WbRockets UnitView type load-resource                            unit.set-view-p
                                                                  dup
 LightTank UnitType type enum                                     unit.set-type
 false                                                            unit.set-moved
--21 -13 int2                                                     unit.set-position
+-8 -21 int2                                                      unit.set-position
 0 -1 int2                                                        unit.set-look-direction
 WbLightTank UnitView type load-resource                          unit.set-view-prefab
                                                                  unit.add
@@ -314,8 +292,8 @@ WbLightTank UnitView type load-resource                          unit.set-view-p
 
                                                                  dup
 Infantry UnitType type enum                                      unit.set-type
-false                                                            unit.set-moved
--21 -12 int2                                                     unit.set-position
+true                                                             unit.set-moved
+-1 -18 int2                                                      unit.set-position
 0 -1 int2                                                        unit.set-look-direction
 WbLightTank UnitView type load-resource                          unit.set-view-prefab
                                                                  unit.add
@@ -745,38 +723,6 @@ City TileType type enum                                          building.set-ty
                                                                  building.add
                                                                  pop
 
-                                                                 null
-Factory TileType type enum                                       building.set-type
--13 -25 int2                                                     building.set-position
-20                                                               building.set-cp
-0 -1 int2                                                        building.set-look-direction
-                                                                 building.add
-                                                                 pop
-
-                                                                 null
-Factory TileType type enum                                       building.set-type
--14 -26 int2                                                     building.set-position
-20                                                               building.set-cp
-0 -1 int2                                                        building.set-look-direction
-                                                                 building.add
-                                                                 pop
-
-                                                                 null
-City TileType type enum                                          building.set-type
--21 -26 int2                                                     building.set-position
-20                                                               building.set-cp
-0 -1 int2                                                        building.set-look-direction
-                                                                 building.add
-                                                                 pop
-
-                                                                 null
-City TileType type enum                                          building.set-type
--21 -23 int2                                                     building.set-position
-20                                                               building.set-cp
-0 -1 int2                                                        building.set-look-direction
-                                                                 building.add
-                                                                 pop
-
 
 A TriggerName type enum                                          trigger.select
 
@@ -801,8 +747,8 @@ BridgeView type true find-single-object-of-type                  bridge.set-view
                                                                  pop
 
 
--10.29139 0 -20.03841 float3                                     camera-rig.set-position
+-11.20116 0 -16.66296 float3                                     camera-rig.set-position
 315                                                              camera-rig.set-rotation
-26.62332                                                         camera-rig.set-distance
-40.36793                                                         camera-rig.set-pitch-angle
-24.87567                                                         camera-rig.set-fov
+32                                                               camera-rig.set-distance
+35.33913                                                         camera-rig.set-pitch-angle
+22.78692                                                         camera-rig.set-fov
