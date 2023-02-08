@@ -48,6 +48,7 @@ public class AiPlayerCommander : MonoBehaviour {
     public Main2 main;
     public Vector2Int selectPosition;
     public Vector2Int movePosition;
+    [Command]public float textSize = 14;
 
     [Command]
     public bool playForHuman = true;
@@ -102,9 +103,13 @@ public class AiPlayerCommander : MonoBehaviour {
         }
 
         PrioritizePotentialUnitActions(actions);
-        var bestPriority = priorityPreference == PriorityPreference.Min ? actions.Min(action => action.priority) : actions.Max(action => action.priority);
-        bestPotentialUnitAction = actions.First(action => action.priority == bestPriority);
-        return true;
+        bestPotentialUnitAction = (priorityPreference == PriorityPreference.Max 
+                ? actions.OrderByDescending(a => a.priority) 
+                : actions.OrderBy(a => a.priority))
+            .ThenBy(a => a.path.Count)     // prefer shortest immediate path
+            .ThenBy(a => a.restPath.Count) // prefer shortest full path
+            .FirstOrDefault();
+        return bestPotentialUnitAction != null;
     }
 
     public enum NextTask {
@@ -357,20 +362,20 @@ public class AiPlayerCommander : MonoBehaviour {
                 using (Draw.ingame.WithLineWidth(actionLineThickness))
                 using (Draw.ingame.WithColor(GetUnitActionTypeColor(action.type))) {
 
-                    //Draw.ingame.Label2D((Vector3)action.restPath[^1].ToVector3Int(), $"{action.priority}: {action}\n", textSize, LabelAlignment.BottomCenter);
+                    //
 
+                    Vector3? to = null;
                     var from = (Vector3)action.restPath[^1].ToVector3Int();
-                    if (action.targetUnit is { Position: { } unitPosition }) {
-                        var to = (Vector3)unitPosition.ToVector3Int();
-                        Draw.ingame.Line(Vector3.Lerp(from, to, actionLineLerp[0]), Vector3.Lerp(from, to, actionLineLerp[1]));
-                    }
-                    if (action.targetPosition is { } targetPosition) {
-                        var to = (Vector3)targetPosition.ToVector3Int();
-                        Draw.ingame.Line(Vector3.Lerp(from, to, actionLineLerp[0]), Vector3.Lerp(from, to, actionLineLerp[1]));
-                    }
-                    if (action.targetBuilding != null) {
-                        var to = (Vector3)action.targetBuilding.position.ToVector3Int();
-                        Draw.ingame.Line(Vector3.Lerp(from, to, actionLineLerp[0]), Vector3.Lerp(from, to, actionLineLerp[1]));
+                    if (action.targetUnit is { Position: { } unitPosition })
+                        to = unitPosition.ToVector3Int();
+                    if (action.targetPosition is { } targetPosition)
+                        to = targetPosition.ToVector3Int();
+                    if (action.targetBuilding != null)
+                        to = action.targetBuilding.position.ToVector3Int();
+
+                    if (to is {} vector) {
+                        Draw.ingame.Line(Vector3.Lerp(from, vector, actionLineLerp[0]), Vector3.Lerp(from, vector, actionLineLerp[1]));
+                        Draw.ingame.Label2D(Vector3.Lerp(from, vector, .5f), $"{action.priority}: {action}\n", textSize, LabelAlignment.BottomCenter);
                     }
                 }
             }

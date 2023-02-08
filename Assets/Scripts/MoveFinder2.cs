@@ -26,17 +26,16 @@ public static class MoveFinder2 {
     }
 
     [Command]
-    public static bool TrySetGoal() {
+    public static bool TrySetGoal(Vector2Int range) {
         if (!Mouse.TryGetPosition(out Vector2Int mousePosition))
             return false;
-        Goal = mousePosition;
+        Goals = Object.FindObjectOfType<Main>().PositionsInRange(mousePosition, range);
         return true;
     }
 
     public struct Node {
-        public int shortG, longG;
+        public int g, h;
         public Vector2Int? shortCameFrom, longCameFrom;
-        public int heuristic;
     }
 
     public static Unit unit;
@@ -69,16 +68,15 @@ public static class MoveFinder2 {
 
         var tiles = unit.Player.main.tiles;
         foreach (var position in tiles.Keys) {
-            var node = new Node {
-                shortG = position == startPosition ? 0 : infinity,
-                longG = infinity
-            };
+            if (!Rules.CanPass(unit, position))
+                continue;
+            var node = new Node { g = position == startPosition ? 0 : infinity };
             nodes.Add(position, node);
             if ((position - startPosition).ManhattanLength() <= moveCapacity)
-                priorityQueue.Enqueue(position, node.shortG);
+                priorityQueue.Enqueue(position, node.g);
         }
 
-        while (priorityQueue.TryDequeue(out var position) && nodes.TryGetValue(position, out var current) && current.shortG <= moveCapacity) {
+        while (priorityQueue.TryDequeue(out var position) && nodes.TryGetValue(position, out var current) && current.g <= moveCapacity) {
 
             if (!onlyStayPositions || Rules.CanStay(unit, position))
                 destinations.Add(position);
@@ -94,17 +92,16 @@ public static class MoveFinder2 {
 
                 if ((neighborPosition - startPosition).ManhattanLength() <= moveCapacity &&
                     nodes.TryGetValue(neighborPosition, out var neighbor) &&
-                    Rules.TryGetMoveCost(unit, tiles[neighborPosition], out var cost) &&
-                    Rules.CanPass(unit, neighborPosition)) {
+                    Rules.TryGetMoveCost(unit, tiles[neighborPosition], out var cost)) {
 
-                    var alternativeG = current.shortG + cost;
-                    if (alternativeG < neighbor.shortG) {
+                    var alternativeG = current.g + cost;
+                    if (alternativeG < neighbor.g) {
 
-                        neighbor.shortG = alternativeG;
+                        neighbor.g = alternativeG;
                         neighbor.shortCameFrom = position;
                         nodes[neighborPosition] = neighbor;
 
-                        priorityQueue.UpdatePriority(neighborPosition, neighbor.shortG);
+                        priorityQueue.UpdatePriority(neighborPosition, neighbor.g);
                     }
                 }
             }
@@ -114,12 +111,13 @@ public static class MoveFinder2 {
 
         priorityQueue.Clear();
         foreach (var position in tiles.Keys) {
-            var node = nodes[position];
-            if (destinations.Contains(position)) {
-                node.longG = 0;
+            if (!nodes.TryGetValue(position, out var node))
+                continue;
+            if (!destinations.Contains(position)) {
+                node.g = infinity;
                 nodes[position] = node;
             }
-            priorityQueue.Enqueue(position, node.longG);
+            priorityQueue.Enqueue(position, node.g);
         }
     }
 
@@ -135,60 +133,59 @@ public static class MoveFinder2 {
         var minG = infinity;
         var allGoalsAreClosed = true;
         foreach (var position in goals) {
-            var longG = nodes[position].longG;
-            if (longG < minG) {
-                minG = longG;
+            var g = nodes[position].g;
+            if (g < minG) {
+                minG = g;
                 goal = position;
             }
             if (allGoalsAreClosed && priorityQueue.Contains(position))
                 allGoalsAreClosed = false;
         }
-        if (allGoalsAreClosed && minG >= infinity)
-            return false;
 
-        foreach (var position in priorityQueue) {
-            var node = nodes[position];
-            node.heuristic = infinity;
-            foreach (var g in goals)
-                node.heuristic = Mathf.Min(node.heuristic, (g - position).ManhattanLength());
-            nodes[position] = node;
-            priorityQueue.UpdatePriority(position, nodes[position].longG + nodes[position].heuristic);
-        }
+        if (!allGoalsAreClosed) {
 
-        while (priorityQueue.TryDequeue(out var position) && nodes.TryGetValue(position, out var current) && current.longG < infinity) {
-
-            for (var i = 0; i < 4; i++) {
-
-                var neighborPosition = position + i switch {
-                    0 => Vector2Int.right,
-                    1 => Vector2Int.left,
-                    2 => Vector2Int.up,
-                    3 => Vector2Int.down
-                };
-
-                // TODO: possible optimization here: remove unpassable tiles beforehand
-                if (nodes.TryGetValue(neighborPosition, out var neighbor) &&
-                    Rules.TryGetMoveCost(unit, unit.Player.main.tiles[neighborPosition], out var cost) &&
-                    Rules.CanPass(unit, neighborPosition)) {
-
-                    var alternativeG = current.longG + cost;
-                    if (alternativeG < neighbor.longG) {
-
-                        neighbor.longG = alternativeG;
-                        neighbor.longCameFrom = position;
-                        nodes[neighborPosition] = neighbor;
-
-                        priorityQueue.UpdatePriority(neighborPosition, neighbor.longG + neighbor.heuristic);
-                    }
-                }
+            foreach (var position in priorityQueue) {
+                var node = nodes[position];
+                node.h = infinity;
+                foreach (var g in goals)
+                    node.h = Mathf.Min(node.h, (g - position).ManhattanLength());
+                nodes[position] = node;
+                priorityQueue.UpdatePriority(position, node.g + node.h);
             }
 
-            if (goals.Contains(position)) {
-                if (current.longG < minG) {
-                    minG = current.longG;
-                    goal = position;
+            while (priorityQueue.TryDequeue(out var position) && nodes.TryGetValue(position, out var current) && current.g < infinity) {
+
+                for (var i = 0; i < 4; i++) {
+
+                    var neighborPosition = position + i switch {
+                        0 => Vector2Int.right,
+                        1 => Vector2Int.left,
+                        2 => Vector2Int.up,
+                        3 => Vector2Int.down
+                    };
+
+                    if (nodes.TryGetValue(neighborPosition, out var neighbor) &&
+                        Rules.TryGetMoveCost(unit, unit.Player.main.tiles[neighborPosition], out var cost)) {
+
+                        var alternativeG = current.g + cost;
+                        if (alternativeG < neighbor.g) {
+
+                            neighbor.g = alternativeG;
+                            neighbor.longCameFrom = position;
+                            nodes[neighborPosition] = neighbor;
+
+                            priorityQueue.UpdatePriority(neighborPosition, neighbor.g + neighbor.h);
+                        }
+                    }
                 }
-                break;
+
+                if (goals.Contains(position)) {
+                    if (current.g < minG) {
+                        minG = current.g;
+                        goal = position;
+                    }
+                    break;
+                }
             }
         }
 

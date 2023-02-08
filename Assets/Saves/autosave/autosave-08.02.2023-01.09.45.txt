@@ -5,7 +5,7 @@ Tutorial MissionName type enum                                   game.set-missio
 
 
 #
-#Player0RGBA(1.000,0.400,0.000,1.000)
+#Player0Orange
 #
 
 1 0.4 0                                                          player.set-color
@@ -13,9 +13,9 @@ Alpha Team type enum                                             player.set-team
 16000                                                            player.set-credits
 0                                                                player.set-power-meter
 1 0 int2                                                         player.set-unit-look-direction
+Orange                                                           player.set-name
 Natalie                                                          player.set-co
                                                                  player.mark-as-local
-Orange player.set-name                                                                 
                                                                  player.add
 
                                                                  dup
@@ -76,7 +76,7 @@ WbLightTank UnitView type load-resource                          unit.set-view-p
                                                                  
 
 #
-#Player1RGBA(0.000,0.400,1.000,1.000)
+#Player1Blue
 #
 
 0 0.4 1                                                          player.set-color
@@ -84,8 +84,8 @@ Bravo Team type enum                                             player.set-team
 16000                                                            player.set-credits
 0                                                                player.set-power-meter
 -1 0 int2                                                        player.set-unit-look-direction
+Blue                                                             player.set-name
 Natalie                                                          player.set-co
-Blue player.set-name
                                                                  player.add
 
                                                                  dup
@@ -224,8 +224,8 @@ E TriggerName type enum                                          trigger.select
 F TriggerName type enum                                          trigger.select
 
 
--11.28105 0 -13.38478 float3                                     camera-rig.set-position
-315                                                              camera-rig.set-rotation
-25.24858                                                         camera-rig.set-distance
-40.36793                                                         camera-rig.set-pitch-angle
-25.44551                                                         camera-rig.set-fov
+-10.8898 0 -12.96373 float3                                      camera-rig.set-position
+337.5                                                            camera-rig.set-rotation
+13.74684                                                         camera-rig.set-distance
+39.65524                                                         camera-rig.set-pitch-angle
+31.10019                                                         camera-rig.set-fov
