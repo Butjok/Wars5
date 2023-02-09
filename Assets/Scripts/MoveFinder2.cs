@@ -18,14 +18,6 @@ using UnityEngine.Assertions;
 
 public class MoveFinder2 {
 
-    /*[Command]
-    public static bool TrySetGoal(Vector2Int range) {
-        if (!Mouse.TryGetPosition(out Vector2Int mousePosition))
-            return false;
-        Goals = Object.FindObjectOfType<Main>().PositionsInRange(mousePosition, range);
-        return true;
-    }*/
-
     public struct Node {
         public int g, h;
         public Vector2Int? shortCameFrom, longCameFrom;

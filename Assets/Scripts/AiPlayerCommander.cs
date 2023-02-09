@@ -9,7 +9,6 @@ using Drawing;
 using UnityEngine;
 using UnityEngine.Assertions;
 using static Rules;
-using static MoveFinder2;
 
 // ReSharper disable LoopCanBePartlyConvertedToQuery
 
@@ -25,7 +24,6 @@ public class AiPlayerCommander : MonoBehaviour {
         public Vector2Int? targetPosition;
         public WeaponName weaponName;
         public List<Vector2Int> path, restPath;
-        public string unitName;
         public Unit carrier;
         public List<Vector2Int> carrierPath, carrierRestPath;
 
@@ -148,10 +146,8 @@ public class AiPlayerCommander : MonoBehaviour {
 
         if (!foundMove)
             main.commands.Enqueue(SelectionState.endTurn);
-        else {
-            selectedAction.unitName = selectedAction.unit.ToString();
+        else
             main.commands.Enqueue($"{selectedAction.unit.NonNullPosition.x} {selectedAction.unit.NonNullPosition.y} int2 {SelectionState.select}");
-        }
     }
 
     public void IssueCommandsForPathSelectionState() {
@@ -202,9 +198,10 @@ public class AiPlayerCommander : MonoBehaviour {
         StartCoroutine(DrawPotentialUnitActions(actions));
     }
 
+    public MoveFinder2 moveFinder = new();
+
     public IEnumerable<PotentialUnitAction> EnumeratePotentialUnitActions(Unit unit) {
 
-        var moveFinder = new MoveFinder2();
         moveFinder.FindDestinations(unit);
 
         //
@@ -233,7 +230,7 @@ public class AiPlayerCommander : MonoBehaviour {
 
         var buildingsToCapture = main.buildings.Values.Where(building => CanCapture(unit, building));
         foreach (var building in buildingsToCapture)
-            if (CanStay(unit,building.position) && moveFinder.TryFindPath(out var path, out var restPath, building.position)) {
+            if (CanStay(unit, building.position) && moveFinder.TryFindPath(out var path, out var restPath, building.position)) {
                 yield return new PotentialUnitAction {
                     unit = unit,
                     type = UnitActionType.Capture,
@@ -246,7 +243,7 @@ public class AiPlayerCommander : MonoBehaviour {
         //
         // find units to attack
         //
-        
+
         /*
          * TODO: somehow de-prioritize artillery attacks - atm they are charging forward as mad men.
          * - Viktor 9.2.23
@@ -303,12 +300,12 @@ public class AiPlayerCommander : MonoBehaviour {
         //
 
         foreach (var ally in allies) {
-            
+
             var canJoin = CanJoin(unit, ally);
             var canGetIn = CanGetIn(unit, ally);
             if (!canJoin && !canGetIn || !moveFinder.TryFindPath(out var path, out var restPath, ally.NonNullPosition))
                 continue;
-            
+
             if (canJoin)
                 yield return new PotentialUnitAction {
                     unit = unit,
@@ -317,7 +314,7 @@ public class AiPlayerCommander : MonoBehaviour {
                     path = path,
                     restPath = restPath
                 };
-            
+
             if (canGetIn)
                 yield return new PotentialUnitAction {
                     unit = unit,
@@ -329,10 +326,7 @@ public class AiPlayerCommander : MonoBehaviour {
         }
     }
 
-    [SuppressMessage("ReSharper", "SuggestVarOrType_BuiltInTypes")]
     public void PrioritizePotentialUnitActions(IEnumerable<PotentialUnitAction> actions) {
-
-        var mostExpensiveUnitCost = UnitStats.Loaded.Values.Max(item => item.cost);
 
         foreach (var action in actions) {
 
@@ -394,10 +388,6 @@ public class AiPlayerCommander : MonoBehaviour {
         if (list.Count == 0)
             yield break;
 
-//var moveFinderDebugDrawer = FindObjectOfType<MoveFinderDebugDrawer>();
-        //if (moveFinderDebugDrawer)
-        //    moveFinderDebugDrawer.Show = false;
-
         while (!Input.GetKeyDown(KeyCode.Alpha0)) {
             yield return null;
 
@@ -431,15 +421,13 @@ public class AiPlayerCommander : MonoBehaviour {
                 if (action.targetBuilding != null)
                     to = action.targetBuilding.position.ToVector3Int();
 
-                Draw.ingame.Line(Vector3.Lerp(from, to, actionLineLerp[0]), Vector3.Lerp(from, to, actionLineLerp[1]), GetPotentialUnitActionTypeColor(action.type));
+                using (Draw.ingame.WithLineWidth(actionLineThickness))
+                    Draw.ingame.Line(Vector3.Lerp(from, to, actionLineLerp[0]), Vector3.Lerp(from, to, actionLineLerp[1]), GetPotentialUnitActionTypeColor(action.type));
                 Draw.ingame.Label2D(Vector3.Lerp(from, to, .5f) + Vector3.up * .5f, $"{action.priority:0.00}: {action}\n", textSize, LabelAlignment.BottomCenter, color);
-
             }
         }
     }
 
-    [Command]
-    public Color colorStay = Color.blue;
     [Command]
     public Color colorGather = Color.blue;
     [Command]
@@ -454,8 +442,6 @@ public class AiPlayerCommander : MonoBehaviour {
     public Color colorDrop = Color.yellow;
     [Command]
     public Color colorSupply = Color.yellow;
-    [Command]
-    public Color colorLaunchMissile = Color.red;
     [Command]
     public float pathThickness = 2;
     [Command]

@@ -330,16 +330,16 @@ public static class ActionSelectionState {
 
                                     CameraRig.TryFind(out var cameraRig);
 
-                                    if (newTargetHp <= 0 && cameraRig)
-                                        yield return StateChange.Push("JumpToAttackTarget", Wait.ForCompletion(cameraRig.Jump(((Vector2Int)target.Position).Raycast())));
+                                    //if (newTargetHp <= 0 && cameraRig)
+                                     //   yield return StateChange.Push("JumpToAttackTarget", Wait.ForCompletion(cameraRig.Jump(((Vector2Int)target.Position).Raycast())));
 
                                     target.SetHp(newTargetHp, true);
 
                                     //if (newTargetHp > 0 && targetWeaponIndex != -1)
                                     //    target.ammo[targetWeaponIndex]--;
 
-                                    if (newAttackerHp <= 0 && cameraRig)
-                                        yield return StateChange.Push("JumpToAttacker", Wait.ForCompletion(cameraRig.Jump(destination.Raycast())));
+                                    //if (newAttackerHp <= 0 && cameraRig)
+                                      //  yield return StateChange.Push("JumpToAttacker", Wait.ForCompletion(cameraRig.Jump(destination.Raycast())));
 
                                     attacker.SetHp(newAttackerHp, true);
 
