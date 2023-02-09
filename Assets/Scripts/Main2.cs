@@ -422,6 +422,14 @@ public class Main2 : Main {
     }
 
     [Command]
+    public bool TrySetUnitFuel(int fuel) {
+        if (!Mouse.TryGetPosition(out Vector2Int position) || !TryGetUnit(position, out var unit))
+            return false;
+        unit.Fuel = fuel;
+        return true;
+    }
+
+    [Command]
     public void ResetToDefaultLevel() {
         
         Clear();

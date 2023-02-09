@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using Butjok.CommandLine;
@@ -52,6 +53,17 @@ public class AiPlayerCommander : MonoBehaviour {
     public Vector2Int selectPosition;
     public Vector2Int movePosition;
     [Command] public float textSize = 14;
+    public HashSet<Vector2Int> gatheringPoints = new();
+
+    [Command]
+    public void ClearGatheringPoints() {
+        gatheringPoints.Clear();
+    }
+    [Command]
+    public void TryAddGatheringPoint() {
+        if (Mouse.TryGetPosition(out Vector2Int position))
+            gatheringPoints.Add(position);
+    }
 
     [Command]
     public bool playForHuman = true;
@@ -120,42 +132,35 @@ public class AiPlayerCommander : MonoBehaviour {
     }
 
     public PotentialUnitAction selectedAction;
-    public NextTask nextTask;
-    public bool issuedPathSelectionCommand;
-    public bool issuedActionSelectionCommand;
 
     public void IssueCommandsForSelectionState() {
-        var shouldEndTurn = !TryFindBestMove(out selectedAction);
-        issuedPathSelectionCommand = issuedActionSelectionCommand = false;
+        var foundMove = TryFindBestMove(out selectedAction);
 
         // if unit cannot move the entire path change the action type to stay
         // also if an artillery unit is trying to attack somebody but it moves first - change to stay as well
-        if (selectedAction != null &&
-            (selectedAction.restPath[^1] != selectedAction.path[^1] ||
-             selectedAction.path.Count > 1 && IsArtillery(selectedAction.unit)))
+        if (selectedAction != null) {
+            if (selectedAction.restPath[^1] != selectedAction.path[^1] ||
+                selectedAction.path.Count > 1 && IsArtillery(selectedAction.unit) ||
+                selectedAction.type == UnitActionType.Gather)
 
-            selectedAction.type = UnitActionType.Stay;
-
-        if (shouldEndTurn) {
-            nextTask = NextTask.None;
-            main.commands.Enqueue(SelectionState.endTurn);
+                selectedAction.type = UnitActionType.Stay;
         }
-        else if (selectedAction != null) {
-            nextTask = NextTask.SelectPath;
+
+        if (!foundMove)
+            main.commands.Enqueue(SelectionState.endTurn);
+        else {
             selectedAction.unitName = selectedAction.unit.ToString();
             main.commands.Enqueue($"{selectedAction.unit.NonNullPosition.x} {selectedAction.unit.NonNullPosition.y} int2 {SelectionState.select}");
         }
     }
+
     public void IssueCommandsForPathSelectionState() {
-        issuedPathSelectionCommand = true;
         foreach (var position in selectedAction.path)
             main.commands.Enqueue($"{position.x} {position.y} int2 {PathSelectionState.appendToPath}");
         main.commands.Enqueue($"false {PathSelectionState.move}");
-        nextTask = NextTask.SelectAction;
     }
-    public void IssueCommandsForActionSelectionState() {
-        issuedActionSelectionCommand = true;
 
+    public void IssueCommandsForActionSelectionState() {
         switch (selectedAction.type) {
 
             case UnitActionType.Stay:
@@ -183,7 +188,6 @@ public class AiPlayerCommander : MonoBehaviour {
 
         Assert.AreEqual(1, main.stack.Peek<List<UnitAction>>().Count);
         main.commands.Enqueue(ActionSelectionState.execute);
-        nextTask = NextTask.None;
     }
 
     [Command]
@@ -203,8 +207,20 @@ public class AiPlayerCommander : MonoBehaviour {
         var moveFinder = new MoveFinder2();
         moveFinder.FindDestinations(unit);
 
-        var buildingsToCapture = main.buildings.Values.Where(building => CanCapture(unit, building));
-        var allies = main.units.Values.Where(u => AreAllies(unit.Player, u.Player)).ToList();
+        //
+        // get to the gathering point
+        //
+
+        if (gatheringPoints.Count > 0) {
+            var targets = gatheringPoints.Where(position => CanStay(unit, position));
+            if (moveFinder.TryFindPath(out var path, out var restPath, targets: targets))
+                yield return new PotentialUnitAction {
+                    unit = unit,
+                    type = UnitActionType.Gather,
+                    path = path,
+                    restPath = restPath
+                };
+        }
 
         //
         // capture buildings
@@ -215,6 +231,7 @@ public class AiPlayerCommander : MonoBehaviour {
          * - Viktor 9.2.23
          */
 
+        var buildingsToCapture = main.buildings.Values.Where(building => CanCapture(unit, building));
         foreach (var building in buildingsToCapture)
             if (moveFinder.TryFindPath(out var path, out var restPath, building.position)) {
                 yield return new PotentialUnitAction {
@@ -261,6 +278,8 @@ public class AiPlayerCommander : MonoBehaviour {
         // find units to supply
         //
 
+        var allies = main.units.Values.Where(u => AreAllies(unit.Player, u.Player)).ToList();
+
         foreach (var ally in allies)
             if (CanSupply(unit, ally)) {
                 var targets = main.PositionsInRange(ally.NonNullPosition, Vector2Int.one).Where(position => CanStay(unit, position));
@@ -299,57 +318,63 @@ public class AiPlayerCommander : MonoBehaviour {
             }
     }
 
+    [SuppressMessage("ReSharper", "SuggestVarOrType_BuiltInTypes")]
     public void PrioritizePotentialUnitActions(IEnumerable<PotentialUnitAction> actions) {
 
         var mostExpensiveUnitCost = UnitStats.Loaded.Values.Max(item => item.cost);
 
         foreach (var action in actions) {
 
-            float damageDealt = 0;
-            float damageDealtInCredits = 0;
-            float damageTaken = 0;
-            float damageTakenInCredits = 0;
-
-            if (action.type == UnitActionType.Attack) {
-
-                var isValid = TryGetDamage(action.unit, action.targetUnit, action.weaponName, out var damageDealtInteger);
-                Assert.IsTrue(isValid);
-
-                damageDealt = damageDealtInteger;
-                damageDealtInCredits = damageDealt / MaxHp(action.targetUnit) * Cost(action.targetUnit); 
-
-                // TODO: add damage taken
-            }
+            float pathLength = action.path.Count;
+            float fullPathLength = action.path.Count + action.restPath.Count - 1;
+            float pathPercentage = pathLength / fullPathLength;
             
-            if (action.type == UnitActionType.Capture) {
-                float unitCp = Cp(action.unit);
-                float buildingCp = action.targetBuilding.Cp;
-                var capturePercentage = Mathf.Clamp01( unitCp / buildingCp);
+            action.priority = 0;
+
+            switch (action.type) {
+
+                case UnitActionType.Attack: {
+                    var isValid = TryGetDamage(action.unit, action.targetUnit, action.weaponName, out var damageDealtInteger);
+                    Assert.IsTrue(isValid);
+
+                    var damagePercentage = (float)damageDealtInteger / MaxHp(action.targetUnit);
+                    var damageInCredits = damagePercentage * Cost(action.targetUnit);
+                    action.priority = 2 * pathPercentage * (damageInCredits / mostExpensiveUnitCost);
+                    break;
+                }
+
+                case UnitActionType.Capture: {
+                    float unitCp = Cp(action.unit);
+                    float buildingCp = action.targetBuilding.Cp;
+                    float capturePercentage = Mathf.Clamp01(unitCp / buildingCp);
+                    action.priority = 2 * pathPercentage * capturePercentage;
+                    break;
+                }
+
+                case UnitActionType.Join: {
+                    float targetHp = action.targetUnit.Hp;
+                    float hp = action.unit.Hp;
+                    float newTargetHp = Mathf.Min(MaxHp(action.targetUnit), targetHp + hp);
+                    float hpAdded = newTargetHp - targetHp;
+                    float hpLost = hp - hpAdded;
+                    float hpBalance = hpAdded - hpLost;
+                    action.priority =  pathPercentage * (hpBalance / 10);
+                    break;
+                }
+
+                case UnitActionType.Supply: {
+                    var weaponNames = GetWeaponNames(action.targetUnit).ToList();
+                    if (action.targetUnit.Fuel == 0 || weaponNames.Count > 0 && weaponNames.Any(weaponName => action.targetUnit.GetAmmo(weaponName) == 0))
+                        action.priority =  pathPercentage;
+                    break;
+                }
+
+                case UnitActionType.Gather: {
+                    action.priority = 1.5f * pathPercentage;
+                    break;
+                }
             }
-
-            action.priority = ExpressionEvaluator.Evaluate(PriorityFormula,
-                ("hp", ()=>action.unit.Hp),
-                ("mostExpensiveUnitCost", ()=>mostExpensiveUnitCost),
-                ("fuel", ()=>action.unit.Fuel),
-                ("hasCargo", ()=>action.unit.Cargo.Count > 0 ? 1 : 0),
-                ("pathLength", ()=>action.path.Count),
-                ("fullPathLength", ()=>action.path.Count + action.restPath.Count - 1),
-                ("pathCost", ()=>CalculatePathCost(action.unit, action.path)),
-                ("fullPathCost", ()=>CalculatePathCost(action.unit, action.path.Concat(action.restPath.Skip(1)))),
-                ("capturePercentage", ()=>0),
-                (nameof(damageDealt), ()=>damageDealt),
-                (nameof(damageDealtInCredits), ()=>damageDealtInCredits),
-                (nameof(damageTaken), ()=>damageTaken),
-                (nameof(damageTakenInCredits), ()=>damageTakenInCredits));
         }
-    }
-
-    public static int CalculatePathCost(Unit unit, IEnumerable<Vector2Int> path) {
-        return path.Skip(1).Sum(position => {
-            var isValid = TryGetMoveCost(unit, position, out var cost);
-            Assert.IsTrue(isValid, $"{unit} {position}");
-            return cost;
-        });
     }
 
     public IEnumerator DrawPotentialUnitActions(IEnumerable<PotentialUnitAction> actions) {
@@ -386,7 +411,7 @@ public class AiPlayerCommander : MonoBehaviour {
 
                 //
 
-                Vector3? to = null;
+                Vector3 to = action.restPath[^1].ToVector3Int();
                 var from = (Vector3)action.restPath[^1].ToVector3Int();
                 if (action.targetUnit is { Position: { } unitPosition })
                     to = unitPosition.ToVector3Int();
@@ -395,16 +420,17 @@ public class AiPlayerCommander : MonoBehaviour {
                 if (action.targetBuilding != null)
                     to = action.targetBuilding.position.ToVector3Int();
 
-                if (to is { } vector) {
-                    Draw.ingame.Line(Vector3.Lerp(from, vector, actionLineLerp[0]), Vector3.Lerp(from, vector, actionLineLerp[1]), GetUnitActionTypeColor(action.type));
-                    Draw.ingame.Label2D(Vector3.Lerp(from, vector, .5f), $"{action.priority}: {action}\n", textSize, LabelAlignment.BottomCenter, color);
-                }
+                Draw.ingame.Line(Vector3.Lerp(from, to, actionLineLerp[0]), Vector3.Lerp(from, to, actionLineLerp[1]), GetPotentialUnitActionTypeColor(action.type));
+                Draw.ingame.Label2D(Vector3.Lerp(from, to, .5f) + Vector3.up * .5f, $"{action.priority:0.00}: {action}\n", textSize, LabelAlignment.BottomCenter, color);
+
             }
         }
     }
 
     [Command]
     public Color colorStay = Color.blue;
+    [Command]
+    public Color colorGather = Color.blue;
     [Command]
     public Color colorJoin = Color.green;
     [Command]
@@ -432,16 +458,15 @@ public class AiPlayerCommander : MonoBehaviour {
     [Command]
     public Vector2 actionLineLerp = new(.1f, 1);
 
-    public Color GetUnitActionTypeColor(UnitActionType type) {
+    public Color GetPotentialUnitActionTypeColor(UnitActionType type) {
         return type switch {
-            UnitActionType.Stay => colorStay,
             UnitActionType.Join => colorJoin,
             UnitActionType.Capture => colorCapture,
             UnitActionType.Attack => colorAttack,
             UnitActionType.GetIn => colorGetIn,
             UnitActionType.Drop => colorDrop,
             UnitActionType.Supply => colorSupply,
-            UnitActionType.LaunchMissile => colorLaunchMissile,
+            UnitActionType.Gather=> colorGather,
             _ => throw new ArgumentOutOfRangeException(type.ToString())
         };
     }

@@ -109,15 +109,15 @@ public static class Rules {
     public static bool TryGetDamage(UnitType attackerType, UnitType targetType, WeaponName weaponName, out int damage) {
         return DamageTable.Loaded.TryGetValue((attackerType, targetType, weaponName), out damage);
     }
-    public static bool TryGetDamage(Unit attacker, Unit target, WeaponName weaponName, out int damage) {
+    public static bool TryGetDamage(Unit attacker, Unit target, WeaponName weaponName, out float damage) {
         damage = 0;
         if (!AreEnemies(attacker.Player, target.Player) || attacker.GetAmmo( weaponName) <= 0 || !TryGetDamage(attacker.type, target.type, weaponName, out var baseDamage))
             return false;
-        damage = CeilToInt((float)(attacker.Hp) / MaxHp(attacker) * baseDamage);
+        damage = (float)(attacker.Hp) / MaxHp(attacker) * baseDamage;
         return true;
     }
 
-    public static IEnumerable<(WeaponName weaponName, int damage)> GetDamageValues(Unit attacker, Unit target) {
+    public static IEnumerable<(WeaponName weaponName, float damage)> GetDamageValues(Unit attacker, Unit target) {
         foreach (var weaponName in GetWeaponNames(attacker))
             if (TryGetDamage(attacker, target, weaponName, out var damage))
                 yield return (weaponName, damage);

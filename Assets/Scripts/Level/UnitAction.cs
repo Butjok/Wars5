@@ -7,13 +7,14 @@ using Object = UnityEngine.Object;
 
 public enum UnitActionType {
     Stay,
-    Join,
-    Capture,
-    Attack,
+    Join,          //
+    Capture,       //
+    Attack,        //
     GetIn,
     Drop,
-    Supply,
-    LaunchMissile
+    Supply,        //
+    LaunchMissile, //
+    Gather
 }
 
 public class UnitAction : IDisposable {

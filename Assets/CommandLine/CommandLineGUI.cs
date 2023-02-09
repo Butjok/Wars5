@@ -44,6 +44,7 @@ namespace Butjok.CommandLine
 
         public int depth = -1000;
 
+        [Command]
         private void Awake() {
             if (dontDestroyOnLoad)
                 DontDestroyOnLoad(gameObject);

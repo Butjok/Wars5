@@ -55,7 +55,7 @@ WbLightTank UnitView type load-resource                          unit.set-view-p
                                                                  pop
 
                                                                  dup
-Infantry UnitType type enum                                      unit.set-type
+LightTank UnitType type enum                                     unit.set-type
 false                                                            unit.set-moved
 -12 -17 int2                                                     unit.set-position
 1 0 int2                                                         unit.set-look-direction
@@ -224,8 +224,8 @@ E TriggerName type enum                                          trigger.select
 F TriggerName type enum                                          trigger.select
 
 
--11.28105 0 -13.38478 float3                                     camera-rig.set-position
-315                                                              camera-rig.set-rotation
-25.24858                                                         camera-rig.set-distance
-40.36793                                                         camera-rig.set-pitch-angle
-25.44551                                                         camera-rig.set-fov
+-10.05349 0 -11.17459 float3                                     camera-rig.set-position
+337.5                                                            camera-rig.set-rotation
+36.37801                                                         camera-rig.set-distance
+45.51451                                                         camera-rig.set-pitch-angle
+21.22127                                                         camera-rig.set-fov
