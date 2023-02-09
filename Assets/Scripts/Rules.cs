@@ -106,14 +106,14 @@ public static class Rules {
         return UnitStats.Loaded.TryGetValue(type, out var entry) ? entry.ammo.Keys : Enumerable.Empty<WeaponName>();
     }
 
-    public static bool TryGetDamage(UnitType attackerType, UnitType targetType, WeaponName weaponName, out int damage) {
-        return DamageTable.Loaded.TryGetValue((attackerType, targetType, weaponName), out damage);
+    public static bool TryGetDamage(UnitType attackerType, UnitType targetType, WeaponName weaponName, out float damagePercentage) {
+        return DamageTable.Loaded.TryGetValue((attackerType, targetType, weaponName), out damagePercentage);
     }
-    public static bool TryGetDamage(Unit attacker, Unit target, WeaponName weaponName, out float damage) {
-        damage = 0;
-        if (!AreEnemies(attacker.Player, target.Player) || attacker.GetAmmo( weaponName) <= 0 || !TryGetDamage(attacker.type, target.type, weaponName, out var baseDamage))
+    public static bool TryGetDamage(Unit attacker, Unit target, WeaponName weaponName, out float damagePercentage) {
+        damagePercentage = 0;
+        if (!AreEnemies(attacker.Player, target.Player) || attacker.GetAmmo( weaponName) <= 0 || !TryGetDamage(attacker.type, target.type, weaponName, out var baseDamagePercentage))
             return false;
-        damage = (float)(attacker.Hp) / MaxHp(attacker) * baseDamage;
+        damagePercentage = (float)(attacker.Hp) / MaxHp(attacker) * baseDamagePercentage;
         return true;
     }
 
@@ -296,7 +296,7 @@ public static class Rules {
         return AreAllies(unit.Player, other.Player);
     }
     public static bool CanJoin(Unit unit, Unit other) {
-        return other != unit && unit.Player == other.Player && other.Hp < MaxHp(other);
+        return other != unit && unit.type == other.type && unit.Player == other.Player && other.Hp < MaxHp(other);
     }
     public static bool CanLaunchMissile(UnitType unitType) {
         return UnitStats.Loaded.TryGetValue(unitType, out var entry) && entry.specialCommands.HasFlag(UnitStats.SpecialCommand.CanLaunchMissile);

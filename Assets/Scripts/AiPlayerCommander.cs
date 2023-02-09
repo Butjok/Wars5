@@ -233,7 +233,7 @@ public class AiPlayerCommander : MonoBehaviour {
 
         var buildingsToCapture = main.buildings.Values.Where(building => CanCapture(unit, building));
         foreach (var building in buildingsToCapture)
-            if (moveFinder.TryFindPath(out var path, out var restPath, building.position)) {
+            if (CanStay(unit,building.position) && moveFinder.TryFindPath(out var path, out var restPath, building.position)) {
                 yield return new PotentialUnitAction {
                     unit = unit,
                     type = UnitActionType.Capture,
@@ -246,6 +246,11 @@ public class AiPlayerCommander : MonoBehaviour {
         //
         // find units to attack
         //
+        
+        /*
+         * TODO: somehow de-prioritize artillery attacks - atm they are charging forward as mad men.
+         * - Viktor 9.2.23
+         */
 
         if (TryGetAttackRange(unit, out var attackRange))
 
@@ -297,25 +302,31 @@ public class AiPlayerCommander : MonoBehaviour {
         // find units to join / get in
         //
 
-        foreach (var ally in allies)
-            if (moveFinder.TryFindPath(out var path, out var restPath, ally.NonNullPosition)) {
-                if (CanJoin(unit, ally))
-                    yield return new PotentialUnitAction {
-                        unit = unit,
-                        type = UnitActionType.Join,
-                        targetUnit = ally,
-                        path = path,
-                        restPath = restPath
-                    };
-                if (CanGetIn(unit, ally))
-                    yield return new PotentialUnitAction {
-                        unit = unit,
-                        type = UnitActionType.GetIn,
-                        targetUnit = ally,
-                        path = path,
-                        restPath = restPath
-                    };
-            }
+        foreach (var ally in allies) {
+            
+            var canJoin = CanJoin(unit, ally);
+            var canGetIn = CanGetIn(unit, ally);
+            if (!canJoin && !canGetIn || !moveFinder.TryFindPath(out var path, out var restPath, ally.NonNullPosition))
+                continue;
+            
+            if (canJoin)
+                yield return new PotentialUnitAction {
+                    unit = unit,
+                    type = UnitActionType.Join,
+                    targetUnit = ally,
+                    path = path,
+                    restPath = restPath
+                };
+            
+            if (canGetIn)
+                yield return new PotentialUnitAction {
+                    unit = unit,
+                    type = UnitActionType.GetIn,
+                    targetUnit = ally,
+                    path = path,
+                    restPath = restPath
+                };
+        }
     }
 
     [SuppressMessage("ReSharper", "SuggestVarOrType_BuiltInTypes")]
@@ -328,18 +339,18 @@ public class AiPlayerCommander : MonoBehaviour {
             float pathLength = action.path.Count;
             float fullPathLength = action.path.Count + action.restPath.Count - 1;
             float pathPercentage = pathLength / fullPathLength;
-            
+
             action.priority = 0;
 
             switch (action.type) {
 
                 case UnitActionType.Attack: {
-                    var isValid = TryGetDamage(action.unit, action.targetUnit, action.weaponName, out var damageDealtInteger);
+                    var isValid = TryGetDamage(action.unit, action.targetUnit, action.weaponName, out var damagePercentage);
                     Assert.IsTrue(isValid);
 
-                    var damagePercentage = (float)damageDealtInteger / MaxHp(action.targetUnit);
-                    var damageInCredits = damagePercentage * Cost(action.targetUnit);
-                    action.priority = 2 * pathPercentage * (damageInCredits / mostExpensiveUnitCost);
+                    action.priority = 2 * pathPercentage * damagePercentage;
+                    if (IsArtillery(action.unit) && action.path.Count > 1)
+                        action.priority /= 2;
                     break;
                 }
 
@@ -358,14 +369,14 @@ public class AiPlayerCommander : MonoBehaviour {
                     float hpAdded = newTargetHp - targetHp;
                     float hpLost = hp - hpAdded;
                     float hpBalance = hpAdded - hpLost;
-                    action.priority =  pathPercentage * (hpBalance / 10);
+                    action.priority = pathPercentage * (1 + hpBalance / 10);
                     break;
                 }
 
                 case UnitActionType.Supply: {
                     var weaponNames = GetWeaponNames(action.targetUnit).ToList();
                     if (action.targetUnit.Fuel == 0 || weaponNames.Count > 0 && weaponNames.Any(weaponName => action.targetUnit.GetAmmo(weaponName) == 0))
-                        action.priority =  pathPercentage;
+                        action.priority = pathPercentage;
                     break;
                 }
 
@@ -466,7 +477,7 @@ public class AiPlayerCommander : MonoBehaviour {
             UnitActionType.GetIn => colorGetIn,
             UnitActionType.Drop => colorDrop,
             UnitActionType.Supply => colorSupply,
-            UnitActionType.Gather=> colorGather,
+            UnitActionType.Gather => colorGather,
             _ => throw new ArgumentOutOfRangeException(type.ToString())
         };
     }

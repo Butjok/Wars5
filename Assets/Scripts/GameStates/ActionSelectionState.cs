@@ -311,11 +311,10 @@ public static class ActionSelectionState {
                                     var attacker = action.unit;
                                     var target = action.targetUnit;
 
-                                    if (!Rules.TryGetDamage(attacker, target, action.weaponName, out var damageToTarget))
+                                    if (!Rules.TryGetDamage(attacker, target, action.weaponName, out var damagePercentageToTarget))
                                         throw new Exception();
 
-                                    var roundedDamageToTarget = Mathf.RoundToInt(damageToTarget);
-                                    var newTargetHp = Mathf.Max(0, target.Hp - roundedDamageToTarget);
+                                    var newTargetHp = Mathf.RoundToInt(Mathf.Max(0, target.Hp - damagePercentageToTarget * Rules.MaxHp(target)));
                                     var newAttackerHp = attacker.Hp;
                                     var targetWeaponIndex = -1;
                                     /*if (newTargetHp > 0 && Rules.CanAttackInResponse(target, attacker, out targetWeaponIndex)) {

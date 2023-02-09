@@ -5,7 +5,7 @@ using Butjok.CommandLine;
 using NReco.Csv;
 using UnityEngine;
 using UnityEngine.Assertions;
-using Table = System.Collections.Generic.Dictionary<(UnitType attackerType, UnitType targetType, WeaponName weaponName), int>;
+using Table = System.Collections.Generic.Dictionary<(UnitType attackerType, UnitType targetType, WeaponName weaponName), float>;
 
 public static class DamageTable {
 
@@ -20,7 +20,7 @@ public static class DamageTable {
 
     [Command]
     public static void Load() {
-        
+
         var input = "DamageTable".LoadAs<TextAsset>().text;
 
         if (loaded == null)
@@ -38,11 +38,11 @@ public static class DamageTable {
             var attackerType = fields[0].ParseEnum<UnitType>();
             var targetType = fields[1].ParseEnum<UnitType>();
             var words = fields[2].Separate().ToArray();
-            Assert.AreEqual(0,words.Length%2);
+            Assert.AreEqual(0, words.Length % 2);
             for (var i = 0; i < words.Length; i += 2) {
                 var weaponName = words[i].ParseEnum<WeaponName>();
                 var damage = words[i + 1].ParseInt();
-                loaded.Add((attackerType,targetType,weaponName),damage);
+                loaded.Add((attackerType, targetType, weaponName), (float)damage / 100);
             }
         }
     }
