@@ -16,7 +16,7 @@ using UnityEngine.Assertions;
  * - breaking ties
  */
 
-public static class MoveFinder2 {
+public class MoveFinder2 {
 
     /*[Command]
     public static bool TrySetGoal(Vector2Int range) {
@@ -31,11 +31,12 @@ public static class MoveFinder2 {
         public Vector2Int? shortCameFrom, longCameFrom;
     }
 
-    public static Unit unit;
-    public static readonly Dictionary<Vector2Int, Node> nodes = new();
-    public static readonly SimplePriorityQueue<Vector2Int> priorityQueue = new();
-    public static readonly HashSet<Vector2Int> destinations = new();
-    private static readonly HashSet<Vector2Int> goals = new();
+    public Unit unit;
+    public readonly Dictionary<Vector2Int, Node> nodes = new();
+    public readonly SimplePriorityQueue<Vector2Int> priorityQueue = new();
+    public readonly HashSet<Vector2Int> destinations = new();
+    private readonly HashSet<Vector2Int> goals = new();
+    public readonly HashSet<Vector2Int> closed = new();
 
     public const int infinity = 99999;
 
@@ -43,22 +44,25 @@ public static class MoveFinder2 {
     public static void FindDestinations() {
         if (!Main.TryFind(out var main) || !Mouse.TryGetPosition(out Vector2Int mousePosition) || !main.TryGetUnit(mousePosition, out var unit))
             return;
-        FindDestinations(unit);
+        
+        var moveFinder = new MoveFinder2();
+        moveFinder.FindDestinations(unit);
 
         using (Draw.ingame.WithDuration(5))
-            foreach (var position in destinations)
+            foreach (var position in moveFinder.destinations)
                 Draw.ingame.SolidCircleXZ((Vector3)position.ToVector3Int(), .5f, Color.cyan);
     }
 
-    public static void FindDestinations(Unit unit, bool onlyStayPositions = true) {
+    public void FindDestinations(Unit unit, bool onlyStayPositions = true) {
 
-        MoveFinder2.unit = unit;
+        this.unit = unit;
         var startPosition = unit.NonNullPosition;
         var moveCapacity = Rules.MoveCapacity(unit);
 
         nodes.Clear();
         priorityQueue.Clear();
         destinations.Clear();
+        closed.Clear();
 
         var tiles = unit.Player.main.tiles;
         foreach (var position in tiles.Keys) {
@@ -71,6 +75,8 @@ public static class MoveFinder2 {
         }
 
         while (priorityQueue.TryDequeue(out var position) && nodes.TryGetValue(position, out var current) && current.g <= moveCapacity) {
+
+            closed.Add(position);
 
             if (!onlyStayPositions || Rules.CanStay(unit, position))
                 destinations.Add(position);
@@ -113,13 +119,9 @@ public static class MoveFinder2 {
             }
             priorityQueue.Enqueue(position, node.g);
         }
-
-        closed.Clear();
     }
 
-    public static readonly HashSet<Vector2Int> closed = new();
-
-    public static bool TryFindPath(out List<Vector2Int> shortPath, out List<Vector2Int> restPath,
+    public  bool TryFindPath(out List<Vector2Int> shortPath, out List<Vector2Int> restPath,
         Vector2Int? target = null, IEnumerable<Vector2Int> targets = null) {
 
         shortPath = restPath = null;

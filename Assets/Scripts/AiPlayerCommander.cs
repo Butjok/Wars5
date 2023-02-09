@@ -25,6 +25,8 @@ public class AiPlayerCommander : MonoBehaviour {
         public WeaponName weaponName;
         public List<Vector2Int> path, restPath;
         public string unitName;
+        public Unit carrier;
+        public List<Vector2Int> carrierPath, carrierRestPath;
 
         public float priority;
 
@@ -198,15 +200,23 @@ public class AiPlayerCommander : MonoBehaviour {
 
     public IEnumerable<PotentialUnitAction> EnumeratePotentialUnitActions(Unit unit) {
 
-        FindDestinations(unit);
-
-        //
-        // find buildings to capture
-        //
+        var moveFinder = new MoveFinder2();
+        moveFinder.FindDestinations(unit);
 
         var buildingsToCapture = main.buildings.Values.Where(building => CanCapture(unit, building));
-        foreach (var building in buildingsToCapture) {
-            if (TryFindPath( out var path, out var restPath, building.position)) {
+        var allies = main.units.Values.Where(u => AreAllies(unit.Player, u.Player)).ToList();
+
+        //
+        // capture buildings
+        //
+
+        /*
+         * TODO: add capturing through the carrier (APC, TransportHelicopter etc.).
+         * - Viktor 9.2.23
+         */
+
+        foreach (var building in buildingsToCapture)
+            if (moveFinder.TryFindPath(out var path, out var restPath, building.position)) {
                 yield return new PotentialUnitAction {
                     unit = unit,
                     type = UnitActionType.Capture,
@@ -215,28 +225,12 @@ public class AiPlayerCommander : MonoBehaviour {
                     restPath = restPath
                 };
             }
-        }
-
-        //
-        // find missile silos to use
-        //
-
-        /*var missileSilos = main.buildings.Values.Where(building => building.type == TileType.MissileSilo && CanLaunchMissile(unit, building));
-        foreach (var missileSilo in missileSilos)
-            if (MoveFinder.TryFindMove(unit, missileSilo.position))
-                yield return new PotentialUnitAction {
-                    unit = unit,
-                    type = UnitActionType.LaunchMissile,
-                    targetBuilding = missileSilo,
-                    path = MoveFinder.Path,
-                    restPath = MoveFinder.RestPath
-                };*/
 
         //
         // find units to attack
         //
 
-        if (TryGetAttackRange(unit, out var attackRange)) {
+        if (TryGetAttackRange(unit, out var attackRange))
 
             foreach (var target in main.units.Values) {
 
@@ -248,7 +242,7 @@ public class AiPlayerCommander : MonoBehaviour {
 
                         if (path == null) {
                             var targets = main.PositionsInRange(target.NonNullPosition, attackRange).Where(position => CanStay(unit, position));
-                            if (!TryFindPath(out path, out restPath, targets: targets))
+                            if (!moveFinder.TryFindPath(out path, out restPath, targets: targets))
                                 break;
                         }
 
@@ -262,12 +256,52 @@ public class AiPlayerCommander : MonoBehaviour {
                         };
                     }
             }
-        }
+
+        //
+        // find units to supply
+        //
+
+        foreach (var ally in allies)
+            if (CanSupply(unit, ally)) {
+                var targets = main.PositionsInRange(ally.NonNullPosition, Vector2Int.one).Where(position => CanStay(unit, position));
+                if (moveFinder.TryFindPath(out var path, out var restPath, targets: targets))
+                    yield return new PotentialUnitAction {
+                        unit = unit,
+                        type = UnitActionType.Supply,
+                        targetUnit = ally,
+                        path = path,
+                        restPath = restPath
+                    };
+            }
+
+        //
+        // find units to join / get in
+        //
+
+        foreach (var ally in allies)
+            if (moveFinder.TryFindPath(out var path, out var restPath, ally.NonNullPosition)) {
+                if (CanJoin(unit, ally))
+                    yield return new PotentialUnitAction {
+                        unit = unit,
+                        type = UnitActionType.Join,
+                        targetUnit = ally,
+                        path = path,
+                        restPath = restPath
+                    };
+                if (CanGetIn(unit, ally))
+                    yield return new PotentialUnitAction {
+                        unit = unit,
+                        type = UnitActionType.GetIn,
+                        targetUnit = ally,
+                        path = path,
+                        restPath = restPath
+                    };
+            }
     }
 
     public void PrioritizePotentialUnitActions(IEnumerable<PotentialUnitAction> actions) {
 
-        var mostExpensiveUnitCost = UnitTypeSettings.Loaded.Values.Max(item => item.cost);
+        var mostExpensiveUnitCost = UnitStats.Loaded.Values.Max(item => item.cost);
 
         foreach (var action in actions) {
 
@@ -282,23 +316,31 @@ public class AiPlayerCommander : MonoBehaviour {
                 Assert.IsTrue(isValid);
 
                 damageDealt = damageDealtInteger;
-                damageDealtInCredits = damageDealt / MaxHp(action.targetUnit) * mostExpensiveUnitCost;
+                damageDealtInCredits = damageDealt / MaxHp(action.targetUnit) * Cost(action.targetUnit); 
 
                 // TODO: add damage taken
             }
+            
+            if (action.type == UnitActionType.Capture) {
+                float unitCp = Cp(action.unit);
+                float buildingCp = action.targetBuilding.Cp;
+                var capturePercentage = Mathf.Clamp01( unitCp / buildingCp);
+            }
 
             action.priority = ExpressionEvaluator.Evaluate(PriorityFormula,
-                ("hp", action.unit.Hp),
-                ("fuel", action.unit.Fuel),
-                ("hasCargo", action.unit.Cargo.Count > 0 ? 1 : 0),
-                ("pathLength", action.path.Count),
-                ("fullPathLength", action.path.Count + action.restPath.Count - 1),
-                ("pathCost", CalculatePathCost(action.unit, action.path)),
-                ("fullPathCost", CalculatePathCost(action.unit, action.path.Concat(action.restPath.Skip(1)))),
-                (nameof(damageDealt), damageDealt),
-                (nameof(damageDealtInCredits), damageDealtInCredits),
-                (nameof(damageTaken), damageTaken),
-                (nameof(damageTakenInCredits), damageTakenInCredits));
+                ("hp", ()=>action.unit.Hp),
+                ("mostExpensiveUnitCost", ()=>mostExpensiveUnitCost),
+                ("fuel", ()=>action.unit.Fuel),
+                ("hasCargo", ()=>action.unit.Cargo.Count > 0 ? 1 : 0),
+                ("pathLength", ()=>action.path.Count),
+                ("fullPathLength", ()=>action.path.Count + action.restPath.Count - 1),
+                ("pathCost", ()=>CalculatePathCost(action.unit, action.path)),
+                ("fullPathCost", ()=>CalculatePathCost(action.unit, action.path.Concat(action.restPath.Skip(1)))),
+                ("capturePercentage", ()=>0),
+                (nameof(damageDealt), ()=>damageDealt),
+                (nameof(damageDealtInCredits), ()=>damageDealtInCredits),
+                (nameof(damageTaken), ()=>damageTaken),
+                (nameof(damageTakenInCredits), ()=>damageTakenInCredits));
         }
     }
 

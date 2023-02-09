@@ -1,9 +1,9 @@
-UnitType,MoveCostType,MoveDistance,Fuel,Ammo,AttackRange,Cost,Vision,SpecialCommands,CarryCapacity,Weight,CanCarry
-"Infantry","Foot",3,"99",Rifle: inf,"1-1","1000","2","CanCapture, CanLaunchMissile",0,1,""
-"AntiTank","Foot","2","70",Rifle: inf; RocketLauncher: 3,"1-1","3000","2","CanCapture, CanLaunchMissile",0,1,""
-"Recon","Tires","8","80",MachineGun: inf,"1-1","4000","5",0,0,1,""
-"LightTank","Tracks","6","70",Cannon: 9; MachineGun: inf,"1-1","7000","3",0,0,1,""
-"MediumTank","Tracks","5","50",Cannon: 8; MachineGun: inf,"1-1","16000","1",0,0,1,""
-"Apc","Tracks","6","70","","0-0","5000","1",CanSupply,1,1,Infantry; AntiTank
-"Artillery","Tracks","5","50","Cannon: 9","2-3","6000","1",0,0,1,""
-"Rockets","Tires","5","50","RocketLauncher: 6","3-5","15000","1",0,0,1,""
+UnitType,MoveCostType,MoveCapcity,Fuel,Ammo,AttackRange,Cost,Vision,SpecialCommands,CarryCapacity,Weight,CanCarry,UnloadCapacity,UnloadCost
+"Infantry","Foot",3,"99",Rifle: inf,"1-1","1000","2","CanCapture, CanLaunchMissile",0,1,"",0,5
+"AntiTank","Foot","2","70",Rifle: inf; RocketLauncher: 3,"1-1","3000","2","CanCapture, CanLaunchMissile",0,1,"",0,5
+"Recon","Tires","8","80",MachineGun: inf,"1-1","4000","5",0,0,2,"",0,10
+"LightTank","Tracks","6","70",Cannon: 9; MachineGun: inf,"1-1","7000","3",0,0,2,"",0,10
+"MediumTank","Tracks","5","50",Cannon: 8; MachineGun: inf,"1-1","16000","1",0,0,2,"",0,10
+"Apc","Tracks","6","70","","0-0","5000","1",CanSupply,1,2,Infantry; AntiTank,10,10
+"Artillery","Tracks","5","50","Cannon: 9","2-3","6000","1",0,0,2,"",0,10
+"Rockets","Tires","5","50","RocketLauncher: 6","3-5","15000","1",0,0,2,"",0,10

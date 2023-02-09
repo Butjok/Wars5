@@ -16,9 +16,9 @@ public static class StringExtensions {
         Assert.IsTrue(parsed, text);
         return value;
     }
-    public static int ParseInt(this string text) {
+    public static int ParseInt(this string text, bool parseInfinity = true) {
         text = text.Replace(" ", "");
-        if (text == "inf")
+        if (parseInfinity && text == "inf")
             return int.MaxValue;
         var parsed = int.TryParse(text, NumberStyles.Any, CultureInfo.InvariantCulture, out var value);
         Assert.IsTrue(parsed, text);

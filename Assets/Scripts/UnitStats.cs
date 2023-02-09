@@ -8,7 +8,7 @@ using NReco.Csv;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public struct UnitTypeSettings {
+public struct UnitStats {
 
     [Flags]
     public enum SpecialCommand {
@@ -18,7 +18,7 @@ public struct UnitTypeSettings {
     }
 
     public MoveCostType moveCostType;
-    public int moveDistance;
+    public int moveCapacity;
     public int fuel;
     public Dictionary<WeaponName, int> ammo;
     public Vector2Int attackRange;
@@ -28,9 +28,11 @@ public struct UnitTypeSettings {
     public int carryCapacity;
     public int weight;
     public HashSet<UnitType> canCarry;
+    public int unloadCost;
+    public int unloadCapacity;
 
-    private static Dictionary<UnitType, UnitTypeSettings> loaded;
-    public static Dictionary<UnitType, UnitTypeSettings> Loaded {
+    private static Dictionary<UnitType, UnitStats> loaded;
+    public static Dictionary<UnitType, UnitStats> Loaded {
         get {
             if (loaded == null)
                 Load();
@@ -44,7 +46,7 @@ public struct UnitTypeSettings {
         var input = "UnitStats".LoadAs<TextAsset>().text;
 
         if (loaded == null)
-            loaded = new Dictionary<UnitType, UnitTypeSettings>();
+            loaded = new Dictionary<UnitType, UnitStats>();
         else
             loaded.Clear();
 
@@ -53,15 +55,15 @@ public struct UnitTypeSettings {
         var readHeader = fields.Read();
         Assert.IsTrue(readHeader);
         while (fields.Read()) {
-            Assert.AreEqual(12, fields.FieldsCount);
+            Assert.AreEqual(14, fields.FieldsCount);
 
-            var entry = new UnitTypeSettings();
+            var entry = new UnitStats();
 
             var unitType = fields[0].ParseEnum<UnitType>();
             entry.moveCostType = fields[1].ParseEnum<MoveCostType>();
 
-            entry.moveDistance = fields[2].ParseInt();
-            Assert.IsTrue(entry.moveDistance >= 0, entry.moveDistance.ToString());
+            entry.moveCapacity = fields[2].ParseInt();
+            Assert.IsTrue(entry.moveCapacity >= 0, entry.moveCapacity.ToString());
 
             entry.fuel = fields[3].ParseInt();
             Assert.IsTrue(entry.fuel >= 0, entry.fuel.ToString());
@@ -97,6 +99,9 @@ public struct UnitTypeSettings {
             entry.canCarry = new HashSet<UnitType>();
             foreach (var word in fields[11].Separate())
                 entry.canCarry.Add(word.ParseEnum<UnitType>());
+
+            entry.unloadCapacity = fields[12].ParseInt();
+            entry.unloadCost = fields[13].ParseInt();
 
             loaded.Add(unitType, entry);
         }

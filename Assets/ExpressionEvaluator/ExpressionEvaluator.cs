@@ -29,7 +29,7 @@ public class ExpressionEvaluator : ArithmeticBaseVisitor<float> {
         parser.AddErrorListener(new ExceptionThrower<IToken>());
     }
 
-    public static float Evaluate(string text, params (string name, float value)[] variables) {
+    public static float Evaluate(string text, params (string name, Func<float> value)[] variables) {
         
         evaluator.variables.Clear();
         foreach (var (name, value) in variables)
@@ -42,10 +42,10 @@ public class ExpressionEvaluator : ArithmeticBaseVisitor<float> {
 
     [Command]
     public static float Evaluate(string text) {
-        return Evaluate(text, ("pi", 3.1415f));
+        return Evaluate(text, ("pi", () => 3.1415f));
     }
 
-    public readonly Dictionary<string, float> variables = new();
+    public readonly Dictionary<string, Func<float>> variables = new();
 
     public override float VisitPower(ArithmeticParser.PowerContext context) {
         return Mathf.Pow(Visit(context.expression(0)), Visit(context.expression(1)));
@@ -85,6 +85,6 @@ public class ExpressionEvaluator : ArithmeticBaseVisitor<float> {
         var name = context.GetText();
         var found = variables.TryGetValue(name, out var value);
         Assert.IsTrue(found, $"cannot find variable '{name}'");
-        return value;
+        return value();
     }
 }
