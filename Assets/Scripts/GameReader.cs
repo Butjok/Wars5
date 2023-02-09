@@ -328,7 +328,8 @@ public static class GameReader {
                         break;
                     }
                     case "unit.set-look-direction": {
-                        unitLookDirection = main.stack.Pop<Vector2Int>() * transform;
+                        //unitLookDirection = main.stack.Pop<Vector2Int>() * transform;
+                        main.stack.Pop<Vector2Int>();
                         break;
                     }
                     case "unit.set-hp": {
