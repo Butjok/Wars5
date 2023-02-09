@@ -24,6 +24,7 @@ public class AiPlayerCommander : MonoBehaviour {
         public Vector2Int? targetPosition;
         public WeaponName weaponName;
         public List<Vector2Int> path, restPath;
+        public IEnumerable<Vector2Int> FullPath => path.Concat(restPath.Skip(1));
         public Unit carrier;
         public List<Vector2Int> carrierPath, carrierRestPath;
 
@@ -332,7 +333,10 @@ public class AiPlayerCommander : MonoBehaviour {
 
             float pathLength = action.path.Count;
             float fullPathLength = action.path.Count + action.restPath.Count - 1;
-            float pathPercentage = pathLength / fullPathLength;
+            float pathLengthPercentage = pathLength / fullPathLength;
+            float pathCost = PathCost(action.unit,action.path);
+            float fullPathCost = PathCost(action.unit, action.FullPath);
+            float pathCostPercentage = pathCost / fullPathCost;
 
             action.priority = 0;
 
@@ -342,7 +346,7 @@ public class AiPlayerCommander : MonoBehaviour {
                     var isValid = TryGetDamage(action.unit, action.targetUnit, action.weaponName, out var damagePercentage);
                     Assert.IsTrue(isValid);
 
-                    action.priority = 2 * pathPercentage * damagePercentage;
+                    action.priority = 2 * pathCostPercentage * damagePercentage;
                     if (IsArtillery(action.unit) && action.path.Count > 1)
                         action.priority /= 2;
                     break;
@@ -352,7 +356,12 @@ public class AiPlayerCommander : MonoBehaviour {
                     float unitCp = Cp(action.unit);
                     float buildingCp = action.targetBuilding.Cp;
                     float capturePercentage = Mathf.Clamp01(unitCp / buildingCp);
-                    action.priority = 2 * pathPercentage * capturePercentage;
+                    action.priority = 2 * pathCostPercentage * capturePercentage;
+                    break;
+                }
+                
+                case UnitActionType.Gather: {
+                    action.priority = 1.5f * pathCostPercentage;
                     break;
                 }
 
@@ -363,19 +372,14 @@ public class AiPlayerCommander : MonoBehaviour {
                     float hpAdded = newTargetHp - targetHp;
                     float hpLost = hp - hpAdded;
                     float hpBalance = hpAdded - hpLost;
-                    action.priority = pathPercentage * (1 + hpBalance / 10);
+                    action.priority = pathCostPercentage * (1 + hpBalance / 10);
                     break;
                 }
 
                 case UnitActionType.Supply: {
                     var weaponNames = GetWeaponNames(action.targetUnit).ToList();
                     if (action.targetUnit.Fuel == 0 || weaponNames.Count > 0 && weaponNames.Any(weaponName => action.targetUnit.GetAmmo(weaponName) == 0))
-                        action.priority = pathPercentage;
-                    break;
-                }
-
-                case UnitActionType.Gather: {
-                    action.priority = 1.5f * pathPercentage;
+                        action.priority = pathCostPercentage;
                     break;
                 }
             }
@@ -466,5 +470,15 @@ public class AiPlayerCommander : MonoBehaviour {
             UnitActionType.Gather => colorGather,
             _ => throw new ArgumentOutOfRangeException(type.ToString())
         };
+    }
+
+    public static int PathCost(Unit unit, IEnumerable<Vector2Int>path) {
+        var total = 0;
+        foreach (var position in path) {
+            var isValid = Rules.TryGetMoveCost(unit, position, out var cost);
+            Assert.IsTrue(isValid);
+            total += cost;
+        }
+        return total;
     }
 }
