@@ -16,6 +16,11 @@ public static class PathSelectionState {
     public const string reconstructPath = prefix + "reconstruct-path";
     public const string appendToPath = prefix + "append-to-path";
 
+    public static GameObject pathMeshGameObject;
+    public static MeshFilter pathMeshFilter;
+    public static MeshRenderer pathMeshRenderer;
+    public static MoveSequenceAtlas moveSequenceAtlas;
+
     public static IEnumerator<StateChange> Run(Main main, Unit unit) {
 
         if (unit.Position is not { } unitPosition)
@@ -27,39 +32,42 @@ public static class PathSelectionState {
         var traverser = new Traverser();
         traverser.Traverse(main.tiles.Keys, unitPosition, Rules.GetMoveCostFunction(unit));
 
-        var pathMeshGameObject = new GameObject();
-        Object.DontDestroyOnLoad(pathMeshGameObject);
+        if (!pathMeshGameObject) {
 
+            pathMeshGameObject = new GameObject();
+            Object.DontDestroyOnLoad(pathMeshGameObject);
 
-        var pathMeshFilter = pathMeshGameObject.AddComponent<MeshFilter>();
-        var pathMeshRenderer = pathMeshGameObject.AddComponent<MeshRenderer>();
+            pathMeshFilter = pathMeshGameObject.AddComponent<MeshFilter>();
+            pathMeshRenderer = pathMeshGameObject.AddComponent<MeshRenderer>();
 
-        var moveTypeAtlas = Resources.Load<MoveSequenceAtlas>(nameof(MoveSequenceAtlas));
-        Assert.IsTrue(moveTypeAtlas);
+            moveSequenceAtlas = Resources.Load<MoveSequenceAtlas>(nameof(MoveSequenceAtlas));
+            Assert.IsTrue(moveSequenceAtlas);
 
-        var pathMaterial = Resources.Load<Material>("MovePath");
-        Assert.IsTrue(pathMaterial);
+            var pathMaterial = Resources.Load<Material>("MovePath");
+            Assert.IsTrue(pathMaterial);
 
-        pathMeshRenderer.sharedMaterial = pathMaterial;
-        pathMeshFilter.sharedMesh = new Mesh();
+            pathMeshRenderer.sharedMaterial = pathMaterial;
+            pathMeshFilter.sharedMesh = new Mesh();
+        }
 
         var pathBuilder = new PathBuilder(unitPosition);
 
+        CursorView.TryFind(out var cursor);
+
         //var tileAreaMeshBuilder = Object.FindObjectOfType<TileAreaMeshuild>()
-        if (main.tileAreaMeshFilter)
+        if ((!main.CurrentPlayer.IsAi && !main.autoplay) && main.tileAreaMeshFilter) {
             main.tileAreaMeshFilter.sharedMesh = TileAreaMeshBuilder.Build(traverser.Reachable);
+            if (cursor)
+                cursor.show = true;
+        }
 
         var oldPositions = new List<Vector2Int> { unitPosition };
 
         void CleanUp() {
-            Object.Destroy(pathMeshGameObject);
+            pathMeshFilter.sharedMesh = null;
             if (main.tileAreaMeshFilter)
                 main.tileAreaMeshFilter.sharedMesh = null;
         }
-
-        CursorView.TryFind(out var cursor);
-        if (cursor)
-            cursor.show = true;
 
         var issuedAiCommands = false;
         while (true) {
@@ -176,7 +184,7 @@ public static class PathSelectionState {
                 pathMeshFilter.sharedMesh = MoveSequenceMeshBuilder.Build(
                     pathMeshFilter.sharedMesh,
                     new MoveSequence(unit.view.transform, pathBuilder.positions),
-                    moveTypeAtlas);
+                    moveSequenceAtlas);
             }
         }
     }

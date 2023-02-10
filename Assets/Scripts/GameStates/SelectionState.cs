@@ -83,7 +83,8 @@ public static class SelectionState {
         }
 
         CursorView.TryFind(out var cursor);
-        if (cursor)
+        
+        if (!main.autoplay && !main.CurrentPlayer.IsAi && cursor)
             cursor.show = true;
 
         var issuedAiCommands = false;

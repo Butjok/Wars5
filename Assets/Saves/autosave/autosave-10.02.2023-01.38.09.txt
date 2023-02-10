@@ -1,6 +1,6 @@
 LevelEditor                                                      game.load-scene
 Tutorial MissionName type enum                                   game.set-mission-name
-2                                                                game.set-turn
+4                                                                game.set-turn
                                                                  
 
 
@@ -70,7 +70,7 @@ Factory TileType type enum                                       building.set-ty
 Artillery UnitType type enum                                     unit.set-type
 false                                                            unit.set-moved
 10                                                               unit.set-hp
--5 20 int2                                                       unit.set-position
+-9 19 int2                                                       unit.set-position
 -1 0 int2                                                        unit.set-look-direction
 WbHowitzer UnitView type load-resource                           unit.set-view-prefab
                                                                  unit.add
@@ -80,7 +80,7 @@ WbHowitzer UnitView type load-resource                           unit.set-view-p
 Infantry UnitType type enum                                      unit.set-type
 false                                                            unit.set-moved
 10                                                               unit.set-hp
--6 24 int2                                                       unit.set-position
+-9 24 int2                                                       unit.set-position
 -1 0 int2                                                        unit.set-look-direction
 WbLightTank UnitView type load-resource                          unit.set-view-prefab
                                                                  unit.add
@@ -90,7 +90,7 @@ WbLightTank UnitView type load-resource                          unit.set-view-p
 Recon UnitType type enum                                         unit.set-type
 false                                                            unit.set-moved
 10                                                               unit.set-hp
--7 21 int2                                                       unit.set-position
+-7 13 int2                                                       unit.set-position
 -1 0 int2                                                        unit.set-look-direction
 WbRecon UnitView type load-resource                              unit.set-view-prefab
                                                                  unit.add
@@ -110,7 +110,7 @@ WbApc UnitView type load-resource                                unit.set-view-p
 Recon UnitType type enum                                         unit.set-type
 false                                                            unit.set-moved
 10                                                               unit.set-hp
--10 13 int2                                                      unit.set-position
+-15 13 int2                                                      unit.set-position
 -1 0 int2                                                        unit.set-look-direction
 WbRecon UnitView type load-resource                              unit.set-view-prefab
                                                                  unit.add
@@ -161,7 +161,7 @@ Factory TileType type enum                                       building.set-ty
 Recon UnitType type enum                                         unit.set-type
 false                                                            unit.set-moved
 10                                                               unit.set-hp
--24 9 int2                                                       unit.set-position
+-20 13 int2                                                      unit.set-position
 1 0 int2                                                         unit.set-look-direction
 WbRecon UnitView type load-resource                              unit.set-view-prefab
                                                                  unit.add
@@ -181,7 +181,7 @@ WbRecon UnitView type load-resource                              unit.set-view-p
 Recon UnitType type enum                                         unit.set-type
 false                                                            unit.set-moved
 10                                                               unit.set-hp
--19 14 int2                                                      unit.set-position
+-17 14 int2                                                      unit.set-position
 1 0 int2                                                         unit.set-look-direction
 WbRecon UnitView type load-resource                              unit.set-view-prefab
                                                                  unit.add
@@ -191,7 +191,7 @@ WbRecon UnitView type load-resource                              unit.set-view-p
 Infantry UnitType type enum                                      unit.set-type
 false                                                            unit.set-moved
 10                                                               unit.set-hp
--22 13 int2                                                      unit.set-position
+-21 15 int2                                                      unit.set-position
 1 0 int2                                                         unit.set-look-direction
 WbLightTank UnitView type load-resource                          unit.set-view-prefab
                                                                  unit.add
@@ -201,7 +201,7 @@ WbLightTank UnitView type load-resource                          unit.set-view-p
 Infantry UnitType type enum                                      unit.set-type
 false                                                            unit.set-moved
 10                                                               unit.set-hp
--22 15 int2                                                      unit.set-position
+-21 17 int2                                                      unit.set-position
 1 0 int2                                                         unit.set-look-direction
 WbLightTank UnitView type load-resource                          unit.set-view-prefab
                                                                  unit.add
@@ -211,7 +211,7 @@ WbLightTank UnitView type load-resource                          unit.set-view-p
 Artillery UnitType type enum                                     unit.set-type
 false                                                            unit.set-moved
 10                                                               unit.set-hp
--22 14 int2                                                      unit.set-position
+-19 13 int2                                                      unit.set-position
 1 0 int2                                                         unit.set-look-direction
 WbHowitzer UnitView type load-resource                           unit.set-view-prefab
                                                                  unit.add
@@ -221,7 +221,7 @@ WbHowitzer UnitView type load-resource                           unit.set-view-p
 Infantry UnitType type enum                                      unit.set-type
 false                                                            unit.set-moved
 10                                                               unit.set-hp
--21 16 int2                                                      unit.set-position
+-21 19 int2                                                      unit.set-position
 1 0 int2                                                         unit.set-look-direction
 WbLightTank UnitView type load-resource                          unit.set-view-prefab
                                                                  unit.add
@@ -231,7 +231,7 @@ WbLightTank UnitView type load-resource                          unit.set-view-p
 Rockets UnitType type enum                                       unit.set-type
 false                                                            unit.set-moved
 10                                                               unit.set-hp
--23 8 int2                                                       unit.set-position
+-23 13 int2                                                      unit.set-position
 1 0 int2                                                         unit.set-look-direction
 WbRockets UnitView type load-resource                            unit.set-view-prefab
                                                                  unit.add
@@ -241,7 +241,7 @@ WbRockets UnitView type load-resource                            unit.set-view-p
 Infantry UnitType type enum                                      unit.set-type
 false                                                            unit.set-moved
 10                                                               unit.set-hp
--21 12 int2                                                      unit.set-position
+-21 14 int2                                                      unit.set-position
 1 0 int2                                                         unit.set-look-direction
 WbLightTank UnitView type load-resource                          unit.set-view-prefab
                                                                  unit.add
@@ -683,8 +683,8 @@ BridgeView type true find-single-object-of-type                  bridge.set-view
                                                                  pop
 
 
--17.34231 -9.536743E-07 15.67423 float3                          camera-rig.set-position
-180                                                              camera-rig.set-rotation
-20.47907                                                         camera-rig.set-distance
+-15.04528 1.525879E-05 16.05694 float3                           camera-rig.set-position
+202.5                                                            camera-rig.set-rotation
+40                                                               camera-rig.set-distance
 39.55403                                                         camera-rig.set-pitch-angle
-27.56635                                                         camera-rig.set-fov
+20                                                               camera-rig.set-fov

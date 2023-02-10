@@ -95,9 +95,11 @@ public static class ActionSelectionState {
         PlayerView.globalVisibility = false;
         yield return StateChange.none;
 
-        panel.Show(main, actions, (_, action) => SelectAction(action));
-        if (actions.Count > 0)
-            SelectAction(actions[0]);
+        if (!main.CurrentPlayer.IsAi && !main.autoplay) {
+            panel.Show(main, actions, (_, action) => SelectAction(action));
+            if (actions.Count > 0)
+                SelectAction(actions[0]);
+        }
 
         void HidePanel() {
             if (oldAction != null && oldAction.view)
