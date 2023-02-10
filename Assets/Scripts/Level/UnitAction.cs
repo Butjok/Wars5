@@ -6,6 +6,7 @@ using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
 
 public enum UnitActionType {
+    
     Stay,
     Join,          //
     Capture,       //
@@ -14,7 +15,9 @@ public enum UnitActionType {
     Drop,
     Supply,        //
     LaunchMissile, //
-    Gather
+    
+    // AI extensions
+    Gather, // move to a closest gathering point 
 }
 
 public class UnitAction : IDisposable {
@@ -81,20 +84,6 @@ public class UnitAction : IDisposable {
                     break;
                 }
             }
-    }
-
-    public (int attacker, int target) CalculateHpsAfterAttack() {
-        Assert.AreEqual(UnitActionType.Attack, type);
-        var isValid = Rules.TryGetDamage(unit, targetUnit, weaponName, out var attackDamage);
-        Assert.IsTrue(isValid);
-        var targetHp = Mathf.Max(0, targetUnit.Hp - (int)attackDamage);
-        var attackerHp = unit.Hp;
-        /*if (targetHp > 0 && Rules.CanAttackInResponse(unit, targetUnit, out var responseWeaponIndex)) {
-            var responseDamage = Rules.Damage(targetUnit, unit, responseWeaponIndex, targetHp, attackerHp);
-            Assert.IsTrue(responseDamage != null);
-            attackerHp = Mathf.Max(0, attackerHp - (int)responseDamage);
-        }*/
-        return (attackerHp, targetHp);
     }
 
     public void Dispose() {

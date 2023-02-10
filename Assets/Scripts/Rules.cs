@@ -35,7 +35,7 @@ public static class Rules {
         var hasUnits = player.main.FindUnitsOf(player).Any();
         var buildings = player.main.FindBuildingsOf(player).ToList();
         var hasIncome = buildings.Any(building => Income(building) > 0);
-        var canBuildUnits = buildings.Any(building => GetBuildableUnitTypes(building).Any());
+        var canBuildUnits = buildings.Any(building => GetBuildableUnitTypes(building).Any() && !player.main.TryGetUnit(building.position, out _));
         var hasHq = buildings.Any(building => building.type == TileType.Hq);
         return !hasHq ||
                !hasUnits && (!canBuildUnits || !hasIncome);

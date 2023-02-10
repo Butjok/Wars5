@@ -59,9 +59,9 @@ public class UnitAttackActionView : UnitActionView {
 
             uiFrame.boxCollider = action.targetUnit.view.uiBoxCollider;
 
-            var (_, newTargetHp) = action.CalculateHpsAfterAttack();
+            /*var (_, newTargetHp) = action.CalculateHpsAfterAttack();
             var difference = action.targetUnit.Hp - newTargetHp;
-            uiText.text = string.Format(uiTextFormat, difference);
+            uiText.text = string.Format(uiTextFormat, difference);*/
         }
     }
 }
