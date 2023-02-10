@@ -116,8 +116,8 @@
      <Compile Include="Assets/Antlr4/Atn/MergeCache.cs" />
      <Compile Include="Assets/Antlr4/Atn/LexerMoreAction.cs" />
      <Compile Include="Assets/Antlr4/Tree/ErrorNodeImpl.cs" />
-     <Compile Include="Assets/Antlr4/Atn/LexerSkipAction.cs" />
      <Compile Include="Assets/Antlr4/ProxyErrorListener.cs" />
+     <Compile Include="Assets/Antlr4/Atn/LexerSkipAction.cs" />
      <Compile Include="Assets/Antlr4/Tree/Pattern/TextChunk.cs" />
      <Compile Include="Assets/Antlr4/Atn/ATNDeserializationOptions.cs" />
      <Compile Include="Assets/Antlr4/Atn/LookaheadEventInfo.cs" />

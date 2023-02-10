@@ -72,7 +72,7 @@ public static class ActionSelectionState {
         }
 
         // !! important
-        main.stack.Push(actions);
+        main.stack.Push(actions.ToList());
 
         var panel = Object.FindObjectOfType<UnitActionsPanel>(true);
         Assert.IsTrue(panel);
@@ -331,7 +331,7 @@ public static class ActionSelectionState {
                                     CameraRig.TryFind(out var cameraRig);
 
                                     //if (newTargetHp <= 0 && cameraRig)
-                                     //   yield return StateChange.Push("JumpToAttackTarget", Wait.ForCompletion(cameraRig.Jump(((Vector2Int)target.Position).Raycast())));
+                                    //   yield return StateChange.Push("JumpToAttackTarget", Wait.ForCompletion(cameraRig.Jump(((Vector2Int)target.Position).Raycast())));
 
                                     target.SetHp(newTargetHp, true);
 
@@ -339,7 +339,7 @@ public static class ActionSelectionState {
                                     //    target.ammo[targetWeaponIndex]--;
 
                                     //if (newAttackerHp <= 0 && cameraRig)
-                                      //  yield return StateChange.Push("JumpToAttacker", Wait.ForCompletion(cameraRig.Jump(destination.Raycast())));
+                                    //  yield return StateChange.Push("JumpToAttacker", Wait.ForCompletion(cameraRig.Jump(destination.Raycast())));
 
                                     attacker.SetHp(newAttackerHp, true);
 
@@ -389,8 +389,9 @@ public static class ActionSelectionState {
                                     main.StartCoroutine(new MoveSequence(unit.view.transform, null, unit.Player.main.persistentData.gameSettings.unitSpeed, unit.Player.unitLookDirection).Animation());
                             }
 
-                            foreach (var item in actions.Except(new[] { action }))
-                                item.Dispose();
+                            foreach (var item in actions)
+                                if (item != action)
+                                    item.Dispose();
 
                             if (main.triggers.TryGetValue(TriggerName.A, out var reconTrigger)) {
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Butjok.CommandLine;
@@ -26,26 +27,29 @@ public class MoveFinder2 {
     public Unit unit;
     public readonly Dictionary<Vector2Int, Node> nodes = new();
     public readonly SimplePriorityQueue<Vector2Int> priorityQueue = new();
-    public readonly HashSet<Vector2Int> destinations = new();
+    public readonly HashSet<Vector2Int> movePositions = new();
     private readonly HashSet<Vector2Int> goals = new();
     public readonly HashSet<Vector2Int> closed = new();
 
     public const int infinity = 99999;
 
     [Command]
-    public static void FindDestinations() {
+    public static void FindPositions() {
         if (!Main.TryFind(out var main) || !Mouse.TryGetPosition(out Vector2Int mousePosition) || !main.TryGetUnit(mousePosition, out var unit))
             return;
-        
+
         var moveFinder = new MoveFinder2();
-        moveFinder.FindDestinations(unit);
+        moveFinder.FindStayMoves(unit);
 
         using (Draw.ingame.WithDuration(5))
-            foreach (var position in moveFinder.destinations)
+            foreach (var position in moveFinder.movePositions)
                 Draw.ingame.SolidCircleXZ((Vector3)position.ToVector3Int(), .5f, Color.cyan);
     }
 
-    public void FindDestinations(Unit unit, bool onlyStayPositions = true) {
+    public void FindStayMoves(Unit unit) {
+        FindMoves(unit, position => Rules.CanStay(unit, position));
+    }
+    public void FindMoves(Unit unit, Predicate<Vector2Int> filter = null) {
 
         this.unit = unit;
         var startPosition = unit.NonNullPosition;
@@ -53,7 +57,7 @@ public class MoveFinder2 {
 
         nodes.Clear();
         priorityQueue.Clear();
-        destinations.Clear();
+        movePositions.Clear();
         closed.Clear();
 
         var tiles = unit.Player.main.tiles;
@@ -70,8 +74,8 @@ public class MoveFinder2 {
 
             closed.Add(position);
 
-            if (!onlyStayPositions || Rules.CanStay(unit, position))
-                destinations.Add(position);
+            if (filter == null || filter(position))
+                movePositions.Add(position);
 
             for (var i = 0; i < 4; i++) {
 
@@ -99,13 +103,13 @@ public class MoveFinder2 {
             }
         }
 
-        Assert.AreNotEqual(0, destinations.Count);
+        Assert.AreNotEqual(0, movePositions.Count);
 
         priorityQueue.Clear();
         foreach (var position in tiles.Keys) {
             if (!nodes.TryGetValue(position, out var node))
                 continue;
-            if (!destinations.Contains(position)) {
+            if (!movePositions.Contains(position)) {
                 node.g = infinity;
                 nodes[position] = node;
             }
@@ -113,7 +117,7 @@ public class MoveFinder2 {
         }
     }
 
-    public  bool TryFindPath(out List<Vector2Int> shortPath, out List<Vector2Int> restPath,
+    public bool TryFindPath(out List<Vector2Int> shortPath, out List<Vector2Int> restPath,
         Vector2Int? target = null, IEnumerable<Vector2Int> targets = null) {
 
         shortPath = restPath = null;

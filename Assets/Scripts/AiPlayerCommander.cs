@@ -158,32 +158,23 @@ public class AiPlayerCommander : MonoBehaviour {
     }
 
     public void IssueCommandsForActionSelectionState() {
-        switch (selectedAction.type) {
 
-            case UnitActionType.Stay:
-            case UnitActionType.Join:
-            case UnitActionType.Capture:
-            case UnitActionType.GetIn:
-                main.stack.Peek<List<UnitAction>>().RemoveAll(action => action.type != selectedAction.type);
-                break;
-
-            case UnitActionType.Attack:
-                main.stack.Peek<List<UnitAction>>().RemoveAll(action => action.type != selectedAction.type || action.targetUnit != selectedAction.targetUnit || action.weaponName != selectedAction.weaponName);
-                break;
-
-            case UnitActionType.Supply:
-                main.stack.Peek<List<UnitAction>>().RemoveAll(action => action.type != selectedAction.type || action.targetUnit != selectedAction.targetUnit);
-                break;
-
-            case UnitActionType.Drop:
-                main.stack.Peek<List<UnitAction>>().RemoveAll(action => action.type != selectedAction.type || action.targetUnit != selectedAction.targetUnit || action.targetPosition != selectedAction.targetPosition);
-                break;
-
-            default:
-                throw new ArgumentOutOfRangeException(selectedAction.type.ToJson());
+        var actions = main.stack.Pop<List<UnitAction>>();
+        foreach (var action in actions.ToList()) {
+            var valid = action.type == selectedAction.type;
+            if (valid)
+                valid = action.type switch {
+                    UnitActionType.Supply => action.targetUnit == selectedAction.targetUnit,
+                    UnitActionType.Attack => action.targetUnit == selectedAction.targetUnit && action.weaponName == selectedAction.weaponName,
+                    UnitActionType.Drop => action.targetUnit == selectedAction.targetUnit && action.targetPosition == selectedAction.targetPosition,
+                    _ => true
+                };
+            if (!valid)
+                actions.Remove(action);
         }
 
-        Assert.AreEqual(1, main.stack.Peek<List<UnitAction>>().Count);
+        Assert.AreEqual(1, actions.Count);
+        main.stack.Push(actions);
         main.commands.Enqueue(ActionSelectionState.execute);
     }
 
@@ -199,19 +190,20 @@ public class AiPlayerCommander : MonoBehaviour {
         StartCoroutine(DrawPotentialUnitActions(actions));
     }
 
-    public MoveFinder2 moveFinder = new();
+    public MoveFinder2 stayMovesFinder = new();
+    public MoveFinder2 joinMovesFinder = new();
 
     public IEnumerable<PotentialUnitAction> EnumeratePotentialUnitActions(Unit unit) {
 
-        moveFinder.FindDestinations(unit);
+        stayMovesFinder.FindStayMoves(unit);
 
         //
-        // get to the gathering point
+        // get to the closest gathering point
         //
 
         if (gatheringPoints.Count > 0) {
             var targets = gatheringPoints.Where(position => CanStay(unit, position));
-            if (moveFinder.TryFindPath(out var path, out var restPath, targets: targets))
+            if (stayMovesFinder.TryFindPath(out var path, out var restPath, targets: targets))
                 yield return new PotentialUnitAction {
                     unit = unit,
                     type = UnitActionType.Gather,
@@ -229,9 +221,9 @@ public class AiPlayerCommander : MonoBehaviour {
          * - Viktor 9.2.23
          */
 
-        var buildingsToCapture = main.buildings.Values.Where(building => CanCapture(unit, building));
+        var buildingsToCapture = main.buildings.Values.Where(building => CanCapture(unit, building) && CanStay(unit, building.position));
         foreach (var building in buildingsToCapture)
-            if (CanStay(unit, building.position) && moveFinder.TryFindPath(out var path, out var restPath, building.position)) {
+            if (stayMovesFinder.TryFindPath(out var path, out var restPath, building.position))
                 yield return new PotentialUnitAction {
                     unit = unit,
                     type = UnitActionType.Capture,
@@ -239,7 +231,6 @@ public class AiPlayerCommander : MonoBehaviour {
                     path = path,
                     restPath = restPath
                 };
-            }
 
         //
         // find units to attack
@@ -262,7 +253,7 @@ public class AiPlayerCommander : MonoBehaviour {
 
                         if (path == null) {
                             var targets = main.PositionsInRange(target.NonNullPosition, attackRange).Where(position => CanStay(unit, position));
-                            if (!moveFinder.TryFindPath(out path, out restPath, targets: targets))
+                            if (!stayMovesFinder.TryFindPath(out path, out restPath, targets: targets))
                                 break;
                         }
 
@@ -286,7 +277,7 @@ public class AiPlayerCommander : MonoBehaviour {
         foreach (var ally in allies)
             if (CanSupply(unit, ally)) {
                 var targets = main.PositionsInRange(ally.NonNullPosition, Vector2Int.one).Where(position => CanStay(unit, position));
-                if (moveFinder.TryFindPath(out var path, out var restPath, targets: targets))
+                if (stayMovesFinder.TryFindPath(out var path, out var restPath, targets: targets))
                     yield return new PotentialUnitAction {
                         unit = unit,
                         type = UnitActionType.Supply,
@@ -300,11 +291,24 @@ public class AiPlayerCommander : MonoBehaviour {
         // find units to join / get in
         //
 
+        var joinMovesFinderInitialized = false;
+
         foreach (var ally in allies) {
 
             var canJoin = CanJoin(unit, ally);
             var canGetIn = CanGetIn(unit, ally);
-            if (!canJoin && !canGetIn || !moveFinder.TryFindPath(out var path, out var restPath, ally.NonNullPosition))
+            if (!canJoin && !canGetIn)
+                continue;
+
+            if (!joinMovesFinderInitialized) {
+                joinMovesFinderInitialized = true;
+                joinMovesFinder.FindMoves(unit);
+            }
+
+            if (!joinMovesFinder.TryFindPath(out var path, out var restPath, ally.NonNullPosition))
+                continue;
+
+            if ((!main.TryGetUnit(path[^1], out var other) || other != ally) && !stayMovesFinder.TryFindPath(out path, out restPath, ally.NonNullPosition))
                 continue;
 
             if (canJoin)
@@ -334,7 +338,7 @@ public class AiPlayerCommander : MonoBehaviour {
             float pathLength = action.path.Count;
             float fullPathLength = action.path.Count + action.restPath.Count - 1;
             float pathLengthPercentage = pathLength / fullPathLength;
-            float pathCost = PathCost(action.unit,action.path);
+            float pathCost = PathCost(action.unit, action.path);
             float fullPathCost = PathCost(action.unit, action.FullPath);
             float pathCostPercentage = pathCost / fullPathCost;
 
@@ -359,7 +363,7 @@ public class AiPlayerCommander : MonoBehaviour {
                     action.priority = 2 * pathCostPercentage * capturePercentage;
                     break;
                 }
-                
+
                 case UnitActionType.Gather: {
                     action.priority = 1.5f * pathCostPercentage;
                     break;
@@ -472,7 +476,7 @@ public class AiPlayerCommander : MonoBehaviour {
         };
     }
 
-    public static int PathCost(Unit unit, IEnumerable<Vector2Int>path) {
+    public static int PathCost(Unit unit, IEnumerable<Vector2Int> path) {
         var total = 0;
         foreach (var position in path) {
             var isValid = Rules.TryGetMoveCost(unit, position, out var cost);

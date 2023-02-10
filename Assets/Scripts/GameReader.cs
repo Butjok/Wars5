@@ -217,7 +217,7 @@ public static class GameReader {
                     }
 
                     case "tile.add": {
-                        var position = main.stack.Pop<Vector2Int>();
+                        var position = main.stack.Pop<Vector2Int>() * transform;
                         var type = main.stack.Pop<TileType>();
                         Assert.IsTrue(!main.tiles.ContainsKey(position), position.ToString());
                         main.tiles.Add(position, type);
