@@ -143,7 +143,7 @@ public class Main2 : Main {
         topLine += string.Join(" / ", stateNames.Zip(states, (n, s) => (n, s)).Select(ns => {
             var stateName = ns.n;
             var state = ns.s;
-            var text = stateName.EndsWith("State") ? stateName.Substring(0, stateName.Length - "State".Length) : stateName;
+            var text = /*stateName.EndsWith("State") ? stateName.Substring(0, stateName.Length - "State".Length) :*/ stateName;
             //if (readyForInputStates.Contains(state))
             //    text = '[' + text + ']';
             return text;

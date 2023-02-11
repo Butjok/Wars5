@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
@@ -8,10 +9,17 @@ public class StateRunner : MonoBehaviour {
 
     public Stack<IEnumerator<StateChange>> states = new();
     public Stack<string> stateNames = new();
+    public Dictionary<IEnumerator<StateChange>, IDisposableState> disposableStates = new();
 
     public void PushState(string stateName, IEnumerator<StateChange> state) {
         states.Push(state);
         stateNames.Push(stateName);
+    }
+    public void PushState(IDisposableState disposableState) {
+        var enumerator = disposableState.Run;
+        states.Push(enumerator);
+        stateNames.Push(disposableState.GetType().Name);
+        disposableStates.Add(enumerator, disposableState);
     }
     public void ClearStates() {
         states.Clear();
@@ -19,31 +27,31 @@ public class StateRunner : MonoBehaviour {
     }
 
     protected virtual void Update() {
-        if (states.TryPeek(out var state)) {
 
-            var ended = !state.MoveNext();
-
-            if (ended) {
-                states.Pop(); 
-                stateNames.Pop();
-            }
-            else {
-                var stateChange = state.Current;
-
-                for (var i = 0; i < stateChange.popCount; i++) {
-                    states.Pop(); 
-                    stateNames.Pop();
-                }
-
-                if (stateChange.state != null)
-                    PushState(stateChange.stateName, stateChange.state);
+        void Pop() {
+            var state = states.Pop();
+            stateNames.Pop();
+            if (disposableStates.TryGetValue(state, out var disposableState)) {
+                disposableState.Dispose();
+                disposableStates.Remove(state);
             }
         }
-    }
-}
 
-abstract public class State {
-    public abstract IEnumerator<StateChange> Run();
+        if (!states.TryPeek(out var state))
+            return;
+        
+        if (state.MoveNext()) {
+            var stateChange = state.Current;
+            for (var i = 0; i < stateChange.popCount; i++)
+                Pop();
+            if (stateChange.state != null)
+                PushState(stateChange.stateName, stateChange.state);
+            if (stateChange.disposableState != null)
+                PushState(stateChange.disposableState);
+        }
+        else
+            Pop();
+    }
 }
 
 public static class Wait {
@@ -62,23 +70,34 @@ public static class Wait {
     }
 }
 
+public interface IDisposableState : IDisposable {
+    IEnumerator<StateChange> Run { get; }
+}
+
 public struct StateChange {
 
     public static StateChange none = default;
+    public static StateChange Pop(int count = 1) => new(count, null);
+    
     public static StateChange PopThenPush(int popCount, string stateName, IEnumerator<StateChange> state) => new(popCount, stateName, state);
-    public static StateChange Pop(int count = 1) => PopThenPush(count, default, null);
     public static StateChange Push(string stateName, IEnumerator<StateChange> state) => PopThenPush(0, stateName, state);
     public static StateChange ReplaceWith(string stateName, IEnumerator<StateChange> state) => PopThenPush(1, stateName, state);
 
+    public static StateChange PopThenPush(int popCount, IDisposableState state) => new(popCount, null, null, state);
+    public static StateChange Push(IDisposableState state) => PopThenPush(0, state);
+    public static StateChange ReplaceWith(IDisposableState state) => PopThenPush(1, state);
+    
     public readonly int popCount;
     public IEnumerator<StateChange> state;
+    public IDisposableState disposableState;
     public readonly string stateName;
 
-    private StateChange(int popCount, string stateName, IEnumerator<StateChange> state = null) {
+    private StateChange(int popCount, string stateName, IEnumerator<StateChange> state = null, IDisposableState disposableState = null) {
         if (state != null)
             Assert.IsNotNull(stateName);
         this.stateName = stateName;
         this.state = state;
         this.popCount = popCount;
+        this.disposableState = disposableState;
     }
 }

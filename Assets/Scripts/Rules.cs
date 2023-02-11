@@ -152,9 +152,6 @@ public static class Rules {
         return unitType is UnitType.Artillery or UnitType.Rockets;
     }
 
-    public static bool CanAttackInResponse(UnitType unitType) {
-        return !IsArtillery(unitType);
-    }
 
     /*public static bool CanAttackInResponse(Unit attacker, Unit target, out int weaponIndex) {
 

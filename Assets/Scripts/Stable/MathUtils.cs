@@ -199,4 +199,8 @@ public static class MathUtils {
 
 		return Vector2.Lerp(min,max,.5f);
 	}
+
+	public static Vector2Int Apply(this Vector2Int v, Func<int,int>function) {
+		return new Vector2Int(function(v[0]), function(v[1]));
+	}
 }

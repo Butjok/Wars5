@@ -45,7 +45,7 @@
      <Compile Include="Assets/Scripts/Ai.cs" />
      <Compile Include="Assets/Scripts/PreviousPositions.cs" />
      <Compile Include="Assets/Scripts/Main2.cs" />
-     <Compile Include="Assets/Scripts/GameStates/BattleAnimationState.cs" />
+     <Compile Include="Assets/Scripts/GameStates/AttackActionState.cs" />
      <Compile Include="Assets/Scripts/Traverser2DebugDrawer.cs" />
      <Compile Include="Assets/Scripts/Editor/MyLightingShaderGUI.cs" />
      <Compile Include="Assets/Scripts/AiPlayerCommanderSwitcher.cs" />
@@ -147,6 +147,8 @@
      <Compile Include="Assets/Scripts/Level/UnitAction.cs" />
      <Compile Include="Assets/Scripts/StateRunner.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
+     <Compile Include="Assets/Scripts/StaticBattleViews.cs" />
+     <Compile Include="Assets/Scripts/GameStates/MissileTargetSelectionState.cs" />
      <None Include="Assets/Scripts/Wars.asmdef" />
      <Folder Include="Assets/Scripts/Editor" />
      <Folder Include="Assets/Scripts/GameStates" />

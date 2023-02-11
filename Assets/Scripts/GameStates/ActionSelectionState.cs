@@ -1,475 +1,334 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Drawing;
 using UnityEngine;
 using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
+using static Rules;
 
-public static class ActionSelectionState {
+// ReSharper disable ConvertToUsingDeclaration
+
+public class ActionSelectionState : IDisposableState {
 
     public const string prefix = "action-selection-state.";
 
     public const string cancel = prefix + "cancel";
     public const string cycleActions = prefix + "cycle-actions";
     public const string execute = prefix + "execute";
-    public const string filterWithType = prefix + "filter-with-type";
-    public const string launchMissile = prefix + "launch-missile";
 
-    public static IEnumerator<StateChange> Run(Main main, Unit unit, IReadOnlyList<Vector2Int> path, Vector2Int? initialLookDirection = null) {
+    public Main main;
+    public Unit unit;
+    public IReadOnlyList<Vector2Int> path;
+    public Vector2Int? initialLookDirection;
+    public List<UnitAction> actions = new();
+    public UnitActionsPanel panel;
+    public UnitAction oldAction;
+    public int index = -1;
 
-        var destination = path.Last();
+    public ActionSelectionState(Main main, Unit unit, IReadOnlyList<Vector2Int> path, Vector2Int? initialLookDirection = null) {
+        this.main = main;
+        this.unit = unit;
+        this.path = path;
+        this.initialLookDirection = initialLookDirection;
+        panel = Object.FindObjectOfType<UnitActionsPanel>(true);
+        Assert.IsTrue(panel);
+    }
+
+    public void Dispose() {
+        HidePanel();
+        foreach (var action in actions)
+            action.Dispose();
+        actions.Clear();
+    }
+
+    public void HidePanel() {
+        if (oldAction != null && oldAction.view)
+            oldAction.view.Show = false;
+        panel.Hide();
+        PlayerView.globalVisibility = true;
+    }
+
+    public void SelectAction(UnitAction action) {
+        index = actions.IndexOf(action);
+        Assert.IsTrue(index != -1);
+//      Debug.Log(actions[index]);
+        panel.HighlightAction(action);
+        if (oldAction != null && oldAction.view)
+            oldAction.view.Show = false;
+        if (action.view)
+            action.view.Show = true;
+        oldAction = action;
+    }
+
+    public IEnumerable<UnitAction> SpawnActions() {
+
+        var destination = path[^1];
         main.TryGetUnit(destination, out var other);
-
-        var actions = new List<UnitAction>();
-        var index = -1;
 
         // stay / capture / launch missile
         if (other == null || other == unit) {
-            if (main.TryGetBuilding(destination, out var building) && Rules.CanCapture(unit, building))
-                actions.Add(new UnitAction(UnitActionType.Capture, unit, path, null, building, spawnView: true));
+            if (main.TryGetBuilding(destination, out var building) && CanCapture(unit, building))
+                yield return new UnitAction(UnitActionType.Capture, unit, path, null, building, spawnView: true);
             else
-                actions.Add(new UnitAction(UnitActionType.Stay, unit, path, spawnView: true));
+                yield return new UnitAction(UnitActionType.Stay, unit, path, spawnView: true);
 
             if (main.TryGetBuilding(destination, out building) &&
                 building.type is TileType.MissileSilo &&
-                Rules.CanLaunchMissile(unit, building)) {
+                CanLaunchMissile(unit, building)) {
 
-                actions.Add(new UnitAction(UnitActionType.LaunchMissile, unit, path, targetBuilding: building, spawnView: true));
+                yield return new UnitAction(UnitActionType.LaunchMissile, unit, path, targetBuilding: building, spawnView: true);
             }
         }
 
         // join
-        if (other != null && Rules.CanJoin(unit, other))
-            actions.Add(new UnitAction(UnitActionType.Join, unit, path, unit, spawnView: true));
+        if (other != null && CanJoin(unit, other))
+            yield return new UnitAction(UnitActionType.Join, unit, path, unit, spawnView: true);
 
         // load in
-        if (other != null && Rules.CanGetIn(unit, other))
-            actions.Add(new UnitAction(UnitActionType.GetIn, unit, path, other, spawnView: true));
+        if (other != null && CanGetIn(unit, other))
+            yield return new UnitAction(UnitActionType.GetIn, unit, path, other, spawnView: true);
 
         // attack
-        if ((!Rules.IsArtillery(unit) || path.Count == 1) && Rules.TryGetAttackRange(unit, out var attackRange))
+        if ((!IsArtillery(unit) || path.Count == 1) && TryGetAttackRange(unit, out var attackRange))
             foreach (var otherPosition in main.PositionsInRange(destination, attackRange))
                 if (main.TryGetUnit(otherPosition, out var target))
-                    foreach (var (weaponName, _) in Rules.GetDamageValues(unit, target))
-                        actions.Add(new UnitAction(UnitActionType.Attack, unit, path, target, weaponName: weaponName, targetPosition: otherPosition, spawnView: true));
+                    foreach (var (weaponName, _) in GetDamageValues(unit, target))
+                        yield return new UnitAction(UnitActionType.Attack, unit, path, target, weaponName: weaponName, targetPosition: otherPosition, spawnView: true);
 
         // supply
-        foreach (var offset in Rules.offsets) {
+        foreach (var offset in offsets) {
             var otherPosition = destination + offset;
-            if (main.TryGetUnit(otherPosition, out var target) && Rules.CanSupply(unit, target))
-                actions.Add(new UnitAction(UnitActionType.Supply, unit, path, target, targetPosition: otherPosition, spawnView: true));
+            if (main.TryGetUnit(otherPosition, out var target) && CanSupply(unit, target))
+                yield return new UnitAction(UnitActionType.Supply, unit, path, target, targetPosition: otherPosition, spawnView: true);
         }
 
         // drop out
         foreach (var cargo in unit.Cargo)
-        foreach (var offset in Rules.offsets) {
+        foreach (var offset in offsets) {
             var targetPosition = destination + offset;
             if ((!main.TryGetUnit(targetPosition, out var other2) || other2 == unit) &&
                 main.TryGetTile(targetPosition, out var tileType) &&
-                Rules.CanStay(cargo, tileType))
-                actions.Add(new UnitAction(UnitActionType.Drop, unit, path, targetUnit: cargo, targetPosition: targetPosition, spawnView: true));
+                CanStay(cargo, tileType))
+                yield return new UnitAction(UnitActionType.Drop, unit, path, targetUnit: cargo, targetPosition: targetPosition, spawnView: true);
         }
+    }
 
-        // !! important
-        main.stack.Push(actions.ToList());
+    public IEnumerator<StateChange> Run {
+        get {
 
-        var panel = Object.FindObjectOfType<UnitActionsPanel>(true);
-        Assert.IsTrue(panel);
+            var destination = path[^1];
+            main.TryGetUnit(destination, out var other);
+            main.TryGetBuilding(destination, out var building);
+            
+            // !!! important
+            actions.AddRange(SpawnActions());
+            main.stack.Push(actions.ToList());
 
-        UnitAction oldAction = null;
-        void SelectAction(UnitAction action) {
+            // some weirdness
+            PlayerView.globalVisibility = false;
+            yield return StateChange.none;
 
-            index = actions.IndexOf(action);
-            Assert.IsTrue(index != -1);
-//            Debug.Log(actions[index]);
-            panel.HighlightAction(action);
-
-            if (oldAction != null && oldAction.view)
-                oldAction.view.Show = false;
-            if (action.view)
-                action.view.Show = true;
-            oldAction = action;
-        }
-
-        PlayerView.globalVisibility = false;
-        yield return StateChange.none;
-
-        if (!main.CurrentPlayer.IsAi && !main.autoplay) {
-            panel.Show(main, actions, (_, action) => SelectAction(action));
-            if (actions.Count > 0)
-                SelectAction(actions[0]);
-        }
-
-        void HidePanel() {
-            if (oldAction != null && oldAction.view)
-                oldAction.view.Show = false;
-            panel.Hide();
-            PlayerView.globalVisibility = true;
-        }
-        void CleanUp() {
-            HidePanel();
-            foreach (var action in actions)
-                action.Dispose();
-        }
-
-        IEnumerator<StateChange> MissileTargetSelection(UnitAction action) {
-
-            var oldShowCursorView = false;
-            if (CursorView.TryFind(out var cursorView)) {
-                oldShowCursorView = cursorView.show;
-                cursorView.show = true;
+            if (!main.CurrentPlayer.IsAi && !main.autoplay) {
+                panel.Show(main, actions, (_, action) => SelectAction(action));
+                if (actions.Count > 0)
+                    SelectAction(actions[0]);
             }
 
-            var missileSilo = action.targetBuilding;
-            var missileSiloView = missileSilo.view as MissileSiloView;
-
-            void CleanUpSubstate() {
-                if (cursorView)
-                    cursorView.show = oldShowCursorView;
-
-                if (missileSiloView)
-                    missileSiloView.aim = false;
-            }
-
-            Vector2Int? launchPosition = null;
-
+            var issuedAiCommands = false;
             while (true) {
                 yield return StateChange.none;
 
-                if (Input.GetMouseButtonDown(Mouse.left) && Mouse.TryGetPosition(out Vector2Int mousePosition)) {
+                if (main.autoplay || Input.GetKey(KeyCode.Alpha8)) {
+                    if (!issuedAiCommands) {
+                        issuedAiCommands = true;
+                        main.IssueAiCommandsForActionSelectionState();
+                    }
+                }
+                else if (!main.CurrentPlayer.IsAi) {
 
-                    if ((mousePosition - missileSilo.position).ManhattanLength().IsIn(missileSilo.missileSiloRange)) {
-                        if (launchPosition != mousePosition) {
-                            launchPosition = mousePosition;
-                        }
+                    if (Input.GetMouseButtonDown(Mouse.right) || Input.GetKeyDown(KeyCode.Escape))
+                        main.commands.Enqueue(cancel);
+
+                    else if (Input.GetKeyDown(KeyCode.Tab)) {
+                        main.stack.Push(Input.GetKey(KeyCode.LeftShift) ? -1 : 1);
+                        main.commands.Enqueue(cycleActions);
+                    }
+
+                    else if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space)) {
+                        if (actions.Count == 0)
+                            UiSound.Instance.notAllowed.PlayOneShot();
                         else {
-                            main.stack.Push(missileSilo);
-                            main.stack.Push(launchPosition);
-                            main.commands.Enqueue(launchMissile);
+                            main.stack.Pop();
+                            main.stack.Push(new List<UnitAction> { actions[index] });
+                            main.commands.Enqueue(execute);
                         }
                     }
-                    else
-                        UiSound.Instance.notAllowed.PlayOneShot();
                 }
 
-                else if (Input.GetMouseButtonDown(Mouse.right) || Input.GetKeyDown(KeyCode.Escape))
-                    main.commands.Enqueue(cancel);
+                while (main.commands.TryDequeue(out var input))
+                    foreach (var token in Tokenizer.Tokenize(input))
+                        switch (token) {
 
-                while (main.commands.TryDequeue(out var input2))
-                    foreach (var token2 in Tokenizer.Tokenize(input2))
-                        switch (token2) {
+                            case execute: {
 
-                            case launchMissile: {
+                                HidePanel();
+                                
+                                var filteredActions = main.stack.Pop<List<UnitAction>>();
+                                Assert.AreEqual(1, filteredActions.Count);
+                                var action = filteredActions[0];
 
-                                var targetPosition = main.stack.Pop<Vector2Int>();
-                                var missileSilo1 = main.stack.Pop<Building>();
-                                Assert.AreEqual(TileType.MissileSilo, missileSilo1.type);
+                                switch (action.type) {
 
-                                Debug.Log($"Launching missile from {missileSilo1.position} to {targetPosition}");
-                                using (Draw.ingame.WithDuration(1))
-                                using (Draw.ingame.WithLineWidth(2))
-                                    Draw.ingame.Arrow((Vector3)missileSilo1.position.ToVector3Int(), (Vector3)targetPosition.ToVector3Int(), Color.red);
+                                    case UnitActionType.Stay: {
+                                        unit.Position = destination;
+                                        break;
+                                    }
 
-                                if (missileSiloView) {
+                                    case UnitActionType.Join: {
+                                        other.SetHp(other.Hp + unit.Hp);
+                                        unit.Dispose();
+                                        break;
+                                    }
 
-                                    missileSiloView.SnapToTargetRotationInstantly();
+                                    case UnitActionType.Capture: {
+                                        unit.Position = destination;
+                                        building.Cp -= Cp(unit);
+                                        if (building.Cp <= 0) {
+                                            building.Player = unit.Player;
+                                            building.Cp = MaxCp(building);
+                                        }
+                                        break;
+                                    }
 
-                                    var missile = missileSiloView.TryLaunchMissile();
-                                    Assert.IsTrue(missile);
-                                    if (missile.curve.totalTime is not { } flightTime)
-                                        throw new AssertionException("missile.curve.totalTime = null", null);
+                                    case UnitActionType.Attack: {
+                                        yield return StateChange.Push(nameof(AttackActionState),AttackActionState.Run(main,action));
+                                        break;
+                                    }
 
-                                    if (CameraRig.TryFind(out var cameraRig))
-                                        cameraRig.Jump(Vector2.Lerp(missileSilo1.position, targetPosition, .5f).Raycast());
-                                    yield return StateChange.Push("MissileFlight", Wait.ForSeconds(flightTime));
+                                    case UnitActionType.GetIn: {
+                                        unit.Position = null;
+                                        unit.Carrier = other;
+                                        other.AddCargo(unit);
+                                        break;
+                                    }
+
+                                    case UnitActionType.Drop: {
+                                        unit.Position = destination;
+                                        unit.RemoveCargo(action.targetUnit);
+                                        action.targetUnit.Position = action.targetPosition;
+                                        action.targetUnit.Carrier = null;
+                                        action.targetUnit.Moved = true;
+                                        break;
+                                    }
+
+                                    case UnitActionType.Supply: {
+                                        unit.Position = destination;
+                                        action.targetUnit.Fuel = int.MaxValue;
+                                        foreach (var weaponName in GetWeaponNames(action.targetUnit))
+                                            action.targetUnit.SetAmmo(weaponName, int.MaxValue);
+                                        break;
+                                    }
+
+                                    case UnitActionType.LaunchMissile:
+                                        yield return StateChange.Push(nameof(MissileTargetSelectionState), MissileTargetSelectionState.Run(main, action, initialLookDirection));
+                                        // unit can destroy itself with a missile lol
+                                        if (!unit.Disposed)
+                                            unit.Position = destination;
+                                        break;
+
+                                    default:
+                                        throw new ArgumentOutOfRangeException();
                                 }
 
-                                unit.Position = destination;
-                                missileSilo1.missileSiloLastLaunchTurn = main.turn;
-                                missileSilo1.missileSiloAmmo--;
+                                if (!unit.Disposed) {
+                                    unit.Moved = true;
+                                    if (unit.view.LookDirection != unit.Player.unitLookDirection)
+                                        main.StartCoroutine(new MoveSequence(unit.view.transform, null, unit.Player.main.persistentData.gameSettings.unitSpeed, unit.Player.unitLookDirection).Animation());
+                                }
 
-                                foreach (var position in main.PositionsInRange(targetPosition, missileSilo1.missileBlastRange))
-                                    if (main.TryGetUnit(position, out var unit))
-                                        unit.SetHp(unit.Hp - missileSilo1.missileUnitDamage, true);
+                                /*
+                                 * some custom level logic on action completion 
+                                 */
+                                 
+                                if (main.triggers.TryGetValue(TriggerName.A, out var reconTrigger)) {
 
-                                var targetedBridges = main.bridges.Where(bridge => bridge.tiles.ContainsKey(targetPosition));
-                                foreach (var bridge in targetedBridges)
-                                    bridge.SetHp(bridge.Hp - missileSilo1.missileBridgeDamage, true);
+                                    var unitsInReconTrigger = main.units.Values.Where(u => u.Player == main.localPlayer && u.Position is { } position && reconTrigger.Contains(position)).ToArray();
+                                    if (unitsInReconTrigger.Length > 0) {
 
-                                CleanUpSubstate();
-                                yield return StateChange.Pop();
+                                        reconTrigger.Clear();
+                                        ((Main2)main).LoadAdditively("1");
+
+                                        if (CameraRig.TryFind(out var cameraRig)) {
+                                            yield return StateChange.Push("MapRevealWait", Wait.ForSeconds(.5f));
+                                            cameraRig.Jump(new Vector2Int(-21, -14).Raycast());
+                                        }
+                                    }
+                                }
+
+                                if (main.triggers.TryGetValue(TriggerName.B, out var aggroTrigger)) {
+                                    var unitsInAggroTrigger = main.units.Values.Where(u => u.Player == main.localPlayer && u.Position is { } position && aggroTrigger.Contains(position)).ToArray();
+                                    if (unitsInAggroTrigger.Length > 0) {
+                                        aggroTrigger.Clear();
+                                        Debug.Log("ENEMY NOTICED YOU");
+                                    }
+                                }
+                                
+                                /*
+                                 * check victory or defeat
+                                 */
+
+                                actions.Remove(action);
+
+                                var won = Won(main.localPlayer);
+                                var lost = Lost(main.localPlayer);
+
+                                if (won || lost) {
+
+                                    foreach (var u in main.units.Values)
+                                        u.Moved = false;
+
+                                    // TODO: add a DRAW outcome
+                                    if (won)
+                                        yield return StateChange.ReplaceWith(nameof(VictoryState), VictoryState.Run(main, action));
+                                    else
+                                        yield return StateChange.ReplaceWith(nameof(DefeatState), DefeatState.Run(main, action));
+                                }
+
+                                else {
+                                    yield return main.levelLogic.OnActionCompletion(main, action);
+                                    yield return StateChange.ReplaceWith(nameof(SelectionState), SelectionState.Run(main));
+                                }
+
                                 break;
                             }
 
                             case cancel:
-                                CleanUpSubstate();
-                                CleanUp();
-                                yield return StateChange.PopThenPush(2, nameof(ActionSelectionState), Run(main, unit, path, initialLookDirection));
+
+                                main.stack.Pop(); // pop actions
+
+                                unit.view.Position = path[0];
+                                if (initialLookDirection is { } value)
+                                    unit.view.LookDirection = value;
+
+                                yield return StateChange.ReplaceWith(nameof(PathSelectionState), PathSelectionState.Run(main, unit));
                                 break;
+
+                            case cycleActions: {
+                                var offset = main.stack.Pop<int>();
+                                if (actions.Count > 0) {
+                                    index = (index + offset).PositiveModulo(actions.Count);
+                                    SelectAction(actions[index]);
+                                }
+                                else
+                                    UiSound.Instance.notAllowed.PlayOneShot();
+                                break;
+                            }
 
                             default:
-                                main.stack.ExecuteToken(token2);
+                                main.stack.ExecuteToken(token);
                                 break;
                         }
-
-                if (launchPosition is { } position1)
-                    foreach (var attackPosition in main.PositionsInRange(position1, missileSilo.missileBlastRange))
-                        Draw.ingame.SolidPlane((Vector3)attackPosition.ToVector3Int(), Vector3.up, Vector2.one, Color.red);
-
-                if (Mouse.TryGetPosition(out mousePosition) && missileSiloView &&
-                    (mousePosition - missileSilo.position).ManhattanLength().IsIn(missileSilo.missileSiloRange)) {
-
-                    missileSiloView.aim = true;
-                    missileSiloView.targetPosition = mousePosition.Raycast();
-                }
-                else
-                    missileSiloView.aim = false;
             }
-        }
-
-        var issuedAiCommands = false;
-        while (true) {
-            yield return StateChange.none;
-
-            if (main.autoplay || Input.GetKey(KeyCode.Alpha8)) {
-                if (!issuedAiCommands) {
-                    issuedAiCommands = true;
-                    main.IssueAiCommandsForActionSelectionState();
-                }
-            }
-            else if (!main.CurrentPlayer.IsAi) {
-
-                if (Input.GetMouseButtonDown(Mouse.right) || Input.GetKeyDown(KeyCode.Escape))
-                    main.commands.Enqueue(cancel);
-
-                else if (Input.GetKeyDown(KeyCode.Tab)) {
-                    main.stack.Push(Input.GetKey(KeyCode.LeftShift) ? -1 : 1);
-                    main.commands.Enqueue(cycleActions);
-                }
-
-                else if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space)) {
-                    if (actions.Count == 0)
-                        UiSound.Instance.notAllowed.PlayOneShot();
-                    else {
-                        main.stack.Pop();
-                        main.stack.Push(new List<UnitAction> { actions[index] });
-                        main.commands.Enqueue(execute);
-                    }
-                }
-            }
-
-            while (main.commands.TryDequeue(out var input))
-                foreach (var token in Tokenizer.Tokenize(input))
-                    switch (token) {
-
-                        case filterWithType: {
-                            var type = main.stack.Pop<UnitActionType>();
-                            main.stack.Push(main.stack.Pop<List<UnitAction>>().Where(action => action.type == type).ToList());
-                            break;
-                        }
-
-                        case execute: {
-
-                            var filteredActions = main.stack.Pop<List<UnitAction>>();
-                            Assert.AreEqual(1, filteredActions.Count);
-                            var action = filteredActions[0];
-
-                            HidePanel();
-
-                            /*
-                             * Action execution
-                             */
-
-                            main.TryGetBuilding(destination, out var building);
-
-//                            Debug.Log($"EXECUTING: {unit} {action.type} {action.targetUnit}");
-
-                            switch (action.type) {
-
-                                case UnitActionType.Stay: {
-                                    unit.Position = destination;
-                                    break;
-                                }
-
-                                case UnitActionType.Join: {
-                                    other.SetHp(other.Hp + unit.Hp);
-                                    unit.Dispose();
-                                    break;
-                                }
-
-                                case UnitActionType.Capture: {
-                                    unit.Position = destination;
-                                    building.Cp -= Rules.Cp(unit);
-                                    if (building.Cp <= 0) {
-                                        building.Player = unit.Player;
-                                        building.Cp = Rules.MaxCp(building);
-                                    }
-                                    break;
-                                }
-
-                                case UnitActionType.Attack: {
-
-                                    var attacker = action.unit;
-                                    var target = action.targetUnit;
-
-                                    if (!Rules.TryGetDamage(attacker, target, action.weaponName, out var damagePercentageToTarget))
-                                        throw new Exception();
-
-                                    var newTargetHp = Mathf.RoundToInt(Mathf.Max(0, target.Hp - damagePercentageToTarget * Rules.MaxHp(target)));
-                                    var newAttackerHp = attacker.Hp;
-                                    var targetWeaponIndex = -1;
-                                    /*if (newTargetHp > 0 && Rules.CanAttackInResponse(target, attacker, out targetWeaponIndex)) {
-                                        if (Rules.Damage(target, attacker, targetWeaponIndex, newTargetHp) is not { } damageToAttacker)
-                                            throw new Exception();
-                                        newAttackerHp = Mathf.Max(0, newAttackerHp - damageToAttacker);
-                                    }*/
-
-                                    if (main.persistentData.gameSettings.showBattleAnimation)
-                                        Debug.Log("BattleAnimationView");
-
-                                    attacker.Position = action.Path.Last();
-
-                                    CameraRig.TryFind(out var cameraRig);
-
-                                    //if (newTargetHp <= 0 && cameraRig)
-                                    //   yield return StateChange.Push("JumpToAttackTarget", Wait.ForCompletion(cameraRig.Jump(((Vector2Int)target.Position).Raycast())));
-
-                                    target.SetHp(newTargetHp, true);
-
-                                    //if (newTargetHp > 0 && targetWeaponIndex != -1)
-                                    //    target.ammo[targetWeaponIndex]--;
-
-                                    //if (newAttackerHp <= 0 && cameraRig)
-                                    //  yield return StateChange.Push("JumpToAttacker", Wait.ForCompletion(cameraRig.Jump(destination.Raycast())));
-
-                                    attacker.SetHp(newAttackerHp, true);
-
-                                    //if (newAttackerHp > 0)
-                                    // attacker.ammo[action.weaponIndex]--;
-
-                                    break;
-                                }
-
-                                case UnitActionType.GetIn: {
-                                    unit.Position = null;
-                                    unit.Carrier = other;
-                                    other.AddCargo(unit);
-                                    break;
-                                }
-
-                                case UnitActionType.Drop: {
-                                    unit.Position = destination;
-                                    unit.RemoveCargo(action.targetUnit);
-                                    action.targetUnit.Position = action.targetPosition;
-                                    action.targetUnit.Carrier = null;
-                                    action.targetUnit.Moved = true;
-                                    break;
-                                }
-
-                                case UnitActionType.Supply: {
-                                    unit.Position = destination;
-                                    action.targetUnit.Fuel = int.MaxValue;
-                                    foreach (var weaponName in Rules.GetWeaponNames(action.targetUnit))
-                                        action.targetUnit.SetAmmo(weaponName, int.MaxValue);
-                                    break;
-                                }
-
-                                case UnitActionType.LaunchMissile:
-                                    yield return StateChange.Push(nameof(MissileTargetSelection), MissileTargetSelection(action));
-                                    if (!unit.Disposed)
-                                        unit.Position = destination;
-                                    break;
-
-                                default:
-                                    throw new ArgumentOutOfRangeException();
-                            }
-
-                            if (!unit.Disposed) {
-                                unit.Moved = true;
-                                if (unit.view.LookDirection != unit.Player.unitLookDirection)
-                                    main.StartCoroutine(new MoveSequence(unit.view.transform, null, unit.Player.main.persistentData.gameSettings.unitSpeed, unit.Player.unitLookDirection).Animation());
-                            }
-
-                            foreach (var item in actions)
-                                if (item != action)
-                                    item.Dispose();
-
-                            if (main.triggers.TryGetValue(TriggerName.A, out var reconTrigger)) {
-
-                                var unitsInReconTrigger = main.units.Values.Where(u => u.Player == main.localPlayer && u.Position is { } position && reconTrigger.Contains(position)).ToArray();
-                                if (unitsInReconTrigger.Length > 0) {
-
-                                    reconTrigger.Clear();
-                                    ((Main2)main).LoadAdditively("1");
-
-                                    if (CameraRig.TryFind(out var cameraRig)) {
-                                        yield return StateChange.Push("MapRevealWait", Wait.ForSeconds(.5f));
-                                        cameraRig.Jump(new Vector2Int(-21, -14).Raycast());
-                                    }
-                                }
-                            }
-
-                            if (main.triggers.TryGetValue(TriggerName.B, out var aggroTrigger)) {
-                                var unitsInAggroTrigger = main.units.Values.Where(u => u.Player == main.localPlayer && u.Position is { } position && aggroTrigger.Contains(position)).ToArray();
-                                if (unitsInAggroTrigger.Length > 0) {
-                                    aggroTrigger.Clear();
-                                    Debug.Log("ENEMY NOTICED YOU");
-                                }
-                            }
-
-                            // if (unit.view.LookDirection != unit.player.view.unitLookDirection)
-                            // unit.view.LookDirection = unit.player.view.unitLookDirection;
-
-                            var won = Rules.Won(main.localPlayer);
-                            var lost = Rules.Lost(main.localPlayer);
-
-                            if (won || lost) {
-
-                                foreach (var u in main.units.Values)
-                                    u.Moved = false;
-
-                                if (won)
-                                    yield return StateChange.ReplaceWith(nameof(VictoryState), VictoryState.Run(main, action));
-                                else
-                                    yield return StateChange.ReplaceWith(nameof(DefeatState), DefeatState.Run(main, action));
-                            }
-
-                            else {
-                                yield return main.levelLogic.OnActionCompletion(main, action);
-                                yield return StateChange.ReplaceWith(nameof(SelectionState), SelectionState.Run(main));
-                            }
-
-                            break;
-                        }
-
-                        case cancel:
-
-                            main.stack.Pop(); // pop actions
-                            CleanUp();
-
-                            unit.view.Position = path[0];
-                            if (initialLookDirection is { } value)
-                                unit.view.LookDirection = value;
-
-                            yield return StateChange.ReplaceWith(nameof(PathSelectionState), PathSelectionState.Run(main, unit));
-                            break;
-
-                        case cycleActions: {
-                            var offset = main.stack.Pop<int>();
-                            if (actions.Count > 0) {
-                                index = (index + offset).PositiveModulo(actions.Count);
-                                SelectAction(actions[index]);
-                            }
-                            else
-                                UiSound.Instance.notAllowed.PlayOneShot();
-                            break;
-                        }
-
-                        default:
-                            main.stack.ExecuteToken(token);
-                            break;
-                    }
         }
     }
 }

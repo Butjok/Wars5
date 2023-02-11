@@ -33,21 +33,12 @@ public static class PathSelectionState {
         traverser.Traverse(main.tiles.Keys, unitPosition, Rules.GetMoveCostFunction(unit));
 
         if (!pathMeshGameObject) {
-
             pathMeshGameObject = new GameObject();
             Object.DontDestroyOnLoad(pathMeshGameObject);
-
             pathMeshFilter = pathMeshGameObject.AddComponent<MeshFilter>();
-            pathMeshRenderer = pathMeshGameObject.AddComponent<MeshRenderer>();
-
-            moveSequenceAtlas = Resources.Load<MoveSequenceAtlas>(nameof(MoveSequenceAtlas));
-            Assert.IsTrue(moveSequenceAtlas);
-
-            var pathMaterial = Resources.Load<Material>("MovePath");
-            Assert.IsTrue(pathMaterial);
-
-            pathMeshRenderer.sharedMaterial = pathMaterial;
             pathMeshFilter.sharedMesh = new Mesh();
+            pathMeshRenderer = pathMeshGameObject.AddComponent<MeshRenderer>();
+            pathMeshRenderer.sharedMaterial = "MovePath".LoadAs<Material>();
         }
 
         var pathBuilder = new PathBuilder(unitPosition);
@@ -55,18 +46,22 @@ public static class PathSelectionState {
         CursorView.TryFind(out var cursor);
 
         //var tileAreaMeshBuilder = Object.FindObjectOfType<TileAreaMeshuild>()
-        if ((!main.CurrentPlayer.IsAi && !main.autoplay) && main.tileAreaMeshFilter) {
+        if (!main.CurrentPlayer.IsAi && !main.autoplay && main.tileAreaMeshFilter) {
             main.tileAreaMeshFilter.sharedMesh = TileAreaMeshBuilder.Build(traverser.Reachable);
             if (cursor)
                 cursor.show = true;
         }
 
-        var oldPositions = new List<Vector2Int> { unitPosition };
-
         void CleanUp() {
             pathMeshFilter.sharedMesh = null;
             if (main.tileAreaMeshFilter)
                 main.tileAreaMeshFilter.sharedMesh = null;
+        }
+        void RebuildPathMesh() {
+            pathMeshFilter.sharedMesh = MoveSequenceMeshBuilder.Build(
+                pathMeshFilter.sharedMesh,
+                new MoveSequence(unit.view.transform, pathBuilder.positions),
+                nameof(MoveSequenceAtlas).LoadAs<MoveSequenceAtlas>());
         }
 
         var issuedAiCommands = false;
@@ -113,12 +108,14 @@ public static class PathSelectionState {
                                 pathBuilder.Clear();
                                 foreach (var position in path.Skip(1))
                                     pathBuilder.Add(position);
+                                RebuildPathMesh();
                             }
                             break;
                         }
 
                         case appendToPath:
                             pathBuilder.Add(main.stack.Pop<Vector2Int>());
+                            RebuildPathMesh();
                             break;
 
                         case move: {
@@ -138,12 +135,6 @@ public static class PathSelectionState {
                             if (followUnitMove && cameraRig)
                                 hardFollow = cameraRig.GetComponent<HardFollow>();
 
-                            string cameraRigSettings = null;
-                            if (cameraRig) {
-                                using var sw = new StringWriter();
-                                GameWriter.WriteCameraRig(sw, cameraRig);
-                                cameraRigSettings = sw.ToString();
-                            }
                             if (hardFollow) {
                                 hardFollow.enabled = true;
                                 hardFollow.target = unit.view;
@@ -163,7 +154,7 @@ public static class PathSelectionState {
                             if (hardFollow)
                                 hardFollow.enabled = false;
 
-                            yield return StateChange.ReplaceWith(nameof(ActionSelectionState), ActionSelectionState.Run(main, unit, path, initialLookDirection));
+                            yield return StateChange.ReplaceWith(new ActionSelectionState(main, unit, path, initialLookDirection));
                             break;
                         }
 
@@ -177,15 +168,6 @@ public static class PathSelectionState {
                             main.stack.ExecuteToken(token);
                             break;
                     }
-
-            if (!oldPositions.SequenceEqual(pathBuilder.positions)) {
-                oldPositions.Clear();
-                oldPositions.AddRange(pathBuilder.positions);
-                pathMeshFilter.sharedMesh = MoveSequenceMeshBuilder.Build(
-                    pathMeshFilter.sharedMesh,
-                    new MoveSequence(unit.view.transform, pathBuilder.positions),
-                    moveSequenceAtlas);
-            }
         }
     }
 }
