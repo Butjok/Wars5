@@ -185,6 +185,15 @@ public class MoveFinder2 {
                     }
                 }
 
+                // we have already discovered a goal node before with a smaller distance
+                // there is no point of discovering any other nodes since all of them will 
+                // have greater distance
+                if (current.g >= minG)
+                    break;
+
+                // if we have stumbled upon a goal node
+                // the first one is guaranteed to be the closest of the remaining goals
+                // just compare it with the already closed goals
                 if (goals.Contains(position)) {
                     if (current.g < minG) {
                         minG = current.g;
