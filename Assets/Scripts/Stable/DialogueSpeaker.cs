@@ -34,6 +34,17 @@ public class DialogueSpeaker : ScriptableObject {
         };
         return sprite;
     }
+    public static bool TryGetFallbackMood(Mood mood, out Mood fallback) {
+        Mood? result = mood switch {
+            Mood.Normal => null,
+            Mood.Laughing or Mood.Intimate => Mood.Happy,
+            Mood.Crying => Mood.Sad,
+            Mood.Shocked => Mood.Worried,
+            _ => Mood.Normal
+        };
+        fallback = result is { } value ? value : default;
+        return result != null;
+    }
 
     [Range(-1, 1)]
     public int side = -1;
