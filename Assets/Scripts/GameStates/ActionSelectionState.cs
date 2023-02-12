@@ -289,9 +289,9 @@ public class ActionSelectionState : IDisposableState {
 
                                     // TODO: add a DRAW outcome
                                     if (won)
-                                        yield return StateChange.ReplaceWith(nameof(VictoryState), VictoryState.Run(main, action));
+                                        yield return StateChange.ReplaceWith(nameof(VictoryDefeatState.Victory), VictoryDefeatState.Victory(main, action));
                                     else
-                                        yield return StateChange.ReplaceWith(nameof(DefeatState), DefeatState.Run(main, action));
+                                        yield return StateChange.ReplaceWith(nameof(VictoryDefeatState.Defeat), VictoryDefeatState.Defeat(main, action));
                                 }
 
                                 else {

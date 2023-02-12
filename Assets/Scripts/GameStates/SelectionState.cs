@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Butjok.CommandLine;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -17,6 +18,9 @@ public static class SelectionState {
     public const string triggerVictory = prefix + "trigger-victory";
     public const string triggerDefeat = prefix + "trigger-defeat";
     public const string useAbility = prefix + "use-ability";
+
+    [Command]
+    public static string dialogueText;
 
     public static IEnumerator<StateChange> Run(Main main, bool turnStart = false) {
 
@@ -83,7 +87,7 @@ public static class SelectionState {
         }
 
         CursorView.TryFind(out var cursor);
-        
+
         if (!main.autoplay && !main.CurrentPlayer.IsAi && cursor)
             cursor.show = true;
 
@@ -91,11 +95,18 @@ public static class SelectionState {
         while (true) {
             yield return StateChange.none;
 
+            if (dialogueText != null) {
+                using var dialogue = new Dialogue();
+                foreach (var stateChange in dialogue.Play(dialogueText))
+                    yield return stateChange;
+                dialogueText = null;
+            }
+
             if (main.autoplay || Input.GetKey(KeyCode.Alpha8)) {
-                if(!issuedAiCommands) {
+                if (!issuedAiCommands) {
                     issuedAiCommands = true;
                     main.IssueAiCommandsForSelectionState();
-                }   
+                }
             }
             else if (!main.CurrentPlayer.IsAi) {
 
@@ -141,9 +152,9 @@ public static class SelectionState {
 
                             var position = main.stack.Pop<Vector2Int>();
                             var position3d = position.Raycast();
-                            
+
 //                            Debug.Log($"selecting unit at {position}");
-                            
+
                             var camera = Camera.main;
                             /*if (camera && cameraRig && preselectionCursor && !preselectionCursor.VisibleOnTheScreen(camera, position3d)) {
                                 Debug.DrawLine(position3d, position3d + Vector3.up, Color.yellow, 3);
@@ -236,13 +247,13 @@ public static class SelectionState {
                         case triggerVictory:
                             if (preselectionCursor)
                                 preselectionCursor.Hide();
-                            yield return StateChange.ReplaceWith(nameof(VictoryState), VictoryState.Run(main, null));
+                            yield return StateChange.ReplaceWith(nameof(VictoryDefeatState.Victory), VictoryDefeatState.Victory(main));
                             break;
 
                         case triggerDefeat:
                             if (preselectionCursor)
                                 preselectionCursor.Hide();
-                            yield return StateChange.ReplaceWith(nameof(DefeatState), DefeatState.Run(main, null));
+                            yield return StateChange.ReplaceWith(nameof(VictoryDefeatState.Defeat), VictoryDefeatState.Defeat(main));
                             break;
 
                         default:

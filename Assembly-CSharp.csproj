@@ -51,6 +51,7 @@
      <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />
      <None Include="Assets/Shaders/My First Lighting Shader.shader" />
      <None Include="Assets/Saves/full-map/19.01.2023-19.29.32.txt" />
+     <None Include="Assets/Saves/autosave/autosave-12.02.2023-11.56.17.txt" />
      <Folder Include="Assets/Saves/tutorial.1" />
      <None Include="Assets/Shapes/Shaders/Core/Line 3D Core.cginc" />
      <None Include="Assets/Resources/TileTypeColors.json" />
@@ -63,6 +64,7 @@
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader" />
      <Folder Include="Assets/Shapes/Textures" />
      <None Include="Assets/Resources/Missions/Tutorial.txt" />
+     <None Include="Assets/Saves/autosave/autosave-12.02.2023-13.17.58.txt" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Texture Screen.shader" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Rect ColorDodge.shader" />
      <Folder Include="Assets/TextMesh Pro/Sprites" />
@@ -89,6 +91,7 @@
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Sphere LinearBurn.shader" />
      <None Include="Assets/Shaders/My Lighting.cginc" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Polyline 2D Additive.shader" />
+     <Folder Include="Assets/StreamingAssets/Translations/ru_RU" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Polygon ColorDodge.shader" />
      <None Include="Assets/Shapes/Shaders/DashUtils.cginc" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Polygon Additive.shader" />
@@ -131,8 +134,10 @@
      <Folder Include="Assets/Content/UI" />
      <None Include="Assets/Saves/0/0-22.01.2023-19.33.36.txt" />
      <None Include="Assets/Resources/Missions/Test.txt" />
+     <None Include="Assets/Saves/autosave/autosave-12.02.2023-13.20.12.txt" />
      <Folder Include="Assets/TextMesh Pro/Resources/Fonts &amp; Materials" />
      <Folder Include="Assets/Saves/tutorial.0" />
+     <Folder Include="Assets/StreamingAssets/Translations/ru_RU/LC_MESSAGES" />
      <None Include="Assets/Saves/0/0-22.01.2023-18.57.43.txt" />
      <Folder Include="Assets/Fonts" />
      <Folder Include="Assets/Saves/test.0" />
@@ -210,6 +215,7 @@
      <None Include="Assets/Shapes/Shaders/Core/Polyline 2D Core.cginc" />
      <None Include="Assets/Saves/0/0-24.01.2023-03.03.07.txt" />
      <None Include="Assets/Saves/1/1-22.01.2023-18.57.19.txt" />
+     <None Include="Assets/Saves/autosave/autosave-12.02.2023-13.18.22.txt" />
      <None Include="Assets/Saves/second-stage/19.01.2023-19.30.24.txt" />
      <Folder Include="Assets/StoneTest" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Quad Opaque.shader" />
@@ -319,9 +325,11 @@
      <None Include="Assets/Out.json" />
      <None Include="Assets/Saves/test.1/20.01.2023-09.22.47.txt" />
      <None Include="Assets/Shaders/Trajectory.shader" />
+     <None Include="Assets/Saves/autosave/autosave-12.02.2023-11.58.12.txt" />
      <None Include="Assets/Shapes/Textures/Inconsolata/OFL.txt" />
      <Folder Include="Assets/Resources" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Disc Additive.shader" />
+     <Folder Include="Assets/StreamingAssets/Translations" />
      <Folder Include="Assets/Content/light-tank" />
      <None Include="Assets/TextMesh Pro/Resources/LineBreaking Following Characters.txt" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Disc Screen.shader" />
@@ -340,11 +348,13 @@
      <None Include="Assets/Shaders/My Shadows.cginc" />
      <Folder Include="Assets/Textures/Detail" />
      <None Include="Assets/Saves/0/0-22.01.2023-19.37.40.txt" />
+     <Folder Include="Assets/StreamingAssets" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Cone Transparent.shader" />
      <Folder Include="Assets/Content/Whiteboxes/Resources" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Torus Lighten.shader" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Torus ColorBurn.shader" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Cone LinearBurn.shader" />
+     <None Include="Assets/Saves/autosave/autosave-12.02.2023-11.57.21.txt" />
      <Folder Include="Assets/Textures/Cookies" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Polygon Multiplicative.shader" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Texture Subtractive.shader" />
@@ -371,7 +381,6 @@
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Cone Darken.shader" />
      <None Include="Assets/Content/Whiteboxes/wb-unit.shader" />
      <None Include="Assets/Shaders/rough.shader" />
-     <None Include="Assets/Saves/autosave/autosave-12.02.2023-02.44.16.txt" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Cone ColorDodge.shader" />
      <None Include="Assets/Saves/0/0-24.01.2023-01.56.26.txt" />
      <Folder Include="Assets/Scenes/Explosion" />
@@ -386,6 +395,7 @@
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Cuboid ColorBurn.shader" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Regular Polygon Lighten.shader" />
      <None Include="Assets/Shaders/SDF.cginc" />
+     <None Include="Assets/Saves/autosave/autosave-12.02.2023-11.58.44.txt" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Line 3D Lighten.shader" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Disc ColorBurn.shader" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Regular Polygon Additive.shader" />
@@ -1531,6 +1541,10 @@
     <ProjectReference Include="ALINEPackageToolsEditor.csproj">
       <Project>{acc937ff-be72-6096-e219-b39fdc0d4207}</Project>
       <Name>ALINEPackageToolsEditor</Name>
+    </ProjectReference>
+    <ProjectReference Include="NGettext.csproj">
+      <Project>{d3c3a7e3-e88d-8cd5-b33c-a6e0e3c96401}</Project>
+      <Name>NGettext</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

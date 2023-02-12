@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.UI;
 
 public class DialogueUi : MonoBehaviour {
 
@@ -61,11 +62,11 @@ public class DialogueUi : MonoBehaviour {
 
         if (line.changeMood is { } newMood)
             moods[speaker] = newMood;
-        
+
         if (portrait) {
             //portrait.sprite = portrait && speaker ? speaker.portrait : null;
             //portrait.enabled = portrait.sprite;
-            
+
             var position = portrait.rectTransform.anchoredPosition;
             position.x = Mathf.Abs(position.x) * (speaker ? speaker.side : -1);
             portrait.rectTransform.anchoredPosition = position;
@@ -87,7 +88,7 @@ public class DialogueUi : MonoBehaviour {
 
         if (VoiceOverSource.isPlaying)
             VoiceOverSource.Stop();
-        if (line.voiceOver )
+        if (line.voiceOver)
             VoiceOverSource.PlayOneShot(line.voiceOver);
     }
 
@@ -98,6 +99,31 @@ public class DialogueUi : MonoBehaviour {
                 voiceOverSource.spatialBlend = 0;
             }
             return voiceOverSource;
+        }
+    }
+    public Image spaceBarKeyImage;
+    public bool ShowSpaceBarKey {
+        set {
+            if (spaceBarKeyImage)
+                spaceBarKeyImage.enabled = value;
+        }
+    }
+
+    public void ClearText() {
+        text.text = "";
+    }
+    public void AppendText(string text) {
+        if (textTypingAnimation != null)
+            StopCoroutine(textTypingAnimation);
+        textTypingAnimation = TextTypingAnimation(this.text.text, text);
+        StartCoroutine(textTypingAnimation);
+    }
+
+    public IEnumerator TextTypingAnimation(string start, string appendix) {
+        text.text = start;
+        for (var i = 0; i < appendix.Length; i++) {
+            text.text += appendix[i];
+            yield return null;
         }
     }
 }

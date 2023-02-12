@@ -1,6 +1,6 @@
 LevelEditor                                                      game.load-scene
 Tutorial MissionName type enum                                   game.set-mission-name
-2                                                                game.set-turn
+4                                                                game.set-turn
                                                                  
 
 
@@ -23,9 +23,9 @@ MissileSilo TileType type enum                                   building.set-ty
 -6 25 int2                                                       building.set-position
 20                                                               building.set-cp
 0 -1 int2                                                        building.set-look-direction
--99                                                              building.missile-silo.set-last-launch-turn
+4                                                                building.missile-silo.set-last-launch-turn
 1                                                                building.missile-silo.set-launch-cooldown
-999                                                              building.missile-silo.set-ammo
+997                                                              building.missile-silo.set-ammo
 0 999 int2                                                       building.missile-silo.set-range
 0 3 int2                                                         building.missile-silo.missile.set-blast-range
 5                                                                building.missile-silo.missile.set-unit-damage
@@ -78,9 +78,9 @@ WbHowitzer UnitView type load-resource                           unit.set-view-p
 
                                                                  dup
 Infantry UnitType type enum                                      unit.set-type
-false                                                            unit.set-moved
+true                                                             unit.set-moved
 10                                                               unit.set-hp
--6 24 int2                                                       unit.set-position
+-6 25 int2                                                       unit.set-position
 -1 0 int2                                                        unit.set-look-direction
 WbLightTank UnitView type load-resource                          unit.set-view-prefab
                                                                  unit.add
@@ -103,16 +103,6 @@ false                                                            unit.set-moved
 -8 24 int2                                                       unit.set-position
 -1 0 int2                                                        unit.set-look-direction
 WbApc UnitView type load-resource                                unit.set-view-prefab
-                                                                 unit.add
-                                                                 pop
-
-                                                                 dup
-Recon UnitType type enum                                         unit.set-type
-false                                                            unit.set-moved
-10                                                               unit.set-hp
--10 13 int2                                                      unit.set-position
--1 0 int2                                                        unit.set-look-direction
-WbRecon UnitView type load-resource                              unit.set-view-prefab
                                                                  unit.add
                                                                  pop
 
@@ -673,7 +663,7 @@ E TriggerName type enum                                          trigger.select
 F TriggerName type enum                                          trigger.select
 
 BridgeView type true find-single-object-of-type                  bridge.set-view
-20                                                               bridge.set-hp
+0                                                                bridge.set-hp
 -10 13 int2                                                      bridge.add-position
 -11 13 int2                                                      bridge.add-position
 -12 13 int2                                                      bridge.add-position
@@ -683,8 +673,8 @@ BridgeView type true find-single-object-of-type                  bridge.set-view
                                                                  pop
 
 
--11.52905 0 18.55699 float3                                      camera-rig.set-position
-180                                                              camera-rig.set-rotation
-40                                                               camera-rig.set-distance
-39.55403                                                         camera-rig.set-pitch-angle
-20                                                               camera-rig.set-fov
+-10.66462 0 18.4202 float3                                       camera-rig.set-position
+202.5                                                            camera-rig.set-rotation
+25.289                                                           camera-rig.set-distance
+34.00937                                                         camera-rig.set-pitch-angle
+25.42852                                                         camera-rig.set-fov
