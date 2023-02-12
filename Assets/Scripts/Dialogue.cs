@@ -38,7 +38,7 @@ public class Dialogue : IDisposable {
     public DialogueSpeaker speaker;
     public Stack<float> stack = new();
 
-    public IEnumerator<StateChange> Play(string script) {
+    public IEnumerable<StateChange> Play(string script) {
         var tokens = script.Replace("\r", " ").Replace("\n", " ").Replace("  ", " ").Replace("  ", " ").Trim()
             .Split(" ", StringSplitOptions.RemoveEmptyEntries).Where(part=>!string.IsNullOrWhiteSpace(part));
         foreach (var token in tokens) {

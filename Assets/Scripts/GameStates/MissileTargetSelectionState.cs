@@ -89,7 +89,7 @@ public static class MissileTargetSelectionState {
 
                             if (anyBridgeDestroyed) {
                                 using var dialogue = new Dialogue();
-                                var play = dialogue.Play(@"
+                                foreach (var stateChange in dialogue.Play(@"
 @nata Hello there! @next
       Welcome to the Wars3d! An amazing strategy game! @next
 
@@ -100,9 +100,8 @@ public static class MissileTargetSelectionState {
 
 @nata @happy You probably did not know who you are messing with! @next
 @nata @normal Enough said. @next
-");
-                                while (play.MoveNext())
-                                    yield return play.Current;
+"))
+                                    yield return stateChange;
                             }
                             
                             yield break;
