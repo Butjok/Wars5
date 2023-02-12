@@ -34,9 +34,9 @@ public class Dialogue : IDisposable {
     }
 
     public StringBuilder stringBuilder = new();
-    public DialogueSpeaker speaker;
+    public PersonId speaker;
     public Stack<float> stack = new();
-    public Dictionary<DialogueSpeaker, DialogueSpeaker.Mood> moods = new();
+    public Dictionary<PersonId, Mood> moods = new();
 
     public IEnumerable<StateChange> Play(string script) {
 
@@ -53,11 +53,11 @@ public class Dialogue : IDisposable {
                 switch (token) {
 
                     case "@nata":
-                        SetSpeaker(DialogueSpeaker.Natalie);
+                        SetSpeaker(PersonId.Natalie);
                         break;
 
                     case "@vlad":
-                        SetSpeaker(DialogueSpeaker.Vladan);
+                        SetSpeaker(PersonId.Vladan);
                         break;
 
                     case "@pause":
@@ -89,7 +89,7 @@ public class Dialogue : IDisposable {
                     default: {
                         if (float.TryParse(token.Substring(1), NumberStyles.Any, CultureInfo.InvariantCulture, out var value))
                             stack.Push(value);
-                        else if (Enum.TryParse(token.Substring(1), true, out DialogueSpeaker.Mood mood)) {
+                        else if (Enum.TryParse(token.Substring(1), true, out Mood mood)) {
                             moods[speaker] = mood;
                             UpdatePortrait();
                         }
@@ -107,7 +107,7 @@ public class Dialogue : IDisposable {
         }
     }
     
-    public DialogueSpeaker.Mood GetMood(DialogueSpeaker speaker, DialogueSpeaker.Mood defaultMood = default) {
+    public Mood GetMood(PersonId speaker,Mood defaultMood = default) {
         if (!moods.TryGetValue(speaker, out var mood)) {
             mood = defaultMood;
             moods.Add(speaker, mood);
@@ -117,13 +117,12 @@ public class Dialogue : IDisposable {
     
     public void UpdatePortrait() {
         var mood = GetMood(speaker);
-        if (!speaker.TryGetPortrait(mood, out var portrait) && !speaker.TryGetPortrait(DialogueSpeaker.Mood.Normal, out portrait))
-            portrait = null;
+        var portrait = People.TryGetPortrait(speaker, mood);
         // TODO:
-        ui.portrait.text = $"{speaker.name} [{GetMood(speaker)}]";
+        ui.portrait.text = $"{People.GetShortName(speaker)} [{GetMood(speaker)}]";
     }
 
-    public void SetSpeaker(DialogueSpeaker speaker) {
+    public void SetSpeaker(PersonId speaker) {
         this.speaker = speaker;
         UpdatePortrait();
     }

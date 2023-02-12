@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2023-02-12 13:44+0100\n"
-"PO-Revision-Date: 2023-02-12 13:45+0100\n"
+"POT-Creation-Date: 2023-02-12 19:09+0100\n"
+"PO-Revision-Date: 2023-02-12 19:42+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -16,75 +16,75 @@ msgstr ""
 "X-Poedit-KeywordsList: _;_p:1c,2;_pn:1c,2,3;_n:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: Dialogues.cs:12
+#: Dialogues.cs:10
 msgid "Hello there!"
 msgstr "Привет!"
 
-#: Dialogues.cs:13
+#: Dialogues.cs:11
 msgid "Welcome to the Wars3d! An amazing strategy game!"
 msgstr "Добро пожаловать в Wars3d! Это замечательная пошаговая стратегия!"
 
-#: Dialogues.cs:14
+#: Dialogues.cs:12
 msgid "What are you saying?"
 msgstr "Что ты говоришь?"
 
-#: Dialogues.cs:15
+#: Dialogues.cs:13
 msgid "I dont know what to say..."
 msgstr "Я даже не знаю что и сказать…"
 
-#: Dialogues.cs:16
+#: Dialogues.cs:14
 msgid "Probably..."
 msgstr "Наверное…"
 
-#: Dialogues.cs:16
+#: Dialogues.cs:14
 msgid "we should have done something different..."
 msgstr "нам нужно было сделать что-то другое…"
 
-#: Dialogues.cs:17
+#: Dialogues.cs:15
 msgid "You have no clue who you are messing with!"
 msgstr "Ты понятия не имеешь с кем имеешь дело!"
 
-#: Dialogues.cs:18
+#: Dialogues.cs:16
 msgid "Enough!"
 msgstr "Хватит!"
 
-#: Dialogues.cs:19
+#: Dialogues.cs:17
 msgid "Let's do it!"
 msgstr "Вперед!"
 
-#: Dialogues.cs:23
+#: Dialogues.cs:21
 msgid "We did it! They are falling back!"
 msgstr "Мы сделали это! Они отступают!"
 
-#: Dialogues.cs:24
+#: Dialogues.cs:22
 msgid "This is just a beginning..."
 msgstr "Это всего лишь начало…"
 
-#: Dialogues.cs:24
+#: Dialogues.cs:22
 msgid "Troops fall back!"
 msgstr "Войска, отступаем!"
 
-#: Dialogues.cs:25
+#: Dialogues.cs:23
 msgid "I am so proud of you!"
 msgstr "Я так горжусь тобой!"
 
-#: Dialogues.cs:26
+#: Dialogues.cs:24
 msgid "You did a great job."
 msgstr "Отличная работа."
 
-#: Dialogues.cs:30
+#: Dialogues.cs:28
 msgid "Oh no..."
 msgstr "О нет…"
 
-#: Dialogues.cs:31
+#: Dialogues.cs:29
 msgid "This land is ours!"
 msgstr "Эта земля - наша!"
 
-#: Dialogues.cs:31
+#: Dialogues.cs:29
 msgid "Forever!"
 msgstr "Навсегда!"
 
-#: Dialogues.cs:32
+#: Dialogues.cs:30
 msgid "Next time we should try different tactic."
 msgstr "В следующий раз нам лучше попробовать другую тактику."
 
@@ -95,6 +95,138 @@ msgid_plural "The enemy still has {0} units!"
 msgstr[0] "У противника все еще есть {0} юнит!"
 msgstr[1] "У противника все еще есть {0} юнита!"
 msgstr[2] "У противника все еще есть {0} юнитов!"
+
+#: Factions.cs:32
+msgid "People's Republic of Novoslavia"
+msgstr "Новославская Народная Республика"
+
+#: Factions.cs:34
+msgid ""
+"A socialist republic, one of the most military advanced powers in the region."
+msgstr ""
+"Социалистическая республика, одна из самых могущественных в военной силе."
+
+#: Factions.cs:40
+msgid "For the People and Fatherland"
+msgstr "За Народ и Отечество"
+
+#: Factions.cs:48
+msgid "United Treaty Organization"
+msgstr "Организация Союзного Договора"
+
+#: Factions.cs:50
+msgid ""
+"A large international political, economical and military alliance. The "
+"dominant power in the region."
+msgstr ""
+"Влиятельный международный политический, экономический и военный союз. "
+"Доминирующая сила в этом регионе мира."
+
+#: Factions.cs:56
+msgid "Solidarity and Unity"
+msgstr "Солидарность и Единство"
+
+#: People.cs:29
+msgid "James G. Willis"
+msgstr "Джеймс Уиллис"
+
+#: People.cs:30
+msgid "President of the United Treaty Organization."
+msgstr "Президент Организации Союзного Договора."
+
+#: People.cs:40
+msgid "Ljubisa Dragovic"
+msgstr "Любиша Драгович"
+
+#: People.cs:41
+msgid "Secretary General of the People's Republic of Novoslavia."
+msgstr "Генеральный секретарь Новославской Народной Республики."
+
+#: People.cs:51
+msgid "Natalie Moore"
+msgstr "Натали Мур"
+
+#: People.cs:52
+msgid "Natalie"
+msgstr "Натали"
+
+#: People.cs:53
+msgid ""
+"A fresh out of the military academia commanding officer from United Treaty. "
+"She was the best student in class."
+msgstr ""
+"Молодой лейтенант, недавно закончившая военную академию с отличием. Была "
+"рекомендована на работу в генеральном штабе Организации Союзного Договора."
+
+#: People.cs:63
+msgid "Vladan Raznatovic"
+msgstr "Владан Ражнатович"
+
+#: People.cs:64
+msgid "Vladan"
+msgstr "Владан"
+
+#: People.cs:65
+msgid ""
+"A cold-blooded veteran commanding officer from the Novoslavia. He is well "
+"known for the effectiveness and cruelty of his command."
+msgstr ""
+"Хладнокровный и опытный новославский командир. Известен эффективностью "
+"выполнения боевых задач и достижением их любой ценой."
+
+#: UnitDescription.cs:14
+msgid "Infantry squad"
+msgstr "Пехотный отряд"
+
+#: UnitDescription.cs:15
+msgid ""
+"Infantry squad is capable of effectively attacking enemy infantry units and "
+"capturing buildings."
+msgstr ""
+"Пехотный отряд наносит высокий урон пехоте противника а также может "
+"захватывать вражеские здания."
+
+#: UnitDescription.cs:19
+msgid "Mechanized infantry"
+msgstr "Мотострелковый отряд"
+
+#: UnitDescription.cs:20
+msgid ""
+"Novoslavian mechanized infantry is capable of effectively attacking enemy "
+"infantry units and capturing buildings."
+msgstr ""
+"Новославские мотострелки наносят высокий урон пехоте противника а также "
+"могут захватывать вражеские здания."
+
+#: UnitDescription.cs:27
+msgid "Anti-tank squad"
+msgstr "Противотанковый отряд"
+
+#: UnitDescription.cs:28
+msgid ""
+"Having a recoilless rifle as their primary weapon the anti-tank squad can "
+"deal significant damage to tanks and other armored vehicles. It is also "
+"capable of capturing buildings."
+msgstr ""
+"Используя свой гранатомет в качестве основного оружия, противотанковый отряд "
+"наносит существенный урон танками и бронированным целям противника. Также "
+"могут захватывать вражеские здания."
+
+#: UnitDescription.cs:32
+msgid "RPG squad"
+msgstr "РПГ отряд"
+
+#: UnitDescription.cs:33
+msgid ""
+"RPG rocket launcher deals significant damage to tanks and other armored "
+"vehicles. The RPG squad is also capable of capturing buildings."
+msgstr ""
+"Ручной противотанковый гранатомет наносит существенный урон танками и "
+"бронированным целям противника. Отряд также может захватывать вражеские "
+"здания."
+
+#~ msgid "Power in Unity"
+#~ msgstr "Сила в Единстве"
 
 #~ msgid ""
 #~ "\n"

@@ -170,7 +170,6 @@
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Cuboid Opaque.shader" />
      <None Include="Assets/Shaders/Terrain.shader" />
      <None Include="Assets/Shaders/Thumbnail.shader" />
-     <None Include="Assets/Saves/autosave/autosave-12.02.2023-13.37.24.txt" />
      <None Include="Assets/Saves/0/0-22.01.2023-18.36.21.txt" />
      <Folder Include="Assets/Shapes/Resources" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Regular Polygon Opaque.shader" />
@@ -263,7 +262,6 @@
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Triangle Screen.shader" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Disc Lighten.shader" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Line 2D ColorDodge.shader" />
-     <None Include="Assets/Saves/autosave/autosave-12.02.2023-13.46.20.txt" />
      <Folder Include="Assets/Saves/0" />
      <None Include="Assets/Dialogues.txt" />
      <Folder Include="Assets/Content/Whiteboxes" />
@@ -319,6 +317,7 @@
      <Folder Include="Assets/TextMesh Pro/Fonts" />
      <None Include="Assets/Shapes/Shaders/Core/Line 2D Core.cginc" />
      <Folder Include="Assets/Saves/test.1" />
+     <None Include="Assets/Saves/autosave/autosave-12.02.2023-20.00.50.txt" />
      <None Include="Assets/Shapes/Shaders/Core/Quad Core.cginc" />
      <None Include="Assets/Out.json" />
      <None Include="Assets/Saves/test.1/20.01.2023-09.22.47.txt" />
@@ -461,6 +460,7 @@
      <Folder Include="Assets/Saves/full-map" />
      <None Include="Assets/Shapes/Shaders/Generated Shaders/Resources/Sphere Opaque.shader" />
      <None Include="Assets/Saves/1/1-22.01.2023-18.56.26.txt" />
+     <None Include="Assets/Saves/autosave/autosave-12.02.2023-19.59.51.txt" />
      <Folder Include="Assets/Resources/Missions" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_Sprite.shader" />
      <None Include="Assets/Saves/0/0-24.01.2023-16.24.07.txt" />
@@ -1485,6 +1485,10 @@
       <Project>{f8cd9e74-1601-dd96-87ab-1cdbe561b5b5}</Project>
       <Name>DOTween.Modules</Name>
     </ProjectReference>
+    <ProjectReference Include="NGettext.csproj">
+      <Project>{d3c3a7e3-e88d-8cd5-b33c-a6e0e3c96401}</Project>
+      <Name>NGettext</Name>
+    </ProjectReference>
     <ProjectReference Include="CommandLine.csproj">
       <Project>{cfa2bab9-b41f-c1bf-2356-298545c86cc5}</Project>
       <Name>CommandLine</Name>
@@ -1536,10 +1540,6 @@
     <ProjectReference Include="ALINEPackageToolsEditor.csproj">
       <Project>{acc937ff-be72-6096-e219-b39fdc0d4207}</Project>
       <Name>ALINEPackageToolsEditor</Name>
-    </ProjectReference>
-    <ProjectReference Include="NGettext.csproj">
-      <Project>{d3c3a7e3-e88d-8cd5-b33c-a6e0e3c96401}</Project>
-      <Name>NGettext</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
