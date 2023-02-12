@@ -3,23 +3,9 @@ using System.IO;
 using Butjok.CommandLine;
 using NGettext;
 using UnityEngine;
+using static Dialogue;
 
 public static class Dialogues {
-
-    public const string next = " @next ";
-    public const string nata = " @nata ";
-    public const string pause = " @pause ";
-    public const string vlad = " @vlad ";
-    public const string happy = " @happy ";
-    public const string normal = " @normal ";
-    public const string mad = " @mad ";
-    public const string shocked = " @shocked ";
-    public const string sad = " @sad ";
-    public const string laughing = " @laughing ";
-    public const string intimate = " @intimate ";
-    public const string worried = " @worried ";
-    public const string crying = " @crying ";
-    public static string Pause(float delay) => $" @{delay:0.00} {pause} ";
 
     [Command]
     public static string TutorialWelcome =>
@@ -29,9 +15,10 @@ public static class Dialogues {
         nata + shocked + _("I dont know what to say...") + next +
         crying + _("Probably...") + Pause(1) + _("we should have done something different...") + next +
         vlad + laughing + _("You have no clue who you are messing with!") + next +
-        nata + normal + _("Enough!") + next;
+        nata + normal + _("Enough!") + next +
+        nata + _("Let's do it!") + next;
 
-    [Command]
+            [Command]
     public static string Victory =>
         nata + happy + _("We did it! They are falling back!") + next +
         vlad + mad + _("This is just a beginning...") + next + _("Troops fall back!") + next +
@@ -44,6 +31,18 @@ public static class Dialogues {
         vlad + happy + _("This land is ours!") + Pause(1) + _("Forever!") + next +
         nata + _("Next time we should try different tactic.") + next;
 
+    [Command]
+    public static string Help {
+        get {
+            var count = Random.Range(0, 10);
+            return nata + normal + string.Format(_n("The enemy still has a unit!", "The enemy still has {0} units!", count), count) + next;
+        }
+    }
+
+    /*
+     * END
+     */
+    
     private static Catalog catalog;
     private static Catalog Catalog {
         get {
@@ -53,28 +52,12 @@ public static class Dialogues {
         }
     }
 
-    public static string _(string text) {
-        return Catalog.GetString(text);
-    }
-    public static string _(string text, params object[] args) {
-        return Catalog.GetString(text, args);
-    }
-    public static string _n(string text, string pluralText, long n) {
-        return Catalog.GetPluralString(text, pluralText, n);
-    }
-    public static string _n(string text, string pluralText, long n, params object[] args) {
-        return Catalog.GetPluralString(text, pluralText, n, args);
-    }
-    public static string _p(string context, string text) {
-        return Catalog.GetParticularString(context, text);
-    }
-    public static string _p(string context, string text, params object[] args) {
-        return Catalog.GetParticularString(context, text, args);
-    }
-    public static string _pn(string context, string text, string pluralText, long n) {
-        return Catalog.GetParticularPluralString(context, text, pluralText, n);
-    }
-    public static string _pn(string context, string text, string pluralText, long n, params object[] args) {
-        return Catalog.GetParticularPluralString(context, text, pluralText, n, args);
-    }
+    public static string _(string text) => Catalog.GetString(text);
+    public static string _(string text, params object[] args) => Catalog.GetString(text, args);
+    public static string _n(string text, string pluralText, long n) => Catalog.GetPluralString(text, pluralText, n);
+    public static string _n(string text, string pluralText, long n, params object[] args) => Catalog.GetPluralString(text, pluralText, n, args);
+    public static string _p(string context, string text) => Catalog.GetParticularString(context, text);
+    public static string _p(string context, string text, params object[] args) => Catalog.GetParticularString(context, text, args);
+    public static string _pn(string context, string text, string pluralText, long n) => Catalog.GetParticularPluralString(context, text, pluralText, n);
+    public static string _pn(string context, string text, string pluralText, long n, params object[] args) => Catalog.GetParticularPluralString(context, text, pluralText, n, args);
 }

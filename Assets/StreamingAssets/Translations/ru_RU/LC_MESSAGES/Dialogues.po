@@ -1,87 +1,100 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2023-02-12 13:10+0100\n"
-"PO-Revision-Date: 2023-02-12 13:15+0100\n"
+"POT-Creation-Date: 2023-02-12 13:44+0100\n"
+"PO-Revision-Date: 2023-02-12 13:45+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=3;      plural=n%10==1 && n%100!=11 ? 0 :             "
+"n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Poedit 3.2.2\n"
 "X-Poedit-Basepath: ../../../../Scripts\n"
-"X-Poedit-KeywordsList: _;_p;_pn;_n\n"
+"X-Poedit-KeywordsList: _;_p:1c,2;_pn:1c,2,3;_n:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: Dialogues.cs:24
+#: Dialogues.cs:12
 msgid "Hello there!"
 msgstr "Привет!"
 
-#: Dialogues.cs:25
+#: Dialogues.cs:13
 msgid "Welcome to the Wars3d! An amazing strategy game!"
 msgstr "Добро пожаловать в Wars3d! Это замечательная пошаговая стратегия!"
 
-#: Dialogues.cs:26
+#: Dialogues.cs:14
 msgid "What are you saying?"
 msgstr "Что ты говоришь?"
 
-#: Dialogues.cs:27
+#: Dialogues.cs:15
 msgid "I dont know what to say..."
 msgstr "Я даже не знаю что и сказать…"
 
-#: Dialogues.cs:28
+#: Dialogues.cs:16
 msgid "Probably..."
 msgstr "Наверное…"
 
-#: Dialogues.cs:28
+#: Dialogues.cs:16
 msgid "we should have done something different..."
 msgstr "нам нужно было сделать что-то другое…"
 
-#: Dialogues.cs:29
+#: Dialogues.cs:17
 msgid "You have no clue who you are messing with!"
 msgstr "Ты понятия не имеешь с кем имеешь дело!"
 
-#: Dialogues.cs:30
+#: Dialogues.cs:18
 msgid "Enough!"
 msgstr "Хватит!"
 
-#: Dialogues.cs:33
+#: Dialogues.cs:19
+msgid "Let's do it!"
+msgstr "Вперед!"
+
+#: Dialogues.cs:23
 msgid "We did it! They are falling back!"
 msgstr "Мы сделали это! Они отступают!"
 
-#: Dialogues.cs:34
+#: Dialogues.cs:24
 msgid "This is just a beginning..."
 msgstr "Это всего лишь начало…"
 
-#: Dialogues.cs:34
+#: Dialogues.cs:24
 msgid "Troops fall back!"
 msgstr "Войска, отступаем!"
 
-#: Dialogues.cs:35
+#: Dialogues.cs:25
 msgid "I am so proud of you!"
 msgstr "Я так горжусь тобой!"
 
-#: Dialogues.cs:36
+#: Dialogues.cs:26
 msgid "You did a great job."
 msgstr "Отличная работа."
 
-#: Dialogues.cs:39
+#: Dialogues.cs:30
 msgid "Oh no..."
 msgstr "О нет…"
 
-#: Dialogues.cs:40
+#: Dialogues.cs:31
 msgid "This land is ours!"
 msgstr "Эта земля - наша!"
 
-#: Dialogues.cs:40
+#: Dialogues.cs:31
 msgid "Forever!"
 msgstr "Навсегда!"
 
-#: Dialogues.cs:41
+#: Dialogues.cs:32
 msgid "Next time we should try different tactic."
 msgstr "В следующий раз нам лучше попробовать другую тактику."
+
+#: Dialogues.cs:36
+#, csharp-format
+msgid "The enemy still has a unit!"
+msgid_plural "The enemy still has {0} units!"
+msgstr[0] "У противника все еще есть {0} юнит!"
+msgstr[1] "У противника все еще есть {0} юнита!"
+msgstr[2] "У противника все еще есть {0} юнитов!"
 
 #~ msgid ""
 #~ "\n"
@@ -92,22 +105,27 @@ msgstr "В следующий раз нам лучше попробовать д
 #~ "@vlad @mad What are you saying? @next\n"
 #~ "\n"
 #~ "@nata @shocked I dont know what to say... @next\n"
-#~ "@crying Probably... @1 @pause we should have done something different... @next\n"
+#~ "@crying Probably... @1 @pause we should have done something different... "
+#~ "@next\n"
 #~ "\n"
-#~ "@nata @laughing You probably did not know who you are messing with! @next\n"
+#~ "@nata @laughing You probably did not know who you are messing with! "
+#~ "@next\n"
 #~ "@nata @normal Enough said. @next\n"
 #~ "\n"
 #~ msgstr ""
 #~ "\n"
 #~ "\n"
 #~ "@nata @happy Здравствуй! @next\n"
-#~ "@normal Добро пожаловать в Wars3d! Это совершенно отличная пошаговая стратегия! @next\n"
+#~ "@normal Добро пожаловать в Wars3d! Это совершенно отличная пошаговая "
+#~ "стратегия! @next\n"
 #~ "\n"
 #~ "@vlad @mad Что ты говоришь? @next\n"
 #~ "\n"
 #~ "@nata @shocked I dont know what to say… @next\n"
-#~ "@crying Probably… @1 @pause we should have done something different… @next\n"
+#~ "@crying Probably… @1 @pause we should have done something different… "
+#~ "@next\n"
 #~ "\n"
-#~ "@nata @laughing You probably did not know who you are messing with! @next\n"
+#~ "@nata @laughing You probably did not know who you are messing with! "
+#~ "@next\n"
 #~ "@nata @normal Enough said. @next\n"
 #~ "\n"

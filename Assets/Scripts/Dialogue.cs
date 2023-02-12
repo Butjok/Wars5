@@ -8,6 +8,21 @@ using UnityEngine.Assertions;
 
 public class Dialogue : IDisposable {
 
+    public const string next = " @next ";
+    public const string nata = " @nata ";
+    public const string pause = " @pause ";
+    public const string vlad = " @vlad ";
+    public const string happy = " @happy ";
+    public const string normal = " @normal ";
+    public const string mad = " @mad ";
+    public const string shocked = " @shocked ";
+    public const string sad = " @sad ";
+    public const string laughing = " @laughing ";
+    public const string intimate = " @intimate ";
+    public const string worried = " @worried ";
+    public const string crying = " @crying ";
+    public static string Pause(float delay) => $" @{delay.ToString(CultureInfo.InvariantCulture)} {pause} ";
+    
     public DialogueUi ui;
 
     public Dialogue() {
