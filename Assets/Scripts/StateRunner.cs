@@ -39,7 +39,7 @@ public class StateRunner : MonoBehaviour {
 
         if (!states.TryPeek(out var state))
             return;
-        
+
         if (state.MoveNext()) {
             var stateChange = state.Current;
             for (var i = 0; i < stateChange.popCount; i++)
@@ -68,6 +68,16 @@ public static class Wait {
         while (tween.IsActive() && !tween.IsComplete())
             yield return StateChange.none;
     }
+    public class ForSpaceKeyDown : IDisposableState {
+        public void Dispose() { }
+        public IEnumerator<StateChange> Run {
+            get {
+                while (!Input.GetKeyDown(KeyCode.Space))
+                    yield return StateChange.none;
+                yield return StateChange.none;
+            }
+        }
+    }
 }
 
 public interface IDisposableState : IDisposable {
@@ -78,7 +88,7 @@ public struct StateChange {
 
     public static StateChange none = default;
     public static StateChange Pop(int count = 1) => new(count, null);
-    
+
     public static StateChange PopThenPush(int popCount, string stateName, IEnumerator<StateChange> state) => new(popCount, stateName, state);
     public static StateChange Push(string stateName, IEnumerator<StateChange> state) => PopThenPush(0, stateName, state);
     public static StateChange ReplaceWith(string stateName, IEnumerator<StateChange> state) => PopThenPush(1, stateName, state);
@@ -86,7 +96,7 @@ public struct StateChange {
     public static StateChange PopThenPush(int popCount, IDisposableState state) => new(popCount, null, null, state);
     public static StateChange Push(IDisposableState state) => PopThenPush(0, state);
     public static StateChange ReplaceWith(IDisposableState state) => PopThenPush(1, state);
-    
+
     public readonly int popCount;
     public IEnumerator<StateChange> state;
     public IDisposableState disposableState;

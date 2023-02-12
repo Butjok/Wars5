@@ -1,11 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.UI;
 
 public class DialogueUi : MonoBehaviour {
 
@@ -32,41 +30,34 @@ public class DialogueUi : MonoBehaviour {
         this.text.text = string.Empty;
         if (text == null)
             yield break;
-        for (var i = 0; i < text.Length; i++) {
+        for (var i = 1; i <= text.Length; i++) {
             this.text.SetText(text, 0, i);
             yield return null;
         }
     }
 
     [Serializable]
-    public class Speech {
-        public DialogueSpeaker speaker;
-        public Line[] lines = Array.Empty<Line>();
-    }
-
-    [Serializable]
-    public class Line {
-        [TextArea] public string text = string.Empty;
-        public string voiceOver;
-        public Action action;
+    public struct Line {
+        [TextArea] public string text;
+        public AudioClip voiceOver;
         public DialogueSpeaker.Mood? changeMood;
-        public string[] playMusic;
-        public bool stopMusic;
+
+        public static implicit operator Line(string text) => new() { text = text };
     }
 
     public Dictionary<string, char[]> stringCache = new();
     public Dictionary<DialogueSpeaker, DialogueSpeaker.Mood> moods = new();
 
-    public bool Visible {
+    public bool Show {
         get => gameObject.activeSelf;
         set {
-            if (!Visible)
+            if (!Show)
                 moods.Clear();
             gameObject.SetActive(value);
         }
     }
 
-    public void Set(DialogueSpeaker speaker, Line line) {
+    public void Say(DialogueSpeaker speaker, Line line) {
 
         if (line.changeMood is { } newMood)
             moods[speaker] = newMood;
@@ -85,7 +76,7 @@ public class DialogueUi : MonoBehaviour {
             portrait.text = mood.ToString();
         }
 
-        if (text && line.text != null) {
+        if (text && !string.IsNullOrWhiteSpace(line.text)) {
             if (textTypingAnimation != null)
                 StopCoroutine(textTypingAnimation);
             if (!stringCache.TryGetValue(line.text, out var charArray))
@@ -96,19 +87,8 @@ public class DialogueUi : MonoBehaviour {
 
         if (VoiceOverSource.isPlaying)
             VoiceOverSource.Stop();
-        if (line.voiceOver != null)
-            VoiceOverSource.PlayOneShot(line.voiceOver.LoadAs<AudioClip>());
-
-        line.action?.Invoke();
-
-        if (MusicPlayer.TryGet(out var musicPlayer)) {
-            if (line.stopMusic) {
-                musicPlayer.source.Stop();
-                musicPlayer.Queue = null;
-            }
-            if (line.playMusic != null)
-                musicPlayer.Queue = line.playMusic.Select(name => name.LoadAs<AudioClip>()).InfiniteSequence();
-        }
+        if (line.voiceOver )
+            VoiceOverSource.PlayOneShot(line.voiceOver);
     }
 
     public AudioSource VoiceOverSource {

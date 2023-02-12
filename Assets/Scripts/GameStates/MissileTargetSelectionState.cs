@@ -77,13 +77,35 @@ public static class MissileTargetSelectionState {
                                 if (main.TryGetUnit(position, out var unit))
                                     unit.SetHp(unit.Hp - missileSilo.missileUnitDamage, true);
 
+                            var anyBridgeDestroyed = false;
                             var targetedBridges = main.bridges.Where(bridge => bridge.tiles.ContainsKey(targetPosition));
-                            foreach (var bridge in targetedBridges)
+                            foreach (var bridge in targetedBridges) {
                                 bridge.SetHp(bridge.Hp - missileSilo.missileBridgeDamage, true);
-
+                                if (!anyBridgeDestroyed && bridge.Hp <= 0)
+                                    anyBridgeDestroyed = true;
+                            }
+                            
                             missileSiloView.aim = false;
-                            yield return StateChange.Pop();
-                            break;
+
+                            if (anyBridgeDestroyed) {
+                                using var dialogue = new Dialogue();
+                                var play = dialogue.Play(@"
+@nata Hello there! @next
+      Welcome to the Wars3d! An amazing strategy game! @next
+
+@vlad What are you saying? @next
+
+@nata I dont know what to say... @next
+@nervous Probably... @3 @pause we should have done something different... @next
+
+@nata @happy You probably did not know who you are messing with! @next
+@nata @normal Enough said. @next
+");
+                                while (play.MoveNext())
+                                    yield return play.Current;
+                            }
+                            
+                            yield break;
                         }
 
                         case cancel:

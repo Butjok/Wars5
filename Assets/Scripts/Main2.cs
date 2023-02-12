@@ -944,7 +944,7 @@ public class Main2 : Main {
 
     public IEnumerator<StateChange> Play() {
 
-        autoplay = true;
+        //autoplay = true;
 
         ClearScreenTextFilters();
         AddScreenTextPrefixFilter("play-mode.");

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dialogue>
+    <clear /><nata />Hello there!<next />
+    <clear/>Welcome to the Wars3d! An amazing strategy game!<next/>
+</dialogue>
+        [clear][nata]Hello there![next]
+        [clear]Welcome to the Wars3d! An amazing strategy game![next]
+
+        [clear][vlad]What are you saying?[next]
+
+        [clear][nata]I dont know what to say...[next]
+        [clear][nervous]Probably... [pause 3] we should have done something different...[next]
+
+        [clear][vlad][happy]You probably did not know who you are messing with![next]
+        [nata][normal][clear]Enough said.[next]

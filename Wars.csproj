@@ -69,7 +69,6 @@
      <Compile Include="Assets/Scripts/GameMenu.cs" />
      <Compile Include="Assets/Scripts/Animation/ImpactPoint.cs" />
      <Compile Include="Assets/Scripts/BuildingView.cs" />
-     <Compile Include="Assets/Scripts/GameStates/DialogueState.cs" />
      <Compile Include="Assets/Scripts/MinimapMeshGenerator.cs" />
      <Compile Include="Assets/Scripts/Animation/Body.cs" />
      <Compile Include="Assets/Scripts/Main.cs" />
@@ -149,6 +148,8 @@
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
      <Compile Include="Assets/Scripts/StaticBattleViews.cs" />
      <Compile Include="Assets/Scripts/GameStates/MissileTargetSelectionState.cs" />
+     <Compile Include="Assets/Scripts/Dialogue.cs" />
+     <Compile Include="Assets/Scripts/DialogueParser.cs" />
      <None Include="Assets/Scripts/Wars.asmdef" />
      <Folder Include="Assets/Scripts/Editor" />
      <Folder Include="Assets/Scripts/GameStates" />
