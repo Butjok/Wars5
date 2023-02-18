@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2023-02-12 19:09+0100\n"
-"PO-Revision-Date: 2023-02-12 19:42+0100\n"
+"POT-Creation-Date: 2023-02-12 19:42+0100\n"
+"PO-Revision-Date: 2023-02-12 20:02+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -96,25 +96,21 @@ msgstr[0] "У противника все еще есть {0} юнит!"
 msgstr[1] "У противника все еще есть {0} юнита!"
 msgstr[2] "У противника все еще есть {0} юнитов!"
 
-#: Factions.cs:32
+#: Factions.cs:11
 msgid "People's Republic of Novoslavia"
 msgstr "Новославская Народная Республика"
 
-#: Factions.cs:34
+#: Factions.cs:12
+msgid "United Treaty Organization"
+msgstr "Организация Союзного Договора"
+
+#: Factions.cs:21
 msgid ""
 "A socialist republic, one of the most military advanced powers in the region."
 msgstr ""
 "Социалистическая республика, одна из самых могущественных в военной силе."
 
-#: Factions.cs:40
-msgid "For the People and Fatherland"
-msgstr "За Народ и Отечество"
-
-#: Factions.cs:48
-msgid "United Treaty Organization"
-msgstr "Организация Союзного Договора"
-
-#: Factions.cs:50
+#: Factions.cs:22
 msgid ""
 "A large international political, economical and military alliance. The "
 "dominant power in the region."
@@ -122,35 +118,39 @@ msgstr ""
 "Влиятельный международный политический, экономический и военный союз. "
 "Доминирующая сила в этом регионе мира."
 
-#: Factions.cs:56
+#: Factions.cs:40
+msgid "For the People and Fatherland"
+msgstr "За Народ и Отечество"
+
+#: Factions.cs:41
 msgid "Solidarity and Unity"
 msgstr "Солидарность и Единство"
 
-#: People.cs:29
-msgid "James G. Willis"
-msgstr "Джеймс Уиллис"
-
-#: People.cs:30
-msgid "President of the United Treaty Organization."
-msgstr "Президент Организации Союзного Договора."
-
-#: People.cs:40
-msgid "Ljubisa Dragovic"
-msgstr "Любиша Драгович"
-
-#: People.cs:41
-msgid "Secretary General of the People's Republic of Novoslavia."
-msgstr "Генеральный секретарь Новославской Народной Республики."
-
-#: People.cs:51
+#: People.cs:9
 msgid "Natalie Moore"
 msgstr "Натали Мур"
 
-#: People.cs:52
+#: People.cs:10
+msgid "Vladan Raznatovic"
+msgstr "Владан Ражнатович"
+
+#: People.cs:11
+msgid "James G. Willis"
+msgstr "Джеймс Уиллис"
+
+#: People.cs:12
+msgid "Ljubisa Dragovic"
+msgstr "Любиша Драгович"
+
+#: People.cs:17
 msgid "Natalie"
 msgstr "Натали"
 
-#: People.cs:53
+#: People.cs:18
+msgid "Vladan"
+msgstr "Владан"
+
+#: People.cs:23
 msgid ""
 "A fresh out of the military academia commanding officer from United Treaty. "
 "She was the best student in class."
@@ -158,15 +158,7 @@ msgstr ""
 "Молодой лейтенант, недавно закончившая военную академию с отличием. Была "
 "рекомендована на работу в генеральном штабе Организации Союзного Договора."
 
-#: People.cs:63
-msgid "Vladan Raznatovic"
-msgstr "Владан Ражнатович"
-
-#: People.cs:64
-msgid "Vladan"
-msgstr "Владан"
-
-#: People.cs:65
+#: People.cs:24
 msgid ""
 "A cold-blooded veteran commanding officer from the Novoslavia. He is well "
 "known for the effectiveness and cruelty of his command."
@@ -174,23 +166,31 @@ msgstr ""
 "Хладнокровный и опытный новославский командир. Известен эффективностью "
 "выполнения боевых задач и достижением их любой ценой."
 
-#: UnitDescription.cs:14
-msgid "Infantry squad"
-msgstr "Пехотный отряд"
+#: People.cs:25
+msgid "President of the United Treaty Organization."
+msgstr "Президент Организации Союзного Договора."
 
-#: UnitDescription.cs:15
-msgid ""
-"Infantry squad is capable of effectively attacking enemy infantry units and "
-"capturing buildings."
-msgstr ""
-"Пехотный отряд наносит высокий урон пехоте противника а также может "
-"захватывать вражеские здания."
+#: People.cs:26
+msgid "Secretary General of the People's Republic of Novoslavia."
+msgstr "Генеральный секретарь Новославской Народной Республики."
 
-#: UnitDescription.cs:19
+#: UnitDescription.cs:8
 msgid "Mechanized infantry"
 msgstr "Мотострелковый отряд"
 
-#: UnitDescription.cs:20
+#: UnitDescription.cs:9
+msgid "RPG squad"
+msgstr "РПГ отряд"
+
+#: UnitDescription.cs:10
+msgid "Infantry squad"
+msgstr "Пехотный отряд"
+
+#: UnitDescription.cs:11
+msgid "Anti-tank squad"
+msgstr "Противотанковый отряд"
+
+#: UnitDescription.cs:17
 msgid ""
 "Novoslavian mechanized infantry is capable of effectively attacking enemy "
 "infantry units and capturing buildings."
@@ -198,11 +198,24 @@ msgstr ""
 "Новославские мотострелки наносят высокий урон пехоте противника а также "
 "могут захватывать вражеские здания."
 
-#: UnitDescription.cs:27
-msgid "Anti-tank squad"
-msgstr "Противотанковый отряд"
+#: UnitDescription.cs:19
+msgid ""
+"RPG rocket launcher deals significant damage to tanks and other armored "
+"vehicles. The RPG squad is also capable of capturing buildings."
+msgstr ""
+"Ручной противотанковый гранатомет наносит существенный урон танками и "
+"бронированным целям противника. Отряд также может захватывать вражеские "
+"здания."
 
-#: UnitDescription.cs:28
+#: UnitDescription.cs:21
+msgid ""
+"Infantry squad is capable of effectively attacking enemy infantry units and "
+"capturing buildings."
+msgstr ""
+"Пехотный отряд наносит высокий урон пехоте противника а также может "
+"захватывать вражеские здания."
+
+#: UnitDescription.cs:23
 msgid ""
 "Having a recoilless rifle as their primary weapon the anti-tank squad can "
 "deal significant damage to tanks and other armored vehicles. It is also "
@@ -211,19 +224,6 @@ msgstr ""
 "Используя свой гранатомет в качестве основного оружия, противотанковый отряд "
 "наносит существенный урон танками и бронированным целям противника. Также "
 "могут захватывать вражеские здания."
-
-#: UnitDescription.cs:32
-msgid "RPG squad"
-msgstr "РПГ отряд"
-
-#: UnitDescription.cs:33
-msgid ""
-"RPG rocket launcher deals significant damage to tanks and other armored "
-"vehicles. The RPG squad is also capable of capturing buildings."
-msgstr ""
-"Ручной противотанковый гранатомет наносит существенный урон танками и "
-"бронированным целям противника. Отряд также может захватывать вражеские "
-"здания."
 
 #~ msgid "Power in Unity"
 #~ msgstr "Сила в Единстве"

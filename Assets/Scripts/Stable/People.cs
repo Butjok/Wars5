@@ -1,4 +1,5 @@
 using System;
+using Butjok.CommandLine;
 using UnityEngine;
 using static Gettext;
 
@@ -43,7 +44,7 @@ public static class People {
     }
 
     public static Sprite[] GetPhotos(PersonId id) => Resources.LoadAll<Sprite>($"PhotosOf{id}");
-    
+
     public static Sprite TryGetPortrait(PersonId personId, Mood mood) {
         var portrait = Resources.Load<Sprite>($"{personId}{mood}");
         return portrait ? portrait : TryGetFallbackMood(mood, out var fallbackMood) ? TryGetPortrait(personId, fallbackMood) : null;
@@ -69,5 +70,17 @@ public static class People {
             FactionId.UnitedTreaty => -1,
             _ => throw new Exception()
         };
+    }
+
+    [Command(true)]
+    public static void Test() {
+        foreach (var id in new[] { PersonId.Natalie, PersonId.Vladan, PersonId.JamesWillis, PersonId.LjubisaDragovic }) {
+            if (!TryGetFaction(id, out var _))
+                Debug.LogWarning($"person {id} does not have faction");
+            if( !TryGetPortrait(id, Mood.Normal))
+                Debug.LogWarning($"person {id} does not have normal portrait");
+            if (GetPhotos(id).Length == 0)
+                Debug.LogWarning($"person {id} does not have photos");
+        }
     }
 }

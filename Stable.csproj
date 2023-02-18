@@ -52,6 +52,7 @@
      <Compile Include="Assets/Scripts/Stable/TileMeshBuilder.cs" />
      <Compile Include="Assets/Scripts/Stable/TerrainTest.cs" />
      <Compile Include="Assets/Scripts/Stable/Woo.cs" />
+     <Compile Include="Assets/Scripts/Stable/Gettext.cs" />
      <Compile Include="Assets/Scripts/Stable/SinMovement.cs" />
      <Compile Include="Assets/Scripts/Stable/GameSettings.cs" />
      <Compile Include="Assets/Scripts/Stable/SetTextToGameObjectName.cs" />
@@ -80,6 +81,7 @@
      <Compile Include="Assets/Scripts/Stable/ChangeTracker.cs" />
      <Compile Include="Assets/Scripts/Stable/SaveEntry.cs" />
      <Compile Include="Assets/Scripts/Stable/PostfixInterpreter.cs" />
+     <Compile Include="Assets/Scripts/Stable/Factions.cs" />
      <Compile Include="Assets/Scripts/Stable/BlendShapesAnimation.cs" />
      <Compile Include="Assets/Scripts/Stable/UnitType.cs" />
      <Compile Include="Assets/Scripts/Stable/Maths.cs" />
@@ -103,6 +105,7 @@
      <Compile Include="Assets/Scripts/Stable/CameraRig.cs" />
      <Compile Include="Assets/Scripts/Stable/OrbitingWeight.cs" />
      <Compile Include="Assets/Scripts/Stable/Lazy.cs" />
+     <Compile Include="Assets/Scripts/Stable/People.cs" />
      <Compile Include="Assets/Scripts/Stable/ClampToHull.cs" />
      <Compile Include="Assets/Scripts/Stable/CameraFrustumProjection.cs" />
      <Compile Include="Assets/Scripts/Stable/CsvReader.cs" />
@@ -139,9 +142,6 @@
      <Compile Include="Assets/Scripts/Stable/ResourceExtensions.cs" />
      <Compile Include="Assets/Scripts/Stable/LookAt.cs" />
      <Compile Include="Assets/Scripts/Stable/PistonBody.cs" />
-     <Compile Include="Assets/Scripts/Stable/People.cs" />
-     <Compile Include="Assets/Scripts/Stable/Gettext.cs" />
-     <Compile Include="Assets/Scripts/Stable/Factions.cs" />
      <Folder Include="Assets/Scripts/Stable/Foliage" />
      <Folder Include="Assets/Scripts/Stable/Foliage/Editor" />
      <None Include="Assets/Scripts/Stable/Stable.asmdef" />

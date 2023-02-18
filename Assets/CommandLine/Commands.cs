@@ -7,8 +7,12 @@ using UnityEngine;
 namespace Butjok.CommandLine
 {
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Field | AttributeTargets.Property, Inherited = false)]
-    public sealed class CommandAttribute : Attribute
-    { }
+    public sealed class CommandAttribute : Attribute {
+        public bool isTest;
+        public CommandAttribute(bool isTest = false) {
+            this.isTest = isTest;
+        }
+    }
 
     public static class Commands
     {
@@ -16,6 +20,7 @@ namespace Butjok.CommandLine
 
         private static readonly Dictionary<string, MemberInfo> commands = new Dictionary<string, MemberInfo>();
         public static IEnumerable<string> Names => commands.Keys;
+        public static HashSet<string> testMethods = new HashSet<string>();
 
         public static bool IsVariable(string name) {
             if (!commands.TryGetValue(name, out var command))
@@ -104,9 +109,13 @@ namespace Butjok.CommandLine
                 // Nested classes have '+' separators instead of dots
                 var name = (prefix + memberInfo.Name).Replace('+', '.');
                 commands[name] = memberInfo;
+
+                if (memberInfo.GetCustomAttribute<CommandAttribute>().isTest)
+                    testMethods.Add(name);
             }
 
             commands.Clear();
+            testMethods.Clear();
             foreach (var assembly in assemblies)
             foreach (var type in assembly.GetTypes()) {
                 foreach (var methodInfo in type.GetMethods(bindingFlags).Where(m => m.GetCustomAttribute<CommandAttribute>() != null))
@@ -123,6 +132,12 @@ namespace Butjok.CommandLine
             if (!commands.TryGetValue(name, out var command))
                 throw new CommandNotFoundException(name);
             return $"{command.DeclaringType} :: {command}";
+        }
+
+        [Command]
+        public static void InvokeTestMethods() {
+            foreach (var name in testMethods)
+                Invoke(name);
         }
 
         public static bool TryGetCommand(string name,out MethodInfo methodInfo) {

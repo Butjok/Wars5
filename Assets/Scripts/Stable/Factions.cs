@@ -1,4 +1,5 @@
 using System;
+using Butjok.CommandLine;
 using UnityEngine;
 using static Gettext;
 
@@ -40,4 +41,16 @@ public static class Factions {
         FactionId.UnitedTreaty => _("Solidarity and Unity"),
         _ => throw new Exception()
     };
+
+    [Command(true)]
+    public static void Test() {
+        foreach (var id in new []{FactionId.Novoslavia,FactionId.UnitedTreaty}) {
+            if (!TryGetFlag(id))
+                Debug.LogWarning($"faction {id} does not have flag");
+            if (!TryGetFlagThumbnail(id))
+                Debug.LogWarning($"faction {id} does not have flag thumbnail");
+            if (!TryGetCoatOfArmsOfGroundForces(id))
+                Debug.LogWarning($"faction {id} does not have a coat of arms of ground forces");
+        }
+    }
 }

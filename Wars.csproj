@@ -88,6 +88,7 @@
      <Compile Include="Assets/Scripts/UnitMoveSequenceTest.cs" />
      <Compile Include="Assets/Scripts/UnitBrain.cs" />
      <Compile Include="Assets/Scripts/GameStates/LoadGameState.cs" />
+     <Compile Include="Assets/Scripts/UnitDescription.cs" />
      <Compile Include="Assets/Scripts/Unit.cs" />
      <Compile Include="Assets/Scripts/BridgeView.cs" />
      <Compile Include="Assets/Scripts/GameStates/GameMenuState.cs" />
@@ -153,7 +154,6 @@
      <Compile Include="Assets/Scripts/FlipbookTest.cs" />
      <Compile Include="Assets/Scripts/Dialogues.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
-     <Compile Include="Assets/Scripts/UnitDescription.cs" />
      <None Include="Assets/Scripts/Wars.asmdef" />
      <Folder Include="Assets/Scripts/Editor" />
      <Folder Include="Assets/Scripts/GameStates" />
