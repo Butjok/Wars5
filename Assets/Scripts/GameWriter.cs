@@ -146,6 +146,7 @@ public static class GameWriter {
 		WriteLine(tw, player.Credits, "player.set-credits");
 		WriteLine(tw, player.AbilityMeter, "player.set-power-meter");
 		WriteLine(tw, $"{player.unitLookDirection.x} {player.unitLookDirection.y} int2", "player.set-unit-look-direction");
+		WriteLine(tw, player.side, "player.set-side");
 		if (player.name != null)
 			WriteLine(tw, player.name, "player.set-name");
 		var index = player.main.players.IndexOf(player);

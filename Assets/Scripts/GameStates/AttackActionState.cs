@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Butjok.CommandLine;
 using UnityEngine;
 using UnityEngine.Assertions;
 using static Rules;
@@ -8,6 +9,9 @@ using static BattleConstants;
 using static Battle.Setup.Side;
 
 public static class AttackActionState {
+
+    [Command]
+    public static float pause = 2f;
 
     public static IEnumerator<StateChange> Run(Main main, UnitAction action) {
 
@@ -40,20 +44,27 @@ public static class AttackActionState {
 
         if (main.persistentData.gameSettings.showBattleAnimation) {
 
-            var leftPrefab = attacker.view.GetComponent<BattleAnimationPlayer>();
-            var rightPrefab = target.view.GetComponent<BattleAnimationPlayer>();
+            var attackerPrefab = attacker.view.GetComponent<BattleAnimationPlayer>();
+            var targetPrefab = target.view.GetComponent<BattleAnimationPlayer>();
 
-            Assert.IsTrue(leftPrefab);
-            Assert.IsTrue(rightPrefab);
+            Assert.IsTrue(attackerPrefab);
+            Assert.IsTrue(targetPrefab);
+
+            var attackerSide = attacker.Player.side;
+            var targetSide = target.Player.side;
+            if (attackerSide == targetSide) {
+                attackerSide = left;
+                targetSide = right;
+            }
 
             var setup = new Battle.Setup {
-                left = new Battle.Setup.Side {
-                    unitViewPrefab = leftPrefab,
+                [attackerSide] = new() {
+                    unitViewPrefab = attackerPrefab,
                     count = Count(attacker.type, attacker.Hp, newAttackerHp),
                     color = attacker.Player.Color,
                 },
-                right = new Battle.Setup.Side {
-                    unitViewPrefab = rightPrefab,
+                [targetSide] = new() {
+                    unitViewPrefab = targetPrefab,
                     count = Count(target.type, target.Hp, newTargetHp),
                     color = target.Player.Color,
                 }
@@ -61,8 +72,8 @@ public static class AttackActionState {
             var battleViews = new BattleView2[2];
 
             using (var battle = new Battle(setup))
-            using (battleViews[left] = new BattleView2(left, main.tiles[action.Path[^1]]))
-            using (battleViews[right] = new BattleView2(right, main.tiles[action.targetUnit.NonNullPosition])) {
+            using (battleViews[attackerSide] = new BattleView2(attackerSide, main.tiles[action.Path[^1]]))
+            using (battleViews[targetSide] = new BattleView2(targetSide, main.tiles[action.targetUnit.NonNullPosition])) {
 
                 battleViews[left].Arrange(battle.units[left]);
                 battleViews[right].Arrange(battle.units[right]);
@@ -72,7 +83,7 @@ public static class AttackActionState {
                 main.battleCameras[right].gameObject.SetActive(true);
 
                 var attackAnimations = new List<BattleAnimation>();
-                foreach (var unit in battle.units[left]) {
+                foreach (var unit in battle.units[attackerSide]) {
                     var animation = new BattleAnimation(unit);
                     attackAnimations.Add(animation);
                     var found = unit.inputs.TryGetValue(action.weaponName, out var inputs);
@@ -86,7 +97,7 @@ public static class AttackActionState {
                 if (respond) {
 
                     var responseAnimations = new List<BattleAnimation>();
-                    foreach (var unit in battle.units[right].Where(u => u.survives)) {
+                    foreach (var unit in battle.units[targetSide].Where(u => u.survives)) {
                         var animation = new BattleAnimation(unit);
                         responseAnimations.Add(animation);
                         var found = unit.inputs.TryGetValue(responseWeaponName, out var inputs);
@@ -94,12 +105,13 @@ public static class AttackActionState {
                         animation.Play(inputs.respond, battle.GetTargets(unit));
                     }
 
-                    while (responseAnimations.Any(aa => !aa.Completed))
+                    while (responseAnimations.Any(ra => !ra.Completed))
                         yield return StateChange.none;
 
                 }
-                
-                while (!Input.GetKeyDown(KeyCode.Space))
+
+                var time = Time.time;
+                while (Time.time < time + pause && !Input.anyKeyDown)
                     yield return StateChange.none;
 
                 main.mainCamera.gameObject.SetActive(true);

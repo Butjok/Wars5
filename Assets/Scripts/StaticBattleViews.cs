@@ -120,9 +120,23 @@ public class Battle : IDisposable {
             }
         }
         public Side left, right;
-        public Side this[int index] => index switch {
-            0 => left, 1 => right, _ => throw new ArgumentOutOfRangeException()
-        };
+        public Side this[int index] {
+            get => index switch {
+                0 => left, 1 => right, _ => throw new ArgumentOutOfRangeException()
+            };
+            set {
+                switch (index) {
+                    case 0:
+                        left = value; 
+                        break;
+                    case 1:
+                        right = value;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+        }
     }
 
     public static readonly HashSet<Battle> undisposed = new();

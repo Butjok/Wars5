@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
+using static BattleConstants;
 
 public static class GameReader {
 
@@ -28,6 +29,7 @@ public static class GameReader {
         int? playerAbilityActivationTurn;
         int playerPowerMeter;
         string playerName;
+        int playerSide;
 
         void ResetPlayerValues() {
             playerTeam = Team.None;
@@ -42,6 +44,7 @@ public static class GameReader {
             playerAbilityActivationTurn = null;
             playerPowerMeter = 0;
             playerName = null;
+            playerSide = left;
         }
         ResetPlayerValues();
 
@@ -155,6 +158,8 @@ public static class GameReader {
                             player.abilityActivationTurn = playerAbilityActivationTurn;
                             player.AbilityMeter = playerPowerMeter;
 
+                            player.side = playerSide;
+
                             main.stack.Push(player);
                         }
 
@@ -213,6 +218,10 @@ public static class GameReader {
                     }
                     case "player.set-name": {
                         playerName = main.stack.Pop<string>();
+                        break;
+                    }
+                    case "player.set-side": {
+                        playerSide = main.stack.Pop<int>();
                         break;
                     }
 

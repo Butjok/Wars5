@@ -186,6 +186,7 @@ public class ActionSelectionState : IDisposableState {
 
                                     case UnitActionType.Join: {
                                         other.SetHp(other.Hp + unit.Hp);
+                                        other.Moved = true;
                                         unit.Dispose();
                                         break;
                                     }

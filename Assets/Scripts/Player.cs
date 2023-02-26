@@ -59,6 +59,8 @@ public class Player : IDisposable {
 	public Vector2Int unitLookDirection = Vector2Int.up;
 
 	private bool initialized;
+
+	public int side ;
 	
 	public Player(Main main, Color color, Team team = Team.None, int credits=0, Co co = null, PlayerView viewPrefab = null,
 		PlayerType type = PlayerType.Human, AiDifficulty difficulty=AiDifficulty.Normal, Vector2Int? unitLookDirection=null, string name=null) {
