@@ -1,3 +1,4 @@
+using Cinemachine.Utility;
 using UnityEngine;
 
 public class Antenna2 : MonoBehaviour {
@@ -14,9 +15,16 @@ public class Antenna2 : MonoBehaviour {
 
     private void Start() {
         position = WorldTargetPosition;
+        velocity = Vector3.zero;
     }
 
     private void FixedUpdate() {
+
+        if (position.IsNaN())
+            position = WorldTargetPosition;
+        if (velocity.IsNaN())
+            velocity = Vector3.zero;
+
         position += velocity * Time.deltaTime;
         if (Vector3.Distance(position, WorldTargetPosition) > maxDistance)
             position = WorldTargetPosition + (position - WorldTargetPosition).normalized * maxDistance;
