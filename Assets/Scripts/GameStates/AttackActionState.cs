@@ -85,7 +85,7 @@ public static class AttackActionState {
                 if (respond) {
 
                     var responseAnimations = new List<BattleAnimation>();
-                    foreach (var unit in battle.units[right].Where(u => u && u.survives)) {
+                    foreach (var unit in battle.units[right].Where(u => u.survives)) {
                         var animation = new BattleAnimation(unit);
                         responseAnimations.Add(animation);
                         var found = unit.inputs.TryGetValue(responseWeaponName, out var inputs);

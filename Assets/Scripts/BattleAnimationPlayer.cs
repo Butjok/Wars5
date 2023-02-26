@@ -21,12 +21,12 @@ public class BattleAnimationPlayer : MonoBehaviour {
 
     public float speed;
     public float acceleration;
-    public List<BattleAnimationPlayer> debugTargets = new();
     public int spawnPointIndex;
     public int shuffledIndex;
     public bool survives;
     public Transform hitPoint;
     public int incomingRoundsLeft;
+    public List<BattleAnimationPlayer> targets;
 
     private List<Transform> hitPoints;
     private List<Transform> barrels;
@@ -34,7 +34,6 @@ public class BattleAnimationPlayer : MonoBehaviour {
     private List<AudioSource> shotAudioSources;
     private AudioSource hitAudioSource;
     private ParticleSystem hitParticleSystem;
-    public List<BattleAnimationPlayer> targets;
 
     public IReadOnlyList<Transform> HitPoints => hitPoints;
     public IReadOnlyList<Transform> Barrels => barrels;
@@ -121,7 +120,9 @@ public class BattleAnimationPlayer : MonoBehaviour {
         }
 
         incomingRoundsLeft--;
-        if (incomingRoundsLeft == 0 && !survives) { }
+        if (incomingRoundsLeft == 0 && !survives) {
+            gameObject.SetActive(false);
+        }
     }
 }
 
@@ -233,14 +234,14 @@ public class Projectile2 : IDisposable {
 
     private Projectile2View view;
     private List<BattleAnimationPlayer> targets = new();
-    public UnitAction action;
     public IReadOnlyList<BattleAnimationPlayer> Targets => targets;
     public readonly Transform hitPoint;
 
     public Projectile2(Projectile2View prefab, Transform barrel, Transform hitPoint, IEnumerable<BattleAnimationPlayer> targets) {
-
         Assert.IsTrue(prefab);
         Assert.IsTrue(barrel);
+        Assert.IsTrue(hitPoint);
+        
         view = Object.Instantiate(prefab, barrel.position, barrel.rotation);
         view.projectile = this;
         this.targets.AddRange(targets);

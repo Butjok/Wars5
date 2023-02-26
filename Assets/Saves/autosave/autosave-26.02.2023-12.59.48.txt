@@ -1,6 +1,6 @@
 LevelEditor                                                      game.load-scene
 Tutorial MissionName type enum                                   game.set-mission-name
-22                                                               game.set-turn
+26                                                               game.set-turn
                                                                  
 
 
@@ -167,16 +167,6 @@ Factory TileType type enum                                       building.set-ty
 Recon UnitType type enum                                         unit.set-type
 false                                                            unit.set-moved
 10                                                               unit.set-hp
--16 26 int2                                                      unit.set-position
-1 0 int2                                                         unit.set-look-direction
-WbRecon UnitView type load-resource                              unit.set-view-prefab
-                                                                 unit.add
-                                                                 pop
-
-                                                                 dup
-Recon UnitType type enum                                         unit.set-type
-false                                                            unit.set-moved
-10                                                               unit.set-hp
 -19 26 int2                                                      unit.set-position
 1 0 int2                                                         unit.set-look-direction
 WbRecon UnitView type load-resource                              unit.set-view-prefab
@@ -220,6 +210,16 @@ false                                                            unit.set-moved
 -19 21 int2                                                      unit.set-position
 1 0 int2                                                         unit.set-look-direction
 WbLightTank UnitView type load-resource                          unit.set-view-prefab
+                                                                 unit.add
+                                                                 pop
+
+                                                                 dup
+Recon UnitType type enum                                         unit.set-type
+false                                                            unit.set-moved
+10                                                               unit.set-hp
+-16 26 int2                                                      unit.set-position
+1 0 int2                                                         unit.set-look-direction
+WbRecon UnitView type load-resource                              unit.set-view-prefab
                                                                  unit.add
                                                                  pop
 
@@ -643,7 +643,7 @@ BridgeView type true find-single-object-of-type                  bridge.set-view
                                                                  pop
 
 
--17.00681 7.629395E-06 22.13308 float3                           camera-rig.set-position
+-16.15012 7.629395E-06 21.95734 float3                           camera-rig.set-position
 202.5                                                            camera-rig.set-rotation
 40                                                               camera-rig.set-distance
 51.16567                                                         camera-rig.set-pitch-angle
