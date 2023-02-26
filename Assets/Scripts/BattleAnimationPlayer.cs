@@ -10,8 +10,8 @@ using Random = UnityEngine.Random;
 
 public class BattleAnimationPlayer : MonoBehaviour {
 
+    [TextArea(10, 20)] public string moveAttack = "";
     [TextArea(10, 20)] public string attack = "";
-    [TextArea(10, 20)] public string move = "";
     [TextArea(10, 20)] public string respond = "";
 
     public float speed;
@@ -20,24 +20,19 @@ public class BattleAnimationPlayer : MonoBehaviour {
     public int spawnPointIndex;
     public int shuffledIndex;
     public int firedShots;
+    public Projectile2View projectileViewPrefab;
+    public bool survives;
+    public Transform hitPoint;
+    public bool triedToGetTurret;
+
     private List<Transform> hitPoints;
     private List<Transform> barrels;
     private List<ParticleSystem> shotParticleSystems;
     private List<AudioSource> shotAudioSources;
     private AudioSource hitAudioSource;
-    public AudioClip hitAudioClip;
     private ParticleSystem hitParticleSystem;
-    public Projectile2View projectileViewPrefab;
-    public AudioClip shotAudioClip;
-    public bool survives;
     private List<BattleAnimationPlayer> targets;
-    public Transform hitPoint;
     private Turret turret;
-    public bool triedToGetTurret;
-
-    public BattleAnimation Attack => new(this, attack, debugTargets);
-    public BattleAnimation MoveAttack => new(this, move + " " + attack, debugTargets);
-    public BattleAnimation Respond => new(this, respond, debugTargets);
 
     [Command]
     public int ShotsCount => Tokenizer.Tokenize(attack).Count(token => token == "fire");
@@ -112,8 +107,10 @@ public class BattleAnimationPlayer : MonoBehaviour {
         if (shotParticleSystems.Count > 0)
             shotParticleSystems[firedShots % shotParticleSystems.Count].Play();
 
-        if (shotAudioSources.Count > 0)
-            shotAudioSources[firedShots % shotAudioSources.Count].PlayOneShot(shotAudioClip);
+        if (shotAudioSources.Count > 0) {
+            var shotAudioSource = shotAudioSources[firedShots % shotAudioSources.Count];
+            shotAudioSource.PlayOneShot(shotAudioSource.clip);
+        }
 
         var projectile = new Projectile2(projectileViewPrefab, Barrels[firedShots % Barrels.Count], hitPoint, targets, firedShots % ShotsCount == 0);
         firedShots++;
@@ -123,10 +120,10 @@ public class BattleAnimationPlayer : MonoBehaviour {
     [Command]
     public void TakeHit(Projectile2 projectile, Transform hitPoint, bool isLastHit) {
 
-        if (hitAudioSource && hitAudioClip) {
+        if (hitAudioSource) {
             if (hitAudioSource.transform != transform)
                 hitAudioSource.transform.SetPositionAndRotation(hitPoint.position, hitPoint.rotation);
-            hitAudioSource.PlayOneShot(hitAudioClip);
+            hitAudioSource.PlayOneShot(hitAudioSource.clip);
         }
 
         if (hitParticleSystem) {
@@ -140,93 +137,87 @@ public class BattleAnimationPlayer : MonoBehaviour {
 
     [Command] [ContextMenu(nameof(PlayAttack))]
     public void PlayAttack() {
-        Attack.Play();
+        new BattleAnimation(this).Play(attack, debugTargets);
     }
     [Command] [ContextMenu(nameof(PlayMoveAttack))]
     public void PlayMoveAttack() {
-        MoveAttack.Play();
+        new BattleAnimation(this).Play(moveAttack, debugTargets);
     }
     [Command] [ContextMenu(nameof(PlayRespond))]
     public void PlayRespond() {
-        Respond.Play();
+        new BattleAnimation(this).Play(respond, debugTargets);
     }
 }
 
 public class BattleAnimation {
 
     public readonly BattleAnimationPlayer battleAnimationPlayer;
-    public readonly string input;
-    public readonly IEnumerable<BattleAnimationPlayer> targets;
     public bool Completed { get; private set; }
 
     private DebugStack stack = new();
 
-    public BattleAnimation(BattleAnimationPlayer battleAnimationPlayer, string input, IEnumerable<BattleAnimationPlayer> targets) {
+    public BattleAnimation(BattleAnimationPlayer battleAnimationPlayer) {
         this.battleAnimationPlayer = battleAnimationPlayer;
-        this.input = input;
-        this.targets = targets;
     }
 
-    private IEnumerator Coroutine {
-        get {
-            foreach (var token in Tokenizer.Tokenize(input))
-                switch (token) {
+    private IEnumerator Coroutine(string input) {
+        foreach (var token in Tokenizer.Tokenize(input))
+            switch (token) {
 
-                    case "set-speed":
-                        battleAnimationPlayer.speed = stack.Pop<dynamic>();
-                        break;
+                case "set-speed":
+                    battleAnimationPlayer.speed = stack.Pop<dynamic>();
+                    break;
 
-                    case "break":
-                        battleAnimationPlayer.acceleration = -Mathf.Sign(battleAnimationPlayer.speed) * stack.Pop<dynamic>();
-                        yield return new WaitForSeconds(Mathf.Abs(battleAnimationPlayer.speed / battleAnimationPlayer.acceleration));
-                        battleAnimationPlayer.acceleration = 0;
-                        battleAnimationPlayer.speed = 0;
-                        break;
+                case "break":
+                    battleAnimationPlayer.acceleration = -Mathf.Sign(battleAnimationPlayer.speed) * stack.Pop<dynamic>();
+                    yield return new WaitForSeconds(Mathf.Abs(battleAnimationPlayer.speed / battleAnimationPlayer.acceleration));
+                    battleAnimationPlayer.acceleration = 0;
+                    battleAnimationPlayer.speed = 0;
+                    break;
 
-                    case "translate":
-                        battleAnimationPlayer.transform.position += battleAnimationPlayer.transform.forward * stack.Pop<dynamic>();
-                        break;
+                case "translate":
+                    battleAnimationPlayer.transform.position += battleAnimationPlayer.transform.forward * stack.Pop<dynamic>();
+                    break;
 
-                    case "wait":
-                        yield return new WaitForSeconds(stack.Pop<dynamic>());
-                        break;
+                case "wait":
+                    yield return new WaitForSeconds(stack.Pop<dynamic>());
+                    break;
 
-                    case "random":
-                        var b = stack.Pop<dynamic>();
-                        var a = stack.Pop<dynamic>();
-                        stack.Push(Random.Range(a, b));
-                        break;
+                case "random":
+                    var b = stack.Pop<dynamic>();
+                    var a = stack.Pop<dynamic>();
+                    stack.Push(Random.Range(a, b));
+                    break;
 
-                    case "spawn-point-index":
-                        stack.Push(battleAnimationPlayer.spawnPointIndex);
-                        break;
+                case "spawn-point-index":
+                    stack.Push(battleAnimationPlayer.spawnPointIndex);
+                    break;
 
-                    case "shuffled-index":
-                        stack.Push(battleAnimationPlayer.shuffledIndex);
-                        break;
+                case "shuffled-index":
+                    stack.Push(battleAnimationPlayer.shuffledIndex);
+                    break;
 
-                    case "aim":
-                        battleAnimationPlayer.Aim(stack.Pop<IEnumerable<BattleAnimationPlayer>>());
-                        break;
+                case "aim":
+                    battleAnimationPlayer.Aim(stack.Pop<IEnumerable<BattleAnimationPlayer>>());
+                    break;
 
-                    case "fire":
-                        battleAnimationPlayer.Fire();
-                        break;
+                case "fire":
+                    battleAnimationPlayer.Fire();
+                    break;
 
-                    default:
-                        stack.ExecuteToken(token);
-                        break;
-                }
+                default:
+                    stack.ExecuteToken(token);
+                    break;
+            }
 
-            Completed = true;
-        }
+        Completed = true;
     }
 
-    public void Play(bool stopAllCoroutines = true) {
+    public void Play(string input, IEnumerable<BattleAnimationPlayer> targets, bool stopAllCoroutines = true) {
         if (stopAllCoroutines)
             battleAnimationPlayer.StopAllCoroutines();
         stack.Push(targets);
-        battleAnimationPlayer.StartCoroutine(Coroutine);
+        battleAnimationPlayer.StartCoroutine(Coroutine(input));
     }
 }
 

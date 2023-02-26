@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Butjok.CommandLine;
 using UnityEngine;
 using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
@@ -84,12 +83,12 @@ public class BattleView2 : IDisposable {
         view.transform.gameObject.SetActive(true);
     }
 
-    public void Arrange(IEnumerable<UnitView> unitViews) {
+    public void Arrange(IEnumerable<BattleAnimationPlayer> units) {
         var queue = new Queue<Transform>(view.spawnPoints);
-        foreach (var unitView in unitViews) {
+        foreach (var unit in units) {
             var valid = queue.TryDequeue(out var spawnPoint);
             Assert.IsTrue(valid);
-            unitView.transform.SetPositionAndRotation(spawnPoint.position, spawnPoint.rotation);
+            unit.transform.SetPositionAndRotation(spawnPoint.position, spawnPoint.rotation);
         }
     }
 
@@ -107,7 +106,7 @@ public class Battle : IDisposable {
 
     public class Setup {
         public class Side {
-            public UnitView unitViewPrefab;
+            public BattleAnimationPlayer unitViewPrefab;
             public Vector2Int count;
             public Transform parent;
             public Color color;
@@ -121,23 +120,22 @@ public class Battle : IDisposable {
 
     public static readonly HashSet<Battle> undisposed = new();
 
-    public readonly List<UnitView>[] units = { new(), new() };
-    public readonly Dictionary<UnitView, List<UnitView>> targets = new();
-    public readonly Dictionary<UnitView, int> incomingRoundsLeft = new();
-    public readonly  HashSet<UnitView> survivors = new ();
+    public readonly List<BattleAnimationPlayer>[] units = { new(), new() };
+    public readonly Dictionary<BattleAnimationPlayer, List<BattleAnimationPlayer>> targets = new();
+    public readonly Dictionary<BattleAnimationPlayer, int> incomingRoundsLeft = new();
 
-    public void AddTarget(UnitView attacker, UnitView target, int shotsCount) {
+    public void AddTarget(BattleAnimationPlayer attacker, BattleAnimationPlayer target, int shotsCount) {
         if (!targets.TryGetValue(attacker, out var list)) {
-            list = new List<UnitView>();
+            list = new List<BattleAnimationPlayer>();
             targets.Add(attacker, list);
         }
         incomingRoundsLeft[target] = (incomingRoundsLeft.TryGetValue(target, out var count) ? count : 0) + shotsCount;
         list.Add(target);
     }
-    public IEnumerable<UnitView> GetTargets(UnitView attacker) {
-        return targets.TryGetValue(attacker, out var list) ? list : Enumerable.Empty<UnitView>();
+    public IEnumerable<BattleAnimationPlayer> GetTargets(BattleAnimationPlayer attacker) {
+        return targets.TryGetValue(attacker, out var list) ? list : Enumerable.Empty<BattleAnimationPlayer>();
     }
-    public bool TryRemoveTarget(UnitView attacker, UnitView target) {
+    public bool TryRemoveTarget(BattleAnimationPlayer attacker, BattleAnimationPlayer target) {
         return targets.TryGetValue(attacker, out var list) && list.Remove(target);
     }
 
@@ -155,16 +153,17 @@ public class Battle : IDisposable {
 
         for (var side = left; side <= right; side++)
         for (var i = 0; i < setup[side].count[before]; i++) {
-            var unitView = Object.Instantiate(setup[side].unitViewPrefab, setup[side].parent);
-            unitView.PlayerColor = setup[side].color;
-            units[side].Add(unitView);
-            if (i < setup[side].count[after])
-                survivors.Add(unitView);
+            var unit = Object.Instantiate(setup[side].unitViewPrefab, setup[side].parent);
+            var view = unit.GetComponent<UnitView>();
+            Assert.IsTrue(view);
+            view.PlayerColor = setup[side].color;
+            units[side].Add(unit);
+            unit.survives = i < setup[side].count[after];
         }
 
         var shotsCount = new Vector2Int(
-            setup.left.unitViewPrefab.battleAnimationPlayer.ShotsCount,
-            setup.right.unitViewPrefab.battleAnimationPlayer.ShotsCount);
+            setup.left.unitViewPrefab.ShotsCount,
+            setup.right.unitViewPrefab.ShotsCount);
 
         for (var i = 0; i < Mathf.Max(units[left].Count, units[right].Count); i++) {
             AddTarget(units[left][i % units[left].Count], units[right][i % units[right].Count], shotsCount[left]);

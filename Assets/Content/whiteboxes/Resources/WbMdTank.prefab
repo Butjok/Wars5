@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2158496297437334619
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 226201768532999515}
+  m_Layer: 0
+  m_Name: Barrel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &226201768532999515
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2158496297437334619}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.396, z: 0.431}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4627235699793768136}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5439485193650369650
 GameObject:
   m_ObjectHideFlags: 0
@@ -12,6 +43,7 @@ GameObject:
   - component: {fileID: 8617890564533756269}
   - component: {fileID: 5799530791145395623}
   - component: {fileID: 2868793983043866757}
+  - component: {fileID: 6208112561871797076}
   m_Layer: 0
   m_Name: WbMdTank
   m_TagString: Untagged
@@ -30,7 +62,9 @@ Transform:
   m_LocalPosition: {x: 1.8301965, y: 0, z: -3.2393136}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1303524381458476185}
+  - {fileID: 226201768532999515}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -116,3 +150,82 @@ MonoBehaviour:
   nextPosition: {x: 0, y: 0}
   nextRotation: {x: 0, y: 0}
   nextMoved: 0
+  battleAnimationPlayer: {fileID: 0}
+--- !u!114 &6208112561871797076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5439485193650369650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25674bac442a409d9b3feff5fa16e2fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveAttack: '-1 translate
+
+    1 set-speed
+
+    .5 wait
+
+    1 break
+
+
+    aim
+
+    .5
+    wait
+
+    fire'
+  attack: 'aim
+
+    .5 wait
+
+    fire'
+  respond: 'aim
+
+    .5 wait
+
+    fire'
+  speed: 0
+  acceleration: 0
+  debugTargets: []
+  spawnPointIndex: 0
+  shuffledIndex: 0
+  firedShots: 0
+  projectileViewPrefab: {fileID: 1522095048446927609, guid: f3d3a86c4b4ce4c12824a05e481c4c73, type: 3}
+  survives: 0
+  hitPoint: {fileID: 0}
+  triedToGetTurret: 0
+--- !u!1 &8318177734192143973
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1303524381458476185}
+  m_Layer: 0
+  m_Name: HitPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1303524381458476185
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8318177734192143973}
+  m_LocalRotation: {x: -0.27162606, y: -0, z: -0, w: 0.9624029}
+  m_LocalPosition: {x: 0, y: 0.285, z: 0.435}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4627235699793768136}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: -31.522, y: 0, z: 0}

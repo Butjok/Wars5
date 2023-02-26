@@ -70,6 +70,7 @@
      <Compile Include="Assets/Scripts/GameMenu.cs" />
      <Compile Include="Assets/Scripts/Animation/ImpactPoint.cs" />
      <Compile Include="Assets/Scripts/BuildingView.cs" />
+     <Compile Include="Assets/Scripts/Projectile2View.cs" />
      <Compile Include="Assets/Scripts/MinimapMeshGenerator.cs" />
      <Compile Include="Assets/Scripts/Animation/Body.cs" />
      <Compile Include="Assets/Scripts/Main.cs" />
@@ -117,6 +118,7 @@
      <Compile Include="Assets/Scripts/GameStates/ActionSelectionState.cs" />
      <Compile Include="Assets/Scripts/MissionObjectivesUi.cs" />
      <Compile Include="Assets/Scripts/Animation/Projectile.cs" />
+     <Compile Include="Assets/Scripts/Projectile2.cs" />
      <Compile Include="Assets/Scripts/BodyTorque.cs" />
      <Compile Include="Assets/Scripts/GameReader.cs" />
      <Compile Include="Assets/Scripts/UnitActionView.cs" />
@@ -156,8 +158,6 @@
      <Compile Include="Assets/Scripts/FlipbookTest.cs" />
      <Compile Include="Assets/Scripts/Dialogues.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
-     <Compile Include="Assets/Scripts/Projectile2.cs" />
-     <Compile Include="Assets/Scripts/Projectile2View.cs" />
      <None Include="Assets/Scripts/Wars.asmdef" />
      <Folder Include="Assets/Scripts/Editor" />
      <Folder Include="Assets/Scripts/GameStates" />

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Assertions;
 using static Rules;
 using static BattleConstants;
 
@@ -27,15 +28,21 @@ public static class AttackActionState {
         }*/
 
         if (main.persistentData.gameSettings.showBattleAnimation) {
+            
+            var leftPrefab = attacker.view.GetComponent<BattleAnimationPlayer>();
+            var rightPrefab = target.view.GetComponent<BattleAnimationPlayer>();
+            
+            Assert.IsTrue(leftPrefab);
+            Assert.IsTrue(rightPrefab);
 
             var setup = new Battle.Setup {
                 left = new Battle.Setup.Side {
-                    unitViewPrefab = attacker.view.prefab,
+                    unitViewPrefab = leftPrefab,
                     count = new Vector2Int(attacker.Hp, newAttackerHp).Apply(Battle.Setup.Side.Count),
                     color = attacker.Player.Color,
                 },
                 right = new Battle.Setup.Side {
-                    unitViewPrefab = target.view.prefab,
+                    unitViewPrefab = rightPrefab,
                     count = new Vector2Int(target.Hp, newTargetHp).Apply(Battle.Setup.Side.Count),
                     color = target.Player.Color,
                 }
@@ -51,12 +58,28 @@ public static class AttackActionState {
 
                 var attackAnimations = new List<BattleAnimation>();
                 foreach (var unit in battle.units[left]) {
-                    var ba = unit.battleAnimationPlayer;
-                    var animation = action.Path.Count > 1 ? ba.MoveAttack : ba.Attack;
+                    var animation = new BattleAnimation(unit);
                     attackAnimations.Add(animation);
+                    animation.Play(action.Path.Count > 1 ? unit.moveAttack : unit.attack, battle.GetTargets(unit));
                 }
 
                 while (attackAnimations.Any(aa => !aa.Completed))
+                    yield return StateChange.none;
+                    
+                while (!Input.GetKeyDown(KeyCode.Space))
+                    yield return StateChange.none;
+
+                var responseAnimations = new List<BattleAnimation>();
+                foreach (var unit in battle.units[right].Where(u => u && u.survives)) {
+                    var animation = new BattleAnimation(unit);
+                    responseAnimations.Add(animation);
+                    animation.Play(unit.respond, battle.GetTargets(unit));
+                }
+                
+                while (responseAnimations.Any(aa => !aa.Completed))
+                    yield return StateChange.none;
+                    
+                while (!Input.GetKeyDown(KeyCode.Space))
                     yield return StateChange.none;
 
                 /*yield return StateChange.none;
