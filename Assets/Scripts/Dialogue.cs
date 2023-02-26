@@ -21,6 +21,8 @@ public class Dialogue : IDisposable {
     public const string intimate = " @intimate ";
     public const string worried = " @worried ";
     public const string crying = " @crying ";
+    public const string nervous = " @nervous ";
+    
     public static string Pause(float delay) => $" @{delay.ToString(CultureInfo.InvariantCulture)} {pause} ";
     
     public DialogueUi ui;

@@ -110,7 +110,14 @@ public class Battle : IDisposable {
             public Vector2Int count;
             public Transform parent;
             public Color color;
-            public static int Count(int hp) => (hp + 1) / 2;
+            public static int Count(UnitType unitType, int hp) {
+                if (unitType == UnitType.Apc)
+                    return hp > 0 ? 1 : 0;
+                return (hp + 1) / 2;
+            }
+            public static Vector2Int Count(UnitType unitType, int hpBefore, int hpAfter) {
+                return new Vector2Int(Count(unitType, hpBefore), Count(unitType, hpAfter));
+            }
         }
         public Side left, right;
         public Side this[int index] => index switch {

@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using static Rules;
 using static BattleConstants;
+using static Battle.Setup.Side;
 
 public static class AttackActionState {
 
@@ -48,12 +49,12 @@ public static class AttackActionState {
             var setup = new Battle.Setup {
                 left = new Battle.Setup.Side {
                     unitViewPrefab = leftPrefab,
-                    count = new Vector2Int(attacker.Hp, newAttackerHp).Apply(Battle.Setup.Side.Count),
+                    count = Count(attacker.type, attacker.Hp, newAttackerHp),
                     color = attacker.Player.Color,
                 },
                 right = new Battle.Setup.Side {
                     unitViewPrefab = rightPrefab,
-                    count = new Vector2Int(target.Hp, newTargetHp).Apply(Battle.Setup.Side.Count),
+                    count = Count(target.type, target.Hp, newTargetHp),
                     color = target.Player.Color,
                 }
             };

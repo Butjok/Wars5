@@ -27,7 +27,7 @@ public class BattleAnimationPlayer : MonoBehaviour {
     public Transform hitPoint;
     public int incomingRoundsLeft;
     public List<BattleAnimationPlayer> targets;
-
+    
     private List<Transform> hitPoints;
     private List<Transform> barrels;
     private List<ParticleSystem> shotParticleSystems;

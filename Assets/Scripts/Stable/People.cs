@@ -4,7 +4,7 @@ using UnityEngine;
 using static Gettext;
 
 public enum PersonId { Natalie, Vladan, JamesWillis, LjubisaDragovic }
-public enum Mood { Normal, Happy, Sad, Mad, Worried, Shocked, Crying, Laughing, Intimate }
+public enum Mood { Normal, Happy, Sad, Mad, Worried, Shocked, Crying, Laughing, Intimate, Nervous }
 
 public static class People {
 
