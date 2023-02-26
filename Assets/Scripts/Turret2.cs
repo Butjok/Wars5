@@ -9,8 +9,8 @@ public class Turret2 : MonoBehaviour {
     public Vector2 barrelRestForward = new(1, 0);
     public Vector2 barrelPitchClamp = new(-45, 0);
     public float projectileVelocity = 5;
-    public bool preferHighCurve = true;
-    public Vector3 gravity = new Vector3(0, -5, 0);
+    public bool preferHighCurve = false;
+    public Vector3 gravity = new(0, -5, 0);
     
     private void Update() {
 
