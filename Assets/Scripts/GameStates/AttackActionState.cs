@@ -28,10 +28,10 @@ public static class AttackActionState {
         }*/
 
         if (main.persistentData.gameSettings.showBattleAnimation) {
-            
+
             var leftPrefab = attacker.view.GetComponent<BattleAnimationPlayer>();
             var rightPrefab = target.view.GetComponent<BattleAnimationPlayer>();
-            
+
             Assert.IsTrue(leftPrefab);
             Assert.IsTrue(rightPrefab);
 
@@ -56,6 +56,10 @@ public static class AttackActionState {
                 battleViews[left].Arrange(battle.units[left]);
                 battleViews[right].Arrange(battle.units[right]);
 
+                main.mainCamera.gameObject.SetActive(false);
+                main.battleCameras[left].gameObject.SetActive(true);
+                main.battleCameras[right].gameObject.SetActive(true);
+
                 var attackAnimations = new List<BattleAnimation>();
                 foreach (var unit in battle.units[left]) {
                     var animation = new BattleAnimation(unit);
@@ -65,7 +69,7 @@ public static class AttackActionState {
 
                 while (attackAnimations.Any(aa => !aa.Completed))
                     yield return StateChange.none;
-                    
+
                 while (!Input.GetKeyDown(KeyCode.Space))
                     yield return StateChange.none;
 
@@ -75,17 +79,16 @@ public static class AttackActionState {
                     responseAnimations.Add(animation);
                     animation.Play(unit.respond, battle.GetTargets(unit));
                 }
-                
+
                 while (responseAnimations.Any(aa => !aa.Completed))
                     yield return StateChange.none;
-                    
+
                 while (!Input.GetKeyDown(KeyCode.Space))
                     yield return StateChange.none;
 
-                /*yield return StateChange.none;
-                while (!Input.GetKeyDown(KeyCode.Space))
-                    yield return StateChange.none;
-                yield return StateChange.none;*/
+                main.mainCamera.gameObject.SetActive(true);
+                main.battleCameras[left].gameObject.SetActive(false);
+                main.battleCameras[right].gameObject.SetActive(false);
             }
         }
 
@@ -96,7 +99,5 @@ public static class AttackActionState {
             attacker.Position = action.Path.Last();
             attacker.SetAmmo(action.weaponName, attacker.GetAmmo(action.weaponName) - 1);
         }
-        
-        yield break;
     }
 }

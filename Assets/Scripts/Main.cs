@@ -7,6 +7,7 @@ using Butjok.CommandLine;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Assertions;
+using static BattleConstants;
 
 public class Main : StateRunner {
 
@@ -68,6 +69,9 @@ public class Main : StateRunner {
 
     public MeshFilter tileAreaMeshFilter;
 
+    public Camera mainCamera;
+    public Camera[] battleCameras = { null,null};
+
     public virtual void Awake() {
 
         Player.undisposed.Clear();
@@ -76,6 +80,11 @@ public class Main : StateRunner {
         UnitAction.undisposed.Clear();
 
         ReloadPersistentData();
+        
+        Assert.IsTrue(mainCamera);
+        Assert.IsTrue(battleCameras.Length == right + 1);
+        Assert.IsTrue(battleCameras[left]);
+        Assert.IsTrue(battleCameras[right]);
     }
 
     [Command]
