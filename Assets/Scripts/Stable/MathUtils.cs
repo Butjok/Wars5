@@ -78,9 +78,13 @@ public static class MathUtils {
 	public static T Random<T>(this IEnumerable<T> sequence) {
 		var i = 0;
 		T result = default;
-		foreach (var item in sequence)
+		var count = 0;
+		foreach (var item in sequence) {
+			count++;
 			if (UnityEngine.Random.Range(0, ++i) == 0)
 				result = item;
+		}
+		Assert.AreNotEqual(0,count, "empty sequence for Random()");
 		return result;
 	}
 

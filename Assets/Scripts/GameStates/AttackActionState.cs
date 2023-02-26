@@ -32,12 +32,12 @@ public static class AttackActionState {
                 left = new Battle.Setup.Side {
                     unitViewPrefab = attacker.view.prefab,
                     count = new Vector2Int(attacker.Hp, newAttackerHp).Apply(Battle.Setup.Side.Count),
-                    color = attacker.Player.Color
+                    color = attacker.Player.Color,
                 },
                 right = new Battle.Setup.Side {
                     unitViewPrefab = target.view.prefab,
                     count = new Vector2Int(target.Hp, newTargetHp).Apply(Battle.Setup.Side.Count),
-                    color = target.Player.Color
+                    color = target.Player.Color,
                 }
             };
             var battleViews = new BattleView2[2];
@@ -48,6 +48,16 @@ public static class AttackActionState {
 
                 battleViews[left].Arrange(battle.units[left]);
                 battleViews[right].Arrange(battle.units[right]);
+
+                var attackAnimations = new List<BattleAnimation>();
+                foreach (var unit in battle.units[left]) {
+                    var ba = unit.battleAnimationPlayer;
+                    var animation = action.Path.Count > 1 ? ba.MoveAttack : ba.Attack;
+                    attackAnimations.Add(animation);
+                }
+
+                while (attackAnimations.Any(aa => !aa.Completed))
+                    yield return StateChange.none;
 
                 /*yield return StateChange.none;
                 while (!Input.GetKeyDown(KeyCode.Space))

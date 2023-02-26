@@ -50,6 +50,7 @@
      <Compile Include="Assets/Scripts/Editor/MyLightingShaderGUI.cs" />
      <Compile Include="Assets/Scripts/AiPlayerCommanderSwitcher.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequencePlayer.cs" />
+     <Compile Include="Assets/Scripts/BattleAnimationPlayer.cs" />
      <Compile Include="Assets/Scripts/GameStates/DefeatState.cs" />
      <Compile Include="Assets/Scripts/MainMenuView.cs" />
      <Compile Include="Assets/Scripts/PostProcessing.cs" />
@@ -94,6 +95,7 @@
      <Compile Include="Assets/Scripts/GameStates/GameMenuState.cs" />
      <Compile Include="Assets/Scripts/Animation/AccelerationTorque.cs" />
      <Compile Include="Assets/Scripts/Animation/Wheel.cs" />
+     <Compile Include="Assets/Scripts/SequencePlayer.cs" />
      <Compile Include="Assets/Scripts/GameStates/UnitBuildState.cs" />
      <Compile Include="Assets/Scripts/CampaignViewTest.cs" />
      <Compile Include="Assets/Scripts/NewBehaviourScript.cs" />
@@ -154,6 +156,8 @@
      <Compile Include="Assets/Scripts/FlipbookTest.cs" />
      <Compile Include="Assets/Scripts/Dialogues.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
+     <Compile Include="Assets/Scripts/Projectile2.cs" />
+     <Compile Include="Assets/Scripts/Projectile2View.cs" />
      <None Include="Assets/Scripts/Wars.asmdef" />
      <Folder Include="Assets/Scripts/Editor" />
      <Folder Include="Assets/Scripts/GameStates" />

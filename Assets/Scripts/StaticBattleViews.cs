@@ -121,14 +121,17 @@ public class Battle : IDisposable {
 
     public static readonly HashSet<Battle> undisposed = new();
 
-    public readonly List<UnitView>[] units = {new(),new() };
+    public readonly List<UnitView>[] units = { new(), new() };
     public readonly Dictionary<UnitView, List<UnitView>> targets = new();
+    public readonly Dictionary<UnitView, int> incomingRoundsLeft = new();
+    public readonly  HashSet<UnitView> survivors = new ();
 
-    public void AddTarget(UnitView attacker, UnitView target) {
+    public void AddTarget(UnitView attacker, UnitView target, int shotsCount) {
         if (!targets.TryGetValue(attacker, out var list)) {
             list = new List<UnitView>();
             targets.Add(attacker, list);
         }
+        incomingRoundsLeft[target] = (incomingRoundsLeft.TryGetValue(target, out var count) ? count : 0) + shotsCount;
         list.Add(target);
     }
     public IEnumerable<UnitView> GetTargets(UnitView attacker) {
@@ -150,16 +153,22 @@ public class Battle : IDisposable {
 
         undisposed.Add(this);
 
-        for (var side=left;side <= right; side++)
+        for (var side = left; side <= right; side++)
         for (var i = 0; i < setup[side].count[before]; i++) {
             var unitView = Object.Instantiate(setup[side].unitViewPrefab, setup[side].parent);
             unitView.PlayerColor = setup[side].color;
             units[side].Add(unitView);
+            if (i < setup[side].count[after])
+                survivors.Add(unitView);
         }
 
+        var shotsCount = new Vector2Int(
+            setup.left.unitViewPrefab.battleAnimationPlayer.ShotsCount,
+            setup.right.unitViewPrefab.battleAnimationPlayer.ShotsCount);
+
         for (var i = 0; i < Mathf.Max(units[left].Count, units[right].Count); i++) {
-            AddTarget(units[left][i % units[left].Count], units[right][i % units[right].Count]);
-            AddTarget(units[right][i % units[right].Count], units[left][i % units[left].Count]);
+            AddTarget(units[left][i % units[left].Count], units[right][i % units[right].Count], shotsCount[left]);
+            AddTarget(units[right][i % units[right].Count], units[left][i % units[left].Count], shotsCount[right]);
         }
     }
 

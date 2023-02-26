@@ -182,6 +182,7 @@ public class UnitView : MonoBehaviour {
     public Vector2Int nextPosition;
     public Vector2Int nextRotation;
     public bool nextMoved;
+    public BattleAnimationPlayer battleAnimationPlayer;
 
     public void TakeDamage(Projectile projectile, ImpactPoint impactPoint) {
         EnsureInitialized();
