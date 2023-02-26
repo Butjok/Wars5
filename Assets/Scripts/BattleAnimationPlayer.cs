@@ -76,12 +76,10 @@ public class BattleAnimationPlayer : MonoBehaviour {
         speed += acceleration * Time.deltaTime;
     }
 
-    public void SetAim(Turret turret, bool value) {
+    public void SetAim(Turret2 turret, bool value) {
         if (!turret)
             return;
-        turret.aim = value;
-        if (turret.aim)
-            turret.computer.Target = hitPoint;
+        turret.target = value ? hitPoint : null;
     }
 
     [Command]
@@ -203,7 +201,7 @@ public class BattleAnimation {
                 case "find-turret": {
                     var turretName = stack.Pop<string>();
                     var turret = player
-                        .GetComponentsInChildren<Turret>()
+                        .GetComponentsInChildren<Turret2>()
                         .SingleOrDefault(t => t.name == turretName);
                     stack.Push(turret);
                     break;
@@ -211,7 +209,7 @@ public class BattleAnimation {
 
                 case "set-aim": {
                     var value = stack.Pop<bool>();
-                    var turret = stack.Pop<Turret>();
+                    var turret = stack.Pop<Turret2>();
                     player.SetAim(turret, value);
                     break;
                 }

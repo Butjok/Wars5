@@ -46,6 +46,7 @@
      <Compile Include="Assets/Scripts/PreviousPositions.cs" />
      <Compile Include="Assets/Scripts/Main2.cs" />
      <Compile Include="Assets/Scripts/GameStates/AttackActionState.cs" />
+     <Compile Include="Assets/Scripts/Turret2.cs" />
      <Compile Include="Assets/Scripts/Traverser2DebugDrawer.cs" />
      <Compile Include="Assets/Scripts/Editor/MyLightingShaderGUI.cs" />
      <Compile Include="Assets/Scripts/AiPlayerCommanderSwitcher.cs" />
@@ -158,7 +159,7 @@
      <Compile Include="Assets/Scripts/FlipbookTest.cs" />
      <Compile Include="Assets/Scripts/Dialogues.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
-     <Compile Include="Assets/Scripts/Turret2.cs" />
+     <Compile Include="Assets/Scripts/Antenna2.cs" />
      <None Include="Assets/Scripts/Wars.asmdef" />
      <Folder Include="Assets/Scripts/Editor" />
      <Folder Include="Assets/Scripts/GameStates" />
