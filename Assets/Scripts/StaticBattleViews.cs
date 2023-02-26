@@ -122,14 +122,12 @@ public class Battle : IDisposable {
 
     public readonly List<BattleAnimationPlayer>[] units = { new(), new() };
     public readonly Dictionary<BattleAnimationPlayer, List<BattleAnimationPlayer>> targets = new();
-    public readonly Dictionary<BattleAnimationPlayer, int> incomingRoundsLeft = new();
 
-    public void AddTarget(BattleAnimationPlayer attacker, BattleAnimationPlayer target, int shotsCount) {
+    public void AddTarget(BattleAnimationPlayer attacker, BattleAnimationPlayer target) {
         if (!targets.TryGetValue(attacker, out var list)) {
             list = new List<BattleAnimationPlayer>();
             targets.Add(attacker, list);
         }
-        incomingRoundsLeft[target] = (incomingRoundsLeft.TryGetValue(target, out var count) ? count : 0) + shotsCount;
         list.Add(target);
     }
     public IEnumerable<BattleAnimationPlayer> GetTargets(BattleAnimationPlayer attacker) {
@@ -161,14 +159,10 @@ public class Battle : IDisposable {
             unit.survives = i < setup[side].count[after];
         }
 
-        var shotsCount = new Vector2Int(
-            setup.left.unitViewPrefab.ShotsCount,
-            setup.right.unitViewPrefab.ShotsCount);
-
         for (var i = 0; i < Mathf.Max(units[left].Count, units[right].Count); i++) {
-            AddTarget(units[left][i % units[left].Count], units[right][i % units[right].Count], shotsCount[left]);
+            AddTarget(units[left][i % units[left].Count], units[right][i % units[right].Count]);
             if (setup.right.count[after] > 0)
-                AddTarget(units[right][i % setup.right.count[after]], units[left][i % units[left].Count], shotsCount[right]);
+                AddTarget(units[right][i % setup.right.count[after]], units[left][i % units[left].Count]);
         }
     }
 

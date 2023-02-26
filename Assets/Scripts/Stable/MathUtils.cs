@@ -108,7 +108,7 @@ public static class MathUtils {
 	public static int ManhattanDistance(Vector2Int a, Vector2Int b) {
 		return (a - b).ManhattanLength();
 	}
-	public static bool IsIn(this int value, Vector2Int range) {
+	public static bool IsInRange(this int value, Vector2Int range) {
 		return range[0] <= value && value <= range[1];
 	}
 

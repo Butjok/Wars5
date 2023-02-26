@@ -146,6 +146,10 @@ public static class PostfixInterpreter {
                     break;
                 }
 
+                case "throw-exception": {
+                    throw new Exception(stack.Pop<string>());
+                }
+
                 default:
                     stack.Push(token.ToString());
                     if (char.IsLower(token[0]))

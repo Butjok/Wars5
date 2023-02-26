@@ -111,7 +111,7 @@ public static class Rules {
     }
     public static bool TryGetDamage(Unit attacker, Unit target, WeaponName weaponName, out float damagePercentage) {
         damagePercentage = 0;
-        if (!AreEnemies(attacker.Player, target.Player) || attacker.GetAmmo( weaponName) <= 0 || !TryGetDamage(attacker.type, target.type, weaponName, out var baseDamagePercentage))
+        if (!AreEnemies(attacker.Player, target.Player) || attacker.GetAmmo(weaponName) <= 0 || !TryGetDamage(attacker.type, target.type, weaponName, out var baseDamagePercentage))
             return false;
         damagePercentage = (float)(attacker.Hp) / MaxHp(attacker) * baseDamagePercentage;
         return true;
@@ -123,7 +123,7 @@ public static class Rules {
                 yield return (weaponName, damage);
     }
 
-    public static int Cost(UnitType unitType, Player player=null) {
+    public static int Cost(UnitType unitType, Player player = null) {
         var found = UnitStats.Loaded.TryGetValue(unitType, out var entry);
         Assert.IsTrue(found, unitType.ToString());
         return entry.cost;
@@ -131,45 +131,30 @@ public static class Rules {
     public static bool CanAfford(this Player player, UnitType unitType) {
         return player.Credits >= Cost(unitType, player);
     }
-    
-    public static bool CanAttack(Unit attacker, Unit target, WeaponName weaponName) {
+
+    public static bool CanAttack(Unit attacker, Vector2Int attackerPosition, bool isMoveAttack, Unit target, Vector2Int targetPosition, WeaponName weaponName) {
+
+        if (TryGetAttackRange(attacker, out var attackRange) && !MathUtils.ManhattanDistance(attackerPosition, targetPosition).IsInRange(attackRange))
+            return false;
+
         return AreEnemies(attacker.Player, target.Player) &&
-               TryGetDamage(attacker, target, weaponName, out _);
-    }
-    
-    public static bool CanAttack(Unit attacker, Unit target, IReadOnlyList<Vector2Int> path, WeaponName weaponName) {
-
-        Assert.IsTrue(path.Count >= 1);
-        if (target.Position is not { } targetPosition)
-            throw new AssertionException("target.Position == null", "");
-        if (TryGetAttackRange(attacker, out var attackRange))
-            Assert.IsTrue(MathUtils.ManhattanDistance(path.Last(), targetPosition).IsIn(attackRange));
-
-        return CanAttack(attacker, target, weaponName) &&
-               (!IsArtillery(attacker) || path.Count == 1);
+               TryGetDamage(attacker, target, weaponName, out _) &&
+               (!IsArtillery(attacker) || !isMoveAttack);
     }
     public static bool IsArtillery(UnitType unitType) {
         return unitType is UnitType.Artillery or UnitType.Rockets;
     }
-
-
-    /*public static bool CanAttackInResponse(Unit attacker, Unit target, out int weaponIndex) {
-
-        if (!CanAttackInResponse(target.type)) {
-            weaponIndex = -1;
-            return false;
+    public static bool CanAttackInResponse(UnitType unitType) {
+        return !IsArtillery(unitType);
+    }
+    public static IEnumerable<WeaponName> GetWeaponNamesForResponseAttack(Unit attacker, Vector2Int attackerPosition, Unit target, Vector2Int targetPosition) {
+        if (!CanAttackInResponse(target.type))
+            yield break;
+        foreach (var weaponName in GetWeaponNames(target)) {
+            if (CanAttack(target, targetPosition, false, attacker, attackerPosition, weaponName))
+                yield return weaponName;
         }
-
-        int? maxDamage = null;
-        weaponIndex = -1;
-
-        for (var i = 0; i < WeaponsCount(attacker); i++)
-            if (Damage(attacker, target, i, attacker.hp.v, target.hp.v) is { } damage && (maxDamage == null || maxDamage < damage)) {
-                maxDamage = damage;
-                weaponIndex = i;
-            }
-        return false;
-    }*/
+    }
 
     public static bool TryGetAttackRange(UnitType unitType, Player player, out Vector2Int attackRange) {
         attackRange = UnitStats.Loaded.TryGetValue(unitType, out var entry) ? entry.attackRange : Vector2Int.zero;

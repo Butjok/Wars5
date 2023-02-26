@@ -25,7 +25,7 @@ public static class MissileTargetSelectionState {
 
             if (Input.GetMouseButtonDown(Mouse.left) && Mouse.TryGetPosition(out Vector2Int mousePosition)) {
 
-                if ((mousePosition - missileSilo.position).ManhattanLength().IsIn(missileSilo.missileSiloRange)) {
+                if ((mousePosition - missileSilo.position).ManhattanLength().IsInRange(missileSilo.missileSiloRange)) {
                     if (launchPosition != mousePosition) {
                         launchPosition = mousePosition;
                     }
@@ -133,7 +133,7 @@ public static class MissileTargetSelectionState {
                     Draw.ingame.SolidPlane((Vector3)attackPosition.ToVector3Int(), Vector3.up, Vector2.one, Color.red);
 
             if (Mouse.TryGetPosition(out mousePosition) && missileSiloView &&
-                (mousePosition - missileSilo.position).ManhattanLength().IsIn(missileSilo.missileSiloRange)) {
+                (mousePosition - missileSilo.position).ManhattanLength().IsInRange(missileSilo.missileSiloRange)) {
 
                 missileSiloView.aim = true;
                 missileSiloView.targetPosition = mousePosition.Raycast();

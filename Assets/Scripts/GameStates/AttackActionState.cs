@@ -19,13 +19,23 @@ public static class AttackActionState {
         var newTargetHp = Mathf.RoundToInt(Mathf.Max(0, target.Hp - damagePercentageToTarget * MaxHp(target)));
         var newAttackerHp = attacker.Hp;
 
-        float maxResponseDamagePercentage = 0;
-        foreach (var weaponName in GetWeaponNames(target)) { }
-        /*if (newTargetHp > 0 && Rules.CanAttackInResponse(target, attacker, out targetWeaponIndex)) {
-            if (Rules.Damage(target, attacker, targetWeaponIndex, newTargetHp) is not { } damageToAttacker)
-                throw new Exception();
-            newAttackerHp = Mathf.Max(0, newAttackerHp - damageToAttacker);
-        }*/
+        var responseWeapons = GetWeaponNamesForResponseAttack(attacker, action.Path[^1], target, target.NonNullPosition)
+            .Select(weaponName => (
+                weaponName,
+                damagePercentage: TryGetDamage(target, attacker, weaponName, out var damagePercentage) ? damagePercentage : -1))
+            .Where(t => t.damagePercentage > -1)
+            .ToList();
+
+        var respond = responseWeapons.Count > 0;
+        WeaponName responseWeaponName = default;
+        if (respond) {
+            var maxDamagePercentage = responseWeapons.Max(t => t.damagePercentage);
+            var bestChoice = responseWeapons
+                .Where(t => Mathf.Approximately(maxDamagePercentage, t.damagePercentage))
+                .OrderByDescending(t => MaxAmmo(target, t.weaponName))
+                .First();
+            responseWeaponName = bestChoice.weaponName;
+        }
 
         if (main.persistentData.gameSettings.showBattleAnimation) {
 
@@ -64,25 +74,30 @@ public static class AttackActionState {
                 foreach (var unit in battle.units[left]) {
                     var animation = new BattleAnimation(unit);
                     attackAnimations.Add(animation);
-                    animation.Play(action.Path.Count > 1 ? unit.moveAttack : unit.attack, battle.GetTargets(unit));
+                    var found = unit.inputs.TryGetValue(action.weaponName, out var inputs);
+                    Assert.IsTrue(found, $"{unit}: cannot find battle animation input for weapon {action.weaponName}");
+                    animation.Play(action.Path.Count > 1 ? inputs.moveAttack : inputs.attack, battle.GetTargets(unit));
                 }
 
                 while (attackAnimations.Any(aa => !aa.Completed))
                     yield return StateChange.none;
 
-                while (!Input.GetKeyDown(KeyCode.Space))
-                    yield return StateChange.none;
+                if (respond) {
 
-                var responseAnimations = new List<BattleAnimation>();
-                foreach (var unit in battle.units[right].Where(u => u && u.survives)) {
-                    var animation = new BattleAnimation(unit);
-                    responseAnimations.Add(animation);
-                    animation.Play(unit.respond, battle.GetTargets(unit));
+                    var responseAnimations = new List<BattleAnimation>();
+                    foreach (var unit in battle.units[right].Where(u => u && u.survives)) {
+                        var animation = new BattleAnimation(unit);
+                        responseAnimations.Add(animation);
+                        var found = unit.inputs.TryGetValue(responseWeaponName, out var inputs);
+                        Assert.IsTrue(found, $"{unit}: cannot find battle animation input for weapon {responseWeaponName}");
+                        animation.Play(inputs.respond, battle.GetTargets(unit));
+                    }
+
+                    while (responseAnimations.Any(aa => !aa.Completed))
+                        yield return StateChange.none;
+
                 }
-
-                while (responseAnimations.Any(aa => !aa.Completed))
-                    yield return StateChange.none;
-
+                
                 while (!Input.GetKeyDown(KeyCode.Space))
                     yield return StateChange.none;
 

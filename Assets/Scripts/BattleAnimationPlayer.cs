@@ -10,20 +10,23 @@ using Random = UnityEngine.Random;
 
 public class BattleAnimationPlayer : MonoBehaviour {
 
-    [TextArea(10, 20)] public string moveAttack = "";
-    [TextArea(10, 20)] public string attack = "";
-    [TextArea(10, 20)] public string respond = "";
+    [Serializable]
+    public struct Record {
+        public string name;
+        [TextArea(5, 10)] public string input;
+    }
+    public List<Record> subroutines = new();
+
+    public WeaponNameBattleAnimationInputsDictionary inputs = new();
 
     public float speed;
     public float acceleration;
     public List<BattleAnimationPlayer> debugTargets = new();
     public int spawnPointIndex;
     public int shuffledIndex;
-    public int firedShots;
-    public Projectile2View projectileViewPrefab;
     public bool survives;
     public Transform hitPoint;
-    public bool triedToGetTurret;
+    public int incomingRoundsLeft;
 
     private List<Transform> hitPoints;
     private List<Transform> barrels;
@@ -31,11 +34,7 @@ public class BattleAnimationPlayer : MonoBehaviour {
     private List<AudioSource> shotAudioSources;
     private AudioSource hitAudioSource;
     private ParticleSystem hitParticleSystem;
-    private List<BattleAnimationPlayer> targets;
-    private Turret turret;
-
-    [Command]
-    public int ShotsCount => Tokenizer.Tokenize(attack).Count(token => token == "fire");
+    public List<BattleAnimationPlayer> targets;
 
     public IReadOnlyList<Transform> HitPoints => hitPoints;
     public IReadOnlyList<Transform> Barrels => barrels;
@@ -78,47 +77,36 @@ public class BattleAnimationPlayer : MonoBehaviour {
         speed += acceleration * Time.deltaTime;
     }
 
-    public void Aim(IEnumerable<BattleAnimationPlayer> targets) {
-
-        if (!turret && !triedToGetTurret) {
-            triedToGetTurret = true;
-            turret = GetComponentInChildren<Turret>();
-        }
-
-        this.targets = new List<BattleAnimationPlayer>(targets);
-        Assert.AreNotEqual(0, this.targets.Count);
-        var target = this.targets.Random();
-        hitPoint = target.HitPoints.Count == 0 ? null : target.HitPoints.Random();
-        Assert.IsTrue(hitPoint, $"{this}: target {target} has no impact points");
-
-        if (turret) {
+    public void SetAim(Turret turret, bool value) {
+        if (!turret)
+            return;
+        turret.aim = value;
+        if (turret.aim)
             turret.computer.Target = hitPoint;
-            turret.aim = true;
-        }
     }
 
     [Command]
-    public Projectile2 Fire() {
+    public Projectile2 Fire(int barrelIndex, Projectile2View projectileViewPrefab) {
 
         Assert.IsTrue(hitPoint, $"{this}: has no target hit point to shoot at");
-        Assert.AreNotEqual(0, ShotsCount, $"{this}: no shot commands found in attack sequence");
         Assert.AreNotEqual(0, Barrels.Count, $"{this}: no barrels to shoot from");
 
         if (shotParticleSystems.Count > 0)
-            shotParticleSystems[firedShots % shotParticleSystems.Count].Play();
+            shotParticleSystems[barrelIndex % shotParticleSystems.Count].Play();
 
         if (shotAudioSources.Count > 0) {
-            var shotAudioSource = shotAudioSources[firedShots % shotAudioSources.Count];
+            var shotAudioSource = shotAudioSources[barrelIndex % shotAudioSources.Count];
             shotAudioSource.PlayOneShot(shotAudioSource.clip);
         }
 
-        var projectile = new Projectile2(projectileViewPrefab, Barrels[firedShots % Barrels.Count], hitPoint, targets, firedShots % ShotsCount == 0);
-        firedShots++;
-        return projectile;
+        foreach (var target in targets)
+            target.incomingRoundsLeft++;
+
+        return new Projectile2(projectileViewPrefab, Barrels[barrelIndex % Barrels.Count], hitPoint, targets);
     }
 
     [Command]
-    public void TakeHit(Projectile2 projectile, Transform hitPoint, bool isLastHit) {
+    public void TakeHit(Projectile2 projectile, Transform hitPoint) {
 
         if (hitAudioSource) {
             if (hitAudioSource.transform != transform)
@@ -132,92 +120,112 @@ public class BattleAnimationPlayer : MonoBehaviour {
             hitParticleSystem.Play();
         }
 
-        if (isLastHit && !survives) { }
-    }
-
-    [Command] [ContextMenu(nameof(PlayAttack))]
-    public void PlayAttack() {
-        new BattleAnimation(this).Play(attack, debugTargets);
-    }
-    [Command] [ContextMenu(nameof(PlayMoveAttack))]
-    public void PlayMoveAttack() {
-        new BattleAnimation(this).Play(moveAttack, debugTargets);
-    }
-    [Command] [ContextMenu(nameof(PlayRespond))]
-    public void PlayRespond() {
-        new BattleAnimation(this).Play(respond, debugTargets);
+        incomingRoundsLeft--;
+        if (incomingRoundsLeft == 0 && !survives) { }
     }
 }
 
 public class BattleAnimation {
 
-    public readonly BattleAnimationPlayer battleAnimationPlayer;
+    public readonly BattleAnimationPlayer player;
     public bool Completed { get; private set; }
 
     private DebugStack stack = new();
 
-    public BattleAnimation(BattleAnimationPlayer battleAnimationPlayer) {
-        this.battleAnimationPlayer = battleAnimationPlayer;
+    public BattleAnimation(BattleAnimationPlayer player) {
+        this.player = player;
     }
 
-    private IEnumerator Coroutine(string input) {
+    private IEnumerator Coroutine(string input, int level = 0) {
         foreach (var token in Tokenizer.Tokenize(input))
             switch (token) {
 
                 case "set-speed":
-                    battleAnimationPlayer.speed = stack.Pop<dynamic>();
+                    player.speed = stack.Pop<dynamic>();
                     break;
 
                 case "break":
-                    battleAnimationPlayer.acceleration = -Mathf.Sign(battleAnimationPlayer.speed) * stack.Pop<dynamic>();
-                    yield return new WaitForSeconds(Mathf.Abs(battleAnimationPlayer.speed / battleAnimationPlayer.acceleration));
-                    battleAnimationPlayer.acceleration = 0;
-                    battleAnimationPlayer.speed = 0;
+                    player.acceleration = -Mathf.Sign(player.speed) * stack.Pop<dynamic>();
+                    yield return new WaitForSeconds(Mathf.Abs(player.speed / player.acceleration));
+                    player.acceleration = 0;
+                    player.speed = 0;
                     break;
 
                 case "translate":
-                    battleAnimationPlayer.transform.position += battleAnimationPlayer.transform.forward * stack.Pop<dynamic>();
+                    player.transform.position += player.transform.forward * stack.Pop<dynamic>();
                     break;
 
                 case "wait":
                     yield return new WaitForSeconds(stack.Pop<dynamic>());
                     break;
 
-                case "random":
+                case "random": {
                     var b = stack.Pop<dynamic>();
                     var a = stack.Pop<dynamic>();
                     stack.Push(Random.Range(a, b));
                     break;
+                }
 
                 case "spawn-point-index":
-                    stack.Push(battleAnimationPlayer.spawnPointIndex);
+                    stack.Push(player.spawnPointIndex);
                     break;
 
                 case "shuffled-index":
-                    stack.Push(battleAnimationPlayer.shuffledIndex);
+                    stack.Push(player.shuffledIndex);
                     break;
 
-                case "aim":
-                    battleAnimationPlayer.Aim(stack.Pop<IEnumerable<BattleAnimationPlayer>>());
+                case "find-turret": {
+                    var turretName = stack.Pop<string>();
+                    var turret = player
+                        .GetComponentsInChildren<Turret>()
+                        .SingleOrDefault(t => t.name == turretName);
+                    stack.Push(turret);
                     break;
+                }
 
-                case "fire":
-                    battleAnimationPlayer.Fire();
+                case "set-aim": {
+                    var value = stack.Pop<bool>();
+                    var turret = stack.Pop<Turret>();
+                    player.SetAim(turret, value);
                     break;
+                }
+
+                case "fire": {
+                    var barrelIndex = stack.Pop<int>();
+                    var projectileViewPrefab = stack.Pop<Projectile2View>();
+                    player.Fire(barrelIndex, projectileViewPrefab);
+                    break;
+                }
+
+                case "call": {
+                    var name = stack.Pop<string>();
+                    var record = player.subroutines.SingleOrDefault(r => r.name == name);
+                    Assert.IsTrue(!string.IsNullOrEmpty(record.name), $"cannot find subroutine {name}");
+                    yield return Coroutine(record.input, level + 1);
+                    break;
+                }
 
                 default:
                     stack.ExecuteToken(token);
                     break;
             }
 
-        Completed = true;
+        if (level == 0)
+            Completed = true;
     }
 
     public void Play(string input, IEnumerable<BattleAnimationPlayer> targets, bool stopAllCoroutines = true) {
+
         if (stopAllCoroutines)
-            battleAnimationPlayer.StopAllCoroutines();
-        stack.Push(targets);
-        battleAnimationPlayer.StartCoroutine(Coroutine(input));
+            player.StopAllCoroutines();
+
+        player.targets = targets.ToList();
+        Assert.AreNotEqual(0, player.targets.Count);
+        var target = player.targets.Random();
+        player.hitPoint = target.HitPoints.Count == 0 ? null : target.HitPoints.Random();
+        Assert.IsTrue(player.hitPoint, $"{this}: target {target} has no impact points");
+
+        player.StartCoroutine(Coroutine(input));
     }
 }
 
@@ -225,18 +233,17 @@ public class Projectile2 : IDisposable {
 
     private Projectile2View view;
     private List<BattleAnimationPlayer> targets = new();
+    public UnitAction action;
     public IReadOnlyList<BattleAnimationPlayer> Targets => targets;
-    public readonly bool isLast;
     public readonly Transform hitPoint;
 
-    public Projectile2(Projectile2View prefab, Transform barrel, Transform hitPoint, IEnumerable<BattleAnimationPlayer> targets, bool isLast) {
+    public Projectile2(Projectile2View prefab, Transform barrel, Transform hitPoint, IEnumerable<BattleAnimationPlayer> targets) {
 
         Assert.IsTrue(prefab);
         Assert.IsTrue(barrel);
         view = Object.Instantiate(prefab, barrel.position, barrel.rotation);
         view.projectile = this;
         this.targets.AddRange(targets);
-        this.isLast = isLast;
         this.hitPoint = hitPoint;
     }
 
@@ -250,7 +257,7 @@ public class Projectile2 : IDisposable {
 
             var hitPoint = target.HitPoints.Contains(this.hitPoint) ? this.hitPoint : hitPoints.Random();
             view.PlayImpact(hitPoint);
-            target.TakeHit(this, hitPoint, isLast);
+            target.TakeHit(this, hitPoint);
         }
 
         Dispose();
@@ -262,3 +269,12 @@ public class Projectile2 : IDisposable {
         view = null;
     }
 }
+
+[Serializable]
+public struct BattleAnimationInputs {
+    public string moveAttack;
+    public string attack;
+    public string respond;
+}
+[Serializable]
+public class WeaponNameBattleAnimationInputsDictionary : SerializableDictionary<WeaponName, BattleAnimationInputs> { }

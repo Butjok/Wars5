@@ -99,6 +99,8 @@ public class UnitAction : IDisposable {
             text += $" {targetUnit}";
         if (type == UnitActionType.Drop)
             text += $" to {targetPosition}";
+        if (type == UnitActionType.Attack)
+            text += $" with {weaponName}";
         return text;
     }
 }

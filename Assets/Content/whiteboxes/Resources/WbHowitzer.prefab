@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 8743880933605044322}
   - component: {fileID: 6826461050024887464}
   - component: {fileID: 1190363638125491070}
-  - component: {fileID: 8097322835395071051}
+  - component: {fileID: 4023806302900444312}
   m_Layer: 0
   m_Name: WbHowitzer
   m_TagString: Untagged
@@ -151,7 +151,7 @@ MonoBehaviour:
   nextRotation: {x: 0, y: 0}
   nextMoved: 0
   battleAnimationPlayer: {fileID: 0}
---- !u!114 &8097322835395071051
+--- !u!114 &4023806302900444312
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -163,41 +163,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25674bac442a409d9b3feff5fa16e2fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveAttack: '-1 translate
+  subroutines:
+  - name: Attack.Cannon
+    input: 'null true set-aim
 
-    1 set-speed
+      .5 wait
 
-    .5 wait
+      Projectile Projectile2View type
+      load-resource
 
-    1 break
-
-
-    aim
-
-    .5
-    wait
-
-    fire'
-  attack: 'aim
-
-    .5 wait
-
-    fire'
-  respond: 'aim
-
-    .5 wait
-
-    fire'
+      dup 0 fire'
+  inputs:
+    m_keys: 02000000
+    m_values:
+    - moveAttack: HowitzerCannotMoveAttack throw-exception
+      attack: Attack.Cannon call
+      respond: CannotMoveAttackHowitzer throw-exception
   speed: 0
   acceleration: 0
   debugTargets: []
   spawnPointIndex: 0
   shuffledIndex: 0
-  firedShots: 0
-  projectileViewPrefab: {fileID: 1522095048446927609, guid: f3d3a86c4b4ce4c12824a05e481c4c73, type: 3}
   survives: 0
   hitPoint: {fileID: 0}
-  triedToGetTurret: 0
+  incomingRoundsLeft: 0
+  targets: []
 --- !u!1 &9145608798136460175
 GameObject:
   m_ObjectHideFlags: 0

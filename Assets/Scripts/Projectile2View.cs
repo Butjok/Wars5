@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Drawing;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ public class Projectile2View : MonoBehaviour {
     public AudioSource impactAudioSource;
     public AudioClip impactAudioClip;
     public ParticleSystem impactParticleSystem;
+    public float startTime;
 
     public void PlayImpact(Transform hitPoint) {
         if (impactAudioSource && impactAudioClip)
@@ -19,20 +21,22 @@ public class Projectile2View : MonoBehaviour {
         }
     }
 
+    private void Start() {
+        StartCoroutine(Animation());
+    }
+    private IEnumerator Animation() {
+        yield return new WaitForSeconds(.5f);
+        projectile.HitTargets();
+    }
+
     private void Update() {
-
-        if (projectile == null)
+        if (!projectile.hitPoint)
             return;
-
-        if (Input.GetKeyDown(KeyCode.Space)) {
-            projectile.HitTargets();
-            return;
-        }
-
         using (Draw.ingame.WithLineWidth(2)) {
             Draw.ingame.Line(transform.position, projectile.hitPoint.position, Color.red);
             foreach (var target in projectile.Targets)
-                Draw.ingame.Line(projectile.hitPoint.position, target.transform.position, Color.yellow);
+                if (target)
+                    Draw.ingame.Line(projectile.hitPoint.position, target.transform.position, Color.yellow);
         }
     }
 }

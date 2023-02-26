@@ -249,7 +249,8 @@ public class AiPlayerCommander : MonoBehaviour {
                 List<Vector2Int> restPath = null;
 
                 foreach (var weaponName in GetWeaponNames(unit))
-                    if (CanAttack(unit, target, weaponName)) {
+                    if (AreEnemies(unit.Player, target.Player) &&
+                        TryGetDamage(unit, target, weaponName, out _)) {
 
                         if (path == null) {
                             var targets = main.PositionsInRange(target.NonNullPosition, attackRange).Where(position => CanStay(unit, position));

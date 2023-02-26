@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3582948020496444553}
   - component: {fileID: 1611663543242971203}
   - component: {fileID: 7337368045880514279}
-  - component: {fileID: -7332030555630312998}
+  - component: {fileID: 643463793234017634}
   m_Layer: 0
   m_Name: WbRecon
   m_TagString: Untagged
@@ -120,7 +120,7 @@ MonoBehaviour:
   nextRotation: {x: 0, y: 0}
   nextMoved: 0
   battleAnimationPlayer: {fileID: 0}
---- !u!114 &-7332030555630312998
+--- !u!114 &643463793234017634
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -132,41 +132,57 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25674bac442a409d9b3feff5fa16e2fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveAttack: '-1 translate
+  subroutines:
+  - name: Move
+    input: '-1 translate
 
-    1 set-speed
+      1 set-speed
 
-    .5 wait
+      .5 wait
 
-    1 break
+      1 break'
+  - name: Attack.MachineGun
+    input: 'null true set-aim
 
+      .5 wait
 
-    aim
+      Projectile Projectile2View type
+      load-resource
 
-    .5
-    wait
+      dup 0 fire
 
-    fire'
-  attack: 'aim
+      .1 wait
 
-    .5 wait
+      dup 0 fire
 
-    fire'
-  respond: 'aim
+      .1
+      wait
 
-    .5 wait
+      dup 0 fire
 
-    fire'
+      .1 wait
+
+      dup 0 fire
+
+      .1 wait
+
+      dup
+      0 fire'
+  inputs:
+    m_keys: 03000000
+    m_values:
+    - moveAttack: Move call Attack.MachineGun call
+      attack: Attack.MachineGun call
+      respond: Attack.MachineGun call
   speed: 0
   acceleration: 0
   debugTargets: []
   spawnPointIndex: 0
   shuffledIndex: 0
-  firedShots: 0
-  projectileViewPrefab: {fileID: 1522095048446927609, guid: f3d3a86c4b4ce4c12824a05e481c4c73, type: 3}
   survives: 0
   hitPoint: {fileID: 0}
-  triedToGetTurret: 0
+  incomingRoundsLeft: 0
+  targets: []
 --- !u!1 &2343260915802089221
 GameObject:
   m_ObjectHideFlags: 0
