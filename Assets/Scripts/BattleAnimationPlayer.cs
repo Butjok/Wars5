@@ -128,6 +128,19 @@ public class BattleAnimationPlayer : MonoBehaviour {
 
 public class BattleAnimation {
 
+    [Command]
+    public static bool overrideTranslateArgument;
+    [Command]
+    public static float translateArgumentOverrideValue;
+    [Command]
+    public static bool overrideSetSpeedArgument = true;
+    [Command]
+    public static float setSpeedArgumentOverrideValue = 1.5f;
+    [Command]
+    public static bool overrideBreakArgument = true;
+    [Command]
+    public static float breakArgumentOverrideValue = 3;
+    
     public readonly BattleAnimationPlayer player;
     public bool Completed { get; private set; }
 
@@ -141,20 +154,32 @@ public class BattleAnimation {
         foreach (var token in Tokenizer.Tokenize(input))
             switch (token) {
 
-                case "set-speed":
-                    player.speed = stack.Pop<dynamic>();
+                case "set-speed": {
+                    var value = stack.Pop<dynamic>();
+                    if (overrideSetSpeedArgument)
+                        value = setSpeedArgumentOverrideValue;
+                    player.speed = value;
                     break;
+                }
 
-                case "break":
-                    player.acceleration = -Mathf.Sign(player.speed) * stack.Pop<dynamic>();
+                case "break": {
+                    var value = stack.Pop<dynamic>();
+                    if (overrideBreakArgument)
+                        value = breakArgumentOverrideValue;
+                    player.acceleration = -Mathf.Sign(player.speed) * value;
                     yield return new WaitForSeconds(Mathf.Abs(player.speed / player.acceleration));
                     player.acceleration = 0;
                     player.speed = 0;
                     break;
+                }
 
-                case "translate":
-                    player.transform.position += player.transform.forward * stack.Pop<dynamic>();
+                case "translate": {
+                    var value = stack.Pop<dynamic>();
+                    if (overrideTranslateArgument)
+                        value = translateArgumentOverrideValue;
+                    player.transform.position += player.transform.forward * value;
                     break;
+                }
 
                 case "wait":
                     yield return new WaitForSeconds(stack.Pop<dynamic>());

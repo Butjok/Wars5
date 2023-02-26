@@ -11,7 +11,7 @@ using static Battle.Setup.Side;
 public static class AttackActionState {
 
     [Command]
-    public static float pause = 2f;
+    public static float pause = 1.5f;
 
     public static IEnumerator<StateChange> Run(Main main, UnitAction action) {
 
@@ -53,8 +53,8 @@ public static class AttackActionState {
             var attackerSide = attacker.Player.side;
             var targetSide = target.Player.side;
             if (attackerSide == targetSide) {
-                attackerSide = left;
-                targetSide = right;
+                attackerSide = main.players.IndexOf(attacker.Player) < main.players.IndexOf(target.Player) ? left : right;
+                targetSide = attackerSide == left ? right : left;
             }
 
             var setup = new Battle.Setup {
@@ -113,6 +113,7 @@ public static class AttackActionState {
                 var time = Time.time;
                 while (Time.time < time + pause && !Input.anyKeyDown)
                     yield return StateChange.none;
+                yield return StateChange.none;
 
                 main.mainCamera.gameObject.SetActive(true);
                 main.battleCameras[left].gameObject.SetActive(false);
