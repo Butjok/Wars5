@@ -104,6 +104,7 @@
      <Compile Include="Assets/Scripts/UnitActionUiContainer.cs" />
      <Compile Include="Assets/Scripts/DialogueParser.cs" />
      <Compile Include="Assets/Scripts/Editor/FullscreenPlayMode.cs" />
+     <Compile Include="Assets/Scripts/Antenna2.cs" />
      <Compile Include="Assets/Scripts/LevelEditor.cs" />
      <Compile Include="Assets/Scripts/Marketing/MarketingUiDrawing.cs" />
      <Compile Include="Assets/Scripts/WorldBoxSectionTextureGenerator.cs" />
@@ -159,7 +160,6 @@
      <Compile Include="Assets/Scripts/FlipbookTest.cs" />
      <Compile Include="Assets/Scripts/Dialogues.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
-     <Compile Include="Assets/Scripts/Antenna2.cs" />
      <None Include="Assets/Scripts/Wars.asmdef" />
      <Folder Include="Assets/Scripts/Editor" />
      <Folder Include="Assets/Scripts/GameStates" />
