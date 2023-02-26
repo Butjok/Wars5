@@ -167,7 +167,8 @@ public class Battle : IDisposable {
 
         for (var i = 0; i < Mathf.Max(units[left].Count, units[right].Count); i++) {
             AddTarget(units[left][i % units[left].Count], units[right][i % units[right].Count], shotsCount[left]);
-            AddTarget(units[right][i % units[right].Count], units[left][i % units[left].Count], shotsCount[right]);
+            if (setup.right.count[after] > 0)
+                AddTarget(units[right][i % setup.right.count[after]], units[left][i % units[left].Count], shotsCount[right]);
         }
     }
 

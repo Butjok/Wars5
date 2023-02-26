@@ -19,7 +19,7 @@ public class Main : StateRunner {
         return instance;
     }
 
-    [Command]public bool autoplay = true;
+    [Command] public bool autoplay = true;
     public AiPlayerCommander aiPlayerCommander;
 
     protected override void Update() {
@@ -37,7 +37,7 @@ public class Main : StateRunner {
     public void IssueAiCommandsForActionSelectionState() {
         aiPlayerCommander.IssueCommandsForActionSelectionState();
     }
-    
+
     public Traverser traverser = new();
 
     [Command]
@@ -70,7 +70,7 @@ public class Main : StateRunner {
     public MeshFilter tileAreaMeshFilter;
 
     public Camera mainCamera;
-    public Camera[] battleCameras = { null,null};
+    public Camera[] battleCameras = { null, null };
 
     public virtual void Awake() {
 
@@ -80,7 +80,7 @@ public class Main : StateRunner {
         UnitAction.undisposed.Clear();
 
         ReloadPersistentData();
-        
+
         Assert.IsTrue(mainCamera);
         Assert.IsTrue(battleCameras.Length == right + 1);
         Assert.IsTrue(battleCameras[left]);
@@ -91,6 +91,14 @@ public class Main : StateRunner {
     public void ReloadPersistentData() {
         persistentData = PersistentData.Read();
         UpdatePostProcessing();
+    }
+
+    [Command]
+    public bool ShowBattleAnimation {
+        set {
+            persistentData.gameSettings.showBattleAnimation = value;
+            persistentData.Save();
+        }
     }
 
     protected virtual void OnApplicationQuit() {
