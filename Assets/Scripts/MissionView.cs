@@ -1,4 +1,6 @@
 using System;
+using Cinemachine;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -9,6 +11,7 @@ public class MissionView : MonoBehaviour {
     public Material defaultMaterial;
     public Material hoveredMaterial;
     public Material unavailableMaterial;
+    public TMP_Text text;
     
     public MissionName MissionName {
         get {
@@ -37,6 +40,8 @@ public class MissionView : MonoBehaviour {
                 Material = value ? hoveredMaterial : defaultMaterial;
         }
     }
+
+    public CinemachineVirtualCamera TryGetVirtualCamera => GetComponentInChildren<CinemachineVirtualCamera>();
 
     private void Reset() {
         renderers = GetComponentsInChildren<Renderer>();

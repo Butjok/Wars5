@@ -1,10 +1,34 @@
+using System;
 using Butjok.CommandLine;
-using UnityEngine;
-using static Dialogue;
 using static Gettext;
+using static Dialogue;
 
-public static class Dialogues {
+public static class Strings {
 
+    public static string[] All => new[] {
+        _p("Campaign.Mission", "Previous"),
+        _p("Campaign.Mission", "Next"),
+        _p("Campaign.Mission", "Start"),
+    };
+    
+    public static string GetName(MissionName missionName) {
+        return missionName switch {
+            MissionName.Tutorial => _p("Campaign.Mission", "Tutorial"),
+            MissionName.FirstMission => _p("Campaign.Mission", "First mission"),
+            MissionName.SecondMission => _p("Campaign.Mission", "Second mission"),
+            _ => throw new ArgumentOutOfRangeException(nameof(missionName), missionName, null)
+        };
+    }
+    
+    public static string GetDescription(MissionName missionName) {
+        return missionName switch {
+            MissionName.Tutorial => _p("Campaign.Mission", "A introduction into the game."),
+            MissionName.FirstMission => _p("Campaign.Mission", "A challenger appears!"),
+            MissionName.SecondMission => _p("Campaign.Mission", "Final push!"),
+            _ => throw new ArgumentOutOfRangeException(nameof(missionName), missionName, null)
+        };
+    }
+    
     [Command]
     public static string TutorialWelcome =>
         nata + happy + _("Hello there!") + next +
@@ -28,12 +52,4 @@ public static class Dialogues {
         nata + worried + _("Oh no...") + next +
         vlad + happy + _("This land is ours!") + Pause(1) + _("Forever!") + next +
         nata + _("Next time we should try different tactic.") + next;
-
-    [Command]
-    public static string Help {
-        get {
-            var count = Random.Range(0, 10);
-            return nata + normal + string.Format(_n("The enemy still has a unit!", "The enemy still has {0} units!", count), count) + next;
-        }
-    }
 }

@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2023-02-12 19:42+0100\n"
-"PO-Revision-Date: 2023-02-12 20:02+0100\n"
+"POT-Creation-Date: 2023-03-04 14:04+0100\n"
+"PO-Revision-Date: 2023-03-04 14:04+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -16,101 +16,21 @@ msgstr ""
 "X-Poedit-KeywordsList: _;_p:1c,2;_pn:1c,2,3;_n:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: Dialogues.cs:10
-msgid "Hello there!"
-msgstr "Привет!"
-
-#: Dialogues.cs:11
-msgid "Welcome to the Wars3d! An amazing strategy game!"
-msgstr "Добро пожаловать в Wars3d! Это замечательная пошаговая стратегия!"
-
-#: Dialogues.cs:12
-msgid "What are you saying?"
-msgstr "Что ты говоришь?"
-
-#: Dialogues.cs:13
-msgid "I dont know what to say..."
-msgstr "Я даже не знаю что и сказать…"
-
-#: Dialogues.cs:14
-msgid "Probably..."
-msgstr "Наверное…"
-
-#: Dialogues.cs:14
-msgid "we should have done something different..."
-msgstr "нам нужно было сделать что-то другое…"
-
-#: Dialogues.cs:15
-msgid "You have no clue who you are messing with!"
-msgstr "Ты понятия не имеешь с кем имеешь дело!"
-
-#: Dialogues.cs:16
-msgid "Enough!"
-msgstr "Хватит!"
-
-#: Dialogues.cs:17
-msgid "Let's do it!"
-msgstr "Вперед!"
-
-#: Dialogues.cs:21
-msgid "We did it! They are falling back!"
-msgstr "Мы сделали это! Они отступают!"
-
-#: Dialogues.cs:22
-msgid "This is just a beginning..."
-msgstr "Это всего лишь начало…"
-
-#: Dialogues.cs:22
-msgid "Troops fall back!"
-msgstr "Войска, отступаем!"
-
-#: Dialogues.cs:23
-msgid "I am so proud of you!"
-msgstr "Я так горжусь тобой!"
-
-#: Dialogues.cs:24
-msgid "You did a great job."
-msgstr "Отличная работа."
-
-#: Dialogues.cs:28
-msgid "Oh no..."
-msgstr "О нет…"
-
-#: Dialogues.cs:29
-msgid "This land is ours!"
-msgstr "Эта земля - наша!"
-
-#: Dialogues.cs:29
-msgid "Forever!"
-msgstr "Навсегда!"
-
-#: Dialogues.cs:30
-msgid "Next time we should try different tactic."
-msgstr "В следующий раз нам лучше попробовать другую тактику."
-
-#: Dialogues.cs:36
-#, csharp-format
-msgid "The enemy still has a unit!"
-msgid_plural "The enemy still has {0} units!"
-msgstr[0] "У противника все еще есть {0} юнит!"
-msgstr[1] "У противника все еще есть {0} юнита!"
-msgstr[2] "У противника все еще есть {0} юнитов!"
-
-#: Factions.cs:11
+#: Stable/Factions.cs:11
 msgid "People's Republic of Novoslavia"
 msgstr "Новославская Народная Республика"
 
-#: Factions.cs:12
+#: Stable/Factions.cs:12
 msgid "United Treaty Organization"
 msgstr "Организация Союзного Договора"
 
-#: Factions.cs:21
+#: Stable/Factions.cs:21
 msgid ""
 "A socialist republic, one of the most military advanced powers in the region."
 msgstr ""
 "Социалистическая республика, одна из самых могущественных в военной силе."
 
-#: Factions.cs:22
+#: Stable/Factions.cs:22
 msgid ""
 "A large international political, economical and military alliance. The "
 "dominant power in the region."
@@ -118,39 +38,39 @@ msgstr ""
 "Влиятельный международный политический, экономический и военный союз. "
 "Доминирующая сила в этом регионе мира."
 
-#: Factions.cs:40
+#: Stable/Factions.cs:40
 msgid "For the People and Fatherland"
 msgstr "За Народ и Отечество"
 
-#: Factions.cs:41
+#: Stable/Factions.cs:41
 msgid "Solidarity and Unity"
 msgstr "Солидарность и Единство"
 
-#: People.cs:9
+#: Stable/People.cs:12
 msgid "Natalie Moore"
 msgstr "Натали Мур"
 
-#: People.cs:10
+#: Stable/People.cs:13
 msgid "Vladan Raznatovic"
 msgstr "Владан Ражнатович"
 
-#: People.cs:11
+#: Stable/People.cs:14
 msgid "James G. Willis"
 msgstr "Джеймс Уиллис"
 
-#: People.cs:12
+#: Stable/People.cs:15
 msgid "Ljubisa Dragovic"
 msgstr "Любиша Драгович"
 
-#: People.cs:17
+#: Stable/People.cs:20
 msgid "Natalie"
 msgstr "Натали"
 
-#: People.cs:18
+#: Stable/People.cs:21
 msgid "Vladan"
 msgstr "Владан"
 
-#: People.cs:23
+#: Stable/People.cs:26
 msgid ""
 "A fresh out of the military academia commanding officer from United Treaty. "
 "She was the best student in class."
@@ -158,7 +78,7 @@ msgstr ""
 "Молодой лейтенант, недавно закончившая военную академию с отличием. Была "
 "рекомендована на работу в генеральном штабе Организации Союзного Договора."
 
-#: People.cs:24
+#: Stable/People.cs:27
 msgid ""
 "A cold-blooded veteran commanding officer from the Novoslavia. He is well "
 "known for the effectiveness and cruelty of his command."
@@ -166,13 +86,130 @@ msgstr ""
 "Хладнокровный и опытный новославский командир. Известен эффективностью "
 "выполнения боевых задач и достижением их любой ценой."
 
-#: People.cs:25
+#: Stable/People.cs:28
 msgid "President of the United Treaty Organization."
 msgstr "Президент Организации Союзного Договора."
 
-#: People.cs:26
+#: Stable/People.cs:29
 msgid "Secretary General of the People's Republic of Novoslavia."
 msgstr "Генеральный секретарь Новославской Народной Республики."
+
+#: Strings.cs:9
+msgctxt "Campaign.Mission"
+msgid "Previous"
+msgstr "Предыдущая"
+
+#: Strings.cs:10
+msgctxt "Campaign.Mission"
+msgid "Next"
+msgstr "Следующая"
+
+#: Strings.cs:11
+msgctxt "Campaign.Mission"
+msgid "Start"
+msgstr "Начать"
+
+#: Strings.cs:16
+msgctxt "Campaign.Mission"
+msgid "Tutorial"
+msgstr "Обучение"
+
+#: Strings.cs:17
+msgctxt "Campaign.Mission"
+msgid "First mission"
+msgstr "Первая миссия"
+
+#: Strings.cs:18
+msgctxt "Campaign.Mission"
+msgid "Second mission"
+msgstr "Вторая миссия"
+
+#: Strings.cs:25
+msgctxt "Campaign.Mission"
+msgid "A introduction into the game."
+msgstr "Введение в игру."
+
+#: Strings.cs:26
+msgctxt "Campaign.Mission"
+msgid "A challenger appears!"
+msgstr "Первый соперник!"
+
+#: Strings.cs:27
+msgctxt "Campaign.Mission"
+msgid "Final push!"
+msgstr "Решающий натиск!"
+
+#: Strings.cs:34
+msgid "Hello there!"
+msgstr "Привет!"
+
+#: Strings.cs:35
+msgid "Welcome to the Wars3d! An amazing strategy game!"
+msgstr "Добро пожаловать в Wars3d! Это замечательная пошаговая стратегия!"
+
+#: Strings.cs:36
+msgid "What are you saying?"
+msgstr "Что ты говоришь?"
+
+#: Strings.cs:37
+msgid "I dont know what to say..."
+msgstr "Я даже не знаю что и сказать…"
+
+#: Strings.cs:38
+msgid "Probably..."
+msgstr "Наверное…"
+
+#: Strings.cs:38
+msgid "we should have done something different..."
+msgstr "нам нужно было сделать что-то другое…"
+
+#: Strings.cs:39
+msgid "You have no clue who you are messing with!"
+msgstr "Ты понятия не имеешь с кем имеешь дело!"
+
+#: Strings.cs:40
+msgid "Enough!"
+msgstr "Хватит!"
+
+#: Strings.cs:41
+msgid "Let's do it!"
+msgstr "Вперед!"
+
+#: Strings.cs:45
+msgid "We did it! They are falling back!"
+msgstr "Мы сделали это! Они отступают!"
+
+#: Strings.cs:46
+msgid "This is just a beginning..."
+msgstr "Это всего лишь начало…"
+
+#: Strings.cs:46
+msgid "Troops fall back!"
+msgstr "Войска, отступаем!"
+
+#: Strings.cs:47
+msgid "I am so proud of you!"
+msgstr "Я так горжусь тобой!"
+
+#: Strings.cs:48
+msgid "You did a great job."
+msgstr "Отличная работа."
+
+#: Strings.cs:52
+msgid "Oh no..."
+msgstr "О нет…"
+
+#: Strings.cs:53
+msgid "This land is ours!"
+msgstr "Эта земля - наша!"
+
+#: Strings.cs:53
+msgid "Forever!"
+msgstr "Навсегда!"
+
+#: Strings.cs:54
+msgid "Next time we should try different tactic."
+msgstr "В следующий раз нам лучше попробовать другую тактику."
 
 #: UnitDescription.cs:8
 msgid "Mechanized infantry"
@@ -224,6 +261,13 @@ msgstr ""
 "Используя свой гранатомет в качестве основного оружия, противотанковый отряд "
 "наносит существенный урон танками и бронированным целям противника. Также "
 "могут захватывать вражеские здания."
+
+#, csharp-format
+#~ msgid "The enemy still has a unit!"
+#~ msgid_plural "The enemy still has {0} units!"
+#~ msgstr[0] "У противника все еще есть {0} юнит!"
+#~ msgstr[1] "У противника все еще есть {0} юнита!"
+#~ msgstr[2] "У противника все еще есть {0} юнитов!"
 
 #~ msgid "Power in Unity"
 #~ msgstr "Сила в Единстве"

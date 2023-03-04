@@ -14,7 +14,7 @@ public static class VictoryDefeatState {
         yield return StateChange.none;
 
         using var dialogue = new Dialogue();
-        foreach (var stateChange in dialogue.Play(Dialogues.Victory))
+        foreach (var stateChange in dialogue.Play(Strings.Victory))
             yield return stateChange;
     }
 
@@ -30,7 +30,7 @@ public static class VictoryDefeatState {
         yield return StateChange.none;
 
         using var dialogue = new Dialogue();
-        foreach (var stateChange in dialogue.Play(Dialogues.Defeat))
+        foreach (var stateChange in dialogue.Play(Strings.Defeat))
             yield return stateChange;
     }
 }
