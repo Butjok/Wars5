@@ -102,7 +102,6 @@ public class Campaign {
         return stack.Pop<bool>();
     }
 }
-public enum MissionName { Tutorial,FirstMission,SecondMission }
 
 public class SavedGame {
 

@@ -2,19 +2,26 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: SDF UI Unlit
   m_Shader: {fileID: 4800000, guid: 24dee1ab1bb594a928490aae07055750, type: 3}
-  m_ShaderKeywords: _ALPHABLEND_ON _BEVEL_ON _CONTOUR2_ON _NORMALMAP _SMOOTHINGMODE_AUTO
-    _SUPERSAMPLE_ON _VERTEXCOLOR2_ON
+  m_ValidKeywords:
+  - _ALPHABLEND_ON
+  - _CONTOUR2_ON
+  - _SMOOTHINGMODE_AUTO
+  - _SUPERSAMPLE_ON
+  - _VERTEXCOLOR2_ON
+  m_InvalidKeywords:
+  - _BEVEL_ON
+  - _NORMALMAP
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 3000
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -80,6 +87,7 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - _AbledoMode: 0
     - _Albedo: 0
@@ -91,8 +99,8 @@ Material:
     - _BevelScale: 0.0071
     - _BumpScale: 1
     - _ColorMask: 15
-    - _Contour: 0.285
-    - _Contour2: 0.081
+    - _Contour: 0.565
+    - _Contour2: 0.511
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 10
@@ -134,3 +142,4 @@ Material:
     - _EmissionColor2UI: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColorUI: {r: 1, g: 1, b: 1, a: 1}
     - _Specular: {r: 0, g: 0, b: 0, a: 0}
+  m_BuildTextureStacks: []

@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using UnityEngine.Video;
 
 public class EntryPoint : MonoBehaviour {
@@ -25,7 +26,7 @@ public class EntryPoint : MonoBehaviour {
         Assert.IsTrue(pressAnyKeyText);
 
         Assert.IsTrue(startVirtualCamera);
-        Assert.IsTrue(logoVirtualCamera);
+        Assert.IsTrue(welcomeScreenVirtualCamera);
         Assert.IsTrue(mainMenuVirtualCamera);
 
         gameObject.name = nameof(EntryPoint);
@@ -38,7 +39,7 @@ public class EntryPoint : MonoBehaviour {
         pressAnyKeyText.enabled = false;
 
         startVirtualCamera.enabled = true;
-        logoVirtualCamera.enabled = false;
+        welcomeScreenVirtualCamera.enabled = false;
         mainMenuVirtualCamera.enabled = false;
 
         StartCoroutine(SplashState());
@@ -52,7 +53,7 @@ public class EntryPoint : MonoBehaviour {
     public bool splashCompleted;
 
     public CinemachineVirtualCamera startVirtualCamera;
-    public CinemachineVirtualCamera logoVirtualCamera;
+    [FormerlySerializedAs("logoVirtualCamera")] public CinemachineVirtualCamera welcomeScreenVirtualCamera;
     public CinemachineVirtualCamera mainMenuVirtualCamera;
 
     public IEnumerator SplashState() {
@@ -96,22 +97,16 @@ public class EntryPoint : MonoBehaviour {
         PostProcessing.Fade(Color.white, fadeDuration, fadeEasing);
 
         startVirtualCamera.enabled = false;
-        logoVirtualCamera.enabled = true;
+        welcomeScreenVirtualCamera.enabled = true;
 
         var pressAnyKeySequence = DOTween.Sequence();
         pressAnyKeySequence
             .SetDelay(delay)
             .AppendCallback(() => pressAnyKeyText.enabled = true);
 
-        while (true) {
-            
-            // debug
-            // break;
-            
+        while (!Input.anyKeyDown)
             yield return null;
-            if (Input.anyKeyDown)
-                break;
-        }
+        yield return null;
         
         pressAnyKeySequence.Kill();
         pressAnyKeyText.enabled = false;
@@ -120,9 +115,8 @@ public class EntryPoint : MonoBehaviour {
     }
 
     public IEnumerator MainMenuState() {
-        Debug.Log("MAIN MENU");
 
-        logoVirtualCamera.enabled = false;
+        welcomeScreenVirtualCamera.enabled = false;
         mainMenuVirtualCamera.enabled = true;
 
         while (true) {
