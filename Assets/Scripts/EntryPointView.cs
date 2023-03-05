@@ -9,6 +9,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 using UnityEngine.Video;
 using Object = UnityEngine.Object;
 
@@ -41,11 +42,7 @@ public class EntryPointView : MonoBehaviour {
     public VideoClip bulkaGamesIntro;
     public Camera mainCamera;
 
-    public bool skipSplash = true;
-    public bool splashCompleted;
-
     public CinemachineVirtualCamera startVirtualCamera;
-    [FormerlySerializedAs("welcomeScreenVirtualCamera")]
     public CinemachineVirtualCamera logoVirtualCamera;
     public CinemachineVirtualCamera mainMenuVirtualCamera;
 
@@ -53,6 +50,7 @@ public class EntryPointView : MonoBehaviour {
     public Ease fadeEasing = Ease.Unset;
     public TMP_Text pressAnyKeyText;
     public float delay = 1;
+    public Image holdImage;
 }
 
 public class EntryPointState : IDisposableState {
@@ -77,7 +75,7 @@ public class EntryPointState : IDisposableState {
             Assert.IsTrue(view);
 
             if (showSplash)
-                yield return StateChange.Push(new SplashState(view,showWelcome));
+                yield return StateChange.Push(new SplashState(view, showWelcome));
             else
                 yield return StateChange.Push(new MainMenuState(view, showWelcome));
         }
@@ -92,7 +90,7 @@ public class SplashState : IDisposableState {
 
     public EntryPointView view;
     public bool showWelcome;
-    public SplashState(EntryPointView view,bool showWelcome) {
+    public SplashState(EntryPointView view, bool showWelcome) {
         this.view = view;
         this.showWelcome = showWelcome;
     }
@@ -188,6 +186,8 @@ public class MainMenuSelectionState : IDisposableState {
     public static float fadeDuration = .25f;
     [Command]
     public static Ease fadeEasing = Ease.Unset;
+    [Command]
+    public static float quitHoldTime = 1;
 
     public EntryPointView view;
     public MainMenuSelectionState(EntryPointView view) {
@@ -199,16 +199,44 @@ public class MainMenuSelectionState : IDisposableState {
             view.mainMenuVirtualCamera.enabled = true;
 
             while (true) {
-                yield return StateChange.none;
 
-                if (Input.GetKeyDown(KeyCode.Return)) {
+                if (InputState.TryConsumeKeyDown(KeyCode.Return)) {
                     PostProcessing.ColorFilter = Color.white;
                     var tween = PostProcessing.Fade(Color.black, fadeDuration, fadeEasing);
                     while (tween.IsActive() && !tween.IsComplete())
                         yield return StateChange.none;
                     yield return StateChange.PopThenPush(3, new CampaignOverviewState2());
-                    break;
                 }
+
+                if (InputState.TryConsumeKeyDown(KeyCode.Escape)) {
+
+                    var startTime = Time.time;
+                    var quit = false;
+                    view.holdImage.enabled = true;
+
+                    while (!InputState.TryConsumeKeyUp(KeyCode.Escape)) {
+
+                        var holdTime = Time.time - startTime;
+                        if (holdTime > quitHoldTime) {
+                            quit = true;
+                            break;
+                        }
+
+                        view.holdImage.fillAmount = holdTime / quitHoldTime;
+                        yield return StateChange.none;
+                    }
+                    if (quit) {
+#if UNITY_EDITOR
+                        UnityEditor.EditorApplication.isPlaying = false;
+#else
+                        Application.Quit();
+#endif
+                    }
+
+                    view.holdImage.enabled = false;
+                }
+
+                yield return StateChange.none;
             }
         }
     }

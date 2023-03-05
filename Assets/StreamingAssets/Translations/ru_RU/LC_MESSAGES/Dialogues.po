@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2023-03-05 03:40+0100\n"
-"PO-Revision-Date: 2023-03-05 03:40+0100\n"
+"POT-Creation-Date: 2023-03-05 13:15+0100\n"
+"PO-Revision-Date: 2023-03-05 13:20+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -281,6 +281,30 @@ msgstr ""
 "Используя свой гранатомет в качестве основного оружия, противотанковый отряд "
 "наносит существенный урон танками и бронированным целям противника. Также "
 "могут захватывать вражеские здания."
+
+#: UsefulTip.cs:11
+msgctxt "UsefulTip"
+msgid "Please wait. It seems to take a while..."
+msgstr "Пожалуйста подождите. Это займёт еще немного времени…"
+
+#: UsefulTip.cs:14
+msgctxt "UsefulTip"
+msgid ""
+"In the beginning of a turn try to use all your artillery units first to "
+"cause as much damage as possible before direct attack units."
+msgstr ""
+"В начале ходе старайтесь использовать свои артиллерийские юниты, чтобы "
+"причинить максимальный урон врагу до использования прямых атак."
+
+#: UsefulTip.cs:15
+msgctxt "UsefulTip"
+msgid "Try to place artillery units near roads, shores etc."
+msgstr "Старайтесь выставлять свою артиллерию возле дорог, берегов и т. п."
+
+#: UsefulTip.cs:16 UsefulTip.cs:17
+msgctxt "UsefulTip"
+msgid "Missile silos can damage enemy units and destroy bridges."
+msgstr "Ракетные шахты наносят ущерб юнитам врага и может уничтожать мосты."
 
 #, csharp-format
 #~ msgid "The enemy still has a unit!"

@@ -128,6 +128,9 @@ public class CampaignOverviewSelectionState : IDisposableState {
 
                 if (InputState.TryConsumeKeyDown(KeyCode.Tab))
                     view.CycleMission(Input.GetKey(KeyCode.LeftShift) ? -1 : 1);
+                
+                if (InputState.TryConsumeScrollWheel(out var scrollWheel))
+                    view.CycleMission(scrollWheel);
 
                 if (targetMissionName is { } actualMissionName) {
                     targetMissionName = null;

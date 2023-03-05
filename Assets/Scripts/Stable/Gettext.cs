@@ -6,10 +6,12 @@ using UnityEngine;
 
 public static class Gettext {
 
+    public static bool forceReloadEveryTime = true;
+
     private static Catalog catalog;
     private static Catalog Catalog {
         get {
-            if (catalog == null)
+            if (catalog == null || forceReloadEveryTime)
                 Load();
             return catalog;
         }

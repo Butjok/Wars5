@@ -21,6 +21,8 @@ public static class InputState {
     }
 
     public static Dictionary<KeyCode, int> lastKeyDownConsumptionFrame = new();
+    public static Dictionary<KeyCode, int> lastKeyUpConsumptionFrame = new();
+
     public static bool IsKeyDownConsumed(KeyCode keyCode) {
         return lastKeyDownConsumptionFrame.TryGetValue(keyCode, out var frame) && frame == Time.frameCount;
     }
@@ -31,11 +33,20 @@ public static class InputState {
         return isKeyDown;
     }
     public static bool IsKeyDown(KeyCode keyCode) {
-        if (IsKeyDownConsumed(keyCode) || !Input.GetKeyDown(keyCode))
-            return false;
-        // if (consume)
-        // ConsumeKeyDown(keyCode);
-        return true;
+        return !IsKeyDownConsumed(keyCode) && Input.GetKeyDown(keyCode);
+    }
+
+    public static bool IsKeyUpConsumed(KeyCode keyCode) {
+        return lastKeyUpConsumptionFrame.TryGetValue(keyCode, out var frame) && frame == Time.frameCount;
+    }
+    public static bool TryConsumeKeyUp(KeyCode keyCode) {
+        var isKeyUp = IsKeyUp(keyCode);
+        if (isKeyUp)
+            lastKeyUpConsumptionFrame[keyCode] = Time.frameCount;
+        return isKeyUp;
+    }
+    public static bool IsKeyUp(KeyCode keyCode) {
+        return !IsKeyUpConsumed(keyCode) && Input.GetKeyUp(keyCode);
     }
 
     public static int[] lastMouseDownConsumptionFrame = new int[10];
