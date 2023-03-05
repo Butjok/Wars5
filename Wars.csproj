@@ -57,7 +57,7 @@
      <Compile Include="Assets/Scripts/GameStates/DefeatState.cs" />
      <Compile Include="Assets/Scripts/MainMenuView.cs" />
      <Compile Include="Assets/Scripts/PostProcessing.cs" />
-     <Compile Include="Assets/Scripts/EntryPoint.cs" />
+     <Compile Include="Assets/Scripts/EntryPointView.cs" />
      <Compile Include="Assets/Scripts/MoveFinder2.cs" />
      <Compile Include="Assets/Scripts/AiPlayerCommander.cs" />
      <Compile Include="Assets/Scripts/Rules.cs" />
@@ -89,6 +89,7 @@
      <Compile Include="Assets/Scripts/PlayerView.cs" />
      <Compile Include="Assets/Scripts/Level/UnitAttackActionViewTest.cs" />
      <Compile Include="Assets/Scripts/DepthOfFieldDistanceSetter.cs" />
+     <Compile Include="Assets/Scripts/SetTextToLocalizedGameObjectName.cs" />
      <Compile Include="Assets/Scripts/DebugTerrainMeshGenerator.cs" />
      <Compile Include="Assets/Scripts/UnitMoveSequenceTest.cs" />
      <Compile Include="Assets/Scripts/UnitBrain.cs" />
@@ -123,6 +124,7 @@
      <Compile Include="Assets/Scripts/MissionObjectivesUi.cs" />
      <Compile Include="Assets/Scripts/Animation/Projectile.cs" />
      <Compile Include="Assets/Scripts/Projectile2.cs" />
+     <Compile Include="Assets/Scripts/Strings.cs" />
      <Compile Include="Assets/Scripts/BodyTorque.cs" />
      <Compile Include="Assets/Scripts/GameReader.cs" />
      <Compile Include="Assets/Scripts/UnitActionView.cs" />
@@ -162,8 +164,6 @@
      <Compile Include="Assets/Scripts/StateRunner.cs" />
      <Compile Include="Assets/Scripts/FlipbookTest.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
-     <Compile Include="Assets/Scripts/SetTextToLocalizedGameObjectName.cs" />
-     <Compile Include="Assets/Scripts/Strings.cs" />
      <None Include="Assets/Scripts/Wars.asmdef" />
      <Folder Include="Assets/Scripts/Editor" />
      <Folder Include="Assets/Scripts/GameStates" />

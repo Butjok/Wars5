@@ -48,6 +48,10 @@ namespace Butjok.CommandLine
         private void Awake() {
             if (dontDestroyOnLoad)
                 DontDestroyOnLoad(gameObject);
+            FetchCommands();
+        }
+
+        public void FetchCommands() {
             Commands.Fetch(assemblies.Select(Assembly.Load), includeNamespaceName);
         }
 

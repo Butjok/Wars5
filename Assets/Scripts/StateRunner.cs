@@ -1,15 +1,38 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Butjok.CommandLine;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Assertions;
+using Object = UnityEngine.Object;
 
 public class StateRunner : MonoBehaviour {
+
+    private static StateRunner instance;
+    public static StateRunner Instance {
+        get {
+            if (!instance) {
+                var go = new GameObject(nameof(StateRunner));
+                DontDestroyOnLoad(go);
+                instance = go.AddComponent<StateRunner>();
+
+                var commandLineGui = go.AddComponent<CommandLineGUI>();
+                commandLineGui.assemblies = new List<string> { "CommandLine", "Wars", "Stable" };
+                commandLineGui.guiSkin = DefaultGuiSkin.TryGet;
+                commandLineGui.Theme = "Default";
+                commandLineGui.FetchCommands();
+            }
+            return instance;
+        }
+    }
 
     public Stack<IEnumerator<StateChange>> states = new();
     public Stack<string> stateNames = new();
     public Dictionary<IEnumerator<StateChange>, IDisposableState> disposableStates = new();
+
+    public bool IsEmpty => states.Count == 0;
 
     public void PushState(string stateName, IEnumerator<StateChange> state) {
         states.Push(state);
@@ -27,6 +50,14 @@ public class StateRunner : MonoBehaviour {
     }
 
     protected virtual void Update() {
+        Tick();
+    }
+
+    public const int maxDepth = 10;
+
+    private void Tick(int depth = 0) {
+
+        Assert.IsTrue(depth < maxDepth);
 
         void Pop() {
             var state = states.Pop();
@@ -48,10 +79,28 @@ public class StateRunner : MonoBehaviour {
                 PushState(stateChange.stateName, stateChange.state);
             if (stateChange.disposableState != null)
                 PushState(stateChange.disposableState);
+
+            if (stateChange.popCount != 0 ||
+                stateChange.state != null ||
+                stateChange.disposableState != null) {
+
+                Tick(depth + 1);
+            }
         }
-        else
+        else {
             Pop();
+            Tick(depth + 1);
+        }
     }
+
+    private void OnGUI() {
+        GUI.skin = DefaultGuiSkin.TryGet;
+        GUILayout.Label(string.Join(" > ", stateNames.Reverse().Select(name => name.EndsWith("State") ? name[..^"State".Length] : name)));
+    }
+}
+
+public static class DefaultGuiSkin {
+    public static GUISkin TryGet => Resources.Load<GUISkin>("CommandLine");
 }
 
 public static class Wait {

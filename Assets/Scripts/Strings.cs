@@ -9,6 +9,10 @@ public static class Strings {
         _p("Campaign.Mission", "Previous"),
         _p("Campaign.Mission", "Next"),
         _p("Campaign.Mission", "Start"),
+        _p("Campaign", "Back"),
+        _p("MainMenu", "CAMPAIGN"),
+        _p("MainMenu", "SETTINGS"),
+        _p("MainMenu", "QUIT"),
     };
     
     public static string GetName(MissionName missionName) {
