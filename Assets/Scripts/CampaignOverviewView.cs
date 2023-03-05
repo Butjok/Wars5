@@ -47,7 +47,6 @@ public class CampaignOverviewView : MonoBehaviour {
         var missionNames = MissionViews.Select(mv => mv.MissionName);
         var availableMissionNames = missionNames.Where(campaign.IsAvailable).ToList();
         var index = availableMissionNames.IndexOf(CampaignOverviewMissionCloseUpState.missionName);
-        Assert.AreNotEqual(-1, index);
         var nextIndex = (index + offset).PositiveModulo(availableMissionNames.Count);
         CampaignOverviewSelectionState.targetMissionName = availableMissionNames[nextIndex];
     }
@@ -126,6 +125,9 @@ public class CampaignOverviewSelectionState : IDisposableState {
             }
 
             while (true) {
+
+                if (InputState.TryConsumeKeyDown(KeyCode.Tab))
+                    view.CycleMission(Input.GetKey(KeyCode.LeftShift) ? -1 : 1);
 
                 if (targetMissionName is { } actualMissionName) {
                     targetMissionName = null;
@@ -243,6 +245,9 @@ public class CampaignOverviewMissionCloseUpState : IDisposableState {
 
                 if (InputState.TryConsumeScrollWheel(out var scrollWheel))
                     view.CycleMission(scrollWheel);
+                
+                if (InputState.TryConsumeKeyDown(KeyCode.Tab))
+                    view.CycleMission(Input.GetKey(KeyCode.LeftShift) ? -1 : 1);
 
                 // if we should switch to other mission
                 if (CampaignOverviewSelectionState.targetMissionName is { })
@@ -280,6 +285,8 @@ public class CampaignOverviewMissionCloseUpState : IDisposableState {
 
         view.backButton.onClick.RemoveAllListeners();
         view.backButton.onClick.AddListener(view.GoToMainMenu);
+
+        missionName = MissionName.None;
     }
 }
 

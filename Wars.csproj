@@ -143,6 +143,7 @@
      <Compile Include="Assets/Scripts/Faction.cs" />
      <Compile Include="Assets/Scripts/InputCommandsListener.cs" />
      <Compile Include="Assets/Scripts/UnitActionViewTest.cs" />
+     <Compile Include="Assets/Scripts/InputState.cs" />
      <Compile Include="Assets/Scripts/MissileSiloView.cs" />
      <Compile Include="Assets/Scripts/InGameOverlayMenuView.cs" />
      <Compile Include="Assets/Scripts/Building.cs" />
@@ -164,7 +165,6 @@
      <Compile Include="Assets/Scripts/StateRunner.cs" />
      <Compile Include="Assets/Scripts/FlipbookTest.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
-     <Compile Include="Assets/Scripts/InputState.cs" />
      <None Include="Assets/Scripts/Wars.asmdef" />
      <Folder Include="Assets/Scripts/Editor" />
      <Folder Include="Assets/Scripts/GameStates" />
