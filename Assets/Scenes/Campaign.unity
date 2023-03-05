@@ -1430,11 +1430,11 @@ RectTransform:
   m_Father: {fileID: 1505936515}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 304.32, y: -439.08502}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: 41.320007, y: -2.670044}
   m_SizeDelta: {x: 200, y: 103.17001}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 1, y: 0}
 --- !u!1 &377564370
 GameObject:
   m_ObjectHideFlags: 0
@@ -2298,19 +2298,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 764225759}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1584682136}
-        m_TargetAssemblyTypeName: CampaignOverviewView, Wars
-        m_MethodName: GoToMainMenu
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &764225759
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5718,6 +5706,8 @@ MonoBehaviour:
   missionDescription: {fileID: 2106336124}
   startMissionButton: {fileID: 1722852314}
   backButton: {fileID: 764225758}
+  previousButton: {fileID: 1718836177}
+  nextButton: {fileID: 1453309612}
   start: 1
 --- !u!4 &1584682137
 Transform:
@@ -6314,7 +6304,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.6969161, g: 1, b: 0, a: 1}
-    m_HighlightedColor: {r: 0.69803923, g: 1, b: 0.007843138, a: 1}
+    m_HighlightedColor: {r: 0.77254903, g: 1, b: 0.007843138, a: 1}
     m_PressedColor: {r: 0.35947213, g: 0.6981132, b: 0, a: 1}
     m_SelectedColor: {r: 0.69803923, g: 1, b: 0.007843138, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}

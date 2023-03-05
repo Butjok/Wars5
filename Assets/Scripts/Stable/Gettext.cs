@@ -1,17 +1,26 @@
 using System.Globalization;
 using System.IO;
+using Butjok.CommandLine;
 using NGettext;
 using UnityEngine;
 
 public static class Gettext {
-    
+
     private static Catalog catalog;
     private static Catalog Catalog {
         get {
             if (catalog == null)
-                catalog = new Catalog("Dialogues", Path.Combine(Application.streamingAssetsPath, "Translations"), CultureInfo.GetCultureInfo("ru-RU"));
+                Load();
             return catalog;
         }
+    }
+
+    [Command]
+    public static void Load(string cultureInfoName) {
+        Load(CultureInfo.GetCultureInfo(cultureInfoName));
+    }
+    public static void Load(CultureInfo cultureInfo = null) {
+        catalog = new Catalog("Dialogues", Path.Combine(Application.streamingAssetsPath, "Translations"), cultureInfo ?? CultureInfo.GetCultureInfo("ru-RU"));
     }
 
     public static string _(string text) => Catalog.GetString(text);

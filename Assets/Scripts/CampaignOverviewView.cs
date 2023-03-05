@@ -23,9 +23,9 @@ public class CampaignOverviewView : MonoBehaviour {
     public TMP_Text missionName;
     public TMP_Text missionDescription;
     public Button startMissionButton;
-    public Button backButton;
+    public Button backButton, previousButton, nextButton;
 
-    public MissionView[] MissionViews => GetComponentsInChildren<MissionView>();
+    public IEnumerable<MissionView> MissionViews => GetComponentsInChildren<MissionView>();
 
     public bool start = true;
 
@@ -43,11 +43,13 @@ public class CampaignOverviewView : MonoBehaviour {
     }
 
     public void CycleMission(int offset) {
-        var missionNames = MissionViews.Select(mv => mv.MissionName).ToList();
-        var index = missionNames.IndexOf(CampaignOverviewMissionCloseUpState.missionName);
+        var campaign = PersistentData.Read().campaign;
+        var missionNames = MissionViews.Select(mv => mv.MissionName);
+        var availableMissionNames = missionNames.Where(campaign.IsAvailable).ToList();
+        var index = availableMissionNames.IndexOf(CampaignOverviewMissionCloseUpState.missionName);
         Assert.AreNotEqual(-1, index);
-        var nextIndex = (index + offset).PositiveModulo(missionNames.Count);
-        CampaignOverviewSelectionState.targetMissionName = missionNames[nextIndex];
+        var nextIndex = (index + offset).PositiveModulo(availableMissionNames.Count);
+        CampaignOverviewSelectionState.targetMissionName = availableMissionNames[nextIndex];
     }
 
     public void GoToMainMenu() {
@@ -61,7 +63,7 @@ public class CampaignOverviewState2 : IDisposableState {
     public static string sceneName = "Campaign";
 
     [Command]
-    public static float fadeDuration = 1;
+    public static float fadeDuration = .25f;
     [Command]
     public static Ease fadeEasing = Ease.Unset;
 
@@ -91,7 +93,7 @@ public class CampaignOverviewState2 : IDisposableState {
 public class CampaignOverviewSelectionState : IDisposableState {
 
     [Command]
-    public static float fadeDuration = .5f;
+    public static float fadeDuration = .25f;
     [Command]
     public static Ease fadeEasing = Ease.Unset;
     [Command]
@@ -111,6 +113,9 @@ public class CampaignOverviewSelectionState : IDisposableState {
     public IEnumerator<StateChange> Run {
         get {
 
+            view.backButton.onClick.RemoveAllListeners();
+            view.backButton.onClick.AddListener(view.GoToMainMenu);
+
             view.defaultVirtualCamera.enabled = true;
 
             var campaign = PersistentData.Read().campaign;
@@ -129,10 +134,7 @@ public class CampaignOverviewSelectionState : IDisposableState {
                     continue;
                 }
 
-                if (InputState.IsKeyDown(KeyCode.Escape)) {
-                    InputState.ConsumeKeyDown(KeyCode.Escape);
-                    shouldGoBackToMainMenu = true;
-                }
+                shouldGoBackToMainMenu = InputState.TryConsumeKeyDown(KeyCode.Escape) || shouldGoBackToMainMenu;
 
                 if (shouldGoBackToMainMenu) {
                     shouldGoBackToMainMenu = false;
@@ -160,7 +162,7 @@ public class CampaignOverviewSelectionState : IDisposableState {
                     }
 
                     if (InputState.IsMouseButtonDown(left)) {
-                        InputState.ConsumeMouseButtonDown(left);
+                        InputState.TryConsumeMouseButtonDown(left);
 
                         if (hoveredMissionView) {
                             hoveredMissionView.Hovered = false;
@@ -175,8 +177,12 @@ public class CampaignOverviewSelectionState : IDisposableState {
                         var parsed = Enum.TryParse(name, out MissionName missionName);
                         Assert.IsTrue(parsed, name);
 
-                        yield return StateChange.Push(new CampaignOverviewMissionCloseUpState(view, missionView, missionName));
-                        continue;
+                        if (campaign.IsAvailable(missionName)) {
+                            yield return StateChange.Push(new CampaignOverviewMissionCloseUpState(view, missionView, missionName));
+                            continue;
+                        }
+                        else 
+                            UiSound.Instance.notAllowed.PlayOneShot();
                     }
                 }
 
@@ -212,11 +218,16 @@ public class CampaignOverviewMissionCloseUpState : IDisposableState {
     public IEnumerator<StateChange> Run {
         get {
 
+            var campaign = PersistentData.Read().campaign;
+            var availableMissionsCount = view.MissionViews.Count(mv => campaign.IsAvailable(mv.MissionName));
+            view.previousButton.interactable = view.nextButton.interactable = availableMissionsCount > 1;
+
             view.missionPanel.SetActive(true);
             view.missionName.text = Strings.GetName(missionName);
             view.missionDescription.text = Strings.GetDescription(missionName);
 
-            view.startMissionButton.interactable = PersistentData.Read().campaign.IsAvailable(missionName);
+            var isAvailable = PersistentData.Read().campaign.IsAvailable(missionName);
+            view.startMissionButton.interactable = isAvailable;
 
             if (missionView.TryGetVirtualCamera)
                 missionView.TryGetVirtualCamera.enabled = true;
@@ -224,39 +235,35 @@ public class CampaignOverviewMissionCloseUpState : IDisposableState {
             if (missionView.text)
                 missionView.text.enabled = false;
 
-            view.backButton.gameObject.SetActive(false);
+            var shouldGoBack = false;
+            view.backButton.onClick.RemoveAllListeners();
+            view.backButton.onClick.AddListener(() => shouldGoBack = true);
 
             while (true) {
 
-                if (InputState.ScrollWheel != 0) {
-                    view.CycleMission(InputState.ScrollWheel);
-                    InputState.ConsumeScrollWheel();
-                }
+                if (InputState.TryConsumeScrollWheel(out var scrollWheel))
+                    view.CycleMission(scrollWheel);
 
                 // if we should switch to other mission
                 if (CampaignOverviewSelectionState.targetMissionName is { })
                     yield return StateChange.Pop();
 
-                var shouldGoBack = false;
-                if (InputState.IsKeyDown(KeyCode.Escape)) {
-                    InputState.ConsumeKeyDown(KeyCode.Escape);
-                    shouldGoBack = true;
-                }
-                if (InputState.IsMouseButtonDown(right)) {
-                    InputState.ConsumeMouseButtonDown(right);
-                    shouldGoBack = true;
-                }
+                shouldGoBack = InputState.TryConsumeKeyDown(KeyCode.Escape) || shouldGoBack;
+                shouldGoBack = InputState.TryConsumeMouseButtonDown(right) || shouldGoBack;
+
                 if (shouldGoBack)
                     yield return StateChange.Pop();
 
-                if (InputState.IsKeyDown(KeyCode.Return)) {
-                    InputState.ConsumeKeyDown(KeyCode.Return);
-                    shouldStart = true;
-                }
+                shouldStart = InputState.TryConsumeKeyDown(KeyCode.Return) || shouldStart;
+                shouldStart = InputState.TryConsumeKeyDown(KeyCode.Space) || shouldStart;
 
                 if (shouldStart) {
                     shouldStart = false;
-                    yield return StateChange.PopThenPush(1, new CampaignOverviewMissionLoadingState(view));
+                    if (isAvailable) {
+                        yield return StateChange.Push(new CampaignOverviewMissionLoadingState(view));
+                        continue;
+                    }
+                    UiSound.Instance.notAllowed.PlayOneShot();
                 }
 
                 yield return StateChange.none;
@@ -270,52 +277,9 @@ public class CampaignOverviewMissionCloseUpState : IDisposableState {
         if (missionView.text)
             missionView.text.enabled = true;
         view.missionPanel.SetActive(false);
-        view.backButton.gameObject.SetActive(true);
-    }
-}
 
-public static class InputState {
-
-    public static int lastScrollWheelConsumptionFrame = -1;
-    public static bool IsScrollWheelConsumed => lastScrollWheelConsumptionFrame == Time.frameCount;
-    public static void ConsumeScrollWheel() {
-        lastScrollWheelConsumptionFrame = Time.frameCount;
-    }
-    public static int ScrollWheel {
-        get {
-            if (IsScrollWheelConsumed)
-                return 0;
-            var value = Input.GetAxisRaw("Mouse ScrollWheel");
-            return Mathf.Approximately(0, value) ? 0 : Mathf.RoundToInt(Mathf.Sign(value));
-        }
-    }
-
-    public static Dictionary<KeyCode, int> lastKeyDownConsumptionFrame = new();
-    public static bool IsKeyDownConsumed(KeyCode keyCode) {
-        return lastKeyDownConsumptionFrame.TryGetValue(keyCode, out var frame) && frame == Time.frameCount;
-    }
-    public static void ConsumeKeyDown(KeyCode keyCode) {
-        lastKeyDownConsumptionFrame[keyCode] = Time.frameCount;
-    }
-    public static bool IsKeyDown(KeyCode keyCode) {
-        if (IsKeyDownConsumed(keyCode) || !Input.GetKeyDown(keyCode))
-            return false;
-        // if (consume)
-        // ConsumeKeyDown(keyCode);
-        return true;
-    }
-
-    public static int[] lastMouseDownConsumptionFrame = new int[10];
-    public static bool IsMouseButtonDownConsumed(int button) {
-        return lastMouseDownConsumptionFrame[button] == Time.frameCount;
-    }
-    public static void ConsumeMouseButtonDown(int button) {
-        lastMouseDownConsumptionFrame[button] = Time.frameCount;
-    }
-    public static bool IsMouseButtonDown(int button) {
-        if (IsMouseButtonDownConsumed(button) || !Input.GetMouseButtonDown(button))
-            return false;
-        return true;
+        view.backButton.onClick.RemoveAllListeners();
+        view.backButton.onClick.AddListener(view.GoToMainMenu);
     }
 }
 
@@ -331,6 +295,9 @@ public class CampaignOverviewMissionLoadingState : IDisposableState {
 
     public IEnumerator<StateChange> Run {
         get {
+            view.missionPanel.SetActive(false);
+            view.backButton.gameObject.SetActive(false);
+
             PostProcessing.ColorFilter = Color.white;
             var fade = PostProcessing.Fade(Color.black, fadeDuration);
             while (fade.IsActive() && !fade.IsComplete())
@@ -339,10 +306,8 @@ public class CampaignOverviewMissionLoadingState : IDisposableState {
             view.ShowLoadingSpinner = true;
 
             while (true) {
-                if (InputState.IsKeyDown(KeyCode.Escape)) {
-                    InputState.ConsumeKeyDown(KeyCode.Escape);
+                if (InputState.TryConsumeKeyDown(KeyCode.Escape))
                     break;
-                }
                 yield return StateChange.none;
             }
 
@@ -351,6 +316,8 @@ public class CampaignOverviewMissionLoadingState : IDisposableState {
     }
 
     public void Dispose() {
+        view.backButton.gameObject.SetActive(true);
+        view.missionPanel.SetActive(true);
         PostProcessing.ColorFilter = Color.white;
         view.ShowLoadingSpinner = false;
     }
