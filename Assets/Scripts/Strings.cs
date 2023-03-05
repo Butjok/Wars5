@@ -13,6 +13,7 @@ public static class Strings {
         _p("MainMenu", "CAMPAIGN"),
         _p("MainMenu", "SETTINGS"),
         _p("MainMenu", "QUIT"),
+        _p("Loading", "START"),
     };
     
     public static string GetName(MissionName missionName) {

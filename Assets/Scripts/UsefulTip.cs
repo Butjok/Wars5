@@ -15,7 +15,6 @@ public class UsefulTip : MonoBehaviour {
         _p("UsefulTip", "In the beginning of a turn try to use all your artillery units first to cause as much damage as possible before direct attack units."),
         _p("UsefulTip", "Try to place artillery units near roads, shores etc."),
         _p("UsefulTip", "Missile silos can damage enemy units and destroy bridges."),
-        _p("UsefulTip", "Missile silos can damage enemy units and destroy bridges."),
     };
 
     public float delay = 1;

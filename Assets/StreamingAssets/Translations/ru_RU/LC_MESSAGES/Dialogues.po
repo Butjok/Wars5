@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2023-03-05 13:15+0100\n"
-"PO-Revision-Date: 2023-03-05 13:20+0100\n"
+"POT-Creation-Date: 2023-03-05 13:36+0100\n"
+"PO-Revision-Date: 2023-03-05 13:36+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -129,105 +129,110 @@ msgctxt "MainMenu"
 msgid "QUIT"
 msgstr "ВЫХОД"
 
-#: Strings.cs:20
+#: Strings.cs:16
+msgctxt "Loading"
+msgid "START"
+msgstr "НАЧАТЬ"
+
+#: Strings.cs:21
 msgctxt "Campaign.Mission"
 msgid "Tutorial"
 msgstr "Обучение"
 
-#: Strings.cs:21
+#: Strings.cs:22
 msgctxt "Campaign.Mission"
 msgid "First mission"
 msgstr "Первая миссия"
 
-#: Strings.cs:22
+#: Strings.cs:23
 msgctxt "Campaign.Mission"
 msgid "Second mission"
 msgstr "Вторая миссия"
 
-#: Strings.cs:29
+#: Strings.cs:30
 msgctxt "Campaign.Mission"
 msgid "A introduction into the game."
 msgstr "Введение в игру."
 
-#: Strings.cs:30
+#: Strings.cs:31
 msgctxt "Campaign.Mission"
 msgid "A challenger appears!"
 msgstr "Первый соперник!"
 
-#: Strings.cs:31
+#: Strings.cs:32
 msgctxt "Campaign.Mission"
 msgid "Final push!"
 msgstr "Решающий натиск!"
 
-#: Strings.cs:38
+#: Strings.cs:39
 msgid "Hello there!"
 msgstr "Привет!"
 
-#: Strings.cs:39
+#: Strings.cs:40
 msgid "Welcome to the Wars3d! An amazing strategy game!"
 msgstr "Добро пожаловать в Wars3d! Это замечательная пошаговая стратегия!"
 
-#: Strings.cs:40
+#: Strings.cs:41
 msgid "What are you saying?"
 msgstr "Что ты говоришь?"
 
-#: Strings.cs:41
+#: Strings.cs:42
 msgid "I dont know what to say..."
 msgstr "Я даже не знаю что и сказать…"
 
-#: Strings.cs:42
+#: Strings.cs:43
 msgid "Probably..."
 msgstr "Наверное…"
 
-#: Strings.cs:42
+#: Strings.cs:43
 msgid "we should have done something different..."
 msgstr "нам нужно было сделать что-то другое…"
 
-#: Strings.cs:43
+#: Strings.cs:44
 msgid "You have no clue who you are messing with!"
 msgstr "Ты понятия не имеешь с кем имеешь дело!"
 
-#: Strings.cs:44
+#: Strings.cs:45
 msgid "Enough!"
 msgstr "Хватит!"
 
-#: Strings.cs:45
+#: Strings.cs:46
 msgid "Let's do it!"
 msgstr "Вперед!"
 
-#: Strings.cs:49
+#: Strings.cs:50
 msgid "We did it! They are falling back!"
 msgstr "Мы сделали это! Они отступают!"
 
-#: Strings.cs:50
+#: Strings.cs:51
 msgid "This is just a beginning..."
 msgstr "Это всего лишь начало…"
 
-#: Strings.cs:50
+#: Strings.cs:51
 msgid "Troops fall back!"
 msgstr "Войска, отступаем!"
 
-#: Strings.cs:51
+#: Strings.cs:52
 msgid "I am so proud of you!"
 msgstr "Я так горжусь тобой!"
 
-#: Strings.cs:52
+#: Strings.cs:53
 msgid "You did a great job."
 msgstr "Отличная работа."
 
-#: Strings.cs:56
+#: Strings.cs:57
 msgid "Oh no..."
 msgstr "О нет…"
 
-#: Strings.cs:57
+#: Strings.cs:58
 msgid "This land is ours!"
 msgstr "Эта земля - наша!"
 
-#: Strings.cs:57
+#: Strings.cs:58
 msgid "Forever!"
 msgstr "Навсегда!"
 
-#: Strings.cs:58
+#: Strings.cs:59
 msgid "Next time we should try different tactic."
 msgstr "В следующий раз нам лучше попробовать другую тактику."
 
@@ -282,12 +287,12 @@ msgstr ""
 "наносит существенный урон танками и бронированным целям противника. Также "
 "могут захватывать вражеские здания."
 
-#: UsefulTip.cs:11
+#: UsefulTip.cs:12
 msgctxt "UsefulTip"
 msgid "Please wait. It seems to take a while..."
 msgstr "Пожалуйста подождите. Это займёт еще немного времени…"
 
-#: UsefulTip.cs:14
+#: UsefulTip.cs:15
 msgctxt "UsefulTip"
 msgid ""
 "In the beginning of a turn try to use all your artillery units first to "
@@ -296,12 +301,12 @@ msgstr ""
 "В начале ходе старайтесь использовать свои артиллерийские юниты, чтобы "
 "причинить максимальный урон врагу до использования прямых атак."
 
-#: UsefulTip.cs:15
+#: UsefulTip.cs:16
 msgctxt "UsefulTip"
 msgid "Try to place artillery units near roads, shores etc."
 msgstr "Старайтесь выставлять свою артиллерию возле дорог, берегов и т. п."
 
-#: UsefulTip.cs:16 UsefulTip.cs:17
+#: UsefulTip.cs:17
 msgctxt "UsefulTip"
 msgid "Missile silos can damage enemy units and destroy bridges."
 msgstr "Ракетные шахты наносят ущерб юнитам врага и может уничтожать мосты."
