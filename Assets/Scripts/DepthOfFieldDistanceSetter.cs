@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.Serialization;
 
+[ExecuteInEditMode]
 public class DepthOfFieldDistanceSetter : MonoBehaviour {
 
     public PostProcessProfile postProcessProfile;
@@ -19,26 +20,31 @@ public class DepthOfFieldDistanceSetter : MonoBehaviour {
     public static int lastPriority;
 
     private void Start() {
-        if (postProcessProfile)
-            depthOfField = postProcessProfile.GetSetting<DepthOfField>();
+        
     }
 
     private void Update() {
-        if (!depthOfField)
-            enabled = false;
-        if (Time.frameCount != lastFrame) {
-            lastFrame = Time.frameCount;
-            lastPriority = int.MinValue;
-        }
-        if (priority > lastPriority) {
-            if (setConstant) {
-                depthOfField.focusDistance.value = constantDistance;
-                depthOfField.focalLength.value = constantFocalLength;
+
+        if (!postProcessProfile)
+            postProcessProfile = Resources.Load<PostProcessProfile>("PostProcessProfile");
+        if (postProcessProfile)
+            depthOfField = postProcessProfile.GetSetting<DepthOfField>();
+        
+        if (depthOfField) {
+            if (Time.frameCount != lastFrame) {
+                lastFrame = Time.frameCount;
+                lastPriority = int.MinValue;
             }
-            else if (CameraRig.TryFind(out var cameraRig)) {
-                depthOfField.focusDistance.value = cameraRig.distance;
-                var t = (cameraRig.distance - cameraRig.distanceBounds[0]) / (cameraRig.distanceBounds[1] - cameraRig.distanceBounds[0]);
-                depthOfField.focalLength.value = Mathf.Lerp(focalLengthBounds[0], focalLengthBounds[1], t);
+            if (priority > lastPriority) {
+                if (setConstant) {
+                    depthOfField.focusDistance.value = constantDistance;
+                    depthOfField.focalLength.value = constantFocalLength;
+                }
+                else if (CameraRig.TryFind(out var cameraRig)) {
+                    depthOfField.focusDistance.value = cameraRig.distance;
+                    var t = (cameraRig.distance - cameraRig.distanceBounds[0]) / (cameraRig.distanceBounds[1] - cameraRig.distanceBounds[0]);
+                    depthOfField.focalLength.value = Mathf.Lerp(focalLengthBounds[0], focalLengthBounds[1], t);
+                }
             }
         }
     }

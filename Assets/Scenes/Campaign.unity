@@ -5163,12 +5163,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   postProcessProfile: {fileID: 11400000, guid: 9e070c85dc077e3478f3beb2a6512037, type: 2}
-  depthOfField: {fileID: 0}
+  depthOfField: {fileID: 1227667371627536583, guid: 9e070c85dc077e3478f3beb2a6512037, type: 2}
   priority: 10
   focalLengthBounds: {x: 1, y: 0}
-  setConstant: 0
-  constantDistance: 0
-  constantFocalLength: 83
+  setConstant: 1
+  constantDistance: 25
+  constantFocalLength: 100
 --- !u!1 &1413737973
 GameObject:
   m_ObjectHideFlags: 0

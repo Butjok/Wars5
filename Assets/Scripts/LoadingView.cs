@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -24,8 +25,19 @@ public class LoadingView : MonoBehaviour {
         usefulTip.gameObject.SetActive(true);
     }
 
-    public Sprite SplashSprite {
-        set => splashImage.sprite = value;
+    public static Sprite TryGetMissionSplashSprite(MissionName missionName) {
+        return missionName switch {
+            MissionName.Tutorial or MissionName.FirstMission or MissionName.SecondMission => Resources.Load<Sprite>(missionName.ToString()),
+            _ => throw new ArgumentOutOfRangeException(nameof(missionName), missionName, null)
+        };
+    }
+
+    public MissionName MissionName {
+        set {
+            splashImage.sprite = TryGetMissionSplashSprite(value);
+            if (!splashImage.sprite)
+                splashImage.sprite = null;
+        }
     }
 
     [ContextMenu(nameof(SetReady))]
