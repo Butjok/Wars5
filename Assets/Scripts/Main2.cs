@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text;
 using Butjok.CommandLine;
 using Drawing;
 using UnityEngine;
@@ -108,11 +109,19 @@ public class Main2 : Main {
 
     public GUISkin guiSkin;
 
+    public Color abilityStripeFullColor = Color.yellow;
+    public Color abilityStripeFilledColor = Color.white;
+    public Color abilityStripeUnfilledColor = Color.gray;
+    public Color abilityStripeActiveColor = Color.yellow;
+    public string abilityStripeFilledSymbol = "*";
+    public string abilityStripeUnfilledSymbol = "*";
+    public string abilityStripeActiveText = " [ACTIVE]";
+
     public string stackLeakFormat = "<b><color=yellow>{0}</color></b>";
 
     private void Start() {
         if (StateRunner.Instance.IsEmpty)
-            StateRunner.Instance.PushState("LevelEditor",Run());
+            StateRunner.Instance.PushState("LevelEditor", Run());
     }
 
     protected void OnGUI() {
@@ -134,28 +143,46 @@ public class Main2 : Main {
         }
 
         var labelHeight = GUI.skin.label.CalcHeight(GUIContent.none, 1);
-        GUILayout.Space(2*labelHeight);
+        GUILayout.Space(labelHeight);
 
         var topLine = "";
-        topLine += "[";
-        topLine += stack.Count < 10 ? stack.Count.ToString() : string.Format(stackLeakFormat,stack.Count);
-        topLine += "]: ";
-        
+        topLine += "stack: ";
+        topLine += stack.Count < 10 ? stack.Count.ToString() : string.Format(stackLeakFormat, stack.Count);
+        topLine += "";
+
         GUILayout.Label(topLine);
 
         if (showPlayInfo) {
+
             var filled = CurrentPlayer.AbilityMeter;
             var max = MaxAbilityMeter(CurrentPlayer);
-            if (AbilityInUse(CurrentPlayer))
-                filled = max;
-            var abilityStripe = new string('*', filled) + new string(' ', max - filled);
-            if (AbilityInUse(CurrentPlayer))
-                abilityStripe += " [ACTIVE]";
-            if (filled == max)
-                abilityStripe = $"<color=#{ColorUtility.ToHtmlStringRGB(fullAbilityStripeColor)}>{abilityStripe}</color>";
+
+            var abilityStripeBuilder = new StringBuilder();
+            if (AbilityInUse(CurrentPlayer)) {
+                abilityStripeBuilder.Append($"<color=#{ColorUtility.ToHtmlStringRGB(abilityStripeActiveColor)}>");
+                for (var i = 0; i < max; i++)
+                    abilityStripeBuilder.Append(abilityStripeFilledSymbol);
+                abilityStripeBuilder.Append("</color>");
+                abilityStripeBuilder.Append(abilityStripeActiveText);
+            }
+            else {
+                if (filled > 0) {
+                    abilityStripeBuilder.Append($"<color=#{ColorUtility.ToHtmlStringRGB(abilityStripeFilledColor)}>");
+                    for (var i = 0; i < filled; i++)
+                        abilityStripeBuilder.Append(abilityStripeFilledSymbol);
+                    abilityStripeBuilder.Append("</color>");
+                }
+                if (max - filled > 0) {
+                    abilityStripeBuilder.Append($"<color=#{ColorUtility.ToHtmlStringRGB(abilityStripeUnfilledColor)}>");
+                    for (var i = 0; i < max-filled; i++)
+                        abilityStripeBuilder.Append(abilityStripeUnfilledSymbol);
+                    abilityStripeBuilder.Append("</color>");
+                }
+            }
+
             var credits = CurrentPlayer.Credits;
             var playerHtmlColor = ColorUtility.ToHtmlStringRGB(CurrentPlayer.Color);
-            GUILayout.Label($"{turn} / <color=#{playerHtmlColor}>{CurrentPlayer.co.name}</color> / {credits} / {abilityStripe}");
+            GUILayout.Label($"{turn} · <color=#{playerHtmlColor}>{CurrentPlayer.co.name}</color> · {credits} · {abilityStripeBuilder}");
         }
         else
             foreach (var (name, value) in screenText.Where(kv => screenTextFilters.Any(filter => filter(kv.Key))).OrderBy(kv => kv.Key))
@@ -176,11 +203,11 @@ public class Main2 : Main {
 
             GUILayout.Label($"fuel:\t{inspectedUnit.Fuel} / {MaxFuel(inspectedUnit)}");
             var weaponNames = GetWeaponNames(inspectedUnit).ToArray();
-            if (weaponNames.Length>0) {
+            if (weaponNames.Length > 0) {
                 GUILayout.Label($"ammo:");
                 foreach (var weaponName in weaponNames) {
                     var amount = inspectedUnit.GetAmmo(weaponName);
-                    var text = amount > 10000  && MaxAmmo(inspectedUnit, weaponName) == int.MaxValue ? "∞" : $"{amount} / {MaxAmmo(inspectedUnit, weaponName)}";
+                    var text = amount > 10000 && MaxAmmo(inspectedUnit, weaponName) == int.MaxValue ? "∞" : $"{amount} / {MaxAmmo(inspectedUnit, weaponName)}";
                     GUILayout.Label($"- {weaponName}:\t{text}");
                 }
             }
@@ -424,14 +451,14 @@ public class Main2 : Main {
 
     [Command]
     public void ResetToDefaultLevel() {
-        
+
         Clear();
-        
+
         var red = new Player(this, Palette.red, Team.Alpha, credits: 16000, unitLookDirection: Vector2Int.right);
         var blue = new Player(this, Palette.blue, Team.Bravo, credits: 16000, unitLookDirection: Vector2Int.left);
         localPlayer = red;
         player = red;
-        
+
         RebuildTilemapMesh();
     }
 
@@ -589,7 +616,7 @@ public class Main2 : Main {
 
     [Command]
     public string InspectUnit() {
-        if (!Mouse.TryGetPosition(out Vector2Int position)|| !TryGetUnit(position, out var unit))
+        if (!Mouse.TryGetPosition(out Vector2Int position) || !TryGetUnit(position, out var unit))
             return null;
 
         using var sw = new StringWriter();
@@ -599,7 +626,7 @@ public class Main2 : Main {
 
     [Command]
     public string InspectBuilding() {
-        if (!Mouse.TryGetPosition(out Vector2Int position)||!TryGetBuilding(position, out var building))
+        if (!Mouse.TryGetPosition(out Vector2Int position) || !TryGetBuilding(position, out var building))
             return null;
 
         using var sw = new StringWriter();
@@ -609,7 +636,7 @@ public class Main2 : Main {
 
     [Command]
     public string InspectBridge() {
-        if (!Mouse.TryGetPosition(out Vector2Int position)||!TryGetBridge(position, out var bridge))
+        if (!Mouse.TryGetPosition(out Vector2Int position) || !TryGetBridge(position, out var bridge))
             return null;
 
         using var sw = new StringWriter();
@@ -954,8 +981,8 @@ public class Main2 : Main {
 
         yield return StateChange.Push(nameof(SelectionState), SelectionState.Run(this, true));
 
-  //      if (aiPlayerCommander)
-    //        aiPlayerCommander.StopPlaying();
+        //      if (aiPlayerCommander)
+        //        aiPlayerCommander.StopPlaying();
 
         showPlayInfo = false;
         showPlayBorder = false;
