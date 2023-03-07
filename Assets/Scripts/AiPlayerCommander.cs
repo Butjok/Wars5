@@ -48,7 +48,7 @@ public class AiPlayerCommander : MonoBehaviour {
 
     public GradientMap priorityGradientMap = new();
 
-    public Main2 main;
+    public Main main;
     public Vector2Int selectPosition;
     public Vector2Int movePosition;
     [Command] public float textSize = 14;

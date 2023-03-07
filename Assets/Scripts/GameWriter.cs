@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using UnityEngine;
@@ -8,6 +9,10 @@ using UnityEngine.SceneManagement;
 
 public static class GameWriter {
 
+	static GameWriter() {
+		CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
+	}
+	
 	public static TextWriter Write(TextWriter tw, Main main, Predicate<Vector2Int> filter=null) {
 
 		WriteLine(tw, SceneManager.GetActiveScene().name, "game.load-scene");

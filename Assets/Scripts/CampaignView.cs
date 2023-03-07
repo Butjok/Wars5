@@ -45,8 +45,7 @@ public class CampaignView : MonoBehaviour {
         
         foreach (var missionView in missions) {
 
-            var mission = campaign.TryFind(missionView.name);
-            Assert.IsNotNull(mission);
+            var mission = campaign.Find(missionView.name);
             var isCompleted = mission.isCompleted;
             var isAvailable = campaign.IsAvailable(missionView.name);
             

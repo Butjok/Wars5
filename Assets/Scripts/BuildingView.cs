@@ -3,7 +3,12 @@ using UnityEngine;
 
 public class BuildingView : MonoBehaviour {
 
-    public static BuildingView DefaultPrefab => "WbFactory".LoadAs<BuildingView>();
+    public static BuildingView GetPrefab(TileType type) {
+        return type switch {
+            TileType.City or TileType.Hq or TileType.Factory  => "WbFactory".LoadAs<BuildingView>(),
+            _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
+        };
+    }
 
     public BuildingView prefab;
     public Building building;

@@ -1,12 +1,17 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 using static BattleConstants;
 
 public static class GameReader {
+    
+    static GameReader() {
+        CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
+    }
 
     public static void ReadInto(Main main, string input, bool spawnBuildingViews = false,
         bool selectExistingPlayersInsteadOfCreatingNewOnes = false, bool loadCameraRig = true) {
@@ -118,7 +123,7 @@ public static class GameReader {
         var playerIndex = -1;
 
         foreach (var token in Tokenizer.Tokenize(input)) {
-            try {
+            // try {
                 switch (token) {
 
                     case "game.set-turn": {
@@ -250,7 +255,7 @@ public static class GameReader {
                         Assert.IsTrue(!main.buildings.ContainsKey(position), position.ToString());
 
                         var player = main.stack.Pop<Player>();
-                        var viewPrefab = !spawnBuildingViews ? null : ((Main2)main).buildingPrefabs.TryGetValue(buildingType, out var p) ? p : "WbFactory".LoadAs<BuildingView>();
+                        var viewPrefab = !spawnBuildingViews ? null : BuildingView.GetPrefab(buildingType);
 
                         var building = new Building(main, position, buildingType, player, buildingCp, viewPrefab, buildingLookDirection);
 
@@ -435,28 +440,29 @@ public static class GameReader {
                         main.stack.ExecuteToken(token);
                         break;
                 }
-            }
-            
-            catch (Exception) {
-
-                const int radius = 10;
-                var outline = new string('-', 32);
-                
-                var (line, column) = token.CalculateLocation();
-                var lines = input.Split('\n');
-                var low = Mathf.Max(0, line - radius);
-                var high = Mathf.Min(lines.Length - 1, line + radius);
-
-                var text = $"{nameof(GameReader)}: {line+1}:{column+1}: {lines[line]}\n{outline}\n";
-                for (var i = low; i <= high; i++) {
-                    text += $"{i,3} ";
-                    text += string.Format(i == line ? "<b>{0}</b>\n" : "{0}\n", lines[i]);
-                }
-                text += $"{outline}\n\n\n\n";
-
-                Debug.LogError(text);
-                throw;
-            }
+            // }
+            //
+            // catch (Exception e) {
+            //
+            //     const int radius = 10;
+            //     var outline = new string('-', 32);
+            //     
+            //     var (line, column) = token.CalculateLocation();
+            //     var lines = input.Split('\n');
+            //     var low = Mathf.Max(0, line - radius);
+            //     var high = Mathf.Min(lines.Length - 1, line + radius);
+            //
+            //     var text = $"{nameof(GameReader)}: {line+1}:{column+1}: {lines[line]}\n{outline}\n";
+            //     for (var i = low; i <= high; i++) {
+            //         text += $"{i,3} ";
+            //         text += string.Format(i == line ? "<b>{0}</b>\n" : "{0}\n", lines[i]);
+            //     }
+            //     text += $"{outline}\n\n\n\n";
+            //
+            //     Debug.LogError(text);
+            //     Debug.LogError(e.ToString());
+            //     throw;
+            // }
         }
     }
 }

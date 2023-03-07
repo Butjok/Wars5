@@ -70,56 +70,41 @@ public class Campaign {
         public string isAvailable = "true";
         public bool isCompleted;
         public string initializationCode;
+        
+        public static string GetDefaultInput(MissionName missionName) {
+            return missionName switch {
+                MissionName.Tutorial => "TutorialSaveData".LoadAs<TextAsset>().text,
+                _ => throw new ArgumentOutOfRangeException(nameof(missionName), missionName, null)
+            };
+        }
     }
 
     public List<Mission> missions = new() {
         new Mission {
             name = MissionName.Tutorial,
-            initializationCode = "Missions/Tutorial".LoadAs<TextAsset>().text,
             isCompleted = true
         },
         new Mission {
             name = MissionName.FirstMission,
-            initializationCode = "Missions/FirstMission".LoadAs<TextAsset>().text,
             isAvailable = "Tutorial MissionName type enum isCompleted"
         },
         new Mission {
             name = MissionName.SecondMission,
-            initializationCode = "Missions/SecondMission".LoadAs<TextAsset>().text,
             isAvailable = "FirstMission MissionName type enum isCompleted"
         }
     };
 
-    public Mission TryFind(MissionName name) {
-        return missions.SingleOrDefault(mission => mission.name == name);
+    public bool IsAvailable(MissionName missionName) {
+        return missionName switch {
+            MissionName.Tutorial => true,
+            MissionName.FirstMission => Find(MissionName.Tutorial).isCompleted,
+            MissionName.SecondMission => Find(MissionName.FirstMission).isCompleted,
+            _ => throw new ArgumentOutOfRangeException(nameof(missionName), missionName, null)
+        };
     }
 
-    public bool IsAvailable(MissionName name) {
-
-        var mission = TryFind(name);
-        Assert.IsNotNull(mission);
-
-        if (mission.isCompleted)
-            return true;
-
-        var stack = new DebugStack();
-        foreach (var token in Tokenizer.Tokenize(mission.isAvailable)) {
-            switch (token) {
-                case "isCompleted":
-                    var other = TryFind(stack.Pop<MissionName>());
-                    Assert.IsNotNull(other);
-                    stack.Push(other.isCompleted);
-                    break;
-                case "isAvailable":
-                    stack.Push(IsAvailable(stack.Pop<MissionName>()));
-                    break;
-                default:
-                    stack.ExecuteToken(token);
-                    break;
-            }
-        }
-        Assert.AreEqual(1, stack.Count);
-        return stack.Pop<bool>();
+    public Mission Find(MissionName name) {
+        return missions.Single(mission => mission.name == name);
     }
 }
 

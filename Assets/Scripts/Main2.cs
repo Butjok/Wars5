@@ -16,16 +16,8 @@ public class Main2 : Main {
 
     public MeshFilter meshFilter;
     public MeshCollider meshCollider;
-    public MeshFilter triggersMeshFilter;
 
-    public UnitTypeUnitViewDictionary unitPrefabs = new();
-    public TileTypeBuildingViewDictionary buildingPrefabs = new();
     public int autosaveLifespanInDays = 30;
-
-    private void Start() {
-        CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
-        PushState("LevelEditor", Run());
-    }
 
     [Command]
     public float pathFindingDrawDuration = 10;
@@ -117,7 +109,12 @@ public class Main2 : Main {
     public GUISkin guiSkin;
 
     public string stackLeakFormat = "<b><color=yellow>{0}</color></b>";
-    
+
+    private void Start() {
+        if (StateRunner.Instance.IsEmpty)
+            StateRunner.Instance.PushState("LevelEditor",Run());
+    }
+
     protected void OnGUI() {
 
         GUI.skin = guiSkin;
@@ -136,18 +133,14 @@ public class Main2 : Main {
             }
         }
 
+        var labelHeight = GUI.skin.label.CalcHeight(GUIContent.none, 1);
+        GUILayout.Space(2*labelHeight);
+
         var topLine = "";
         topLine += "[";
         topLine += stack.Count < 10 ? stack.Count.ToString() : string.Format(stackLeakFormat,stack.Count);
         topLine += "]: ";
-        topLine += string.Join(" / ", stateNames.Zip(states, (n, s) => (n, s)).Select(ns => {
-            var stateName = ns.n;
-            var state = ns.s;
-            var text = /*stateName.EndsWith("State") ? stateName.Substring(0, stateName.Length - "State".Length) :*/ stateName;
-            //if (readyForInputStates.Contains(state))
-            //    text = '[' + text + ']';
-            return text;
-        }).Reverse());
+        
         GUILayout.Label(topLine);
 
         if (showPlayInfo) {
@@ -172,7 +165,7 @@ public class Main2 : Main {
 
             CameraRig.TryFind(out var cameraRig);
 
-            GUILayout.Space(25);
+            GUILayout.Space(labelHeight);
 
             GUILayout.Label($"type:\t{inspectedUnit.type}");
             GUILayout.Label($"player:\t{inspectedUnit.Player}");
@@ -533,15 +526,8 @@ public class Main2 : Main {
                                 TryRemoveTile(position, false);
 
                             tiles.Add(position, tileType);
-                            if (TileType.Buildings.HasFlag(tileType)) {
-
-                                var viewPrefab = BuildingView.DefaultPrefab;
-                                if (buildingPrefabs.TryGetValue(tileType, out var v) && v)
-                                    viewPrefab = v;
-                                Assert.IsTrue(viewPrefab);
-
-                                new Building(this, position, tileType, player, viewPrefab: viewPrefab, lookDirection: player?.unitLookDirection ?? Vector2Int.up);
-                            }
+                            if (TileType.Buildings.HasFlag(tileType))
+                                new Building(this, position, tileType, player, viewPrefab: BuildingView.GetPrefab(tileType), lookDirection: player?.unitLookDirection ?? Vector2Int.up);
 
                             RebuildTilemapMesh();
 

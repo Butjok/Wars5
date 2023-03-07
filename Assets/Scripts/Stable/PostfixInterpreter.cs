@@ -10,6 +10,10 @@ using Object = UnityEngine.Object;
 
 public static class PostfixInterpreter {
 
+    static PostfixInterpreter() {
+        CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
+    }
+    
     public static Dictionary<string, Type> typeCache = new();
 
     public static void ExecuteToken(this DebugStack stack, string token) {

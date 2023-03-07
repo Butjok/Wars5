@@ -33,7 +33,7 @@ public class NewBehaviourScript : MonoBehaviour {
     private void Start() {
         //main.Clear();
         GameReader.ReadInto(main, source.text);
-        main.RestartGame();
+        // main.RestartGame();
     }
 
 #if false

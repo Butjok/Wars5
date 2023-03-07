@@ -9,7 +9,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using static BattleConstants;
 
-public class Main : StateRunner {
+public class Main : MonoBehaviour {
 
     private static Main instance;
     public static bool TryFind(out Main main) {
@@ -22,8 +22,7 @@ public class Main : StateRunner {
     [Command] public bool autoplay = true;
     public AiPlayerCommander aiPlayerCommander;
 
-    protected override void Update() {
-        base.Update();
+    virtual  protected void Update() {
         if (Input.GetKeyDown(KeyCode.Alpha8))
             autoplay = (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift));
     }
@@ -151,16 +150,6 @@ public class Main : StateRunner {
 
     public IEnumerable<Vector2Int> PositionsInRange(Vector2Int position, Vector2Int range) {
         return range.Offsets().Select(offset => offset + position).Where(p => tiles.ContainsKey(p));
-    }
-
-
-    public float fadeDuration = 2;
-    public Ease fadeEase = Ease.Unset;
-    public void RestartGame() {
-        PostProcessing.ColorFilter = Color.black;
-        PostProcessing.Fade(Color.white, fadeDuration, fadeEase);
-        ClearStates();
-        PushState(nameof(SelectionState), SelectionState.Run(this, true));
     }
 
     [Command]
