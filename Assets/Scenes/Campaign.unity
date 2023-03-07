@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.22377369, g: 0.2381809, b: 0.30249628, a: 1}
+  m_IndirectSpecularColor: {r: 0.2238943, g: 0.23828247, b: 0.30262414, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -160,8 +160,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 71.28019, y: 392.74225}
-  m_SizeDelta: {x: 132.80478, y: 223.74438}
+  m_AnchoredPosition: {x: 380.32022, y: 412.88287}
+  m_SizeDelta: {x: 139.61526, y: 235.2185}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &10685976
 MonoBehaviour:
@@ -3687,8 +3687,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 471.63687, y: 326.90494}
-  m_SizeDelta: {x: 144.43839, y: 232.44797}
+  m_AnchoredPosition: {x: 801.208, y: 343.6693}
+  m_SizeDelta: {x: 151.84546, y: 244.36835}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1077786426
 MonoBehaviour:
@@ -4690,8 +4690,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 505.20114, y: 536.06116}
-  m_SizeDelta: {x: 127.80136, y: 204.6795}
+  m_AnchoredPosition: {x: 836.49347, y: 563.55145}
+  m_SizeDelta: {x: 134.35535, y: 215.1759}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1355582743
 MonoBehaviour:
@@ -4951,6 +4951,7 @@ GameObject:
   - component: {fileID: 1400641670}
   - component: {fileID: 1400641669}
   - component: {fileID: 1400641675}
+  - component: {fileID: 1400641676}
   m_Layer: 3
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -5169,6 +5170,19 @@ MonoBehaviour:
   setConstant: 1
   constantDistance: 25
   constantFocalLength: 100
+--- !u!114 &1400641676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1400641667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bb7268feefc4915a671e25ac0c00c01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distance: 50
 --- !u!1 &1413737973
 GameObject:
   m_ObjectHideFlags: 0

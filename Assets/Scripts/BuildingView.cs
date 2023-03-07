@@ -6,6 +6,7 @@ public class BuildingView : MonoBehaviour {
     public static BuildingView GetPrefab(TileType type) {
         return type switch {
             TileType.City or TileType.Hq or TileType.Factory  => "WbFactory".LoadAs<BuildingView>(),
+            TileType.MissileSilo => "WbMissileSilo".LoadAs<BuildingView>(),
             _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
         };
     }
