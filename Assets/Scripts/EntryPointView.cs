@@ -1,9 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Butjok.CommandLine;
 using Cinemachine;
 using DG.Tweening;
+using Newtonsoft.Json;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -15,6 +17,21 @@ using Object = UnityEngine.Object;
 
 public class EntryPointView : MonoBehaviour {
 
+    [JsonObject(MemberSerialization.OptIn)]
+    public struct GitInfoEntry {
+        
+        [JsonProperty]
+        public string commit;
+        [JsonProperty]
+        public string author;
+        [JsonProperty]
+        public string date;
+        [JsonProperty]
+        public string message;
+
+        public DateTime DateTime => DateTime.Parse(date);
+    }
+    
     private void Awake() {
 
         Assert.AreEqual(1, FindObjectsOfType<EntryPointView>(true).Length);
@@ -32,11 +49,6 @@ public class EntryPointView : MonoBehaviour {
 
     public bool showSplash = true;
     public bool showWelcome = true;
-
-    private void Start() {
-        if (StateRunner.Instance.IsEmpty)
-            StateRunner.Instance.PushState(new EntryPointState(showSplash, showWelcome));
-    }
 
     public VideoPlayer videoPlayer;
     public VideoClip bulkaGamesIntro;
@@ -57,14 +69,31 @@ public class EntryPointView : MonoBehaviour {
     public GameObject[] hiddenInWelcomeScreen = { };
 
     public GameObject about;
+    public ScrollRect aboutScrollRect;
+
+    public List<GitInfoEntry> gitInfoEntries = new();
+
+    private void OnEnable() {
+        if (StateRunner.Instance.IsEmpty)
+            StateRunner.Instance.PushState(new EntryPointState(showSplash, showWelcome));
+
+        var gitInfoJsonTextAsset = Resources.Load<TextAsset>("GitInfo");
+        if (gitInfoJsonTextAsset) {
+            var json = gitInfoJsonTextAsset.text;
+            gitInfoEntries = json.FromJson<List<GitInfoEntry>>().OrderByDescending(e=>e.DateTime).ToList();
+        }
+    }
 
     private void OnGUI() {
-        GUI.skin = DefaultGuiSkin.TryGet;
-        var text = "HELLO WORLD BULKA GAMES";
-        var size = GUI.skin.label.CalcSize(new GUIContent(text));
-        var screenSize = new Vector2(Screen.width, Screen.height);
-        var position = screenSize - size;
-        GUI.Label(new Rect(position, size), text);
+        if (gitInfoEntries.Count>0) {
+            var entry = gitInfoEntries[0];
+            GUI.skin = DefaultGuiSkin.TryGet;
+            var text = $"git: {entry.commit} @ {entry.DateTime}";
+            var size = GUI.skin.label.CalcSize(new GUIContent(text));
+            var screenSize = new Vector2(Screen.width, Screen.height);
+            var position = screenSize - size;
+            GUI.Label(new Rect(position, size), text);
+        }
     }
 }
 
@@ -303,6 +332,8 @@ public class EntryPointAbout : IDisposableState {
             view.about.SetActive(true);
             foreach (var go in view.hiddenInAbout)
                 go.SetActive(false);
+
+            view.aboutScrollRect.verticalNormalizedPosition = 1;
 
             while (true) {
                 var shouldStop = InputState.TryConsumeKeyDown(KeyCode.Escape);

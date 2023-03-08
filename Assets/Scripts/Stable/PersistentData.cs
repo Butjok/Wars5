@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,7 +7,6 @@ using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Rendering.PostProcessing;
-using Object = UnityEngine.Object;
 
 public class PersistentData {
 
