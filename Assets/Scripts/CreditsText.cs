@@ -17,6 +17,7 @@ public class CreditsText : MonoBehaviour {
     public Color negativeChangeColor = Color.red;
     public Image coinImage;
     public Sprite[] coinSprites = { };
+    public RectTransform RectTransform => GetComponent<RectTransform>();
 
     private void OnEnable() {
         var instance = StateRunner.Instance;
@@ -29,10 +30,12 @@ public class CreditsText : MonoBehaviour {
         Amount = 0;
     }
 
+    private int amount;
     public int Amount {
-        get => int.Parse(text.text.Substring(prefix.Length, text.text.Length - prefix.Length - suffix.Length));
+        get => amount;
         set {
-            text.text = prefix + value + suffix;
+            amount=value;
+            text.text = value.ToStringWithThousandsSeparator();
             text.color = defaultColor;
         }
     }

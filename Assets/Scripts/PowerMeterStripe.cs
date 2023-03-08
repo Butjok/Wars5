@@ -1,20 +1,11 @@
 using System.Collections;
 using Butjok.CommandLine;
 using UnityEngine;
-using UnityEngine.Assertions;
-using UnityEngine.UI;
 
 public class PowerMeterStripe : MonoBehaviour {
 
     public float speed = 2.5f;
     public Material material;
-
-    private void OnEnable() {
-        var image = GetComponent<Image>();
-        Assert.IsTrue(image);
-        material = image.material;
-        Assert.IsTrue(material);
-    }
 
     [Command]
     public void SetProgress(float value, bool animate = true) {

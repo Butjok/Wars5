@@ -170,6 +170,8 @@
      <Compile Include="Assets/Scripts/TextUnderlay.cs" />
      <Compile Include="Assets/Scripts/LoadGameButton.cs" />
      <Compile Include="Assets/Scripts/MainMenuLoadGameState.cs" />
+     <Compile Include="Assets/Scripts/PlayerView2.cs" />
+     <Compile Include="Assets/Scripts/TouchStateRunner.cs" />
      <None Include="Assets/Scripts/Wars.asmdef" />
      <Folder Include="Assets/Scripts/GameStates" />
      <Folder Include="Assets/Scripts/Level" />
