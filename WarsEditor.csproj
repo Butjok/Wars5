@@ -42,11 +42,11 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets/Scripts/Editor/MyLightingShaderGUI.cs" />
+     <Compile Include="Assets/Scripts/Editor/GetGitInfo.cs" />
      <Compile Include="Assets/Scripts/Editor/SerializableDictionaryPropertyDrawers.cs" />
      <Compile Include="Assets/Scripts/Editor/WarsSerializableDictionaryPropertyDrawer2.cs" />
      <Compile Include="Assets/Scripts/Editor/FullscreenPlayMode.cs" />
      <Compile Include="Assets/Scripts/Editor/InputViewer.cs" />
-     <Compile Include="Assets/Scripts/Editor/GetGitInfo.cs" />
      <Folder Include="Assets/Scripts/Editor" />
      <None Include="Assets/Scripts/Editor/WarsEditor.asmdef" />
      <Reference Include="UnityEngine">

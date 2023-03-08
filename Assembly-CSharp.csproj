@@ -1372,6 +1372,10 @@
       <Project>{ea66c163-c16e-dd96-3d67-e5c567917ba9}</Project>
       <Name>FullscreenEditor</Name>
     </ProjectReference>
+    <ProjectReference Include="SDFToolkitEditor.csproj">
+      <Project>{26db8885-7af0-54fa-2d8e-6c26e0d81b78}</Project>
+      <Name>SDFToolkitEditor</Name>
+    </ProjectReference>
     <ProjectReference Include="SDFToolkit.csproj">
       <Project>{fd6851fd-d03a-6132-2e86-6a707fc31825}</Project>
       <Name>SDFToolkit</Name>
@@ -1383,6 +1387,14 @@
     <ProjectReference Include="Wars.csproj">
       <Project>{c705eacd-da30-c6e7-d413-bb0e9e9a2f77}</Project>
       <Name>Wars</Name>
+    </ProjectReference>
+    <ProjectReference Include="WarsEditor.csproj">
+      <Project>{d5b8541c-f441-8d80-7fbd-e1596386e42d}</Project>
+      <Name>WarsEditor</Name>
+    </ProjectReference>
+    <ProjectReference Include="FoliageEditor.csproj">
+      <Project>{0b979f64-6409-506b-a265-67092679b5f9}</Project>
+      <Name>FoliageEditor</Name>
     </ProjectReference>
     <ProjectReference Include="Antlr4.csproj">
       <Project>{e077983a-6b87-9a3d-0ce8-d89551a1fd06}</Project>
@@ -1403,18 +1415,6 @@
     <ProjectReference Include="ALINEPackageToolsEditor.csproj">
       <Project>{acc937ff-be72-6096-e219-b39fdc0d4207}</Project>
       <Name>ALINEPackageToolsEditor</Name>
-    </ProjectReference>
-    <ProjectReference Include="WarsEditor.csproj">
-      <Project>{d5b8541c-f441-8d80-7fbd-e1596386e42d}</Project>
-      <Name>WarsEditor</Name>
-    </ProjectReference>
-    <ProjectReference Include="SDFToolkitEditor.csproj">
-      <Project>{26db8885-7af0-54fa-2d8e-6c26e0d81b78}</Project>
-      <Name>SDFToolkitEditor</Name>
-    </ProjectReference>
-    <ProjectReference Include="FoliageEditor.csproj">
-      <Project>{0b979f64-6409-506b-a265-67092679b5f9}</Project>
-      <Name>FoliageEditor</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
