@@ -1,15 +1,8 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Butjok.CommandLine;
 using TMPro;
-using UnityEditor.XR;
 using UnityEngine;
-using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 
 public  class LevelEditorState : MonoBehaviour {
 

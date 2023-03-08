@@ -78,24 +78,16 @@ public class Campaign {
     }
 
     public List<Mission> missions = new() {
-        new Mission {
-            name = MissionName.Tutorial,
-            isCompleted = true
-        },
-        new Mission {
-            name = MissionName.FirstMission
-        },
-        new Mission {
-            name = MissionName.SecondMission
-        }
+        new Mission { name = MissionName.Tutorial },
+        new Mission { name = MissionName.FirstMission },
+        new Mission { name = MissionName.SecondMission }
     };
 
     public bool IsAvailable(MissionName missionName) {
         return missionName switch {
             MissionName.Tutorial => true,
             MissionName.FirstMission => Find(MissionName.Tutorial).isCompleted,
-            MissionName.SecondMission => Find(MissionName.FirstMission).isCompleted,
-            _ => throw new ArgumentOutOfRangeException(nameof(missionName), missionName, null)
+            _ => false
         };
     }
 

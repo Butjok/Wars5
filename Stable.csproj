@@ -64,7 +64,6 @@
      <Compile Include="Assets/Scripts/Stable/MoveSequence.cs" />
      <Compile Include="Assets/Scripts/Stable/ShakeCameras.cs" />
      <Compile Include="Assets/Scripts/Stable/Compass.cs" />
-     <Compile Include="Assets/Scripts/Stable/Foliage/Editor/FoliageParser.cs" />
      <Compile Include="Assets/Scripts/Stable/TrackSpinner.cs" />
      <Compile Include="Assets/Scripts/Stable/UIFrame.cs" />
      <Compile Include="Assets/Scripts/Stable/ManualControl.cs" />
@@ -145,7 +144,6 @@
      <Compile Include="Assets/Scripts/Stable/LookAt.cs" />
      <Compile Include="Assets/Scripts/Stable/PistonBody.cs" />
      <Folder Include="Assets/Scripts/Stable/Foliage" />
-     <Folder Include="Assets/Scripts/Stable/Foliage/Editor" />
      <None Include="Assets/Scripts/Stable/Stable.asmdef" />
      <Folder Include="Assets/Scripts/Stable" />
      <Reference Include="UnityEngine">

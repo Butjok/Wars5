@@ -50,7 +50,6 @@
      <Compile Include="Assets/Scripts/GameStates/AttackActionState.cs" />
      <Compile Include="Assets/Scripts/Turret2.cs" />
      <Compile Include="Assets/Scripts/Traverser2DebugDrawer.cs" />
-     <Compile Include="Assets/Scripts/Editor/MyLightingShaderGUI.cs" />
      <Compile Include="Assets/Scripts/AiPlayerCommanderSwitcher.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequencePlayer.cs" />
      <Compile Include="Assets/Scripts/LoadingSpinner.cs" />
@@ -84,8 +83,6 @@
      <Compile Include="Assets/Scripts/GameStates/SelectionState.cs" />
      <Compile Include="Assets/Scripts/Co.cs" />
      <Compile Include="Assets/Scripts/UnitActionsPanel.cs" />
-     <Compile Include="Assets/Scripts/Editor/SerializableDictionaryPropertyDrawers.cs" />
-     <Compile Include="Assets/Scripts/Editor/WarsSerializableDictionaryPropertyDrawer2.cs" />
      <Compile Include="Assets/Scripts/HardFollowToggler.cs" />
      <Compile Include="Assets/Scripts/Animation/Wind.cs" />
      <Compile Include="Assets/Scripts/CursorView.cs" />
@@ -112,7 +109,6 @@
      <Compile Include="Assets/Scripts/NewBehaviourScript.cs" />
      <Compile Include="Assets/Scripts/UnitActionUiContainer.cs" />
      <Compile Include="Assets/Scripts/DialogueParser.cs" />
-     <Compile Include="Assets/Scripts/Editor/FullscreenPlayMode.cs" />
      <Compile Include="Assets/Scripts/Antenna2.cs" />
      <Compile Include="Assets/Scripts/LevelEditor.cs" />
      <Compile Include="Assets/Scripts/Marketing/MarketingUiDrawing.cs" />
@@ -155,7 +151,6 @@
      <Compile Include="Assets/Scripts/Building.cs" />
      <Compile Include="Assets/Scripts/AiPlayground.cs" />
      <Compile Include="Assets/Scripts/Player.cs" />
-     <Compile Include="Assets/Scripts/Editor/InputViewer.cs" />
      <Compile Include="Assets/Scripts/UnitBuildMenuViews.cs" />
      <Compile Include="Assets/Scripts/BattleView.cs" />
      <Compile Include="Assets/Scripts/MoveFinderDebugDrawer.cs" />
@@ -171,13 +166,11 @@
      <Compile Include="Assets/Scripts/StateRunner.cs" />
      <Compile Include="Assets/Scripts/FlipbookTest.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
-     <Compile Include="Assets/Scripts/Editor/GetGitInfo.cs" />
      <Compile Include="Assets/Scripts/FitHorizontal.cs" />
      <Compile Include="Assets/Scripts/TextUnderlay.cs" />
      <Compile Include="Assets/Scripts/LoadGameButton.cs" />
      <Compile Include="Assets/Scripts/MainMenuLoadGameState.cs" />
      <None Include="Assets/Scripts/Wars.asmdef" />
-     <Folder Include="Assets/Scripts/Editor" />
      <Folder Include="Assets/Scripts/GameStates" />
      <Folder Include="Assets/Scripts/Level" />
      <Folder Include="Assets/Scripts/Marketing" />

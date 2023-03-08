@@ -5,10 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/LoadingTestSubscene.unity
     guid: 24884f9a6000048a0893ab93a644cb3b
   - enabled: 1
@@ -18,11 +18,11 @@ EditorBuildSettings:
     path: Assets/Scenes/PlainRight.unity
     guid: 1a7f6c100ae364fb3bf8448a2c8ec89e
   - enabled: 1
-    path: Assets/Scenes/Campaign.unity
-    guid: 2663e71143777497e97caab3f1b7c6cf
-  - enabled: 1
     path: Assets/Scenes/EntryPoint.unity
     guid: c7f4966f070964340955c4922b442a76
+  - enabled: 1
+    path: Assets/Scenes/Campaign.unity
+    guid: 2663e71143777497e97caab3f1b7c6cf
   - enabled: 1
     path: Assets/EmptyScene.unity
     guid: 835b0716f990349599b5e5d40254f209

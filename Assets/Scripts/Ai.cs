@@ -1,9 +1,5 @@
-using System.Collections.Generic;
 using System.Linq;
-using FullscreenEditor;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Assertions;
 
 public class Ai : MonoBehaviour {
 

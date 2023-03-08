@@ -1,0 +1,21 @@
+{
+    "name": "CommandLineEditor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:33bcf7d0fda954071bb79ba43762369c",
+        "GUID:ecf5ac38508c04e32a510859b91f2b5f"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_EDITOR"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

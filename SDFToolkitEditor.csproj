@@ -12,11 +12,11 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{27f680dc-e909-2372-eead-a89d4eeafd25}</ProjectGuid>
+    <ProjectGuid>{26db8885-7af0-54fa-2d8e-6c26e0d81b78}</ProjectGuid>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <AssemblyName>SDFToolkitEditor</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
@@ -25,12 +25,12 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>Temp\Bin\Debug\Assembly-CSharp\</OutputPath>
+    <OutputPath>Temp\Bin\Debug\SDFToolkitEditor\</OutputPath>
     <DefineConstants>UNITY_2021_3_1;UNITY_2021_3;UNITY_2021;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER;UNITY_2019_3_OR_NEWER;UNITY_2019_4_OR_NEWER;UNITY_2020_1_OR_NEWER;UNITY_2020_2_OR_NEWER;UNITY_2020_3_OR_NEWER;UNITY_2021_1_OR_NEWER;UNITY_2021_2_OR_NEWER;UNITY_2021_3_OR_NEWER;PLATFORM_ARCH_64;UNITY_64;UNITY_INCLUDE_TESTS;USE_SEARCH_ENGINE_API;USE_SEARCH_TABLE;USE_SEARCH_MODULE;USE_PROPERTY_DATABASE;USE_SEARCH_EXTENSION_API;SCENE_TEMPLATE_MODULE;ENABLE_AR;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_TEXTURE_STREAMING;ENABLE_VIRTUALTEXTURING;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_UNITYWEBREQUEST;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_COLLAB_SOFTLOCKS;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_NATIVE_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_HUB_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_DIRECTOR_AUDIO;ENABLE_DIRECTOR_TEXTURE;ENABLE_MANAGED_JOBS;ENABLE_MANAGED_TRANSFORM_JOBS;ENABLE_MANAGED_ANIMATION_JOBS;ENABLE_MANAGED_AUDIO_JOBS;ENABLE_MANAGED_UNITYTLS;INCLUDE_DYNAMIC_GI;ENABLE_SCRIPTING_GC_WBARRIERS;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;ENABLE_VIDEO;ENABLE_ACCELERATOR_CLIENT_DEBUGGING;PLATFORM_STANDALONE;TEXTCORE_1_0_OR_NEWER;PLATFORM_STANDALONE_OSX;UNITY_STANDALONE_OSX;UNITY_STANDALONE;ENABLE_GAMECENTER;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_CLUSTER_SYNC;ENABLE_CLUSTERINPUT;ENABLE_SPATIALTRACKING;PLATFORM_UPDATES_TIME_OUTSIDE_OF_PLAYER_LOOP;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;NET_4_6;NET_UNITY_4_8;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_OSX;ENABLE_UNITY_COLLECTIONS_CHECKS;ENABLE_BURST_AOT;UNITY_TEAM_LICENSE;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_DIRECTOR;ENABLE_LOCALIZATION;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_TILEMAP;ENABLE_TIMELINE;ENABLE_LEGACY_INPUT_MANAGER;CLAYXELS_BUILTIN;CLAYXELS_RETOPO;UNITY_POST_PROCESSING_STACK_V2;AMPLIFY_SHADER_EDITOR;WORKSTATION_PCY;CSHARP_7_OR_LATER;CSHARP_7_3_OR_NEWER</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169,0649</NoWarn>
-    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup>
@@ -41,293 +41,10 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets/PhysicsTest/AlembicTest.cs" />
-     <Compile Include="Assets/Scenes/PlayableTest/NewPlayableAsset.cs" />
-     <Compile Include="Assets/ExplosionTracer.cs" />
-     <Folder Include="Assets" />
-     <None Include="Assets/Saves/autosave/autosave-07.03.2023-17.58.12.txt" />
-     <None Include="Assets/Saves/autosave/autosave-08.03.2023-05.06.27.txt" />
-     <None Include="Assets/Saves/0/0-29.01.2023-15.07.01.txt" />
-     <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />
-     <None Include="Assets/Shaders/My First Lighting Shader.shader" />
-     <None Include="Assets/Saves/full-map/19.01.2023-19.29.32.txt" />
-     <Folder Include="Assets/Saves/tutorial.1" />
-     <None Include="Assets/Resources/TileTypeColors.json" />
-     <None Include="Assets/Saves/0/0-22.01.2023-19.43.46.txt" />
-     <Folder Include="Assets/Particles" />
-     <None Include="Assets/Saves/autosave/autosave-22.02.2023-10.33.55.txt" />
-     <None Include="Assets/Saves/0/0-27.01.2023-10.25.01.txt" />
-     <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader" />
-     <None Include="Assets/Resources/Missions/Tutorial.txt" />
-     <Folder Include="Assets/TextMesh Pro/Sprites" />
-     <Folder Include="Assets/Saves/1" />
-     <Folder Include="Assets/JsonDotNet/Assemblies/Standalone" />
-     <None Include="Assets/Saves/autosave/autosave-05.03.2023-14.24.58.txt" />
-     <Folder Include="Assets/Content/Whiteboxes/Thumbnails" />
-     <Folder Include="Assets/Settings/Resources" />
-     <Folder Include="Assets/TextMesh Pro/Resources/Sprite Assets" />
-     <None Include="Assets/PriorityFormula.txt" />
-     <Folder Include="Assets/Content" />
-     <Folder Include="Assets/Settings" />
-     <None Include="Assets/Content/MovePathUnlit.shader" />
-     <Folder Include="Assets/EmptyScene" />
-     <None Include="Assets/Shaders/My Lighting.cginc" />
-     <Folder Include="Assets/StreamingAssets/Translations/ru_RU" />
-     <None Include="Assets/Saves/0/0-22.01.2023-18.22.53.txt" />
-     <Folder Include="Assets/Scenery Materials" />
-     <None Include="Assets/TextMesh Pro/Shaders/TMP_Bitmap.shader" />
-     <Folder Include="Assets/BattleView/Resources" />
-     <None Include="Assets/Shaders/My First Lighting Shader Overlay.shader" />
-     <Folder Include="Assets/JsonDotNet" />
-     <None Include="Assets/Saves/test/20.01.2023-21.38.32.txt" />
-     <None Include="Assets/Saves/0/0-28.01.2023-14.11.05.txt" />
-     <None Include="Assets/Dialogues2.txt" />
-     <None Include="Assets/Saves/autosave/autosave-07.03.2023-09.31.51.txt" />
-     <None Include="Assets/Resources/Settings/MoveDistances.json" />
-     <Folder Include="Assets/Saves" />
-     <None Include="Assets/Shaders/VertexColorChecker.shader" />
-     <None Include="Assets/Shaders/My First Lighting Shader Overlay NoShadow.shader" />
-     <None Include="Assets/Saves/tutorial.0/20.01.2023-08.01.17.txt" />
-     <Folder Include="Assets/Textures/Splat Maps" />
-     <None Include="Assets/Shaders/test.shader" />
-     <None Include="Assets/Saves/1/1-22.01.2023-19.32.58.txt" />
-     <None Include="Assets/Saves/1/1-22.01.2023-19.38.06.txt" />
-     <None Include="Assets/Shaders/DistortionFlow.shader" />
-     <None Include="Assets/Saves/autosave/autosave-07.03.2023-17.57.21.txt" />
-     <None Include="Assets/Shaders/Flow.cginc" />
-     <None Include="Assets/Shaders/leaves.shader" />
-     <None Include="Assets/Saves/test.1/20.01.2023-09.23.01.txt" />
-     <Folder Include="Assets/Content/UI" />
-     <None Include="Assets/Saves/0/0-22.01.2023-19.33.36.txt" />
-     <None Include="Assets/Resources/Missions/Test.txt" />
-     <Folder Include="Assets/TextMesh Pro/Resources/Fonts &amp; Materials" />
-     <Folder Include="Assets/Saves/tutorial.0" />
-     <Folder Include="Assets/StreamingAssets/Translations/ru_RU/LC_MESSAGES" />
-     <None Include="Assets/Saves/0/0-22.01.2023-18.57.43.txt" />
-     <Folder Include="Assets/Fonts" />
-     <Folder Include="Assets/Saves/test.0" />
-     <None Include="Assets/TextMesh Pro/Shaders/TMPro_Mobile.cginc" />
-     <None Include="Assets/Saves/0/0-22.01.2023-19.45.37.txt" />
-     <None Include="Assets/Shaders/MissionLink.shader" />
-     <None Include="Assets/Saves/tutorial.0/20.01.2023-08.06.54.txt" />
-     <Folder Include="Assets/JsonDotNet/Assemblies/AOT" />
-     <Folder Include="Assets/JsonDotNet/Assemblies/Windows" />
-     <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF SSD.shader" />
-     <Folder Include="Assets/TextMesh Pro/Resources" />
-     <Folder Include="Assets/Scenes/blog-post0" />
-     <None Include="Assets/Shaders/MovePath.shader" />
-     <None Include="Assets/Shaders/InstancedRendering.cginc" />
-     <None Include="Assets/Shaders/vface.shader" />
-     <None Include="Assets/Shaders/NewSurfaceShader.shader" />
-     <None Include="Assets/Saves/autosave/autosave-07.03.2023-09.27.09.txt" />
-     <None Include="Assets/Saves/autosave/autosave-07.03.2023-11.40.43.txt" />
-     <None Include="Assets/Saves/autosave/autosave-08.03.2023-05.08.03.txt" />
-     <None Include="Assets/Saves/autosave/autosave-08.03.2023-03.46.46.txt" />
-     <None Include="Assets/Shaders/Stone.shader" />
-     <Folder Include="Assets/Saves/autosave" />
-     <None Include="Assets/Shaders/Terrain.shader" />
-     <None Include="Assets/Shaders/Thumbnail.shader" />
-     <None Include="Assets/Saves/autosave/autosave-13.02.2023-10.19.54.txt" />
-     <None Include="Assets/Saves/0/0-22.01.2023-18.36.21.txt" />
-     <None Include="Assets/Shaders/Utils.cginc" />
-     <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Surface-Mobile.shader" />
-     <Folder Include="Assets/Saves/test2" />
-     <None Include="Assets/Shaders/DirectionalFlow.shader" />
-     <Folder Include="Assets/HDRPDefaultResources" />
-     <Folder Include="Assets/Materials" />
-     <None Include="Assets/Shaders/leaves-area-tinted.shader" />
-     <Folder Include="Assets/Textures" />
-     <None Include="Assets/Shaders/TextFrame3d.shader" />
-     <None Include="Assets/Shaders/TerrainTilesTest.shader" />
-     <Folder Include="Assets/Scenes/LoadingTest" />
-     <Folder Include="Assets/Scenes/LoadingTestSubscene" />
-     <Folder Include="Assets/TextMesh Pro" />
-     <None Include="Assets/JsonDotNet/link.xml" />
-     <Folder Include="Assets/Saves/test3" />
-     <None Include="Assets/Shaders/InstancedBush.shader" />
-     <None Include="Assets/Shaders/Bird.shader" />
-     <None Include="Assets/Saves/test.0/20.01.2023-09.23.28.txt" />
-     <None Include="Assets/Saves/simple/simple-07.02.2023-09.12.25.txt" />
-     <None Include="Assets/Saves/1/1-22.01.2023-18.23.49.txt" />
-     <None Include="Assets/Saves/1/1-22.01.2023-18.36.36.txt" />
-     <None Include="Assets/Roboto/LICENSE.txt" />
-     <Folder Include="Assets/JsonDotNet/Documentation" />
-     <None Include="Assets/Saves/0/0-24.01.2023-03.03.07.txt" />
-     <None Include="Assets/Saves/1/1-22.01.2023-18.57.19.txt" />
-     <None Include="Assets/Saves/second-stage/19.01.2023-19.30.24.txt" />
-     <Folder Include="Assets/StoneTest" />
-     <None Include="Assets/Saves/0/0-22.01.2023-18.52.30.txt" />
-     <Folder Include="Assets/Saves/test" />
-     <None Include="Assets/Shaders/Building.shader" />
-     <Folder Include="Assets/CampaignOverview" />
-     <Folder Include="Assets/Coin" />
-     <None Include="Assets/Shaders/Unit.shader" />
-     <None Include="Assets/Saves/autosave/autosave-08.03.2023-04.38.04.txt" />
-     <None Include="Assets/Saves/1/1-22.01.2023-19.40.42.txt" />
-     <None Include="Assets/Scripts2/SDFtest.shader" />
-     <None Include="Assets/Saves/autosave/autosave-08.03.2023-14.20.04.txt" />
-     <None Include="Assets/Resources/Funny.txt" />
-     <None Include="Assets/Shaders/Difference.shader" />
-     <None Include="Assets/Shaders/TileArea.shader" />
-     <Folder Include="Assets/JsonDotNet/Assemblies" />
-     <None Include="Assets/Saves/autosave/autosave-07.03.2023-09.37.16.txt" />
-     <None Include="Assets/Saves/autosave/autosave-07.03.2023-09.29.29.txt" />
-     <None Include="Assets/Saves/1/1-22.01.2023-19.43.37.txt" />
-     <None Include="Assets/Saves/1/1-22.01.2023-19.44.37.txt" />
-     <Folder Include="Assets/Scenes/BattleViews_Profiles" />
-     <None Include="Assets/Saves/1/1-22.01.2023-19.48.14.txt" />
-     <Folder Include="Assets/Saves/tutorial" />
-     <None Include="Assets/Saves/autosave/autosave-22.02.2023-10.39.37.txt" />
-     <None Include="Assets/Saves/1/1-22.01.2023-19.41.48.txt" />
-     <None Include="Assets/Funny.txt" />
-     <None Include="Assets/Saves/0/0-25.01.2023-02.07.18.txt" />
-     <None Include="Assets/Shaders/water.shader" />
-     <None Include="Assets/Saves/autosave/autosave-27.02.2023-10.28.47.txt" />
-     <None Include="Assets/Shaders/ShrinkToTerrain.shader" />
-     <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Surface.shader" />
-     <None Include="Assets/Shaders/MinimapUnit.shader" />
-     <None Include="Assets/Saves/0/0-22.01.2023-19.47.53.txt" />
-     <None Include="Assets/Shaders/Minimap.shader" />
-     <None Include="Assets/TextMesh Pro/Sprites/EmojiOne Attribution.txt" />
-     <None Include="Assets/TextMesh Pro/Shaders/TMP_Bitmap-Custom-Atlas.shader" />
-     <None Include="Assets/Shaders/TriggerShader.shader" />
-     <None Include="Assets/Saves/0/0-28.01.2023-12.26.31.txt" />
-     <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF.shader" />
-     <None Include="Assets/Saves/autosave/autosave-08.03.2023-05.08.34.txt" />
-     <None Include="Assets/Saves/0/0-22.01.2023-18.24.23.txt" />
-     <Folder Include="Assets/Saves/0" />
-     <None Include="Assets/Dialogues.txt" />
-     <Folder Include="Assets/Dialogue" />
-     <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile SSD.shader" />
-     <None Include="Assets/TextMesh Pro/Resources/LineBreaking Leading Characters.txt" />
-     <Folder Include="Assets/Scenes/PlainRight" />
-     <None Include="Assets/Saves/0/0-22.01.2023-18.59.01.txt" />
-     <None Include="Assets/Saves/tutorial.1/20.01.2023-08.02.14.txt" />
-     <Folder Include="Assets/Content/decals" />
-     <Folder Include="Assets/Resources/Dialogue" />
-     <None Include="Assets/TextMesh Pro/Shaders/TMPro_Properties.cginc" />
-     <Folder Include="Assets/Content/mrap" />
-     <Folder Include="Assets/Scripts2" />
-     <None Include="Assets/Saves/autosave/autosave-11.02.2023-16.55.05.txt" />
-     <None Include="Assets/Shaders/TriggerUnlit.shader" />
-     <Folder Include="Assets/Dithered" />
-     <None Include="Assets/Saves/0/0-22.01.2023-18.25.37.txt" />
-     <Folder Include="Assets/Scenes/SampleScene" />
-     <None Include="Assets/Resources/GitInfo.json" />
-     <None Include="Assets/Saves/tutorial/19.01.2023-09.10.58.txt" />
-     <None Include="Assets/Shaders/Dithered.shader" />
-     <None Include="Assets/Saves/0/0-22.01.2023-18.53.34.txt" />
-     <None Include="Assets/Saves/test/test-31.01.2023-04.24.37.txt" />
-     <None Include="Assets/TextMesh Pro/Shaders/TMPro_Surface.cginc" />
-     <None Include="Assets/Shaders/FrostedGlass.shader" />
-     <Folder Include="Assets/TextMesh Pro/Shaders" />
-     <None Include="Assets/Content/NewImageEffectShader.shader" />
-     <Folder Include="Assets/Shaders" />
-     <None Include="Assets/Saves/autosave/autosave-07.03.2023-09.35.30.txt" />
-     <None Include="Assets/Shaders/New Amplify Shader.shader" />
-     <Folder Include="Assets/Textures/Circuitry" />
-     <Folder Include="Assets/TextMesh Pro/Resources/Style Sheets" />
-     <Folder Include="Assets/Textures/Lava" />
-     <Folder Include="Assets/TextMesh Pro/Fonts" />
-     <None Include="Assets/Saves/autosave/autosave-07.03.2023-09.27.02.txt" />
-     <Folder Include="Assets/Saves/test.1" />
-     <None Include="Assets/Saves/autosave/autosave-22.02.2023-10.40.29.txt" />
-     <None Include="Assets/Out.json" />
-     <None Include="Assets/Saves/test.1/20.01.2023-09.22.47.txt" />
-     <None Include="Assets/Shaders/Trajectory.shader" />
-     <Folder Include="Assets/Resources" />
-     <Folder Include="Assets/Content/Whiteboxes" />
-     <Folder Include="Assets/StreamingAssets/Translations" />
-     <Folder Include="Assets/Content/light-tank" />
-     <None Include="Assets/TextMesh Pro/Resources/LineBreaking Following Characters.txt" />
-     <Folder Include="Assets/Minimap" />
-     <None Include="Assets/Saves/autosave/autosave-07.03.2023-11.39.29.txt" />
-     <None Include="Assets/Resources/Missions/SecondMission.txt" />
-     <None Include="Assets/Saves/autosave/autosave-08.03.2023-05.07.50.txt" />
-     <None Include="Assets/Saves/0/0-24.01.2023-16.12.40.txt" />
-     <None Include="Assets/Saves/test/18.01.2023-18.58.09.txt" />
-     <None Include="Assets/Shaders/My Shadows.cginc" />
-     <Folder Include="Assets/Textures/Detail" />
-     <None Include="Assets/Saves/0/0-22.01.2023-19.37.40.txt" />
-     <Folder Include="Assets/StreamingAssets" />
-     <Folder Include="Assets/Content/Whiteboxes/Resources" />
-     <Folder Include="Assets/Textures/Cookies" />
-     <None Include="Assets/Saves/autosave/autosave-07.03.2023-09.27.18.txt" />
-     <Folder Include="Assets/Textures/Bumps" />
-     <None Include="Assets/Shaders/SimpleInstanced.shader" />
-     <None Include="Assets/Saves/0/0-27.01.2023-21.16.19.txt" />
-     <Folder Include="Assets/Music" />
-     <Folder Include="Assets/Scenes/BattleViews" />
-     <None Include="Assets/Saves/0/0-22.01.2023-18.53.29.txt" />
-     <None Include="Assets/Saves/test3/test3-27.02.2023-00.52.49.txt" />
-     <None Include="Assets/Shaders/Texture Splatting.shader" />
-     <None Include="Assets/Saves/autosave/autosave-07.03.2023-09.28.12.txt" />
-     <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Masking.shader" />
-     <None Include="Assets/Saves/0/0-28.01.2023-22.10.38.txt" />
-     <None Include="Assets/Resources/Dialogue.xml" />
-     <None Include="Assets/Saves/test2/test2-05.02.2023-21.45.15.txt" />
-     <None Include="Assets/Content/Whiteboxes/wb-unit.shader" />
-     <None Include="Assets/Shaders/rough.shader" />
-     <None Include="Assets/Saves/0/0-24.01.2023-01.56.26.txt" />
-     <Folder Include="Assets/Scenes/Explosion" />
-     <None Include="Assets/Saves/test2/test2-09.02.2023-23.43.01.txt" />
-     <None Include="Assets/Saves/tutorial.0/20.01.2023-08.16.17.txt" />
-     <Folder Include="Assets/BattleView" />
-     <None Include="Assets/Saves/first-stage/19.01.2023-19.30.01.txt" />
-     <None Include="Assets/Saves/0/0-28.01.2023-20.17.01.txt" />
-     <None Include="Assets/Shaders/SDF.cginc" />
-     <None Include="Assets/Saves/autosave/autosave-08.03.2023-14.20.09.txt" />
-     <None Include="Assets/File.json" />
-     <None Include="Assets/Shaders/InstancedIndirectColor.shader" />
-     <Folder Include="Assets/Content/minimap" />
-     <Folder Include="Assets/Saves/first-stage" />
-     <None Include="Assets/Saves/autosave/autosave-07.03.2023-09.44.16.txt" />
-     <Folder Include="Assets/Resources/Settings" />
-     <None Include="Assets/Saves/autosave/autosave-05.03.2023-14.25.22.txt" />
-     <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF Overlay.shader" />
-     <Folder Include="Assets/Saves/second-stage" />
-     <Folder Include="Assets/Scenes/SampleScene_Profiles" />
-     <None Include="Assets/Shaders/SimpleChecker.shader" />
-     <None Include="Assets/Saves/autosave/autosave-11.02.2023-16.52.21.txt" />
-     <None Include="Assets/Saves/test2/test2-10.02.2023-02.00.13.txt" />
-     <None Include="Assets/Shaders/Bush.shader" />
-     <None Include="Assets/Shaders/Hole.shader" />
-     <Folder Include="Assets/Scenes/LevelEditor" />
-     <Folder Include="Assets/Resources/Units" />
-     <None Include="Assets/TextMesh Pro/Shaders/TMP_Bitmap-Mobile.shader" />
-     <None Include="Assets/Shaders/My First Shader.shader" />
-     <None Include="Assets/Shaders/Textured With Detail.shader" />
-     <None Include="Assets/Resources/Missions/FirstMission.txt" />
-     <None Include="Assets/Scripts2/TileAreaTest.shader" />
-     <Folder Include="Assets/Content/Factory" />
-     <Folder Include="Assets/Scenes" />
-     <None Include="Assets/TextMesh Pro/Fonts/LiberationSans - OFL.txt" />
-     <None Include="Assets/Saves/autosave/autosave-07.03.2023-09.25.09.txt" />
-     <Folder Include="Assets/TextMesh Pro/Documentation" />
-     <None Include="Assets/Resources/TutorialSaveData.txt" />
-     <None Include="Assets/Saves/autosave/autosave-07.03.2023-09.33.23.txt" />
-     <None Include="Assets/Shaders/UnlitMinimap.shader" />
-     <None Include="Assets/Shaders/PowerMeterStripe.shader" />
-     <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader" />
-     <None Include="Assets/Shaders/UnlitLeaves.shader" />
-     <None Include="Assets/Shaders/LookingThroughWater.cginc" />
-     <None Include="Assets/Saves/autosave/autosave-08.03.2023-05.08.24.txt" />
-     <Folder Include="Assets/Scenes/PlainLeft" />
-     <None Include="Assets/Shaders/Waves.shader" />
-     <Folder Include="Assets/Scenes/PlayableTest" />
-     <Folder Include="Assets/HotReload" />
-     <Folder Include="Assets/Roboto" />
-     <Folder Include="Assets/PhysicsTest" />
-     <None Include="Assets/Saves/1/1-22.01.2023-19.42.47.txt" />
-     <None Include="Assets/TextMesh Pro/Sprites/EmojiOne.json" />
-     <Folder Include="Assets/Saves/full-map" />
-     <None Include="Assets/Saves/1/1-22.01.2023-18.56.26.txt" />
-     <Folder Include="Assets/Resources/Missions" />
-     <None Include="Assets/TextMesh Pro/Shaders/TMP_Sprite.shader" />
-     <None Include="Assets/Saves/0/0-24.01.2023-16.24.07.txt" />
-     <Folder Include="Assets/Saves/simple" />
-     <None Include="Assets/!TODO.txt" />
-     <None Include="Assets/Output.json" />
+     <Compile Include="Assets/SDF Toolkit/Editor/SDFShaderGUI.cs" />
+     <Compile Include="Assets/SDF Toolkit/Editor/SDFTextureGeneratorWindow.cs" />
+     <None Include="Assets/SDF Toolkit/Editor/SDFToolkitEditor.asmdef" />
+     <Folder Include="Assets/SDF Toolkit/Editor" />
      <Reference Include="UnityEngine">
      <HintPath>/Applications/Unity/Hub/Editor/2021.3.1f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
      </Reference>
@@ -402,6 +119,9 @@
      </Reference>
      <Reference Include="UnityEngine.LocalizationModule">
      <HintPath>/Applications/Unity/Hub/Editor/2021.3.1f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.LocalizationModule.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.NVIDIAModule">
+     <HintPath>/Applications/Unity/Hub/Editor/2021.3.1f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.NVIDIAModule.dll</HintPath>
      </Reference>
      <Reference Include="UnityEngine.ParticleSystemModule">
      <HintPath>/Applications/Unity/Hub/Editor/2021.3.1f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.ParticleSystemModule.dll</HintPath>
@@ -571,11 +291,20 @@
      <Reference Include="UnityEditor.UnityConnectModule">
      <HintPath>/Applications/Unity/Hub/Editor/2021.3.1f1/Unity.app/Contents/Managed/UnityEngine/UnityEditor.UnityConnectModule.dll</HintPath>
      </Reference>
+     <Reference Include="UnityEditor.Graphs">
+     <HintPath>/Applications/Unity/Hub/Editor/2021.3.1f1/Unity.app/Contents/Managed/UnityEditor.Graphs.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEditor.OSXStandalone.Extensions">
+     <HintPath>/Applications/Unity/Hub/Editor/2021.3.1f1/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll</HintPath>
+     </Reference>
      <Reference Include="Unity.Collections.LowLevel.ILSupport">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.collections@1.4.0/Unity.Collections.LowLevel.ILSupport/Unity.Collections.LowLevel.ILSupport.dll</HintPath>
      </Reference>
      <Reference Include="Newtonsoft.Json">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/JsonDotNet/Assemblies/Standalone/Newtonsoft.Json.dll</HintPath>
+     </Reference>
+     <Reference Include="DOTweenEditor">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/Plugins/Demigiant/DOTween/Editor/DOTweenEditor.dll</HintPath>
      </Reference>
      <Reference Include="Unity.Burst.Unsafe">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.burst@1.7.2/Unity.Burst.Unsafe.dll</HintPath>
@@ -600,6 +329,9 @@
      </Reference>
      <Reference Include="Mono.Cecil">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.nuget.mono-cecil@1.11.4/Mono.Cecil.dll</HintPath>
+     </Reference>
+     <Reference Include="nunit.framework">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.ext.nunit@1.0.6/net35/unity-custom/nunit.framework.dll</HintPath>
      </Reference>
      <Reference Include="mscorlib">
      <HintPath>/Applications/Unity/Hub/Editor/2021.3.1f1/Unity.app/Contents/UnityReferenceAssemblies/unity-4.8-api/mscorlib.dll</HintPath>
@@ -1201,219 +933,23 @@
      <Reference Include="netstandard">
      <HintPath>/Applications/Unity/Hub/Editor/2021.3.1f1/Unity.app/Contents/UnityReferenceAssemblies/unity-4.8-api/Facades/netstandard.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.VSCode.Editor">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.RenderPipelines.Universal.Shaders">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.RenderPipelines.Universal.Shaders.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.TextMeshPro.Editor">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.Performance.Profile-Analyzer.Editor">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.Performance.Profile-Analyzer.Editor.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.TestTools.CodeCoverage.Editor.OpenCover.Model">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.TestTools.CodeCoverage.Editor.OpenCover.Model.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.Formats.Fbx.Editor">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.Formats.Fbx.Editor.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.Searcher.Editor">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.Searcher.Editor.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.TestTools.CodeCoverage.Editor.OpenCover.Mono.Reflection">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.TestTools.CodeCoverage.Editor.OpenCover.Mono.Reflection.dll</HintPath>
-     </Reference>
      <Reference Include="UnityEditor.UI">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.Rider.Editor">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.RenderPipelines.Core.ShaderLibrary">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.RenderPipelines.Core.ShaderLibrary.dll</HintPath>
-     </Reference>
-     <Reference Include="Autodesk.Fbx">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Autodesk.Fbx.dll</HintPath>
-     </Reference>
-     <Reference Include="UnityEngine.SpatialTracking">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/UnityEngine.SpatialTracking.dll</HintPath>
      </Reference>
      <Reference Include="UnityEngine.UI">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.EditorCoroutines.Editor">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.EditorCoroutines.Editor.dll</HintPath>
+     <Reference Include="UnityEditor.TestRunner">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.ShaderGraph.Editor">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.ShaderGraph.Editor.dll</HintPath>
-     </Reference>
-     <Reference Include="Cinemachine">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Cinemachine.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.Collections.Editor">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.Collections.Editor.dll</HintPath>
-     </Reference>
-     <Reference Include="com.unity.cinemachine.editor">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/com.unity.cinemachine.editor.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.Formats.Fbx.Runtime">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.Formats.Fbx.Runtime.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.Formats.Alembic.Runtime">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.Formats.Alembic.Runtime.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.RenderPipeline.Universal.ShaderLibrary">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.RenderPipeline.Universal.ShaderLibrary.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.Mathematics.Editor">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.Mathematics.Editor.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.Collections">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.Collections.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.2D.Tilemap.Editor">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.2D.Tilemap.Editor.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.RenderPipelines.Universal.Runtime">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
-     </Reference>
-     <Reference Include="PPv2URPConverters">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/PPv2URPConverters.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.VisualStudio.Editor">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.VisualStudio.Editor.dll</HintPath>
-     </Reference>
-     <Reference Include="Autodesk.Fbx.Editor">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Autodesk.Fbx.Editor.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.Timeline">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.TextMeshPro">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.Burst.Editor">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.Burst.Editor.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.2D.Sprite.Editor">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.RenderPipelines.Core.Runtime">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.RenderPipelines.Core.Runtime.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.Postprocessing.Editor">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.Postprocessing.Editor.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.Mathematics">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.Mathematics.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.Burst">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.Burst.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.Postprocessing.Runtime">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.Postprocessing.Runtime.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.RenderPipelines.Universal.Editor">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.RenderPipelines.Universal.Editor.dll</HintPath>
-     </Reference>
-     <Reference Include="UnityEngine.XR.LegacyInputHelpers">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/UnityEngine.XR.LegacyInputHelpers.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.Jobs">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.Jobs.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.Timeline.Editor">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
-     </Reference>
-     <Reference Include="UnityEditor.XR.LegacyInputHelpers">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/UnityEditor.XR.LegacyInputHelpers.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll</HintPath>
-     </Reference>
-     <Reference Include="UnityEditor.SpatialTracking">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/UnityEditor.SpatialTracking.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.TestTools.CodeCoverage.Editor">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.TestTools.CodeCoverage.Editor.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.Formats.Alembic.Editor">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.Formats.Alembic.Editor.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.RenderPipelines.Core.Editor">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.RenderPipelines.Core.Editor.dll</HintPath>
+     <Reference Include="UnityEngine.TestRunner">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/UnityEngine.TestRunner.dll</HintPath>
      </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="ExpressionEvaluator.csproj">
-      <Project>{715685b9-cebc-f678-dead-d33022bb204f}</Project>
-      <Name>ExpressionEvaluator</Name>
-    </ProjectReference>
-    <ProjectReference Include="SerializableDictionary.csproj">
-      <Project>{2528cbf2-fe47-72f6-8962-6beddbb0cda3}</Project>
-      <Name>SerializableDictionary</Name>
-    </ProjectReference>
-    <ProjectReference Include="DOTween.Modules.csproj">
-      <Project>{f8cd9e74-1601-dd96-87ab-1cdbe561b5b5}</Project>
-      <Name>DOTween.Modules</Name>
-    </ProjectReference>
-    <ProjectReference Include="NGettext.csproj">
-      <Project>{d3c3a7e3-e88d-8cd5-b33c-a6e0e3c96401}</Project>
-      <Name>NGettext</Name>
-    </ProjectReference>
-    <ProjectReference Include="CommandLine.csproj">
-      <Project>{cfa2bab9-b41f-c1bf-2356-298545c86cc5}</Project>
-      <Name>CommandLine</Name>
-    </ProjectReference>
-    <ProjectReference Include="FullscreenEditor.csproj">
-      <Project>{ea66c163-c16e-dd96-3d67-e5c567917ba9}</Project>
-      <Name>FullscreenEditor</Name>
-    </ProjectReference>
     <ProjectReference Include="SDFToolkit.csproj">
       <Project>{fd6851fd-d03a-6132-2e86-6a707fc31825}</Project>
       <Name>SDFToolkit</Name>
-    </ProjectReference>
-    <ProjectReference Include="ALINE.csproj">
-      <Project>{3b447260-4b10-4045-3e9f-0f5a8859983a}</Project>
-      <Name>ALINE</Name>
-    </ProjectReference>
-    <ProjectReference Include="Wars.csproj">
-      <Project>{c705eacd-da30-c6e7-d413-bb0e9e9a2f77}</Project>
-      <Name>Wars</Name>
-    </ProjectReference>
-    <ProjectReference Include="Antlr4.csproj">
-      <Project>{e077983a-6b87-9a3d-0ce8-d89551a1fd06}</Project>
-      <Name>Antlr4</Name>
-    </ProjectReference>
-    <ProjectReference Include="PriorityQueue.csproj">
-      <Project>{fb12a0d3-860b-b4f2-3adb-4a59d5e1cffc}</Project>
-      <Name>PriorityQueue</Name>
-    </ProjectReference>
-    <ProjectReference Include="Stable.csproj">
-      <Project>{4d4a23ac-500a-28e4-edf9-8f813c1b07c8}</Project>
-      <Name>Stable</Name>
-    </ProjectReference>
-    <ProjectReference Include="ALINEEditor.csproj">
-      <Project>{04a2449b-c7cc-f037-fca8-a9c0695f60cf}</Project>
-      <Name>ALINEEditor</Name>
-    </ProjectReference>
-    <ProjectReference Include="ALINEPackageToolsEditor.csproj">
-      <Project>{acc937ff-be72-6096-e219-b39fdc0d4207}</Project>
-      <Name>ALINEPackageToolsEditor</Name>
-    </ProjectReference>
-    <ProjectReference Include="WarsEditor.csproj">
-      <Project>{d5b8541c-f441-8d80-7fbd-e1596386e42d}</Project>
-      <Name>WarsEditor</Name>
-    </ProjectReference>
-    <ProjectReference Include="SDFToolkitEditor.csproj">
-      <Project>{26db8885-7af0-54fa-2d8e-6c26e0d81b78}</Project>
-      <Name>SDFToolkitEditor</Name>
-    </ProjectReference>
-    <ProjectReference Include="FoliageEditor.csproj">
-      <Project>{0b979f64-6409-506b-a265-67092679b5f9}</Project>
-      <Name>FoliageEditor</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

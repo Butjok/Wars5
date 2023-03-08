@@ -1,0 +1,23 @@
+{
+    "name": "WarsEditor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:1cf8c512f82724708af120668a246986",
+        "GUID:90a72283cb32c471b9c3ae071d9220fc",
+        "GUID:33bcf7d0fda954071bb79ba43762369c",
+        "GUID:8be0fb41342dd4aaaab3efcf8729b7c5"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "UNITY_EDITOR"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

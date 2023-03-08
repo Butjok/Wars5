@@ -41,18 +41,8 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets/SDF Toolkit/Examples/Scripts/CameraDistance.cs" />
-     <Compile Include="Assets/SDF Toolkit/Examples/Scripts/Sun.cs" />
      <Compile Include="Assets/SDF Toolkit/SDFTextureGenerator.cs" />
-     <Compile Include="Assets/SDF Toolkit/Examples/Scripts/Twinkle.cs" />
-     <Compile Include="Assets/SDF Toolkit/Examples/Scripts/Rotater.cs" />
      <Compile Include="Assets/SDF Toolkit/UIMaterialLink.cs" />
-     <Compile Include="Assets/SDF Toolkit/Editor/SDFShaderGUI.cs" />
-     <Compile Include="Assets/SDF Toolkit/Examples/Scripts/MovingLight.cs" />
-     <Compile Include="Assets/SDF Toolkit/Editor/SDFTextureGeneratorWindow.cs" />
-     <Compile Include="Assets/SDF Toolkit/Examples/Scripts/SpotSwitch.cs" />
-     <Compile Include="Assets/SDF Toolkit/Examples/Scripts/CursorSpotlight.cs" />
-     <Compile Include="Assets/SDF Toolkit/Examples/Scripts/ToggleUI.cs" />
      <None Include="Assets/SDF Toolkit/Shaders/SDF Specular.shader" />
      <None Include="Assets/SDF Toolkit/Shaders/SDF Forward.cginc" />
      <None Include="Assets/SDF Toolkit/Shaders/SDF.cginc" />
@@ -61,23 +51,16 @@
      <None Include="Assets/SDF Toolkit/SDFToolkit.asmdef" />
      <None Include="Assets/SDF Toolkit/Shaders/SDF Meta.cginc" />
      <Folder Include="Assets/SDF Toolkit" />
-     <Folder Include="Assets/SDF Toolkit/Examples/Contours" />
-     <Folder Include="Assets/SDF Toolkit/Examples" />
      <None Include="Assets/SDF Toolkit/Shaders/SDF Standard.cginc" />
-     <Folder Include="Assets/SDF Toolkit/Examples/Example" />
-     <Folder Include="Assets/SDF Toolkit/Examples/Materials" />
      <None Include="Assets/SDF Toolkit/Shaders/SDF Unlit.shader" />
      <None Include="Assets/SDF Toolkit/Shaders/SDF Unlit.cginc" />
      <None Include="Assets/SDF Toolkit/Shaders/SDF UI Specular.shader" />
-     <Folder Include="Assets/SDF Toolkit/Editor" />
      <None Include="Assets/SDF Toolkit/Shaders/SDF Deferred.cginc" />
      <None Include="Assets/SDF Toolkit/Shaders/SDF Metallic.shader" />
      <None Include="Assets/SDF Toolkit/Shaders/SDFToolkit.hlsl" />
      <Folder Include="Assets/SDF Toolkit/Shaders" />
-     <Folder Include="Assets/SDF Toolkit/Examples/Materials/Textures" />
      <None Include="Assets/SDF Toolkit/Shaders/SDF Shadow.cginc" />
      <None Include="Assets/SDF Toolkit/Shaders/SDF UI Metallic.shader" />
-     <Folder Include="Assets/SDF Toolkit/Examples/Scripts" />
      <Folder Include="Assets/SDF Toolkit/Documentation" />
      <Reference Include="UnityEngine">
      <HintPath>/Applications/Unity/Hub/Editor/2021.3.1f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>

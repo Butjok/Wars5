@@ -42,7 +42,6 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets/CommandLine/Parsers/Butjok/CommandLine/Parsers/CommandLineBaseListener.cs" />
-     <Compile Include="Assets/CommandLine/Editor/GenerateTokens.cs" />
      <Compile Include="Assets/CommandLine/Parsers/Butjok/CommandLine/Parsers/CommandLineVisitor.cs" />
      <Compile Include="Assets/CommandLine/AssemblyInfo.cs" />
      <Compile Include="Assets/CommandLine/Parsers/Butjok/CommandLine/Parsers/CommandLineBaseVisitor.cs" />
@@ -69,7 +68,6 @@
      <None Include="Assets/CommandLine/CommandLine.asmdef" />
      <Folder Include="Assets/CommandLine/Parsers/Butjok" />
      <Folder Include="Assets/CommandLine" />
-     <Folder Include="Assets/CommandLine/Editor" />
      <Folder Include="Assets/CommandLine/Parsers/Butjok/CommandLine" />
      <Folder Include="Assets/CommandLine/Parsers/Butjok/CommandLine/Parsers" />
      <Folder Include="Assets/CommandLine/Assets" />
