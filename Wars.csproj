@@ -65,6 +65,7 @@
      <Compile Include="Assets/Scripts/HardFollow.cs" />
      <Compile Include="Assets/Scripts/Traverser.cs" />
      <Compile Include="Assets/Scripts/GameStates/VictoryState.cs" />
+     <Compile Include="Assets/Scripts/CreditsText.cs" />
      <Compile Include="Assets/Scripts/LevelLogic/TutorialLevelLogic.cs" />
      <Compile Include="Assets/Scripts/SavedGamesView.cs" />
      <Compile Include="Assets/Scripts/Funny.cs" />
@@ -77,8 +78,8 @@
      <Compile Include="Assets/Scripts/Projectile2View.cs" />
      <Compile Include="Assets/Scripts/MinimapMeshGenerator.cs" />
      <Compile Include="Assets/Scripts/UsefulTip.cs" />
-     <Compile Include="Assets/Scripts/Animation/Body.cs" />
      <Compile Include="Assets/Scripts/Main.cs" />
+     <Compile Include="Assets/Scripts/Animation/Body.cs" />
      <Compile Include="Assets/Scripts/Dialogue.cs" />
      <Compile Include="Assets/Scripts/GameStates/SelectionState.cs" />
      <Compile Include="Assets/Scripts/Co.cs" />
@@ -170,7 +171,6 @@
      <Compile Include="Assets/Scripts/StateRunner.cs" />
      <Compile Include="Assets/Scripts/FlipbookTest.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
-     <Compile Include="Assets/Scripts/CreditsText.cs" />
      <None Include="Assets/Scripts/Wars.asmdef" />
      <Folder Include="Assets/Scripts/Editor" />
      <Folder Include="Assets/Scripts/GameStates" />
@@ -460,9 +460,6 @@
      </Reference>
      <Reference Include="Mono.Cecil">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.nuget.mono-cecil@1.11.4/Mono.Cecil.dll</HintPath>
-     </Reference>
-     <Reference Include="TexturePackerImporter">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/codeandweb.com/Editor/TexturePackerImporter.dll</HintPath>
      </Reference>
      <Reference Include="mscorlib">
      <HintPath>/Applications/Unity/Hub/Editor/2021.3.1f1/Unity.app/Contents/UnityReferenceAssemblies/unity-4.8-api/mscorlib.dll</HintPath>

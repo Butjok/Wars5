@@ -22,6 +22,7 @@ public class StateRunner : MonoBehaviour {
                 commandLineGui.assemblies = new List<string> { "CommandLine", "Wars", "Stable" };
                 commandLineGui.guiSkin = DefaultGuiSkin.TryGet;
                 commandLineGui.Theme = "Default";
+                commandLineGui.depth = -2000;
                 commandLineGui.FetchCommands();
             }
             return instance;

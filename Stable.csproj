@@ -96,6 +96,7 @@
      <Compile Include="Assets/Scripts/Stable/Trail.cs" />
      <Compile Include="Assets/Scripts/Stable/BuoyancyMovement.cs" />
      <Compile Include="Assets/Scripts/Stable/FpsCounter.cs" />
+     <Compile Include="Assets/Scripts/Stable/Easing.cs" />
      <Compile Include="Assets/Scripts/Stable/DialogueUi.cs" />
      <Compile Include="Assets/Scripts/Stable/BarrelAssembly.cs" />
      <Compile Include="Assets/Scripts/Stable/StateMachineBehaviour.cs" />
@@ -143,7 +144,6 @@
      <Compile Include="Assets/Scripts/Stable/ResourceExtensions.cs" />
      <Compile Include="Assets/Scripts/Stable/LookAt.cs" />
      <Compile Include="Assets/Scripts/Stable/PistonBody.cs" />
-     <Compile Include="Assets/Scripts/Stable/Easing.cs" />
      <Folder Include="Assets/Scripts/Stable/Foliage" />
      <Folder Include="Assets/Scripts/Stable/Foliage/Editor" />
      <None Include="Assets/Scripts/Stable/Stable.asmdef" />
@@ -429,9 +429,6 @@
      </Reference>
      <Reference Include="Mono.Cecil">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/PackageCache/com.unity.nuget.mono-cecil@1.11.4/Mono.Cecil.dll</HintPath>
-     </Reference>
-     <Reference Include="TexturePackerImporter">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Assets/codeandweb.com/Editor/TexturePackerImporter.dll</HintPath>
      </Reference>
      <Reference Include="mscorlib">
      <HintPath>/Applications/Unity/Hub/Editor/2021.3.1f1/Unity.app/Contents/UnityReferenceAssemblies/unity-4.8-api/mscorlib.dll</HintPath>

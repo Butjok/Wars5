@@ -52,6 +52,20 @@ public class EntryPointView : MonoBehaviour {
     public float delay = 1;
     public Image holdImage;
     public TextFrame3d textFrame3d;
+
+    public GameObject[] hiddenInAbout = { };
+    public GameObject[] hiddenInWelcomeScreen = { };
+
+    public GameObject about;
+
+    private void OnGUI() {
+        GUI.skin = DefaultGuiSkin.TryGet;
+        var text = "HELLO WORLD BULKA GAMES";
+        var size = GUI.skin.label.CalcSize(new GUIContent(text));
+        var screenSize = new Vector2(Screen.width, Screen.height);
+        var position = screenSize - size;
+        GUI.Label(new Rect(position, size), text);
+    }
 }
 
 public class EntryPointState : IDisposableState {
@@ -160,16 +174,20 @@ public class MainMenuWelcomeState : IDisposableState {
         get {
             view.logoVirtualCamera.enabled = true;
 
-            var pressAnyKeySequence = DOTween.Sequence();
-            pressAnyKeySequence
-                .SetDelay(view.delay)
-                .AppendCallback(() => view.pressAnyKeyText.enabled = true);
+            foreach (var go in view.hiddenInWelcomeScreen)
+                go.SetActive(false);
 
-            while (!Input.anyKeyDown)
+            var startTime = Time.time;
+
+            while (true) {
+                if (Input.anyKeyDown) {
+                    yield return StateChange.none;
+                    break;
+                }
+                if (Time.time > startTime + view.delay && !view.pressAnyKeyText.enabled)
+                    view.pressAnyKeyText.enabled = true;
                 yield return StateChange.none;
-            yield return StateChange.none;
-
-            pressAnyKeySequence.Kill();
+            }
             view.pressAnyKeyText.enabled = false;
 
             yield return StateChange.ReplaceWith(new MainMenuSelectionState(view));
@@ -178,12 +196,14 @@ public class MainMenuWelcomeState : IDisposableState {
 
     public void Dispose() {
         view.logoVirtualCamera.enabled = false;
+        foreach (var go in view.hiddenInWelcomeScreen)
+            go.SetActive(true);
     }
 }
 
 public class MainMenuSelectionState : IDisposableState {
 
-    public static bool quit, goToCampaign;
+    public static bool quit, goToCampaign, goToAbout, goToSettings, goToLoadGame;
 
     [Command]
     public static float fadeDuration = .25f;
@@ -193,6 +213,7 @@ public class MainMenuSelectionState : IDisposableState {
     public static float quitHoldTime = 1;
 
     public EntryPointView view;
+
     public MainMenuSelectionState(EntryPointView view) {
         this.view = view;
     }
@@ -203,7 +224,7 @@ public class MainMenuSelectionState : IDisposableState {
             view.textFrame3d.gameObject.SetActive(true);
 
             while (true) {
-                
+
                 if (quit) {
                     quit = false;
 #if UNITY_EDITOR
@@ -222,11 +243,20 @@ public class MainMenuSelectionState : IDisposableState {
                         yield return StateChange.none;
                     yield return StateChange.PopThenPush(3, new CampaignOverviewState2());
                 }
-                
-                // if (InputState.TryConsumeKeyDown(KeyCode.Return)) {
-                //     goToCampaign = true;
-                //     continue;
-                // }
+
+                if (goToLoadGame) {
+                    goToLoadGame = false;
+                }
+
+                if (goToSettings) {
+                    goToSettings = false;
+                }
+
+                if (goToAbout) {
+                    goToAbout = false;
+                    yield return StateChange.Push(new EntryPointAbout(view));
+                    continue;
+                }
 
                 if (InputState.TryConsumeKeyDown(KeyCode.Escape)) {
 
@@ -257,5 +287,40 @@ public class MainMenuSelectionState : IDisposableState {
     public void Dispose() {
         view.mainMenuVirtualCamera.enabled = false;
         view.textFrame3d.gameObject.SetActive(false);
+    }
+}
+
+public class EntryPointAbout : IDisposableState {
+
+    public EntryPointView view;
+    public EntryPointAbout(EntryPointView view) {
+        this.view = view;
+    }
+
+    public IEnumerator<StateChange> Run {
+        get {
+            view.textFrame3d.gameObject.SetActive(false);
+            view.about.SetActive(true);
+            foreach (var go in view.hiddenInAbout)
+                go.SetActive(false);
+
+            while (true) {
+                var shouldStop = InputState.TryConsumeKeyDown(KeyCode.Escape);
+                shouldStop = InputState.TryConsumeMouseButtonDown(Mouse.right) || shouldStop;
+                if (shouldStop)
+                    break;
+                yield return StateChange.none;
+            }
+
+            yield return StateChange.Pop();
+        }
+    }
+
+    public void Dispose() {
+        view.about.SetActive(true);
+        view.textFrame3d.gameObject.SetActive(true);
+        view.about.SetActive(false);
+        foreach (var go in view.hiddenInAbout)
+            go.SetActive(true);
     }
 }
