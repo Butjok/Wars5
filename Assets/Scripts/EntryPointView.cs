@@ -112,7 +112,7 @@ public class EntryPointView : MonoBehaviour {
     }
 
     private void OnGUI() {
-        if (gitInfoEntries.Count > 0) {
+        if (Debug.isDebugBuild && gitInfoEntries.Count > 0) {
             var entry = gitInfoEntries[0];
             GUI.skin = DefaultGuiSkin.TryGet;
             var text = $"git: {entry.commit} @ {entry.DateTime}";

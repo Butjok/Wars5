@@ -98,9 +98,11 @@ public class StateRunner : MonoBehaviour {
     public static int guiDepth = -1000;
 
     private void OnGUI() {
-        GUI.skin = DefaultGuiSkin.TryGet;
-        GUI.depth = guiDepth; 
-        GUILayout.Label(string.Join(" / ", stateNames.Reverse().Select(name => name.EndsWith("State") ? name[..^"State".Length] : name)));
+        if (Debug.isDebugBuild) {
+            GUI.skin = DefaultGuiSkin.TryGet;
+            GUI.depth = guiDepth;
+            GUILayout.Label(string.Join(" / ", stateNames.Reverse().Select(name => name.EndsWith("State") ? name[..^"State".Length] : name)));
+        }
     }
 }
 

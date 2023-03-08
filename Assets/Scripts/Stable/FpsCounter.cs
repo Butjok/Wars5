@@ -12,6 +12,8 @@ public class FpsCounter : MonoBehaviour {
 	public GUIContent content;
 	
 	public void OnGUI() {
+		if (!Debug.isDebugBuild)
+			return;
 		GUI.skin = skin;
 		var fps = Mathf.RoundToInt(1f / Time.deltaTime);
 		var max = texts.Length - 1;
