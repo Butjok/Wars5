@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Butjok.CommandLine;
 using Cinemachine;
@@ -14,12 +15,13 @@ using UnityEngine.Serialization;
 using UnityEngine.UI;
 using UnityEngine.Video;
 using Object = UnityEngine.Object;
+using static Gettext;
 
 public class EntryPointView : MonoBehaviour {
 
     [JsonObject(MemberSerialization.OptIn)]
     public struct GitInfoEntry {
-        
+
         [JsonProperty]
         public string commit;
         [JsonProperty]
@@ -31,7 +33,7 @@ public class EntryPointView : MonoBehaviour {
 
         public DateTime DateTime => DateTime.Parse(date);
     }
-    
+
     private void Awake() {
 
         Assert.AreEqual(1, FindObjectsOfType<EntryPointView>(true).Length);
@@ -63,14 +65,39 @@ public class EntryPointView : MonoBehaviour {
     public TMP_Text pressAnyKeyText;
     public float delay = 1;
     public Image holdImage;
-    public TextFrame3d textFrame3d;
 
     public GameObject[] hiddenInAbout = { };
     public GameObject[] hiddenInWelcomeScreen = { };
+    public GameObject[] hiddenInLoadGame = { };
+
+    public Color inactiveColor = Color.grey;
 
     public GameObject about;
     public ScrollRect aboutScrollRect;
+    public GameObject loadGameRoot;
+    public LoadGameButton loadGameButtonPrefab;
+    public Sprite missingScreenshotSprite;
+    public Image savedGameScreenshotImage;
+    public TMP_Text savedGameNameText;
+    public TMP_Text savedGameDateTimeText;
+    public TMP_Text savedGameInfoLeftText;
+    public TMP_Text savedGameInfoRightText;
+    [TextArea(10,10)]
+    public string savedGameInfoLeftFormat = @"{0}
+{1}
+{2}
+{3}
 
+{4}";
+    [TextArea(10,10)]
+    public string savedGameInfoRightFormat = @"{0}
+{1}
+{2}";
+
+    public TextFrame3d textFrame3d;
+
+
+    public TextMeshPro loadGameText;
     public List<GitInfoEntry> gitInfoEntries = new();
 
     private void OnEnable() {
@@ -80,12 +107,12 @@ public class EntryPointView : MonoBehaviour {
         var gitInfoJsonTextAsset = Resources.Load<TextAsset>("GitInfo");
         if (gitInfoJsonTextAsset) {
             var json = gitInfoJsonTextAsset.text;
-            gitInfoEntries = json.FromJson<List<GitInfoEntry>>().OrderByDescending(e=>e.DateTime).ToList();
+            gitInfoEntries = json.FromJson<List<GitInfoEntry>>().OrderByDescending(e => e.DateTime).ToList();
         }
     }
 
     private void OnGUI() {
-        if (gitInfoEntries.Count>0) {
+        if (gitInfoEntries.Count > 0) {
             var entry = gitInfoEntries[0];
             GUI.skin = DefaultGuiSkin.TryGet;
             var text = $"git: {entry.commit} @ {entry.DateTime}";
@@ -240,9 +267,11 @@ public class MainMenuSelectionState : IDisposableState {
     public static Ease fadeEasing = Ease.Unset;
     [Command]
     public static float quitHoldTime = 1;
+    [Command]
+    public static bool simulateNoSavedGames = false;
 
     public EntryPointView view;
-
+    public Color defaultColor;
     public MainMenuSelectionState(EntryPointView view) {
         this.view = view;
     }
@@ -251,6 +280,11 @@ public class MainMenuSelectionState : IDisposableState {
         get {
             view.mainMenuVirtualCamera.enabled = true;
             view.textFrame3d.gameObject.SetActive(true);
+
+            defaultColor = view.loadGameText.color;
+            var persistentData = PersistentData.Read();
+            if (persistentData.savedGames.Count == 0 || simulateNoSavedGames)
+                view.loadGameText.color = view.inactiveColor;
 
             while (true) {
 
@@ -275,6 +309,12 @@ public class MainMenuSelectionState : IDisposableState {
 
                 if (goToLoadGame) {
                     goToLoadGame = false;
+                    if (view.loadGameText.color != view.inactiveColor) {
+                        yield return StateChange.Push(new MainMenuLoadGameState(view));
+                        continue;
+                    }
+                    else 
+                        UiSound.Instance.notAllowed.PlayOneShot();
                 }
 
                 if (goToSettings) {
@@ -283,7 +323,7 @@ public class MainMenuSelectionState : IDisposableState {
 
                 if (goToAbout) {
                     goToAbout = false;
-                    yield return StateChange.Push(new EntryPointAbout(view));
+                    yield return StateChange.Push(new MainMenuAboutState(view));
                     continue;
                 }
 
@@ -315,20 +355,20 @@ public class MainMenuSelectionState : IDisposableState {
 
     public void Dispose() {
         view.mainMenuVirtualCamera.enabled = false;
+        view.loadGameText.color = defaultColor;
         view.textFrame3d.gameObject.SetActive(false);
     }
 }
 
-public class EntryPointAbout : IDisposableState {
+public class MainMenuAboutState : IDisposableState {
 
     public EntryPointView view;
-    public EntryPointAbout(EntryPointView view) {
+    public MainMenuAboutState(EntryPointView view) {
         this.view = view;
     }
 
     public IEnumerator<StateChange> Run {
         get {
-            view.textFrame3d.gameObject.SetActive(false);
             view.about.SetActive(true);
             foreach (var go in view.hiddenInAbout)
                 go.SetActive(false);
@@ -337,7 +377,6 @@ public class EntryPointAbout : IDisposableState {
 
             while (true) {
                 var shouldStop = InputState.TryConsumeKeyDown(KeyCode.Escape);
-                shouldStop = InputState.TryConsumeMouseButtonDown(Mouse.right) || shouldStop;
                 if (shouldStop)
                     break;
                 yield return StateChange.none;
@@ -349,9 +388,90 @@ public class EntryPointAbout : IDisposableState {
 
     public void Dispose() {
         view.about.SetActive(true);
-        view.textFrame3d.gameObject.SetActive(true);
         view.about.SetActive(false);
         foreach (var go in view.hiddenInAbout)
             go.SetActive(true);
+    }
+}
+
+public class MainMenuLoadGameState : IDisposableState {
+
+    public EntryPointView view;
+    public MainMenuLoadGameState(EntryPointView view) {
+        this.view = view;
+    }
+
+    public List<LoadGameButton> buttons = new();
+    public Dictionary<string, Sprite> screenshotSprites = new();
+
+    public IEnumerator<StateChange> Run {
+        get {
+
+            foreach (var go in view.hiddenInLoadGame)
+                go.SetActive(false);
+            view.loadGameRoot.SetActive(true);
+
+            view.loadGameButtonPrefab.gameObject.SetActive(false);
+
+            var first = true;
+            var persistentData = PersistentData.Read();
+            foreach (var savedGame in persistentData.savedGames) {
+                var button = Object.Instantiate(view.loadGameButtonPrefab, view.loadGameButtonPrefab.transform.parent);
+                button.gameObject.SetActive(true);
+                buttons.Add(button);
+                button.guid = savedGame.guid;
+                button.saveName.text = savedGame.name;
+                button.textUnderlay.ForceUpdate();
+                button.button.onClick.AddListener(() => Select(savedGame));
+                var screenshotTexture = savedGame.Screenshot;
+                if (screenshotTexture) {
+                    var screenshotSprite = Sprite.Create(screenshotTexture, new Rect(Vector2.zero, new Vector2(screenshotTexture.width, screenshotTexture.height)), Vector2.one / 2);
+                    screenshotSprites.Add(savedGame.guid,screenshotSprite);
+                    button.horizontalFitter.Sprite = screenshotSprite;
+                }
+                else
+                    button.horizontalFitter.Sprite = view.missingScreenshotSprite;
+
+                if (first) {
+                    first = false;
+                    Select(savedGame);
+                }
+            }
+
+            while (true) {
+                var shouldStop = InputState.TryConsumeKeyDown(KeyCode.Escape);
+                if (shouldStop)
+                    break;
+                yield return StateChange.none;
+            }
+
+            yield return StateChange.Pop();
+        }
+    }
+
+    public void Select(SavedGame savedGame) {
+        view.savedGameScreenshotImage.sprite = screenshotSprites.TryGetValue(savedGame.guid, out var sprite) ? sprite : null;
+        view.savedGameNameText.text = savedGame.name;
+        view.savedGameDateTimeText.text = savedGame.dateTime.ToString(CultureInfo.InvariantCulture);
+        view.savedGameInfoLeftText.text = string.Format(view.savedGameInfoLeftFormat, 
+            _p("LoadGame", "MISSION"),
+            _p("LoadGame", "BRIEF"),
+            Strings.GetDescription(savedGame.missionName));
+        view.savedGameInfoRightText.text=string.Format(view.savedGameInfoRightFormat,
+            Strings.GetName(savedGame.missionName));
+    }
+
+    public void Dispose() {
+        foreach (var go in view.hiddenInLoadGame)
+            go.SetActive(true);
+        view.loadGameRoot.SetActive(false);
+        
+        foreach (var button in buttons)
+            Object.Destroy(button.gameObject);
+        buttons.Clear();
+        
+        foreach (var sprite in screenshotSprites.Values)
+            Object.Destroy(sprite);
+        screenshotSprites.Clear();
     }
 }

@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2023-03-08 02:02+0100\n"
-"PO-Revision-Date: 2023-03-08 02:02+0100\n"
+"POT-Creation-Date: 2023-03-08 16:24+0100\n"
+"PO-Revision-Date: 2023-03-08 16:25+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -15,6 +15,16 @@ msgstr ""
 "X-Poedit-Basepath: ../../../../Scripts\n"
 "X-Poedit-KeywordsList: _;_p:1c,2;_pn:1c,2,3;_n:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
+
+#: EntryPointView.cs:457
+msgctxt "LoadGame"
+msgid "MISSION"
+msgstr "МИССИЯ"
+
+#: EntryPointView.cs:458
+msgctxt "LoadGame"
+msgid "BRIEF"
+msgstr "ПОСТАНОВКА ЗАДАЧИ"
 
 #: Stable/Factions.cs:11
 msgid "People's Republic of Novoslavia"
@@ -116,133 +126,153 @@ msgstr "Назад"
 
 #: Strings.cs:13
 msgctxt "MainMenu"
-msgid "CAMPAIGN"
-msgstr "КАМПАНИЯ"
+msgid "PRESS ANY KEY"
+msgstr "НАЖМИТЕ ЛЮБУЮ КЛАВИШУ"
 
 #: Strings.cs:14
+msgctxt "MainMenu"
+msgid "NEW CAMPAIGN"
+msgstr "НОВАЯ КАМПАНИЯ"
+
+#: Strings.cs:15
+msgctxt "MainMenu"
+msgid "START MISSION"
+msgstr "НАЧАТЬ МИССИЮ"
+
+#: Strings.cs:16
+msgctxt "MainMenu"
+msgid "CONTINUE"
+msgstr "ПРОДОЛЖИТЬ ИГРУ"
+
+#: Strings.cs:17
 msgctxt "MainMenu"
 msgid "SETTINGS"
 msgstr "НАСТРОЙКИ"
 
-#: Strings.cs:15
+#: Strings.cs:18
 msgctxt "MainMenu"
 msgid "QUIT"
 msgstr "ВЫХОД"
 
-#: Strings.cs:16
+#: Strings.cs:19
 msgctxt "MainMenu"
 msgid "LOAD GAME"
 msgstr "ЗАГРУЗИТЬ ИГРУ"
 
-#: Strings.cs:17
+#: Strings.cs:20
 msgctxt "MainMenu"
 msgid "ABOUT"
 msgstr "ОБ ИГРЕ"
 
-#: Strings.cs:18
+#: Strings.cs:21
 msgctxt "Loading"
 msgid "START"
 msgstr "НАЧАТЬ"
 
-#: Strings.cs:23
+#: Strings.cs:22
+msgctxt "LoadGame"
+msgid "Load"
+msgstr "Загрузить"
+
+#: Strings.cs:27
 msgctxt "Campaign.Mission"
 msgid "Tutorial"
 msgstr "Обучение"
 
-#: Strings.cs:24
+#: Strings.cs:28
 msgctxt "Campaign.Mission"
 msgid "First mission"
 msgstr "Первая миссия"
 
-#: Strings.cs:25
+#: Strings.cs:29
 msgctxt "Campaign.Mission"
 msgid "Second mission"
 msgstr "Вторая миссия"
 
-#: Strings.cs:32
+#: Strings.cs:36
 msgctxt "Campaign.Mission"
 msgid "A introduction into the game."
 msgstr "Введение в игру."
 
-#: Strings.cs:33
+#: Strings.cs:37
 msgctxt "Campaign.Mission"
 msgid "A challenger appears!"
 msgstr "Первый соперник!"
 
-#: Strings.cs:34
+#: Strings.cs:38
 msgctxt "Campaign.Mission"
 msgid "Final push!"
 msgstr "Решающий натиск!"
 
-#: Strings.cs:41
+#: Strings.cs:45
 msgid "Hello there!"
 msgstr "Привет!"
 
-#: Strings.cs:42
+#: Strings.cs:46
 msgid "Welcome to the Wars3d! An amazing strategy game!"
 msgstr "Добро пожаловать в Wars3d! Это замечательная пошаговая стратегия!"
 
-#: Strings.cs:43
+#: Strings.cs:47
 msgid "What are you saying?"
 msgstr "Что ты говоришь?"
 
-#: Strings.cs:44
+#: Strings.cs:48
 msgid "I dont know what to say..."
 msgstr "Я даже не знаю что и сказать…"
 
-#: Strings.cs:45
+#: Strings.cs:49
 msgid "Probably..."
 msgstr "Наверное…"
 
-#: Strings.cs:45
+#: Strings.cs:49
 msgid "we should have done something different..."
 msgstr "нам нужно было сделать что-то другое…"
 
-#: Strings.cs:46
+#: Strings.cs:50
 msgid "You have no clue who you are messing with!"
 msgstr "Ты понятия не имеешь с кем имеешь дело!"
 
-#: Strings.cs:47
+#: Strings.cs:51
 msgid "Enough!"
 msgstr "Хватит!"
 
-#: Strings.cs:48
+#: Strings.cs:52
 msgid "Let's do it!"
 msgstr "Вперед!"
 
-#: Strings.cs:52
+#: Strings.cs:56
 msgid "We did it! They are falling back!"
 msgstr "Мы сделали это! Они отступают!"
 
-#: Strings.cs:53
+#: Strings.cs:57
 msgid "This is just a beginning..."
 msgstr "Это всего лишь начало…"
 
-#: Strings.cs:53
+#: Strings.cs:57
 msgid "Troops fall back!"
 msgstr "Войска, отступаем!"
 
-#: Strings.cs:54
+#: Strings.cs:58
 msgid "I am so proud of you!"
 msgstr "Я так горжусь тобой!"
 
-#: Strings.cs:55
+#: Strings.cs:59
 msgid "You did a great job."
 msgstr "Отличная работа."
 
-#: Strings.cs:59
+#: Strings.cs:63
 msgid "Oh no..."
 msgstr "О нет…"
 
-#: Strings.cs:60
+#: Strings.cs:64
 msgid "This land is ours!"
 msgstr "Эта земля - наша!"
 
-#: Strings.cs:60
+#: Strings.cs:64
 msgid "Forever!"
 msgstr "Навсегда!"
 
-#: Strings.cs:61
+#: Strings.cs:65
 msgid "Next time we should try different tactic."
 msgstr "В следующий раз нам лучше попробовать другую тактику."
 
@@ -320,6 +350,14 @@ msgstr "Старайтесь выставлять свою артиллерию 
 msgctxt "UsefulTip"
 msgid "Missile silos can damage enemy units and destroy bridges."
 msgstr "Ракетные шахты наносят ущерб юнитам врага и может уничтожать мосты."
+
+#~ msgctxt "LoadGame"
+#~ msgid "CO"
+#~ msgstr "КОМАНДИР"
+
+#~ msgctxt "LoadGame"
+#~ msgid "TURN"
+#~ msgstr "ХОД"
 
 #, csharp-format
 #~ msgid "The enemy still has a unit!"

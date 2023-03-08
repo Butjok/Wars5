@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Linq;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
@@ -78,11 +79,12 @@ public class TextFrame3d : MonoBehaviour {
     private void Update() {
 
         if (InputState.TryConsumeKeyDown(KeyCode.Tab)) {
-            Assert.AreNotEqual(0, targets.Length);
-            var index = Array.IndexOf(targets, Target);
+            var activeTargets = targets.Where(t => t.color == Color.white).ToList();
+            Assert.AreNotEqual(0, activeTargets.Count);
+            var index = activeTargets.IndexOf(Target);
             var offset = Input.GetKey(KeyCode.LeftShift) ? -1 : 1;
-            var nextIndex = (index + offset).PositiveModulo(targets.Length);
-            SetTarget(targets[nextIndex], duration);
+            var nextIndex = (index + offset).PositiveModulo(activeTargets.Count);
+            SetTarget(activeTargets[nextIndex], duration);
             return;
         }
 
@@ -93,17 +95,22 @@ public class TextFrame3d : MonoBehaviour {
 
         var ray = camera.ScreenPointToRay(Input.mousePosition);
         foreach (var target in targets) {
+            
+            if (target.color != Color.white)
+                continue;
 
-            var meshCollider = target.GetComponent<MeshCollider>();
+            var meshCollider = target.GetComponentInChildren<MeshCollider>();
             Assert.IsTrue(meshCollider);
 
-            if (meshCollider.sharedMesh != target.mesh)
+            if (meshCollider.sharedMesh != target.mesh) {
+                meshCollider.transform.position = target.transform.position;
                 meshCollider.sharedMesh = target.mesh;
+            }
 
             if (!meshCollider.Raycast(ray, out _, float.MaxValue))
                 continue;
                 
-            if (Input.mousePosition != lastMousePosition && Target != target)
+            if (Input.mousePosition != lastMousePosition && Target != target )
                 SetTarget(target, duration);
             lastMousePosition = Input.mousePosition;
 
