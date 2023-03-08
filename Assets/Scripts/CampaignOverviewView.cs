@@ -268,7 +268,7 @@ public class CampaignOverviewMissionCloseUpState : IDisposableState {
                 if (shouldStart) {
                     shouldStart = false;
                     if (isAvailable) {
-                        yield return  StateChange.PopThenPush(3, new LoadingState(missionName, Campaign.Mission.GetDefaultInput(missionName)));
+                        yield return  StateChange.PopThenPush(3, new LoadingState(missionName, Campaign.Mission.GetInputCode(missionName)));
                         continue;
                     }
                     UiSound.Instance.notAllowed.PlayOneShot();

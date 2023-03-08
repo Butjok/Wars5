@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -28,17 +29,17 @@ public class SavedGamesView : MonoBehaviour {
 
         buttonPrefab.gameObject.SetActive(false);
         thumbnail.enabled = false;
-        
+
         gameObject.SetActive(true);
-        
+
         foreach (var savedGame in savedGames) {
-            if (thumbnails.ContainsKey(savedGame.screenshotPath))
+            if (thumbnails.ContainsKey(savedGame.ScreenshotPath))
                 continue;
-            var texture = savedGame.LoadScreenshot();
-            var sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
-            thumbnails.Add(savedGame.screenshotPath, sprite);
+            var texture = savedGame.Screenshot;
+                var sprite =texture? Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero):null;
+                thumbnails.Add(savedGame.ScreenshotPath, sprite);
         }
-        
+
         buttonPrefab.gameObject.SetActive(true);
         foreach (var savedGame in savedGames) {
             var button = Instantiate(buttonPrefab, buttonsContainer);
@@ -47,27 +48,49 @@ public class SavedGamesView : MonoBehaviour {
             var text = button.GetComponentInChildren<TMP_Text>();
             text.text = savedGame.name;
             var image = button.GetComponentInChildren<Image>();
-            image.sprite = thumbnails[savedGame.screenshotPath];
+            image.sprite = thumbnails[savedGame.ScreenshotPath];
         }
         buttonPrefab.gameObject.SetActive(false);
     }
 
     public void Hide() {
-        
+
         foreach (var button in buttons)
             Destroy(button.gameObject);
         buttons.Clear();
 
         thumbnail.enabled = false;
-        
+
         gameObject.SetActive(false);
     }
 
     public void Select(SavedGame savedGame) {
-        var found = thumbnails.TryGetValue(savedGame.screenshotPath, out var sprite);
+        var found = thumbnails.TryGetValue(savedGame.ScreenshotPath, out var sprite);
         Assert.IsTrue(found);
         thumbnail.enabled = true;
         thumbnail.sprite = sprite;
+        thumbnail.preserveAspect = true;
     }
 }
 
+public class SavedGamesSelectionState : IDisposableState {
+
+    public SavedGamesView view;
+    public SavedGamesSelectionState(SavedGamesView view) {
+        this.view = view;
+    }
+
+    public IEnumerator<StateChange> Run {
+        get {
+            var persistentData = PersistentData.Read();
+            var savedGames = persistentData.savedGames;
+            var screenShots = savedGames.ToDictionary(savedGame => savedGame.ScreenshotPath, savedGame => savedGame.Screenshot);
+            
+            
+            
+            yield break;
+        }
+    }
+
+    public void Dispose() { }
+}

@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Butjok.CommandLine;
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Rendering.PostProcessing;
+using Object = UnityEngine.Object;
 
 public class PersistentData {
 
@@ -26,14 +28,14 @@ public class PersistentData {
     }
 
     public bool firstTimeLaunch = true;
-    
+
     public Campaign campaign = new();
-    
+
     public List<SavedGame> savedGames = new() {
-        new SavedGame("hello", MissionName.Tutorial, "", screenshotPath:"/Users/butjok/vfedotov.com/playdead/11.PNG"),
-        new SavedGame("world", MissionName.FirstMission, "", screenshotPath:"/Users/butjok/vfedotov.com/playdead/20.PNG"),
+        new SavedGame { missionName = MissionName.Tutorial },
+        new SavedGame { missionName = MissionName.Tutorial },
     };
-    
+
     public GameSettings gameSettings = new();
     public List<string> log = new();
 }
@@ -67,11 +69,9 @@ public class Campaign {
     public class Mission {
 
         public MissionName name;
-        public string isAvailable = "true";
         public bool isCompleted;
-        public string initializationCode;
-        
-        public static string GetDefaultInput(MissionName missionName) {
+
+        public static string GetInputCode(MissionName missionName) {
             return missionName switch {
                 MissionName.Tutorial => "TutorialSaveData".LoadAs<TextAsset>().text,
                 _ => throw new ArgumentOutOfRangeException(nameof(missionName), missionName, null)
@@ -85,12 +85,10 @@ public class Campaign {
             isCompleted = true
         },
         new Mission {
-            name = MissionName.FirstMission,
-            isAvailable = "Tutorial MissionName type enum isCompleted"
+            name = MissionName.FirstMission
         },
         new Mission {
-            name = MissionName.SecondMission,
-            isAvailable = "FirstMission MissionName type enum isCompleted"
+            name = MissionName.SecondMission
         }
     };
 
@@ -104,45 +102,46 @@ public class Campaign {
     }
 
     public Mission Find(MissionName name) {
-        return missions.Single(mission => mission.name == name);
+        var mission = missions.SingleOrDefault(mission => mission.name == name);
+        Assert.IsNotNull(mission, $"cannot find mission '{name}'");
+        return mission;
     }
 }
 
+[JsonObject(MemberSerialization.OptIn)]
 public class SavedGame {
 
+    [JsonProperty]
+    public string guid = Guid.NewGuid().ToString();
+    [JsonProperty]
+    public DateTime dateTime = DateTime.Now;
+    [JsonProperty]
     public string name;
-    public DateTime dateTime;
+    [JsonProperty]
     public MissionName missionName;
-    public string initializationCode;
-    public string screenshotPath;
 
-    public static string ScreenshotDirectoryPath => Path.Combine(Application.persistentDataPath, "Screenshots");
-    public const string screenshotExtension = ".png";
+    public string ScreenshotPath => Path.Combine(Application.persistentDataPath, guid) + ".png";
+    public string InputCodePath => Path.Combine(Application.persistentDataPath, guid) + ".txt";
 
-    public SavedGame(string name, MissionName missionName, string initializationCode, Texture2D screenshot=null, string screenshotPath=null) {
-        this.name = name;
-        dateTime = DateTime.Now;
-        this.missionName = missionName;
-        this.initializationCode = initializationCode;
-        this.screenshotPath = screenshotPath;
-        if (screenshot)
-            SaveScreenshot(screenshot);
+    public Texture2D Screenshot {
+        get {
+            if (!File.Exists(ScreenshotPath))
+                return null;
+            var texture = new Texture2D(2, 2);
+            texture.LoadImage(File.ReadAllBytes(ScreenshotPath), true);
+            return texture;
+        }
+        set {
+            var data = value.EncodeToPNG();
+            File.WriteAllBytes(ScreenshotPath, data);
+        }
     }
-    
-    public Texture2D LoadScreenshot() {
-        if (string.IsNullOrWhiteSpace(screenshotPath)|| !File.Exists(screenshotPath))
-            return null;
-        var texture = new Texture2D(2, 2);
-        texture.LoadImage(File.ReadAllBytes(screenshotPath), true);
-        return texture;
-    }
-    
-    public void SaveScreenshot(Texture2D texture) {
-        if (!Directory.Exists(ScreenshotDirectoryPath))
-            Directory.CreateDirectory(ScreenshotDirectoryPath);
-        if (string.IsNullOrWhiteSpace(screenshotPath))
-            screenshotPath = Path.ChangeExtension(Path.Combine(ScreenshotDirectoryPath, Guid.NewGuid().ToString()), screenshotExtension);
-        var data = texture.EncodeToPNG();
-        File.WriteAllBytes(screenshotPath, data);
+
+    public string InputData {
+        get {
+            Assert.IsTrue(File.Exists(InputCodePath));
+            return File.ReadAllText(InputCodePath);
+        }
+        set => File.WriteAllText(InputCodePath, value);
     }
 }

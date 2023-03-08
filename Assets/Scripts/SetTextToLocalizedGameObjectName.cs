@@ -10,8 +10,10 @@ public class SetTextToLocalizedGameObjectName : MonoBehaviour {
     
     private void Awake() {
         var text = GetComponentInChildren<TMP_Text>();
-        if (text)
-            text.text = string.IsNullOrWhiteSpace(context) ? _(name) : _p(context,name);
+        if (text) {
+            text.text = string.IsNullOrWhiteSpace(context) ? _(name) : _p(context, name);
+            text.SetAllDirty();
+        }
     }
 
     private void Update() {

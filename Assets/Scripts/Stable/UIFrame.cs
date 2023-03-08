@@ -93,7 +93,3 @@ public class UIFrame : MonoBehaviour {
         rectTransform.sizeDelta = max - min;
     }
 }
-
-public static class Easing {
-    public static float InOutQuad(float t) =>  t < 0.5 ? 2 * t * t : 1 - Mathf.Pow(-2 * t + 2, 2) / 2;
-}

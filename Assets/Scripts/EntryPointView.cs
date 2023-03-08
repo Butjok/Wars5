@@ -51,6 +51,7 @@ public class EntryPointView : MonoBehaviour {
     public TMP_Text pressAnyKeyText;
     public float delay = 1;
     public Image holdImage;
+    public TextFrame3d textFrame3d;
 }
 
 public class EntryPointState : IDisposableState {
@@ -182,6 +183,8 @@ public class MainMenuWelcomeState : IDisposableState {
 
 public class MainMenuSelectionState : IDisposableState {
 
+    public static bool quit, goToCampaign;
+
     [Command]
     public static float fadeDuration = .25f;
     [Command]
@@ -197,21 +200,37 @@ public class MainMenuSelectionState : IDisposableState {
     public IEnumerator<StateChange> Run {
         get {
             view.mainMenuVirtualCamera.enabled = true;
+            view.textFrame3d.gameObject.SetActive(true);
 
             while (true) {
+                
+                if (quit) {
+                    quit = false;
+#if UNITY_EDITOR
+                    UnityEditor.EditorApplication.isPlaying = false;
+#else
+                    Application.Quit();
+#endif
+                    yield break;
+                }
 
-                if (InputState.TryConsumeKeyDown(KeyCode.Return)) {
+                if (goToCampaign) {
+                    goToCampaign = false;
                     PostProcessing.ColorFilter = Color.white;
                     var tween = PostProcessing.Fade(Color.black, fadeDuration, fadeEasing);
                     while (tween.IsActive() && !tween.IsComplete())
                         yield return StateChange.none;
                     yield return StateChange.PopThenPush(3, new CampaignOverviewState2());
                 }
+                
+                // if (InputState.TryConsumeKeyDown(KeyCode.Return)) {
+                //     goToCampaign = true;
+                //     continue;
+                // }
 
                 if (InputState.TryConsumeKeyDown(KeyCode.Escape)) {
 
                     var startTime = Time.time;
-                    var quit = false;
                     view.holdImage.enabled = true;
 
                     while (!InputState.TryConsumeKeyUp(KeyCode.Escape)) {
@@ -225,15 +244,9 @@ public class MainMenuSelectionState : IDisposableState {
                         view.holdImage.fillAmount = holdTime / quitHoldTime;
                         yield return StateChange.none;
                     }
-                    if (quit) {
-#if UNITY_EDITOR
-                        UnityEditor.EditorApplication.isPlaying = false;
-#else
-                        Application.Quit();
-#endif
-                    }
 
                     view.holdImage.enabled = false;
+                    continue;
                 }
 
                 yield return StateChange.none;
@@ -243,5 +256,6 @@ public class MainMenuSelectionState : IDisposableState {
 
     public void Dispose() {
         view.mainMenuVirtualCamera.enabled = false;
+        view.textFrame3d.gameObject.SetActive(false);
     }
 }
