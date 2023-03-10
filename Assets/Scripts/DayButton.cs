@@ -61,6 +61,8 @@ public class DayButton : MonoBehaviour {
 
     public IEnumerator Animation(int nextDay) {
         Assert.IsTrue(carousel);
+        var oldInteractable = button.interactable;
+        button.interactable = false;
         var changedDay = false;
         var startTime = Time.time;
         while (Time.time < startTime + duration) {
@@ -73,6 +75,7 @@ public class DayButton : MonoBehaviour {
             }
             yield return null;
         }
+        button.interactable = oldInteractable;
         carousel.rotation=Quaternion.identity;
     }
 }

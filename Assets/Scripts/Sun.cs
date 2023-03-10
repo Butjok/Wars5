@@ -59,6 +59,8 @@ public class Sun : MonoBehaviour {
             if (light) {
                 light.color = Color.Lerp(Color.white, duskColor, duskIntensity.Evaluate(360 * t));
                 light.intensity = lightIntensityAmplitude * (1 - nightIntensity);
+                if (Vector3.Dot(light.transform.forward, Vector3.up) > 0)
+                    light.intensity = 0;
             }
             yield return null;
         }
