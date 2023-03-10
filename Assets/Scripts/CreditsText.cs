@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using Butjok.CommandLine;
 using TMPro;
@@ -9,18 +8,14 @@ using UnityEngine.UI;
 public class CreditsText : MonoBehaviour {
 
     public TMP_Text text;
-    public string prefix = "";
-    public string suffix = "";
     public float duration = 1;
     public Color defaultColor = Color.white;
     public Color positiveChangeColor = Color.green;
     public Color negativeChangeColor = Color.red;
     public Image coinImage;
     public Sprite[] coinSprites = { };
-    public RectTransform RectTransform => GetComponent<RectTransform>();
 
     private void OnEnable() {
-        var instance = StateRunner.Instance;
         text = GetComponent<TMP_Text>();
         Assert.IsTrue(text);
     }

@@ -226,10 +226,8 @@ public class CameraRig : MonoBehaviour {
 
     public bool TryRotate(int? direction = null, float? angle = null) {
 
-        /*if (clampRotation)
-            targetRotation = Mathf.Clamp(targetRotation, rotationRange[0], rotationRange[1]);
-        if (rotation == targetRotation)
-            return false;*/
+        Assert.IsFalse(direction == null && angle == null ||
+                       direction != null && angle != null);
 
         if (rotationCoroutine != null) {
             StopCoroutine(rotationCoroutine);
@@ -237,10 +235,10 @@ public class CameraRig : MonoBehaviour {
         }
 
         var startAngle = transform.eulerAngles.y;
-        
-        var targetAngle = Mathf.RoundToInt(transform.eulerAngles.y / rotationStep) * rotationStep;
+
+        var targetAngle = 0f;
         if (direction is { } actualDirection)
-            targetAngle += actualDirection * rotationStep;
+            targetAngle = (Mathf.Round(startAngle / rotationStep) + actualDirection) * rotationStep;
         if (angle is { } actualAngle)
             targetAngle = actualAngle;
 
@@ -248,10 +246,10 @@ public class CameraRig : MonoBehaviour {
             targetAngle -= 360;
         while (targetAngle < -180)
             targetAngle += 360;
-        
+
         if (clampRotation)
             targetAngle = Mathf.Clamp(targetAngle, rotationRange[0], rotationRange[1]);
-        
+
         rotationCoroutine = RotationAnimation(startAngle, targetAngle);
         StartCoroutine(rotationCoroutine);
         return true;
@@ -270,7 +268,7 @@ public class CameraRig : MonoBehaviour {
         while (Time.unscaledTime < startTime + rotationDuration) {
             var t = (Time.unscaledTime - startTime) / rotationDuration;
             t = Easing.Dynamic(rotationEasingName, t);
-            transform.rotation =Quaternion.Slerp(from,to,t);
+            transform.rotation = Quaternion.Slerp(from, to, t);
             yield return null;
         }
         transform.rotation = to;
