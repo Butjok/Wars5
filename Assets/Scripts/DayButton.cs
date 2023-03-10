@@ -30,6 +30,7 @@ public class DayButton : MonoBehaviour {
     public Easing.Name easingName;
     public Sun debugSun;
     public int nextDay = 1;
+    public int direction = -1;
 
     public int Day {
         set => text.text = string.Format(_(gettextText), value);
@@ -65,7 +66,7 @@ public class DayButton : MonoBehaviour {
         while (Time.time < startTime + duration) {
             var t = (Time.time - startTime) / duration;
             t = Easing.Dynamic(easingName,t);
-            carousel.rotation = Quaternion.Euler(0,0,360*t);
+            carousel.rotation = Quaternion.Euler(0,0,direction*360*t);
             if (text && !changedDay && t >= .5f) {
                 changedDay = true;
                 Day = nextDay;

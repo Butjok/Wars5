@@ -11,7 +11,7 @@ public class Sun : MonoBehaviour {
     public Vector3 startAngles;
 
     public Color nightColorFilterColor = Color.blue;
-    public AnimationCurve nightColorAnimationCurve = new(
+    public AnimationCurve nightIntensity = new(
         new Keyframe(0, 0),
         new Keyframe(90, 0),
         new Keyframe(90 + 45, 1),
@@ -48,20 +48,26 @@ public class Sun : MonoBehaviour {
         var angles = startAngles;
         var from = angles[axis];
         var to = from + 360;
+        var lightIntensityAmplitude = light ? light.intensity : 0;
         while (Time.time < startTime + dayChangeDuration) {
             var t = (Time.time - startTime) / dayChangeDuration;
             var angle = Mathf.Lerp(from, to, Easing.InOutQuad(t));
             angles[axis] = angle;
             transform.rotation = Quaternion.Euler(angles);
-            PostProcessing.ColorFilter = Color.Lerp(Color.white, nightColorFilterColor, nightColorAnimationCurve.Evaluate(360*t));
-            if (light)
+            var nightIntensity = this.nightIntensity.Evaluate(360 * t);
+            PostProcessing.ColorFilter = Color.Lerp(Color.white, nightColorFilterColor, nightIntensity);
+            if (light) {
                 light.color = Color.Lerp(Color.white, duskColor, duskIntensity.Evaluate(360 * t));
+                light.intensity = lightIntensityAmplitude * (1 - nightIntensity);
+            }
             yield return null;
         }
         angles[axis] = to;
         transform.rotation = Quaternion.Euler(startAngles);
         PostProcessing.ColorFilter = Color.white;
-        if (light)
+        if (light) {
             light.color = Color.white;
+            light.intensity = lightIntensityAmplitude;
+        }
     }
 }
