@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Butjok.CommandLine;
 using UnityEngine;
@@ -8,20 +9,20 @@ public class PowerMeterStripe : MonoBehaviour {
     public Material material;
 
     [Command]
-    public void SetProgress(float value, bool animate = true) {
+    public void SetProgress(float value, bool animate = true, Action onComplete=null) {
         
         if (value == GetUniformValue())
             return;
 
         if (animate) {
             StopAllCoroutines();
-            StartCoroutine(Animation(value));
+            StartCoroutine(Animation(value, onComplete));
         }
         else
             SetUniformValue(value);
     }
 
-    public IEnumerator Animation(float to) {
+    public IEnumerator Animation(float to, Action onComplete=null) {
         var from = GetUniformValue();
         var duration = Mathf.Abs(to - from) / speed;
         var startTime = Time.unscaledTime;
@@ -31,6 +32,7 @@ public class PowerMeterStripe : MonoBehaviour {
             yield return null;
         }
         SetUniformValue(to);
+        onComplete?.Invoke();
     }
 
     private float GetUniformValue() {

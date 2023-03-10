@@ -104,8 +104,9 @@ public class PlayerView2 : MonoBehaviour {
         creditsText.SetAmount(amount, animate);
     }
     [Command]
-    public void SetPowerStripeMeter(int value, bool animate = true) {
-        powerMeterStripe.SetProgress((float)value / Rules.MaxAbilityMeter(player), animate);
+    public void SetPowerStripeMeter(int value, bool animate = true, bool playSoundOnFull = true) {
+        powerMeterStripe.SetProgress((float)value / Rules.MaxAbilityMeter(player), animate, 
+            playSoundOnFull ? () => Debug.Log("power meter full") : null);
     }
 
     [Command]
