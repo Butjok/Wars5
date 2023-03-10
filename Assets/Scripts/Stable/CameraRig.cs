@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Butjok.CommandLine;
 using Cinemachine;
 using DG.Tweening;
@@ -9,233 +10,276 @@ using UnityEngine.Assertions;
 
 public class CameraRig : MonoBehaviour {
 
-	private static CameraRig instance;
-	public static bool TryFind(out CameraRig result) {
-		if (!instance)
-			instance = FindObjectOfType<CameraRig>();
-		result = instance;
-		return result;
-	}
+    private static CameraRig instance;
+    public static bool TryFind(out CameraRig result) {
+        if (!instance)
+            instance = FindObjectOfType<CameraRig>();
+        result = instance;
+        return result;
+    }
 
-	public LayerMask raycastLayerMask;
-	public Transform arm;
-	private Transform Arm {
-		get {
-			if (arm)
-				return arm;
-			arm = transform.Find("Arm");
-			Assert.IsTrue(arm);
-			return arm;
-		}
-	}
+    public LayerMask raycastLayerMask;
+    public Transform arm;
+    private Transform Arm {
+        get {
+            if (arm)
+                return arm;
+            arm = transform.Find("Arm");
+            Assert.IsTrue(arm);
+            return arm;
+        }
+    }
 
-	public CinemachineVirtualCamera virtualCamera;
-	private CinemachineVirtualCamera VirtualCamera {
-		get {
-			if (virtualCamera)
-				return virtualCamera;
-			virtualCamera = gameObject.GetComponentInChildren<CinemachineVirtualCamera>();
-			Assert.IsTrue(virtualCamera);
-			return virtualCamera;
-		}
-	}
+    public CinemachineVirtualCamera virtualCamera;
+    private CinemachineVirtualCamera VirtualCamera {
+        get {
+            if (virtualCamera)
+                return virtualCamera;
+            virtualCamera = gameObject.GetComponentInChildren<CinemachineVirtualCamera>();
+            Assert.IsTrue(virtualCamera);
+            return virtualCamera;
+        }
+    }
 
-	public float speed = 1.5f;
-	public Vector2 speedRange = new Vector2(1,10);
-	public float speedMultiplier = 1;
-	[NonSerialized] public Vector2 velocity;
-	public float velocitySmoothTime = 0.05f;
+    public float speed = 1.5f;
+    public Vector2 speedRange = new Vector2(1, 10);
+    public float speedMultiplier = 1;
+    [NonSerialized] public Vector2 velocity;
+    public float velocitySmoothTime = 0.05f;
 
-	[NonSerialized] public float targetDistance = float.NaN;
-	public float distance = 20;
-	public float distanceSmoothTime = 50;
-	public float distanceStep = -0.2f;
-	public Vector2 distanceBounds = new(1, 30);
+    [NonSerialized] public float targetDistance = float.NaN;
+    public float distance = 20;
+    public float distanceSmoothTime = 50;
+    public float distanceStep = -0.2f;
+    public Vector2 distanceBounds = new(1, 30);
 
-	public float rotationDuration = .3f;
-	public Ease rotationEase = Ease.OutSine;
-	public float rotationStep = -90;
-	public float rotationAmplitude = 1.7f;
-	public float rotationPeriod = 0;
-	public bool clampRotation = true;
-	public Vector2Int rotationRange = new(-1, 1);
-	[NonSerialized] public float compassLastClickTime;
+    public float rotationDuration = .3f;
+    public Ease rotationEase = Ease.OutSine;
+    public float rotationStep = -90;
+    public float rotationAmplitude = 1.7f;
+    public float rotationPeriod = 0;
+    public bool clampRotation = true;
+    public Vector2 rotationRange = new(-45, 45);
+    [NonSerialized] public float compassLastClickTime;
 
-	public float pitchAngle = 40f;
-	[NonSerialized] public float tagetPitchAngle = float.NaN;
-	public float pitchAngleSmoothTime = .02f;
-	public float pitchAngleSpeed = 90;
-	public Vector2 pitchAngleBounds = new(0, 90);
+    public float pitchAngle = 40f;
+    [NonSerialized] public float tagetPitchAngle = float.NaN;
+    public float pitchAngleSmoothTime = .02f;
+    public float pitchAngleSpeed = 90;
+    public Vector2 pitchAngleBounds = new(0, 90);
 
-	[NonSerialized] public bool isDragging;
-	public Sequence rotationSequence;
+    [NonSerialized] public bool isDragging;
+    public Sequence rotationSequence;
 
-	public float compassResetCooldown = .2f;
+    public float compassResetCooldown = .2f;
 
-	[NonSerialized] public Vector3 oldMousePosition;
+    [NonSerialized] public Vector3 oldMousePosition;
 
-	[NonSerialized] public float lastClickTime;
-	public float teleportCooldown = .2f;
-	public float teleportDuration = .5f;
-	public Ease teleportEase = Ease.OutExpo;
-	public Tween teleportAnimation;
+    [NonSerialized] public float lastClickTime;
+    public float teleportCooldown = .2f;
+    public float teleportDuration = .5f;
+    public Ease teleportEase = Ease.OutExpo;
+    public Tween teleportAnimation;
 
-	public PlaceOnTerrain placeOnTerrain;
-	[Command]
-	public bool PlaceOnTerrain {
-		get => placeOnTerrain && placeOnTerrain.enabled;
-		set {
-			if (placeOnTerrain) placeOnTerrain.enabled = value;
-		}
-	}
+    public PlaceOnTerrain placeOnTerrain;
+    [Command]
+    public bool PlaceOnTerrain {
+        get => placeOnTerrain && placeOnTerrain.enabled;
+        set {
+            if (placeOnTerrain)
+                placeOnTerrain.enabled = value;
+        }
+    }
 
-	public float speedupMultiplier = 2;
+    public Easing.Name rotationEasingName = Easing.Name.OutSine;
 
-	public void OnCompassClick() {
-		if (rotationSequence == null) {
-			TryRotate( 1);
-			compassLastClickTime = Time.unscaledTime;
-		}
-		else if (compassLastClickTime + compassResetCooldown > Time.unscaledTime) {
-			rotationSequence.Kill();
-			TryRotate(0);
-		}
-	}
+    public float speedupMultiplier = 2;
 
-	private bool initialized;
-	private void EnsureInitialized() {
-		if (initialized)
-			return;
-		initialized = true;
+    public void OnCompassClick() {
+        if (rotationSequence == null) {
+            TryRotate(1);
+            compassLastClickTime = Time.unscaledTime;
+        }
+        else if (compassLastClickTime + compassResetCooldown > Time.unscaledTime) {
+            rotationSequence.Kill();
+            TryRotate(0);
+        }
+    }
 
-		placeOnTerrain = GetComponent<PlaceOnTerrain>();
+    private bool initialized;
+    private void EnsureInitialized() {
+        if (initialized)
+            return;
+        initialized = true;
 
-		if (raycastLayerMask == 0)
-			raycastLayerMask = 1 << LayerMask.NameToLayer("Default");
-	}
+        placeOnTerrain = GetComponent<PlaceOnTerrain>();
 
-	private void Awake() {
-		EnsureInitialized();
-	}
+        if (raycastLayerMask == 0)
+            raycastLayerMask = 1 << LayerMask.NameToLayer("Default");
+    }
 
-	public Tween Jump(Vector3 targetPosition) {
-		teleportAnimation?.Kill();
-		placeOnTerrain.enabled = false;
-		teleportAnimation = transform.DOMove(targetPosition, teleportDuration).SetEase(teleportEase);
-		teleportAnimation.onComplete+= () => placeOnTerrain.enabled = true;
-		teleportAnimation.onKill += teleportAnimation.onComplete;
-		return teleportAnimation;
-	}
+    private void Awake() {
+        EnsureInitialized();
+    }
 
-	public Vector2 fovBounds = new Vector2(45, 30);
-	public float fovLerpPower = 1;
+    public Tween Jump(Vector3 targetPosition) {
+        teleportAnimation?.Kill();
+        placeOnTerrain.enabled = false;
+        teleportAnimation = transform.DOMove(targetPosition, teleportDuration).SetEase(teleportEase);
+        teleportAnimation.timeScale = 1;
+        teleportAnimation.onComplete += () => placeOnTerrain.enabled = true;
+        teleportAnimation.onKill += teleportAnimation.onComplete;
+        return teleportAnimation;
+    }
 
-	private void Update() {
+    public Vector2 fovBounds = new Vector2(45, 30);
+    public float fovLerpPower = 1;
 
-		int Sign(float value) => Mathf.Abs(value) < Mathf.Epsilon ? 0 : value > 0 ? 1 : -1;
+    private void Update() {
+
+        int Sign(float value) => Mathf.Abs(value) < Mathf.Epsilon ? 0 : value > 0 ? 1 : -1;
 
 
-		// WASD
+        // WASD
 
-		var input =
-			transform.right.ToVector2() * Sign(Input.GetAxisRaw("Horizontal")) +
-			transform.forward.ToVector2() * Sign(Input.GetAxisRaw("Vertical"));
+        var input =
+            transform.right.ToVector2() * Sign(Input.GetAxisRaw("Horizontal")) +
+            transform.forward.ToVector2() * Sign(Input.GetAxisRaw("Vertical"));
 
-		if (input != Vector2.zero) {
-			velocity = input.normalized * (speed * distance) * (Input.GetKey(KeyCode.LeftShift) ? speedupMultiplier : 1);
-			teleportAnimation?.Kill();
-		}
-		else
-			velocity = Vector2.Lerp(velocity, Vector2.zero, velocitySmoothTime * Time.deltaTime); //Vector3.SmoothDamp(Velocity, TargetVelocity, ref Acceleration, VelocitySmoothTime);
+        if (input != Vector2.zero) {
+            velocity = input.normalized * (speed * distance) * (Input.GetKey(KeyCode.LeftShift) ? speedupMultiplier : 1);
+            teleportAnimation?.Kill();
+        }
+        else
+            velocity = Vector2.Lerp(velocity, Vector2.zero, velocitySmoothTime * Time.unscaledDeltaTime); //Vector3.SmoothDamp(Velocity, TargetVelocity, ref Acceleration, VelocitySmoothTime);
 
-		transform.position += Time.deltaTime * velocity.ToVector3();
+        transform.position += Time.unscaledDeltaTime * velocity.ToVector3();
 
-		// CAMERA PITCH
+        // CAMERA PITCH
 
-		tagetPitchAngle = float.IsNaN(tagetPitchAngle)
-			? pitchAngle
-			: Mathf.Clamp(tagetPitchAngle + Sign(Input.GetAxisRaw("PitchCamera")) * pitchAngleSpeed * Time.deltaTime,
-				pitchAngleBounds[0], pitchAngleBounds[1]);
-		pitchAngle = tagetPitchAngle;
+        tagetPitchAngle = float.IsNaN(tagetPitchAngle)
+            ? pitchAngle
+            : Mathf.Clamp(tagetPitchAngle + Sign(Input.GetAxisRaw("PitchCamera")) * pitchAngleSpeed * Time.unscaledDeltaTime,
+                pitchAngleBounds[0], pitchAngleBounds[1]);
+        pitchAngle = tagetPitchAngle;
 
-		Arm.localRotation = Quaternion.Euler(pitchAngle, 0, 0);
+        Arm.localRotation = Quaternion.Euler(pitchAngle, 0, 0);
 
-		// QE ROTATION
+        // QE ROTATION
 
-		if (rotationSequence == null) {
-			var rotationDirection = Sign(Input.GetAxisRaw("RotateCamera"));
-			if (rotationDirection != 0)
-				TryRotate( rotationDirection);
-		}
+        if (rotationCoroutine == null) {
+            var rotationDirection = Sign(Input.GetAxisRaw("RotateCamera"));
+            if (rotationDirection != 0)
+                TryRotate(direction: rotationDirection);
+        }
 
-		// ZOOM
+        // ZOOM
 
-		targetDistance = float.IsNaN(targetDistance)
-			? distance
-			: Mathf.Clamp(targetDistance + Sign(Input.GetAxisRaw("Mouse ScrollWheel")) * distanceStep * distance,
-				distanceBounds[0], distanceBounds[1]);
-		distance =
-			Mathf.Lerp(distance, targetDistance, Time.deltaTime * distanceSmoothTime);
+        targetDistance = float.IsNaN(targetDistance)
+            ? distance
+            : Mathf.Clamp(targetDistance + Sign(Input.GetAxisRaw("Mouse ScrollWheel")) * distanceStep * distance,
+                distanceBounds[0], distanceBounds[1]);
+        distance =
+            Mathf.Lerp(distance, targetDistance, Time.unscaledDeltaTime * distanceSmoothTime);
 
-		VirtualCamera.transform.localPosition = Vector3.back * distance;
-		var t = (distance - distanceBounds[0]) / (distanceBounds[1]-distanceBounds[0]);
-		virtualCamera.m_Lens.FieldOfView = Mathf.Lerp(fovBounds[0], fovBounds[1], Mathf.Pow(t, fovLerpPower));
+        VirtualCamera.transform.localPosition = Vector3.back * distance;
+        var t = (distance - distanceBounds[0]) / (distanceBounds[1] - distanceBounds[0]);
+        virtualCamera.m_Lens.FieldOfView = Mathf.Lerp(fovBounds[0], fovBounds[1], Mathf.Pow(t, fovLerpPower));
 
-		// DRAGGING
+        // DRAGGING
 
-		if (Input.GetMouseButtonDown(2) && !isDragging) {
-			isDragging = true;
-			oldMousePosition = Input.mousePosition;
-			if (teleportAnimation != null) {
-				teleportAnimation.Kill();
-				teleportAnimation = null;
-			}
-		}
-		if (Input.GetMouseButtonUp(2) && isDragging)
-			isDragging = false;
+        if (Input.GetMouseButtonDown(2) && !isDragging) {
+            isDragging = true;
+            oldMousePosition = Input.mousePosition;
+            if (teleportAnimation != null) {
+                teleportAnimation.Kill();
+                teleportAnimation = null;
+            }
+        }
+        if (Input.GetMouseButtonUp(2) && isDragging)
+            isDragging = false;
 
-		if (isDragging && Camera.main) {
-			var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-			var rayOld = Camera.main.ScreenPointToRay(oldMousePosition);
-			var plane = new Plane(Vector3.up, Vector3.zero);
-			if (plane.Raycast(ray, out var enter) && plane.Raycast(rayOld, out var enterOld)) {
-				var point = ray.GetPoint(enter);
-				var pointOld = rayOld.GetPoint(enterOld);
-				transform.position -= point - pointOld;
-			}
-			oldMousePosition = Input.mousePosition;
-		}
+        if (isDragging && Camera.main) {
+            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            var rayOld = Camera.main.ScreenPointToRay(oldMousePosition);
+            var plane = new Plane(Vector3.up, Vector3.zero);
+            if (plane.Raycast(ray, out var enter) && plane.Raycast(rayOld, out var enterOld)) {
+                var point = ray.GetPoint(enter);
+                var pointOld = rayOld.GetPoint(enterOld);
+                transform.position -= point - pointOld;
+            }
+            oldMousePosition = Input.mousePosition;
+        }
 
-		// TELEPORT
+        // TELEPORT
 
-		if (Input.GetMouseButtonDown(2)) {
-			if (lastClickTime + teleportCooldown > Time.unscaledTime && Mouse.TryGetPosition(out Vector3 target)) {
-				Jump(target);
-			}
-			else
-				lastClickTime = Time.unscaledTime;
-		}
-	}
+        if (Input.GetMouseButtonDown(2)) {
+            if (lastClickTime + teleportCooldown > Time.unscaledTime && Mouse.TryGetPosition(out Vector3 target)) {
+                Jump(target);
+            }
+            else
+                lastClickTime = Time.unscaledTime;
+        }
+    }
 
-	public bool TryRotate(int direction) {
+    public IEnumerator rotationCoroutine;
 
-		/*if (clampRotation)
-			targetRotation = Mathf.Clamp(targetRotation, rotationRange[0], rotationRange[1]);
-		if (rotation == targetRotation)
-			return false;*/
+    public bool TryRotate(int? direction = null, float? angle = null) {
 
-		var currentRotation = Mathf.RoundToInt( transform.eulerAngles.y / rotationStep);
-		
-		rotationSequence = DOTween.Sequence()
-			.Append(transform.DORotateQuaternion(Quaternion.Euler(0, (currentRotation+direction) * rotationStep, 0), rotationDuration)
-				.SetEase(rotationEase))
-			.AppendCallback(() => rotationSequence = null);
-		return true;
-	}
+        /*if (clampRotation)
+            targetRotation = Mathf.Clamp(targetRotation, rotationRange[0], rotationRange[1]);
+        if (rotation == targetRotation)
+            return false;*/
 
-	[Command]
-	public float Fov {
-		get => virtualCamera.m_Lens.FieldOfView;
-		set => virtualCamera.m_Lens.FieldOfView = value;
-	}
+        if (rotationCoroutine != null) {
+            StopCoroutine(rotationCoroutine);
+            rotationCoroutine = null;
+        }
+
+        var startAngle = transform.eulerAngles.y;
+        
+        var targetAngle = Mathf.RoundToInt(transform.eulerAngles.y / rotationStep) * rotationStep;
+        if (direction is { } actualDirection)
+            targetAngle += actualDirection * rotationStep;
+        if (angle is { } actualAngle)
+            targetAngle = actualAngle;
+
+        while (targetAngle > 180)
+            targetAngle -= 360;
+        while (targetAngle < -180)
+            targetAngle += 360;
+        
+        if (clampRotation)
+            targetAngle = Mathf.Clamp(targetAngle, rotationRange[0], rotationRange[1]);
+        
+        rotationCoroutine = RotationAnimation(startAngle, targetAngle);
+        StartCoroutine(rotationCoroutine);
+        return true;
+    }
+
+    public IEnumerator RotationAnimation(float startAngle, float targetAngle) {
+
+        var from = Quaternion.Euler(0, startAngle, 0);
+        var to = Quaternion.Euler(0, targetAngle, 0);
+        if (from == to) {
+            rotationCoroutine = null;
+            yield break;
+        }
+
+        var startTime = Time.unscaledTime;
+        while (Time.unscaledTime < startTime + rotationDuration) {
+            var t = (Time.unscaledTime - startTime) / rotationDuration;
+            t = Easing.Dynamic(rotationEasingName, t);
+            transform.rotation =Quaternion.Slerp(from,to,t);
+            yield return null;
+        }
+        transform.rotation = to;
+        rotationCoroutine = null;
+    }
+
+    [Command]
+    public float Fov {
+        get => virtualCamera.m_Lens.FieldOfView;
+        set => virtualCamera.m_Lens.FieldOfView = value;
+    }
 }

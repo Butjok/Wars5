@@ -55,7 +55,7 @@ public class DayButton : MonoBehaviour {
     public void PlayAnimation(int nextDay) {
         StopAllCoroutines();
         StartCoroutine(Animation(nextDay));
-        if(debugSun)
+        if (debugSun)
             debugSun.PlayDayChange();
     }
 
@@ -64,11 +64,11 @@ public class DayButton : MonoBehaviour {
         var oldInteractable = button.interactable;
         button.interactable = false;
         var changedDay = false;
-        var startTime = Time.time;
-        while (Time.time < startTime + duration) {
-            var t = (Time.time - startTime) / duration;
-            t = Easing.Dynamic(easingName,t);
-            carousel.rotation = Quaternion.Euler(0,0,direction*360*t);
+        var startTime = Time.unscaledTime;
+        while (Time.unscaledTime < startTime + duration) {
+            var t = (Time.unscaledTime - startTime) / duration;
+            t = Easing.Dynamic(easingName, t);
+            carousel.rotation = Quaternion.Euler(0, 0, direction * 360 * t);
             if (text && !changedDay && t >= .5f) {
                 changedDay = true;
                 Day = nextDay;
@@ -76,6 +76,6 @@ public class DayButton : MonoBehaviour {
             yield return null;
         }
         button.interactable = oldInteractable;
-        carousel.rotation=Quaternion.identity;
+        carousel.rotation = Quaternion.identity;
     }
 }

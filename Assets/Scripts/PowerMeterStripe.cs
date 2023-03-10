@@ -24,9 +24,9 @@ public class PowerMeterStripe : MonoBehaviour {
     public IEnumerator Animation(float to) {
         var from = GetUniformValue();
         var duration = Mathf.Abs(to - from) / speed;
-        var startTime = Time.time;
-        while (Time.time < startTime + duration) {
-            var t = (Time.time - startTime) / duration;
+        var startTime = Time.unscaledTime;
+        while (Time.unscaledTime < startTime + duration) {
+            var t = (Time.unscaledTime - startTime) / duration;
             SetUniformValue(Mathf.Lerp(from, to, t));
             yield return null;
         }

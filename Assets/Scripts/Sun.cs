@@ -29,6 +29,7 @@ public class Sun : MonoBehaviour {
         new Keyframe(360, 0));
 
     public Light light;
+    public float timeScale = 5;
 
     [Command]
     public void PlayDayChange() {
@@ -44,14 +45,15 @@ public class Sun : MonoBehaviour {
 
         Assert.IsTrue(axis is 0 or 1 or 2);
 
-        var startTime = Time.time;
+        var startTime = Time.unscaledTime;
         var angles = startAngles;
         var from = angles[axis];
         var to = from + 360;
         var lightIntensityAmplitude = light ? light.intensity : 0;
-        while (Time.time < startTime + dayChangeDuration) {
-            var t = (Time.time - startTime) / dayChangeDuration;
-            var angle = Mathf.Lerp(from, to, Easing.InOutQuad(t));
+        Time.timeScale = timeScale;
+        while (Time.unscaledTime < startTime + dayChangeDuration) {
+            var t = (Time.unscaledTime - startTime) / dayChangeDuration;
+            var angle = Mathf.Lerp(from, to, t);
             angles[axis] = angle;
             transform.rotation = Quaternion.Euler(angles);
             var nightIntensity = this.nightIntensity.Evaluate(360 * t);
@@ -64,6 +66,7 @@ public class Sun : MonoBehaviour {
             }
             yield return null;
         }
+        Time.timeScale = 1;
         angles[axis] = to;
         transform.rotation = Quaternion.Euler(startAngles);
         PostProcessing.ColorFilter = Color.white;

@@ -54,10 +54,10 @@ public class CreditsText : MonoBehaviour {
 
     private IEnumerator Animation(int to) {
         var from = Amount;
-        var startTime = Time.time;
+        var startTime = Time.unscaledTime;
         var spriteIndex = 0;
-        while (Time.time < startTime + duration) {
-            var t = (Time.time - startTime) / duration;
+        while (Time.unscaledTime < startTime + duration) {
+            var t = (Time.unscaledTime - startTime) / duration;
             Amount = Mathf.RoundToInt(Mathf.Lerp(from, to, t));
             text.color = to > from ? positiveChangeColor : negativeChangeColor;
             if (coinImage && coinSprites.Length > 0)

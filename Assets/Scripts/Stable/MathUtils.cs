@@ -5,6 +5,7 @@ using System.Linq;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.UI;
 using static UnityEngine.Mathf;
 
 public static class MathUtils {
@@ -213,5 +214,10 @@ public static class MathUtils {
         var nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
         nfi.NumberGroupSeparator = thousandsSeparator;
         return value.ToString("#,0", nfi);
+    }
+
+    public static Color32 YIQContrastColor(this Color32 color) {
+        var yiq = (color.r *299 + color.r * 587 + color.r * 114) / 1000;
+        return yiq >= 128 ? Color.black : Color.white;
     }
 }
