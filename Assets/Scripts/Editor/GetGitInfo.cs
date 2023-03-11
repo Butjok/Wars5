@@ -12,7 +12,7 @@ public static class GetGitInfo {
     public static void Test() {
     
 #if UNITY_EDITOR_WIN
-            Debug.Log("");
+            //Debug.Log("");
 #elif UNITY_EDITOR_OSX
 
         var path = Path.Combine(Path.Combine(Application.dataPath, ".."), "GetGitInfo.sh");
