@@ -11,7 +11,7 @@ public class SequencePlayer : MonoBehaviour {
         var speed=0f;
         var acceleration = 0f;
         
-        var stack = new DebugStack();
+        var stack = new WarsStack();
         foreach (var token in Tokenizer.Tokenize(input))
             switch (token) {
                 

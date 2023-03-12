@@ -1,12 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
-using Butjok.CommandLine;
 using UnityEngine;
 using UnityEngine.Assertions;
-using static Gettext;
 
 public class PlayerTurnState : IDisposableState {
-    
+
     public Level level;
     public bool animateTurnStart;
     public float startTime;
@@ -18,30 +16,25 @@ public class PlayerTurnState : IDisposableState {
     public IEnumerator<StateChange> Run {
         get {
             startTime = Time.unscaledTime;
-        
-            level.turn++;
             var player = level.CurrentPlayer;
 
-            foreach (var unit in level.units.Values)
-                unit.Moved = false;
-
             var day = level.Day();
-            
+
             if (TurnButton.TryGet(out var turnButton)) {
                 turnButton.Color = player.Color;
-                if (turnButton.Day == null || !animateTurnStart || !PersistentData.Read().gameSettings.animateNight)
-                    turnButton.Day = day;
-                else if (turnButton.Day != day) {
+                if (animateTurnStart && PersistentData.Read().gameSettings.animateNight && turnButton.Day != day && turnButton.Day != null) {
                     turnButton.PlayAnimation(day);
                     while (turnButton.IsPlaying)
                         yield return StateChange.none;
                 }
+                else
+                    turnButton.Day = day;
             }
 
-            if (DayText.TryFind(out var dayText) && animateTurnStart ) {
+            if (DayText.TryFind(out var dayText) && animateTurnStart) {
                 dayText.PlayAnimation(day, player.Color);
                 while (dayText.IsPlaying)
-                    yield return  StateChange.none;
+                    yield return StateChange.none;
             }
 
             if (MusicPlayer.TryGet(out var musicPlayer)) {
@@ -83,7 +76,7 @@ public class SelectionState2 : IDisposableState {
     public const string useAbility = prefix + "use-ability";
 
     public bool shouldEndTurn;
-    
+
     public struct PreselectionPosition {
         public Unit unit;
         public Building building;
@@ -204,6 +197,12 @@ public class SelectionState2 : IDisposableState {
                             }
 
                             case endTurn:
+
+                                level.turn++;
+
+                                foreach (var unit in level.units.Values)
+                                    unit.Moved = false;
+
                                 yield return StateChange.PopThenPush(2, new PlayerTurnState(level));
                                 break;
 
@@ -276,7 +275,7 @@ public class AbilityActivationState : IDisposableState {
             Assert.IsTrue(!Rules.AbilityInUse(player));
 
             player.abilityActivationTurn = level.turn;
-            player.AbilityMeter = 0;
+            player.SetAbilityMeter(0, false);
 
             Debug.Log($"starting ability of {player}");
 

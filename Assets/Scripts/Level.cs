@@ -58,7 +58,7 @@ public class Level : MonoBehaviour {
     public Player localPlayer;
     public PersistentData persistentData;
 
-    public DebugStack stack = new();
+    public WarsStack stack = new();
     public Queue<string> commands = new();
 
     public MeshFilter tileAreaMeshFilter;

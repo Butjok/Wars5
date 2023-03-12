@@ -8,13 +8,12 @@ Tutorial MissionName type enum                                   game.set-missio
 #Player0Red
 #
 
-1 0.4 0                                                          player.set-color
+Red ColorName type enum                                                          player.set-color-name
 None Team type enum                                              player.set-team
 16000                                                            player.set-credits
 0                                                                player.set-power-meter
 -1 0 int2                                                        player.set-unit-look-direction
-Red                                                              player.set-name
-Natalie                                                          player.set-co
+Natalie PersonName type enum                                                          player.set-co-name
                                                                  player.mark-as-local
                                                                  player.add
 
@@ -123,13 +122,12 @@ WbRecon UnitView type load-resource                              unit.set-view-p
 #Player1Blue
 #
 
-0 0.4 1                                                          player.set-color
+Blue ColorName type enum                                                          player.set-color-name
 None Team type enum                                              player.set-team
 0                                                                player.set-credits
 0                                                                player.set-power-meter
 1 0 int2                                                         player.set-unit-look-direction
-Blue                                                             player.set-name
-Natalie                                                          player.set-co
+Natalie PersonName type enum                                                         player.set-co-name
                                                                  player.add
 
                                                                  dup

@@ -10,21 +10,17 @@ using Object = UnityEngine.Object;
 
 public static class PostfixInterpreter {
 
-    static PostfixInterpreter() {
-        CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
-    }
-    
     public static Dictionary<string, Type> typeCache = new();
 
-    public static void ExecuteToken(this DebugStack stack, string token) {
-        
-        if (int.TryParse(token, out var intValue))
+    public static void ExecuteToken(this WarsStack stack, string token) {
+
+        if (int.TryParse(token, NumberStyles.Any, CultureInfo.InvariantCulture, out var intValue))
             stack.Push(intValue);
 
         else if (float.TryParse(token, NumberStyles.Any, CultureInfo.InvariantCulture, out var floatValue))
             stack.Push(floatValue);
-        
-        else if (token[0]=='#')
+
+        else if (token[0] == '#')
             return;
 
         else
@@ -49,7 +45,7 @@ public static class PostfixInterpreter {
                 case "false":
                     stack.Push(token == "true");
                     break;
-                
+
                 case "null":
                     stack.Push(null);
                     break;
@@ -76,8 +72,7 @@ public static class PostfixInterpreter {
 
                 case "type": {
                     var typeName = stack.Pop<string>();
-                    if (!typeCache.TryGetValue(typeName, out var type) || type == null)
-                    {
+                    if (!typeCache.TryGetValue(typeName, out var type) || type == null) {
                         foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies()) {
                             type = assembly.GetType(typeName);
                             if (type != null)
@@ -121,7 +116,7 @@ public static class PostfixInterpreter {
                     var type = stack.Pop<Type>();
                     var name = stack.Pop<string>();
                     var resource = Resources.Load(name, type);
-                    if(!resource)
+                    if (!resource)
                         Debug.Log($"resource '{name}' ({type}) was not loaded");
                     stack.Push(resource);
                     break;
@@ -163,32 +158,34 @@ public static class PostfixInterpreter {
     }
 }
 
-public class DebugStack {
-		
+public class WarsStack {
+
     public Stack stack = new();
     public Stack<string> stackTrace = new();
-		
+
     public void Push(object value) {
         stack.Push(value);
         //stackTrace.Push(Environment.StackTrace);
     }
     public object Pop() {
-        if (stack.Count==0) {
+        if (stack.Count == 0)
             throw new InvalidOperationException("stack is empty");
-        }
         return stack.Pop();
     }
     public T Pop<T>() {
         return (T)Pop();
     }
     public object Peek() {
-        if (stack.Count==0) {
+        if (stack.Count == 0)
             throw new InvalidOperationException("stack is empty");
-        }
         return stack.Peek();
     }
     public T Peek<T>() {
         return (T)Peek();
     }
     public int Count => stack.Count;
+
+    public void Clear() {
+        stack.Clear();
+    }
 }

@@ -281,7 +281,7 @@ public static class SelectionState {
         Assert.IsTrue(!Rules.AbilityInUse(player));
 
         player.abilityActivationTurn = turn;
-        player.AbilityMeter = 0;
+        player.SetAbilityMeter(0);
 
         Debug.Log($"starting ability of {player}");
 

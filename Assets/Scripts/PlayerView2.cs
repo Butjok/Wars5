@@ -51,8 +51,9 @@ public class PlayerView2 : MonoBehaviour {
     }
     [Command]
     public void SetPowerStripeMeter(int value, bool animate = true, bool playSoundOnFull = true) {
-        powerMeterStripe.SetProgress((float)value / Rules.MaxAbilityMeter(player), animate, 
-            playSoundOnFull ? () => Debug.Log("power meter full") : null);
+        var max = Rules.MaxAbilityMeter(player);
+        powerMeterStripe.SetProgress((float)value / max, animate, 
+            value == max && playSoundOnFull ? () => Debug.Log("power meter full") : null);
     }
 
     public void Show() {

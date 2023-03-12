@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -8,6 +6,8 @@ using UnityEngine.Assertions;
 using static BattleConstants;
 
 public static class GameReader {
+
+    public static readonly WarsStack stack = new();
     
     static GameReader() {
         CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
@@ -32,8 +32,7 @@ public static class GameReader {
         Vector2Int? playerUnitLookDirection;
         ColorName? playerColorName;
         int? playerAbilityActivationTurn;
-        int playerPowerMeter;
-        string playerName;
+        int playerAbilityMeter;
         int playerSide;
         Vector2Int? playerUiPosition;
 
@@ -48,8 +47,7 @@ public static class GameReader {
             playerColorName=null;
             playerUnitLookDirection = null;
             playerAbilityActivationTurn = null;
-            playerPowerMeter = 0;
-            playerName = null;
+            playerAbilityMeter = 0;
             playerSide = left;
             playerUiPosition = null;
         }
@@ -124,20 +122,21 @@ public static class GameReader {
 
         var playerIndex = -1;
 
+        stack.Clear();
         foreach (var token in Tokenizer.Tokenize(input)) {
             // try {
                 switch (token) {
 
                     case "game.set-turn": {
-                        level.turn = level.stack.Pop<int>();
+                        level.turn = stack.Pop<int>();
                         break;
                     }
                     case "game.load-scene": {
-                        var name = level.stack.Pop<string>();
+                        var name = stack.Pop<string>();
                         break;
                     }
                     case "game.set-mission-name": {
-                        var name = level.stack.Pop<MissionName>();
+                        var name = stack.Pop<MissionName>();
                         level.missionName = name;
                         break;
                     }
@@ -148,26 +147,22 @@ public static class GameReader {
 
                             playerIndex++;
                             Assert.IsTrue(playerIndex >= 0 && playerIndex < level.players.Count);
-                            level.stack.Push(level.players[playerIndex]);
+                            stack.Push(level.players[playerIndex]);
 
                         }
                         else {
                             if (playerColorName is not { } colorName)
                                 throw new AssertionException("colorName is null", null);
 
-                            var player = new Player(level, colorName, playerTeam, playerCredits, playerCoName, playerViewPrefab, playerType, playerDifficulty, playerUnitLookDirection, name:playerName, uiPosition:playerUiPosition);
+                            var player = new Player(level, colorName, playerTeam, playerCredits, playerCoName, playerViewPrefab, playerType, playerDifficulty, playerUnitLookDirection, uiPosition:playerUiPosition,
+                                abilityActivationTurn:playerAbilityActivationTurn, side:playerSide, abilityMeter:playerAbilityMeter);
 
                             if (playerLocal) {
                                 Assert.IsNull(level.localPlayer);
                                 level.localPlayer = player;
                             }
 
-                            player.abilityActivationTurn = playerAbilityActivationTurn;
-                            player.AbilityMeter = playerPowerMeter;
-
-                            player.side = playerSide;
-
-                            level.stack.Push(player);
+                            stack.Push(player);
                         }
 
                         ResetPlayerValues();
@@ -175,29 +170,29 @@ public static class GameReader {
                     }
 
                     case "player.set-color-name": {
-                        playerColorName = level.stack.Pop<ColorName>();
+                        playerColorName = stack.Pop<ColorName>();
                         break;
                     }
                     case "player.set-team": {
-                        playerTeam = level.stack.Pop<Team>();
+                        playerTeam = stack.Pop<Team>();
                         break;
                     }
                     case "player.set-credits": {
-                        playerCredits = level.stack.Pop<int>();
+                        playerCredits = stack.Pop<int>();
                         break;
                     }
                     case "player.set-co-name": {
-                        playerCoName = level.stack.Pop<PersonName>();
+                        playerCoName = stack.Pop<PersonName>();
                         Assert.IsTrue(People.IsCo(playerCoName));
                         break;
                     }
                     case "player.set-prefab": {
-                        playerViewPrefab = level.stack.Pop<string>().LoadAs<PlayerView>();
+                        playerViewPrefab = stack.Pop<string>().LoadAs<PlayerView>();
                         break;
                     }
                     case "player.set-ai": {
                         playerType = PlayerType.Ai;
-                        playerDifficulty = level.stack.Pop<AiDifficulty>();
+                        playerDifficulty = stack.Pop<AiDifficulty>();
                         break;
                     }
                     case "player.mark-as-local": {
@@ -205,47 +200,43 @@ public static class GameReader {
                         break;
                     }
                     case "player.set-unit-look-direction": {
-                        playerUnitLookDirection = level.stack.Pop<Vector2Int>() * transform;
+                        playerUnitLookDirection = stack.Pop<Vector2Int>() * transform;
                         break;
                     }
                     case "player.set-ability-activation-turn": {
-                        playerAbilityActivationTurn = level.stack.Pop<int>();
+                        playerAbilityActivationTurn = stack.Pop<int>();
                         break;
                     }
                     case "player.set-power-meter": {
-                        playerPowerMeter = level.stack.Pop<int>();
+                        playerAbilityMeter = stack.Pop<int>();
                         break;
                     }
                     case "player.on-additive-load-get-by-index": {
                         break;
                     }
-                    case "player.set-name": {
-                        playerName = level.stack.Pop<string>();
-                        break;
-                    }
                     case "player.set-side": {
-                        playerSide = level.stack.Pop<int>();
+                        playerSide = stack.Pop<int>();
                         break;
                     }
                     case "player.set-ui-position": {
-                        playerUiPosition = level.stack.Pop<Vector2Int>();
+                        playerUiPosition = stack.Pop<Vector2Int>();
                         break;
                     }
 
                     case "tile.add": {
-                        var position = level.stack.Pop<Vector2Int>() * transform;
-                        var type = level.stack.Pop<TileType>();
+                        var position = stack.Pop<Vector2Int>() * transform;
+                        var type = stack.Pop<TileType>();
                         Assert.IsTrue(!level.tiles.ContainsKey(position), position.ToString());
                         level.tiles.Add(position, type);
                         ResetTileValues();
                         break;
                     }
                     case "tile.set-position": {
-                        tilePosition = level.stack.Pop<Vector2Int>() * (transform);
+                        tilePosition = stack.Pop<Vector2Int>() * (transform);
                         break;
                     }
                     case "tile.set-type": {
-                        tileType = level.stack.Pop<TileType>();
+                        tileType = stack.Pop<TileType>();
                         break;
                     }
 
@@ -256,7 +247,7 @@ public static class GameReader {
                             throw new AssertionException("buildingPosition is null", buildingType.ToString());
                         Assert.IsTrue(!level.buildings.ContainsKey(position), position.ToString());
 
-                        var player = level.stack.Pop<Player>();
+                        var player = stack.Pop<Player>();
                         var viewPrefab = !spawnBuildingViews ? null : BuildingView.GetPrefab(buildingType);
 
                         var building = new Building(level, position, buildingType, player, buildingCp, viewPrefab, buildingLookDirection);
@@ -269,112 +260,112 @@ public static class GameReader {
                         building.missileUnitDamage = buildingMissileSiloMissileUnitDamage;
                         building.missileBridgeDamage = buildingMissileSiloMissileBridgeDamage;
 
-                        level.stack.Push(building);
+                        stack.Push(building);
 
                         ResetBuildingValues();
                         break;
                     }
                     case "building.set-type": {
-                        buildingType = level.stack.Pop<TileType>();
+                        buildingType = stack.Pop<TileType>();
                         break;
                     }
                     case "building.set-position": {
-                        buildingPosition = level.stack.Pop<Vector2Int>() * (transform);
+                        buildingPosition = stack.Pop<Vector2Int>() * (transform);
                         break;
                     }
                     case "building.set-cp": {
-                        buildingCp = level.stack.Pop<int>();
+                        buildingCp = stack.Pop<int>();
                         break;
                     }
                     case "building.set-look-direction": {
-                        buildingLookDirection = level.stack.Pop<Vector2Int>() * transform;
+                        buildingLookDirection = stack.Pop<Vector2Int>() * transform;
                         break;
                     }
                     case "building.missile-silo.set-last-launch-turn": {
-                        buildingMissileSiloLastLaunchTurn = level.stack.Pop<int>();
+                        buildingMissileSiloLastLaunchTurn = stack.Pop<int>();
                         break;
                     }
                     case "building.missile-silo.set-launch-cooldown": {
-                        buildingMissileSiloLaunchCooldown = level.stack.Pop<int>();
+                        buildingMissileSiloLaunchCooldown = stack.Pop<int>();
                         break;
                     }
                     case "building.missile-silo.set-ammo": {
-                        buildingMissileSiloLaunchAmmo = level.stack.Pop<int>();
+                        buildingMissileSiloLaunchAmmo = stack.Pop<int>();
                         break;
                     }
                     case "building.missile-silo.set-range": {
-                        buildingMissileSiloRange = level.stack.Pop<Vector2Int>();
+                        buildingMissileSiloRange = stack.Pop<Vector2Int>();
                         break;
                     }
                     case "building.missile-silo.missile.set-blast-range": {
-                        buildingMissileSiloBlastRange = level.stack.Pop<Vector2Int>();
+                        buildingMissileSiloBlastRange = stack.Pop<Vector2Int>();
                         break;
                     }
                     case "building.missile-silo.missile.set-unit-damage": {
-                        buildingMissileSiloMissileUnitDamage = level.stack.Pop<int>();
+                        buildingMissileSiloMissileUnitDamage = stack.Pop<int>();
                         break;
                     }
                     case "building.missile-silo.missile.set-bridge-damage": {
-                        buildingMissileSiloMissileBridgeDamage = level.stack.Pop<int>();
+                        buildingMissileSiloMissileBridgeDamage = stack.Pop<int>();
                         break;
                     }
 
                     case "unit.add": {
                         if (unitType is not { } type)
                             throw new AssertionException("unitType == null", "");
-                        var player = level.stack.Pop<Player>();
-                        level.stack.Push(new Unit(player, type, unitPosition, unitLookDirection, unitHp, unitFuel, unitMoved, unitViewPrefab));
+                        var player = stack.Pop<Player>();
+                        stack.Push(new Unit(player, type, unitPosition, unitLookDirection, unitHp, unitFuel, unitMoved, unitViewPrefab));
                         ResetUnitValues();
                         break;
                     }
                     case "unit.get-player": {
-                        level.stack.Push(level.stack.Pop<Unit>().Player);
+                        stack.Push(stack.Pop<Unit>().Player);
                         break;
                     }
                     case "unit.set-position": {
-                        unitPosition = level.stack.Pop<Vector2Int>() * transform;
+                        unitPosition = stack.Pop<Vector2Int>() * transform;
                         break;
                     }
                     case "unit.set-moved": {
-                        unitMoved = level.stack.Pop<bool>();
+                        unitMoved = stack.Pop<bool>();
                         break;
                     }
                     case "unit.set-type": {
-                        unitType = level.stack.Pop<UnitType>();
+                        unitType = stack.Pop<UnitType>();
                         break;
                     }
                     case "unit.set-look-direction": {
                         //unitLookDirection = main.stack.Pop<Vector2Int>() * transform;
-                        level.stack.Pop<Vector2Int>();
+                        stack.Pop<Vector2Int>();
                         break;
                     }
                     case "unit.set-hp": {
-                        unitHp = level.stack.Pop<int>();
+                        unitHp = stack.Pop<int>();
                         break;
                     }
                     case "unit.set-fuel": {
-                        unitFuel = level.stack.Pop<int>();
+                        unitFuel = stack.Pop<int>();
                         break;
                     }
                     case "unit.set-view-prefab": {
-                        unitViewPrefab = level.stack.Pop<UnitView>();
+                        unitViewPrefab = stack.Pop<UnitView>();
                         break;
                     }
                     case "unit.put-into": {
-                        var unit = level.stack.Pop<Unit>();
-                        var carrier = level.stack.Pop<Unit>();
+                        var unit = stack.Pop<Unit>();
+                        var carrier = stack.Pop<Unit>();
                         carrier.AddCargo(unit);
                         unit.Carrier = carrier;
                         break;
                     }
 
                     case "trigger.select": {
-                        trigger = level.stack.Pop<TriggerName>();
+                        trigger = stack.Pop<TriggerName>();
                         break;
                     }
 
                     case "trigger.add-position": {
-                        var position = level.stack.Pop<Vector2Int>() * transform;
+                        var position = stack.Pop<Vector2Int>() * transform;
                         if (trigger is not { } value)
                             throw new AssertionException("trigger is null", position.ToString());
                         Assert.IsTrue(level.triggers.ContainsKey(value), value.ToString());
@@ -385,61 +376,61 @@ public static class GameReader {
                     case "bridge.add": {
                         Assert.AreNotEqual(0, bridgePositions.Count);
                         Assert.IsTrue(bridgeView);
-                        level.stack.Push(new Bridge(level, bridgePositions, bridgeView, bridgeHp));
+                        stack.Push(new Bridge(level, bridgePositions, bridgeView, bridgeHp));
                         ResetBridgeValues();
                         break;
                     }
 
                     case "bridge.set-view": {
-                        bridgeView = (BridgeView)level.stack.Pop<object>();
+                        bridgeView = (BridgeView)stack.Pop<object>();
                         break;
                     }
 
                     case "bridge.add-position": {
-                        var position = level.stack.Pop<Vector2Int>() * transform;
+                        var position = stack.Pop<Vector2Int>() * transform;
                         Assert.IsFalse(level.bridges.Any(bridge => bridge.tiles.ContainsKey(position)));
                         bridgePositions.Add(position);
                         break;
                     }
 
                     case "bridge.set-hp": {
-                        bridgeHp = level.stack.Pop<int>();
+                        bridgeHp = stack.Pop<int>();
                         break;
                     }
 
                     case "camera-rig.set-position": {
-                        var position = level.stack.Pop<Vector3>();
+                        var position = stack.Pop<Vector3>();
                         if (loadCameraRig && cameraRig)
                             cameraRig.transform.position = position;
                         break;
                     }
                     case "camera-rig.set-rotation": {
-                        var angle = level.stack.Pop<dynamic>();
+                        var angle = stack.Pop<dynamic>();
                         if (loadCameraRig && cameraRig)
                             cameraRig.transform.rotation = Quaternion.Euler(0, angle, 0);
                         break;
                     }
                     case "camera-rig.set-distance": {
-                        var distance = level.stack.Pop<dynamic>();
+                        var distance = stack.Pop<dynamic>();
                         if (loadCameraRig && cameraRig)
                             cameraRig.targetDistance = cameraRig.distance = distance;
                         break;
                     }
                     case "camera-rig.set-pitch-angle": {
-                        var pitchAngle = level.stack.Pop<dynamic>();
+                        var pitchAngle = stack.Pop<dynamic>();
                         if (loadCameraRig && cameraRig)
                             cameraRig.tagetPitchAngle = cameraRig.pitchAngle = pitchAngle;
                         break;
                     }
                     case "camera-rig.set-fov": {
-                        var fov = level.stack.Pop<dynamic>();
+                        var fov = stack.Pop<dynamic>();
                         if (loadCameraRig && cameraRig)
                             cameraRig.Fov = fov;
                         break;
                     }
 
                     default:
-                        level.stack.ExecuteToken(token);
+                        stack.ExecuteToken(token);
                         break;
                 }
             // }

@@ -142,7 +142,7 @@ public class BattleAnimation {
     public readonly BattleAnimationPlayer player;
     public bool Completed { get; private set; }
 
-    private DebugStack stack = new();
+    private WarsStack stack = new();
 
     public BattleAnimation(BattleAnimationPlayer player) {
         this.player = player;

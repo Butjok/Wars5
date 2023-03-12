@@ -240,7 +240,7 @@ public class LevelEditor : Level {
     public bool TrySetPlayerAbilityMeter(int index, int value) {
         if (index < 0 || index >= players.Count)
             return false;
-        players[index].AbilityMeter = value;
+        players[index].SetAbilityMeter(value, true, true);
         return true;
     }
     [Command]
@@ -975,8 +975,10 @@ public class LevelEditor : Level {
 
         yield return StateChange.Push(new PlayerTurnState(this));
 
-        if (turnButton)
+        if (turnButton) {
+            turnButton.Day = null;
             turnButton.Visible = false;
+        }
 
         //      if (aiPlayerCommander)
         //        aiPlayerCommander.StopPlaying();

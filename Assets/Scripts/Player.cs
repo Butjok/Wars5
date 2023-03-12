@@ -21,7 +21,7 @@ public static class Colors {
 
             palette = new Dictionary<ColorName, Color>();
 
-            var stack = new DebugStack();
+            var stack = new WarsStack();
             foreach (var token in Tokenizer.Tokenize("Colors".LoadAs<TextAsset>().text))
                 stack.ExecuteToken(token);
 
@@ -104,11 +104,12 @@ public class Player : IDisposable {
         set => credits = Clamp(value, 0, initialized ? MaxCredits(this) : defaultMaxCredits);
     }
 
-    private int abilityMeter;
-    public int AbilityMeter {
-        get => abilityMeter;
-        set => abilityMeter = Clamp(value, 0, initialized ? defaultMaxAbilityMeter : MaxAbilityMeter(this));
+    public int AbilityMeter { get; private set; }
+    public void SetAbilityMeter(int value, bool animate = false, bool playSoundOnFull = true) {
+        AbilityMeter = Clamp(value, 0, initialized ? defaultMaxAbilityMeter : MaxAbilityMeter(this));
+        view2.SetPowerStripeMeter(value, initialized && animate, initialized && playSoundOnFull);
     }
+
     public int? abilityActivationTurn;
     public Vector2Int unitLookDirection;
     public int side;
@@ -116,8 +117,8 @@ public class Player : IDisposable {
     private bool initialized;
 
     public Player(Level level, ColorName colorName, Team team = Team.None, int credits = 0, PersonName coName = PersonName.Natalie, PlayerView viewPrefab = null,
-        PlayerType type = PlayerType.Human, AiDifficulty difficulty = AiDifficulty.Normal, Vector2Int? unitLookDirection = null, string name = null,
-        bool spawnViewPrefab = true, Vector2Int? uiPosition = null) {
+        PlayerType type = PlayerType.Human, AiDifficulty difficulty = AiDifficulty.Normal, Vector2Int? unitLookDirection = null,
+        bool spawnViewPrefab = true, Vector2Int? uiPosition = null, int abilityMeter = 0, int side = 0, int? abilityActivationTurn = null) {
 
         undisposed.Add(this);
 
@@ -130,6 +131,8 @@ public class Player : IDisposable {
         this.difficulty = difficulty;
         this.unitLookDirection = unitLookDirection ?? Vector2Int.up;
         this.uiPosition = uiPosition ?? new Vector2Int(0, 0);
+        this.side = side;
+        this.abilityActivationTurn = abilityActivationTurn;
 
         Assert.IsFalse(level.players.Any(player => player.colorName == colorName));
         level.players.Add(this);
@@ -147,6 +150,8 @@ public class Player : IDisposable {
         view2 = Object.Instantiate(PlayerView2.GetPrefab(coName), canvas.transform);
         view2.player = this;
         view2.Hide();
+        
+        SetAbilityMeter(abilityMeter, false, false);
 
         initialized = true;
     }
