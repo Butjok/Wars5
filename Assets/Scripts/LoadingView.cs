@@ -100,7 +100,7 @@ public class LoadingState : IDisposableState {
 
     public static string GetSceneName(MissionName missionName) {
         return missionName switch {
-            MissionName.Tutorial or MissionName.FirstMission or MissionName.SecondMission => "EmptyScene",
+            MissionName.Tutorial or MissionName.FirstMission or MissionName.SecondMission => "LevelEditor",
             _ => throw new ArgumentOutOfRangeException(nameof(missionName), missionName, null)
         };
     }
@@ -142,11 +142,13 @@ public class LoadingState : IDisposableState {
             loadingOperation.allowSceneActivation = true;
             yield return  StateChange.none;
 
-            var main = Object.FindObjectOfType<Level>();
-            Assert.IsTrue(main);
+            var level = Object.FindObjectOfType<Level>();
+            Assert.IsTrue(level);
             
-            GameReader.ReadInto(main, saveData, true);
-            yield return StateChange.ReplaceWith(nameof(SelectionState), SelectionState.Run(main, true));
+            GameReader.ReadInto(level, saveData, true);
+            if (level is LevelEditor levelEditor)
+                levelEditor.RebuildTilemapMesh();
+            yield return StateChange.ReplaceWith(new PlayerTurnState(level));
         }
     }
 

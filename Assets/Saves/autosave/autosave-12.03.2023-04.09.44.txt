@@ -1,19 +1,21 @@
 LevelEditor                                                      game.load-scene
 Tutorial MissionName type enum                                   game.set-mission-name
-1                                                                game.set-turn
+2                                                                game.set-turn
                                                                  
 
 
 #
-#Player0RGBA(1.000,0.400,0.000,1.000)
+#Player0Red
 #
 
-Red ColorName type enum                                                          player.set-color-name
+Red ColorName type enum                                          player.set-color-name
 Alpha Team type enum                                             player.set-team
+Natalie PersonName type enum                                     player.set-co-name
+0 0 int2                                                         player.set-ui-position
 16000                                                            player.set-credits
 0                                                                player.set-power-meter
 1 0 int2                                                         player.set-unit-look-direction
-Natalie PersonName type enum                                                         player.set-co-name
+0                                                                player.set-side
                                                                  player.mark-as-local
                                                                  player.add
 
@@ -29,6 +31,7 @@ Hq TileType type enum                                            building.set-ty
                                                                  dup
 Infantry UnitType type enum                                      unit.set-type
 false                                                            unit.set-moved
+10                                                               unit.set-hp
 -9 -15 int2                                                      unit.set-position
 1 0 int2                                                         unit.set-look-direction
 WbLightTank UnitView type load-resource                          unit.set-view-prefab
@@ -38,6 +41,7 @@ WbLightTank UnitView type load-resource                          unit.set-view-p
                                                                  dup
 Infantry UnitType type enum                                      unit.set-type
 false                                                            unit.set-moved
+10                                                               unit.set-hp
 -8 -14 int2                                                      unit.set-position
 1 0 int2                                                         unit.set-look-direction
 WbLightTank UnitView type load-resource                          unit.set-view-prefab
@@ -47,6 +51,7 @@ WbLightTank UnitView type load-resource                          unit.set-view-p
                                                                  dup
 Infantry UnitType type enum                                      unit.set-type
 false                                                            unit.set-moved
+10                                                               unit.set-hp
 -14 -15 int2                                                     unit.set-position
 1 0 int2                                                         unit.set-look-direction
 WbLightTank UnitView type load-resource                          unit.set-view-prefab
@@ -56,6 +61,7 @@ WbLightTank UnitView type load-resource                          unit.set-view-p
                                                                  dup
 Infantry UnitType type enum                                      unit.set-type
 false                                                            unit.set-moved
+10                                                               unit.set-hp
 -12 -17 int2                                                     unit.set-position
 1 0 int2                                                         unit.set-look-direction
 WbLightTank UnitView type load-resource                          unit.set-view-prefab
@@ -65,6 +71,7 @@ WbLightTank UnitView type load-resource                          unit.set-view-p
                                                                  dup
 Infantry UnitType type enum                                      unit.set-type
 false                                                            unit.set-moved
+10                                                               unit.set-hp
 -12 -12 int2                                                     unit.set-position
 1 0 int2                                                         unit.set-look-direction
 WbLightTank UnitView type load-resource                          unit.set-view-prefab
@@ -75,15 +82,17 @@ WbLightTank UnitView type load-resource                          unit.set-view-p
                                                                  
 
 #
-#Player1RGBA(0.000,0.400,1.000,1.000)
+#Player1Blue
 #
 
-Blue ColorName type enum                                                          player.set-color-name
+Blue ColorName type enum                                         player.set-color-name
 Bravo Team type enum                                             player.set-team
+Natalie PersonName type enum                                     player.set-co-name
+0 0 int2                                                         player.set-ui-position
 16000                                                            player.set-credits
 0                                                                player.set-power-meter
 -1 0 int2                                                        player.set-unit-look-direction
-Natalie PersonName type enum                                                         player.set-co-name
+0                                                                player.set-side
                                                                  player.add
 
                                                                  dup
@@ -98,6 +107,7 @@ Hq TileType type enum                                            building.set-ty
                                                                  dup
 Artillery UnitType type enum                                     unit.set-type
 false                                                            unit.set-moved
+10                                                               unit.set-hp
 -12 -9 int2                                                      unit.set-position
 -1 0 int2                                                        unit.set-look-direction
 WbHowitzer UnitView type load-resource                           unit.set-view-prefab
@@ -222,8 +232,8 @@ E TriggerName type enum                                          trigger.select
 F TriggerName type enum                                          trigger.select
 
 
--11.28105 0 -13.38478 float3                                     camera-rig.set-position
+-11.29124 0 -12.03891 float3                                     camera-rig.set-position
 315                                                              camera-rig.set-rotation
-25.24858                                                         camera-rig.set-distance
+40                                                               camera-rig.set-distance
 40.36793                                                         camera-rig.set-pitch-angle
-25.44551                                                         camera-rig.set-fov
+20                                                               camera-rig.set-fov

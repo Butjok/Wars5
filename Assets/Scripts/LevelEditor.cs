@@ -106,10 +106,11 @@ public class LevelEditor : Level {
     public string stackLeakFormat = "<b><color=yellow>{0}</color></b>";
 
     private void Start() {
-        if (StateRunner.Instance.IsEmpty)
+        if (StateRunner.Instance.IsEmpty) {
             StateRunner.Instance.Push("LevelEditor", Run());
-        if (TurnButton.TryGet(out var turnButton))
-            turnButton.Visible = false;
+            if (TurnButton.TryGet(out var turnButton))
+                turnButton.Visible = false;
+        }
     }
 
     protected void OnGUI() {

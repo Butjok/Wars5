@@ -3505,7 +3505,7 @@ MonoBehaviour:
   highlightFrame: {fileID: 1235294307}
   highlightFrameMoveDuration: 0.15
   highlightFrameMoveEase: 18
-  main: {fileID: 0}
+  level: {fileID: 0}
 --- !u!114 &614145419
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5369,6 +5369,7 @@ MonoBehaviour:
   teleportDuration: 0.5
   teleportEase: 18
   placeOnTerrain: {fileID: 0}
+  rotationEasingName: 3
   speedupMultiplier: 2
   fovBounds: {x: 45, y: 30}
   fovLerpPower: 1
@@ -6894,9 +6895,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   meshRenderer: {fileID: 1389611538}
   show: 1
-  text: {fileID: 330132505}
-  enableText: 1
-  main: {fileID: 0}
+  level: {fileID: 0}
+  showGui: 1
   showOnlyOnTiles: 1
 --- !u!23 &1389611538
 MeshRenderer:
