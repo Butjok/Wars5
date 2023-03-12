@@ -53,7 +53,7 @@ public class GameSettings {
     public bool enableAmbientOcclusion = true;
     public bool shuffleMusic = false;
     public bool enableDepthOfField = true;
-    public bool animateSunRotation = true;
+    public bool animateNight = true;
 
     public GameSettings ShallowCopy() {
         return (GameSettings)MemberwiseClone();

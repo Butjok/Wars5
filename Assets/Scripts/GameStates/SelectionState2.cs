@@ -1,16 +1,18 @@
 using System.Collections.Generic;
 using System.Linq;
+using Butjok.CommandLine;
 using UnityEngine;
 using UnityEngine.Assertions;
+using static Gettext;
 
 public class PlayerTurnState : IDisposableState {
-
+    
     public Level level;
-    public bool animate;
+    public bool animateTurnStart;
     public float startTime;
-    public PlayerTurnState(Level level, bool animate = true) {
+    public PlayerTurnState(Level level, bool animateTurnStart = true) {
         this.level = level;
-        this.animate = animate;
+        this.animateTurnStart = animateTurnStart;
     }
 
     public IEnumerator<StateChange> Run {
@@ -23,13 +25,23 @@ public class PlayerTurnState : IDisposableState {
             foreach (var unit in level.units.Values)
                 unit.Moved = false;
 
+            var day = level.Day();
+            
             if (TurnButton.TryGet(out var turnButton)) {
                 turnButton.Color = player.Color;
-                var day = level.Day();
-                if (turnButton.Day == null)
+                if (turnButton.Day == null || !animateTurnStart || !PersistentData.Read().gameSettings.animateNight)
                     turnButton.Day = day;
-                else if (turnButton.Day != day)
+                else if (turnButton.Day != day) {
                     turnButton.PlayAnimation(day);
+                    while (turnButton.IsPlaying)
+                        yield return StateChange.none;
+                }
+            }
+
+            if (DayText.TryFind(out var dayText) && animateTurnStart ) {
+                dayText.PlayAnimation(day, player.Color);
+                while (dayText.IsPlaying)
+                    yield return  StateChange.none;
             }
 
             if (MusicPlayer.TryGet(out var musicPlayer)) {
@@ -38,10 +50,6 @@ public class PlayerTurnState : IDisposableState {
                     musicPlayer.StartPlaying(themes);
                 else
                     musicPlayer.StopPlaying();
-            }
-
-            if (animate) {
-                Debug.Log($"Start of turn #{level.turn}");
             }
 
             player.view2.Show();
@@ -100,7 +108,7 @@ public class SelectionState2 : IDisposableState {
             var accessibleBuildings = level.buildings.Values
                 .Where(building => building.Player == player &&
                                    Rules.GetBuildableUnitTypes(building).Any() &&
-                                   !level.TryGetUnit(building.position, out _))
+                                   !level.TryGetUnit(building.position, out var _))
                 .ToList();
 
             List<PreselectionPosition> positions = null;
@@ -121,7 +129,7 @@ public class SelectionState2 : IDisposableState {
                 cursorView.show = true;
 
             if (TurnButton.TryGet(out var turnButton))
-                turnButton.button.interactable = true;
+                turnButton.Interactable = true;
 
             var issuedAiCommands = false;
             while (true) {
@@ -249,7 +257,7 @@ public class SelectionState2 : IDisposableState {
         if (PreselectionCursor.TryFind(out var preselectionCursor))
             preselectionCursor.Hide();
         if (TurnButton.TryGet(out var turnButton))
-            turnButton.button.interactable = false;
+            turnButton.Interactable = false;
     }
 }
 

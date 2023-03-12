@@ -1,13 +1,10 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using Butjok.CommandLine;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
 using static Gettext;
-using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Button))]
 public class TurnButton : MonoBehaviour {
@@ -23,31 +20,24 @@ public class TurnButton : MonoBehaviour {
         return turnButton;
     }
 
-    public bool shouldEndTurn;
-    public void OnClick() {
-        shouldEndTurn = true;
-    }
-
     public bool Visible {
-        set {
-            gameObject.SetActive(value);
-        }
+        set => gameObject.SetActive(value);
     }
 
     public RectTransform carousel;
     public string gettextText = "Day {0}";
     public float duration = 2.5f;
-    public Button button;
+    [SerializeField] private Button button;
     public TMP_Text text;
     public Easing.Name easingName;
     public Sun debugSun;
     public int direction = -1;
+    public bool debugMakeInteractable = false;
 
     public Color highlightTint = Color.grey;
     public Color highlightEmissive = Color.yellow;
-    
+
     public Color Color {
-        get => button.colors.normalColor;
         set {
             var colors = button.colors;
             colors.normalColor = colors.selectedColor = value;
@@ -55,8 +45,6 @@ public class TurnButton : MonoBehaviour {
             button.colors = colors;
         }
     }
-    public bool interactable = true;
-
     private int? day;
     public int? Day {
         get => day;
@@ -75,20 +63,29 @@ public class TurnButton : MonoBehaviour {
 
     private void OnEnable() {
         text.text = "";
+            Interactable = debugMakeInteractable;
     }
+
+    public bool IsPlaying { get; private set; }
 
     [Command]
     public void PlayAnimation(int nextDay) {
         StopAllCoroutines();
+        IsPlaying = false;
         StartCoroutine(Animation(nextDay));
         if (debugSun)
             debugSun.PlayDayChange();
     }
 
+    public bool Interactable {
+        set => button.interactable = value;
+    }
+
     public IEnumerator Animation(int nextDay) {
 
         Assert.IsTrue(carousel);
-        
+
+        IsPlaying = true;
         var changedDay = false;
         var startTime = Time.unscaledTime;
         while (Time.unscaledTime < startTime + duration) {
@@ -99,10 +96,11 @@ public class TurnButton : MonoBehaviour {
                 changedDay = true;
                 Day = nextDay;
             }
-            button.interactable = false;
+            Interactable = false;
             yield return null;
         }
-        button.interactable = true;
+        Interactable = debugMakeInteractable;
         carousel.rotation = Quaternion.identity;
+        IsPlaying = false;
     }
 }

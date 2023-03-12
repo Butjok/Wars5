@@ -20,6 +20,7 @@ public static class Strings {
         _p("MainMenu", "ABOUT"),
         _p("Loading", "START"),
         _p("LoadGame", "Load"),
+        _("DAY {0}"),
     };
     
     public static string GetName(MissionName missionName) {
