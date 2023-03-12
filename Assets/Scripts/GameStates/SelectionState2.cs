@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -279,7 +281,33 @@ public class AbilityActivationState : IDisposableState {
 
             Debug.Log($"starting ability of {player}");
 
-            yield break;
+            switch (player.coName) {
+                case PersonName.Natalie:
+                    yield return StateChange.Push(nameof(NatalieAbility), NatalieAbility);
+                    break;
+                case PersonName.Vladan:
+                    yield return StateChange.Push(nameof(NatalieAbility), NatalieAbility);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+    }
+
+    private IEnumerator<StateChange> NatalieAbility {
+        get {
+            var player = level.CurrentPlayer;
+            
+            if (!CameraRig.TryFind(out var cameraRig))
+                yield break;
+
+            var units = level.FindUnitsOf(player);
+            foreach (var unit in units) {
+                var tween = cameraRig.Jump(unit.NonNullPosition.Raycast());
+                while (tween.active && !tween.IsComplete())
+                    yield return StateChange.none;
+                unit.SetHp(unit.Hp + 2);
+            }
         }
     }
 

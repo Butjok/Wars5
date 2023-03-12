@@ -281,3 +281,9 @@ public class CameraRig : MonoBehaviour {
         set => virtualCamera.m_Lens.FieldOfView = value;
     }
 }
+
+public interface ITween {
+     bool IsCompleted { get; }
+     void Kill();
+     void Complete();
+}
