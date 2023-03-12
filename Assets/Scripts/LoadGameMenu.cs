@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class LoadGameMenu : MonoBehaviour {
 
-    public Main main;
+    public Level level;
     public GameObject root;
     public Image screenshotImage;
     public Button entryButtonPrefab;
@@ -23,9 +23,9 @@ public class LoadGameMenu : MonoBehaviour {
     public Dictionary<string, Sprite> screenshotCache = new();
     public List<Button> entryButtons = new();
 
-    public void Show(Main main, IEnumerable<SaveEntry> saveEntries) {
+    public void Show(Level level, IEnumerable<SaveEntry> saveEntries) {
 
-        this.main = main;
+        this.level = level;
         root.SetActive(true);
 
         foreach (var entry in saveEntries) {
@@ -60,7 +60,7 @@ public class LoadGameMenu : MonoBehaviour {
     }
 
     public void Close() {
-        main.commands.Enqueue(LoadGameState.close);
+        level.commands.Enqueue(LoadGameState.close);
     }
     private void Update() {
         if (Input.GetKeyDown(KeyCode.Escape))

@@ -102,7 +102,7 @@ public class EntryPointView : MonoBehaviour {
 
     private void OnEnable() {
         if (StateRunner.Instance.IsEmpty)
-            StateRunner.Instance.PushState(new EntryPointState(showSplash, showWelcome));
+            StateRunner.Instance.Push(new EntryPointState(showSplash, showWelcome));
 
         var gitInfoJsonTextAsset = Resources.Load<TextAsset>("GitInfo");
         if (gitInfoJsonTextAsset) {

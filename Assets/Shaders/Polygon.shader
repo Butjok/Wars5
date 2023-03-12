@@ -5,6 +5,8 @@ Shader "Custom/Polygon" {
 		_Glossiness ("Smoothness", Range(0,1)) = 0.5
 		_Metallic ("Metallic", Range(0,1)) = 0.0
 		_Speed ("_Speed", Float) = 0.0
+		_BorderColor ("_BorderColor", Color) = (1,1,1,1)
+		_FillColor ("_FillColor", Color) = (1,1,1,1)
 	}
 	SubShader {
 		Tags { "RenderType"="Opaque" }
@@ -26,13 +28,46 @@ Shader "Custom/Polygon" {
 
 		half _Glossiness;
 		half _Metallic;
-		fixed4 _Color;
+		fixed4 _Color, _BorderColor, _FillColor;
 		int _Count;
-		float2 _From[128], _To[128];
+		float4 _From[128], _To[128];
 		float _Speed, _StartTime;
 
 		float easeInOutQuad(float x){
 			return x < 0.5 ? 2 * x * x : 1 - pow(-2 * x + 2, 2) / 2;
+		}
+		float easeOutSine(float x){
+			return sin((x * 3.141592) / 2);
+		}
+
+		float2 V(int i, float t) {
+			return lerp(_From[i], _To[i], t);
+		}
+
+		float sdPolygon( float2 p, float t )
+		{
+			float v0 = V(0,t);
+			float d = dot(p-v0,p-v0);
+			float s = 1.0;
+			for( int i=0, j=_Count-1; i<_Count; j=i, i++ )
+			{
+				// distance
+				float2 vj = V(j,t);
+				float2 vi = V(i,t);
+				float2 e = vj - vi;
+				float2 w =    p - vi;
+				float2 b = w - e*clamp( dot(w,e)/dot(e,e), 0.0, 1.0 );
+				d = min( d, dot(b,b) );
+		
+				// winding number from http://geomalgorithms.com/a03-_inclusion.html
+				bool3 cond = bool3( p.y>=vi.y,
+									p.y <vj.y,
+									e.x*w.y>e.y*w.x );
+				
+				if( all(cond) || all(!cond) ) s=-s;
+			}
+		
+			return s*sqrt(d);
 		}
 
 		void surf (Input IN, inout SurfaceOutputStandard o) {
@@ -44,23 +79,16 @@ Shader "Custom/Polygon" {
 			o.Smoothness = _Glossiness;
 			o.Alpha = c.a;
 
-			o.Albedo = 1;
+			o.Albedo = _Color;;
 			if (_Count > 0) {
 				float2 position = IN.worldPos.xz;
-				half minDistance = 9999999;
-				for (int i = 0; i < _Count; i++) {
-
-					float distance = length(_To[i] - _From[i]);
-					float duration = distance / _Speed;
-					float time = clamp(_Time.y - _StartTime, 0, duration);
-					float t = time / duration;
-					float2 pt = lerp(_From[i], _To[i], easeInOutQuad(t));
-					
-					float d = length(position - pt);
-					if (d < minDistance)
-						minDistance = d;
-				}
-				o.Albedo = minDistance;
+				float time = clamp(_Time.y - _StartTime, 0, _Speed);
+				float t = time / _Speed;
+				t = easeOutSine(t);
+				float distance = sdPolygon(position, t);
+				float fill = smoothstep(.025, -.025, distance - .05);
+				float border = smoothstep(.0075 + .005, .005, abs(distance - .05));
+				o.Emission = _BorderColor*border + _FillColor*fill;
 			}
 		}
 		ENDCG

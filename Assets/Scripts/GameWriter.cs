@@ -13,18 +13,18 @@ public static class GameWriter {
 		CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
 	}
 	
-	public static TextWriter Write(TextWriter tw, Main main, Predicate<Vector2Int> filter=null) {
+	public static TextWriter Write(TextWriter tw, Level level, Predicate<Vector2Int> filter=null) {
 
 		WriteLine(tw, SceneManager.GetActiveScene().name, "game.load-scene");
-		WriteLine(tw, $"{main.missionName} MissionName type enum", "game.set-mission-name");
-		WriteLine(tw, main.turn, "game.set-turn");
+		WriteLine(tw, $"{level.missionName} MissionName type enum", "game.set-mission-name");
+		WriteLine(tw, level.turn, "game.set-turn");
 
 		WriteLine(tw, "\n\n");
 
-		foreach (var player in main.players) {
+		foreach (var player in level.players) {
 
 			WriteComment(tw);
-			WriteComment(tw, $"Player {main.players.IndexOf(player)} {player}");
+			WriteComment(tw, $"Player {level.players.IndexOf(player)} {player}");
 			WriteComment(tw);
 
 			WriteLine(tw);
@@ -32,7 +32,7 @@ public static class GameWriter {
 			WritePlayer(tw, player);
 			WriteLine(tw);
 
-			foreach (var building in player.main.FindBuildingsOf(player)) {
+			foreach (var building in player.level.FindBuildingsOf(player)) {
 				WriteLine(tw, "dup");
 				WriteBuilding(tw, building);
 				WriteLine(tw, "pop");
@@ -41,7 +41,7 @@ public static class GameWriter {
 
 			WriteLine(tw);
 
-			foreach (var unit in player.main.FindUnitsOf(player)) {
+			foreach (var unit in player.level.FindUnitsOf(player)) {
 				WriteLine(tw, "dup");
 				WriteUnit(tw, unit);
 				WriteLine(tw, "pop");
@@ -52,8 +52,8 @@ public static class GameWriter {
 			WriteLine(tw, "\n");
 		}
 
-		var tiles = main.tiles
-			.Union(main.bridges.SelectMany(bridge => bridge.tiles));
+		var tiles = level.tiles
+			.Union(level.bridges.SelectMany(bridge => bridge.tiles));
 
 		foreach (var (position, tileType) in tiles.OrderBy(kv=>kv.Value).ThenBy(kv => kv.Key.x).ThenBy(kv => kv.Key.y)) {
 			if (TileType.Buildings.HasFlag(tileType))
@@ -64,7 +64,7 @@ public static class GameWriter {
 		}
 		WriteLine(tw);
 
-		foreach (var building in main.buildings.Values.Where(building => building.Player== null)) {
+		foreach (var building in level.buildings.Values.Where(building => building.Player== null)) {
 			WriteLine(tw, "null");
 			WriteBuilding(tw, building);
 			WriteLine(tw, "pop");
@@ -72,14 +72,14 @@ public static class GameWriter {
 		}
 		WriteLine(tw);
 
-		foreach (var (trigger, positions) in main.triggers) {
+		foreach (var (trigger, positions) in level.triggers) {
 			WriteLine(tw, $"{trigger.ToString().Replace(" ", "")} TriggerName type enum", "trigger.select");
 			foreach (var position in positions)
 				WriteLine(tw, $"{position.x} {position.y} int2", "trigger.add-position");
 			WriteLine(tw);
 		}
 
-		foreach (var bridge in main.bridges) {
+		foreach (var bridge in level.bridges) {
 			WriteBridge(tw, bridge);
 			WriteLine(tw, "pop");
 			WriteLine(tw);
@@ -146,19 +146,15 @@ public static class GameWriter {
 
 	public static TextWriter WritePlayer(TextWriter tw, Player player) {
 
-		WriteLine(tw, $"{player.Color.r} {player.Color.g} {player.Color.b}", "player.set-color");
+		WriteLine(tw, $"{player.ColorName} ColorName type enum", "player.set-color-name");
 		WriteLine(tw, $"{player.team} Team type enum", "player.set-team");
+		WriteLine(tw, $"{player.coName} PersonName type enum", "player.set-co-name");
+		WriteLine(tw, $"{player.uiPosition.x} {player.uiPosition.y} int2", "player.set-ui-position");
 		WriteLine(tw, player.Credits, "player.set-credits");
 		WriteLine(tw, player.AbilityMeter, "player.set-power-meter");
 		WriteLine(tw, $"{player.unitLookDirection.x} {player.unitLookDirection.y} int2", "player.set-unit-look-direction");
 		WriteLine(tw, player.side, "player.set-side");
-		if (player.name != null)
-			WriteLine(tw, player.name, "player.set-name");
-		var index = player.main.players.IndexOf(player);
-		//WriteLine(tw, index,"player.on-additive-load-get-by-index");
-		if (player.co)
-			WriteLine(tw, player.co.name, "player.set-co");
-		if (player.main.localPlayer == player)
+		if (player.level.localPlayer == player)
 			WriteLine(tw, "player.mark-as-local");
 		if (player.abilityActivationTurn != null)
 			WriteLine(tw, player.abilityActivationTurn, "player.set-ability-activation-turn");

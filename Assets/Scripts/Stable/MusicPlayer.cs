@@ -1,18 +1,21 @@
+using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class MusicPlayer : MonoBehaviour {
 
     private static MusicPlayer instance;
+    public static MusicPlayer TryGet() {
+        if (instance)
+            return instance;
+        var gameObject = new GameObject(nameof(MusicPlayer));
+        DontDestroyOnLoad(gameObject);
+        instance = gameObject.AddComponent<MusicPlayer>();
+        return instance;
+    }
     public static bool TryGet(out MusicPlayer musicPlayer) {
-        if (!instance) {
-            var gameObject = new GameObject(nameof(MusicPlayer));
-            DontDestroyOnLoad(gameObject);
-            instance = gameObject.AddComponent<MusicPlayer>();
-        }
-        musicPlayer= instance;
-        return musicPlayer ;
+        musicPlayer = TryGet();
+        return musicPlayer;
     }
 
     public AudioSource source;
@@ -20,33 +23,25 @@ public class MusicPlayer : MonoBehaviour {
         source = gameObject.AddComponent<AudioSource>();
         source.loop = false;
         source.volume = 1.0f;
+        source.Stop();
     }
 
-    private IEnumerator<AudioClip> queue;
-    public IEnumerator<AudioClip> Queue {
-        get => queue;
-        set {
-            queue = value;
-            queue.MoveNext();
-            if (source.isPlaying) {
-                if (source.clip != queue.Current)
-                    source.Stop();
-                else
-                    queue.MoveNext();
-            }
-        }
+    public void StopPlaying() {
+        source.Stop();
     }
 
-    public void Update() {
-        
-        if (queue == null || source.isPlaying)
-            return;
-        
-        var clip = queue.Current;
-        if (clip) {
-            source.clip = clip;
+    public void StartPlaying(IEnumerable<AudioClip> audioClips) {
+        StopAllCoroutines();
+        StartCoroutine(Animation(audioClips));
+    }
+    private IEnumerator Animation(IEnumerable<AudioClip> audioClips) {
+        source.Stop();
+        foreach (var audioClip in audioClips) {
+            source.clip = audioClip;
             source.Play();
-            queue.MoveNext();
+            while (source.isPlaying)
+                yield return null;
         }
+        source.Stop();
     }
 }

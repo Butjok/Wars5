@@ -1,7 +1,6 @@
 using UnityEditor;
 
     [CustomPropertyDrawer(typeof(UnitTypeUnitViewDictionary))]
-    [CustomPropertyDrawer(typeof(TileTypeBuildingViewDictionary))]
     [CustomPropertyDrawer(typeof(TriggerNameColorDictionary))]
     [CustomPropertyDrawer(typeof(WeaponNameBattleAnimationInputsDictionary))]
 

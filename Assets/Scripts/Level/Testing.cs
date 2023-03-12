@@ -19,17 +19,17 @@ public static class Testing {
     }
     public static Team[] teamLoop = { Team.Alpha, Team.Bravo, Team.Charlie, Team.Delta };
 
-    public static Main CreateGame(Options options = null) {
+    public static Level CreateGame(Options options = null) {
 
         options ??= new Options();
 
         var go = new GameObject(nameof(Testing));
         Object.DontDestroyOnLoad(go);
-        var game = go.AddComponent<Main>();
+        var game = go.AddComponent<Level>();
         
         var index = 0;
-        foreach (var color in options.colors)
-            new Player(game, color, teamLoop[index++ % teamLoop.Length]);
+        // foreach (var color in options.colors)
+        //     new Player(game, color, teamLoop[index++ % teamLoop.Length]);
 
        // game.tiles = new Map2D<TileType>(options.min, options.max);
         //game.units = new Map2D<Unit>(options.min, options.max);

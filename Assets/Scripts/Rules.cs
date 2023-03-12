@@ -32,16 +32,16 @@ public static class Rules {
     }
 
     public static bool Lost(Player player) {
-        var hasUnits = player.main.FindUnitsOf(player).Any();
-        var buildings = player.main.FindBuildingsOf(player).ToList();
+        var hasUnits = player.level.FindUnitsOf(player).Any();
+        var buildings = player.level.FindBuildingsOf(player).ToList();
         var hasIncome = buildings.Any(building => Income(building) > 0);
-        var canBuildUnits = buildings.Any(building => GetBuildableUnitTypes(building).Any() && !player.main.TryGetUnit(building.position, out _));
+        var canBuildUnits = buildings.Any(building => GetBuildableUnitTypes(building).Any() && !player.level.TryGetUnit(building.position, out _));
         var hasHq = buildings.Any(building => building.type == TileType.Hq);
         return !hasHq ||
                !hasUnits && (!canBuildUnits || !hasIncome);
     }
     public static IEnumerable<Player> Enemies(Player player) {
-        return player.main.players.Where(other => AreEnemies(player, other));
+        return player.level.players.Where(other => AreEnemies(player, other));
     }
     public static bool Won(Player player) {
         return Enemies(player).All(Lost);
@@ -197,7 +197,7 @@ public static class Rules {
 
     public static int MoveCapacity(Unit unit) {
         var moveDistance = MoveCapacity(unit.type, unit.Player);
-        if (unit.Player.co == Co.Natalie && unit.Player.abilityActivationTurn != null)
+        if (unit.Player.coName == PersonName.Natalie && unit.Player.abilityActivationTurn != null)
             moveDistance += 5;
         return Min(unit.Fuel, moveDistance);
     }
@@ -208,7 +208,7 @@ public static class Rules {
 
     public static bool TryGetMoveCost(Unit unit, Vector2Int position, out int cost) {
         cost = default;
-        return unit.Player.main.TryGetTile(position, out var tileType) &&
+        return unit.Player.level.TryGetTile(position, out var tileType) &&
                TryGetMoveCost(unit.type, tileType, out cost);
     }
     public static bool TryGetMoveCost(UnitType unitType, TileType tileType, out int cost) {
@@ -246,8 +246,8 @@ public static class Rules {
         bool TryGetCost(Vector2Int position, int distance, out int cost) {
             cost = 0;
 
-            var unreachable = !unit.Player.main.TryGetTile(position, out var tile) ||
-                              unit.Player.main.TryGetUnit(position, out var other) && !CanPass(unit, other) ||
+            var unreachable = !unit.Player.level.TryGetTile(position, out var tile) ||
+                              unit.Player.level.TryGetUnit(position, out var other) && !CanPass(unit, other) ||
                               !TryGetMoveCost(unit, tile, out cost) ||
                               truncateToMoveDistance && distance + cost > MoveCapacity(unit);
             return !unreachable;
@@ -260,9 +260,9 @@ public static class Rules {
         return TryGetMoveCost(unitType, tileType, out _);
     }
     public static bool CanStay(Unit unit, Vector2Int position) {
-        return unit.Player.main.TryGetTile(position, out var tile) &&
+        return unit.Player.level.TryGetTile(position, out var tile) &&
                CanStay(unit, tile) &&
-               (!unit.Player.main.TryGetUnit(position, out var other) || other == unit);
+               (!unit.Player.level.TryGetUnit(position, out var other) || other == unit);
     }
     public static bool CanCapture(UnitType unitType, TileType buildingType) {
         return UnitStats.Loaded.TryGetValue(unitType, out var entry) && entry.specialCommands.HasFlag(UnitStats.SpecialCommand.CanCapture);
@@ -272,7 +272,7 @@ public static class Rules {
                (building.Player == null || AreEnemies(unit.Player, building.Player));
     }
     public static bool CanPass(Unit unit, Vector2Int position) {
-        return !unit.Player.main.TryGetUnit(position, out var other) || unit.Player == other.Player;
+        return !unit.Player.level.TryGetUnit(position, out var other) || unit.Player == other.Player;
     }
     public static bool CanPass(Unit unit, Unit other) {
         return AreAllies(unit.Player, other.Player);
@@ -291,7 +291,7 @@ public static class Rules {
     }
     public static bool CanLaunchMissile(Building missileSilo) {
         Assert.AreEqual(TileType.MissileSilo, missileSilo.type);
-        return missileSilo.main.turn >= missileSilo.missileSiloLastLaunchTurn + missileSilo.missileSiloLaunchCooldown * missileSilo.main.players.Count &&
+        return missileSilo.level.turn >= missileSilo.missileSiloLastLaunchTurn + missileSilo.missileSiloLaunchCooldown * missileSilo.level.players.Count &&
                missileSilo.missileSiloAmmo > 0;
     }
 }

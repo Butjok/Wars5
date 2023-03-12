@@ -10,7 +10,7 @@ public static class MissileTargetSelectionState {
     public const string launchMissile = prefix + "launch-missile";
     public const string cancel = prefix + "cancel";
 
-    public static IEnumerator<StateChange> Run(Main main, UnitAction action, Vector2Int? initialLookDirection = null) {
+    public static IEnumerator<StateChange> Run(Level level, UnitAction action, Vector2Int? initialLookDirection = null) {
 
         Assert.AreEqual(TileType.MissileSilo, action.targetBuilding);
         Assert.IsTrue(Rules.CanLaunchMissile(action.unit, action.targetBuilding));
@@ -30,8 +30,8 @@ public static class MissileTargetSelectionState {
                         launchPosition = mousePosition;
                     }
                     else {
-                        main.stack.Push(launchPosition);
-                        main.commands.Enqueue(launchMissile);
+                        level.stack.Push(launchPosition);
+                        level.commands.Enqueue(launchMissile);
                     }
                 }
                 else
@@ -39,15 +39,15 @@ public static class MissileTargetSelectionState {
             }
 
             else if (Input.GetMouseButtonDown(Mouse.right) || Input.GetKeyDown(KeyCode.Escape))
-                main.commands.Enqueue(cancel);
+                level.commands.Enqueue(cancel);
 
-            while (main.commands.TryDequeue(out var input))
+            while (level.commands.TryDequeue(out var input))
                 foreach (var token in Tokenizer.Tokenize(input))
                     switch (token) {
 
                         case launchMissile: {
 
-                            var targetPosition = main.stack.Pop<Vector2Int>();
+                            var targetPosition = level.stack.Pop<Vector2Int>();
                             Assert.AreEqual(TileType.MissileSilo, missileSilo.type);
 
                             Debug.Log($"Launching missile from {missileSilo.position} to {targetPosition}");
@@ -70,15 +70,15 @@ public static class MissileTargetSelectionState {
                             }
 
                             action.unit.Position = action.destination;
-                            missileSilo.missileSiloLastLaunchTurn = main.turn;
+                            missileSilo.missileSiloLastLaunchTurn = level.turn;
                             missileSilo.missileSiloAmmo--;
 
-                            foreach (var position in main.PositionsInRange(targetPosition, missileSilo.missileBlastRange))
-                                if (main.TryGetUnit(position, out var unit))
+                            foreach (var position in level.PositionsInRange(targetPosition, missileSilo.missileBlastRange))
+                                if (level.TryGetUnit(position, out var unit))
                                     unit.SetHp(unit.Hp - missileSilo.missileUnitDamage, true);
 
                             var anyBridgeDestroyed = false;
-                            var targetedBridges = main.bridges.Where(bridge => bridge.tiles.ContainsKey(targetPosition));
+                            var targetedBridges = level.bridges.Where(bridge => bridge.tiles.ContainsKey(targetPosition));
                             foreach (var bridge in targetedBridges) {
                                 bridge.SetHp(bridge.Hp - missileSilo.missileBridgeDamage, true);
                                 if (!anyBridgeDestroyed && bridge.Hp <= 0)
@@ -120,16 +120,16 @@ public static class MissileTargetSelectionState {
                             // pop MissileTargetSelectionState and current ActionSelectionState -> then restart ActionSelectionState
                             // it is important that the ActionSelectionState is a IDisposableState in order to dispose
                             // UnitAction list properly
-                            yield return StateChange.PopThenPush(2, new ActionSelectionState(main, action.unit, action.Path, initialLookDirection));
+                            yield return StateChange.PopThenPush(2, new ActionSelectionState(level, action.unit, action.Path, initialLookDirection));
                             break;
 
                         default:
-                            main.stack.ExecuteToken(token);
+                            level.stack.ExecuteToken(token);
                             break;
                     }
 
             if (launchPosition is { } actualLaunchPosition)
-                foreach (var attackPosition in main.PositionsInRange(actualLaunchPosition, missileSilo.missileBlastRange))
+                foreach (var attackPosition in level.PositionsInRange(actualLaunchPosition, missileSilo.missileBlastRange))
                     Draw.ingame.SolidPlane((Vector3)attackPosition.ToVector3Int(), Vector3.up, Vector2.one, Color.red);
 
             if (Mouse.TryGetPosition(out mousePosition) && missileSiloView &&

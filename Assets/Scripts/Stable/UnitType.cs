@@ -16,13 +16,3 @@ public enum UnitType {
 }
 public enum MoveCostType {Foot,Tires,Tracks}
 
-public enum Team {
-    None , 
-    Alpha ,
-    Bravo , 
-    Charlie , 
-    Delta 
-}
-
-public enum PlayerType { Human, Ai }
-public enum AiDifficulty { Normal, Easy, Hard }

@@ -25,7 +25,7 @@ public class PlayerView2 : MonoBehaviour {
         [new Vector2Int(right, bottom)] = null,
     };
 
-    public static PlayerView2 GetPrefab(PersonId personId) {
+    public static PlayerView2 GetPrefab(PersonName personName) {
         return "PlayerView2".LoadAs<PlayerView2>();
     }
 
@@ -45,60 +45,6 @@ public class PlayerView2 : MonoBehaviour {
     public RectTransform backgroundPlaceholder;
     public RectTransform placeholderRoot;
 
-    private void Awake() {
-        if (player == null) {
-            player = new Player(null, Color.red, credits: 123, spawnViewPrefab:false);
-        }
-    }
-
-    private Vector2Int? position;
-    private bool initialized = false;
-    public Vector2Int? Position {
-        set {
-            if (initialized && position == value)
-                return;
-            initialized = true;
-
-            if (position is { } oldPosition)
-                playerViews[oldPosition] = null;
-
-            position = value;
-
-            if (value is { } newPosition) {
-
-                root.SetActive(true);
-
-                Assert.IsTrue(newPosition[horizontal] is left or right);
-                Assert.IsTrue(newPosition[vertical] is top or bottom);
-                Assert.IsNull(playerViews[newPosition]);
-
-                playerViews[newPosition] = this;
-
-                var rectTransform = GetComponent<RectTransform>();
-                Assert.IsTrue(rectTransform);
-
-                rectTransform.pivot = new Vector2(.5f, newPosition[vertical]);
-                rectTransform.anchorMin = anchors[newPosition[vertical]].min;
-                rectTransform.anchorMax = anchors[newPosition[vertical]].max;
-                rectTransform.anchoredPosition = new Vector2(0, 0);
-
-                placeholderRoot.localScale = new Vector3(newPosition[horizontal] == left ? 1 : -1, 1, 1);
-
-                creditsText.transform.position = creditsTextPlaceholder.position;
-                powerMeterStripe.transform.position = powerMeterStripePlaceholder.position;
-                portrait.rectTransform.position = portraitPlaceholder.position;
-                background.rectTransform.position = backgroundPlaceholder.position;
-
-                SetCreditsAmount(player.Credits, false);
-                SetPowerStripeMeter(player.AbilityMeter, false);
-                Color = player.Color;
-                Mood = Mood.Normal;
-            }
-            else
-                root.SetActive(false);
-        }
-    }
-
     [Command]
     public void SetCreditsAmount(int amount, bool animate = true) {
         creditsText.SetAmount(amount, animate);
@@ -109,10 +55,41 @@ public class PlayerView2 : MonoBehaviour {
             playSoundOnFull ? () => Debug.Log("power meter full") : null);
     }
 
-    [Command]
-    public void Hide() { Position = null; }
-    [Command]
-    public void ShowAt(Vector2Int position) { Position = position; }
+    public void Show() {
+        
+        root.SetActive(true);
+
+        Assert.IsTrue(player.uiPosition[horizontal] is left or right);
+        Assert.IsTrue(player.uiPosition[vertical] is top or bottom);
+        Assert.IsNull(playerViews[player.uiPosition]);
+
+        playerViews[player.uiPosition] = this;
+
+        var rectTransform = GetComponent<RectTransform>();
+        Assert.IsTrue(rectTransform);
+
+        rectTransform.pivot = new Vector2(.5f, player.uiPosition[vertical]);
+        rectTransform.anchorMin = anchors[player.uiPosition[vertical]].min;
+        rectTransform.anchorMax = anchors[player.uiPosition[vertical]].max;
+        rectTransform.anchoredPosition = new Vector2(0, 0);
+
+        placeholderRoot.localScale = new Vector3(player.uiPosition[horizontal] == left ? 1 : -1, 1, 1);
+
+        creditsText.transform.position = creditsTextPlaceholder.position;
+        powerMeterStripe.transform.position = powerMeterStripePlaceholder.position;
+        portrait.rectTransform.position = portraitPlaceholder.position;
+        background.rectTransform.position = backgroundPlaceholder.position;
+
+        SetCreditsAmount(player.Credits, false);
+        SetPowerStripeMeter(player.AbilityMeter, false);
+        Color = player.Color;
+        Mood = Mood.Normal;
+    }
+    
+    public void Hide() {
+        playerViews[player.uiPosition] = null;
+        root.SetActive(false);
+    }
 
     [Command]
     public Color Color {
@@ -121,8 +98,6 @@ public class PlayerView2 : MonoBehaviour {
 
     [Command]
     public Mood Mood {
-        set {
-            
-        }
+        set => portraitInsetImage.sprite = People.TryGetPortrait(player.coName, value);
     }
 }

@@ -31,7 +31,7 @@ public class CampaignOverviewView : MonoBehaviour {
 
     private void Start() {
         if (start && StateRunner.Instance.IsEmpty)
-            StateRunner.Instance.PushState(new CampaignOverviewState2());
+            StateRunner.Instance.Push(new CampaignOverviewState2());
     }
 
     public bool ShowLoadingSpinner {

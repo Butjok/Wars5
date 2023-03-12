@@ -8,12 +8,12 @@ Tutorial MissionName type enum                                   game.set-missio
 #Player0RGBA(1.000,0.400,0.000,1.000)
 #
 
-1 0.4 0                                                          player.set-color
+Red ColorName type enum                                                          player.set-color-name
 Alpha Team type enum                                             player.set-team
 16000                                                            player.set-credits
 0                                                                player.set-power-meter
 1 0 int2                                                         player.set-unit-look-direction
-Natalie                                                        player.set-co
+Natalie PersonName type enum                                                        player.set-co-name
                                                                  player.mark-as-local
                                                                  player.add
 
@@ -42,12 +42,12 @@ LightTank UnitView type load-resource                          unit.set-view-pre
 #Player1RGBA(0.000,0.400,1.000,1.000)
 #
 
-0 0.4 1                                                          player.set-color
+Blue ColorName type enum                                                          player.set-color-name
 Bravo Team type enum                                             player.set-team
 16000                                                            player.set-credits
 0                                                                player.set-power-meter
 -1 0 int2                                                        player.set-unit-look-direction
-Vladan                                                        player.set-co
+Vladan PersonName type enum                                                       player.set-co-name
                                                                  player.add
 
                                                                  dup

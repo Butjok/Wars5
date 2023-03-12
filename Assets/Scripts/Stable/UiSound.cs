@@ -44,12 +44,9 @@ public static class AudioClipExtensions {
         UiSound.source.PlayOneShot(clip);
     }
 
-    public static IEnumerator<AudioClip> InfiniteSequence(this IEnumerable<AudioClip> themes, bool shuffle = false) {
-        if (themes==null) {
-            yield return null;
-            yield break;
-        }
-        var shuffled = shuffle ? themes.OrderBy(_ => Random.value).ToArray() : themes;
+    public static IEnumerable<AudioClip> InfiniteSequence(this IEnumerable<AudioClip> themes, bool shuffle = false) {
+        var shuffled = (shuffle ? themes.OrderBy(_ => Random.value) : themes).ToList();
+        Assert.AreNotEqual(0, shuffled.Count);
         while (true) {
             foreach (var clip in shuffled)
                 yield return clip;

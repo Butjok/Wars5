@@ -1,18 +1,19 @@
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Ai : MonoBehaviour {
 
     public const string a = "hello,l world!!!asdasdssdfsasdasdsdfasdasd";
     public int x = 3128;
 
-    public static UnitAction FindBestAction(Main main) {
+    public static UnitAction FindBestAction(Level level) {
 
-        var player = main.CurrentPlayer;
-        var players = main.players;
-        var tiles = main.tiles;
-        var units = main.units.Values.ToList();
-        var enemies = main.players.Where(p => Rules.AreEnemies(player, p)).ToList();
+        var player = level.CurrentPlayer;
+        var players = level.players;
+        var tiles = level.tiles;
+        var units = level.units.Values.ToList();
+        var enemies = level.players.Where(p => Rules.AreEnemies(player, p)).ToList();
         var playerUnits = units.Where(u => u.Player == player).ToList();
         var unmovedPlayerUnits = playerUnits.Where(u => !u.Moved).ToList();
         var unmovedPlayerArtilleryUnits = unmovedPlayerUnits.Where(u => Rules.IsArtillery(u)).ToList();
@@ -32,7 +33,7 @@ public class Ai : MonoBehaviour {
                 yield return unit;
     }*/
 
-    public Main main;
+    [FormerlySerializedAs("main")] public Level level;
     public int playerIndex;
 
     private void OnDrawGizmos() {
@@ -46,22 +47,22 @@ public class Ai : MonoBehaviour {
             Gizmos.DrawCube(position.ToVector3Int(), Vector2Int.one.ToVector3Int());
         }
 
-        if (!main) {
-            main = FindObjectOfType<Main>();
-            if (!main)
+        if (!level) {
+            level = FindObjectOfType<Level>();
+            if (!level)
                 return;
         }
 
-        foreach (var (position, tileType) in main.tiles)
+        foreach (var (position, tileType) in level.tiles)
             DrawWireTile(position, Color.white);
 
-        if (main.players.Count == 0)
+        if (level.players.Count == 0)
             return;
 
-        var player = main.players[playerIndex % main.players.Count];
-        var enemies = main.players.Where(p => Rules.AreEnemies(player, p)).ToList();
-        var units = main.units.Values.Where(u => u.Player == player && u.Position != null).ToList();
-        var enemyUnits = main.units.Values.Where(u => enemies.Contains(u.Player) && u.Position != null).ToList();
+        var player = level.players[playerIndex % level.players.Count];
+        var enemies = level.players.Where(p => Rules.AreEnemies(player, p)).ToList();
+        var units = level.units.Values.Where(u => u.Player == player && u.Position != null).ToList();
+        var enemyUnits = level.units.Values.Where(u => enemies.Contains(u.Player) && u.Position != null).ToList();
 
         foreach (var unit in units)
             DrawSolidTile((Vector2Int)unit.Position, Color.green);

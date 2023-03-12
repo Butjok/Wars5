@@ -1,3 +1,4 @@
+using System;
 using Butjok.CommandLine;
 using TMPro;
 using UnityEngine;
@@ -13,14 +14,16 @@ public class CursorView : MonoBehaviour {
 		result = instance;
 		return result;
 	}
+	public static CursorView TryFind() {
+		TryFind(out var cursorView);
+		return cursorView;
+	}
 
 	public MeshRenderer meshRenderer;
 	[Command]
 	public bool show = true;
-	public TMP_Text text;
-	[Command]
-	public bool enableText = true;
-	public Main main;
+	public Level level;
+	public bool showGui = true;
 
 	public bool showOnlyOnTiles = true;
 
@@ -35,24 +38,26 @@ public class CursorView : MonoBehaviour {
 
 	public void LateUpdate() {
 
-		if (!main) {
-			main = FindObjectOfType<Main>();
-			Assert.IsTrue(main);
+		if (!level) {
+			level = FindObjectOfType<Level>();
+			Assert.IsTrue(level);
 		}
 		
-		if (Mouse.TryGetPosition(out Vector2Int mousePosition) && (!showOnlyOnTiles || main.TryGetTile(mousePosition, out _))) {
+		if (Mouse.TryGetPosition(out Vector2Int mousePosition) && (!showOnlyOnTiles || level.TryGetTile(mousePosition, out _))) {
 			meshRenderer.enabled = show;
 			transform.position = mousePosition.ToVector3Int();
-			if (text) {
-				text.enabled = show && enableText;
-				if (text.enabled)
-					text.text = mousePosition.ToString();
-			}
 		}
 		else {
 			meshRenderer.enabled = false;
-			if (text)
-				text.enabled = false;
+		}
+	}
+
+	private void OnGUI() {
+		if (showGui && Mouse.TryGetPosition(out Vector2Int position)) {
+			GUI.skin = DefaultGuiSkin.TryGet;
+			var content = new GUIContent(position.ToString());
+			var size = GUI.skin.label.CalcSize(content);
+			GUI.Label(new Rect(Screen.width-size.x, Screen.height-size.y, size.x, size.y), position.ToString());
 		}
 	}
 }

@@ -142,7 +142,7 @@ public class LoadingState : IDisposableState {
             loadingOperation.allowSceneActivation = true;
             yield return  StateChange.none;
 
-            var main = Object.FindObjectOfType<Main>();
+            var main = Object.FindObjectOfType<Level>();
             Assert.IsTrue(main);
             
             GameReader.ReadInto(main, saveData, true);

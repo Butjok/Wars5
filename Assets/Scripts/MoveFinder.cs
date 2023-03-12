@@ -46,7 +46,7 @@ public static class MoveFinder3 {
         if (!Mouse.TryGetPosition(out Vector2Int mousePosition))
             return 0;
 
-        var main = Object.FindObjectOfType<Main>();
+        var main = Object.FindObjectOfType<Level>();
         Assert.IsTrue(main);
 
         goals.Clear();
@@ -58,7 +58,7 @@ public static class MoveFinder3 {
     [Command]
     public static bool TryFindMove(bool onlyValidStayDestinations = true) {
 
-        var main = Object.FindObjectOfType<Main>();
+        var main = Object.FindObjectOfType<Level>();
         Assert.IsTrue(main);
 
         if (!Mouse.TryGetPosition(out Vector2Int position) || !main.TryGetUnit(position, out var unit))
@@ -103,7 +103,7 @@ public static class MoveFinder3 {
         moveNodes.Clear();
         priorityQueue.Clear();
 
-        var main = unit.Player.main;
+        var main = unit.Player.level;
         foreach (var (position, tileType) in main.tiles) {
             var node = new Node {
                 tileType = tileType,

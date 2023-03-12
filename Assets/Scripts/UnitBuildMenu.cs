@@ -33,12 +33,12 @@ public class UnitBuildMenu : MonoBehaviour {
     public bool TryBuild() {
         if (!building.Player.CanAfford(unitType))
             return false;
-        building.main.stack.Push(unitType);
-        building.main.commands.Enqueue(UnitBuildState.build);
+        building.level.stack.Push(unitType);
+        building.level.commands.Enqueue(UnitBuildState.build);
         return true;
     }
     public void Cancel() {
-        building.main.commands.Enqueue(UnitBuildState.close);
+        building.level.commands.Enqueue(UnitBuildState.close);
     }
 
     public void Show(Building building) {
@@ -81,14 +81,14 @@ public class UnitBuildMenu : MonoBehaviour {
             unitType = value;
 
             var player = building.Player;
-            if (!player.co.unitTypesInfoOverride.TryGetValue(unitType, out var info)) {
-                var found = UnitTypesInfo.TryGet(unitType, out info);
-                Assert.IsTrue(found, unitType.ToString());
-            }
+            // if (!player.co.unitTypesInfoOverride.TryGetValue(unitType, out var info)) {
+            //     var found = UnitTypesInfo.TryGet(unitType, out info);
+            //     Assert.IsTrue(found, unitType.ToString());
+            // }
 
-            typeName.text = string.Format(typeNameFormat, info.name);
-            description.text = string.Format(descriptionFormat, info.description);
-            thumbnail.sprite = info.thumbnail;
+            // typeName.text = string.Format(typeNameFormat, info.name);
+            // description.text = string.Format(descriptionFormat, info.description);
+            // thumbnail.sprite = info.thumbnail;
             moveDistance.text = Rules.MoveCapacity(unitType, player).ToString();
             var cost = Rules.Cost(unitType, player);
             this.cost.text = string.Format(costFormat, cost);

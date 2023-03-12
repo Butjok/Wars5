@@ -10,7 +10,7 @@ public static class LoadGameState {
 
     public const string close = prefix + "close";
     
-    public static IEnumerator<StateChange> Run(Main main) {
+    public static IEnumerator<StateChange> Run(Level level) {
 
         var saves = SaveEntry.FileNames
             .Select(SaveEntry.Read)
@@ -18,12 +18,12 @@ public static class LoadGameState {
 
         var menu = Object.FindObjectOfType<LoadGameMenu>(true);
         Assert.IsTrue(menu);
-        menu.Show(main, saves);
+        menu.Show(level, saves);
 
         while (true) {
             yield return StateChange.none;
             
-            while (main.commands.TryDequeue(out var input))
+            while (level.commands.TryDequeue(out var input))
                 foreach (var token in Tokenizer.Tokenize(input))
                     switch (token) {
                         
@@ -33,7 +33,7 @@ public static class LoadGameState {
                             break;
                         
                         default:
-                            main.stack.ExecuteToken(token);
+                            level.stack.ExecuteToken(token);
                             break;
                     }
         }

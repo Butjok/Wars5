@@ -8,12 +8,12 @@ public class InputCommandsListener : MonoBehaviour {
     public string inputPath = "";
     public string outputPath = "";
     public DateTime? lastWriteTime;
-    public Main main;
+    public Level level;
     public bool executeOnStart = true;
 
     private void Awake() {
-        main = GetComponent<Main>();
-        Assert.IsTrue(main);
+        level = GetComponent<Level>();
+        Assert.IsTrue(level);
     }
 
     private void Start() {
@@ -25,7 +25,7 @@ public class InputCommandsListener : MonoBehaviour {
         var lastWriteTime = File.GetLastWriteTime(inputPath);
         if (lastWriteTime != this.lastWriteTime) {
             this.lastWriteTime = lastWriteTime;
-            main.commands.Enqueue(File.ReadAllText(inputPath));
+            level.commands.Enqueue(File.ReadAllText(inputPath));
         }
     }
 }

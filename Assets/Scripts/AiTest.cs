@@ -19,10 +19,10 @@ public class AiTestProcessing {
     }
 }";
 
-    public Main main;
+    public Level level;
     
     private void Start() {
-        main = Testing.CreateGame();
+        level = Testing.CreateGame();
     }
     
     public void Execute() {

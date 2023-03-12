@@ -1,53 +1,54 @@
 using System;
+using System.Collections.Generic;
 using Butjok.CommandLine;
 using UnityEngine;
 using static Gettext;
 
-public enum PersonId { Natalie, Vladan, JamesWillis, LjubisaDragovic }
+public enum PersonName { Natalie, Vladan, JamesWillis, LjubisaDragovic }
 public enum Mood { Normal, Happy, Sad, Mad, Worried, Shocked, Crying, Laughing, Intimate, Nervous }
 
 public static class People {
 
-    public static string GetName(PersonId id) => id switch {
-        PersonId.Natalie => _("Natalie Moore"),
-        PersonId.Vladan => _("Vladan Raznatovic"),
-        PersonId.JamesWillis => _("James G. Willis"),
-        PersonId.LjubisaDragovic => _("Ljubisa Dragovic"),
+    public static string GetName(PersonName name) => name switch {
+        PersonName.Natalie => _("Natalie Moore"),
+        PersonName.Vladan => _("Vladan Raznatovic"),
+        PersonName.JamesWillis => _("James G. Willis"),
+        PersonName.LjubisaDragovic => _("Ljubisa Dragovic"),
         _ => throw new Exception()
     };
 
-    public static string GetShortName(PersonId id) => id switch {
-        PersonId.Natalie => _("Natalie"),
-        PersonId.Vladan => _("Vladan"),
-        _ => GetName(id)
+    public static string GetShortName(PersonName name) => name switch {
+        PersonName.Natalie => _("Natalie"),
+        PersonName.Vladan => _("Vladan"),
+        _ => GetName(name)
     };
 
-    public static string GetDescription(PersonId id) => id switch {
-        PersonId.Natalie => _("A fresh out of the military academia commanding officer from United Treaty. She was the best student in class."),
-        PersonId.Vladan => _("A cold-blooded veteran commanding officer from the Novoslavia. He is well known for the effectiveness and cruelty of his command."),
-        PersonId.JamesWillis => _("President of the United Treaty Organization."),
-        PersonId.LjubisaDragovic => _("Secretary General of the People's Republic of Novoslavia."),
+    public static string GetDescription(PersonName name) => name switch {
+        PersonName.Natalie => _("A fresh out of the military academia commanding officer from United Treaty. She was the best student in class."),
+        PersonName.Vladan => _("A cold-blooded veteran commanding officer from the Novoslavia. He is well known for the effectiveness and cruelty of his command."),
+        PersonName.JamesWillis => _("President of the United Treaty Organization."),
+        PersonName.LjubisaDragovic => _("Secretary General of the People's Republic of Novoslavia."),
         _ => throw new Exception()
     };
 
-    public static bool TryGetFaction(PersonId personId, out FactionId factionId) {
-        switch (personId) {
-            case PersonId.Natalie or PersonId.JamesWillis:
-                factionId = FactionId.UnitedTreaty;
+    public static bool TryGetFaction(PersonName personName, out FactionName factionName) {
+        switch (personName) {
+            case PersonName.Natalie or PersonName.JamesWillis:
+                factionName = FactionName.UnitedTreaty;
                 return true;
-            case PersonId.Vladan or PersonId.LjubisaDragovic:
-                factionId = FactionId.Novoslavia;
+            case PersonName.Vladan or PersonName.LjubisaDragovic:
+                factionName = FactionName.Novoslavia;
                 return true;
         }
-        factionId = default;
+        factionName = default;
         return false;
     }
 
-    public static Sprite[] GetPhotos(PersonId id) => Resources.LoadAll<Sprite>($"PhotosOf{id}");
+    public static Sprite[] GetPhotos(PersonName name) => Resources.LoadAll<Sprite>($"PhotosOf{name}");
 
-    public static Sprite TryGetPortrait(PersonId personId, Mood mood) {
-        var portrait = Resources.Load<Sprite>($"{personId}{mood}");
-        return portrait ? portrait : TryGetFallbackMood(mood, out var fallbackMood) ? TryGetPortrait(personId, fallbackMood) : null;
+    public static Sprite TryGetPortrait(PersonName personName, Mood mood) {
+        var portrait = Resources.Load<Sprite>($"{personName}{mood}");
+        return portrait ? portrait : TryGetFallbackMood(mood, out var fallbackMood) ? TryGetPortrait(personName, fallbackMood) : null;
     }
 
     public static bool TryGetFallbackMood(Mood mood, out Mood fallback) {
@@ -62,19 +63,19 @@ public static class People {
         return result != null;
     }
 
-    public static int GetDialogueSide(PersonId personId) {
-        if (!TryGetFaction(personId, out var factionId))
+    public static int GetDialogueSide(PersonName personName) {
+        if (!TryGetFaction(personName, out var factionId))
             return 1;
         return factionId switch {
-            FactionId.Novoslavia => 1,
-            FactionId.UnitedTreaty => -1,
+            FactionName.Novoslavia => 1,
+            FactionName.UnitedTreaty => -1,
             _ => throw new Exception()
         };
     }
 
     [Command(true)]
     public static void Test() {
-        foreach (var id in new[] { PersonId.Natalie, PersonId.Vladan, PersonId.JamesWillis, PersonId.LjubisaDragovic }) {
+        foreach (var id in new[] { PersonName.Natalie, PersonName.Vladan, PersonName.JamesWillis, PersonName.LjubisaDragovic }) {
             if (!TryGetFaction(id, out var _))
                 Debug.LogWarning($"person {id} does not have faction");
             if( !TryGetPortrait(id, Mood.Normal))
@@ -82,5 +83,12 @@ public static class People {
             if (GetPhotos(id).Length == 0)
                 Debug.LogWarning($"person {id} does not have photos");
         }
+    }
+    
+    public static bool IsCo(PersonName personName) {
+        return personName is PersonName.Natalie or PersonName.Vladan;
+    }
+    public static List<AudioClip> GetMusicThemes(PersonName coName) {
+        return new List<AudioClip>();
     }
 }

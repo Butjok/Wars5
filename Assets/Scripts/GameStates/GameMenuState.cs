@@ -11,7 +11,7 @@ public static class GameMenuState {
     public const string openSettingsMenu = prefix + "open-settings-menu";
     public const string openLoadGameMenu = prefix + "open-load-game-menu";
 
-    public static IEnumerator<StateChange> Run(Main main) {
+    public static IEnumerator<StateChange> Run(Level level) {
 
         var menu = Object.FindObjectOfType<GameMenu>(true);
         Assert.IsTrue(menu);
@@ -27,12 +27,12 @@ public static class GameMenuState {
         if (cameraRig)
             cameraRig.enabled = false;
 
-        menu.Show(main);
+        menu.Show(level);
 
         while (true) {
             yield return StateChange.none;
 
-            while (main.commands.TryDequeue(out var input))
+            while (level.commands.TryDequeue(out var input))
                 foreach (var token in Tokenizer.Tokenize(input))
                     switch (token) {
 
@@ -48,18 +48,18 @@ public static class GameMenuState {
 
                         case openSettingsMenu:
                             menu.Hide();
-                            yield return StateChange.Push(nameof(GameSettingsState), GameSettingsState.Run(main));
-                            menu.Show(main);
+                            yield return StateChange.Push(nameof(GameSettingsState), GameSettingsState.Run(level));
+                            menu.Show(level);
                             break;
 
                         case openLoadGameMenu:
                             menu.Hide();
-                            yield return StateChange.Push(nameof(LoadGameState),LoadGameState.Run(main));
-                            menu.Show(main);
+                            yield return StateChange.Push(nameof(LoadGameState),LoadGameState.Run(level));
+                            menu.Show(level);
                             break;
 
                         default:
-                            main.stack.ExecuteToken(token);
+                            level.stack.ExecuteToken(token);
                             break;
                     }
         }

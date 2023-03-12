@@ -38,7 +38,7 @@ public class Sun : MonoBehaviour {
     }
 
     private void OnEnable() {
-        startAngles = transform.rotation.eulerAngles;
+        startAngles = transform.localRotation.eulerAngles;
     }
 
     public IEnumerator Animation() {
@@ -55,7 +55,7 @@ public class Sun : MonoBehaviour {
             var t = (Time.unscaledTime - startTime) / dayChangeDuration;
             var angle = Mathf.Lerp(from, to, t);
             angles[axis] = angle;
-            transform.rotation = Quaternion.Euler(angles);
+            transform.localRotation = Quaternion.Euler(angles);
             var nightIntensity = this.nightIntensity.Evaluate(360 * t);
             PostProcessing.ColorFilter = Color.Lerp(Color.white, nightColorFilterColor, nightIntensity);
             if (light) {
@@ -68,7 +68,7 @@ public class Sun : MonoBehaviour {
         }
         Time.timeScale = 1;
         angles[axis] = to;
-        transform.rotation = Quaternion.Euler(startAngles);
+        transform.localRotation = Quaternion.Euler(startAngles);
         PostProcessing.ColorFilter = Color.white;
         if (light) {
             light.color = Color.white;

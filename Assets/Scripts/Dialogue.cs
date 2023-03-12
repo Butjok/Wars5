@@ -36,9 +36,9 @@ public class Dialogue : IDisposable {
     }
 
     public StringBuilder stringBuilder = new();
-    public PersonId speaker;
+    public PersonName speaker;
     public Stack<float> stack = new();
-    public Dictionary<PersonId, Mood> moods = new();
+    public Dictionary<PersonName, Mood> moods = new();
 
     public IEnumerable<StateChange> Play(string script) {
 
@@ -55,11 +55,11 @@ public class Dialogue : IDisposable {
                 switch (token) {
 
                     case "@nata":
-                        SetSpeaker(PersonId.Natalie);
+                        SetSpeaker(PersonName.Natalie);
                         break;
 
                     case "@vlad":
-                        SetSpeaker(PersonId.Vladan);
+                        SetSpeaker(PersonName.Vladan);
                         break;
 
                     case "@pause":
@@ -109,7 +109,7 @@ public class Dialogue : IDisposable {
         }
     }
     
-    public Mood GetMood(PersonId speaker,Mood defaultMood = default) {
+    public Mood GetMood(PersonName speaker,Mood defaultMood = default) {
         if (!moods.TryGetValue(speaker, out var mood)) {
             mood = defaultMood;
             moods.Add(speaker, mood);
@@ -124,7 +124,7 @@ public class Dialogue : IDisposable {
         ui.portrait.text = $"{People.GetShortName(speaker)} [{GetMood(speaker)}]";
     }
 
-    public void SetSpeaker(PersonId speaker) {
+    public void SetSpeaker(PersonName speaker) {
         this.speaker = speaker;
         UpdatePortrait();
     }

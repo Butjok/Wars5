@@ -13,6 +13,10 @@ public class PreselectionCursor : MonoBehaviour {
         result = instance;
         return result;
     }
+    public static PreselectionCursor TryFind() {
+        TryFind(out var preselectionCursor);
+        return preselectionCursor;
+    }
 
     public RectTransform root;
     public RectTransform arrow;

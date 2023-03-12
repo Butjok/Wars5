@@ -11,10 +11,10 @@ public class Building : IDisposable {
     public static readonly HashSet<Building> undisposed = new();
 
     public readonly TileType type;
-    public readonly Main main;
+    public readonly Level level;
     public readonly Vector2Int position;
     public readonly BuildingView view;
-    
+
     public int missileSiloLastLaunchTurn = -99;
     public int missileSiloLaunchCooldown = 1;
     public int missileSiloAmmo = 999;
@@ -50,27 +50,27 @@ public class Building : IDisposable {
 
     private bool initialized;
 
-    public Building(Main main, Vector2Int position, TileType type = TileType.City, Player player = null, int cp = int.MaxValue,
+    public Building(Level level, Vector2Int position, TileType type = TileType.City, Player player = null, int cp = int.MaxValue,
         BuildingView viewPrefab = null, Vector2Int? lookDirection = null) {
 
         undisposed.Add(this);
 
         if (viewPrefab) {
-            view = Object.Instantiate(viewPrefab, main.transform);
+            view = Object.Instantiate(viewPrefab, level.transform);
             view.prefab = viewPrefab;
             view.Position = position;
             view.LookDirection = lookDirection ?? Vector2Int.up;
         }
 
         this.type = type;
-        this.main = main;
+        this.level = level;
         this.position = position;
         Player = player;
         Cp = cp;
 
-        Assert.IsTrue(!main.buildings.ContainsKey(position) || main.buildings[position] == null);
-        main.buildings[position] = this;
-        main.tiles[position] = type;
+        Assert.IsTrue(!level.buildings.ContainsKey(position) || level.buildings[position] == null);
+        level.buildings[position] = this;
+        level.tiles[position] = type;
 
         initialized = true;
     }
@@ -85,14 +85,14 @@ public class Building : IDisposable {
         return $"{type}{position} {Player}";
     }
     public void Dispose() {
-        
+
         Assert.IsTrue(undisposed.Contains(this));
         undisposed.Remove(this);
-        
+
         if (view)
             Object.Destroy(view.gameObject);
-        
-        main.tiles.Remove(position);
-        main.buildings.Remove(position);
+
+        level.tiles.Remove(position);
+        level.buildings.Remove(position);
     }
 }

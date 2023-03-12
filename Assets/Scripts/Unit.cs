@@ -31,13 +31,13 @@ public class Unit : IDisposable {
                 if (position == value)
                     return;
                 if (position is { } oldPosition)
-                    player.main.units.Remove(oldPosition);
+                    player.level.units.Remove(oldPosition);
             }
             position = value;
 
             if (position is { } newPosition) {
-                Assert.IsFalse(player.main.units.ContainsKey(newPosition), newPosition.ToString());
-                player.main.units.Add(newPosition, this);
+                Assert.IsFalse(player.level.units.ContainsKey(newPosition), newPosition.ToString());
+                player.level.units.Add(newPosition, this);
                 view.Visible = true;
                 view.Position = newPosition;
             }
@@ -165,7 +165,7 @@ public class Unit : IDisposable {
             viewPrefab = UnitView.DefaultPrefab;
         Assert.IsTrue(viewPrefab);
 
-        view = Object.Instantiate(viewPrefab, player.main.transform);
+        view = Object.Instantiate(viewPrefab, player.level.transform);
         view.unit = this;
         view.prefab = viewPrefab;
         view.LookDirection = lookDirection ?? player.unitLookDirection;

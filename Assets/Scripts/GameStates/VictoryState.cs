@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class VictoryDefeatState {
 
-    public static IEnumerator<StateChange> Victory(Main main, UnitAction winningAction = null) {
+    public static IEnumerator<StateChange> Victory(Level level, UnitAction winningAction = null) {
 
         winningAction?.Dispose();
 
@@ -18,14 +18,14 @@ public static class VictoryDefeatState {
             yield return stateChange;
     }
 
-    public static IEnumerator<StateChange> Defeat(Main main, UnitAction defeatingAction = null) {
+    public static IEnumerator<StateChange> Defeat(Level level, UnitAction defeatingAction = null) {
 
         defeatingAction?.Dispose();
-
+        
         if (CursorView.TryFind(out var cursor))
             cursor.show = false;
         if (MusicPlayer.TryGet(out var musicPlayer))
-            musicPlayer.Queue = new[] { "slow uzicko".LoadAs<AudioClip>() }.InfiniteSequence();
+            musicPlayer.StartPlaying(new[] { "slow uzicko".LoadAs<AudioClip>() });
         PlayerView.globalVisibility = false;
         yield return StateChange.none;
 

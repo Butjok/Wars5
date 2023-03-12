@@ -147,8 +147,8 @@ public class Traverser2 : Dictionary<Vector2Int, Traverser2.Tile> {
 			throw new AssertionException("unit.Position == null", null);
 
 		Clear();
-		foreach (var position in unit.Player.main.tiles.Keys) {
-			if (!Rules.TryGetMoveCost(unit, unit.Player.main.tiles[position], out var moveCost))
+		foreach (var position in unit.Player.level.tiles.Keys) {
+			if (!Rules.TryGetMoveCost(unit, unit.Player.level.tiles[position], out var moveCost))
 				continue;
 			Add(position, moveCost);
 		}
@@ -174,7 +174,7 @@ public class Traverser2 : Dictionary<Vector2Int, Traverser2.Tile> {
 	}
 
 	public static IEnumerator Test2Enumerator() {
-		var main = Object.FindObjectOfType<Main>();
+		var main = Object.FindObjectOfType<Level>();
 		Assert.IsTrue(main);
 
 		if (!Mouse.TryGetPosition(out Vector2Int mousePosition) || !main.TryGetUnit(mousePosition, out var unit))
@@ -182,8 +182,8 @@ public class Traverser2 : Dictionary<Vector2Int, Traverser2.Tile> {
 
 
 		var traverser = new Traverser2();
-		foreach (var position in unit.Player.main.tiles.Keys) {
-			if (!Rules.TryGetMoveCost(unit, unit.Player.main.tiles[position], out var moveCost))
+		foreach (var position in unit.Player.level.tiles.Keys) {
+			if (!Rules.TryGetMoveCost(unit, unit.Player.level.tiles[position], out var moveCost))
 				continue;
 			traverser.Add(position, moveCost);
 		}

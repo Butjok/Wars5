@@ -2,8 +2,8 @@ using System.Collections;
 using UnityEngine;
 
 public static class TurnStartAnimationState  {
-	public static IEnumerator Run(Main main) {
-		Debug.Log($"Start of turn #{main.turn}");
+	public static IEnumerator Run(Level level) {
+		Debug.Log($"Start of turn #{level.turn}");
 		//yield return new WaitForSeconds(2);
 		Debug.Log("GO!");
 		yield break;

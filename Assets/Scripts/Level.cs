@@ -1,28 +1,16 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using Butjok.CommandLine;
-using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Assertions;
 using static BattleConstants;
 
-public class Main : MonoBehaviour {
-
-    private static Main instance;
-    public static bool TryFind(out Main main) {
-        if (!instance)
-            instance = FindObjectOfType<Main>();
-        main = instance;
-        return instance;
-    }
+public class Level : MonoBehaviour {
 
     [Command] public bool autoplay = true;
     public AiPlayerCommander aiPlayerCommander;
 
-    virtual  protected void Update() {
+    protected virtual void Update() {
         if (Input.GetKeyDown(KeyCode.Alpha8))
             autoplay = (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift));
     }
@@ -37,11 +25,8 @@ public class Main : MonoBehaviour {
         aiPlayerCommander.IssueCommandsForActionSelectionState();
     }
 
-    public Traverser traverser = new();
-
     [Command]
     public bool followLastUnit;
-    public bool inLevelEditor = true;
 
     public List<Bridge> bridges = new();
 
@@ -59,6 +44,14 @@ public class Main : MonoBehaviour {
     };
     public List<Player> players = new();
     [Command] public int turn = 0;
+    public int Day(int turn) {
+        Assert.IsTrue(turn >= 0);
+        Assert.AreNotEqual(0, players.Count);
+        return turn / players.Count;
+    }
+    public int Day() {
+        return Day(turn);
+    }
     public LevelLogic levelLogic = new();
     public Player localPlayer;
     public PersistentData persistentData;
@@ -80,10 +73,17 @@ public class Main : MonoBehaviour {
 
         ReloadPersistentData();
 
-        Assert.IsTrue(mainCamera);
-        Assert.IsTrue(battleCameras.Length == right + 1);
-        Assert.IsTrue(battleCameras[left]);
-        Assert.IsTrue(battleCameras[right]);
+        // Assert.IsTrue(mainCamera);
+        // Assert.IsTrue(battleCameras.Length == right + 1);
+        // Assert.IsTrue(battleCameras[left]);
+        // Assert.IsTrue(battleCameras[right]);
+    }
+
+    public void ShouldEndTurn() {
+        var peeked = StateRunner.Instance.states.TryPeek(out var state);
+        Assert.IsTrue(peeked);
+        Assert.IsTrue(StateRunner.Instance.Is<SelectionState2>(state, out var selectionState));
+        selectionState.shouldEndTurn = true;
     }
 
     [Command]

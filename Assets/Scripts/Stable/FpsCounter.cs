@@ -15,7 +15,7 @@ public class FpsCounter : MonoBehaviour {
 		if (!Debug.isDebugBuild)
 			return;
 		GUI.skin = skin;
-		var fps = Mathf.RoundToInt(1f / Time.deltaTime);
+		var fps = Mathf.RoundToInt(1f / Time.unscaledDeltaTime);
 		var max = texts.Length - 1;
 		var clamped = Mathf.Clamp(fps, 0, max);
 		var text = texts[clamped];

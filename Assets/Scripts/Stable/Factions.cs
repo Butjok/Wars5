@@ -3,48 +3,48 @@ using Butjok.CommandLine;
 using UnityEngine;
 using static Gettext;
 
-public enum FactionId { Novoslavia, UnitedTreaty }
+public enum FactionName { Novoslavia, UnitedTreaty }
 
 public static class Factions {
 
-    public static string GetName(FactionId id) => id switch {
-        FactionId.Novoslavia => _("People's Republic of Novoslavia"),
-        FactionId.UnitedTreaty => _("United Treaty Organization"),
+    public static string GetName(FactionName name) => name switch {
+        FactionName.Novoslavia => _("People's Republic of Novoslavia"),
+        FactionName.UnitedTreaty => _("United Treaty Organization"),
         _ => throw new Exception()
     };
-    public static PersonId HeadOfState(FactionId id) => id switch {
-        FactionId.Novoslavia => PersonId.LjubisaDragovic,
-        FactionId.UnitedTreaty => PersonId.JamesWillis,
+    public static PersonName HeadOfState(FactionName name) => name switch {
+        FactionName.Novoslavia => PersonName.LjubisaDragovic,
+        FactionName.UnitedTreaty => PersonName.JamesWillis,
         _ => throw new Exception()
     };
-    public static string GetDescription(FactionId id) => id switch {
-        FactionId.Novoslavia => _("A socialist republic, one of the most military advanced powers in the region."),
-        FactionId.UnitedTreaty => _("A large international political, economical and military alliance. The dominant power in the region."),
+    public static string GetDescription(FactionName name) => name switch {
+        FactionName.Novoslavia => _("A socialist republic, one of the most military advanced powers in the region."),
+        FactionName.UnitedTreaty => _("A large international political, economical and military alliance. The dominant power in the region."),
         _ => throw new Exception()
     };
-    public static Sprite TryGetFlag(FactionId id) => id switch {
-        FactionId.Novoslavia or FactionId.UnitedTreaty => Resources.Load<Sprite>($"FlagOf{id}"),
+    public static Sprite TryGetFlag(FactionName name) => name switch {
+        FactionName.Novoslavia or FactionName.UnitedTreaty => Resources.Load<Sprite>($"FlagOf{name}"),
         _ => throw new Exception()
     };
-    public static Sprite TryGetFlagThumbnail(FactionId id) => id switch {
-        FactionId.Novoslavia or FactionId.UnitedTreaty => Resources.Load<Sprite>($"ThumbnailFlagOf{id}"),
+    public static Sprite TryGetFlagThumbnail(FactionName name) => name switch {
+        FactionName.Novoslavia or FactionName.UnitedTreaty => Resources.Load<Sprite>($"ThumbnailFlagOf{name}"),
         _ => throw new Exception()
     };
-    public static Sprite TryGetCoatOfArmsOfGroundForces(FactionId id) => id switch {
-        FactionId.Novoslavia or FactionId.UnitedTreaty => Resources.Load<Sprite>($"GroundForcesCoatOfArmsOf{id}"),
+    public static Sprite TryGetCoatOfArmsOfGroundForces(FactionName name) => name switch {
+        FactionName.Novoslavia or FactionName.UnitedTreaty => Resources.Load<Sprite>($"GroundForcesCoatOfArmsOf{name}"),
         _ => throw new Exception()
     };
-    public static Sprite TryGetCoatOfArmsOfAirForces(FactionId id) => null;
-    public static Sprite TryGetCoatOfArmsONavalForces(FactionId id) => null;
-    public static string GetMotto(FactionId id) => id switch {
-        FactionId.Novoslavia => _("For the People and Fatherland"),
-        FactionId.UnitedTreaty => _("Solidarity and Unity"),
+    public static Sprite TryGetCoatOfArmsOfAirForces(FactionName name) => null;
+    public static Sprite TryGetCoatOfArmsONavalForces(FactionName name) => null;
+    public static string GetMotto(FactionName name) => name switch {
+        FactionName.Novoslavia => _("For the People and Fatherland"),
+        FactionName.UnitedTreaty => _("Solidarity and Unity"),
         _ => throw new Exception()
     };
 
     [Command(true)]
     public static void Test() {
-        foreach (var id in new []{FactionId.Novoslavia,FactionId.UnitedTreaty}) {
+        foreach (var id in new []{FactionName.Novoslavia,FactionName.UnitedTreaty}) {
             if (!TryGetFlag(id))
                 Debug.LogWarning($"faction {id} does not have flag");
             if (!TryGetFlagThumbnail(id))

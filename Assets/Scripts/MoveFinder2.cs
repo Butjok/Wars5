@@ -33,19 +33,6 @@ public class MoveFinder2 {
 
     public const int infinity = 99999;
 
-    [Command]
-    public static void FindPositions() {
-        if (!Main.TryFind(out var main) || !Mouse.TryGetPosition(out Vector2Int mousePosition) || !main.TryGetUnit(mousePosition, out var unit))
-            return;
-
-        var moveFinder = new MoveFinder2();
-        moveFinder.FindStayMoves(unit);
-
-        using (Draw.ingame.WithDuration(5))
-            foreach (var position in moveFinder.movePositions)
-                Draw.ingame.SolidCircleXZ((Vector3)position.ToVector3Int(), .5f, Color.cyan);
-    }
-
     public void FindStayMoves(Unit unit) {
         FindMoves(unit, position => Rules.CanStay(unit, position));
     }
@@ -60,7 +47,7 @@ public class MoveFinder2 {
         movePositions.Clear();
         closed.Clear();
 
-        var tiles = unit.Player.main.tiles;
+        var tiles = unit.Player.level.tiles;
         foreach (var position in tiles.Keys) {
             if (!Rules.TryGetMoveCost(unit, position, out _) || !Rules.CanPass(unit, position))
                 continue;
@@ -171,7 +158,7 @@ public class MoveFinder2 {
                     };
 
                     if (nodes.TryGetValue(neighborPosition, out var neighbor) &&
-                        Rules.TryGetMoveCost(unit, unit.Player.main.tiles[neighborPosition], out var cost)) {
+                        Rules.TryGetMoveCost(unit, unit.Player.level.tiles[neighborPosition], out var cost)) {
 
                         var alternativeG = current.g + cost;
                         if (alternativeG < neighbor.g) {

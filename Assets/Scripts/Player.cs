@@ -1,49 +1,103 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.Playables;
 using Object = UnityEngine.Object;
 using static UnityEngine.Mathf;
 using static Rules;
+
+public enum ColorName {
+    Red, Green, Blue
+}
+
+public static class Colors {
+
+    private static Dictionary<ColorName, Color> palette;
+    public static Dictionary<ColorName, Color> Palette {
+        get {
+            if (palette != null)
+                return palette;
+
+            palette = new Dictionary<ColorName, Color>();
+
+            var stack = new DebugStack();
+            foreach (var token in Tokenizer.Tokenize("Colors".LoadAs<TextAsset>().text))
+                stack.ExecuteToken(token);
+
+            while (stack.Count > 0) {
+                var b = stack.Pop<dynamic>();
+                var g = stack.Pop<dynamic>();
+                var r = stack.Pop<dynamic>();
+                var name = stack.Pop<ColorName>();
+                Assert.IsFalse(palette.ContainsKey(name), name.ToString());
+                palette.Add(name, new Color(r, g, b));
+            }
+
+#if DEBUG
+            foreach (ColorName name in Enum.GetValues(typeof(ColorName)))
+                Assert.IsTrue(palette.ContainsKey(name));
+#endif
+
+            return palette;
+        }
+    }
+
+    public static Color Get(ColorName colorName) {
+        var found = Palette.TryGetValue(colorName, out var color);
+        Assert.IsTrue(found, colorName.ToString());
+        return color;
+    }
+}
+
+public enum Team {
+    None,
+    Alpha,
+    Bravo,
+    Charlie,
+    Delta
+}
+
+public enum PlayerType { Human, Ai }
+public enum AiDifficulty { Normal, Easy, Hard }
 
 public class Player : IDisposable {
 
     public static readonly HashSet<Player> undisposed = new();
 
-    public readonly Main main;
+    public readonly Level level;
     public readonly Team team;
-    public readonly string name;
-
-    private Color color;
-    public Color Color {
-        get => color;
-        set {
-            color = value;
-            if (initialized) {
-                foreach (var unit in main.FindUnitsOf(this))
-                    RecursivelyUpdateUnitColor(unit);
-                foreach (var building in main.FindBuildingsOf(this))
-                    building.view.PlayerColor = Color;
-            }
-        }
-    }
-    public void RecursivelyUpdateUnitColor(Unit unit) {
-        if (unit.Player == this && unit.view)
-            unit.view.PlayerColor = Color;
-        foreach (var cargo in unit.Cargo)
-            RecursivelyUpdateUnitColor(cargo);
-    }
-
-    public readonly Co co;
+    public readonly PersonName coName;
     public readonly PlayerType type;
     public readonly AiDifficulty difficulty;
     public readonly PlayerView view;
+    public readonly PlayerView2 view2;
+    public readonly Vector2Int uiPosition;
 
-    public int maxCredits = Rules.defaultMaxCredits;
+    private ColorName colorName;
+    public ColorName ColorName {
+        get => colorName;
+        set {
+            colorName = value;
+            if (initialized) {
+                var color = Colors.Get(colorName);
+                foreach (var unit in level.FindUnitsOf(this))
+                    RecursivelyUpdateUnitColor(unit, color);
+                foreach (var building in level.FindBuildingsOf(this))
+                    building.view.PlayerColor = color;
+            }
+        }
+    }
+    private void RecursivelyUpdateUnitColor(Unit unit, Color color) {
+        if (unit.Player == this && unit.view)
+            unit.view.PlayerColor = color;
+        foreach (var cargo in unit.Cargo)
+            RecursivelyUpdateUnitColor(cargo, color);
+    }
 
+    public Color Color => Colors.Get(ColorName);
+
+    public int maxCredits = defaultMaxCredits;
     private int credits;
     public int Credits {
         get => credits;
@@ -56,46 +110,49 @@ public class Player : IDisposable {
         set => abilityMeter = Clamp(value, 0, initialized ? defaultMaxAbilityMeter : MaxAbilityMeter(this));
     }
     public int? abilityActivationTurn;
-    public Vector2Int unitLookDirection = Vector2Int.up;
+    public Vector2Int unitLookDirection;
+    public int side;
 
     private bool initialized;
 
-    public int side;
-
-    public Player(Main main, Color color, Team team = Team.None, int credits = 0, Co co = null, PlayerView viewPrefab = null,
+    public Player(Level level, ColorName colorName, Team team = Team.None, int credits = 0, PersonName coName = PersonName.Natalie, PlayerView viewPrefab = null,
         PlayerType type = PlayerType.Human, AiDifficulty difficulty = AiDifficulty.Normal, Vector2Int? unitLookDirection = null, string name = null,
-        bool spawnViewPrefab = true) {
+        bool spawnViewPrefab = true, Vector2Int? uiPosition = null) {
 
         undisposed.Add(this);
 
-        this.main = main;
-        Color = color;
+        this.level = level;
+        this.colorName = colorName;
         this.team = team;
         Credits = credits;
-        this.co = co ? co : Co.Natalie;
+        this.coName = coName;
         this.type = type;
         this.difficulty = difficulty;
         this.unitLookDirection = unitLookDirection ?? Vector2Int.up;
+        this.uiPosition = uiPosition ?? new Vector2Int(0, 0);
 
-        // FIXME dirty hack for testing purposes
-        if (main)
-            main.players.Add(this);
+        Assert.IsFalse(level.players.Any(player => player.colorName == colorName));
+        level.players.Add(this);
 
         if (spawnViewPrefab) {
             viewPrefab = viewPrefab ? viewPrefab : PlayerView.DefaultPrefab;
             Assert.IsTrue(viewPrefab);
-            view = Object.Instantiate(viewPrefab, main.transform);
+            view = Object.Instantiate(viewPrefab, level.transform);
             view.Initialize(this);
             view.visible = false;
         }
 
-        this.name = name;
+        var canvas = level.GetComponentInChildren<Canvas>();
+        Assert.IsTrue(canvas);
+        view2 = Object.Instantiate(PlayerView2.GetPrefab(coName), canvas.transform);
+        view2.player = this;
+        view2.Hide();
 
         initialized = true;
     }
 
     public override string ToString() {
-        return name ?? Color.ToString();
+        return colorName.ToString();
     }
 
     public void Dispose() {
@@ -106,8 +163,4 @@ public class Player : IDisposable {
     }
 
     public bool IsAi => type == PlayerType.Ai;
-
-    public UnitAction FindAction() {
-        return null;
-    }
 }

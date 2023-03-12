@@ -22,11 +22,11 @@ public static class SelectionState {
     [Command]
     public static string dialogueText;
 
-    public static IEnumerator<StateChange> Run(Main main, bool turnStart = false) {
+    public static IEnumerator<StateChange> Run(Level level, bool turnStart = false) {
 
         // stop the ability
-        var player = main.CurrentPlayer;
-        if (player.abilityActivationTurn != null && main.turn != player.abilityActivationTurn)
+        var player = level.CurrentPlayer;
+        if (player.abilityActivationTurn != null && level.turn != player.abilityActivationTurn)
             yield return StateChange.Push(nameof(StopAbility), Wait.ForCompletion(StopAbility(player)));
 
         // weird static variable issue
@@ -35,21 +35,22 @@ public static class SelectionState {
         // 1 frame skip to let units' views to update to correct positions
         // yield return null;
 
-        var unmovedUnits = main.units.Values
+        var unmovedUnits = level.units.Values
             .Where(unit => unit.Player == player && !unit.Moved)
             .ToList();
 
-        var accessibleBuildings = main.buildings.Values
+        var accessibleBuildings = level.buildings.Values
             .Where(building => building.Player == player &&
                                Rules.GetBuildableUnitTypes(building).Any() &&
-                               !main.TryGetUnit(building.position, out _))
+                               !level.TryGetUnit(building.position, out _))
             .ToList();
 
         Sprite GetUnitThumbnail(Unit unit) {
-            return unit.Player.co.unitTypesInfoOverride.TryGetValue(unit.type, out var @record) && record.thumbnail ||
-                   UnitTypesInfo.TryGet(unit.type, out record) && record.thumbnail
-                ? record.thumbnail
-                : null;
+            return null;
+            // return unit.Player.co.unitTypesInfoOverride.TryGetValue(unit.type, out var @record) && record.thumbnail ||
+            //        UnitTypesInfo.TryGet(unit.type, out record) && record.thumbnail
+            //     ? record.thumbnail
+            //     : null;
         }
         // make thumbnails for buildings as well
 
@@ -77,19 +78,30 @@ public static class SelectionState {
 
         if (turnStart) {
 
-            yield return main.levelLogic.OnTurnStart(main);
+            if(MusicPlayer.TryGet(out var musicPlayer)) {
+                var themes = People.GetMusicThemes(player.coName);
+                // if (themes.Count > 0)
+                    // musicPlayer.Queue = themes.InfiniteSequence().GetEnumerator();
+            }
 
             //MusicPlayer.Instance.Queue = game.CurrentPlayer.co.themes.InfiniteSequence(game.settings.shuffleMusic);
 
-            Debug.Log($"Start of turn #{main.turn}");
+            Debug.Log($"Start of turn #{level.turn}");
 
             player.view.visible = true;
         }
 
         CursorView.TryFind(out var cursor);
 
-        if (!main.autoplay && !main.CurrentPlayer.IsAi && cursor)
+        if (!level.autoplay && !level.CurrentPlayer.IsAi && cursor)
             cursor.show = true;
+
+        var turnButton = Object.FindObjectOfType<TurnButton>();
+        if (turnButton) {
+            turnButton.Color = player.Color;
+            if (turnStart)
+                turnButton.PlayAnimation(level.Day(level.turn) + 1);
+        }
 
         var issuedAiCommands = false;
         while (true) {
@@ -102,55 +114,55 @@ public static class SelectionState {
                 dialogueText = null;
             }
 
-            if (main.autoplay || Input.GetKey(KeyCode.Alpha8)) {
+            if (level.autoplay || Input.GetKey(KeyCode.Alpha8)) {
                 if (!issuedAiCommands) {
                     issuedAiCommands = true;
-                    main.IssueAiCommandsForSelectionState();
+                    level.IssueAiCommandsForSelectionState();
                 }
             }
-            else if (!main.CurrentPlayer.IsAi) {
+            else if (!level.CurrentPlayer.IsAi) {
 
                 if (Input.GetKeyDown(KeyCode.F2))
-                    main.commands.Enqueue(endTurn);
+                    level.commands.Enqueue(endTurn);
 
                 //else if ((Input.GetKeyDown(KeyCode.Escape)) && (!preselectionCursor || !preselectionCursor.Visible))
                 //    main.commands.Enqueue(openGameMenu);
 
-                else if (Input.GetKeyDown(KeyCode.F5) && main.inLevelEditor)
-                    main.commands.Enqueue(exitToLevelEditor);
+                else if (Input.GetKeyDown(KeyCode.F5) && level is LevelEditor)
+                    level.commands.Enqueue(exitToLevelEditor);
 
                 else if ((Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(Mouse.right)) && preselectionCursor && preselectionCursor.Visible)
                     preselectionCursor.Hide();
 
                 else if (Input.GetKeyDown(KeyCode.Tab)) {
-                    main.stack.Push(Input.GetKey(KeyCode.LeftShift) ? -1 : 1);
-                    main.commands.Enqueue(cyclePositions);
+                    level.stack.Push(Input.GetKey(KeyCode.LeftShift) ? -1 : 1);
+                    level.commands.Enqueue(cyclePositions);
                 }
 
                 else if (Input.GetKeyDown(KeyCode.Space) && preselectionCursor.Visible) {
 
-                    main.stack.Push(preselectionCursor.transform.position.ToVector2().RoundToInt());
-                    main.commands.Enqueue(@select);
+                    level.stack.Push(preselectionCursor.transform.position.ToVector2().RoundToInt());
+                    level.commands.Enqueue(@select);
                 }
 
                 else if ((Input.GetMouseButtonDown(Mouse.left) || Input.GetKeyDown(KeyCode.Space)) &&
                          Mouse.TryGetPosition(out Vector2Int mousePosition)) {
 
-                    main.stack.Push(mousePosition);
-                    main.commands.Enqueue(@select);
+                    level.stack.Push(mousePosition);
+                    level.commands.Enqueue(@select);
                 }
 
-                else if (Input.GetKeyDown(KeyCode.F6) && Rules.CanUseAbility(main.CurrentPlayer))
-                    main.commands.Enqueue(useAbility);
+                else if (Input.GetKeyDown(KeyCode.F6) && Rules.CanUseAbility(level.CurrentPlayer))
+                    level.commands.Enqueue(useAbility);
             }
 
-            while (main.commands.TryDequeue(out var input))
+            while (level.commands.TryDequeue(out var input))
                 foreach (var token in Tokenizer.Tokenize(input)) {
                     switch (token) {
 
                         case @select: {
 
-                            var position = main.stack.Pop<Vector2Int>();
+                            var position = level.stack.Pop<Vector2Int>();
                             var position3d = position.Raycast();
 
 //                            Debug.Log($"selecting unit at {position}");
@@ -161,25 +173,25 @@ public static class SelectionState {
                                 cameraRig.Jump(position3d);
                             }*/
 
-                            if (main.TryGetUnit(position, out var unit)) {
+                            if (level.TryGetUnit(position, out var unit)) {
                                 if (unit.Player != player || unit.Moved)
                                     UiSound.Instance.notAllowed.PlayOneShot();
                                 else {
                                     unit.view.Selected = true;
                                     if (preselectionCursor)
                                         preselectionCursor.Hide();
-                                    yield return StateChange.ReplaceWith(nameof(PathSelectionState), PathSelectionState.Run(main, unit));
+                                    yield return StateChange.ReplaceWith(nameof(PathSelectionState), PathSelectionState.Run(level, unit));
                                 }
                             }
 
-                            else if (main.TryGetBuilding(position, out var building) &&
+                            else if (level.TryGetBuilding(position, out var building) &&
                                      Rules.GetBuildableUnitTypes(building).Any()) {
                                 if (building.Player != player)
                                     UiSound.Instance.notAllowed.PlayOneShot();
                                 else {
                                     if (preselectionCursor)
                                         preselectionCursor.Hide();
-                                    yield return StateChange.ReplaceWith(nameof(UnitBuildState), UnitBuildState.New(main, building));
+                                    yield return StateChange.ReplaceWith(nameof(UnitBuildState), UnitBuildState.New(level, building));
                                 }
                             }
                             break;
@@ -187,7 +199,7 @@ public static class SelectionState {
 
                         case endTurn: {
 
-                            foreach (var unit in main.units.Values)
+                            foreach (var unit in level.units.Values)
                                 unit.Moved = false;
 
                             player.view.visible = false;
@@ -199,15 +211,15 @@ public static class SelectionState {
                             //MusicPlayer.Instance.source.Stop();
                             //MusicPlayer.Instance.queue = null;
 
-                            main.turn = main.turn + 1;
+                            level.turn = level.turn + 1;
 
-                            yield return main.levelLogic.OnTurnEnd(main);
-                            yield return StateChange.ReplaceWith(nameof(SelectionState), Run(main, true));
+                            yield return level.levelLogic.OnTurnEnd(level);
+                            yield return StateChange.ReplaceWith(nameof(SelectionState), Run(level, true));
                             break;
                         }
 
                         case openGameMenu:
-                            yield return StateChange.ReplaceWith(nameof(GameMenuState), GameMenuState.Run(main));
+                            yield return StateChange.ReplaceWith(nameof(GameMenuState), GameMenuState.Run(level));
                             break;
 
                         case exitToLevelEditor:
@@ -215,7 +227,7 @@ public static class SelectionState {
                             break;
 
                         case cyclePositions: {
-                            var offset = main.stack.Pop<int>();
+                            var offset = level.stack.Pop<int>();
                             if (positions.Length > 0) {
                                 positionIndex = (positionIndex + offset).PositiveModulo(positions.Length);
                                 if (preselectionCursor) {
@@ -238,7 +250,7 @@ public static class SelectionState {
 
                         case useAbility: {
                             if (Rules.CanUseAbility(player))
-                                yield return StateChange.Push(nameof(StartAbility), Wait.ForCompletion(StartAbility(player, main.turn)));
+                                yield return StateChange.Push(nameof(StartAbility), Wait.ForCompletion(StartAbility(player, level.turn)));
                             else
                                 UiSound.Instance.notAllowed.PlayOneShot();
                             break;
@@ -247,17 +259,17 @@ public static class SelectionState {
                         case triggerVictory:
                             if (preselectionCursor)
                                 preselectionCursor.Hide();
-                            yield return StateChange.ReplaceWith(nameof(VictoryDefeatState.Victory), VictoryDefeatState.Victory(main));
+                            yield return StateChange.ReplaceWith(nameof(VictoryDefeatState.Victory), VictoryDefeatState.Victory(level));
                             break;
 
                         case triggerDefeat:
                             if (preselectionCursor)
                                 preselectionCursor.Hide();
-                            yield return StateChange.ReplaceWith(nameof(VictoryDefeatState.Defeat), VictoryDefeatState.Defeat(main));
+                            yield return StateChange.ReplaceWith(nameof(VictoryDefeatState.Defeat), VictoryDefeatState.Defeat(level));
                             break;
 
                         default:
-                            main.stack.ExecuteToken(token);
+                            level.stack.ExecuteToken(token);
                             break;
                     }
                 }
@@ -277,10 +289,7 @@ public static class SelectionState {
     }
 
     public static IEnumerator StopAbility(Player player) {
-        Assert.IsTrue(Rules.AbilityInUse(player));
-
-        player.abilityActivationTurn = null;
-        Debug.Log($"stopping ability of {player}");
+        
 
         yield return null;
     }

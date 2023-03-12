@@ -35,11 +35,33 @@ public class StateRunner : MonoBehaviour {
 
     public bool IsEmpty => states.Count == 0;
 
-    public void PushState(string stateName, IEnumerator<StateChange> state) {
+    public void Pop(int count = 1, bool all =false) {
+        if (all)
+            count = states.Count;
+        for (var i = 0; i < count; i++) {
+            var state = states.Pop();
+            stateNames.Pop();
+            if (disposableStates.TryGetValue(state, out var disposableState)) {
+                disposableState.Dispose();
+                disposableStates.Remove(state);
+            }
+        }
+    }
+
+    public bool Is<T>(IEnumerator<StateChange> state, out T result) where T : IDisposableState {
+        if (disposableStates.TryGetValue(state, out var disposableState) && disposableState is T) {
+            result = (T)disposableState;
+            return true;
+        }
+        result = default;
+        return false;
+    }
+    
+    public void Push(string stateName, IEnumerator<StateChange> state) {
         states.Push(state);
         stateNames.Push(stateName);
     }
-    public void PushState(IDisposableState disposableState) {
+    public void Push(IDisposableState disposableState) {
         var enumerator = disposableState.Run;
         states.Push(enumerator);
         stateNames.Push(disposableState.GetType().Name);
@@ -60,15 +82,6 @@ public class StateRunner : MonoBehaviour {
 
         Assert.IsTrue(depth < maxDepth);
 
-        void Pop() {
-            var state = states.Pop();
-            stateNames.Pop();
-            if (disposableStates.TryGetValue(state, out var disposableState)) {
-                disposableState.Dispose();
-                disposableStates.Remove(state);
-            }
-        }
-
         if (!states.TryPeek(out var state))
             return;
 
@@ -77,9 +90,9 @@ public class StateRunner : MonoBehaviour {
             for (var i = 0; i < stateChange.popCount; i++)
                 Pop();
             if (stateChange.state != null)
-                PushState(stateChange.stateName, stateChange.state);
+                Push(stateChange.stateName, stateChange.state);
             if (stateChange.disposableState != null)
-                PushState(stateChange.disposableState);
+                Push(stateChange.disposableState);
 
             if (stateChange.popCount != 0 ||
                 stateChange.state != null ||

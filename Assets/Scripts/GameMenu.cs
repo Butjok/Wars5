@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class GameMenu : MonoBehaviour {
 
-    public Main main;
+    public Level level;
     public GameObject root;
     public TMP_Text versionText;
     public string versionFormat = "© Copyright {2} 2022–{3}, v {1}";
     public TMP_Text titleText;
     public string titleFormat = "{0}";
 
-    public void Show(Main main) {
-        this.main = main;
+    public void Show(Level level) {
+        this.level = level;
         root.SetActive(true);
         titleText.text = Format(titleFormat);
         versionText.text = Format(versionFormat);
@@ -23,10 +23,10 @@ public class GameMenu : MonoBehaviour {
 
     private void Update() {
         if (Input.GetKeyDown(KeyCode.Escape))
-            main.commands.Enqueue(GameMenuState.close);
+            level.commands.Enqueue(GameMenuState.close);
     }
     public void EnqueueCommand(string command) {
-        main.commands.Enqueue(command);
+        level.commands.Enqueue(command);
     }
 
     private static string Format(string input) {

@@ -9,16 +9,16 @@ public static class GameSettingsState {
 
     public const string close = prefix + "close";
     
-    public static IEnumerator<StateChange> Run(Main main) {
+    public static IEnumerator<StateChange> Run(Level level) {
 
         var menu = Object.FindObjectOfType<GameSettingsMenu>(true);
         Assert.IsTrue(menu);
-        menu.Show(main);
+        menu.Show(level);
 
         while (true) {
             yield return StateChange.none;
 
-            while (main.commands.TryDequeue(out var input))
+            while (level.commands.TryDequeue(out var input))
                 foreach (var token in Tokenizer.Tokenize(input))
                     switch (token) {
                         
@@ -28,7 +28,7 @@ public static class GameSettingsState {
                             break;
                         
                         default:
-                            main.stack.ExecuteToken(token);
+                            level.stack.ExecuteToken(token);
                             break;
                     }
         }

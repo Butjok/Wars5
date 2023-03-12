@@ -15,11 +15,11 @@ public class NewBehaviourScript : MonoBehaviour {
     public bool showDialogue = true;
 
     public TextAsset source;
-    public Main main;
+    public Level level;
 
     private void Awake() {
-        main = gameObject.AddComponent<Main>();
-        main.levelLogic = new TutorialLogic(showDialogue);
+        level = gameObject.AddComponent<Level>();
+        level.levelLogic = new TutorialLogic(showDialogue);
     }
     
     // [Command]
@@ -32,7 +32,7 @@ public class NewBehaviourScript : MonoBehaviour {
     //
     private void Start() {
         //main.Clear();
-        GameReader.ReadInto(main, source.text);
+        GameReader.ReadInto(level, source.text);
         // main.RestartGame();
     }
 

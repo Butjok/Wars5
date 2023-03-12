@@ -13,7 +13,7 @@ public static class AttackActionState {
     [Command]
     public static float pause = 1.5f;
 
-    public static IEnumerator<StateChange> Run(Main main, UnitAction action) {
+    public static IEnumerator<StateChange> Run(Level level, UnitAction action) {
 
         var attacker = action.unit;
         var target = action.targetUnit;
@@ -42,7 +42,7 @@ public static class AttackActionState {
             responseWeaponName = bestChoice.weaponName;
         }
 
-        if (main.persistentData.gameSettings.showBattleAnimation) {
+        if (level.persistentData.gameSettings.showBattleAnimation) {
 
             var attackerPrefab = attacker.view.GetComponent<BattleAnimationPlayer>();
             var targetPrefab = target.view.GetComponent<BattleAnimationPlayer>();
@@ -53,7 +53,7 @@ public static class AttackActionState {
             var attackerSide = attacker.Player.side;
             var targetSide = target.Player.side;
             if (attackerSide == targetSide) {
-                attackerSide = main.players.IndexOf(attacker.Player) < main.players.IndexOf(target.Player) ? left : right;
+                attackerSide = level.players.IndexOf(attacker.Player) < level.players.IndexOf(target.Player) ? left : right;
                 targetSide = attackerSide == left ? right : left;
             }
 
@@ -61,26 +61,26 @@ public static class AttackActionState {
                 [attackerSide] = new() {
                     unitViewPrefab = attackerPrefab,
                     count = Count(attacker.type, attacker.Hp, newAttackerHp),
-                    color = attacker.Player.Color,
+                    color = attacker.Player.Color
                 },
                 [targetSide] = new() {
                     unitViewPrefab = targetPrefab,
                     count = Count(target.type, target.Hp, newTargetHp),
-                    color = target.Player.Color,
+                    color = target.Player.Color
                 }
             };
             var battleViews = new BattleView2[2];
 
             using (var battle = new Battle(setup))
-            using (battleViews[attackerSide] = new BattleView2(attackerSide, main.tiles[action.Path[^1]]))
-            using (battleViews[targetSide] = new BattleView2(targetSide, main.tiles[action.targetUnit.NonNullPosition])) {
+            using (battleViews[attackerSide] = new BattleView2(attackerSide, level.tiles[action.Path[^1]]))
+            using (battleViews[targetSide] = new BattleView2(targetSide, level.tiles[action.targetUnit.NonNullPosition])) {
 
                 battleViews[left].Arrange(battle.units[left]);
                 battleViews[right].Arrange(battle.units[right]);
 
-                main.mainCamera.gameObject.SetActive(false);
-                main.battleCameras[left].gameObject.SetActive(true);
-                main.battleCameras[right].gameObject.SetActive(true);
+                level.mainCamera.gameObject.SetActive(false);
+                level.battleCameras[left].gameObject.SetActive(true);
+                level.battleCameras[right].gameObject.SetActive(true);
 
                 var attackAnimations = new List<BattleAnimation>();
                 foreach (var unit in battle.units[attackerSide]) {
@@ -115,9 +115,9 @@ public static class AttackActionState {
                     yield return StateChange.none;
                 yield return StateChange.none;
 
-                main.mainCamera.gameObject.SetActive(true);
-                main.battleCameras[left].gameObject.SetActive(false);
-                main.battleCameras[right].gameObject.SetActive(false);
+                level.mainCamera.gameObject.SetActive(true);
+                level.battleCameras[left].gameObject.SetActive(false);
+                level.battleCameras[right].gameObject.SetActive(false);
             }
         }
 

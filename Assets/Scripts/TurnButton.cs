@@ -1,25 +1,37 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Butjok.CommandLine;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
 using static Gettext;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Button))]
-public class DayButton : MonoBehaviour {
+public class TurnButton : MonoBehaviour {
 
-    private static DayButton instance;
-    public static DayButton TryGetInstance() {
+    private static TurnButton instance;
+    public static TurnButton TryGet() {
         if (!instance)
-            instance = FindObjectOfType<DayButton>();
+            instance = FindObjectOfType<TurnButton>(true);
         return instance;
+    }
+    public static bool TryGet(out TurnButton turnButton) {
+        turnButton = TryGet();
+        return turnButton;
     }
 
     public bool shouldEndTurn;
     public void OnClick() {
         shouldEndTurn = true;
+    }
+
+    public bool Visible {
+        set {
+            gameObject.SetActive(value);
+        }
     }
 
     public RectTransform carousel;
@@ -29,15 +41,29 @@ public class DayButton : MonoBehaviour {
     public TMP_Text text;
     public Easing.Name easingName;
     public Sun debugSun;
-    public int nextDay = 1;
     public int direction = -1;
 
-    public int Day {
-        set => text.text = string.Format(_(gettextText), value);
+    public Color highlightTint = Color.grey;
+    public Color highlightEmissive = Color.yellow;
+    
+    public Color Color {
+        get => button.colors.normalColor;
+        set {
+            var colors = button.colors;
+            colors.normalColor = colors.selectedColor = value;
+            colors.pressedColor = colors.highlightedColor = value * highlightTint + highlightEmissive;
+            button.colors = colors;
+        }
     }
+    public bool interactable = true;
 
-    public void CycleNextDay() {
-        PlayAnimation(nextDay++);
+    private int? day;
+    public int? Day {
+        get => day;
+        set {
+            day = value;
+            text.text = value is { } actualValue ? string.Format(_(gettextText), actualValue + 1) : "";
+        }
     }
 
     private void Reset() {
@@ -60,9 +86,9 @@ public class DayButton : MonoBehaviour {
     }
 
     public IEnumerator Animation(int nextDay) {
+
         Assert.IsTrue(carousel);
-        var oldInteractable = button.interactable;
-        button.interactable = false;
+        
         var changedDay = false;
         var startTime = Time.unscaledTime;
         while (Time.unscaledTime < startTime + duration) {
@@ -73,9 +99,10 @@ public class DayButton : MonoBehaviour {
                 changedDay = true;
                 Day = nextDay;
             }
+            button.interactable = false;
             yield return null;
         }
-        button.interactable = oldInteractable;
+        button.interactable = true;
         carousel.rotation = Quaternion.identity;
     }
 }

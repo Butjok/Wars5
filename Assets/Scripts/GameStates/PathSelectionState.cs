@@ -21,16 +21,16 @@ public static class PathSelectionState {
     public static MeshRenderer pathMeshRenderer;
     public static MoveSequenceAtlas moveSequenceAtlas;
 
-    public static IEnumerator<StateChange> Run(Main main, Unit unit) {
+    public static IEnumerator<StateChange> Run(Level level, Unit unit) {
 
         if (unit.Position is not { } unitPosition)
             throw new AssertionException("unit.position.v != null", "");
-        Assert.IsTrue(main.tiles.ContainsKey(unitPosition));
+        Assert.IsTrue(level.tiles.ContainsKey(unitPosition));
 
         var moveDistance = Rules.MoveCapacity(unit);
 
         var traverser = new Traverser();
-        traverser.Traverse(main.tiles.Keys, unitPosition, Rules.GetMoveCostFunction(unit));
+        traverser.Traverse(level.tiles.Keys, unitPosition, Rules.GetMoveCostFunction(unit));
 
         if (!pathMeshGameObject) {
             pathMeshGameObject = new GameObject();
@@ -46,16 +46,16 @@ public static class PathSelectionState {
         CursorView.TryFind(out var cursor);
 
         //var tileAreaMeshBuilder = Object.FindObjectOfType<TileAreaMeshuild>()
-        if (!main.CurrentPlayer.IsAi && !main.autoplay && main.tileAreaMeshFilter) {
-            main.tileAreaMeshFilter.sharedMesh = TileAreaMeshBuilder.Build(traverser.Reachable);
+        if (!level.CurrentPlayer.IsAi && !level.autoplay && level.tileAreaMeshFilter) {
+            level.tileAreaMeshFilter.sharedMesh = TileAreaMeshBuilder.Build(traverser.Reachable);
             if (cursor)
                 cursor.show = true;
         }
 
         void CleanUp() {
             pathMeshFilter.sharedMesh = null;
-            if (main.tileAreaMeshFilter)
-                main.tileAreaMeshFilter.sharedMesh = null;
+            if (level.tileAreaMeshFilter)
+                level.tileAreaMeshFilter.sharedMesh = null;
         }
         void RebuildPathMesh() {
             pathMeshFilter.sharedMesh = MoveSequenceMeshBuilder.Build(
@@ -68,28 +68,28 @@ public static class PathSelectionState {
         while (true) {
             yield return StateChange.none;
 
-            if (main.autoplay || Input.GetKey(KeyCode.Alpha8)) {
+            if (level.autoplay || Input.GetKey(KeyCode.Alpha8)) {
                 if (!issuedAiCommands) {
                     issuedAiCommands = true;
-                    main.IssueAiCommandsForPathSelectionState();
+                    level.IssueAiCommandsForPathSelectionState();
                 }
             }
-            else if (!main.CurrentPlayer.IsAi) {
+            else if (!level.CurrentPlayer.IsAi) {
                 if (Input.GetMouseButtonDown(Mouse.right) || Input.GetKeyDown(KeyCode.Escape))
-                    main.commands.Enqueue(cancel);
+                    level.commands.Enqueue(cancel);
 
                 else if (Input.GetMouseButtonDown(Mouse.left) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return)) {
 
                     if (Mouse.TryGetPosition(out Vector2Int mousePosition) && traverser.IsReachable(mousePosition, moveDistance)) {
                         if (pathBuilder.positions.Last() == mousePosition) {
-                            var isLastUnmovedUnit = main.FindUnitsOf(main.CurrentPlayer).Count(u => !u.Moved) == 1;
-                            main.stack.Push(main.followLastUnit && main.CurrentPlayer != main.localPlayer &&
+                            var isLastUnmovedUnit = level.FindUnitsOf(level.CurrentPlayer).Count(u => !u.Moved) == 1;
+                            level.stack.Push(level.followLastUnit && level.CurrentPlayer != level.localPlayer &&
                                             isLastUnmovedUnit && pathBuilder.positions.Count > 1);
-                            main.commands.Enqueue(move);
+                            level.commands.Enqueue(move);
                         }
                         else {
-                            main.stack.Push(mousePosition);
-                            main.commands.Enqueue(reconstructPath);
+                            level.stack.Push(mousePosition);
+                            level.commands.Enqueue(reconstructPath);
                         }
                     }
                     else
@@ -97,12 +97,12 @@ public static class PathSelectionState {
                 }
             }
 
-            while (main.commands.TryDequeue(out var input))
+            while (level.commands.TryDequeue(out var input))
                 foreach (var token in Tokenizer.Tokenize(input))
                     switch (token) {
 
                         case reconstructPath: {
-                            var targetPosition = main.stack.Pop<Vector2Int>();
+                            var targetPosition = level.stack.Pop<Vector2Int>();
                             List<Vector2Int> path = null;
                             if (traverser.TryReconstructPath(targetPosition, ref path)) {
                                 pathBuilder.Clear();
@@ -114,13 +114,13 @@ public static class PathSelectionState {
                         }
 
                         case appendToPath:
-                            pathBuilder.Add(main.stack.Pop<Vector2Int>());
+                            pathBuilder.Add(level.stack.Pop<Vector2Int>());
                             RebuildPathMesh();
                             break;
 
                         case move: {
 
-                            var followUnitMove = main.stack.Pop<bool>();
+                            var followUnitMove = level.stack.Pop<bool>();
 
                             CleanUp();
                             if (cursor)
@@ -128,7 +128,7 @@ public static class PathSelectionState {
 
                             var initialLookDirection = unit.view.LookDirection;
                             var path = pathBuilder.positions;
-                            var animation = new MoveSequence(unit.view.transform, path, main.persistentData.gameSettings.unitSpeed).Animation();
+                            var animation = new MoveSequence(unit.view.transform, path, level.persistentData.gameSettings.unitSpeed).Animation();
 
                             CameraRig.TryFind(out var cameraRig);
                             HardFollow hardFollow = null;
@@ -154,18 +154,18 @@ public static class PathSelectionState {
                             if (hardFollow)
                                 hardFollow.enabled = false;
 
-                            yield return StateChange.ReplaceWith(new ActionSelectionState(main, unit, path, initialLookDirection));
+                            yield return StateChange.ReplaceWith(new ActionSelectionState(level, unit, path, initialLookDirection));
                             break;
                         }
 
                         case cancel:
                             unit.view.Selected = false;
                             CleanUp();
-                            yield return StateChange.ReplaceWith(nameof(SelectionState), SelectionState.Run(main));
+                            yield return StateChange.ReplaceWith(new SelectionState2(level));
                             break;
 
                         default:
-                            main.stack.ExecuteToken(token);
+                            level.stack.ExecuteToken(token);
                             break;
                     }
         }

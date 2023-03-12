@@ -30,7 +30,7 @@ public class Traverser {
     public void Traverse(Unit unit, Vector2Int? goal = null) {
         if (unit.Position is not { } position)
             throw new AssertionException("unit.Position == null", null);
-        Traverse(unit.Player.main.tiles.Keys, position, Rules.GetMoveCostFunction(unit, goal == null), goal);
+        Traverse(unit.Player.level.tiles.Keys, position, Rules.GetMoveCostFunction(unit, goal == null), goal);
     }
 
     public void Traverse(IEnumerable<Vector2Int> positions, Vector2Int start, TryGetCostDelegate tryGetCost, Vector2Int? goal = null) {

@@ -7,7 +7,7 @@ using UnityEngine.Assertions;
 public class DebugTerrainMeshGenerator : MonoBehaviour {
 
     public MeshFilter meshFilter;
-    public Main main;
+    public Level level;
 
     public TileTypeColorDictionary colors = new() {
         [TileType.Plain] = Color.green,
@@ -17,34 +17,34 @@ public class DebugTerrainMeshGenerator : MonoBehaviour {
     };
 
     public void Generate() {
-        Assert.IsTrue(main);
-        meshFilter.sharedMesh = Generate(main);
+        Assert.IsTrue(level);
+        meshFilter.sharedMesh = Generate(level);
     }
 
-    public Mesh Generate(Main main) {
+    public Mesh Generate(Level level) {
 
         var mesh = new Mesh();
         var vertices = new List<Vector3>();
         var triangles = new List<int>();
         var colors = new List<Color>();
 
-        foreach (var position in main.tiles.Keys) {
+        foreach (var position in level.tiles.Keys) {
 
             Color color;
             
-            var tileType = main.tiles[position];
-            var building = main.buildings.TryGetValue(position, out var b) ? b : null;
-            if (building != null)
-                color = building.Player?.Color ?? Color.white;
-            else {
-                var found = this.colors.TryGetValue(tileType, out color);
-                Assert.IsTrue(found, tileType.ToString());
-            }
+            var tileType = level.tiles[position];
+            var building = level.buildings.TryGetValue(position, out var b) ? b : null;
+            // if (building != null)
+            //     color = building.Player?.Color ?? Color.white;
+            // else {
+            //     var found = this.colors.TryGetValue(tileType, out color);
+            //     Assert.IsTrue(found, tileType.ToString());
+            // }
 
             vertices.AddRange(MeshUtils.QuadAt(position.ToVector3Int()));
             for (var i = 0; i < 6; i++)
                 triangles.Add(triangles.Count);
-            colors.AddRange(Enumerable.Repeat(color,6));
+            // colors.AddRange(Enumerable.Repeat(color,6));
         }
 
         mesh.vertices = vertices.ToArray();

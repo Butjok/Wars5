@@ -16,7 +16,7 @@ public class ActionSelectionState : IDisposableState {
     public const string cycleActions = prefix + "cycle-actions";
     public const string execute = prefix + "execute";
 
-    public Main main;
+    public Level level;
     public Unit unit;
     public IReadOnlyList<Vector2Int> path;
     public Vector2Int? initialLookDirection;
@@ -25,8 +25,8 @@ public class ActionSelectionState : IDisposableState {
     public UnitAction oldAction;
     public int index = -1;
 
-    public ActionSelectionState(Main main, Unit unit, IReadOnlyList<Vector2Int> path, Vector2Int? initialLookDirection = null) {
-        this.main = main;
+    public ActionSelectionState(Level level, Unit unit, IReadOnlyList<Vector2Int> path, Vector2Int? initialLookDirection = null) {
+        this.level = level;
         this.unit = unit;
         this.path = path;
         this.initialLookDirection = initialLookDirection;
@@ -63,16 +63,16 @@ public class ActionSelectionState : IDisposableState {
     public IEnumerable<UnitAction> SpawnActions() {
 
         var destination = path[^1];
-        main.TryGetUnit(destination, out var other);
+        level.TryGetUnit(destination, out var other);
 
         // stay / capture / launch missile
         if (other == null || other == unit) {
-            if (main.TryGetBuilding(destination, out var building) && CanCapture(unit, building))
+            if (level.TryGetBuilding(destination, out var building) && CanCapture(unit, building))
                 yield return new UnitAction(UnitActionType.Capture, unit, path, null, building, spawnView: true);
             else
                 yield return new UnitAction(UnitActionType.Stay, unit, path, spawnView: true);
 
-            if (main.TryGetBuilding(destination, out building) &&
+            if (level.TryGetBuilding(destination, out building) &&
                 building.type is TileType.MissileSilo &&
                 CanLaunchMissile(unit, building)) {
 
@@ -90,15 +90,15 @@ public class ActionSelectionState : IDisposableState {
 
         // attack
         if ((!IsArtillery(unit) || path.Count == 1) && TryGetAttackRange(unit, out var attackRange))
-            foreach (var otherPosition in main.PositionsInRange(destination, attackRange))
-                if (main.TryGetUnit(otherPosition, out var target))
+            foreach (var otherPosition in level.PositionsInRange(destination, attackRange))
+                if (level.TryGetUnit(otherPosition, out var target))
                     foreach (var (weaponName, _) in GetDamageValues(unit, target))
                         yield return new UnitAction(UnitActionType.Attack, unit, path, target, weaponName: weaponName, targetPosition: otherPosition, spawnView: true);
 
         // supply
         foreach (var offset in offsets) {
             var otherPosition = destination + offset;
-            if (main.TryGetUnit(otherPosition, out var target) && CanSupply(unit, target))
+            if (level.TryGetUnit(otherPosition, out var target) && CanSupply(unit, target))
                 yield return new UnitAction(UnitActionType.Supply, unit, path, target, targetPosition: otherPosition, spawnView: true);
         }
 
@@ -106,8 +106,8 @@ public class ActionSelectionState : IDisposableState {
         foreach (var cargo in unit.Cargo)
         foreach (var offset in offsets) {
             var targetPosition = destination + offset;
-            if ((!main.TryGetUnit(targetPosition, out var other2) || other2 == unit) &&
-                main.TryGetTile(targetPosition, out var tileType) &&
+            if ((!level.TryGetUnit(targetPosition, out var other2) || other2 == unit) &&
+                level.TryGetTile(targetPosition, out var tileType) &&
                 CanStay(cargo, tileType))
                 yield return new UnitAction(UnitActionType.Drop, unit, path, targetUnit: cargo, targetPosition: targetPosition, spawnView: true);
         }
@@ -117,19 +117,19 @@ public class ActionSelectionState : IDisposableState {
         get {
 
             var destination = path[^1];
-            main.TryGetUnit(destination, out var other);
-            main.TryGetBuilding(destination, out var building);
+            level.TryGetUnit(destination, out var other);
+            level.TryGetBuilding(destination, out var building);
             
             // !!! important
             actions.AddRange(SpawnActions());
-            main.stack.Push(actions.ToList());
+            level.stack.Push(actions.ToList());
 
             // some weirdness
             PlayerView.globalVisibility = false;
             yield return StateChange.none;
 
-            if (!main.CurrentPlayer.IsAi && !main.autoplay) {
-                panel.Show(main, actions, (_, action) => SelectAction(action));
+            if (!level.CurrentPlayer.IsAi && !level.autoplay) {
+                panel.Show(level, actions, (_, action) => SelectAction(action));
                 if (actions.Count > 0)
                     SelectAction(actions[0]);
             }
@@ -138,34 +138,34 @@ public class ActionSelectionState : IDisposableState {
             while (true) {
                 yield return StateChange.none;
 
-                if (main.autoplay || Input.GetKey(KeyCode.Alpha8)) {
+                if (level.autoplay || Input.GetKey(KeyCode.Alpha8)) {
                     if (!issuedAiCommands) {
                         issuedAiCommands = true;
-                        main.IssueAiCommandsForActionSelectionState();
+                        level.IssueAiCommandsForActionSelectionState();
                     }
                 }
-                else if (!main.CurrentPlayer.IsAi) {
+                else if (!level.CurrentPlayer.IsAi) {
 
                     if (Input.GetMouseButtonDown(Mouse.right) || Input.GetKeyDown(KeyCode.Escape))
-                        main.commands.Enqueue(cancel);
+                        level.commands.Enqueue(cancel);
 
                     else if (Input.GetKeyDown(KeyCode.Tab)) {
-                        main.stack.Push(Input.GetKey(KeyCode.LeftShift) ? -1 : 1);
-                        main.commands.Enqueue(cycleActions);
+                        level.stack.Push(Input.GetKey(KeyCode.LeftShift) ? -1 : 1);
+                        level.commands.Enqueue(cycleActions);
                     }
 
                     else if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space)) {
                         if (actions.Count == 0)
                             UiSound.Instance.notAllowed.PlayOneShot();
                         else {
-                            main.stack.Pop();
-                            main.stack.Push(new List<UnitAction> { actions[index] });
-                            main.commands.Enqueue(execute);
+                            level.stack.Pop();
+                            level.stack.Push(new List<UnitAction> { actions[index] });
+                            level.commands.Enqueue(execute);
                         }
                     }
                 }
 
-                while (main.commands.TryDequeue(out var input))
+                while (level.commands.TryDequeue(out var input))
                     foreach (var token in Tokenizer.Tokenize(input))
                         switch (token) {
 
@@ -173,7 +173,7 @@ public class ActionSelectionState : IDisposableState {
 
                                 HidePanel();
                                 
-                                var filteredActions = main.stack.Pop<List<UnitAction>>();
+                                var filteredActions = level.stack.Pop<List<UnitAction>>();
                                 Assert.AreEqual(1, filteredActions.Count);
                                 var action = filteredActions[0];
 
@@ -202,7 +202,7 @@ public class ActionSelectionState : IDisposableState {
                                     }
 
                                     case UnitActionType.Attack: {
-                                        yield return StateChange.Push(nameof(AttackActionState),AttackActionState.Run(main,action));
+                                        yield return StateChange.Push(nameof(AttackActionState),AttackActionState.Run(level,action));
                                         break;
                                     }
 
@@ -231,7 +231,7 @@ public class ActionSelectionState : IDisposableState {
                                     }
 
                                     case UnitActionType.LaunchMissile:
-                                        yield return StateChange.Push(nameof(MissileTargetSelectionState), MissileTargetSelectionState.Run(main, action, initialLookDirection));
+                                        yield return StateChange.Push(nameof(MissileTargetSelectionState), MissileTargetSelectionState.Run(level, action, initialLookDirection));
                                         // unit can destroy itself with a missile lol
                                         if (!unit.Disposed)
                                             unit.Position = destination;
@@ -244,20 +244,20 @@ public class ActionSelectionState : IDisposableState {
                                 if (!unit.Disposed) {
                                     unit.Moved = true;
                                     if (unit.view.LookDirection != unit.Player.unitLookDirection)
-                                        main.StartCoroutine(new MoveSequence(unit.view.transform, null, unit.Player.main.persistentData.gameSettings.unitSpeed, unit.Player.unitLookDirection).Animation());
+                                        level.StartCoroutine(new MoveSequence(unit.view.transform, null, unit.Player.level.persistentData.gameSettings.unitSpeed, unit.Player.unitLookDirection).Animation());
                                 }
 
                                 /*
                                  * some custom level logic on action completion 
                                  */
                                  
-                                if (main.triggers.TryGetValue(TriggerName.A, out var reconTrigger)) {
+                                if (level.triggers.TryGetValue(TriggerName.A, out var reconTrigger)) {
 
-                                    var unitsInReconTrigger = main.units.Values.Where(u => u.Player == main.localPlayer && u.Position is { } position && reconTrigger.Contains(position)).ToArray();
+                                    var unitsInReconTrigger = level.units.Values.Where(u => u.Player == level.localPlayer && u.Position is { } position && reconTrigger.Contains(position)).ToArray();
                                     if (unitsInReconTrigger.Length > 0) {
 
                                         reconTrigger.Clear();
-                                        ((Main2)main).LoadAdditively("1");
+                                        ((LevelEditor)level).LoadAdditively("1");
 
                                         if (CameraRig.TryFind(out var cameraRig)) {
                                             yield return StateChange.Push("MapRevealWait", Wait.ForSeconds(.5f));
@@ -266,8 +266,8 @@ public class ActionSelectionState : IDisposableState {
                                     }
                                 }
 
-                                if (main.triggers.TryGetValue(TriggerName.B, out var aggroTrigger)) {
-                                    var unitsInAggroTrigger = main.units.Values.Where(u => u.Player == main.localPlayer && u.Position is { } position && aggroTrigger.Contains(position)).ToArray();
+                                if (level.triggers.TryGetValue(TriggerName.B, out var aggroTrigger)) {
+                                    var unitsInAggroTrigger = level.units.Values.Where(u => u.Player == level.localPlayer && u.Position is { } position && aggroTrigger.Contains(position)).ToArray();
                                     if (unitsInAggroTrigger.Length > 0) {
                                         aggroTrigger.Clear();
                                         Debug.Log("ENEMY NOTICED YOU");
@@ -280,24 +280,24 @@ public class ActionSelectionState : IDisposableState {
 
                                 actions.Remove(action);
 
-                                var won = Won(main.localPlayer);
-                                var lost = Lost(main.localPlayer);
+                                var won = Won(level.localPlayer);
+                                var lost = Lost(level.localPlayer);
 
                                 if (won || lost) {
 
-                                    foreach (var u in main.units.Values)
+                                    foreach (var u in level.units.Values)
                                         u.Moved = false;
 
                                     // TODO: add a DRAW outcome
                                     if (won)
-                                        yield return StateChange.ReplaceWith(nameof(VictoryDefeatState.Victory), VictoryDefeatState.Victory(main, action));
+                                        yield return StateChange.ReplaceWith(nameof(VictoryDefeatState.Victory), VictoryDefeatState.Victory(level, action));
                                     else
-                                        yield return StateChange.ReplaceWith(nameof(VictoryDefeatState.Defeat), VictoryDefeatState.Defeat(main, action));
+                                        yield return StateChange.ReplaceWith(nameof(VictoryDefeatState.Defeat), VictoryDefeatState.Defeat(level, action));
                                 }
 
                                 else {
-                                    yield return main.levelLogic.OnActionCompletion(main, action);
-                                    yield return StateChange.ReplaceWith(nameof(SelectionState), SelectionState.Run(main));
+                                    yield return level.levelLogic.OnActionCompletion(level, action);
+                                    yield return StateChange.ReplaceWith(new SelectionState2(level));
                                 }
 
                                 break;
@@ -305,17 +305,17 @@ public class ActionSelectionState : IDisposableState {
 
                             case cancel:
 
-                                main.stack.Pop(); // pop actions
+                                level.stack.Pop(); // pop actions
 
                                 unit.view.Position = path[0];
                                 if (initialLookDirection is { } value)
                                     unit.view.LookDirection = value;
 
-                                yield return StateChange.ReplaceWith(nameof(PathSelectionState), PathSelectionState.Run(main, unit));
+                                yield return StateChange.ReplaceWith(nameof(PathSelectionState), PathSelectionState.Run(level, unit));
                                 break;
 
                             case cycleActions: {
-                                var offset = main.stack.Pop<int>();
+                                var offset = level.stack.Pop<int>();
                                 if (actions.Count > 0) {
                                     index = (index + offset).PositiveModulo(actions.Count);
                                     SelectAction(actions[index]);
@@ -326,7 +326,7 @@ public class ActionSelectionState : IDisposableState {
                             }
 
                             default:
-                                main.stack.ExecuteToken(token);
+                                level.stack.ExecuteToken(token);
                                 break;
                         }
             }
