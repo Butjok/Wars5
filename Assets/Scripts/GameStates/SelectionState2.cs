@@ -303,8 +303,8 @@ public class AbilityActivationState : IDisposableState {
 
             var units = level.FindUnitsOf(player);
             foreach (var unit in units) {
-                var tween = cameraRig.Jump(unit.NonNullPosition.Raycast());
-                while (tween.active && !tween.IsComplete())
+                cameraRig.Jump(unit.NonNullPosition.Raycast());
+                while (cameraRig.JumpCoroutine != null)
                     yield return StateChange.none;
                 unit.SetHp(unit.Hp + 2);
             }

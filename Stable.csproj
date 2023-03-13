@@ -47,6 +47,7 @@
      <Compile Include="Assets/Scripts/Stable/Stepping.cs" />
      <Compile Include="Assets/Scripts/Stable/DynamicShadowDistance.cs" />
      <Compile Include="Assets/Scripts/Stable/StringExtensions.cs" />
+     <Compile Include="Assets/Scripts/Stable/UiSound2.cs" />
      <Compile Include="Assets/Scripts/Stable/LevelEditorHistory.cs" />
      <Compile Include="Assets/Scripts/Stable/Foliage/TransformList.cs" />
      <Compile Include="Assets/Scripts/Stable/TileMeshBuilder.cs" />
@@ -63,7 +64,6 @@
      <Compile Include="Assets/Scripts/Stable/BlogPostStackMachineVisualization.cs" />
      <Compile Include="Assets/Scripts/Stable/MoveSequence.cs" />
      <Compile Include="Assets/Scripts/Stable/ShakeCameras.cs" />
-     <Compile Include="Assets/Scripts/Stable/Compass.cs" />
      <Compile Include="Assets/Scripts/Stable/TrackSpinner.cs" />
      <Compile Include="Assets/Scripts/Stable/UIFrame.cs" />
      <Compile Include="Assets/Scripts/Stable/ManualControl.cs" />
@@ -102,7 +102,7 @@
      <Compile Include="Assets/Scripts/Stable/Tokenizer.cs" />
      <Compile Include="Assets/Scripts/Stable/BallisticMotion.cs" />
      <Compile Include="Assets/Scripts/Stable/ImpactTest.cs" />
-     <Compile Include="Assets/Scripts/Stable/CameraRig.cs" />
+     <Compile Include="Assets/Scripts/Stable/CameraRigOld.cs" />
      <Compile Include="Assets/Scripts/Stable/OrbitingWeight.cs" />
      <Compile Include="Assets/Scripts/Stable/Lazy.cs" />
      <Compile Include="Assets/Scripts/Stable/People.cs" />
@@ -143,7 +143,6 @@
      <Compile Include="Assets/Scripts/Stable/ResourceExtensions.cs" />
      <Compile Include="Assets/Scripts/Stable/LookAt.cs" />
      <Compile Include="Assets/Scripts/Stable/PistonBody.cs" />
-     <Compile Include="Assets/Scripts/Stable/UiSound2.cs" />
      <Folder Include="Assets/Scripts/Stable/Foliage" />
      <None Include="Assets/Scripts/Stable/Stable.asmdef" />
      <Folder Include="Assets/Scripts/Stable" />

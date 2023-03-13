@@ -97,9 +97,9 @@ public static class GameWriter {
 		var position = cameraRig.transform.position;
 		WriteLine(tw, $"{position.x} {position.y} {position.z} float3", "camera-rig.set-position");
 		WriteLine(tw, cameraRig.transform.rotation.eulerAngles.y, "camera-rig.set-rotation");
-		WriteLine(tw, cameraRig.distance, "camera-rig.set-distance");
-		WriteLine(tw, cameraRig.pitchAngle, "camera-rig.set-pitch-angle");
-		WriteLine(tw, cameraRig.Fov, "camera-rig.set-fov");
+		WriteLine(tw, cameraRig.Distance, "camera-rig.set-distance");
+		WriteLine(tw, cameraRig.PitchAngle, "camera-rig.set-pitch-angle");
+		// WriteLine(tw, cameraRig.Fov, "camera-rig.set-fov");
 		
 		return tw;
 	}

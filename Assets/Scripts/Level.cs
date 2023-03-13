@@ -62,6 +62,7 @@ public class Level : MonoBehaviour {
     public Queue<string> commands = new();
 
     public MeshFilter tileAreaMeshFilter;
+    public MeshFilter pathMeshFilter;
 
     public Camera mainCamera;
     public Camera[] battleCameras = { null, null };

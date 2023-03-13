@@ -84,7 +84,7 @@ public static class MissileTargetSelectionState {
                                 if (!anyBridgeDestroyed && bridge.Hp <= 0)
                                     anyBridgeDestroyed = true;
                             }
-                            
+
                             missileSiloView.aim = false;
 
                             if (anyBridgeDestroyed) {
@@ -102,16 +102,19 @@ public static class MissileTargetSelectionState {
 @nata @normal Enough said. @next
 "))
                                     yield return stateChange;
-                                
-                                if (CameraRig.TryFind(out var cameraRig))
-                                    yield return StateChange.Push("", Wait.ForCompletion(cameraRig.Jump(Vector3.zero)));
-                                
+
+                                if (CameraRig.TryFind(out var cameraRig)) {
+                                    cameraRig.Jump(Vector3.zero);
+                                    while (cameraRig.JumpCoroutine != null)
+                                        yield return StateChange.none;
+                                }
+
                                 foreach (var stateChange in dialogue.Play(@"
 @nata So... @1 @pause Here it goes! @next
 "))
                                     yield return stateChange;
                             }
-                            
+
                             yield break;
                         }
 

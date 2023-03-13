@@ -413,19 +413,19 @@ public static class GameReader {
                     case "camera-rig.set-distance": {
                         var distance = stack.Pop<dynamic>();
                         if (loadCameraRig && cameraRig)
-                            cameraRig.targetDistance = cameraRig.distance = distance;
+                            cameraRig.SetDistance(distance, false);
                         break;
                     }
                     case "camera-rig.set-pitch-angle": {
                         var pitchAngle = stack.Pop<dynamic>();
                         if (loadCameraRig && cameraRig)
-                            cameraRig.tagetPitchAngle = cameraRig.pitchAngle = pitchAngle;
+                            cameraRig.PitchAngle = pitchAngle;
                         break;
                     }
                     case "camera-rig.set-fov": {
                         var fov = stack.Pop<dynamic>();
-                        if (loadCameraRig && cameraRig)
-                            cameraRig.Fov = fov;
+                        // if (loadCameraRig && cameraRig)
+                        //     cameraRig.Fov = fov;
                         break;
                     }
 
