@@ -217,6 +217,7 @@ public class CameraRig : MonoBehaviour {
             yield return null;
         }
         transform.position = to;
+        JumpCoroutine = null;
     }
 
     public float PitchAngle {
