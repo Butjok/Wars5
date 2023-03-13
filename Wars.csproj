@@ -156,6 +156,7 @@
      <Compile Include="Assets/Scripts/AnimationScript.cs" />
      <Compile Include="Assets/Scripts/Faction.cs" />
      <Compile Include="Assets/Scripts/InputCommandsListener.cs" />
+     <Compile Include="Assets/Scripts/CameraRig.cs" />
      <Compile Include="Assets/Scripts/FitHorizontal.cs" />
      <Compile Include="Assets/Scripts/UnitActionViewTest.cs" />
      <Compile Include="Assets/Scripts/InputState.cs" />
@@ -180,7 +181,6 @@
      <Compile Include="Assets/Scripts/GameStates/PathSelectionState2.cs" />
      <Compile Include="Assets/Scripts/FlipbookTest.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
-     <Compile Include="Assets/Scripts/CameraRig.cs" />
      <None Include="Assets/Scripts/Wars.asmdef" />
      <Folder Include="Assets/Scripts/GameStates" />
      <Folder Include="Assets/Scripts/Level" />

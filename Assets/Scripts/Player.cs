@@ -98,10 +98,11 @@ public class Player : IDisposable {
     public Color Color => Colors.Get(ColorName);
 
     public int maxCredits = defaultMaxCredits;
-    private int credits;
-    public int Credits {
-        get => credits;
-        set => credits = Clamp(value, 0, initialized ? MaxCredits(this) : defaultMaxCredits);
+    public int Credits { get; private set; }
+    public void SetCredits(int value, bool animate = false) {
+        Credits = Clamp(value, 0, initialized ? MaxCredits(this) : defaultMaxCredits);
+        if (initialized)
+            view2.SetCreditsAmount(Credits, animate);
     }
 
     public int AbilityMeter { get; private set; }
@@ -150,7 +151,7 @@ public class Player : IDisposable {
         view2 = Object.Instantiate(PlayerView2.GetPrefab(coName), canvas.transform);
         view2.player = this;
         view2.Hide();
-        
+
         SetAbilityMeter(abilityMeter, false, false);
 
         initialized = true;

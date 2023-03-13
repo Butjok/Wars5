@@ -41,10 +41,10 @@ public class LevelEditor : Level {
         return true;
     }
     [Command]
-    public bool TrySetPlayerCredits(int index, int amount) {
+    public bool TrySetPlayerCredits(int index, int amount, bool animate) {
         if (index < 0 || index >= players.Count)
             return false;
-        players[index].Credits = amount;
+        players[index].SetCredits(amount, animate);
         return true;
     }
     [Command]

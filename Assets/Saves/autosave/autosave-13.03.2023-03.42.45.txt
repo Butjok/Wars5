@@ -1,6 +1,6 @@
 LevelEditor                                                      game.load-scene
 Tutorial MissionName type enum                                   game.set-mission-name
-4                                                                game.set-turn
+8                                                                game.set-turn
                                                                  
 
 
@@ -12,7 +12,7 @@ Red ColorName type enum                                          player.set-colo
 Alpha Team type enum                                             player.set-team
 Natalie PersonName type enum                                     player.set-co-name
 0 0 int2                                                         player.set-ui-position
-16000                                                            player.set-credits
+234                                                              player.set-credits
 0                                                                player.set-power-meter
 1 0 int2                                                         player.set-unit-look-direction
 0                                                                player.set-side
@@ -31,8 +31,8 @@ Hq TileType type enum                                            building.set-ty
                                                                  dup
 Infantry UnitType type enum                                      unit.set-type
 false                                                            unit.set-moved
-10                                                               unit.set-hp
--10 -13 int2                                                     unit.set-position
+1                                                                unit.set-hp
+-11 -11 int2                                                     unit.set-position
 1 0 int2                                                         unit.set-look-direction
 WbLightTank UnitView type load-resource                          unit.set-view-prefab
                                                                  unit.add
@@ -232,7 +232,7 @@ E TriggerName type enum                                          trigger.select
 F TriggerName type enum                                          trigger.select
 
 
--10.81834 -4.252141E-06 -11.72423 float3                         camera-rig.set-position
-301.6858                                                         camera-rig.set-rotation
-9.355167                                                         camera-rig.set-distance
-38.91518                                                         camera-rig.set-pitch-angle
+-11.11881 8.119081E-09 -11.20883 float3                          camera-rig.set-position
+318.922                                                          camera-rig.set-rotation
+16.85832                                                         camera-rig.set-distance
+49.7548                                                          camera-rig.set-pitch-angle
