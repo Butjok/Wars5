@@ -244,7 +244,7 @@ public class ActionSelectionState : IDisposableState {
                                 if (!unit.Disposed) {
                                     unit.Moved = true;
                                     if (unit.view.LookDirection != unit.Player.unitLookDirection)
-                                        level.StartCoroutine(new MoveSequence(unit.view.transform, null, unit.Player.level.persistentData.gameSettings.unitSpeed, unit.Player.unitLookDirection).Animation());
+                                        level.StartCoroutine(new MoveSequence(unit.view.transform, null, PersistentData.Get.gameSettings.unitSpeed, unit.Player.unitLookDirection).Animation());
                                 }
 
                                 /*

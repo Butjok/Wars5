@@ -39,12 +39,15 @@ public class MoveSequence {
     public Transform target;
     public Vector2Int? _finalDirection;
     public Vector2Int finalPosition;
+    public Action onComplete;
 
-    public MoveSequence(Transform target, IEnumerable<Vector2Int> _positions, float speed = 1, Vector2Int? _finalDirection = null) {
+    public MoveSequence(Transform target, IEnumerable<Vector2Int> _positions, float? _speed=null, Vector2Int? _finalDirection = null,
+        Action onComplete=null) {
 
         this.target = target;
-        this.speed = speed;
+        this.speed = _speed ?? PersistentData.Get.gameSettings.unitSpeed;
         this._finalDirection = _finalDirection;
+        this.onComplete = onComplete;
         finalPosition = target.position.ToVector2().RoundToInt();
 
         startPosition = target.position;
@@ -246,6 +249,8 @@ public class MoveSequence {
                     throw new ArgumentOutOfRangeException();
             }
         }
+        
+        onComplete?.Invoke();
     }
 }
 

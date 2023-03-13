@@ -56,7 +56,6 @@ public class Level : MonoBehaviour {
     }
     public LevelLogic levelLogic = new();
     public Player localPlayer;
-    public PersistentData persistentData;
 
     public WarsStack stack = new();
     public Queue<string> commands = new();
@@ -74,8 +73,6 @@ public class Level : MonoBehaviour {
         Unit.undisposed.Clear();
         UnitAction.undisposed.Clear();
 
-        ReloadPersistentData();
-
         // Assert.IsTrue(mainCamera);
         // Assert.IsTrue(battleCameras.Length == right + 1);
         // Assert.IsTrue(battleCameras[left]);
@@ -90,30 +87,15 @@ public class Level : MonoBehaviour {
     }
 
     [Command]
-    public void ReloadPersistentData() {
-        persistentData = PersistentData.Read();
-        UpdatePostProcessing();
-    }
-
-    [Command]
     public bool ShowBattleAnimation {
         set {
-            persistentData.gameSettings.showBattleAnimation = value;
-            persistentData.Save();
+            PersistentData.Get.gameSettings.showBattleAnimation = value;
+            PersistentData.Save();
         }
     }
 
     protected virtual void OnApplicationQuit() {
-        persistentData.Save();
-    }
-
-    public void UpdatePostProcessing() {
-        PostProcessing.Setup(
-            persistentData.gameSettings.antiAliasing,
-            persistentData.gameSettings.motionBlurShutterAngle,
-            persistentData.gameSettings.enableBloom,
-            persistentData.gameSettings.enableScreenSpaceReflections,
-            persistentData.gameSettings.enableAmbientOcclusion);
+        PersistentData.Save();
     }
 
     public Player CurrentPlayer {

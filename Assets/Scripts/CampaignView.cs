@@ -98,7 +98,7 @@ public class CampaignView : MonoBehaviour {
 
     private void Start() {
         // Campaign.Clear();
-        Actualize(PersistentData.Read().campaign);
+        Actualize(PersistentData.Get.campaign);
     }
 
     public float selectionFrameJumpDuration = .25f;

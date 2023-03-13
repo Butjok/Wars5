@@ -36,6 +36,15 @@ public static class PostProcessing {
         }
     }
 
+    public static void Setup(GameSettings gameSettings) {
+        Setup(
+            gameSettings.antiAliasing,
+            gameSettings.motionBlurShutterAngle,
+            gameSettings.enableBloom,
+            gameSettings.enableScreenSpaceReflections,
+            gameSettings.enableAmbientOcclusion);
+    }
+
     public static void Setup(
         PostProcessLayer.Antialiasing antialiasing = PostProcessLayer.Antialiasing.TemporalAntialiasing,
         float? motionBlurShutterAngle = 270,

@@ -13,19 +13,21 @@ public class PersistentData {
     [Command]
     public static string Path => System.IO.Path.Combine(Application.persistentDataPath, nameof(PersistentData) + ".json");
 
+    private static PersistentData loaded;
+    public static PersistentData Get => loaded ??= Read();
+
     [Command]
     public static void Clear() {
         if (File.Exists(Path))
             File.Delete(Path);
+        loaded = null;
     }
-    public static PersistentData Read() {
+    private static PersistentData Read() {
         return File.Exists(Path) ? File.ReadAllText(Path).FromJson<PersistentData>() : new PersistentData();
     }
-    public void Save() {
-        File.WriteAllText(Path, this.ToJson());
+    public static void Save() {
+        File.WriteAllText(Path, Get.ToJson());
     }
-
-    public bool firstTimeLaunch = true;
 
     public Campaign campaign = new();
 

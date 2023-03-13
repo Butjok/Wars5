@@ -11,7 +11,6 @@ using Object = System.Object;
 public class GameSettingsMenu : MonoBehaviour {
 
     public Level level;
-    public GameSettings oldSettings;
     public GameObject root;
 
     public Slider masterVolumeSlider;
@@ -42,10 +41,12 @@ public class GameSettingsMenu : MonoBehaviour {
 
     public const PostProcessLayer.Antialiasing antiAliasing = PostProcessLayer.Antialiasing.TemporalAntialiasing;
 
+    public GameSettings gameSettings;
+    
     public void Show(Level level) {
 
         this.level = level;
-        oldSettings = level.persistentData.gameSettings.ShallowCopy();
+        gameSettings = PersistentData.Get.gameSettings.ShallowCopy();
 
         root.SetActive(true);
         UpdateControls();
@@ -53,43 +54,42 @@ public class GameSettingsMenu : MonoBehaviour {
 
     public void UpdateControls() {
 
-        masterVolumeSlider.SetValueWithoutNotify(level.persistentData.gameSettings.masterVolume);
-        musicVolumeSlider.SetValueWithoutNotify(level.persistentData.gameSettings.musicVolume);
-        sfxVolumeSlider.SetValueWithoutNotify(level.persistentData.gameSettings.sfxVolume);
-        uiVolumeSlider.SetValueWithoutNotify(level.persistentData.gameSettings.uiVolume);
+        masterVolumeSlider.SetValueWithoutNotify(gameSettings.masterVolume);
+        musicVolumeSlider.SetValueWithoutNotify(gameSettings.musicVolume);
+        sfxVolumeSlider.SetValueWithoutNotify(gameSettings.sfxVolume);
+        uiVolumeSlider.SetValueWithoutNotify(gameSettings.uiVolume);
 
-        showBattleAnimationToggle.SetIsOnWithoutNotify(level.persistentData.gameSettings.showBattleAnimation);
-        unitSpeedSlider.SetValueWithoutNotify(level.persistentData.gameSettings.unitSpeed);
-        unitSpeedText.text = Mathf.RoundToInt( level.persistentData.gameSettings.unitSpeed).ToString();
-        antiAliasingToggle.SetIsOnWithoutNotify(level.persistentData.gameSettings.antiAliasing == antiAliasing);
-        motionBlurShutterAngleSlider.SetValueWithoutNotify(level.persistentData.gameSettings.motionBlurShutterAngle is { } value ? value : 0);
-        bloomToggle.SetIsOnWithoutNotify(level.persistentData.gameSettings.enableBloom);
-        screenSpaceReflectionsToggle.SetIsOnWithoutNotify(level.persistentData.gameSettings.enableScreenSpaceReflections);
-        ambientOcclusionToggle.SetIsOnWithoutNotify(level.persistentData.gameSettings.enableAmbientOcclusion);
-        shuffleMusicToggle.SetIsOnWithoutNotify(level.persistentData.gameSettings.shuffleMusic);
+        showBattleAnimationToggle.SetIsOnWithoutNotify(gameSettings.showBattleAnimation);
+        unitSpeedSlider.SetValueWithoutNotify(gameSettings.unitSpeed);
+        unitSpeedText.text = Mathf.RoundToInt( gameSettings.unitSpeed).ToString();
+        antiAliasingToggle.SetIsOnWithoutNotify(gameSettings.antiAliasing == antiAliasing);
+        motionBlurShutterAngleSlider.SetValueWithoutNotify(gameSettings.motionBlurShutterAngle is { } value ? value : 0);
+        bloomToggle.SetIsOnWithoutNotify(gameSettings.enableBloom);
+        screenSpaceReflectionsToggle.SetIsOnWithoutNotify(gameSettings.enableScreenSpaceReflections);
+        ambientOcclusionToggle.SetIsOnWithoutNotify(gameSettings.enableAmbientOcclusion);
+        shuffleMusicToggle.SetIsOnWithoutNotify(gameSettings.shuffleMusic);
         
         //okButton.interactable =game.settings.DiffersFrom(oldSettings);
-        closeButton.interactable = !level.persistentData.gameSettings.DiffersFrom(oldSettings);
+        closeButton.interactable = !gameSettings.DiffersFrom(PersistentData.Get.gameSettings);
     }
 
     public void UpdateSettings() {
 
-        level.persistentData.gameSettings.masterVolume = masterVolumeSlider.value;
-        level.persistentData.gameSettings.musicVolume = musicVolumeSlider.value;
-        level.persistentData.gameSettings.sfxVolume = sfxVolumeSlider.value;
-        level.persistentData.gameSettings.uiVolume = uiVolumeSlider.value;
+        gameSettings.masterVolume = masterVolumeSlider.value;
+        gameSettings.musicVolume = musicVolumeSlider.value;
+        gameSettings.sfxVolume = sfxVolumeSlider.value;
+        gameSettings.uiVolume = uiVolumeSlider.value;
 
-        level.persistentData.gameSettings.showBattleAnimation = showBattleAnimationToggle.isOn;
-        level.persistentData.gameSettings.unitSpeed = unitSpeedSlider.value;
-        level.persistentData.gameSettings.antiAliasing = antiAliasingToggle.isOn ? antiAliasing : PostProcessLayer.Antialiasing.None;
-        level.persistentData.gameSettings.motionBlurShutterAngle = Mathf.Approximately(motionBlurShutterAngleSlider.value, 0) ? null : motionBlurShutterAngleSlider.value;
-        level.persistentData.gameSettings.enableBloom = bloomToggle.isOn;
-        level.persistentData.gameSettings.enableScreenSpaceReflections = screenSpaceReflectionsToggle.isOn;
-        level.persistentData.gameSettings.enableAmbientOcclusion = ambientOcclusionToggle.isOn;
-        level.persistentData.gameSettings.shuffleMusic = shuffleMusicToggle.isOn;
+        gameSettings.showBattleAnimation = showBattleAnimationToggle.isOn;
+        gameSettings.unitSpeed = unitSpeedSlider.value;
+        gameSettings.antiAliasing = antiAliasingToggle.isOn ? antiAliasing : PostProcessLayer.Antialiasing.None;
+        gameSettings.motionBlurShutterAngle = Mathf.Approximately(motionBlurShutterAngleSlider.value, 0) ? null : motionBlurShutterAngleSlider.value;
+        gameSettings.enableBloom = bloomToggle.isOn;
+        gameSettings.enableScreenSpaceReflections = screenSpaceReflectionsToggle.isOn;
+        gameSettings.enableAmbientOcclusion = ambientOcclusionToggle.isOn;
+        gameSettings.shuffleMusic = shuffleMusicToggle.isOn;
         
-        level.UpdatePostProcessing();
-
+        PostProcessing.Setup(gameSettings);
         UpdateControls();
     }
 
@@ -98,7 +98,7 @@ public class GameSettingsMenu : MonoBehaviour {
     }
 
     public void Close() {
-        if (!level.persistentData.gameSettings.DiffersFrom(oldSettings))
+        if (!PersistentData.Get.gameSettings.DiffersFrom(gameSettings))
             level.commands.Enqueue(GameSettingsState.close);
         else {
             shakeTweener?.Complete();
@@ -108,19 +108,18 @@ public class GameSettingsMenu : MonoBehaviour {
         }
     }
     public void SetDefaultValues() {
-        level.persistentData.gameSettings = new GameSettings();
-        level.UpdatePostProcessing();
+        gameSettings = new GameSettings();
+        PostProcessing.Setup(gameSettings);
         UpdateControls();
     }
     public void Cancel() {
-        level.persistentData.gameSettings = oldSettings;
-        level.UpdatePostProcessing();
+        gameSettings = PersistentData.Get.gameSettings.ShallowCopy();
+        PostProcessing.Setup(gameSettings);
         level.commands.Enqueue(GameSettingsState.close);
     }
     public void Ok() {
-        var persistentData = PersistentData.Read();
-        persistentData.gameSettings = level.persistentData.gameSettings;
-        persistentData.Save();
+        PersistentData.Get.gameSettings = gameSettings;
+        PersistentData.Save();
         level.commands.Enqueue(GameSettingsState.close);
     }
 

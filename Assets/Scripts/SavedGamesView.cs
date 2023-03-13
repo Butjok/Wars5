@@ -22,7 +22,7 @@ public class SavedGamesView : MonoBehaviour {
     }
 
     private void Start() {
-        Show(PersistentData.Read().savedGames);
+        Show(PersistentData.Get.savedGames);
     }
 
     public void Show(IEnumerable<SavedGame> savedGames) {
@@ -82,7 +82,7 @@ public class SavedGamesSelectionState : IDisposableState {
 
     public IEnumerator<StateChange> Run {
         get {
-            var persistentData = PersistentData.Read();
+            var persistentData = PersistentData.Get;
             var savedGames = persistentData.savedGames;
             var screenShots = savedGames.ToDictionary(savedGame => savedGame.ScreenshotPath, savedGame => savedGame.Screenshot);
             

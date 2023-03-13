@@ -42,7 +42,7 @@ public static class AttackActionState {
             responseWeaponName = bestChoice.weaponName;
         }
 
-        if (level.persistentData.gameSettings.showBattleAnimation) {
+        if (PersistentData.Get.gameSettings.showBattleAnimation) {
 
             var attackerPrefab = attacker.view.GetComponent<BattleAnimationPlayer>();
             var targetPrefab = target.view.GetComponent<BattleAnimationPlayer>();

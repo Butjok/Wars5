@@ -8,8 +8,7 @@ public static class CampaignOverviewState {
         var view = Object.FindObjectOfType<CampaignView>();
         Assert.IsTrue(view);
 
-        var persistentData = PersistentData.Read();
-        var campaign = persistentData.campaign;
+        var campaign = PersistentData.Get.campaign;
 
         view.Show();
         view.Actualize(campaign);

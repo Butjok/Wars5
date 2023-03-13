@@ -128,7 +128,7 @@ public static class PathSelectionState {
 
                             var initialLookDirection = unit.view.LookDirection;
                             var path = pathBuilder.positions;
-                            var animation = new MoveSequence(unit.view.transform, path, level.persistentData.gameSettings.unitSpeed).Animation();
+                            var animation = new MoveSequence(unit.view.transform, path, PersistentData.Get.gameSettings.unitSpeed).Animation();
 
                             CameraRig.TryFind(out var cameraRig);
                             HardFollow hardFollow = null;
