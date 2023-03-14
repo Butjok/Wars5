@@ -55,28 +55,46 @@ public class UnitView2 : MonoBehaviour {
         [NonSerialized] public float steeringAngle;
     }
 
+    [Header("Shading")]
     public List<Renderer> renderers = new();
     public string playerColorUniformName = "_PlayerColor";
     public string attackHighlightFactorUniformName = "_AttackHighlightFactor";
     public string attackHighlightStartTimeUniformName = "_AttackHighlightStartTime";
     public string movedUniformName = "_Moved";
+
+    [Header("UI")]
     public TMP_Text hpText;
+
+    [Header("Movement")]
+    public Transform body;
     public List<Wheel> wheels = new();
+
+    [Header("Terrain")]
     public LayerMask terrainLayerMask;
     public Vector2 terrainBumpRange = new(0, .05f);
     public float terrainBumpTiling = 5;
-    public Transform body;
-    
+
+    [Header("Springs")]
     public Vector2 springLengthRange = new(.0f, .25f);
     public float springTargetLength = .125f;
-    public float springForce = 100;
+    public float force = 100;
     public float springDrag = 3;
 
-    public Vector3 bodyLocalSpaceTorquePosition;
-    public Vector3 bodyLocalSpaceTorque;
+    public Vector3 bodyCenterOfMass;
+    public List<(Vector3 position, Vector3 force)> torques = new();
+
+    [Header("Battle View")]
+    public List<Transform> hitPoints = new();
+    public int incomingProjectilesCount = 0;
 
     private void Reset() {
         renderers = GetComponentsInChildren<Renderer>().ToList();
+    }
+
+    [ContextMenu(nameof(FindHitPoints))]
+    private void FindHitPoints() {
+        hitPoints.Clear();
+        hitPoints.AddRange(GetComponentsInChildren<Transform>().Where(t => t.name.StartsWith("HitPoint")));
     }
 
     private MaterialPropertyBlock materialPropertyBlock;
@@ -104,7 +122,11 @@ public class UnitView2 : MonoBehaviour {
     [Command]
     public Vector2Int Position {
         get => transform.position.ToVector2().RoundToInt();
-        set => transform.position = value.ToVector3Int();
+        set {
+            transform.position = value.ToVector3Int();
+            ResetSprings();
+            ResetSteering();
+        }
     }
     public Func<bool> MoveAlong(IEnumerable<Vector2Int> path, Vector2Int? finalDirection = null) {
         var completed = false;
@@ -122,6 +144,8 @@ public class UnitView2 : MonoBehaviour {
         set {
             Assert.AreEqual(1, value.ManhattanLength());
             transform.rotation = Quaternion.LookRotation(value.ToVector3Int(), Vector3.up);
+            ResetSprings();
+            ResetSteering();
         }
     }
     [Command]
@@ -199,7 +223,7 @@ public class UnitView2 : MonoBehaviour {
     }
 
     private void UpdateWheel(Wheel wheel) {
-        
+
         // TODO: do steering of the wheels
 
         var spinRotation = Quaternion.Euler(wheel.spinAngle, 0, 0);
@@ -289,11 +313,15 @@ public class UnitView2 : MonoBehaviour {
     private void UpdateSpring(Wheel wheel) {
 
         var length = Vector3.Dot(body.up, wheel.springWeightPosition - wheel.position);
-        var force = (springTargetLength - length) * springForce;
+        var force = (springTargetLength - length) * this.force;
         force -= wheel.springVelocity * springDrag;
-        
-        // TODO: apply body torque
-        
+
+        var centerOfMass = body.TransformPoint(bodyCenterOfMass);
+        foreach (var (torqueForcePosition, torqueForce) in torques) {
+            var torque = Vector3.Cross(torqueForcePosition - centerOfMass, torqueForce);
+            force += Vector3.Dot(Vector3.Cross(torque, wheel.position - centerOfMass), body.up);
+        }
+
         wheel.springVelocity += force * Time.fixedDeltaTime;
         if (float.IsNaN(wheel.springVelocity))
             wheel.springVelocity = 0;
@@ -322,6 +350,33 @@ public class UnitView2 : MonoBehaviour {
             UpdateSpring(wheel);
     }
 
+    public void ResetSprings() {
+        foreach (var wheel in wheels) {
+            wheel.springVelocity = 0;
+            wheel.springWeightPosition = wheel.position + body.up * springTargetLength;
+        }
+        torques.Clear();
+    }
+
+    public void ResetSteering() {
+        foreach (var wheel in wheels)
+            wheel.steeringAngle = 0;
+    }
+
+    [Command]
+    public void ApplyTorque(Vector3 position, Vector3 force, bool debug = false) {
+        StartCoroutine(TorqueAnimation(position, force));
+
+        if (debug)
+            using (Draw.WithDuration(3))
+                Draw.Arrow(position, position + force);
+    }
+    private IEnumerator TorqueAnimation(Vector3 position, Vector3 force) {
+        var tuple = (position, force);
+        torques.Add(tuple);
+        yield return null;
+        torques.Remove(tuple);
+    }
 
     private void OnEnable() {
         UpdateAxes();
@@ -339,7 +394,7 @@ public class UnitView2 : MonoBehaviour {
 
             if (wheel.transform)
                 wheel.transform.SetPositionAndRotation(wheel.position, wheel.rotation);
-            
+
             var matrix = Matrix4x4.TRS(wheel.position, wheel.rotation, Vector3.one);
             using (Draw.ingame.WithMatrix(matrix))
                 Draw.ingame.WireSphere(0, wheel.radius);
