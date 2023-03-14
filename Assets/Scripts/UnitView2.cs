@@ -310,7 +310,11 @@ public class UnitView2 : MonoBehaviour {
         }
     }
 
+    private float? lastSpringUpdateTime;
     private void UpdateSpring(Wheel wheel) {
+
+        if (lastSpringUpdateTime is not { } lastTime)
+            throw new AssertionException(null, null);
 
         var length = Vector3.Dot(body.up, wheel.springWeightPosition - wheel.position);
         var force = (springTargetLength - length) * this.force;
@@ -322,11 +326,13 @@ public class UnitView2 : MonoBehaviour {
             force += Vector3.Dot(Vector3.Cross(torque, wheel.position - centerOfMass), body.up);
         }
 
-        wheel.springVelocity += force * Time.fixedDeltaTime;
+        var deltaTime = Time.unscaledTime - lastTime;
+
+        wheel.springVelocity += force * deltaTime;
         if (float.IsNaN(wheel.springVelocity))
             wheel.springVelocity = 0;
 
-        length += wheel.springVelocity * Time.fixedDeltaTime;
+        length += wheel.springVelocity * deltaTime;
         length = Mathf.Clamp(length, springLengthRange[0], springLengthRange[1]);
 
         wheel.springWeightPosition = wheel.position + body.up * length;
@@ -341,13 +347,11 @@ public class UnitView2 : MonoBehaviour {
         }
     }
 
-    private float lastSpringUpdateTime = float.MinValue;
     private void UpdateSprings() {
-        if (lastSpringUpdateTime == Time.unscaledTime)
-            return;
+        if (lastSpringUpdateTime != null)
+            foreach (var wheel in wheels)
+                UpdateSpring(wheel);
         lastSpringUpdateTime = Time.unscaledTime;
-        foreach (var wheel in wheels)
-            UpdateSpring(wheel);
     }
 
     public void ResetSprings() {
