@@ -42,7 +42,7 @@ public class UnitView2 : MonoBehaviour {
         public Vector2 projectedOriginPosition;
         public float radius;
         public Vector2 steeringRange = new();
-        public float steeringResponsiveness = 1;
+        public float steeringDuration90 = .5f;
 
         public int Side => projectedOriginPosition.x < 0 ? left : right;
 
@@ -52,7 +52,8 @@ public class UnitView2 : MonoBehaviour {
         [NonSerialized] public Quaternion rotation;
         [NonSerialized] public Vector3 springWeightPosition;
         [NonSerialized] public float springVelocity;
-        [NonSerialized] public float steeringAngle;
+        public float steeringAngle;
+        [NonSerialized] public Vector3 previousOriginPosition;
     }
 
     [Serializable]
@@ -103,6 +104,7 @@ public class UnitView2 : MonoBehaviour {
     public LayerMask terrainLayerMask;
     public Vector2 terrainBumpRange = new(0, .05f);
     public float terrainBumpTiling = 5;
+    public float wheelFriction = .5f;
     public List<Wheel> wheels = new();
 
     [Space]
@@ -304,8 +306,6 @@ public class UnitView2 : MonoBehaviour {
 
     private void UpdateWheel(Wheel wheel) {
 
-        // TODO: do steering of the wheels
-
         var spinRotation = Quaternion.Euler(wheel.spinAngle, 0, 0);
         var steeringRotation = Quaternion.Euler(0, wheel.steeringAngle, 0);
         wheel.rotation = body.rotation * steeringRotation * spinRotation;
@@ -327,6 +327,7 @@ public class UnitView2 : MonoBehaviour {
             wheel.position = projectedOriginWorldPosition;
 
         if (wheel.previousPosition is { } actualPreviousPosition) {
+            // spin then wheel
             var wheelForward = body.rotation * steeringRotation * Vector3.forward;
             var deltaPosition = wheel.position - actualPreviousPosition;
             var distance = Vector3.Dot(deltaPosition, wheelForward);
@@ -334,8 +335,25 @@ public class UnitView2 : MonoBehaviour {
             var deltaAngle = distance / wheel.radius * ratio;
             wheel.spinAngle += deltaAngle;
         }
-
         wheel.previousPosition = wheel.position;
+
+        if (wheel.previousOriginPosition is { } actualPreviousOriginPosition) {
+            var from = Quaternion.Euler(0, wheel.steeringAngle, 0);
+            var delta = projectedOriginWorldPosition - actualPreviousOriginPosition;
+            if (delta != Vector3.zero) {
+                var to = (Quaternion.Inverse(transform.rotation) * Quaternion.LookRotation(delta, Vector3.up)).normalized;
+                var sectorAngle = Quaternion.Angle(from, to);
+                var sectorDuration = wheel.steeringDuration90 * sectorAngle / 90;
+                var rotation = Quaternion.Slerp(from, to, wheelFriction * (1 / sectorDuration) * (delta.magnitude));
+                wheel.steeringAngle = rotation.eulerAngles.y;
+                while (wheel.steeringAngle > 180)
+                    wheel.steeringAngle -= 360;
+                while (wheel.steeringAngle < -180)
+                    wheel.steeringAngle += 360;
+                wheel.steeringAngle = Mathf.Clamp(wheel.steeringAngle, wheel.steeringRange[0], wheel.steeringRange[1]);
+            }
+        }
+        wheel.previousOriginPosition = projectedOriginWorldPosition;
     }
 
     private Dictionary<float, Wheel.Axis> axes = new();
@@ -624,7 +642,7 @@ public class UnitView2 : MonoBehaviour {
             hpText.color = color;
         }
     }
-    
+
     private void FixedUpdate() {
 
         UpdateSprings(false);
@@ -688,10 +706,14 @@ public class UnitView2 : MonoBehaviour {
 
     private void Update() {
 
-        foreach (var wheel in wheels) {
-
+        foreach (var wheel in wheels)
             UpdateWheel(wheel);
 
+        foreach (var axis in axes.Values)
+            axis[left].steeringAngle = axis[right].steeringAngle =
+                Mathf.Lerp(axis[left].steeringAngle, axis[right].steeringAngle, .5f);
+
+        foreach (var wheel in wheels)
             if (wheel.transform)
                 wheel.transform.SetPositionAndRotation(wheel.position, wheel.rotation);
             else {
@@ -701,7 +723,6 @@ public class UnitView2 : MonoBehaviour {
                     Draw.ingame.Line(Vector3.zero, Vector3.forward * wheel.radius, Color.black);
                 }
             }
-        }
 
         RecordPosition();
         if (Application.isPlaying)

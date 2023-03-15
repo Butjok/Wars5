@@ -8748,37 +8748,44 @@ MonoBehaviour:
     m_Bits: 64
   terrainBumpRange: {x: 0, y: 0.05}
   terrainBumpTiling: 2.5
+  wheelFriction: 1
   wheels:
   - transform: {fileID: 0}
     projectedOriginPosition: {x: 0.35, y: 0.4}
     radius: 0.15
-    steeringRange: {x: 0, y: 0}
-    steeringResponsiveness: 1
+    steeringRange: {x: -45, y: 45}
+    steeringDuration90: 0.5
+    steeringAngle: 0
   - transform: {fileID: 0}
     projectedOriginPosition: {x: -0.35, y: 0.4}
     radius: 0.15
-    steeringRange: {x: 0, y: 0}
-    steeringResponsiveness: 1
+    steeringRange: {x: -45, y: 45}
+    steeringDuration90: 0.5
+    steeringAngle: 0
   - transform: {fileID: 0}
     projectedOriginPosition: {x: -0.35, y: -0.4}
     radius: 0.15
     steeringRange: {x: 0, y: 0}
-    steeringResponsiveness: 1
+    steeringDuration90: 0.5
+    steeringAngle: 0
   - transform: {fileID: 0}
     projectedOriginPosition: {x: 0.35, y: -0.4}
     radius: 0.15
     steeringRange: {x: 0, y: 0}
-    steeringResponsiveness: 1
+    steeringDuration90: 0.5
+    steeringAngle: 0
   - transform: {fileID: 0}
     projectedOriginPosition: {x: 0.35, y: -0.1}
     radius: 0.15
     steeringRange: {x: 0, y: 0}
-    steeringResponsiveness: 1
+    steeringDuration90: 0.5
+    steeringAngle: 0
   - transform: {fileID: 0}
     projectedOriginPosition: {x: -0.35, y: -0.1}
     radius: 0.15
     steeringRange: {x: 0, y: 0}
-    steeringResponsiveness: 1
+    steeringDuration90: 0.5
+    steeringAngle: 0
   springLengthRange: {x: 0, y: 0.25}
   springTargetLength: 0.125
   springForce: 250
