@@ -56,6 +56,24 @@ public class UnitView2 : MonoBehaviour {
         [NonSerialized] public float steeringAngle;
     }
 
+    [Serializable]
+    public class Turret {
+        public Vector3 position = new();
+        public float rotation;
+    }
+
+    public static bool TryCalculateHorizontalRotation(Transform body,Turret turret, Vector3 target, out Quaternion targetLocalRotation) {
+        targetLocalRotation=Quaternion.identity;
+        var turretWorldPosition = body.TransformPoint(turret.position);
+        var plane = new Plane(body.up, turretWorldPosition);
+        var projectedTarget = plane.ClosestPointOnPlane(target);
+        var to = projectedTarget - turretWorldPosition;
+        if (to == Vector3.zero)
+            return false;
+        targetLocalRotation = Quaternion.Inverse(body.rotation) * Quaternion.LookRotation(to,body.up);
+        return true;
+    }
+
     [Header("Shading")]
     public List<Renderer> renderers = new();
     public string playerColorUniformName = "_PlayerColor";
@@ -65,10 +83,16 @@ public class UnitView2 : MonoBehaviour {
 
     [Header("UI")]
     public TMP_Text hpText;
+    public bool hasFullHp;
+    public Vector3 uiBoxCenter;
+    public Vector3 uiBoxHalfSize = new(.5f, .5f, .5f);
+    public float guiClippingDistance = .5f;
+    public Vector2 hpTextAlphaFading = new(10,20);
 
     [Header("Parts")]
     public Transform body;
     public List<Wheel> wheels = new();
+    public List<Turret> turrets = new();
 
     [Header("Terrain")]
     public LayerMask terrainLayerMask;
@@ -81,6 +105,7 @@ public class UnitView2 : MonoBehaviour {
     public float springForce = 100;
     public float springDrag = 3;
     public Vector3 bodyCenterOfMass;
+    public float maxSpringVelocity = 1;
 
     [Header("Acceleration")]
     public float accelerationTorqueMultiplier = 100;
@@ -249,9 +274,8 @@ public class UnitView2 : MonoBehaviour {
             var height = Mathf.Lerp(terrainBumpRange[0], terrainBumpRange[1], noise);
             wheel.position += height * Vector3.up;
         }
-        else {
-            wheel.position = originWorldPosition;
-        }
+        else
+            wheel.position = projectedOriginWorldPosition;
 
         if (wheel.previousPosition is { } actualPreviousPosition) {
             var wheelForward = body.rotation * steeringRotation * Vector3.forward;
@@ -317,12 +341,7 @@ public class UnitView2 : MonoBehaviour {
     }
 
     private List<Vector3> torques = new();
-    private float? lastSpringUpdateTime;
-    private void UpdateSpring(Wheel wheel, Vector3 accelerationTorque) {
-
-        if (lastSpringUpdateTime is not { } lastTime)
-            throw new AssertionException(null, null);
-        var deltaTime = Time.time - lastTime;
+    private void UpdateSpring(Wheel wheel, Vector3 accelerationTorque, float deltaTime) {
 
         var springLength = Vector3.Dot(body.up, wheel.springWeightPosition - wheel.position);
         var springForce = (springTargetLength - springLength) * this.springForce;
@@ -340,6 +359,10 @@ public class UnitView2 : MonoBehaviour {
         wheel.springVelocity += springForce * deltaTime;
         if (float.IsNaN(wheel.springVelocity))
             wheel.springVelocity = 0;
+        if (wheel.springVelocity > maxSpringVelocity)
+            wheel.springVelocity = maxSpringVelocity;
+        if (wheel.springVelocity < -maxSpringVelocity)
+            wheel.springVelocity = -maxSpringVelocity;
 
         springLength += wheel.springVelocity * deltaTime;
         springLength = Mathf.Clamp(springLength, springLengthRange[0], springLengthRange[1]);
@@ -356,17 +379,20 @@ public class UnitView2 : MonoBehaviour {
         }
     }
 
+    private float? lastSpringUpdateTime;
     private void UpdateSprings(bool isCalledFromUpdate) {
-        if (lastSpringUpdateTime != null) {
-            var accelerationTorque = TryCalculateAcceleration(isCalledFromUpdate, out _, out var acceleration) ? body.right * acceleration * accelerationTorqueMultiplier : Vector3.zero;
+        if (lastSpringUpdateTime is { } actualLastTime) {
+            var accelerationTorque = TryCalculateAcceleration(isCalledFromUpdate && drawAccelerationGraph, out _, out var acceleration)
+                ? body.right * (float)(acceleration * accelerationTorqueMultiplier)
+                : Vector3.zero;
             foreach (var wheel in wheels)
-                UpdateSpring(wheel, accelerationTorque);
+                UpdateSpring(wheel, accelerationTorque, Time.time - actualLastTime);
         }
         lastSpringUpdateTime = Time.time;
     }
-    
+
     private List<(double time, double position)> accelerationPoints = new();
-    private bool TryCalculateAcceleration(bool canDrawGraph, out float speed, out float acceleration) {
+    private bool TryCalculateAcceleration(bool canDrawGraph, out double speed, out double acceleration) {
 
         double GetXInGraphSpace(double time) {
             var deltaTime = Time.timeAsDouble - time;
@@ -387,19 +413,19 @@ public class UnitView2 : MonoBehaviour {
                 (float)GetYInScreenSpace(GetYInGraphSpace(point.position)));
         }
 
-        using (canDrawGraph && drawAccelerationGraph ? (IDisposable)Draw.ingame.InScreenSpace(Camera.main) : new CommandBuilder.ScopeEmpty())
-        using (canDrawGraph && drawAccelerationGraph ? (IDisposable)Draw.ingame.WithLineWidth(1.5f) : new CommandBuilder.ScopeEmpty()) {
+        using (canDrawGraph ? (IDisposable)Draw.ingame.InScreenSpace(Camera.main) : new CommandBuilder.ScopeEmpty())
+        using (canDrawGraph ? (IDisposable)Draw.ingame.WithLineWidth(1.5f) : new CommandBuilder.ScopeEmpty()) {
 
             speed = acceleration = 0;
-            
+
             if (positions.Count <= 0)
                 return false;
 
             var points = accelerationPoints;
             points.Clear();
-            points.Add((positions[0].time, 0));
-                
             float position = 0;
+            points.Add((positions[0].time, position));
+
             for (var i = 1; i < positions.Count; i++) {
                 var previous = positions[i - 1];
                 var next = positions[i];
@@ -410,14 +436,9 @@ public class UnitView2 : MonoBehaviour {
                 points.Add((next.time, position));
             }
 
-            if (drawAccelerationGraph)
-                foreach (var point in points) {
-                    Draw.ingame.SolidCircleXY(GetScreenPosition(point), 5, Color.white);
-                }
-
             if (points.Count < 3)
                 return false;
-            
+
             var p0 = points[0];
             var p1 = points[points.Count / 2];
             var p2 = points[^1];
@@ -433,19 +454,16 @@ public class UnitView2 : MonoBehaviour {
             var b1 = -a * p0.time - a * p1.time + b;
             var c1 = a * p0.time * p1.time - b * p0.time + c;
 
-            if (drawAccelerationGraph)
-                for (var x = p0.time; x <= p2.time; x += .005) {
-                    // var y = a * (x - p1.time) * (x - p0.time) + b * (x - p0.time) + c;
-                    var y1 = a1 * x * x + b1 * x + c1;
+            speed = (2 * a1 * p2.time + b1);
+            acceleration = (2 * a1);
 
-                    // Draw.ingame.SolidCircleXY(GetScreenPosition((x, y)), 1, Color.cyan);
-                    Draw.ingame.SolidCircleXY(GetScreenPosition((x, y1)), 1, Color.yellow);
-                }
+            if (canDrawGraph) {
+                foreach (var point in points)
+                    Draw.ingame.SolidCircleXY(GetScreenPosition(point), 5, Color.white);
 
-            speed = (float)(2 * a1 * p2.time + b1);
-            acceleration = (float)(2 * a1);
+                for (var time = p0.time; time <= p2.time; time += (p2.time - p0.time) / 10)
+                    Draw.ingame.SolidCircleXY(GetScreenPosition((time, pos: a1 * time * time + b1 * time + c1)), 1, Color.cyan);
 
-            if (drawAccelerationGraph) {
                 Draw.ingame.Label2D(new Vector3(50, 50), $"speed: {speed:0.##}\nacceleration: {acceleration:0.##}");
                 Draw.ingame.SolidCircleXY(GetScreenPosition((p2.time - accelerationCalculationTimeRange / 2, acceleration)), 10, Color.red);
             }
@@ -456,8 +474,7 @@ public class UnitView2 : MonoBehaviour {
 
     private List<(double time, Vector3 position, Vector3 forward)> positions = new();
     private void RecordPosition() {
-        while (positions.Count > 0 && positions[0].time < Time.timeAsDouble - accelerationCalculationTimeRange)
-            positions.RemoveAt(0);
+        positions.RemoveAll(item => item.time < Time.timeAsDouble - accelerationCalculationTimeRange);
         positions.Add((Time.timeAsDouble, transform.position, transform.forward));
     }
 
@@ -504,6 +521,41 @@ public class UnitView2 : MonoBehaviour {
         UpdateSprings(false);
     }
 
+    private void UpdateHpTextPosition() {
+        
+        var camera = Camera.main;
+        if (!camera)
+            return;
+        
+        var min = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
+        var max = new Vector3(float.MinValue, float.MinValue, float.MinValue);
+
+        for (var x = -1; x <= 1; x += 2)
+        for (var y = -1; y <= 1; y += 2)
+        for (var z = -1; z <= 1; z += 2) {
+            var localPosition = uiBoxHalfSize;
+            localPosition.Scale(new Vector3(x, y, z));
+            localPosition += uiBoxCenter;
+            var worldPosition = body.position + body.rotation * localPosition;
+            var screenPosition = camera.WorldToScreenPoint(worldPosition);
+            min = Vector3.Min(min, screenPosition);
+            max = Vector3.Max(max, screenPosition);
+        }
+
+        var isInFront = min.z > guiClippingDistance;
+        var shouldBeVisible = !hasFullHp && isInFront;
+        if (hpText && hpText.enabled != shouldBeVisible)
+            hpText.enabled = shouldBeVisible;
+        if (hpText.enabled) {
+            hpText.rectTransform.anchoredPosition = new Vector2(min.x,min.y);
+            hpText.rectTransform.sizeDelta = new Vector2(max.x - min.x, max.y - min.y);
+            var color = hpText.color;
+            color.a = 1 - MathUtils.SmoothStep(hpTextAlphaFading[0], hpTextAlphaFading[1], (min.z + max.z)/2);
+            hpText.color = color;
+        }
+    }
+
+    public Transform debugTarget;
     private void Update() {
 
         foreach (var wheel in wheels) {
@@ -512,15 +564,26 @@ public class UnitView2 : MonoBehaviour {
 
             if (wheel.transform)
                 wheel.transform.SetPositionAndRotation(wheel.position, wheel.rotation);
-
-            var matrix = Matrix4x4.TRS(wheel.position, wheel.rotation, Vector3.one);
-            using (Draw.ingame.WithMatrix(matrix))
-                Draw.ingame.WireSphere(0, wheel.radius);
+            else {
+                var matrix = Matrix4x4.TRS(wheel.position, wheel.rotation, Vector3.one);
+                using (Draw.ingame.WithMatrix(matrix))
+                    Draw.ingame.WireSphere(0, wheel.radius);
+            }
         }
 
         RecordPosition();
-        UpdateSprings(true);
+        if (Application.isPlaying)
+            UpdateSprings(true);
+        else
+            ResetSprings();
         UpdateBodyRotation();
         UpdateBodyPosition();
+
+        UpdateHpTextPosition();
+
+        foreach (var turret in turrets) {
+            var worldRotation = body.rotation * turret.localRotation;
+            Draw.ingame.Ray(body.position, worldRotation * Vector3.forward);
+        }
     }
 }
