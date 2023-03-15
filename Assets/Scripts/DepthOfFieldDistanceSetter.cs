@@ -1,35 +1,31 @@
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.Serialization;
 
 [ExecuteInEditMode]
 public class DepthOfFieldDistanceSetter : MonoBehaviour {
 
-    public PostProcessProfile postProcessProfile;
-    public DepthOfField depthOfField;
+    private PostProcessProfile postProcessProfile;
+    private DepthOfField depthOfField;
 
     public int priority;
-
     public Vector2 focalLengthBounds = new Vector2(1, 0);
-    [FormerlySerializedAs("setConstantDistance")]
     public bool setConstant = false;
     public float constantDistance;
-    [FormerlySerializedAs("focalLength")] public float constantFocalLength = 83;
+    public float constantFocalLength = 83;
 
     public static int lastFrame = -1;
     public static int lastPriority;
-
-    private void Start() {
-        
-    }
 
     private void Update() {
 
         if (!postProcessProfile)
             postProcessProfile = Resources.Load<PostProcessProfile>("PostProcessProfile");
-        if (postProcessProfile)
-            depthOfField = postProcessProfile.GetSetting<DepthOfField>();
-        
+
+        Assert.IsTrue(postProcessProfile);
+        depthOfField = postProcessProfile.GetSetting<DepthOfField>();
+
         if (depthOfField) {
             if (Time.frameCount != lastFrame) {
                 lastFrame = Time.frameCount;

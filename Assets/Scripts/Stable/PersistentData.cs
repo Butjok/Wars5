@@ -14,7 +14,7 @@ public class PersistentData {
     public static string Path => System.IO.Path.Combine(Application.persistentDataPath, nameof(PersistentData) + ".json");
 
     private static PersistentData loaded;
-    public static PersistentData Get => loaded ??= Read();
+    public static PersistentData Get => /*loaded ??=*/ Read();
 
     [Command]
     public static void Clear() {

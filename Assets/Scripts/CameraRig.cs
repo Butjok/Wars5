@@ -156,6 +156,10 @@ public class CameraRig : MonoBehaviour {
             return position;
         }
 
+        // Cursor.lockState = CursorLockMode.Locked;
+        // yield return null;
+        // Cursor.lockState = CursorLockMode.Confined;
+
         var oldMousePosition = GetMousePositionInViewport();
         while (true) {
             yield return null;

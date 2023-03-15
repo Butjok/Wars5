@@ -7,6 +7,7 @@ using Drawing;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Serialization;
 using static UnitView2.Wheel.Axis.Constants;
 
 [ExecuteInEditMode]
@@ -36,15 +37,20 @@ public class UnitView2 : MonoBehaviour {
             }
         }
 
+        public enum SteeringGroup {
+            None, A, B, C, D
+        }
+
         public const float rayOriginHeight = 1000;
+        public bool IsSteeringWheel => steeringGroup != SteeringGroup.None;
+        public int Side => raycastOrigin.x < 0 ? left : right;
 
         public Transform transform;
-        public Vector2 projectedOriginPosition;
-        public float radius;
-        public Vector2 steeringRange = new();
-        public float steeringDuration90 = .5f;
-
-        public int Side => projectedOriginPosition.x < 0 ? left : right;
+        [FormerlySerializedAs("projectedOriginPosition")]
+        public Vector2 raycastOrigin;
+        public SteeringGroup steeringGroup = SteeringGroup.None;
+        public bool isFixed = false;
+        public float fixedHeight;
 
         [NonSerialized] public float spinAngle;
         [NonSerialized] public Vector3? previousPosition;
@@ -52,19 +58,23 @@ public class UnitView2 : MonoBehaviour {
         [NonSerialized] public Quaternion rotation;
         [NonSerialized] public Vector3 springWeightPosition;
         [NonSerialized] public float springVelocity;
-        public float steeringAngle;
+        [NonSerialized] public float steeringAngle;
         [NonSerialized] public Vector3 previousOriginPosition;
     }
 
     [Serializable]
     public class Turret {
 
+        [Flags]
+        public enum WorkMode {
+            ActivelyRotate, IgnoreTargetRotateToRest
+        }
+
         public string name = "Turret";
-        public bool rotate = true;
-        public bool ignoreTarget = false;
         public Transform transform;
         [SerializeField] private Vector3 position;
-        public float angle;
+        public WorkMode workMode = WorkMode.ActivelyRotate;
+        [NonSerialized] public float angle;
         public List<Barrel> barrels = new();
         [NonSerialized] public float velocity;
 
@@ -74,93 +84,107 @@ public class UnitView2 : MonoBehaviour {
         public class Barrel {
 
             public string name = "MainGun";
-            public bool rotate = true;
-            public bool ignoreTarget = false;
             public Transform transform;
             [SerializeField] private Vector3 position;
-            public float angle;
-            public Vector2 clamp = new(-45, 15);
+            [FormerlySerializedAs("clamp")] public Vector2 angleLimits = new(-5, 45);
+            public WorkMode workMode = WorkMode.ActivelyRotate;
+            [NonSerialized] public float angle;
             [NonSerialized] public float velocity;
 
             public Vector3 Position => transform ? transform.localPosition : position;
         }
     }
 
-    public Transform body;
-    public Vector3 target;
-    public bool drawTurretNames = false;
-    public bool drawBarrelNames = false;
-    public Transform debugTarget;
+    [Command]
+    public static bool drawTurretNames = false;
+    [Command]
+    public static bool drawBarrelNames = false;
+    [Command]
+    public static Vector2 wheelSteeringRange = new(-45, 45);
+    [Command]
+    public static float wheelSteeringDuration90 = .5f;
+    [Command]
+    public static float wheelFriction = 1;
+    [Command]
+    public static Vector2 terrainBumpRange = new(0, .05f);
+    [Command]
+    public static float terrainBumpTiling = 2.5f;
+    [Command]
+    public static float springForce = 250;
+    [Command]
+    public static float springDrag = 8;
+    [Command]
+    public static float maxSpringVelocity = 5;
+    [Command]
+    public static double accelerationCalculationTimeRange = .25f;
+    [Command]
+    public static float graphHeight = 300;
+    [Command]
+    public static float graphYHalfRange = 6;
+    [Command]
+    public static float turretSpringForce = 1000;
+    [Command]
+    public static float turretSpringDrag = 10;
+    [Command]
+    public static float turretMaxVelocity = 270;
+    [Command]
+    public static float barrelSpringForce = 1000;
+    [Command]
+    public static float barrelSpringDrag = 20;
+    [Command]
+    public static float barrelMaxVelocity = 180;
+    [Command]
+    public static float guiClippingDistance = .5f;
+    [Command]
+    public static Vector2 hpTextAlphaFading = new(10, 20);
+    [Command]
+    public static string playerColorUniformName = "_PlayerColor";
+    [Command]
+    public static string attackHighlightFactorUniformName = "_AttackHighlightFactor";
+    [Command]
+    public static string attackHighlightStartTimeUniformName = "_AttackHighlightStartTime";
+    [Command]
+    public static string movedUniformName = "_Moved";
+    [Command]
+    static public bool drawAccelerationGraph;
 
-    private const string headerPrefix = "";
-    private const string headerSeparator = " / ";
+    public static LayerMask TerrainLayerMask => LayerMasks.Terrain;
+
+    public Transform debugTarget;
+    public Vector3 target;
 
     [Space]
-    [Header(headerPrefix + "TURRETS")]
+    public Transform body;
+    [FormerlySerializedAs("playerColorRenderers")]
+    public List<Renderer> playerMaterialRenderers = new();
+    public float wheelRadius = .1f;
+    public List<Wheel> wheels = new();
     public List<Turret> turrets = new();
 
     [Space]
-    [Header(headerPrefix + "WHEELS")]
-    public LayerMask terrainLayerMask;
-    public Vector2 terrainBumpRange = new(0, .05f);
-    public float terrainBumpTiling = 5;
-    public float wheelFriction = .5f;
-    public List<Wheel> wheels = new();
-
-    [Space]
-    [Header(headerPrefix + "PHYSICS" + headerSeparator + "SUSPENSION")]
     public Vector2 springLengthRange = new(.0f, .25f);
     public float springTargetLength = .125f;
-    public float springForce = 250;
-    public float springDrag = 8;
+
+    [Space]
     public Vector3 bodyCenterOfMass;
-    public float maxSpringVelocity = 5;
-
-    [Space]
-    [Header(headerPrefix + "PHYSICS" + headerSeparator + "ACCELERATION")]
-    public float accelerationTorqueMultiplier = -5;
-    public double accelerationCalculationTimeRange = .25f;
-    public bool drawAccelerationGraph = false;
-    public float graphHeight = 300;
-    public float graphYHalfRange = 6;
-
-    [Space]
-    [Header(headerPrefix + "PHYSICS" + headerSeparator + "TURRETS")]
-    public float turretSpringForce = 1000;
-    public float turretSpringDrag = 10;
-    public float turretMaxVelocity = 270;
-
-    [Space]
-    [Header(headerPrefix + "PHYSICS" + headerSeparator + "BARRELS")]
-    public float barrelSpringForce = 1000;
-    public float barrelSpringDrag = 20;
-    public float barrelMaxVelocity = 180;
+    public float accelerationTorqueMultiplier = 5;
     public float barrelShotForce = 25;
 
     [Space]
-    [Header(headerPrefix + "UI")]
+    public int maxHp = 10;
     public TMP_Text hpText;
     public Vector3 uiBoxCenter;
     public Vector3 uiBoxHalfSize = new(.5f, .5f, .5f);
-    public float guiClippingDistance = .5f;
-    public Vector2 hpTextAlphaFading = new(10, 20);
     public bool drawUiBounds = false;
+    public TMP_Text lowAmmoText;
+    public TMP_Text lowFuelText;
 
     [Space]
-    [Header(headerPrefix + "SHADING")]
-    public List<Renderer> renderers = new();
-    public string playerColorUniformName = "_PlayerColor";
-    public string attackHighlightFactorUniformName = "_AttackHighlightFactor";
-    public string attackHighlightStartTimeUniformName = "_AttackHighlightStartTime";
-    public string movedUniformName = "_Moved";
-
-    [Space]
-    [Header(headerPrefix + "BATTLE VIEW")]
-    public List<Transform> hitPoints = new();
-    public int incomingProjectilesCount = 0;
+    [HideInInspector] public List<Transform> hitPoints = new();
+    [HideInInspector] public int incomingProjectilesCount = 0;
 
     private void Reset() {
-        renderers = GetComponentsInChildren<Renderer>().ToList();
+        playerMaterialRenderers = GetComponentsInChildren<Renderer>().ToList();
     }
 
     [ContextMenu(nameof(FindHitPoints))]
@@ -172,20 +196,14 @@ public class UnitView2 : MonoBehaviour {
     private MaterialPropertyBlock materialPropertyBlock;
     private MaterialPropertyBlock MaterialPropertyBlock => materialPropertyBlock ??= new MaterialPropertyBlock();
     private void ApplyMaterialPropertyBlock() {
-        foreach (var renderer in renderers)
+        foreach (var renderer in playerMaterialRenderers)
             renderer.SetPropertyBlock(MaterialPropertyBlock);
     }
 
-    private Color? playerColor;
     [Command]
     public Color PlayerColor {
-        get {
-            if (playerColor is { } actualValue)
-                return actualValue;
-            throw new AssertionException("playerColor == null", null);
-        }
+        get => MaterialPropertyBlock.GetColor(playerColorUniformName);
         set {
-            playerColor = value;
             MaterialPropertyBlock.SetColor(playerColorUniformName, value);
             ApplyMaterialPropertyBlock();
         }
@@ -240,30 +258,22 @@ public class UnitView2 : MonoBehaviour {
         }
     }
 
-    public int? maxHp = 10;
-    private int? hp;
     [Command]
     public int Hp {
-        get {
-            if (hp is { } actualValue)
-                return actualValue;
-            throw new AssertionException("hp == null", null);
-        }
+        get => int.Parse(hpText.text);
         set {
-            hp = value;
-            if (value != maxHp && hpText)
-                hpText.text = value.ToString();
+            hpText.text = value.ToString();
+            hpText.enabled = value != maxHp;
         }
     }
     [Command]
     public void AnimateHp(int value) {
-        if (hpText)
-            StartCoroutine(HpAnimation(value));
+        StartCoroutine(HpAnimation(value));
     }
     private IEnumerator HpAnimation(int to) {
-        if (hp == to)
+        var from = Hp;
+        if (from == to)
             yield break;
-        var from = hp ?? 0;
         var step = to > from ? 1 : -1;
         for (var i = @from;; i += step) {
             Hp = i;
@@ -304,27 +314,45 @@ public class UnitView2 : MonoBehaviour {
         }
     }
 
+    [Command]
+    public bool LowAmmo {
+        get => lowAmmoText.enabled;
+        set => lowAmmoText.enabled = value;
+    }
+    [Command]
+    public bool LowFuel {
+        get => lowFuelText.enabled;
+        set => lowFuelText.enabled = value;
+    }
+
     private void UpdateWheel(Wheel wheel) {
 
         var spinRotation = Quaternion.Euler(wheel.spinAngle, 0, 0);
         var steeringRotation = Quaternion.Euler(0, wheel.steeringAngle, 0);
         wheel.rotation = body.rotation * steeringRotation * spinRotation;
 
-        var projectedOriginLocalPosition = new Vector3(wheel.projectedOriginPosition.x, 0, wheel.projectedOriginPosition.y);
+        var projectedOriginLocalPosition = new Vector3(wheel.raycastOrigin.x, 0, wheel.raycastOrigin.y);
         var projectedOriginWorldPosition = transform.TransformPoint(projectedOriginLocalPosition);
         var originWorldPosition = projectedOriginWorldPosition + Wheel.rayOriginHeight * Vector3.up;
         var ray = new Ray(originWorldPosition, Vector3.down);
 
-        var hasHit = Physics.SphereCast(ray, wheel.radius, out var hit, float.MaxValue, terrainLayerMask);
-        if (hasHit) {
-            wheel.position = ray.GetPoint(hit.distance);
+        if (wheel.isFixed)
+            wheel.position = body.position + body.rotation * (projectedOriginLocalPosition + Vector3.up * wheel.fixedHeight);
 
-            var noise = Mathf.PerlinNoise(wheel.position.x * terrainBumpTiling, wheel.position.z * terrainBumpTiling);
-            var height = Mathf.Lerp(terrainBumpRange[0], terrainBumpRange[1], noise);
-            wheel.position += height * Vector3.up;
+        else {
+            var hasHit = Physics.SphereCast(ray, wheelRadius, out var hit, float.MaxValue, TerrainLayerMask);
+            if (hasHit) {
+                wheel.position = ray.GetPoint(hit.distance);
+
+                var noise = Mathf.PerlinNoise(wheel.position.x * terrainBumpTiling, wheel.position.z * terrainBumpTiling);
+                var height = Mathf.Lerp(terrainBumpRange[0], terrainBumpRange[1], noise);
+                wheel.position += height * Vector3.up;
+            }
+            else {
+                wheel.position.x = projectedOriginWorldPosition.x;
+                wheel.position.z = projectedOriginWorldPosition.z;
+            }
         }
-        else
-            wheel.position = projectedOriginWorldPosition;
 
         if (wheel.previousPosition is { } actualPreviousPosition) {
             // spin then wheel
@@ -332,25 +360,25 @@ public class UnitView2 : MonoBehaviour {
             var deltaPosition = wheel.position - actualPreviousPosition;
             var distance = Vector3.Dot(deltaPosition, wheelForward);
             const float ratio = 180 / Mathf.PI;
-            var deltaAngle = distance / wheel.radius * ratio;
+            var deltaAngle = distance / wheelRadius * ratio;
             wheel.spinAngle += deltaAngle;
         }
         wheel.previousPosition = wheel.position;
 
-        if (wheel.previousOriginPosition is { } actualPreviousOriginPosition) {
+        if (wheel.IsSteeringWheel && wheel.previousOriginPosition is { } actualPreviousOriginPosition) {
             var from = Quaternion.Euler(0, wheel.steeringAngle, 0);
             var delta = projectedOriginWorldPosition - actualPreviousOriginPosition;
             if (delta != Vector3.zero) {
                 var to = (Quaternion.Inverse(transform.rotation) * Quaternion.LookRotation(delta, Vector3.up)).normalized;
                 var sectorAngle = Quaternion.Angle(from, to);
-                var sectorDuration = wheel.steeringDuration90 * sectorAngle / 90;
+                var sectorDuration = wheelSteeringDuration90 * sectorAngle / 90;
                 var rotation = Quaternion.Slerp(from, to, wheelFriction * (1 / sectorDuration) * (delta.magnitude));
                 wheel.steeringAngle = rotation.eulerAngles.y;
                 while (wheel.steeringAngle > 180)
                     wheel.steeringAngle -= 360;
                 while (wheel.steeringAngle < -180)
                     wheel.steeringAngle += 360;
-                wheel.steeringAngle = Mathf.Clamp(wheel.steeringAngle, wheel.steeringRange[0], wheel.steeringRange[1]);
+                wheel.steeringAngle = Mathf.Clamp(wheel.steeringAngle, wheelSteeringRange[0], wheelSteeringRange[1]);
             }
         }
         wheel.previousOriginPosition = projectedOriginWorldPosition;
@@ -364,8 +392,8 @@ public class UnitView2 : MonoBehaviour {
 
         axes.Clear();
         foreach (var wheel in wheels) {
-            if (!axes.TryGetValue(wheel.projectedOriginPosition.y, out var axis))
-                axis = axes[wheel.projectedOriginPosition.y] = new Wheel.Axis();
+            if (!axes.TryGetValue(wheel.raycastOrigin.y, out var axis))
+                axis = axes[wheel.raycastOrigin.y] = new Wheel.Axis();
             axis[wheel.Side] = wheel;
         }
 
@@ -384,18 +412,15 @@ public class UnitView2 : MonoBehaviour {
 
     private void UpdateBodyRotation() {
 
-        if (!Application.isPlaying)
-            UpdateAxes();
-
         if (axes.Count > 0 && pitchAxes.Count > 0) {
 
             var rightSum = Vector3.zero;
-            foreach (var axis in axes.Values)
+            foreach (var axis in axes.Values.Where(axis => !axis[left].isFixed && !axis[right].isFixed))
                 rightSum += axis[right].springWeightPosition - axis[left].springWeightPosition;
             rightSum /= axes.Count;
 
             var forwardSum = Vector3.zero;
-            foreach (var axis in pitchAxes)
+            foreach (var axis in pitchAxes.Where(axis => !axis[left].isFixed && !axis[right].isFixed))
                 forwardSum += axis[front].springWeightPosition - axis[back].springWeightPosition;
             forwardSum /= pitchAxes.Count;
 
@@ -411,7 +436,7 @@ public class UnitView2 : MonoBehaviour {
     private void UpdateSpring(Wheel wheel, Vector3 accelerationTorque, float deltaTime) {
 
         var springLength = Vector3.Dot(body.up, wheel.springWeightPosition - wheel.position);
-        var springForce = (springTargetLength - springLength) * this.springForce;
+        var springForce = (springTargetLength - springLength) * UnitView2.springForce;
         springForce -= wheel.springVelocity * springDrag;
 
         var centerOfMass = body.position + body.rotation * bodyCenterOfMass;
@@ -441,22 +466,23 @@ public class UnitView2 : MonoBehaviour {
     }
 
     private void UpdateBodyPosition() {
-        if (wheels.Count > 0) {
-            var min = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
-            var max = new Vector3(float.MinValue, float.MinValue, float.MinValue);
-            foreach (var wheel in wheels) {
-                min = Vector3.Min(min, wheel.springWeightPosition);
-                max = Vector3.Max(max, wheel.springWeightPosition);
-            }
-            body.position = Vector3.Lerp(min, max, .5f);
+        if (wheels.Count <= 0)
+            return;
+
+        var min = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
+        var max = new Vector3(float.MinValue, float.MinValue, float.MinValue);
+        foreach (var wheel in wheels.Where(wheel => !wheel.isFixed)) {
+            min = Vector3.Min(min, wheel.springWeightPosition);
+            max = Vector3.Max(max, wheel.springWeightPosition);
         }
+        body.position = Vector3.Lerp(min, max, .5f);
     }
 
     private float? lastSpringUpdateTime;
     private void UpdateSprings(bool isCalledFromUpdate) {
         if (lastSpringUpdateTime is { } actualLastTime) {
             var accelerationTorque = TryCalculateAcceleration(isCalledFromUpdate && drawAccelerationGraph, out _, out var acceleration)
-                ? body.right * (float)(acceleration * accelerationTorqueMultiplier)
+                ? -body.right * (float)(acceleration * accelerationTorqueMultiplier)
                 : Vector3.zero;
             foreach (var wheel in wheels)
                 UpdateSpring(wheel, accelerationTorque, Time.time - actualLastTime);
@@ -566,22 +592,17 @@ public class UnitView2 : MonoBehaviour {
             wheel.steeringAngle = 0;
     }
 
-    public void ApplyInstantaneousTorque(Vector3 position, Vector3 force, bool debug = false) {
-
+    public void ApplyInstantaneousTorque(Vector3 position, Vector3 force) {
         var centerOfMass = body.position + body.rotation * bodyCenterOfMass;
         var torque = Vector3.Cross(position - centerOfMass, force);
         instantaneousTorques.Enqueue(torque);
-        //
-        // if (debug)
-        //     using (Draw.WithDuration(3))
-        //         Draw.Arrow(position, position + force);
     }
     [Command]
     public void ApplyInstantaneousLocalForce(Vector3 localPosition, Vector3 localForce) {
-        ApplyInstantaneousTorque(transform.TransformPoint(localPosition), transform.TransformPoint(localForce), true);
+        ApplyInstantaneousTorque(transform.TransformPoint(localPosition), transform.TransformPoint(localForce));
     }
     public void ApplyInstantaneousWorldForce(Vector3 position, Vector3 force) {
-        ApplyInstantaneousTorque(position, force, true);
+        ApplyInstantaneousTorque(position, force);
     }
     public void ApplyInstantaneousBarrelShotForce(Turret turret, Turret.Barrel barrel) {
 
@@ -603,6 +624,7 @@ public class UnitView2 : MonoBehaviour {
     }
 
     private void OnEnable() {
+        FindHitPoints();
         UpdateAxes();
         PlaceOnTerrain();
     }
@@ -631,7 +653,7 @@ public class UnitView2 : MonoBehaviour {
         }
 
         var isInFront = min.z > guiClippingDistance;
-        var shouldBeVisible = hp != maxHp && isInFront;
+        var shouldBeVisible = Hp != maxHp && isInFront;
         if (hpText && hpText.enabled != shouldBeVisible)
             hpText.enabled = shouldBeVisible;
         if (hpText.enabled) {
@@ -652,7 +674,7 @@ public class UnitView2 : MonoBehaviour {
 
         foreach (var turret in turrets) {
 
-            if (!turret.rotate)
+            if (!turret.workMode.HasFlag(Turret.WorkMode.ActivelyRotate))
                 continue;
 
             var turretPosition = body.position + body.rotation * turret.Position;
@@ -661,7 +683,7 @@ public class UnitView2 : MonoBehaviour {
             var turretTo = targetOnTurretPlane - turretPosition;
             var turretRotation = Quaternion.Euler(0, turret.angle, 0);
             var turretFrom = body.rotation * turretRotation * Vector3.forward;
-            var turretDeltaAngle = !turret.ignoreTarget ? Vector3.SignedAngle(turretFrom, turretTo, turretPlane.normal) : -turret.angle;
+            var turretDeltaAngle = turret.workMode.HasFlag(Turret.WorkMode.IgnoreTargetRotateToRest) ? -turret.angle : Vector3.SignedAngle(turretFrom, turretTo, turretPlane.normal);
 
             var turretForce = turretDeltaAngle * turretSpringForce;
             turretForce -= turret.velocity * turretSpringDrag;
@@ -676,7 +698,7 @@ public class UnitView2 : MonoBehaviour {
 
             foreach (var barrel in turret.barrels) {
 
-                if (!barrel.rotate)
+                if (!barrel.workMode.HasFlag(Turret.WorkMode.ActivelyRotate))
                     continue;
 
                 var barrelPosition = body.position + body.rotation * (turret.Position + turretRotation * barrel.Position);
@@ -687,7 +709,7 @@ public class UnitView2 : MonoBehaviour {
                 var barrelTo = targetOnBarrelPlane - barrelPosition;
                 var barrelRotation = Quaternion.Euler(barrel.angle, 0, 0);
                 var barrelFrom = body.rotation * turretRotation * barrelRotation * Vector3.forward;
-                var barrelDeltaAngle = !barrel.ignoreTarget ? Vector3.SignedAngle(barrelFrom, barrelTo, barrelPlane.normal) : -barrel.angle;
+                var barrelDeltaAngle = barrel.workMode.HasFlag(Turret.WorkMode.IgnoreTargetRotateToRest) ? -barrel.angle : Vector3.SignedAngle(barrelFrom, barrelTo, barrelPlane.normal);
 
                 var barrelForce = barrelDeltaAngle * barrelSpringForce;
                 barrelForce -= barrel.velocity * barrelSpringDrag;
@@ -699,30 +721,48 @@ public class UnitView2 : MonoBehaviour {
                     barrel.velocity = Mathf.Sign(barrel.velocity) * barrelMaxVelocity;
 
                 barrel.angle += barrel.velocity * Time.fixedDeltaTime;
-                barrel.angle = Mathf.Clamp(barrel.angle, barrel.clamp[0], barrel.clamp[1]);
+                barrel.angle = Mathf.Clamp(barrel.angle, -barrel.angleLimits[1], -barrel.angleLimits[0]);
             }
         }
     }
 
+    private Dictionary<Wheel.SteeringGroup, (float angleAccumulator, int count)> steeringGroups = new();
     private void Update() {
 
-        foreach (var wheel in wheels)
+        if (!Application.isPlaying)
+            UpdateAxes();
+
+        steeringGroups.Clear();
+
+        foreach (var wheel in wheels) {
             UpdateWheel(wheel);
 
-        foreach (var axis in axes.Values)
-            axis[left].steeringAngle = axis[right].steeringAngle =
-                Mathf.Lerp(axis[left].steeringAngle, axis[right].steeringAngle, .5f);
+            if (wheel.IsSteeringWheel) {
+                if (!steeringGroups.TryGetValue(wheel.steeringGroup, out var group))
+                    group = steeringGroups[wheel.steeringGroup] = (0, 0);
+                group.count++;
+                group.angleAccumulator += wheel.steeringAngle;
+                steeringGroups[wheel.steeringGroup] = group;
+            }
+        }
 
-        foreach (var wheel in wheels)
-            if (wheel.transform)
-                wheel.transform.SetPositionAndRotation(wheel.position, wheel.rotation);
-            else {
-                var matrix = Matrix4x4.TRS(wheel.position, wheel.rotation, Vector3.one);
-                using (Draw.ingame.WithMatrix(matrix)) {
-                    Draw.ingame.SolidCircle(Vector3.zero, Vector3.right, wheel.radius);
-                    Draw.ingame.Line(Vector3.zero, Vector3.forward * wheel.radius, Color.black);
+        foreach (var wheel in wheels) {
+
+            if (wheel.IsSteeringWheel && steeringGroups.TryGetValue(wheel.steeringGroup, out var group))
+                wheel.steeringAngle = group.angleAccumulator / group.count;
+
+            var matrix = Matrix4x4.TRS(wheel.position, wheel.rotation, Vector3.one);
+            using (Draw.ingame.WithMatrix(matrix)) {
+                if (wheel.transform) {
+                    wheel.transform.SetPositionAndRotation(wheel.position, wheel.rotation);
+                    Draw.ingame.Circle(Vector3.zero, Vector3.right, wheelRadius);
+                }
+                else {
+                    Draw.ingame.SolidCircle(Vector3.zero, Vector3.right, wheelRadius);
+                    Draw.ingame.Line(Vector3.zero, Vector3.forward * wheelRadius, Color.black);
                 }
             }
+        }
 
         RecordPosition();
         if (Application.isPlaying)
