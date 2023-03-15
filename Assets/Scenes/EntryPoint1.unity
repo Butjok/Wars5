@@ -908,8 +908,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 157187072}
-  m_LocalRotation: {x: -0.051313926, y: 0.0022506714, z: -0.05906017, w: 0.99693215}
-  m_LocalPosition: {x: 0.0080038905, y: 0.040134426, z: 0.34652522}
+  m_LocalRotation: {x: -0.051313933, y: 0.0022506714, z: -0.05906018, w: 0.99693215}
+  m_LocalPosition: {x: -0.021377727, y: -0.20680498, z: 0.37216994}
   m_LocalScale: {x: 0.5953, y: 0.19738534, z: 0.85723}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5573,7 +5573,7 @@ MonoBehaviour:
     m_Bits: 8
   stopNaNPropagation: 1
   finalBlitToCameraTarget: 0
-  antialiasingMode: 3
+  antialiasingMode: 0
   temporalAntialiasing:
     jitterSpread: 0.75
     sharpness: 0.15
@@ -8546,9 +8546,14 @@ MonoBehaviour:
   terrainBumpTiling: 10
   springLengthRange: {x: 0, y: 0.25}
   springTargetLength: 0.125
-  force: 250
+  springForce: 250
   springDrag: 8
   bodyCenterOfMass: {x: 0, y: 0, z: 0}
+  accelerationTorqueMultiplier: -7.5
+  accelerationCalculationTimeRange: 0.25
+  drawAccelerationGraph: 1
+  graphHeight: 300
+  graphYHalfRange: 5
   hitPoints: []
   incomingProjectilesCount: 0
 --- !u!65 &2133267621

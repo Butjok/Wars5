@@ -7,6 +7,7 @@ using Drawing;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Serialization;
 using static UnitView2.Wheel.Axis.Constants;
 
 [ExecuteInEditMode]
@@ -65,7 +66,7 @@ public class UnitView2 : MonoBehaviour {
     [Header("UI")]
     public TMP_Text hpText;
 
-    [Header("Movement")]
+    [Header("Parts")]
     public Transform body;
     public List<Wheel> wheels = new();
 
@@ -77,11 +78,16 @@ public class UnitView2 : MonoBehaviour {
     [Header("Springs")]
     public Vector2 springLengthRange = new(.0f, .25f);
     public float springTargetLength = .125f;
-    public float force = 100;
+    public float springForce = 100;
     public float springDrag = 3;
-
     public Vector3 bodyCenterOfMass;
-    public List<(Vector3 position, Vector3 force)> torques = new();
+
+    [Header("Acceleration")]
+    public float accelerationTorqueMultiplier = 100;
+    public double accelerationCalculationTimeRange = 1;
+    public bool drawAccelerationGraph = false;
+    public float graphHeight = 300;
+    public float graphYHalfRange = 5;
 
     [Header("Battle View")]
     public List<Transform> hitPoints = new();
@@ -310,32 +316,35 @@ public class UnitView2 : MonoBehaviour {
         }
     }
 
+    private List<Vector3> torques = new();
     private float? lastSpringUpdateTime;
-    private void UpdateSpring(Wheel wheel) {
+    private void UpdateSpring(Wheel wheel, Vector3 accelerationTorque) {
 
         if (lastSpringUpdateTime is not { } lastTime)
             throw new AssertionException(null, null);
+        var deltaTime = Time.time - lastTime;
 
-        var length = Vector3.Dot(body.up, wheel.springWeightPosition - wheel.position);
-        var force = (springTargetLength - length) * this.force;
-        force -= wheel.springVelocity * springDrag;
+        var springLength = Vector3.Dot(body.up, wheel.springWeightPosition - wheel.position);
+        var springForce = (springTargetLength - springLength) * this.springForce;
+        springForce -= wheel.springVelocity * springDrag;
 
         var centerOfMass = body.TransformPoint(bodyCenterOfMass);
-        foreach (var (torqueForcePosition, torqueForce) in torques) {
-            var torque = Vector3.Cross(torqueForcePosition - centerOfMass, torqueForce);
-            force += Vector3.Dot(Vector3.Cross(torque, wheel.position - centerOfMass), body.up);
+        void AddTorque(Vector3 torque) {
+            springForce += Vector3.Dot(Vector3.Cross(torque, wheel.position - centerOfMass), body.up);
         }
 
-        var deltaTime = Time.unscaledTime - lastTime;
+        AddTorque(accelerationTorque);
+        foreach (var torque in torques)
+            AddTorque(torque);
 
-        wheel.springVelocity += force * deltaTime;
+        wheel.springVelocity += springForce * deltaTime;
         if (float.IsNaN(wheel.springVelocity))
             wheel.springVelocity = 0;
 
-        length += wheel.springVelocity * deltaTime;
-        length = Mathf.Clamp(length, springLengthRange[0], springLengthRange[1]);
+        springLength += wheel.springVelocity * deltaTime;
+        springLength = Mathf.Clamp(springLength, springLengthRange[0], springLengthRange[1]);
 
-        wheel.springWeightPosition = wheel.position + body.up * length;
+        wheel.springWeightPosition = wheel.position + body.up * springLength;
     }
 
     private void UpdateBodyPosition() {
@@ -347,11 +356,109 @@ public class UnitView2 : MonoBehaviour {
         }
     }
 
-    private void UpdateSprings() {
-        if (lastSpringUpdateTime != null)
+    private void UpdateSprings(bool isCalledFromUpdate) {
+        if (lastSpringUpdateTime != null) {
+            var accelerationTorque = TryCalculateAcceleration(isCalledFromUpdate, out _, out var acceleration) ? body.right * acceleration * accelerationTorqueMultiplier : Vector3.zero;
             foreach (var wheel in wheels)
-                UpdateSpring(wheel);
-        lastSpringUpdateTime = Time.unscaledTime;
+                UpdateSpring(wheel, accelerationTorque);
+        }
+        lastSpringUpdateTime = Time.time;
+    }
+    
+    private List<(double time, double position)> accelerationPoints = new();
+    private bool TryCalculateAcceleration(bool canDrawGraph, out float speed, out float acceleration) {
+
+        double GetXInGraphSpace(double time) {
+            var deltaTime = Time.timeAsDouble - time;
+            return 1 - deltaTime / accelerationCalculationTimeRange;
+        }
+        double GetYInGraphSpace(double position) {
+            return position / graphYHalfRange;
+        }
+        double GetXInScreenSpace(double xInGraphSpace) {
+            return Screen.width * xInGraphSpace;
+        }
+        double GetYInScreenSpace(double yInGraphSpace) {
+            return graphHeight / 2 + (yInGraphSpace / graphYHalfRange) * Screen.height;
+        }
+        Vector3 GetScreenPosition((double time, double position) point) {
+            return new Vector3(
+                (float)GetXInScreenSpace(GetXInGraphSpace(point.time)),
+                (float)GetYInScreenSpace(GetYInGraphSpace(point.position)));
+        }
+
+        using (canDrawGraph && drawAccelerationGraph ? (IDisposable)Draw.ingame.InScreenSpace(Camera.main) : new CommandBuilder.ScopeEmpty())
+        using (canDrawGraph && drawAccelerationGraph ? (IDisposable)Draw.ingame.WithLineWidth(1.5f) : new CommandBuilder.ScopeEmpty()) {
+
+            speed = acceleration = 0;
+            
+            if (positions.Count <= 0)
+                return false;
+
+            var points = accelerationPoints;
+            points.Clear();
+            points.Add((positions[0].time, 0));
+                
+            float position = 0;
+            for (var i = 1; i < positions.Count; i++) {
+                var previous = positions[i - 1];
+                var next = positions[i];
+                var forward = previous.forward;
+                var delta = next.position - previous.position;
+                var offset = Vector3.Dot(forward, delta);
+                position += offset;
+                points.Add((next.time, position));
+            }
+
+            if (drawAccelerationGraph)
+                foreach (var point in points) {
+                    Draw.ingame.SolidCircleXY(GetScreenPosition(point), 5, Color.white);
+                }
+
+            if (points.Count < 3)
+                return false;
+            
+            var p0 = points[0];
+            var p1 = points[points.Count / 2];
+            var p2 = points[^1];
+
+            // http://www2.lawrence.edu/fast/GREGGJ/CMSC210/arithmetic/interpolation.html
+            var diff10 = (p1.position - p0.position) / (p1.time - p0.time);
+            var diff21 = (p2.position - p1.position) / (p2.time - p1.time);
+            var c = p0.position;
+            var b = diff10;
+            var a = (diff21 - diff10) / (p2.time - p0.time);
+
+            var a1 = a;
+            var b1 = -a * p0.time - a * p1.time + b;
+            var c1 = a * p0.time * p1.time - b * p0.time + c;
+
+            if (drawAccelerationGraph)
+                for (var x = p0.time; x <= p2.time; x += .005) {
+                    // var y = a * (x - p1.time) * (x - p0.time) + b * (x - p0.time) + c;
+                    var y1 = a1 * x * x + b1 * x + c1;
+
+                    // Draw.ingame.SolidCircleXY(GetScreenPosition((x, y)), 1, Color.cyan);
+                    Draw.ingame.SolidCircleXY(GetScreenPosition((x, y1)), 1, Color.yellow);
+                }
+
+            speed = (float)(2 * a1 * p2.time + b1);
+            acceleration = (float)(2 * a1);
+
+            if (drawAccelerationGraph) {
+                Draw.ingame.Label2D(new Vector3(50, 50), $"speed: {speed:0.##}\nacceleration: {acceleration:0.##}");
+                Draw.ingame.SolidCircleXY(GetScreenPosition((p2.time - accelerationCalculationTimeRange / 2, acceleration)), 10, Color.red);
+            }
+
+            return true;
+        }
+    }
+
+    private List<(double time, Vector3 position, Vector3 forward)> positions = new();
+    private void RecordPosition() {
+        while (positions.Count > 0 && positions[0].time < Time.timeAsDouble - accelerationCalculationTimeRange)
+            positions.RemoveAt(0);
+        positions.Add((Time.timeAsDouble, transform.position, transform.forward));
     }
 
     public void ResetSprings() {
@@ -367,27 +474,34 @@ public class UnitView2 : MonoBehaviour {
             wheel.steeringAngle = 0;
     }
 
-    [Command]
-    public void ApplyTorque(Vector3 position, Vector3 force, bool debug = false) {
-        StartCoroutine(TorqueAnimation(position, force));
+    public void ApplyImpactTorque(Vector3 position, Vector3 force, bool debug = false) {
+
+        var centerOfMass = body.TransformPoint(bodyCenterOfMass);
+        var torque = Vector3.Cross(position - centerOfMass, force);
+        StartCoroutine(InstantTorque(torque));
 
         if (debug)
             using (Draw.WithDuration(3))
                 Draw.Arrow(position, position + force);
     }
-    private IEnumerator TorqueAnimation(Vector3 position, Vector3 force) {
-        var tuple = (position, force);
-        torques.Add(tuple);
+    [Command]
+    public void ApplyImpactTorque(Vector3 localPosition, Vector3 localForce) {
+        ApplyImpactTorque(transform.TransformPoint(localPosition), transform.TransformPoint(localForce), true);
+    }
+    private IEnumerator InstantTorque(Vector3 torque) {
+        torques.Add(torque);
         yield return null;
-        torques.Remove(tuple);
+        torques.Remove(torque);
     }
 
     private void OnEnable() {
+        ResetSprings();
+        ResetSteering();
         UpdateAxes();
     }
 
     private void FixedUpdate() {
-        UpdateSprings();
+        UpdateSprings(false);
     }
 
     private void Update() {
@@ -404,7 +518,8 @@ public class UnitView2 : MonoBehaviour {
                 Draw.ingame.WireSphere(0, wheel.radius);
         }
 
-        UpdateSprings();
+        RecordPosition();
+        UpdateSprings(true);
         UpdateBodyRotation();
         UpdateBodyPosition();
     }
