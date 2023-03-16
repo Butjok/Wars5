@@ -156,6 +156,7 @@ public class UnitView2 : MonoBehaviour {
     public bool drawUiBounds = false;
     public TMP_Text lowAmmoText;
     public TMP_Text lowFuelText;
+    public List<TMP_Text> fadedTexts = new();
 
     [Space]
     public List<Record> subroutines = new();
@@ -596,16 +597,16 @@ public class UnitView2 : MonoBehaviour {
         var barrelPosition = body.position + body.rotation * (turret.Position + turretRotation * barrel.Position);
         var barrelRotation = Quaternion.Euler(barrel.angle, 0, 0);
 
-        var barrelBack = body.rotation * turretRotation * barrelRotation * Vector3.back;
+        var barrelForward = body.rotation * turretRotation * barrelRotation * Vector3.forward;
         using (Draw.ingame.WithDuration(2))
-            Draw.ingame.Arrow(barrelPosition, barrelPosition + barrelBack, Color.yellow);
+            Draw.ingame.Arrow(barrelPosition, barrelPosition + barrelForward, Color.yellow);
 
         if (barrel.shotParticleSystem)
             barrel.shotParticleSystem.Play();
         if (barrel.audioSource)
             barrel.audioSource.Play();
 
-        ApplyInstantaneousWorldForce(barrelPosition, barrelBack * barrel.recoil);
+        ApplyInstantaneousWorldForce(barrelPosition, -barrelForward * barrel.recoil);
     }
     [Command]
     public void Shoot(string turretName, string barrelName) {
@@ -649,13 +650,19 @@ public class UnitView2 : MonoBehaviour {
         var shouldBeVisible = Hp != maxHp && isInFront;
         if (hpText && hpText.enabled != shouldBeVisible)
             hpText.enabled = shouldBeVisible;
+
         if (hpText.enabled) {
             hpText.rectTransform.anchoredPosition = new Vector2(min.x, min.y);
             hpText.rectTransform.sizeDelta = new Vector2(max.x - min.x, max.y - min.y);
-            var color = hpText.color;
-            color.a = 1 - MathUtils.SmoothStep(hpTextAlphaFading[0], hpTextAlphaFading[1], (min.z + max.z) / 2);
-            hpText.color = color;
         }
+
+        var alpha = 1 - MathUtils.SmoothStep(hpTextAlphaFading[0], hpTextAlphaFading[1], (min.z + max.z) / 2);
+        foreach (var fadedText in fadedTexts)
+            if (fadedText.enabled) {
+                var color = fadedText.color;
+                color.a = alpha;
+                fadedText.color = color;
+            }
     }
 
     private void FixedUpdate() {
@@ -885,7 +892,7 @@ public class UnitView2 : MonoBehaviour {
                 case "aim": {
                     var barrelName = stack.Pop<string>();
                     var turretName = stack.Pop<string>();
-                    
+
                     var turret = turrets.SingleOrDefault(t => t.name == turretName);
                     Assert.IsNotNull(turret);
                     var barrel = turret.barrels.SingleOrDefault(b => b.name == barrelName);

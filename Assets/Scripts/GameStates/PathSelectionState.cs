@@ -137,7 +137,7 @@ public static class PathSelectionState {
 
                             if (hardFollow) {
                                 hardFollow.enabled = true;
-                                hardFollow.target = unit.view;
+                                // hardFollow.target = unit.view;
                             }
 
                             while (animation.MoveNext()) {
