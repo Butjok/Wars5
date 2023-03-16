@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class HardFollow : MonoBehaviour {
 
-    public Transform target;
+    public UnitView target;
     public bool selectRandomTarget = false;
     public ManualControl manualControl;
 
@@ -16,7 +16,7 @@ public class HardFollow : MonoBehaviour {
         var views = FindObjectsOfType<UnitView>();
         if (views.Length > 0) {
             var index = (Array.IndexOf(views, Target) + 1) % views.Length;
-            Target = views[index].transform;
+            Target = views[index];
         }
     }
 
@@ -26,9 +26,9 @@ public class HardFollow : MonoBehaviour {
     }
     public void LateUpdate() {
         if (Target)
-            transform.position = Target.position;
+            transform.position = Target.body ? Target.body.transform.position : Target.transform.position;
     }
-    public Transform Target {
+    public UnitView Target {
         get => target;
         set {
             target = value;

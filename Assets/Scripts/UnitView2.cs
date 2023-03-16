@@ -68,29 +68,25 @@ public class UnitView2 : MonoBehaviour {
 
         public string name = "Turret";
         public Transform transform;
-        [SerializeField] private Vector3 position;
+        public Vector3 position;
         public WorkMode workMode = WorkMode.RotateToTarget;
         [NonSerialized] public float angle;
         public List<Barrel> barrels = new();
         [NonSerialized] public float velocity;
-
-        public Vector3 Position => transform ? transform.localPosition : position;
 
         [Serializable]
         public class Barrel {
 
             public string name = "MainGun";
             public Transform transform;
-            [SerializeField] private Vector3 position;
+            public Vector3 position;
             [FormerlySerializedAs("clamp")] public Vector2 angleLimits = new(-5, 45);
             public WorkMode workMode = WorkMode.RotateToTarget;
             public ParticleSystem shotParticleSystem;
             public AudioSource audioSource;
             [NonSerialized] public float angle;
             [NonSerialized] public float velocity;
-            public float recoil = 100;
-
-            public Vector3 Position => transform ? transform.localPosition : position;
+            public float recoil = 10;
         }
     }
 
@@ -232,6 +228,8 @@ public class UnitView2 : MonoBehaviour {
             UpdateWheel(wheel);
         ResetSprings();
         ResetSteering();
+        UpdateBodyPosition();
+        UpdateBodyRotation();
     }
 
     [Command]
@@ -450,8 +448,8 @@ public class UnitView2 : MonoBehaviour {
             wheel.springVelocity = -maxSpringVelocity;
 
         springLength += wheel.springVelocity * deltaTime;
-        var a = wheel.SpringTargetLength  - springLengthDelta;
-        var b = wheel.SpringTargetLength  + springLengthDelta;
+        var a = wheel.SpringTargetLength - springLengthDelta;
+        var b = wheel.SpringTargetLength + springLengthDelta;
         springLength = Mathf.Clamp(springLength, Mathf.Min(a, b), Mathf.Max(a, b));
 
         wheel.springWeightPosition = wheel.position + body.up * springLength;
@@ -599,7 +597,7 @@ public class UnitView2 : MonoBehaviour {
     public void Shoot(Turret turret, Turret.Barrel barrel) {
 
         var turretRotation = Quaternion.Euler(0, turret.angle, 0);
-        var barrelPosition = body.position + body.rotation * (turret.Position + turretRotation * barrel.Position);
+        var barrelPosition = body.position + body.rotation * (turret.position + turretRotation * barrel.position);
         var barrelRotation = Quaternion.Euler(barrel.angle, 0, 0);
 
         var barrelForward = body.rotation * turretRotation * barrelRotation * Vector3.forward;
@@ -688,7 +686,7 @@ public class UnitView2 : MonoBehaviour {
             if (turret.workMode == WorkMode.Idle)
                 continue;
 
-            var turretPosition = body.position + body.rotation * turret.Position;
+            var turretPosition = body.position + body.rotation * turret.position;
             var turretPlane = new Plane(body.up, turretPosition);
             var targetOnTurretPlane = turretPlane.ClosestPointOnPlane(target);
             var turretTo = targetOnTurretPlane - turretPosition;
@@ -712,7 +710,7 @@ public class UnitView2 : MonoBehaviour {
                 if (barrel.workMode == WorkMode.Idle)
                     continue;
 
-                var barrelPosition = body.position + body.rotation * (turret.Position + turretRotation * barrel.Position);
+                var barrelPosition = body.position + body.rotation * (turret.position + turretRotation * barrel.position);
                 var barrelPlane = new Plane(body.rotation * turretRotation * Vector3.right, barrelPosition);
                 var targetOnBarrelPlane = barrelPlane.ClosestPointOnPlane(target);
                 //Draw.ingame.Line(debugTarget.position, targetOnBarrelPlane);
@@ -793,7 +791,7 @@ public class UnitView2 : MonoBehaviour {
 
         foreach (var turret in turrets) {
 
-            var turretPosition = body.position + body.rotation * turret.Position;
+            var turretPosition = body.position + body.rotation * turret.position;
             var turretRotation = Quaternion.Euler(0, turret.angle, 0);
             if (turret.transform)
                 turret.transform.localRotation = turretRotation;
@@ -806,7 +804,7 @@ public class UnitView2 : MonoBehaviour {
 
             foreach (var barrel in turret.barrels) {
 
-                var barrelPosition = body.position + body.rotation * (turret.Position + turretRotation * barrel.Position);
+                var barrelPosition = body.position + body.rotation * (turret.position + turretRotation * barrel.position);
                 var barrelRotation = Quaternion.Euler(barrel.angle, 0, 0);
 
                 if (barrel.transform)
@@ -849,23 +847,30 @@ public class UnitView2 : MonoBehaviour {
         StartCoroutine(PlayAnimation(input));
     }
 
+    public static string GetDefaultMoveAttackInput(WeaponName weaponName) {
+        return "reset-weapons 2 .5 2.5 move-in " + GetDefaultAttackInput(weaponName);
+    }
+    public static int automaticWeaponShotsCount = 5;
+    public static string GetDefaultAttackInput(WeaponName weaponName) {
+        var shotsCount = weaponName is WeaponName.Rifle or WeaponName.MachineGun ? automaticWeaponShotsCount : 1;
+        var loop = Enumerable.Repeat($"Main {weaponName} shoot .1 wait", shotsCount);
+        return $"reset-weapons .25 wait Main _ aim .25 wait Main {weaponName} aim .5 wait " + string.Join(" ", loop);
+    }
+    public static string GetDefaultResponseInput(WeaponName weaponName) {
+        return GetDefaultAttackInput(weaponName);
+    }
+
     [Command]
     public void MoveAttack(WeaponName weaponName) {
-        SetWorkMode(WorkMode.RotateToRest);
-        if (inputs.TryGetValue(weaponName, out var record))
-            Play(record.moveAttack);
+        Play(inputs.TryGetValue(weaponName, out var record) ? record.moveAttack : GetDefaultMoveAttackInput(weaponName));
     }
     [Command]
     public void Attack(WeaponName weaponName) {
-        SetWorkMode(WorkMode.RotateToRest);
-        if (inputs.TryGetValue(weaponName, out var record))
-            Play(record.attack);
+        Play(inputs.TryGetValue(weaponName, out var record) ? record.attack : GetDefaultAttackInput(weaponName));
     }
     [Command]
     public void Respond(WeaponName weaponName) {
-        SetWorkMode(WorkMode.RotateToRest);
-        if (inputs.TryGetValue(weaponName, out var record))
-            Play(record.respond);
+        Play(inputs.TryGetValue(weaponName, out var record) ? record.respond : GetDefaultResponseInput(weaponName));
     }
 
     [Command]
@@ -888,11 +893,23 @@ public class UnitView2 : MonoBehaviour {
 
     public IEnumerator MoveIn(float speed, float time, float acceleration) {
         var breakTime = BreakTime(speed, acceleration);
-        var distance = speed * time + acceleration * breakTime * breakTime / 2;
+        var distance = speed * time + speed * breakTime - acceleration * breakTime * breakTime / 2;
         Translate(-distance);
         this.speed = speed;
-        yield return new WaitForSeconds(breakTime);
+        yield return new WaitForSeconds(time);
         yield return Break(acceleration);
+    }
+
+    [Command]
+    public void ResetWeapons() {
+        foreach (var turret in turrets) {
+            turret.angle = 0;
+            turret.workMode = WorkMode.RotateToRest;
+            foreach (var barrel in turret.barrels) {
+                barrel.angle = barrelRestAngle;
+                barrel.workMode = WorkMode.RotateToRest;
+            }
+        }
     }
 
     private IEnumerator PlayAnimation(string input, WarsStack stack = null) {
@@ -901,6 +918,11 @@ public class UnitView2 : MonoBehaviour {
 
         foreach (var token in Tokenizer.Tokenize(input))
             switch (token) {
+
+                case "reset-weapons": {
+                    ResetWeapons();
+                    break;
+                }
 
                 case "rest":
                 case "aim": {

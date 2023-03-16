@@ -124,6 +124,7 @@
      <Compile Include="Assets/Scripts/TextContrast.cs" />
      <Compile Include="Assets/Scripts/StaticBattleViews.cs" />
      <Compile Include="Assets/Scripts/GameStates/TurnStartAnimationState.cs" />
+     <Compile Include="Assets/Scripts/UnitView2TreeParser.cs" />
      <Compile Include="Assets/Scripts/LoadGameMenu.cs" />
      <Compile Include="Assets/Scripts/TileAreaMeshBuilder.cs" />
      <Compile Include="Assets/Scripts/GameStates/GameSettingsState.cs" />
@@ -182,7 +183,6 @@
      <Compile Include="Assets/Scripts/GameStates/PathSelectionState2.cs" />
      <Compile Include="Assets/Scripts/FlipbookTest.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
-     <Compile Include="Assets/Scripts/UnitView2TreeParser.cs" />
      <None Include="Assets/Scripts/Wars.asmdef" />
      <Folder Include="Assets/Scripts/GameStates" />
      <Folder Include="Assets/Scripts/Level" />

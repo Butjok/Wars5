@@ -234,4 +234,8 @@ public static class MathUtils {
 
         return x * x * (3 - 2 * x);
     }
+
+    public static Vector3 InverseTransformPointWithoutScale(this Transform transform, Vector3 point) {
+        return Quaternion.Inverse(transform.rotation) * (point - transform.position);
+    }
 }

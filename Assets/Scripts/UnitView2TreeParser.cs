@@ -8,7 +8,7 @@ using UnityEngine.Assertions;
 
 public class UnitView2TreeParser : MonoBehaviour {
 
-    public static readonly string[] playerMaterialShaders = { };
+    public static readonly string[] playerMaterialShaders = { "Custom/wb_unit" };
 
     [Command] [ContextMenu(nameof(Parse))]
     public void Parse() {
@@ -36,7 +36,7 @@ public class UnitView2TreeParser : MonoBehaviour {
                 sp.serializedObject.ApplyModifiedProperties();
             }
         }
-        
+
         view.hitPoints = view.transform.GetComponentsInChildren<Transform>()
             .Where(t => t.name.StartsWith("HitPoint"))
             .ToList();
@@ -53,7 +53,7 @@ public class UnitView2TreeParser : MonoBehaviour {
         foreach (var wheelTransform in view.transform.GetComponentsInChildren<Transform>()
             .Where(t => t.name.StartsWith("Wheel"))) {
 
-            var localPosition = Quaternion.Inverse(view.transform.rotation) * (wheelTransform.position - view.transform.position);
+            var localPosition = view.transform.InverseTransformPointWithoutScale(wheelTransform.position);
             var renderer = wheelTransform.GetComponentInChildren<Renderer>();
             var radius = renderer ? Mathf.Max(renderer.bounds.extents.y, renderer.bounds.extents.z) : 1;
 
@@ -71,6 +71,35 @@ public class UnitView2TreeParser : MonoBehaviour {
                 steeringGroup = steeringGroup,
             };
             view.wheels.Add(wheel);
+        }
+
+        /*
+         * TODO: this will not work if the scaling is not 1
+         */
+
+        view.turrets.Clear();
+        foreach (var turretTransform in view.transform.GetComponentsInChildren<Transform>()
+            .Where(t => t.name.StartsWith("Turret"))) {
+
+            var turret = new UnitView2.Turret {
+                transform = turretTransform,
+                position = turretTransform.localPosition,
+                name = turretTransform.name.Replace("Turret", ""),
+                workMode = WorkMode.RotateToRest,
+            };
+            view.turrets.Add(turret);
+
+            foreach (var barrelTransform in turretTransform.GetComponentsInChildren<Transform>()
+                .Where(t => t.name.StartsWith("Barrel"))) {
+
+                var barrel = new UnitView2.Turret.Barrel {
+                    name = barrelTransform.name.Replace("Barrel", ""),
+                    position = barrelTransform.localPosition,
+                    transform = barrelTransform,
+                    workMode = WorkMode.RotateToRest,
+                };
+                turret.barrels.Add(barrel);
+            }
         }
 
         // while (!Input.anyKeyDown) {
