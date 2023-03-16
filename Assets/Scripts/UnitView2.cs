@@ -946,3 +946,9 @@ public class UnitView2 : MonoBehaviour {
 public enum WorkMode {
     RotateToRest, RotateToTarget, Idle
 }
+
+public static class UnitView2TreeParser {
+    public static void Parse(UnitView2 view) {
+        
+    }
+}
