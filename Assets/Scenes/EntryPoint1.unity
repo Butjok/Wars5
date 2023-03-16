@@ -1217,8 +1217,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 157187072}
-  m_LocalRotation: {x: -0.007731975, y: -0.0000053712924, z: -0.0006946647, w: 0.9999699}
-  m_LocalPosition: {x: 0.00017368793, y: -0.1682217, z: -0.0019328594}
+  m_LocalRotation: {x: 0.003994902, y: 0.000030934807, z: -0.0077399784, w: 0.9999621}
+  m_LocalPosition: {x: 0.0019349304, y: -0.16177061, z: 0.0009985394}
   m_LocalScale: {x: 0.54, y: 0.05, z: 1.29}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2035,8 +2035,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -1.0449982}
-  m_SizeDelta: {x: 0, y: -2.090006}
+  m_AnchoredPosition: {x: 0, y: 15.849998}
+  m_SizeDelta: {x: 0, y: 31.700005}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &316357801
 MonoBehaviour:
@@ -5437,8 +5437,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 165.55846, y: 333.55066}
-  m_SizeDelta: {x: 270.28357, y: 234.77612}
+  m_AnchoredPosition: {x: 77.3859, y: 342.01288}
+  m_SizeDelta: {x: 297.33, y: 222.70038}
   m_Pivot: {x: 0, y: 0}
 --- !u!1001 &1147666693
 PrefabInstance:
@@ -8833,8 +8833,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -8.944987}
-  m_SizeDelta: {x: 0, y: -17.890024}
+  m_AnchoredPosition: {x: 0, y: 8.705011}
+  m_SizeDelta: {x: 0, y: 17.409977}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1949986822
 MonoBehaviour:
@@ -10210,26 +10210,32 @@ MonoBehaviour:
     isFixed: 0
     fixedHeight: 0
   turrets:
-  - name: Turret
+  - name: Main
     transform: {fileID: 0}
     position: {x: 0, y: 0.18, z: 0}
     workMode: 0
     barrels:
-    - name: Right
+    - name: MachineGun
       transform: {fileID: 0}
       position: {x: 0.2, y: 0, z: 0}
       angleLimits: {x: -5, y: 45}
       workMode: 0
-    - name: Left
+      shotParticleSystem: {fileID: 0}
+      audioSource: {fileID: 0}
+      recoil: 5
+    - name: Cannon
       transform: {fileID: 0}
       position: {x: -0.2, y: 0, z: 0}
       angleLimits: {x: -5, y: 45}
       workMode: 0
+      shotParticleSystem: {fileID: 0}
+      audioSource: {fileID: 0}
+      recoil: 15
+  barrelRestAngle: -15
   springLengthRange: {x: 0, y: 0.25}
   springTargetLength: 0.125
   bodyCenterOfMass: {x: 0, y: 0, z: 0}
   accelerationTorqueMultiplier: 5
-  barrelShotForce: 10
   maxHp: 10
   hpText: {fileID: 1140567597}
   uiBoxCenter: {x: 0, y: 0.04, z: 0}
@@ -10237,14 +10243,81 @@ MonoBehaviour:
   drawUiBounds: 0
   lowAmmoText: {fileID: 316357802}
   lowFuelText: {fileID: 1949986823}
-  hitPoints:
-  - {fileID: 1756449287}
-  - {fileID: 1128381106}
-  - {fileID: 278035377}
-  - {fileID: 1595993713}
-  - {fileID: 767611757}
-  - {fileID: 555631569}
-  incomingProjectilesCount: 0
+  subroutines:
+  - name: MoveInAttack.MachineGun
+    input: '2 1 2 move-in
+
+      Main _ aim
+
+      .5 wait
+
+      Main MachineGun
+      aim
+
+      .5 wait
+
+
+      Main MachineGun shoot
+
+      .1 wait
+
+      Main
+      MachineGun shoot
+
+      .1 wait
+
+      Main MachineGun shoot
+
+      .1 wait
+
+      Main
+      MachineGun shoot
+
+      .1 wait
+
+      Main MachineGun shoot
+
+      .1 wait
+
+      Main
+      MachineGun shoot
+
+      .1 wait
+
+      Main MachineGun shoot
+
+      .1 wait
+
+      Main
+      MachineGun shoot
+
+      .1 wait
+
+'
+  - name: MoveInAttack.Cannon
+    input: '2 1 2 move-in
+
+      Main _ aim
+
+      .5 wait
+
+      Main Cannon aim
+
+      .5
+      wait
+
+
+      Main Cannon shoot'
+  inputs:
+    m_keys: 0200000003000000
+    m_values:
+    - moveAttack: MoveInAttack.Cannon call
+      attack: 
+      respond: 
+    - moveAttack: MoveInAttack.MachineGun call
+      attack: 
+      respond: 
+  targets: []
 --- !u!4 &2133267624
 Transform:
   m_ObjectHideFlags: 0
@@ -10252,7 +10325,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2133267619}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.75356346, z: 0, w: 0.6573752}
   m_LocalPosition: {x: -1.863, y: 0.411, z: 3.719}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -10261,7 +10334,7 @@ Transform:
   - {fileID: 157187073}
   m_Father: {fileID: 0}
   m_RootOrder: 32
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 97.8, z: 0}
 --- !u!114 &2133267625
 MonoBehaviour:
   m_ObjectHideFlags: 0

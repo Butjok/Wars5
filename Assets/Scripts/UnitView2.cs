@@ -65,15 +65,10 @@ public class UnitView2 : MonoBehaviour {
     [Serializable]
     public class Turret {
 
-        [Flags]
-        public enum WorkMode {
-            ActivelyRotate, IgnoreTargetRotateToRest
-        }
-
         public string name = "Turret";
         public Transform transform;
         [SerializeField] private Vector3 position;
-        public WorkMode workMode = WorkMode.ActivelyRotate;
+        public WorkMode workMode = WorkMode.RotateToTarget;
         [NonSerialized] public float angle;
         public List<Barrel> barrels = new();
         [NonSerialized] public float velocity;
@@ -87,66 +82,49 @@ public class UnitView2 : MonoBehaviour {
             public Transform transform;
             [SerializeField] private Vector3 position;
             [FormerlySerializedAs("clamp")] public Vector2 angleLimits = new(-5, 45);
-            public WorkMode workMode = WorkMode.ActivelyRotate;
+            public WorkMode workMode = WorkMode.RotateToTarget;
+            public ParticleSystem shotParticleSystem;
+            public AudioSource audioSource;
             [NonSerialized] public float angle;
             [NonSerialized] public float velocity;
+            public float recoil = 100;
 
             public Vector3 Position => transform ? transform.localPosition : position;
         }
     }
 
-    [Command]
-    public static bool drawTurretNames = false;
-    [Command]
-    public static bool drawBarrelNames = false;
-    [Command]
-    public static Vector2 wheelSteeringRange = new(-45, 45);
-    [Command]
-    public static float wheelSteeringDuration90 = .5f;
-    [Command]
-    public static float wheelFriction = 1;
-    [Command]
-    public static Vector2 terrainBumpRange = new(0, .05f);
-    [Command]
-    public static float terrainBumpTiling = 2.5f;
-    [Command]
-    public static float springForce = 250;
-    [Command]
-    public static float springDrag = 8;
-    [Command]
-    public static float maxSpringVelocity = 5;
-    [Command]
-    public static double accelerationCalculationTimeRange = .25f;
-    [Command]
-    public static float graphHeight = 300;
-    [Command]
-    public static float graphYHalfRange = 6;
-    [Command]
-    public static float turretSpringForce = 1000;
-    [Command]
-    public static float turretSpringDrag = 10;
-    [Command]
-    public static float turretMaxVelocity = 270;
-    [Command]
-    public static float barrelSpringForce = 1000;
-    [Command]
-    public static float barrelSpringDrag = 20;
-    [Command]
-    public static float barrelMaxVelocity = 180;
-    [Command]
-    public static float guiClippingDistance = .5f;
-    [Command]
-    public static Vector2 hpTextAlphaFading = new(10, 20);
-    [Command]
-    public static string playerColorUniformName = "_PlayerColor";
-    [Command]
-    public static string attackHighlightFactorUniformName = "_AttackHighlightFactor";
-    [Command]
-    public static string attackHighlightStartTimeUniformName = "_AttackHighlightStartTime";
-    [Command]
-    public static string movedUniformName = "_Moved";
-    [Command]
-    static public bool drawAccelerationGraph;
+    [Serializable]
+    public struct Record {
+        public string name;
+        [TextArea(5, 10)] public string input;
+    }
+
+    [Command] public static bool drawTurretNames = false;
+    [Command] public static bool drawBarrelNames = false;
+    [Command] public static Vector2 wheelSteeringRange = new(-45, 45);
+    [Command] public static float wheelSteeringDuration90 = .5f;
+    [Command] public static float wheelFriction = 1;
+    [Command] public static Vector2 terrainBumpRange = new(0, .05f);
+    [Command] public static float terrainBumpTiling = 2.5f;
+    [Command] public static float springForce = 250;
+    [Command] public static float springDrag = 8;
+    [Command] public static float maxSpringVelocity = 5;
+    [Command] public static double accelerationCalculationTimeRange = .25f;
+    [Command] public static float graphHeight = 300;
+    [Command] public static float graphYHalfRange = 6;
+    [Command] public static float turretSpringForce = 1000;
+    [Command] public static float turretSpringDrag = 10;
+    [Command] public static float turretMaxVelocity = 270;
+    [Command] public static float barrelSpringForce = 1000;
+    [Command] public static float barrelSpringDrag = 20;
+    [Command] public static float barrelMaxVelocity = 180;
+    [Command] public static float guiClippingDistance = .5f;
+    [Command] public static Vector2 hpTextAlphaFading = new(10, 20);
+    [Command] public static string playerColorUniformName = "_PlayerColor";
+    [Command] public static string attackHighlightFactorUniformName = "_AttackHighlightFactor";
+    [Command] public static string attackHighlightStartTimeUniformName = "_AttackHighlightStartTime";
+    [Command] public static string movedUniformName = "_Moved";
+    [Command] static public bool drawAccelerationGraph;
 
     public static LayerMask TerrainLayerMask => LayerMasks.Terrain;
 
@@ -160,6 +138,7 @@ public class UnitView2 : MonoBehaviour {
     public float wheelRadius = .1f;
     public List<Wheel> wheels = new();
     public List<Turret> turrets = new();
+    public float barrelRestAngle = -15;
 
     [Space]
     public Vector2 springLengthRange = new(.0f, .25f);
@@ -168,7 +147,6 @@ public class UnitView2 : MonoBehaviour {
     [Space]
     public Vector3 bodyCenterOfMass;
     public float accelerationTorqueMultiplier = 5;
-    public float barrelShotForce = 25;
 
     [Space]
     public int maxHp = 10;
@@ -180,8 +158,16 @@ public class UnitView2 : MonoBehaviour {
     public TMP_Text lowFuelText;
 
     [Space]
-    [HideInInspector] public List<Transform> hitPoints = new();
-    [HideInInspector] public int incomingProjectilesCount = 0;
+    public List<Record> subroutines = new();
+    public WeaponNameBattleAnimationInputsDictionary inputs = new();
+    [NonSerialized] public float speed;
+    [NonSerialized] public float acceleration;
+    [NonSerialized] public bool survives;
+    [SerializeField] private List<UnitView2> targets = new();
+    [NonSerialized] public List<Transform> hitPoints = new();
+    [NonSerialized] public int incomingProjectilesLeft = 0;
+    [NonSerialized] public int spawnPointIndex;
+    [NonSerialized] public int shuffledIndex;
 
     private void Reset() {
         playerMaterialRenderers = GetComponentsInChildren<Renderer>().ToList();
@@ -604,7 +590,7 @@ public class UnitView2 : MonoBehaviour {
     public void ApplyInstantaneousWorldForce(Vector3 position, Vector3 force) {
         ApplyInstantaneousTorque(position, force);
     }
-    public void ApplyInstantaneousBarrelShotForce(Turret turret, Turret.Barrel barrel) {
+    public void Shoot(Turret turret, Turret.Barrel barrel) {
 
         var turretRotation = Quaternion.Euler(0, turret.angle, 0);
         var barrelPosition = body.position + body.rotation * (turret.Position + turretRotation * barrel.Position);
@@ -614,13 +600,20 @@ public class UnitView2 : MonoBehaviour {
         using (Draw.ingame.WithDuration(2))
             Draw.ingame.Arrow(barrelPosition, barrelPosition + barrelBack, Color.yellow);
 
-        ApplyInstantaneousWorldForce(barrelPosition, barrelBack * barrelShotForce);
+        if (barrel.shotParticleSystem)
+            barrel.shotParticleSystem.Play();
+        if (barrel.audioSource)
+            barrel.audioSource.Play();
+
+        ApplyInstantaneousWorldForce(barrelPosition, barrelBack * barrel.recoil);
     }
     [Command]
-    public void ApplyInstantaneousBarrelShotForce(string turretName, string barrelName) {
-        foreach (var turret in turrets.Where(t => t.name.StartsWith(turretName)))
-        foreach (var barrel in turret.barrels.Where(b => b.name.StartsWith(barrelName)))
-            ApplyInstantaneousBarrelShotForce(turret, barrel);
+    public void Shoot(string turretName, string barrelName) {
+        var turret = turrets.SingleOrDefault(t => t.name == turretName);
+        Assert.IsNotNull(turret);
+        var barrel = turret.barrels.SingleOrDefault(b => b.name == barrelName);
+        Assert.IsNotNull(barrel);
+        Shoot(turret, barrel);
     }
 
     private void OnEnable() {
@@ -674,7 +667,7 @@ public class UnitView2 : MonoBehaviour {
 
         foreach (var turret in turrets) {
 
-            if (!turret.workMode.HasFlag(Turret.WorkMode.ActivelyRotate))
+            if (turret.workMode == WorkMode.Idle)
                 continue;
 
             var turretPosition = body.position + body.rotation * turret.Position;
@@ -683,7 +676,7 @@ public class UnitView2 : MonoBehaviour {
             var turretTo = targetOnTurretPlane - turretPosition;
             var turretRotation = Quaternion.Euler(0, turret.angle, 0);
             var turretFrom = body.rotation * turretRotation * Vector3.forward;
-            var turretDeltaAngle = turret.workMode.HasFlag(Turret.WorkMode.IgnoreTargetRotateToRest) ? -turret.angle : Vector3.SignedAngle(turretFrom, turretTo, turretPlane.normal);
+            var turretDeltaAngle = turret.workMode == WorkMode.RotateToRest ? -turret.angle : Vector3.SignedAngle(turretFrom, turretTo, turretPlane.normal);
 
             var turretForce = turretDeltaAngle * turretSpringForce;
             turretForce -= turret.velocity * turretSpringDrag;
@@ -698,7 +691,7 @@ public class UnitView2 : MonoBehaviour {
 
             foreach (var barrel in turret.barrels) {
 
-                if (!barrel.workMode.HasFlag(Turret.WorkMode.ActivelyRotate))
+                if (barrel.workMode == WorkMode.Idle)
                     continue;
 
                 var barrelPosition = body.position + body.rotation * (turret.Position + turretRotation * barrel.Position);
@@ -709,7 +702,7 @@ public class UnitView2 : MonoBehaviour {
                 var barrelTo = targetOnBarrelPlane - barrelPosition;
                 var barrelRotation = Quaternion.Euler(barrel.angle, 0, 0);
                 var barrelFrom = body.rotation * turretRotation * barrelRotation * Vector3.forward;
-                var barrelDeltaAngle = barrel.workMode.HasFlag(Turret.WorkMode.IgnoreTargetRotateToRest) ? -barrel.angle : Vector3.SignedAngle(barrelFrom, barrelTo, barrelPlane.normal);
+                var barrelDeltaAngle = barrel.workMode == WorkMode.RotateToRest ? barrelRestAngle - barrel.angle : Vector3.SignedAngle(barrelFrom, barrelTo, barrelPlane.normal);
 
                 var barrelForce = barrelDeltaAngle * barrelSpringForce;
                 barrelForce -= barrel.velocity * barrelSpringDrag;
@@ -731,6 +724,9 @@ public class UnitView2 : MonoBehaviour {
 
         if (!Application.isPlaying)
             UpdateAxes();
+
+        speed += acceleration * Time.deltaTime;
+        transform.position += transform.forward * speed * Time.deltaTime;
 
         steeringGroups.Clear();
 
@@ -806,12 +802,140 @@ public class UnitView2 : MonoBehaviour {
     }
 
     [Command]
-    public void Hit(float force) {
-        if (hitPoints.Count > 0) {
-            var hitPoint = hitPoints.Random();
-            ApplyInstantaneousWorldForce(hitPoint.position, -hitPoint.forward * force);
-            using (Draw.ingame.WithDuration(2))
-                Draw.ingame.Ray(hitPoint.position, hitPoint.forward);
+    public void TakeHit(float force) {
+        if (hitPoints.Count <= 0)
+            return;
+        TakeHit(hitPoints.Random(), force);
+    }
+
+    public void TakeHit(Transform hitPoint, float force) {
+        ApplyInstantaneousWorldForce(hitPoint.position, -hitPoint.forward * force);
+        using (Draw.ingame.WithDuration(2))
+            Draw.ingame.Ray(hitPoint.position, hitPoint.forward);
+    }
+
+    [Command]
+    public void SetWorkMode(WorkMode workMode) {
+        foreach (var turret in turrets) {
+            turret.workMode = workMode;
+            foreach (var barrel in turret.barrels)
+                barrel.workMode = workMode;
         }
     }
+
+    [Command]
+    public void Play(string input) {
+        StartCoroutine(PlayAnimation(input));
+    }
+
+    [Command]
+    public void MoveAttack(WeaponName weaponName) {
+        SetWorkMode(WorkMode.RotateToRest);
+        if (inputs.TryGetValue(weaponName, out var record))
+            Play(record.moveAttack);
+    }
+    [Command]
+    public void Attack(WeaponName weaponName) {
+        SetWorkMode(WorkMode.RotateToRest);
+        if (inputs.TryGetValue(weaponName, out var record))
+            Play(record.attack);
+    }
+    [Command]
+    public void Respond(WeaponName weaponName) {
+        SetWorkMode(WorkMode.RotateToRest);
+        if (inputs.TryGetValue(weaponName, out var record))
+            Play(record.respond);
+    }
+
+    [Command]
+    public void Translate(float value) {
+        transform.position += transform.forward * value;
+        PlaceOnTerrain();
+    }
+
+    public IEnumerator Break(float acceleration) {
+        this.acceleration = -Mathf.Sign(speed) * acceleration;
+        yield return new WaitForSeconds(BreakTime(speed, this.acceleration));
+        this.acceleration = 0;
+        speed = 0;
+    }
+
+    [Command]
+    public static float BreakTime(float speed, float acceleration) {
+        return Mathf.Abs(speed / acceleration);
+    }
+
+    public IEnumerator MoveIn(float speed, float time, float acceleration) {
+        var breakTime = BreakTime(speed, acceleration);
+        var distance = speed * time + acceleration * breakTime * breakTime / 2;
+        Translate(-distance);
+        this.speed = speed;
+        yield return new WaitForSeconds(breakTime);
+        yield return Break(acceleration);
+    }
+
+    private IEnumerator PlayAnimation(string input, WarsStack stack = null) {
+
+        stack ??= new WarsStack();
+
+        foreach (var token in Tokenizer.Tokenize(input))
+            switch (token) {
+
+                case "rest":
+                case "aim": {
+                    var barrelName = stack.Pop<string>();
+                    var turretName = stack.Pop<string>();
+                    
+                    var turret = turrets.SingleOrDefault(t => t.name == turretName);
+                    Assert.IsNotNull(turret);
+                    var barrel = turret.barrels.SingleOrDefault(b => b.name == barrelName);
+                    var workMode = token == "aim" ? WorkMode.RotateToTarget : WorkMode.RotateToRest;
+                    if (barrel != null)
+                        barrel.workMode = workMode;
+                    else
+                        turret.workMode = workMode;
+                    break;
+                }
+                case "move-in": {
+                    var acceleration = stack.Pop<dynamic>();
+                    var time = stack.Pop<dynamic>();
+                    var speed = stack.Pop<dynamic>();
+                    yield return MoveIn(speed, time, acceleration);
+                    break;
+                }
+                case "spawn-point-index": {
+                    stack.Push(spawnPointIndex);
+                    break;
+                }
+                case "shuffled-index": {
+                    stack.Push(shuffledIndex);
+                    break;
+                }
+                case "wait": {
+                    yield return new WaitForSeconds(stack.Pop<dynamic>());
+                    break;
+                }
+                case "shoot": {
+                    var barrelName = stack.Pop<string>();
+                    var turretName = stack.Pop<string>();
+                    Shoot(turretName, barrelName);
+                    break;
+                }
+                case "call": {
+                    var name = stack.Pop<string>();
+                    var record = subroutines.SingleOrDefault(r => r.name == name);
+                    Assert.IsTrue(!string.IsNullOrEmpty(record.name), $"cannot find subroutine {name}");
+                    yield return PlayAnimation(record.input, stack);
+                    break;
+                }
+
+                default:
+                    stack.ExecuteToken(token);
+                    break;
+            }
+    }
+}
+
+public enum WorkMode {
+    RotateToRest, RotateToTarget, Idle
 }

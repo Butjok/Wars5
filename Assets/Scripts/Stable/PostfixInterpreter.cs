@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 
 public static class PostfixInterpreter {
 
@@ -84,6 +85,13 @@ public static class PostfixInterpreter {
                     stack.Push(type);
                     break;
                 }
+                
+                case "random": {
+                    var b = stack.Pop<dynamic>();
+                    var a = stack.Pop<dynamic>();
+                    stack.Push(Random.Range(a, b));
+                    break;
+                }
 
                 case "find-with-tag": {
                     var tag = stack.Pop<string>();
@@ -147,6 +155,11 @@ public static class PostfixInterpreter {
 
                 case "throw-exception": {
                     throw new Exception(stack.Pop<string>());
+                }
+
+                case "log": {
+                    Debug.Log(stack.Pop());
+                    break;
                 }
 
                 default:
