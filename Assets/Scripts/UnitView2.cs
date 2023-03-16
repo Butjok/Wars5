@@ -44,13 +44,14 @@ public class UnitView2 : MonoBehaviour {
         public const float rayOriginHeight = 1000;
         public bool IsSteeringWheel => steeringGroup != SteeringGroup.None;
         public int Side => raycastOrigin.x < 0 ? left : right;
+        public float SpringTargetLength => -yOffset;
 
+        public float radius = .1f;
         public Transform transform;
-        [FormerlySerializedAs("projectedOriginPosition")]
         public Vector2 raycastOrigin;
         public SteeringGroup steeringGroup = SteeringGroup.None;
         public bool isFixed = false;
-        public float fixedHeight;
+        [FormerlySerializedAs("fixedHeight")] public float yOffset;
 
         [NonSerialized] public float spinAngle;
         [NonSerialized] public Vector3? previousPosition;
@@ -104,8 +105,8 @@ public class UnitView2 : MonoBehaviour {
     [Command] public static Vector2 wheelSteeringRange = new(-45, 45);
     [Command] public static float wheelSteeringDuration90 = .5f;
     [Command] public static float wheelFriction = 1;
-    [Command] public static Vector2 terrainBumpRange = new(0, .05f);
-    [Command] public static float terrainBumpTiling = 2.5f;
+    [Command] public static Vector2 terrainBumpRange = new(-.02f, .02f);
+    [Command] public static float terrainBumpTiling = 5f;
     [Command] public static float springForce = 250;
     [Command] public static float springDrag = 8;
     [Command] public static float maxSpringVelocity = 5;
@@ -124,7 +125,7 @@ public class UnitView2 : MonoBehaviour {
     [Command] public static string attackHighlightFactorUniformName = "_AttackHighlightFactor";
     [Command] public static string attackHighlightStartTimeUniformName = "_AttackHighlightStartTime";
     [Command] public static string movedUniformName = "_Moved";
-    [Command] static public bool drawAccelerationGraph;
+    [Command] public static bool drawAccelerationGraph;
 
     public static LayerMask TerrainLayerMask => LayerMasks.Terrain;
 
@@ -135,14 +136,12 @@ public class UnitView2 : MonoBehaviour {
     public Transform body;
     [FormerlySerializedAs("playerColorRenderers")]
     public List<Renderer> playerMaterialRenderers = new();
-    public float wheelRadius = .1f;
     public List<Wheel> wheels = new();
     public List<Turret> turrets = new();
     public float barrelRestAngle = -15;
 
     [Space]
-    public Vector2 springLengthRange = new(.0f, .25f);
-    public float springTargetLength = .125f;
+    public float springLengthDelta = .125f;
 
     [Space]
     public Vector3 bodyCenterOfMass;
@@ -164,8 +163,8 @@ public class UnitView2 : MonoBehaviour {
     [NonSerialized] public float speed;
     [NonSerialized] public float acceleration;
     [NonSerialized] public bool survives;
-    [SerializeField] private List<UnitView2> targets = new();
-    [NonSerialized] public List<Transform> hitPoints = new();
+    public List<UnitView2> targets = new();
+    public List<Transform> hitPoints = new();
     [NonSerialized] public int incomingProjectilesLeft = 0;
     [NonSerialized] public int spawnPointIndex;
     [NonSerialized] public int shuffledIndex;
@@ -247,10 +246,12 @@ public class UnitView2 : MonoBehaviour {
 
     [Command]
     public int Hp {
-        get => int.Parse(hpText.text);
+        get => hpText ? int.Parse(hpText.text) : 0;
         set {
-            hpText.text = value.ToString();
-            hpText.enabled = value != maxHp;
+            if (hpText) {
+                hpText.text = value.ToString();
+                hpText.enabled = value != maxHp;
+            }
         }
     }
     [Command]
@@ -324,10 +325,10 @@ public class UnitView2 : MonoBehaviour {
         var ray = new Ray(originWorldPosition, Vector3.down);
 
         if (wheel.isFixed)
-            wheel.position = body.position + body.rotation * (projectedOriginLocalPosition + Vector3.up * wheel.fixedHeight);
+            wheel.position = body.position + body.rotation * (projectedOriginLocalPosition + Vector3.up * wheel.yOffset);
 
         else {
-            var hasHit = Physics.SphereCast(ray, wheelRadius, out var hit, float.MaxValue, TerrainLayerMask);
+            var hasHit = Physics.SphereCast(ray, wheel.radius, out var hit, float.MaxValue, TerrainLayerMask);
             if (hasHit) {
                 wheel.position = ray.GetPoint(hit.distance);
 
@@ -347,7 +348,7 @@ public class UnitView2 : MonoBehaviour {
             var deltaPosition = wheel.position - actualPreviousPosition;
             var distance = Vector3.Dot(deltaPosition, wheelForward);
             const float ratio = 180 / Mathf.PI;
-            var deltaAngle = distance / wheelRadius * ratio;
+            var deltaAngle = distance / wheel.radius * ratio;
             wheel.spinAngle += deltaAngle;
         }
         wheel.previousPosition = wheel.position;
@@ -371,7 +372,7 @@ public class UnitView2 : MonoBehaviour {
         wheel.previousOriginPosition = projectedOriginWorldPosition;
     }
 
-    private Dictionary<float, Wheel.Axis> axes = new();
+    private Dictionary<int, Wheel.Axis> axes = new();
     private List<Wheel.Axis> pitchAxes = new();
 
     [ContextMenu(nameof(UpdateAxes))]
@@ -379,8 +380,10 @@ public class UnitView2 : MonoBehaviour {
 
         axes.Clear();
         foreach (var wheel in wheels) {
-            if (!axes.TryGetValue(wheel.raycastOrigin.y, out var axis))
-                axis = axes[wheel.raycastOrigin.y] = new Wheel.Axis();
+            var y = Mathf.RoundToInt(wheel.raycastOrigin.y * 100);
+            if (!axes.TryGetValue(y, out var axis)) {
+                axis = axes[y] = new Wheel.Axis();
+            }
             axis[wheel.Side] = wheel;
         }
 
@@ -423,7 +426,7 @@ public class UnitView2 : MonoBehaviour {
     private void UpdateSpring(Wheel wheel, Vector3 accelerationTorque, float deltaTime) {
 
         var springLength = Vector3.Dot(body.up, wheel.springWeightPosition - wheel.position);
-        var springForce = (springTargetLength - springLength) * UnitView2.springForce;
+        var springForce = (wheel.SpringTargetLength - springLength) * UnitView2.springForce;
         springForce -= wheel.springVelocity * springDrag;
 
         var centerOfMass = body.position + body.rotation * bodyCenterOfMass;
@@ -447,7 +450,9 @@ public class UnitView2 : MonoBehaviour {
             wheel.springVelocity = -maxSpringVelocity;
 
         springLength += wheel.springVelocity * deltaTime;
-        springLength = Mathf.Clamp(springLength, springLengthRange[0], springLengthRange[1]);
+        var a = wheel.SpringTargetLength  - springLengthDelta;
+        var b = wheel.SpringTargetLength  + springLengthDelta;
+        springLength = Mathf.Clamp(springLength, Mathf.Min(a, b), Mathf.Max(a, b));
 
         wheel.springWeightPosition = wheel.position + body.up * springLength;
     }
@@ -568,7 +573,7 @@ public class UnitView2 : MonoBehaviour {
     public void ResetSprings() {
         foreach (var wheel in wheels) {
             wheel.springVelocity = 0;
-            wheel.springWeightPosition = wheel.position + body.up * springTargetLength;
+            wheel.springWeightPosition = wheel.position + body.up * wheel.SpringTargetLength;
         }
         instantaneousTorques.Clear();
         positions.Clear();
@@ -648,12 +653,15 @@ public class UnitView2 : MonoBehaviour {
 
         var isInFront = min.z > guiClippingDistance;
         var shouldBeVisible = Hp != maxHp && isInFront;
-        if (hpText && hpText.enabled != shouldBeVisible)
-            hpText.enabled = shouldBeVisible;
 
-        if (hpText.enabled) {
-            hpText.rectTransform.anchoredPosition = new Vector2(min.x, min.y);
-            hpText.rectTransform.sizeDelta = new Vector2(max.x - min.x, max.y - min.y);
+        if (hpText) {
+            if (hpText.enabled != shouldBeVisible)
+                hpText.enabled = shouldBeVisible;
+
+            if (hpText.enabled) {
+                hpText.rectTransform.anchoredPosition = new Vector2(min.x, min.y);
+                hpText.rectTransform.sizeDelta = new Vector2(max.x - min.x, max.y - min.y);
+            }
         }
 
         var alpha = 1 - MathUtils.SmoothStep(hpTextAlphaFading[0], hpTextAlphaFading[1], (min.z + max.z) / 2);
@@ -666,6 +674,9 @@ public class UnitView2 : MonoBehaviour {
     }
 
     private void FixedUpdate() {
+
+        if (!body)
+            return;
 
         UpdateSprings(false);
 
@@ -729,6 +740,9 @@ public class UnitView2 : MonoBehaviour {
     private Dictionary<Wheel.SteeringGroup, (float angleAccumulator, int count)> steeringGroups = new();
     private void Update() {
 
+        if (!body)
+            return;
+
         if (!Application.isPlaying)
             UpdateAxes();
 
@@ -758,11 +772,11 @@ public class UnitView2 : MonoBehaviour {
             using (Draw.ingame.WithMatrix(matrix)) {
                 if (wheel.transform) {
                     wheel.transform.SetPositionAndRotation(wheel.position, wheel.rotation);
-                    Draw.ingame.Circle(Vector3.zero, Vector3.right, wheelRadius);
+                    Draw.ingame.Circle(Vector3.zero, Vector3.right, wheel.radius);
                 }
                 else {
-                    Draw.ingame.SolidCircle(Vector3.zero, Vector3.right, wheelRadius);
-                    Draw.ingame.Line(Vector3.zero, Vector3.forward * wheelRadius, Color.black);
+                    Draw.ingame.SolidCircle(Vector3.zero, Vector3.right, wheel.radius);
+                    Draw.ingame.Line(Vector3.zero, Vector3.forward * wheel.radius, Color.black);
                 }
             }
         }
@@ -945,10 +959,4 @@ public class UnitView2 : MonoBehaviour {
 
 public enum WorkMode {
     RotateToRest, RotateToTarget, Idle
-}
-
-public static class UnitView2TreeParser {
-    public static void Parse(UnitView2 view) {
-        
-    }
 }
