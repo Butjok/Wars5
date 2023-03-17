@@ -423,6 +423,9 @@ public class UnitView2 : MonoBehaviour, IUiBoundPoints {
     private Queue<Vector3> instantaneousTorques = new();
     private void UpdateSpring(Wheel wheel, Vector3 accelerationTorque, float deltaTime) {
 
+        if (wheel.isFixed)
+            return;
+        
         var springLength = Vector3.Dot(body.up, wheel.springWeightPosition - wheel.position);
         var springForce = (wheel.SpringTargetLength - springLength) * UnitView2.springForce;
         springForce -= wheel.springVelocity * springDrag;
