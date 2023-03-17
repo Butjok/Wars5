@@ -103,9 +103,9 @@ public class UnitView2 : MonoBehaviour, IUiBoundPoints {
     [Command] public static float wheelFriction = 1;
     [Command] public static Vector2 terrainBumpRange = new(0, .02f);
     [Command] public static float terrainBumpTiling = 5f;
-    [Command] public static float springForce = 500;
-    [Command] public static float springDrag = 8;
-    [Command] public static float maxSpringVelocity = .5f;
+    [Command] public static float springForce = 250;
+    [Command] public static float springDrag = 6;
+    [Command] public static float maxSpringVelocity = 10;
     [Command] public static double accelerationCalculationTimeRange = .25f;
     [Command] public static float graphHeight = 300;
     [Command] public static float graphYHalfRange = 6;
@@ -137,7 +137,7 @@ public class UnitView2 : MonoBehaviour, IUiBoundPoints {
     public float barrelRestAngle = -15;
 
     [Space]
-    public float springLengthDelta = .025f;
+    public float springLengthDelta = .05f;
 
     [Space]
     public Vector3 bodyCenterOfMass;

@@ -70,6 +70,7 @@
     <Compile Include="Assets/Scripts/Animation/UnitViewSequencePlayer.cs" />
     <Compile Include="Assets/Scripts/LoadingSpinner.cs" />
     <Compile Include="Assets/Scripts/BattleAnimationPlayer.cs" />
+    <Compile Include="Assets/Scripts/WhiteBoxSwitcher.cs" />
     <Compile Include="Assets/Scripts/GameStates/DefeatState.cs" />
     <Compile Include="Assets/Scripts/GameStates/UnitThumbnails.cs" />
     <Compile Include="Assets/Scripts/MainMenuView.cs" />
@@ -178,6 +179,7 @@
     <Compile Include="Assets/Scripts/CameraRig.cs" />
     <Compile Include="Assets/Scripts/FitHorizontal.cs" />
     <Compile Include="Assets/Scripts/UnitActionViewTest.cs" />
+    <Compile Include="Assets/Scripts/HardFollow2.cs" />
     <Compile Include="Assets/Scripts/InputState.cs" />
     <Compile Include="Assets/Scripts/MissileSiloView.cs" />
     <Compile Include="Assets/Scripts/InGameOverlayMenuView.cs" />
@@ -200,8 +202,6 @@
     <Compile Include="Assets/Scripts/GameStates/PathSelectionState2.cs" />
     <Compile Include="Assets/Scripts/FlipbookTest.cs" />
     <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
-    <Compile Include="Assets/Scripts/WhiteBoxSwitcher.cs" />
-    <Compile Include="Assets/Scripts/HardFollow2.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets/Scripts/Wars.asmdef" />

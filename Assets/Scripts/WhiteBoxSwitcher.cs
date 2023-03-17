@@ -14,6 +14,7 @@ public class WhiteBoxSwitcher : MonoBehaviour {
                 views[index].gameObject.SetActive(false);
             index = (index + 1) % views.Count;
             views[index].gameObject.SetActive(true);
+            views[index].PlaceOnTerrain();
         }
     }
 }
