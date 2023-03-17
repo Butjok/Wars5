@@ -11,7 +11,7 @@ using UnityEngine.Serialization;
 using static UnitView2.Wheel.Axis.Constants;
 
 [ExecuteInEditMode]
-public class UnitView2 : MonoBehaviour {
+public class UnitView2 : MonoBehaviour, IUiBoundPoints {
 
     [Serializable]
     public class Wheel {
@@ -116,7 +116,6 @@ public class UnitView2 : MonoBehaviour {
     [Command] public static float barrelSpringDrag = 20;
     [Command] public static float barrelMaxVelocity = 180;
     [Command] public static float guiClippingDistance = .5f;
-    [Command] public static Vector2 hpTextAlphaFading = new(10, 20);
     [Command] public static string playerColorUniformName = "_PlayerColor";
     [Command] public static string attackHighlightFactorUniformName = "_AttackHighlightFactor";
     [Command] public static string attackHighlightStartTimeUniformName = "_AttackHighlightStartTime";
@@ -627,48 +626,10 @@ public class UnitView2 : MonoBehaviour {
     }
 
     private void UpdateHpTextPosition() {
-
-        var camera = Camera.main;
-        if (!camera)
+        if (!hpText)
             return;
-
-        var min = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
-        var max = new Vector3(float.MinValue, float.MinValue, float.MinValue);
-
-        for (var x = -1; x <= 1; x += 2)
-        for (var y = -1; y <= 1; y += 2)
-        for (var z = -1; z <= 1; z += 2) {
-            var localPosition = uiBoxHalfSize;
-            localPosition.Scale(new Vector3(x, y, z));
-            localPosition += uiBoxCenter;
-            var worldPosition = body.position + body.rotation * localPosition;
-            if (drawUiBounds)
-                Draw.ingame.Cross(worldPosition, .1f);
-            var screenPosition = camera.WorldToScreenPoint(worldPosition);
-            min = Vector3.Min(min, screenPosition);
-            max = Vector3.Max(max, screenPosition);
-        }
-
-        var isInFront = min.z > guiClippingDistance;
-        var shouldBeVisible = Hp != maxHp && isInFront;
-
-        if (hpText) {
-            if (hpText.enabled != shouldBeVisible)
-                hpText.enabled = shouldBeVisible;
-
-            if (hpText.enabled) {
-                hpText.rectTransform.anchoredPosition = new Vector2(min.x, min.y);
-                hpText.rectTransform.sizeDelta = new Vector2(max.x - min.x, max.y - min.y);
-            }
-        }
-
-        var alpha = 1 - MathUtils.SmoothStep(hpTextAlphaFading[0], hpTextAlphaFading[1], (min.z + max.z) / 2);
-        foreach (var fadedText in fadedTexts)
-            if (fadedText.enabled) {
-                var color = fadedText.color;
-                color.a = alpha;
-                fadedText.color = color;
-            }
+        hpText.gameObject.SetActive(hpText.rectTransform.TryEncapsulate(this, out var distance) && Hp != maxHp);
+        fadedTexts.FadeAlpha(distance);
     }
 
     private void FixedUpdate() {
@@ -976,6 +937,19 @@ public class UnitView2 : MonoBehaviour {
                     stack.ExecuteToken(token);
                     break;
             }
+    }
+
+    public IEnumerable<Vector3> UiBoundPoints {
+        get {
+            for (var x = -1; x <= 1; x += 2)
+            for (var y = -1; y <= 1; y += 2)
+            for (var z = -1; z <= 1; z += 2) {
+                var localPosition = uiBoxHalfSize;
+                localPosition.Scale(new Vector3(x, y, z));
+                localPosition += uiBoxCenter;
+                yield return body.position + body.rotation * localPosition;
+            }
+        }
     }
 }
 

@@ -183,6 +183,8 @@
      <Compile Include="Assets/Scripts/GameStates/PathSelectionState2.cs" />
      <Compile Include="Assets/Scripts/FlipbookTest.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
+     <Compile Include="Assets/Scripts/UiUtils.cs" />
+     <Compile Include="Assets/Scripts/AttackActionView.cs" />
      <None Include="Assets/Scripts/Wars.asmdef" />
      <Folder Include="Assets/Scripts/GameStates" />
      <Folder Include="Assets/Scripts/Level" />
