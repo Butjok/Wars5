@@ -111,10 +111,10 @@ public class UnitView2 : MonoBehaviour, IUiBoundPoints {
     [Command] public static float graphYHalfRange = 6;
     [Command] public static float turretSpringForce = 1000;
     [Command] public static float turretSpringDrag = 10;
-    [Command] public static float turretMaxVelocity = 270;
+    [Command] public static float turretMaxVelocity = 180;
     [Command] public static float barrelSpringForce = 1000;
     [Command] public static float barrelSpringDrag = 20;
-    [Command] public static float barrelMaxVelocity = 180;
+    [Command] public static float barrelMaxVelocity = 90;
     [Command] public static float guiClippingDistance = .5f;
     [Command] public static string playerColorUniformName = "_PlayerColor";
     [Command] public static string attackHighlightFactorUniformName = "_AttackHighlightFactor";
@@ -824,7 +824,7 @@ public class UnitView2 : MonoBehaviour, IUiBoundPoints {
     public static string GetDefaultAttackInput(WeaponName weaponName) {
         var shotsCount = weaponName is WeaponName.Rifle or WeaponName.MachineGun ? automaticWeaponShotsCount : 1;
         var loop = Enumerable.Repeat($"Main {weaponName} shoot .1 wait", shotsCount);
-        return $"reset-weapons .25 wait Main _ aim .25 wait Main {weaponName} aim .5 wait " + string.Join(" ", loop);
+        return $"reset-weapons .33 wait Main _ aim .33 wait Main {weaponName} aim .66 wait " + string.Join(" ", loop);
     }
     public static string GetDefaultResponseInput(WeaponName weaponName) {
         return GetDefaultAttackInput(weaponName);
