@@ -628,8 +628,12 @@ public class UnitView2 : MonoBehaviour, IUiBoundPoints {
     private void UpdateHpTextPosition() {
         if (!hpText)
             return;
-        hpText.gameObject.SetActive(hpText.rectTransform.TryEncapsulate(this, out var distance) && Hp != maxHp);
-        fadedTexts.FadeAlpha(distance);
+        if (Hp != maxHp && hpText.rectTransform.TryEncapsulate(this, out var distance)) {
+            hpText.gameObject.SetActive(true);
+            fadedTexts.FadeAlpha(distance);
+        }
+        else 
+            hpText.gameObject.SetActive(false);
     }
 
     private void FixedUpdate() {

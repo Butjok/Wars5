@@ -11,7 +11,7 @@ public interface IUiBoundPoints {
 public static class UiUtils {
 
     public static bool IsValid(this IUiBoundPoints uiBoundPoints) {
-        return uiBoundPoints is Object o && o;
+        return uiBoundPoints is Object o && o || uiBoundPoints != null;
     }
     
     public static bool TryCalculateScreenBounds(Camera camera, IEnumerable<Vector3> points, out Vector3 min, out Vector3 max) {

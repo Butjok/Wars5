@@ -957,7 +957,7 @@ public class LevelEditor : Level {
             cursorView.show = false;
 
         using var tw = new StringWriter();
-        GameWriter.Write(tw, this);
+        GameWriter.WriteLevel(tw, this);
         var save = tw.ToString();
         // Debug.Log(save);
         var playerIndex = players.IndexOf(player);
@@ -995,7 +995,7 @@ public class LevelEditor : Level {
 
     public void SaveInternal(string name) {
         using var tw = new StringWriter();
-        GameWriter.Write(tw, this);
+        GameWriter.WriteLevel(tw, this);
         var text = tw.ToString();
         if (!Directory.Exists(SaveRootDirectoryPath))
             Directory.CreateDirectory(SaveRootDirectoryPath);

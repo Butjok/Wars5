@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 [ExecuteInEditMode]
 public class AttackActionView : MonoBehaviour {
@@ -14,6 +15,7 @@ public class AttackActionView : MonoBehaviour {
     }
 
     private void LateUpdate() {
+        Assert.IsTrue(debugTarget);
         if (debugTarget)
             target = debugTarget;
         frame.gameObject.SetActive(frame.TryEncapsulate(target, out _));

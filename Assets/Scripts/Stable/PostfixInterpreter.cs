@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using Butjok.CommandLine;
 using UnityEngine;
 using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
@@ -13,6 +14,41 @@ public static class PostfixInterpreter {
 
     public static Dictionary<string, Type> typeCache = new();
 
+    [Command]
+    public static string Format(object value) {
+        switch (value) {
+            case int v:
+                return v.ToString(CultureInfo.InvariantCulture);
+            case float v:
+                return v.ToString(CultureInfo.InvariantCulture);
+            case bool v:
+                return v ? "true" : "false";
+            case null:
+                return "null";
+            case Type v:
+                return $"{v} type";
+            case Enum v:
+                return $"{v} {Format(v.GetType())} enum";
+            case Vector2 v:
+                return $"{Format(v.x)} {Format(v.y)} float2";
+            case Vector3 v:
+                return $"{Format(v.x)} {Format(v.y)} {Format(v.z)} float3";
+            case Vector2Int v:
+                return $"{Format(v.x)} {Format(v.y)} int2";
+            case Vector3Int v:
+                return $"{Format(v.x)} {Format(v.y)} {Format(v.z)} int3";
+            case Color v:
+                return $"{Format(v.r)} {Format(v.g)} {Format(v.b)} {Format(v.a)} color";
+            case string v:
+                Assert.AreNotEqual(0,v.Length);
+                Assert.IsTrue(char.IsUpper(v[0]));
+                Assert.IsFalse(v.Any(char.IsWhiteSpace));
+                return v;
+            default:
+                throw new ArgumentOutOfRangeException(value.ToString());
+        }
+    }
+    
     public static void ExecuteToken(this WarsStack stack, string token) {
 
         if (int.TryParse(token, NumberStyles.Any, CultureInfo.InvariantCulture, out var intValue))
@@ -153,6 +189,16 @@ public static class PostfixInterpreter {
                     break;
                 }
 
+                case "rgb":
+                case "rgba": {
+                    var a = token == "rgba" ? stack.Pop<dynamic>() : 1; 
+                    var b = stack.Pop<dynamic>();
+                    var g = stack.Pop<dynamic>();
+                    var r = stack.Pop<dynamic>();
+                    stack.Push(new Color(r,g,b,a));
+                    break;
+                }
+
                 case "throw-exception": {
                     throw new Exception(stack.Pop<string>());
                 }
@@ -163,7 +209,7 @@ public static class PostfixInterpreter {
                 }
 
                 default:
-                    stack.Push(token.ToString());
+                    stack.Push(token);
                     if (char.IsLower(token[0]))
                         Debug.LogError($"Unrecognized command: {token} - it was pushed on a stack as a string");
                     break;

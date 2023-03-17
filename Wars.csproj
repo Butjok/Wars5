@@ -60,6 +60,7 @@
      <Compile Include="Assets/Scripts/MainMenuView.cs" />
      <Compile Include="Assets/Scripts/PostProcessing.cs" />
      <Compile Include="Assets/Scripts/EntryPointView.cs" />
+     <Compile Include="Assets/Scripts/AttackActionView.cs" />
      <Compile Include="Assets/Scripts/MoveFinder2.cs" />
      <Compile Include="Assets/Scripts/AiPlayerCommander.cs" />
      <Compile Include="Assets/Scripts/Rules.cs" />
@@ -112,6 +113,7 @@
      <Compile Include="Assets/Scripts/PlayerView2.cs" />
      <Compile Include="Assets/Scripts/CampaignViewTest.cs" />
      <Compile Include="Assets/Scripts/NewBehaviourScript.cs" />
+     <Compile Include="Assets/Scripts/UiUtils.cs" />
      <Compile Include="Assets/Scripts/UnitActionUiContainer.cs" />
      <Compile Include="Assets/Scripts/DialogueParser.cs" />
      <Compile Include="Assets/Scripts/MainMenuLoadGameState.cs" />
@@ -183,8 +185,6 @@
      <Compile Include="Assets/Scripts/GameStates/PathSelectionState2.cs" />
      <Compile Include="Assets/Scripts/FlipbookTest.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
-     <Compile Include="Assets/Scripts/UiUtils.cs" />
-     <Compile Include="Assets/Scripts/AttackActionView.cs" />
      <None Include="Assets/Scripts/Wars.asmdef" />
      <Folder Include="Assets/Scripts/GameStates" />
      <Folder Include="Assets/Scripts/Level" />

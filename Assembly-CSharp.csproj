@@ -62,6 +62,7 @@
      <Folder Include="Assets/Content/Whiteboxes/Thumbnails" />
      <Folder Include="Assets/Settings/Resources" />
      <Folder Include="Assets/TextMesh Pro/Resources/Sprite Assets" />
+     <None Include="Assets/Saves/autosave/autosave-17.03.2023-13.13.16.txt" />
      <None Include="Assets/PriorityFormula.txt" />
      <Folder Include="Assets/Content" />
      <Folder Include="Assets/Settings" />
@@ -79,7 +80,6 @@
      <None Include="Assets/Saves/test/20.01.2023-21.38.32.txt" />
      <None Include="Assets/Saves/0/0-28.01.2023-14.11.05.txt" />
      <None Include="Assets/Dialogues2.txt" />
-     <None Include="Assets/Saves/autosave/autosave-16.03.2023-21.50.53.txt" />
      <None Include="Assets/Resources/Settings/MoveDistances.json" />
      <Folder Include="Assets/Saves" />
      <None Include="Assets/Shaders/VertexColorChecker.shader" />
@@ -89,7 +89,6 @@
      <None Include="Assets/Shaders/test.shader" />
      <None Include="Assets/Saves/1/1-22.01.2023-19.32.58.txt" />
      <None Include="Assets/Saves/1/1-22.01.2023-19.38.06.txt" />
-     <None Include="Assets/Saves/autosave/autosave-16.03.2023-17.29.56.txt" />
      <None Include="Assets/Shaders/DistortionFlow.shader" />
      <None Include="Assets/Shaders/Flow.cginc" />
      <None Include="Assets/Shaders/leaves.shader" />
@@ -104,7 +103,6 @@
      <Folder Include="Assets/Fonts" />
      <Folder Include="Assets/Saves/test.0" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro_Mobile.cginc" />
-     <None Include="Assets/Saves/autosave/autosave-16.03.2023-12.20.27.txt" />
      <None Include="Assets/Saves/0/0-22.01.2023-19.45.37.txt" />
      <None Include="Assets/Shaders/MissionLink.shader" />
      <None Include="Assets/Saves/tutorial.0/20.01.2023-08.06.54.txt" />
@@ -114,9 +112,9 @@
      <Folder Include="Assets/TextMesh Pro/Resources" />
      <Folder Include="Assets/Scenes/blog-post0" />
      <None Include="Assets/Shaders/MovePath.shader" />
-     <None Include="Assets/Saves/autosave/autosave-15.03.2023-22.50.41.txt" />
      <None Include="Assets/Shaders/InstancedRendering.cginc" />
      <None Include="Assets/Shaders/vface.shader" />
+     <None Include="Assets/Saves/autosave/autosave-17.03.2023-13.21.22.txt" />
      <None Include="Assets/Shaders/NewSurfaceShader.shader" />
      <None Include="Assets/Shaders/Stone.shader" />
      <Folder Include="Assets/Saves/autosave" />
@@ -161,21 +159,17 @@
      <None Include="Assets/Scripts2/SDFtest.shader" />
      <None Include="Assets/Resources/Funny.txt" />
      <None Include="Assets/Shaders/Difference.shader" />
-     <None Include="Assets/Saves/autosave/autosave-16.03.2023-20.09.06.txt" />
      <None Include="Assets/Shaders/TileArea.shader" />
      <Folder Include="Assets/JsonDotNet/Assemblies" />
      <None Include="Assets/Saves/1/1-22.01.2023-19.43.37.txt" />
      <None Include="Assets/Saves/1/1-22.01.2023-19.44.37.txt" />
      <Folder Include="Assets/Scenes/BattleViews_Profiles" />
      <None Include="Assets/Saves/1/1-22.01.2023-19.48.14.txt" />
-     <None Include="Assets/Saves/autosave/autosave-15.03.2023-23.32.23.txt" />
      <Folder Include="Assets/Saves/tutorial" />
      <None Include="Assets/Saves/1/1-22.01.2023-19.41.48.txt" />
-     <None Include="Assets/Saves/autosave/autosave-15.03.2023-23.26.16.txt" />
      <None Include="Assets/Funny.txt" />
      <None Include="Assets/Saves/0/0-25.01.2023-02.07.18.txt" />
      <None Include="Assets/Shaders/water.shader" />
-     <None Include="Assets/Saves/autosave/autosave-13.03.2023-21.41.00.txt" />
      <None Include="Assets/Shaders/ShrinkToTerrain.shader" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Surface.shader" />
      <None Include="Assets/Shaders/MinimapUnit.shader" />
@@ -185,7 +179,6 @@
      <None Include="Assets/TextMesh Pro/Shaders/TMP_Bitmap-Custom-Atlas.shader" />
      <None Include="Assets/Shaders/TriggerShader.shader" />
      <None Include="Assets/Saves/0/0-28.01.2023-12.26.31.txt" />
-     <None Include="Assets/Saves/autosave/autosave-13.03.2023-04.46.10.txt" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF.shader" />
      <None Include="Assets/Saves/0/0-22.01.2023-18.24.23.txt" />
      <Folder Include="Assets/Saves/0" />
@@ -218,7 +211,6 @@
      <Folder Include="Assets/Shaders" />
      <None Include="Assets/Shaders/New Amplify Shader.shader" />
      <Folder Include="Assets/Textures/Circuitry" />
-     <None Include="Assets/Saves/autosave/autosave-15.03.2023-23.20.36.txt" />
      <Folder Include="Assets/TextMesh Pro/Resources/Style Sheets" />
      <Folder Include="Assets/Textures/Lava" />
      <Folder Include="Assets/TextMesh Pro/Fonts" />
@@ -230,7 +222,6 @@
      <Folder Include="Assets/StreamingAssets/Translations" />
      <Folder Include="Assets/Content/light-tank" />
      <None Include="Assets/TextMesh Pro/Resources/LineBreaking Following Characters.txt" />
-     <None Include="Assets/Saves/autosave/autosave-13.03.2023-03.42.45.txt" />
      <Folder Include="Assets/Minimap" />
      <None Include="Assets/Resources/Missions/SecondMission.txt" />
      <None Include="Assets/Saves/0/0-24.01.2023-16.12.40.txt" />
@@ -249,22 +240,21 @@
      <None Include="Assets/Saves/0/0-22.01.2023-18.53.29.txt" />
      <None Include="Assets/Saves/test3/test3-27.02.2023-00.52.49.txt" />
      <None Include="Assets/Shaders/Texture Splatting.shader" />
-     <None Include="Assets/Saves/autosave/autosave-15.03.2023-23.20.51.txt" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Masking.shader" />
      <None Include="Assets/Saves/0/0-28.01.2023-22.10.38.txt" />
      <None Include="Assets/Resources/Dialogue.xml" />
      <None Include="Assets/Saves/test2/test2-05.02.2023-21.45.15.txt" />
      <None Include="Assets/Content/Whiteboxes/wb-unit.shader" />
+     <None Include="Assets/Saves/autosave/autosave-17.03.2023-13.06.04.txt" />
      <None Include="Assets/Shaders/rough.shader" />
      <None Include="Assets/Saves/0/0-24.01.2023-01.56.26.txt" />
      <Folder Include="Assets/Scenes/Explosion" />
      <None Include="Assets/Saves/test2/test2-09.02.2023-23.43.01.txt" />
-     <None Include="Assets/Saves/autosave/autosave-16.03.2023-21.55.24.txt" />
      <None Include="Assets/Saves/tutorial.0/20.01.2023-08.16.17.txt" />
      <Folder Include="Assets/BattleView" />
      <None Include="Assets/Saves/first-stage/19.01.2023-19.30.01.txt" />
      <None Include="Assets/Saves/0/0-28.01.2023-20.17.01.txt" />
-     <None Include="Assets/Saves/autosave/autosave-15.03.2023-23.26.45.txt" />
+     <None Include="Assets/Saves/autosave/autosave-17.03.2023-13.13.15.txt" />
      <None Include="Assets/Shaders/SDF.cginc" />
      <None Include="Assets/File.json" />
      <None Include="Assets/Shaders/InstancedIndirectColor.shader" />
@@ -290,7 +280,6 @@
      <None Include="Assets/TextMesh Pro/Fonts/LiberationSans - OFL.txt" />
      <Folder Include="Assets/TextMesh Pro/Documentation" />
      <None Include="Assets/Resources/TutorialSaveData.txt" />
-     <None Include="Assets/Saves/autosave/autosave-15.03.2023-23.21.08.txt" />
      <None Include="Assets/Shaders/UnlitMinimap.shader" />
      <None Include="Assets/Shaders/PowerMeterStripe.shader" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader" />
@@ -303,9 +292,7 @@
      <Folder Include="Assets/Roboto" />
      <Folder Include="Assets/PhysicsTest" />
      <None Include="Assets/Saves/1/1-22.01.2023-19.42.47.txt" />
-     <None Include="Assets/Saves/autosave/autosave-15.03.2023-23.21.46.txt" />
      <None Include="Assets/TextMesh Pro/Sprites/EmojiOne.json" />
-     <None Include="Assets/Saves/autosave/autosave-16.03.2023-21.58.04.txt" />
      <Folder Include="Assets/Saves/full-map" />
      <None Include="Assets/Saves/1/1-22.01.2023-18.56.26.txt" />
      <Folder Include="Assets/Resources/Missions" />
@@ -313,7 +300,6 @@
      <None Include="Assets/Saves/0/0-24.01.2023-16.24.07.txt" />
      <Folder Include="Assets/Saves/simple" />
      <None Include="Assets/!TODO.txt" />
-     <None Include="Assets/Saves/autosave/autosave-13.03.2023-05.18.48.txt" />
      <None Include="Assets/Output.json" />
      <Reference Include="UnityEngine">
      <HintPath>/Applications/Unity/Hub/Editor/2021.3.1f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
