@@ -101,11 +101,11 @@ public class UnitView2 : MonoBehaviour, IUiBoundPoints {
     [Command] public static Vector2 wheelSteeringRange = new(-45, 45);
     [Command] public static float wheelSteeringDuration90 = .5f;
     [Command] public static float wheelFriction = 1;
-    [Command] public static Vector2 terrainBumpRange = new(-.02f, .02f);
+    [Command] public static Vector2 terrainBumpRange = new(0, .02f);
     [Command] public static float terrainBumpTiling = 5f;
-    [Command] public static float springForce = 250;
+    [Command] public static float springForce = 500;
     [Command] public static float springDrag = 8;
-    [Command] public static float maxSpringVelocity = 5;
+    [Command] public static float maxSpringVelocity = .5f;
     [Command] public static double accelerationCalculationTimeRange = .25f;
     [Command] public static float graphHeight = 300;
     [Command] public static float graphYHalfRange = 6;
@@ -121,6 +121,7 @@ public class UnitView2 : MonoBehaviour, IUiBoundPoints {
     [Command] public static string attackHighlightStartTimeUniformName = "_AttackHighlightStartTime";
     [Command] public static string movedUniformName = "_Moved";
     [Command] public static bool drawAccelerationGraph;
+    [Command] public static bool drawWheelCircleAnyway = false;
 
     public static LayerMask TerrainLayerMask => LayerMasks.Terrain;
 
@@ -136,11 +137,11 @@ public class UnitView2 : MonoBehaviour, IUiBoundPoints {
     public float barrelRestAngle = -15;
 
     [Space]
-    public float springLengthDelta = .125f;
+    public float springLengthDelta = .025f;
 
     [Space]
     public Vector3 bodyCenterOfMass;
-    public float accelerationTorqueMultiplier = 5;
+    public float accelerationTorqueMultiplier = 7.5f;
 
     [Space]
     public int maxHp = 10;
@@ -632,7 +633,7 @@ public class UnitView2 : MonoBehaviour, IUiBoundPoints {
             hpText.gameObject.SetActive(true);
             fadedTexts.FadeAlpha(distance);
         }
-        else 
+        else
             hpText.gameObject.SetActive(false);
     }
 
@@ -735,7 +736,8 @@ public class UnitView2 : MonoBehaviour, IUiBoundPoints {
             using (Draw.ingame.WithMatrix(matrix)) {
                 if (wheel.transform) {
                     wheel.transform.SetPositionAndRotation(wheel.position, wheel.rotation);
-                    Draw.ingame.Circle(Vector3.zero, Vector3.right, wheel.radius);
+                    if (!Application.isPlaying || drawWheelCircleAnyway)
+                        Draw.ingame.Circle(Vector3.zero, Vector3.right, wheel.radius);
                 }
                 else {
                     Draw.ingame.SolidCircle(Vector3.zero, Vector3.right, wheel.radius);

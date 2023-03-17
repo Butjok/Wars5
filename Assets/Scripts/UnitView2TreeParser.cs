@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Butjok.CommandLine;
 using UnityEditor;
 using UnityEngine;
@@ -16,6 +17,8 @@ public class UnitView2TreeParser : MonoBehaviour {
         if (view)
             Parse(view);
     }
+
+    public float wheelThickness = 0;
 
     public void Parse(UnitView2 view) {
         StartCoroutine(ParseAnimation(view));
@@ -42,7 +45,7 @@ public class UnitView2TreeParser : MonoBehaviour {
             .ToList();
 
         view.body = view.transform.GetComponentsInChildren<Transform>()
-            .SingleOrDefault(t => t.name == "Body");
+            .SingleOrDefault(t => t.name.StartsWith("Body"));
         Assert.IsTrue(view.body, "no body");
 
         view.playerMaterialRenderers = view.transform.GetComponentsInChildren<Renderer>()
@@ -53,18 +56,18 @@ public class UnitView2TreeParser : MonoBehaviour {
         foreach (var wheelTransform in view.transform.GetComponentsInChildren<Transform>()
             .Where(t => t.name.StartsWith("Wheel"))) {
 
-            var localPosition = view.transform.InverseTransformPointWithoutScale(wheelTransform.position);
+            var localPosition = view.body.InverseTransformPointWithoutScale(wheelTransform.position);
             var renderer = wheelTransform.GetComponentInChildren<Renderer>();
             var radius = renderer ? Mathf.Max(renderer.bounds.extents.y, renderer.bounds.extents.z) : 1;
 
             var steeringGroup = UnitView2.Wheel.SteeringGroup.None;
             foreach (UnitView2.Wheel.SteeringGroup value in Enum.GetValues(typeof(UnitView2.Wheel.SteeringGroup)))
-                if (wheelTransform.name.Contains(value.ToString()))
+                if (wheelTransform.name.Contains($"SteeringGroup{value}"))
                     steeringGroup = value;
 
             var wheel = new UnitView2.Wheel {
                 transform = wheelTransform,
-                radius = radius,
+                radius = radius + wheelThickness,
                 raycastOrigin = new Vector2(localPosition.x, localPosition.z),
                 yOffset = localPosition.y,
                 isFixed = wheelTransform.name.Contains("Fixed"),
@@ -77,6 +80,12 @@ public class UnitView2TreeParser : MonoBehaviour {
          * TODO: this will not work if the scaling is not 1
          */
 
+        string GetName(string s, string prefix) {
+            Assert.IsTrue(s.StartsWith(prefix));
+            var regex = new Regex(@"\.\d+$");
+            return regex.Replace(s[prefix.Length..], "");
+        }
+
         view.turrets.Clear();
         foreach (var turretTransform in view.transform.GetComponentsInChildren<Transform>()
             .Where(t => t.name.StartsWith("Turret"))) {
@@ -84,7 +93,7 @@ public class UnitView2TreeParser : MonoBehaviour {
             var turret = new UnitView2.Turret {
                 transform = turretTransform,
                 position = turretTransform.localPosition,
-                name = turretTransform.name.Replace("Turret", ""),
+                name = GetName(turretTransform.name, "Turret"),
                 workMode = WorkMode.RotateToRest,
             };
             view.turrets.Add(turret);
@@ -93,7 +102,7 @@ public class UnitView2TreeParser : MonoBehaviour {
                 .Where(t => t.name.StartsWith("Barrel"))) {
 
                 var barrel = new UnitView2.Turret.Barrel {
-                    name = barrelTransform.name.Replace("Barrel", ""),
+                    name = GetName(barrelTransform.name, "Barrel"),
                     position = barrelTransform.localPosition,
                     transform = barrelTransform,
                     workMode = WorkMode.RotateToRest,
