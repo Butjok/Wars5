@@ -14,7 +14,7 @@ public class PersistentData {
     public static string Path => System.IO.Path.Combine(Application.persistentDataPath, nameof(PersistentData) + ".json");
 
     private static PersistentData loaded;
-    public static PersistentData Get => /*loaded ??=*/ Read();
+    public static PersistentData Get => loaded ??= Read();
 
     [Command]
     public static void Clear() {
@@ -25,6 +25,7 @@ public class PersistentData {
     private static PersistentData Read() {
         return File.Exists(Path) ? File.ReadAllText(Path).FromJson<PersistentData>() : new PersistentData();
     }
+    [Command]
     public static void Save() {
         File.WriteAllText(Path, Get.ToJson());
     }
@@ -38,6 +39,15 @@ public class PersistentData {
 
     public GameSettings gameSettings = new();
     public List<string> log = new();
+
+    [Command]
+    public static float UnitSpeed {
+        get => Get.gameSettings.unitSpeed;
+        set {
+            Get.gameSettings.unitSpeed = value;
+            Save();
+        }
+    }
 }
 
 public class GameSettings {

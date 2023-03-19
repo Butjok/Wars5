@@ -794,12 +794,16 @@ public class LevelEditor : Level {
                             if (units.ContainsKey(position))
                                 TryRemoveUnit(position);
 
-                            var viewPrefab = UnitView.DefaultPrefab;
-                            // if (player.co.unitTypesInfoOverride.TryGetValue(unitType, out var record) && record.viewPrefab)
-                            //     viewPrefab = record.viewPrefab;
-                            // else if (UnitTypesInfo.TryGet(unitType, out record) && record.viewPrefab)
-                            //     viewPrefab = record.viewPrefab;
-
+                            var viewPrefab = (unitType switch {
+                                UnitType.Artillery => "WbHowitzerRigged",
+                                UnitType.Apc => "WbApcRigged",
+                                UnitType.Recon => "WbReconRigged",
+                                UnitType.LightTank => "WbLightTankRigged",
+                                UnitType.Rockets => "WbRocketsRigged",
+                                UnitType.MediumTank => "WbMdTankRigged",
+                                _ => "WbLightTankRigged"
+                            }).LoadAs<UnitView>();
+                            
                             new Unit(player, unitType, position, player.unitLookDirection, viewPrefab: viewPrefab);
                             break;
                         }

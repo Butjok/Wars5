@@ -104,10 +104,10 @@ public class AnimationScript : MonoBehaviour {
                     break;
                 }
 
-                case "SetAim": {
+                /*case "SetAim": {
                         GetComponent<UnitView>().turret.aim = (bool)stack.Pop();
                     break;
-                }
+                }*/
 
                 default:
                     if (int.TryParse(token, out var intValue))

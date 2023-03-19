@@ -44,11 +44,11 @@ public class UnitAttackActionView : UnitActionView {
     public override bool Show {
         set {
 
-            if (action.unit.view.turret) {
+            /*if (action.unit.view.turret) {
                 action.unit.view.turret.aim = value;
                 if (action.unit.view.turret.computer && action.targetUnit.view.body)
                     action.unit.view.turret.computer.Target = action.targetUnit.view.body.transform;
-            }
+            }*/
             uiRoot.gameObject.SetActive(value);
             lineRenderer.enabled = value;
             action.targetUnit.view.HighlightAsTarget = value;
@@ -57,7 +57,7 @@ public class UnitAttackActionView : UnitActionView {
                 return;
 
 
-            uiFrame.boxCollider = action.targetUnit.view.uiBoxCollider;
+            //uiFrame.boxCollider = action.targetUnit.view.uiBoxCollider;
 
             /*var (_, newTargetHp) = action.CalculateHpsAfterAttack();
             var difference = action.targetUnit.Hp - newTargetHp;

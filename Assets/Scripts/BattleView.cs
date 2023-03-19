@@ -7,11 +7,11 @@ using UnityEngine.Assertions;
 public class BattleView : MonoBehaviour {
 
     public struct TargetingSetup {
-        public Dictionary<UnitView, List<UnitView>> targets;
-        public Dictionary<UnitView, int> remainingAttackersCount;
+        public Dictionary<UnitViewOld, List<UnitViewOld>> targets;
+        public Dictionary<UnitViewOld, int> remainingAttackersCount;
     }
 
-    public List<UnitView> unitViews = new();
+    public List<UnitViewOld> unitViews = new();
     public Transform target;
 
     public Transform[] spawnPoints = Array.Empty<Transform>();
@@ -31,7 +31,7 @@ public class BattleView : MonoBehaviour {
                 spawnPoint.gameObject.SetActive(false);
     }
 
-    public void Setup(UnitView unitViewPrefab, int count) {
+    public void Setup(UnitViewOld unitViewPrefab, int count) {
 
         EnsureInitialized();
 
@@ -40,7 +40,7 @@ public class BattleView : MonoBehaviour {
 
         Cleanup();
 
-        for (var i = 0; i < count; i++) {
+        /*for (var i = 0; i < count; i++) {
             var spawnPoint = spawnPoints[i];
             var unitView = Instantiate(unitViewPrefab, spawnPoint.position, spawnPoint.rotation);
             //unitView.transform.localScale = spawnPoint.localScale;
@@ -58,7 +58,7 @@ public class BattleView : MonoBehaviour {
                 unitView.attack.siblings = unitViews.Select(item => item.attack).ToArray();
             if (unitView.respond)
                 unitView.respond.siblings = unitViews.Select(item => item.respond).ToArray();
-        }
+        }*/
 
         if (unitViews.Count > 0) {
             var manualControl = unitViews[0].GetComponent<ManualControl>();
@@ -74,18 +74,18 @@ public class BattleView : MonoBehaviour {
         unitViews.Clear();
     }
 
-    public static TargetingSetup AssignTargets(IReadOnlyList<UnitView> attackers, IReadOnlyList<UnitView> targets, IReadOnlyCollection<UnitView> survivors) {
+    public static TargetingSetup AssignTargets(IReadOnlyList<UnitViewOld> attackers, IReadOnlyList<UnitViewOld> targets, IReadOnlyCollection<UnitViewOld> survivors) {
 
         Assert.AreNotEqual(0, attackers.Count);
         Assert.AreNotEqual(0, targets.Count);
 
         var setup = new TargetingSetup {
-            targets = new Dictionary<UnitView, List<UnitView>>(),
-            remainingAttackersCount = new Dictionary<UnitView, int>()
+            targets = new Dictionary<UnitViewOld, List<UnitViewOld>>(),
+            remainingAttackersCount = new Dictionary<UnitViewOld, int>()
         };
 
         foreach (var attacker in attackers)
-            setup.targets.Add(attacker, new List<UnitView>());
+            setup.targets.Add(attacker, new List<UnitViewOld>());
         foreach (var target in targets)
             setup.remainingAttackersCount.Add(target, survivors.Contains(target) ? 999 : 0);
 

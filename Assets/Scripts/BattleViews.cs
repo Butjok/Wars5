@@ -67,7 +67,7 @@ public class BattleViews : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Alpha9)) {
             visible = !visible;
             if (visible) {
-                var lightTank = "LightTank".LoadAs<UnitView>();
+                var lightTank = "LightTank".LoadAs<UnitViewOld>();
                 var before = new Vector2Int(Random.Range(1, 5 + 1), Random.Range(1, 5 + 1));
                 var after = new Vector2Int(Mathf.Min(before[left], Random.Range(0, 5 + 1)), Mathf.Min(before[right], Random.Range(0, 5 + 1)));
 
@@ -92,7 +92,7 @@ public class BattleViews : MonoBehaviour {
         }
     }
 
-    public void Play(TileType[] tileTypes, UnitView[] unitViewPrefabs, (Vector2Int before, Vector2Int after) count, AnimationSettings animationSettings) {
+    public void Play(TileType[] tileTypes, UnitViewOld[] unitViewPrefabs, (Vector2Int before, Vector2Int after) count, AnimationSettings animationSettings) {
 
         Assert.AreEqual(2, tileTypes.Length);
         Assert.AreEqual(2, unitViewPrefabs.Length);
@@ -104,7 +104,7 @@ public class BattleViews : MonoBehaviour {
         StartCoroutine(Animation(tileTypes, unitViewPrefabs, count, animationSettings));
     }
 
-    private IEnumerator Animation(TileType[] tileTypes, UnitView[] unitViewPrefabs, (Vector2Int before, Vector2Int after) count, AnimationSettings animationSettings) {
+    private IEnumerator Animation(TileType[] tileTypes, UnitViewOld[] unitViewPrefabs, (Vector2Int before, Vector2Int after) count, AnimationSettings animationSettings) {
 
         yield return PostProcessing.Fade(fadeColor, fadeDuration, fadeEase).WaitForCompletion();
         if (level)
@@ -128,13 +128,13 @@ public class BattleViews : MonoBehaviour {
             battleViews[side].Setup(unitViewPrefabs[side], count.before[side]);
 
         var targetingSetup = new BattleView.TargetingSetup[] { new(), new() };
-        var survivors = new List<UnitView>[] { new(), new() };
+        var survivors = new List<UnitViewOld>[] { new(), new() };
 
-        survivors[right] = new List<UnitView>(battleViews[right].unitViews.Randomize().Take(count.after[right]));
+        survivors[right] = new List<UnitViewOld>(battleViews[right].unitViews.Randomize().Take(count.after[right]));
         targetingSetup[left] = BattleView.AssignTargets(battleViews[left].unitViews, battleViews[right].unitViews, survivors[right]);
         
         if (animationSettings.HasFlag(AnimationSettings.Respond) && count.after[right] > 0) {
-            survivors[left] = new List<UnitView>(battleViews[left].unitViews.Randomize().Take(count.after[left]));
+            survivors[left] = new List<UnitViewOld>(battleViews[left].unitViews.Randomize().Take(count.after[left]));
             targetingSetup[right] = BattleView.AssignTargets(survivors[right], battleViews[left].unitViews, survivors[left]);
         }
 
@@ -144,7 +144,7 @@ public class BattleViews : MonoBehaviour {
             if (cameraRectDrivers[side])
                 cameraRectDrivers[side].Show();
 
-        var remaining = 0;
+       /* var remaining = 0;
         foreach (var unitView in battleViews[left].unitViews) {
             var sequencePlayer = animationSettings.HasFlag(AnimationSettings.Move) ? unitView.moveAndAttack : unitView.attack;
             Assert.IsTrue(sequencePlayer);
@@ -163,7 +163,7 @@ public class BattleViews : MonoBehaviour {
                 unitView.respond.Play(targetingSetup[right], true);
             }
             yield return new WaitUntil(() => remaining == 0);
-        }
+        }*/
 
     }
 

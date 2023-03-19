@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Butjok.CommandLine;
 using TMPro;
@@ -66,26 +67,24 @@ public class TurnButton : MonoBehaviour {
             Interactable = debugMakeInteractable;
     }
 
-    public bool IsPlaying { get; private set; }
-
     [Command]
-    public void PlayAnimation(int nextDay) {
+    public Func<bool> PlayAnimation(int nextDay) {
         StopAllCoroutines();
-        IsPlaying = false;
-        StartCoroutine(Animation(nextDay));
+        var completed = false;
+        StartCoroutine(Animation(nextDay, () => completed=true));
         if (debugSun)
             debugSun.PlayDayChange();
+        return () => completed;
     }
 
     public bool Interactable {
         set => button.interactable = value;
     }
 
-    public IEnumerator Animation(int nextDay) {
+    public IEnumerator Animation(int nextDay, Action onComplete=null) {
 
         Assert.IsTrue(carousel);
 
-        IsPlaying = true;
         var changedDay = false;
         var startTime = Time.unscaledTime;
         while (Time.unscaledTime < startTime + duration) {
@@ -101,6 +100,7 @@ public class TurnButton : MonoBehaviour {
         }
         Interactable = debugMakeInteractable;
         carousel.rotation = Quaternion.identity;
-        IsPlaying = false;
+        
+        onComplete?.Invoke();
     }
 }

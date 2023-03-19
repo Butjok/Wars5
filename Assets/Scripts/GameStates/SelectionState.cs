@@ -96,12 +96,12 @@ public static class SelectionState {
         if (!level.autoplay && !level.CurrentPlayer.IsAi && cursor)
             cursor.show = true;
 
-        var turnButton = Object.FindObjectOfType<TurnButton>();
+        /*var turnButton = Object.FindObjectOfType<TurnButton>();
         if (turnButton) {
             turnButton.Color = player.Color;
             if (turnStart)
                 turnButton.PlayAnimation(level.Day(level.turn) + 1);
-        }
+        }*/
 
         var issuedAiCommands = false;
         while (true) {

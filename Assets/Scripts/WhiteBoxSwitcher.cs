@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WhiteBoxSwitcher : MonoBehaviour {
 
-    public List<UnitView2> views = new();
+    public List<UnitView> views = new();
     public int index = -1;
 
     public void Update() {

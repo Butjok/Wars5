@@ -4,8 +4,7 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class AttackActionView : MonoBehaviour {
 
-	public UnitView2 debugTarget;
-	public IUiBoundPoints target;
+	public UnitView target;
 	[SerializeField] private RectTransform frame;
 	[SerializeField] private TMP_Text damageText;
 
@@ -14,9 +13,7 @@ public class AttackActionView : MonoBehaviour {
 	}
 
 	private void LateUpdate() {
-		if (debugTarget)
-			target = debugTarget;
-		if (target.IsValid())
+		if (target)
 			frame.gameObject.SetActive(frame.TryEncapsulate(target.UiBoundPoints, out _));
 	}
 }

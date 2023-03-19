@@ -4,16 +4,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public interface IUiBoundPoints {
-    IEnumerable<Vector3> UiBoundPoints { get; }
-}
-
 public static class UiUtils {
 
-    public static bool IsValid(this IUiBoundPoints uiBoundPoints) {
-        return uiBoundPoints is Object o && o || uiBoundPoints != null;
-    }
-    
     public static bool TryCalculateScreenBounds(Camera camera, IEnumerable<Vector3> points, out Vector3 min, out Vector3 max) {
 
         min = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
@@ -52,15 +44,6 @@ public static class UiUtils {
         distance = (min.z + max.z) / 2;
 
         return true;
-    }
-
-    public static bool TryEncapsulate(this RectTransform rectTransform, IUiBoundPoints uiBoundPoints, out float distance, Camera camera = null) {
-
-        if (uiBoundPoints.IsValid())
-            return rectTransform.TryEncapsulate(uiBoundPoints.UiBoundPoints, out distance, camera);
-
-        distance = 0;
-        return false;
     }
 
     [Command] public static Vector2 alphaFading = new(15, 20);

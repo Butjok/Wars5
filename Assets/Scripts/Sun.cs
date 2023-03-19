@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Butjok.CommandLine;
 using UnityEngine;
@@ -31,16 +32,18 @@ public class Sun : MonoBehaviour {
     public float timeScale = 5;
 
     [Command]
-    public void PlayDayChange() {
+    public Func<bool> PlayDayChange() {
         StopAllCoroutines();
-        StartCoroutine(Animation());
+        var completed = false;
+        StartCoroutine(Animation(() => completed = true));
+        return () => completed;
     }
 
     private void OnEnable() {
         startAngles = transform.localRotation.eulerAngles;
     }
 
-    public IEnumerator Animation() {
+    public IEnumerator Animation(Action onComplete = null) {
 
         Assert.IsTrue(axis is 0 or 1 or 2);
 
@@ -73,5 +76,7 @@ public class Sun : MonoBehaviour {
             light.color = Color.white;
             light.intensity = lightIntensityAmplitude;
         }
+        
+        onComplete?.Invoke();
     }
 }

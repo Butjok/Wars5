@@ -44,12 +44,6 @@ public static class AttackActionState {
 
         if (PersistentData.Get.gameSettings.showBattleAnimation) {
 
-            var attackerPrefab = attacker.view.GetComponent<BattleAnimationPlayer>();
-            var targetPrefab = target.view.GetComponent<BattleAnimationPlayer>();
-
-            Assert.IsTrue(attackerPrefab);
-            Assert.IsTrue(targetPrefab);
-
             var attackerSide = attacker.Player.side;
             var targetSide = target.Player.side;
             if (attackerSide == targetSide) {
@@ -59,12 +53,12 @@ public static class AttackActionState {
 
             var setup = new Battle.Setup {
                 [attackerSide] = new() {
-                    unitViewPrefab = attackerPrefab,
+                    unitViewPrefab = attacker.view.prefab,
                     count = Count(attacker.type, attacker.Hp, newAttackerHp),
                     color = attacker.Player.Color
                 },
                 [targetSide] = new() {
-                    unitViewPrefab = targetPrefab,
+                    unitViewPrefab = target.view.prefab,
                     count = Count(target.type, target.Hp, newTargetHp),
                     color = target.Player.Color
                 }
@@ -82,32 +76,20 @@ public static class AttackActionState {
                 level.battleCameras[left].gameObject.SetActive(true);
                 level.battleCameras[right].gameObject.SetActive(true);
 
-                var attackAnimations = new List<BattleAnimation>();
-                foreach (var unit in battle.units[attackerSide]) {
-                    var animation = new BattleAnimation(unit);
-                    attackAnimations.Add(animation);
-                    var found = unit.inputs.TryGetValue(action.weaponName, out var inputs);
-                    Assert.IsTrue(found, $"{unit}: cannot find battle animation input for weapon {action.weaponName}");
-                    animation.Play(action.Path.Count > 1 ? inputs.moveAttack : inputs.attack, battle.GetTargets(unit));
-                }
+                var attackAnimations = new List<Func<bool>>();
+                foreach (var unit in battle.units[attackerSide])
+                    attackAnimations.Add(action.Path.Count > 1 ? unit.MoveAttack(action.weaponName) : unit.Attack(action.weaponName));
 
-                while (attackAnimations.Any(aa => !aa.Completed))
+                while (attackAnimations.Any(aa => !aa()))
                     yield return StateChange.none;
 
                 if (respond) {
+                    var responseAnimations = new List<Func<bool>>();
+                    foreach (var unit in battle.units[targetSide].Where(u => u.survives))
+                        responseAnimations.Add(unit.Respond(responseWeaponName));
 
-                    var responseAnimations = new List<BattleAnimation>();
-                    foreach (var unit in battle.units[targetSide].Where(u => u.survives)) {
-                        var animation = new BattleAnimation(unit);
-                        responseAnimations.Add(animation);
-                        var found = unit.inputs.TryGetValue(responseWeaponName, out var inputs);
-                        Assert.IsTrue(found, $"{unit}: cannot find battle animation input for weapon {responseWeaponName}");
-                        animation.Play(inputs.respond, battle.GetTargets(unit));
-                    }
-
-                    while (responseAnimations.Any(ra => !ra.Completed))
+                    while (responseAnimations.Any(ra => !ra()))
                         yield return StateChange.none;
-
                 }
 
                 var time = Time.time;

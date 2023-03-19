@@ -91,7 +91,7 @@ public class Unit : IDisposable {
                 return;
             fuel = Clamp(value, 0, initialized ? MaxFuel(this) : MaxFuel(type));
 
-            view.Fuel = fuel;
+            //view.Fuel = fuel;
         }
     }
 
@@ -115,8 +115,6 @@ public class Unit : IDisposable {
             if (initialized && carrier == value)
                 return;
             carrier = value;
-
-            view.Carrier = carrier;
         }
     }
 
@@ -166,7 +164,6 @@ public class Unit : IDisposable {
         Assert.IsTrue(viewPrefab);
 
         view = Object.Instantiate(viewPrefab, player.level.transform);
-        view.unit = this;
         view.prefab = viewPrefab;
         view.LookDirection = lookDirection ?? player.unitLookDirection;
 

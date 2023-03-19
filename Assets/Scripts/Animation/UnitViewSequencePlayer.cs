@@ -33,7 +33,7 @@ public class UnitViewSequencePlayer : MonoBehaviour {
         initialized = true;
 
         unitView = GetComponent<UnitView>();
-        Assert.IsTrue(unitView);
+        //Assert.IsTrue(unitView);
 
         index = Array.IndexOf(siblings, this);
         Assert.AreNotEqual(-1, index);
@@ -147,11 +147,11 @@ public class UnitViewSequencePlayer : MonoBehaviour {
                         break;
 
                     case "aim":
-                        unitView.turret.aim = (dynamic)stack.Pop();
+                        //unitView.turret.aim = (dynamic)stack.Pop();
                         break;
 
                     case "shoot":
-                        unitView.turret.Shoot(targetingSetup, (dynamic)stack.Pop());
+                        //unitView.turret.Shoot(targetingSetup, (dynamic)stack.Pop());
                         break;
 
                     case "steer":

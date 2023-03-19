@@ -83,12 +83,13 @@ public class BattleView2 : IDisposable {
         view.transform.gameObject.SetActive(true);
     }
 
-    public void Arrange(IEnumerable<BattleAnimationPlayer> units) {
+    public void Arrange(IEnumerable<UnitView> units) {
         var queue = new Queue<Transform>(view.spawnPoints);
         foreach (var unit in units) {
             var valid = queue.TryDequeue(out var spawnPoint);
             Assert.IsTrue(valid);
             unit.transform.SetPositionAndRotation(spawnPoint.position, spawnPoint.rotation);
+            unit.PlaceOnTerrain();
         }
     }
 
@@ -106,7 +107,7 @@ public class Battle : IDisposable {
 
     public class Setup {
         public class Side {
-            public BattleAnimationPlayer unitViewPrefab;
+            public UnitView unitViewPrefab;
             public Vector2Int count;
             public Transform parent;
             public Color color;
@@ -141,20 +142,20 @@ public class Battle : IDisposable {
 
     public static readonly HashSet<Battle> undisposed = new();
 
-    public readonly List<BattleAnimationPlayer>[] units = { new(), new() };
-    public readonly Dictionary<BattleAnimationPlayer, List<BattleAnimationPlayer>> targets = new();
+    public readonly List<UnitView>[] units = { new(), new() };
+    public readonly Dictionary<UnitView, List<UnitView>> targets = new();
 
-    public void AddTarget(BattleAnimationPlayer attacker, BattleAnimationPlayer target) {
+    public void AddTarget(UnitView attacker, UnitView target) {
         if (!targets.TryGetValue(attacker, out var list)) {
-            list = new List<BattleAnimationPlayer>();
+            list = new List<UnitView>();
             targets.Add(attacker, list);
         }
         list.Add(target);
     }
-    public IEnumerable<BattleAnimationPlayer> GetTargets(BattleAnimationPlayer attacker) {
-        return targets.TryGetValue(attacker, out var list) ? list : Enumerable.Empty<BattleAnimationPlayer>();
+    public IEnumerable<UnitView> GetTargets(UnitView attacker) {
+        return targets.TryGetValue(attacker, out var list) ? list : Enumerable.Empty<UnitView>();
     }
-    public bool TryRemoveTarget(BattleAnimationPlayer attacker, BattleAnimationPlayer target) {
+    public bool TryRemoveTarget(UnitView attacker, UnitView target) {
         return targets.TryGetValue(attacker, out var list) && list.Remove(target);
     }
 
@@ -172,12 +173,12 @@ public class Battle : IDisposable {
 
         for (var side = left; side <= right; side++)
         for (var i = 0; i < setup[side].count[before]; i++) {
-            var unit = Object.Instantiate(setup[side].unitViewPrefab, setup[side].parent);
-            var view = unit.GetComponent<UnitView>();
-            Assert.IsTrue(view);
+            var view = Object.Instantiate(setup[side].unitViewPrefab, setup[side].parent);
+            view.ResetWeapons();
+            //Assert.IsTrue(view);
             view.PlayerColor = setup[side].color;
-            units[side].Add(unit);
-            unit.survives = i < setup[side].count[after];
+            units[side].Add(view);
+            view.survives = i < setup[side].count[after];
         }
 
         for (var i = 0; i < Mathf.Max(units[left].Count, units[right].Count); i++) {

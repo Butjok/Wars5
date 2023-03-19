@@ -22,11 +22,11 @@ public class Projectile : MonoBehaviour {
             destroy = true;
             transform.position = ballisticCurve.Sample(totalTime);
 
-            if (targetingSetup.targets != null && targetingSetup.targets.TryGetValue(source.unitView, out var targets)) {
+            //if (targetingSetup.targets != null && targetingSetup.targets.TryGetValue(source.unitView, out var targets)) {
 
-                foreach (var target in targets) {
+                //foreach (var target in targets) {
 
-                    Assert.AreNotEqual(0, target.impactPoints.Length);
+                    /*Assert.AreNotEqual(0, target.impactPoints.Length);
                     var impactPoint = target.impactPoints.Random();
                     Instantiate(impactPrefab, impactPoint.transform.position, impactPoint.transform.rotation).Play();
 
@@ -36,9 +36,9 @@ public class Projectile : MonoBehaviour {
                     if (isLastProjectile && targetingSetup.remainingAttackersCount[target] == 0)
                         target.Die(this, impactPoint);
                     else
-                        target.TakeDamage(this, impactPoint);
-                }
-            }
+                        target.TakeDamage(this, impactPoint);*/
+                //}
+           // }
         }
 
         else {

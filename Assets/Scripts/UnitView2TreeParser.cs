@@ -13,17 +13,17 @@ public class UnitView2TreeParser : MonoBehaviour {
 
     [Command] [ContextMenu(nameof(Parse))]
     public void Parse() {
-        var view = GetComponent<UnitView2>();
+        var view = GetComponent<UnitView>();
         if (view)
             Parse(view);
     }
 
     public float wheelThickness = 0;
 
-    public void Parse(UnitView2 view) {
+    public void Parse(UnitView view) {
         StartCoroutine(ParseAnimation(view));
     }
-    public IEnumerator ParseAnimation(UnitView2 view) {
+    public IEnumerator ParseAnimation(UnitView view) {
 
         foreach (var t in view.GetComponentsInChildren<Transform>()) {
             if (t == transform)
@@ -60,12 +60,12 @@ public class UnitView2TreeParser : MonoBehaviour {
             var renderer = wheelTransform.GetComponentInChildren<Renderer>();
             var radius = renderer ? Mathf.Max(renderer.bounds.extents.y, renderer.bounds.extents.z) : 1;
 
-            var steeringGroup = UnitView2.Wheel.SteeringGroup.None;
-            foreach (UnitView2.Wheel.SteeringGroup value in Enum.GetValues(typeof(UnitView2.Wheel.SteeringGroup)))
+            var steeringGroup = UnitView.Wheel.SteeringGroup.None;
+            foreach (UnitView.Wheel.SteeringGroup value in Enum.GetValues(typeof(UnitView.Wheel.SteeringGroup)))
                 if (wheelTransform.name.Contains($"SteeringGroup{value}"))
                     steeringGroup = value;
 
-            var wheel = new UnitView2.Wheel {
+            var wheel = new UnitView.Wheel {
                 transform = wheelTransform,
                 radius = radius + wheelThickness,
                 raycastOrigin = new Vector2(localPosition.x, localPosition.z),
@@ -90,7 +90,7 @@ public class UnitView2TreeParser : MonoBehaviour {
         foreach (var turretTransform in view.transform.GetComponentsInChildren<Transform>()
             .Where(t => t.name.StartsWith("Turret"))) {
 
-            var turret = new UnitView2.Turret {
+            var turret = new UnitView.Turret {
                 transform = turretTransform,
                 position = turretTransform.localPosition,
                 name = GetName(turretTransform.name, "Turret"),
@@ -101,7 +101,7 @@ public class UnitView2TreeParser : MonoBehaviour {
             foreach (var barrelTransform in turretTransform.GetComponentsInChildren<Transform>()
                 .Where(t => t.name.StartsWith("Barrel"))) {
 
-                var barrel = new UnitView2.Turret.Barrel {
+                var barrel = new UnitView.Turret.Barrel {
                     name = GetName(barrelTransform.name, "Barrel"),
                     position = barrelTransform.localPosition,
                     transform = barrelTransform,
