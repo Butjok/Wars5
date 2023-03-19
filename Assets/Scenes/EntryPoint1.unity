@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.2238943, g: 0.23828247, b: 0.30262414, a: 1}
+  m_IndirectSpecularColor: {r: 0.22377369, g: 0.2381809, b: 0.30249628, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5851,7 +5851,7 @@ GameObject:
   m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1011297780
 Transform:
   m_ObjectHideFlags: 0
@@ -5880,7 +5880,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outgoingDistance: 0.82
-  target: {fileID: 1945711980}
+  hitPoint: {fileID: 0}
   incomingDistance: 1.1
   incomingElevation: 0.73
 --- !u!1 &1064545065
@@ -11370,11 +11370,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8df0c6efc7208b643b0325fc31b9365d, type: 3}
---- !u!4 &1945711980 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1819608975891487384, guid: 8df0c6efc7208b643b0325fc31b9365d, type: 3}
-  m_PrefabInstance: {fileID: 1945711979}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1945711981 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2818991707494627145, guid: 8df0c6efc7208b643b0325fc31b9365d, type: 3}
