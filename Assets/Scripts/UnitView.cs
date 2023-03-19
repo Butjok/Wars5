@@ -346,15 +346,15 @@ public class UnitView : MonoBehaviour {
 			var hasHit = Physics.SphereCast(ray, wheel.radius, out var hit, float.MaxValue, TerrainLayerMask);
 			if (hasHit) {
 				wheel.position = ray.GetPoint(hit.distance);
-
-				var noise = Mathf.PerlinNoise(wheel.position.x * terrainBumpTiling, wheel.position.z * terrainBumpTiling);
-				var height = Mathf.Lerp(terrainBumpRange[0], terrainBumpRange[1], noise);
-				wheel.position += height * Vector3.up;
 			}
 			else {
 				wheel.position.x = projectedOriginWorldPosition.x;
 				wheel.position.z = projectedOriginWorldPosition.z;
 			}
+			
+			var noise = Mathf.PerlinNoise(wheel.position.x * terrainBumpTiling, wheel.position.z * terrainBumpTiling);
+			var height = Mathf.Lerp(terrainBumpRange[0], terrainBumpRange[1], noise);
+			wheel.position += height * Vector3.up;
 		}
 
 		if (wheel.previousPosition is { } actualPreviousPosition) {
