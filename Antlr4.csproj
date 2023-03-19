@@ -225,7 +225,16 @@
      <Compile Include="Assets/Antlr4/Tree/IParseTree.cs" />
      <Compile Include="Assets/Antlr4/RuleContext.cs" />
      <Compile Include="Assets/Antlr4/Misc/IntervalSet.cs" />
+     <Folder Include="Assets/Antlr4/Misc" />
+     <Folder Include="Assets/Antlr4/Atn" />
+     <Folder Include="Assets/Antlr4/Tree/Xpath" />
+     <Folder Include="Assets/Antlr4/Properties" />
+     <Folder Include="Assets/Antlr4/Sharpen" />
+     <Folder Include="Assets/Antlr4/Dfa" />
+     <Folder Include="Assets/Antlr4/Tree" />
      <None Include="Assets/Antlr4/Antlr4.asmdef" />
+     <Folder Include="Assets/Antlr4" />
+     <Folder Include="Assets/Antlr4/Tree/Pattern" />
      <Reference Include="UnityEngine">
      <HintPath>/Applications/Unity/Hub/Editor/2021.3.1f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
      </Reference>

@@ -50,6 +50,7 @@
      <None Include="Assets/SDF Toolkit/Shaders/SDF UI Unlit.shader" />
      <None Include="Assets/SDF Toolkit/SDFToolkit.asmdef" />
      <None Include="Assets/SDF Toolkit/Shaders/SDF Meta.cginc" />
+     <Folder Include="Assets/SDF Toolkit" />
      <None Include="Assets/SDF Toolkit/Shaders/SDF Standard.cginc" />
      <None Include="Assets/SDF Toolkit/Shaders/SDF Unlit.shader" />
      <None Include="Assets/SDF Toolkit/Shaders/SDF Unlit.cginc" />
@@ -57,8 +58,10 @@
      <None Include="Assets/SDF Toolkit/Shaders/SDF Deferred.cginc" />
      <None Include="Assets/SDF Toolkit/Shaders/SDF Metallic.shader" />
      <None Include="Assets/SDF Toolkit/Shaders/SDFToolkit.hlsl" />
+     <Folder Include="Assets/SDF Toolkit/Shaders" />
      <None Include="Assets/SDF Toolkit/Shaders/SDF Shadow.cginc" />
      <None Include="Assets/SDF Toolkit/Shaders/SDF UI Metallic.shader" />
+     <Folder Include="Assets/SDF Toolkit/Documentation" />
      <Reference Include="UnityEngine">
      <HintPath>/Applications/Unity/Hub/Editor/2021.3.1f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
      </Reference>

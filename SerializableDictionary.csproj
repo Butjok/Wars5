@@ -44,6 +44,9 @@
      <Compile Include="Assets/SerializableDictionary/Example/UserSerializableDictionaries.cs" />
      <Compile Include="Assets/SerializableDictionary/SerializableDictionary.cs" />
      <Compile Include="Assets/SerializableDictionary/Example/SerializableDictionaryExample.cs" />
+     <Folder Include="Assets/SerializableDictionary" />
+     <Folder Include="Assets/SerializableDictionary/Example/Editor" />
+     <Folder Include="Assets/SerializableDictionary/Example" />
      <None Include="Assets/SerializableDictionary/SerializableDictionary.asmdef" />
      <Reference Include="UnityEngine">
      <HintPath>/Applications/Unity/Hub/Editor/2021.3.1f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>

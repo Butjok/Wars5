@@ -41,6 +41,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerializableDictionaryEdito
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDFToolkitEditor", "SDFToolkitEditor.csproj", "{26db8885-7af0-54fa-2d8e-6c26e0d81b78}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor-firstpass", "Assembly-CSharp-Editor-firstpass.csproj", "{5cc63faa-2c5e-0c5c-4a94-6790d5d823ff}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-firstpass", "Assembly-CSharp-firstpass.csproj", "{cfaf5f5f-ffc3-ed7f-1757-4a565014486c}"
 EndProject
 Global
@@ -88,6 +90,8 @@ Global
 		{eda48262-04d7-7b57-95d3-f3c55c2e62c6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26db8885-7af0-54fa-2d8e-6c26e0d81b78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{26db8885-7af0-54fa-2d8e-6c26e0d81b78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5cc63faa-2c5e-0c5c-4a94-6790d5d823ff}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5cc63faa-2c5e-0c5c-4a94-6790d5d823ff}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{cfaf5f5f-ffc3-ed7f-1757-4a565014486c}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{cfaf5f5f-ffc3-ed7f-1757-4a565014486c}.Debug|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection

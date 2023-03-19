@@ -77,7 +77,12 @@
      <Compile Include="Assets/Fullscreen/Editor/Logger.cs" />
      <Compile Include="Assets/Fullscreen/Editor/FullscreenRects.cs" />
      <Compile Include="Assets/Fullscreen/Editor/GlobalToolbarHiding.cs" />
+     <Folder Include="Assets/Fullscreen/Editor/Linux" />
      <None Include="Assets/Fullscreen/FullscreenEditor.asmdef" />
+     <Folder Include="Assets/Fullscreen/Editor/Displays" />
+     <Folder Include="Assets/Fullscreen/Editor" />
+     <Folder Include="Assets/Fullscreen" />
+     <Folder Include="Assets/Fullscreen/Editor/Windows" />
      <Reference Include="UnityEngine">
      <HintPath>/Applications/Unity/Hub/Editor/2021.3.1f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
      </Reference>

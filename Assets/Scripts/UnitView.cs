@@ -864,7 +864,7 @@ public class UnitView : MonoBehaviour {
 
     public string GetDefaultMoveAttackInput(WeaponName weaponName) {
         weaponName = GetFallbackWeaponName(weaponName);
-        return "reset-weapons 2 .33 3 move-in " + GetDefaultAttackInput(weaponName);
+        return "reset-weapons 1.5 .5 2 move-in " + GetDefaultAttackInput(weaponName);
     }
     public int automaticWeaponShotsCount = 5;
     public string GetDefaultAttackInput(WeaponName weaponName) {

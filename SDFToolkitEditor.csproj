@@ -44,6 +44,7 @@
      <Compile Include="Assets/SDF Toolkit/Editor/SDFShaderGUI.cs" />
      <Compile Include="Assets/SDF Toolkit/Editor/SDFTextureGeneratorWindow.cs" />
      <None Include="Assets/SDF Toolkit/Editor/SDFToolkitEditor.asmdef" />
+     <Folder Include="Assets/SDF Toolkit/Editor" />
      <Reference Include="UnityEngine">
      <HintPath>/Applications/Unity/Hub/Editor/2021.3.1f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
      </Reference>

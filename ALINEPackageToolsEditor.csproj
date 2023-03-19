@@ -42,6 +42,7 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets/ALINE/PackageTools/Editor/DependencyCheck.cs" />
+     <Folder Include="Assets/ALINE/PackageTools/Editor" />
      <None Include="Assets/ALINE/PackageTools/Editor/PackageToolsEditor.asmdef" />
      <Reference Include="UnityEngine">
      <HintPath>/Applications/Unity/Hub/Editor/2021.3.1f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>

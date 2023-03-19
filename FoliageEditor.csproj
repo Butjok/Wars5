@@ -43,6 +43,7 @@
   <ItemGroup>
      <Compile Include="Assets/Scripts/Stable/Foliage/Editor/FoliageParser.cs" />
      <None Include="Assets/Scripts/Stable/Foliage/Editor/FoliageEditor.asmdef" />
+     <Folder Include="Assets/Scripts/Stable/Foliage/Editor" />
      <Reference Include="UnityEngine">
      <HintPath>/Applications/Unity/Hub/Editor/2021.3.1f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
      </Reference>

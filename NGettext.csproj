@@ -70,7 +70,16 @@
      <Compile Include="Assets/NGettext/src/NGettext/Plural/Ast/AstTokenParser.cs" />
      <Compile Include="Assets/NGettext/src/NGettext/Loaders/MoLoader.cs" />
      <Compile Include="Assets/NGettext/src/NGettext/Plural/AstPluralRule.cs" />
+     <Folder Include="Assets/NGettext/samples" />
+     <Folder Include="Assets/NGettext/src/NGettext.PluralCompile/Compiler" />
+     <Folder Include="Assets/NGettext/src/NGettext/Loaders" />
+     <Folder Include="Assets/NGettext/src/NGettext.PluralCompile" />
+     <Folder Include="Assets/NGettext" />
      <None Include="Assets/NGettext/NGettext.asmdef" />
+     <Folder Include="Assets/NGettext/src/NGettext" />
+     <Folder Include="Assets/NGettext/src" />
+     <Folder Include="Assets/NGettext/src/NGettext/Plural/Ast" />
+     <Folder Include="Assets/NGettext/src/NGettext/Plural" />
      <Reference Include="UnityEngine">
      <HintPath>/Applications/Unity/Hub/Editor/2021.3.1f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
      </Reference>

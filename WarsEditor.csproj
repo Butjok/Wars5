@@ -47,6 +47,7 @@
      <Compile Include="Assets/Scripts/Editor/WarsSerializableDictionaryPropertyDrawer2.cs" />
      <Compile Include="Assets/Scripts/Editor/FullscreenPlayMode.cs" />
      <Compile Include="Assets/Scripts/Editor/InputViewer.cs" />
+     <Folder Include="Assets/Scripts/Editor" />
      <None Include="Assets/Scripts/Editor/WarsEditor.asmdef" />
      <Reference Include="UnityEngine">
      <HintPath>/Applications/Unity/Hub/Editor/2021.3.1f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>

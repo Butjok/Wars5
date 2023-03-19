@@ -51,6 +51,8 @@
      <Compile Include="Assets/Priority Queue/IPriorityQueue.cs" />
      <Compile Include="Assets/Priority Queue/Properties/AssemblyInfo.cs" />
      <Compile Include="Assets/Priority Queue/StablePriorityQueueNode.cs" />
+     <Folder Include="Assets/Priority Queue" />
+     <Folder Include="Assets/Priority Queue/Properties" />
      <None Include="Assets/Priority Queue/PriorityQueue.asmdef" />
      <Reference Include="UnityEngine">
      <HintPath>/Applications/Unity/Hub/Editor/2021.3.1f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>

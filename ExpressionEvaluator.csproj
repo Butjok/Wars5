@@ -48,6 +48,8 @@
      <Compile Include="Assets/ExpressionEvaluator/ExpressionEvaluator.cs" />
      <Compile Include="Assets/ExpressionEvaluator/Parsers/ArithmeticListener.cs" />
      <Compile Include="Assets/ExpressionEvaluator/Parsers/ArithmeticLexer.cs" />
+     <Folder Include="Assets/ExpressionEvaluator/Parsers" />
+     <Folder Include="Assets/ExpressionEvaluator" />
      <None Include="Assets/ExpressionEvaluator/ExpressionEvaluator.asmdef" />
      <Reference Include="UnityEngine">
      <HintPath>/Applications/Unity/Hub/Editor/2021.3.1f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
