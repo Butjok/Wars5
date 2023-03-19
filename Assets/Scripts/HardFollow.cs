@@ -26,7 +26,7 @@ public class HardFollow : MonoBehaviour {
     }
     public void LateUpdate() {
         if (Target)
-            transform.position = Target.body ? Target.body.transform.position : Target.transform.position;
+            transform.position = Target.transform.position.ToVector2().Raycast();
     }
     public UnitView Target {
         get => target;

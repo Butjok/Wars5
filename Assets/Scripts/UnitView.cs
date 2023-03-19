@@ -632,8 +632,8 @@ public class UnitView : MonoBehaviour {
 		var barrelRotation = Quaternion.Euler(barrel.angle, 0, 0);
 
 		var barrelForward = body.rotation * turretRotation * barrelRotation * Vector3.forward;
-		using (Draw.ingame.WithDuration(2))
-			Draw.ingame.Arrow(barrelPosition, barrelPosition + barrelForward, Color.yellow);
+		//using (Draw.ingame.WithDuration(2))
+		//	Draw.ingame.Arrow(barrelPosition, barrelPosition + barrelForward, Color.yellow);
 
 		if (barrel.shotParticleSystem)
 			barrel.shotParticleSystem.Play();
