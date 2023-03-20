@@ -9,7 +9,7 @@ public class Trail:MonoBehaviour {
 		trailRenderer = GetComponent<LineRenderer>();
 		trailRenderer.SetPositions(new Vector3[2]);
 	}
-	public void Update() {
+	public void LateUpdate() {
 		if (lastPosition is { } position) {
 			trailRenderer.SetPosition(0,transform.position);
 			trailRenderer.SetPosition(1,position);

@@ -70,10 +70,12 @@
      <Compile Include="Assets/Scripts/Traverser.cs" />
      <Compile Include="Assets/Scripts/GameStates/VictoryState.cs" />
      <Compile Include="Assets/Scripts/CreditsText.cs" />
+     <Compile Include="Assets/Scripts/ProjectileNew.cs" />
      <Compile Include="Assets/Scripts/LevelLogic/TutorialLevelLogic.cs" />
      <Compile Include="Assets/Scripts/SavedGamesView.cs" />
      <Compile Include="Assets/Scripts/Funny.cs" />
      <Compile Include="Assets/Scripts/GameStates/SelectionState2.cs" />
+     <Compile Include="Assets/Scripts/Quadratic.cs" />
      <Compile Include="Assets/Scripts/CampaignOverviewState.cs" />
      <Compile Include="Assets/Scripts/Animation/Turret.cs" />
      <Compile Include="Assets/Scripts/CampaignView.cs" />
@@ -187,8 +189,6 @@
      <Compile Include="Assets/Scripts/GameStates/PathSelectionState2.cs" />
      <Compile Include="Assets/Scripts/FlipbookTest.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
-     <Compile Include="Assets/Scripts/ProjectileNew.cs" />
-     <Compile Include="Assets/Scripts/Quadratic.cs" />
      <None Include="Assets/Scripts/Wars.asmdef" />
      <Folder Include="Assets/Scripts/GameStates" />
      <Folder Include="Assets/Scripts/Level" />
