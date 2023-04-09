@@ -45,7 +45,7 @@ public class MoveSequence {
         Action onComplete=null) {
 
         this.target = target;
-        this.speed = _speed ?? PersistentData.Get.gameSettings.unitSpeed;
+        this.speed = _speed ?? PersistentData.Loaded.gameSettings.unitSpeed;
         this._finalDirection = _finalDirection;
         this.onComplete = onComplete;
         finalPosition = target.position.ToVector2().RoundToInt();

@@ -1,30 +1,30 @@
-using System;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
 
-public class FitHorizontal : MonoBehaviour {
+[ExecuteInEditMode]
+[RequireComponent(typeof(Image))]
+public class FitWidth : MonoBehaviour {
 
     public float desiredWidth = 250;
     public Image image;
 
-    public Sprite[] testSprites = { };
-
     private void OnEnable() {
         image = GetComponent<Image>();
         Assert.IsTrue(image);
+        Sprite = image.sprite;
     }
 
-    private int index = 0;
-    private void Update() {
-        if (Input.GetKeyDown(KeyCode.P) && testSprites.Length > 0)
-            Sprite = testSprites[index++ % testSprites.Length];
+    private void OnValidate() {
+        Sprite = image.sprite;
     }
 
     public Sprite Sprite {
         set {
-
             image.sprite = value;
+
+            if (!value)
+                return;
 
             float width = value.texture.width;
             float height = value.texture.height;

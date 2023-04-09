@@ -238,4 +238,20 @@ public static class MathUtils {
     public static Vector3 InverseTransformPointWithoutScale(this Transform transform, Vector3 point) {
         return Quaternion.Inverse(transform.rotation) * (point - transform.position);
     }
+    
+    public static (int low, int high) FitSegment(int count, int low, int high) {
+        if (low < 0 && high >= count) {
+            low = 0;
+            high = count - 1;
+        }
+        else if (low < 0) {
+            high = Mathf.Min(count - 1, high - low);
+            low = 0;
+        }
+        else if (high >= count) {
+            low = Mathf.Max(0, low - high + count - 1);
+            high = count - 1;
+        }
+        return (low, high);
+    }
 }

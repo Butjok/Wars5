@@ -24,7 +24,7 @@ public class PlayerTurnState : IDisposableState {
 
 			if (TurnButton.TryGet(out var turnButton)) {
 				turnButton.Color = player.Color;
-				if (animateTurnStart && PersistentData.Get.gameSettings.animateNight && turnButton.Day is {} shownDay && shownDay != day) {
+				if (animateTurnStart && PersistentData.Loaded.gameSettings.animateNight && turnButton.Day is {} shownDay && shownDay != day) {
 					var isCompleted = turnButton.PlayAnimation(day);
 					while (!isCompleted())
 						yield return StateChange.none;

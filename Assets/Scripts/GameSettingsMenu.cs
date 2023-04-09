@@ -46,7 +46,7 @@ public class GameSettingsMenu : MonoBehaviour {
     public void Show(Level level) {
 
         this.level = level;
-        gameSettings = PersistentData.Get.gameSettings.ShallowCopy();
+        gameSettings = PersistentData.Loaded.gameSettings.ShallowCopy();
 
         root.SetActive(true);
         UpdateControls();
@@ -70,7 +70,7 @@ public class GameSettingsMenu : MonoBehaviour {
         shuffleMusicToggle.SetIsOnWithoutNotify(gameSettings.shuffleMusic);
         
         //okButton.interactable =game.settings.DiffersFrom(oldSettings);
-        closeButton.interactable = !gameSettings.DiffersFrom(PersistentData.Get.gameSettings);
+        closeButton.interactable = !gameSettings.DiffersFrom(PersistentData.Loaded.gameSettings);
     }
 
     public void UpdateSettings() {
@@ -98,7 +98,7 @@ public class GameSettingsMenu : MonoBehaviour {
     }
 
     public void Close() {
-        if (!PersistentData.Get.gameSettings.DiffersFrom(gameSettings))
+        if (!PersistentData.Loaded.gameSettings.DiffersFrom(gameSettings))
             level.commands.Enqueue(GameSettingsState.close);
         else {
             shakeTweener?.Complete();
@@ -113,12 +113,12 @@ public class GameSettingsMenu : MonoBehaviour {
         UpdateControls();
     }
     public void Cancel() {
-        gameSettings = PersistentData.Get.gameSettings.ShallowCopy();
+        gameSettings = PersistentData.Loaded.gameSettings.ShallowCopy();
         PostProcessing.Setup(gameSettings);
         level.commands.Enqueue(GameSettingsState.close);
     }
     public void Ok() {
-        PersistentData.Get.gameSettings = gameSettings;
+        PersistentData.Loaded.gameSettings = gameSettings;
         PersistentData.Save();
         level.commands.Enqueue(GameSettingsState.close);
     }

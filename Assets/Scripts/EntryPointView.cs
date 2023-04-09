@@ -282,7 +282,7 @@ public class MainMenuSelectionState : IDisposableState {
             view.textFrame3d.gameObject.SetActive(true);
 
             defaultColor = view.loadGameText.color;
-            if (PersistentData.Get.savedGames.Count == 0 || simulateNoSavedGames)
+            if (PersistentData.Loaded.savedGames.Count == 0 || simulateNoSavedGames)
                 view.loadGameText.color = view.inactiveColor;
 
             while (true) {
@@ -413,7 +413,7 @@ public class MainMenuLoadGameState : IDisposableState {
             view.loadGameButtonPrefab.gameObject.SetActive(false);
 
             var first = true;
-            foreach (var savedGame in PersistentData.Get.savedGames) {
+            foreach (var savedGame in PersistentData.Loaded.savedGames) {
                 var button = Object.Instantiate(view.loadGameButtonPrefab, view.loadGameButtonPrefab.transform.parent);
                 button.gameObject.SetActive(true);
                 buttons.Add(button);

@@ -43,7 +43,7 @@ public class CampaignOverviewView : MonoBehaviour {
     }
 
     public void CycleMission(int offset) {
-        var campaign = PersistentData.Get.campaign;
+        var campaign = PersistentData.Loaded.campaign;
         var missionNames = MissionViews.Select(mv => mv.MissionName);
         var availableMissionNames = missionNames.Where(campaign.IsAvailable).ToList();
         var index = availableMissionNames.IndexOf(CampaignOverviewMissionCloseUpState.missionName);
@@ -117,7 +117,7 @@ public class CampaignOverviewSelectionState : IDisposableState {
 
             view.defaultVirtualCamera.enabled = true;
 
-            var campaign = PersistentData.Get.campaign;
+            var campaign = PersistentData.Loaded.campaign;
             foreach (var missionView in view.MissionViews) {
                 var missionName = missionView.MissionName;
                 var isAvailable = campaign.IsAvailable(missionName);
@@ -223,7 +223,7 @@ public class CampaignOverviewMissionCloseUpState : IDisposableState {
     public IEnumerator<StateChange> Run {
         get {
 
-            var campaign = PersistentData.Get.campaign;
+            var campaign = PersistentData.Loaded.campaign;
             var availableMissionsCount = view.MissionViews.Count(mv => campaign.IsAvailable(mv.MissionName));
             view.previousButton.interactable = view.nextButton.interactable = availableMissionsCount > 1;
 
@@ -231,7 +231,7 @@ public class CampaignOverviewMissionCloseUpState : IDisposableState {
             view.missionName.text = Strings.GetName(missionName);
             view.missionDescription.text = Strings.GetDescription(missionName);
 
-            var isAvailable = PersistentData.Get.campaign.IsAvailable(missionName);
+            var isAvailable = PersistentData.Loaded.campaign.IsAvailable(missionName);
             view.startMissionButton.interactable = isAvailable;
 
             if (missionView.TryGetVirtualCamera)

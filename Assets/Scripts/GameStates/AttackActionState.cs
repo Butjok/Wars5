@@ -42,7 +42,7 @@ public static class AttackActionState {
             responseWeaponName = bestChoice.weaponName;
         }
 
-        if (PersistentData.Get.gameSettings.showBattleAnimation) {
+        if (PersistentData.Loaded.gameSettings.showBattleAnimation) {
 
             var attackerSide = attacker.Player.side;
             var targetSide = target.Player.side;

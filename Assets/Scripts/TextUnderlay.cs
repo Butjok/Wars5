@@ -5,18 +5,17 @@ using UnityEngine;
 public class TextUnderlay : MonoBehaviour {
 
     public TMP_Text text;
-    public Vector2 margin = new Vector2();
 
     public void ForceUpdate() {
-        if (text) {
-            var size = text.GetPreferredValues();
-            var rectTransform = GetComponent<RectTransform>();
-            rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, size.x + margin.x * 2);
-            rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, size.y + margin.y * 2);
-        }
+        if (!text)
+            return;
+        var size = text.GetPreferredValues();
+        var rectTransform = GetComponent<RectTransform>();
+        rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, size.x);
+        rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, size.y);
     }
 
-    private void Update() {
+    private void LateUpdate() {
         ForceUpdate();
     }
 }

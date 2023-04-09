@@ -89,7 +89,7 @@ public class Level : MonoBehaviour {
     [Command]
     public bool ShowBattleAnimation {
         set {
-            PersistentData.Get.gameSettings.showBattleAnimation = value;
+            PersistentData.Loaded.gameSettings.showBattleAnimation = value;
             PersistentData.Save();
         }
     }
