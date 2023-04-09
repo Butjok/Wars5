@@ -16,6 +16,7 @@ public class FitWidth : MonoBehaviour {
     }
 
     private void OnValidate() {
+        if (image)
         Sprite = image.sprite;
     }
 
