@@ -1,7 +1,7 @@
 using System;
 using Butjok.CommandLine;
 using static Gettext;
-using static Dialogue;
+using static DialoguePlayer;
 
 public static class Strings {
 

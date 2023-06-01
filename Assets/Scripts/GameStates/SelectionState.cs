@@ -108,7 +108,7 @@ public static class SelectionState {
             yield return StateChange.none;
 
             if (dialogueText != null) {
-                using var dialogue = new Dialogue();
+                using var dialogue = new DialoguePlayer();
                 foreach (var stateChange in dialogue.Play(dialogueText))
                     yield return stateChange;
                 dialogueText = null;

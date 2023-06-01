@@ -22,7 +22,7 @@ Hq TileType type enum                                            building.set-ty
 Infantry UnitType type enum                                      unit.set-type
 true                                                             unit.set-moved
 10                                                               unit.set-hp
--10 -13 int2                                                     unit.set-position
+-9 -12 int2                                                      unit.set-position
 1 0 int2                                                         unit.set-look-direction
 WbLightTankRigged UnitView type                                  load-resource
                                                                  unit.set-view-prefab
@@ -30,9 +30,9 @@ WbLightTankRigged UnitView type                                  load-resource
                                                                  pop
                                                                  dup
 Infantry UnitType type enum                                      unit.set-type
-false                                                            unit.set-moved
+true                                                             unit.set-moved
 10                                                               unit.set-hp
--8 -14 int2                                                      unit.set-position
+-8 -11 int2                                                      unit.set-position
 1 0 int2                                                         unit.set-look-direction
 WbLightTankRigged UnitView type                                  load-resource
                                                                  unit.set-view-prefab
@@ -40,9 +40,9 @@ WbLightTankRigged UnitView type                                  load-resource
                                                                  pop
                                                                  dup
 Infantry UnitType type enum                                      unit.set-type
-false                                                            unit.set-moved
+true                                                             unit.set-moved
 10                                                               unit.set-hp
--14 -15 int2                                                     unit.set-position
+-13 -13 int2                                                     unit.set-position
 1 0 int2                                                         unit.set-look-direction
 WbLightTankRigged UnitView type                                  load-resource
                                                                  unit.set-view-prefab
@@ -60,9 +60,9 @@ WbLightTankRigged UnitView type                                  load-resource
                                                                  pop
                                                                  dup
 Infantry UnitType type enum                                      unit.set-type
-false                                                            unit.set-moved
+true                                                             unit.set-moved
 10                                                               unit.set-hp
--12 -12 int2                                                     unit.set-position
+-13 -10 int2                                                     unit.set-position
 1 0 int2                                                         unit.set-look-direction
 WbLightTankRigged UnitView type                                  load-resource
                                                                  unit.set-view-prefab
@@ -202,7 +202,7 @@ C TriggerName type enum                                          trigger.select
 D TriggerName type enum                                          trigger.select
 E TriggerName type enum                                          trigger.select
 F TriggerName type enum                                          trigger.select
--10.86176 1.848726E-07 -11.61695 float3                          camera-rig.set-position
+-11.23341 2.543022E-08 -12.64909 float3                          camera-rig.set-position
 315                                                              camera-rig.set-rotation
-19.2016                                                          camera-rig.set-distance
-40.36793                                                         camera-rig.set-pitch-angle
+14.48665                                                         camera-rig.set-distance
+38.99269                                                         camera-rig.set-pitch-angle

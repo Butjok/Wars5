@@ -309,7 +309,7 @@ public static class GameReader {
                         buildingMissileSiloMissileBridgeDamage = stack.Pop<int>();
                         break;
                     }
-
+                    
                     case "unit.add": {
                         if (unitType is not { } type)
                             throw new AssertionException("unitType == null", "");

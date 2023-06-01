@@ -5,9 +5,30 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.UI;
 
-public class Dialogue : IDisposable {
+public abstract class DialogueUi2 : MonoBehaviour {
+    public SerializableDialogueSideImageDictionary portraitImages = new();
+}
 
+[Serializable]
+public class SerializableDialogueSideImageDictionary : SerializableDictionary<DialogueStack,Image>{}
+
+public enum DialogueStack {
+    Left, Right
+}
+public class DialogueSpeaker {
+    public DialogueStack side;
+    public PersonName person;
+    public Mood mood;
+}
+
+public class DialoguePlayer : IDisposable {
+
+    public const string personNamePrefix = "person:";
+    public const string moodNamePrefix = "mood:";
+
+    // Special keywords to control the dialogue flow.
     public const string next = " @next ";
     public const string nata = " @nata ";
     public const string pause = " @pause ";
@@ -22,13 +43,18 @@ public class Dialogue : IDisposable {
     public const string worried = " @worried ";
     public const string crying = " @crying ";
     public const string nervous = " @nervous ";
-    
-    public static string Pause(float delay) => $" @{delay.ToString(CultureInfo.InvariantCulture)} {pause} ";
-    
-    public DialogueUi ui;
 
-    public Dialogue() {
+    public static string Pause(float delay) => $" @{delay.ToString(CultureInfo.InvariantCulture)} {pause} ";
+
+    public DialogueUi ui;
+    public DialoguePlayer() {
+
         ui = DialogueUi.Instance;
+
+        moods.Clear();
+
+        ui.ShowSpaceBarKey = false;
+        ui.ClearText();
         ui.Show = true;
     }
     public void Dispose() {
@@ -42,11 +68,15 @@ public class Dialogue : IDisposable {
 
     public IEnumerable<StateChange> Play(string script) {
 
-        ui.ShowSpaceBarKey = false;
-        ui.ClearText();
-        
         var textChanged = true;
-        
+        void FlushText() {
+            if (!textChanged)
+                return;
+            textChanged = false;
+            ui.AppendText(stringBuilder.ToString());
+            stringBuilder.Clear();
+        }
+
         var tokens = script.Replace("\r", " ").Replace("\n", " ").Replace("  ", " ").Replace("  ", " ").Trim()
             .Split(" ", StringSplitOptions.RemoveEmptyEntries).Where(part => !string.IsNullOrWhiteSpace(part));
         foreach (var token in tokens) {
@@ -63,11 +93,7 @@ public class Dialogue : IDisposable {
                         break;
 
                     case "@pause":
-                        if (textChanged) {
-                            textChanged = false;
-                            ui.AppendText(stringBuilder.ToString());
-                            stringBuilder.Clear();
-                        }
+                        FlushText();
                         var start = Time.time;
                         var delay = stack.Pop();
                         while (Time.time < start + delay)
@@ -75,11 +101,7 @@ public class Dialogue : IDisposable {
                         break;
 
                     case "@next":
-                        if (textChanged) {
-                            textChanged = false;
-                            ui.AppendText(stringBuilder.ToString());
-                            stringBuilder.Clear();
-                        }
+                        FlushText();
                         ui.ShowSpaceBarKey = true;
                         while (!Input.GetKeyDown(KeyCode.Space))
                             yield return StateChange.none;
@@ -89,8 +111,22 @@ public class Dialogue : IDisposable {
                         break;
 
                     default: {
+
                         if (float.TryParse(token.Substring(1), NumberStyles.Any, CultureInfo.InvariantCulture, out var value))
                             stack.Push(value);
+
+                        else if (token.StartsWith(personNamePrefix)) {
+                            var personName = token.Substring(personNamePrefix.Length);
+                            Assert.IsTrue(Enum.TryParse(personName, true, out PersonName person), $"Invalid person name: {personName}");
+                            SetSpeaker(person);
+                        }
+
+                        else if (token.StartsWith(moodNamePrefix)) {
+                            var moodName = token.Substring(moodNamePrefix.Length);
+                            Assert.IsTrue(Enum.TryParse(moodName, true, out Mood mood), $"Invalid mood name: {moodName}");
+
+                        }
+
                         else if (Enum.TryParse(token.Substring(1), true, out Mood mood)) {
                             moods[speaker] = mood;
                             UpdatePortrait();
@@ -108,15 +144,15 @@ public class Dialogue : IDisposable {
             }
         }
     }
-    
-    public Mood GetMood(PersonName speaker,Mood defaultMood = default) {
+
+    public Mood GetMood(PersonName speaker, Mood defaultMood = default) {
         if (!moods.TryGetValue(speaker, out var mood)) {
             mood = defaultMood;
             moods.Add(speaker, mood);
         }
         return mood;
     }
-    
+
     public void UpdatePortrait() {
         var mood = GetMood(speaker);
         var portrait = People.TryGetPortrait(speaker, mood);

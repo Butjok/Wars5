@@ -88,7 +88,7 @@ public static class MissileTargetSelectionState {
                             missileSiloView.aim = false;
 
                             if (anyBridgeDestroyed) {
-                                using var dialogue = new Dialogue();
+                                using var dialogue = new DialoguePlayer();
                                 foreach (var stateChange in dialogue.Play(@"
 @nata Hello there! @next
       Welcome to the Wars3d! An amazing strategy game! @next

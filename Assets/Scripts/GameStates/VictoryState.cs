@@ -13,7 +13,7 @@ public static class VictoryDefeatState {
         PlayerView.globalVisibility = false;
         yield return StateChange.none;
 
-        using var dialogue = new Dialogue();
+        using var dialogue = new DialoguePlayer();
         foreach (var stateChange in dialogue.Play(Strings.Victory))
             yield return stateChange;
     }
@@ -29,7 +29,7 @@ public static class VictoryDefeatState {
         PlayerView.globalVisibility = false;
         yield return StateChange.none;
 
-        using var dialogue = new Dialogue();
+        using var dialogue = new DialoguePlayer();
         foreach (var stateChange in dialogue.Play(Strings.Defeat))
             yield return stateChange;
     }
