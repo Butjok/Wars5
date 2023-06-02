@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Butjok.CommandLine;
 using TMPro;
 using UnityEngine;
@@ -72,14 +73,16 @@ public class DialogueUi3 : MonoBehaviour {
 public class DialogueState : IDisposableState {
 
     public const int left = 0, right = 1;
-    
+
     public class SkippableSequence {
         public bool shouldSkip;
+    }
+    public class Integer {
+        public int value;
     }
 
     public DialogueUi3 ui;
     public Dictionary<PersonName, PortraitStack> portraitStacks = new();
-    public int? option;
 
     public DialogueState(DialogueUi3 ui) {
         Assert.IsTrue(ui);
@@ -118,13 +121,17 @@ public class DialogueState : IDisposableState {
         }
     }
 
+    public void Reset() {
+        ui.Visible = true;
+        ui.ShowSpaceKey = false;
+        Text = null;
+        Speaker = null;
+    }
+
     public virtual IEnumerator<StateChange> Run {
         get {
 
-            ui.Visible = true;
-            ui.ShowSpaceKey = false;
-            Text = null;
-            Speaker = null;
+            Reset();
 
             yield return AddPerson(PersonName.Natalie);
             // using (LinesOf(PersonName.Natalie)) {
@@ -145,31 +152,54 @@ public class DialogueState : IDisposableState {
             // HideVideo(video);
 
             Speaker = PersonName.Natalie;
-            while (option is not (0 or 1)) {
-                yield return Say(_("Do you like apples?"));
-                yield return SelectOption(_("Yes"), _("No"), _("Explain"));
-                switch (option) {
+
+            yield return Say("We are going to look at some video!");
+            
+            var (videoPlayer, _) = ShowVideo("encoded2".LoadAs<VideoClip>(), new Vector2(300, 300));
+            var completed = false;
+            videoPlayer.loopPointReached += _ => completed = true;
+            
+            PushSkippableSequence();
+            yield return WaitWhile(() => !completed);
+            HideVideo(videoPlayer);
+            yield return SayAndContinue("So...");
+            yield return Pause(1);
+            yield return AppendAndContinue(" What do you think?");
+            PopSkippableSequence();
+
+            var opinionOnVideo = -1;
+            yield return SelectOption(value => opinionOnVideo = value, _("It was good"), _("Kinda meh"));
+            if (opinionOnVideo == 0)
+                yield return Say("I was thinking the same! Pretty cool, right?");
+            else
+                yield return Say("Yeah, you're right. It could need some work.");
+
+            var opinionOnApples = -1;
+            while (opinionOnApples is not (0 or 1)) {
+                yield return SayAndContinue(_("Do you like apples?"));
+                yield return SelectOption(value => opinionOnApples = value, _("Yes"), _("No"), _("Explain"));
+                switch (opinionOnApples) {
                     case 0:
-                        yield return SayThenWait(_("I like apples too!"));
+                        yield return Say(_("I like apples too!"));
                         break;
                     case 1:
-                        yield return SayThenWait(_("I don't like apples either."));
+                        yield return Say(_("I don't like apples either."));
                         break;
                     case 2:
                         var image = ShowImage("apple".LoadAs<Sprite>(), new Vector2(150, 150));
                         PushSkippableSequence();
-                        yield return Say(_("This is an apple."));
+                        yield return SayAndContinue(_("This is an apple."));
                         yield return Pause(1);
-                        yield return AppendThenWait(_(" It is a fruit."));
-                        yield return Append(_(" It is red."));
+                        yield return Append(_(" It is a fruit."));
+                        yield return AppendAndContinue(_(" It is red."));
                         yield return Pause(1);
-                        yield return Append(_(" It is tasty."));
+                        yield return AppendAndContinue(_(" It is tasty."));
                         yield return Pause(.5f);
-                        yield return Append(_("."));
+                        yield return AppendAndContinue(_("."));
                         yield return Pause(.5f);
-                        yield return Append(_("."));
+                        yield return AppendAndContinue(_("."));
                         yield return Pause(1);
-                        yield return AppendThenWait(_(" Got it?"));
+                        yield return Append(_(" Got it?"));
                         PopSkippableSequence();
                         HideImage(image);
                         break;
@@ -179,10 +209,10 @@ public class DialogueState : IDisposableState {
             yield return AddPerson(PersonName.Vladan, right);
 
             Speaker = PersonName.Vladan;
-            yield return SayThenWait(_("Well well well! Look who we have here! Natalie with her apples again!"));
-            
+            yield return Say(_("Well well well! Look who we have here! Natalie with her apples again!"));
+
             Speaker = PersonName.Natalie;
-            yield return SayThenWait(_("No, Vladan! Not you again!"));
+            yield return Say(_("No, Vladan! Not you again!"));
 
             Speaker = null;
             Text = null;
@@ -233,17 +263,17 @@ public class DialogueState : IDisposableState {
         ui.SfxSource.PlayOneShot(audioClip);
     }
 
-    public StateChange SayThenWait(string text, bool waitInput = true, bool append = false) {
+    public StateChange Say(string text, bool waitInput = true, bool append = false) {
         return StateChange.Push(nameof(TalkState), TalkState(text, waitInput, append));
     }
-    public StateChange Say(string text) {
-        return SayThenWait(text, false, false);
-    }
-    public StateChange AppendThenWait(string text) {
-        return SayThenWait(text, true, true);
+    public StateChange SayAndContinue(string text) {
+        return Say(text, false, false);
     }
     public StateChange Append(string text) {
-        return SayThenWait(text, false, true);
+        return Say(text, true, true);
+    }
+    public StateChange AppendAndContinue(string text) {
+        return Say(text, false, true);
     }
 
     public Stack<SkippableSequence> skippableSequences = new();
@@ -253,7 +283,7 @@ public class DialogueState : IDisposableState {
     public void PopSkippableSequence() {
         skippableSequences.Pop();
     }
-    
+
     public IEnumerator<StateChange> TalkState(string text, bool waitInput = true, bool append = false) {
 
         var sequence = skippableSequences.Count > 0 ? skippableSequences.Peek() : null;
@@ -292,13 +322,17 @@ public class DialogueState : IDisposableState {
         ui.VoiceOverSource.Stop();
     }
 
-    public StateChange Pause(float delay) {
-        return StateChange.Push(nameof(PauseState), PauseState(delay));
+    public StateChange WaitWhile(Func<bool> condition) {
+        return StateChange.Push(nameof(PauseState), PauseState(condition));
     }
-    public IEnumerator<StateChange> PauseState(float delay) {
+    public StateChange Pause(float delay) {
+        var startTime = Time.time;
+        return WaitWhile(() => Time.time - startTime < delay);
+    }
+    public IEnumerator<StateChange> PauseState(Func<bool> condition) {
         var skipGroup = skippableSequences.Count > 0 ? skippableSequences.Peek() : null;
         var startTime = Time.time;
-        while (skipGroup is not { shouldSkip: true } && Time.time - startTime < delay) {
+        while (skipGroup is not { shouldSkip: true } && condition()) {
             if (Input.GetKeyDown(KeyCode.Space)) {
                 skipGroup ??= new SkippableSequence();
                 skipGroup.shouldSkip = true;
@@ -342,30 +376,35 @@ public class DialogueState : IDisposableState {
 
         return (videoPlayer, rawImage);
     }
-    public void HideVideo((VideoPlayer videoPlayer, RawImage rawImage) video) {
-        Object.Destroy(video.videoPlayer.gameObject);
+    public void HideVideo(VideoPlayer videoPlayer) {
+        Object.Destroy(videoPlayer.gameObject);
     }
 
-    public StateChange SelectOption(params string[] options) {
-        return StateChange.Push(nameof(OptionSelectionState), OptionSelectionState(options));
+    public StateChange SelectOption(Action<int> setter, params string[] options) {
+        return StateChange.Push(nameof(OptionSelectionState), OptionSelectionState(setter, options));
     }
-    public IEnumerator<StateChange> OptionSelectionState(params string[] options) {
+    public IEnumerator<StateChange> OptionSelectionState(Action<int> setter, params string[] options) {
 
         Assert.IsTrue(options.Length > 0);
+        setter(-1);
 
         var buttons = new List<Button>();
+        var wasSet = false;
         var totalWidth = 0f;
         for (var i = 0; i < options.Length; i++) {
             var index = i;
             var button = Object.Instantiate(ui.buttonPrefab, ui.transform);
             button.gameObject.SetActive(true);
             button.GetComponentInChildren<TMP_Text>().text = options[index];
-            button.onClick.AddListener(() => option = index);
+            button.onClick.AddListener(() => {
+                setter(index);
+                wasSet = true;
+            });
             buttons.Add(button);
             totalWidth += button.GetComponent<RectTransform>().sizeDelta.x;
         }
         totalWidth += ui.buttonSpacing * (buttons.Count - 1);
-        Vector2 position = ui.buttonPrefab.GetComponent<RectTransform>().anchoredPosition;
+        var position = ui.buttonPrefab.GetComponent<RectTransform>().anchoredPosition;
         position -= Vector2.right * totalWidth / 2;
         foreach (var button in buttons) {
             var rectTransform = button.GetComponent<RectTransform>();
@@ -373,8 +412,7 @@ public class DialogueState : IDisposableState {
             position += Vector2.right * (rectTransform.sizeDelta.x + ui.buttonSpacing);
         }
 
-        option = null;
-        while (option == null)
+        while (!wasSet)
             yield return StateChange.none;
 
         foreach (var button in buttons)
