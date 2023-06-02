@@ -76,7 +76,7 @@ public class StateRunner : MonoBehaviour {
         Tick();
     }
 
-    public const int maxDepth = 10;
+    public const int maxDepth = 100;
 
     private void Tick(int depth = 0) {
 
