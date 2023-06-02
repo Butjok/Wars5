@@ -7,22 +7,6 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
 
-public abstract class DialogueUi2 : MonoBehaviour {
-    public SerializableDialogueSideImageDictionary portraitImages = new();
-}
-
-[Serializable]
-public class SerializableDialogueSideImageDictionary : SerializableDictionary<DialogueStack,Image>{}
-
-public enum DialogueStack {
-    Left, Right
-}
-public class DialogueSpeaker {
-    public DialogueStack side;
-    public PersonName person;
-    public Mood mood;
-}
-
 public class DialoguePlayer : IDisposable {
 
     public const string personNamePrefix = "person:";
