@@ -7,9 +7,9 @@ using static Gettext;
 public enum PersonName { Natalie, Vladan, JamesWillis, LjubisaDragovic }
 public enum Mood { Normal, Happy, Sad, Mad, Worried, Shocked, Crying, Laughing, Intimate, Nervous }
 
-public static class People {
+public static class Persons {
 
-    public static string GetName(PersonName name) => name switch {
+    public static string GetFullName(PersonName name) => name switch {
         PersonName.Natalie => _("Natalie Moore"),
         PersonName.Vladan => _("Vladan Raznatovic"),
         PersonName.JamesWillis => _("James G. Willis"),
@@ -17,10 +17,12 @@ public static class People {
         _ => throw new Exception()
     };
 
-    public static string GetShortName(PersonName name) => name switch {
+    public static string GetFirstName(PersonName name) => name switch {
         PersonName.Natalie => _("Natalie"),
         PersonName.Vladan => _("Vladan"),
-        _ => GetName(name)
+        PersonName.JamesWillis => _("James"),
+        PersonName.LjubisaDragovic => _("Ljubisa"),
+        _ => GetFullName(name)
     };
 
     public static string GetDescription(PersonName name) => name switch {

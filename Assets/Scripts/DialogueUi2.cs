@@ -155,9 +155,9 @@ public class DialoguePlayer : IDisposable {
 
     public void UpdatePortrait() {
         var mood = GetMood(speaker);
-        var portrait = People.TryGetPortrait(speaker, mood);
+        var portrait = Persons.TryGetPortrait(speaker, mood);
         // TODO:
-        ui.portrait.text = $"{People.GetShortName(speaker)} [{GetMood(speaker)}]";
+        ui.portrait.text = $"{Persons.GetFirstName(speaker)} [{GetMood(speaker)}]";
     }
 
     public void SetSpeaker(PersonName speaker) {

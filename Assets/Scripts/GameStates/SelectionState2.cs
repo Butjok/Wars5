@@ -40,7 +40,7 @@ public class PlayerTurnState : IDisposableState {
 			}
 
 			if (MusicPlayer.TryGet(out var musicPlayer)) {
-				var themes = People.GetMusicThemes(player.coName);
+				var themes = Persons.GetMusicThemes(player.coName);
 				if (themes.Count > 0)
 					musicPlayer.StartPlaying(themes);
 				else

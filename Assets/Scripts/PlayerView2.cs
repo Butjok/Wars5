@@ -99,6 +99,6 @@ public class PlayerView2 : MonoBehaviour {
 
     [Command]
     public Mood Mood {
-        set => portraitInsetImage.sprite = People.TryGetPortrait(player.coName, value);
+        set => portraitInsetImage.sprite = Persons.TryGetPortrait(player.coName, value);
     }
 }

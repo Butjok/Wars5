@@ -183,7 +183,7 @@ public static class GameReader {
                     }
                     case "player.set-co-name": {
                         playerCoName = stack.Pop<PersonName>();
-                        Assert.IsTrue(People.IsCo(playerCoName));
+                        Assert.IsTrue(Persons.IsCo(playerCoName));
                         break;
                     }
                     case "player.set-prefab": {

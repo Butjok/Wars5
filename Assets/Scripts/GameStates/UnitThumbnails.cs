@@ -13,7 +13,7 @@ public static class UnitThumbnails {
     }
     
     public static Sprite TryGet(PersonName person,  UnitType type,Color color) {
-         var hasFaction=People.TryGetFaction(person, out var faction);
+         var hasFaction=Persons.TryGetFaction(person, out var faction);
          Assert.IsTrue(hasFaction);
          
          return TryGet(faction, type,color);

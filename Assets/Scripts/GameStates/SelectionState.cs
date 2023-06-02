@@ -79,7 +79,7 @@ public static class SelectionState {
         if (turnStart) {
 
             if(MusicPlayer.TryGet(out var musicPlayer)) {
-                var themes = People.GetMusicThemes(player.coName);
+                var themes = Persons.GetMusicThemes(player.coName);
                 // if (themes.Count > 0)
                     // musicPlayer.Queue = themes.InfiniteSequence().GetEnumerator();
             }
