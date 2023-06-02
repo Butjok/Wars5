@@ -1,22 +1,29 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Butjok.CommandLine;
 using UnityEngine;
+using UnityEngine.Assertions;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-public class DialoguePortraitStack : MonoBehaviour {
+public class ImageStack : MonoBehaviour {
 
     public Vector2 size = new(100, 100);
     public Vector2 delta = new(100, 0);
     public List<Image> images = new();
+    [FormerlySerializedAs("scale")] public Vector2 scalingFactor = new(1, 1);
 
-    public Queue<IEnumerator> animationQueue = new();
+    public Queue<IEnumerator> queue = new();
 
     public Vector2 PositionOnAxis(float position) {
         return (Vector2)transform.position + delta * position;
     }
+    public bool IsCompleted(IEnumerator coroutine) {
+        return !queue.Contains(coroutine);
+    }
 
-    public IEnumerator MoveAnimation(Image image, Vector2 delta, float duration = .5f, bool destroy = false, float? fadeTo = null) {
+    public static IEnumerator MovementCoroutine(Image image, Vector2 delta, float duration = .5f, bool destroy = false, float? fadeTo = null) {
         var startTime = Time.time;
         Vector2 from = image.transform.position;
         var to = from + delta;
@@ -38,41 +45,67 @@ public class DialoguePortraitStack : MonoBehaviour {
             image.transform.position = to;
     }
 
-    public Image image;
-
     [Command]
-    public void AddImage() {
+    public (Image image, IEnumerator coroutine) AddImage(string name = "Image") {
 
-        var go = new GameObject();
+        var go = new GameObject(name);
         go.transform.SetParent(transform);
         var image = go.AddComponent<Image>();
         image.rectTransform.sizeDelta = size;
         var from = PositionOnAxis(images.Count + 1);
         images.Add(image);
 
+        var scale = image.transform.localScale;
+        scale.Scale(scalingFactor);
+        image.transform.localScale = scalingFactor;
+
         image.transform.position = from;
         image.color = new Color(1, 1, 1, 0);
-        animationQueue.Enqueue(MoveAnimation(image, -delta, fadeTo: 1));
+
+        var coroutine = MovementCoroutine(image, -delta, fadeTo: 1);
+        queue.Enqueue(coroutine);
+        return (image, coroutine);
     }
 
     [Command]
-    public void RemoveImage(int index) {
+    public IEnumerator RemoveImage(int index) {
+
         var down = Vector3.Cross(Vector3.forward, delta);
         if (down.y > 0)
             down = -down;
-        animationQueue.Enqueue(MoveAnimation(images[index], down, .5f, fadeTo: 0, destroy: true));
+
+        var coroutine = MovementCoroutine(images[index], down, .5f, fadeTo: 0, destroy: true);
+        queue.Enqueue(coroutine);
+
         images.RemoveAt(index);
         for (var i = index; i < images.Count; i++) {
             var item = images[i];
-            animationQueue.Enqueue(MoveAnimation(item, -delta, .33f));
+            coroutine = MovementCoroutine(item, -delta, .33f);
+            queue.Enqueue(coroutine);
         }
+
+        return coroutine;
+    }
+
+    public IEnumerator RemoveImage(Image image) {
+        var index = images.IndexOf(image);
+        Assert.AreNotEqual(-1, index);
+        return RemoveImage(index);
+    }
+
+    [Command]
+    public IEnumerator Clear() {
+        IEnumerator coroutine = null;
+        while (images.Count > 0)
+            coroutine = RemoveImage(0);
+        return coroutine;
     }
 
     private void Update() {
-        while (animationQueue.TryPeek(out var coroutine)) {
+        while (queue.TryPeek(out var coroutine)) {
             if (coroutine.MoveNext())
                 break;
-            animationQueue.Dequeue();
+            queue.Dequeue();
         }
     }
 }
