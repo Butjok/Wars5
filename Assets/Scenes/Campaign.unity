@@ -160,8 +160,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 319.66092, y: 392.74225}
-  m_SizeDelta: {x: 132.85904, y: 223.74438}
+  m_AnchoredPosition: {x: 394.286, y: 175.22346}
+  m_SizeDelta: {x: 59.279633, y: 99.82442}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &10685976
 MonoBehaviour:
@@ -1861,7 +1861,7 @@ MonoBehaviour:
   highlightFrame: {fileID: 1235294307}
   highlightFrameMoveDuration: 0.15
   highlightFrameMoveEase: 18
-  main: {fileID: 0}
+  level: {fileID: 0}
 --- !u!114 &614145419
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3151,10 +3151,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf4ed7defffe40cb9f8433104787bdd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
-  acceleration: 5
-  rotationSpeed: 90
-  maxSpeed: 3
   target: {fileID: 0}
 --- !u!114 &961738234
 MonoBehaviour:
@@ -3215,7 +3211,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxDistance: 45
-  rayPosition: {x: 0, y: 1}
   multiplier: 1.5
   camera: {fileID: 1400641668}
 --- !u!114 &961738238
@@ -3413,9 +3408,12 @@ MonoBehaviour:
   teleportDuration: 0.5
   teleportEase: 18
   placeOnTerrain: {fileID: 0}
+  rotationEasingName: 3
   speedupMultiplier: 2
+  camera: {fileID: 0}
   fovBounds: {x: 45, y: 30}
   fovLerpPower: 1
+  speedInViewportSpace: 0.2
 --- !u!4 &961738240
 Transform:
   m_ObjectHideFlags: 0
@@ -3687,8 +3685,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 720.1813, y: 326.90494}
-  m_SizeDelta: {x: 144.49744, y: 232.44797}
+  m_AnchoredPosition: {x: 572.9918, y: 145.8499}
+  m_SizeDelta: {x: 64.472534, y: 103.70755}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1077786426
 MonoBehaviour:
@@ -4690,8 +4688,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 753.7593, y: 536.06116}
-  m_SizeDelta: {x: 127.8537, y: 204.6795}
+  m_AnchoredPosition: {x: 587.9738, y: 239.16574}
+  m_SizeDelta: {x: 57.046265, y: 91.31857}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1355582743
 MonoBehaviour:
@@ -4851,9 +4849,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   meshRenderer: {fileID: 1389611538}
   show: 1
-  text: {fileID: 330132505}
-  enableText: 1
-  main: {fileID: 0}
+  level: {fileID: 0}
+  showGui: 1
   showOnlyOnTiles: 1
 --- !u!23 &1389611538
 MeshRenderer:
@@ -5163,8 +5160,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9d915bf07e8453787d91ed2eeeedc24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  postProcessProfile: {fileID: 11400000, guid: 9e070c85dc077e3478f3beb2a6512037, type: 2}
-  depthOfField: {fileID: 1227667371627536583, guid: 9e070c85dc077e3478f3beb2a6512037, type: 2}
   priority: 10
   focalLengthBounds: {x: 1, y: 0}
   setConstant: 1
@@ -5986,10 +5981,10 @@ RectTransform:
   m_Father: {fileID: 1543202743}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0.5}
-  m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -19.81, y: 0}
-  m_SizeDelta: {x: 309.3, y: 513.5}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -25, y: 0}
+  m_SizeDelta: {x: 300, y: -50}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &1662495226
 MonoBehaviour:

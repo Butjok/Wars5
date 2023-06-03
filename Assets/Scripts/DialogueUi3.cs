@@ -72,6 +72,16 @@ public class DialogueUi3 : MonoBehaviour {
 
 public class DialogueState : IDisposableState {
 
+    public static Color GetTextColor(PersonName personName) {
+        return personName switch {
+            PersonName.Natalie => Color.white,
+            PersonName.Vladan => Color.yellow,
+            PersonName.JamesWillis => Color.blue,
+            PersonName.LjubisaDragovic => Color.red,
+            _ => Color.white
+        };
+    }
+
     public const int left = 0, right = 1;
 
     public class SkippableSequence {
@@ -92,9 +102,9 @@ public class DialogueState : IDisposableState {
     public string Text {
         get => ui.text.enabled ? ui.text.text : null;
         set {
-            if (value is { } nonNullString) {
+            if (value != null) {
                 ui.text.enabled = true;
-                ui.text.text = nonNullString;
+                ui.text.text = value;
             }
             else
                 ui.text.enabled = false;
@@ -106,13 +116,7 @@ public class DialogueState : IDisposableState {
                 ui.speakerName.enabled = true;
                 ui.speakerName.text = _(Persons.GetFirstName(personName));
                 ui.text.enabled = true;
-                ui.text.color = personName switch {
-                    PersonName.Natalie => Color.white,
-                    PersonName.Vladan => Color.yellow,
-                    PersonName.JamesWillis => Color.blue,
-                    PersonName.LjubisaDragovic => Color.red,
-                    _ => Color.white
-                };
+                ui.text.color = GetTextColor(personName);
             }
             else {
                 ui.speakerName.enabled = false;
@@ -297,7 +301,7 @@ public class DialogueState : IDisposableState {
 
         foreach (var c in text) {
             Text += c;
-            if (Input.GetKeyDown(KeyCode.Space)) {
+            if (Input.anyKeyDown) {
                 sequence ??= new SkippableSequence();
                 sequence.shouldSkip = true;
                 yield return StateChange.none;
@@ -310,7 +314,7 @@ public class DialogueState : IDisposableState {
         if (waitInput) {
 
             ui.ShowSpaceKey = true;
-            while (!Input.GetKeyDown(KeyCode.Space))
+            while (!Input.anyKeyDown)
                 yield return StateChange.none;
             yield return StateChange.none;
             ui.ShowSpaceKey = false;
@@ -333,7 +337,7 @@ public class DialogueState : IDisposableState {
         var skipGroup = skippableSequences.Count > 0 ? skippableSequences.Peek() : null;
         var startTime = Time.time;
         while (skipGroup is not { shouldSkip: true } && condition()) {
-            if (Input.GetKeyDown(KeyCode.Space)) {
+            if (Input.anyKeyDown) {
                 skipGroup ??= new SkippableSequence();
                 skipGroup.shouldSkip = true;
             }
