@@ -97,6 +97,7 @@
      <Compile Include="Assets/Scripts/CursorView.cs" />
      <Compile Include="Assets/Scripts/PlayerView.cs" />
      <Compile Include="Assets/Scripts/Level/UnitAttackActionViewTest.cs" />
+     <Compile Include="Assets/Scripts/LoadingSpinnerTest.cs" />
      <Compile Include="Assets/Scripts/PowerMeterStripe.cs" />
      <Compile Include="Assets/Scripts/DepthOfFieldDistanceSetter.cs" />
      <Compile Include="Assets/Scripts/SetTextToLocalizedGameObjectName.cs" />
@@ -194,6 +195,7 @@
      <Compile Include="Assets/Scripts/GameStates/PathSelectionState2.cs" />
      <Compile Include="Assets/Scripts/FlipbookTest.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
+     <Compile Include="Assets\Scripts\MainMenuUnitLoop.cs" />
      <None Include="Assets/Scripts/Wars.asmdef" />
      <Folder Include="Assets/Scripts/DialogueMarkupLanguage" />
      <Folder Include="Assets/Scripts/GameStates" />
