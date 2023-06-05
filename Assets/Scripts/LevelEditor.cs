@@ -357,7 +357,7 @@ public class LevelEditor : Level {
         if (debugVisionCapacity is { } visionCapacity) {
             if (Mouse.TryGetPosition(out mousePosition) && TryGetTile(mousePosition, out var tileType)) {
                 foreach (var position in FogOfWar.CalculateVision(tiles, mousePosition, visionCapacity + (!debugVisionAirborne && tileType == TileType.Mountain ? FogOfWar.mountainCapacityBonus : 0), debugVisionAirborne))
-                    Draw.ingame.SolidPlane((Vector3)position.ToVector3Int(), Vector3.up, Vector2.one);
+                    Draw.ingame.SolidPlane((Vector3)position.ToVector3Int(), Vector3.up, Vector2.one, debugVisionColor);
             }
         }
     }
@@ -397,6 +397,8 @@ public class LevelEditor : Level {
     public int? debugVisionCapacity;
     [Command]
     public bool debugVisionAirborne;
+    [Command]
+    public Color debugVisionColor = new Color(0f, 0.89f, 1f, 0.51f);
 
     public Stack<(Action perform, Action revert)> undos = new();
     public Stack<(Action perform, Action revert)> redos = new();
