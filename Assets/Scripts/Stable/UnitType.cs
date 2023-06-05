@@ -12,7 +12,12 @@ public enum UnitType {
     Recon ,
     LightTank ,
     Rockets ,
-    MediumTank 
+    MediumTank,
+    
+    TransportHelicopter,
+    AttackHelicopter,
+    FighterJet,
+    Bomber
 }
 public enum MoveCostType {Foot,Tires,Tracks}
 

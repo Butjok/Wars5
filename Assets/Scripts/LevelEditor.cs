@@ -163,7 +163,7 @@ public class LevelEditor : Level {
                 }
                 if (max - filled > 0) {
                     abilityStripeBuilder.Append($"<color=#{ColorUtility.ToHtmlStringRGB(abilityStripeUnfilledColor)}>");
-                    for (var i = 0; i < max-filled; i++)
+                    for (var i = 0; i < max - filled; i++)
                         abilityStripeBuilder.Append(abilityStripeUnfilledSymbol);
                     abilityStripeBuilder.Append("</color>");
                 }
@@ -288,8 +288,8 @@ public class LevelEditor : Level {
 
         base.OnApplicationQuit();
 
-        StateRunner.Instance.Pop(all:true);
-        
+        StateRunner.Instance.Pop(all: true);
+
         Save("autosave");
         DeleteOldAutosaves();
 
@@ -353,6 +353,13 @@ public class LevelEditor : Level {
                     Draw.ingame.SolidPlane((Vector3)attackPosition.ToVector3Int() + Vector3.up * offset, Vector3.up, Vector2.one, attackPositionColor);
             }
         }
+
+        if (debugVisionCapacity is { } visionCapacity) {
+            if (Mouse.TryGetPosition(out mousePosition) && TryGetTile(mousePosition, out var tileType)) {
+                foreach (var position in FogOfWar.CalculateVision(tiles, mousePosition, visionCapacity + (!debugVisionAirborne && tileType == TileType.Mountain ? FogOfWar.mountainCapacityBonus : 0), debugVisionAirborne))
+                    Draw.ingame.SolidPlane((Vector3)position.ToVector3Int(), Vector3.up, Vector2.one);
+            }
+        }
     }
 
     public const string prefix = "level-editor.";
@@ -385,6 +392,11 @@ public class LevelEditor : Level {
 
     public const string mode = nameof(mode);
     public const string autosave = prefix + "autosave";
+
+    [Command]
+    public int? debugVisionCapacity;
+    [Command]
+    public bool debugVisionAirborne;
 
     public Stack<(Action perform, Action revert)> undos = new();
     public Stack<(Action perform, Action revert)> redos = new();
@@ -803,7 +815,7 @@ public class LevelEditor : Level {
                                 UnitType.MediumTank => "WbMdTankRigged",
                                 _ => "WbLightTankRigged"
                             }).LoadAs<UnitView>();
-                            
+
                             new Unit(player, unitType, position, player.unitLookDirection, viewPrefab: viewPrefab);
                             break;
                         }

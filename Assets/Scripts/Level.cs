@@ -107,6 +107,10 @@ public class Level : MonoBehaviour {
         }
     }
 
+    public bool ContainsTile(Vector2Int position) {
+        return tiles.ContainsKey(position);
+    }
+
     public bool TryGetTile(Vector2Int position, out TileType tile) {
         return tiles.TryGetValue(position, out tile) && tile != 0;
     }
@@ -135,6 +139,9 @@ public class Level : MonoBehaviour {
 
     public IEnumerable<Vector2Int> PositionsInRange(Vector2Int position, Vector2Int range) {
         return range.Offsets().Select(offset => offset + position).Where(p => tiles.ContainsKey(p));
+    }
+    public IEnumerable<Vector2Int> Neighbors(Vector2Int position) {
+        return from offset in Rules.offsets where tiles.ContainsKey(position + offset) select position + offset;
     }
 
     [Command]

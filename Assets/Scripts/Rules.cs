@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Butjok.CommandLine;
 using UnityEngine;
 using UnityEngine.Assertions;
 using static UnityEngine.Mathf;
@@ -293,5 +294,33 @@ public static class Rules {
         Assert.AreEqual(TileType.MissileSilo, missileSilo.type);
         return missileSilo.level.turn >= missileSilo.missileSiloLastLaunchTurn + missileSilo.missileSiloLaunchCooldown * missileSilo.level.players.Count &&
                missileSilo.missileSiloAmmo > 0;
+    }
+
+    public static int VisionCapacity(UnitType unitType) {
+        return unitType switch {
+            UnitType.Infantry or UnitType.AntiTank => 3,
+            UnitType.Artillery => 3,
+            UnitType.Apc => 3,
+            UnitType.Recon => 10,
+            UnitType.LightTank => 5,
+            UnitType.Rockets => 2,
+            UnitType.MediumTank => 4,
+            _ => throw new ArgumentOutOfRangeException(nameof(unitType), unitType, null)
+        };
+    }
+
+    public static int VisionCost(TileType tileType) {
+        if ((TileType.Buildings & tileType) != 0)
+            return 2;
+        return tileType switch {
+            TileType.Plain or TileType.Road or TileType.Sea or TileType.River => 1,
+            TileType.Forest => 2,
+            TileType.Mountain => 3,
+            _ => throw new ArgumentOutOfRangeException(nameof(tileType), tileType, null)
+        };
+    }
+
+    public static bool IsAirborne(UnitType unitType) {
+        return unitType is UnitType.TransportHelicopter or UnitType.AttackHelicopter or UnitType.FighterJet or UnitType.Bomber;
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Windows.Forms.Design;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -217,12 +218,11 @@ public static class MathUtils {
     }
 
     public static Color32 YIQContrastColor(this Color32 color) {
-        var yiq = (color.r *299 + color.r * 587 + color.r * 114) / 1000;
+        var yiq = (color.r * 299 + color.r * 587 + color.r * 114) / 1000;
         return yiq >= 128 ? Color.black : Color.white;
     }
-    
-    public static float SmoothStep (float edge0, float edge1, float x)
-    {
+
+    public static float SmoothStep(float edge0, float edge1, float x) {
         if (x < edge0)
             return 0;
 
@@ -238,7 +238,7 @@ public static class MathUtils {
     public static Vector3 InverseTransformPointWithoutScale(this Transform transform, Vector3 point) {
         return Quaternion.Inverse(transform.rotation) * (point - transform.position);
     }
-    
+
     public static (int low, int high) FitSegment(int count, int low, int high) {
         if (low < 0 && high >= count) {
             low = 0;
@@ -253,5 +253,13 @@ public static class MathUtils {
             high = count - 1;
         }
         return (low, high);
+    }
+
+    public static Vector2Int[] offsets = { Vector2Int.up, Vector2Int.left, Vector2Int.down, Vector2Int.right };
+
+    public static IEnumerable<(Vector2Int position, TileType tileType)> Neighbors(this IReadOnlyDictionary<Vector2Int, TileType> tiles, Vector2Int position) {
+        foreach (var offset in offsets)
+            if (tiles.TryGetValue(position + offset, out var neighbor))
+                yield return (position + offset, neighbor);
     }
 }
