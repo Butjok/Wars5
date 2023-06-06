@@ -1,17 +1,8 @@
 using System;
-using System.IO;
 using System.Linq;
-using System.Runtime.Versioning;
-using Drawing;
 using UnityEditor;
 using UnityEngine;
-using GLTF.Schema;
-using NUnit.Framework;
-using Unity.Mathematics;
-using UnityEngine.Assertions;
-using UnityGLTF.Extensions;
 using Assert = UnityEngine.Assertions.Assert;
-using AssertionException = UnityEngine.Assertions.AssertionException;
 
 public class ParseSceneWindow : EditorWindow {
 
@@ -20,6 +11,7 @@ public class ParseSceneWindow : EditorWindow {
     public const string staticKeyword = "static";
     public const string layerPrefix = "layer:";
     public const string withMeshColliderKeyword = "with-mesh-collider";
+    public const string withBoxColliderKeyword = "with-box-collider";
 
     private Transform blueprint;
 
@@ -59,6 +51,7 @@ public class ParseSceneWindow : EditorWindow {
                     string name = null;
                     var isPrefab = false;
                     var withMeshCollider = false;
+                    var withBoxCollider = false;
 
                     var meshName = meshFilter.sharedMesh.name;
                     var words = meshName.Replace("  ", " ").Trim().Split(' ');
@@ -73,6 +66,9 @@ public class ParseSceneWindow : EditorWindow {
                                 break;
                             case withMeshColliderKeyword:
                                 withMeshCollider = true;
+                                break;
+                            case withBoxColliderKeyword:
+                                withBoxCollider = true;
                                 break;
                             default: {
                                 if (word.StartsWith(layerPrefix))
@@ -114,6 +110,11 @@ public class ParseSceneWindow : EditorWindow {
                     if (withMeshCollider) {
                         var meshCollider = instance.gameObject.AddComponent<MeshCollider>();
                         meshCollider.sharedMesh = meshFilter.sharedMesh;
+                    }
+                    if (withBoxCollider) {
+                        var boxCollider = instance.gameObject.AddComponent<BoxCollider>();
+                        boxCollider.center = meshFilter.sharedMesh.bounds.center;
+                        boxCollider.size = meshFilter.sharedMesh.bounds.size;
                     }
                 }
 
