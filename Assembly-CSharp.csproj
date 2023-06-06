@@ -90,6 +90,7 @@
      <None Include="Assets/Shaders/test.shader" />
      <None Include="Assets/Saves/1/1-22.01.2023-19.32.58.txt" />
      <None Include="Assets/Saves/1/1-22.01.2023-19.38.06.txt" />
+     <None Include="Assets/Saves/autosave/autosave-06.06.2023-00.26.12.txt" />
      <None Include="Assets/Shaders/DistortionFlow.shader" />
      <None Include="Assets/Shaders/Flow.cginc" />
      <None Include="Assets/Saves/autosave/autosave-06.06.2023-00.21.13.txt" />
@@ -118,6 +119,7 @@
      <None Include="Assets/Shaders/InstancedRendering.cginc" />
      <None Include="Assets/Shaders/vface.shader" />
      <None Include="Assets/Shaders/NewSurfaceShader.shader" />
+     <Folder Include="Assets/HoleShader" />
      <None Include="Assets/Shaders/Stone.shader" />
      <Folder Include="Assets/Saves/autosave" />
      <None Include="Assets/Shaders/Terrain.shader" />
@@ -234,6 +236,7 @@
      <Folder Include="Assets/Textures/Detail" />
      <None Include="Assets/Saves/0/0-22.01.2023-19.37.40.txt" />
      <Folder Include="Assets/StreamingAssets" />
+     <None Include="Assets/Shaders/Hole2.shader" />
      <Folder Include="Assets/Content/Whiteboxes/Resources" />
      <Folder Include="Assets/Textures/Cookies" />
      <Folder Include="Assets/Textures/Bumps" />
