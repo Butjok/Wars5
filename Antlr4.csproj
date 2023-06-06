@@ -80,8 +80,8 @@
      <Compile Include="Assets/Antlr4/Tree/ParseTreeProperty.cs" />
      <Compile Include="Assets/Antlr4/Misc/NullableAttribute.cs" />
      <Compile Include="Assets/Antlr4/IParserErrorListener.cs" />
-     <Compile Include="Assets/Antlr4/Tree/Pattern/ParseTreePatternMatcher.cs" />
      <Compile Include="Assets/Antlr4/CommonTokenStream.cs" />
+     <Compile Include="Assets/Antlr4/Tree/Pattern/ParseTreePatternMatcher.cs" />
      <Compile Include="Assets/Antlr4/Atn/SemanticContext.cs" />
      <Compile Include="Assets/Antlr4/Tree/Pattern/Chunk.cs" />
      <Compile Include="Assets/Antlr4/Misc/Pair.cs" />
