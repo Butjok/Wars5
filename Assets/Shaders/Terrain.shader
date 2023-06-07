@@ -43,6 +43,7 @@ _OutsideColor ("_OutsideColor", Color) = (1,1,1,1)
 
 _OutsideIntensity ("_OutsideIntensity", Range(0,1)) = 0.0
 
+
     }
     SubShader
     {
@@ -90,6 +91,9 @@ float4 _Bounds;
         #include "Assets/Shaders/SDF.cginc"
         
         float4 _Grass_ST, _DarkGreen_ST, _Wheat_ST,_YellowGrass_ST,_Ocean_ST,_OceanMask_ST,_GrassTint_ST;
+        
+        sampler2D _FogOfWar;
+        float4x4 _FogOfWar_WorldToLocal;
                
         void surf (Input IN, inout SurfaceOutputStandard o)
         {
