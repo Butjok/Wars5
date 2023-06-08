@@ -30,8 +30,8 @@ public class CampaignOverviewView : MonoBehaviour {
     public bool start = true;
 
     private void Start() {
-        if (start && StateRunner.Instance.IsEmpty)
-            StateRunner.Instance.Push(new CampaignOverviewState2());
+        if (start && GameStateMachine.Instance.IsEmpty)
+            GameStateMachine.Instance.Push(new CampaignOverviewState2());
     }
 
     public bool ShowLoadingSpinner {

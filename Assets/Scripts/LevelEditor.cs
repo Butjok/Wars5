@@ -106,8 +106,8 @@ public class LevelEditor : Level {
     public string stackLeakFormat = "<b><color=yellow>{0}</color></b>";
 
     private void Start() {
-        if (StateRunner.Instance.IsEmpty) {
-            StateRunner.Instance.Push("LevelEditor", Run());
+        if (GameStateMachine.Instance.IsEmpty) {
+            GameStateMachine.Instance.Push("LevelEditor", Run());
             if (TurnButton.TryGet(out var turnButton))
                 turnButton.Visible = false;
         }
@@ -288,7 +288,7 @@ public class LevelEditor : Level {
 
         base.OnApplicationQuit();
 
-        StateRunner.Instance.Pop(all: true);
+        GameStateMachine.Instance.Pop(all: true);
 
         Save("autosave");
         DeleteOldAutosaves();

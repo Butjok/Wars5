@@ -51,6 +51,8 @@
      <Compile Include="Assets/Scripts/LevelEditor.cs" />
      <Compile Include="Assets/Scripts/GameStates/AttackActionState.cs" />
      <Compile Include="Assets/Scripts/Turret2.cs" />
+     <Compile Include="Assets/Scripts/UvMapper.cs" />
+     <Compile Include="Assets/Scripts/TileMaskTexture.cs" />
      <Compile Include="Assets/Scripts/Traverser2DebugDrawer.cs" />
      <Compile Include="Assets/Scripts/TouchStateRunner.cs" />
      <Compile Include="Assets/Scripts/AiPlayerCommanderSwitcher.cs" />
@@ -194,12 +196,10 @@
      <Compile Include="Assets/Scripts/Level/UnitAttackActionView.cs" />
      <Compile Include="Assets/Scripts/PortraitStack.cs" />
      <Compile Include="Assets/Scripts/Level/UnitAction.cs" />
-     <Compile Include="Assets/Scripts/StateRunner.cs" />
+     <Compile Include="Assets\Scripts\GameStateMachine.cs" />
      <Compile Include="Assets/Scripts/GameStates/PathSelectionState2.cs" />
      <Compile Include="Assets/Scripts/FlipbookTest.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
-     <Compile Include="Assets/Scripts/TileMaskTexture.cs" />
-     <Compile Include="Assets/Scripts/UvMapper.cs" />
      <None Include="Assets/Scripts/Wars.asmdef" />
      <Folder Include="Assets/Scripts/DialogueMarkupLanguage" />
      <Folder Include="Assets/Scripts/GameStates" />

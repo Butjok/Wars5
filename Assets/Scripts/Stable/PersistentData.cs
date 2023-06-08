@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Windows.Forms.DataVisualization.Charting;
 using Butjok.CommandLine;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -38,16 +39,17 @@ public class PersistentData {
     };
 
     public GameSettings gameSettings = new();
-    public List<string> log = new();
+    public List<GameLogEvent> events = new();
+}
 
-    [Command]
-    public static float UnitSpeed {
-        get => Loaded.gameSettings.unitSpeed;
-        set {
-            Loaded.gameSettings.unitSpeed = value;
-            Save();
-        }
-    }
+public enum GameLogEventType {
+    GameLaunched, GameTerminated, 
+    GameSaved, GameLoaded, 
+    MissionStarted, MissionCompleted, MissionFailed,
+}
+public struct GameLogEvent {
+    public GameLogEventType type;
+    public string message;
 }
 
 public class GameSettings {

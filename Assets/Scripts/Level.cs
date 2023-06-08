@@ -80,9 +80,9 @@ public class Level : MonoBehaviour {
     }
 
     public void ShouldEndTurn() {
-        var peeked = StateRunner.Instance.states.TryPeek(out var state);
+        var peeked = GameStateMachine.Instance.states.TryPeek(out var state);
         Assert.IsTrue(peeked);
-        Assert.IsTrue(StateRunner.Instance.Is<SelectionState2>(state, out var selectionState));
+        Assert.IsTrue(GameStateMachine.Instance.Is<SelectionState2>(state, out var selectionState));
         selectionState.shouldEndTurn = true;
     }
 

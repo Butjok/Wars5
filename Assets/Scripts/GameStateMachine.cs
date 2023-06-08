@@ -6,26 +6,37 @@ using Butjok.CommandLine;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Assertions;
-using Object = UnityEngine.Object;
 
-public class StateRunner : MonoBehaviour {
 
-    private static StateRunner instance;
-    public static StateRunner Instance {
+public class GameStateMachine : MonoBehaviour {
+
+    private static GameStateMachine instance;
+    public static GameStateMachine Instance {
         get {
-            if (!instance) {
-                var go = new GameObject(nameof(StateRunner));
-                DontDestroyOnLoad(go);
-                instance = go.AddComponent<StateRunner>();
+            if (instance)
+                return instance;
 
-                var commandLineGui = go.AddComponent<CommandLineGUI>();
-                commandLineGui.assemblies = new List<string> { "CommandLine", "Wars", "Stable" };
-                commandLineGui.guiSkin = DefaultGuiSkin.TryGet;
-                commandLineGui.Theme = "Default";
-                commandLineGui.depth = -2000;
-                commandLineGui.FetchCommands();
-            }
+            var instances = FindObjectsOfType<GameStateMachine>();
+            Assert.IsTrue(instances.Length is 0 or 1);
+            if (instances.Length == 1)
+                return instance = instances[0];
+
+            var go = new GameObject(nameof(GameStateMachine));
+            DontDestroyOnLoad(go);
+            instance = go.AddComponent<GameStateMachine>();
             return instance;
+        }
+    }
+
+    private void Awake() {
+        var commandLineGui = FindObjectOfType<CommandLineGUI>();
+        if (!commandLineGui) {
+            commandLineGui = gameObject.AddComponent<CommandLineGUI>();
+            commandLineGui.assemblies = new List<string> { "CommandLine", "Wars", "Stable" };
+            commandLineGui.guiSkin = DefaultGuiSkin.TryGet;
+            commandLineGui.Theme = "Default";
+            commandLineGui.depth = -2000;
+            commandLineGui.FetchCommands();
         }
     }
 
@@ -35,7 +46,7 @@ public class StateRunner : MonoBehaviour {
 
     public bool IsEmpty => states.Count == 0;
 
-    public void Pop(int count = 1, bool all =false) {
+    public void Pop(int count = 1, bool all = false) {
         if (all)
             count = states.Count;
         for (var i = 0; i < count; i++) {
@@ -49,14 +60,14 @@ public class StateRunner : MonoBehaviour {
     }
 
     public bool Is<T>(IEnumerator<StateChange> state, out T result) where T : IDisposableState {
-        if (disposableStates.TryGetValue(state, out var disposableState) && disposableState is T) {
-            result = (T)disposableState;
+        if (disposableStates.TryGetValue(state, out var disposableState) && disposableState is T value) {
+            result = value;
             return true;
         }
         result = default;
         return false;
     }
-    
+
     public void Push(string stateName, IEnumerator<StateChange> state) {
         states.Push(state);
         stateNames.Push(stateName);
@@ -72,38 +83,38 @@ public class StateRunner : MonoBehaviour {
         stateNames.Clear();
     }
 
-    protected virtual void Update() {
-        Tick();
-    }
-
     public const int maxDepth = 100;
 
-    private void Tick(int depth = 0) {
+    protected virtual void Update() {
 
-        Assert.IsTrue(depth < maxDepth);
+        var depth = 0;
 
-        if (!states.TryPeek(out var state))
-            return;
+        while (true) {
+            Assert.IsTrue(depth < maxDepth);
 
-        if (state.MoveNext()) {
-            var stateChange = state.Current;
-            for (var i = 0; i < stateChange.popCount; i++)
-                Pop();
-            if (stateChange.state != null)
-                Push(stateChange.stateName, stateChange.state);
-            if (stateChange.disposableState != null)
-                Push(stateChange.disposableState);
+            if (!states.TryPeek(out var state))
+                return;
 
-            if (stateChange.popCount != 0 ||
-                stateChange.state != null ||
-                stateChange.disposableState != null) {
+            if (state.MoveNext()) {
+                var stateChange = state.Current;
+                for (var i = 0; i < stateChange.popCount; i++)
+                    Pop();
+                if (stateChange.state != null)
+                    Push(stateChange.stateName, stateChange.state);
+                if (stateChange.disposableState != null)
+                    Push(stateChange.disposableState);
 
-                Tick(depth + 1);
+                if (stateChange.popCount != 0 || stateChange.state != null || stateChange.disposableState != null) {
+                    depth++;
+                    continue;
+                }
             }
-        }
-        else {
-            Pop();
-            Tick(depth + 1);
+            else {
+                Pop();
+                depth++;
+                continue;
+            }
+            break;
         }
     }
 

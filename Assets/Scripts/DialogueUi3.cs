@@ -66,7 +66,7 @@ public class DialogueUi3 : MonoBehaviour {
 
     [Command]
     public static void StartDialogue() {
-        StateRunner.Instance.Push(new DialogueState(Instance));
+        GameStateMachine.Instance.Push(new DialogueState(Instance));
     }
 }
 
