@@ -8,33 +8,23 @@ using static Rules;
 
 // ReSharper disable ConvertToUsingDeclaration
 
-public class ActionSelectionState : IDisposableState {
+public class ActionSelectionState : StateMachine.State {
 
-    public const string prefix = "action-selection-state.";
+    public enum Command { Cancel, CycleActions, Execute }
 
-    public const string cancel = prefix + "cancel";
-    public const string cycleActions = prefix + "cycle-actions";
-    public const string execute = prefix + "execute";
-
-    public Level level;
-    public Unit unit;
-    public IReadOnlyList<Vector2Int> path;
-    public Vector2Int? initialLookDirection;
     public List<UnitAction> actions = new();
     public UnitActionsPanel panel;
     public UnitAction oldAction;
     public int index = -1;
 
-    public ActionSelectionState(Level level, Unit unit, IReadOnlyList<Vector2Int> path, Vector2Int? initialLookDirection = null) {
-        this.level = level;
-        this.unit = unit;
-        this.path = path;
-        this.initialLookDirection = initialLookDirection;
+    public UnitAction selectedAction;
+
+    public ActionSelectionState(StateMachine stateMachine) : base(stateMachine) {
         panel = Object.FindObjectOfType<UnitActionsPanel>(true);
         Assert.IsTrue(panel);
     }
 
-    public void Dispose() {
+    public override void Dispose() {
         HidePanel();
         foreach (var action in actions)
             action.Dispose();
@@ -61,6 +51,13 @@ public class ActionSelectionState : IDisposableState {
     }
 
     public IEnumerable<UnitAction> SpawnActions() {
+
+        var level = stateMachine.TryFind<PlayState>()?.level;
+        var unit = stateMachine.TryFind<SelectionState>()?.unit;
+        var path = stateMachine.TryFind<PathSelectionState>()?.path;
+        Assert.IsNotNull(level);
+        Assert.IsNotNull(unit);
+        Assert.IsNotNull(path);
 
         var destination = path[^1];
         level.TryGetUnit(destination, out var other);
@@ -113,23 +110,30 @@ public class ActionSelectionState : IDisposableState {
         }
     }
 
-    public IEnumerator<StateChange> Run {
+    public override IEnumerator<StateChange> Sequence {
         get {
+            var game = stateMachine.TryFind<GameSessionState>()?.game;
+            var level = stateMachine.TryFind<PlayState>()?.level;
+            var unit = stateMachine.TryFind<SelectionState>()?.unit;
+            var path = stateMachine.TryFind<PathSelectionState>()?.path;
+            Assert.IsNotNull(game);
+            Assert.IsNotNull(level);
+            Assert.IsNotNull(unit);
+            Assert.IsNotNull(path);
 
             var destination = path[^1];
             level.TryGetUnit(destination, out var other);
             level.TryGetBuilding(destination, out var building);
-            
+
             // !!! important
             actions.AddRange(SpawnActions());
-            level.stack.Push(actions.ToList());
 
             // some weirdness
             PlayerView.globalVisibility = false;
             yield return StateChange.none;
 
-            if (!level.CurrentPlayer.IsAi && !level.autoplay) {
-                panel.Show(level, actions, (_, action) => SelectAction(action));
+            if (!level.CurrentPlayer.IsAi && !game.autoplay) {
+                panel.Show(() => game.EnqueueCommand(Command.Cancel), actions, (_, action) => SelectAction(action));
                 if (actions.Count > 0)
                     SelectAction(actions[0]);
             }
@@ -138,197 +142,183 @@ public class ActionSelectionState : IDisposableState {
             while (true) {
                 yield return StateChange.none;
 
-                if (level.autoplay || Input.GetKey(KeyCode.Alpha8)) {
+                if (game.autoplay || Input.GetKey(KeyCode.Alpha8)) {
                     if (!issuedAiCommands) {
                         issuedAiCommands = true;
-                        level.IssueAiCommandsForActionSelectionState();
+                        game.aiPlayerCommander.IssueCommandsForActionSelectionState();
                     }
                 }
                 else if (!level.CurrentPlayer.IsAi) {
 
                     if (Input.GetMouseButtonDown(Mouse.right) || Input.GetKeyDown(KeyCode.Escape))
-                        level.commands.Enqueue(cancel);
+                        game.EnqueueCommand(Command.Cancel);
 
-                    else if (Input.GetKeyDown(KeyCode.Tab)) {
-                        level.stack.Push(Input.GetKey(KeyCode.LeftShift) ? -1 : 1);
-                        level.commands.Enqueue(cycleActions);
-                    }
+                    else if (Input.GetKeyDown(KeyCode.Tab))
+                        game.EnqueueCommand(Command.Cancel, Input.GetKey(KeyCode.LeftShift) ? -1 : 1);
 
                     else if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space)) {
                         if (actions.Count == 0)
                             UiSound.Instance.notAllowed.PlayOneShot();
-                        else {
-                            level.stack.Pop();
-                            level.stack.Push(new List<UnitAction> { actions[index] });
-                            level.commands.Enqueue(execute);
-                        }
+                        else
+                            game.EnqueueCommand(Command.Execute, actions[index]);
                     }
                 }
 
-                while (level.commands.TryDequeue(out var input))
-                    foreach (var token in Tokenizer.Tokenize(input))
-                        switch (token) {
+                while (game.TryDequeueCommand(out var command))
+                    switch (command) {
 
-                            case execute: {
+                        case (Command.Execute, UnitAction action): {
 
-                                HidePanel();
-                                
-                                var filteredActions = level.stack.Pop<List<UnitAction>>();
-                                Assert.AreEqual(1, filteredActions.Count);
-                                var action = filteredActions[0];
+                            selectedAction = action;
+                            HidePanel();
 
-                                switch (action.type) {
+                            switch (action.type) {
 
-                                    case UnitActionType.Stay: {
+                                case UnitActionType.Stay: {
+                                    unit.Position = destination;
+                                    break;
+                                }
+
+                                case UnitActionType.Join: {
+                                    other.SetHp(other.Hp + unit.Hp);
+                                    other.Moved = true;
+                                    unit.Dispose();
+                                    break;
+                                }
+
+                                case UnitActionType.Capture: {
+                                    unit.Position = destination;
+                                    building.Cp -= Cp(unit);
+                                    if (building.Cp <= 0) {
+                                        building.Player = unit.Player;
+                                        building.Cp = MaxCp(building);
+                                    }
+                                    break;
+                                }
+
+                                case UnitActionType.Attack: {
+                                    yield return StateChange.Push(new AttackActionState(stateMachine));
+                                    break;
+                                }
+
+                                case UnitActionType.GetIn: {
+                                    unit.Position = null;
+                                    unit.Carrier = other;
+                                    other.AddCargo(unit);
+                                    break;
+                                }
+
+                                case UnitActionType.Drop: {
+                                    unit.Position = destination;
+                                    unit.RemoveCargo(action.targetUnit);
+                                    action.targetUnit.Position = action.targetPosition;
+                                    action.targetUnit.Carrier = null;
+                                    action.targetUnit.Moved = true;
+                                    break;
+                                }
+
+                                case UnitActionType.Supply: {
+                                    unit.Position = destination;
+                                    action.targetUnit.Fuel = int.MaxValue;
+                                    foreach (var weaponName in GetWeaponNames(action.targetUnit))
+                                        action.targetUnit.SetAmmo(weaponName, int.MaxValue);
+                                    break;
+                                }
+
+                                case UnitActionType.LaunchMissile:
+                                    yield return StateChange.Push(new MissileTargetSelectionState(stateMachine));
+                                    // unit can destroy itself with a missile lol
+                                    if (!unit.Disposed)
                                         unit.Position = destination;
-                                        break;
-                                    }
+                                    break;
 
-                                    case UnitActionType.Join: {
-                                        other.SetHp(other.Hp + unit.Hp);
-                                        other.Moved = true;
-                                        unit.Dispose();
-                                        break;
-                                    }
-
-                                    case UnitActionType.Capture: {
-                                        unit.Position = destination;
-                                        building.Cp -= Cp(unit);
-                                        if (building.Cp <= 0) {
-                                            building.Player = unit.Player;
-                                            building.Cp = MaxCp(building);
-                                        }
-                                        break;
-                                    }
-
-                                    case UnitActionType.Attack: {
-                                        yield return StateChange.Push(nameof(AttackActionState),AttackActionState.Run(level,action));
-                                        break;
-                                    }
-
-                                    case UnitActionType.GetIn: {
-                                        unit.Position = null;
-                                        unit.Carrier = other;
-                                        other.AddCargo(unit);
-                                        break;
-                                    }
-
-                                    case UnitActionType.Drop: {
-                                        unit.Position = destination;
-                                        unit.RemoveCargo(action.targetUnit);
-                                        action.targetUnit.Position = action.targetPosition;
-                                        action.targetUnit.Carrier = null;
-                                        action.targetUnit.Moved = true;
-                                        break;
-                                    }
-
-                                    case UnitActionType.Supply: {
-                                        unit.Position = destination;
-                                        action.targetUnit.Fuel = int.MaxValue;
-                                        foreach (var weaponName in GetWeaponNames(action.targetUnit))
-                                            action.targetUnit.SetAmmo(weaponName, int.MaxValue);
-                                        break;
-                                    }
-
-                                    case UnitActionType.LaunchMissile:
-                                        yield return StateChange.Push(nameof(MissileTargetSelectionState), MissileTargetSelectionState.Run(level, action, initialLookDirection));
-                                        // unit can destroy itself with a missile lol
-                                        if (!unit.Disposed)
-                                            unit.Position = destination;
-                                        break;
-
-                                    default:
-                                        throw new ArgumentOutOfRangeException();
-                                }
-
-                                if (!unit.Disposed) {
-                                    unit.Moved = true;
-                                    if (unit.view.LookDirection != unit.Player.unitLookDirection)
-                                        level.StartCoroutine(new MoveSequence(unit.view.transform, null, PersistentData.Loaded.gameSettings.unitSpeed, unit.Player.unitLookDirection).Animation());
-                                }
-
-                                /*
-                                 * some custom level logic on action completion 
-                                 */
-                                 
-                                if (level.triggers.TryGetValue(TriggerName.A, out var reconTrigger)) {
-
-                                    var unitsInReconTrigger = level.units.Values.Where(u => u.Player == level.localPlayer && u.Position is { } position && reconTrigger.Contains(position)).ToArray();
-                                    if (unitsInReconTrigger.Length > 0) {
-
-                                        reconTrigger.Clear();
-                                        ((LevelEditor)level).LoadAdditively("1");
-
-                                        if (CameraRig.TryFind(out var cameraRig)) {
-                                            yield return StateChange.Push("MapRevealWait", Wait.ForSeconds(.5f));
-                                            cameraRig.Jump(new Vector2Int(-21, -14).Raycast());
-                                        }
-                                    }
-                                }
-
-                                if (level.triggers.TryGetValue(TriggerName.B, out var aggroTrigger)) {
-                                    var unitsInAggroTrigger = level.units.Values.Where(u => u.Player == level.localPlayer && u.Position is { } position && aggroTrigger.Contains(position)).ToArray();
-                                    if (unitsInAggroTrigger.Length > 0) {
-                                        aggroTrigger.Clear();
-                                        Debug.Log("ENEMY NOTICED YOU");
-                                    }
-                                }
-                                
-                                /*
-                                 * check victory or defeat
-                                 */
-
-                                actions.Remove(action);
-
-                                var won = Won(level.localPlayer);
-                                var lost = Lost(level.localPlayer);
-
-                                if (won || lost) {
-
-                                    foreach (var u in level.units.Values)
-                                        u.Moved = false;
-
-                                    // TODO: add a DRAW outcome
-                                    if (won)
-                                        yield return StateChange.ReplaceWith(nameof(VictoryDefeatState.Victory), VictoryDefeatState.Victory(level, action));
-                                    else
-                                        yield return StateChange.ReplaceWith(nameof(VictoryDefeatState.Defeat), VictoryDefeatState.Defeat(level, action));
-                                }
-
-                                else {
-                                    yield return level.levelLogic.OnActionCompletion(level, action);
-                                    yield return StateChange.ReplaceWith(new SelectionState2(level));
-                                }
-
-                                break;
+                                default:
+                                    throw new ArgumentOutOfRangeException();
                             }
 
-                            case cancel:
+                            if (!unit.Disposed) {
+                                unit.Moved = true;
+                                if (unit.view.LookDirection != unit.Player.unitLookDirection)
+                                    game.StartCoroutine(new MoveSequence(unit.view.transform, null, PersistentData.Loaded.gameSettings.unitSpeed, unit.Player.unitLookDirection).Animation());
+                            }
 
-                                level.stack.Pop(); // pop actions
+                            /*
+                             * some custom level logic on action completion 
+                             */
 
-                                unit.view.Position = path[0];
-                                if (initialLookDirection is { } value)
-                                    unit.view.LookDirection = value;
+                            if (level.triggers.TryGetValue(TriggerName.A, out var reconTrigger)) {
 
-                                yield return StateChange.ReplaceWith(nameof(PathSelectionState), PathSelectionState.Run(level, unit));
-                                break;
+                                var unitsInReconTrigger = level.units.Values.Where(u => u.Player == level.localPlayer && u.Position is { } position && reconTrigger.Contains(position)).ToArray();
+                                if (unitsInReconTrigger.Length > 0) {
 
-                            case cycleActions: {
-                                var offset = level.stack.Pop<int>();
-                                if (actions.Count > 0) {
-                                    index = (index + offset).PositiveModulo(actions.Count);
-                                    SelectAction(actions[index]);
+                                    reconTrigger.Clear();
+                                    // ((LevelEditor)level).LoadAdditively("1");
+
+                                    var cameraRig = level.view.cameraRig;
+                                    var startTime = Time.time;
+                                    while (Time.time < startTime + .5f)
+                                        yield return StateChange.none;
+                                    cameraRig.Jump(new Vector2Int(-21, -14).Raycast());
                                 }
+                            }
+
+                            if (level.triggers.TryGetValue(TriggerName.B, out var aggroTrigger)) {
+                                var unitsInAggroTrigger = level.units.Values.Where(u => u.Player == level.localPlayer && u.Position is { } position && aggroTrigger.Contains(position)).ToArray();
+                                if (unitsInAggroTrigger.Length > 0) {
+                                    aggroTrigger.Clear();
+                                    Debug.Log("ENEMY NOTICED YOU");
+                                }
+                            }
+
+                            /*
+                             * check victory or defeat
+                             */
+
+                            actions.Remove(action);
+
+                            var won = Won(level.localPlayer);
+                            var lost = Lost(level.localPlayer);
+
+                            if (won || lost) {
+
+                                foreach (var u in level.units.Values)
+                                    u.Moved = false;
+
+                                // TODO: add a DRAW outcome
+                                if (won)
+                                    yield return StateChange.ReplaceWith(new VictoryState(stateMachine));
                                 else
-                                    UiSound.Instance.notAllowed.PlayOneShot();
-                                break;
+                                    yield return StateChange.ReplaceWith(new DefeatState(stateMachine));
                             }
 
-                            default:
-                                level.stack.ExecuteToken(token);
-                                break;
+                            else {
+                                yield return StateChange.ReplaceWith(new SelectionState(stateMachine));
+                            }
+
+                            break;
                         }
+
+                        case (Command.Cancel, _):
+
+                            unit.view.Position = path[0];
+                            unit.view.LookDirection = stateMachine.TryFind<SelectionState>().initialLookDirection;
+
+                            yield return StateChange.ReplaceWith(new PathSelectionState(stateMachine));
+                            break;
+
+                        case (Command.CycleActions, int offset): {
+                            if (actions.Count > 0) {
+                                index = (index + offset).PositiveModulo(actions.Count);
+                                SelectAction(actions[index]);
+                            }
+                            else
+                                UiSound.Instance.notAllowed.PlayOneShot();
+                            break;
+                        }
+
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
             }
         }
     }

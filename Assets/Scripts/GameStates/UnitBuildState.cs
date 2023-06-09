@@ -1,46 +1,55 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
 
-public static class UnitBuildState {
+public class UnitBuildState : StateMachine.State {
 
-    public const string prefix = "unit-build-state.";
-    public const string build = prefix + "build";
-    public const string close = prefix + "close";
+    public enum Command { Build, Close }
 
-    public static IEnumerator<StateChange> New(Level level, Building building) {
+    public UnitBuildState(StateMachine stateMachine) : base(stateMachine) { }
 
-        Assert.IsTrue(building.Player == level.CurrentPlayer);
+    public override IEnumerator<StateChange> Sequence {
+        get {
+            var game = stateMachine.TryFind<GameSessionState>()?.game;
+            var level = stateMachine.TryFind<PlayState>()?.level;
+            var building = stateMachine.TryFind<SelectionState>()?.building;
+            
+            Assert.IsNotNull(game);
+            Assert.IsNotNull(level);
+            Assert.IsNotNull(building);
 
-        var menuView = Object.FindObjectOfType<UnitBuildMenu>(true);
-        Assert.IsTrue(menuView);
+            Assert.IsTrue(building.Player == level.CurrentPlayer);
 
-        PlayerView.globalVisibility = false;
-        yield return StateChange.none;
-        menuView.Show(building);
+            var menuView = Object.FindObjectOfType<UnitBuildMenu>(true);
+            Assert.IsTrue(menuView);
 
-        Debug.Log($"Building state at building: {building}");
-
-        Assert.IsTrue(level.TryGetBuilding(building.position, out var check));
-        Assert.AreEqual(building, check);
-        Assert.IsFalse(level.TryGetUnit(building.position, out _));
-        Assert.IsNotNull(building.Player);
-
-        var availableTypes = Rules.GetBuildableUnitTypes(building.type);
-        var index = -1;
-
-        while (true) {
+            PlayerView.globalVisibility = false;
             yield return StateChange.none;
 
-            while (level.commands.TryDequeue(out var input))
-                foreach (var token in Tokenizer.Tokenize(input))
-                    switch (token) {
+            menuView.Show(
+                building,
+                unitType => game.EnqueueCommand(Command.Build, unitType),
+                () => game.EnqueueCommand(Command.Close));
 
-                        case build: {
+            Debug.Log($"Building state at building: {building}");
 
-                            var type = level.stack.Pop<UnitType>();
+            Assert.IsTrue(level.TryGetBuilding(building.position, out var check));
+            Assert.AreEqual(building, check);
+            Assert.IsFalse(level.TryGetUnit(building.position, out _));
+            Assert.IsNotNull(building.Player);
+
+            var availableTypes = Rules.GetBuildableUnitTypes(building.type);
+            while (true) {
+                yield return StateChange.none;
+
+                while (game.TryDequeueCommand(out var command))
+                    switch (command) {
+
+                        case (Command.Build, UnitType type): {
+
                             Assert.IsTrue(availableTypes.Contains(type));
                             Assert.IsTrue(building.Player.CanAfford(type));
 
@@ -58,21 +67,21 @@ public static class UnitBuildState {
                             building.Player.SetCredits(building.Player.Credits - Rules.Cost(type, building.Player), true);
 
                             menuView.Hide();
-                            yield return StateChange.ReplaceWith(nameof(SelectionState), SelectionState.Run(level));
+                            yield return StateChange.ReplaceWith(new SelectionState(stateMachine));
                             break;
                         }
 
-                        case close: {
+                        case (Command.Close, _): {
                             menuView.Hide();
                             PlayerView.globalVisibility = true;
-                            yield return StateChange.ReplaceWith(nameof(SelectionState), SelectionState.Run(level));
+                            yield return StateChange.ReplaceWith(new SelectionState(stateMachine));
                             break;
                         }
 
                         default:
-                            level.stack.ExecuteToken(token);
-                            break;
+                            throw new ArgumentOutOfRangeException();
                     }
+            }
         }
     }
 }

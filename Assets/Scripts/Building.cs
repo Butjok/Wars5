@@ -56,7 +56,7 @@ public class Building : IDisposable {
         undisposed.Add(this);
 
         if (viewPrefab) {
-            view = Object.Instantiate(viewPrefab, level.transform);
+            view = Object.Instantiate(viewPrefab, level.view.transform);
             view.prefab = viewPrefab;
             view.Position = position;
             view.LookDirection = lookDirection ?? Vector2Int.up;

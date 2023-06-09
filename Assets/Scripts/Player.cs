@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -21,15 +22,15 @@ public static class Colors {
 
             palette = new Dictionary<ColorName, Color>();
 
-            var stack = new WarsStack();
+            var stack = new Stack();
             foreach (var token in Tokenizer.Tokenize("Colors".LoadAs<TextAsset>().text))
                 stack.ExecuteToken(token);
 
             while (stack.Count > 0) {
-                var b = stack.Pop<dynamic>();
-                var g = stack.Pop<dynamic>();
-                var r = stack.Pop<dynamic>();
-                var name = stack.Pop<ColorName>();
+                var b = (dynamic)stack.Pop();
+                var g = (dynamic)stack.Pop();
+                var r = (dynamic)stack.Pop();
+                var name = (ColorName)stack.Pop();
                 Assert.IsFalse(palette.ContainsKey(name), name.ToString());
                 palette.Add(name, new Color(r, g, b));
             }
@@ -141,14 +142,13 @@ public class Player : IDisposable {
         if (spawnViewPrefab) {
             viewPrefab = viewPrefab ? viewPrefab : PlayerView.DefaultPrefab;
             Assert.IsTrue(viewPrefab);
-            view = Object.Instantiate(viewPrefab, level.transform);
+            view = Object.Instantiate(viewPrefab, level.view.transform);
             view.Initialize(this);
             view.visible = false;
         }
 
-        var canvas = level.GetComponentInChildren<Canvas>();
-        Assert.IsTrue(canvas);
-        view2 = Object.Instantiate(PlayerView2.GetPrefab(coName), canvas.transform);
+        
+        view2 = Object.Instantiate(PlayerView2.GetPrefab(coName), level.view.canvas.transform);
         view2.player = this;
         view2.Hide();
 

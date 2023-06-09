@@ -48,11 +48,16 @@ public class AiPlayerCommander : MonoBehaviour {
 
     public GradientMap priorityGradientMap = new();
 
-    public Level level;
     public Vector2Int selectPosition;
     public Vector2Int movePosition;
     [Command] public float textSize = 14;
     public HashSet<Vector2Int> gatheringPoints = new();
+
+    public Game game;
+    public Level Level => game.stateMachine.TryFind<PlayState>().level;
+    public AiPlayerCommander(Game game) {
+        this.game = game;
+    }
 
     [Command]
     public void ClearGatheringPoints() {
@@ -60,7 +65,7 @@ public class AiPlayerCommander : MonoBehaviour {
     }
     [Command]
     public void TryAddGatheringPoint() {
-        if (Mouse.TryGetPosition(out Vector2Int position))
+        if (Level.view.cameraRig.camera.TryGetMousePosition(out Vector2Int position))
             gatheringPoints.Add(position);
     }
 
@@ -108,7 +113,7 @@ public class AiPlayerCommander : MonoBehaviour {
     public bool TryFindBestMove(out PotentialUnitAction bestPotentialUnitAction) {
 
         var actions = new List<PotentialUnitAction>();
-        foreach (var unit in level.units.Values.Where(unit => unit.Player == level.CurrentPlayer && !unit.Moved))
+        foreach (var unit in Level.units.Values.Where(unit => unit.Player == Level.CurrentPlayer && !unit.Moved))
             actions.AddRange(EnumeratePotentialUnitActions(unit));
 
         if (actions.Count == 0) {
@@ -133,6 +138,8 @@ public class AiPlayerCommander : MonoBehaviour {
     public PotentialUnitAction selectedAction;
 
     public void IssueCommandsForSelectionState() {
+        Assert.IsTrue(game.stateMachine.IsInState<SelectionState>());
+
         var foundMove = TryFindBestMove(out selectedAction);
 
         // if unit cannot move the entire path change the action type to stay
@@ -146,21 +153,24 @@ public class AiPlayerCommander : MonoBehaviour {
         }
 
         if (!foundMove)
-            level.commands.Enqueue(SelectionState.endTurn);
+            game.EnqueueCommand(SelectionState.Command.EndTurn);
         else
-            level.commands.Enqueue($"{selectedAction.unit.NonNullPosition.x} {selectedAction.unit.NonNullPosition.y} int2 {SelectionState.select}");
+            game.EnqueueCommand(SelectionState.Command.Select, selectedAction.unit.NonNullPosition);
     }
 
     public void IssueCommandsForPathSelectionState() {
+        Assert.IsTrue(game.stateMachine.IsInState<PathSelectionState>());
+
         foreach (var position in selectedAction.path)
-            level.commands.Enqueue($"{position.x} {position.y} int2 {PathSelectionState.appendToPath}");
-        level.commands.Enqueue($"false {PathSelectionState.move}");
+            game.EnqueueCommand(PathSelectionState.Command.AppendToPath, position);
+        game.EnqueueCommand(PathSelectionState.Command.Move);
     }
 
     public void IssueCommandsForActionSelectionState() {
+        var actionSelectionState = game.stateMachine.TryPeek<ActionSelectionState>();
+        Assert.IsNotNull(actionSelectionState);
 
-        var actions = level.stack.Pop<List<UnitAction>>();
-        foreach (var action in actions.ToList()) {
+        var actions = actionSelectionState.actions.Where(action => {
             var valid = action.type == selectedAction.type;
             if (valid)
                 valid = action.type switch {
@@ -169,19 +179,17 @@ public class AiPlayerCommander : MonoBehaviour {
                     UnitActionType.Drop => action.targetUnit == selectedAction.targetUnit && action.targetPosition == selectedAction.targetPosition,
                     _ => true
                 };
-            if (!valid)
-                actions.Remove(action);
-        }
+            return valid;
+        }).ToList();
 
         Assert.AreEqual(1, actions.Count);
-        level.stack.Push(actions);
-        level.commands.Enqueue(ActionSelectionState.execute);
+        game.EnqueueCommand(ActionSelectionState.Command.Execute, actions[0]);
     }
 
     [Command]
     public void DrawPotentialUnitActions() {
 
-        if (!Mouse.TryGetPosition(out Vector2Int mousePosition) || !level.TryGetUnit(mousePosition, out var unit))
+        if (!Level.view.cameraRig.camera.TryGetMousePosition(out Vector2Int mousePosition) || !Level.TryGetUnit(mousePosition, out var unit))
             return;
 
         StopAllCoroutines();
@@ -190,8 +198,8 @@ public class AiPlayerCommander : MonoBehaviour {
         StartCoroutine(DrawPotentialUnitActions(actions));
     }
 
-    public MoveFinder2 stayMovesFinder = new();
-    public MoveFinder2 joinMovesFinder = new();
+    public PathFinder stayMovesFinder = new();
+    public PathFinder joinMovesFinder = new();
 
     public IEnumerable<PotentialUnitAction> EnumeratePotentialUnitActions(Unit unit) {
 
@@ -221,7 +229,7 @@ public class AiPlayerCommander : MonoBehaviour {
          * - Viktor 9.2.23
          */
 
-        var buildingsToCapture = level.buildings.Values.Where(building => CanCapture(unit, building) && CanStay(unit, building.position));
+        var buildingsToCapture = Level.buildings.Values.Where(building => CanCapture(unit, building) && CanStay(unit, building.position));
         foreach (var building in buildingsToCapture)
             if (stayMovesFinder.TryFindPath(out var path, out var restPath, building.position))
                 yield return new PotentialUnitAction {
@@ -243,7 +251,7 @@ public class AiPlayerCommander : MonoBehaviour {
 
         if (TryGetAttackRange(unit, out var attackRange))
 
-            foreach (var target in level.units.Values) {
+            foreach (var target in Level.units.Values) {
 
                 List<Vector2Int> path = null;
                 List<Vector2Int> restPath = null;
@@ -253,7 +261,7 @@ public class AiPlayerCommander : MonoBehaviour {
                         TryGetDamage(unit, target, weaponName, out _)) {
 
                         if (path == null) {
-                            var targets = level.PositionsInRange(target.NonNullPosition, attackRange).Where(position => CanStay(unit, position));
+                            var targets = Level.PositionsInRange(target.NonNullPosition, attackRange).Where(position => CanStay(unit, position));
                             if (!stayMovesFinder.TryFindPath(out path, out restPath, targets: targets))
                                 break;
                         }
@@ -273,11 +281,11 @@ public class AiPlayerCommander : MonoBehaviour {
         // find units to supply
         //
 
-        var allies = level.units.Values.Where(u => AreAllies(unit.Player, u.Player)).ToList();
+        var allies = Level.units.Values.Where(u => AreAllies(unit.Player, u.Player)).ToList();
 
         foreach (var ally in allies)
             if (CanSupply(unit, ally)) {
-                var targets = level.PositionsInRange(ally.NonNullPosition, Vector2Int.one).Where(position => CanStay(unit, position));
+                var targets = Level.PositionsInRange(ally.NonNullPosition, Vector2Int.one).Where(position => CanStay(unit, position));
                 if (stayMovesFinder.TryFindPath(out var path, out var restPath, targets: targets))
                     yield return new PotentialUnitAction {
                         unit = unit,
@@ -309,7 +317,7 @@ public class AiPlayerCommander : MonoBehaviour {
             if (!joinMovesFinder.TryFindPath(out var path, out var restPath, ally.NonNullPosition))
                 continue;
 
-            if ((!level.TryGetUnit(path[^1], out var other) || other != ally) && !stayMovesFinder.TryFindPath(out path, out restPath, ally.NonNullPosition))
+            if ((!Level.TryGetUnit(path[^1], out var other) || other != ally) && !stayMovesFinder.TryFindPath(out path, out restPath, ally.NonNullPosition))
                 continue;
 
             if (canJoin)

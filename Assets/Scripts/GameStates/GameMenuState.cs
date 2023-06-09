@@ -1,42 +1,44 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.Assertions;
+using Object = UnityEngine.Object;
 
-public static class GameMenuState {
+public class GameMenuState : StateMachine.State {
 
-    public const string prefix = "game-menu-state.";
+    public enum Command { Close, OpenSettingsMenu, OpenLoadGameMenu }
 
-    public const string close = prefix + "close";
-    public const string openSettingsMenu = prefix + "open-settings-menu";
-    public const string openLoadGameMenu = prefix + "open-load-game-menu";
+    public GameMenuState(StateMachine stateMachine) : base(stateMachine) { }
 
-    public static IEnumerator<StateChange> Run(Level level) {
+    public override IEnumerator<StateChange> Sequence {
+        get {
+            var game = stateMachine.TryFind<GameSessionState>()?.game;
+            var level = stateMachine.TryFind<PlayState>()?.level;
+            var menu = Object.FindObjectOfType<GameMenuView>(true);
+            Assert.IsNotNull(game);
+            Assert.IsNotNull(level);
+            Assert.IsTrue(menu);
 
-        var menu = Object.FindObjectOfType<GameMenu>(true);
-        Assert.IsTrue(menu);
-
-        PlayerView.globalVisibility = false;
-        yield return StateChange.none;
-
-        CursorView.TryFind(out var cursor);
-        CameraRig.TryFind(out var cameraRig);
-        
-        if (cursor)
-            cursor.show = false;
-        if (cameraRig)
-            cameraRig.enabled = false;
-
-        menu.Show(level);
-
-        while (true) {
+            PlayerView.globalVisibility = false;
             yield return StateChange.none;
 
-            while (level.commands.TryDequeue(out var input))
-                foreach (var token in Tokenizer.Tokenize(input))
-                    switch (token) {
+            var cursor = level.view.cursorView;
+            var cameraRig = level.view.cameraRig;
 
-                        case close:
+            if (cursor)
+                cursor.show = false;
+            if (cameraRig)
+                cameraRig.enabled = false;
+
+            menu.enqueueCloseCommand = () => game.EnqueueCommand(Command.Close);
+            menu.Show();
+
+            while (true) {
+                yield return StateChange.none;
+
+                while (game.TryDequeueCommand(out var command))
+                    switch (command) {
+
+                        case (Command.Close, _):
                             menu.Hide();
                             if (cursor)
                                 cursor.show = true;
@@ -46,22 +48,22 @@ public static class GameMenuState {
                             yield return StateChange.Pop();
                             break;
 
-                        case openSettingsMenu:
+                        case (Command.OpenSettingsMenu, _):
                             menu.Hide();
-                            yield return StateChange.Push(nameof(GameSettingsState), GameSettingsState.Run(level));
-                            menu.Show(level);
+                            yield return StateChange.Push(new GameSettingsState(stateMachine));
+                            menu.Show();
                             break;
 
-                        case openLoadGameMenu:
+                        case (Command.OpenLoadGameMenu, _):
                             menu.Hide();
-                            yield return StateChange.Push(nameof(LoadGameState),LoadGameState.Run(level));
-                            menu.Show(level);
+                            yield return StateChange.Push(new LoadGameState(stateMachine));
+                            menu.Show();
                             break;
 
                         default:
-                            level.stack.ExecuteToken(token);
-                            break;
+                            throw new ArgumentOutOfRangeException();
                     }
+            }
         }
     }
 }

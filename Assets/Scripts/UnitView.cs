@@ -930,9 +930,9 @@ public class UnitView : MonoBehaviour {
         }
     }
 
-    private IEnumerator PlayAnimation(string input, Action onComplete = null, int level = 0, WarsStack stack = null) {
+    private IEnumerator PlayAnimation(string input, Action onComplete = null, int level = 0, Stack stack = null) {
 
-        stack ??= new WarsStack();
+        stack ??= new Stack();
 
         foreach (var token in Tokenizer.Tokenize(input))
             switch (token) {
@@ -944,8 +944,8 @@ public class UnitView : MonoBehaviour {
 
                 case "rest":
                 case "aim": {
-                    var barrelName = stack.Pop<string>();
-                    var turretName = stack.Pop<string>();
+                    var barrelName = (string)stack.Pop();
+                    var turretName = (string)stack.Pop();
 
                     var turret = turrets.SingleOrDefault(t => t.name == turretName);
                     if (turret != null) {
@@ -960,9 +960,9 @@ public class UnitView : MonoBehaviour {
                 }
 
                 case "move-in": {
-                    var acceleration = stack.Pop<dynamic>();
-                    var time = stack.Pop<dynamic>();
-                    var speed = stack.Pop<dynamic>();
+                    var acceleration = (dynamic)stack.Pop();
+                    var time = (dynamic)stack.Pop();
+                    var speed = (dynamic)stack.Pop();
                     yield return MoveIn(speed, time, acceleration);
                     break;
                 }
@@ -978,19 +978,19 @@ public class UnitView : MonoBehaviour {
                 }
 
                 case "wait": {
-                    yield return new WaitForSeconds(stack.Pop<dynamic>());
+                    yield return new WaitForSeconds((dynamic)stack.Pop());
                     break;
                 }
 
                 case "shoot": {
-                    var barrelName = stack.Pop<string>();
-                    var turretName = stack.Pop<string>();
+                    var barrelName = (string)stack.Pop();
+                    var turretName = (string)stack.Pop();
                     Shoot(turretName, barrelName);
                     break;
                 }
 
                 case "call": {
-                    var name = stack.Pop<string>();
+                    var name = (string)stack.Pop();
                     var record = subroutines.SingleOrDefault(r => r.name == name);
                     Assert.IsTrue(!string.IsNullOrEmpty(record.name), $"cannot find subroutine {name}");
                     yield return PlayAnimation(record.input, onComplete, level + 1, stack);

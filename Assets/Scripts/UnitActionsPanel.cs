@@ -16,11 +16,11 @@ public class UnitActionsPanel : MonoBehaviour {
     public Action<Button, UnitAction> onClick;
 
     public Dictionary<UnitAction, Button> buttons = new();
-    public Level level;
 
-    public void Show(Level level,IEnumerable<UnitAction> actions, Action<Button, UnitAction> onClick) {
+    private Action enqueueCancelCommand;
+    public void Show(Action enqueueCancelCommand, IEnumerable<UnitAction> actions, Action<Button, UnitAction> onClick) {
 
-        this.level = level;
+        this.enqueueCancelCommand = enqueueCancelCommand;
         
         this.onClick = onClick;
         foreach (var action in actions) {
@@ -56,6 +56,6 @@ public class UnitActionsPanel : MonoBehaviour {
     }
 
     public void Cancel() {
-        level.commands.Enqueue("action-selection-state.cancel");
+        enqueueCancelCommand?.Invoke();
     }
 }

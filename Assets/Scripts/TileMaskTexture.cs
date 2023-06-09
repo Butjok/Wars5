@@ -10,15 +10,12 @@ public static class TileMaskTexture {
 
     public static HashSet<Texture> textures = new();
 
-    public static (Texture texture, Matrix4x4 transform) Create(IEnumerable<(Vector2Int position, bool isSet)> positions, int resolution = 1) {
+    public static (Texture texture, Matrix4x4 transform) Create(HashSet<Vector2Int> positions, int resolution = 1, Color? on = null, Color? off = null) {
         var min = new Vector2Int(int.MaxValue, int.MaxValue);
         var max = new Vector2Int(int.MinValue, int.MinValue);
-        var set = new HashSet<Vector2Int>();
-        foreach (var (point, isSet) in positions) {
-            min = Vector2Int.Min(min, point);
-            max = Vector2Int.Max(max, point);
-            if (isSet)
-                set.Add(point);
+        foreach (var position in positions) {
+            min = Vector2Int.Min(min, position);
+            max = Vector2Int.Max(max, position);
         }
         if (min == new Vector2Int(int.MaxValue, int.MaxValue) || max == new Vector2Int(int.MinValue, int.MinValue))
             return (null, Matrix4x4.identity);
@@ -26,10 +23,10 @@ public static class TileMaskTexture {
         min -= Vector2Int.one;
         size += 2 * Vector2Int.one;
         var transform = Matrix4x4.TRS((min - Vector2.one / 2).ToVector3(), Quaternion.identity, new Vector3(size.x, 1, size.y));
-        return (Create(size, set.Select(p => p + Vector2Int.one).ToHashSet(), resolution), transform);
+        return (Create(size, positions.Select(p => p - min).ToHashSet(), resolution), transform);
     }
 
-    public static Texture Create(Vector2Int size, ICollection<Vector2Int> setPixels, int resolution = 1) {
+    public static Texture Create(Vector2Int size, HashSet<Vector2Int> setPixels, int resolution = 1, Color? on = null, Color? off = null) {
         if (size.x <= 0 || size.y <= 0)
             return null;
         var texture = new Texture2D(size.x * resolution, size.y * resolution, TextureFormat.R8, false, false) {
@@ -39,7 +36,7 @@ public static class TileMaskTexture {
         textures.Add(texture);
         for (var y = 0; y < size.y; y++)
         for (var x = 0; x < size.x; x++) {
-            var color = setPixels.Contains(new Vector2Int(x, y)) ? new Color(-1, 0, 0) : new Color(1, 0, 0);
+            var color = setPixels.Contains(new Vector2Int(x, y)) ? on ?? Color.white : off ?? Color.black;
             for (var i = 0; i < resolution; i++)
             for (var j = 0; j < resolution; j++)
                 texture.SetPixel(x * resolution + i, y * resolution + j, color);
@@ -64,8 +61,8 @@ public static class TileMaskTexture {
     [Command]
     public static void Test(string json) {
         var material = "Custom_UvMapperTestShader".LoadAs<Material>();
-        var positions = json.FromJson<int[][]>();
-        var (texture, transform) = Create(positions.Select(p => (new Vector2Int(p[0], p[1]), true)), 8);
+        var positions = json.FromJson<int[][]>().Select(p => new Vector2Int(p[0], p[1])).ToHashSet();
+        var (texture, transform) = Create(positions, 8);
         Set(material, "_Visibility", texture, transform);
     }
 }

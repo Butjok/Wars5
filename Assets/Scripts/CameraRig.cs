@@ -6,18 +6,6 @@ using UnityEngine.Assertions;
 [ExecuteInEditMode]
 public class CameraRig : MonoBehaviour {
 
-    private static CameraRig instance;
-    public static CameraRig TryFind() {
-        if (instance)
-            return instance;
-        instance = FindObjectOfType<CameraRig>();
-        return instance;
-    }
-    public static bool TryFind(out CameraRig cameraRig) {
-        cameraRig = TryFind();
-        return cameraRig;
-    }
-
     public Camera camera;
     public CinemachineVirtualCamera virtualCamera;
 
@@ -139,7 +127,7 @@ public class CameraRig : MonoBehaviour {
         // JUMP
 
         if (Input.GetMouseButtonDown(Mouse.middle)) {
-            if (lastClickTime + jumpCooldown > Time.unscaledTime && Mouse.TryGetPosition(out Vector3 target))
+            if (lastClickTime + jumpCooldown > Time.unscaledTime && camera.TryGetMousePosition(out Vector3 target))
                 Jump(target);
             else
                 lastClickTime = Time.unscaledTime;

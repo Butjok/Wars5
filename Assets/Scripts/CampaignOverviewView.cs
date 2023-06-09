@@ -30,8 +30,9 @@ public class CampaignOverviewView : MonoBehaviour {
     public bool start = true;
 
     private void Start() {
-        if (start && GameStateMachine.Instance.IsEmpty)
-            GameStateMachine.Instance.Push(new CampaignOverviewState2());
+        var game = Game.Instance;
+        if (start && game.stateMachine.Count == 0)
+            game.stateMachine.Push(new CampaignOverviewState2(game.stateMachine));
     }
 
     public bool ShowLoadingSpinner {
@@ -56,17 +57,15 @@ public class CampaignOverviewView : MonoBehaviour {
     }
 }
 
-public class CampaignOverviewState2 : IDisposableState {
+public class CampaignOverviewState2 : StateMachine.State {
 
-    [Command]
-    public static string sceneName = "Campaign";
+    [Command] public static string sceneName = "Campaign";
+    [Command] public static float fadeDuration = .25f;
+    [Command] public static Ease fadeEasing = Ease.Unset;
 
-    [Command]
-    public static float fadeDuration = .25f;
-    [Command]
-    public static Ease fadeEasing = Ease.Unset;
+    public CampaignOverviewState2(StateMachine stateMachine) : base(stateMachine) { }
 
-    public IEnumerator<StateChange> Run {
+    public override IEnumerator<StateChange> Sequence {
         get {
 
             if (SceneManager.GetActiveScene().name != sceneName) {
@@ -80,36 +79,28 @@ public class CampaignOverviewState2 : IDisposableState {
             PostProcessing.ColorFilter = Color.black;
             PostProcessing.Fade(Color.white, fadeDuration, fadeEasing);
 
-            yield return StateChange.Push(new CampaignOverviewSelectionState(view));
+            yield return StateChange.Push(new CampaignOverviewSelectionState(stateMachine, view));
         }
-    }
-
-    public void Dispose() {
-        //PostProcessing.ColorFilter = Color.white;
     }
 }
 
-public class CampaignOverviewSelectionState : IDisposableState {
+public class CampaignOverviewSelectionState : StateMachine.State {
 
-    [Command]
-    public static float fadeDuration = .25f;
-    [Command]
-    public static Ease fadeEasing = Ease.Unset;
-    [Command]
-    public static bool drawDebugHit = false;
-    [Command]
-    public static bool shouldGoBackToMainMenu = false;
+    [Command] public static float fadeDuration = .25f;
+    [Command] public static Ease fadeEasing = Ease.Unset;
+    [Command] public static bool drawDebugHit = false;
+    [Command] public static bool shouldGoBackToMainMenu = false;
 
     public static MissionName? targetMissionName;
 
     public CampaignOverviewView view;
     public MissionView hoveredMissionView;
 
-    public CampaignOverviewSelectionState(CampaignOverviewView view) {
+    public CampaignOverviewSelectionState(StateMachine stateMachine, CampaignOverviewView view) : base(stateMachine) {
         this.view = view;
     }
 
-    public IEnumerator<StateChange> Run {
+    public override IEnumerator<StateChange> Sequence {
         get {
 
             view.backButton.onClick.RemoveAllListeners();
@@ -128,14 +119,14 @@ public class CampaignOverviewSelectionState : IDisposableState {
 
                 if (InputState.TryConsumeKeyDown(KeyCode.Tab))
                     view.CycleMission(Input.GetKey(KeyCode.LeftShift) ? -1 : 1);
-                
+
                 if (InputState.TryConsumeScrollWheel(out var scrollWheel))
                     view.CycleMission(scrollWheel);
 
                 if (targetMissionName is { } actualMissionName) {
                     targetMissionName = null;
                     var missionView = view.MissionViews.Single(mv => mv.MissionName == actualMissionName);
-                    yield return StateChange.Push(new CampaignOverviewMissionCloseUpState(view, missionView, actualMissionName));
+                    yield return StateChange.Push(new CampaignOverviewMissionCloseUpState(stateMachine, view, missionView, actualMissionName));
                     continue;
                 }
 
@@ -148,7 +139,7 @@ public class CampaignOverviewSelectionState : IDisposableState {
                     var tween = PostProcessing.Fade(Color.black, fadeDuration, fadeEasing);
                     while (tween.IsActive() && !tween.IsComplete())
                         yield return StateChange.none;
-                    yield return StateChange.PopThenPush(2, new EntryPointState(false, false));
+                    yield return StateChange.PopThenPush(2, new EntryPointState(stateMachine, false, false));
                 }
 
                 var ray = view.mainCamera.ScreenPointToRay(Input.mousePosition);
@@ -183,10 +174,10 @@ public class CampaignOverviewSelectionState : IDisposableState {
                         Assert.IsTrue(parsed, name);
 
                         if (campaign.IsAvailable(missionName)) {
-                            yield return StateChange.Push(new CampaignOverviewMissionCloseUpState(view, missionView, missionName));
+                            yield return StateChange.Push(new CampaignOverviewMissionCloseUpState(stateMachine, view, missionView, missionName));
                             continue;
                         }
-                        else 
+                        else
                             UiSound.Instance.notAllowed.PlayOneShot();
                     }
                 }
@@ -201,12 +192,12 @@ public class CampaignOverviewSelectionState : IDisposableState {
         }
     }
 
-    public void Dispose() {
+    public override void Dispose() {
         view.defaultVirtualCamera.enabled = false;
     }
 }
 
-public class CampaignOverviewMissionCloseUpState : IDisposableState {
+public class CampaignOverviewMissionCloseUpState : StateMachine.State {
 
     public static MissionName missionName;
     public static bool shouldStart;
@@ -214,13 +205,13 @@ public class CampaignOverviewMissionCloseUpState : IDisposableState {
     public CampaignOverviewView view;
     public MissionView missionView;
 
-    public CampaignOverviewMissionCloseUpState(CampaignOverviewView view, MissionView missionView, MissionName missionName) {
+    public CampaignOverviewMissionCloseUpState(StateMachine stateMachine, CampaignOverviewView view, MissionView missionView, MissionName missionName) : base(stateMachine) {
         this.view = view;
         this.missionView = missionView;
         CampaignOverviewMissionCloseUpState.missionName = missionName;
     }
 
-    public IEnumerator<StateChange> Run {
+    public override IEnumerator<StateChange> Sequence {
         get {
 
             var campaign = PersistentData.Loaded.campaign;
@@ -248,7 +239,7 @@ public class CampaignOverviewMissionCloseUpState : IDisposableState {
 
                 if (InputState.TryConsumeScrollWheel(out var scrollWheel))
                     view.CycleMission(scrollWheel);
-                
+
                 if (InputState.TryConsumeKeyDown(KeyCode.Tab))
                     view.CycleMission(Input.GetKey(KeyCode.LeftShift) ? -1 : 1);
 
@@ -268,7 +259,7 @@ public class CampaignOverviewMissionCloseUpState : IDisposableState {
                 if (shouldStart) {
                     shouldStart = false;
                     if (isAvailable) {
-                        yield return  StateChange.PopThenPush(3, new LoadingState(missionName, Campaign.Mission.GetInputCode(missionName)));
+                        yield return StateChange.PopThenPush(3, new LoadingState(stateMachine ,missionName, Campaign.Mission.GetInputCode(missionName)));
                         continue;
                     }
                     UiSound.Instance.notAllowed.PlayOneShot();
@@ -279,7 +270,7 @@ public class CampaignOverviewMissionCloseUpState : IDisposableState {
         }
     }
 
-    public void Dispose() {
+    public override void Dispose() {
         if (missionView.TryGetVirtualCamera)
             missionView.TryGetVirtualCamera.enabled = false;
         if (missionView.text)
@@ -290,45 +281,5 @@ public class CampaignOverviewMissionCloseUpState : IDisposableState {
         view.backButton.onClick.AddListener(view.GoToMainMenu);
 
         missionName = MissionName.None;
-    }
-}
-
-public class CampaignOverviewMissionLoadingState : IDisposableState {
-
-    [Command]
-    public static float fadeDuration = .25f;
-
-    public CampaignOverviewView view;
-    public CampaignOverviewMissionLoadingState(CampaignOverviewView view) {
-        this.view = view;
-    }
-
-    public IEnumerator<StateChange> Run {
-        get {
-            view.missionPanel.SetActive(false);
-            view.backButton.gameObject.SetActive(false);
-
-            PostProcessing.ColorFilter = Color.white;
-            var fade = PostProcessing.Fade(Color.black, fadeDuration);
-            while (fade.IsActive() && !fade.IsComplete())
-                yield return StateChange.none;
-
-            view.ShowLoadingSpinner = true;
-
-            while (true) {
-                if (InputState.TryConsumeKeyDown(KeyCode.Escape))
-                    break;
-                yield return StateChange.none;
-            }
-
-            yield return StateChange.Pop();
-        }
-    }
-
-    public void Dispose() {
-        view.backButton.gameObject.SetActive(true);
-        view.missionPanel.SetActive(true);
-        PostProcessing.ColorFilter = Color.white;
-        view.ShowLoadingSpinner = false;
     }
 }

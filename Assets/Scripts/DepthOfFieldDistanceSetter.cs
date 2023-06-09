@@ -14,6 +14,7 @@ public class DepthOfFieldDistanceSetter : MonoBehaviour {
     public bool setConstant = false;
     public float constantDistance;
     public float constantFocalLength = 83;
+    public CameraRig cameraRig;
 
     public static int lastFrame = -1;
     public static int lastPriority;
@@ -36,7 +37,7 @@ public class DepthOfFieldDistanceSetter : MonoBehaviour {
                     depthOfField.focusDistance.value = constantDistance;
                     depthOfField.focalLength.value = constantFocalLength;
                 }
-                else if (CameraRig.TryFind(out var cameraRig)) {
+                else if (cameraRig) {
                     depthOfField.focusDistance.value = cameraRig.Distance;
                     var t = (cameraRig.Distance - cameraRig.distanceClamp[0]) / (cameraRig.distanceClamp[1] - cameraRig.distanceClamp[0]);
                     depthOfField.focalLength.value = Mathf.Lerp(focalLengthBounds[0], focalLengthBounds[1], t);

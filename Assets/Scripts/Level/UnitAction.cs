@@ -22,8 +22,6 @@ public enum UnitActionType {
 
 public class UnitAction : IDisposable {
 
-    public static readonly Traverser traverser = new();
-
     public static readonly HashSet<UnitAction> undisposed = new();
 
     public readonly UnitActionType type;
@@ -33,12 +31,13 @@ public class UnitAction : IDisposable {
     private bool triedToFindPath;
     public IReadOnlyList<Vector2Int> Path {
         get {
-            if (path != null || triedToFindPath)
-                return path;
-            traverser.Traverse(unit, destination);
-            traverser.TryReconstructPath(destination, ref path);
-            triedToFindPath = true;
-            return path;
+            // if (path != null || triedToFindPath)
+            //     return path;
+            // traverser.Traverse(unit, destination);
+            // traverser.TryReconstructPath(destination, ref path);
+            // triedToFindPath = true;
+            // return path;
+            return null;
         }
     }
     public readonly WeaponName weaponName;
@@ -78,7 +77,7 @@ public class UnitAction : IDisposable {
         if (spawnView)
             switch (type) {
                 case UnitActionType.Attack: {
-                    var view = Object.Instantiate(UnitAttackActionView.Prefab);
+                    var view = Object.Instantiate(UnitAttackActionView.Prefab, unit.Player.level.view.transform);
                     view.action = this;
                     this.view = view;
                     break;

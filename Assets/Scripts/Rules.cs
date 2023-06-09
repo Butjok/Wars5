@@ -209,7 +209,8 @@ public static class Rules {
 
     public static bool TryGetMoveCost(Unit unit, Vector2Int position, out int cost) {
         cost = default;
-        return unit.Player.level.TryGetTile(position, out var tileType) &&
+        return CanPass(unit, position) &&
+               unit.Player.level.TryGetTile(position, out var tileType) &&
                TryGetMoveCost(unit.type, tileType, out cost);
     }
     public static bool TryGetMoveCost(UnitType unitType, TileType tileType, out int cost) {
@@ -240,21 +241,6 @@ public static class Rules {
             cost = unreachable;
 
         return cost != unreachable;
-    }
-
-    public static Traverser.TryGetCostDelegate GetMoveCostFunction(Unit unit, bool truncateToMoveDistance = true) {
-
-        bool TryGetCost(Vector2Int position, int distance, out int cost) {
-            cost = 0;
-
-            var unreachable = !unit.Player.level.TryGetTile(position, out var tile) ||
-                              unit.Player.level.TryGetUnit(position, out var other) && !CanPass(unit, other) ||
-                              !TryGetMoveCost(unit, tile, out cost) ||
-                              truncateToMoveDistance && distance + cost > MoveCapacity(unit);
-            return !unreachable;
-        }
-
-        return TryGetCost;
     }
 
     public static bool CanStay(UnitType unitType, TileType tileType) {

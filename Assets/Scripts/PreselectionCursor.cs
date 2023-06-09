@@ -23,8 +23,9 @@ public class PreselectionCursor : MonoBehaviour {
     public Vector2 margin;
     public bool diagonal = false;
     public Image thumbnail;
+    public CameraRig cameraRig;
 
-    public void ShowAt(Vector3 position, Sprite thumbnail=null) {
+    public void ShowAt(Vector3 position, Sprite thumbnail = null) {
         transform.position = position;
         gameObject.SetActive(true);
         root.gameObject.SetActive(true);
@@ -40,7 +41,7 @@ public class PreselectionCursor : MonoBehaviour {
         root.gameObject.SetActive(false);
 
         var camera = Camera.main;
-        if ( !camera)
+        if (!camera)
             return;
 
         Vector2 screenPosition = camera.WorldToScreenPoint(transform.position);
@@ -65,8 +66,7 @@ public class PreselectionCursor : MonoBehaviour {
     }
 
     public void JumpToTarget() {
-        if (CameraRig.TryFind(out var cameraRig))
-            cameraRig.Jump(transform.position);
+        cameraRig.Jump(transform.position);
     }
 
     public bool VisibleOnTheScreen(Camera camera, Vector3 worldPosition) {

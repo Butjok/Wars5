@@ -163,7 +163,7 @@ public class Unit : IDisposable {
             viewPrefab = UnitView.DefaultPrefab;
         Assert.IsTrue(viewPrefab);
 
-        view = Object.Instantiate(viewPrefab, player.level.transform);
+        view = Object.Instantiate(viewPrefab, player.level.view.transform);
         view.prefab = viewPrefab;
         view.LookDirection = lookDirection ?? player.unitLookDirection;
 

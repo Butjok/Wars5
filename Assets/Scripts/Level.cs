@@ -1,41 +1,20 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Butjok.CommandLine;
-using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
-using static BattleConstants;
 
-public class Level : MonoBehaviour {
+public class Level {
 
-    [Command] public bool autoplay = true;
-    public AiPlayerCommander aiPlayerCommander;
-
-    protected virtual void Update() {
-        if (Input.GetKeyDown(KeyCode.Alpha8))
-            autoplay = (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift));
-    }
-
-    public void IssueAiCommandsForSelectionState() {
-        aiPlayerCommander.IssueCommandsForSelectionState();
-    }
-    public void IssueAiCommandsForPathSelectionState() {
-        aiPlayerCommander.IssueCommandsForPathSelectionState();
-    }
-    public void IssueAiCommandsForActionSelectionState() {
-        aiPlayerCommander.IssueCommandsForActionSelectionState();
-    }
-
-    [Command]
-    public bool followLastUnit;
-
-    public List<Bridge> bridges = new();
-
-    [Command] public MissionName missionName;
+    public LevelView view;
+    
+    public MissionName missionName;
+    public List<Player> players = new();
+    public Player localPlayer;
+    public int turn = 0;
     public Dictionary<Vector2Int, TileType> tiles = new();
     public Dictionary<Vector2Int, Unit> units = new();
     public Dictionary<Vector2Int, Building> buildings = new();
+    public List<Bridge> bridges = new();
     public Dictionary<TriggerName, HashSet<Vector2Int>> triggers = new() {
         [TriggerName.A] = new HashSet<Vector2Int>(),
         [TriggerName.B] = new HashSet<Vector2Int>(),
@@ -44,8 +23,7 @@ public class Level : MonoBehaviour {
         [TriggerName.E] = new HashSet<Vector2Int>(),
         [TriggerName.F] = new HashSet<Vector2Int>(),
     };
-    public List<Player> players = new();
-    [Command] public int turn = 0;
+
     public int Day(int turn) {
         Assert.IsTrue(turn >= 0);
         Assert.AreNotEqual(0, players.Count);
@@ -53,49 +31,6 @@ public class Level : MonoBehaviour {
     }
     public int Day() {
         return Day(turn);
-    }
-    public LevelLogic levelLogic = new();
-    public Player localPlayer;
-
-    public WarsStack stack = new();
-    public Queue<string> commands = new();
-
-    public MeshFilter tileAreaMeshFilter;
-    public MeshFilter pathMeshFilter;
-
-    public Camera mainCamera;
-    public Camera[] battleCameras = { null, null };
-
-    public virtual void Awake() {
-
-        Player.undisposed.Clear();
-        Building.undisposed.Clear();
-        Unit.undisposed.Clear();
-        UnitAction.undisposed.Clear();
-
-        // Assert.IsTrue(mainCamera);
-        // Assert.IsTrue(battleCameras.Length == right + 1);
-        // Assert.IsTrue(battleCameras[left]);
-        // Assert.IsTrue(battleCameras[right]);
-    }
-
-    public void ShouldEndTurn() {
-        var peeked = GameStateMachine.Instance.states.TryPeek(out var state);
-        Assert.IsTrue(peeked);
-        Assert.IsTrue(GameStateMachine.Instance.Is<SelectionState2>(state, out var selectionState));
-        selectionState.shouldEndTurn = true;
-    }
-
-    [Command]
-    public bool ShowBattleAnimation {
-        set {
-            PersistentData.Loaded.gameSettings.showBattleAnimation = value;
-            PersistentData.Save();
-        }
-    }
-
-    protected virtual void OnApplicationQuit() {
-        PersistentData.Save();
     }
 
     public Player CurrentPlayer {
@@ -142,11 +77,6 @@ public class Level : MonoBehaviour {
     }
     public IEnumerable<Vector2Int> Neighbors(Vector2Int position) {
         return from offset in Rules.offsets where tiles.ContainsKey(position + offset) select position + offset;
-    }
-
-    [Command]
-    public void EnqueueCommand(string command) {
-        commands.Enqueue(command);
     }
 }
 

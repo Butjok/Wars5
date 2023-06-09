@@ -142,7 +142,7 @@ public class BattleAnimation {
     public readonly BattleAnimationPlayer player;
     public bool Completed { get; private set; }
 
-    private WarsStack stack = new();
+    private Stack stack = new();
 
     public BattleAnimation(BattleAnimationPlayer player) {
         this.player = player;
@@ -153,7 +153,7 @@ public class BattleAnimation {
             switch (token) {
 
                 case "set-speed": {
-                    var value = stack.Pop<dynamic>();
+                    var value = (dynamic)stack.Pop();
                     if (overrideSetSpeedArgument)
                         value = setSpeedArgumentOverrideValue;
                     player.speed = value;
@@ -161,7 +161,7 @@ public class BattleAnimation {
                 }
 
                 case "break": {
-                    var value = stack.Pop<dynamic>();
+                    var value = (dynamic)stack.Pop();
                     if (overrideBreakArgument)
                         value = breakArgumentOverrideValue;
                     player.acceleration = -Mathf.Sign(player.speed) * value;
@@ -172,7 +172,7 @@ public class BattleAnimation {
                 }
 
                 case "translate": {
-                    var value = stack.Pop<dynamic>();
+                    var value = (dynamic)stack.Pop();
                     if (overrideTranslateArgument)
                         value = translateArgumentOverrideValue;
                     player.transform.position += player.transform.forward * value;
@@ -180,12 +180,12 @@ public class BattleAnimation {
                 }
 
                 case "wait":
-                    yield return new WaitForSeconds(stack.Pop<dynamic>());
+                    yield return new WaitForSeconds((dynamic)stack.Pop());
                     break;
 
                 case "random": {
-                    var b = stack.Pop<dynamic>();
-                    var a = stack.Pop<dynamic>();
+                    var b = (dynamic)stack.Pop();
+                    var a = (dynamic)stack.Pop();
                     stack.Push(Random.Range(a, b));
                     break;
                 }
@@ -199,7 +199,7 @@ public class BattleAnimation {
                     break;
 
                 case "find-turret": {
-                    var turretName = stack.Pop<string>();
+                    var turretName = (string)stack.Pop();
                     var turret = player
                         .GetComponentsInChildren<Turret2>()
                         .SingleOrDefault(t => t.name == turretName);
@@ -208,21 +208,21 @@ public class BattleAnimation {
                 }
 
                 case "set-aim": {
-                    var value = stack.Pop<bool>();
-                    var turret = stack.Pop<Turret2>();
+                    var value = (bool)stack.Pop();
+                    var turret = (Turret2)stack.Pop();
                     player.SetAim(turret, value);
                     break;
                 }
 
                 case "fire": {
-                    var barrelIndex = stack.Pop<int>();
-                    var projectileViewPrefab = stack.Pop<Projectile2View>();
+                    var barrelIndex = (int)stack.Pop();
+                    var projectileViewPrefab = (Projectile2View)stack.Pop();
                     player.Fire(barrelIndex, projectileViewPrefab);
                     break;
                 }
 
                 case "call": {
-                    var name = stack.Pop<string>();
+                    var name = (string)stack.Pop();
                     var record = player.subroutines.SingleOrDefault(r => r.name == name);
                     Assert.IsTrue(!string.IsNullOrEmpty(record.name), $"cannot find subroutine {name}");
                     yield return Coroutine(record.input, level + 1);

@@ -81,7 +81,7 @@ public class LoadingView : MonoBehaviour {
     }
 }
 
-public class LoadingState : IDisposableState {
+public class LoadingState : StateMachine.State {
 
     [Command]
     public static float minimumLoadingTime = 0;
@@ -93,7 +93,7 @@ public class LoadingState : IDisposableState {
     public MissionName missionName;
     public string saveData;
 
-    public LoadingState(MissionName missionName, string saveData) {
+    public LoadingState(StateMachine stateMachine, MissionName missionName, string saveData) : base(stateMachine) {
         this.missionName = missionName;
         this.saveData = saveData;
     }
@@ -105,11 +105,11 @@ public class LoadingState : IDisposableState {
         };
     }
 
-    public IEnumerator<StateChange> Run {
+    public override IEnumerator<StateChange> Sequence {
         get {
 
             allowSceneActivation = false;
-            
+
             if (SceneManager.GetActiveScene().name != sceneName) {
                 SceneManager.LoadScene(sceneName);
                 yield return StateChange.none;
@@ -130,7 +130,7 @@ public class LoadingState : IDisposableState {
 
             view.Ready = true;
             while (true) {
-                
+
                 allowSceneActivation = InputState.TryConsumeKeyDown(KeyCode.Return) || allowSceneActivation;
                 allowSceneActivation = InputState.TryConsumeKeyDown(KeyCode.Space) || allowSceneActivation;
 
@@ -140,19 +140,17 @@ public class LoadingState : IDisposableState {
             }
 
             loadingOperation.allowSceneActivation = true;
-            yield return  StateChange.none;
+            yield return StateChange.none;
 
-            var level = Object.FindObjectOfType<Level>();
-            Assert.IsTrue(level);
+            var level = new Level();
+            LevelReader.ReadInto(level, saveData);
             
-            GameReader.ReadInto(level, saveData, true);
-            if (level is LevelEditor levelEditor)
-                levelEditor.RebuildTilemapMesh();
-            yield return StateChange.ReplaceWith(new PlayerTurnState(level));
+            // if (level is LevelEditor levelEditor)
+            //     levelEditor.RebuildTilemapMesh();
+            
+            yield return StateChange.ReplaceWith(new PlayState(stateMachine, saveData));
         }
     }
 
-    public void Dispose() {
-        
-    }
+    public override void Dispose() { }
 }

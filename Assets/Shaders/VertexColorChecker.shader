@@ -17,6 +17,7 @@ Shader "Custom/VertexColorChecker" {
 		_Emissive ("_Emissive", Color) = (0,0,0,1)
 
 		_Road ("_Road", 2D) = "white" {}
+		_TileMask ("_TileMask", 2D) = "black" {}
 	
 	}
 	SubShader {
@@ -32,7 +33,8 @@ Shader "Custom/VertexColorChecker" {
 
 		#include "Utils.cginc"
 
-		sampler2D _MainTex,_Road;
+		sampler2D _MainTex,_Road,_TileMask;
+		float4x4 _TileMask_WorldToLocal;
 
 		struct Input {
 //			float2 uv_Road;
@@ -109,6 +111,12 @@ Shader "Custom/VertexColorChecker" {
 			o.Metallic = 0;
 			o.Emission = _Emissive;
 			o.Smoothness = color.a;
+			
+			float2 uv = mul(_TileMask_WorldToLocal, float4(IN.worldPos.xyz, 1)).xz;
+			float tileMask = saturate(tex2D(_TileMask, uv).r);
+			if (uv.x < 0 || uv.x > 1 || uv.y < 0 || uv.y > 1)
+				tileMask = 0;
+			o.Emission += tileMask;
 		}
 		ENDCG
 	}

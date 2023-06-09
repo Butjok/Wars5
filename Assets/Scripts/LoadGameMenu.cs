@@ -1,14 +1,11 @@
+using System;
 using System.Collections.Generic;
-using Butjok.CommandLine;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class LoadGameMenu : MonoBehaviour {
 
-    public Level level;
     public GameObject root;
     public Image screenshotImage;
     public Button entryButtonPrefab;
@@ -23,9 +20,11 @@ public class LoadGameMenu : MonoBehaviour {
     public Dictionary<string, Sprite> screenshotCache = new();
     public List<Button> entryButtons = new();
 
-    public void Show(Level level, IEnumerable<SaveEntry> saveEntries) {
+    public Action enqueueCloseCommand;
 
-        this.level = level;
+    public void Show(Action enqueueCloseCommand, IEnumerable<SaveEntry> saveEntries) {
+
+        this.enqueueCloseCommand= enqueueCloseCommand;
         root.SetActive(true);
 
         foreach (var entry in saveEntries) {
@@ -60,7 +59,7 @@ public class LoadGameMenu : MonoBehaviour {
     }
 
     public void Close() {
-        level.commands.Enqueue(LoadGameState.close);
+        enqueueCloseCommand?.Invoke();
     }
     private void Update() {
         if (Input.GetKeyDown(KeyCode.Escape))

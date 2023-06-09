@@ -30,19 +30,23 @@ public class UnitBuildMenu : MonoBehaviour {
     public Button[] unitTypeButtons = Array.Empty<Button>();
     public Transform unitTypeButtonsContainer;
 
+    public Action<UnitType> enqueueBuildCommand;
+    public Action enqueueCloseCommand;
+    
     public bool TryBuild() {
         if (!building.Player.CanAfford(unitType))
             return false;
-        building.level.stack.Push(unitType);
-        building.level.commands.Enqueue(UnitBuildState.build);
+        enqueueBuildCommand?.Invoke(unitType);
         return true;
     }
     public void Cancel() {
-        building.level.commands.Enqueue(UnitBuildState.close);
+        enqueueCloseCommand?.Invoke();
     }
 
-    public void Show(Building building) {
+    public void Show(Building building, Action<UnitType> enqueueBuildCommand, Action enqueueCloseCommand) {
         this.building = building;
+        this.enqueueBuildCommand = enqueueBuildCommand;
+        this.enqueueCloseCommand = enqueueCloseCommand;
         gameObject.SetActive(true);
         var player = building.Player;
         credits.text = string.Format(creditsFormat, player.Credits);

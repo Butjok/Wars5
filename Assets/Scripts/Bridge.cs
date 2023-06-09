@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class Bridge:IDisposable {
+public class Bridge : IDisposable {
 
     public Dictionary<Vector2Int, TileType> tiles = new();
     public Level level;
@@ -20,7 +20,7 @@ public class Bridge:IDisposable {
             Assert.IsFalse(level.buildings.TryGetValue(position, out _), position.ToString());
             tiles.Add(position, tileType);
         }
-        
+
         view.bridge = this;
         this.view = view;
         this.level = level;
@@ -38,7 +38,7 @@ public class Bridge:IDisposable {
     public const int maxHp = 20;
     private int hp = maxHp;
 
-    public void SetHp(int value, bool animateDestruction=false) {
+    public void SetHp(int value, bool animateDestruction = false) {
         var oldHp = hp;
         hp = Mathf.Clamp(value, 0, maxHp);
         view.SetHp(hp, animateDestruction);
@@ -49,7 +49,7 @@ public class Bridge:IDisposable {
             RestoreTiles();
         }
     }
-    
+
     public int Hp => hp;
 
     public void RemoveTiles(bool removeBuilding = true, bool removeUnits = true) {
@@ -60,12 +60,10 @@ public class Bridge:IDisposable {
             if (removeUnits && level.TryGetUnit(position, out var unit))
                 unit.Dispose();
         }
-        ((LevelEditor)level).RebuildTilemapMesh();
     }
 
     public void RestoreTiles() {
         foreach (var (position, tileType) in tiles)
             level.tiles.Add(position, tileType);
-        ((LevelEditor)level).RebuildTilemapMesh();
     }
 }

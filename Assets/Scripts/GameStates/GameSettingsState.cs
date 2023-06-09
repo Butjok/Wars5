@@ -1,36 +1,38 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.Assertions;
+using Object = UnityEngine.Object;
 
-public static class GameSettingsState {
+public class GameSettingsState : StateMachine.State {
 
-    public const string prefix = "game-settings-state.";
+    public enum Command { Close }
 
-    public const string close = prefix + "close";
-    
-    public static IEnumerator<StateChange> Run(Level level) {
+    public GameSettingsState(StateMachine stateMachine) : base(stateMachine) { }
 
-        var menu = Object.FindObjectOfType<GameSettingsMenu>(true);
-        Assert.IsTrue(menu);
-        menu.Show(level);
+    public override IEnumerator<StateChange> Sequence {
+        get {
+            
+            var game = stateMachine.TryFind<GameSessionState>()?.game;
+            Assert.IsNotNull(game);
 
-        while (true) {
-            yield return StateChange.none;
+            var menu = Object.FindObjectOfType<GameSettingsMenu>(true);
+            Assert.IsTrue(menu);
+            menu.Show(() => game.EnqueueCommand(Command.Close));
 
-            while (level.commands.TryDequeue(out var input))
-                foreach (var token in Tokenizer.Tokenize(input))
-                    switch (token) {
-                        
-                        case close:
+            while (true) {
+                yield return StateChange.none;
+                while (game.TryDequeueCommand(out var command))
+                    switch (command) {
+
+                        case (Command.Close, _):
                             menu.Hide();
                             yield return StateChange.Pop();
                             break;
-                        
+
                         default:
-                            level.stack.ExecuteToken(token);
-                            break;
+                            throw new ArgumentOutOfRangeException();
                     }
+            }
         }
     }
 }

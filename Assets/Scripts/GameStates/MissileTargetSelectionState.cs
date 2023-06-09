@@ -1,53 +1,56 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Drawing;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public static class MissileTargetSelectionState {
+public class MissileTargetSelectionState : StateMachine.State {
 
-    public const string prefix = "missile-target-selection-state.";
-    public const string launchMissile = prefix + "launch-missile";
-    public const string cancel = prefix + "cancel";
+    public enum Command { LaunchMissile, Cancel }
 
-    public static IEnumerator<StateChange> Run(Level level, UnitAction action, Vector2Int? initialLookDirection = null) {
+    public MissileTargetSelectionState(StateMachine stateMachine) : base(stateMachine) { }
 
-        Assert.AreEqual(TileType.MissileSilo, action.targetBuilding);
-        Assert.IsTrue(Rules.CanLaunchMissile(action.unit, action.targetBuilding));
+    public override IEnumerator<StateChange> Sequence {
+        get {
+            var game = stateMachine.TryFind<GameSessionState>()?.game;
+            var level = stateMachine.TryFind<PlayState>()?.level;
+            var action = stateMachine.TryFind<ActionSelectionState>()?.selectedAction;
+            Assert.IsNotNull(game);
+            Assert.IsNotNull(level);
+            Assert.IsNotNull(action);
 
-        var missileSilo = action.targetBuilding;
-        var missileSiloView = (MissileSiloView)missileSilo.view;
+            Assert.AreEqual(TileType.MissileSilo, action.targetBuilding);
+            Assert.IsTrue(Rules.CanLaunchMissile(action.unit, action.targetBuilding));
 
-        Vector2Int? launchPosition = null;
+            var missileSilo = action.targetBuilding;
+            var missileSiloView = (MissileSiloView)missileSilo.view;
 
-        while (true) {
-            yield return StateChange.none;
+            Vector2Int? launchPosition = null;
 
-            if (Input.GetMouseButtonDown(Mouse.left) && Mouse.TryGetPosition(out Vector2Int mousePosition)) {
+            while (true) {
+                yield return StateChange.none;
 
-                if ((mousePosition - missileSilo.position).ManhattanLength().IsInRange(missileSilo.missileSiloRange)) {
-                    if (launchPosition != mousePosition) {
-                        launchPosition = mousePosition;
+                if (Input.GetMouseButtonDown(Mouse.left) && level.view.cameraRig.camera.TryGetMousePosition(out Vector2Int mousePosition)) {
+
+                    if ((mousePosition - missileSilo.position).ManhattanLength().IsInRange(missileSilo.missileSiloRange)) {
+                        if (launchPosition != mousePosition)
+                            launchPosition = mousePosition;
+                        else
+                            game.EnqueueCommand(Command.LaunchMissile, launchPosition);
                     }
-                    else {
-                        level.stack.Push(launchPosition);
-                        level.commands.Enqueue(launchMissile);
-                    }
+                    else
+                        UiSound.Instance.notAllowed.PlayOneShot();
                 }
-                else
-                    UiSound.Instance.notAllowed.PlayOneShot();
-            }
 
-            else if (Input.GetMouseButtonDown(Mouse.right) || Input.GetKeyDown(KeyCode.Escape))
-                level.commands.Enqueue(cancel);
+                else if (Input.GetMouseButtonDown(Mouse.right) || Input.GetKeyDown(KeyCode.Escape))
+                    game.EnqueueCommand(Command.Cancel);
 
-            while (level.commands.TryDequeue(out var input))
-                foreach (var token in Tokenizer.Tokenize(input))
-                    switch (token) {
+                while (game.TryDequeueCommand(out var command))
+                    switch (command) {
 
-                        case launchMissile: {
+                        case (Command.LaunchMissile, Vector2Int targetPosition): {
 
-                            var targetPosition = level.stack.Pop<Vector2Int>();
                             Assert.AreEqual(TileType.MissileSilo, missileSilo.type);
 
                             Debug.Log($"Launching missile from {missileSilo.position} to {targetPosition}");
@@ -64,9 +67,11 @@ public static class MissileTargetSelectionState {
                                 if (missile.curve.totalTime is not { } flightTime)
                                     throw new AssertionException("missile.curve.totalTime = null", null);
 
-                                if (CameraRig.TryFind(out var cameraRig))
+                                var cameraRig = level.view.cameraRig;
                                     cameraRig.Jump(Vector2.Lerp(missileSilo.position, targetPosition, .5f).Raycast());
-                                yield return StateChange.Push("MissileFlight", Wait.ForSeconds(flightTime));
+                                var startTime = Time.time;
+                                while (Time.time < startTime + flightTime)
+                                    yield return StateChange.none;
                             }
 
                             action.unit.Position = action.destination;
@@ -103,11 +108,10 @@ public static class MissileTargetSelectionState {
 "))
                                     yield return stateChange;
 
-                                if (CameraRig.TryFind(out var cameraRig)) {
-                                    cameraRig.Jump(Vector3.zero);
-                                    while (cameraRig.JumpCoroutine != null)
-                                        yield return StateChange.none;
-                                }
+                                var cameraRig = level.view.cameraRig;
+                                cameraRig.Jump(Vector3.zero);
+                                while (cameraRig.JumpCoroutine != null)
+                                    yield return StateChange.none;
 
                                 foreach (var stateChange in dialogue.Play(@"
 @nata So... @1 @pause Here it goes! @next
@@ -118,31 +122,31 @@ public static class MissileTargetSelectionState {
                             yield break;
                         }
 
-                        case cancel:
+                        case (Command.Cancel, _):
                             missileSiloView.aim = false;
                             // pop MissileTargetSelectionState and current ActionSelectionState -> then restart ActionSelectionState
                             // it is important that the ActionSelectionState is a IDisposableState in order to dispose
                             // UnitAction list properly
-                            yield return StateChange.PopThenPush(2, new ActionSelectionState(level, action.unit, action.Path, initialLookDirection));
+                            yield return StateChange.PopThenPush(2, new ActionSelectionState(stateMachine));
                             break;
 
                         default:
-                            level.stack.ExecuteToken(token);
-                            break;
+                            throw new ArgumentOutOfRangeException();
                     }
 
-            if (launchPosition is { } actualLaunchPosition)
-                foreach (var attackPosition in level.PositionsInRange(actualLaunchPosition, missileSilo.missileBlastRange))
-                    Draw.ingame.SolidPlane((Vector3)attackPosition.ToVector3Int(), Vector3.up, Vector2.one, Color.red);
+                if (launchPosition is { } actualLaunchPosition)
+                    foreach (var attackPosition in level.PositionsInRange(actualLaunchPosition, missileSilo.missileBlastRange))
+                        Draw.ingame.SolidPlane((Vector3)attackPosition.ToVector3Int(), Vector3.up, Vector2.one, Color.red);
 
-            if (Mouse.TryGetPosition(out mousePosition) && missileSiloView &&
-                (mousePosition - missileSilo.position).ManhattanLength().IsInRange(missileSilo.missileSiloRange)) {
+                if (level.view.cameraRig.camera.TryGetMousePosition(out mousePosition) && missileSiloView &&
+                    (mousePosition - missileSilo.position).ManhattanLength().IsInRange(missileSilo.missileSiloRange)) {
 
-                missileSiloView.aim = true;
-                missileSiloView.targetPosition = mousePosition.Raycast();
+                    missileSiloView.aim = true;
+                    missileSiloView.targetPosition = mousePosition.Raycast();
+                }
+                else
+                    missileSiloView.aim = false;
             }
-            else
-                missileSiloView.aim = false;
         }
     }
 }

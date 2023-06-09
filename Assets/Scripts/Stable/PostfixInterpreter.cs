@@ -48,8 +48,11 @@ public static class PostfixInterpreter {
                 throw new ArgumentOutOfRangeException(value.ToString());
         }
     }
-    
-    public static void ExecuteToken(this WarsStack stack, string token) {
+
+    public static T Pop<T>(this Stack stack) {
+        return (T)stack.Pop();
+    }
+    public static void ExecuteToken(this Stack stack, string token) {
 
         if (int.TryParse(token, NumberStyles.Any, CultureInfo.InvariantCulture, out var intValue))
             stack.Push(intValue);
@@ -214,37 +217,5 @@ public static class PostfixInterpreter {
                         Debug.LogError($"Unrecognized command: {token} - it was pushed on a stack as a string");
                     break;
             }
-    }
-}
-
-public class WarsStack {
-
-    public Stack stack = new();
-    public Stack<string> stackTrace = new();
-
-    public void Push(object value) {
-        stack.Push(value);
-        //stackTrace.Push(Environment.StackTrace);
-    }
-    public object Pop() {
-        if (stack.Count == 0)
-            throw new InvalidOperationException("stack is empty");
-        return stack.Pop();
-    }
-    public T Pop<T>() {
-        return (T)Pop();
-    }
-    public object Peek() {
-        if (stack.Count == 0)
-            throw new InvalidOperationException("stack is empty");
-        return stack.Peek();
-    }
-    public T Peek<T>() {
-        return (T)Peek();
-    }
-    public int Count => stack.Count;
-
-    public void Clear() {
-        stack.Clear();
     }
 }

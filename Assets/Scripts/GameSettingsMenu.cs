@@ -1,16 +1,12 @@
-using System.Globalization;
+using System;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Assertions;
 using UnityEngine.Rendering.PostProcessing;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
-using Object = System.Object;
 
 public class GameSettingsMenu : MonoBehaviour {
 
-    public Level level;
     public GameObject root;
 
     public Slider masterVolumeSlider;
@@ -43,9 +39,12 @@ public class GameSettingsMenu : MonoBehaviour {
 
     public GameSettings gameSettings;
     
-    public void Show(Level level) {
+    public Action enqueueCloseCommand;
+    
+    public void Show(Action enqueueCloseCommand) {
 
-        this.level = level;
+        this.enqueueCloseCommand = enqueueCloseCommand;
+        
         gameSettings = PersistentData.Loaded.gameSettings.ShallowCopy();
 
         root.SetActive(true);
@@ -99,7 +98,7 @@ public class GameSettingsMenu : MonoBehaviour {
 
     public void Close() {
         if (!PersistentData.Loaded.gameSettings.DiffersFrom(gameSettings))
-            level.commands.Enqueue(GameSettingsState.close);
+            enqueueCloseCommand?.Invoke();
         else {
             shakeTweener?.Complete();
             shakeTweener = buttonsRoot.GetComponent<RectTransform>()
@@ -115,12 +114,12 @@ public class GameSettingsMenu : MonoBehaviour {
     public void Cancel() {
         gameSettings = PersistentData.Loaded.gameSettings.ShallowCopy();
         PostProcessing.Setup(gameSettings);
-        level.commands.Enqueue(GameSettingsState.close);
+        enqueueCloseCommand?.Invoke();
     }
     public void Ok() {
         PersistentData.Loaded.gameSettings = gameSettings;
         PersistentData.Save();
-        level.commands.Enqueue(GameSettingsState.close);
+        enqueueCloseCommand?.Invoke();
     }
 
     private void Update() {
