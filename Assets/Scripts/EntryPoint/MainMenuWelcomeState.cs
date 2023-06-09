@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MainMenuWelcomeState : StateMachine.State {
+public class MainMenuWelcomeState : StateMachineState {
 
     public MainMenuWelcomeState(StateMachine stateMachine) : base(stateMachine) { }
 

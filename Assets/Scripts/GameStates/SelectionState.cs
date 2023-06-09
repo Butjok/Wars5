@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class SelectionState : StateMachine.State {
+public class SelectionState : StateMachineState {
 
     public enum Command { EndTurn, OpenGameMenu, ExitToLevelEditor, CyclePositions, Select, TriggerVictory, TriggerDefeat, UseAbility }
 

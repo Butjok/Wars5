@@ -8,7 +8,7 @@ using static Rules;
 
 // ReSharper disable ConvertToUsingDeclaration
 
-public class ActionSelectionState : StateMachine.State {
+public class ActionSelectionState : StateMachineState {
 
     public enum Command { Cancel, CycleActions, Execute }
 

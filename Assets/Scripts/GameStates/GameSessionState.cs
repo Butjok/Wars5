@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameSessionState : StateMachine.State {
+public class GameSessionState : StateMachineState {
 
     public enum Command { LaunchEntryPoint, PlayLevel, OpenLevelEditor }
 

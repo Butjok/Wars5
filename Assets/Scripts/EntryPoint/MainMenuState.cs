@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
 
-public class MainMenuState : StateMachine.State {
+public class MainMenuState : StateMachineState {
 
     public MainMenuState(StateMachine stateMachine) : base(stateMachine) { }
 

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using UnityEngine;
 
-public class MainMenuLoadGameState : StateMachine.State {
+public class MainMenuLoadGameState : StateMachineState {
 
     public MainMenuLoadGameState(StateMachine stateMachine) : base(stateMachine) { }
 

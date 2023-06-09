@@ -57,7 +57,7 @@ public class CampaignOverviewView : MonoBehaviour {
     }
 }
 
-public class CampaignOverviewState2 : StateMachine.State {
+public class CampaignOverviewState2 : StateMachineState {
 
     [Command] public static string sceneName = "Campaign";
     [Command] public static float fadeDuration = .25f;
@@ -84,7 +84,7 @@ public class CampaignOverviewState2 : StateMachine.State {
     }
 }
 
-public class CampaignOverviewSelectionState : StateMachine.State {
+public class CampaignOverviewSelectionState : StateMachineState {
 
     [Command] public static float fadeDuration = .25f;
     [Command] public static Ease fadeEasing = Ease.Unset;
@@ -197,7 +197,7 @@ public class CampaignOverviewSelectionState : StateMachine.State {
     }
 }
 
-public class CampaignOverviewMissionCloseUpState : StateMachine.State {
+public class CampaignOverviewMissionCloseUpState : StateMachineState {
 
     public static MissionName missionName;
     public static bool shouldStart;

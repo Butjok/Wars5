@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
 
-public class GameMenuState : StateMachine.State {
+public class GameMenuState : StateMachineState {
 
     public enum Command { Close, OpenSettingsMenu, OpenLoadGameMenu }
 

@@ -53,7 +53,6 @@
      <Compile Include="Assets/Scripts/Turret2.cs" />
      <Compile Include="Assets/Scripts/UvMapper.cs" />
      <Compile Include="Assets/Scripts/TileMaskTexture.cs" />
-     <Compile Include="Assets/Scripts/PlayerTurnState.cs" />
      <Compile Include="Assets/Scripts/TouchGame.cs" />
      <Compile Include="Assets/Scripts/AiPlayerCommanderSwitcher.cs" />
      <Compile Include="Assets/Scripts/LoadingSpinner.cs" />
@@ -96,7 +95,6 @@
      <Compile Include="Assets/Scripts/GameStates/SelectionState.cs" />
      <Compile Include="Assets/Scripts/Co.cs" />
      <Compile Include="Assets/Scripts/UnitActionsPanel.cs" />
-     <Compile Include="Assets/Scripts/PlayState.cs" />
      <Compile Include="Assets/Scripts/HardFollowToggler.cs" />
      <Compile Include="Assets/Scripts/Animation/Wind.cs" />
      <Compile Include="Assets/Scripts/CursorView.cs" />
@@ -124,7 +122,6 @@
      <Compile Include="Assets/Scripts/PlayerView2.cs" />
      <Compile Include="Assets/Scripts/LevelEditor/LevelEditorPlayState.cs" />
      <Compile Include="Assets/Scripts/UiUtils.cs" />
-     <Compile Include="Assets/Scripts/GameSessionState.cs" />
      <Compile Include="Assets/Scripts/UnitActionUiContainer.cs" />
      <Compile Include="Assets/Scripts/DialogueParser.cs" />
      <Compile Include="Assets/Scripts/MainMenuLoadGameState.cs" />
@@ -205,10 +202,12 @@
      <Compile Include="Assets/Scripts/FlipbookTest.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
      <Compile Include="Assets/Scripts/EntryPoint/MainMenuWelcomeState.cs" />
+     <Compile Include="Assets\Scripts\GameStates\GameSessionState.cs" />
+     <Compile Include="Assets\Scripts\GameStates\PlayerTurnState.cs" />
+     <Compile Include="Assets\Scripts\GameStates\PlayState.cs" />
      <Folder Include="Assets/Scripts/EntryPoint" />
      <None Include="Assets/Scripts/Wars.asmdef" />
      <Folder Include="Assets/Scripts/DialogueMarkupLanguage" />
-     <Folder Include="Assets/Scripts/GameStates" />
      <Folder Include="Assets/Scripts/LevelEditor" />
      <Folder Include="Assets/Scripts/Level" />
      <Folder Include="Assets/Scripts/Dialogues" />

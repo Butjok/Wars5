@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SplashState : StateMachine.State {
+public class SplashState : StateMachineState {
 
     public SplashState(StateMachine stateMachine) : base(stateMachine) { }
 

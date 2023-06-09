@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
 
-public class UnitBuildState : StateMachine.State {
+public class UnitBuildState : StateMachineState {
 
     public enum Command { Build, Close }
 

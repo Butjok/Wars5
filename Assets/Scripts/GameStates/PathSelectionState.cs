@@ -6,7 +6,7 @@ using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
 
 
-public class PathSelectionState : StateMachine.State {
+public class PathSelectionState : StateMachineState {
 
     public enum Command { Cancel, Move, ReconstructPath, AppendToPath }
 

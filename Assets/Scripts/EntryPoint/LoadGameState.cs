@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
 
-public class LoadGameState : StateMachine.State {
+public class LoadGameState : StateMachineState {
 
     public enum Command { Close }
 

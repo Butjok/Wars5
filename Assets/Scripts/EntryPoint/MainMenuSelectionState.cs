@@ -3,7 +3,7 @@ using Butjok.CommandLine;
 using DG.Tweening;
 using UnityEngine;
 
-public class MainMenuSelectionState : StateMachine.State {
+public class MainMenuSelectionState : StateMachineState {
 
     public static bool quit, goToCampaign, goToAbout, goToSettings, goToLoadGame;
 

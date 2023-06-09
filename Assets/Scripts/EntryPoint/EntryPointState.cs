@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
 
-public class EntryPointState : StateMachine.State {
+public class EntryPointState : StateMachineState {
 
     [Command]
     public static string sceneName = "EntryPoint";

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class PlayerTurnState : StateMachine.State {
+public class PlayerTurnState : StateMachineState {
 
     public PlayerTurnState(StateMachine stateMachine) : base(stateMachine) { }
 
@@ -28,7 +28,7 @@ public class PlayerTurnState : StateMachine.State {
     }
 }
 
-public class DayChangeState : StateMachine.State {
+public class DayChangeState : StateMachineState {
     public DayChangeState(StateMachine stateMachine) : base(stateMachine) { }
     public override IEnumerator<StateChange> Sequence {
         get {

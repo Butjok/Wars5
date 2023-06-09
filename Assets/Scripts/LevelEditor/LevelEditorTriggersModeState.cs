@@ -5,7 +5,7 @@ using Drawing;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class LevelEditorTriggersModeState : StateMachine.State {
+public class LevelEditorTriggersModeState : StateMachineState {
 
     public enum Command { CycleTrigger, PlaceTrigger, RemoveTrigger, PickTrigger }
 

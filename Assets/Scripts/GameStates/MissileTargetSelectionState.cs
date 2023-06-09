@@ -5,7 +5,7 @@ using Drawing;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class MissileTargetSelectionState : StateMachine.State {
+public class MissileTargetSelectionState : StateMachineState {
 
     public enum Command { LaunchMissile, Cancel }
 

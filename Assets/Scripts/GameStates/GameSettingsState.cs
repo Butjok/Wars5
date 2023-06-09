@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
 
-public class GameSettingsState : StateMachine.State {
+public class GameSettingsState : StateMachineState {
 
     public enum Command { Close }
 

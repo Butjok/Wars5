@@ -81,7 +81,7 @@ public class LoadingView : MonoBehaviour {
     }
 }
 
-public class LoadingState : StateMachine.State {
+public class LoadingState : StateMachineState {
 
     [Command]
     public static float minimumLoadingTime = 0;

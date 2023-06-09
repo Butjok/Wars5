@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class PlayState : StateMachine.State {
+public class PlayState : StateMachineState {
 
     public Level level = new();
     public string input;

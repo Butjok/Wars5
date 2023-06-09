@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LevelEditorUnitsModeState : StateMachine.State {
+public class LevelEditorUnitsModeState : StateMachineState {
 
     public enum Command { CycleUnitType, CyclePlayer, PlaceUnit, RemoveUnit, PickUnit, InspectUnit }
 

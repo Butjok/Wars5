@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class LevelEditorPlayState : StateMachine.State {
+public class LevelEditorPlayState : StateMachineState {
 
     public string save;
 

@@ -7,7 +7,7 @@ using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 using Vector2Int = UnityEngine.Vector2Int;
 
-public class LevelEditorTilesModeState : StateMachine.State {
+public class LevelEditorTilesModeState : StateMachineState {
 
     public enum Command { CycleTileType, PlaceTile, RemoveTile, PickTile, CyclePlayer }
 

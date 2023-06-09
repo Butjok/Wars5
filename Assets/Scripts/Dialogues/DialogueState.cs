@@ -9,7 +9,7 @@ using UnityEngine.UI;
 using UnityEngine.Video;
 using Object = UnityEngine.Object;
 
-public abstract class DialogueState : StateMachine.State {
+public abstract class DialogueState : StateMachineState {
 
     protected const int left = 0;
     protected const int right = 1;
@@ -18,7 +18,7 @@ public abstract class DialogueState : StateMachine.State {
         public bool shouldSkip;
     }
 
-    public class PersonAdditionState : StateMachine.State {
+    public class PersonAdditionState : StateMachineState {
         public Func<bool> completed;
         public PersonAdditionState(DialogueState dialogueState, PersonName personName, int side, Mood mood = default) : base(dialogueState.stateMachine) {
             var portraitStack = dialogueState.ui.portraitStacks[side];
@@ -33,7 +33,7 @@ public abstract class DialogueState : StateMachine.State {
         }
     }
 
-    public class PersonRemovalState : StateMachine.State {
+    public class PersonRemovalState : StateMachineState {
         public Func<bool> completed;
         public PersonRemovalState(DialogueState dialogueState, PersonName personName) : base(dialogueState.stateMachine) {
             var portraitStack = dialogueState.portraitStacks[personName];
@@ -48,7 +48,7 @@ public abstract class DialogueState : StateMachine.State {
         }
     }
 
-    public class PersonsClearingState : StateMachine.State {
+    public class PersonsClearingState : StateMachineState {
         public Func<bool> completed;
         public PersonsClearingState(DialogueState dialogueState) : base(dialogueState.stateMachine) {
             var coroutines = new List<(PortraitStack portraitStack, IEnumerator coroutine)>();
@@ -64,7 +64,7 @@ public abstract class DialogueState : StateMachine.State {
         }
     }
 
-    public class TalkState : StateMachine.State {
+    public class TalkState : StateMachineState {
         DialogueState dialogueState;
         public string text;
         public bool append, waitInput;
@@ -115,7 +115,7 @@ public abstract class DialogueState : StateMachine.State {
         }
     }
 
-    public class PauseState : StateMachine.State {
+    public class PauseState : StateMachineState {
         public DialogueState dialogueState;
         public Func<bool> condition;
         public PauseState(DialogueState dialogueState, Func<bool> condition) : base(dialogueState.stateMachine) {
@@ -136,7 +136,7 @@ public abstract class DialogueState : StateMachine.State {
         }
     }
 
-    public class OptionSelectionState : StateMachine.State {
+    public class OptionSelectionState : StateMachineState {
         public DialogueState dialogueState;
         public string[] options;
         public Action<int> setter;

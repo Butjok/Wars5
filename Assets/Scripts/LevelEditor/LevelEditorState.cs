@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
 
-public class LevelEditorState : StateMachine.State {
+public class LevelEditorState : StateMachineState {
 
     public enum Command { SelectTilesMode, SelectUnitsMode, SelectTriggersMode, SelectBridgesMode, Play }
 

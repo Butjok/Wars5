@@ -8,7 +8,7 @@ using static Rules;
 using static BattleConstants;
 using static Battle.Setup.Side;
 
-public class AttackActionState : StateMachine.State {
+public class AttackActionState : StateMachineState {
 
     [Command]
     public static float pause = 1.5f;
