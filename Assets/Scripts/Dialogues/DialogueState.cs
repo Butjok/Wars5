@@ -289,8 +289,12 @@ public abstract class DialogueState : StateMachine.State {
         return StateChange.Push(new OptionSelectionState(this, options, setter));
     }
 
-    protected void Reset() {
+    protected void Show() {
+        ui.Visible = true;
         ui.Reset();
+    }
+    protected void Hide() {
+        ui.Visible = false;
     }
     protected PersonName? Speaker {
         set => ui.Speaker = value;

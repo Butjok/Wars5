@@ -33,7 +33,7 @@ public class AttackActionState : StateMachine.State {
             var newTargetHp = Mathf.RoundToInt(Mathf.Max(0, target.Hp - damagePercentageToTarget * MaxHp(target)));
             var newAttackerHp = attacker.Hp;
 
-            var responseWeapons = GetWeaponNamesForResponseAttack(attacker, action.Path[^1], target, target.NonNullPosition)
+            var responseWeapons = GetWeaponNamesForResponseAttack(attacker, action.path[^1], target, target.NonNullPosition)
                 .Select(weaponName => (
                     weaponName,
                     damagePercentage: TryGetDamage(target, attacker, weaponName, out var damagePercentage) ? damagePercentage : -1))
@@ -75,7 +75,7 @@ public class AttackActionState : StateMachine.State {
                 var battleViews = new BattleView2[2];
 
                 using (var battle = new Battle(setup))
-                using (battleViews[attackerSide] = new BattleView2(attackerSide, level.tiles[action.Path[^1]]))
+                using (battleViews[attackerSide] = new BattleView2(attackerSide, level.tiles[action.path[^1]]))
                 using (battleViews[targetSide] = new BattleView2(targetSide, level.tiles[action.targetUnit.NonNullPosition])) {
 
                     battleViews[left].Arrange(battle.units[left]);
@@ -87,7 +87,7 @@ public class AttackActionState : StateMachine.State {
 
                     var attackAnimations = new List<Func<bool>>();
                     foreach (var unit in battle.units[attackerSide])
-                        attackAnimations.Add(action.Path.Count > 1 ? unit.MoveAttack(action.weaponName) : unit.Attack(action.weaponName));
+                        attackAnimations.Add(action.path.Count > 1 ? unit.MoveAttack(action.weaponName) : unit.Attack(action.weaponName));
 
                     while (attackAnimations.Any(aa => !aa()))
                         yield return StateChange.none;
@@ -116,7 +116,7 @@ public class AttackActionState : StateMachine.State {
 
             attacker.SetHp(newAttackerHp, true);
             if (attacker.Hp > 0) {
-                attacker.Position = action.Path.Last();
+                attacker.Position = action.path.Last();
                 attacker.SetAmmo(action.weaponName, attacker.GetAmmo(action.weaponName) - 1);
             }
         }

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Butjok.CommandLine;
 using Drawing;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -53,6 +54,9 @@ public class LevelEditorState : StateMachine.State {
 
     public override void Dispose() {
 
+        LevelEditorFileSystem.Save("autosave", level);
+        LevelEditorFileSystem.DeleteOldAutosaves(autosaveLifespanInDays);
+
         LevelView.TryUnloadScene(level.missionName);
         Object.Destroy(level.view.gameObject);
         level.view = null;
@@ -60,8 +64,6 @@ public class LevelEditorState : StateMachine.State {
         Object.Destroy(gui.gameObject);
         Object.Destroy(tileMeshFilter.gameObject);
 
-        LevelEditorFileSystem.Save("autosave", level);
-        LevelEditorFileSystem.DeleteOldAutosaves(autosaveLifespanInDays);
     }
 
     public void DrawBridges() {
@@ -82,5 +84,21 @@ public class LevelEditorState : StateMachine.State {
                 Draw.ingame.Label2D(center.ToVector3(), $"Bridge{index}: {bridge.Hp}", 14, LabelAlignment.Center, Color.black);
             }
         }
+    }
+
+    [Command]
+    public static void Close() {
+        var stateMachine = Game.Instance.stateMachine;
+        while (stateMachine.TryPeek(out var state) && state is not LevelEditorState)
+            stateMachine.Pop();
+        stateMachine.Pop();
+    }
+    [Command]
+    public static void Load(string name) {
+        var input = LevelEditorFileSystem.TryReadLatest(name);
+        Assert.IsNotNull(input);
+        Close();
+        var stateMachine = Game.Instance.stateMachine;
+        stateMachine.Push(new LevelEditorState(stateMachine, input));
     }
 }

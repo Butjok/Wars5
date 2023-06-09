@@ -96,7 +96,7 @@ public class UnitView : MonoBehaviour {
         [TextArea(5, 10)] public string input;
     }
 
-    public static UnitView DefaultPrefab => "WbLightTankRigged".LoadAs<UnitView>();
+    public static UnitView DefaultPrefab => "WbLightTank".LoadAs<UnitView>();
 
     [Command] public static bool drawTurretNames = false;
     [Command] public static bool drawBarrelNames = false;

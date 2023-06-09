@@ -74,7 +74,7 @@ public class MissileTargetSelectionState : StateMachine.State {
                                     yield return StateChange.none;
                             }
 
-                            action.unit.Position = action.destination;
+                            action.unit.Position = action.path[^1];
                             missileSilo.missileSiloLastLaunchTurn = level.turn;
                             missileSilo.missileSiloAmmo--;
 

@@ -26,10 +26,10 @@ public static class TileMaskTexture {
         return (Create(size, positions.Select(p => p - min).ToHashSet(), resolution), transform);
     }
 
-    public static Texture Create(Vector2Int size, HashSet<Vector2Int> setPixels, int resolution = 1, Color? on = null, Color? off = null) {
+    public static Texture Create(Vector2Int size, HashSet<Vector2Int> setPixels, int resolution = 1, Color? on = null, Color? off = null,bool linear=true) {
         if (size.x <= 0 || size.y <= 0)
             return null;
-        var texture = new Texture2D(size.x * resolution, size.y * resolution, TextureFormat.R8, false, false) {
+        var texture = new Texture2D(size.x * resolution, size.y * resolution, TextureFormat.R8, false, linear) {
             filterMode = FilterMode.Bilinear,
             wrapMode = TextureWrapMode.Clamp
         };

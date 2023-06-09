@@ -6,16 +6,16 @@ using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
 
 public enum UnitActionType {
-    
+
     Stay,
-    Join,          //
-    Capture,       //
-    Attack,        //
+    Join, //
+    Capture, //
+    Attack, //
     GetIn,
     Drop,
-    Supply,        //
+    Supply, //
     LaunchMissile, //
-    
+
     // AI extensions
     Gather, // move to a closest gathering point 
 }
@@ -26,20 +26,7 @@ public class UnitAction : IDisposable {
 
     public readonly UnitActionType type;
     public readonly Unit unit, targetUnit;
-    private List<Vector2Int> path;
-    public readonly Vector2Int destination;
-    private bool triedToFindPath;
-    public IReadOnlyList<Vector2Int> Path {
-        get {
-            // if (path != null || triedToFindPath)
-            //     return path;
-            // traverser.Traverse(unit, destination);
-            // traverser.TryReconstructPath(destination, ref path);
-            // triedToFindPath = true;
-            // return path;
-            return null;
-        }
-    }
+    public List<Vector2Int> path;
     public readonly WeaponName weaponName;
     public readonly Vector2Int targetPosition;
     public readonly UnitActionView view;
@@ -47,10 +34,10 @@ public class UnitAction : IDisposable {
 
     public UnitAction(
         UnitActionType type,
-        Unit unit, IEnumerable<Vector2Int> path = null,
+        Unit unit, IEnumerable<Vector2Int> path,
         Unit targetUnit = null, Building targetBuilding = null,
         WeaponName weaponName = default, Vector2Int targetPosition = default,
-        bool spawnView = false, Vector2Int? destination = null) {
+        bool spawnView = false) {
 
         undisposed.Add(this);
 
@@ -62,17 +49,9 @@ public class UnitAction : IDisposable {
         this.targetPosition = targetPosition;
         this.targetBuilding = targetBuilding;
 
-        Assert.IsTrue(path != null && destination == null ||
-                      path == null && destination != null);
-
-        if (path != null) {
-            this.path = path.ToList();
-            Assert.AreNotEqual(0, this.path.Count);
-            Assert.AreEqual(unit.Position, this.path[0]);
-            this.destination = this.path[^1];
-        }
-        else if (destination is { } actualDestination)
-            this.destination = actualDestination;
+        this.path = path.ToList();
+        Assert.AreNotEqual(0, this.path.Count);
+        Assert.AreEqual(unit.Position, this.path[0]);
 
         if (spawnView)
             switch (type) {

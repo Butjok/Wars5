@@ -54,10 +54,7 @@ public class AiPlayerCommander : MonoBehaviour {
     public HashSet<Vector2Int> gatheringPoints = new();
 
     public Game game;
-    public Level Level => game.stateMachine.TryFind<PlayState>().level;
-    public AiPlayerCommander(Game game) {
-        this.game = game;
-    }
+    public Level Level => game.stateMachine.TryFind<PlayState>()?.level ?? game.stateMachine.TryFind<LevelEditorState>().level;
 
     [Command]
     public void ClearGatheringPoints() {
@@ -79,36 +76,8 @@ public class AiPlayerCommander : MonoBehaviour {
     //
     // potential unit action priority formula handling
     //
-
-    public static string PriorityFormulasHistoryPath => Path.Combine(Application.dataPath, "PriorityFormula.txt");
-    public Stack<(string text, DateTime dateTime)> priorityFormulaHistory = new();
-
-    [Command]
-    public string PriorityFormula {
-        get => priorityFormulaHistory.TryPeek(out var top) ? top.text : "0";
-        set => priorityFormulaHistory.Push((value, DateTime.Now));
-    }
-    [Command]
-    public bool TryPopPriorityFormula() {
-        return priorityFormulaHistory.TryPop(out _);
-    }
-
-    private void Awake() {
-        if (File.Exists(PriorityFormulasHistoryPath)) {
-            var list = File.ReadAllText(PriorityFormulasHistoryPath).FromJson<List<(string, DateTime)>>();
-            list.Reverse();
-            foreach (var item in list)
-                priorityFormulaHistory.Push(item);
-        }
-    }
-    private void OnApplicationQuit() {
-        var list = new List<(string, DateTime)>();
-        foreach (var item in priorityFormulaHistory)
-            list.Add(item);
-        File.WriteAllText(PriorityFormulasHistoryPath, list.ToJson());
-    }
-
-    public PriorityPreference priorityPreference;
+    
+    public PriorityPreference priorityPreference = PriorityPreference.Max;
 
     public bool TryFindBestMove(out PotentialUnitAction bestPotentialUnitAction) {
 

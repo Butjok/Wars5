@@ -19,8 +19,7 @@ public class LevelEditorPlayState : StateMachine.State {
             save = tw.ToString();
 
             editorState.gui
-                .Push()
-                .Add("playing", () => "");
+                .Push();
             
             yield return StateChange.Push(new PlayState(stateMachine, save));
         }

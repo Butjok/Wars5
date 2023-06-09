@@ -96,29 +96,36 @@ MonoBehaviour:
   m_GameObject: {fileID: 1850097669293240792}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 429cb5d29afe47d798eb131265f72fc0, type: 3}
+  m_Script: {fileID: 11500000, guid: 4b5e2de7edcd4623a9a3ea6589b89c7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderers:
-  - {fileID: 192566779047825421}
-  steeringArms: []
-  wheels: []
-  wheelPistons: []
-  turret: {fileID: 0}
-  body: {fileID: 0}
   prefab: {fileID: 0}
+  debugTarget: {fileID: 0}
+  target: {x: 0, y: 0, z: 0}
+  body: {fileID: 0}
+  playerMaterialRenderers: []
+  wheels: []
+  turrets: []
+  barrelRestAngle: -15
+  springLengthDelta: 0.05
+  bodyCenterOfMass: {x: 0, y: 0, z: 0}
+  accelerationTorqueMultiplier: 7.5
+  maxHp: 10
   hpText: {fileID: 0}
-  impactPoints: []
-  bodyTorque: {fileID: 0}
-  moveAndAttack: {fileID: 0}
-  attack: {fileID: 0}
-  respond: {fileID: 0}
-  uiBoxCollider: {fileID: 0}
-  center: {fileID: 0}
-  nextPosition: {x: 0, y: 0}
-  nextRotation: {x: 0, y: 0}
-  nextMoved: 0
-  battleAnimationPlayer: {fileID: 0}
+  uiBoxCenter: {x: 0, y: 0, z: 0}
+  uiBoxHalfSize: {x: 0.5, y: 0.5, z: 0.5}
+  drawUiBounds: 0
+  lowAmmoText: {fileID: 0}
+  lowFuelText: {fileID: 0}
+  fadedTexts: []
+  subroutines: []
+  inputs:
+    m_keys: 
+    m_values: []
+  targets: []
+  hitPoints:
+  - {fileID: 2865582481148034013}
+  automaticWeaponShotsCount: 5
 --- !u!114 &4979313558042086723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -137,13 +144,12 @@ MonoBehaviour:
     m_values: []
   speed: 0
   acceleration: 0
-  debugTargets: []
   spawnPointIndex: 0
   shuffledIndex: 0
   survives: 0
   hitPoint: {fileID: 0}
-  triedToGetTurret: 0
   incomingRoundsLeft: 0
+  targets: []
 --- !u!1 &4178019390623439602
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,0 +1,53 @@
+LevelEditor                                                      game.load-scene
+None MissionName type enum                                       game.set-mission-name
+0                                                                game.set-turn
+Red ColorName type enum                                          player.set-color-name
+None Team type enum                                              player.set-team
+Natalie PersonName type enum                                     player.set-co-name
+0 0 int2                                                         player.set-ui-position
+0                                                                player.set-credits
+0                                                                player.set-power-meter
+0 1 int2                                                         player.set-unit-look-direction
+0                                                                player.set-side
+                                                                 player.add
+                                                                 pop
+Red ColorName type enum                                          player.set-color-name
+None Team type enum                                              player.set-team
+Natalie PersonName type enum                                     player.set-co-name
+0 0 int2                                                         player.set-ui-position
+0                                                                player.set-credits
+0                                                                player.set-power-meter
+0 1 int2                                                         player.set-unit-look-direction
+0                                                                player.set-side
+                                                                 player.add
+                                                                 pop
+Blue ColorName type enum                                         player.set-color-name
+None Team type enum                                              player.set-team
+Natalie PersonName type enum                                     player.set-co-name
+0 0 int2                                                         player.set-ui-position
+0                                                                player.set-credits
+0                                                                player.set-power-meter
+0 1 int2                                                         player.set-unit-look-direction
+0                                                                player.set-side
+                                                                 player.add
+                                                                 pop
+Blue ColorName type enum                                         player.set-color-name
+None Team type enum                                              player.set-team
+Natalie PersonName type enum                                     player.set-co-name
+0 0 int2                                                         player.set-ui-position
+0                                                                player.set-credits
+0                                                                player.set-power-meter
+0 1 int2                                                         player.set-unit-look-direction
+0                                                                player.set-side
+                                                                 player.add
+                                                                 pop
+A TriggerName type enum                                          trigger.select
+B TriggerName type enum                                          trigger.select
+C TriggerName type enum                                          trigger.select
+D TriggerName type enum                                          trigger.select
+E TriggerName type enum                                          trigger.select
+F TriggerName type enum                                          trigger.select
+-1.113948 1.546159E-07 -0.2691869 float3                         camera-rig.set-position
+45                                                               camera-rig.set-rotation
+2                                                                camera-rig.set-distance
+30.93196                                                         camera-rig.set-pitch-angle

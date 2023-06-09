@@ -72,7 +72,7 @@ public class PathFinder {
 
                 if ((neighborPosition - startPosition).ManhattanLength() <= moveCapacity &&
                     nodes.TryGetValue(neighborPosition, out var neighbor) &&
-                    Rules.TryGetMoveCost(unit, neighborPosition, out var cost)) {
+                    Rules.TryGetMoveCost(unit, tiles[neighborPosition], out var cost)) {
 
                     var alternativeG = current.g + cost;
                     if (alternativeG < neighbor.g) {
@@ -155,7 +155,7 @@ public class PathFinder {
                     };
 
                     if (nodes.TryGetValue(neighborPosition, out var neighbor) &&
-                        Rules.TryGetMoveCost(unit, neighborPosition, out var cost)) {
+                        Rules.TryGetMoveCost(unit, unit.Player.level.tiles[neighborPosition], out var cost)) {
 
                         var alternativeG = current.g + cost;
                         if (alternativeG < neighbor.g) {

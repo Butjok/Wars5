@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Butjok.CommandLine;
@@ -48,27 +49,43 @@ public class Game : MonoBehaviour {
     }
 
     public AiPlayerCommander aiPlayerCommander;
-    [Command] public bool autoplay = false;
+    public bool autoplay;
 
     private void Awake() {
-        aiPlayerCommander = new AiPlayerCommander(this);
+        aiPlayerCommander = gameObject.AddComponent<AiPlayerCommander>();
+        aiPlayerCommander.game = this;
     }
 
-    [TextArea(10,20)]public string states;
+    private void Start() {
+        StartCoroutine(AutoplayHandler());
+    }
+
+    [TextArea(10, 20)] public string states;
     private void Update() {
         stateMachine.Tick();
-        states = string.Join("\n", stateMachine.StateNames);
-        
-        if (Input.GetKeyDown(KeyCode.Alpha8))
-            autoplay = (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift));
+    }
+    public IEnumerator AutoplayHandler() {
+        const KeyCode key = KeyCode.Alpha8;
+        while (true) {
+            yield return null;
+            if (Input.GetKeyDown(key)) {
+                autoplay = true;
+                var onHoldKey = !(Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift));
+                yield return null;
+                while (onHoldKey ? !Input.GetKeyUp(key) : !Input.GetKeyDown(key))
+                    yield return null;
+                yield return null;
+                autoplay = false;
+            }
+        }
     }
 
     [Command] public static int guiDepth = -1000;
     private void OnGUI() {
-        if (Debug.isDebugBuild) {
-            GUI.skin = DefaultGuiSkin.TryGet;
-            GUI.depth = guiDepth;
-            GUILayout.Label(string.Join(" / ", stateMachine.StateNames.Reverse().Select(name => name.EndsWith("State") ? name[..^"State".Length] : name)));
-        }
+        // if (Debug.isDebugBuild) {
+        //     GUI.skin = DefaultGuiSkin.TryGet;
+        //     GUI.depth = guiDepth;
+        //     GUILayout.Label(string.Join(" / ", stateMachine.StateNames.Reverse().Select(name => name.EndsWith("State") ? name[..^"State".Length] : name)));
+        // }
     }
 }

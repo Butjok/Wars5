@@ -670,19 +670,9 @@ E TriggerName type enum                                          trigger.select
 
 F TriggerName type enum                                          trigger.select
 
-BridgeView type true find-single-object-of-type                  bridge.set-view
-20                                                               bridge.set-hp
--10 13 int2                                                      bridge.add-position
--11 13 int2                                                      bridge.add-position
--12 13 int2                                                      bridge.add-position
--13 13 int2                                                      bridge.add-position
--14 13 int2                                                      bridge.add-position
-                                                                 bridge.add
-                                                                 pop
 
 
 -11.52905 0 18.55699 float3                                      camera-rig.set-position
 180                                                              camera-rig.set-rotation
 40                                                               camera-rig.set-distance
 39.55403                                                         camera-rig.set-pitch-angle
-20                                                               camera-rig.set-fov

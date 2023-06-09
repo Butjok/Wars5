@@ -15,7 +15,6 @@ public class StateMachine {
     }
 
     private Stack<(State state, IEnumerator<StateChange> enumerator)> states = new();
-    public IEnumerable<string> StateNames => states.Select(state => state.state.GetType().Name);
     public int Count => states.Count;
 
     public void Pop(int count = 1, bool all = false) {
@@ -31,6 +30,10 @@ public class StateMachine {
         if (states.TryPeek(out var state) && state.state is T castedState)
             return castedState;
         return null;
+    }
+    public bool TryPeek(out State result) {
+        result = TryPeek<State>();
+        return result != null;
     }
     public bool IsInState<T>() where T : State {
         return TryPeek<T>() != null;

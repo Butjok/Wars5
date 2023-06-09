@@ -9,7 +9,7 @@ public class TestDialogueState : DialogueState {
     
     public override IEnumerator<StateChange> Sequence {
         get {
-            Reset();
+            Show();
 
             yield return AddPerson(PersonName.Natalie);
             // using (LinesOf(PersonName.Natalie)) {
@@ -96,6 +96,7 @@ public class TestDialogueState : DialogueState {
             Text = null;
 
             yield return ClearPersons();
+            Hide();
         }
     }
 }

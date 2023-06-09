@@ -209,8 +209,7 @@ public static class Rules {
 
     public static bool TryGetMoveCost(Unit unit, Vector2Int position, out int cost) {
         cost = default;
-        return CanPass(unit, position) &&
-               unit.Player.level.TryGetTile(position, out var tileType) &&
+        return unit.Player.level.TryGetTile(position, out var tileType) &&
                TryGetMoveCost(unit.type, tileType, out cost);
     }
     public static bool TryGetMoveCost(UnitType unitType, TileType tileType, out int cost) {

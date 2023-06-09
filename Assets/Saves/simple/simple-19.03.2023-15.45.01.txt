@@ -24,7 +24,7 @@ false                                                            unit.set-moved
 10                                                               unit.set-hp
 -3 -3 int2                                                       unit.set-position
 1 0 int2                                                         unit.set-look-direction
-WbApcRigged UnitView type                                        load-resource
+WbApc UnitView type                                        load-resource
                                                                  unit.set-view-prefab
                                                                  unit.add
                                                                  pop
@@ -34,7 +34,7 @@ false                                                            unit.set-moved
 10                                                               unit.set-hp
 -1 -3 int2                                                       unit.set-position
 1 0 int2                                                         unit.set-look-direction
-WbLightTankRigged UnitView type                                  load-resource
+WbLightTank UnitView type                                  load-resource
                                                                  unit.set-view-prefab
                                                                  unit.add
                                                                  pop
@@ -44,7 +44,7 @@ false                                                            unit.set-moved
 10                                                               unit.set-hp
 2 -3 int2                                                        unit.set-position
 1 0 int2                                                         unit.set-look-direction
-WbLightTankRigged UnitView type                                  load-resource
+WbLightTank UnitView type                                  load-resource
                                                                  unit.set-view-prefab
                                                                  unit.add
                                                                  pop
@@ -54,7 +54,7 @@ false                                                            unit.set-moved
 10                                                               unit.set-hp
 1 -1 int2                                                        unit.set-position
 1 0 int2                                                         unit.set-look-direction
-WbReconRigged UnitView type                                      load-resource
+WbRecon UnitView type                                      load-resource
                                                                  unit.set-view-prefab
                                                                  unit.add
                                                                  pop
@@ -81,7 +81,7 @@ false                                                            unit.set-moved
 10                                                               unit.set-hp
 -1 4 int2                                                        unit.set-position
 -1 0 int2                                                        unit.set-look-direction
-WbHowitzerRigged UnitView type                                   load-resource
+WbHowitzer UnitView type                                   load-resource
                                                                  unit.set-view-prefab
                                                                  unit.add
                                                                  pop
@@ -91,7 +91,7 @@ false                                                            unit.set-moved
 10                                                               unit.set-hp
 3 4 int2                                                         unit.set-position
 -1 0 int2                                                        unit.set-look-direction
-WbMdTankRigged UnitView type                                     load-resource
+WbMdTank UnitView type                                     load-resource
                                                                  unit.set-view-prefab
                                                                  unit.add
                                                                  pop
@@ -101,7 +101,7 @@ false                                                            unit.set-moved
 10                                                               unit.set-hp
 1 4 int2                                                         unit.set-position
 -1 0 int2                                                        unit.set-look-direction
-WbRocketsRigged UnitView type                                    load-resource
+WbRockets UnitView type                                    load-resource
                                                                  unit.set-view-prefab
                                                                  unit.add
                                                                  pop
@@ -111,7 +111,7 @@ false                                                            unit.set-moved
 10                                                               unit.set-hp
 -3 3 int2                                                        unit.set-position
 -1 0 int2                                                        unit.set-look-direction
-WbLightTankRigged UnitView type                                  load-resource
+WbLightTank UnitView type                                  load-resource
                                                                  unit.set-view-prefab
                                                                  unit.add
                                                                  pop

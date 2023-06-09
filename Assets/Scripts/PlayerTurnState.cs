@@ -15,6 +15,10 @@ public class PlayerTurnState : StateMachine.State {
             player = level.CurrentPlayer;
             player.view.visible = true;
             Debug.Log($"Start of turn #{level.turn}: {player}");
+            
+            // if(level.turn==0)
+                // yield return StateChange.Push(new TestDialogueState(stateMachine));
+            
             yield return StateChange.Push(new SelectionState(stateMachine));
         }
     }

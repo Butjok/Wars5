@@ -1,6 +1,6 @@
 LevelEditor                                                      game.load-scene
 Tutorial MissionName type enum                                   game.set-mission-name
-2                                                                game.set-turn
+0                                                                game.set-turn
 Red ColorName type enum                                          player.set-color-name
 None Team type enum                                              player.set-team
 Natalie PersonName type enum                                     player.set-co-name

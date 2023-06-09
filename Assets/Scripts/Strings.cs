@@ -41,7 +41,6 @@ public static class Strings {
         };
     }
     
-    [Command]
     public static string TutorialWelcome =>
         nata + happy + _("Hello there!") + next +
         normal + _("Welcome to the Wars3d! An amazing strategy game!") + next +
@@ -52,14 +51,12 @@ public static class Strings {
         nata + normal + _("Enough!") + next +
         nata + _("Let's do it!") + next;
 
-    [Command]
     public static string Victory =>
         nata + happy + _("We did it! They are falling back!") + next +
         vlad + mad + _("This is just a beginning...") + next + _("Troops fall back!") + next +
         nata + happy + _("I am so proud of you!") + next +
         intimate + _("You did a great job.") + next;
 
-    [Command]
     public static string Defeat =>
         nata + worried + _("Oh no...") + next +
         vlad + happy + _("This land is ours!") + Pause(1) + _("Forever!") + next +

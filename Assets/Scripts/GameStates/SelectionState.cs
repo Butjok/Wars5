@@ -10,7 +10,6 @@ public class SelectionState : StateMachine.State {
     public enum Command { EndTurn, OpenGameMenu, ExitToLevelEditor, CyclePositions, Select, TriggerVictory, TriggerDefeat, UseAbility }
 
     public Unit unit;
-    public Vector2Int initialLookDirection;
     public Building building;
 
     public SelectionState(StateMachine stateMachine) : base(stateMachine) { }
@@ -78,7 +77,7 @@ public class SelectionState : StateMachine.State {
             if (preselectionCursor)
                 preselectionCursor.Hide();
 
-            if (!game.autoplay && !level.CurrentPlayer.IsAi && cursor)
+            if (!game.autoplay && cursor)
                 cursor.show = true;
 
             /*var turnButton = Object.FindObjectOfType<TurnButton>();
@@ -92,7 +91,7 @@ public class SelectionState : StateMachine.State {
             while (true) {
                 yield return StateChange.none;
 
-                if (game.autoplay || Input.GetKey(KeyCode.Alpha8)) {
+                if (game.autoplay) {
                     if (!issuedAiCommands) {
                         issuedAiCommands = true;
                         game.aiPlayerCommander.IssueCommandsForSelectionState();

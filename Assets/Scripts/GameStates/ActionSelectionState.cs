@@ -126,13 +126,13 @@ public class ActionSelectionState : StateMachine.State {
             level.TryGetBuilding(destination, out var building);
 
             // !!! important
-            actions.AddRange(SpawnActions());
+            actions = SpawnActions().ToList();
 
             // some weirdness
             PlayerView.globalVisibility = false;
             yield return StateChange.none;
 
-            if (!level.CurrentPlayer.IsAi && !game.autoplay) {
+            if (!game.autoplay) {
                 panel.Show(() => game.EnqueueCommand(Command.Cancel), actions, (_, action) => SelectAction(action));
                 if (actions.Count > 0)
                     SelectAction(actions[0]);
@@ -142,7 +142,7 @@ public class ActionSelectionState : StateMachine.State {
             while (true) {
                 yield return StateChange.none;
 
-                if (game.autoplay || Input.GetKey(KeyCode.Alpha8)) {
+                if (game.autoplay) {
                     if (!issuedAiCommands) {
                         issuedAiCommands = true;
                         game.aiPlayerCommander.IssueCommandsForActionSelectionState();
@@ -154,7 +154,7 @@ public class ActionSelectionState : StateMachine.State {
                         game.EnqueueCommand(Command.Cancel);
 
                     else if (Input.GetKeyDown(KeyCode.Tab))
-                        game.EnqueueCommand(Command.Cancel, Input.GetKey(KeyCode.LeftShift) ? -1 : 1);
+                        game.EnqueueCommand(Command.CycleActions, Input.GetKey(KeyCode.LeftShift) ? -1 : 1);
 
                     else if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space)) {
                         if (actions.Count == 0)
@@ -274,8 +274,6 @@ public class ActionSelectionState : StateMachine.State {
                              * check victory or defeat
                              */
 
-                            actions.Remove(action);
-
                             var won = Won(level.localPlayer);
                             var lost = Lost(level.localPlayer);
 
@@ -286,13 +284,13 @@ public class ActionSelectionState : StateMachine.State {
 
                                 // TODO: add a DRAW outcome
                                 if (won)
-                                    yield return StateChange.ReplaceWith(new VictoryState(stateMachine));
+                                    yield return StateChange.PopThenPush(3, new VictoryState(stateMachine));
                                 else
-                                    yield return StateChange.ReplaceWith(new DefeatState(stateMachine));
+                                    yield return StateChange.PopThenPush(3, new DefeatState(stateMachine));
                             }
 
                             else {
-                                yield return StateChange.ReplaceWith(new SelectionState(stateMachine));
+                                yield return StateChange.PopThenPush(3, new SelectionState(stateMachine));
                             }
 
                             break;
@@ -301,9 +299,9 @@ public class ActionSelectionState : StateMachine.State {
                         case (Command.Cancel, _):
 
                             unit.view.Position = path[0];
-                            unit.view.LookDirection = stateMachine.TryFind<SelectionState>().initialLookDirection;
+                            unit.view.LookDirection = stateMachine.TryFind<PathSelectionState>().initialLookDirection;
 
-                            yield return StateChange.ReplaceWith(new PathSelectionState(stateMachine));
+                            yield return StateChange.PopThenPush(2, new PathSelectionState(stateMachine));
                             break;
 
                         case (Command.CycleActions, int offset): {

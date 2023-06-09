@@ -10,7 +10,24 @@ public class LevelEditorUnitsModeState : StateMachine.State {
     public UnitType unitType = UnitType.Infantry;
     public Vector2Int lookDirection = Vector2Int.up;
     public Player player;
-    public Unit inspectedUnit;
+
+    private Unit inspectedUnit;
+    public void SetInspectedUnit(LevelEditorGui gui, Unit unit) {
+
+        inspectedUnit = unit;
+        
+        gui.Remove(name => name.StartsWith("inspected-unit."));
+
+        if (unit != null)
+            gui
+                .Add("inspected-unit.type", () => unit.type)
+                .Add("inspected-unit.player", () => unit.Player)
+                .Add("inspected-unit.position", () => unit.Position)
+                .Add("inspected-unit.moved", () => unit.Moved)
+                .Add("inspected-unit.hp", () => $"{unit.Hp} / {Rules.MaxHp(unit)}")
+                .Add("inspected-unit.move-capacity", () => Rules.MoveCapacity(unit))
+                .Add("inspected-unit.fuel", () => $"{unit.Fuel} / {Rules.MaxFuel(unit)}");
+    }
 
     public LevelEditorUnitsModeState(StateMachine stateMachine) : base(stateMachine) { }
 
@@ -28,6 +45,8 @@ public class LevelEditorUnitsModeState : StateMachine.State {
                 if (!units.TryGetValue(position, out var unit))
                     return false;
                 unit.Dispose();
+                if (inspectedUnit == unit)
+                    SetInspectedUnit(gui, null);
                 return true;
             }
 
@@ -43,9 +62,9 @@ public class LevelEditorUnitsModeState : StateMachine.State {
 
             while (true) {
                 yield return StateChange.none;
-                
+
                 editorState.DrawBridges();
-                
+
                 if (Input.GetKeyDown(KeyCode.F8))
                     game.EnqueueCommand(LevelEditorState.Command.SelectTriggersMode);
 
@@ -66,6 +85,12 @@ public class LevelEditorUnitsModeState : StateMachine.State {
 
                 else if (Input.GetKeyDown(KeyCode.LeftAlt) && camera.TryGetMousePosition(out mousePosition))
                     game.EnqueueCommand(Command.PickUnit, mousePosition);
+
+                else if (Input.GetKeyDown(KeyCode.I) && camera.TryGetMousePosition(out mousePosition))
+                    game.EnqueueCommand(Command.InspectUnit, mousePosition);
+                
+                else if (Input.GetKeyDown(KeyCode.L))
+                    game.aiPlayerCommander.DrawPotentialUnitActions();
 
                 while (game.TryDequeueCommand(out var command))
                     switch (command) {
@@ -92,13 +117,13 @@ public class LevelEditorUnitsModeState : StateMachine.State {
                                 TryRemoveUnit(position);
 
                             var viewPrefab = (unitType switch {
-                                UnitType.Artillery => "WbHowitzerRigged",
-                                UnitType.Apc => "WbApcRigged",
-                                UnitType.Recon => "WbReconRigged",
-                                UnitType.LightTank => "WbLightTankRigged",
-                                UnitType.Rockets => "WbRocketsRigged",
-                                UnitType.MediumTank => "WbMdTankRigged",
-                                _ => "WbLightTankRigged"
+                                UnitType.Artillery => "WbHowitzer",
+                                UnitType.Apc => "WbApc",
+                                UnitType.Recon => "WbRecon",
+                                UnitType.LightTank => "WbLightTank",
+                                UnitType.Rockets => "WbRockets",
+                                UnitType.MediumTank => "WbMdTank",
+                                _ => "WbLightTank"
                             }).LoadAs<UnitView>();
 
                             new Unit(player, unitType, position, player.unitLookDirection, viewPrefab: viewPrefab);
@@ -116,11 +141,11 @@ public class LevelEditorUnitsModeState : StateMachine.State {
                             }
                             break;
 
-                        case (Command.InspectUnit, Vector2Int position): {
-                            units.TryGetValue(position, out inspectedUnit);
+                        case (Command.InspectUnit, Vector2Int position):
+                            units.TryGetValue(position, out unit);
+                            SetInspectedUnit(gui, unit);
                             break;
-                        }
-                        
+
                         default:
                             throw new ArgumentOutOfRangeException(command.ToString());
                     }

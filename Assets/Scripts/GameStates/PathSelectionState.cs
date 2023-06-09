@@ -29,7 +29,7 @@ public class PathSelectionState : StateMachine.State {
             Assert.IsTrue(level.tiles.ContainsKey(unitPosition));
 
             var pathFinder = new PathFinder();
-            pathFinder.FindStayMoves(unit);
+            pathFinder.FindMoves(unit);
             var reachable = pathFinder.movePositions;
 
             pathMeshGameObject = new GameObject();
@@ -43,14 +43,16 @@ public class PathSelectionState : StateMachine.State {
 
             var cursor = level.view.cursorView;
 
-            if (!level.CurrentPlayer.IsAi && !game.autoplay) {
-                var (texture, transform) = TileMaskTexture.Create(reachable, 8);
+            if (!game.autoplay) {
+                var (texture, transform) = TileMaskTexture.Create(reachable, 16);
                 TileMaskTexture.Set(level.view.terrainMaterial, "_TileMask", texture, transform);
                 if (cursor)
                     cursor.show = true;
             }
 
             void RebuildPathMesh() {
+                if (game.autoplay)
+                    return;
                 pathMeshFilter.sharedMesh = MoveSequenceMeshBuilder.Build(
                     pathMeshFilter.sharedMesh,
                     new MoveSequence(unit.view.transform, pathBuilder.positions),
@@ -64,7 +66,7 @@ public class PathSelectionState : StateMachine.State {
             while (true) {
                 yield return StateChange.none;
 
-                if (game.autoplay || Input.GetKey(KeyCode.Alpha8)) {
+                if (game.autoplay) {
                     if (!issuedAiCommands) {
                         issuedAiCommands = true;
                         game.aiPlayerCommander.IssueCommandsForPathSelectionState();
@@ -124,13 +126,13 @@ public class PathSelectionState : StateMachine.State {
                                 }
                             }
 
-                            yield return StateChange.ReplaceWith(new ActionSelectionState(stateMachine));
+                            yield return StateChange.Push(new ActionSelectionState(stateMachine));
                             break;
                         }
 
                         case (Command.Cancel, _):
                             unit.view.Selected = false;
-                            yield return StateChange.Pop();
+                            yield return StateChange.PopThenPush(2, new SelectionState(stateMachine));
                             break;
 
                         default:
