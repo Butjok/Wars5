@@ -44,7 +44,7 @@ public class LevelEditorGui : MonoBehaviour {
                         GUILayout.Label(group.Key);
                     foreach (var key in group)
                         GUILayout.Label($"{padding}{key.Split('.').Last()}: {info[key]()}");
-                    GUILayout.Space(4);
+                    GUILayout.Space(6);
                 }
         }
     }

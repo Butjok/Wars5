@@ -143,6 +143,8 @@ public class LoadingState : StateMachineState {
             yield return StateChange.none;
 
             var level = new Level();
+            level.view = LevelView.TryInstantiate();
+            Assert.IsTrue(level.view);
             LevelReader.ReadInto(level, saveData);
             
             // if (level is LevelEditor levelEditor)

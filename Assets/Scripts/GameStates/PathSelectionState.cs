@@ -5,12 +5,14 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
 
-
 public class PathSelectionState : StateMachineState {
 
     public enum Command { Cancel, Move, ReconstructPath, AppendToPath }
 
-    public GameObject pathMeshGameObject;
+    public static GameObject pathMeshGameObject;
+    public static MeshFilter pathMeshFilter;
+    public static MeshRenderer pathMeshRenderer;
+
     public Vector2Int initialLookDirection;
     public List<Vector2Int> path = new();
 
@@ -32,12 +34,20 @@ public class PathSelectionState : StateMachineState {
             pathFinder.FindMoves(unit);
             var reachable = pathFinder.movePositions;
 
-            pathMeshGameObject = new GameObject();
-            Object.DontDestroyOnLoad(pathMeshGameObject);
-            var pathMeshFilter = pathMeshGameObject.AddComponent<MeshFilter>();
-            pathMeshFilter.sharedMesh = new Mesh();
-            var pathMeshRenderer = pathMeshGameObject.AddComponent<MeshRenderer>();
-            pathMeshRenderer.sharedMaterial = "MovePath".LoadAs<Material>();
+            if (!pathMeshGameObject) {
+                pathMeshGameObject = new GameObject("MovePathMesh");
+                Object.DontDestroyOnLoad(pathMeshGameObject);
+                pathMeshFilter = pathMeshGameObject.AddComponent<MeshFilter>();
+                pathMeshRenderer = pathMeshGameObject.AddComponent<MeshRenderer>();
+                pathMeshRenderer.sharedMaterial = "MovePath".LoadAs<Material>();
+            }
+            
+            pathMeshGameObject.SetActive(true);
+
+            if (pathMeshFilter.sharedMesh) {
+                Object.Destroy(pathMeshFilter.sharedMesh);
+                pathMeshFilter.sharedMesh = null;
+            }
 
             var pathBuilder = new PathBuilder(unitPosition);
 
@@ -112,6 +122,8 @@ public class PathSelectionState : StateMachineState {
                             if (cursor)
                                 cursor.show = false;
 
+                            pathMeshGameObject.SetActive(false);
+
                             path = pathBuilder.positions;
                             var animation = new MoveSequence(unit.view.transform, path, PersistentData.Loaded.gameSettings.unitSpeed).Animation();
 
@@ -147,6 +159,7 @@ public class PathSelectionState : StateMachineState {
         var unit = stateMachine.TryFind<SelectionState>().unit;
         level.view.terrainMaterial.SetTexture("_TileMask", null);
         unit.view.Selected = false;
-        Object.Destroy(pathMeshGameObject);
+        if (pathMeshGameObject)
+            pathMeshGameObject.SetActive(false);
     }
 }

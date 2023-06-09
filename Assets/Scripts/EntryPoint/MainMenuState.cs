@@ -12,10 +12,6 @@ public class MainMenuState : StateMachineState {
             var entryPointState = stateMachine.TryFind<EntryPointState>();
             var view = entryPointState.view;
 
-            SceneManager.LoadScene("EntryPoint");
-            view = Object.FindObjectOfType<EntryPointView>();
-            Assert.IsTrue(view);
-
             PostProcessing.ColorFilter = Color.black;
             view.mainCamera.enabled = true;
 

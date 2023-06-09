@@ -6,15 +6,21 @@ public class StateMachine {
 
     private Stack<(StateMachineState state, IEnumerator<StateChange> enumerator)> states = new();
     public int Count => states.Count;
+    private readonly Stack<string> stateNames = new();
+    public IEnumerable<string> StateNames => stateNames;
 
     public void Pop(int count = 1, bool all = false) {
         if (all)
             count = states.Count;
-        for (var i = 0; i < count; i++)
+        for (var i = 0; i < count; i++) {
             states.Pop().state.Dispose();
+            stateNames.Pop();
+        }
     }
     public void Push(StateMachineState state) {
         states.Push((state, state.Sequence));
+        var name = state.GetType().Name;
+        stateNames.Push(name.EndsWith("State") ? name[..^5] : name);
     }
     public T TryPeek<T>() where T : StateMachineState {
         if (states.TryPeek(out var state) && state.state is T castedState)

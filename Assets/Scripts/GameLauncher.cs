@@ -12,7 +12,8 @@ public class GameLauncher : MonoBehaviour {
     private void Start() {
 
         var game = Game.Instance;
-        Assert.IsTrue(game.stateMachine.Count == 0);
+        if (game.stateMachine.Count != 0)
+            return;
 
         game.stateMachine.Push(new GameSessionState(game));
         

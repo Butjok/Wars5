@@ -20,6 +20,7 @@ public class EntryPointState : StateMachineState {
         get {
             if (SceneManager.GetActiveScene().name != sceneName) {
                 SceneManager.LoadScene(sceneName);
+                LightProbes.Tetrahedralize();
                 yield return StateChange.none;
             }
 

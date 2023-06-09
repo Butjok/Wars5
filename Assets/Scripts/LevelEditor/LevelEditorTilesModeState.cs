@@ -136,9 +136,9 @@ public class LevelEditorTilesModeState : StateMachineState {
 
             gui
                 .Push()
-                .Add("tile-type", () => tileType)
-                .Add("player", () => player)
-                .Add("look-direction", () => lookDirection);
+                .Add("TileType", () => tileType)
+                .Add("Player", () => player)
+                .Add("LookDirection", () => lookDirection);
 
             while (true) {
                 yield return StateChange.none;

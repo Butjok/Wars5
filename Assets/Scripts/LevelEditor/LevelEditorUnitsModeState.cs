@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Drawing;
 using UnityEngine;
 
 public class LevelEditorUnitsModeState : StateMachineState {
@@ -8,25 +9,24 @@ public class LevelEditorUnitsModeState : StateMachineState {
 
     public UnitType[] unitTypes = { UnitType.Infantry, UnitType.AntiTank, UnitType.Artillery, UnitType.Apc, UnitType.Recon, UnitType.LightTank, UnitType.MediumTank, UnitType.Rockets, };
     public UnitType unitType = UnitType.Infantry;
-    public Vector2Int lookDirection = Vector2Int.up;
     public Player player;
 
     private Unit inspectedUnit;
     public void SetInspectedUnit(LevelEditorGui gui, Unit unit) {
 
         inspectedUnit = unit;
-        
-        gui.Remove(name => name.StartsWith("inspected-unit."));
+
+        gui.Remove(name => name.StartsWith("InspectedUnit."));
 
         if (unit != null)
             gui
-                .Add("inspected-unit.type", () => unit.type)
-                .Add("inspected-unit.player", () => unit.Player)
-                .Add("inspected-unit.position", () => unit.Position)
-                .Add("inspected-unit.moved", () => unit.Moved)
-                .Add("inspected-unit.hp", () => $"{unit.Hp} / {Rules.MaxHp(unit)}")
-                .Add("inspected-unit.move-capacity", () => Rules.MoveCapacity(unit))
-                .Add("inspected-unit.fuel", () => $"{unit.Fuel} / {Rules.MaxFuel(unit)}");
+                .Add("InspectedUnit.Type", () => unit.type)
+                .Add("InspectedUnit.Player", () => unit.Player)
+                .Add("InspectedUnit.Position", () => unit.Position)
+                .Add("InspectedUnit.Moved", () => unit.Moved)
+                .Add("InspectedUnit.Hp", () => $"{unit.Hp} / {Rules.MaxHp(unit)}")
+                .Add("InspectedUnit.MoveCapacity", () => Rules.MoveCapacity(unit))
+                .Add("InspectedUnit.Fuel", () => $"{unit.Fuel} / {Rules.MaxFuel(unit)}");
     }
 
     public LevelEditorUnitsModeState(StateMachine stateMachine) : base(stateMachine) { }
@@ -52,9 +52,8 @@ public class LevelEditorUnitsModeState : StateMachineState {
 
             gui
                 .Push()
-                .Add("unit-type", () => unitType)
-                .Add("look-direction", () => lookDirection)
-                .Add("player", () => player);
+                .Add("UnitType", () => unitType)
+                .Add("Player", () => player);
 
             level.view.cursorView.show = true;
 
@@ -64,6 +63,9 @@ public class LevelEditorUnitsModeState : StateMachineState {
                 yield return StateChange.none;
 
                 editorState.DrawBridges();
+
+                if (inspectedUnit is { Position: { } unitPosition })
+                    Draw.ingame.CircleXZ(unitPosition.ToVector3Int().ToVector3(), .5f, Color.black);
 
                 if (Input.GetKeyDown(KeyCode.F8))
                     game.EnqueueCommand(LevelEditorState.Command.SelectTriggersMode);
@@ -88,7 +90,7 @@ public class LevelEditorUnitsModeState : StateMachineState {
 
                 else if (Input.GetKeyDown(KeyCode.I) && camera.TryGetMousePosition(out mousePosition))
                     game.EnqueueCommand(Command.InspectUnit, mousePosition);
-                
+
                 else if (Input.GetKeyDown(KeyCode.L))
                     game.aiPlayerCommander.DrawPotentialUnitActions();
 

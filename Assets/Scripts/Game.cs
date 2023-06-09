@@ -81,11 +81,21 @@ public class Game : MonoBehaviour {
     }
 
     [Command] public static int guiDepth = -1000;
+    private List<string> stateNames = new();
     private void OnGUI() {
-        // if (Debug.isDebugBuild) {
-        //     GUI.skin = DefaultGuiSkin.TryGet;
-        //     GUI.depth = guiDepth;
-        //     GUILayout.Label(string.Join(" / ", stateMachine.StateNames.Reverse().Select(name => name.EndsWith("State") ? name[..^"State".Length] : name)));
-        // }
+        if (Debug.isDebugBuild) {
+            GUI.skin = DefaultGuiSkin.TryGet;
+            GUI.depth = guiDepth;
+            GUILayout.BeginHorizontal();
+            stateNames.Clear();
+            stateNames.AddRange(stateMachine.StateNames);
+            stateNames.Reverse();
+            for (var i = 0; i < stateNames.Count; i++) {
+                if (i != 0)
+                    GUILayout.Label("/");
+                GUILayout.Label(stateNames[i]);
+            }
+            GUILayout.EndHorizontal();
+        }
     }
 }
