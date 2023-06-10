@@ -10,7 +10,7 @@ public class LevelEditorPlayState : StateMachineState {
 
     public override IEnumerator<StateChange> Sequence {
         get {
-            var editorState = stateMachine.TryFind<LevelEditorState>();
+            var editorState = stateMachine.TryFind<LevelEditorSessionState>();
             var level = editorState.level;
             level.view.gameObject.SetActive(false);
 
@@ -21,11 +21,11 @@ public class LevelEditorPlayState : StateMachineState {
             editorState.gui
                 .Push();
             
-            yield return StateChange.Push(new PlayState(stateMachine, save));
+            yield return StateChange.Push(new LevelSessionState(stateMachine, save));
         }
     }
     public override void Dispose() {
-        var editorState = stateMachine.TryFind<LevelEditorState>();
+        var editorState = stateMachine.TryFind<LevelEditorSessionState>();
         editorState.level.view.gameObject.SetActive(true);
         editorState.gui.Pop();
     }

@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Assertions;
 
 public static class Mouse
 {
@@ -9,6 +8,4 @@ public static class Mouse
     public const int extra0 = 3;
     public const int extra1 = 4;
     public const int extra2 = 5;
-
-    public static Vector2 viewportPosition = Input.mousePosition / new Vector2(Screen.width,Screen.height);
 }

@@ -188,7 +188,7 @@ public abstract class DialogueState : StateMachineState {
     public Dictionary<PersonName, PortraitStack> portraitStacks = new();
     public DialogueUi3 ui;
     protected DialogueState(StateMachine stateMachine) : base(stateMachine) {
-        ui = stateMachine.TryFind<PlayState>().level.view.dialogueUi;
+        ui = stateMachine.TryFind<LevelSessionState>().level.view.dialogueUi;
     }
     
     public override void Dispose() {

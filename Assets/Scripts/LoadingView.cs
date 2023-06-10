@@ -150,7 +150,7 @@ public class LoadingState : StateMachineState {
             // if (level is LevelEditor levelEditor)
             //     levelEditor.RebuildTilemapMesh();
             
-            yield return StateChange.ReplaceWith(new PlayState(stateMachine, saveData));
+            yield return StateChange.ReplaceWith(new LevelSessionState(stateMachine, saveData));
         }
     }
 

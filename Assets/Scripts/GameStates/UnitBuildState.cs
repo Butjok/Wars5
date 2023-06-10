@@ -14,7 +14,7 @@ public class UnitBuildState : StateMachineState {
     public override IEnumerator<StateChange> Sequence {
         get {
             var game = stateMachine.TryFind<GameSessionState>()?.game;
-            var level = stateMachine.TryFind<PlayState>()?.level;
+            var level = stateMachine.TryFind<LevelSessionState>()?.level;
             var building = stateMachine.TryFind<SelectionState>()?.building;
             
             Assert.IsNotNull(game);

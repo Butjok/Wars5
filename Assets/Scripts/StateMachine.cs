@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Assertions;
 
 public class StateMachine {
@@ -34,7 +35,7 @@ public class StateMachine {
     public bool IsInState<T>() where T : StateMachineState {
         return TryPeek<T>() != null;
     }
-    public T TryFind<T>() where T: StateMachineState {
+    public T TryFind<T>() where T : StateMachineState {
         foreach (var state in states)
             if (state.state is T castedState)
                 return castedState;
@@ -75,12 +76,41 @@ public class StateMachine {
 }
 
 public abstract class StateMachineState : IDisposable {
+
     protected readonly StateMachine stateMachine;
     protected StateMachineState(StateMachine stateMachine) {
         this.stateMachine = stateMachine;
     }
+
     public virtual void Dispose() { }
+
     public abstract IEnumerator<StateChange> Sequence { get; }
+
+    protected void MoveCursor((object name, object argument) command) {
+
+        var levelView = (stateMachine.TryFind<LevelSessionState>()?.level ?? stateMachine.TryFind<LevelEditorSessionState>().level).view;
+        var cursorView = levelView.cursorView;
+
+        switch (command) {
+            case (CursorInteractor.Command.MouseEnter, _):
+                if (levelView.cameraRig.camera.TryGetMousePosition(out Vector2Int mousePosition))
+                    cursorView.Show(mousePosition);
+                break;
+
+            case (CursorInteractor.Command.MouseExit, _):
+                cursorView.Hide();
+                break;
+
+            case (CursorInteractor.Command.MouseOver, _):
+                if (levelView.cameraRig.camera.TryGetMousePosition(out mousePosition))
+                    cursorView.Position = mousePosition;
+                break;
+        }
+    }
+
+    protected static void HandleUnexpectedCommand(object command) {
+        // Debug.LogWarning($"Unprocessed command: {command}");
+    }
 }
 
 public struct StateChange {

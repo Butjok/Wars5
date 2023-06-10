@@ -10,7 +10,7 @@ public class PlayerTurnState : StateMachineState {
     
     public override IEnumerator<StateChange> Sequence {
         get {
-            var level = stateMachine.TryFind<PlayState>()?.level;
+            var level = stateMachine.TryFind<LevelSessionState>()?.level;
             Assert.IsNotNull(level);
             player = level.CurrentPlayer;
             player.view.visible = true;

@@ -34,7 +34,7 @@ public class LevelEditorUnitsModeState : StateMachineState {
     public override IEnumerator<StateChange> Sequence {
         get {
             var game = stateMachine.TryFind<GameSessionState>().game;
-            var editorState = stateMachine.TryFind<LevelEditorState>();
+            var editorState = stateMachine.TryFind<LevelEditorSessionState>();
             var level = editorState.level;
             var gui = editorState.gui;
             var tiles = level.tiles;
@@ -55,7 +55,7 @@ public class LevelEditorUnitsModeState : StateMachineState {
                 .Add("UnitType", () => unitType)
                 .Add("Player", () => player);
 
-            level.view.cursorView.show = true;
+            level.view.cursorView.Visible = true;
 
             player = level.players[0];
 
@@ -68,7 +68,7 @@ public class LevelEditorUnitsModeState : StateMachineState {
                     Draw.ingame.CircleXZ(unitPosition.ToVector3Int().ToVector3(), .5f, Color.black);
 
                 if (Input.GetKeyDown(KeyCode.F8))
-                    game.EnqueueCommand(LevelEditorState.Command.SelectTriggersMode);
+                    game.EnqueueCommand(LevelEditorSessionState.Command.SelectTriggersMode);
 
                 else if (Input.GetKeyDown(KeyCode.Tab))
                     game.EnqueueCommand(Command.CycleUnitType, Input.GetKey(KeyCode.LeftShift) ? -1 : 1);
@@ -83,7 +83,7 @@ public class LevelEditorUnitsModeState : StateMachineState {
                     game.EnqueueCommand(Command.RemoveUnit, mousePosition);
 
                 else if (Input.GetKeyDown(KeyCode.F5))
-                    game.EnqueueCommand(LevelEditorState.Command.Play);
+                    game.EnqueueCommand(LevelEditorSessionState.Command.Play);
 
                 else if (Input.GetKeyDown(KeyCode.LeftAlt) && camera.TryGetMousePosition(out mousePosition))
                     game.EnqueueCommand(Command.PickUnit, mousePosition);
@@ -97,7 +97,7 @@ public class LevelEditorUnitsModeState : StateMachineState {
                 while (game.TryDequeueCommand(out var command))
                     switch (command) {
 
-                        case (LevelEditorState.Command.SelectTriggersMode, _):
+                        case (LevelEditorSessionState.Command.SelectTriggersMode, _):
                             yield return StateChange.ReplaceWith(new LevelEditorTriggersModeState(stateMachine));
                             break;
 
@@ -109,7 +109,7 @@ public class LevelEditorUnitsModeState : StateMachineState {
                             unitType = unitType.Cycle(unitTypes, offset);
                             break;
 
-                        case (LevelEditorState.Command.Play, _):
+                        case (LevelEditorSessionState.Command.Play, _):
                             yield return StateChange.Push(new LevelEditorPlayState(stateMachine));
                             break;
 
@@ -156,6 +156,6 @@ public class LevelEditorUnitsModeState : StateMachineState {
     }
 
     public override void Dispose() {
-        stateMachine.TryFind<LevelEditorState>().gui.Pop();
+        stateMachine.TryFind<LevelEditorSessionState>().gui.Pop();
     }
 }

@@ -12,7 +12,7 @@ public class GameMenuState : StateMachineState {
     public override IEnumerator<StateChange> Sequence {
         get {
             var game = stateMachine.TryFind<GameSessionState>()?.game;
-            var level = stateMachine.TryFind<PlayState>()?.level;
+            var level = stateMachine.TryFind<LevelSessionState>()?.level;
             var menu = Object.FindObjectOfType<GameMenuView>(true);
             Assert.IsNotNull(game);
             Assert.IsNotNull(level);
@@ -25,7 +25,7 @@ public class GameMenuState : StateMachineState {
             var cameraRig = level.view.cameraRig;
 
             if (cursor)
-                cursor.show = false;
+                cursor.Visible = false;
             if (cameraRig)
                 cameraRig.enabled = false;
 
@@ -41,7 +41,7 @@ public class GameMenuState : StateMachineState {
                         case (Command.Close, _):
                             menu.Hide();
                             if (cursor)
-                                cursor.show = true;
+                                cursor.Visible = true;
                             if (cameraRig)
                                 cameraRig.enabled = true;
                             PlayerView.globalVisibility = true;

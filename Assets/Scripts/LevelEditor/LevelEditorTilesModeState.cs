@@ -9,7 +9,11 @@ using Vector2Int = UnityEngine.Vector2Int;
 
 public class LevelEditorTilesModeState : StateMachineState {
 
-    public enum Command { CycleTileType, PlaceTile, RemoveTile, PickTile, CyclePlayer }
+    public enum Command {
+        CycleTileType, PlaceTile, RemoveTile, PickTile, CyclePlayer,
+        ToggleMode
+    }
+    public enum Mode { Add, Remove }
 
     private static readonly List<Vector3> vertices = new();
     private static readonly List<int> triangles = new();
@@ -31,12 +35,13 @@ public class LevelEditorTilesModeState : StateMachineState {
     public TileType tileType = TileType.Plain;
     public Player player;
     public Vector2Int lookDirection = Vector2Int.up;
+    public Mode mode;
 
     public LevelEditorTilesModeState(StateMachine stateMachine) : base(stateMachine) { }
 
     public void RebuildTilemapMesh() {
 
-        var levelEditorState = stateMachine.TryFind<LevelEditorState>();
+        var levelEditorState = stateMachine.TryFind<LevelEditorSessionState>();
         var level = levelEditorState.level;
         var tiles = level.tiles;
         var buildings = level.buildings;
@@ -104,15 +109,15 @@ public class LevelEditorTilesModeState : StateMachineState {
 
     public override IEnumerator<StateChange> Sequence {
         get {
-            var game = stateMachine.TryFind<GameSessionState>()?.game;
-            var editorState = stateMachine.TryFind<LevelEditorState>();
+            var game = stateMachine.TryFind<GameSessionState>().game;
+            var editorState = stateMachine.TryFind<LevelEditorSessionState>();
             var gui = editorState.gui;
             var level = editorState.level;
             var tiles = level.tiles;
             var buildings = level.buildings;
             var units = level.units;
             var camera = level.view.cameraRig.camera;
-            
+
             RebuildTilemapMesh();
 
             void TryRemoveTile(Vector2Int position, bool removeUnit) {
@@ -138,36 +143,41 @@ public class LevelEditorTilesModeState : StateMachineState {
                 .Push()
                 .Add("TileType", () => tileType)
                 .Add("Player", () => player)
-                .Add("LookDirection", () => lookDirection);
+                .Add("LookDirection", () => lookDirection)
+                .Add("Mode", () => mode);
+
+            var cursor = level.view.cursorView;
+            cursor.PushContext(true);
+            cursor.visibilityScope.Push(true);
 
             while (true) {
                 yield return StateChange.none;
-                
+
                 editorState.DrawBridges();
 
                 if (Input.GetKeyDown(KeyCode.F8))
-                    game.EnqueueCommand(LevelEditorState.Command.SelectUnitsMode);
+                    game.EnqueueCommand(LevelEditorSessionState.Command.SelectUnitsMode);
                 else if (Input.GetKeyDown(KeyCode.Tab))
                     game.EnqueueCommand(Command.CycleTileType, Input.GetKey(KeyCode.LeftShift) ? -1 : 1);
                 else if (Input.GetKeyDown(KeyCode.F2))
                     game.EnqueueCommand(Command.CyclePlayer, Input.GetKey(KeyCode.LeftShift) ? -1 : 1);
-                else if (Input.GetMouseButton(Mouse.left) && camera.TryGetMousePosition(out Vector2Int mousePosition))
-                    game.EnqueueCommand(Command.PlaceTile, (mousePosition, tileType, player));
-                else if (Input.GetMouseButton(Mouse.right) && camera.TryGetMousePosition(out mousePosition))
-                    game.EnqueueCommand(Command.RemoveTile, mousePosition);
+                else if (Input.GetKeyDown(KeyCode.F3))
+                    game.EnqueueCommand(Command.ToggleMode);
+                // else if (Input.GetMouseButton(Mouse.left) && camera.TryGetMousePosition(out Vector2Int mousePosition))
+                //     game.EnqueueCommand(Command.PlaceTile, (mousePosition, tileType, player));
+                // else if (Input.GetMouseButton(Mouse.right) && camera.TryGetMousePosition(out mousePosition))
+                //     game.EnqueueCommand(Command.RemoveTile, mousePosition);
                 else if (Input.GetKeyDown(KeyCode.F5))
-                    game.EnqueueCommand(LevelEditorState.Command.Play);
-                else if (Input.GetKeyDown(KeyCode.LeftAlt) && camera.TryGetMousePosition(out mousePosition))
+                    game.EnqueueCommand(LevelEditorSessionState.Command.Play);
+                else if (Input.GetKeyDown(KeyCode.LeftAlt) && camera.TryGetMousePosition(out Vector2Int mousePosition))
                     game.EnqueueCommand(Command.PickTile, mousePosition);
-                
-                else if (Input.GetKeyDown(KeyCode.F7)) {
-                    
-                }
+
+                else if (Input.GetKeyDown(KeyCode.F7)) { }
 
                 while (game.TryDequeueCommand(out var command))
                     switch (command) {
 
-                        case (LevelEditorState.Command.SelectUnitsMode, _):
+                        case (LevelEditorSessionState.Command.SelectUnitsMode, _):
                             yield return StateChange.ReplaceWith(new LevelEditorUnitsModeState(stateMachine));
                             break;
 
@@ -177,6 +187,10 @@ public class LevelEditorTilesModeState : StateMachineState {
 
                         case (Command.CyclePlayer, int offset):
                             player = player.Cycle(level.players.Concat(new[] { (Player)null }), offset);
+                            break;
+
+                        case (Command.PlaceTile, Vector2Int position):
+                            TryPlaceTile(position, tileType, null);
                             break;
 
                         case (Command.PlaceTile, (Vector2Int position, TileType tileType, null)):
@@ -192,7 +206,7 @@ public class LevelEditorTilesModeState : StateMachineState {
                             TryRemoveTile(position, true);
                             break;
 
-                        case (LevelEditorState.Command.Play, _):
+                        case (LevelEditorSessionState.Command.Play, _):
                             yield return StateChange.Push(new LevelEditorPlayState(stateMachine));
                             break;
 
@@ -203,14 +217,30 @@ public class LevelEditorTilesModeState : StateMachineState {
                                 player = building.Player;
                             break;
 
+                        case (Command.ToggleMode, _):
+                            mode = mode == Mode.Add ? Mode.Remove : Mode.Add;
+                            break;
+
+                        case (CursorInteractor.Command.MouseDrag, _):
+                            if (camera.TryGetMousePosition(out Vector2Int mousePosition))
+                                game.EnqueueCommand(mode == Mode.Add ? Command.PlaceTile : Command.RemoveTile, mousePosition);
+                            break;
+                        
+                        case (CursorInteractor.Command, _):
+                            MoveCursor(command);
+                            break;
+
                         default:
-                            throw new ArgumentOutOfRangeException(command.ToString());
+                            HandleUnexpectedCommand(command);
+                            break;
                     }
             }
         }
     }
 
     public override void Dispose() {
-        stateMachine.TryFind<LevelEditorState>().gui.Pop();
+        var levelEditorState = stateMachine.TryFind<LevelEditorSessionState>();
+        levelEditorState.gui.Pop();
+        levelEditorState.level.view.cursorView.Hide();
     }
 }

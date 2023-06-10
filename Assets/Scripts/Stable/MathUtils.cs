@@ -262,4 +262,8 @@ public static class MathUtils {
             if (tiles.TryGetValue(position + offset, out var neighbor))
                 yield return (position + offset, neighbor);
     }
+
+    public static Vector2Int ToVector2Int(this Vector3 vector3) {
+        return vector3.ToVector2().RoundToInt();
+    }
 }

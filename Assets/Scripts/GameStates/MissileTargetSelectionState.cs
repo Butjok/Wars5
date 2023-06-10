@@ -14,7 +14,7 @@ public class MissileTargetSelectionState : StateMachineState {
     public override IEnumerator<StateChange> Sequence {
         get {
             var game = stateMachine.TryFind<GameSessionState>()?.game;
-            var level = stateMachine.TryFind<PlayState>()?.level;
+            var level = stateMachine.TryFind<LevelSessionState>()?.level;
             var action = stateMachine.TryFind<ActionSelectionState>()?.selectedAction;
             Assert.IsNotNull(game);
             Assert.IsNotNull(level);
@@ -32,7 +32,6 @@ public class MissileTargetSelectionState : StateMachineState {
                 yield return StateChange.none;
 
                 if (Input.GetMouseButtonDown(Mouse.left) && level.view.cameraRig.camera.TryGetMousePosition(out Vector2Int mousePosition)) {
-
                     if ((mousePosition - missileSilo.position).ManhattanLength().IsInRange(missileSilo.missileSiloRange)) {
                         if (launchPosition != mousePosition)
                             launchPosition = mousePosition;
@@ -138,11 +137,11 @@ public class MissileTargetSelectionState : StateMachineState {
                     foreach (var attackPosition in level.PositionsInRange(actualLaunchPosition, missileSilo.missileBlastRange))
                         Draw.ingame.SolidPlane((Vector3)attackPosition.ToVector3Int(), Vector3.up, Vector2.one, Color.red);
 
-                if (level.view.cameraRig.camera.TryGetMousePosition(out mousePosition) && missileSiloView &&
+                if (level.view.cameraRig.camera.TryGetMousePosition(out var hit, out mousePosition) && missileSiloView &&
                     (mousePosition - missileSilo.position).ManhattanLength().IsInRange(missileSilo.missileSiloRange)) {
 
                     missileSiloView.aim = true;
-                    missileSiloView.targetPosition = mousePosition.Raycast();
+                    missileSiloView.targetPosition = hit.point;
                 }
                 else
                     missileSiloView.aim = false;

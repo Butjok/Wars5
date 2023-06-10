@@ -27,10 +27,10 @@ public class GameSessionState : StateMachineState {
                             yield return StateChange.Push(new EntryPointState(stateMachine, showSplashScreen, showWelcome));
                             break;
                         case (Command.PlayLevel, string input):
-                            yield return StateChange.Push(new PlayState(stateMachine, input));
+                            yield return StateChange.Push(new LevelSessionState(stateMachine, input));
                             break;
                         case (Command.OpenLevelEditor, string input):
-                            yield return StateChange.Push(new LevelEditorState(stateMachine, input));
+                            yield return StateChange.Push(new LevelEditorSessionState(stateMachine, input));
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();

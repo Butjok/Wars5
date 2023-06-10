@@ -27,7 +27,7 @@ public class LevelEditorTriggersModeState : StateMachineState {
     public override IEnumerator<StateChange> Sequence {
         get {
             var game = stateMachine.TryFind<GameSessionState>().game;
-            var editorState = stateMachine.TryFind<LevelEditorState>();
+            var editorState = stateMachine.TryFind<LevelEditorSessionState>();
             var level = editorState.level;
             var gui = editorState.gui;
             var triggers = level.triggers;
@@ -37,7 +37,7 @@ public class LevelEditorTriggersModeState : StateMachineState {
                 .Push()
                 .Add("trigger-name", () => triggerName);
 
-            level.view.cursorView.show = true;
+            level.view.cursorView.Visible = true;
 
             while (true) {
                 yield return StateChange.none;
@@ -45,7 +45,7 @@ public class LevelEditorTriggersModeState : StateMachineState {
                 editorState.DrawBridges();
 
                 if (Input.GetKeyDown(KeyCode.F8))
-                    game.EnqueueCommand(LevelEditorState.Command.SelectTilesMode);
+                    game.EnqueueCommand(LevelEditorSessionState.Command.SelectTilesMode);
 
                 else if (Input.GetKeyDown(KeyCode.Tab))
                     game.EnqueueCommand(Command.CycleTrigger, Input.GetKey(KeyCode.LeftShift) ? -1 : 1);
@@ -57,7 +57,7 @@ public class LevelEditorTriggersModeState : StateMachineState {
                     game.EnqueueCommand(Command.RemoveTrigger, mousePosition);
 
                 else if (Input.GetKeyDown(KeyCode.F5))
-                    game.EnqueueCommand(LevelEditorState.Command.Play);
+                    game.EnqueueCommand(LevelEditorSessionState.Command.Play);
 
                 else if (Input.GetKeyDown(KeyCode.LeftAlt) && camera.TryGetMousePosition(out mousePosition))
                     game.EnqueueCommand(Command.PickTrigger, mousePosition);
@@ -65,7 +65,7 @@ public class LevelEditorTriggersModeState : StateMachineState {
                 while (game.TryDequeueCommand(out var command))
                     switch (command) {
 
-                        case (LevelEditorState.Command.SelectTilesMode, _):
+                        case (LevelEditorSessionState.Command.SelectTilesMode, _):
                             yield return StateChange.ReplaceWith(new LevelEditorTilesModeState(stateMachine));
                             break;
 
@@ -83,7 +83,7 @@ public class LevelEditorTriggersModeState : StateMachineState {
                                 set.Remove(position);
                             break;
 
-                        case (LevelEditorState.Command.Play, _):
+                        case (LevelEditorSessionState.Command.Play, _):
                             yield return StateChange.Push(new LevelEditorPlayState(stateMachine));
                             break;
 
@@ -115,6 +115,6 @@ public class LevelEditorTriggersModeState : StateMachineState {
     }
 
     public override void Dispose() {
-        stateMachine.TryFind<LevelEditorState>().gui.Pop();
+        stateMachine.TryFind<LevelEditorSessionState>().gui.Pop();
     }
 }

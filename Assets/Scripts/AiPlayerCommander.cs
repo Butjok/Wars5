@@ -54,7 +54,7 @@ public class AiPlayerCommander : MonoBehaviour {
     public HashSet<Vector2Int> gatheringPoints = new();
 
     public Game game;
-    public Level Level => game.stateMachine.TryFind<PlayState>()?.level ?? game.stateMachine.TryFind<LevelEditorState>().level;
+    public Level Level => game.stateMachine.TryFind<LevelSessionState>()?.level ?? game.stateMachine.TryFind<LevelEditorSessionState>().level;
 
     [Command]
     public void ClearGatheringPoints() {

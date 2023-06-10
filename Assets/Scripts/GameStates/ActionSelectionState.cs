@@ -52,7 +52,7 @@ public class ActionSelectionState : StateMachineState {
 
     public IEnumerable<UnitAction> SpawnActions() {
 
-        var level = stateMachine.TryFind<PlayState>()?.level;
+        var level = stateMachine.TryFind<LevelSessionState>()?.level;
         var unit = stateMachine.TryFind<SelectionState>()?.unit;
         var path = stateMachine.TryFind<PathSelectionState>()?.path;
         Assert.IsNotNull(level);
@@ -113,7 +113,7 @@ public class ActionSelectionState : StateMachineState {
     public override IEnumerator<StateChange> Sequence {
         get {
             var game = stateMachine.TryFind<GameSessionState>()?.game;
-            var level = stateMachine.TryFind<PlayState>()?.level;
+            var level = stateMachine.TryFind<LevelSessionState>()?.level;
             var unit = stateMachine.TryFind<SelectionState>()?.unit;
             var path = stateMachine.TryFind<PathSelectionState>()?.path;
             Assert.IsNotNull(game);

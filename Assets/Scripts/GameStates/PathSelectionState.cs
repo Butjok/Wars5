@@ -21,7 +21,7 @@ public class PathSelectionState : StateMachineState {
     public override IEnumerator<StateChange> Sequence {
         get {
             var game = stateMachine.TryFind<GameSessionState>()?.game;
-            var level = stateMachine.TryFind<PlayState>()?.level;
+            var level = stateMachine.TryFind<LevelSessionState>()?.level;
             var unit = stateMachine.TryFind<SelectionState>()?.unit;
             Assert.IsNotNull(game);
             Assert.IsNotNull(level);
@@ -56,8 +56,6 @@ public class PathSelectionState : StateMachineState {
             if (!game.autoplay) {
                 var (texture, transform) = TileMaskTexture.Create(reachable, 16);
                 TileMaskTexture.Set(level.view.terrainMaterial, "_TileMask", texture, transform);
-                if (cursor)
-                    cursor.show = true;
             }
 
             void RebuildPathMesh() {
@@ -120,7 +118,7 @@ public class PathSelectionState : StateMachineState {
                         case (Command.Move, _): {
 
                             if (cursor)
-                                cursor.show = false;
+                                cursor.Visible = false;
 
                             pathMeshGameObject.SetActive(false);
 
@@ -148,14 +146,15 @@ public class PathSelectionState : StateMachineState {
                             break;
 
                         default:
-                            throw new ArgumentOutOfRangeException();
+                            HandleUnexpectedCommand(command);
+                            break;
                     }
             }
         }
     }
 
     public override void Dispose() {
-        var level = stateMachine.TryFind<PlayState>().level;
+        var level = stateMachine.TryFind<LevelSessionState>().level;
         var unit = stateMachine.TryFind<SelectionState>().unit;
         level.view.terrainMaterial.SetTexture("_TileMask", null);
         unit.view.Selected = false;

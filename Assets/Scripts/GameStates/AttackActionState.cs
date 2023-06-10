@@ -18,7 +18,7 @@ public class AttackActionState : StateMachineState {
     public override IEnumerator<StateChange> Sequence {
         get {
 
-            var level = stateMachine.TryFind<PlayState>()?.level;
+            var level = stateMachine.TryFind<LevelSessionState>()?.level;
             var action = stateMachine.TryFind<ActionSelectionState>()?.selectedAction;
 
             Assert.IsNotNull(level);

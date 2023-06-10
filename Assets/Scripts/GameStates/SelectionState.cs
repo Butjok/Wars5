@@ -17,7 +17,7 @@ public class SelectionState : StateMachineState {
     public override IEnumerator<StateChange> Sequence {
         get {
             var game = stateMachine.TryFind<GameSessionState>()?.game;
-            var level = stateMachine.TryFind<PlayState>()?.level;
+            var level = stateMachine.TryFind<LevelSessionState>()?.level;
             Assert.IsNotNull(game);
             Assert.IsNotNull(level);
 
@@ -78,7 +78,7 @@ public class SelectionState : StateMachineState {
                 preselectionCursor.Hide();
 
             if (!game.autoplay && cursor)
-                cursor.show = true;
+                cursor.Visible = true;
 
             /*var turnButton = Object.FindObjectOfType<TurnButton>();
             if (turnButton) {
@@ -168,7 +168,7 @@ public class SelectionState : StateMachineState {
 
                             player.view.visible = false;
                             if (cursor)
-                                cursor.show = false;
+                                cursor.Visible = false;
                             if (preselectionCursor)
                                 preselectionCursor.Hide();
 
@@ -188,7 +188,7 @@ public class SelectionState : StateMachineState {
                             break;
 
                         case (Command.ExitToLevelEditor, _):
-                            if (stateMachine.TryFind<PlayState>() != null)
+                            if (stateMachine.TryFind<LevelSessionState>() != null)
                                 yield return StateChange.Pop();
                             break;
 
