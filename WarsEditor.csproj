@@ -141,6 +141,7 @@
      <Compile Include="Assets/Scripts/Editor/glTFLoader/GLTFSerialization/Extensions/KHR_materials_pbrSpecularGlossinessExtension.cs" />
      <Compile Include="Assets/Scripts/Editor/glTFLoader/Schema/CameraPerspective.cs" />
      <Compile Include="Assets/Scripts/Editor/glTFLoader/GLTFSerialization/Math/Matrix4x4.cs" />
+     <Compile Include="Assets/Scripts/Editor/SceneTemplateProcessor.cs" />
      <Folder Include="Assets/Scripts/Editor/glTFLoader/Schema" />
      <Folder Include="Assets/Scripts/Editor" />
      <Folder Include="Assets/Scripts/Editor/glTFLoader/GLTFSerialization" />
