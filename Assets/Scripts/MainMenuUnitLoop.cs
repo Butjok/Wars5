@@ -5,6 +5,7 @@ public class MainMenuUnitLoop : MonoBehaviour {
     public float length = 1;
     public Transform[] actors = { };
     public float speed = 1;
+    public bool rotate = true;
 
     public Vector3 LineStart => transform.position;
     public Vector3 LineEnd => transform.position + LineDirection * length;
@@ -28,7 +29,8 @@ public class MainMenuUnitLoop : MonoBehaviour {
             var nextDistance = distance + speed * Time.deltaTime;
             var oldPosition = actor.position;
             var nextPosition = LineStart + LineDirection * nextDistance;
-            actor.rotation = Quaternion.LookRotation(nextPosition - oldPosition, transform.up);
+            if (rotate)
+                actor.rotation = Quaternion.LookRotation(nextPosition - oldPosition, transform.up);
             var wrappedDistance = nextDistance % length;
             actor.position = LineStart + LineDirection * wrappedDistance;
         }
