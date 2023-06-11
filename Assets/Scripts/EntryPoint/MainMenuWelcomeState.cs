@@ -5,7 +5,7 @@ public class MainMenuWelcomeState : StateMachineState {
 
     public MainMenuWelcomeState(StateMachine stateMachine) : base(stateMachine) { }
 
-    public override IEnumerator<StateChange> Sequence {
+    public override IEnumerator<StateChange> Entry {
         get {
             var view = stateMachine.TryFind<EntryPointState>().view;
             view.logoVirtualCamera.enabled = true;
@@ -30,7 +30,7 @@ public class MainMenuWelcomeState : StateMachineState {
         }
     }
 
-    public override void Dispose() {
+    public override void Exit() {
         var view = stateMachine.TryFind<EntryPointState>().view;
         view.logoVirtualCamera.enabled = false;
         foreach (var go in view.hiddenInWelcomeScreen)

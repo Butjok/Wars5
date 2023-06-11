@@ -7,7 +7,7 @@ public class TestDialogueState : DialogueState {
     
     public TestDialogueState(StateMachine stateMachine) : base(stateMachine) { }
     
-    public override IEnumerator<StateChange> Sequence {
+    public override IEnumerator<StateChange> Entry {
         get {
             Show();
 

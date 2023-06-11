@@ -25,7 +25,7 @@ public abstract class DialogueState : StateMachineState {
             var (_, coroutine) = portraitStack.AddPerson(personName, mood);
             completed = () => portraitStack.IsCompleted(coroutine);
         }
-        public override IEnumerator<StateChange> Sequence {
+        public override IEnumerator<StateChange> Entry {
             get {
                 while (!completed())
                     yield return StateChange.none;
@@ -40,7 +40,7 @@ public abstract class DialogueState : StateMachineState {
             var coroutine = portraitStack.RemovePerson(personName);
             completed = () => portraitStack.IsCompleted(coroutine);
         }
-        public override IEnumerator<StateChange> Sequence {
+        public override IEnumerator<StateChange> Entry {
             get {
                 while (!completed())
                     yield return StateChange.none;
@@ -56,7 +56,7 @@ public abstract class DialogueState : StateMachineState {
                 coroutines.Add((portraitStack, portraitStack.Clear()));
             completed = () => coroutines.All(pair => pair.portraitStack.IsCompleted(pair.coroutine));
         }
-        public override IEnumerator<StateChange> Sequence {
+        public override IEnumerator<StateChange> Entry {
             get {
                 while (!completed())
                     yield return StateChange.none;
@@ -74,7 +74,7 @@ public abstract class DialogueState : StateMachineState {
             this.append = append;
             this.waitInput = waitInput;
         }
-        public override IEnumerator<StateChange> Sequence {
+        public override IEnumerator<StateChange> Entry {
             get {
                 var ui = dialogueState.ui;
                 var sequence = dialogueState.skippableSequences.Count > 0 ? dialogueState.skippableSequences.Peek() : null;
@@ -122,7 +122,7 @@ public abstract class DialogueState : StateMachineState {
             this.dialogueState = dialogueState;
             this.condition = condition;
         }
-        public override IEnumerator<StateChange> Sequence {
+        public override IEnumerator<StateChange> Entry {
             get {
                 var skipGroup = dialogueState.skippableSequences.Count > 0 ? dialogueState.skippableSequences.Peek() : null;
                 while (skipGroup is not { shouldSkip: true } && condition()) {
@@ -146,7 +146,7 @@ public abstract class DialogueState : StateMachineState {
             this.options = options;
             this.setter = setter;
         }
-        public override IEnumerator<StateChange> Sequence {
+        public override IEnumerator<StateChange> Entry {
             get {
                 var ui = dialogueState.ui;
                 
@@ -191,7 +191,7 @@ public abstract class DialogueState : StateMachineState {
         ui = stateMachine.TryFind<LevelSessionState>().level.view.dialogueUi;
     }
     
-    public override void Dispose() {
+    public override void Exit() {
         ui.Visible = false;
     }
 

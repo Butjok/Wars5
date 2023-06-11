@@ -10,7 +10,7 @@ public class LevelSessionState : StateMachineState {
         this.input = input;
     }
 
-    public override IEnumerator<StateChange> Sequence {
+    public override IEnumerator<StateChange> Entry {
         get {
             LevelView.TryLoadScene(level.missionName);
             level.view = LevelView.TryInstantiate();
@@ -21,7 +21,7 @@ public class LevelSessionState : StateMachineState {
         }
     }
 
-    public override void Dispose() {
+    public override void Exit() {
         LevelView.TryUnloadScene(level.missionName);
         Object.Destroy(level.view.gameObject);
         level.view = null;

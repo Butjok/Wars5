@@ -9,7 +9,7 @@ public class MainMenuLoadGameState : StateMachineState {
     public List<LoadGameButton> buttons = new();
     public Dictionary<string, Sprite> screenshotSprites = new();
 
-    public override IEnumerator<StateChange> Sequence {
+    public override IEnumerator<StateChange> Entry {
         get {
             var view = stateMachine.TryFind<EntryPointState>().view;
 
@@ -69,7 +69,7 @@ public class MainMenuLoadGameState : StateMachineState {
             Strings.GetName(savedGame.missionName));
     }
 
-    public override void Dispose() {
+    public override void Exit() {
         
         var view = stateMachine.TryFind<EntryPointState>().view;
         

@@ -48,6 +48,7 @@
      <Compile Include="Assets/Scripts/Stable/DynamicShadowDistanceSetter.cs" />
      <Compile Include="Assets/Scripts/Stable/StringExtensions.cs" />
      <Compile Include="Assets/Scripts/Stable/UiSound2.cs" />
+     <Compile Include="Assets/Scripts/Stable/ScreenshotTest.cs" />
      <Compile Include="Assets/Scripts/Stable/LevelEditorHistory.cs" />
      <Compile Include="Assets/Scripts/Stable/Foliage/TransformList.cs" />
      <Compile Include="Assets/Scripts/Stable/TileMeshBuilder.cs" />
@@ -68,6 +69,7 @@
      <Compile Include="Assets/Scripts/Stable/UIFrame.cs" />
      <Compile Include="Assets/Scripts/Stable/ManualControl.cs" />
      <Compile Include="Assets/Scripts/Stable/Spinner.cs" />
+     <Compile Include="Assets/Scripts/Stable/CloseUpImage.cs" />
      <Compile Include="Assets/Scripts/Stable/InstancedMeshRenderer.cs" />
      <Compile Include="Assets/Scripts/Stable/TerrainBumpiness.cs" />
      <Compile Include="Assets/Scripts/Stable/Mouse.cs" />
@@ -101,6 +103,7 @@
      <Compile Include="Assets/Scripts/Stable/StateMachineBehaviour.cs" />
      <Compile Include="Assets/Scripts/Stable/Tokenizer.cs" />
      <Compile Include="Assets/Scripts/Stable/BallisticMotion.cs" />
+     <Compile Include="Assets/Scripts/Stable/Dragger.cs" />
      <Compile Include="Assets/Scripts/Stable/ImpactTest.cs" />
      <Compile Include="Assets/Scripts/Stable/OrbitingWeight.cs" />
      <Compile Include="Assets/Scripts/Stable/Lazy.cs" />
@@ -142,9 +145,6 @@
      <Compile Include="Assets/Scripts/Stable/ResourceExtensions.cs" />
      <Compile Include="Assets/Scripts/Stable/LookAt.cs" />
      <Compile Include="Assets/Scripts/Stable/PistonBody.cs" />
-     <Compile Include="Assets/Scripts/Stable/CloseUpImage.cs" />
-     <Compile Include="Assets/Scripts/Stable/ScreenshotTest.cs" />
-     <Compile Include="Assets/Scripts/Stable/Dragger.cs" />
      <Folder Include="Assets/Scripts/Stable/Foliage" />
      <None Include="Assets/Scripts/Stable/Stable.asmdef" />
      <Folder Include="Assets/Scripts/Stable" />

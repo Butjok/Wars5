@@ -24,10 +24,9 @@ public class LevelEditorTriggersModeState : StateMachineState {
     
     public LevelEditorTriggersModeState(StateMachine stateMachine) : base(stateMachine) { }
 
-    public override IEnumerator<StateChange> Sequence {
+    public override IEnumerator<StateChange> Entry {
         get {
-            var game = stateMachine.TryFind<GameSessionState>().game;
-            var editorState = stateMachine.TryFind<LevelEditorSessionState>();
+            var (game, editorState) = (GetState<GameSessionState>().game, GetState<LevelEditorSessionState>());
             var level = editorState.level;
             var gui = editorState.gui;
             var triggers = level.triggers;
@@ -35,9 +34,7 @@ public class LevelEditorTriggersModeState : StateMachineState {
             
             gui
                 .Push()
-                .Add("trigger-name", () => triggerName);
-
-            level.view.cursorView.Visible = true;
+                .Add("TriggerName", () => triggerName);
 
             while (true) {
                 yield return StateChange.none;
@@ -94,7 +91,8 @@ public class LevelEditorTriggersModeState : StateMachineState {
                             break;
 
                         default:
-                            throw new ArgumentOutOfRangeException();
+                            HandleUnexpectedCommand(command);
+                            break;
                     }
 
                 var positions = triggers.SelectMany(t => t.Value).Distinct();
@@ -114,7 +112,7 @@ public class LevelEditorTriggersModeState : StateMachineState {
         }
     }
 
-    public override void Dispose() {
+    public override void Exit() {
         stateMachine.TryFind<LevelEditorSessionState>().gui.Pop();
     }
 }

@@ -1,7 +1,4 @@
-using System;
 using System.Collections.Generic;
-using UnityEngine.Assertions;
-using Object = UnityEngine.Object;
 
 public class GameMenuState : StateMachineState {
 
@@ -9,25 +6,14 @@ public class GameMenuState : StateMachineState {
 
     public GameMenuState(StateMachine stateMachine) : base(stateMachine) { }
 
-    public override IEnumerator<StateChange> Sequence {
+    public override IEnumerator<StateChange> Entry {
         get {
-            var game = stateMachine.TryFind<GameSessionState>()?.game;
-            var level = stateMachine.TryFind<LevelSessionState>()?.level;
-            var menu = Object.FindObjectOfType<GameMenuView>(true);
-            Assert.IsNotNull(game);
-            Assert.IsNotNull(level);
-            Assert.IsTrue(menu);
+            var (game, level, menu) = (GetState<GameSessionState>().game, GetState<LevelSessionState>().level, GetObject<GameMenuView>());
 
             PlayerView.globalVisibility = false;
             yield return StateChange.none;
-
-            var cursor = level.view.cursorView;
-            var cameraRig = level.view.cameraRig;
-
-            if (cursor)
-                cursor.Visible = false;
-            if (cameraRig)
-                cameraRig.enabled = false;
+            level.view.cursorView.Position = null;
+            level.view.cameraRig.enabled = false;
 
             menu.enqueueCloseCommand = () => game.EnqueueCommand(Command.Close);
             menu.Show();
@@ -39,31 +25,29 @@ public class GameMenuState : StateMachineState {
                     switch (command) {
 
                         case (Command.Close, _):
-                            menu.Hide();
-                            if (cursor)
-                                cursor.Visible = true;
-                            if (cameraRig)
-                                cameraRig.enabled = true;
-                            PlayerView.globalVisibility = true;
                             yield return StateChange.Pop();
                             break;
 
                         case (Command.OpenSettingsMenu, _):
-                            menu.Hide();
-                            yield return StateChange.Push(new GameSettingsState(stateMachine));
-                            menu.Show();
+                            yield return StateChange.ReplaceWith(new GameSettingsState(stateMachine));
                             break;
 
                         case (Command.OpenLoadGameMenu, _):
-                            menu.Hide();
-                            yield return StateChange.Push(new LoadGameState(stateMachine));
-                            menu.Show();
+                            yield return StateChange.ReplaceWith(new LoadGameState(stateMachine));
                             break;
 
                         default:
-                            throw new ArgumentOutOfRangeException();
+                            HandleUnexpectedCommand(command);
+                            break;
                     }
             }
         }
+    }
+
+    public override void Exit() {
+        var (menu, level)= (GetObject<GameMenuView>(), GetState<LevelSessionState>().level);
+        menu.Hide();
+        level.view.cameraRig.enabled = true;
+        PlayerView.globalVisibility = true;
     }
 }

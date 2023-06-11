@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
+using Object = UnityEngine.Object;
 
 public class StateMachine {
 
@@ -14,12 +15,12 @@ public class StateMachine {
         if (all)
             count = states.Count;
         for (var i = 0; i < count; i++) {
-            states.Pop().state.Dispose();
+            states.Pop().state.Exit();
             stateNames.Pop();
         }
     }
     public void Push(StateMachineState state) {
-        states.Push((state, state.Sequence));
+        states.Push((state, state.Entry));
         var name = state.GetType().Name;
         stateNames.Push(name.EndsWith("State") ? name[..^5] : name);
     }
@@ -75,16 +76,36 @@ public class StateMachine {
     }
 }
 
-public abstract class StateMachineState : IDisposable {
+public abstract class StateMachineState {
 
     protected readonly StateMachine stateMachine;
     protected StateMachineState(StateMachine stateMachine) {
         this.stateMachine = stateMachine;
     }
 
-    public virtual void Dispose() { }
+    private Dictionary<Type, StateMachineState> stateCache = new();
+    private Dictionary<Type, Object> objectCache = new();
 
-    public abstract IEnumerator<StateChange> Sequence { get; }
+    protected T GetState<T>() where T : StateMachineState {
+        if (!stateCache.TryGetValue(typeof(T), out var state)) {
+            state = stateMachine.TryFind<T>();
+            Assert.IsNotNull(state);
+            stateCache.Add(typeof(T), state);
+        }
+        return (T)state;
+    }
+    protected T GetObject<T>() where T : Object {
+        if (!objectCache.TryGetValue(typeof(T), out var obj)) {
+            obj = Object.FindObjectOfType<T>();
+            Assert.IsTrue(obj);
+            objectCache.Add(typeof(T), obj);
+        }
+        return (T)obj;
+    }
+
+    public virtual void Exit() { }
+
+    public abstract IEnumerator<StateChange> Entry { get; }
 
     protected void MoveCursor((object name, object argument) command) {
 
@@ -94,11 +115,11 @@ public abstract class StateMachineState : IDisposable {
         switch (command) {
             case (CursorInteractor.Command.MouseEnter, _):
                 if (levelView.cameraRig.camera.TryGetMousePosition(out Vector2Int mousePosition))
-                    cursorView.Show(mousePosition);
+                    cursorView.Position = mousePosition;
                 break;
 
             case (CursorInteractor.Command.MouseExit, _):
-                cursorView.Hide();
+                cursorView.Position = null;
                 break;
 
             case (CursorInteractor.Command.MouseOver, _):

@@ -11,7 +11,7 @@ public class GameSessionState : StateMachineState {
         this.game = game;
     }
 
-    public override IEnumerator<StateChange> Sequence {
+    public override IEnumerator<StateChange> Entry {
         get {
 
             Player.undisposed.Clear();
@@ -33,12 +33,13 @@ public class GameSessionState : StateMachineState {
                             yield return StateChange.Push(new LevelEditorSessionState(stateMachine, input));
                             break;
                         default:
-                            throw new ArgumentOutOfRangeException();
+                            HandleUnexpectedCommand(command);
+                            break;
                     }
             }
         }
     }
-    public override void Dispose() {
+    public override void Exit() {
         if (Player.undisposed.Count > 0)
             Debug.LogError($"undisposed players: {Player.undisposed.Count}");
         if (Building.undisposed.Count > 0)

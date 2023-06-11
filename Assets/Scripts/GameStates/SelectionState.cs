@@ -14,15 +14,10 @@ public class SelectionState : StateMachineState {
 
     public SelectionState(StateMachine stateMachine) : base(stateMachine) { }
 
-    public override IEnumerator<StateChange> Sequence {
+    public override IEnumerator<StateChange> Entry {
         get {
-            var game = stateMachine.TryFind<GameSessionState>()?.game;
-            var level = stateMachine.TryFind<LevelSessionState>()?.level;
-            Assert.IsNotNull(game);
-            Assert.IsNotNull(level);
-
-            var cameraRig = level.view.cameraRig;
-            var cursor = level.view.cursorView;
+            var (game, level) = (GetState<GameSessionState>().game, GetState<LevelSessionState>().level);
+            var (cameraRig, cursor) = (level.view.cameraRig, level.view.cursorView);
 
             // stop the ability
             var player = level.CurrentPlayer;
@@ -76,9 +71,6 @@ public class SelectionState : StateMachineState {
             PreselectionCursor.TryFind(out var preselectionCursor);
             if (preselectionCursor)
                 preselectionCursor.Hide();
-
-            if (!game.autoplay && cursor)
-                cursor.Visible = true;
 
             /*var turnButton = Object.FindObjectOfType<TurnButton>();
             if (turnButton) {
@@ -167,8 +159,7 @@ public class SelectionState : StateMachineState {
                                 unit.Moved = false;
 
                             player.view.visible = false;
-                            if (cursor)
-                                cursor.Visible = false;
+                            cursor.Position = null;
                             if (preselectionCursor)
                                 preselectionCursor.Hide();
 
@@ -236,8 +227,14 @@ public class SelectionState : StateMachineState {
                             yield return StateChange.ReplaceWith(new DefeatState(stateMachine));
                             break;
 
+                        case (CursorInteractor.Command, _):
+                            if (!game.autoplay)
+                                MoveCursor(command);
+                            break;
+
                         default:
-                            throw new ArgumentOutOfRangeException();
+                            HandleUnexpectedCommand(command);
+                            break;
                     }
             }
         }

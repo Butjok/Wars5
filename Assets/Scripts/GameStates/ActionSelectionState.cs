@@ -24,7 +24,7 @@ public class ActionSelectionState : StateMachineState {
         Assert.IsTrue(panel);
     }
 
-    public override void Dispose() {
+    public override void Exit() {
         HidePanel();
         foreach (var action in actions)
             action.Dispose();
@@ -52,12 +52,7 @@ public class ActionSelectionState : StateMachineState {
 
     public IEnumerable<UnitAction> SpawnActions() {
 
-        var level = stateMachine.TryFind<LevelSessionState>()?.level;
-        var unit = stateMachine.TryFind<SelectionState>()?.unit;
-        var path = stateMachine.TryFind<PathSelectionState>()?.path;
-        Assert.IsNotNull(level);
-        Assert.IsNotNull(unit);
-        Assert.IsNotNull(path);
+        var (level, unit, path) = (GetState<LevelSessionState>().level, GetState<SelectionState>().unit, GetState<PathSelectionState>().path);
 
         var destination = path[^1];
         level.TryGetUnit(destination, out var other);
@@ -110,16 +105,9 @@ public class ActionSelectionState : StateMachineState {
         }
     }
 
-    public override IEnumerator<StateChange> Sequence {
+    public override IEnumerator<StateChange> Entry {
         get {
-            var game = stateMachine.TryFind<GameSessionState>()?.game;
-            var level = stateMachine.TryFind<LevelSessionState>()?.level;
-            var unit = stateMachine.TryFind<SelectionState>()?.unit;
-            var path = stateMachine.TryFind<PathSelectionState>()?.path;
-            Assert.IsNotNull(game);
-            Assert.IsNotNull(level);
-            Assert.IsNotNull(unit);
-            Assert.IsNotNull(path);
+            var (game, level, unit, path) = (GetState<GameSessionState>().game, GetState<LevelSessionState>().level, GetState<SelectionState>().unit, GetState<PathSelectionState>().path);
 
             var destination = path[^1];
             level.TryGetUnit(destination, out var other);
@@ -315,7 +303,8 @@ public class ActionSelectionState : StateMachineState {
                         }
 
                         default:
-                            throw new ArgumentOutOfRangeException();
+                            HandleUnexpectedCommand(command);
+                            break;
                     }
             }
         }

@@ -7,7 +7,7 @@ public class MainMenuState : StateMachineState {
 
     public MainMenuState(StateMachine stateMachine) : base(stateMachine) { }
 
-    public override IEnumerator<StateChange> Sequence {
+    public override IEnumerator<StateChange> Entry {
         get {
             var entryPointState = stateMachine.TryFind<EntryPointState>();
             var view = entryPointState.view;
@@ -24,7 +24,7 @@ public class MainMenuState : StateMachineState {
         }
     }
 
-    public override void Dispose() {
+    public override void Exit() {
         var view = stateMachine.TryFind<EntryPointState>().view;
         PostProcessing.ColorFilter = Color.white;
         view.mainCamera.enabled = false;

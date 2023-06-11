@@ -1,62 +1,16 @@
-using System;
-using System.Collections.Generic;
-using Butjok.CommandLine;
 using UnityEngine;
-using UnityEngine.Assertions;
-using UnityEngine.Serialization;
 
 [RequireComponent(typeof(MeshRenderer))]
 public class CursorView : MonoBehaviour {
 
-    private struct Context {
-        public bool canBeVisible;
-        public bool hideOnPop;
-    }
-    private Stack<Context> contexts = new();
-    public void PushContext(bool canBeVisible, bool hideOnPop) {
-        contexts.Push(new Context() { canBeVisible = canBeVisible, hideOnPop = hideOnPop });
-    }
-    public void PopContext() {
-        Assert.IsTrue(contexts.TryPeek(out var scope));
-        if (scope.hideOnPop)
-            TryHide();
-        contexts.Pop();
-    }
-
+    public Renderer renderer;
     public Vector2Int? Position {
         get => renderer.enabled ? transform.position.ToVector2Int() : null;
         set {
-            
+            renderer.enabled = value != null;
+            if (value is { } position)
+                transform.position = position.ToVector3Int();
         }
-    }
-
-    public bool ShowAt(Vector2Int position) {
-        if (contexts.TryPeek(out var scope) && !scope.canBeVisible)
-            return false;
-        
-        if (!Visible)
-            return TryShow(position);
-        if (Position != position) {
-            Position = position;
-            return true;
-        }
-        return false;
-    }
-    
-    public bool TryHide() {
-        if (contexts.TryPeek(out var scope) && !scope.canBeVisible)
-            return false;
-        
-        if (!Visible)
-            return false;
-        Visible = false;
-        return true;
-    }
-
-    public Renderer renderer;
-    public bool Visible {
-        get => renderer.enabled;
-        private set => renderer.enabled = value;
     }
 
     public void Reset() {

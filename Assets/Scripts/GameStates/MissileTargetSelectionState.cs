@@ -11,14 +11,9 @@ public class MissileTargetSelectionState : StateMachineState {
 
     public MissileTargetSelectionState(StateMachine stateMachine) : base(stateMachine) { }
 
-    public override IEnumerator<StateChange> Sequence {
+    public override IEnumerator<StateChange> Entry {
         get {
-            var game = stateMachine.TryFind<GameSessionState>()?.game;
-            var level = stateMachine.TryFind<LevelSessionState>()?.level;
-            var action = stateMachine.TryFind<ActionSelectionState>()?.selectedAction;
-            Assert.IsNotNull(game);
-            Assert.IsNotNull(level);
-            Assert.IsNotNull(action);
+            var (game, level, action) = (GetState<GameSessionState>().game, GetState<LevelSessionState>().level, GetState<ActionSelectionState>().selectedAction);
 
             Assert.AreEqual(TileType.MissileSilo, action.targetBuilding);
             Assert.IsTrue(Rules.CanLaunchMissile(action.unit, action.targetBuilding));
@@ -67,7 +62,7 @@ public class MissileTargetSelectionState : StateMachineState {
                                     throw new AssertionException("missile.curve.totalTime = null", null);
 
                                 var cameraRig = level.view.cameraRig;
-                                    cameraRig.Jump(Vector2.Lerp(missileSilo.position, targetPosition, .5f).Raycast());
+                                cameraRig.Jump(Vector2.Lerp(missileSilo.position, targetPosition, .5f).Raycast());
                                 var startTime = Time.time;
                                 while (Time.time < startTime + flightTime)
                                     yield return StateChange.none;
@@ -130,7 +125,8 @@ public class MissileTargetSelectionState : StateMachineState {
                             break;
 
                         default:
-                            throw new ArgumentOutOfRangeException();
+                            HandleUnexpectedCommand(command);
+                            break;
                     }
 
                 if (launchPosition is { } actualLaunchPosition)

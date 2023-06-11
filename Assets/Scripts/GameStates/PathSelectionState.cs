@@ -18,14 +18,9 @@ public class PathSelectionState : StateMachineState {
 
     public PathSelectionState(StateMachine stateMachine) : base(stateMachine) { }
 
-    public override IEnumerator<StateChange> Sequence {
+    public override IEnumerator<StateChange> Entry {
         get {
-            var game = stateMachine.TryFind<GameSessionState>()?.game;
-            var level = stateMachine.TryFind<LevelSessionState>()?.level;
-            var unit = stateMachine.TryFind<SelectionState>()?.unit;
-            Assert.IsNotNull(game);
-            Assert.IsNotNull(level);
-            Assert.IsNotNull(unit);
+            var (game, level, unit) = (GetState<GameSessionState>().game, GetState<LevelSessionState>().level, GetState<SelectionState>().unit);
 
             var unitPosition = unit.NonNullPosition;
             Assert.IsTrue(level.tiles.ContainsKey(unitPosition));
@@ -41,7 +36,7 @@ public class PathSelectionState : StateMachineState {
                 pathMeshRenderer = pathMeshGameObject.AddComponent<MeshRenderer>();
                 pathMeshRenderer.sharedMaterial = "MovePath".LoadAs<Material>();
             }
-            
+
             pathMeshGameObject.SetActive(true);
 
             if (pathMeshFilter.sharedMesh) {
@@ -50,8 +45,6 @@ public class PathSelectionState : StateMachineState {
             }
 
             var pathBuilder = new PathBuilder(unitPosition);
-
-            var cursor = level.view.cursorView;
 
             if (!game.autoplay) {
                 var (texture, transform) = TileMaskTexture.Create(reachable, 16);
@@ -117,8 +110,7 @@ public class PathSelectionState : StateMachineState {
 
                         case (Command.Move, _): {
 
-                            if (cursor)
-                                cursor.Visible = false;
+                            level.view.cursorView.Position = null;
 
                             pathMeshGameObject.SetActive(false);
 
@@ -153,7 +145,7 @@ public class PathSelectionState : StateMachineState {
         }
     }
 
-    public override void Dispose() {
+    public override void Exit() {
         var level = stateMachine.TryFind<LevelSessionState>().level;
         var unit = stateMachine.TryFind<SelectionState>().unit;
         level.view.terrainMaterial.SetTexture("_TileMask", null);

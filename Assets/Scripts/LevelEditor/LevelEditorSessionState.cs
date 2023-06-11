@@ -23,7 +23,7 @@ public class LevelEditorSessionState : StateMachineState {
         this.input = input;
     }
 
-    public override IEnumerator<StateChange> Sequence {
+    public override IEnumerator<StateChange> Entry {
         get {
             LevelView.TryLoadScene(level.missionName);
             level.view = LevelView.TryInstantiate();
@@ -53,7 +53,7 @@ public class LevelEditorSessionState : StateMachineState {
         }
     }
 
-    public override void Dispose() {
+    public override void Exit() {
 
         LevelEditorFileSystem.Save("autosave", level);
         LevelEditorFileSystem.DeleteOldAutosaves(autosaveLifespanInDays);

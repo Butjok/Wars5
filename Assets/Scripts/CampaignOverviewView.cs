@@ -65,7 +65,7 @@ public class CampaignOverviewState2 : StateMachineState {
 
     public CampaignOverviewState2(StateMachine stateMachine) : base(stateMachine) { }
 
-    public override IEnumerator<StateChange> Sequence {
+    public override IEnumerator<StateChange> Entry {
         get {
 
             if (SceneManager.GetActiveScene().name != sceneName) {
@@ -100,7 +100,7 @@ public class CampaignOverviewSelectionState : StateMachineState {
         this.view = view;
     }
 
-    public override IEnumerator<StateChange> Sequence {
+    public override IEnumerator<StateChange> Entry {
         get {
 
             view.backButton.onClick.RemoveAllListeners();
@@ -192,7 +192,7 @@ public class CampaignOverviewSelectionState : StateMachineState {
         }
     }
 
-    public override void Dispose() {
+    public override void Exit() {
         view.defaultVirtualCamera.enabled = false;
     }
 }
@@ -211,7 +211,7 @@ public class CampaignOverviewMissionCloseUpState : StateMachineState {
         CampaignOverviewMissionCloseUpState.missionName = missionName;
     }
 
-    public override IEnumerator<StateChange> Sequence {
+    public override IEnumerator<StateChange> Entry {
         get {
 
             var campaign = PersistentData.Loaded.campaign;
@@ -270,7 +270,7 @@ public class CampaignOverviewMissionCloseUpState : StateMachineState {
         }
     }
 
-    public override void Dispose() {
+    public override void Exit() {
         if (missionView.TryGetVirtualCamera)
             missionView.TryGetVirtualCamera.enabled = false;
         if (missionView.text)

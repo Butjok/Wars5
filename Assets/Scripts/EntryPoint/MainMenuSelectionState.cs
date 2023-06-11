@@ -19,7 +19,7 @@ public class MainMenuSelectionState : StateMachineState {
     public Color defaultColor;
     public MainMenuSelectionState(StateMachine stateMachine) : base(stateMachine) { }
 
-    public override IEnumerator<StateChange> Sequence {
+    public override IEnumerator<StateChange> Entry {
         get {
             var view = stateMachine.TryFind<EntryPointState>().view;
             view.mainMenuVirtualCamera.enabled = true;
@@ -96,7 +96,7 @@ public class MainMenuSelectionState : StateMachineState {
         }
     }
 
-    public override void Dispose() {
+    public override void Exit() {
         var view = stateMachine.TryFind<EntryPointState>().view;
         view.mainMenuVirtualCamera.enabled = false;
         view.loadGameText.color = defaultColor;

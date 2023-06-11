@@ -8,7 +8,7 @@ public class PlayerTurnState : StateMachineState {
 
     public Player player;
     
-    public override IEnumerator<StateChange> Sequence {
+    public override IEnumerator<StateChange> Entry {
         get {
             var level = stateMachine.TryFind<LevelSessionState>()?.level;
             Assert.IsNotNull(level);
@@ -22,7 +22,7 @@ public class PlayerTurnState : StateMachineState {
             yield return StateChange.Push(new SelectionState(stateMachine));
         }
     }
-    public override void Dispose() {
+    public override void Exit() {
         player.view.visible = false;
         Debug.Log($"End of turn");
     }
@@ -30,7 +30,7 @@ public class PlayerTurnState : StateMachineState {
 
 public class DayChangeState : StateMachineState {
     public DayChangeState(StateMachine stateMachine) : base(stateMachine) { }
-    public override IEnumerator<StateChange> Sequence {
+    public override IEnumerator<StateChange> Entry {
         get {
             yield break;
         }

@@ -105,7 +105,7 @@ public class LoadingState : StateMachineState {
         };
     }
 
-    public override IEnumerator<StateChange> Sequence {
+    public override IEnumerator<StateChange> Entry {
         get {
 
             allowSceneActivation = false;
@@ -154,5 +154,5 @@ public class LoadingState : StateMachineState {
         }
     }
 
-    public override void Dispose() { }
+    public override void Exit() { }
 }

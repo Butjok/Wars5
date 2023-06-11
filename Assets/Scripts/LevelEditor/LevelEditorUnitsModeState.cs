@@ -31,7 +31,7 @@ public class LevelEditorUnitsModeState : StateMachineState {
 
     public LevelEditorUnitsModeState(StateMachine stateMachine) : base(stateMachine) { }
 
-    public override IEnumerator<StateChange> Sequence {
+    public override IEnumerator<StateChange> Entry {
         get {
             var game = stateMachine.TryFind<GameSessionState>().game;
             var editorState = stateMachine.TryFind<LevelEditorSessionState>();
@@ -54,8 +54,6 @@ public class LevelEditorUnitsModeState : StateMachineState {
                 .Push()
                 .Add("UnitType", () => unitType)
                 .Add("Player", () => player);
-
-            level.view.cursorView.Visible = true;
 
             player = level.players[0];
 
@@ -149,13 +147,14 @@ public class LevelEditorUnitsModeState : StateMachineState {
                             break;
 
                         default:
-                            throw new ArgumentOutOfRangeException(command.ToString());
+                            HandleUnexpectedCommand(command);
+                            break;
                     }
             }
         }
     }
 
-    public override void Dispose() {
+    public override void Exit() {
         stateMachine.TryFind<LevelEditorSessionState>().gui.Pop();
     }
 }

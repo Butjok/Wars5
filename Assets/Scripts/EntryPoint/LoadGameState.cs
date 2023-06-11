@@ -10,7 +10,7 @@ public class LoadGameState : StateMachineState {
 
     public LoadGameState(StateMachine stateMachine) : base(stateMachine) { }
 
-    public override IEnumerator<StateChange> Sequence {
+    public override IEnumerator<StateChange> Entry {
         get {
             
             var game = stateMachine.TryFind<GameSessionState>()?.game;
@@ -36,7 +36,8 @@ public class LoadGameState : StateMachineState {
                             break;
 
                         default:
-                            throw new ArgumentOutOfRangeException();
+                            HandleUnexpectedCommand(command);
+                            break;
                     }
             }
         }

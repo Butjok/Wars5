@@ -6,7 +6,7 @@ public class VictoryState : StateMachineState {
     
     public VictoryState(StateMachine stateMachine) : base(stateMachine) { }
 
-    public override IEnumerator<StateChange> Sequence {
+    public override IEnumerator<StateChange> Entry {
         get {
             using var dialogue = new DialoguePlayer();
             foreach (var stateChange in dialogue.Play(Strings.Victory))
@@ -17,7 +17,7 @@ public class VictoryState : StateMachineState {
 
 public class DefeatState : StateMachineState {
     public DefeatState(StateMachine stateMachine) : base(stateMachine) { }
-    public override IEnumerator<StateChange> Sequence {
+    public override IEnumerator<StateChange> Entry {
         get {
             using var dialogue = new DialoguePlayer();
             foreach (var stateChange in dialogue.Play(Strings.Defeat))

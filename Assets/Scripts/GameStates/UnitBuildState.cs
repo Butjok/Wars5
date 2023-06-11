@@ -11,25 +11,15 @@ public class UnitBuildState : StateMachineState {
 
     public UnitBuildState(StateMachine stateMachine) : base(stateMachine) { }
 
-    public override IEnumerator<StateChange> Sequence {
+    public override IEnumerator<StateChange> Entry {
         get {
-            var game = stateMachine.TryFind<GameSessionState>()?.game;
-            var level = stateMachine.TryFind<LevelSessionState>()?.level;
-            var building = stateMachine.TryFind<SelectionState>()?.building;
-            
-            Assert.IsNotNull(game);
-            Assert.IsNotNull(level);
-            Assert.IsNotNull(building);
+            var (game, level, building, menu) = (GetState<GameSessionState>().game, GetState<LevelSessionState>().level, GetState<SelectionState>().building, GetObject<UnitBuildMenu>());
 
             Assert.IsTrue(building.Player == level.CurrentPlayer);
-
-            var menuView = Object.FindObjectOfType<UnitBuildMenu>(true);
-            Assert.IsTrue(menuView);
-
             PlayerView.globalVisibility = false;
             yield return StateChange.none;
 
-            menuView.Show(
+            menu.Show(
                 building,
                 unitType => game.EnqueueCommand(Command.Build, unitType),
                 () => game.EnqueueCommand(Command.Close));
@@ -66,20 +56,21 @@ public class UnitBuildState : StateMachineState {
 
                             building.Player.SetCredits(building.Player.Credits - Rules.Cost(type, building.Player), true);
 
-                            menuView.Hide();
+                            menu.Hide();
                             yield return StateChange.ReplaceWith(new SelectionState(stateMachine));
                             break;
                         }
 
                         case (Command.Close, _): {
-                            menuView.Hide();
+                            menu.Hide();
                             PlayerView.globalVisibility = true;
                             yield return StateChange.ReplaceWith(new SelectionState(stateMachine));
                             break;
                         }
 
                         default:
-                            throw new ArgumentOutOfRangeException();
+                            HandleUnexpectedCommand(command);
+                            break;
                     }
             }
         }

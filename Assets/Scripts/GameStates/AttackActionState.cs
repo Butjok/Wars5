@@ -15,11 +15,9 @@ public class AttackActionState : StateMachineState {
 
     public AttackActionState(StateMachine stateMachine) : base(stateMachine) { }
 
-    public override IEnumerator<StateChange> Sequence {
+    public override IEnumerator<StateChange> Entry {
         get {
-
-            var level = stateMachine.TryFind<LevelSessionState>()?.level;
-            var action = stateMachine.TryFind<ActionSelectionState>()?.selectedAction;
+            var (level, action) = (GetState<LevelSessionState>().level, GetState<ActionSelectionState>().selectedAction);
 
             Assert.IsNotNull(level);
             Assert.IsNotNull(action);

@@ -9,28 +9,22 @@ public class GameSettingsState : StateMachineState {
 
     public GameSettingsState(StateMachine stateMachine) : base(stateMachine) { }
 
-    public override IEnumerator<StateChange> Sequence {
+    public override IEnumerator<StateChange> Entry {
         get {
-            
-            var game = stateMachine.TryFind<GameSessionState>()?.game;
-            Assert.IsNotNull(game);
+            var (game, menu) = (GetState<GameSessionState>().game, GetObject<GameSettingsMenu>());
 
-            var menu = Object.FindObjectOfType<GameSettingsMenu>(true);
-            Assert.IsTrue(menu);
             menu.Show(() => game.EnqueueCommand(Command.Close));
-
             while (true) {
                 yield return StateChange.none;
                 while (game.TryDequeueCommand(out var command))
                     switch (command) {
-
                         case (Command.Close, _):
                             menu.Hide();
                             yield return StateChange.Pop();
                             break;
-
                         default:
-                            throw new ArgumentOutOfRangeException();
+                            HandleUnexpectedCommand(command);
+                            break;
                     }
             }
         }
