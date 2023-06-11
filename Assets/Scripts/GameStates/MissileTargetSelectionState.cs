@@ -13,7 +13,7 @@ public class MissileTargetSelectionState : StateMachineState {
 
     public override IEnumerator<StateChange> Entry {
         get {
-            var (game, level, action) = (GetState<GameSessionState>().game, GetState<LevelSessionState>().level, GetState<ActionSelectionState>().selectedAction);
+            var (game, level, action) = (FindState<GameSessionState>().game, FindState<LevelSessionState>().level, FindState<ActionSelectionState>().selectedAction);
 
             Assert.AreEqual(TileType.MissileSilo, action.targetBuilding);
             Assert.IsTrue(Rules.CanLaunchMissile(action.unit, action.targetBuilding));

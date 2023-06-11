@@ -64,6 +64,11 @@ public class Game : MonoBehaviour {
     private void Update() {
         stateMachine.Tick();
     }
+
+    private void OnApplicationQuit() {
+        stateMachine.Pop(all:true);
+    }
+
     public IEnumerator AutoplayHandler() {
         const KeyCode key = KeyCode.Alpha8;
         while (true) {

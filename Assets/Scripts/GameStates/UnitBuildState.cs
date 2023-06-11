@@ -13,7 +13,7 @@ public class UnitBuildState : StateMachineState {
 
     public override IEnumerator<StateChange> Entry {
         get {
-            var (game, level, building, menu) = (GetState<GameSessionState>().game, GetState<LevelSessionState>().level, GetState<SelectionState>().building, GetObject<UnitBuildMenu>());
+            var (game, level, building, menu) = (FindState<GameSessionState>().game, FindState<LevelSessionState>().level, FindState<SelectionState>().building, FindObject<UnitBuildMenu>());
 
             Assert.IsTrue(building.Player == level.CurrentPlayer);
             PlayerView.globalVisibility = false;

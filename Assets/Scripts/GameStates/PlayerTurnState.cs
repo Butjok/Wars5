@@ -10,8 +10,7 @@ public class PlayerTurnState : StateMachineState {
     
     public override IEnumerator<StateChange> Entry {
         get {
-            var level = stateMachine.TryFind<LevelSessionState>()?.level;
-            Assert.IsNotNull(level);
+            var level = FindState<LevelSessionState>().level;
             player = level.CurrentPlayer;
             player.view.visible = true;
             Debug.Log($"Start of turn #{level.turn}: {player}");

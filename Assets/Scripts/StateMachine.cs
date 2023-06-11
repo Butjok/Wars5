@@ -83,24 +83,15 @@ public abstract class StateMachineState {
         this.stateMachine = stateMachine;
     }
 
-    private Dictionary<Type, StateMachineState> stateCache = new();
-    private Dictionary<Type, Object> objectCache = new();
-
-    protected T GetState<T>() where T : StateMachineState {
-        if (!stateCache.TryGetValue(typeof(T), out var state)) {
-            state = stateMachine.TryFind<T>();
-            Assert.IsNotNull(state);
-            stateCache.Add(typeof(T), state);
-        }
-        return (T)state;
+    protected T FindState<T>() where T : StateMachineState {
+        var state = stateMachine.TryFind<T>();
+        Assert.IsNotNull(state);
+        return state;
     }
-    protected T GetObject<T>() where T : Object {
-        if (!objectCache.TryGetValue(typeof(T), out var obj)) {
-            obj = Object.FindObjectOfType<T>();
-            Assert.IsTrue(obj);
-            objectCache.Add(typeof(T), obj);
-        }
-        return (T)obj;
+    protected T FindObject<T>() where T : Object {
+        var obj = Object.FindObjectOfType<T>();
+        Assert.IsTrue(obj);
+        return obj;
     }
 
     public virtual void Exit() { }

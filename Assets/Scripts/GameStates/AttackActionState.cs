@@ -17,7 +17,7 @@ public class AttackActionState : StateMachineState {
 
     public override IEnumerator<StateChange> Entry {
         get {
-            var (level, action) = (GetState<LevelSessionState>().level, GetState<ActionSelectionState>().selectedAction);
+            var (level, action) = (FindState<LevelSessionState>().level, FindState<ActionSelectionState>().selectedAction);
 
             Assert.IsNotNull(level);
             Assert.IsNotNull(action);

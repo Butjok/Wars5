@@ -52,7 +52,7 @@ public class ActionSelectionState : StateMachineState {
 
     public IEnumerable<UnitAction> SpawnActions() {
 
-        var (level, unit, path) = (GetState<LevelSessionState>().level, GetState<SelectionState>().unit, GetState<PathSelectionState>().path);
+        var (level, unit, path) = (FindState<LevelSessionState>().level, FindState<SelectionState>().unit, FindState<PathSelectionState>().path);
 
         var destination = path[^1];
         level.TryGetUnit(destination, out var other);
@@ -107,7 +107,7 @@ public class ActionSelectionState : StateMachineState {
 
     public override IEnumerator<StateChange> Entry {
         get {
-            var (game, level, unit, path) = (GetState<GameSessionState>().game, GetState<LevelSessionState>().level, GetState<SelectionState>().unit, GetState<PathSelectionState>().path);
+            var (game, level, unit, path) = (FindState<GameSessionState>().game, FindState<LevelSessionState>().level, FindState<SelectionState>().unit, FindState<PathSelectionState>().path);
 
             var destination = path[^1];
             level.TryGetUnit(destination, out var other);

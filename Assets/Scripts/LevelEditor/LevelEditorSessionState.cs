@@ -58,6 +58,7 @@ public class LevelEditorSessionState : StateMachineState {
         LevelEditorFileSystem.Save("autosave", level);
         LevelEditorFileSystem.DeleteOldAutosaves(autosaveLifespanInDays);
 
+        level.Dispose();
         LevelView.TryUnloadScene(level.missionName);
         Object.Destroy(level.view.gameObject);
         level.view = null;

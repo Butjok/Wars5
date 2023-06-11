@@ -16,7 +16,7 @@ public class SelectionState : StateMachineState {
 
     public override IEnumerator<StateChange> Entry {
         get {
-            var (game, level) = (GetState<GameSessionState>().game, GetState<LevelSessionState>().level);
+            var (game, level) = (FindState<GameSessionState>().game, FindState<LevelSessionState>().level);
             var (cameraRig, cursor) = (level.view.cameraRig, level.view.cursorView);
 
             // stop the ability

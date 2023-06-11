@@ -8,7 +8,7 @@ public class GameMenuState : StateMachineState {
 
     public override IEnumerator<StateChange> Entry {
         get {
-            var (game, level, menu) = (GetState<GameSessionState>().game, GetState<LevelSessionState>().level, GetObject<GameMenuView>());
+            var (game, level, menu) = (FindState<GameSessionState>().game, FindState<LevelSessionState>().level, FindObject<GameMenuView>());
 
             PlayerView.globalVisibility = false;
             yield return StateChange.none;
@@ -45,7 +45,7 @@ public class GameMenuState : StateMachineState {
     }
 
     public override void Exit() {
-        var (menu, level)= (GetObject<GameMenuView>(), GetState<LevelSessionState>().level);
+        var (menu, level)= (FindObject<GameMenuView>(), FindState<LevelSessionState>().level);
         menu.Hide();
         level.view.cameraRig.enabled = true;
         PlayerView.globalVisibility = true;

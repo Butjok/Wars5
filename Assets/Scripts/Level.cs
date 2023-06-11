@@ -1,9 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class Level {
+public class Level : IDisposable {
 
     public LevelView view;
     
@@ -23,6 +24,15 @@ public class Level {
         [TriggerName.E] = new HashSet<Vector2Int>(),
         [TriggerName.F] = new HashSet<Vector2Int>(),
     };
+
+    public void Dispose() {
+        foreach (var player in players)
+            player.Dispose();
+        foreach (var unit in units.Values.ToList())
+            unit.Dispose();
+        foreach (var building in buildings.Values.ToList())
+            building.Dispose();
+    }
 
     public int Day(int turn) {
         Assert.IsTrue(turn >= 0);
