@@ -1,5 +1,10 @@
 using UnityEngine;
 
+/*
+ * NOTE: All os these should become obsolete at some point and use Unity's Input System instead.
+ * 12.6.23
+ */
+
 public static class CameraExtensions {
 
     public static int raycastLayerMask = (-1) ^ (1 << LayerMask.NameToLayer("UI")) ^ (1 << LayerMask.NameToLayer("Ignore Raycast"));
