@@ -10,3 +10,6 @@ public class MoveSequenceAtlas : ScriptableObject {
 
 [Serializable]
 public class PathSegmentTypeRectDictionary : SerializableDictionary<MoveSequence.Segment.Type, Rect>{}
+
+[Serializable]
+public class TileTypeSpriteDictionary : SerializableDictionary<TileType, Sprite>{}
