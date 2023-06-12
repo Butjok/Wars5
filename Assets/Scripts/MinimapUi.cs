@@ -1,19 +1,13 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Color = UnityEngine.Color;
-
-// For a discussion of the code, see: https://www.hallgrimgames.com/blog/2018/11/25/custom-unity-ui-meshes
 
 public class MinimapUi : MaskableGraphic {
 
     public GameObject root;
-    
+
     public Texture texture;
     public override Texture mainTexture => texture ? texture : s_WhiteTexture;
 
@@ -26,8 +20,8 @@ public class MinimapUi : MaskableGraphic {
     public Vector2 scalingBounds = new(.5f, 2);
 
     public Image underlayImage;
-    public Vector2 underlayPadding = new(10,10);
-    
+    public Vector2 underlayPadding = new(10, 10);
+
     public Transform cameraRig;
     public RectTransform rotationRoot;
 
@@ -57,13 +51,28 @@ public class MinimapUi : MaskableGraphic {
     //     RebuildTiles(tiles);
     // }
 
-    private void LateUpdate() {
+    public bool ShowFrustum {
+        set {
+            if (cameraFrustumUi)
+                cameraFrustumUi.enabled = value;
+        }
+    }
+    private bool rotate = true;
+    public bool Rotate {
+        set {
+            rotate = value;
+            if (!value)
+                rotationRoot.rotation = Quaternion.identity;
+        }
+    }
+
+    private void Update() {
         var value = Input.GetAxisRaw("Mouse ScrollWheel");
         if (value != 0) {
             var scale = Mathf.Clamp(scalingRoot.localScale.x * (1 + value), scalingBounds[0], scalingBounds[1]);
             scalingRoot.localScale = new Vector3(scale, scale, 1);
         }
-        if (cameraRig)
+        if (rotate)
             rotationRoot.rotation = Quaternion.Euler(0, 0, cameraRig.eulerAngles.y);
     }
 
@@ -79,7 +88,7 @@ public class MinimapUi : MaskableGraphic {
             cameraFrustumUi.unitSize = unitSize;
             cameraFrustumUi.worldBounds = tileBounds.ToPreciseBounds();
         }
-        
+
         if (underlayImage)
             underlayImage.rectTransform.sizeDelta = tileBounds.ToPreciseBounds().size * unitSize + underlayPadding * 2;
 
@@ -105,6 +114,7 @@ public class MinimapUi : MaskableGraphic {
             var iconImage = iconGameObject.GetComponent<Image>();
             iconImage.sprite = sprite;
             iconImage.color = color;
+            iconImage.raycastTarget = false;
             var minimapIcon = iconGameObject.GetComponent<MinimapIcon>();
             minimapIcon.target = targetTransform;
             minimapIcon.ui = this;
@@ -120,6 +130,7 @@ public class MinimapUi : MaskableGraphic {
         root.SetActive(true);
         RebuildTiles(tiles);
         RespawnIcons(units.Select(unit => (unit.transform, unitAtlas.TryGetValue(unit.type, out var sprite) ? sprite : null, unit.playerColor)));
+        Update();
     }
     public void Hide() {
         root.SetActive(false);
