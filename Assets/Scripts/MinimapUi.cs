@@ -10,64 +10,11 @@ using Color = UnityEngine.Color;
 // For a discussion of the code, see: https://www.hallgrimgames.com/blog/2018/11/25/custom-unity-ui-meshes
 
 public class MinimapUi : MaskableGraphic {
-    
-    [SerializeField]
-    Texture m_Texture;
 
-    // make it such that unity will trigger our ui element to redraw whenever we change the texture in the inspector
-    public Texture texture {
-        get {
-            return m_Texture;
-        }
-        set {
-            if (m_Texture == value)
-                return;
+    public Texture texture;
+    public override Texture mainTexture => texture ? texture : s_WhiteTexture;
 
-            m_Texture = value;
-            SetVerticesDirty();
-            SetMaterialDirty();
-        }
-    }
-
-    protected override void OnRectTransformDimensionsChange() {
-        base.OnRectTransformDimensionsChange();
-        SetVerticesDirty();
-        SetMaterialDirty();
-    }
-
-    // if no texture is configured, use the default white texture as mainTexture
-    public override Texture mainTexture {
-        get {
-            return m_Texture == null ? s_WhiteTexture : m_Texture;
-        }
-    }
-
-    // helper to easily create quads for our ui mesh. You could make any triangle-based geometry other than quads, too!
-    void AddQuad(VertexHelper vertexHelper, Vector2 corner1, Vector2 corner2, Vector2 uvCorner1, Vector2 uvCorner2, Color color) {
-        var firstIndex = vertexHelper.currentVertCount;
-
-        var vertex = new UIVertex();
-        vertex.color = color; // Do not forget to set this, otherwise 
-
-        vertex.position = corner1;
-        vertex.uv0 = uvCorner1;
-        vertexHelper.AddVert(vertex);
-
-        vertex.position = new Vector2(corner2.x, corner1.y);
-        vertex.uv0 = new Vector2(uvCorner2.x, uvCorner1.y);
-        vertexHelper.AddVert(vertex);
-
-        vertex.position = corner2;
-        vertex.uv0 = uvCorner2;
-        vertexHelper.AddVert(vertex);
-
-        vertex.position = new Vector2(corner1.x, corner2.y);
-        vertex.uv0 = new Vector2(uvCorner1.x, uvCorner2.y);
-        vertexHelper.AddVert(vertex);
-
-        vertexHelper.AddTriangle(firstIndex + 0, firstIndex + 2, firstIndex + 1);
-        vertexHelper.AddTriangle(firstIndex + 3, firstIndex + 2, firstIndex + 0);
-    }
+    public CameraFrustumUi cameraFrustumUi;
 
     public Vector2 unitSize = new(50, 50);
     private readonly Dictionary<Vector2Int, (TileType type, Color playerColor)> tiles = new();
@@ -98,14 +45,26 @@ public class MinimapUi : MaskableGraphic {
         ReplaceTiles(tiles);
     }
 
-    public void ReplaceTiles(IEnumerable<( Vector2Int position, TileType type, Color playerColor)> tiles) {
-        this.tiles.Clear();
-        foreach (var (position, type, playerColor) in tiles)
-            this.tiles.Add(position, (type, playerColor));
+    public void ReplaceTiles(IEnumerable<( Vector2Int position, TileType type, Color playerColor)> input) {
+        
+        tiles.Clear();
+        foreach (var (position, type, playerColor) in input)
+            tiles.Add(position, (type, playerColor));
+
+        min = tiles.Keys.Aggregate(new Vector2Int(int.MaxValue, int.MaxValue), Vector2Int.Min);
+        max = tiles.Keys.Aggregate(new Vector2Int(int.MinValue, int.MinValue), Vector2Int.Max);
+        if (cameraFrustumUi) {
+            cameraFrustumUi.worldCenter = (Vector2)(max + min) / 2;
+            cameraFrustumUi.unitSize = unitSize;
+        }
+
         SetVerticesDirty();
     }
 
+
     public TileTypeSpriteDictionary atlas = new();
+    public Vector2Int min, max;
+    public Vector2Int Count => max - min + Vector2Int.one;
 
     // actually update our mesh
     protected override void OnPopulateMesh(VertexHelper vertexHelper) {
@@ -113,10 +72,7 @@ public class MinimapUi : MaskableGraphic {
         if (tiles.Count == 0)
             return;
 
-        var min = tiles.Keys.Aggregate(new Vector2Int(int.MaxValue, int.MaxValue), Vector2Int.Min);
-        var max = tiles.Keys.Aggregate(new Vector2Int(int.MinValue, int.MinValue), Vector2Int.Max);
-        var count = max - min + Vector2Int.one;
-        var size = count * unitSize;
+        var size = Count * unitSize;
         var startOffset = -size / 2;
 
         for (var y = min.y; y <= max.y; y++)
@@ -134,7 +90,31 @@ public class MinimapUi : MaskableGraphic {
                 uvMin = sprite ? sprite.rect.min / textureSize : Vector2.zero;
                 uvMax = sprite ? sprite.rect.max / textureSize : Vector2.one;
             }
-            AddQuad(vertexHelper, offset, offset + unitSize, uvMin, uvMax, playerColor);
+            vertexHelper.AddRect(new Rect(offset, unitSize), new Rect(uvMin, uvMax - uvMin), new Rect(index, Vector2Int.one), playerColor);
         }
+    }
+}
+
+public static class VertexHelperExtensions {
+
+    public static void AddQuad(this VertexHelper vertexHelper, UIVertex a, UIVertex b, UIVertex c, UIVertex d) {
+        var firstIndex = vertexHelper.currentVertCount;
+        vertexHelper.AddVert(a);
+        vertexHelper.AddVert(b);
+        vertexHelper.AddVert(c);
+        vertexHelper.AddVert(d);
+        vertexHelper.AddTriangle(firstIndex + 0, firstIndex + 1, firstIndex + 2);
+        vertexHelper.AddTriangle(firstIndex + 2, firstIndex + 3, firstIndex + 0);
+    }
+
+    public const int min = 0, max = 1;
+    public static void AddRect(this VertexHelper vertexHelper, Rect position, Rect uv0, Rect uv1, Color color) {
+        UIVertex V(int x, int y) => new() {
+            position = new Vector2(x == min ? position.xMin : position.xMax, y == min ? position.yMin : position.yMax),
+            uv0 = new Vector2(x == min ? uv0.xMin : uv0.xMax, y == min ? uv0.yMin : uv0.yMax),
+            uv1 = new Vector2(x == min ? uv1.xMin : uv1.xMax, y == min ? uv1.yMin : uv1.yMax),
+            color = color
+        };
+        vertexHelper.AddQuad(V(min, min), V(min, max), V(max, max), V(max, min));
     }
 }

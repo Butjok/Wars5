@@ -6,7 +6,6 @@ using System.Windows.Forms.Design;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.UI;
 using static UnityEngine.Mathf;
 
 public static class MathUtils {
@@ -265,5 +264,16 @@ public static class MathUtils {
 
     public static Vector2Int ToVector2Int(this Vector3 vector3) {
         return vector3.ToVector2().RoundToInt();
+    }
+
+    public static int GetOrientation(Vector2 a, Vector2 b, Vector2 c) {
+        var ab = b - a;
+        var bc = c - b;
+        return ab.Cross(bc) switch {
+            0 => 0,
+            > 0 => 1,
+            < 0 => -1,
+            float.NaN => throw new Exception("NaN"),
+        };
     }
 }

@@ -1,4 +1,4 @@
-Shader "Unlit/MinimapNew	"
+Shader "Unlit/CameraFrustum"
 {
     Properties
     {
@@ -106,7 +106,7 @@ Shader "Unlit/MinimapNew	"
             fixed4 frag(v2f IN) : SV_Target
             {
                 half4 color = (tex2D(_MainTex, IN.texcoord) ) * IN.color;
-//                 color = float4(IN.texcoord1,0,1);
+                color = float4(IN.texcoord,0,0.5);
  
                 #ifdef UNITY_UI_CLIP_RECT
                 color.a *= UnityGet2DClipping(IN.worldPosition.xy, _ClipRect);

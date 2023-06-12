@@ -13,8 +13,8 @@ public class CameraFrustumProjection : MonoBehaviour {
 
 		var topLeftRay = camera.ViewportPointToRay(new Vector3(0, 1, 0));
 		var topRightRay = camera.ViewportPointToRay(new Vector3(1, 1, 0));
-		var bottomLeftRay = camera.ViewportPointToRay(new Vector3(0, 0, 0));
 		var bottomRightRay = camera.ViewportPointToRay(new Vector3(1, 0, 0));
+		var bottomLeftRay = camera.ViewportPointToRay(new Vector3(0, 0, 0));
 
 		var plane = new Plane(planeTransform.up, planeTransform.position);
 
