@@ -8,6 +8,7 @@ public class MinimapIcon : MonoBehaviour {
     public MinimapUi ui;
     public Transform target;
     public Image image;
+    public Rect worldBounds;
 
     private void Awake() {
         image = GetComponent<Image>();
@@ -18,7 +19,7 @@ public class MinimapIcon : MonoBehaviour {
             Destroy(gameObject);
         if (target.gameObject.activeSelf) {
             image.enabled = true;
-            image.rectTransform.anchoredPosition = target.position.ToVector2() * ui.unitSize;
+            image.rectTransform.anchoredPosition = (target.position.ToVector2() - worldBounds.center) * ui.unitSize;
             image.rectTransform.rotation = Quaternion.identity;
         }
         else

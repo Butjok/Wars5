@@ -180,6 +180,7 @@
      <Compile Include="Assets/Scripts/Faction.cs" />
      <Compile Include="Assets/Scripts/InputCommandsListener.cs" />
      <Compile Include="Assets/Scripts/EntryPoint/MainMenuSelectionState.cs" />
+     <Compile Include="Assets/Scripts/MinimapIcon.cs" />
      <Compile Include="Assets/Scripts/CameraRig.cs" />
      <Compile Include="Assets/Scripts/FitWidth.cs" />
      <Compile Include="Assets/Scripts/UnitActionViewTest.cs" />
@@ -207,7 +208,7 @@
      <Compile Include="Assets/Scripts/FlipbookTest.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
      <Compile Include="Assets/Scripts/EntryPoint/MainMenuWelcomeState.cs" />
-     <Compile Include="Assets/Scripts/MinimapIcon.cs" />
+     <Compile Include="Assets/Scripts/MinimapState.cs" />
      <Folder Include="Assets/Scripts/EntryPoint" />
      <None Include="Assets/Scripts/Wars.asmdef" />
      <Folder Include="Assets/Scripts/DialogueMarkupLanguage" />

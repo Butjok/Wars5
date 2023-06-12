@@ -6,20 +6,20 @@ public class CameraFrustumUi : MaskableGraphic {
 
     public Camera camera;
     public Plane groundPlane = new(Vector3.up, Vector3.zero);
-    public Vector2 worldCenter;
     public Material material2;
     public Rect worldBounds;
     public Vector2 unitSize;
-    
-    public Transform cameraRig;
-    public RectTransform rotationRoot;
+
+    public void ToggleEnabled() {
+        enabled= !enabled;
+    }
 
     // clockwise from bottom left
     public Vector2[] viewportPoints = { new(0, 0), new(0, 1), new(1, 1), new(1, 0) };
     public Vector2[] worldHitPoints = new Vector2[4];
     public bool isValidFrustum = true;
 
-    private void Update() {
+    private void LateUpdate() {
         isValidFrustum = false;
         if (!camera || !material2)
             return;
@@ -39,10 +39,7 @@ public class CameraFrustumUi : MaskableGraphic {
             material2.SetVector("_V2", worldHitPoints[2]);
             material2.SetVector("_V3", worldHitPoints[3]);
         }
-        
-        if (cameraRig)
-            rotationRoot.rotation = Quaternion.Euler(0, 0, cameraRig.eulerAngles.y);
-        
+
         SetVerticesDirty();
     }
 

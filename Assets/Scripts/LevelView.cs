@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -47,4 +48,5 @@ public class LevelView : MonoBehaviour {
     public CursorView cursorView;
     public Canvas canvas;
     public DialogueUi3 dialogueUi;
+    public MinimapUi minimap;
 }

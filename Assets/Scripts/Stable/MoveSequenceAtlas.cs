@@ -13,3 +13,5 @@ public class PathSegmentTypeRectDictionary : SerializableDictionary<MoveSequence
 
 [Serializable]
 public class TileTypeSpriteDictionary : SerializableDictionary<TileType, Sprite>{}
+[Serializable]
+public class UnitTypeSpriteDictionary : SerializableDictionary<UnitType, Sprite>{}

@@ -7,7 +7,10 @@ using UnityEngine.Assertions;
 
 public class SelectionState : StateMachineState {
 
-    public enum Command { EndTurn, OpenGameMenu, ExitToLevelEditor, CyclePositions, Select, TriggerVictory, TriggerDefeat, UseAbility }
+    public enum Command {
+        EndTurn, OpenGameMenu, ExitToLevelEditor, CyclePositions, Select, TriggerVictory, TriggerDefeat, UseAbility,
+        OpenMinimap
+    }
 
     public Unit unit;
     public Building building;
@@ -114,6 +117,9 @@ public class SelectionState : StateMachineState {
 
                     else if (Input.GetKeyDown(KeyCode.F6) && Rules.CanUseAbility(level.CurrentPlayer))
                         game.EnqueueCommand(Command.UseAbility);
+                    
+                    else if (Input.GetKeyDown(KeyCode.M))
+                        game.EnqueueCommand(Command.OpenMinimap);
                 }
 
                 while (game.TryDequeueCommand(out var command))
@@ -225,6 +231,10 @@ public class SelectionState : StateMachineState {
                             if (preselectionCursor)
                                 preselectionCursor.Hide();
                             yield return StateChange.ReplaceWith(new DefeatState(stateMachine));
+                            break;
+                        
+                        case (Command.OpenMinimap, _):
+                            yield return StateChange.Push(new MinimapState(stateMachine));
                             break;
 
                         case (CursorInteractor.Command, _):

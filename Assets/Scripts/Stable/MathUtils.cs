@@ -276,4 +276,8 @@ public static class MathUtils {
             float.NaN => throw new Exception("NaN"),
         };
     }
+
+    public static Rect ToPreciseBounds(this RectInt bounds) {
+        return new Rect { min = bounds.min - Vector2.one / 2, max = bounds.max + Vector2.one / 2 };
+    }
 }
