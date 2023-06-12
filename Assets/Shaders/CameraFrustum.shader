@@ -102,11 +102,31 @@ Shader "Unlit/CameraFrustum"
  
             sampler2D _MainTex;
             float _StartTime;
+            
+            float2 _V0,_V1,_V2,_V3;
+            
+            float sdSegment( float2 p, float2 a, float2 b )
+            {
+                float2 pa = p-a, ba = b-a;
+                float h = clamp( dot(pa,ba)/dot(ba,ba), 0.0, 1.0 );
+                return length( pa - ba*h );
+            }
  
             fixed4 frag(v2f IN) : SV_Target
             {
                 half4 color = (tex2D(_MainTex, IN.texcoord) ) * IN.color;
                 color = float4(IN.texcoord,0,0.5);
+                
+                float2 worldPosition = IN.texcoord;
+                float distance = min(sdSegment(worldPosition, _V0, _V1), sdSegment(worldPosition, _V1, _V2));
+                distance = min(distance, sdSegment(worldPosition, _V2, _V3));
+                distance = min(distance, sdSegment(worldPosition, _V3, _V0));
+                float thickness = .05;
+                float falloff = .025;
+                float lineIntensity = 1 - smoothstep(thickness - falloff, thickness + falloff, distance) ;
+                color = float4(1,1,1,1);
+                color.a = lineIntensity;
+//color= distance;
  
                 #ifdef UNITY_UI_CLIP_RECT
                 color.a *= UnityGet2DClipping(IN.worldPosition.xy, _ClipRect);

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Color = UnityEngine.Color;
@@ -18,6 +19,9 @@ public class MinimapUi : MaskableGraphic {
 
     public Vector2 unitSize = new(50, 50);
     private readonly Dictionary<Vector2Int, (TileType type, Color playerColor)> tiles = new();
+
+    public RectTransform scalingRoot;
+    public Vector2 scalingBounds = new(.5f,2);
 
     public TextAsset saveFile;
     protected override void Start() {
@@ -45,17 +49,26 @@ public class MinimapUi : MaskableGraphic {
         ReplaceTiles(tiles);
     }
 
+    private void Update() {
+        var value = Input.GetAxisRaw("Mouse ScrollWheel");
+        if (value != 0) {
+            var scale = Mathf.Clamp(scalingRoot.localScale.x * (1 + value), scalingBounds[0], scalingBounds[1]);
+            scalingRoot.localScale = new Vector3(scale,scale,1);
+        }
+    }
+
     public void ReplaceTiles(IEnumerable<( Vector2Int position, TileType type, Color playerColor)> input) {
-        
+
         tiles.Clear();
         foreach (var (position, type, playerColor) in input)
             tiles.Add(position, (type, playerColor));
 
-        min = tiles.Keys.Aggregate(new Vector2Int(int.MaxValue, int.MaxValue), Vector2Int.Min);
-        max = tiles.Keys.Aggregate(new Vector2Int(int.MinValue, int.MinValue), Vector2Int.Max);
+        bounds.min = tiles.Keys.Aggregate(new Vector2Int(int.MaxValue, int.MaxValue), Vector2Int.Min);
+        bounds.max = tiles.Keys.Aggregate(new Vector2Int(int.MinValue, int.MinValue), Vector2Int.Max);
         if (cameraFrustumUi) {
-            cameraFrustumUi.worldCenter = (Vector2)(max + min) / 2;
             cameraFrustumUi.unitSize = unitSize;
+            cameraFrustumUi.worldBounds.min = bounds.min - Vector2.one / 2;
+            cameraFrustumUi.worldBounds.max = bounds.max + Vector2.one / 2;
         }
 
         SetVerticesDirty();
@@ -63,8 +76,8 @@ public class MinimapUi : MaskableGraphic {
 
 
     public TileTypeSpriteDictionary atlas = new();
-    public Vector2Int min, max;
-    public Vector2Int Count => max - min + Vector2Int.one;
+    public RectInt bounds;
+    public Vector2Int Count => bounds.max - bounds.min + Vector2Int.one;
 
     // actually update our mesh
     protected override void OnPopulateMesh(VertexHelper vertexHelper) {
@@ -75,10 +88,10 @@ public class MinimapUi : MaskableGraphic {
         var size = Count * unitSize;
         var startOffset = -size / 2;
 
-        for (var y = min.y; y <= max.y; y++)
-        for (var x = min.x; x <= max.x; x++) {
+        for (var y = bounds.min.y; y <= bounds.max.y; y++)
+        for (var x = bounds.min.x; x <= bounds.max.x; x++) {
             var position = new Vector2Int(x, y);
-            var index = position - min;
+            var index = position - bounds.min;
             if (!tiles.TryGetValue(position, out var tuple))
                 continue;
             var (tileType, playerColor) = tuple;
@@ -93,6 +106,7 @@ public class MinimapUi : MaskableGraphic {
             vertexHelper.AddRect(new Rect(offset, unitSize), new Rect(uvMin, uvMax - uvMin), new Rect(index, Vector2Int.one), playerColor);
         }
     }
+    
 }
 
 public static class VertexHelperExtensions {

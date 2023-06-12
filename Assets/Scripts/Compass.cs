@@ -5,7 +5,7 @@ public class Compass : MonoBehaviour {
     public Image arrow;
     public float angle;
     public CameraRig cameraRig;
-    private void Update() {
+    private void LateUpdate() {
         if (cameraRig && arrow) {
             arrow.rectTransform.rotation = Quaternion.Euler(0, 0, cameraRig.transform.rotation.eulerAngles.y);
             //cameraRig.transform.rotation.eulerAngles;
