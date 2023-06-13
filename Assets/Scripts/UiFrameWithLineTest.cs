@@ -34,10 +34,10 @@ public class UiFrameWithLineTest : MonoBehaviour, IDragHandler {
 
         frameRectTransform.anchoredPosition = a.min;
         frameRectTransform.sizeDelta = a.size;
-        
-        if (!MathUtils.TryGetShortestLine(a, b, out var aa, out var bb)) 
+
+        if (!MathUtils.TryGetShortestLine(a, b, out var aa, out var bb))
             lineRenderer.enabled = false;
-        
+
         else {
             lineRenderer[0] = aa;
             lineRenderer[1] = bb;
