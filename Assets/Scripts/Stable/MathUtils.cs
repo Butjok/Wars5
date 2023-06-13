@@ -280,4 +280,64 @@ public static class MathUtils {
     public static Rect ToPreciseBounds(this RectInt bounds) {
         return new Rect { min = bounds.min - Vector2.one / 2, max = bounds.max + Vector2.one / 2 };
     }
+
+    public static Rect GetScreenSpaceAABB(this Camera camera, IEnumerable<Vector3> points) {
+        var min = new Vector2(float.MaxValue, float.MaxValue);
+        var max = new Vector2(float.MinValue, float.MinValue);
+        foreach (var point in points) {
+            Vector2 screenSpacePoint = camera.WorldToScreenPoint(point);
+            min = Vector2.Min(min, screenSpacePoint);
+            max = Vector2.Max(max, screenSpacePoint);
+        }
+        return new Rect(min, max - min);
+    }
+
+    public static bool TryGetShortestLine(Rect a, Rect b, out Vector2 aa, out Vector2 bb) {
+
+        const int min = 0, max = 1;
+        bool TryIntersectRanges(float aMin, float aMax, float bMin, float bMax, out Vector2 ab) {
+            var a = new Vector2(aMin, aMax);
+            var b = new Vector2(bMin, bMax);
+            if (b[max] < a[min]) {
+                ab = new Vector2(a[min], b[max]);
+                return false;
+            }
+            if (b[min] > a[max]) {
+                ab = new Vector2(a[max], b[min]);
+                return false;
+            }
+            if (b[min] <= a[min] && b[max] >= a[max]) {
+                var center = (a[min] + a[max]) / 2;
+                ab = new Vector2(center, center);
+                return true;
+            }
+            if (b[min] >= a[min] && b[max] <= a[max]) {
+                var center = (b[min] + b[max]) / 2;
+                ab = new Vector2(center, center);
+                return true;
+            }
+            if (b[max] >= a[min] && b[max] <= a[max]) {
+                var center = (a[min] + b[max]) / 2;
+                ab = new Vector2(center, center);
+                return true;
+            }
+            if (b[min] >= a[min] && b[min] <= a[max]) {
+                var center = (b[min] + a[max]) / 2;
+                ab = new Vector2(center, center);
+                return true;
+            }
+            throw new Exception();
+        }
+
+        var xTest = TryIntersectRanges(a.xMin, a.xMax, b.xMin, b.xMax, out var abx);
+        var yTest = TryIntersectRanges(a.yMin, a.yMax, b.yMin, b.yMax, out var aby);
+        if (xTest && yTest) {
+            aa = bb = default;
+            return false;
+        }
+
+        aa = new Vector2(abx[0], aby[0]);
+        bb = new Vector2(abx[1], aby[1]);
+        return true;
+    }
 }

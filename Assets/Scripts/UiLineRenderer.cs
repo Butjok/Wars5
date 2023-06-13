@@ -20,6 +20,19 @@ public class UiLineRenderer : MaskableGraphic {
         points.RemoveAt(index);
         SetVerticesDirty();
     }
+    public Vector2 this[int index] {
+        get {
+            Assert.IsTrue(index >= 0 && index < points.Count);
+            return points[index];
+        }
+        set {
+            Assert.IsTrue(index >= 0 && index < points.Count);
+            if (value != points[index]) {
+                points[index] = value;
+                SetVerticesDirty();
+            }
+        }
+    }
     public int PointsCount => points.Count;
 
     public float thickness = 5;

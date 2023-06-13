@@ -44,6 +44,7 @@
      <Compile Include="Assets/Scripts/CampaignOverviewView.cs" />
      <Compile Include="Assets/Scripts/Game.cs" />
      <Compile Include="Assets/Scripts/FogOfWar.cs" />
+     <Compile Include="Assets/Scripts/UiLineRendererTest.cs" />
      <Compile Include="Assets/Scripts/PreselectionCursor.cs" />
      <Compile Include="Assets/Scripts/HoleMaterialUpdater.cs" />
      <Compile Include="Assets/Scripts/MissionView.cs" />
@@ -97,6 +98,7 @@
      <Compile Include="Assets/Scripts/GameStates/SelectionState.cs" />
      <Compile Include="Assets/Scripts/Co.cs" />
      <Compile Include="Assets/Scripts/UnitActionsPanel.cs" />
+     <Compile Include="Assets/Scripts/UiFrameWithLineTest.cs" />
      <Compile Include="Assets/Scripts/GameStates/LevelSessionState.cs" />
      <Compile Include="Assets/Scripts/HardFollowToggler.cs" />
      <Compile Include="Assets/Scripts/Animation/Wind.cs" />
@@ -212,7 +214,6 @@
      <Compile Include="Assets/Scripts/FlipbookTest.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
      <Compile Include="Assets/Scripts/EntryPoint/MainMenuWelcomeState.cs" />
-     <Compile Include="Assets/Scripts/UiLineRendererTest.cs" />
      <Folder Include="Assets/Scripts/EntryPoint" />
      <None Include="Assets/Scripts/Wars.asmdef" />
      <Folder Include="Assets/Scripts/DialogueMarkupLanguage" />
