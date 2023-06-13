@@ -173,6 +173,7 @@
      <Compile Include="Assets/Scripts/Sun.cs" />
      <Compile Include="Assets/Scripts/Views/CameraFrustumUi.cs" />
      <Compile Include="Assets/Scripts/GameLauncher.cs" />
+     <Compile Include="Assets/Scripts/UiLineRenderer.cs" />
      <Compile Include="Assets/Scripts/Body2.cs" />
      <Compile Include="Assets/Scripts/ImageStack.cs" />
      <Compile Include="Assets/Scripts/OffscreenArrow.cs" />
@@ -211,6 +212,7 @@
      <Compile Include="Assets/Scripts/FlipbookTest.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
      <Compile Include="Assets/Scripts/EntryPoint/MainMenuWelcomeState.cs" />
+     <Compile Include="Assets/Scripts/UiLineRendererTest.cs" />
      <Folder Include="Assets/Scripts/EntryPoint" />
      <None Include="Assets/Scripts/Wars.asmdef" />
      <Folder Include="Assets/Scripts/DialogueMarkupLanguage" />

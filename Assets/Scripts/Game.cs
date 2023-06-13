@@ -42,6 +42,7 @@ public class Game : MonoBehaviour {
 
     private Queue<(object name, object argument)> commands = new();
     public void EnqueueCommand(object name, object argument = null) {
+        Assert.IsTrue(commands.Count < 100);
         commands.Enqueue((name, argument));
     }
     public bool TryDequeueCommand(out (object name, object argument) command) {
