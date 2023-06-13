@@ -58,7 +58,7 @@
      <Compile Include="Assets/Scripts/AiPlayerCommanderSwitcher.cs" />
      <Compile Include="Assets/Scripts/LoadingSpinner.cs" />
      <Compile Include="Assets/Scripts/BattleAnimationPlayer.cs" />
-     <Compile Include="Assets/Scripts/MinimapUi.cs" />
+     <Compile Include="Assets/Scripts/Views/MinimapUi.cs" />
      <Compile Include="Assets/Scripts/WhiteBoxSwitcher.cs" />
      <Compile Include="Assets/Scripts/SavedGameListView.cs" />
      <Compile Include="Assets/Scripts/EntryPoint/SplashState.cs" />
@@ -170,7 +170,7 @@
      <Compile Include="Assets/Scripts/TurnButton.cs" />
      <Compile Include="Assets/Scripts/MainMenuUnitLoop.cs" />
      <Compile Include="Assets/Scripts/Sun.cs" />
-     <Compile Include="Assets/Scripts/CameraFrustumUi.cs" />
+     <Compile Include="Assets/Scripts/Views/CameraFrustumUi.cs" />
      <Compile Include="Assets/Scripts/GameLauncher.cs" />
      <Compile Include="Assets/Scripts/Body2.cs" />
      <Compile Include="Assets/Scripts/ImageStack.cs" />
@@ -209,6 +209,8 @@
      <Compile Include="Assets/Scripts/FlipbookTest.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
      <Compile Include="Assets/Scripts/EntryPoint/MainMenuWelcomeState.cs" />
+     <Compile Include="Assets/Scripts/Views/UnitBuildMenuButton.cs" />
+     <Compile Include="Assets/Scripts/Views/UnitBuildMenu2.cs" />
      <Folder Include="Assets/Scripts/EntryPoint" />
      <None Include="Assets/Scripts/Wars.asmdef" />
      <Folder Include="Assets/Scripts/DialogueMarkupLanguage" />
@@ -218,6 +220,7 @@
      <Folder Include="Assets/Scripts/Dialogues" />
      <Folder Include="Assets/Scripts/Marketing" />
      <Folder Include="Assets/Scripts" />
+     <Folder Include="Assets/Scripts/Views" />
      <Folder Include="Assets/Scripts/LevelLogic" />
      <Folder Include="Assets/Scripts/Animation" />
      <Reference Include="UnityEngine">
