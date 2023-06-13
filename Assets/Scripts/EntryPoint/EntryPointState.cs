@@ -16,7 +16,7 @@ public class EntryPointState : StateMachineState {
         this.showWelcome = showWelcome;
     }
 
-    public override IEnumerator<StateChange> Entry {
+    public override IEnumerator<StateChange> Enter {
         get {
             if (SceneManager.GetActiveScene().name != sceneName) {
                 SceneManager.LoadScene(sceneName);

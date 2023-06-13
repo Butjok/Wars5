@@ -85,6 +85,7 @@
      <Folder Include="Assets/SceneTemplates/MainMenu/SimpleBake_Bakes" />
      <None Include="Assets/Saves/0/0-22.01.2023-18.22.53.txt" />
      <None Include="Assets/Saves/autosave/autosave-11.06.2023-15.46.59.txt" />
+     <None Include="Assets/Saves/autosave/autosave-13.06.2023-03.15.52.txt" />
      <Folder Include="Assets/Scenery Materials" />
      <None Include="Assets/Saves/autosave/autosave-12.06.2023-21.36.57.txt" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_Bitmap.shader" />
@@ -217,6 +218,7 @@
      <None Include="Assets/Saves/1/1-22.01.2023-19.48.14.txt" />
      <Folder Include="Assets/Saves/tutorial" />
      <None Include="Assets/Saves/1/1-22.01.2023-19.41.48.txt" />
+     <None Include="Assets/Saves/autosave/autosave-13.06.2023-09.18.06.txt" />
      <None Include="Assets/Funny.txt" />
      <None Include="Assets/Saves/0/0-25.01.2023-02.07.18.txt" />
      <None Include="Assets/Shaders/water.shader" />
@@ -251,11 +253,13 @@
      <None Include="Assets/Shaders/GrayscaleImage.shader" />
      <None Include="Assets/Saves/tutorial.1/20.01.2023-08.02.14.txt" />
      <Folder Include="Assets/Content/decals" />
+     <None Include="Assets/Saves/autosave/autosave-13.06.2023-09.22.23.txt" />
      <None Include="Assets/Saves/autosave/autosave-08.06.2023-14.57.27.txt" />
      <Folder Include="Assets/Resources/Dialogue" />
      <None Include="Assets/Saves/autosave/autosave-08.06.2023-16.47.39.txt" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro_Properties.cginc" />
      <Folder Include="Assets/Content/mrap" />
+     <None Include="Assets/Saves/autosave/autosave-13.06.2023-07.04.55.txt" />
      <None Include="Assets/Saves/autosave/autosave-12.06.2023-23.30.40.txt" />
      <Folder Include="Assets/Scripts2" />
      <None Include="Assets/Shaders/TriggerUnlit.shader" />
@@ -303,6 +307,7 @@
      <None Include="Assets/Saves/autosave/autosave-12.06.2023-23.38.58.txt" />
      <Folder Include="Assets/Minimap" />
      <Folder Include="Assets/Shaders/Resources" />
+     <None Include="Assets/Saves/autosave/autosave-13.06.2023-09.24.30.txt" />
      <None Include="Assets/Saves/autosave/autosave-11.06.2023-15.44.11.txt" />
      <None Include="Assets/Saves/autosave/autosave-09.06.2023-13.16.42.txt" />
      <Folder Include="Assets/glTF-test" />
@@ -343,6 +348,7 @@
      <None Include="Assets/Saves/tutorial.0/20.01.2023-08.16.17.txt" />
      <Folder Include="Assets/BattleView" />
      <None Include="Assets/Saves/autosave/autosave-08.06.2023-15.05.19.txt" />
+     <None Include="Assets/Saves/autosave/autosave-13.06.2023-02.51.44.txt" />
      <None Include="Assets/Saves/first-stage/19.01.2023-19.30.01.txt" />
      <None Include="Assets/Saves/0/0-28.01.2023-20.17.01.txt" />
      <None Include="Assets/Shaders/SDF.cginc" />
@@ -1292,9 +1298,6 @@
      <Reference Include="Unity.VSCode.Editor">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.RenderPipelines.Universal.Shaders">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.RenderPipelines.Universal.Shaders.dll</HintPath>
-     </Reference>
      <Reference Include="Unity.TextMeshPro.Editor">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
      </Reference>
@@ -1307,9 +1310,6 @@
      <Reference Include="Unity.Formats.Fbx.Editor">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.Formats.Fbx.Editor.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.Searcher.Editor">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.Searcher.Editor.dll</HintPath>
-     </Reference>
      <Reference Include="Unity.TestTools.CodeCoverage.Editor.OpenCover.Mono.Reflection">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.TestTools.CodeCoverage.Editor.OpenCover.Mono.Reflection.dll</HintPath>
      </Reference>
@@ -1319,23 +1319,17 @@
      <Reference Include="Unity.Rider.Editor">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.RenderPipelines.Core.ShaderLibrary">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.RenderPipelines.Core.ShaderLibrary.dll</HintPath>
-     </Reference>
      <Reference Include="Autodesk.Fbx">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Autodesk.Fbx.dll</HintPath>
-     </Reference>
-     <Reference Include="UnityEngine.SpatialTracking">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/UnityEngine.SpatialTracking.dll</HintPath>
      </Reference>
      <Reference Include="UnityEngine.UI">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
      </Reference>
+     <Reference Include="UnityEngine.SpatialTracking">
+     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/UnityEngine.SpatialTracking.dll</HintPath>
+     </Reference>
      <Reference Include="Unity.EditorCoroutines.Editor">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.EditorCoroutines.Editor.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.ShaderGraph.Editor">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.ShaderGraph.Editor.dll</HintPath>
      </Reference>
      <Reference Include="Cinemachine">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Cinemachine.dll</HintPath>
@@ -1352,9 +1346,6 @@
      <Reference Include="Unity.Formats.Alembic.Runtime">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.Formats.Alembic.Runtime.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.RenderPipeline.Universal.ShaderLibrary">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.RenderPipeline.Universal.ShaderLibrary.dll</HintPath>
-     </Reference>
      <Reference Include="Unity.Mathematics.Editor">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.Mathematics.Editor.dll</HintPath>
      </Reference>
@@ -1363,12 +1354,6 @@
      </Reference>
      <Reference Include="Unity.2D.Tilemap.Editor">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.2D.Tilemap.Editor.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.RenderPipelines.Universal.Runtime">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
-     </Reference>
-     <Reference Include="PPv2URPConverters">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/PPv2URPConverters.dll</HintPath>
      </Reference>
      <Reference Include="Unity.VisualStudio.Editor">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.VisualStudio.Editor.dll</HintPath>
@@ -1388,9 +1373,6 @@
      <Reference Include="Unity.2D.Sprite.Editor">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.RenderPipelines.Core.Runtime">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.RenderPipelines.Core.Runtime.dll</HintPath>
-     </Reference>
      <Reference Include="Unity.Postprocessing.Editor">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.Postprocessing.Editor.dll</HintPath>
      </Reference>
@@ -1402,9 +1384,6 @@
      </Reference>
      <Reference Include="Unity.Postprocessing.Runtime">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.Postprocessing.Runtime.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.RenderPipelines.Universal.Editor">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.RenderPipelines.Universal.Editor.dll</HintPath>
      </Reference>
      <Reference Include="UnityEngine.XR.LegacyInputHelpers">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/UnityEngine.XR.LegacyInputHelpers.dll</HintPath>
@@ -1418,9 +1397,6 @@
      <Reference Include="UnityEditor.XR.LegacyInputHelpers">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/UnityEditor.XR.LegacyInputHelpers.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll</HintPath>
-     </Reference>
      <Reference Include="UnityEditor.SpatialTracking">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/UnityEditor.SpatialTracking.dll</HintPath>
      </Reference>
@@ -1429,9 +1405,6 @@
      </Reference>
      <Reference Include="Unity.Formats.Alembic.Editor">
      <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.Formats.Alembic.Editor.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.RenderPipelines.Core.Editor">
-     <HintPath>/Users/butjok/Documents/GitHub/Wars5/Library/ScriptAssemblies/Unity.RenderPipelines.Core.Editor.dll</HintPath>
      </Reference>
   </ItemGroup>
   <ItemGroup>

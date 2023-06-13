@@ -4,10 +4,10 @@ using UnityEngine.Video;
 using static Gettext;
 
 public class TestDialogueState : DialogueState {
-    
+
     public TestDialogueState(StateMachine stateMachine) : base(stateMachine) { }
-    
-    public override IEnumerator<StateChange> Entry {
+
+    public override IEnumerator<StateChange> Enter {
         get {
             Show();
 

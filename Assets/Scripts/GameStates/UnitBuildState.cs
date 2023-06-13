@@ -11,7 +11,7 @@ public class UnitBuildState : StateMachineState {
 
     public UnitBuildState(StateMachine stateMachine) : base(stateMachine) { }
 
-    public override IEnumerator<StateChange> Entry {
+    public override IEnumerator<StateChange> Enter {
         get {
             var (game, level, building, menu) = (FindState<GameSessionState>().game, FindState<LevelSessionState>().level, FindState<SelectionState>().building, FindObject<UnitBuildMenu>());
 

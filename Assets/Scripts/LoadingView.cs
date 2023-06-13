@@ -92,10 +92,12 @@ public class LoadingState : StateMachineState {
 
     public MissionName missionName;
     public string saveData;
+    public bool isFreshStart;
 
-    public LoadingState(StateMachine stateMachine, MissionName missionName, string saveData) : base(stateMachine) {
+    public LoadingState(StateMachine stateMachine, MissionName missionName, string saveData, bool isFreshStart) : base(stateMachine) {
         this.missionName = missionName;
         this.saveData = saveData;
+        this.isFreshStart = isFreshStart;
     }
 
     public static string GetSceneName(MissionName missionName) {
@@ -105,7 +107,7 @@ public class LoadingState : StateMachineState {
         };
     }
 
-    public override IEnumerator<StateChange> Entry {
+    public override IEnumerator<StateChange> Enter {
         get {
 
             allowSceneActivation = false;
@@ -150,7 +152,7 @@ public class LoadingState : StateMachineState {
             // if (level is LevelEditor levelEditor)
             //     levelEditor.RebuildTilemapMesh();
             
-            yield return StateChange.ReplaceWith(new LevelSessionState(stateMachine, saveData));
+            yield return StateChange.ReplaceWith(new LevelSessionState(stateMachine, saveData, missionName, isFreshStart));
         }
     }
 

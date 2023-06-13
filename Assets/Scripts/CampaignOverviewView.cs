@@ -65,7 +65,7 @@ public class CampaignOverviewState2 : StateMachineState {
 
     public CampaignOverviewState2(StateMachine stateMachine) : base(stateMachine) { }
 
-    public override IEnumerator<StateChange> Entry {
+    public override IEnumerator<StateChange> Enter {
         get {
 
             if (SceneManager.GetActiveScene().name != sceneName) {
@@ -100,7 +100,7 @@ public class CampaignOverviewSelectionState : StateMachineState {
         this.view = view;
     }
 
-    public override IEnumerator<StateChange> Entry {
+    public override IEnumerator<StateChange> Enter {
         get {
 
             view.backButton.onClick.RemoveAllListeners();
@@ -211,7 +211,7 @@ public class CampaignOverviewMissionCloseUpState : StateMachineState {
         CampaignOverviewMissionCloseUpState.missionName = missionName;
     }
 
-    public override IEnumerator<StateChange> Entry {
+    public override IEnumerator<StateChange> Enter {
         get {
 
             var campaign = PersistentData.Loaded.campaign;
@@ -259,7 +259,7 @@ public class CampaignOverviewMissionCloseUpState : StateMachineState {
                 if (shouldStart) {
                     shouldStart = false;
                     if (isAvailable) {
-                        yield return StateChange.PopThenPush(3, new LoadingState(stateMachine ,missionName, Campaign.Mission.GetInputCode(missionName)));
+                        yield return StateChange.PopThenPush(3, new LoadingState(stateMachine ,missionName, Campaign.Mission.GetInputCode(missionName), true));
                         continue;
                     }
                     UiSound.Instance.notAllowed.PlayOneShot();

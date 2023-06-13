@@ -11,7 +11,7 @@ public class GameSessionState : StateMachineState {
         this.game = game;
     }
 
-    public override IEnumerator<StateChange> Entry {
+    public override IEnumerator<StateChange> Enter {
         get {
 
             Player.undisposed.Clear();
@@ -26,8 +26,8 @@ public class GameSessionState : StateMachineState {
                         case (Command.LaunchEntryPoint, (bool showSplashScreen, bool showWelcome)):
                             yield return StateChange.Push(new EntryPointState(stateMachine, showSplashScreen, showWelcome));
                             break;
-                        case (Command.PlayLevel, string input):
-                            yield return StateChange.Push(new LevelSessionState(stateMachine, input));
+                        case (Command.PlayLevel, (string input, MissionName missionName, bool isFreshStart)):
+                            yield return StateChange.Push(new LevelSessionState(stateMachine, input, missionName,isFreshStart));
                             break;
                         case (Command.OpenLevelEditor, string input):
                             yield return StateChange.Push(new LevelEditorSessionState(stateMachine, input));

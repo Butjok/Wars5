@@ -65,8 +65,8 @@
      <Compile Include="Assets/Antlr4/Atn/PredictionMode.cs" />
      <Compile Include="Assets/Antlr4/Atn/LexerIndexedCustomAction.cs" />
      <Compile Include="Assets/Antlr4/DiagnosticErrorListener.cs" />
-     <Compile Include="Assets/Antlr4/Properties/AssemblyInfo.cs" />
      <Compile Include="Assets/Antlr4/Sharpen/BitSet.cs" />
+     <Compile Include="Assets/Antlr4/Properties/AssemblyInfo.cs" />
      <Compile Include="Assets/Antlr4/Dependents.cs" />
      <Compile Include="Assets/Antlr4/Tree/Pattern/RuleTagToken.cs" />
      <Compile Include="Assets/Antlr4/IAntlrErrorListener.cs" />
@@ -80,8 +80,8 @@
      <Compile Include="Assets/Antlr4/Tree/ParseTreeProperty.cs" />
      <Compile Include="Assets/Antlr4/Misc/NullableAttribute.cs" />
      <Compile Include="Assets/Antlr4/IParserErrorListener.cs" />
-     <Compile Include="Assets/Antlr4/CommonTokenStream.cs" />
      <Compile Include="Assets/Antlr4/Tree/Pattern/ParseTreePatternMatcher.cs" />
+     <Compile Include="Assets/Antlr4/CommonTokenStream.cs" />
      <Compile Include="Assets/Antlr4/Atn/SemanticContext.cs" />
      <Compile Include="Assets/Antlr4/Tree/Pattern/Chunk.cs" />
      <Compile Include="Assets/Antlr4/Misc/Pair.cs" />

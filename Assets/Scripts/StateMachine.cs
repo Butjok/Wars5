@@ -20,7 +20,7 @@ public class StateMachine {
         }
     }
     public void Push(StateMachineState state) {
-        states.Push((state, state.Entry));
+        states.Push((state, state.Enter));
         var name = state.GetType().Name;
         stateNames.Push(name.EndsWith("State") ? name[..^5] : name);
     }
@@ -78,7 +78,7 @@ public class StateMachine {
 
 public abstract class StateMachineState {
 
-    protected readonly StateMachine stateMachine;
+    public readonly StateMachine stateMachine;
     protected StateMachineState(StateMachine stateMachine) {
         this.stateMachine = stateMachine;
     }
@@ -96,9 +96,9 @@ public abstract class StateMachineState {
 
     public virtual void Exit() { }
 
-    public abstract IEnumerator<StateChange> Entry { get; }
+    public abstract IEnumerator<StateChange> Enter { get; }
 
-    protected void MoveCursor((object name, object argument) command) {
+    protected StateChange MoveCursor((object name, object argument) command) {
 
         var levelView = (stateMachine.TryFind<LevelSessionState>()?.level ?? stateMachine.TryFind<LevelEditorSessionState>().level).view;
         var cursorView = levelView.cursorView;
@@ -118,10 +118,12 @@ public abstract class StateMachineState {
                     cursorView.Position = mousePosition;
                 break;
         }
+        
+        return StateChange.none;
     }
 
-    protected static void HandleUnexpectedCommand(object command) {
-        // Debug.LogWarning($"Unprocessed command: {command}");
+    protected static StateChange HandleUnexpectedCommand(object command) {
+        return StateChange.none;
     }
 }
 

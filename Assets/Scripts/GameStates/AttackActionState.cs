@@ -15,7 +15,7 @@ public class AttackActionState : StateMachineState {
 
     public AttackActionState(StateMachine stateMachine) : base(stateMachine) { }
 
-    public override IEnumerator<StateChange> Entry {
+    public override IEnumerator<StateChange> Enter {
         get {
             var (level, action) = (FindState<LevelSessionState>().level, FindState<ActionSelectionState>().selectedAction);
 

@@ -7,7 +7,7 @@ public class MainMenuState : StateMachineState {
 
     public MainMenuState(StateMachine stateMachine) : base(stateMachine) { }
 
-    public override IEnumerator<StateChange> Entry {
+    public override IEnumerator<StateChange> Enter {
         get {
             var entryPointState = stateMachine.TryFind<EntryPointState>();
             var view = entryPointState.view;

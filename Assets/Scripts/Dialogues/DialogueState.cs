@@ -25,7 +25,7 @@ public abstract class DialogueState : StateMachineState {
             var (_, coroutine) = portraitStack.AddPerson(personName, mood);
             completed = () => portraitStack.IsCompleted(coroutine);
         }
-        public override IEnumerator<StateChange> Entry {
+        public override IEnumerator<StateChange> Enter {
             get {
                 while (!completed())
                     yield return StateChange.none;
@@ -40,7 +40,7 @@ public abstract class DialogueState : StateMachineState {
             var coroutine = portraitStack.RemovePerson(personName);
             completed = () => portraitStack.IsCompleted(coroutine);
         }
-        public override IEnumerator<StateChange> Entry {
+        public override IEnumerator<StateChange> Enter {
             get {
                 while (!completed())
                     yield return StateChange.none;
@@ -56,7 +56,7 @@ public abstract class DialogueState : StateMachineState {
                 coroutines.Add((portraitStack, portraitStack.Clear()));
             completed = () => coroutines.All(pair => pair.portraitStack.IsCompleted(pair.coroutine));
         }
-        public override IEnumerator<StateChange> Entry {
+        public override IEnumerator<StateChange> Enter {
             get {
                 while (!completed())
                     yield return StateChange.none;
@@ -74,11 +74,11 @@ public abstract class DialogueState : StateMachineState {
             this.append = append;
             this.waitInput = waitInput;
         }
-        public override IEnumerator<StateChange> Entry {
+        public override IEnumerator<StateChange> Enter {
             get {
                 var ui = dialogueState.ui;
                 var sequence = dialogueState.skippableSequences.Count > 0 ? dialogueState.skippableSequences.Peek() : null;
-                
+
                 if (!append)
                     ui.Text = "";
 
@@ -88,7 +88,7 @@ public abstract class DialogueState : StateMachineState {
 
                 foreach (var c in text) {
                     ui.Text += c;
-                    if (Input.anyKeyDown) {
+                    if (Input.GetKeyDown(KeyCode.Space)) {
                         sequence ??= new SkippableSequence();
                         sequence.shouldSkip = true;
                         yield return StateChange.none;
@@ -101,7 +101,7 @@ public abstract class DialogueState : StateMachineState {
                 if (waitInput) {
 
                     ui.ShowSpaceKey = true;
-                    while (!Input.anyKeyDown)
+                    while (!Input.GetKeyDown(KeyCode.Space))
                         yield return StateChange.none;
                     yield return StateChange.none;
                     ui.ShowSpaceKey = false;
@@ -122,11 +122,11 @@ public abstract class DialogueState : StateMachineState {
             this.dialogueState = dialogueState;
             this.condition = condition;
         }
-        public override IEnumerator<StateChange> Entry {
+        public override IEnumerator<StateChange> Enter {
             get {
                 var skipGroup = dialogueState.skippableSequences.Count > 0 ? dialogueState.skippableSequences.Peek() : null;
                 while (skipGroup is not { shouldSkip: true } && condition()) {
-                    if (Input.anyKeyDown) {
+                    if (Input.GetKeyDown(KeyCode.Space)) {
                         skipGroup ??= new SkippableSequence();
                         skipGroup.shouldSkip = true;
                     }
@@ -146,10 +146,10 @@ public abstract class DialogueState : StateMachineState {
             this.options = options;
             this.setter = setter;
         }
-        public override IEnumerator<StateChange> Entry {
+        public override IEnumerator<StateChange> Enter {
             get {
                 var ui = dialogueState.ui;
-                
+
                 setter(-1);
 
                 var buttons = new List<Button>();
@@ -190,7 +190,7 @@ public abstract class DialogueState : StateMachineState {
     protected DialogueState(StateMachine stateMachine) : base(stateMachine) {
         ui = stateMachine.TryFind<LevelSessionState>().level.view.dialogueUi;
     }
-    
+
     public override void Exit() {
         ui.Visible = false;
     }
@@ -292,9 +292,13 @@ public abstract class DialogueState : StateMachineState {
     protected void Show() {
         ui.Visible = true;
         ui.Reset();
+
+        FindState<LevelSessionState>().level.view.cameraRig.enabled = false;
     }
     protected void Hide() {
         ui.Visible = false;
+
+        FindState<LevelSessionState>().level.view.cameraRig.enabled = true;
     }
     protected PersonName? Speaker {
         set => ui.Speaker = value;

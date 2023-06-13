@@ -104,3 +104,11 @@ public class Game : MonoBehaviour {
         }
     }
 }
+
+public static class GameDebug {
+    public static T FindState<T>() where T:StateMachineState {
+        var state= Game.Instance.stateMachine.TryFind<T>();
+        Assert.IsNotNull(state);
+        return state;
+    }
+}

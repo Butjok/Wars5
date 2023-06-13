@@ -106,7 +106,7 @@ public class LevelEditorTilesModeState : StateMachineState {
         tileMeshCollider.sharedMesh = mesh;
     }
 
-    public override IEnumerator<StateChange> Entry {
+    public override IEnumerator<StateChange> Enter {
         get {
             var game = stateMachine.TryFind<GameSessionState>().game;
             var editorState = stateMachine.TryFind<LevelEditorSessionState>();

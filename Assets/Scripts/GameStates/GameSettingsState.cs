@@ -9,7 +9,7 @@ public class GameSettingsState : StateMachineState {
 
     public GameSettingsState(StateMachine stateMachine) : base(stateMachine) { }
 
-    public override IEnumerator<StateChange> Entry {
+    public override IEnumerator<StateChange> Enter {
         get {
             var (game, menu) = (FindState<GameSessionState>().game, FindObject<GameSettingsMenu>());
 

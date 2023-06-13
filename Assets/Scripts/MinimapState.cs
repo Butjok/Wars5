@@ -6,7 +6,7 @@ using UnityEngine.Assertions;
 public class MinimapState : StateMachineState {
     public MinimapState(StateMachine stateMachine) : base(stateMachine) { }
     public MinimapUi ui;
-    public override IEnumerator<StateChange> Entry {
+    public override IEnumerator<StateChange> Enter {
         get {
             var level = FindState<LevelSessionState>().level;
             ui = level.view.minimap;

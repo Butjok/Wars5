@@ -53,9 +53,9 @@
      <Compile Include="Assets/Scripts/Turret2.cs" />
      <Compile Include="Assets/Scripts/UvMapper.cs" />
      <Compile Include="Assets/Scripts/TileMaskTexture.cs" />
+     <Compile Include="Assets/Scripts/AiPlayerCommanderSwitcher.cs" />
      <Compile Include="Assets/Scripts/GameStates/PlayerTurnState.cs" />
      <Compile Include="Assets/Scripts/TouchGame.cs" />
-     <Compile Include="Assets/Scripts/AiPlayerCommanderSwitcher.cs" />
      <Compile Include="Assets/Scripts/LoadingSpinner.cs" />
      <Compile Include="Assets/Scripts/BattleAnimationPlayer.cs" />
      <Compile Include="Assets/Scripts/Views/MinimapUi.cs" />
@@ -63,6 +63,7 @@
      <Compile Include="Assets/Scripts/SavedGameListView.cs" />
      <Compile Include="Assets/Scripts/EntryPoint/SplashState.cs" />
      <Compile Include="Assets/Scripts/GameStates/UnitThumbnails.cs" />
+     <Compile Include="Assets/Scripts/Views/UnitBuildMenu2.cs" />
      <Compile Include="Assets/Scripts/EntryPoint/MainMenuLoadGameState.cs" />
      <Compile Include="Assets/Scripts/MainMenuView.cs" />
      <Compile Include="Assets/Scripts/PostProcessing.cs" />
@@ -185,6 +186,7 @@
      <Compile Include="Assets/Scripts/FitWidth.cs" />
      <Compile Include="Assets/Scripts/UnitActionViewTest.cs" />
      <Compile Include="Assets/Scripts/HardFollow2.cs" />
+     <Compile Include="Assets/Scripts/Views/UnitBuildMenuButton.cs" />
      <Compile Include="Assets/Scripts/InputState.cs" />
      <Compile Include="Assets/Scripts/MissileSiloView.cs" />
      <Compile Include="Assets/Scripts/InGameOverlayMenuView.cs" />
@@ -209,8 +211,6 @@
      <Compile Include="Assets/Scripts/FlipbookTest.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
      <Compile Include="Assets/Scripts/EntryPoint/MainMenuWelcomeState.cs" />
-     <Compile Include="Assets/Scripts/Views/UnitBuildMenuButton.cs" />
-     <Compile Include="Assets/Scripts/Views/UnitBuildMenu2.cs" />
      <Folder Include="Assets/Scripts/EntryPoint" />
      <None Include="Assets/Scripts/Wars.asmdef" />
      <Folder Include="Assets/Scripts/DialogueMarkupLanguage" />

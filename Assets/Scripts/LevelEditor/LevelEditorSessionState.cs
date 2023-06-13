@@ -1,10 +1,8 @@
 using System.Collections.Generic;
-using System.Linq;
 using Butjok.CommandLine;
 using Drawing;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.SceneManagement;
 
 public class LevelEditorSessionState : StateMachineState {
 
@@ -15,6 +13,17 @@ public class LevelEditorSessionState : StateMachineState {
     public MeshFilter tileMeshFilter;
     public MeshCollider tileMeshCollider;
     public LevelEditorGui gui;
+    public MissionName missionName;
+    public bool playAsFreshStart;
+
+    [Command] public static MissionName MissionName {
+        get => GameDebug.FindState<LevelEditorSessionState>().missionName;
+        set => GameDebug.FindState<LevelEditorSessionState>().missionName = value;
+    }
+    [Command] public static bool PlayAsFreshStart {
+        get => GameDebug.FindState<LevelEditorSessionState>().playAsFreshStart;
+        set => GameDebug.FindState<LevelEditorSessionState>().playAsFreshStart = value;
+    }
 
     public int autosaveLifespanInDays = 30;
 
@@ -23,7 +32,7 @@ public class LevelEditorSessionState : StateMachineState {
         this.input = input;
     }
 
-    public override IEnumerator<StateChange> Entry {
+    public override IEnumerator<StateChange> Enter {
         get {
             LevelView.TryLoadScene(level.missionName);
             level.view = LevelView.TryInstantiate();

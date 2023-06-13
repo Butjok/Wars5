@@ -11,7 +11,7 @@ public class MissileTargetSelectionState : StateMachineState {
 
     public MissileTargetSelectionState(StateMachine stateMachine) : base(stateMachine) { }
 
-    public override IEnumerator<StateChange> Entry {
+    public override IEnumerator<StateChange> Enter {
         get {
             var (game, level, action) = (FindState<GameSessionState>().game, FindState<LevelSessionState>().level, FindState<ActionSelectionState>().selectedAction);
 

@@ -8,15 +8,12 @@ public class PlayerTurnState : StateMachineState {
 
     public Player player;
     
-    public override IEnumerator<StateChange> Entry {
+    public override IEnumerator<StateChange> Enter {
         get {
             var level = FindState<LevelSessionState>().level;
             player = level.CurrentPlayer;
             player.view.visible = true;
             Debug.Log($"Start of turn #{level.turn}: {player}");
-            
-            // if(level.turn==0)
-                // yield return StateChange.Push(new TestDialogueState(stateMachine));
             
             yield return StateChange.Push(new SelectionState(stateMachine));
         }
@@ -29,7 +26,7 @@ public class PlayerTurnState : StateMachineState {
 
 public class DayChangeState : StateMachineState {
     public DayChangeState(StateMachine stateMachine) : base(stateMachine) { }
-    public override IEnumerator<StateChange> Entry {
+    public override IEnumerator<StateChange> Enter {
         get {
             yield break;
         }

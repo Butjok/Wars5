@@ -5,7 +5,7 @@ public class SplashState : StateMachineState {
 
     public SplashState(StateMachine stateMachine) : base(stateMachine) { }
 
-    public override IEnumerator<StateChange> Entry {
+    public override IEnumerator<StateChange> Enter {
         get {
             var view = stateMachine.TryFind<EntryPointState>().view;
             

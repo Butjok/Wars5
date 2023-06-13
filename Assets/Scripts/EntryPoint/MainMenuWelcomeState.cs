@@ -5,7 +5,7 @@ public class MainMenuWelcomeState : StateMachineState {
 
     public MainMenuWelcomeState(StateMachine stateMachine) : base(stateMachine) { }
 
-    public override IEnumerator<StateChange> Entry {
+    public override IEnumerator<StateChange> Enter {
         get {
             var view = stateMachine.TryFind<EntryPointState>().view;
             view.logoVirtualCamera.enabled = true;

@@ -61,10 +61,10 @@ public class UnitBuildMenu2 : MonoBehaviour {
     }
 
     private void Update() {
-        var offset = Input.GetAxisRaw("Mouse ScrollWheel");
+        var offset = 0f;//Input.GetAxisRaw("Mouse ScrollWheel");
         if (Input.GetKeyDown(KeyCode.Tab))
             offset = Input.GetKey(KeyCode.LeftShift) ? -1 : 1;
-        if (offset != 0) {
+        if (!Mathf.Approximately(0, offset)) {
             var index = Array.IndexOf(buttons, selectedButton);
             Select(buttons[(index + offset.Sign()).PositiveModulo(buttons.Length)]);
         }
@@ -81,11 +81,12 @@ public class UnitBuildMenu2 : MonoBehaviour {
                 sibling.Unemphasize();
     
         button.Emphasize();
+        // button.transform.SetSiblingIndex(button.transform.parent.childCount-1);
 
         if (nameText)
             nameText.text = UnitInfo.GetShortName(button.unitType);
         if (descriptionText)
-            descriptionText.text = $"{getFullName(button.unitType)} - {getCost(button.unitType)}$\n\n{getDescription(button.unitType)}";
+            descriptionText.text = $"{getDescription(button.unitType)}";
 
         if (buildButton)
             buildButton.interactable = button.Available;

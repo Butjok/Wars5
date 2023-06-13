@@ -17,7 +17,7 @@ public class SelectionState : StateMachineState {
 
     public SelectionState(StateMachine stateMachine) : base(stateMachine) { }
 
-    public override IEnumerator<StateChange> Entry {
+    public override IEnumerator<StateChange> Enter {
         get {
             var (game, level) = (FindState<GameSessionState>().game, FindState<LevelSessionState>().level);
             var (cameraRig, cursor) = (level.view.cameraRig, level.view.cursorView);

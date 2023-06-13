@@ -18,7 +18,7 @@ public class PathSelectionState : StateMachineState {
 
     public PathSelectionState(StateMachine stateMachine) : base(stateMachine) { }
 
-    public override IEnumerator<StateChange> Entry {
+    public override IEnumerator<StateChange> Enter {
         get {
             var (game, level, unit) = (FindState<GameSessionState>().game, FindState<LevelSessionState>().level, FindState<SelectionState>().unit);
 

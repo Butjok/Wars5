@@ -5,10 +5,10 @@ using UnityEngine;
 public class LevelEditorPlayState : StateMachineState {
 
     public string save;
+    public LevelEditorPlayState(StateMachine stateMachine) : base(stateMachine) {
+    }
 
-    public LevelEditorPlayState(StateMachine stateMachine) : base(stateMachine) { }
-
-    public override IEnumerator<StateChange> Entry {
+    public override IEnumerator<StateChange> Enter {
         get {
             var editorState = stateMachine.TryFind<LevelEditorSessionState>();
             var level = editorState.level;
@@ -20,8 +20,8 @@ public class LevelEditorPlayState : StateMachineState {
 
             editorState.gui
                 .Push();
-            
-            yield return StateChange.Push(new LevelSessionState(stateMachine, save));
+
+            yield return StateChange.Push(new LevelSessionState(stateMachine, save, editorState.missionName, editorState.playAsFreshStart));
         }
     }
     public override void Exit() {

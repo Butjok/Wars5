@@ -24,7 +24,7 @@ public class LevelEditorTriggersModeState : StateMachineState {
     
     public LevelEditorTriggersModeState(StateMachine stateMachine) : base(stateMachine) { }
 
-    public override IEnumerator<StateChange> Entry {
+    public override IEnumerator<StateChange> Enter {
         get {
             var (game, editorState) = (FindState<GameSessionState>().game, FindState<LevelEditorSessionState>());
             var level = editorState.level;

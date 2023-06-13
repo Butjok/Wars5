@@ -9,7 +9,7 @@ public class MainMenuLoadGameState : StateMachineState {
     public List<LoadGameButton> buttons = new();
     public Dictionary<string, Sprite> screenshotSprites = new();
 
-    public override IEnumerator<StateChange> Entry {
+    public override IEnumerator<StateChange> Enter {
         get {
             var view = stateMachine.TryFind<EntryPointState>().view;
 
