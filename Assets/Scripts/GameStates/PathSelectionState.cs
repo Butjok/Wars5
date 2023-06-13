@@ -20,7 +20,8 @@ public class PathSelectionState : StateMachineState {
 
     public override IEnumerator<StateChange> Enter {
         get {
-            var (game, level, unit) = (FindState<GameSessionState>().game, FindState<LevelSessionState>().level, FindState<SelectionState>().unit);
+            var levelSession = FindState<LevelSessionState>();
+            var (game, level, unit) = (FindState<GameSessionState>().game, levelSession.level, FindState<SelectionState>().unit);
 
             var unitPosition = unit.NonNullPosition;
             Assert.IsTrue(level.tiles.ContainsKey(unitPosition));
@@ -46,13 +47,13 @@ public class PathSelectionState : StateMachineState {
 
             var pathBuilder = new PathBuilder(unitPosition);
 
-            if (!game.autoplay) {
+            if (!levelSession.autoplay) {
                 var (texture, transform) = TileMaskTexture.Create(reachable, 16);
                 TileMaskTexture.Set(level.view.terrainMaterial, "_TileMask", texture, transform);
             }
 
             void RebuildPathMesh() {
-                if (game.autoplay)
+                if (levelSession.autoplay)
                     return;
                 pathMeshFilter.sharedMesh = MoveSequenceMeshBuilder.Build(
                     pathMeshFilter.sharedMesh,
@@ -67,7 +68,7 @@ public class PathSelectionState : StateMachineState {
             while (true) {
                 yield return StateChange.none;
 
-                if (game.autoplay) {
+                if (levelSession.autoplay) {
                     if (!issuedAiCommands) {
                         issuedAiCommands = true;
                         game.aiPlayerCommander.IssueCommandsForPathSelectionState();

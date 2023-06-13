@@ -49,15 +49,10 @@ public class Game : MonoBehaviour {
     }
 
     public AiPlayerCommander aiPlayerCommander;
-    public bool autoplay;
 
     private void Awake() {
         aiPlayerCommander = gameObject.AddComponent<AiPlayerCommander>();
         aiPlayerCommander.game = this;
-    }
-
-    private void Start() {
-        StartCoroutine(AutoplayHandler());
     }
 
     [TextArea(10, 20)] public string states;
@@ -66,23 +61,9 @@ public class Game : MonoBehaviour {
     }
 
     private void OnApplicationQuit() {
-        stateMachine.Pop(all:true);
-    }
-
-    public IEnumerator AutoplayHandler() {
-        const KeyCode key = KeyCode.Alpha8;
-        while (true) {
-            yield return null;
-            if (Input.GetKeyDown(key)) {
-                autoplay = true;
-                var onHoldKey = !(Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift));
-                yield return null;
-                while (onHoldKey ? !Input.GetKeyUp(key) : !Input.GetKeyDown(key))
-                    yield return null;
-                yield return null;
-                autoplay = false;
-            }
-        }
+        var editorSessionState = stateMachine.TryFind<LevelEditorSessionState>();
+        if (editorSessionState != null)
+            LevelEditorFileSystem.Save("autosave", editorSessionState.level);
     }
 
     [Command] public static int guiDepth = -1000;
@@ -91,10 +72,10 @@ public class Game : MonoBehaviour {
         if (Debug.isDebugBuild) {
             GUI.skin = DefaultGuiSkin.TryGet;
             GUI.depth = guiDepth;
-            GUILayout.BeginHorizontal();
             stateNames.Clear();
             stateNames.AddRange(stateMachine.StateNames);
             stateNames.Reverse();
+            GUILayout.BeginHorizontal();
             for (var i = 0; i < stateNames.Count; i++) {
                 if (i != 0)
                     GUILayout.Label("/");

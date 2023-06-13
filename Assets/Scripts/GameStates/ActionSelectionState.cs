@@ -107,7 +107,8 @@ public class ActionSelectionState : StateMachineState {
 
     public override IEnumerator<StateChange> Enter {
         get {
-            var (game, level, unit, path) = (FindState<GameSessionState>().game, FindState<LevelSessionState>().level, FindState<SelectionState>().unit, FindState<PathSelectionState>().path);
+            var levelSession = FindState<LevelSessionState>();
+            var (game, level, unit, path) = (FindState<GameSessionState>().game, levelSession.level, FindState<SelectionState>().unit, FindState<PathSelectionState>().path);
 
             var destination = path[^1];
             level.TryGetUnit(destination, out var other);
@@ -120,7 +121,7 @@ public class ActionSelectionState : StateMachineState {
             PlayerView.globalVisibility = false;
             yield return StateChange.none;
 
-            if (!game.autoplay) {
+            if (!levelSession.autoplay) {
                 panel.Show(() => game.EnqueueCommand(Command.Cancel), actions, (_, action) => SelectAction(action));
                 if (actions.Count > 0)
                     SelectAction(actions[0]);
@@ -130,7 +131,7 @@ public class ActionSelectionState : StateMachineState {
             while (true) {
                 yield return StateChange.none;
 
-                if (game.autoplay) {
+                if (levelSession.autoplay) {
                     if (!issuedAiCommands) {
                         issuedAiCommands = true;
                         game.aiPlayerCommander.IssueCommandsForActionSelectionState();

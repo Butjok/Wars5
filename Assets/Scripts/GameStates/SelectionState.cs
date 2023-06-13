@@ -19,7 +19,8 @@ public class SelectionState : StateMachineState {
 
     public override IEnumerator<StateChange> Enter {
         get {
-            var (game, level) = (FindState<GameSessionState>().game, FindState<LevelSessionState>().level);
+            var levelSession = FindState<LevelSessionState>();
+            var (game, level) = (FindState<GameSessionState>().game, levelSession.level);
             var (cameraRig, cursor) = (level.view.cameraRig, level.view.cursorView);
 
             // stop the ability
@@ -86,7 +87,7 @@ public class SelectionState : StateMachineState {
             while (true) {
                 yield return StateChange.none;
 
-                if (game.autoplay) {
+                if (levelSession.autoplay) {
                     if (!issuedAiCommands) {
                         issuedAiCommands = true;
                         game.aiPlayerCommander.IssueCommandsForSelectionState();
@@ -238,7 +239,7 @@ public class SelectionState : StateMachineState {
                             break;
 
                         case (CursorInteractor.Command, _):
-                            if (!game.autoplay)
+                            if (!levelSession.autoplay)
                                 MoveCursor(command);
                             break;
 
