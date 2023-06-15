@@ -49,6 +49,23 @@ public static class Colors {
         Assert.IsTrue(found, colorName.ToString());
         return color;
     }
+
+    // https://www.shadertoy.com/view/ll2GD3
+    public static Color ToColor(float t, in Color a, Color b, Color c, Color d) {
+        Color Cos(Color c) {
+            return new Color(Mathf.Cos(c.r), Mathf.Cos(c.g), Mathf.Cos(c.b));
+        }
+        // return a + b * Cos(2 * Mathf.PI * (c * t + d));
+        return Color.HSVToRGB(.25f * (1 - t) + .05f, Pow(1 - t, .25f), Pow(1 - t, .5f));
+    }
+    public static Color ToColor(this float t, bool inverse = false) {
+        return ToColor((inverse ? 1 - t : t), new Color(0.5f, 0.5f, 0.5f), new Color(0.5f, 0.5f, 0.5f), new Color(1.0f, 0.7f, 0.4f), new Color(0.0f, 0.15f, 0.20f));
+    }
+    public static Color ToColor(this float value, float min, float max, bool inverse = false) {
+        return ToColor((value - min) / (max - min), inverse);
+    }
+    public static Color ToColor(this int t, bool inverse = false) => ToColor((float)t, inverse);
+    public static Color ToColor(this int value, float min, float max, bool inverse = false) => ToColor((float)value, min, max, inverse);
 }
 
 public enum Team {
@@ -147,7 +164,7 @@ public class Player : IDisposable {
             view.visible = false;
         }
 
-        
+
         view2 = Object.Instantiate(PlayerView2.GetPrefab(coName), level.view.canvas.transform);
         view2.player = this;
         view2.Hide();

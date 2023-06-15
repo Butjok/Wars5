@@ -1,28 +1,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class FogOfWar {
+public static class Vision {
 
     public const int infinity = 999;
     public const int mountainCapacityBonus = 2;
-    public const int airborneCostBonus = 1;
+    public const int airbornePerTileCostBonus = 1;
 
-    public static IEnumerable<Vector2Int> CalculateVision(Player player) {
+    public static IEnumerable<Vector2Int> Calculate(Player player) {
         var visible = new HashSet<Vector2Int>();
         foreach (var unit in player.level.FindUnitsOf(player))
-            visible.UnionWith(CalculateVision(unit));
+            visible.UnionWith(Calculate(unit));
         return visible;
     }
 
-    public static IEnumerable<Vector2Int> CalculateVision(Unit unit) {
+    public static IEnumerable<Vector2Int> Calculate(Unit unit) {
         var visionCapacity = Rules.VisionCapacity(unit);
         var isAirborne = Rules.IsAirborne(unit);
         if (!isAirborne && unit.Player.level.tiles[unit.NonNullPosition] == TileType.Mountain)
             visionCapacity += mountainCapacityBonus;
-        return CalculateVision(unit.Player.level.tiles, unit.NonNullPosition, visionCapacity, isAirborne);
+        return Calculate(unit.Player.level.tiles, unit.NonNullPosition, visionCapacity, isAirborne);
     }
 
-    public static IEnumerable<Vector2Int> CalculateVision(Dictionary<Vector2Int, TileType> tiles, Vector2Int startPosition, int visionCapacity, bool isAirborne = false) {
+    public static IEnumerable<Vector2Int> Calculate(Dictionary<Vector2Int, TileType> tiles, Vector2Int startPosition, int visionCapacity, bool isAirborne = false) {
 
         var visible = new HashSet<Vector2Int> { startPosition };
         var queue = new Queue<Vector2Int>();
@@ -51,7 +51,7 @@ public static class FogOfWar {
 
                 var visionCost = Rules.VisionCost(neighbor.tileType);
                 if (isAirborne)
-                    visionCost = Mathf.Max(1, visionCost - airborneCostBonus);
+                    visionCost = Mathf.Max(1, visionCost - airbornePerTileCostBonus);
                 
                 var alternativeNeighborTotalCost = totalCost + visionCost;
                 

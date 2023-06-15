@@ -23,6 +23,8 @@ public class Unit : IDisposable {
 
     private readonly bool initialized;
 
+    public Stack<(UnitStateType type, object argument)> states;
+
     private Vector2Int? position;
     public Vector2Int? Position {
         get => position;
@@ -119,7 +121,7 @@ public class Unit : IDisposable {
     }
 
     private Dictionary<WeaponName, int> ammo = new();
-    
+
     public void SetAmmo(WeaponName weaponName, int value) {
 
         var found = ammo.TryGetValue(weaponName, out var amount);
@@ -175,11 +177,14 @@ public class Unit : IDisposable {
         Fuel = fuel;
 
         foreach (var weaponName in GetWeaponNames(type)) {
-            ammo.Add(weaponName,0);
+            ammo.Add(weaponName, 0);
             SetAmmo(weaponName, int.MaxValue);
         }
 
         Position = position;
+
+        states = new Stack<(UnitStateType type, object argument)>();
+        states.Push((UnitStateType.Staying, null));
 
         initialized = true;
     }

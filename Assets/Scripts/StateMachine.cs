@@ -42,6 +42,11 @@ public class StateMachine {
                 return castedState;
         return null;
     }
+    public T Find<T>() where T: StateMachineState {
+        var result = TryFind<T>();
+        Assert.IsNotNull(result);
+        return result;
+    }
 
     public const int maxDepth = 100;
     public void Tick() {

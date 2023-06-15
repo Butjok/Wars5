@@ -6,6 +6,8 @@ using UnityEngine.Assertions;
 
 public class Level : IDisposable {
 
+    public static readonly Vector2Int[] offsets = { Vector2Int.up, Vector2Int.down, Vector2Int.right, Vector2Int.left };
+    
     public LevelView view;
     
     public MissionName missionName;
@@ -86,7 +88,7 @@ public class Level : IDisposable {
         return range.Offsets().Select(offset => offset + position).Where(p => tiles.ContainsKey(p));
     }
     public IEnumerable<Vector2Int> Neighbors(Vector2Int position) {
-        return from offset in Rules.offsets where tiles.ContainsKey(position + offset) select position + offset;
+        return from offset in Rules.gridOffsets where tiles.ContainsKey(position + offset) select position + offset;
     }
 }
 

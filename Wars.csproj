@@ -43,7 +43,7 @@
   <ItemGroup>
      <Compile Include="Assets/Scripts/CampaignOverviewView.cs" />
      <Compile Include="Assets/Scripts/Game.cs" />
-     <Compile Include="Assets/Scripts/FogOfWar.cs" />
+     <Compile Include="Assets/Scripts/Vision.cs" />
      <Compile Include="Assets/Scripts/UiLineRendererTest.cs" />
      <Compile Include="Assets/Scripts/PreselectionCursor.cs" />
      <Compile Include="Assets/Scripts/HoleMaterialUpdater.cs" />
@@ -106,6 +106,7 @@
      <Compile Include="Assets/Scripts/PlayerView.cs" />
      <Compile Include="Assets/Scripts/CursorInteractor.cs" />
      <Compile Include="Assets/Scripts/Level/UnitAttackActionViewTest.cs" />
+     <Compile Include="Assets/Scripts/GameStates/DebugDraw.cs" />
      <Compile Include="Assets/Scripts/LoadingSpinnerTest.cs" />
      <Compile Include="Assets/Scripts/PowerMeterStripe.cs" />
      <Compile Include="Assets/Scripts/DepthOfFieldDistanceSetter.cs" />
@@ -116,9 +117,11 @@
      <Compile Include="Assets/Scripts/LoadingView.cs" />
      <Compile Include="Assets/Scripts/EntryPoint/LoadGameState.cs" />
      <Compile Include="Assets/Scripts/UnitDescription.cs" />
+     <Compile Include="Assets/Scripts/GameStates/DistanceField.cs" />
      <Compile Include="Assets/Scripts/Unit.cs" />
      <Compile Include="Assets/Scripts/BridgeView.cs" />
      <Compile Include="Assets/Scripts/GameStates/GameMenuState.cs" />
+     <Compile Include="Assets/Scripts/UiShortestLine.cs" />
      <Compile Include="Assets/Scripts/Animation/AccelerationTorque.cs" />
      <Compile Include="Assets/Scripts/Animation/Wheel.cs" />
      <Compile Include="Assets/Scripts/SequencePlayer.cs" />
@@ -149,6 +152,7 @@
      <Compile Include="Assets/Scripts/EntryPoint/MainMenuAboutState.cs" />
      <Compile Include="Assets/Scripts/MissionObjectivesUi.cs" />
      <Compile Include="Assets/Scripts/LevelEditor/LevelEditorTilesModeState.cs" />
+     <Compile Include="Assets/Scripts/UiDraggable.cs" />
      <Compile Include="Assets/Scripts/EntryPoint/EntryPointState.cs" />
      <Compile Include="Assets/Scripts/Projectile2.cs" />
      <Compile Include="Assets/Scripts/GameStates/DayText.cs" />
@@ -161,6 +165,7 @@
      <Compile Include="Assets/Scripts/TextUnderlay.cs" />
      <Compile Include="Assets/Scripts/Bridge.cs" />
      <Compile Include="Assets/Scripts/DamageTable.cs" />
+     <Compile Include="Assets/Scripts/GameStates/Ai.cs" />
      <Compile Include="Assets/Scripts/UnitTypesInfo.cs" />
      <Compile Include="Assets/Scripts/Dialogues/DialogueUi3.cs" />
      <Compile Include="Assets/Scripts/PolygonShaderTest.cs" />
@@ -214,8 +219,6 @@
      <Compile Include="Assets/Scripts/FlipbookTest.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
      <Compile Include="Assets/Scripts/EntryPoint/MainMenuWelcomeState.cs" />
-     <Compile Include="Assets/Scripts/UiShortestLine.cs" />
-     <Compile Include="Assets/Scripts/UiDraggable.cs" />
      <Folder Include="Assets/Scripts/EntryPoint" />
      <None Include="Assets/Scripts/Wars.asmdef" />
      <Folder Include="Assets/Scripts/DialogueMarkupLanguage" />

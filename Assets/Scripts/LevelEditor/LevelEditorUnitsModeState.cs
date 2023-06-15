@@ -92,7 +92,10 @@ public class LevelEditorUnitsModeState : StateMachineState {
                 else if (Input.GetKeyDown(KeyCode.L))
                     game.aiPlayerCommander.DrawPotentialUnitActions();
 
-                while (game.TryDequeueCommand(out var command))
+                while (game.TryDequeueCommand(out var command)) {
+                    
+                    Debug.Log(command);
+                    
                     switch (command) {
 
                         case (LevelEditorSessionState.Command.SelectTriggersMode, _):
@@ -150,6 +153,7 @@ public class LevelEditorUnitsModeState : StateMachineState {
                             yield return HandleUnexpectedCommand(command);
                             break;
                     }
+                }
             }
         }
     }

@@ -216,9 +216,12 @@ public static class MathUtils {
         return value.ToString("#,0", nfi);
     }
 
-    public static Color32 YIQContrastColor(this Color32 color) {
+    public static Color32 YiqContrastColor(this Color32 color) {
         var yiq = (color.r * 299 + color.r * 587 + color.r * 114) / 1000;
         return yiq >= 128 ? Color.black : Color.white;
+    }
+    public static Color YiqContrastColor(this Color color) {
+        return YiqContrastColor((Color32)color);
     }
 
     public static float SmoothStep(float edge0, float edge1, float x) {
@@ -264,6 +267,9 @@ public static class MathUtils {
 
     public static Vector2Int ToVector2Int(this Vector3 vector3) {
         return vector3.ToVector2().RoundToInt();
+    }
+    public static Vector3 ToVector3(this Vector2Int vector2Int) {
+        return vector2Int.ToVector3Int().ToVector3();
     }
 
     public static int GetOrientation(Vector2 a, Vector2 b, Vector2 c) {

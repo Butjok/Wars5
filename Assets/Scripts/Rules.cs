@@ -8,7 +8,7 @@ using static UnityEngine.Mathf;
 
 public static class Rules {
 
-    public static Vector2Int[] offsets = { Vector2Int.up, Vector2Int.left, Vector2Int.down, Vector2Int.right };
+    public static Vector2Int[] gridOffsets = { Vector2Int.up, Vector2Int.left, Vector2Int.down, Vector2Int.right };
 
     public static int Income(TileType buildingType) {
         return 1000;

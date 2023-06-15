@@ -14,6 +14,6 @@ public class TextContrast : MonoBehaviour {
             return;
         }
         Color32 color = graphic.canvasRenderer.GetColor();
-        text.color = color.YIQContrastColor();
+        text.color = color.YiqContrastColor();
     }
 }

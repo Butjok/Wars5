@@ -88,7 +88,7 @@ public class ActionSelectionState : StateMachineState {
                         yield return new UnitAction(UnitActionType.Attack, unit, path, target, weaponName: weaponName, targetPosition: otherPosition, spawnView: true);
 
         // supply
-        foreach (var offset in offsets) {
+        foreach (var offset in gridOffsets) {
             var otherPosition = destination + offset;
             if (level.TryGetUnit(otherPosition, out var target) && CanSupply(unit, target))
                 yield return new UnitAction(UnitActionType.Supply, unit, path, target, targetPosition: otherPosition, spawnView: true);
@@ -96,7 +96,7 @@ public class ActionSelectionState : StateMachineState {
 
         // drop out
         foreach (var cargo in unit.Cargo)
-        foreach (var offset in offsets) {
+        foreach (var offset in gridOffsets) {
             var targetPosition = destination + offset;
             if ((!level.TryGetUnit(targetPosition, out var other2) || other2 == unit) &&
                 level.TryGetTile(targetPosition, out var tileType) &&

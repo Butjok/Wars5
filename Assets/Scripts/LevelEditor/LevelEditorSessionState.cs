@@ -1,8 +1,12 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Butjok.CommandLine;
 using Drawing;
 using UnityEngine;
 using UnityEngine.Assertions;
+using Object = UnityEngine.Object;
 
 public class LevelEditorSessionState : StateMachineState {
 
@@ -53,10 +57,12 @@ public class LevelEditorSessionState : StateMachineState {
                 gameObject.layer = LayerMask.NameToLayer("Terrain");
                 tileMeshFilter = gameObject.AddComponent<MeshFilter>();
                 tileMeshCollider = gameObject.AddComponent<MeshCollider>();
-                gameObject.AddComponent<CursorInteractor>();
+                // gameObject.AddComponent<CursorInteractor>();
                 var tileMeshRenderer = gameObject.AddComponent<MeshRenderer>();
                 tileMeshRenderer.sharedMaterial = "EditorTileMap".LoadAs<Material>();
             }
+
+            //ai = new Ai(FindState<GameSessionState>().game, level);
 
             yield return StateChange.Push(new LevelEditorTilesModeState(stateMachine));
         }
