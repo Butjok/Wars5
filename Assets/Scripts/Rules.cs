@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using Butjok.CommandLine;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -206,6 +207,10 @@ public static class Rules {
     public static int MoveCapacity(UnitType unitType, Player player) {
         return UnitStats.Loaded.TryGetValue(unitType, out var settings) ? settings.moveCapacity : 0;
     }
+    
+    /*
+     * TODO: remove TryGetMoveCost by unit type, use TryGetMoveCost by move type
+     */
 
     public static bool TryGetMoveCost(Unit unit, Vector2Int position, out int cost) {
         cost = default;
@@ -213,33 +218,44 @@ public static class Rules {
                TryGetMoveCost(unit.type, tileType, out cost);
     }
     public static bool TryGetMoveCost(UnitType unitType, TileType tileType, out int cost) {
-
         const int unreachable = -1;
-
-        if (UnitStats.Loaded.TryGetValue(unitType, out var entry))
-            cost = entry.moveCostType switch {
-                MoveCostType.Foot => tileType switch {
-                    TileType.Sea => unreachable,
-                    TileType.Forest or TileType.Mountain or TileType.River => 2,
-                    _ => 1
-                },
-                MoveCostType.Tires => tileType switch {
-                    TileType.Sea or TileType.Mountain or TileType.River => unreachable,
-                    TileType.Forest => 3,
-                    TileType.Plain => 2,
-                    _ => 1
-                },
-                MoveCostType.Tracks => tileType switch {
-                    TileType.Sea or TileType.Mountain or TileType.River => unreachable,
-                    TileType.Forest => 2,
-                    _ => 1
-                },
-                _ => unreachable
-            };
-        else
+        if (!UnitStats.Loaded.TryGetValue(unitType, out var entry) || !TryGetMoveCost(entry.moveType, tileType, out cost))
             cost = unreachable;
-
         return cost != unreachable;
+    }
+    public static bool TryGetMoveCost(MoveType moveType,TileType tileType, out int cost) {
+        const int unreachable = -1;
+        cost = moveType switch {
+            MoveType.Foot => tileType switch {
+                TileType.Sea => unreachable,
+                TileType.Forest or TileType.Mountain or TileType.River => 2,
+                _ => 1
+            },
+            MoveType.Tires => tileType switch {
+                TileType.Sea or TileType.Mountain or TileType.River => unreachable,
+                TileType.Forest => 3,
+                TileType.Plain => 2,
+                _ => 1
+            },
+            MoveType.Tracks => tileType switch {
+                TileType.Sea or TileType.Mountain or TileType.River => unreachable,
+                TileType.Forest => 2,
+                _ => 1
+            },
+            MoveType.Air => 1,
+            _ => unreachable
+        };
+        return cost != unreachable;
+    }
+
+    public static MoveType GetMoveType(UnitType unitType) {
+        return unitType switch {
+            UnitType.Infantry or UnitType.AntiTank => MoveType.Foot,
+            UnitType.Artillery or UnitType.Apc or UnitType.LightTank or UnitType.MediumTank => MoveType.Tracks,
+            UnitType.Recon or UnitType.Rockets => MoveType.Tires,
+            UnitType.TransportHelicopter or UnitType.AttackHelicopter or UnitType.FighterJet or UnitType.Bomber => MoveType.Air,
+            _ => throw new ArgumentOutOfRangeException(nameof(unitType), unitType, null)
+        };
     }
 
     public static bool CanStay(UnitType unitType, TileType tileType) {

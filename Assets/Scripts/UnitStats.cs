@@ -17,7 +17,7 @@ public struct UnitStats {
         CanSupply = 1 << 2
     }
 
-    public MoveCostType moveCostType;
+    public MoveType moveType;
     public int moveCapacity;
     public int fuel;
     public Dictionary<WeaponName, int> ammo;
@@ -60,7 +60,7 @@ public struct UnitStats {
             var entry = new UnitStats();
 
             var unitType = fields[0].ParseEnum<UnitType>();
-            entry.moveCostType = fields[1].ParseEnum<MoveCostType>();
+            entry.moveType = fields[1].ParseEnum<MoveType>();
 
             entry.moveCapacity = fields[2].ParseInt();
             Assert.IsTrue(entry.moveCapacity >= 0, entry.moveCapacity.ToString());

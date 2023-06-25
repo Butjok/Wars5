@@ -21,7 +21,7 @@ public class LevelEditorPlayState : StateMachineState {
             editorState.gui
                 .Push();
 
-            yield return StateChange.Push(new LevelSessionState(stateMachine, save, editorState.missionName, editorState.playAsFreshStart));
+            yield return StateChange.Push(new LevelSessionState(stateMachine, save, level.missionName, editorState.playAsFreshStart, level.precalculatedDistances));
         }
     }
     public override void Exit() {

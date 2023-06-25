@@ -1,6 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * TODO: This is actually not a correct implementation of vision. I actually should use something like Bresenham's line algorithm.
+ */
+
 public static class Vision {
 
     public const int infinity = 999;

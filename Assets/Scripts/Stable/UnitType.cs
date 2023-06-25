@@ -19,5 +19,5 @@ public enum UnitType {
     FighterJet,
     Bomber
 }
-public enum MoveCostType {Foot,Tires,Tracks}
+public enum MoveType {Foot,Tires,Tracks,Air}
 

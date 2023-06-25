@@ -30,7 +30,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169,0649</NoWarn>
-    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup>
@@ -67,6 +67,7 @@
      <Compile Include="Assets/Scripts/Views/UnitBuildMenu2.cs" />
      <Compile Include="Assets/Scripts/EntryPoint/MainMenuLoadGameState.cs" />
      <Compile Include="Assets/Scripts/MainMenuView.cs" />
+     <Compile Include="Assets/Scripts/MainMenuButton.cs" />
      <Compile Include="Assets/Scripts/PostProcessing.cs" />
      <Compile Include="Assets/Scripts/EntryPoint/EntryPointView.cs" />
      <Compile Include="Assets/Scripts/AttackActionView.cs" />
@@ -91,6 +92,7 @@
      <Compile Include="Assets/Scripts/BuildingView.cs" />
      <Compile Include="Assets/Scripts/Projectile2View.cs" />
      <Compile Include="Assets/Scripts/MinimapMeshGenerator.cs" />
+     <Compile Include="Assets/Scripts/ScalarFieldDrawer.cs" />
      <Compile Include="Assets/Scripts/UsefulTip.cs" />
      <Compile Include="Assets/Scripts/Level.cs" />
      <Compile Include="Assets/Scripts/Animation/Body.cs" />
@@ -98,12 +100,15 @@
      <Compile Include="Assets/Scripts/GameStates/SelectionState.cs" />
      <Compile Include="Assets/Scripts/Co.cs" />
      <Compile Include="Assets/Scripts/UnitActionsPanel.cs" />
+     <Compile Include="Assets/Scripts/BufferedBinaryReader.cs" />
      <Compile Include="Assets/Scripts/UiFrameWithLineTest.cs" />
      <Compile Include="Assets/Scripts/GameStates/LevelSessionState.cs" />
+     <Compile Include="Assets/Scripts/PrecalculatedDistances.cs" />
      <Compile Include="Assets/Scripts/HardFollowToggler.cs" />
      <Compile Include="Assets/Scripts/Animation/Wind.cs" />
      <Compile Include="Assets/Scripts/CursorView.cs" />
      <Compile Include="Assets/Scripts/PlayerView.cs" />
+     <Compile Include="Assets/Scripts/ScalarField.cs" />
      <Compile Include="Assets/Scripts/CursorInteractor.cs" />
      <Compile Include="Assets/Scripts/Level/UnitAttackActionViewTest.cs" />
      <Compile Include="Assets/Scripts/GameStates/DebugDraw.cs" />
@@ -152,6 +157,7 @@
      <Compile Include="Assets/Scripts/EntryPoint/MainMenuAboutState.cs" />
      <Compile Include="Assets/Scripts/MissionObjectivesUi.cs" />
      <Compile Include="Assets/Scripts/LevelEditor/LevelEditorTilesModeState.cs" />
+     <Compile Include="Assets/Scripts/ScalarFieldUtilities.cs" />
      <Compile Include="Assets/Scripts/UiDraggable.cs" />
      <Compile Include="Assets/Scripts/EntryPoint/EntryPointState.cs" />
      <Compile Include="Assets/Scripts/Projectile2.cs" />

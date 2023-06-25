@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Threading;
 using Butjok.CommandLine;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -38,6 +40,14 @@ public class Game : MonoBehaviour {
         }
     }
 
+    public Level Level {
+        get {
+            var level = stateMachine.TryFind<LevelSessionState>()?.level ?? stateMachine.TryFind<LevelEditorSessionState>()?.level;
+            Assert.IsNotNull(level);
+            return level;
+        }
+    }
+
     public readonly StateMachine stateMachine = new();
 
     private Queue<(object name, object argument)> commands = new();
@@ -63,8 +73,10 @@ public class Game : MonoBehaviour {
 
     private void OnApplicationQuit() {
         var editorSessionState = stateMachine.TryFind<LevelEditorSessionState>();
-        if (editorSessionState != null)
+        if (editorSessionState != null) {
             LevelEditorFileSystem.Save("autosave", editorSessionState.level);
+            // PrecalculatedDistances.CalculateAndWrite(editorSessionState.level.tiles, editorSessionState.level.missionName);
+        }
     }
 
     [Command] public static int guiDepth = -1000;
@@ -84,6 +96,14 @@ public class Game : MonoBehaviour {
             }
             GUILayout.EndHorizontal();
         }
+    }
+
+    [Command]
+    public void LoadPrecalculatedDistances() {
+        new Thread(() => {
+            PrecalculatedDistances.TryLoad(Level.missionName, out Level.precalculatedDistances);
+            Debug.Log("Loaded");
+        }).Start();
     }
 }
 

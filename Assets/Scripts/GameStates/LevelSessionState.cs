@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
@@ -14,8 +16,9 @@ public class LevelSessionState : StateMachineState {
     public LevelLogic levelLogic;
     public bool autoplay;
     public IEnumerator autoplayHandler;
+    public Dictionary<(MoveType, Vector2Int, Vector2Int), int> precalculatedDistances;
 
-    public LevelSessionState(StateMachine stateMachine, string input, MissionName missionName, bool isFreshStart) : base(stateMachine) {
+    public LevelSessionState(StateMachine stateMachine, string input, MissionName missionName, bool isFreshStart, Dictionary<(MoveType, Vector2Int, Vector2Int), int> precalculatedDistances=null) : base(stateMachine) {
         this.input = input;
         this.missionName = missionName;
         this.isFreshStart = isFreshStart;
@@ -24,11 +27,16 @@ public class LevelSessionState : StateMachineState {
             _ => new LevelLogic()
         };
         levelLogic = new TutorialLevelLogic();
+        this.precalculatedDistances = precalculatedDistances;
     }
 
     public override IEnumerator<StateChange> Enter {
         get {
             level = new Level { missionName = missionName };
+            if (precalculatedDistances != null)
+                level.precalculatedDistances = precalculatedDistances;
+            else
+                new Thread(() => PrecalculatedDistances.TryLoad(level.missionName, out level.precalculatedDistances)).Start();
 
             LevelView.TryLoadScene(level.missionName);
             level.view = LevelView.TryInstantiate();
@@ -51,7 +59,7 @@ public class LevelSessionState : StateMachineState {
         Object.Destroy(level.view.gameObject);
         level.view = null;
     }
-    
+
     public IEnumerator AutoplayHandler() {
         const KeyCode key = KeyCode.Alpha8;
         while (true) {

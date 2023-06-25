@@ -11,10 +11,10 @@ public class LevelEditorUnitsModeState : StateMachineState {
     public UnitType unitType = UnitType.Infantry;
     public Player player;
 
-    private Unit inspectedUnit;
+    public Unit InspectedUnit { get; private set; }
     public void SetInspectedUnit(LevelEditorGui gui, Unit unit) {
 
-        inspectedUnit = unit;
+        InspectedUnit = unit;
 
         gui.Remove(name => name.StartsWith("InspectedUnit."));
 
@@ -45,7 +45,7 @@ public class LevelEditorUnitsModeState : StateMachineState {
                 if (!units.TryGetValue(position, out var unit))
                     return false;
                 unit.Dispose();
-                if (inspectedUnit == unit)
+                if (InspectedUnit == unit)
                     SetInspectedUnit(gui, null);
                 return true;
             }
@@ -62,7 +62,7 @@ public class LevelEditorUnitsModeState : StateMachineState {
 
                 editorState.DrawBridges();
 
-                if (inspectedUnit is { Position: { } unitPosition })
+                if (InspectedUnit is { Position: { } unitPosition })
                     Draw.ingame.CircleXZ(unitPosition.ToVector3Int().ToVector3(), .5f, Color.black);
 
                 if (Input.GetKeyDown(KeyCode.F8))

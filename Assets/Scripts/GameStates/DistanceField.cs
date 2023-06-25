@@ -19,14 +19,6 @@ public static class DistanceField {
         }
     }
 
-    public static HashSet<Vector2Int> GrownBy(this IEnumerable<Vector2Int> set, int distance) {
-        var grown = new HashSet<Vector2Int>(set);
-        foreach (var position in grown.ToList())
-        foreach (var offset in new Vector2Int(1, distance).Offsets())
-            grown.Add(position + offset);
-        return grown;
-    }
-
     public static HashSet<Vector2Int> FindObstacles(Level level, TileType isObstacle) {
         var result = new HashSet<Vector2Int>();
         foreach (var (position, tileType) in level.tiles)

@@ -14,36 +14,6 @@ using static Rules;
 
 public class AiPlayerCommander : MonoBehaviour {
 
-    [Serializable]
-    public class PotentialUnitAction {
-
-        public Unit unit;
-        public UnitActionType type;
-        public Unit targetUnit;
-        public Building targetBuilding;
-        public Vector2Int? targetPosition;
-        public WeaponName weaponName;
-        public List<Vector2Int> path, restPath;
-        public IEnumerable<Vector2Int> FullPath => path.Concat(restPath.Skip(1));
-        public Unit carrier;
-        public List<Vector2Int> carrierPath, carrierRestPath;
-
-        public float priority;
-
-        public override string ToString() {
-            var text = "";
-            text += type.ToString();
-            if (targetUnit != null)
-                text += $" {targetUnit}";
-            if (targetBuilding != null)
-                text += $" {targetBuilding}";
-            if (targetPosition is { } actualTargetPosition)
-                text += $" to {actualTargetPosition}";
-            if (type == UnitActionType.Attack)
-                text += $" with {weaponName}";
-            return text;
-        }
-    }
     public enum PriorityPreference { Min, Max }
 
     public GradientMap priorityGradientMap = new();
@@ -462,5 +432,35 @@ public class AiPlayerCommander : MonoBehaviour {
             total += cost;
         }
         return total;
+    }
+}
+[Serializable]
+public class PotentialUnitAction {
+
+    public Unit unit;
+    public UnitActionType type;
+    public Unit targetUnit;
+    public Building targetBuilding;
+    public Vector2Int? targetPosition;
+    public WeaponName weaponName;
+    public List<Vector2Int> path, restPath;
+    public IEnumerable<Vector2Int> FullPath => path.Concat(restPath.Skip(1));
+    public Unit carrier;
+    public List<Vector2Int> carrierPath, carrierRestPath;
+
+    public float priority;
+
+    public override string ToString() {
+        var text = "";
+        text += type.ToString();
+        if (targetUnit != null)
+            text += $" {targetUnit}";
+        if (targetBuilding != null)
+            text += $" {targetBuilding}";
+        if (targetPosition is { } actualTargetPosition)
+            text += $" to {actualTargetPosition}";
+        if (type == UnitActionType.Attack)
+            text += $" with {weaponName}";
+        return text;
     }
 }

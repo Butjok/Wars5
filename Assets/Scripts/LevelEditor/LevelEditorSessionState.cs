@@ -1,7 +1,5 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading;
 using Butjok.CommandLine;
 using Drawing;
 using UnityEngine;
@@ -17,13 +15,8 @@ public class LevelEditorSessionState : StateMachineState {
     public MeshFilter tileMeshFilter;
     public MeshCollider tileMeshCollider;
     public LevelEditorGui gui;
-    public MissionName missionName;
     public bool playAsFreshStart;
 
-    [Command] public static MissionName MissionName {
-        get => GameDebug.FindState<LevelEditorSessionState>().missionName;
-        set => GameDebug.FindState<LevelEditorSessionState>().missionName = value;
-    }
     [Command] public static bool PlayAsFreshStart {
         get => GameDebug.FindState<LevelEditorSessionState>().playAsFreshStart;
         set => GameDebug.FindState<LevelEditorSessionState>().playAsFreshStart = value;
@@ -42,6 +35,8 @@ public class LevelEditorSessionState : StateMachineState {
             level.view = LevelView.TryInstantiate();
             Assert.IsTrue(level.view);
             LevelReader.ReadInto(level, input);
+
+            new Thread(() => PrecalculatedDistances.TryLoad(level.missionName, out level.precalculatedDistances)).Start();
 
             if (level.players.Count == 0) {
                 level.players.Add(new Player(level, ColorName.Red));
