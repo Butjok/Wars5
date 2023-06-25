@@ -8,7 +8,7 @@ using Object = UnityEngine.Object;
 
 public class LevelEditorSessionState : StateMachineState {
 
-    public enum Command { SelectTilesMode, SelectUnitsMode, SelectTriggersMode, SelectBridgesMode, Play }
+    public enum SelectModeCommand { SelectTilesMode, SelectUnitsMode, SelectTriggersMode, SelectAreasMode, SelectBridgesMode, Play }
 
     public LevelView levelViewPrefab;
     public Level level = new();

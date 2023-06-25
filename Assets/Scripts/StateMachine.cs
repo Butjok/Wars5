@@ -130,6 +130,43 @@ public abstract class StateMachineState {
     protected static StateChange HandleUnexpectedCommand(object command) {
         return StateChange.none;
     }
+
+    protected bool TryEnqueueModeSelectionCommand() {
+        var game = FindState<GameSessionState>().game;
+        if (Input.GetKeyDown(KeyCode.T) && Input.GetKey(KeyCode.LeftShift)) {
+            game.EnqueueCommand(LevelEditorSessionState.SelectModeCommand.SelectTilesMode);
+            return true;
+        }
+        if (Input.GetKeyDown(KeyCode.U) && Input.GetKey(KeyCode.LeftShift)) {
+            game.EnqueueCommand(LevelEditorSessionState.SelectModeCommand.SelectUnitsMode);
+            return true;
+        }
+        if (Input.GetKeyDown(KeyCode.R) && Input.GetKey(KeyCode.LeftShift)) {
+            game.EnqueueCommand(LevelEditorSessionState.SelectModeCommand.SelectTriggersMode);
+            return true;
+        }
+        if (Input.GetKeyDown(KeyCode.Z) && Input.GetKey(KeyCode.LeftShift)) {
+            game.EnqueueCommand(LevelEditorSessionState.SelectModeCommand.SelectAreasMode);
+            return true;
+        }
+        return false;
+    }
+    
+    protected  StateChange HandleModeSelectionCommand(object command) {
+        switch (command) {
+            case (LevelEditorSessionState.SelectModeCommand.SelectTilesMode, _):
+                return StateChange.ReplaceWith(new LevelEditorTilesModeState(stateMachine));
+            case (LevelEditorSessionState.SelectModeCommand.SelectUnitsMode, _):
+                return StateChange.ReplaceWith(new LevelEditorUnitsModeState(stateMachine));
+            case (LevelEditorSessionState.SelectModeCommand.SelectTriggersMode, _):
+                return StateChange.ReplaceWith(new LevelEditorTriggersModeState(stateMachine));
+            case (LevelEditorSessionState.SelectModeCommand.SelectAreasMode, _):
+                return StateChange.ReplaceWith(new LevelEditorZoneModeState(stateMachine));
+            case (LevelEditorSessionState.SelectModeCommand.Play, _):
+                return StateChange.Push(new LevelEditorPlayState(stateMachine));
+        }
+        return StateChange.none;
+    }
 }
 
 public struct StateChange {

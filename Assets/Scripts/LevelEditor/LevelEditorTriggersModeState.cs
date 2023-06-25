@@ -41,8 +41,8 @@ public class LevelEditorTriggersModeState : StateMachineState {
                 
                 editorState.DrawBridges();
 
-                if (Input.GetKeyDown(KeyCode.F8))
-                    game.EnqueueCommand(LevelEditorSessionState.Command.SelectTilesMode);
+                if (TryEnqueueModeSelectionCommand())
+                {}
 
                 else if (Input.GetKeyDown(KeyCode.Tab))
                     game.EnqueueCommand(Command.CycleTrigger, Input.GetKey(KeyCode.LeftShift) ? -1 : 1);
@@ -54,7 +54,7 @@ public class LevelEditorTriggersModeState : StateMachineState {
                     game.EnqueueCommand(Command.RemoveTrigger, mousePosition);
 
                 else if (Input.GetKeyDown(KeyCode.F5))
-                    game.EnqueueCommand(LevelEditorSessionState.Command.Play);
+                    game.EnqueueCommand(LevelEditorSessionState.SelectModeCommand.Play);
 
                 else if (Input.GetKeyDown(KeyCode.LeftAlt) && camera.TryGetMousePosition(out mousePosition))
                     game.EnqueueCommand(Command.PickTrigger, mousePosition);
@@ -62,8 +62,8 @@ public class LevelEditorTriggersModeState : StateMachineState {
                 while (game.TryDequeueCommand(out var command))
                     switch (command) {
 
-                        case (LevelEditorSessionState.Command.SelectTilesMode, _):
-                            yield return StateChange.ReplaceWith(new LevelEditorTilesModeState(stateMachine));
+                        case (LevelEditorSessionState.SelectModeCommand, _):
+                            yield return HandleModeSelectionCommand(command);
                             break;
 
                         case (Command.CycleTrigger, int offset):
@@ -78,10 +78,6 @@ public class LevelEditorTriggersModeState : StateMachineState {
                         case (Command.RemoveTrigger, Vector2Int position):
                             foreach (var (_, set) in triggers)
                                 set.Remove(position);
-                            break;
-
-                        case (LevelEditorSessionState.Command.Play, _):
-                            yield return StateChange.Push(new LevelEditorPlayState(stateMachine));
                             break;
 
                         case (Command.PickTrigger, Vector2Int position):

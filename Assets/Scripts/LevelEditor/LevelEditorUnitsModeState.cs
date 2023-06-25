@@ -1,5 +1,5 @@
-using System;
 using System.Collections.Generic;
+using System.Linq;
 using Drawing;
 using UnityEngine;
 
@@ -12,13 +12,16 @@ public class LevelEditorUnitsModeState : StateMachineState {
     public Player player;
 
     public Unit InspectedUnit { get; private set; }
+
+    public LevelEditorUnitsModeState(StateMachine stateMachine) : base(stateMachine) { }
+
     public void SetInspectedUnit(LevelEditorGui gui, Unit unit) {
 
         InspectedUnit = unit;
 
         gui.Remove(name => name.StartsWith("InspectedUnit."));
 
-        if (unit != null)
+        if (unit != null) {
             gui
                 .Add("InspectedUnit.Type", () => unit.type)
                 .Add("InspectedUnit.Player", () => unit.Player)
@@ -26,10 +29,10 @@ public class LevelEditorUnitsModeState : StateMachineState {
                 .Add("InspectedUnit.Moved", () => unit.Moved)
                 .Add("InspectedUnit.Hp", () => $"{unit.Hp} / {Rules.MaxHp(unit)}")
                 .Add("InspectedUnit.MoveCapacity", () => Rules.MoveCapacity(unit))
-                .Add("InspectedUnit.Fuel", () => $"{unit.Fuel} / {Rules.MaxFuel(unit)}");
+                .Add("InspectedUnit.Fuel", () => $"{unit.Fuel} / {Rules.MaxFuel(unit)}")
+                .Add("InspectedUnit.BrainStates", () => unit.brain.states.Count == 0 ? "-" : string.Join(" / ", unit.brain.states.Reverse().Select(state => state.ToString())));
+        }
     }
-
-    public LevelEditorUnitsModeState(StateMachine stateMachine) : base(stateMachine) { }
 
     public override IEnumerator<StateChange> Enter {
         get {
@@ -62,11 +65,14 @@ public class LevelEditorUnitsModeState : StateMachineState {
 
                 editorState.DrawBridges();
 
-                if (InspectedUnit is { Position: { } unitPosition })
-                    Draw.ingame.CircleXZ(unitPosition.ToVector3Int().ToVector3(), .5f, Color.black);
+                {
+                    Unit unit = null;
+                    if (level.view.cameraRig.camera.TryGetMousePosition(out Vector2Int mousePosition))
+                        level.TryGetUnit(mousePosition, out unit);
+                    SetInspectedUnit(gui, unit);
+                }
 
-                if (Input.GetKeyDown(KeyCode.F8))
-                    game.EnqueueCommand(LevelEditorSessionState.Command.SelectTriggersMode);
+                if (TryEnqueueModeSelectionCommand()) { }
 
                 else if (Input.GetKeyDown(KeyCode.Tab))
                     game.EnqueueCommand(Command.CycleUnitType, Input.GetKey(KeyCode.LeftShift) ? -1 : 1);
@@ -81,25 +87,19 @@ public class LevelEditorUnitsModeState : StateMachineState {
                     game.EnqueueCommand(Command.RemoveUnit, mousePosition);
 
                 else if (Input.GetKeyDown(KeyCode.F5))
-                    game.EnqueueCommand(LevelEditorSessionState.Command.Play);
+                    game.EnqueueCommand(LevelEditorSessionState.SelectModeCommand.Play);
 
                 else if (Input.GetKeyDown(KeyCode.LeftAlt) && camera.TryGetMousePosition(out mousePosition))
                     game.EnqueueCommand(Command.PickUnit, mousePosition);
 
-                else if (Input.GetKeyDown(KeyCode.I) && camera.TryGetMousePosition(out mousePosition))
-                    game.EnqueueCommand(Command.InspectUnit, mousePosition);
-
                 else if (Input.GetKeyDown(KeyCode.L))
                     game.aiPlayerCommander.DrawPotentialUnitActions();
 
-                while (game.TryDequeueCommand(out var command)) {
-                    
-                    Debug.Log(command);
-                    
+                while (game.TryDequeueCommand(out var command))
                     switch (command) {
 
-                        case (LevelEditorSessionState.Command.SelectTriggersMode, _):
-                            yield return StateChange.ReplaceWith(new LevelEditorTriggersModeState(stateMachine));
+                        case (LevelEditorSessionState.SelectModeCommand, _):
+                            yield return HandleModeSelectionCommand(command);
                             break;
 
                         case (Command.CyclePlayer, int offset):
@@ -108,10 +108,6 @@ public class LevelEditorUnitsModeState : StateMachineState {
 
                         case (Command.CycleUnitType, int offset):
                             unitType = unitType.Cycle(unitTypes, offset);
-                            break;
-
-                        case (LevelEditorSessionState.Command.Play, _):
-                            yield return StateChange.Push(new LevelEditorPlayState(stateMachine));
                             break;
 
                         case (Command.PlaceUnit, (Vector2Int position, UnitType unitType, Player player)): {
@@ -129,7 +125,7 @@ public class LevelEditorUnitsModeState : StateMachineState {
                                 _ => "WbLightTank"
                             }).LoadAs<UnitView>();
 
-                            new Unit(player, unitType, position, player.unitLookDirection, viewPrefab: viewPrefab);
+                            var unit = new Unit(player, unitType, position, player.unitLookDirection, viewPrefab: viewPrefab);
                             break;
                         }
 
@@ -137,28 +133,24 @@ public class LevelEditorUnitsModeState : StateMachineState {
                             TryRemoveUnit(position);
                             break;
 
-                        case (Command.PickUnit, Vector2Int position):
+                        case (Command.PickUnit, Vector2Int position): {
                             if (units.TryGetValue(position, out var unit)) {
                                 unitType = unit.type;
                                 player = unit.Player;
                             }
                             break;
-
-                        case (Command.InspectUnit, Vector2Int position):
-                            units.TryGetValue(position, out unit);
-                            SetInspectedUnit(gui, unit);
-                            break;
+                        }
 
                         default:
                             yield return HandleUnexpectedCommand(command);
                             break;
                     }
-                }
             }
         }
     }
 
     public override void Exit() {
-        stateMachine.TryFind<LevelEditorSessionState>().gui.Pop();
+        var gui = stateMachine.TryFind<LevelEditorSessionState>().gui;
+        gui.Pop();
     }
 }

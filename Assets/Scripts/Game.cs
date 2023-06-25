@@ -1,8 +1,6 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading;
 using Butjok.CommandLine;
 using UnityEngine;
@@ -51,12 +49,29 @@ public class Game : MonoBehaviour {
     public readonly StateMachine stateMachine = new();
 
     private Queue<(object name, object argument)> commands = new();
-    public void EnqueueCommand(object name, object argument = null) {
+    private Queue<(string callerMemberName, string callerFilePath, int callerLineNumber)> commandsDebugInfo = new();
+
+    public void EnqueueCommand(object name, object argument = null,
+        [CallerMemberName] string callerMemberName = "", [CallerFilePath] string callerFilePath = null, [CallerLineNumber] int callerLineNumber = 0) {
+        Assert.IsTrue(name != null);
         Assert.IsTrue(commands.Count < 100);
         commands.Enqueue((name, argument));
+        commandsDebugInfo.Enqueue((callerMemberName, callerFilePath, callerLineNumber));
     }
     public bool TryDequeueCommand(out (object name, object argument) command) {
-        return commands.TryDequeue(out command);
+        if (commands.TryDequeue(out command)) {
+            commandsDebugInfo.Dequeue();
+            return true;
+        }
+        return false;
+    }
+    public bool TryDequeueCommand(out (object name, object argument) command, out (string callerMemberName, string callerFilePath, int callerLineNumber) debugInfo) {
+        if (commands.TryDequeue(out command)) {
+            debugInfo = commandsDebugInfo.Dequeue();
+            return true;
+        }
+        debugInfo = default;
+        return false;
     }
 
     public AiPlayerCommander aiPlayerCommander;
@@ -68,7 +83,22 @@ public class Game : MonoBehaviour {
 
     [TextArea(10, 20)] public string states;
     private void Update() {
+
         stateMachine.Tick();
+
+        if (Debug.isDebugBuild) {
+            var level = stateMachine.TryFind<LevelSessionState>()?.level ?? stateMachine.TryFind<LevelEditorSessionState>()?.level;
+            if (level != null) {
+                var units = new HashSet<Unit>();
+                if (level.view.cameraRig.camera.TryGetMousePosition(out Vector2Int mousePosition) && level.TryGetUnit(mousePosition, out var unit))
+                    units.Add(unit);
+                if (showAllUnitBrainStates)
+                    foreach (var u in level.units.Values)
+                        units.Add(u);
+                foreach (var u in units)
+                    DebugDraw.Unit(u);
+            }
+        }
     }
 
     private void OnApplicationQuit() {
@@ -81,8 +111,11 @@ public class Game : MonoBehaviour {
 
     [Command] public static int guiDepth = -1000;
     private List<string> stateNames = new();
+    [Command] public bool showAllUnitBrainStates;
+    [Command] public float unitBrainStateFontScale = 1;
     private void OnGUI() {
         if (Debug.isDebugBuild) {
+
             GUI.skin = DefaultGuiSkin.TryGet;
             GUI.depth = guiDepth;
             stateNames.Clear();
@@ -108,8 +141,8 @@ public class Game : MonoBehaviour {
 }
 
 public static class GameDebug {
-    public static T FindState<T>() where T:StateMachineState {
-        var state= Game.Instance.stateMachine.TryFind<T>();
+    public static T FindState<T>() where T : StateMachineState {
+        var state = Game.Instance.stateMachine.TryFind<T>();
         Assert.IsNotNull(state);
         return state;
     }

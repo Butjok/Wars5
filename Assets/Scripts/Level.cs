@@ -27,6 +27,7 @@ public class Level : IDisposable {
         [TriggerName.F] = new HashSet<Vector2Int>(),
     };
     public Dictionary<(MoveType, Vector2Int, Vector2Int), int> precalculatedDistances;
+    public Dictionary<(Zone, Vector2Int), int> zoneDistances;
 
     public void Dispose() {
         foreach (var player in players)

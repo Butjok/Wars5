@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
@@ -117,6 +118,9 @@ public static class LevelReader {
         TriggerName? trigger = null;
 
         var cameraRig = level.view.cameraRig;
+        var zones = new Dictionary<string, Zone>();
+
+        var unitTargetAssignmentActions = new List<Action>();
 
         stack.Clear();
         foreach (var token in Tokenizer.Tokenize(input)) {
@@ -345,6 +349,27 @@ public static class LevelReader {
                     unit.Carrier = carrier;
                     break;
                 }
+                case "unit.brain.set-assigned-zone": {
+                    var zoneName = (string)stack.Pop();
+                    var unit = (Unit)stack.Peek();
+                    Assert.IsTrue(zones.TryGetValue(zoneName, out var zone), zoneName);
+                    unit.brain.assignedZone = zone;
+                    break;
+                }
+                case "unit.brain.add-state": {
+                    var type = (Type)stack.Pop();
+                    var unit = (Unit)stack.Peek();
+                    var brainState = (UnitBrainState)Activator.CreateInstance(type, unit.brain);
+                    unit.brain.states.Push(brainState);
+                    stack.Push(brainState);
+                    break;
+                }
+                case "unit.brain.state.attacking-an-enemy.set-target-position": {
+                    var targetPosition = (Vector2Int)stack.Pop();
+                    var state = (AttackingAnEnemyUnitBrainState)stack.Peek();
+                    unitTargetAssignmentActions.Add(() => state.target = level.units[targetPosition]);
+                    break;
+                }
 
                 case "trigger.select": {
                     trigger = (TriggerName)stack.Pop();
@@ -392,12 +417,49 @@ public static class LevelReader {
                 case "camera-rig.set-pitch-angle":
                     cameraRig.PitchAngle = (dynamic)stack.Pop();
                     break;
-                
+
                 case "find-in-level-with-name": {
                     var name = (string)stack.Pop();
                     var matches = level.view.GetComponentsInChildren<Transform>().Where(t => t.name == name).ToList();
                     Assert.IsTrue(matches.Count == 1);
                     stack.Push(matches[0].gameObject);
+                    break;
+                }
+
+                case "zone.add": {
+                    var isRoot = (bool)stack.Pop();
+                    var name = (string)stack.Pop();
+                    var player = (Player)stack.Peek();
+                    var zone = new Zone { name = name };
+                    if (isRoot)
+                        player.rootZone = zone;
+                    stack.Push(zone);
+                    zones.Add(name, zone);
+                    break;
+                }
+                case "zone.add-position": {
+                    var position = (Vector2Int)stack.Pop();
+                    var zone = (Zone)stack.Peek();
+                    zone.tiles.Add(position);
+                    break;
+                }
+                case "zone.add-distance": {
+                    var distance = (int)stack.Pop();
+                    var position = (Vector2Int)stack.Pop();
+                    var moveType = (MoveType)stack.Pop();
+                    var zone = (Zone)stack.Peek();
+                    zone.distances.Add((moveType,position), distance);
+                    break;
+                }
+                case "zone.connect": {
+                    var toName = (string)stack.Pop();
+                    var fromName = (string)stack.Pop();
+                    var player = (Player)stack.Peek();
+                    Assert.IsTrue(player.rootZone != null);
+                    Assert.IsTrue(zones.TryGetValue(fromName, out var from));
+                    Assert.IsTrue(zones.TryGetValue(toName, out var to));
+                    from.neighbors.Add(to);
+                    to.neighbors.Add(from);
                     break;
                 }
 

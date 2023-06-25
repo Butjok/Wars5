@@ -23,24 +23,23 @@ public class ScalarFieldDrawer : MonoBehaviour {
         }
     }
 
-    public Game game;
     [Command] public string colorScheme = "viridis";
 
-    public void Draw(ScalarField field) {
+    public static void Draw(ScalarField field) {
         Instance.StopAllCoroutines();
         Instance.StartCoroutine(DrawEnumerator(field));
     }
 
-    public IEnumerator DrawEnumerator(ScalarField field) {
+    public static IEnumerator DrawEnumerator(ScalarField field) {
 
-        var level = game.Level;
-        this.field = field;
-        var ramp = Resources.Load<Texture2D>(colorScheme);
+        var level = Game.Instance.Level;
+        Instance.field = field;
+        var ramp = Resources.Load<Texture2D>(Instance.colorScheme);
 
         while (true) {
             if (Input.GetKeyDown(KeyCode.Alpha9)) {
                 yield return null;
-                this.field = null;
+                Instance.field = null;
                 break;
             }
             yield return null;
@@ -49,6 +48,8 @@ public class ScalarFieldDrawer : MonoBehaviour {
                 if (field.Domain.Contains(position)) {
                     var value = field[position];
                     var color = ramp.GetPixelBilinear(1 - value, .5f);
+                    if (value >= infinity)
+                        color = Color.black;
                     Drawing.Draw.ingame.SolidPlane(position.ToVector3(), Vector3.up, Vector2.one, color);
                     if (value <= 0 || value >= 1)
                         Drawing.Draw.ingame.Label2D(position.ToVector3(), value >= infinity ? "inf" : $"{value:0.###}", 8, LabelAlignment.Center, color.YiqContrastColor() * new Color(.5f, .5f, .5f, 1));
@@ -69,17 +70,13 @@ public class ScalarFieldDrawer : MonoBehaviour {
                 position => level.precalculatedDistances.TryGetValue((Rules.GetMoveType(inspectedUnit), inspectedUnit.NonNullPosition, position), out var distance)
                     ? distance
                     : infinity);
-            Instance.Draw(new ScalarField(distances.Keys.Where(position => distances[position] != infinity), position => distances[position]));
+            Draw(new ScalarField(distances.Keys.Where(position => distances[position] != infinity), position => distances[position]));
         }
     }
 
     [Command]
     public static void EvaluateAndDraw(string input) {
-        if (!Instance.game) {
-            Instance.game = Game.Instance;
-            Assert.IsTrue(Instance.game);
-        }
-        Instance.Draw(ScalarFieldCalculator.Evaluate(input, Instance.game));
+        Draw(ScalarFieldCalculator.Evaluate(input, Game.Instance));
     }
 
     public ScalarField field;

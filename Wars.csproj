@@ -52,6 +52,7 @@
      <Compile Include="Assets/Scripts/LevelEditor/LevelEditor.cs" />
      <Compile Include="Assets/Scripts/GameStates/AttackActionState.cs" />
      <Compile Include="Assets/Scripts/Turret2.cs" />
+     <Compile Include="Assets/Scripts/LevelEditor/LevelEditorZoneModeState.cs" />
      <Compile Include="Assets/Scripts/UvMapper.cs" />
      <Compile Include="Assets/Scripts/TileMaskTexture.cs" />
      <Compile Include="Assets/Scripts/AiPlayerCommanderSwitcher.cs" />
@@ -74,8 +75,10 @@
      <Compile Include="Assets/Scripts/PathFinder.cs" />
      <Compile Include="Assets/Scripts/AiPlayerCommander.cs" />
      <Compile Include="Assets/Scripts/Rules.cs" />
+     <Compile Include="Assets/Scripts/Colors.cs" />
      <Compile Include="Assets/Scripts/Compass.cs" />
      <Compile Include="Assets/Scripts/HardFollow.cs" />
+     <Compile Include="Assets/Scripts/Ai/AiPlayer.cs" />
      <Compile Include="Assets/Scripts/GameStates/VictoryState.cs" />
      <Compile Include="Assets/Scripts/CreditsText.cs" />
      <Compile Include="Assets/Scripts/SavedGameView.cs" />
@@ -118,7 +121,7 @@
      <Compile Include="Assets/Scripts/EntryPoint/MainMenuState.cs" />
      <Compile Include="Assets/Scripts/SetTextToLocalizedGameObjectName.cs" />
      <Compile Include="Assets/Scripts/UnitMoveSequenceTest.cs" />
-     <Compile Include="Assets/Scripts/UnitBrain.cs" />
+     <Compile Include="Assets/Scripts/Ai/UnitBrain.cs" />
      <Compile Include="Assets/Scripts/LoadingView.cs" />
      <Compile Include="Assets/Scripts/EntryPoint/LoadGameState.cs" />
      <Compile Include="Assets/Scripts/UnitDescription.cs" />
@@ -132,6 +135,7 @@
      <Compile Include="Assets/Scripts/SequencePlayer.cs" />
      <Compile Include="Assets/Scripts/LevelEditor/LevelEditorFileSystem.cs" />
      <Compile Include="Assets/Scripts/TextFrame3d.cs" />
+     <Compile Include="Assets/Scripts/Ai/Zone.cs" />
      <Compile Include="Assets/Scripts/GameStates/UnitBuildState.cs" />
      <Compile Include="Assets/Scripts/PlayerView2.cs" />
      <Compile Include="Assets/Scripts/LevelEditor/LevelEditorPlayState.cs" />
@@ -196,6 +200,7 @@
      <Compile Include="Assets/Scripts/InputCommandsListener.cs" />
      <Compile Include="Assets/Scripts/EntryPoint/MainMenuSelectionState.cs" />
      <Compile Include="Assets/Scripts/MinimapIcon.cs" />
+     <Compile Include="Assets/Scripts/PathFinder2.cs" />
      <Compile Include="Assets/Scripts/CameraRig.cs" />
      <Compile Include="Assets/Scripts/FitWidth.cs" />
      <Compile Include="Assets/Scripts/UnitActionViewTest.cs" />
@@ -206,6 +211,7 @@
      <Compile Include="Assets/Scripts/InGameOverlayMenuView.cs" />
      <Compile Include="Assets/Scripts/Building.cs" />
      <Compile Include="Assets/Scripts/AiPlayground.cs" />
+     <Compile Include="Assets/Scripts/ZoneDistances.cs" />
      <Compile Include="Assets/Scripts/Player.cs" />
      <Compile Include="Assets/Scripts/LevelEditor/LevelEditorSessionState.cs" />
      <Compile Include="Assets/Scripts/UnitBuildMenuViews.cs" />
@@ -235,6 +241,7 @@
      <Folder Include="Assets/Scripts/Marketing" />
      <Folder Include="Assets/Scripts" />
      <Folder Include="Assets/Scripts/Views" />
+     <Folder Include="Assets/Scripts/Ai" />
      <Folder Include="Assets/Scripts/LevelLogic" />
      <Folder Include="Assets/Scripts/Animation" />
      <Reference Include="UnityEngine">

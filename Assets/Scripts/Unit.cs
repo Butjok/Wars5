@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -20,10 +21,8 @@ public class Unit : IDisposable {
 
     public readonly UnitType type;
     public readonly UnitView view;
-
+    public readonly UnitBrain brain;
     private readonly bool initialized;
-
-    public Stack<(UnitStateType type, object argument)> states;
 
     private Vector2Int? position;
     public Vector2Int? Position {
@@ -183,9 +182,8 @@ public class Unit : IDisposable {
 
         Position = position;
 
-        states = new Stack<(UnitStateType type, object argument)>();
-        states.Push((UnitStateType.Staying, null));
-
+        brain = new UnitBrain(this);
+        
         initialized = true;
     }
 

@@ -128,6 +128,17 @@ public class LevelEditorTilesModeState : StateMachineState {
                 if (removeUnit && units.TryGetValue(position, out var unit))
                     unit.Dispose();
                 RebuildTilemapMesh();
+                foreach (var player in level.players)
+                    if (player.rootZone != null)
+                        foreach (var zone in Zone.GetConnected(player.rootZone)) {
+                            zone.tiles.Remove(position);
+                            if (zone.tiles.Count == 0) {
+                                foreach (var neighbor in zone.neighbors)
+                                    neighbor.neighbors.Remove(zone);
+                                if (player.rootZone == zone)
+                                    player.rootZone = null;
+                            }
+                        }
             }
             void TryPlaceTile(Vector2Int position, TileType tileType, Player player) {
                 if (tiles.ContainsKey(position))
@@ -146,15 +157,12 @@ public class LevelEditorTilesModeState : StateMachineState {
                 // .Add("Mode", () => mode)
                 ;
 
-            var cursor = level.view.cursorView;
-
             while (true) {
                 yield return StateChange.none;
 
                 editorState.DrawBridges();
 
-                if (Input.GetKeyDown(KeyCode.F8))
-                    game.EnqueueCommand(LevelEditorSessionState.Command.SelectUnitsMode);
+                if (TryEnqueueModeSelectionCommand()) { }
                 else if (Input.GetKeyDown(KeyCode.Tab))
                     game.EnqueueCommand(Command.CycleTileType, Input.GetKey(KeyCode.LeftShift) ? -1 : 1);
                 else if (Input.GetKeyDown(KeyCode.F2))
@@ -166,17 +174,15 @@ public class LevelEditorTilesModeState : StateMachineState {
                 else if (Input.GetMouseButton(Mouse.right) && camera.TryGetMousePosition(out mousePosition))
                     game.EnqueueCommand(Command.RemoveTile, mousePosition);
                 else if (Input.GetKeyDown(KeyCode.F5))
-                    game.EnqueueCommand(LevelEditorSessionState.Command.Play);
-                else if (Input.GetKeyDown(KeyCode.LeftAlt) && camera.TryGetMousePosition(out  mousePosition))
+                    game.EnqueueCommand(LevelEditorSessionState.SelectModeCommand.Play);
+                else if (Input.GetKeyDown(KeyCode.LeftAlt) && camera.TryGetMousePosition(out mousePosition))
                     game.EnqueueCommand(Command.PickTile, mousePosition);
-
-                else if (Input.GetKeyDown(KeyCode.F7)) { }
 
                 while (game.TryDequeueCommand(out var command))
                     switch (command) {
 
-                        case (LevelEditorSessionState.Command.SelectUnitsMode, _):
-                            yield return StateChange.ReplaceWith(new LevelEditorUnitsModeState(stateMachine));
+                        case (LevelEditorSessionState.SelectModeCommand, _):
+                            yield return HandleModeSelectionCommand(command);
                             break;
 
                         case (Command.CycleTileType, int offset):
@@ -204,25 +210,12 @@ public class LevelEditorTilesModeState : StateMachineState {
                             TryRemoveTile(position, true);
                             break;
 
-                        case (LevelEditorSessionState.Command.Play, _):
-                            yield return StateChange.Push(new LevelEditorPlayState(stateMachine));
-                            break;
-
                         case (Command.PickTile, Vector2Int position):
                             if (tiles.TryGetValue(position, out var pickedTileType))
                                 tileType = pickedTileType;
                             if (buildings.TryGetValue(position, out var building))
                                 player = building.Player;
                             break;
-
-                        case (Command.ToggleMode, _):
-                            mode = mode == Mode.Add ? Mode.Remove : Mode.Add;
-                            break;
-
-                        // case (CursorInteractor.Command.MouseDrag, _):
-                        // if (camera.TryGetMousePosition(out Vector2Int mousePosition))
-                        // game.EnqueueCommand(mode == Mode.Add ? Command.PlaceTile : Command.RemoveTile, mousePosition);
-                        // break;
 
                         case (CursorInteractor.Command, _):
                             MoveCursor(command);

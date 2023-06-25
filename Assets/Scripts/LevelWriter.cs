@@ -17,6 +17,21 @@ public static class LevelWriter {
             tw
                 .WritePlayer(player);
 
+            if (player.rootZone != null) {
+                foreach (var zone in Zone.GetConnected(player.rootZone)) {
+                    tw.WriteCommand("zone.add", zone.name, zone == player.rootZone);
+                    foreach (var position in zone.tiles)
+                        tw.WriteCommand("zone.add-position", position);
+                    if (zone.distances != null)
+                        foreach (var ((moveType, position), distance) in zone.distances)
+                            tw.WriteCommand("zone.add-distance", moveType, position, distance);
+                    tw.WriteCommand("pop");
+                }
+                foreach (var zone in Zone.GetConnected(player.rootZone))
+                foreach (var neighbor in zone.neighbors)
+                    tw.WriteCommand("zone.connect", zone.name, neighbor.name);
+            }
+
             foreach (var building in player.level.FindBuildingsOf(player))
                 tw
                     .WriteCommand("dup")
@@ -145,6 +160,25 @@ public static class LevelWriter {
 
         tw.WriteCommand("unit.add");
 
+        if (unit.brain.assignedZone!=null)
+            tw.WriteCommand("unit.brain.set-assigned-zone", unit.brain.assignedZone.name);
+        foreach (var state in unit.brain.states.Reverse()) {
+            tw.WriteCommand("unit.brain.add-state", state.GetType());
+            switch (state) {
+                case StayingInZoneUnitBrainState stayingInZone:
+                    break;
+                case ReturningToZoneUnitBrainState returningToZone:
+                    break;
+                case AttackingAnEnemyUnitBrainState attackingAnEnemy:
+                    if (attackingAnEnemy.target != null)
+                        tw.WriteCommand("unit.brain.state.attacking-an-enemy.set-target-position", attackingAnEnemy.target.NonNullPosition);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(state.ToString());
+            }
+            tw.WriteCommand("pop");
+        }
+
         if (unit.Cargo.Count > 0)
             foreach (var cargo in unit.Cargo)
                 tw
@@ -156,7 +190,7 @@ public static class LevelWriter {
 
         return tw;
     }
-    
+
     public static TextWriter WriteCommand(this TextWriter tw, string command, params object[] arguments) {
         if (command != null) {
             Assert.AreNotEqual(0, command.Length);

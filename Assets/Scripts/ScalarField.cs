@@ -130,7 +130,7 @@ public static class ScalarFieldCalculator {
                         "/" => position => a[position] / b[position],
                         "min" => position => Mathf.Min(a[position], b[position]),
                         "max" => position => Mathf.Max(a[position], b[position]),
-                        _ => throw new NotImplementedException(),
+                        _ => throw new ArgumentOutOfRangeException()
                     }));
                     break;
                 }

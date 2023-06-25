@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Drawing;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -39,7 +40,7 @@ public class LevelEditorGui : MonoBehaviour {
                     GUILayout.Label($"{key}: {info[key]()}");
                 }
                 else {
-                    var padding = group.Key == "" ? "" : "  "; 
+                    var padding = group.Key == "" ? "" : "  ";
                     if (group.Key != "")
                         GUILayout.Label(group.Key);
                     foreach (var key in group)

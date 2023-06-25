@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms.Design;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -166,6 +167,10 @@ public static class MathUtils {
         var index = Array.IndexOf(values, value);
         var nextIndex = index == -1 ? 0 : (index + offset).PositiveModulo(values.Length);
         return values[nextIndex];
+    }
+    public static T GetWrapped<T>(this IReadOnlyList<T> list, int index) {
+        Assert.IsTrue(list.Count>0);
+        return list[index.PositiveModulo(list.Count)];
     }
 
     public static Quaternion SlerpWithMaxSpeed(this Quaternion rotation, Quaternion targetRotation, float maxSpeed = 9999) {

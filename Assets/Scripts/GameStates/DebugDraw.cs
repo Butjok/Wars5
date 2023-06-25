@@ -7,8 +7,15 @@ using UnityEngine;
 
 public static class DebugDraw {
 
-    public enum ColorDirection {LightToDark, DarkToLight}
-    
+    public static void Unit(Unit unit) {
+        if (unit.brain.states.TryPeek(out var state)) {
+            Draw.ingame.Label2D(unit.view.body.position, state.ToString(), 10, LabelAlignment.BottomCenter, Color.black);
+            state.OnGUI();
+        }
+    }
+
+    public enum ColorDirection { LightToDark, DarkToLight }
+
     public static void DistanceField(Dictionary<Vector2Int, float> distanceField, ColorDirection colorDirection = ColorDirection.DarkToLight) {
 
         var values = distanceField.Values.Where(d => d < global::DistanceField.infinity).ToList();
@@ -20,12 +27,12 @@ public static class DebugDraw {
         var range = maxDistance - minDistance;
 
         foreach (var (position, distance) in distanceField) {
-            
+
             var isInfinite = distance >= global::DistanceField.infinity;
             var planeColor = isInfinite || range == 0 ? Color.black : distance.ToColor(minDistance, maxDistance, colorDirection == ColorDirection.DarkToLight);
             var labelColor = Color.black; //planeColor.YiqContrastColor();
             var label = distance < global::DistanceField.infinity ? distance.ToString("n2") : "inf";
-            
+
             Draw.ingame.SolidPlane(position.ToVector3(), Vector3.up, Vector2.one, planeColor);
             Draw.ingame.Label2D(position.ToVector3(), label, 14, LabelAlignment.Center, labelColor);
         }
