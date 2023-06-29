@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Events;
@@ -9,21 +6,42 @@ using UnityEngine.EventSystems;
 public class MainMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler {
 
     public Renderer renderer;
+    
     private MaterialPropertyBlock propertyBlock;
     public MaterialPropertyBlock PropertyBlock => propertyBlock ??= new MaterialPropertyBlock();
+    
     public UnityEvent<MainMenuButton> onClick = new();
-    public MainMenuSelectionState.Command command;
+    public MainMenuSelectionState2.Command command;
 
+    public void UpdateRenderer() {
+        PropertyBlock.SetFloat("_Selected", highlightIntensity);
+        PropertyBlock.SetFloat("_Active", interactable ? 1 : 0);
+        renderer.SetPropertyBlock(PropertyBlock);
+    }
+    
+    private float highlightIntensity;
     public float HighlightIntensity {
         set {
-            PropertyBlock.SetFloat("_Selected", value);
-            renderer.SetPropertyBlock(PropertyBlock);
+            highlightIntensity = value;
+            UpdateRenderer();
+        }
+    }
+    
+    private bool interactable;
+    public bool Interactable {
+        get => interactable;
+        set {
+            interactable = value;
+            UpdateRenderer();
         }
     }
 
-    public bool active;
-    public bool isUnderPointer;
+    private void Reset() {
+        renderer = GetComponent<Renderer>();
+        Assert.IsTrue(renderer);
+    }
 
+    private bool isUnderPointer;
     public void OnPointerEnter(PointerEventData eventData) {
         isUnderPointer = true;
     }
@@ -31,10 +49,14 @@ public class MainMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         isUnderPointer = false;
     }
     public void OnPointerDown(PointerEventData eventData) {
-        onClick.Invoke(this);
+        if (interactable)
+            onClick.Invoke(this);
     }
 
+    private void Start() {
+        Interactable = true;
+    }
     private void Update() {
-        HighlightIntensity = active && isUnderPointer ? 1 : 0;
+        HighlightIntensity = interactable && isUnderPointer ? 1 : 0;
     }
 }
