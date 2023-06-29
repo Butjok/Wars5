@@ -11,17 +11,30 @@ public class MainMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     public Renderer renderer;
     private MaterialPropertyBlock propertyBlock;
     public MaterialPropertyBlock PropertyBlock => propertyBlock ??= new MaterialPropertyBlock();
-    public UnityEvent onClick = new();
+    public UnityEvent<MainMenuButton> onClick = new();
+    public MainMenuSelectionState.Command command;
+
+    public float HighlightIntensity {
+        set {
+            PropertyBlock.SetFloat("_Selected", value);
+            renderer.SetPropertyBlock(PropertyBlock);
+        }
+    }
+
+    public bool active;
+    public bool isUnderPointer;
 
     public void OnPointerEnter(PointerEventData eventData) {
-        PropertyBlock.SetFloat("_Selected", 1);
-        renderer.SetPropertyBlock(PropertyBlock);
+        isUnderPointer = true;
     }
     public void OnPointerExit(PointerEventData eventData) {
-        PropertyBlock.SetFloat("_Selected", 0);
-        renderer.SetPropertyBlock(PropertyBlock);
+        isUnderPointer = false;
     }
     public void OnPointerDown(PointerEventData eventData) {
-        onClick.Invoke();
+        onClick.Invoke(this);
+    }
+
+    private void Update() {
+        HighlightIntensity = active && isUnderPointer ? 1 : 0;
     }
 }

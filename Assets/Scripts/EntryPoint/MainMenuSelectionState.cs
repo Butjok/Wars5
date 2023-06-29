@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class MainMenuSelectionState : StateMachineState {
 
-    public static bool quit, goToCampaign, goToAbout, goToSettings, goToLoadGame;
+    public enum Command { GoToCampaignOverview, OpenLoadGameMenu, OpenGameSettingsMenu, OpenAboutMenu, Quit }
 
     [Command]
     public static float fadeDuration = .25f;
@@ -21,6 +21,7 @@ public class MainMenuSelectionState : StateMachineState {
 
     public override IEnumerator<StateChange> Enter {
         get {
+            var game = stateMachine.Find<GameSessionState>().game;
             var view = stateMachine.TryFind<EntryPointState>().view;
             view.mainMenuVirtualCamera.enabled = true;
             view.textFrame3d.gameObject.SetActive(true);
@@ -31,55 +32,54 @@ public class MainMenuSelectionState : StateMachineState {
 
             while (true) {
 
-                if (quit) {
-                    quit = false;
+                while (game.TryDequeueCommand(out var command))
+                    switch (command) {
+
+                        case (Command.Quit, _):
 #if UNITY_EDITOR
-                    UnityEditor.EditorApplication.isPlaying = false;
+                            UnityEditor.EditorApplication.isPlaying = false;
 #else
                     Application.Quit();
 #endif
-                    yield break;
-                }
+                            break;
 
-                if (goToCampaign) {
-                    goToCampaign = false;
-                    PostProcessing.ColorFilter = Color.white;
-                    var tween = PostProcessing.Fade(Color.black, fadeDuration, fadeEasing);
-                    while (tween.IsActive() && !tween.IsComplete())
-                        yield return StateChange.none;
-                    yield return StateChange.PopThenPush(3, new CampaignOverviewState2(stateMachine));
-                }
-
-                if (goToLoadGame) {
-                    goToLoadGame = false;
-                    if (view.loadGameText.color != view.inactiveColor) {
-                        yield return StateChange.Push(new MainMenuLoadGameState(stateMachine));
-                        continue;
+                        case (Command.OpenLoadGameMenu, _):
+                            if (view.loadGameText.color != view.inactiveColor)
+                                yield return StateChange.Push(new MainMenuLoadGameState(stateMachine));
+                            else
+                                UiSound.Instance.notAllowed.PlayOneShot();
+                            break;
+                        
+                        case (Command.OpenGameSettingsMenu, _):
+                            break;
+                        
+                        case (Command.OpenAboutMenu, _):
+                            yield return StateChange.Push(new MainMenuAboutState(stateMachine));
+                            break;
+                        
+                        case (Command.GoToCampaignOverview, _):
+                            PostProcessing.ColorFilter = Color.white;
+                            var tween = PostProcessing.Fade(Color.black, fadeDuration, fadeEasing);
+                            while (tween.IsActive() && !tween.IsComplete())
+                                yield return StateChange.none;
+                            yield return StateChange.PopThenPush(3, new CampaignOverviewState2(stateMachine));
+                            break;
+                        
+                        default:
+                            HandleUnexpectedCommand(command);
+                            break;
                     }
-                    else
-                        UiSound.Instance.notAllowed.PlayOneShot();
-                }
 
-                if (goToSettings) {
-                    goToSettings = false;
-                }
-
-                if (goToAbout) {
-                    goToAbout = false;
-                    yield return StateChange.Push(new MainMenuAboutState(stateMachine));
-                    continue;
-                }
-
-                if (InputState.TryConsumeKeyDown(KeyCode.Escape)) {
+                if (Input.GetKeyDown(KeyCode.Escape)) {
 
                     var startTime = Time.time;
                     view.holdImage.enabled = true;
 
-                    while (!InputState.TryConsumeKeyUp(KeyCode.Escape)) {
+                    while (!Input.GetKeyUp(KeyCode.Escape)) {
 
                         var holdTime = Time.time - startTime;
                         if (holdTime > quitHoldTime) {
-                            quit = true;
+                            game.EnqueueCommand(Command.Quit);
                             break;
                         }
 

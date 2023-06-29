@@ -88,10 +88,10 @@ public class TextFrame3d : MonoBehaviour {
             return;
         }
 
-        if (InputState.TryConsumeKeyDown(KeyCode.Return) || InputState.TryConsumeKeyDown(KeyCode.Space)) {
+        /*if (InputState.TryConsumeKeyDown(KeyCode.Return) || InputState.TryConsumeKeyDown(KeyCode.Space)) {
             Click(Target);
             return;
-        }
+        }*/
 
         var ray = camera.ScreenPointToRay(Input.mousePosition);
         foreach (var target in targets) {
@@ -114,13 +114,13 @@ public class TextFrame3d : MonoBehaviour {
                 SetTarget(target, duration);
             lastMousePosition = Input.mousePosition;
 
-            if (InputState.TryConsumeMouseButtonDown(Mouse.left))
-                Click(Target);
+            //if (InputState.TryConsumeMouseButtonDown(Mouse.left))
+                //Click(Target);
             break;
         }
     }
 
-    public void Click(TextMeshPro text) {
+    /*public void Click(TextMeshPro text) {
         if (text == campaignText)
             MainMenuSelectionState.goToCampaign = true;
         else if (text == quitText)
@@ -131,5 +131,5 @@ public class TextFrame3d : MonoBehaviour {
             MainMenuSelectionState.goToSettings = true;
         else if (text == loadGameText)
             MainMenuSelectionState.goToLoadGame = true;
-    }
+    }*/
 }
