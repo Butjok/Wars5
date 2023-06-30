@@ -352,8 +352,11 @@ public static class LevelReader {
                 case "unit.brain.set-assigned-zone": {
                     var zoneName = (string)stack.Pop();
                     var unit = (Unit)stack.Peek();
-                    Assert.IsTrue(zones.TryGetValue(zoneName, out var zone), zoneName);
-                    unit.brain.assignedZone = zone;
+                    var found = zones.TryGetValue(zoneName, out var zone);
+                    if (found)
+                        unit.brain.assignedZone = zone;
+                    else
+                        Debug.LogWarning($"could not assign zone {zoneName} to unit {unit}");
                     break;
                 }
                 case "unit.brain.add-state": {
@@ -448,7 +451,7 @@ public static class LevelReader {
                     var position = (Vector2Int)stack.Pop();
                     var moveType = (MoveType)stack.Pop();
                     var zone = (Zone)stack.Peek();
-                    zone.distances.Add((moveType,position), distance);
+                    zone.distances.Add((moveType, position), distance);
                     break;
                 }
                 case "zone.connect": {

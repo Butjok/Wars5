@@ -7,6 +7,8 @@ public class GameSessionState : StateMachineState {
     public enum Command { LaunchEntryPoint, PlayLevel, OpenLevelEditor }
 
     public Game game;
+    public PersistentData persistentData;
+    
     public GameSessionState(Game game) : base(game.stateMachine) {
         this.game = game;
     }
@@ -14,6 +16,8 @@ public class GameSessionState : StateMachineState {
     public override IEnumerator<StateChange> Enter {
         get {
 
+            persistentData = PersistentData.Read();
+            
             Player.undisposed.Clear();
             Building.undisposed.Clear();
             Unit.undisposed.Clear();

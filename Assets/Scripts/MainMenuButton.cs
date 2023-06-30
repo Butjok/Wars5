@@ -13,6 +13,10 @@ public class MainMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     public UnityEvent<MainMenuButton> onClick = new();
     public MainMenuSelectionState2.Command command;
 
+    public bool Visible {
+        set => gameObject.SetActive(value);
+    }
+
     public void UpdateRenderer() {
         PropertyBlock.SetFloat("_Selected", highlightIntensity);
         PropertyBlock.SetFloat("_Active", interactable ? 1 : 0);

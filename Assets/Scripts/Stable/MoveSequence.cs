@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Butjok.CommandLine;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -41,11 +42,13 @@ public class MoveSequence {
     public Vector2Int finalPosition;
     public Action onComplete;
 
-    public MoveSequence(Transform target, IEnumerable<Vector2Int> _positions, float? _speed=null, Vector2Int? _finalDirection = null,
-        Action onComplete=null) {
+    [Command] public static float unitSpeed = .5f;
+
+    public MoveSequence(Transform target, IEnumerable<Vector2Int> _positions, float? _speed = null, Vector2Int? _finalDirection = null,
+        Action onComplete = null) {
 
         this.target = target;
-        this.speed = _speed ?? PersistentData.Loaded.gameSettings.unitSpeed;
+        this.speed = _speed ?? unitSpeed;
         this._finalDirection = _finalDirection;
         this.onComplete = onComplete;
         finalPosition = target.position.ToVector2().RoundToInt();
@@ -78,7 +81,7 @@ public class MoveSequence {
         if (positions is { Length: >= 2 }) {
 
             finalPosition = positions.Last();
-            
+
             var firstDirection = positions[1] - positions[0];
             if (targetStartDirection != firstDirection)
                 AddSegment(new Segment {
@@ -249,7 +252,7 @@ public class MoveSequence {
                     throw new ArgumentOutOfRangeException();
             }
         }
-        
+
         onComplete?.Invoke();
     }
 }

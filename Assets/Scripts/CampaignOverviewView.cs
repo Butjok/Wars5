@@ -44,7 +44,7 @@ public class CampaignOverviewView : MonoBehaviour {
     }
 
     public void CycleMission(int offset) {
-        var campaign = PersistentData.Loaded.campaign;
+        var campaign = PersistentData.Read().campaign;
         var missionNames = MissionViews.Select(mv => mv.MissionName);
         var availableMissionNames = missionNames.Where(campaign.IsAvailable).ToList();
         var index = availableMissionNames.IndexOf(CampaignOverviewMissionCloseUpState.missionName);
@@ -76,8 +76,8 @@ public class CampaignOverviewState2 : StateMachineState {
             var view = Object.FindObjectOfType<CampaignOverviewView>();
             Assert.IsTrue(view);
 
-            PostProcessing.ColorFilter = Color.black;
-            PostProcessing.Fade(Color.white, fadeDuration, fadeEasing);
+            //PostProcessing.ColorFilter = Color.black;
+            //PostProcessing.Fade(Color.white, fadeDuration, fadeEasing);
 
             yield return StateChange.Push(new CampaignOverviewSelectionState(stateMachine, view));
         }
@@ -108,7 +108,7 @@ public class CampaignOverviewSelectionState : StateMachineState {
 
             view.defaultVirtualCamera.enabled = true;
 
-            var campaign = PersistentData.Loaded.campaign;
+            var campaign = PersistentData.Read().campaign;
             foreach (var missionView in view.MissionViews) {
                 var missionName = missionView.MissionName;
                 var isAvailable = campaign.IsAvailable(missionName);
@@ -135,11 +135,11 @@ public class CampaignOverviewSelectionState : StateMachineState {
                 if (shouldGoBackToMainMenu) {
                     shouldGoBackToMainMenu = false;
 
-                    PostProcessing.ColorFilter = Color.white;
+                    /*PostProcessing.ColorFilter = Color.white;
                     var tween = PostProcessing.Fade(Color.black, fadeDuration, fadeEasing);
                     while (tween.IsActive() && !tween.IsComplete())
-                        yield return StateChange.none;
-                    yield return StateChange.PopThenPush(2, new EntryPointState(stateMachine, false, false));
+                        yield return StateChange.none;*/
+                    yield return StateChange.PopThenPush(2, new MainMenuState2(stateMachine, false, false));
                 }
 
                 var ray = view.mainCamera.ScreenPointToRay(Input.mousePosition);
@@ -214,7 +214,7 @@ public class CampaignOverviewMissionCloseUpState : StateMachineState {
     public override IEnumerator<StateChange> Enter {
         get {
 
-            var campaign = PersistentData.Loaded.campaign;
+            var campaign = PersistentData.Read().campaign;
             var availableMissionsCount = view.MissionViews.Count(mv => campaign.IsAvailable(mv.MissionName));
             view.previousButton.interactable = view.nextButton.interactable = availableMissionsCount > 1;
 
@@ -222,7 +222,7 @@ public class CampaignOverviewMissionCloseUpState : StateMachineState {
             view.missionName.text = Strings.GetName(missionName);
             view.missionDescription.text = Strings.GetDescription(missionName);
 
-            var isAvailable = PersistentData.Loaded.campaign.IsAvailable(missionName);
+            var isAvailable = campaign.IsAvailable(missionName);
             view.startMissionButton.interactable = isAvailable;
 
             if (missionView.TryGetVirtualCamera)

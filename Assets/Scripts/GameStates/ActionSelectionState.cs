@@ -228,7 +228,7 @@ public class ActionSelectionState : StateMachineState {
                             if (!unit.Disposed) {
                                 unit.Moved = true;
                                 if (unit.view.LookDirection != unit.Player.unitLookDirection)
-                                    game.StartCoroutine(new MoveSequence(unit.view.transform, null, PersistentData.Loaded.gameSettings.unitSpeed, unit.Player.unitLookDirection).Animation());
+                                    game.StartCoroutine(new MoveSequence(unit.view.transform, null,_finalDirection: unit.Player.unitLookDirection).Animation());
                             }
 
                             /*

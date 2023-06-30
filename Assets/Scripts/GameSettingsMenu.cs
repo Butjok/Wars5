@@ -25,27 +25,27 @@ public class GameSettingsMenu : MonoBehaviour {
 
     public RectTransform buttonsRoot;
     public Button closeButton;
-    
+
     public float shakeDuration = 1;
     public Vector3 shakeStrength = new Vector3(5, 0, 0);
     public Ease shakeEase = Ease.Unset;
     public int shakeVibrato = 10;
     public bool shakeFadeOut = false;
     public Tweener shakeTweener;
-    
+
     public TMP_Text unitSpeedText;
 
     public const PostProcessLayer.Antialiasing antiAliasing = PostProcessLayer.Antialiasing.TemporalAntialiasing;
 
     public GameSettings gameSettings;
-    
+
     public Action enqueueCloseCommand;
-    
+
     public void Show(Action enqueueCloseCommand) {
 
         this.enqueueCloseCommand = enqueueCloseCommand;
-        
-        gameSettings = PersistentData.Loaded.gameSettings.ShallowCopy();
+
+        gameSettings = PersistentData.Read().gameSettings.ShallowCopy();
 
         root.SetActive(true);
         UpdateControls();
@@ -60,16 +60,16 @@ public class GameSettingsMenu : MonoBehaviour {
 
         showBattleAnimationToggle.SetIsOnWithoutNotify(gameSettings.showBattleAnimation);
         unitSpeedSlider.SetValueWithoutNotify(gameSettings.unitSpeed);
-        unitSpeedText.text = Mathf.RoundToInt( gameSettings.unitSpeed).ToString();
+        unitSpeedText.text = Mathf.RoundToInt(gameSettings.unitSpeed).ToString();
         antiAliasingToggle.SetIsOnWithoutNotify(gameSettings.antiAliasing == antiAliasing);
         motionBlurShutterAngleSlider.SetValueWithoutNotify(gameSettings.motionBlurShutterAngle is { } value ? value : 0);
         bloomToggle.SetIsOnWithoutNotify(gameSettings.enableBloom);
         screenSpaceReflectionsToggle.SetIsOnWithoutNotify(gameSettings.enableScreenSpaceReflections);
         ambientOcclusionToggle.SetIsOnWithoutNotify(gameSettings.enableAmbientOcclusion);
         shuffleMusicToggle.SetIsOnWithoutNotify(gameSettings.shuffleMusic);
-        
+
         //okButton.interactable =game.settings.DiffersFrom(oldSettings);
-        closeButton.interactable = !gameSettings.DiffersFrom(PersistentData.Loaded.gameSettings);
+        closeButton.interactable = !gameSettings.DiffersFrom(PersistentData.Read().gameSettings);
     }
 
     public void UpdateSettings() {
@@ -82,12 +82,17 @@ public class GameSettingsMenu : MonoBehaviour {
         gameSettings.showBattleAnimation = showBattleAnimationToggle.isOn;
         gameSettings.unitSpeed = unitSpeedSlider.value;
         gameSettings.antiAliasing = antiAliasingToggle.isOn ? antiAliasing : PostProcessLayer.Antialiasing.None;
+        if (Camera.main) {
+            var layer = Camera.main.GetComponent<PostProcessLayer>();
+            if (layer)
+                layer.antialiasingMode = gameSettings.antiAliasing;
+        }
         gameSettings.motionBlurShutterAngle = Mathf.Approximately(motionBlurShutterAngleSlider.value, 0) ? null : motionBlurShutterAngleSlider.value;
         gameSettings.enableBloom = bloomToggle.isOn;
         gameSettings.enableScreenSpaceReflections = screenSpaceReflectionsToggle.isOn;
         gameSettings.enableAmbientOcclusion = ambientOcclusionToggle.isOn;
         gameSettings.shuffleMusic = shuffleMusicToggle.isOn;
-        
+
         PostProcessing.Setup(gameSettings);
         UpdateControls();
     }
@@ -97,7 +102,7 @@ public class GameSettingsMenu : MonoBehaviour {
     }
 
     public void Close() {
-        if (!PersistentData.Loaded.gameSettings.DiffersFrom(gameSettings))
+        if (!PersistentData.Read().gameSettings.DiffersFrom(gameSettings))
             enqueueCloseCommand?.Invoke();
         else {
             shakeTweener?.Complete();
@@ -112,13 +117,14 @@ public class GameSettingsMenu : MonoBehaviour {
         UpdateControls();
     }
     public void Cancel() {
-        gameSettings = PersistentData.Loaded.gameSettings.ShallowCopy();
+        gameSettings = PersistentData.Read().gameSettings.ShallowCopy();
         PostProcessing.Setup(gameSettings);
         enqueueCloseCommand?.Invoke();
     }
     public void Ok() {
-        PersistentData.Loaded.gameSettings = gameSettings;
-        PersistentData.Save();
+        var persistentData = PersistentData.Read();
+        persistentData.gameSettings = gameSettings;
+        persistentData.Save();
         enqueueCloseCommand?.Invoke();
     }
 

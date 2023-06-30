@@ -49,7 +49,7 @@ public class AttackActionState : StateMachineState {
                 responseWeaponName = bestChoice.weaponName;
             }
 
-            if (PersistentData.Loaded.gameSettings.showBattleAnimation) {
+            if (PersistentData.Read().gameSettings.showBattleAnimation) {
 
                 var attackerSide = attacker.Player.side;
                 var targetSide = target.Player.side;

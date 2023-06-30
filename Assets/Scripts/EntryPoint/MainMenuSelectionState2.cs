@@ -1,12 +1,27 @@
 using System.Collections.Generic;
+using Butjok.CommandLine;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MainMenuState2 : StateMachineState {
 
-    public MainMenuView2 view;
+    public const string sceneName = "MainMenuNew";
     
-    public MainMenuState2(StateMachine stateMachine) : base(stateMachine) { }
+    public MainMenuView2 view;
+    public bool showSplash, showWelcome;
+
+    public MainMenuState2(StateMachine stateMachine, bool showSplash, bool showWelcome) : base(stateMachine) {
+        this.showSplash = showSplash;
+        this.showWelcome = showWelcome;    
+    }
+    
     public override IEnumerator<StateChange> Enter {
         get {
+            if (SceneManager.GetActiveScene().name != sceneName) {
+                SceneManager.LoadScene(sceneName);
+                yield return StateChange.none;
+            }
+
             view = FindObject<MainMenuView2>();
             yield return StateChange.Push(new MainMenuSelectionState2(stateMachine));
         }
@@ -17,6 +32,8 @@ public class MainMenuSelectionState2 : StateMachineState {
 
     public enum Command { GoToCampaignOverview, OpenLoadGameMenu, OpenGameSettingsMenu, OpenAboutMenu, Quit }
 
+    [Command] public static float quitHoldTime = 1;
+    
     public MainMenuSelectionState2(StateMachine stateMachine) : base(stateMachine) { }
     public override IEnumerator<StateChange> Enter {
         get {
@@ -27,8 +44,17 @@ public class MainMenuSelectionState2 : StateMachineState {
                 button.onClick.RemoveAllListeners();
                 button.onClick.AddListener(_ => game.EnqueueCommand(button.command));
             }
-            view.loadGameButton.Interactable = PersistentData.Loaded.savedGames.Count > 0;
+            view.loadGameButton.Interactable = PersistentData.Read().savedGames.Count > 0;
 
+            void HideButtons() {
+                foreach (var button in view.Buttons)
+                    button.Visible = false;
+            }
+            void ShowButtons() {
+                foreach (var button in view.Buttons)
+                    button.Visible = true;
+            }
+            
             while (true) {
                 yield return StateChange.none;
 
@@ -44,7 +70,7 @@ public class MainMenuSelectionState2 : StateMachineState {
                             break;
 
                         case (Command.GoToCampaignOverview, _):
-                            yield return StateChange.PopThenPush(3, new CampaignOverviewState2(stateMachine));
+                            yield return StateChange.PopThenPush(2, new CampaignOverviewState2(stateMachine));
                             break;
 
                         case (Command.OpenLoadGameMenu, _):
@@ -52,17 +78,42 @@ public class MainMenuSelectionState2 : StateMachineState {
                             break;
 
                         case (Command.OpenGameSettingsMenu, _):
+                            //HideButtons();
                             yield return StateChange.Push(new MainMenuGameSettingsState(stateMachine));
+                            //ShowButtons();
                             break;
 
                         case (Command.OpenAboutMenu, _):
+                            //HideButtons();
                             yield return StateChange.Push(new MainMenuAboutState(stateMachine));
+                            //ShowButtons();
                             break;
 
                         default:
                             HandleUnexpectedCommand(command);
                             break;
                     }
+                
+                if (Input.GetKeyDown(KeyCode.Escape)) {
+
+                    var startTime = Time.time;
+                    view.holdImage.enabled = true;
+
+                    while (!Input.GetKeyUp(KeyCode.Escape)) {
+
+                        var holdTime = Time.time - startTime;
+                        if (holdTime > quitHoldTime) {
+                            game.EnqueueCommand(Command.Quit);
+                            break;
+                        }
+
+                        view.holdImage.fillAmount = holdTime / quitHoldTime;
+                        yield return StateChange.none;
+                    }
+
+                    view.holdImage.enabled = false;
+                    continue;
+                }
             }
         }
     }

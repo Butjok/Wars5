@@ -116,7 +116,7 @@ public class PathSelectionState : StateMachineState {
                             pathMeshGameObject.SetActive(false);
 
                             path = pathBuilder.positions;
-                            var animation = new MoveSequence(unit.view.transform, path, PersistentData.Loaded.gameSettings.unitSpeed).Animation();
+                            var animation = new MoveSequence(unit.view.transform, path).Animation();
 
                             while (animation.MoveNext()) {
                                 yield return StateChange.none;

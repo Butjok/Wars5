@@ -20,7 +20,7 @@ public class MainMenuLoadGameState : StateMachineState {
             view.loadGameButtonPrefab.gameObject.SetActive(false);
 
             var first = true;
-            foreach (var savedGame in PersistentData.Loaded.savedGames) {
+            foreach (var savedGame in PersistentData.Read().savedGames) {
                 var button = Object.Instantiate(view.loadGameButtonPrefab, view.loadGameButtonPrefab.transform.parent);
                 button.gameObject.SetActive(true);
                 buttons.Add(button);

@@ -7,10 +7,8 @@ public class MainMenuAboutState : StateMachineState {
 
     public override IEnumerator<StateChange> Enter {
         get {
-            var view = stateMachine.TryFind<EntryPointState>().view;
-            view.about.SetActive(true);
-            foreach (var go in view.hiddenInAbout)
-                go.SetActive(false);
+            var view = stateMachine.TryFind<MainMenuState2>().view;
+            view.aboutRoot.SetActive(true);
 
             view.aboutScrollRect.verticalNormalizedPosition = 1;
 
@@ -26,9 +24,7 @@ public class MainMenuAboutState : StateMachineState {
     }
 
     public override void Exit() {
-        var view = stateMachine.TryFind<EntryPointState>().view;
-        view.about.SetActive(false);
-        foreach (var go in view.hiddenInAbout)
-            go.SetActive(true);
+        var view = stateMachine.TryFind<MainMenuState2>().view;
+        view.aboutRoot.SetActive(false);
     }
 }
