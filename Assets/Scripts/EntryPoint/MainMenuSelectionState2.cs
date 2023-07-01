@@ -6,21 +6,24 @@ using UnityEngine.SceneManagement;
 public class MainMenuState2 : StateMachineState {
 
     public const string sceneName = "MainMenuNew";
-    
+
     public MainMenuView2 view;
     public bool showSplash, showWelcome;
 
     public MainMenuState2(StateMachine stateMachine, bool showSplash, bool showWelcome) : base(stateMachine) {
         this.showSplash = showSplash;
-        this.showWelcome = showWelcome;    
+        this.showWelcome = showWelcome;
     }
-    
+
     public override IEnumerator<StateChange> Enter {
         get {
             if (SceneManager.GetActiveScene().name != sceneName) {
                 SceneManager.LoadScene(sceneName);
                 yield return StateChange.none;
             }
+
+            if (CameraFader.IsBlack == true)
+                CameraFader.FadeToWhite();
 
             view = FindObject<MainMenuView2>();
             yield return StateChange.Push(new MainMenuSelectionState2(stateMachine));
@@ -33,7 +36,7 @@ public class MainMenuSelectionState2 : StateMachineState {
     public enum Command { GoToCampaignOverview, OpenLoadGameMenu, OpenGameSettingsMenu, OpenAboutMenu, Quit }
 
     [Command] public static float quitHoldTime = 1;
-    
+
     public MainMenuSelectionState2(StateMachine stateMachine) : base(stateMachine) { }
     public override IEnumerator<StateChange> Enter {
         get {
@@ -54,7 +57,7 @@ public class MainMenuSelectionState2 : StateMachineState {
                 foreach (var button in view.Buttons)
                     button.Visible = true;
             }
-            
+
             while (true) {
                 yield return StateChange.none;
 
@@ -70,6 +73,9 @@ public class MainMenuSelectionState2 : StateMachineState {
                             break;
 
                         case (Command.GoToCampaignOverview, _):
+                            var hasFadedToBlack = CameraFader.FadeToBlack();
+                            while (!hasFadedToBlack())
+                                yield return StateChange.none;
                             yield return StateChange.PopThenPush(2, new CampaignOverviewState2(stateMachine));
                             break;
 
@@ -93,7 +99,7 @@ public class MainMenuSelectionState2 : StateMachineState {
                             HandleUnexpectedCommand(command);
                             break;
                     }
-                
+
                 if (Input.GetKeyDown(KeyCode.Escape)) {
 
                     var startTime = Time.time;

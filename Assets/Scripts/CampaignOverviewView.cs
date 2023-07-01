@@ -68,11 +68,19 @@ public class CampaignOverviewState2 : StateMachineState {
     public override IEnumerator<StateChange> Enter {
         get {
 
+            if (CameraFader.IsBlack == false) {
+                var completed = CameraFader.FadeToBlack();
+                while (!completed())
+                    yield return StateChange.none;
+            }
+
             if (SceneManager.GetActiveScene().name != sceneName) {
                 SceneManager.LoadScene(sceneName);
                 yield return StateChange.none;
             }
 
+            CameraFader.FadeToWhite();
+            
             var view = Object.FindObjectOfType<CampaignOverviewView>();
             Assert.IsTrue(view);
 
@@ -135,10 +143,9 @@ public class CampaignOverviewSelectionState : StateMachineState {
                 if (shouldGoBackToMainMenu) {
                     shouldGoBackToMainMenu = false;
 
-                    /*PostProcessing.ColorFilter = Color.white;
-                    var tween = PostProcessing.Fade(Color.black, fadeDuration, fadeEasing);
-                    while (tween.IsActive() && !tween.IsComplete())
-                        yield return StateChange.none;*/
+                    var completed = CameraFader.FadeToBlack();
+                    while(!completed())
+                        yield return StateChange.none;
                     yield return StateChange.PopThenPush(2, new MainMenuState2(stateMachine, false, false));
                 }
 
@@ -259,7 +266,7 @@ public class CampaignOverviewMissionCloseUpState : StateMachineState {
                 if (shouldStart) {
                     shouldStart = false;
                     if (isAvailable) {
-                        yield return StateChange.PopThenPush(3, new LoadingState(stateMachine ,missionName, Campaign.Mission.GetInputCode(missionName), true));
+                        yield return StateChange.PopThenPush(3, new LoadingState(stateMachine, missionName, Campaign.Mission.GetInputCode(missionName), true));
                         continue;
                     }
                     UiSound.Instance.notAllowed.PlayOneShot();

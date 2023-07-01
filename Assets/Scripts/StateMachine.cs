@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
@@ -22,7 +23,8 @@ public class StateMachine {
     public void Push(StateMachineState state) {
         states.Push((state, state.Enter));
         var name = state.GetType().Name;
-        stateNames.Push(name.EndsWith("State") ? name[..^5] : name);
+        name = Regex.Replace(name, @"State(\d*)$", "$1");
+        stateNames.Push(name);
     }
     public T TryPeek<T>() where T : StateMachineState {
         if (states.TryPeek(out var state) && state.state is T castedState)

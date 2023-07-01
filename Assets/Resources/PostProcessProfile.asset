@@ -68,6 +68,7 @@ MonoBehaviour:
   - {fileID: -779841181150493308}
   - {fileID: 3823904256360836069}
   - {fileID: 1227667371627536583}
+  - {fileID: 1782003353267239211}
 --- !u!114 &1227667371627536583
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -96,6 +97,40 @@ MonoBehaviour:
   kernelSize:
     overrideState: 1
     value: 3
+--- !u!114 &1782003353267239211
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: CameraFading
+  m_EditorClassIdentifier: Wars::CameraFading
+  active: 1
+  enabled:
+    overrideState: 1
+    value: 1
+  squareSize:
+    overrideState: 1
+    value: 25
+  smoothness:
+    overrideState: 1
+    value: 0.94
+  progress:
+    overrideState: 1
+    value: 1
+  progressSmoothness:
+    overrideState: 1
+    value: 0.233
+  yContribution:
+    overrideState: 1
+    value: 0
+  invert:
+    overrideState: 1
+    value: 0
 --- !u!114 &2267622279817336875
 MonoBehaviour:
   m_ObjectHideFlags: 3
