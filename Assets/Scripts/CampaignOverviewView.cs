@@ -266,6 +266,9 @@ public class CampaignOverviewMissionCloseUpState : StateMachineState {
                 if (shouldStart) {
                     shouldStart = false;
                     if (isAvailable) {
+                        var completed = CameraFader.FadeToBlack();
+                        while(!completed())
+                            yield return StateChange.none;
                         yield return StateChange.PopThenPush(3, new LoadingState(stateMachine, missionName, Campaign.Mission.GetInputCode(missionName), true));
                         continue;
                     }

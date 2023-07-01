@@ -112,10 +112,18 @@ public class LoadingState : StateMachineState {
 
             allowSceneActivation = false;
 
+            if (CameraFader.IsBlack == false) {
+                var completed = CameraFader.FadeToBlack();
+                while (!completed())
+                    yield return StateChange.none;
+            }
+                
             if (SceneManager.GetActiveScene().name != sceneName) {
                 SceneManager.LoadScene(sceneName);
                 yield return StateChange.none;
             }
+
+            CameraFader.FadeToWhite();
 
             var view = Object.FindObjectOfType<LoadingView>();
             Assert.IsTrue(view);
