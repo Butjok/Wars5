@@ -1,10 +1,8 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Cinemachine;
 using DG.Tweening;
-using Newtonsoft.Json;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -13,21 +11,6 @@ using UnityEngine.UI;
 using UnityEngine.Video;
 
 public class EntryPointView : MonoBehaviour {
-
-    [JsonObject(MemberSerialization.OptIn)]
-    public struct GitInfoEntry {
-
-        [JsonProperty]
-        public string commit;
-        [JsonProperty]
-        public string author;
-        [JsonProperty]
-        public string date;
-        [JsonProperty]
-        public string message;
-
-        public DateTime DateTime => DateTime.Parse(date);
-    }
 
     private void Awake() {
 

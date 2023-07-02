@@ -19,7 +19,7 @@ public class DepthOfFieldDistanceSetter : MonoBehaviour {
     public static int lastFrame = -1;
     public static int lastPriority;
 
-    private void Update() {
+    private void LateUpdate() {
 
         if (!postProcessProfile)
             postProcessProfile = Resources.Load<PostProcessProfile>("PostProcessProfile");
@@ -33,6 +33,7 @@ public class DepthOfFieldDistanceSetter : MonoBehaviour {
                 lastPriority = int.MinValue;
             }
             if (priority > lastPriority) {
+                lastPriority = priority;
                 if (setConstant) {
                     depthOfField.focusDistance.value = constantDistance;
                     depthOfField.focalLength.value = constantFocalLength;

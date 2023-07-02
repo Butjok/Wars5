@@ -64,6 +64,7 @@
      <Compile Include="Assets/Scripts/BattleAnimationPlayer.cs" />
      <Compile Include="Assets/Scripts/Views/MinimapUi.cs" />
      <Compile Include="Assets/Scripts/WhiteBoxSwitcher.cs" />
+     <Compile Include="Assets/Scripts/CameraFader.cs" />
      <Compile Include="Assets/Scripts/SavedGameListView.cs" />
      <Compile Include="Assets/Scripts/MainMenuView2.cs" />
      <Compile Include="Assets/Scripts/EntryPoint/SplashState.cs" />
@@ -74,11 +75,13 @@
      <Compile Include="Assets/Scripts/MainMenuButton.cs" />
      <Compile Include="Assets/Scripts/PostProcessing.cs" />
      <Compile Include="Assets/Scripts/EntryPoint/EntryPointView.cs" />
+     <Compile Include="Assets/Scripts/EntryPoint/GitInfoEntry.cs" />
      <Compile Include="Assets/Scripts/AttackActionView.cs" />
      <Compile Include="Assets/Scripts/PathFinder.cs" />
      <Compile Include="Assets/Scripts/AiPlayerCommander.cs" />
      <Compile Include="Assets/Scripts/Rules.cs" />
      <Compile Include="Assets/Scripts/Colors.cs" />
+     <Compile Include="Assets/Scripts/CameraFading.cs" />
      <Compile Include="Assets/Scripts/Compass.cs" />
      <Compile Include="Assets/Scripts/HardFollow.cs" />
      <Compile Include="Assets/Scripts/Ai/AiPlayer.cs" />
@@ -158,6 +161,7 @@
      <Compile Include="Assets/Scripts/UnitView2TreeParser.cs" />
      <Compile Include="Assets/Scripts/LoadGameMenu.cs" />
      <Compile Include="Assets/Scripts/TileAreaMeshBuilder.cs" />
+     <Compile Include="Assets/Scripts/EntryPoint/MainMenuLauncher.cs" />
      <Compile Include="Assets/Scripts/GameStates/GameSettingsState.cs" />
      <Compile Include="Assets/Scripts/LevelLogic/LevelLogic.cs" />
      <Compile Include="Assets/Scripts/GameStates/ActionSelectionState.cs" />
@@ -234,9 +238,8 @@
      <Compile Include="Assets/Scripts/FlipbookTest.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
      <Compile Include="Assets/Scripts/EntryPoint/MainMenuWelcomeState.cs" />
-     <Compile Include="Assets/Scripts/EntryPoint/MainMenuLauncher.cs" />
-     <Compile Include="Assets/Scripts/CustomFading.cs" />
-     <Compile Include="Assets/Scripts/CameraFader.cs" />
+     <Compile Include="Assets/Scripts/MainMenuQuitDialog.cs" />
+     <Compile Include="Assets/Scripts/EntryPoint/AboutRow.cs" />
      <Folder Include="Assets/Scripts/EntryPoint" />
      <None Include="Assets/Scripts/Wars.asmdef" />
      <Folder Include="Assets/Scripts/DialogueMarkupLanguage" />

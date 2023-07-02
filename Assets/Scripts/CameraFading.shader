@@ -26,7 +26,7 @@ Shader "Hidden/Custom/CameraFading"
 			radius = _SquareSize*sqrt(2) - radius;
 		float insideCircle = smoothstep(radius - _Smoothness, radius + _Smoothness, distanceToSquareCenter);
 		float4 color = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.texcoord);
-		return lerp(float4(0,0,0,1), color, insideCircle);
+		return lerp(lerp(color, float4(0,0,0,1), radius/_SquareSize*2), color, insideCircle);
 	}
 
 	ENDHLSL

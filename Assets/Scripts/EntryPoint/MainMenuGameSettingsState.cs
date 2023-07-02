@@ -12,8 +12,6 @@ public class MainMenuGameSettingsState : StateMachineState {
             view.gameSettingsMenu.Show(() => game.EnqueueCommand(Command.Close));
 
             while (true) {
-                yield return StateChange.none;
-
                 while (game.TryDequeueCommand(out var command))
                     switch (command) {
                         case (Command.Close, _):
@@ -23,6 +21,8 @@ public class MainMenuGameSettingsState : StateMachineState {
                             HandleUnexpectedCommand(command);
                             break;
                     }
+                
+                yield return StateChange.none;
             }
         }
     }

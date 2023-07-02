@@ -123,7 +123,11 @@ public class LoadingState : StateMachineState {
                 yield return StateChange.none;
             }
 
-            CameraFader.FadeToWhite();
+            {
+                var completed=CameraFader.FadeToWhite();
+                while (!completed())
+                    yield return StateChange.none;
+            }
 
             var view = Object.FindObjectOfType<LoadingView>();
             Assert.IsTrue(view);

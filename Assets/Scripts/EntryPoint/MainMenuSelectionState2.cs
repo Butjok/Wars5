@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Data;
 using Butjok.CommandLine;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,6 +11,7 @@ public class MainMenuState2 : StateMachineState {
 
     public MainMenuView2 view;
     public bool showSplash, showWelcome;
+    public static float pressAnyKeyTimeout = 3;
 
     public MainMenuState2(StateMachine stateMachine, bool showSplash, bool showWelcome) : base(stateMachine) {
         this.showSplash = showSplash;
@@ -22,10 +25,32 @@ public class MainMenuState2 : StateMachineState {
                 yield return StateChange.none;
             }
 
+            view = FindObject<MainMenuView2>();
+            if (GitInfoEntry.TryLoad(out var gitInfo))
+                view.gitInfo = gitInfo;
+
+            if (showSplash)
+                yield return StateChange.Push(new SplashState(stateMachine));
+
             if (CameraFader.IsBlack == true)
                 CameraFader.FadeToWhite();
 
-            view = FindObject<MainMenuView2>();
+            if (showWelcome) {
+
+                foreach (var button in view.Buttons)
+                    button.Interactable = false;
+
+                var startTime = Time.time;
+                while (!Input.anyKeyDown) {
+                    if (!view.pressAnyKey.activeSelf && Time.time > startTime + pressAnyKeyTimeout)
+                        view.pressAnyKey.SetActive(true);
+                    yield return StateChange.none;
+                }
+
+                if (view.pressAnyKey.activeSelf)
+                    view.pressAnyKey.SetActive(false);
+            }
+
             yield return StateChange.Push(new MainMenuSelectionState2(stateMachine));
         }
     }
@@ -33,9 +58,9 @@ public class MainMenuState2 : StateMachineState {
 
 public class MainMenuSelectionState2 : StateMachineState {
 
-    public enum Command { GoToCampaignOverview, OpenLoadGameMenu, OpenGameSettingsMenu, OpenAboutMenu, Quit }
+    public enum Command { GoToCampaignOverview, OpenLoadGameMenu, OpenGameSettingsMenu, OpenAboutMenu, OpenQuitDialog }
 
-    [Command] public static float quitHoldTime = 1;
+    [Command] public static float quitHoldTime = .5f;
 
     public MainMenuSelectionState2(StateMachine stateMachine) : base(stateMachine) { }
     public override IEnumerator<StateChange> Enter {
@@ -44,10 +69,10 @@ public class MainMenuSelectionState2 : StateMachineState {
             var view = stateMachine.Find<MainMenuState2>().view;
 
             foreach (var button in view.Buttons) {
+                button.Interactable = button != view.loadGameButton || PersistentData.Read().savedGames.Count > 0;
                 button.onClick.RemoveAllListeners();
                 button.onClick.AddListener(_ => game.EnqueueCommand(button.command));
             }
-            view.loadGameButton.Interactable = PersistentData.Read().savedGames.Count > 0;
 
             void HideButtons() {
                 foreach (var button in view.Buttons)
@@ -64,12 +89,8 @@ public class MainMenuSelectionState2 : StateMachineState {
                 while (game.TryDequeueCommand(out var command))
                     switch (command) {
 
-                        case (Command.Quit, _):
-#if UNITY_EDITOR
-                            UnityEditor.EditorApplication.isPlaying = false;
-#else
-                            Application.Quit();
-#endif
+                        case (Command.OpenQuitDialog, _):
+                            yield return StateChange.Push(new MinaMenuQuitConfirmationState(stateMachine));
                             break;
 
                         case (Command.GoToCampaignOverview, _):
@@ -81,17 +102,20 @@ public class MainMenuSelectionState2 : StateMachineState {
 
                         case (Command.OpenLoadGameMenu, _):
                             yield return StateChange.Push(new MainMenuLoadGameState(stateMachine));
+                            yield return StateChange.none;
                             break;
 
                         case (Command.OpenGameSettingsMenu, _):
                             //HideButtons();
                             yield return StateChange.Push(new MainMenuGameSettingsState(stateMachine));
+                            yield return StateChange.none;
                             //ShowButtons();
                             break;
 
                         case (Command.OpenAboutMenu, _):
                             //HideButtons();
                             yield return StateChange.Push(new MainMenuAboutState(stateMachine));
+                            yield return StateChange.none;
                             //ShowButtons();
                             break;
 
@@ -109,7 +133,7 @@ public class MainMenuSelectionState2 : StateMachineState {
 
                         var holdTime = Time.time - startTime;
                         if (holdTime > quitHoldTime) {
-                            game.EnqueueCommand(Command.Quit);
+                            game.EnqueueCommand(Command.OpenQuitDialog);
                             break;
                         }
 

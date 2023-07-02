@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: FrostedGlass
+  m_Name: FrostedGlass2
   m_Shader: {fileID: 4800000, guid: d931924df0874c08a96c85183a337368, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -27,9 +27,9 @@ Material:
     m_Ints: []
     m_Floats:
     - _Radius: 11
-    - _Size: 4.2
+    - _Size: 0
     m_Colors:
-    - _AdditiveColor: {r: 0, g: 0, b: 0, a: 0}
+    - _AdditiveColor: {r: 0.21698111, g: 0.21698111, b: 0.21698111, a: 0}
     - _Color: {r: 0.7924528, g: 0.75943774, b: 0.60929155, a: 1}
-    - _MultiplyColor: {r: 0.9056604, g: 0.89471656, b: 0.85866857, a: 1}
+    - _MultiplyColor: {r: 0.7924528, g: 0.7895455, b: 0.7662869, a: 1}
   m_BuildTextureStacks: []

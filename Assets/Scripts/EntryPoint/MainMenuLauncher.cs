@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class MainMenuLauncher : MonoBehaviour {
 
+    public bool showSplashScreen = true;
+    public bool showWelcomeScreen = true;
+    
     private void Start() {
 
         var game = Game.Instance;
@@ -9,6 +12,6 @@ public class MainMenuLauncher : MonoBehaviour {
             return;
 
         game.stateMachine.Push(new GameSessionState(game));
-        game.stateMachine.Push(new MainMenuState2(game.stateMachine, false, false));
+        game.stateMachine.Push(new MainMenuState2(game.stateMachine, showSplashScreen, showWelcomeScreen));
     }
 }

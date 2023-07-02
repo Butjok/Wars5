@@ -5,30 +5,30 @@ public class SplashState : StateMachineState {
 
     public SplashState(StateMachine stateMachine) : base(stateMachine) { }
 
+    public MainMenuView2 view;
+
     public override IEnumerator<StateChange> Enter {
         get {
-            var view = stateMachine.TryFind<EntryPointState>().view;
-            
-            view.videoPlayer.enabled = true;
-            view.videoPlayer.targetCamera.enabled = true;
+            view = stateMachine.Find<MainMenuState2>().view;
 
-            view.videoPlayer.clip = view.bulkaGamesIntro;
-            view.videoPlayer.Play();
+            view.mainCamera.enabled = false;
+            view.splashScreenVideoPlayer.enabled = true;
+            view.splashScreenVideoPlayer.targetCamera.enabled = true;
+
+            view.splashScreenVideoPlayer.clip = view.splashScreenVideoClip;
+            view.splashScreenVideoPlayer.Play();
             var splashCompleted = false;
-            view.videoPlayer.loopPointReached += _ => splashCompleted = true;
+            view.splashScreenVideoPlayer.loopPointReached += _ => splashCompleted = true;
 
             while (!splashCompleted && !Input.anyKeyDown)
                 yield return StateChange.none;
             yield return StateChange.none;
-
-            yield return StateChange.ReplaceWith(new MainMenuState(stateMachine));
         }
     }
 
     public override void Exit() {
-        var view = stateMachine.TryFind<EntryPointState>().view;
-        
-        view.videoPlayer.enabled = false;
-        view.videoPlayer.targetCamera.enabled = false;
+        view.splashScreenVideoPlayer.enabled = false;
+        view.splashScreenVideoPlayer.targetCamera.enabled = false;
+        view.mainCamera.enabled = true;
     }
 }

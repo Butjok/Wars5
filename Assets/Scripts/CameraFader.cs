@@ -7,7 +7,7 @@ using UnityEngine.Rendering.PostProcessing;
 public class CameraFader : MonoBehaviour {
     public static CameraFader instance;
     [Command]
-    public static float duration = .33f;
+    public static float duration = .4f;    
     public const string profileName = "PostProcessProfile";
     public static PostProcessProfile Profile => Resources.Load<PostProcessProfile>(profileName);
     public static CameraFading CameraFading {

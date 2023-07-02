@@ -1,5 +1,39 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-1484153891959241888
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: CameraFading
+  m_EditorClassIdentifier: Wars::CameraFading
+  active: 1
+  enabled:
+    overrideState: 1
+    value: 1
+  squareSize:
+    overrideState: 1
+    value: 25
+  smoothness:
+    overrideState: 1
+    value: 0.5
+  progress:
+    overrideState: 1
+    value: 1
+  progressSmoothness:
+    overrideState: 1
+    value: 0.209
+  yContribution:
+    overrideState: 1
+    value: 0
+  invert:
+    overrideState: 1
+    value: 0
 --- !u!114 &-779841181150493308
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -47,6 +81,40 @@ MonoBehaviour:
   dirtIntensity:
     overrideState: 0
     value: 0
+--- !u!114 &-173598585064041133
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: CameraFading
+  m_EditorClassIdentifier: Wars::CameraFading
+  active: 1
+  enabled:
+    overrideState: 1
+    value: 1
+  squareSize:
+    overrideState: 1
+    value: 25
+  smoothness:
+    overrideState: 1
+    value: 0.1
+  progress:
+    overrideState: 1
+    value: 1
+  progressSmoothness:
+    overrideState: 1
+    value: 0.25
+  yContribution:
+    overrideState: 1
+    value: 0
+  invert:
+    overrideState: 1
+    value: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68,7 +136,7 @@ MonoBehaviour:
   - {fileID: -779841181150493308}
   - {fileID: 3823904256360836069}
   - {fileID: 1227667371627536583}
-  - {fileID: 5920474672616175887}
+  - {fileID: 6678509270655879905}
 --- !u!114 &1227667371627536583
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -87,13 +155,13 @@ MonoBehaviour:
     value: 1
   focusDistance:
     overrideState: 1
-    value: 25
+    value: 100
   aperture:
     overrideState: 0
     value: 32
   focalLength:
     overrideState: 1
-    value: 100
+    value: 1
   kernelSize:
     overrideState: 1
     value: 3
@@ -1478,7 +1546,7 @@ MonoBehaviour:
     value: 1
   shutterAngle:
     overrideState: 1
-    value: 137.15868
+    value: 270
   sampleCount:
     overrideState: 1
     value: 4
@@ -1552,6 +1620,40 @@ MonoBehaviour:
   fastMode:
     overrideState: 1
     value: 1
+--- !u!114 &5894623182232654406
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: CameraFading
+  m_EditorClassIdentifier: Wars::CameraFading
+  active: 1
+  enabled:
+    overrideState: 1
+    value: 1
+  squareSize:
+    overrideState: 1
+    value: 5
+  smoothness:
+    overrideState: 1
+    value: 5
+  progress:
+    overrideState: 1
+    value: 1
+  progressSmoothness:
+    overrideState: 1
+    value: 0.4
+  yContribution:
+    overrideState: 1
+    value: -0.05
+  invert:
+    overrideState: 1
+    value: 0
 --- !u!114 &5920474672616175887
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -1623,6 +1725,74 @@ MonoBehaviour:
   vignette:
     overrideState: 0
     value: 0.5
+--- !u!114 &6678509270655879905
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32447a1199224125bc431776ee4a94ee, type: 3}
+  m_Name: CameraFading
+  m_EditorClassIdentifier: 
+  active: 1
+  enabled:
+    overrideState: 1
+    value: 1
+  squareSize:
+    overrideState: 1
+    value: 5
+  smoothness:
+    overrideState: 1
+    value: 7.5
+  progress:
+    overrideState: 1
+    value: 1
+  progressSmoothness:
+    overrideState: 1
+    value: 0.4
+  yContribution:
+    overrideState: 1
+    value: -0.05
+  invert:
+    overrideState: 1
+    value: 0
+--- !u!114 &7700471257977019014
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: CameraFading
+  m_EditorClassIdentifier: Wars::CameraFading
+  active: 1
+  enabled:
+    overrideState: 1
+    value: 1
+  squareSize:
+    overrideState: 1
+    value: 25
+  smoothness:
+    overrideState: 1
+    value: 0.5
+  progress:
+    overrideState: 1
+    value: 1
+  progressSmoothness:
+    overrideState: 1
+    value: 0.234
+  yContribution:
+    overrideState: 1
+    value: 0
+  invert:
+    overrideState: 1
+    value: 0
 --- !u!114 &8233210661079291510
 MonoBehaviour:
   m_ObjectHideFlags: 3
