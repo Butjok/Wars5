@@ -88,7 +88,7 @@ public class Game : MonoBehaviour {
 
         if (Debug.isDebugBuild) {
             var level = stateMachine.TryFind<LevelSessionState>()?.level ?? stateMachine.TryFind<LevelEditorSessionState>()?.level;
-            if (level != null) {
+            if (level != null && level.view) {
                 var units = new HashSet<Unit>();
                 if (level.view.cameraRig.camera.TryGetMousePosition(out Vector2Int mousePosition) && level.TryGetUnit(mousePosition, out var unit))
                     units.Add(unit);

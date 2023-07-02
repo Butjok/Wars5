@@ -4837,8 +4837,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5414acf1a9b8419ebc47366964897ab6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  showSplashScreen: 1
-  showWelcomeScreen: 1
+  showSplashScreen: 0
+  showWelcomeScreen: 0
 --- !u!4 &309214369 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 23492aed46ba29144afba0cb065069c5, type: 3}
