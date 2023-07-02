@@ -32,8 +32,7 @@ public class LevelEditorSessionState : StateMachineState {
     public override IEnumerator<StateChange> Enter {
         get {
             LevelView.TryLoadScene(level.missionName);
-            level.view = LevelView.TryInstantiate();
-            Assert.IsTrue(level.view);
+            Assert.IsTrue(LevelView.TryInstantiatePrefab(out level.view));
             LevelReader.ReadInto(level, input);
 
             new Thread(() => PrecalculatedDistances.TryLoad(level.missionName, out level.precalculatedDistances)).Start();

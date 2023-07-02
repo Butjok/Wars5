@@ -25,20 +25,22 @@ public class LevelView : MonoBehaviour {
         SceneManager.UnloadSceneAsync(requiredSceneName);
         return true;
     }
-    public static LevelView TryFind() {
+    public static bool TryFindPrefab(out LevelView prefab) {
         var instances = FindObjectsOfType<LevelView>(true).Where(i => !i.prefab).ToList();
         Assert.IsTrue(instances.Count is 0 or 1);
-        return instances.Count == 0 ? null : instances[0];
+        prefab = instances.Count == 0 ? null : instances[0];
+        return prefab;
     }
-    public static LevelView TryInstantiate() {
-        var prefab = TryFind();
-        if (!prefab)
-            return null;
+    public static bool TryInstantiatePrefab(out LevelView instance) {
+        if (!TryFindPrefab(out var prefab)) {
+            instance = null;
+            return false;
+        }
         prefab.gameObject.SetActive(false);
-        var instance = Instantiate(prefab);
+        instance = Instantiate(prefab);
         instance.prefab = prefab;
         instance.gameObject.SetActive(true);
-        return instance;
+        return true;
     }
 
     public LevelView prefab;

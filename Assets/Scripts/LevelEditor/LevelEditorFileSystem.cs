@@ -11,6 +11,7 @@ public static class LevelEditorFileSystem {
     public static string GetSavePath(string name) => Path.Combine(SaveRootDirectoryPath, name);
 
     public static void Save(string name, Level level) {
+        
         using var tw = new StringWriter();
         LevelWriter.WriteLevel(tw, level);
         var text = tw.ToString();
@@ -22,8 +23,10 @@ public static class LevelEditorFileSystem {
         var saveName = name + "-" + DateTime.Now.ToString("G", CultureInfo.GetCultureInfo("de-DE")).Replace(":", ".").Replace(" ", "-") + ".txt";
         var filePath = Path.Combine(path, saveName);
         File.WriteAllText(filePath, text);
+
         Debug.Log($"Saved to: {filePath}");
     }
+    
     public static string TryReadLatest(string name) {
         return TryGetLatestPath(name, out var path) ? File.ReadAllText(path) : null;
     }

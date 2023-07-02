@@ -52,6 +52,7 @@
      <Compile Include="Assets/Scripts/PreviousPositions.cs" />
      <Compile Include="Assets/Scripts/LevelEditor/LevelEditor.cs" />
      <Compile Include="Assets/Scripts/GameStates/AttackActionState.cs" />
+     <Compile Include="Assets/Scripts/MainMenuQuitDialog.cs" />
      <Compile Include="Assets/Scripts/Turret2.cs" />
      <Compile Include="Assets/Scripts/LevelEditor/LevelEditorZoneModeState.cs" />
      <Compile Include="Assets/Scripts/UvMapper.cs" />
@@ -203,6 +204,7 @@
      <Compile Include="Assets/Scripts/OffscreenArrow.cs" />
      <Compile Include="Assets/Scripts/AnimationScript.cs" />
      <Compile Include="Assets/Scripts/DefaultGuiSkin.cs" />
+     <Compile Include="Assets/Scripts/EntryPoint/AboutRow.cs" />
      <Compile Include="Assets/Scripts/Faction.cs" />
      <Compile Include="Assets/Scripts/InputCommandsListener.cs" />
      <Compile Include="Assets/Scripts/EntryPoint/MainMenuSelectionState.cs" />
@@ -238,8 +240,7 @@
      <Compile Include="Assets/Scripts/FlipbookTest.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
      <Compile Include="Assets/Scripts/EntryPoint/MainMenuWelcomeState.cs" />
-     <Compile Include="Assets/Scripts/MainMenuQuitDialog.cs" />
-     <Compile Include="Assets/Scripts/EntryPoint/AboutRow.cs" />
+     <Compile Include="Assets/Scripts/GameStates/LoadingImage.cs" />
      <Folder Include="Assets/Scripts/EntryPoint" />
      <None Include="Assets/Scripts/Wars.asmdef" />
      <Folder Include="Assets/Scripts/DialogueMarkupLanguage" />

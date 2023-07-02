@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
@@ -104,6 +105,8 @@ public class LevelEditorTilesModeState : StateMachineState {
 
         tileMeshFilter.sharedMesh = mesh;
         tileMeshCollider.sharedMesh = mesh;
+        
+        AssetDatabase.CreateAsset(mesh, "Assets/Resources/TilemapMeshes/" + level.missionName + ".asset");
     }
 
     public override IEnumerator<StateChange> Enter {

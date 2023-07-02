@@ -39,13 +39,29 @@ public class LevelSessionState : StateMachineState {
                 new Thread(() => PrecalculatedDistances.TryLoad(level.missionName, out level.precalculatedDistances)).Start();
 
             LevelView.TryLoadScene(level.missionName);
-            level.view = LevelView.TryInstantiate();
-            Assert.IsTrue(level.view);
+            Assert.IsTrue(LevelView.TryInstantiatePrefab(out level.view));
             LevelReader.ReadInto(level, input);
 
             autoplayHandler = AutoplayHandler();
             FindState<GameSessionState>().game.StartCoroutine(autoplayHandler);
 
+            if (stateMachine.TryFind<LevelEditorSessionState>() == null) {
+                var tilemapMesh = Resources.Load<Mesh>("TilemapMeshes/" + level.missionName);
+                var tilemapMaterial = "EditorTileMap".LoadAs<Material>();
+                if (tilemapMesh && tilemapMaterial) {
+                    var gameObject = new GameObject("TilemapMesh");
+                    gameObject.transform.SetParent(level.view.transform);
+                    gameObject.layer = LayerMask.NameToLayer("Terrain");
+                    var meshFilter = gameObject.AddComponent<MeshFilter>();
+                    var meshRenderer = gameObject.AddComponent<MeshRenderer>();
+                    var meshCollider = gameObject.AddComponent<MeshCollider>();
+                    meshFilter.sharedMesh = tilemapMesh;
+                    meshCollider.sharedMesh = tilemapMesh;
+                    meshCollider.convex = false;
+                    meshRenderer.sharedMaterial = tilemapMaterial;
+                }
+            }
+            
             yield return levelLogic.OnLevelStart(this);
             yield return StateChange.Push(new PlayerTurnState(stateMachine));
             yield return levelLogic.OnLevelEnd(this);

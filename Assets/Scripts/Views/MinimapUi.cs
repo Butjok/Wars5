@@ -66,7 +66,7 @@ public class MinimapUi : MaskableGraphic {
         }
     }
 
-    private void Update() {
+    private void LateUpdate() {
         var value = Input.GetAxisRaw("Mouse ScrollWheel");
         if (value != 0) {
             var scale = Mathf.Clamp(scalingRoot.localScale.x * (1 + value), scalingBounds[0], scalingBounds[1]);
@@ -130,7 +130,7 @@ public class MinimapUi : MaskableGraphic {
         root.SetActive(true);
         RebuildTiles(tiles);
         RespawnIcons(units.Select(unit => (unit.transform, unitAtlas.TryGetValue(unit.type, out var sprite) ? sprite : null, unit.playerColor)));
-        Update();
+        LateUpdate();
     }
     public void Hide() {
         root.SetActive(false);

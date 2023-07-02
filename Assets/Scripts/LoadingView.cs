@@ -156,14 +156,6 @@ public class LoadingState : StateMachineState {
             loadingOperation.allowSceneActivation = true;
             yield return StateChange.none;
 
-            var level = new Level();
-            level.view = LevelView.TryInstantiate();
-            Assert.IsTrue(level.view);
-            LevelReader.ReadInto(level, saveData);
-            
-            // if (level is LevelEditor levelEditor)
-            //     levelEditor.RebuildTilemapMesh();
-            
             yield return StateChange.ReplaceWith(new LevelSessionState(stateMachine, saveData, missionName, isFreshStart));
         }
     }
