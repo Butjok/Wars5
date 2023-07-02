@@ -39,7 +39,7 @@ public enum GameLogEventType {
 }
 public struct GameLogEvent {
     public GameLogEventType type;
-    public string message;
+    public object argument;
 }
 
 public class GameSettings {

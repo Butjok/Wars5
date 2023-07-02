@@ -106,7 +106,6 @@ public class LevelEditorTilesModeState : StateMachineState {
         tileMeshFilter.sharedMesh = mesh;
         tileMeshCollider.sharedMesh = mesh;
         
-        AssetDatabase.CreateAsset(mesh, "Assets/Resources/TilemapMeshes/" + level.missionName + ".asset");
     }
 
     public override IEnumerator<StateChange> Enter {

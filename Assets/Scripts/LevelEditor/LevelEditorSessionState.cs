@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Butjok.CommandLine;
 using Drawing;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
@@ -60,6 +61,10 @@ public class LevelEditorSessionState : StateMachineState {
 
             yield return StateChange.Push(new LevelEditorTilesModeState(stateMachine));
         }
+    }
+
+    public void SaveTerrainMesh() {
+        AssetDatabase.CreateAsset(tileMeshFilter.sharedMesh, "Assets/Resources/TilemapMeshes/" + level.missionName + ".asset");
     }
 
     public override void Exit() {

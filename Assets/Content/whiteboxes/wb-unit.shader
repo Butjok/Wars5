@@ -29,21 +29,23 @@ Shader "Custom/wb_unit" {
 
         half _Glossiness;
         half _Metallic;
-        fixed4 _Color, _PlayerColor, _MovedColor,_UnownedColor;
-        float _Moved; 
+        fixed4 _Color, _UnownedColor;
 
         // Add instancing support for this shader. You need to check 'Enable Instancing' on materials that use the shader.
         // See https://docs.unity3d.com/Manual/GPUInstancing.html for more information about instancing.
         // #pragma instancing_options assumeuniformscaling
         UNITY_INSTANCING_BUFFER_START(Props)
+			UNITY_DEFINE_INSTANCED_PROP(float4, _PlayerColor)
+			UNITY_DEFINE_INSTANCED_PROP(float, _Moved)
             // put more per-instance properties here
         UNITY_INSTANCING_BUFFER_END(Props)
 
         void surf (Input IN, inout SurfaceOutputStandard o) {
             // Albedo comes from a texture tinted by color
-            fixed3 c = lerp(_UnownedColor.rgb, _PlayerColor.rgb, _PlayerColor.a) * _Color.rgb ;//tex2D (_MainTex, IN.uv_MainTex) ;
+            float4 playerColor = UNITY_ACCESS_INSTANCED_PROP(Props, _PlayerColor);
+            fixed3 c = lerp(_UnownedColor.rgb, playerColor.rgb, playerColor.a) * _Color.rgb ;//tex2D (_MainTex, IN.uv_MainTex) ;
             o.Smoothness = _Glossiness;
-            if (_Moved > .5){
+            if (UNITY_ACCESS_INSTANCED_PROP(Props, _Moved) > .5){
                 c = Tint(c, 0, .95, .125);
                 o.Smoothness = 0;
             }

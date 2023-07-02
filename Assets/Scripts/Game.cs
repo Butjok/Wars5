@@ -105,6 +105,7 @@ public class Game : MonoBehaviour {
         var editorSessionState = stateMachine.TryFind<LevelEditorSessionState>();
         if (editorSessionState != null) {
             LevelEditorFileSystem.Save("autosave", editorSessionState.level);
+            editorSessionState.SaveTerrainMesh();
             // PrecalculatedDistances.CalculateAndWrite(editorSessionState.level.tiles, editorSessionState.level.missionName);
         }
     }

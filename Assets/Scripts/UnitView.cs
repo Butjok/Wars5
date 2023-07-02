@@ -291,8 +291,8 @@ public class UnitView : MonoBehaviour {
         }
         set {
             highlightAsTarget = value;
-            MaterialPropertyBlock.SetFloat(attackHighlightFactorUniformName, value ? 1 : 0);
-            MaterialPropertyBlock.SetFloat(attackHighlightStartTimeUniformName, Time.timeSinceLevelLoad);
+            //MaterialPropertyBlock.SetFloat(attackHighlightFactorUniformName, value ? 1 : 0);
+            //MaterialPropertyBlock.SetFloat(attackHighlightStartTimeUniformName, Time.timeSinceLevelLoad);
             ApplyMaterialPropertyBlock();
         }
     }
