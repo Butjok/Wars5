@@ -202,7 +202,7 @@ public class Unit : IDisposable {
     public bool Disposed => !undisposed.Contains(this);
 
     public override string ToString() {
-        return $"{Player} {type}";
+        return $"{type}{Position} {Player}";
     }
 }
 

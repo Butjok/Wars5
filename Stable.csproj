@@ -49,6 +49,7 @@
      <Compile Include="Assets/Scripts/Stable/StringExtensions.cs" />
      <Compile Include="Assets/Scripts/Stable/UiSound2.cs" />
      <Compile Include="Assets/Scripts/Stable/ScreenshotTest.cs" />
+     <Compile Include="Assets/Scripts/Stable/Interpreter/PrefixPreprocessor.cs" />
      <Compile Include="Assets/Scripts/Stable/LevelEditorHistory.cs" />
      <Compile Include="Assets/Scripts/Stable/Foliage/TransformList.cs" />
      <Compile Include="Assets/Scripts/Stable/TileMeshBuilder.cs" />
@@ -81,7 +82,7 @@
      <Compile Include="Assets/Scripts/Stable/BallisticComputer.cs" />
      <Compile Include="Assets/Scripts/Stable/ChangeTracker.cs" />
      <Compile Include="Assets/Scripts/Stable/SaveEntry.cs" />
-     <Compile Include="Assets/Scripts/Stable/PostfixInterpreter.cs" />
+     <Compile Include="Assets/Scripts/Stable/Interpreter/PostfixInterpreter.cs" />
      <Compile Include="Assets/Scripts/Stable/Factions.cs" />
      <Compile Include="Assets/Scripts/Stable/BlendShapesAnimation.cs" />
      <Compile Include="Assets/Scripts/Stable/UnitType.cs" />
@@ -101,7 +102,7 @@
      <Compile Include="Assets/Scripts/Stable/DialogueUi.cs" />
      <Compile Include="Assets/Scripts/Stable/BarrelAssembly.cs" />
      <Compile Include="Assets/Scripts/Stable/StateMachineBehaviour.cs" />
-     <Compile Include="Assets/Scripts/Stable/Tokenizer.cs" />
+     <Compile Include="Assets/Scripts/Stable/Interpreter/Tokenizer.cs" />
      <Compile Include="Assets/Scripts/Stable/BallisticMotion.cs" />
      <Compile Include="Assets/Scripts/Stable/Dragger.cs" />
      <Compile Include="Assets/Scripts/Stable/ImpactTest.cs" />
@@ -119,6 +120,7 @@
      <Compile Include="Assets/Scripts/Stable/ConvexHull.cs" />
      <Compile Include="Assets/Scripts/Stable/AABB.cs" />
      <Compile Include="Assets/Scripts/Stable/Rotator.cs" />
+     <Compile Include="Assets/Scripts/Stable/Interpreter/PrefixWriter.cs" />
      <Compile Include="Assets/Scripts/Stable/MathUtils.cs" />
      <Compile Include="Assets/Scripts/Stable/ConvexMeshGenerator.cs" />
      <Compile Include="Assets/Scripts/Stable/GameObjectUtils.cs" />
@@ -146,6 +148,7 @@
      <Compile Include="Assets/Scripts/Stable/LookAt.cs" />
      <Compile Include="Assets/Scripts/Stable/PistonBody.cs" />
      <Folder Include="Assets/Scripts/Stable/Foliage" />
+     <Folder Include="Assets/Scripts/Stable/Interpreter" />
      <None Include="Assets/Scripts/Stable/Stable.asmdef" />
      <Folder Include="Assets/Scripts/Stable" />
      <Reference Include="UnityEngine">

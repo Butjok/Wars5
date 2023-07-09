@@ -12,15 +12,15 @@ public static class LevelEditorFileSystem {
 
     public static void Save(string name, Level level) {
         
-        using var tw = new StringWriter();
-        LevelWriter.WriteLevel(tw, level);
-        var text = tw.ToString();
+        using var stringWriter = new StringWriter();
+        new PrefixWriter(stringWriter).Level(level);
+        var text = stringWriter.ToString();
         if (!Directory.Exists(SaveRootDirectoryPath))
             Directory.CreateDirectory(SaveRootDirectoryPath);
         var path = GetSavePath(name);
         if (!Directory.Exists(path))
             Directory.CreateDirectory(path);
-        var saveName = name + "-" + DateTime.Now.ToString("G", CultureInfo.GetCultureInfo("de-DE")).Replace(":", ".").Replace(" ", "-") + ".txt";
+        var saveName = name + "-" + DateTime.Now.ToString("G", CultureInfo.GetCultureInfo("de-DE")).Replace(":", ".").Replace(" ", "-") + ".save";
         var filePath = Path.Combine(path, saveName);
         File.WriteAllText(filePath, text);
 
@@ -69,6 +69,6 @@ public static class LevelEditorFileSystem {
         var path = GetSavePath(name);
         if (!Directory.Exists(path))
             return Enumerable.Empty<string>();
-        return Directory.GetFiles(path).Where(p => p.EndsWith(".txt"));
+        return Directory.GetFiles(path).Where(p => p.EndsWith(".txt") || p.EndsWith(".save"));
     }
 }

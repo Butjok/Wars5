@@ -1,0 +1,3700 @@
+// 1: game...
+// 2:     .load-scene  {  LevelEditor  }
+LevelEditor
+game.load-scene
+// 3:     :turn  {  2  }
+2
+game.set-turn
+// 4:     ...
+// 7: pop  {
+// 8:     player.add...
+// 9:         :color-name  {  ColorName Red enum  }
+ColorName
+Red
+enum
+player.add.set-color-name
+// 10:         :team  {  Team None enum  }
+Team
+None
+enum
+player.add.set-team
+// 11:         :co-name  {  PersonName Natalie enum  }
+PersonName
+Natalie
+enum
+player.add.set-co-name
+// 12:         :ui-position  {  0 0 int2  }
+0
+0
+int2
+player.add.set-ui-position
+// 13:         :credits  {  16000  }
+16000
+player.add.set-credits
+// 14:         :power-meter  {  0  }
+0
+player.add.set-power-meter
+// 15:         :unit-look-direction  {  -1 0 int2  }
+-1
+0
+int2
+player.add.set-unit-look-direction
+// 16:         :side  {  0  }
+0
+player.add.set-side
+// 17:         .mark-as-local
+player.add.mark-as-local
+// 18:         ..!
+player.add
+// 21:     building.add...
+// 22:         :type  {  TileType MissileSilo enum  }
+TileType
+MissileSilo
+enum
+building.add.set-type
+// 23:         :position  {  -6 25 int2  }
+-6
+25
+int2
+building.add.set-position
+// 24:         :cp  {  20  }
+20
+building.add.set-cp
+// 25:         :look-direction  {  0 -1 int2  }
+0
+-1
+int2
+building.add.set-look-direction
+// 26:     building.missile-silo...
+// 27:         :last-launch-turn  {  -99  }
+-99
+building.missile-silo.set-last-launch-turn
+// 28:         :launch-cooldown  {  1  }
+1
+building.missile-silo.set-launch-cooldown
+// 29:         :ammo  {  999  }
+999
+building.missile-silo.set-ammo
+// 30:         :range  {  0 999 int2  }
+0
+999
+int2
+building.missile-silo.set-range
+// 31:     building.missile-silo.missile...
+// 32:         :blast-range  {  0 3 int2  }
+0
+3
+int2
+building.missile-silo.missile.set-blast-range
+// 33:         :unit-damage  {  5  }
+5
+building.missile-silo.missile.set-unit-damage
+// 34:         :bridge-damage  {  10  }
+10
+building.missile-silo.missile.set-bridge-damage
+// 35:         ...
+// 36:         ...
+// 37:         ..!
+building.add
+// 38:     pop
+pop
+// 41:     building.add...
+// 42:         :type  {  TileType City enum  }
+TileType
+City
+enum
+building.add.set-type
+// 43:         :position  {  -11 24 int2  }
+-11
+24
+int2
+building.add.set-position
+// 44:         :cp  {  20  }
+20
+building.add.set-cp
+// 45:         :look-direction  {  0 1 int2  }
+0
+1
+int2
+building.add.set-look-direction
+// 46:         ..!
+building.add
+// 47:     pop
+pop
+// 50:     building.add...
+// 51:         :type  {  TileType Hq enum  }
+TileType
+Hq
+enum
+building.add.set-type
+// 52:         :position  {  -3 26 int2  }
+-3
+26
+int2
+building.add.set-position
+// 53:         :cp  {  20  }
+20
+building.add.set-cp
+// 54:         :look-direction  {  -1 0 int2  }
+-1
+0
+int2
+building.add.set-look-direction
+// 55:         ..!
+building.add
+// 56:     pop
+pop
+// 59:     building.add...
+// 60:         :type  {  TileType Factory enum  }
+TileType
+Factory
+enum
+building.add.set-type
+// 61:         :position  {  -3 20 int2  }
+-3
+20
+int2
+building.add.set-position
+// 62:         :cp  {  20  }
+20
+building.add.set-cp
+// 63:         :look-direction  {  -1 0 int2  }
+-1
+0
+int2
+building.add.set-look-direction
+// 64:         ..!
+building.add
+// 65:     pop
+pop
+// 68:     building.add...
+// 69:         :type  {  TileType Factory enum  }
+TileType
+Factory
+enum
+building.add.set-type
+// 70:         :position  {  -3 22 int2  }
+-3
+22
+int2
+building.add.set-position
+// 71:         :cp  {  20  }
+20
+building.add.set-cp
+// 72:         :look-direction  {  -1 0 int2  }
+-1
+0
+int2
+building.add.set-look-direction
+// 73:         ..!
+building.add
+// 74:     pop
+pop
+// 77:     unit.add...
+// 78:         :type  {  UnitType Artillery enum  }
+UnitType
+Artillery
+enum
+unit.add.set-type
+// 79:         :moved  {  false  }
+false
+unit.add.set-moved
+// 80:         :hp  {  10  }
+10
+unit.add.set-hp
+// 81:         :position  {  -5 20 int2  }
+-5
+20
+int2
+unit.add.set-position
+// 82:         :look-direction  {  -1 0 int2  }
+-1
+0
+int2
+unit.add.set-look-direction
+// 83:         :view-prefab  {  load-resource  {  UnitView WbHowitzer  }   }
+UnitView
+WbHowitzer
+load-resource
+unit.add.set-view-prefab
+// 84:         ..!
+unit.add
+// 85:     unit.brain...
+// 86:         .add-state  {  StayingInZoneUnitBrainState type  }
+StayingInZoneUnitBrainState
+type
+unit.brain.add-state
+// 87:     pop
+pop
+// 88:         ...
+// 89:     pop
+pop
+// 92:     unit.add...
+// 93:         :type  {  UnitType Infantry enum  }
+UnitType
+Infantry
+enum
+unit.add.set-type
+// 94:         :moved  {  false  }
+false
+unit.add.set-moved
+// 95:         :hp  {  10  }
+10
+unit.add.set-hp
+// 96:         :position  {  -6 24 int2  }
+-6
+24
+int2
+unit.add.set-position
+// 97:         :look-direction  {  -1 0 int2  }
+-1
+0
+int2
+unit.add.set-look-direction
+// 98:         :view-prefab  {  load-resource  {  UnitView WbLightTank  }   }
+UnitView
+WbLightTank
+load-resource
+unit.add.set-view-prefab
+// 99:         ..!
+unit.add
+// 100:     unit.brain...
+// 101:         .add-state  {  StayingInZoneUnitBrainState type  }
+StayingInZoneUnitBrainState
+type
+unit.brain.add-state
+// 102:     pop
+pop
+// 103:         ...
+// 104:     pop
+pop
+// 107:     unit.add...
+// 108:         :type  {  UnitType Recon enum  }
+UnitType
+Recon
+enum
+unit.add.set-type
+// 109:         :moved  {  false  }
+false
+unit.add.set-moved
+// 110:         :hp  {  10  }
+10
+unit.add.set-hp
+// 111:         :position  {  -7 21 int2  }
+-7
+21
+int2
+unit.add.set-position
+// 112:         :look-direction  {  -1 0 int2  }
+-1
+0
+int2
+unit.add.set-look-direction
+// 113:         :view-prefab  {  load-resource  {  UnitView WbRecon  }   }
+UnitView
+WbRecon
+load-resource
+unit.add.set-view-prefab
+// 114:         ..!
+unit.add
+// 115:     unit.brain...
+// 116:         .add-state  {  StayingInZoneUnitBrainState type  }
+StayingInZoneUnitBrainState
+type
+unit.brain.add-state
+// 117:     pop
+pop
+// 118:         ...
+// 119:     pop
+pop
+// 122:     unit.add...
+// 123:         :type  {  UnitType Apc enum  }
+UnitType
+Apc
+enum
+unit.add.set-type
+// 124:         :moved  {  false  }
+false
+unit.add.set-moved
+// 125:         :hp  {  10  }
+10
+unit.add.set-hp
+// 126:         :position  {  -8 24 int2  }
+-8
+24
+int2
+unit.add.set-position
+// 127:         :look-direction  {  -1 0 int2  }
+-1
+0
+int2
+unit.add.set-look-direction
+// 128:         :view-prefab  {  load-resource  {  UnitView WbApc  }   }
+UnitView
+WbApc
+load-resource
+unit.add.set-view-prefab
+// 129:         ..!
+unit.add
+// 130:     unit.brain...
+// 131:         .add-state  {  StayingInZoneUnitBrainState type  }
+StayingInZoneUnitBrainState
+type
+unit.brain.add-state
+// 132:     pop
+pop
+// 133:         ...
+// 134:     pop
+pop
+// 137:     unit.add...
+// 138:         :type  {  UnitType Infantry enum  }
+UnitType
+Infantry
+enum
+unit.add.set-type
+// 139:         :moved  {  false  }
+false
+unit.add.set-moved
+// 140:         :hp  {  10  }
+10
+unit.add.set-hp
+// 141:         :position  {  -10 13 int2  }
+-10
+13
+int2
+unit.add.set-position
+// 142:         :look-direction  {  -1 0 int2  }
+-1
+0
+int2
+unit.add.set-look-direction
+// 143:         :view-prefab  {  load-resource  {  UnitView WbLightTank  }   }
+UnitView
+WbLightTank
+load-resource
+unit.add.set-view-prefab
+// 144:         ..!
+unit.add
+// 145:     unit.brain...
+// 146:         ...
+// 147:     pop
+pop
+// 150:     unit.add...
+// 151:         :type  {  UnitType Infantry enum  }
+UnitType
+Infantry
+enum
+unit.add.set-type
+// 152:         :moved  {  false  }
+false
+unit.add.set-moved
+// 153:         :hp  {  10  }
+10
+unit.add.set-hp
+// 154:         :position  {  -13 19 int2  }
+-13
+19
+int2
+unit.add.set-position
+// 155:         :look-direction  {  -1 0 int2  }
+-1
+0
+int2
+unit.add.set-look-direction
+// 156:         :view-prefab  {  load-resource  {  UnitView WbLightTank  }   }
+UnitView
+WbLightTank
+load-resource
+unit.add.set-view-prefab
+// 157:         ..!
+unit.add
+// 158:     unit.brain...
+// 159:         .add-state  {  StayingInZoneUnitBrainState type  }
+StayingInZoneUnitBrainState
+type
+unit.brain.add-state
+// 160:     pop
+pop
+// 161:         ...
+// 162:     pop
+pop
+// 165:     unit.add...
+// 166:         :type  {  UnitType Infantry enum  }
+UnitType
+Infantry
+enum
+unit.add.set-type
+// 167:         :moved  {  false  }
+false
+unit.add.set-moved
+// 168:         :hp  {  10  }
+10
+unit.add.set-hp
+// 169:         :position  {  -16 14 int2  }
+-16
+14
+int2
+unit.add.set-position
+// 170:         :look-direction  {  -1 0 int2  }
+-1
+0
+int2
+unit.add.set-look-direction
+// 171:         :view-prefab  {  load-resource  {  UnitView WbLightTank  }   }
+UnitView
+WbLightTank
+load-resource
+unit.add.set-view-prefab
+// 172:         ..!
+unit.add
+// 173:     unit.brain...
+// 174:         .add-state  {  StayingInZoneUnitBrainState type  }
+StayingInZoneUnitBrainState
+type
+unit.brain.add-state
+// 175:     pop
+pop
+// 176:         ...
+// 177:     pop
+pop
+// 180:     unit.add...
+// 181:         :type  {  UnitType Recon enum  }
+UnitType
+Recon
+enum
+unit.add.set-type
+// 182:         :moved  {  false  }
+false
+unit.add.set-moved
+// 183:         :hp  {  10  }
+10
+unit.add.set-hp
+// 184:         :position  {  -18 12 int2  }
+-18
+12
+int2
+unit.add.set-position
+// 185:         :look-direction  {  -1 0 int2  }
+-1
+0
+int2
+unit.add.set-look-direction
+// 186:         :view-prefab  {  load-resource  {  UnitView WbRecon  }   }
+UnitView
+WbRecon
+load-resource
+unit.add.set-view-prefab
+// 187:         ..!
+unit.add
+// 188:     unit.brain...
+// 189:         .add-state  {  StayingInZoneUnitBrainState type  }
+StayingInZoneUnitBrainState
+type
+unit.brain.add-state
+// 190:     pop
+pop
+// 191:         ...
+// 192:     pop
+pop
+// 194:  }
+pop
+// 197: pop  {
+// 198:     player.add...
+// 199:         :color-name  {  ColorName Blue enum  }
+ColorName
+Blue
+enum
+player.add.set-color-name
+// 200:         :team  {  Team None enum  }
+Team
+None
+enum
+player.add.set-team
+// 201:         :co-name  {  PersonName Natalie enum  }
+PersonName
+Natalie
+enum
+player.add.set-co-name
+// 202:         :ui-position  {  0 0 int2  }
+0
+0
+int2
+player.add.set-ui-position
+// 203:         :credits  {  0  }
+0
+player.add.set-credits
+// 204:         :power-meter  {  0  }
+0
+player.add.set-power-meter
+// 205:         :unit-look-direction  {  1 0 int2  }
+1
+0
+int2
+player.add.set-unit-look-direction
+// 206:         :side  {  0  }
+0
+player.add.set-side
+// 207:         ..!
+player.add
+// 209:     zone...
+// 210:         .add  {  Zone0 true  }
+Zone0
+true
+zone.add
+// 211:         .add-positions  {  -24 17 int2 -23 17 int2 -22 17 int2 -21 17 int2 -20 17 int2 -19 17 int2 -18 17 int2 -18 16 int2 -18 15 int2 -18 14 int2 -18 13 int2 -19 11 int2 -18 11 int2 -18 9 int2 -17 9 int2 -19 9 int2 -18 8 int2 -19 8 int2 -20 8 int2 -21 8 int2 -22 8 int2 -23 8 int2 -24 8 int2 -24 9 int2 -24 11 int2 -24 12 int2 -24 13 int2 -24 14 int2 -24 15 int2 -24 16 int2 -23 16 int2 -22 16 int2 -21 16 int2 -20 16 int2 -19 16 int2 -20 15 int2 -21 15 int2 -21 14 int2 -22 14 int2 -22 13 int2 -23 12 int2 -24 10 int2 -23 9 int2 -22 9 int2 -22 10 int2 -22 11 int2 -22 12 int2 -23 13 int2 -23 14 int2 -23 15 int2 -23 10 int2 -21 10 int2 -21 11 int2 -20 12 int2 -20 13 int2 -20 14 int2 -22 15 int2 -23 11 int2 -21 9 int2 -20 9 int2 -20 10 int2 -20 11 int2 -19 12 int2 -19 13 int2 -19 14 int2 -19 15 int2 -21 12 int2 -21 13 int2 -18 10 int2 -17 11 int2 -17 15 int2 -16 15 int2 -15 15 int2 -15 14 int2 -15 13 int2 -15 12 int2 -15 11 int2 -15 10 int2 -15 9 int2 -15 8 int2 -16 8 int2 -17 8 int2 -19 10 int2 -17 10 int2 -18 12 int2 -17 12 int2 -17 13 int2 -17 14 int2 -16 14 int2 -16 13 int2 -16 12 int2 -16 11 int2 -16 10 int2 -16 9 int2 -20 18 int2 -19 18 int2 -18 18 int2 -17 18 int2 -17 17 int2 -17 16 int2 100  }
+-24
+17
+int2
+-23
+17
+int2
+-22
+17
+int2
+-21
+17
+int2
+-20
+17
+int2
+-19
+17
+int2
+-18
+17
+int2
+-18
+16
+int2
+-18
+15
+int2
+-18
+14
+int2
+-18
+13
+int2
+-19
+11
+int2
+-18
+11
+int2
+-18
+9
+int2
+-17
+9
+int2
+-19
+9
+int2
+-18
+8
+int2
+-19
+8
+int2
+-20
+8
+int2
+-21
+8
+int2
+-22
+8
+int2
+-23
+8
+int2
+-24
+8
+int2
+-24
+9
+int2
+-24
+11
+int2
+-24
+12
+int2
+-24
+13
+int2
+-24
+14
+int2
+-24
+15
+int2
+-24
+16
+int2
+-23
+16
+int2
+-22
+16
+int2
+-21
+16
+int2
+-20
+16
+int2
+-19
+16
+int2
+-20
+15
+int2
+-21
+15
+int2
+-21
+14
+int2
+-22
+14
+int2
+-22
+13
+int2
+-23
+12
+int2
+-24
+10
+int2
+-23
+9
+int2
+-22
+9
+int2
+-22
+10
+int2
+-22
+11
+int2
+-22
+12
+int2
+-23
+13
+int2
+-23
+14
+int2
+-23
+15
+int2
+-23
+10
+int2
+-21
+10
+int2
+-21
+11
+int2
+-20
+12
+int2
+-20
+13
+int2
+-20
+14
+int2
+-22
+15
+int2
+-23
+11
+int2
+-21
+9
+int2
+-20
+9
+int2
+-20
+10
+int2
+-20
+11
+int2
+-19
+12
+int2
+-19
+13
+int2
+-19
+14
+int2
+-19
+15
+int2
+-21
+12
+int2
+-21
+13
+int2
+-18
+10
+int2
+-17
+11
+int2
+-17
+15
+int2
+-16
+15
+int2
+-15
+15
+int2
+-15
+14
+int2
+-15
+13
+int2
+-15
+12
+int2
+-15
+11
+int2
+-15
+10
+int2
+-15
+9
+int2
+-15
+8
+int2
+-16
+8
+int2
+-17
+8
+int2
+-19
+10
+int2
+-17
+10
+int2
+-18
+12
+int2
+-17
+12
+int2
+-17
+13
+int2
+-17
+14
+int2
+-16
+14
+int2
+-16
+13
+int2
+-16
+12
+int2
+-16
+11
+int2
+-16
+10
+int2
+-16
+9
+int2
+-20
+18
+int2
+-19
+18
+int2
+-18
+18
+int2
+-17
+18
+int2
+-17
+17
+int2
+-17
+16
+int2
+100
+zone.add-positions
+// 212:     pop
+pop
+// 213:         .add  {  Zone1 false  }
+Zone1
+false
+zone.add
+// 214:         .add-positions  {  -23 23 int2 -23 24 int2 -22 25 int2 -22 26 int2 -21 26 int2 -21 25 int2 -21 24 int2 -21 23 int2 -22 23 int2 -22 24 int2 -23 25 int2 -24 25 int2 -24 24 int2 -24 23 int2 -24 22 int2 -24 21 int2 -24 20 int2 -24 19 int2 -24 18 int2 -23 18 int2 -20 19 int2 -19 19 int2 -22 18 int2 -21 18 int2 -21 19 int2 -21 20 int2 -21 21 int2 -22 22 int2 -23 22 int2 -23 20 int2 -22 20 int2 -22 21 int2 -21 22 int2 -22 19 int2 -23 21 int2 -23 19 int2 -19 20 int2 -19 21 int2 -20 21 int2 -20 22 int2 -20 23 int2 -20 24 int2 -20 25 int2 -20 26 int2 -19 26 int2 -18 26 int2 -18 25 int2 -18 24 int2 -18 23 int2 -18 22 int2 -18 21 int2 -18 20 int2 -18 19 int2 -20 20 int2 -19 25 int2 -19 24 int2 -19 23 int2 -19 22 int2 -17 25 int2 -17 26 int2 -17 24 int2 -17 21 int2 -17 20 int2 -17 19 int2 -17 22 int2 -17 23 int2 -16 18 int2 -15 18 int2 -14 18 int2 -13 18 int2 -14 17 int2 -15 17 int2 -15 16 int2 -16 16 int2 -16 17 int2 75  }
+-23
+23
+int2
+-23
+24
+int2
+-22
+25
+int2
+-22
+26
+int2
+-21
+26
+int2
+-21
+25
+int2
+-21
+24
+int2
+-21
+23
+int2
+-22
+23
+int2
+-22
+24
+int2
+-23
+25
+int2
+-24
+25
+int2
+-24
+24
+int2
+-24
+23
+int2
+-24
+22
+int2
+-24
+21
+int2
+-24
+20
+int2
+-24
+19
+int2
+-24
+18
+int2
+-23
+18
+int2
+-20
+19
+int2
+-19
+19
+int2
+-22
+18
+int2
+-21
+18
+int2
+-21
+19
+int2
+-21
+20
+int2
+-21
+21
+int2
+-22
+22
+int2
+-23
+22
+int2
+-23
+20
+int2
+-22
+20
+int2
+-22
+21
+int2
+-21
+22
+int2
+-22
+19
+int2
+-23
+21
+int2
+-23
+19
+int2
+-19
+20
+int2
+-19
+21
+int2
+-20
+21
+int2
+-20
+22
+int2
+-20
+23
+int2
+-20
+24
+int2
+-20
+25
+int2
+-20
+26
+int2
+-19
+26
+int2
+-18
+26
+int2
+-18
+25
+int2
+-18
+24
+int2
+-18
+23
+int2
+-18
+22
+int2
+-18
+21
+int2
+-18
+20
+int2
+-18
+19
+int2
+-20
+20
+int2
+-19
+25
+int2
+-19
+24
+int2
+-19
+23
+int2
+-19
+22
+int2
+-17
+25
+int2
+-17
+26
+int2
+-17
+24
+int2
+-17
+21
+int2
+-17
+20
+int2
+-17
+19
+int2
+-17
+22
+int2
+-17
+23
+int2
+-16
+18
+int2
+-15
+18
+int2
+-14
+18
+int2
+-13
+18
+int2
+-14
+17
+int2
+-15
+17
+int2
+-15
+16
+int2
+-16
+16
+int2
+-16
+17
+int2
+75
+zone.add-positions
+// 215:     pop
+pop
+// 216:         .add  {  Zone2 false  }
+Zone2
+false
+zone.add
+// 217:         .add-positions  {  -16 26 int2 -15 26 int2 -15 25 int2 -14 25 int2 -14 24 int2 -13 24 int2 -12 21 int2 -12 23 int2 -12 22 int2 -13 21 int2 -13 20 int2 -14 20 int2 -13 19 int2 -14 19 int2 -15 19 int2 -16 19 int2 -16 20 int2 -16 21 int2 -16 22 int2 -16 23 int2 -16 24 int2 -16 25 int2 -15 24 int2 -15 23 int2 -14 23 int2 -14 22 int2 -14 21 int2 -13 22 int2 -13 23 int2 -15 22 int2 -15 21 int2 -15 20 int2 -14 26 int2 -13 25 int2 -12 24 int2 -12 25 int2 -11 22 int2 -11 23 int2 -11 21 int2 -11 20 int2 -11 19 int2 -12 19 int2 -12 20 int2 -11 18 int2 -10 19 int2 45  }
+-16
+26
+int2
+-15
+26
+int2
+-15
+25
+int2
+-14
+25
+int2
+-14
+24
+int2
+-13
+24
+int2
+-12
+21
+int2
+-12
+23
+int2
+-12
+22
+int2
+-13
+21
+int2
+-13
+20
+int2
+-14
+20
+int2
+-13
+19
+int2
+-14
+19
+int2
+-15
+19
+int2
+-16
+19
+int2
+-16
+20
+int2
+-16
+21
+int2
+-16
+22
+int2
+-16
+23
+int2
+-16
+24
+int2
+-16
+25
+int2
+-15
+24
+int2
+-15
+23
+int2
+-14
+23
+int2
+-14
+22
+int2
+-14
+21
+int2
+-13
+22
+int2
+-13
+23
+int2
+-15
+22
+int2
+-15
+21
+int2
+-15
+20
+int2
+-14
+26
+int2
+-13
+25
+int2
+-12
+24
+int2
+-12
+25
+int2
+-11
+22
+int2
+-11
+23
+int2
+-11
+21
+int2
+-11
+20
+int2
+-11
+19
+int2
+-12
+19
+int2
+-12
+20
+int2
+-11
+18
+int2
+-10
+19
+int2
+45
+zone.add-positions
+// 218:     pop
+pop
+// 219:         .add  {  Zone5 false  }
+Zone5
+false
+zone.add
+// 220:         .add-positions  {  -13 26 int2 -12 26 int2 -11 26 int2 -10 26 int2 -9 26 int2 -8 26 int2 -7 26 int2 -6 26 int2 -5 26 int2 -4 26 int2 -3 26 int2 -3 25 int2 -3 24 int2 -3 23 int2 -3 22 int2 -3 21 int2 -3 20 int2 -3 19 int2 -3 18 int2 -3 17 int2 -3 16 int2 -4 16 int2 -5 16 int2 -6 16 int2 -7 16 int2 -8 16 int2 -9 16 int2 -10 16 int2 -10 17 int2 -11 17 int2 -10 18 int2 -9 18 int2 -9 19 int2 -8 19 int2 -8 20 int2 -9 20 int2 -10 20 int2 -10 21 int2 -10 22 int2 -10 23 int2 -10 24 int2 -10 25 int2 -11 24 int2 -11 25 int2 -9 25 int2 -8 25 int2 -7 25 int2 -6 25 int2 -5 25 int2 -4 25 int2 -5 24 int2 -6 24 int2 -7 24 int2 -7 23 int2 -8 23 int2 -9 22 int2 -9 21 int2 -8 21 int2 -7 22 int2 -8 24 int2 -9 24 int2 -9 23 int2 -6 21 int2 -5 21 int2 -5 22 int2 -4 23 int2 -6 23 int2 -7 20 int2 -7 19 int2 -6 19 int2 -5 19 int2 -5 20 int2 -6 22 int2 -8 18 int2 -8 17 int2 -7 17 int2 -7 18 int2 -6 18 int2 -9 17 int2 -8 22 int2 -4 19 int2 -4 22 int2 -5 23 int2 -5 18 int2 -5 17 int2 -4 17 int2 -4 18 int2 -4 20 int2 -4 21 int2 -6 20 int2 -6 17 int2 -4 24 int2 92  }
+-13
+26
+int2
+-12
+26
+int2
+-11
+26
+int2
+-10
+26
+int2
+-9
+26
+int2
+-8
+26
+int2
+-7
+26
+int2
+-6
+26
+int2
+-5
+26
+int2
+-4
+26
+int2
+-3
+26
+int2
+-3
+25
+int2
+-3
+24
+int2
+-3
+23
+int2
+-3
+22
+int2
+-3
+21
+int2
+-3
+20
+int2
+-3
+19
+int2
+-3
+18
+int2
+-3
+17
+int2
+-3
+16
+int2
+-4
+16
+int2
+-5
+16
+int2
+-6
+16
+int2
+-7
+16
+int2
+-8
+16
+int2
+-9
+16
+int2
+-10
+16
+int2
+-10
+17
+int2
+-11
+17
+int2
+-10
+18
+int2
+-9
+18
+int2
+-9
+19
+int2
+-8
+19
+int2
+-8
+20
+int2
+-9
+20
+int2
+-10
+20
+int2
+-10
+21
+int2
+-10
+22
+int2
+-10
+23
+int2
+-10
+24
+int2
+-10
+25
+int2
+-11
+24
+int2
+-11
+25
+int2
+-9
+25
+int2
+-8
+25
+int2
+-7
+25
+int2
+-6
+25
+int2
+-5
+25
+int2
+-4
+25
+int2
+-5
+24
+int2
+-6
+24
+int2
+-7
+24
+int2
+-7
+23
+int2
+-8
+23
+int2
+-9
+22
+int2
+-9
+21
+int2
+-8
+21
+int2
+-7
+22
+int2
+-8
+24
+int2
+-9
+24
+int2
+-9
+23
+int2
+-6
+21
+int2
+-5
+21
+int2
+-5
+22
+int2
+-4
+23
+int2
+-6
+23
+int2
+-7
+20
+int2
+-7
+19
+int2
+-6
+19
+int2
+-5
+19
+int2
+-5
+20
+int2
+-6
+22
+int2
+-8
+18
+int2
+-8
+17
+int2
+-7
+17
+int2
+-7
+18
+int2
+-6
+18
+int2
+-9
+17
+int2
+-8
+22
+int2
+-4
+19
+int2
+-4
+22
+int2
+-5
+23
+int2
+-5
+18
+int2
+-5
+17
+int2
+-4
+17
+int2
+-4
+18
+int2
+-4
+20
+int2
+-4
+21
+int2
+-6
+20
+int2
+-6
+17
+int2
+-4
+24
+int2
+92
+zone.add-positions
+// 221:     pop
+pop
+// 222:         .add  {  Zone4 false  }
+Zone4
+false
+zone.add
+// 223:         .add-positions  {  -9 15 int2 -8 15 int2 -7 15 int2 -6 15 int2 -5 15 int2 -4 15 int2 -3 15 int2 -3 14 int2 -3 13 int2 -3 12 int2 -3 11 int2 -3 10 int2 -3 9 int2 -3 8 int2 -4 8 int2 -5 8 int2 -6 8 int2 -7 8 int2 -8 8 int2 -9 8 int2 -9 9 int2 -9 10 int2 -9 11 int2 -9 12 int2 -9 13 int2 -9 14 int2 -8 14 int2 -7 14 int2 -6 14 int2 -7 13 int2 -8 12 int2 -8 11 int2 -8 10 int2 -8 9 int2 -6 9 int2 -6 10 int2 -6 11 int2 -6 12 int2 -6 13 int2 -7 12 int2 -7 11 int2 -7 10 int2 -5 10 int2 -5 11 int2 -5 12 int2 -5 13 int2 -7 9 int2 -5 9 int2 -8 13 int2 -5 14 int2 -4 9 int2 -4 10 int2 -4 11 int2 -4 12 int2 -4 13 int2 -4 14 int2 56  }
+-9
+15
+int2
+-8
+15
+int2
+-7
+15
+int2
+-6
+15
+int2
+-5
+15
+int2
+-4
+15
+int2
+-3
+15
+int2
+-3
+14
+int2
+-3
+13
+int2
+-3
+12
+int2
+-3
+11
+int2
+-3
+10
+int2
+-3
+9
+int2
+-3
+8
+int2
+-4
+8
+int2
+-5
+8
+int2
+-6
+8
+int2
+-7
+8
+int2
+-8
+8
+int2
+-9
+8
+int2
+-9
+9
+int2
+-9
+10
+int2
+-9
+11
+int2
+-9
+12
+int2
+-9
+13
+int2
+-9
+14
+int2
+-8
+14
+int2
+-7
+14
+int2
+-6
+14
+int2
+-7
+13
+int2
+-8
+12
+int2
+-8
+11
+int2
+-8
+10
+int2
+-8
+9
+int2
+-6
+9
+int2
+-6
+10
+int2
+-6
+11
+int2
+-6
+12
+int2
+-6
+13
+int2
+-7
+12
+int2
+-7
+11
+int2
+-7
+10
+int2
+-5
+10
+int2
+-5
+11
+int2
+-5
+12
+int2
+-5
+13
+int2
+-7
+9
+int2
+-5
+9
+int2
+-8
+13
+int2
+-5
+14
+int2
+-4
+9
+int2
+-4
+10
+int2
+-4
+11
+int2
+-4
+12
+int2
+-4
+13
+int2
+-4
+14
+int2
+56
+zone.add-positions
+// 224:     pop
+pop
+// 225:         .add  {  Zone3 false  }
+Zone3
+false
+zone.add
+// 226:         .add-positions  {  -14 13 int2 -13 13 int2 -12 13 int2 -11 13 int2 -10 13 int2 -14 10 int2 -13 10 int2 -12 10 int2 -11 10 int2 -10 10 int2 10  }
+-14
+13
+int2
+-13
+13
+int2
+-12
+13
+int2
+-11
+13
+int2
+-10
+13
+int2
+-14
+10
+int2
+-13
+10
+int2
+-12
+10
+int2
+-11
+10
+int2
+-10
+10
+int2
+10
+zone.add-positions
+// 227:     pop
+pop
+// 228:         .connect  {  Zone0 Zone1  }
+Zone0
+Zone1
+zone.connect
+// 229:         .connect  {  Zone0 Zone3  }
+Zone0
+Zone3
+zone.connect
+// 230:         .connect  {  Zone1 Zone0  }
+Zone1
+Zone0
+zone.connect
+// 231:         .connect  {  Zone1 Zone2  }
+Zone1
+Zone2
+zone.connect
+// 232:         .connect  {  Zone2 Zone1  }
+Zone2
+Zone1
+zone.connect
+// 233:         .connect  {  Zone2 Zone5  }
+Zone2
+Zone5
+zone.connect
+// 234:         .connect  {  Zone5 Zone2  }
+Zone5
+Zone2
+zone.connect
+// 235:         .connect  {  Zone5 Zone4  }
+Zone5
+Zone4
+zone.connect
+// 236:         .connect  {  Zone4 Zone5  }
+Zone4
+Zone5
+zone.connect
+// 237:         .connect  {  Zone4 Zone3  }
+Zone4
+Zone3
+zone.connect
+// 238:         .connect  {  Zone3 Zone0  }
+Zone3
+Zone0
+zone.connect
+// 239:         .connect  {  Zone3 Zone4  }
+Zone3
+Zone4
+zone.connect
+// 240:         ...
+// 243:     building.add...
+// 244:         :type  {  TileType Hq enum  }
+TileType
+Hq
+enum
+building.add.set-type
+// 245:         :position  {  -24 8 int2  }
+-24
+8
+int2
+building.add.set-position
+// 246:         :cp  {  20  }
+20
+building.add.set-cp
+// 247:         :look-direction  {  1 0 int2  }
+1
+0
+int2
+building.add.set-look-direction
+// 248:         ..!
+building.add
+// 249:     pop
+pop
+// 252:     building.add...
+// 253:         :type  {  TileType Factory enum  }
+TileType
+Factory
+enum
+building.add.set-type
+// 254:         :position  {  -24 14 int2  }
+-24
+14
+int2
+building.add.set-position
+// 255:         :cp  {  20  }
+20
+building.add.set-cp
+// 256:         :look-direction  {  0 1 int2  }
+0
+1
+int2
+building.add.set-look-direction
+// 257:         ..!
+building.add
+// 258:     pop
+pop
+// 261:     building.add...
+// 262:         :type  {  TileType Factory enum  }
+TileType
+Factory
+enum
+building.add.set-type
+// 263:         :position  {  -24 16 int2  }
+-24
+16
+int2
+building.add.set-position
+// 264:         :cp  {  20  }
+20
+building.add.set-cp
+// 265:         :look-direction  {  0 1 int2  }
+0
+1
+int2
+building.add.set-look-direction
+// 266:         ..!
+building.add
+// 267:     pop
+pop
+// 270:     unit.add...
+// 271:         :type  {  UnitType Recon enum  }
+UnitType
+Recon
+enum
+unit.add.set-type
+// 272:         :moved  {  false  }
+false
+unit.add.set-moved
+// 273:         :hp  {  10  }
+10
+unit.add.set-hp
+// 274:         :position  {  -24 9 int2  }
+-24
+9
+int2
+unit.add.set-position
+// 275:         :look-direction  {  1 0 int2  }
+1
+0
+int2
+unit.add.set-look-direction
+// 276:         :view-prefab  {  load-resource  {  UnitView WbRecon  }   }
+UnitView
+WbRecon
+load-resource
+unit.add.set-view-prefab
+// 277:         ..!
+unit.add
+// 278:     unit.brain...
+// 279:         ...
+// 280:     pop
+pop
+// 283:     unit.add...
+// 284:         :type  {  UnitType Recon enum  }
+UnitType
+Recon
+enum
+unit.add.set-type
+// 285:         :moved  {  false  }
+false
+unit.add.set-moved
+// 286:         :hp  {  10  }
+10
+unit.add.set-hp
+// 287:         :position  {  -23 10 int2  }
+-23
+10
+int2
+unit.add.set-position
+// 288:         :look-direction  {  1 0 int2  }
+1
+0
+int2
+unit.add.set-look-direction
+// 289:         :view-prefab  {  load-resource  {  UnitView WbRecon  }   }
+UnitView
+WbRecon
+load-resource
+unit.add.set-view-prefab
+// 290:         ..!
+unit.add
+// 291:     unit.brain...
+// 292:         ...
+// 293:     pop
+pop
+// 296:     unit.add...
+// 297:         :type  {  UnitType Recon enum  }
+UnitType
+Recon
+enum
+unit.add.set-type
+// 298:         :moved  {  false  }
+false
+unit.add.set-moved
+// 299:         :hp  {  10  }
+10
+unit.add.set-hp
+// 300:         :position  {  -19 14 int2  }
+-19
+14
+int2
+unit.add.set-position
+// 301:         :look-direction  {  1 0 int2  }
+1
+0
+int2
+unit.add.set-look-direction
+// 302:         :view-prefab  {  load-resource  {  UnitView WbRecon  }   }
+UnitView
+WbRecon
+load-resource
+unit.add.set-view-prefab
+// 303:         ..!
+unit.add
+// 304:     unit.brain...
+// 305:         ...
+// 306:     pop
+pop
+// 309:     unit.add...
+// 310:         :type  {  UnitType Infantry enum  }
+UnitType
+Infantry
+enum
+unit.add.set-type
+// 311:         :moved  {  false  }
+false
+unit.add.set-moved
+// 312:         :hp  {  10  }
+10
+unit.add.set-hp
+// 313:         :position  {  -22 13 int2  }
+-22
+13
+int2
+unit.add.set-position
+// 314:         :look-direction  {  1 0 int2  }
+1
+0
+int2
+unit.add.set-look-direction
+// 315:         :view-prefab  {  load-resource  {  UnitView WbLightTank  }   }
+UnitView
+WbLightTank
+load-resource
+unit.add.set-view-prefab
+// 316:         ..!
+unit.add
+// 317:     unit.brain...
+// 318:         ...
+// 319:     pop
+pop
+// 322:     unit.add...
+// 323:         :type  {  UnitType Infantry enum  }
+UnitType
+Infantry
+enum
+unit.add.set-type
+// 324:         :moved  {  false  }
+false
+unit.add.set-moved
+// 325:         :hp  {  10  }
+10
+unit.add.set-hp
+// 326:         :position  {  -22 15 int2  }
+-22
+15
+int2
+unit.add.set-position
+// 327:         :look-direction  {  1 0 int2  }
+1
+0
+int2
+unit.add.set-look-direction
+// 328:         :view-prefab  {  load-resource  {  UnitView WbLightTank  }   }
+UnitView
+WbLightTank
+load-resource
+unit.add.set-view-prefab
+// 329:         ..!
+unit.add
+// 330:     unit.brain...
+// 331:         ...
+// 332:     pop
+pop
+// 335:     unit.add...
+// 336:         :type  {  UnitType Artillery enum  }
+UnitType
+Artillery
+enum
+unit.add.set-type
+// 337:         :moved  {  false  }
+false
+unit.add.set-moved
+// 338:         :hp  {  10  }
+10
+unit.add.set-hp
+// 339:         :position  {  -22 14 int2  }
+-22
+14
+int2
+unit.add.set-position
+// 340:         :look-direction  {  1 0 int2  }
+1
+0
+int2
+unit.add.set-look-direction
+// 341:         :view-prefab  {  load-resource  {  UnitView WbHowitzer  }   }
+UnitView
+WbHowitzer
+load-resource
+unit.add.set-view-prefab
+// 342:         ..!
+unit.add
+// 343:     unit.brain...
+// 344:         ...
+// 345:     pop
+pop
+// 348:     unit.add...
+// 349:         :type  {  UnitType Infantry enum  }
+UnitType
+Infantry
+enum
+unit.add.set-type
+// 350:         :moved  {  false  }
+false
+unit.add.set-moved
+// 351:         :hp  {  10  }
+10
+unit.add.set-hp
+// 352:         :position  {  -21 16 int2  }
+-21
+16
+int2
+unit.add.set-position
+// 353:         :look-direction  {  1 0 int2  }
+1
+0
+int2
+unit.add.set-look-direction
+// 354:         :view-prefab  {  load-resource  {  UnitView WbLightTank  }   }
+UnitView
+WbLightTank
+load-resource
+unit.add.set-view-prefab
+// 355:         ..!
+unit.add
+// 356:     unit.brain...
+// 357:         ...
+// 358:     pop
+pop
+// 361:     unit.add...
+// 362:         :type  {  UnitType Rockets enum  }
+UnitType
+Rockets
+enum
+unit.add.set-type
+// 363:         :moved  {  false  }
+false
+unit.add.set-moved
+// 364:         :hp  {  10  }
+10
+unit.add.set-hp
+// 365:         :position  {  -23 8 int2  }
+-23
+8
+int2
+unit.add.set-position
+// 366:         :look-direction  {  1 0 int2  }
+1
+0
+int2
+unit.add.set-look-direction
+// 367:         :view-prefab  {  load-resource  {  UnitView WbRockets  }   }
+UnitView
+WbRockets
+load-resource
+unit.add.set-view-prefab
+// 368:         ..!
+unit.add
+// 369:     unit.brain...
+// 370:         ...
+// 371:     pop
+pop
+// 374:     unit.add...
+// 375:         :type  {  UnitType Infantry enum  }
+UnitType
+Infantry
+enum
+unit.add.set-type
+// 376:         :moved  {  false  }
+false
+unit.add.set-moved
+// 377:         :hp  {  10  }
+10
+unit.add.set-hp
+// 378:         :position  {  -21 12 int2  }
+-21
+12
+int2
+unit.add.set-position
+// 379:         :look-direction  {  1 0 int2  }
+1
+0
+int2
+unit.add.set-look-direction
+// 380:         :view-prefab  {  load-resource  {  UnitView WbLightTank  }   }
+UnitView
+WbLightTank
+load-resource
+unit.add.set-view-prefab
+// 381:         ..!
+unit.add
+// 382:     unit.brain...
+// 383:         ...
+// 384:     pop
+pop
+// 387:     unit.add...
+// 388:         :type  {  UnitType Recon enum  }
+UnitType
+Recon
+enum
+unit.add.set-type
+// 389:         :moved  {  false  }
+false
+unit.add.set-moved
+// 390:         :hp  {  10  }
+10
+unit.add.set-hp
+// 391:         :position  {  -18 19 int2  }
+-18
+19
+int2
+unit.add.set-position
+// 392:         :look-direction  {  1 0 int2  }
+1
+0
+int2
+unit.add.set-look-direction
+// 393:         :view-prefab  {  load-resource  {  UnitView WbRecon  }   }
+UnitView
+WbRecon
+load-resource
+unit.add.set-view-prefab
+// 394:         ..!
+unit.add
+// 395:     unit.brain...
+// 396:         ...
+// 397:     pop
+pop
+// 400:     unit.add...
+// 401:         :type  {  UnitType Infantry enum  }
+UnitType
+Infantry
+enum
+unit.add.set-type
+// 402:         :moved  {  false  }
+false
+unit.add.set-moved
+// 403:         :hp  {  10  }
+10
+unit.add.set-hp
+// 404:         :position  {  -12 22 int2  }
+-12
+22
+int2
+unit.add.set-position
+// 405:         :look-direction  {  1 0 int2  }
+1
+0
+int2
+unit.add.set-look-direction
+// 406:         :view-prefab  {  load-resource  {  UnitView WbLightTank  }   }
+UnitView
+WbLightTank
+load-resource
+unit.add.set-view-prefab
+// 407:         ..!
+unit.add
+// 408:     unit.brain...
+// 409:         ...
+// 410:     pop
+pop
+// 413:     unit.add...
+// 414:         :type  {  UnitType Recon enum  }
+UnitType
+Recon
+enum
+unit.add.set-type
+// 415:         :moved  {  false  }
+false
+unit.add.set-moved
+// 416:         :hp  {  10  }
+10
+unit.add.set-hp
+// 417:         :position  {  -13 10 int2  }
+-13
+10
+int2
+unit.add.set-position
+// 418:         :look-direction  {  1 0 int2  }
+1
+0
+int2
+unit.add.set-look-direction
+// 419:         :view-prefab  {  load-resource  {  UnitView WbRecon  }   }
+UnitView
+WbRecon
+load-resource
+unit.add.set-view-prefab
+// 420:         ..!
+unit.add
+// 421:     unit.brain...
+// 422:         ...
+// 423:     pop
+pop
+// 426:     unit.add...
+// 427:         :type  {  UnitType Infantry enum  }
+UnitType
+Infantry
+enum
+unit.add.set-type
+// 428:         :moved  {  false  }
+false
+unit.add.set-moved
+// 429:         :hp  {  10  }
+10
+unit.add.set-hp
+// 430:         :position  {  -22 20 int2  }
+-22
+20
+int2
+unit.add.set-position
+// 431:         :look-direction  {  1 0 int2  }
+1
+0
+int2
+unit.add.set-look-direction
+// 432:         :view-prefab  {  load-resource  {  UnitView WbLightTank  }   }
+UnitView
+WbLightTank
+load-resource
+unit.add.set-view-prefab
+// 433:         ..!
+unit.add
+// 434:     unit.brain...
+// 435:         ...
+// 436:     pop
+pop
+// 438:  }
+pop
+// 440: tiles.add  {  TileType Plain enum -24 9 int2 -24 15 int2 -24 20 int2 -24 21 int2 -24 22 int2 -23 18 int2 -23 19 int2 -23 20 int2 -23 21 int2 -23 22 int2 -23 23 int2 -23 24 int2 -22 11 int2 -22 12 int2 -22 18 int2 -22 19 int2 -22 20 int2 -22 21 int2 -22 22 int2 -22 23 int2 -22 24 int2 -22 25 int2 -22 26 int2 -21 9 int2 -21 10 int2 -21 12 int2 -21 16 int2 -21 17 int2 -21 18 int2 -21 19 int2 -21 20 int2 -21 21 int2 -21 24 int2 -21 25 int2 -20 9 int2 -20 10 int2 -20 12 int2 -20 16 int2 -20 17 int2 -20 19 int2 -20 20 int2 -20 21 int2 -19 9 int2 -19 10 int2 -19 11 int2 -19 12 int2 -19 16 int2 -19 17 int2 -19 19 int2 -19 20 int2 -19 21 int2 -19 22 int2 -19 23 int2 -19 24 int2 -18 17 int2 -18 19 int2 -18 20 int2 -18 21 int2 -18 22 int2 -18 23 int2 -18 24 int2 -18 25 int2 -17 19 int2 -17 20 int2 -17 21 int2 -17 22 int2 -17 23 int2 -17 24 int2 -17 25 int2 -16 18 int2 -16 19 int2 -16 21 int2 -16 22 int2 -16 23 int2 -16 24 int2 -16 25 int2 -15 18 int2 -15 19 int2 -15 20 int2 -15 21 int2 -15 22 int2 -15 23 int2 -15 24 int2 -15 25 int2 -14 19 int2 -14 20 int2 -14 21 int2 -14 25 int2 -13 22 int2 -13 26 int2 -12 26 int2 -11 26 int2 -10 17 int2 -10 18 int2 -10 20 int2 -10 21 int2 -10 22 int2 -10 23 int2 -10 24 int2 -10 26 int2 -9 8 int2 -9 9 int2 -9 10 int2 -9 11 int2 -9 12 int2 -9 14 int2 -9 15 int2 -9 16 int2 -9 17 int2 -9 18 int2 -9 19 int2 -9 20 int2 -9 21 int2 -9 22 int2 -9 23 int2 -9 24 int2 -9 26 int2 -8 8 int2 -8 9 int2 -8 10 int2 -8 11 int2 -8 12 int2 -8 15 int2 -8 16 int2 -8 17 int2 -8 18 int2 -8 19 int2 -8 20 int2 -8 21 int2 -8 22 int2 -8 23 int2 -8 24 int2 -8 26 int2 -6 8 int2 -6 9 int2 -6 10 int2 -6 17 int2 -6 18 int2 -6 19 int2 -6 20 int2 -6 22 int2 -6 24 int2 -6 26 int2 -5 8 int2 -5 9 int2 -5 10 int2 -5 13 int2 -5 17 int2 -5 18 int2 -5 22 int2 -5 23 int2 -5 25 int2 -5 26 int2 -4 9 int2 -4 10 int2 -4 13 int2 -4 14 int2 -4 15 int2 -4 17 int2 -4 23 int2 -4 24 int2 -4 25 int2 -4 26 int2 -3 10 int2 -3 13 int2 -3 14 int2 -3 15 int2 -3 17 int2 -3 23 int2 -3 24 int2 -3 25 int2 171  }
+TileType
+Plain
+enum
+-24
+9
+int2
+-24
+15
+int2
+-24
+20
+int2
+-24
+21
+int2
+-24
+22
+int2
+-23
+18
+int2
+-23
+19
+int2
+-23
+20
+int2
+-23
+21
+int2
+-23
+22
+int2
+-23
+23
+int2
+-23
+24
+int2
+-22
+11
+int2
+-22
+12
+int2
+-22
+18
+int2
+-22
+19
+int2
+-22
+20
+int2
+-22
+21
+int2
+-22
+22
+int2
+-22
+23
+int2
+-22
+24
+int2
+-22
+25
+int2
+-22
+26
+int2
+-21
+9
+int2
+-21
+10
+int2
+-21
+12
+int2
+-21
+16
+int2
+-21
+17
+int2
+-21
+18
+int2
+-21
+19
+int2
+-21
+20
+int2
+-21
+21
+int2
+-21
+24
+int2
+-21
+25
+int2
+-20
+9
+int2
+-20
+10
+int2
+-20
+12
+int2
+-20
+16
+int2
+-20
+17
+int2
+-20
+19
+int2
+-20
+20
+int2
+-20
+21
+int2
+-19
+9
+int2
+-19
+10
+int2
+-19
+11
+int2
+-19
+12
+int2
+-19
+16
+int2
+-19
+17
+int2
+-19
+19
+int2
+-19
+20
+int2
+-19
+21
+int2
+-19
+22
+int2
+-19
+23
+int2
+-19
+24
+int2
+-18
+17
+int2
+-18
+19
+int2
+-18
+20
+int2
+-18
+21
+int2
+-18
+22
+int2
+-18
+23
+int2
+-18
+24
+int2
+-18
+25
+int2
+-17
+19
+int2
+-17
+20
+int2
+-17
+21
+int2
+-17
+22
+int2
+-17
+23
+int2
+-17
+24
+int2
+-17
+25
+int2
+-16
+18
+int2
+-16
+19
+int2
+-16
+21
+int2
+-16
+22
+int2
+-16
+23
+int2
+-16
+24
+int2
+-16
+25
+int2
+-15
+18
+int2
+-15
+19
+int2
+-15
+20
+int2
+-15
+21
+int2
+-15
+22
+int2
+-15
+23
+int2
+-15
+24
+int2
+-15
+25
+int2
+-14
+19
+int2
+-14
+20
+int2
+-14
+21
+int2
+-14
+25
+int2
+-13
+22
+int2
+-13
+26
+int2
+-12
+26
+int2
+-11
+26
+int2
+-10
+17
+int2
+-10
+18
+int2
+-10
+20
+int2
+-10
+21
+int2
+-10
+22
+int2
+-10
+23
+int2
+-10
+24
+int2
+-10
+26
+int2
+-9
+8
+int2
+-9
+9
+int2
+-9
+10
+int2
+-9
+11
+int2
+-9
+12
+int2
+-9
+14
+int2
+-9
+15
+int2
+-9
+16
+int2
+-9
+17
+int2
+-9
+18
+int2
+-9
+19
+int2
+-9
+20
+int2
+-9
+21
+int2
+-9
+22
+int2
+-9
+23
+int2
+-9
+24
+int2
+-9
+26
+int2
+-8
+8
+int2
+-8
+9
+int2
+-8
+10
+int2
+-8
+11
+int2
+-8
+12
+int2
+-8
+15
+int2
+-8
+16
+int2
+-8
+17
+int2
+-8
+18
+int2
+-8
+19
+int2
+-8
+20
+int2
+-8
+21
+int2
+-8
+22
+int2
+-8
+23
+int2
+-8
+24
+int2
+-8
+26
+int2
+-6
+8
+int2
+-6
+9
+int2
+-6
+10
+int2
+-6
+17
+int2
+-6
+18
+int2
+-6
+19
+int2
+-6
+20
+int2
+-6
+22
+int2
+-6
+24
+int2
+-6
+26
+int2
+-5
+8
+int2
+-5
+9
+int2
+-5
+10
+int2
+-5
+13
+int2
+-5
+17
+int2
+-5
+18
+int2
+-5
+22
+int2
+-5
+23
+int2
+-5
+25
+int2
+-5
+26
+int2
+-4
+9
+int2
+-4
+10
+int2
+-4
+13
+int2
+-4
+14
+int2
+-4
+15
+int2
+-4
+17
+int2
+-4
+23
+int2
+-4
+24
+int2
+-4
+25
+int2
+-4
+26
+int2
+-3
+10
+int2
+-3
+13
+int2
+-3
+14
+int2
+-3
+15
+int2
+-3
+17
+int2
+-3
+23
+int2
+-3
+24
+int2
+-3
+25
+int2
+171
+tiles.add
+// 441: tiles.add  {  TileType Road enum -23 8 int2 -23 9 int2 -23 10 int2 -23 11 int2 -23 12 int2 -23 13 int2 -23 14 int2 -23 15 int2 -23 16 int2 -22 13 int2 -22 14 int2 -22 15 int2 -21 13 int2 -21 14 int2 -21 15 int2 -20 13 int2 -20 14 int2 -20 15 int2 -20 23 int2 -20 24 int2 -20 25 int2 -20 26 int2 -19 26 int2 -18 26 int2 -17 26 int2 -16 26 int2 -15 17 int2 -15 26 int2 -14 10 int2 -14 13 int2 -14 17 int2 -14 18 int2 -13 10 int2 -13 13 int2 -12 10 int2 -12 13 int2 -11 10 int2 -11 13 int2 -11 25 int2 -10 10 int2 -10 13 int2 -10 25 int2 -9 13 int2 -9 25 int2 -8 13 int2 -8 25 int2 -7 12 int2 -7 13 int2 -7 14 int2 -7 15 int2 -7 16 int2 -7 17 int2 -7 18 int2 -7 19 int2 -7 20 int2 -7 21 int2 -7 22 int2 -7 23 int2 -7 24 int2 -7 25 int2 -7 26 int2 -6 12 int2 -6 16 int2 -6 21 int2 -5 12 int2 -5 16 int2 -5 21 int2 -4 12 int2 -4 16 int2 -4 21 int2 -3 12 int2 -3 16 int2 -3 21 int2 73  }
+TileType
+Road
+enum
+-23
+8
+int2
+-23
+9
+int2
+-23
+10
+int2
+-23
+11
+int2
+-23
+12
+int2
+-23
+13
+int2
+-23
+14
+int2
+-23
+15
+int2
+-23
+16
+int2
+-22
+13
+int2
+-22
+14
+int2
+-22
+15
+int2
+-21
+13
+int2
+-21
+14
+int2
+-21
+15
+int2
+-20
+13
+int2
+-20
+14
+int2
+-20
+15
+int2
+-20
+23
+int2
+-20
+24
+int2
+-20
+25
+int2
+-20
+26
+int2
+-19
+26
+int2
+-18
+26
+int2
+-17
+26
+int2
+-16
+26
+int2
+-15
+17
+int2
+-15
+26
+int2
+-14
+10
+int2
+-14
+13
+int2
+-14
+17
+int2
+-14
+18
+int2
+-13
+10
+int2
+-13
+13
+int2
+-12
+10
+int2
+-12
+13
+int2
+-11
+10
+int2
+-11
+13
+int2
+-11
+25
+int2
+-10
+10
+int2
+-10
+13
+int2
+-10
+25
+int2
+-9
+13
+int2
+-9
+25
+int2
+-8
+13
+int2
+-8
+25
+int2
+-7
+12
+int2
+-7
+13
+int2
+-7
+14
+int2
+-7
+15
+int2
+-7
+16
+int2
+-7
+17
+int2
+-7
+18
+int2
+-7
+19
+int2
+-7
+20
+int2
+-7
+21
+int2
+-7
+22
+int2
+-7
+23
+int2
+-7
+24
+int2
+-7
+25
+int2
+-7
+26
+int2
+-6
+12
+int2
+-6
+16
+int2
+-6
+21
+int2
+-5
+12
+int2
+-5
+16
+int2
+-5
+21
+int2
+-4
+12
+int2
+-4
+16
+int2
+-4
+21
+int2
+-3
+12
+int2
+-3
+16
+int2
+-3
+21
+int2
+73
+tiles.add
+// 442: tiles.add  {  TileType Sea enum -14 8 int2 -14 9 int2 -14 11 int2 -14 12 int2 -14 14 int2 -14 15 int2 -14 16 int2 -13 8 int2 -13 9 int2 -13 11 int2 -13 12 int2 -13 14 int2 -13 15 int2 -13 16 int2 -13 17 int2 -12 8 int2 -12 9 int2 -12 11 int2 -12 12 int2 -12 14 int2 -12 15 int2 -12 16 int2 -12 17 int2 -12 18 int2 -11 8 int2 -11 9 int2 -11 11 int2 -11 12 int2 -11 14 int2 -11 15 int2 -11 16 int2 -10 8 int2 -10 9 int2 -10 11 int2 -10 12 int2 -10 14 int2 -10 15 int2 37  }
+TileType
+Sea
+enum
+-14
+8
+int2
+-14
+9
+int2
+-14
+11
+int2
+-14
+12
+int2
+-14
+14
+int2
+-14
+15
+int2
+-14
+16
+int2
+-13
+8
+int2
+-13
+9
+int2
+-13
+11
+int2
+-13
+12
+int2
+-13
+14
+int2
+-13
+15
+int2
+-13
+16
+int2
+-13
+17
+int2
+-12
+8
+int2
+-12
+9
+int2
+-12
+11
+int2
+-12
+12
+int2
+-12
+14
+int2
+-12
+15
+int2
+-12
+16
+int2
+-12
+17
+int2
+-12
+18
+int2
+-11
+8
+int2
+-11
+9
+int2
+-11
+11
+int2
+-11
+12
+int2
+-11
+14
+int2
+-11
+15
+int2
+-11
+16
+int2
+-10
+8
+int2
+-10
+9
+int2
+-10
+11
+int2
+-10
+12
+int2
+-10
+14
+int2
+-10
+15
+int2
+37
+tiles.add
+// 443: tiles.add  {  TileType Mountain enum -24 10 int2 -24 11 int2 -24 12 int2 -24 24 int2 -24 25 int2 -24 26 int2 -23 26 int2 -21 8 int2 -20 8 int2 -20 18 int2 -19 18 int2 -18 18 int2 -17 16 int2 -17 17 int2 -17 18 int2 -13 18 int2 -13 19 int2 -12 19 int2 -12 20 int2 -12 24 int2 -12 25 int2 -11 18 int2 -11 19 int2 -11 20 int2 -11 21 int2 -11 22 int2 -11 23 int2 -10 19 int2 -7 8 int2 -7 9 int2 -7 10 int2 -7 11 int2 -6 11 int2 -5 11 int2 -5 19 int2 -4 11 int2 -4 19 int2 -4 20 int2 -3 11 int2 39  }
+TileType
+Mountain
+enum
+-24
+10
+int2
+-24
+11
+int2
+-24
+12
+int2
+-24
+24
+int2
+-24
+25
+int2
+-24
+26
+int2
+-23
+26
+int2
+-21
+8
+int2
+-20
+8
+int2
+-20
+18
+int2
+-19
+18
+int2
+-18
+18
+int2
+-17
+16
+int2
+-17
+17
+int2
+-17
+18
+int2
+-13
+18
+int2
+-13
+19
+int2
+-12
+19
+int2
+-12
+20
+int2
+-12
+24
+int2
+-12
+25
+int2
+-11
+18
+int2
+-11
+19
+int2
+-11
+20
+int2
+-11
+21
+int2
+-11
+22
+int2
+-11
+23
+int2
+-10
+19
+int2
+-7
+8
+int2
+-7
+9
+int2
+-7
+10
+int2
+-7
+11
+int2
+-6
+11
+int2
+-5
+11
+int2
+-5
+19
+int2
+-4
+11
+int2
+-4
+19
+int2
+-4
+20
+int2
+-3
+11
+int2
+39
+tiles.add
+// 444: tiles.add  {  TileType Forest enum -24 13 int2 -24 17 int2 -24 18 int2 -24 19 int2 -24 23 int2 -23 17 int2 -23 25 int2 -22 8 int2 -22 9 int2 -22 10 int2 -22 16 int2 -22 17 int2 -21 11 int2 -21 22 int2 -20 11 int2 -20 22 int2 -19 8 int2 -19 13 int2 -19 14 int2 -19 15 int2 -19 25 int2 -18 8 int2 -18 9 int2 -18 10 int2 -18 11 int2 -18 12 int2 -18 13 int2 -18 14 int2 -18 15 int2 -18 16 int2 -17 8 int2 -17 9 int2 -17 10 int2 -17 11 int2 -17 12 int2 -17 13 int2 -17 14 int2 -17 15 int2 -16 8 int2 -16 9 int2 -16 10 int2 -16 11 int2 -16 12 int2 -16 13 int2 -16 14 int2 -16 15 int2 -16 16 int2 -16 17 int2 -16 20 int2 -15 8 int2 -15 9 int2 -15 10 int2 -15 11 int2 -15 12 int2 -15 13 int2 -15 14 int2 -15 15 int2 -15 16 int2 -14 22 int2 -14 23 int2 -14 24 int2 -13 20 int2 -13 21 int2 -13 23 int2 -13 24 int2 -12 21 int2 -12 22 int2 -12 23 int2 -11 17 int2 -10 16 int2 -8 14 int2 -6 14 int2 -6 15 int2 -6 23 int2 -5 14 int2 -5 15 int2 -5 20 int2 -5 24 int2 -4 8 int2 -4 18 int2 -4 22 int2 -3 8 int2 -3 9 int2 -3 18 int2 -3 19 int2 85  }
+TileType
+Forest
+enum
+-24
+13
+int2
+-24
+17
+int2
+-24
+18
+int2
+-24
+19
+int2
+-24
+23
+int2
+-23
+17
+int2
+-23
+25
+int2
+-22
+8
+int2
+-22
+9
+int2
+-22
+10
+int2
+-22
+16
+int2
+-22
+17
+int2
+-21
+11
+int2
+-21
+22
+int2
+-20
+11
+int2
+-20
+22
+int2
+-19
+8
+int2
+-19
+13
+int2
+-19
+14
+int2
+-19
+15
+int2
+-19
+25
+int2
+-18
+8
+int2
+-18
+9
+int2
+-18
+10
+int2
+-18
+11
+int2
+-18
+12
+int2
+-18
+13
+int2
+-18
+14
+int2
+-18
+15
+int2
+-18
+16
+int2
+-17
+8
+int2
+-17
+9
+int2
+-17
+10
+int2
+-17
+11
+int2
+-17
+12
+int2
+-17
+13
+int2
+-17
+14
+int2
+-17
+15
+int2
+-16
+8
+int2
+-16
+9
+int2
+-16
+10
+int2
+-16
+11
+int2
+-16
+12
+int2
+-16
+13
+int2
+-16
+14
+int2
+-16
+15
+int2
+-16
+16
+int2
+-16
+17
+int2
+-16
+20
+int2
+-15
+8
+int2
+-15
+9
+int2
+-15
+10
+int2
+-15
+11
+int2
+-15
+12
+int2
+-15
+13
+int2
+-15
+14
+int2
+-15
+15
+int2
+-15
+16
+int2
+-14
+22
+int2
+-14
+23
+int2
+-14
+24
+int2
+-13
+20
+int2
+-13
+21
+int2
+-13
+23
+int2
+-13
+24
+int2
+-12
+21
+int2
+-12
+22
+int2
+-12
+23
+int2
+-11
+17
+int2
+-10
+16
+int2
+-8
+14
+int2
+-6
+14
+int2
+-6
+15
+int2
+-6
+23
+int2
+-5
+14
+int2
+-5
+15
+int2
+-5
+20
+int2
+-5
+24
+int2
+-4
+8
+int2
+-4
+18
+int2
+-4
+22
+int2
+-3
+8
+int2
+-3
+9
+int2
+-3
+18
+int2
+-3
+19
+int2
+85
+tiles.add
+// 447: pop  {
+// 448:     null
+null
+// 451:     building.add...
+// 452:         :type  {  TileType City enum  }
+TileType
+City
+enum
+building.add.set-type
+// 453:         :position  {  -6 13 int2  }
+-6
+13
+int2
+building.add.set-position
+// 454:         :cp  {  20  }
+20
+building.add.set-cp
+// 455:         :look-direction  {  0 -1 int2  }
+0
+-1
+int2
+building.add.set-look-direction
+// 456:         ..!
+building.add
+// 457:     pop
+pop
+// 460:     building.add...
+// 461:         :type  {  TileType Factory enum  }
+TileType
+Factory
+enum
+building.add.set-type
+// 462:         :position  {  -13 25 int2  }
+-13
+25
+int2
+building.add.set-position
+// 463:         :cp  {  20  }
+20
+building.add.set-cp
+// 464:         :look-direction  {  0 1 int2  }
+0
+1
+int2
+building.add.set-look-direction
+// 465:         ..!
+building.add
+// 466:     pop
+pop
+// 469:     building.add...
+// 470:         :type  {  TileType Factory enum  }
+TileType
+Factory
+enum
+building.add.set-type
+// 471:         :position  {  -14 26 int2  }
+-14
+26
+int2
+building.add.set-position
+// 472:         :cp  {  20  }
+20
+building.add.set-cp
+// 473:         :look-direction  {  0 1 int2  }
+0
+1
+int2
+building.add.set-look-direction
+// 474:         ..!
+building.add
+// 475:     pop
+pop
+// 478:     building.add...
+// 479:         :type  {  TileType City enum  }
+TileType
+City
+enum
+building.add.set-type
+// 480:         :position  {  -21 26 int2  }
+-21
+26
+int2
+building.add.set-position
+// 481:         :cp  {  20  }
+20
+building.add.set-cp
+// 482:         :look-direction  {  0 1 int2  }
+0
+1
+int2
+building.add.set-look-direction
+// 483:         ..!
+building.add
+// 484:     pop
+pop
+// 487:     building.add...
+// 488:         :type  {  TileType City enum  }
+TileType
+City
+enum
+building.add.set-type
+// 489:         :position  {  -21 23 int2  }
+-21
+23
+int2
+building.add.set-position
+// 490:         :cp  {  20  }
+20
+building.add.set-cp
+// 491:         :look-direction  {  0 1 int2  }
+0
+1
+int2
+building.add.set-look-direction
+// 492:         ..!
+building.add
+// 493:     pop
+pop
+// 494:  }
+pop
+// 496: trigger...
+// 497:     .select  {  TriggerName A enum  }
+TriggerName
+A
+enum
+trigger.select
+// 498:     ...
+// 500: trigger...
+// 501:     .select  {  TriggerName B enum  }
+TriggerName
+B
+enum
+trigger.select
+// 502:     ...
+// 504: trigger...
+// 505:     .select  {  TriggerName C enum  }
+TriggerName
+C
+enum
+trigger.select
+// 506:     ...
+// 508: trigger...
+// 509:     .select  {  TriggerName D enum  }
+TriggerName
+D
+enum
+trigger.select
+// 510:     ...
+// 512: trigger...
+// 513:     .select  {  TriggerName E enum  }
+TriggerName
+E
+enum
+trigger.select
+// 514:     ...
+// 516: trigger...
+// 517:     .select  {  TriggerName F enum  }
+TriggerName
+F
+enum
+trigger.select
+// 518:     ...
+// 520: camera-rig...
+// 521:     :position  {  -6.37573 -4.996765E-05 20.69545 float3  }
+-6.37573
+-4.996765E-05
+20.69545
+float3
+camera-rig.set-position
+// 522:     :rotation  {  42.06109  }
+42.06109
+camera-rig.set-rotation
+// 523:     :distance  {  14.26075  }
+14.26075
+camera-rig.set-distance
+// 524:     :pitch-angle  {  44.66116  }
+44.66116
+camera-rig.set-pitch-angle
+// 525:     ...
