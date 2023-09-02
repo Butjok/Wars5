@@ -119,7 +119,7 @@ public class SelectionState : StateMachineState {
                     else if (Input.GetKeyDown(KeyCode.F6) && Rules.CanUseAbility(level.CurrentPlayer))
                         game.EnqueueCommand(Command.UseAbility);
                     
-                    else if (Input.GetKeyDown(KeyCode.M))
+                    else if (Input.GetKeyDown(KeyCode.M) || Input.GetKeyDown(KeyCode.CapsLock))
                         game.EnqueueCommand(Command.OpenMinimap);
                 }
 

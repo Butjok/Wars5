@@ -40,6 +40,7 @@ public class CameraRig : MonoBehaviour {
     public float distanceStepDuration = .1f;
     public Easing.Name zoomEasing = Easing.Name.OutExpo;
     public float zoomLerpFactor = 50;
+    public Vector2 zoomCursorFactor = new(.5f, .5f);
 
     [Header("Free look")]
     public Vector2 freeLookSpeed = new(180, 180);
@@ -97,13 +98,16 @@ public class CameraRig : MonoBehaviour {
         if (zoomInput != 0)
             targetDistance = ClampedDistance(targetDistance + zoomInput * distanceStep * Distance);
 
+        // ZOOM
+
         var oldDistance = Distance;
         Distance = Mathf.Lerp(Distance, targetDistance, Time.unscaledDeltaTime * zoomLerpFactor);
         var delta = Distance - oldDistance;
         var ray = camera.ScreenPointToRay(Input.mousePosition);
         if (new Plane(Vector3.up, transform.position).Raycast(ray, out var enter)) {
             var point = ray.GetPoint(enter);
-            transform.position -= (point - transform.position) * delta / oldDistance;
+            var cursorFactor = delta < 0 ? zoomCursorFactor[0] : zoomCursorFactor[1];
+            transform.position -= cursorFactor * (point - transform.position) * delta / oldDistance;
         }
 
         if (freeLookCoroutine == null && Input.GetKeyDown(KeyCode.LeftAlt)) {

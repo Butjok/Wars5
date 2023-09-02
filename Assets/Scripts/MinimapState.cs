@@ -4,8 +4,10 @@ using UnityEngine;
 using UnityEngine.Assertions;
 
 public class MinimapState : StateMachineState {
+    
     public MinimapState(StateMachine stateMachine) : base(stateMachine) { }
     public MinimapUi ui;
+    
     public override IEnumerator<StateChange> Enter {
         get {
             var level = FindState<LevelSessionState>().level;
@@ -25,14 +27,15 @@ public class MinimapState : StateMachineState {
                     unit.Player.Color)));
 
             while (true) {
-                yield return  StateChange.none;
-                if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.M)) {
-                    yield return  StateChange.none;
+                yield return StateChange.none;
+                if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.M) || Input.GetKeyDown(KeyCode.CapsLock)) {
+                    yield return StateChange.none;
                     break;
                 }
             }
         }
     }
+    
     public override void Exit() {
         ui.Hide();
         base.Exit();
