@@ -3682,19 +3682,19 @@ enum
 trigger.select
 // 518:     ...
 // 520: camera-rig...
-// 521:     :position  {  -12.76911 -2.732211E-05 16.52701 float3  }
--12.76911
--2.732211E-05
-16.52701
+// 521:     :position  {  -17.14872 -2.613059E-05 13.97793 float3  }
+-17.14872
+-2.613059E-05
+13.97793
 float3
 camera-rig.set-position
 // 522:     :rotation  {  0  }
 0
 camera-rig.set-rotation
-// 523:     :distance  {  40  }
-40
+// 523:     :distance  {  20.24325  }
+20.24325
 camera-rig.set-distance
-// 524:     :pitch-angle  {  49.43816  }
-49.43816
+// 524:     :pitch-angle  {  55.11849  }
+55.11849
 camera-rig.set-pitch-angle
 // 525:     ...

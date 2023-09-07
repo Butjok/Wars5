@@ -1,20 +1,23 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using Butjok.CommandLine;
+using Drawing;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Assertions;
-using UnityEngine.Serialization;
 
 public class TilemapCursor : MonoBehaviour {
+
+    public const int right = 0, up = 1;
 
     public GameObject viewRoot;
     public Func<Vector2Int, bool> isValidPosition = _ => true;
     public TMP_Text text;
     public float repeatCoolDown = 5;
     public float repeatDelay = .25f;
+    public static readonly string[] axisNames = { "TilemapCursorHorizontal", "TilemapCursorVertical" };
+    public IEnumerator[] repeatLoops = new IEnumerator[2];
+    public CameraRig cameraRig;
+    public float speed = .5f;
 
     private Vector2Int? position;
     public bool TryGetPosition(out Vector2Int result) {
@@ -40,69 +43,57 @@ public class TilemapCursor : MonoBehaviour {
         return true;
     }
 
-    public static readonly Dictionary<KeyCode, Vector2Int> bindings = new() {
-        [KeyCode.UpArrow] = Vector2Int.up,
-        [KeyCode.DownArrow] = Vector2Int.down,
-        [KeyCode.LeftArrow] = Vector2Int.left,
-        [KeyCode.RightArrow] = Vector2Int.right
-    };
-    public IEnumerator repeatLoop;
-
-    public Vector2Int CalculateOffset(Func<KeyCode, bool> predicate) {
-        var result = Vector2Int.zero;
-        foreach (var (key, offset) in bindings)
-            if (predicate(key))
-                result += offset;
-        return result;
+    public Vector2Int GetAxis(int axisIndex) {
+        return (axisIndex == right ? cameraRig.transform.right : cameraRig.transform.forward).ToVector2().RoundToInt();
+    }
+    public int GetAxisValue(int axisIndex) {
+        return Mathf.RoundToInt(Input.GetAxisRaw(axisNames[axisIndex]));
     }
 
-    public const string horizontalAxisName = "TilemapCursorHorizontal";
-    public const string verticalAxisName = "TilemapCursorVertical";
+    public IEnumerator RepeatLoop(int axisIndex) {
 
-    public static Vector2Int GetOffset(Vector2Int axisMask) {
-        return new Vector2Int(Mathf.RoundToInt(Input.GetAxisRaw(horizontalAxisName)), Mathf.RoundToInt(Input.GetAxisRaw(verticalAxisName))) * axisMask;
-    }
-
-    public IEnumerator RepeatLoop(Vector2Int axisMask) {
-
-        if (TryGetPosition(out var startPosition) && TrySetPosition(startPosition + GetOffset(axisMask))) {
+        if (TryGetPosition(out var startPosition) && TrySetPosition(startPosition + GetAxis(axisIndex) * GetAxisValue(axisIndex))) {
 
             var startTime = Time.time;
-            yield return new WaitWhile(() => Time.time < startTime + repeatDelay && GetOffset(axisMask) != Vector2Int.zero);
+            yield return new WaitWhile(() => Time.time < startTime + repeatDelay && GetAxisValue(axisIndex) != 0);
 
-            Vector2Int offset;
-            while ((offset = GetOffset(axisMask)) != Vector2Int.zero && TryGetPosition(out var position) && TrySetPosition(position + offset)) {
+            int value;
+            while ((value = GetAxisValue(axisIndex)) != 0 && TryGetPosition(out var position) && TrySetPosition(position + GetAxis(axisIndex) * value)) {
                 startTime = Time.time;
                 var coolDown = repeatCoolDown / cameraRig.ToWorldUnits(1);
-                yield return new WaitWhile(() => Time.time < startTime + coolDown && GetOffset(axisMask) != Vector2Int.zero);
+                yield return new WaitWhile(() => Time.time < startTime + coolDown && GetAxisValue(axisIndex) != 0);
             }
         }
 
-        if (axisMask.x != 0)
-            horizontalRepeatLoop = null;
-        else
-            verticalRepeatLoop = null;
+        repeatLoops[axisIndex] = null;
     }
 
-    public int horizontalTickFrame, verticalTickFrame;
-    public IEnumerator horizontalRepeatLoop, verticalRepeatLoop;
 
     public void Update() {
-        if (horizontalRepeatLoop == null && GetOffset(Vector2Int.right) != Vector2Int.zero) {
-            horizontalRepeatLoop = RepeatLoop(Vector2Int.right);
-            StartCoroutine(horizontalRepeatLoop);
-        }
-        if (verticalRepeatLoop == null && GetOffset(Vector2Int.up) != Vector2Int.zero) {
-            verticalRepeatLoop = RepeatLoop(Vector2Int.up);
-            StartCoroutine(verticalRepeatLoop);
-        }
 
         if (viewRoot.activeSelf && TryGetPosition(out var position)) {
             viewRoot.transform.position = Vector3.Lerp(viewRoot.transform.position, position.ToVector3(),
                 speed * Time.deltaTime / Vector2.Distance(viewRoot.transform.position.ToVector2(), position));
+            if (text)
+                text.text = position.ToString();
+        }
+
+        var rightAxis = GetAxis(right);
+        var upAxis = GetAxis(up);
+
+        if (rightAxis.ManhattanLength() == 1 && upAxis.ManhattanLength() == 1 && rightAxis != upAxis) {
+            if (repeatLoops[right] == null && GetAxisValue(right) != 0) {
+                repeatLoops[right] = RepeatLoop(right);
+                StartCoroutine(repeatLoops[right]);
+            }
+            if (repeatLoops[up] == null && GetAxisValue(up) != 0) {
+                repeatLoops[up] = RepeatLoop(up);
+                StartCoroutine(repeatLoops[up]);
+            }
+            if (viewRoot.activeSelf) {
+                Draw.ingame.Arrow(viewRoot.transform.position, viewRoot.transform.position + rightAxis.ToVector3() / 2, Vector3.up, .1f, Color.red);
+                Draw.ingame.Arrow(viewRoot.transform.position, viewRoot.transform.position + upAxis.ToVector3() / 2, Vector3.up, .1f, Color.blue);
+            }
         }
     }
-
-    public CameraRig cameraRig;
-    public float speed = .5f;
 }

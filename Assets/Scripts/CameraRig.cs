@@ -43,6 +43,7 @@ public class CameraRig : MonoBehaviour {
     public Vector2 zoomCursorFactor = new(.5f, .5f);
 
     [Header("Free look")]
+    public bool enableFreeLook = false;
     public Vector2 freeLookSpeed = new(180, 180);
 
     [Header("Fov")]
@@ -110,13 +111,15 @@ public class CameraRig : MonoBehaviour {
             transform.position -= cursorFactor * (point - transform.position) * delta / oldDistance;
         }
 
-        if (freeLookCoroutine == null && Input.GetKeyDown(KeyCode.LeftAlt)) {
-            freeLookCoroutine = FreeLookCoroutine();
-            StartCoroutine(freeLookCoroutine);
-        }
-        if (freeLookCoroutine != null && Input.GetKeyUp(KeyCode.LeftAlt)) {
-            StopCoroutine(freeLookCoroutine);
-            freeLookCoroutine = null;
+        if (enableFreeLook) {
+            if (freeLookCoroutine == null && Input.GetKeyDown(KeyCode.LeftAlt)) {
+                freeLookCoroutine = FreeLookCoroutine();
+                StartCoroutine(freeLookCoroutine);
+            }
+            if (freeLookCoroutine != null && Input.GetKeyUp(KeyCode.LeftAlt)) {
+                StopCoroutine(freeLookCoroutine);
+                freeLookCoroutine = null;
+            }
         }
 
         if (draggingCoroutine == null && Input.GetMouseButtonDown(Mouse.middle)) {
@@ -292,6 +295,10 @@ public class CameraRig : MonoBehaviour {
             endYaw = actualAngle;
 
         endYaw = ClampedYaw(endYaw);
+
+        if (direction is {} actualDirection2 && Mathf.Abs((endYaw + 360) % 90 - 45) < 5)
+            endYaw = ClampedYaw(endYaw + actualDirection2 * rotationStep);
+
         rotationCoroutine = RotationAnimation(startYaw, endYaw);
         StartCoroutine(rotationCoroutine);
         return true;
@@ -307,8 +314,9 @@ public class CameraRig : MonoBehaviour {
         }
 
         var startTime = Time.unscaledTime;
-        while (Time.unscaledTime < startTime + rotationDuration) {
-            var t = (Time.unscaledTime - startTime) / rotationDuration;
+        var actualDuration = Mathf.Abs(Quaternion.Angle(from, to) / rotationStep * rotationDuration);
+        while (Time.unscaledTime < startTime + actualDuration) {
+            var t = (Time.unscaledTime - startTime) / actualDuration;
             t = Easing.Dynamic(rotationEasing, t);
             transform.rotation = Quaternion.Slerp(from, to, t);
             yield return null;
