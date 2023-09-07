@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 using UnityEngine;
 
 public static class PrefixPreprocessor {
-    
+
     public static string Processed(this string input) {
 
         input = Regex.Replace(input, @"//.*", " ");
@@ -49,10 +49,12 @@ public static class PrefixPreprocessor {
                     }
 
                     case "...":
+                    case ".":
                         prefixStack.Pop();
                         break;
 
                     case "..!":
+                    case "!":
                         stack.Peek().body.Add(prefixStack.Pop());
                         break;
 

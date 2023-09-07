@@ -18,7 +18,6 @@ public static class LevelWriter {
 
             writer
                 .Comment(player.ToString())
-                .BeginCommand("pop").IndentedBlock()
                 .Player(player)
                 .BlankLine();
 
@@ -61,7 +60,8 @@ public static class LevelWriter {
                     .BlankLine();
 
             writer
-                .End()
+                .Comment(player.ToString())
+                .Command("pop")
                 .BlankLine();
         }
 
@@ -85,8 +85,6 @@ public static class LevelWriter {
         writer
             .BlankLine()
             .Comment("Unowned buildings")
-            .BeginCommand("pop")
-            .IndentedBlock()
             .Value(null);
         foreach (var building in level.buildings.Values.Where(building => building.Player == null))
             writer
@@ -95,7 +93,8 @@ public static class LevelWriter {
                 .Building(building)
                 .Command("pop");
         writer
-            .End()
+            .Comment("null player")
+            .Command("pop")
             .BlankLine();
 
         foreach (var (trigger, positions) in level.triggers) {
@@ -146,7 +145,8 @@ public static class LevelWriter {
         foreach (var position in bridge.tiles.Keys)
             writer.Command(".add-position", position);
 
-        writer.PopAndExecutePrefix();
+        writer.PopPrefix();
+        writer.Command("bridge.add");
         return writer;
     }
 
@@ -156,23 +156,24 @@ public static class LevelWriter {
             .Command(":type", building.type)
             .Command(":position", building.position)
             .Command(":cp", building.Cp)
-            .Command(":look-direction", building.view.LookDirection);
+            .Command(":look-direction", building.view.LookDirection)
+            .PopPrefix();
 
         if (building.type == TileType.MissileSilo)
             writer
-                .PushPrefix("building.missile-silo")
+                .PushPrefix("building.add.missile-silo")
                 .Command(":last-launch-turn", building.missileSiloLastLaunchTurn)
                 .Command(":launch-cooldown", building.missileSiloLaunchCooldown)
                 .Command(":ammo", building.missileSiloAmmo)
                 .Command(":range", building.missileSiloRange)
-                .PushPrefix("building.missile-silo.missile")
+                .PopPrefix()
+                .PushPrefix("building.add.missile-silo.missile")
                 .Command(":blast-range", building.missileBlastRange)
                 .Command(":unit-damage", building.missileUnitDamage)
                 .Command(":bridge-damage", building.missileBridgeDamage)
-                .PopPrefix()
                 .PopPrefix();
 
-        writer.PopAndExecutePrefix();
+        writer.Command("building.add");
         return writer;
     }
 
@@ -194,7 +195,8 @@ public static class LevelWriter {
         if (player.abilityActivationTurn != null)
             writer.Command(":ability-activation-turn", player.abilityActivationTurn);
 
-        writer.PopAndExecutePrefix();
+        writer.PopPrefix();
+        writer.Command("player.add");
         return writer;
     }
 
@@ -217,7 +219,8 @@ public static class LevelWriter {
                         .End();
             }
 
-            writer.PopAndExecutePrefix();
+            writer.PopPrefix();
+            writer.Command("unit.add");
         }
 
         {

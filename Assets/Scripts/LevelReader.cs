@@ -312,16 +312,19 @@ public static class LevelReader {
                     break;
                 }
                 case "building.add.missile-silo.set-blast-range":
+                case "building.add.missile-silo.missile.set-blast-range":
                 case "building.missile-silo.missile.set-blast-range": {
                     buildingMissileSiloBlastRange = (Vector2Int)stack.Pop();
                     break;
                 }
                 case "building.add.missile-silo.set-unit-damage":
+                case "building.add.missile-silo.missile.set-unit-damage":
                 case "building.missile-silo.missile.set-unit-damage": {
                     buildingMissileSiloMissileUnitDamage = (int)stack.Pop();
                     break;
                 }
                 case "building.add.missile-silo.set-bridge-damage":
+                case "building.add.missile-silo.missile.set-bridge-damage":
                 case "building.missile-silo.missile.set-bridge-damage": {
                     buildingMissileSiloMissileBridgeDamage = (int)stack.Pop();
                     break;
