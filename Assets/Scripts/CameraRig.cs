@@ -41,7 +41,8 @@ public class CameraRig : MonoBehaviour {
     public Easing.Name zoomEasing = Easing.Name.OutExpo;
     public float zoomLerpFactor = 50;
     public Vector2 zoomCursorFactor = new(.5f, .5f);
-
+    public float zoomSpeed = 1;
+    
     [Header("Free look")]
     public bool enableFreeLook = false;
     public Vector2 freeLookSpeed = new(180, 180);
@@ -95,9 +96,11 @@ public class CameraRig : MonoBehaviour {
         if (rotationCoroutine == null && rotationDirection != 0)
             TryRotate(rotationDirection);
 
-        var zoomInput = Input.GetAxisRaw("Mouse ScrollWheel").ZeroSign();
+        var zoomInput = Input.GetAxisRaw("Mouse ScrollWheel").ZeroSign() + Input.GetAxisRaw("Zoom").ZeroSign() * Time.deltaTime * zoomSpeed;
         if (zoomInput != 0)
             targetDistance = ClampedDistance(targetDistance + zoomInput * distanceStep * Distance);
+
+        var zoomMouseFactor = 1;//Mathf.Abs(Input.GetAxisRaw("Mouse ScrollWheel").ZeroSign());
 
         // ZOOM
 
@@ -108,7 +111,7 @@ public class CameraRig : MonoBehaviour {
         if (new Plane(Vector3.up, transform.position).Raycast(ray, out var enter)) {
             var point = ray.GetPoint(enter);
             var cursorFactor = delta < 0 ? zoomCursorFactor[0] : zoomCursorFactor[1];
-            transform.position -= cursorFactor * (point - transform.position) * delta / oldDistance;
+            transform.position -= zoomMouseFactor * cursorFactor * (point - transform.position) * delta / oldDistance;
         }
 
         if (enableFreeLook) {
