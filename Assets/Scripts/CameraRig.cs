@@ -53,7 +53,7 @@ public class CameraRig : MonoBehaviour {
     private float lastClickTime = float.MinValue;
     public float targetDistance;
 
-    private float ToWorldUnits(float sizeInViewportSpace) {
+    public float ToWorldUnits(float sizeInViewportSpace) {
         var ray0 = camera.ScreenPointToRay(new Vector3(0, 0));
         var ray1 = camera.ScreenPointToRay(new Vector3(1, 0));
         var plane = new Plane(Vector3.up, transform.position);

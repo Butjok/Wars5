@@ -51,4 +51,5 @@ public class LevelView : MonoBehaviour {
     public Canvas canvas;
     public DialogueUi3 dialogueUi;
     public MinimapUi minimap;
+    public TilemapCursor tilemapCursor;
 }

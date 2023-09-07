@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Threading;
@@ -46,6 +47,15 @@ public class Game : MonoBehaviour {
         }
     }
 
+    [Command]
+    public void FillTest() {
+        var level = Level;
+        var tiles = level.tiles.Keys;
+        var vehicleReachable = tiles.Where(position => Rules.TryGetMoveCost(MoveType.Tracks, level.tiles[position], out _)).ToHashSet();
+        var enemies = level.units.Keys.Where(position => level.units[position].Player.Color.r < .1f).ToHashSet();
+        level.view.tilemapCursor.isValidPosition = position => vehicleReachable.Contains(position) && !enemies.Contains(position);
+    }
+
     public readonly StateMachine stateMachine = new();
 
     private Queue<(object name, object argument)> commands = new();
@@ -81,7 +91,6 @@ public class Game : MonoBehaviour {
         aiPlayerCommander.game = this;
     }
 
-    [TextArea(10, 20)] public string states;
     private void Update() {
 
         stateMachine.Tick();
