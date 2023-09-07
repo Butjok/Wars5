@@ -1,560 +1,558 @@
-// 1: game...
+// 1: game:
 // 2:     .load-scene  {  LevelEditor  }
 LevelEditor
 game.load-scene
 // 3:     :turn  {  2  }
 2
 game.set-turn
-// 4:     .
-// 7: player.add...
+// 4:      ;
+// 7: player:
 // 8:     :color-name  {  ColorName Red enum  }
 ColorName
 Red
 enum
-player.add.set-color-name
+player.set-color-name
 // 9:     :team  {  Team None enum  }
 Team
 None
 enum
-player.add.set-team
+player.set-team
 // 10:     :co-name  {  PersonName Natalie enum  }
 PersonName
 Natalie
 enum
-player.add.set-co-name
+player.set-co-name
 // 11:     :ui-position  {  0 0 int2  }
 0
 0
 int2
-player.add.set-ui-position
+player.set-ui-position
 // 12:     :credits  {  16000  }
 16000
-player.add.set-credits
+player.set-credits
 // 13:     :power-meter  {  0  }
 0
-player.add.set-power-meter
+player.set-power-meter
 // 14:     :unit-look-direction  {  -1 0 int2  }
 -1
 0
 int2
-player.add.set-unit-look-direction
+player.set-unit-look-direction
 // 15:     :side  {  0  }
 0
-player.add.set-side
+player.set-side
 // 16:     .mark-as-local
-player.add.mark-as-local
-// 17:     .
-// 18: player.add
+player.mark-as-local
+// 17:     .add
 player.add
-// 21: building.add...
+// 18:      ;
+// 21: building:
 // 22:     :type  {  TileType MissileSilo enum  }
 TileType
 MissileSilo
 enum
-building.add.set-type
+building.set-type
 // 23:     :position  {  -6 25 int2  }
 -6
 25
 int2
-building.add.set-position
+building.set-position
 // 24:     :cp  {  20  }
 20
-building.add.set-cp
+building.set-cp
 // 25:     :look-direction  {  0 -1 int2  }
 0
 -1
 int2
-building.add.set-look-direction
-// 26:     .
-// 27: building.add.missile-silo...
-// 28:     :last-launch-turn  {  -99  }
+building.set-look-direction
+// 26: building.missile-silo:
+// 27:     :last-launch-turn  {  -99  }
 -99
-building.add.missile-silo.set-last-launch-turn
-// 29:     :launch-cooldown  {  1  }
+building.missile-silo.set-last-launch-turn
+// 28:     :launch-cooldown  {  1  }
 1
-building.add.missile-silo.set-launch-cooldown
-// 30:     :ammo  {  999  }
+building.missile-silo.set-launch-cooldown
+// 29:     :ammo  {  999  }
 999
-building.add.missile-silo.set-ammo
-// 31:     :range  {  0 999 int2  }
+building.missile-silo.set-ammo
+// 30:     :range  {  0 999 int2  }
 0
 999
 int2
-building.add.missile-silo.set-range
-// 32:     .
-// 33: building.add.missile-silo.missile...
-// 34:     :blast-range  {  0 3 int2  }
+building.missile-silo.set-range
+// 31:     :blast-range  {  0 3 int2  }
 0
 3
 int2
-building.add.missile-silo.missile.set-blast-range
-// 35:     :unit-damage  {  5  }
+building.missile-silo.set-blast-range
+// 32:     :unit-damage  {  5  }
 5
-building.add.missile-silo.missile.set-unit-damage
-// 36:     :bridge-damage  {  10  }
+building.missile-silo.set-unit-damage
+// 33:     :bridge-damage  {  10  }
 10
-building.add.missile-silo.missile.set-bridge-damage
-// 37:     .
-// 38: building.add
+building.missile-silo.set-bridge-damage
+// 34:      ;
+// 35:     .add
 building.add
-// 39: pop
+// 36:      ;
+// 37: pop
 pop
-// 42: building.add...
-// 43:     :type  {  TileType City enum  }
+// 40: building:
+// 41:     :type  {  TileType City enum  }
 TileType
 City
 enum
-building.add.set-type
-// 44:     :position  {  -11 24 int2  }
+building.set-type
+// 42:     :position  {  -11 24 int2  }
 -11
 24
 int2
-building.add.set-position
-// 45:     :cp  {  20  }
+building.set-position
+// 43:     :cp  {  20  }
 20
-building.add.set-cp
-// 46:     :look-direction  {  0 1 int2  }
+building.set-cp
+// 44:     :look-direction  {  0 1 int2  }
 0
 1
 int2
-building.add.set-look-direction
-// 47:     .
-// 48: building.add
+building.set-look-direction
+// 45:     .add
 building.add
-// 49: pop
+// 46:      ;
+// 47: pop
 pop
-// 52: building.add...
-// 53:     :type  {  TileType Hq enum  }
+// 50: building:
+// 51:     :type  {  TileType Hq enum  }
 TileType
 Hq
 enum
-building.add.set-type
-// 54:     :position  {  -3 26 int2  }
+building.set-type
+// 52:     :position  {  -3 26 int2  }
 -3
 26
 int2
-building.add.set-position
-// 55:     :cp  {  20  }
+building.set-position
+// 53:     :cp  {  20  }
 20
-building.add.set-cp
-// 56:     :look-direction  {  -1 0 int2  }
+building.set-cp
+// 54:     :look-direction  {  -1 0 int2  }
 -1
 0
 int2
-building.add.set-look-direction
-// 57:     .
-// 58: building.add
+building.set-look-direction
+// 55:     .add
 building.add
-// 59: pop
+// 56:      ;
+// 57: pop
 pop
-// 62: building.add...
-// 63:     :type  {  TileType Factory enum  }
+// 60: building:
+// 61:     :type  {  TileType Factory enum  }
 TileType
 Factory
 enum
-building.add.set-type
-// 64:     :position  {  -3 20 int2  }
+building.set-type
+// 62:     :position  {  -3 20 int2  }
 -3
 20
 int2
-building.add.set-position
-// 65:     :cp  {  20  }
+building.set-position
+// 63:     :cp  {  20  }
 20
-building.add.set-cp
-// 66:     :look-direction  {  -1 0 int2  }
+building.set-cp
+// 64:     :look-direction  {  -1 0 int2  }
 -1
 0
 int2
-building.add.set-look-direction
-// 67:     .
-// 68: building.add
+building.set-look-direction
+// 65:     .add
 building.add
-// 69: pop
+// 66:      ;
+// 67: pop
 pop
-// 72: building.add...
-// 73:     :type  {  TileType Factory enum  }
+// 70: building:
+// 71:     :type  {  TileType Factory enum  }
 TileType
 Factory
 enum
-building.add.set-type
-// 74:     :position  {  -3 22 int2  }
+building.set-type
+// 72:     :position  {  -3 22 int2  }
 -3
 22
 int2
-building.add.set-position
-// 75:     :cp  {  20  }
+building.set-position
+// 73:     :cp  {  20  }
 20
-building.add.set-cp
-// 76:     :look-direction  {  -1 0 int2  }
+building.set-cp
+// 74:     :look-direction  {  -1 0 int2  }
 -1
 0
 int2
-building.add.set-look-direction
-// 77:     .
-// 78: building.add
+building.set-look-direction
+// 75:     .add
 building.add
-// 79: pop
+// 76:      ;
+// 77: pop
 pop
-// 82: unit.add...
-// 83:     :type  {  UnitType Artillery enum  }
+// 80: unit:
+// 81:     :type  {  UnitType Artillery enum  }
 UnitType
 Artillery
 enum
-unit.add.set-type
-// 84:     :moved  {  false  }
+unit.set-type
+// 82:     :moved  {  false  }
 false
-unit.add.set-moved
-// 85:     :hp  {  10  }
+unit.set-moved
+// 83:     :hp  {  10  }
 10
-unit.add.set-hp
-// 86:     :position  {  -5 20 int2  }
+unit.set-hp
+// 84:     :position  {  -5 20 int2  }
 -5
 20
 int2
-unit.add.set-position
-// 87:     :look-direction  {  -1 0 int2  }
+unit.set-position
+// 85:     :look-direction  {  -1 0 int2  }
 -1
 0
 int2
-unit.add.set-look-direction
-// 88:     :view-prefab  {  load-resource  {  UnitView WbHowitzer  }   }
+unit.set-look-direction
+// 86:     :view-prefab  {  load-resource  {  UnitView WbHowitzer  }   }
 UnitView
 WbHowitzer
 load-resource
-unit.add.set-view-prefab
-// 89:     .
-// 90: unit.add
+unit.set-view-prefab
+// 87:     .add
 unit.add
-// 91: unit.brain...
-// 92:     .add-state  {  StayingInZoneUnitBrainState type  }
+// 88:      ;
+// 89: unit.brain:
+// 90:     .add-state  {  StayingInZoneUnitBrainState type  }
 StayingInZoneUnitBrainState
 type
 unit.brain.add-state
+// 91: pop
+pop
+// 92:      ;
 // 93: pop
 pop
-// 94:     .
-// 95: pop
-pop
-// 98: unit.add...
-// 99:     :type  {  UnitType Infantry enum  }
+// 96: unit:
+// 97:     :type  {  UnitType Infantry enum  }
 UnitType
 Infantry
 enum
-unit.add.set-type
-// 100:     :moved  {  false  }
+unit.set-type
+// 98:     :moved  {  false  }
 false
-unit.add.set-moved
-// 101:     :hp  {  10  }
+unit.set-moved
+// 99:     :hp  {  10  }
 10
-unit.add.set-hp
-// 102:     :position  {  -6 24 int2  }
+unit.set-hp
+// 100:     :position  {  -6 24 int2  }
 -6
 24
 int2
-unit.add.set-position
-// 103:     :look-direction  {  -1 0 int2  }
+unit.set-position
+// 101:     :look-direction  {  -1 0 int2  }
 -1
 0
 int2
-unit.add.set-look-direction
-// 104:     :view-prefab  {  load-resource  {  UnitView WbLightTank  }   }
+unit.set-look-direction
+// 102:     :view-prefab  {  load-resource  {  UnitView WbLightTank  }   }
 UnitView
 WbLightTank
 load-resource
-unit.add.set-view-prefab
-// 105:     .
-// 106: unit.add
+unit.set-view-prefab
+// 103:     .add
 unit.add
-// 107: unit.brain...
-// 108:     .add-state  {  StayingInZoneUnitBrainState type  }
+// 104:      ;
+// 105: unit.brain:
+// 106:     .add-state  {  StayingInZoneUnitBrainState type  }
 StayingInZoneUnitBrainState
 type
 unit.brain.add-state
+// 107: pop
+pop
+// 108:      ;
 // 109: pop
 pop
-// 110:     .
-// 111: pop
-pop
-// 114: unit.add...
-// 115:     :type  {  UnitType Recon enum  }
+// 112: unit:
+// 113:     :type  {  UnitType Recon enum  }
 UnitType
 Recon
 enum
-unit.add.set-type
-// 116:     :moved  {  false  }
+unit.set-type
+// 114:     :moved  {  false  }
 false
-unit.add.set-moved
-// 117:     :hp  {  10  }
+unit.set-moved
+// 115:     :hp  {  10  }
 10
-unit.add.set-hp
-// 118:     :position  {  -7 21 int2  }
+unit.set-hp
+// 116:     :position  {  -7 21 int2  }
 -7
 21
 int2
-unit.add.set-position
-// 119:     :look-direction  {  -1 0 int2  }
+unit.set-position
+// 117:     :look-direction  {  -1 0 int2  }
 -1
 0
 int2
-unit.add.set-look-direction
-// 120:     :view-prefab  {  load-resource  {  UnitView WbRecon  }   }
+unit.set-look-direction
+// 118:     :view-prefab  {  load-resource  {  UnitView WbRecon  }   }
 UnitView
 WbRecon
 load-resource
-unit.add.set-view-prefab
-// 121:     .
-// 122: unit.add
+unit.set-view-prefab
+// 119:     .add
 unit.add
-// 123: unit.brain...
-// 124:     .add-state  {  StayingInZoneUnitBrainState type  }
+// 120:      ;
+// 121: unit.brain:
+// 122:     .add-state  {  StayingInZoneUnitBrainState type  }
 StayingInZoneUnitBrainState
 type
 unit.brain.add-state
+// 123: pop
+pop
+// 124:      ;
 // 125: pop
 pop
-// 126:     .
-// 127: pop
-pop
-// 130: unit.add...
-// 131:     :type  {  UnitType Apc enum  }
+// 128: unit:
+// 129:     :type  {  UnitType Apc enum  }
 UnitType
 Apc
 enum
-unit.add.set-type
-// 132:     :moved  {  false  }
+unit.set-type
+// 130:     :moved  {  false  }
 false
-unit.add.set-moved
-// 133:     :hp  {  10  }
+unit.set-moved
+// 131:     :hp  {  10  }
 10
-unit.add.set-hp
-// 134:     :position  {  -8 24 int2  }
+unit.set-hp
+// 132:     :position  {  -8 24 int2  }
 -8
 24
 int2
-unit.add.set-position
-// 135:     :look-direction  {  -1 0 int2  }
+unit.set-position
+// 133:     :look-direction  {  -1 0 int2  }
 -1
 0
 int2
-unit.add.set-look-direction
-// 136:     :view-prefab  {  load-resource  {  UnitView WbApc  }   }
+unit.set-look-direction
+// 134:     :view-prefab  {  load-resource  {  UnitView WbApc  }   }
 UnitView
 WbApc
 load-resource
-unit.add.set-view-prefab
-// 137:     .
-// 138: unit.add
+unit.set-view-prefab
+// 135:     .add
 unit.add
-// 139: unit.brain...
-// 140:     .add-state  {  StayingInZoneUnitBrainState type  }
+// 136:      ;
+// 137: unit.brain:
+// 138:     .add-state  {  StayingInZoneUnitBrainState type  }
 StayingInZoneUnitBrainState
 type
 unit.brain.add-state
+// 139: pop
+pop
+// 140:      ;
 // 141: pop
 pop
-// 142:     .
-// 143: pop
-pop
-// 146: unit.add...
-// 147:     :type  {  UnitType Infantry enum  }
+// 144: unit:
+// 145:     :type  {  UnitType Infantry enum  }
 UnitType
 Infantry
 enum
-unit.add.set-type
-// 148:     :moved  {  false  }
+unit.set-type
+// 146:     :moved  {  false  }
 false
-unit.add.set-moved
-// 149:     :hp  {  10  }
+unit.set-moved
+// 147:     :hp  {  10  }
 10
-unit.add.set-hp
-// 150:     :position  {  -10 13 int2  }
+unit.set-hp
+// 148:     :position  {  -10 13 int2  }
 -10
 13
 int2
-unit.add.set-position
-// 151:     :look-direction  {  -1 0 int2  }
+unit.set-position
+// 149:     :look-direction  {  -1 0 int2  }
 -1
 0
 int2
-unit.add.set-look-direction
-// 152:     :view-prefab  {  load-resource  {  UnitView WbLightTank  }   }
+unit.set-look-direction
+// 150:     :view-prefab  {  load-resource  {  UnitView WbLightTank  }   }
 UnitView
 WbLightTank
 load-resource
-unit.add.set-view-prefab
-// 153:     .
-// 154: unit.add
+unit.set-view-prefab
+// 151:     .add
 unit.add
-// 155: unit.brain...
-// 156:     .
-// 157: pop
+// 152:      ;
+// 153: unit.brain:
+// 154:      ;
+// 155: pop
 pop
-// 160: unit.add...
-// 161:     :type  {  UnitType Infantry enum  }
+// 158: unit:
+// 159:     :type  {  UnitType Infantry enum  }
 UnitType
 Infantry
 enum
-unit.add.set-type
-// 162:     :moved  {  false  }
+unit.set-type
+// 160:     :moved  {  false  }
 false
-unit.add.set-moved
-// 163:     :hp  {  10  }
+unit.set-moved
+// 161:     :hp  {  10  }
 10
-unit.add.set-hp
-// 164:     :position  {  -13 19 int2  }
+unit.set-hp
+// 162:     :position  {  -13 19 int2  }
 -13
 19
 int2
-unit.add.set-position
-// 165:     :look-direction  {  -1 0 int2  }
+unit.set-position
+// 163:     :look-direction  {  -1 0 int2  }
 -1
 0
 int2
-unit.add.set-look-direction
-// 166:     :view-prefab  {  load-resource  {  UnitView WbLightTank  }   }
+unit.set-look-direction
+// 164:     :view-prefab  {  load-resource  {  UnitView WbLightTank  }   }
 UnitView
 WbLightTank
 load-resource
-unit.add.set-view-prefab
-// 167:     .
-// 168: unit.add
+unit.set-view-prefab
+// 165:     .add
 unit.add
-// 169: unit.brain...
-// 170:     .add-state  {  StayingInZoneUnitBrainState type  }
+// 166:      ;
+// 167: unit.brain:
+// 168:     .add-state  {  StayingInZoneUnitBrainState type  }
 StayingInZoneUnitBrainState
 type
 unit.brain.add-state
+// 169: pop
+pop
+// 170:      ;
 // 171: pop
 pop
-// 172:     .
-// 173: pop
-pop
-// 176: unit.add...
-// 177:     :type  {  UnitType Infantry enum  }
+// 174: unit:
+// 175:     :type  {  UnitType Infantry enum  }
 UnitType
 Infantry
 enum
-unit.add.set-type
-// 178:     :moved  {  false  }
+unit.set-type
+// 176:     :moved  {  false  }
 false
-unit.add.set-moved
-// 179:     :hp  {  10  }
+unit.set-moved
+// 177:     :hp  {  10  }
 10
-unit.add.set-hp
-// 180:     :position  {  -16 14 int2  }
+unit.set-hp
+// 178:     :position  {  -16 14 int2  }
 -16
 14
 int2
-unit.add.set-position
-// 181:     :look-direction  {  -1 0 int2  }
+unit.set-position
+// 179:     :look-direction  {  -1 0 int2  }
 -1
 0
 int2
-unit.add.set-look-direction
-// 182:     :view-prefab  {  load-resource  {  UnitView WbLightTank  }   }
+unit.set-look-direction
+// 180:     :view-prefab  {  load-resource  {  UnitView WbLightTank  }   }
 UnitView
 WbLightTank
 load-resource
-unit.add.set-view-prefab
-// 183:     .
-// 184: unit.add
+unit.set-view-prefab
+// 181:     .add
 unit.add
-// 185: unit.brain...
-// 186:     .add-state  {  StayingInZoneUnitBrainState type  }
+// 182:      ;
+// 183: unit.brain:
+// 184:     .add-state  {  StayingInZoneUnitBrainState type  }
 StayingInZoneUnitBrainState
 type
 unit.brain.add-state
+// 185: pop
+pop
+// 186:      ;
 // 187: pop
 pop
-// 188:     .
-// 189: pop
-pop
-// 192: unit.add...
-// 193:     :type  {  UnitType Recon enum  }
+// 190: unit:
+// 191:     :type  {  UnitType Recon enum  }
 UnitType
 Recon
 enum
-unit.add.set-type
-// 194:     :moved  {  false  }
+unit.set-type
+// 192:     :moved  {  false  }
 false
-unit.add.set-moved
-// 195:     :hp  {  10  }
+unit.set-moved
+// 193:     :hp  {  10  }
 10
-unit.add.set-hp
-// 196:     :position  {  -18 12 int2  }
+unit.set-hp
+// 194:     :position  {  -18 12 int2  }
 -18
 12
 int2
-unit.add.set-position
-// 197:     :look-direction  {  -1 0 int2  }
+unit.set-position
+// 195:     :look-direction  {  -1 0 int2  }
 -1
 0
 int2
-unit.add.set-look-direction
-// 198:     :view-prefab  {  load-resource  {  UnitView WbRecon  }   }
+unit.set-look-direction
+// 196:     :view-prefab  {  load-resource  {  UnitView WbRecon  }   }
 UnitView
 WbRecon
 load-resource
-unit.add.set-view-prefab
-// 199:     .
-// 200: unit.add
+unit.set-view-prefab
+// 197:     .add
 unit.add
-// 201: unit.brain...
-// 202:     .add-state  {  StayingInZoneUnitBrainState type  }
+// 198:      ;
+// 199: unit.brain:
+// 200:     .add-state  {  StayingInZoneUnitBrainState type  }
 StayingInZoneUnitBrainState
 type
 unit.brain.add-state
+// 201: pop
+pop
+// 202:      ;
 // 203: pop
 pop
-// 204:     .
-// 205: pop
+// 206: pop
 pop
-// 208: pop
-pop
-// 211: player.add...
-// 212:     :color-name  {  ColorName Blue enum  }
+// 209: player:
+// 210:     :color-name  {  ColorName Blue enum  }
 ColorName
 Blue
 enum
-player.add.set-color-name
-// 213:     :team  {  Team None enum  }
+player.set-color-name
+// 211:     :team  {  Team None enum  }
 Team
 None
 enum
-player.add.set-team
-// 214:     :co-name  {  PersonName Natalie enum  }
+player.set-team
+// 212:     :co-name  {  PersonName Natalie enum  }
 PersonName
 Natalie
 enum
-player.add.set-co-name
-// 215:     :ui-position  {  0 0 int2  }
+player.set-co-name
+// 213:     :ui-position  {  0 0 int2  }
 0
 0
 int2
-player.add.set-ui-position
-// 216:     :credits  {  0  }
+player.set-ui-position
+// 214:     :credits  {  0  }
 0
-player.add.set-credits
-// 217:     :power-meter  {  0  }
+player.set-credits
+// 215:     :power-meter  {  0  }
 0
-player.add.set-power-meter
-// 218:     :unit-look-direction  {  1 0 int2  }
+player.set-power-meter
+// 216:     :unit-look-direction  {  1 0 int2  }
 1
 0
 int2
-player.add.set-unit-look-direction
-// 219:     :side  {  0  }
+player.set-unit-look-direction
+// 217:     :side  {  0  }
 0
-player.add.set-side
-// 220:     .
-// 221: player.add
+player.set-side
+// 218:     .add
 player.add
-// 223: zone...
-// 224:     .add  {  Zone0 true  }
+// 219:      ;
+// 221: zone:
+// 222:     .add  {  Zone0 true  }
 Zone0
 true
 zone.add
-// 225:     .add-positions  {  -24 17 int2 -23 17 int2 -22 17 int2 -21 17 int2 -20 17 int2 -19 17 int2 -18 17 int2 -18 16 int2 -18 15 int2 -18 14 int2 -18 13 int2 -19 11 int2 -18 11 int2 -18 9 int2 -17 9 int2 -19 9 int2 -18 8 int2 -19 8 int2 -20 8 int2 -21 8 int2 -22 8 int2 -23 8 int2 -24 8 int2 -24 9 int2 -24 11 int2 -24 12 int2 -24 13 int2 -24 14 int2 -24 15 int2 -24 16 int2 -23 16 int2 -22 16 int2 -21 16 int2 -20 16 int2 -19 16 int2 -20 15 int2 -21 15 int2 -21 14 int2 -22 14 int2 -22 13 int2 -23 12 int2 -24 10 int2 -23 9 int2 -22 9 int2 -22 10 int2 -22 11 int2 -22 12 int2 -23 13 int2 -23 14 int2 -23 15 int2 -23 10 int2 -21 10 int2 -21 11 int2 -20 12 int2 -20 13 int2 -20 14 int2 -22 15 int2 -23 11 int2 -21 9 int2 -20 9 int2 -20 10 int2 -20 11 int2 -19 12 int2 -19 13 int2 -19 14 int2 -19 15 int2 -21 12 int2 -21 13 int2 -18 10 int2 -17 11 int2 -17 15 int2 -16 15 int2 -15 15 int2 -15 14 int2 -15 13 int2 -15 12 int2 -15 11 int2 -15 10 int2 -15 9 int2 -15 8 int2 -16 8 int2 -17 8 int2 -19 10 int2 -17 10 int2 -18 12 int2 -17 12 int2 -17 13 int2 -17 14 int2 -16 14 int2 -16 13 int2 -16 12 int2 -16 11 int2 -16 10 int2 -16 9 int2 -20 18 int2 -19 18 int2 -18 18 int2 -17 18 int2 -17 17 int2 -17 16 int2 100  }
+// 223:     .add-positions  {  -24 17 int2 -23 17 int2 -22 17 int2 -21 17 int2 -20 17 int2 -19 17 int2 -18 17 int2 -18 16 int2 -18 15 int2 -18 14 int2 -18 13 int2 -19 11 int2 -18 11 int2 -18 9 int2 -17 9 int2 -19 9 int2 -18 8 int2 -19 8 int2 -20 8 int2 -21 8 int2 -22 8 int2 -23 8 int2 -24 8 int2 -24 9 int2 -24 11 int2 -24 12 int2 -24 13 int2 -24 14 int2 -24 15 int2 -24 16 int2 -23 16 int2 -22 16 int2 -21 16 int2 -20 16 int2 -19 16 int2 -20 15 int2 -21 15 int2 -21 14 int2 -22 14 int2 -22 13 int2 -23 12 int2 -24 10 int2 -23 9 int2 -22 9 int2 -22 10 int2 -22 11 int2 -22 12 int2 -23 13 int2 -23 14 int2 -23 15 int2 -23 10 int2 -21 10 int2 -21 11 int2 -20 12 int2 -20 13 int2 -20 14 int2 -22 15 int2 -23 11 int2 -21 9 int2 -20 9 int2 -20 10 int2 -20 11 int2 -19 12 int2 -19 13 int2 -19 14 int2 -19 15 int2 -21 12 int2 -21 13 int2 -18 10 int2 -17 11 int2 -17 15 int2 -16 15 int2 -15 15 int2 -15 14 int2 -15 13 int2 -15 12 int2 -15 11 int2 -15 10 int2 -15 9 int2 -15 8 int2 -16 8 int2 -17 8 int2 -19 10 int2 -17 10 int2 -18 12 int2 -17 12 int2 -17 13 int2 -17 14 int2 -16 14 int2 -16 13 int2 -16 12 int2 -16 11 int2 -16 10 int2 -16 9 int2 -20 18 int2 -19 18 int2 -18 18 int2 -17 18 int2 -17 17 int2 -17 16 int2 100  }
 -24
 17
 int2
@@ -857,13 +855,13 @@ int2
 int2
 100
 zone.add-positions
-// 226: pop
+// 224: pop
 pop
-// 227:     .add  {  Zone1 false  }
+// 225:     .add  {  Zone1 false  }
 Zone1
 false
 zone.add
-// 228:     .add-positions  {  -23 23 int2 -23 24 int2 -22 25 int2 -22 26 int2 -21 26 int2 -21 25 int2 -21 24 int2 -21 23 int2 -22 23 int2 -22 24 int2 -23 25 int2 -24 25 int2 -24 24 int2 -24 23 int2 -24 22 int2 -24 21 int2 -24 20 int2 -24 19 int2 -24 18 int2 -23 18 int2 -20 19 int2 -19 19 int2 -22 18 int2 -21 18 int2 -21 19 int2 -21 20 int2 -21 21 int2 -22 22 int2 -23 22 int2 -23 20 int2 -22 20 int2 -22 21 int2 -21 22 int2 -22 19 int2 -23 21 int2 -23 19 int2 -19 20 int2 -19 21 int2 -20 21 int2 -20 22 int2 -20 23 int2 -20 24 int2 -20 25 int2 -20 26 int2 -19 26 int2 -18 26 int2 -18 25 int2 -18 24 int2 -18 23 int2 -18 22 int2 -18 21 int2 -18 20 int2 -18 19 int2 -20 20 int2 -19 25 int2 -19 24 int2 -19 23 int2 -19 22 int2 -17 25 int2 -17 26 int2 -17 24 int2 -17 21 int2 -17 20 int2 -17 19 int2 -17 22 int2 -17 23 int2 -16 18 int2 -15 18 int2 -14 18 int2 -13 18 int2 -14 17 int2 -15 17 int2 -15 16 int2 -16 16 int2 -16 17 int2 75  }
+// 226:     .add-positions  {  -23 23 int2 -23 24 int2 -22 25 int2 -22 26 int2 -21 26 int2 -21 25 int2 -21 24 int2 -21 23 int2 -22 23 int2 -22 24 int2 -23 25 int2 -24 25 int2 -24 24 int2 -24 23 int2 -24 22 int2 -24 21 int2 -24 20 int2 -24 19 int2 -24 18 int2 -23 18 int2 -20 19 int2 -19 19 int2 -22 18 int2 -21 18 int2 -21 19 int2 -21 20 int2 -21 21 int2 -22 22 int2 -23 22 int2 -23 20 int2 -22 20 int2 -22 21 int2 -21 22 int2 -22 19 int2 -23 21 int2 -23 19 int2 -19 20 int2 -19 21 int2 -20 21 int2 -20 22 int2 -20 23 int2 -20 24 int2 -20 25 int2 -20 26 int2 -19 26 int2 -18 26 int2 -18 25 int2 -18 24 int2 -18 23 int2 -18 22 int2 -18 21 int2 -18 20 int2 -18 19 int2 -20 20 int2 -19 25 int2 -19 24 int2 -19 23 int2 -19 22 int2 -17 25 int2 -17 26 int2 -17 24 int2 -17 21 int2 -17 20 int2 -17 19 int2 -17 22 int2 -17 23 int2 -16 18 int2 -15 18 int2 -14 18 int2 -13 18 int2 -14 17 int2 -15 17 int2 -15 16 int2 -16 16 int2 -16 17 int2 75  }
 -23
 23
 int2
@@ -1091,13 +1089,13 @@ int2
 int2
 75
 zone.add-positions
-// 229: pop
+// 227: pop
 pop
-// 230:     .add  {  Zone2 false  }
+// 228:     .add  {  Zone2 false  }
 Zone2
 false
 zone.add
-// 231:     .add-positions  {  -16 26 int2 -15 26 int2 -15 25 int2 -14 25 int2 -14 24 int2 -13 24 int2 -12 21 int2 -12 23 int2 -12 22 int2 -13 21 int2 -13 20 int2 -14 20 int2 -13 19 int2 -14 19 int2 -15 19 int2 -16 19 int2 -16 20 int2 -16 21 int2 -16 22 int2 -16 23 int2 -16 24 int2 -16 25 int2 -15 24 int2 -15 23 int2 -14 23 int2 -14 22 int2 -14 21 int2 -13 22 int2 -13 23 int2 -15 22 int2 -15 21 int2 -15 20 int2 -14 26 int2 -13 25 int2 -12 24 int2 -12 25 int2 -11 22 int2 -11 23 int2 -11 21 int2 -11 20 int2 -11 19 int2 -12 19 int2 -12 20 int2 -11 18 int2 -10 19 int2 45  }
+// 229:     .add-positions  {  -16 26 int2 -15 26 int2 -15 25 int2 -14 25 int2 -14 24 int2 -13 24 int2 -12 21 int2 -12 23 int2 -12 22 int2 -13 21 int2 -13 20 int2 -14 20 int2 -13 19 int2 -14 19 int2 -15 19 int2 -16 19 int2 -16 20 int2 -16 21 int2 -16 22 int2 -16 23 int2 -16 24 int2 -16 25 int2 -15 24 int2 -15 23 int2 -14 23 int2 -14 22 int2 -14 21 int2 -13 22 int2 -13 23 int2 -15 22 int2 -15 21 int2 -15 20 int2 -14 26 int2 -13 25 int2 -12 24 int2 -12 25 int2 -11 22 int2 -11 23 int2 -11 21 int2 -11 20 int2 -11 19 int2 -12 19 int2 -12 20 int2 -11 18 int2 -10 19 int2 45  }
 -16
 26
 int2
@@ -1235,13 +1233,13 @@ int2
 int2
 45
 zone.add-positions
-// 232: pop
+// 230: pop
 pop
-// 233:     .add  {  Zone5 false  }
+// 231:     .add  {  Zone5 false  }
 Zone5
 false
 zone.add
-// 234:     .add-positions  {  -13 26 int2 -12 26 int2 -11 26 int2 -10 26 int2 -9 26 int2 -8 26 int2 -7 26 int2 -6 26 int2 -5 26 int2 -4 26 int2 -3 26 int2 -3 25 int2 -3 24 int2 -3 23 int2 -3 22 int2 -3 21 int2 -3 20 int2 -3 19 int2 -3 18 int2 -3 17 int2 -3 16 int2 -4 16 int2 -5 16 int2 -6 16 int2 -7 16 int2 -8 16 int2 -9 16 int2 -10 16 int2 -10 17 int2 -11 17 int2 -10 18 int2 -9 18 int2 -9 19 int2 -8 19 int2 -8 20 int2 -9 20 int2 -10 20 int2 -10 21 int2 -10 22 int2 -10 23 int2 -10 24 int2 -10 25 int2 -11 24 int2 -11 25 int2 -9 25 int2 -8 25 int2 -7 25 int2 -6 25 int2 -5 25 int2 -4 25 int2 -5 24 int2 -6 24 int2 -7 24 int2 -7 23 int2 -8 23 int2 -9 22 int2 -9 21 int2 -8 21 int2 -7 22 int2 -8 24 int2 -9 24 int2 -9 23 int2 -6 21 int2 -5 21 int2 -5 22 int2 -4 23 int2 -6 23 int2 -7 20 int2 -7 19 int2 -6 19 int2 -5 19 int2 -5 20 int2 -6 22 int2 -8 18 int2 -8 17 int2 -7 17 int2 -7 18 int2 -6 18 int2 -9 17 int2 -8 22 int2 -4 19 int2 -4 22 int2 -5 23 int2 -5 18 int2 -5 17 int2 -4 17 int2 -4 18 int2 -4 20 int2 -4 21 int2 -6 20 int2 -6 17 int2 -4 24 int2 92  }
+// 232:     .add-positions  {  -13 26 int2 -12 26 int2 -11 26 int2 -10 26 int2 -9 26 int2 -8 26 int2 -7 26 int2 -6 26 int2 -5 26 int2 -4 26 int2 -3 26 int2 -3 25 int2 -3 24 int2 -3 23 int2 -3 22 int2 -3 21 int2 -3 20 int2 -3 19 int2 -3 18 int2 -3 17 int2 -3 16 int2 -4 16 int2 -5 16 int2 -6 16 int2 -7 16 int2 -8 16 int2 -9 16 int2 -10 16 int2 -10 17 int2 -11 17 int2 -10 18 int2 -9 18 int2 -9 19 int2 -8 19 int2 -8 20 int2 -9 20 int2 -10 20 int2 -10 21 int2 -10 22 int2 -10 23 int2 -10 24 int2 -10 25 int2 -11 24 int2 -11 25 int2 -9 25 int2 -8 25 int2 -7 25 int2 -6 25 int2 -5 25 int2 -4 25 int2 -5 24 int2 -6 24 int2 -7 24 int2 -7 23 int2 -8 23 int2 -9 22 int2 -9 21 int2 -8 21 int2 -7 22 int2 -8 24 int2 -9 24 int2 -9 23 int2 -6 21 int2 -5 21 int2 -5 22 int2 -4 23 int2 -6 23 int2 -7 20 int2 -7 19 int2 -6 19 int2 -5 19 int2 -5 20 int2 -6 22 int2 -8 18 int2 -8 17 int2 -7 17 int2 -7 18 int2 -6 18 int2 -9 17 int2 -8 22 int2 -4 19 int2 -4 22 int2 -5 23 int2 -5 18 int2 -5 17 int2 -4 17 int2 -4 18 int2 -4 20 int2 -4 21 int2 -6 20 int2 -6 17 int2 -4 24 int2 92  }
 -13
 26
 int2
@@ -1520,13 +1518,13 @@ int2
 int2
 92
 zone.add-positions
-// 235: pop
+// 233: pop
 pop
-// 236:     .add  {  Zone4 false  }
+// 234:     .add  {  Zone4 false  }
 Zone4
 false
 zone.add
-// 237:     .add-positions  {  -9 15 int2 -8 15 int2 -7 15 int2 -6 15 int2 -5 15 int2 -4 15 int2 -3 15 int2 -3 14 int2 -3 13 int2 -3 12 int2 -3 11 int2 -3 10 int2 -3 9 int2 -3 8 int2 -4 8 int2 -5 8 int2 -6 8 int2 -7 8 int2 -8 8 int2 -9 8 int2 -9 9 int2 -9 10 int2 -9 11 int2 -9 12 int2 -9 13 int2 -9 14 int2 -8 14 int2 -7 14 int2 -6 14 int2 -7 13 int2 -8 12 int2 -8 11 int2 -8 10 int2 -8 9 int2 -6 9 int2 -6 10 int2 -6 11 int2 -6 12 int2 -6 13 int2 -7 12 int2 -7 11 int2 -7 10 int2 -5 10 int2 -5 11 int2 -5 12 int2 -5 13 int2 -7 9 int2 -5 9 int2 -8 13 int2 -5 14 int2 -4 9 int2 -4 10 int2 -4 11 int2 -4 12 int2 -4 13 int2 -4 14 int2 56  }
+// 235:     .add-positions  {  -9 15 int2 -8 15 int2 -7 15 int2 -6 15 int2 -5 15 int2 -4 15 int2 -3 15 int2 -3 14 int2 -3 13 int2 -3 12 int2 -3 11 int2 -3 10 int2 -3 9 int2 -3 8 int2 -4 8 int2 -5 8 int2 -6 8 int2 -7 8 int2 -8 8 int2 -9 8 int2 -9 9 int2 -9 10 int2 -9 11 int2 -9 12 int2 -9 13 int2 -9 14 int2 -8 14 int2 -7 14 int2 -6 14 int2 -7 13 int2 -8 12 int2 -8 11 int2 -8 10 int2 -8 9 int2 -6 9 int2 -6 10 int2 -6 11 int2 -6 12 int2 -6 13 int2 -7 12 int2 -7 11 int2 -7 10 int2 -5 10 int2 -5 11 int2 -5 12 int2 -5 13 int2 -7 9 int2 -5 9 int2 -8 13 int2 -5 14 int2 -4 9 int2 -4 10 int2 -4 11 int2 -4 12 int2 -4 13 int2 -4 14 int2 56  }
 -9
 15
 int2
@@ -1697,13 +1695,13 @@ int2
 int2
 56
 zone.add-positions
-// 238: pop
+// 236: pop
 pop
-// 239:     .add  {  Zone3 false  }
+// 237:     .add  {  Zone3 false  }
 Zone3
 false
 zone.add
-// 240:     .add-positions  {  -14 13 int2 -13 13 int2 -12 13 int2 -11 13 int2 -10 13 int2 -14 10 int2 -13 10 int2 -12 10 int2 -11 10 int2 -10 10 int2 10  }
+// 238:     .add-positions  {  -14 13 int2 -13 13 int2 -12 13 int2 -11 13 int2 -10 13 int2 -14 10 int2 -13 10 int2 -12 10 int2 -11 10 int2 -10 10 int2 10  }
 -14
 13
 int2
@@ -1736,574 +1734,574 @@ int2
 int2
 10
 zone.add-positions
-// 241: pop
+// 239: pop
 pop
-// 242:     .connect  {  Zone0 Zone1  }
+// 240:     .connect  {  Zone0 Zone1  }
 Zone0
 Zone1
 zone.connect
-// 243:     .connect  {  Zone0 Zone3  }
+// 241:     .connect  {  Zone0 Zone3  }
 Zone0
 Zone3
 zone.connect
-// 244:     .connect  {  Zone1 Zone0  }
+// 242:     .connect  {  Zone1 Zone0  }
 Zone1
 Zone0
 zone.connect
-// 245:     .connect  {  Zone1 Zone2  }
+// 243:     .connect  {  Zone1 Zone2  }
 Zone1
 Zone2
 zone.connect
-// 246:     .connect  {  Zone2 Zone1  }
+// 244:     .connect  {  Zone2 Zone1  }
 Zone2
 Zone1
 zone.connect
-// 247:     .connect  {  Zone2 Zone5  }
+// 245:     .connect  {  Zone2 Zone5  }
 Zone2
 Zone5
 zone.connect
-// 248:     .connect  {  Zone5 Zone2  }
+// 246:     .connect  {  Zone5 Zone2  }
 Zone5
 Zone2
 zone.connect
-// 249:     .connect  {  Zone5 Zone4  }
+// 247:     .connect  {  Zone5 Zone4  }
 Zone5
 Zone4
 zone.connect
-// 250:     .connect  {  Zone4 Zone5  }
+// 248:     .connect  {  Zone4 Zone5  }
 Zone4
 Zone5
 zone.connect
-// 251:     .connect  {  Zone4 Zone3  }
+// 249:     .connect  {  Zone4 Zone3  }
 Zone4
 Zone3
 zone.connect
-// 252:     .connect  {  Zone3 Zone0  }
+// 250:     .connect  {  Zone3 Zone0  }
 Zone3
 Zone0
 zone.connect
-// 253:     .connect  {  Zone3 Zone4  }
+// 251:     .connect  {  Zone3 Zone4  }
 Zone3
 Zone4
 zone.connect
-// 254:     .
-// 257: building.add...
-// 258:     :type  {  TileType Hq enum  }
+// 252:      ;
+// 255: building:
+// 256:     :type  {  TileType Hq enum  }
 TileType
 Hq
 enum
-building.add.set-type
-// 259:     :position  {  -24 8 int2  }
+building.set-type
+// 257:     :position  {  -24 8 int2  }
 -24
 8
 int2
-building.add.set-position
-// 260:     :cp  {  20  }
+building.set-position
+// 258:     :cp  {  20  }
 20
-building.add.set-cp
-// 261:     :look-direction  {  1 0 int2  }
+building.set-cp
+// 259:     :look-direction  {  1 0 int2  }
 1
 0
 int2
-building.add.set-look-direction
-// 262:     .
-// 263: building.add
+building.set-look-direction
+// 260:     .add
 building.add
-// 264: pop
+// 261:      ;
+// 262: pop
 pop
-// 267: building.add...
-// 268:     :type  {  TileType Factory enum  }
+// 265: building:
+// 266:     :type  {  TileType Factory enum  }
 TileType
 Factory
 enum
-building.add.set-type
-// 269:     :position  {  -24 14 int2  }
+building.set-type
+// 267:     :position  {  -24 14 int2  }
 -24
 14
 int2
-building.add.set-position
-// 270:     :cp  {  20  }
+building.set-position
+// 268:     :cp  {  20  }
 20
-building.add.set-cp
-// 271:     :look-direction  {  0 1 int2  }
+building.set-cp
+// 269:     :look-direction  {  0 1 int2  }
 0
 1
 int2
-building.add.set-look-direction
-// 272:     .
-// 273: building.add
+building.set-look-direction
+// 270:     .add
 building.add
-// 274: pop
+// 271:      ;
+// 272: pop
 pop
-// 277: building.add...
-// 278:     :type  {  TileType Factory enum  }
+// 275: building:
+// 276:     :type  {  TileType Factory enum  }
 TileType
 Factory
 enum
-building.add.set-type
-// 279:     :position  {  -24 16 int2  }
+building.set-type
+// 277:     :position  {  -24 16 int2  }
 -24
 16
 int2
-building.add.set-position
-// 280:     :cp  {  20  }
+building.set-position
+// 278:     :cp  {  20  }
 20
-building.add.set-cp
-// 281:     :look-direction  {  0 1 int2  }
+building.set-cp
+// 279:     :look-direction  {  0 1 int2  }
 0
 1
 int2
-building.add.set-look-direction
-// 282:     .
-// 283: building.add
+building.set-look-direction
+// 280:     .add
 building.add
-// 284: pop
+// 281:      ;
+// 282: pop
 pop
-// 287: unit.add...
-// 288:     :type  {  UnitType Recon enum  }
+// 285: unit:
+// 286:     :type  {  UnitType Recon enum  }
 UnitType
 Recon
 enum
-unit.add.set-type
-// 289:     :moved  {  false  }
+unit.set-type
+// 287:     :moved  {  false  }
 false
-unit.add.set-moved
-// 290:     :hp  {  10  }
+unit.set-moved
+// 288:     :hp  {  10  }
 10
-unit.add.set-hp
-// 291:     :position  {  -24 9 int2  }
+unit.set-hp
+// 289:     :position  {  -24 9 int2  }
 -24
 9
 int2
-unit.add.set-position
-// 292:     :look-direction  {  1 0 int2  }
+unit.set-position
+// 290:     :look-direction  {  1 0 int2  }
 1
 0
 int2
-unit.add.set-look-direction
-// 293:     :view-prefab  {  load-resource  {  UnitView WbRecon  }   }
+unit.set-look-direction
+// 291:     :view-prefab  {  load-resource  {  UnitView WbRecon  }   }
 UnitView
 WbRecon
 load-resource
-unit.add.set-view-prefab
-// 294:     .
-// 295: unit.add
+unit.set-view-prefab
+// 292:     .add
 unit.add
-// 296: unit.brain...
-// 297:     .
-// 298: pop
+// 293:      ;
+// 294: unit.brain:
+// 295:      ;
+// 296: pop
 pop
-// 301: unit.add...
-// 302:     :type  {  UnitType Recon enum  }
+// 299: unit:
+// 300:     :type  {  UnitType Recon enum  }
 UnitType
 Recon
 enum
-unit.add.set-type
-// 303:     :moved  {  false  }
+unit.set-type
+// 301:     :moved  {  false  }
 false
-unit.add.set-moved
-// 304:     :hp  {  10  }
+unit.set-moved
+// 302:     :hp  {  10  }
 10
-unit.add.set-hp
-// 305:     :position  {  -23 10 int2  }
+unit.set-hp
+// 303:     :position  {  -23 10 int2  }
 -23
 10
 int2
-unit.add.set-position
-// 306:     :look-direction  {  1 0 int2  }
+unit.set-position
+// 304:     :look-direction  {  1 0 int2  }
 1
 0
 int2
-unit.add.set-look-direction
-// 307:     :view-prefab  {  load-resource  {  UnitView WbRecon  }   }
+unit.set-look-direction
+// 305:     :view-prefab  {  load-resource  {  UnitView WbRecon  }   }
 UnitView
 WbRecon
 load-resource
-unit.add.set-view-prefab
-// 308:     .
-// 309: unit.add
+unit.set-view-prefab
+// 306:     .add
 unit.add
-// 310: unit.brain...
-// 311:     .
-// 312: pop
+// 307:      ;
+// 308: unit.brain:
+// 309:      ;
+// 310: pop
 pop
-// 315: unit.add...
-// 316:     :type  {  UnitType Recon enum  }
+// 313: unit:
+// 314:     :type  {  UnitType Recon enum  }
 UnitType
 Recon
 enum
-unit.add.set-type
-// 317:     :moved  {  false  }
+unit.set-type
+// 315:     :moved  {  false  }
 false
-unit.add.set-moved
-// 318:     :hp  {  10  }
+unit.set-moved
+// 316:     :hp  {  10  }
 10
-unit.add.set-hp
-// 319:     :position  {  -19 14 int2  }
+unit.set-hp
+// 317:     :position  {  -19 14 int2  }
 -19
 14
 int2
-unit.add.set-position
-// 320:     :look-direction  {  1 0 int2  }
+unit.set-position
+// 318:     :look-direction  {  1 0 int2  }
 1
 0
 int2
-unit.add.set-look-direction
-// 321:     :view-prefab  {  load-resource  {  UnitView WbRecon  }   }
+unit.set-look-direction
+// 319:     :view-prefab  {  load-resource  {  UnitView WbRecon  }   }
 UnitView
 WbRecon
 load-resource
-unit.add.set-view-prefab
-// 322:     .
-// 323: unit.add
+unit.set-view-prefab
+// 320:     .add
 unit.add
-// 324: unit.brain...
-// 325:     .
-// 326: pop
+// 321:      ;
+// 322: unit.brain:
+// 323:      ;
+// 324: pop
 pop
-// 329: unit.add...
-// 330:     :type  {  UnitType Infantry enum  }
+// 327: unit:
+// 328:     :type  {  UnitType Infantry enum  }
 UnitType
 Infantry
 enum
-unit.add.set-type
-// 331:     :moved  {  false  }
+unit.set-type
+// 329:     :moved  {  false  }
 false
-unit.add.set-moved
-// 332:     :hp  {  10  }
+unit.set-moved
+// 330:     :hp  {  10  }
 10
-unit.add.set-hp
-// 333:     :position  {  -22 13 int2  }
+unit.set-hp
+// 331:     :position  {  -22 13 int2  }
 -22
 13
 int2
-unit.add.set-position
-// 334:     :look-direction  {  1 0 int2  }
+unit.set-position
+// 332:     :look-direction  {  1 0 int2  }
 1
 0
 int2
-unit.add.set-look-direction
-// 335:     :view-prefab  {  load-resource  {  UnitView WbLightTank  }   }
+unit.set-look-direction
+// 333:     :view-prefab  {  load-resource  {  UnitView WbLightTank  }   }
 UnitView
 WbLightTank
 load-resource
-unit.add.set-view-prefab
-// 336:     .
-// 337: unit.add
+unit.set-view-prefab
+// 334:     .add
 unit.add
-// 338: unit.brain...
-// 339:     .
-// 340: pop
+// 335:      ;
+// 336: unit.brain:
+// 337:      ;
+// 338: pop
 pop
-// 343: unit.add...
-// 344:     :type  {  UnitType Infantry enum  }
+// 341: unit:
+// 342:     :type  {  UnitType Infantry enum  }
 UnitType
 Infantry
 enum
-unit.add.set-type
-// 345:     :moved  {  false  }
+unit.set-type
+// 343:     :moved  {  false  }
 false
-unit.add.set-moved
-// 346:     :hp  {  10  }
+unit.set-moved
+// 344:     :hp  {  10  }
 10
-unit.add.set-hp
-// 347:     :position  {  -22 15 int2  }
+unit.set-hp
+// 345:     :position  {  -22 15 int2  }
 -22
 15
 int2
-unit.add.set-position
-// 348:     :look-direction  {  1 0 int2  }
+unit.set-position
+// 346:     :look-direction  {  1 0 int2  }
 1
 0
 int2
-unit.add.set-look-direction
-// 349:     :view-prefab  {  load-resource  {  UnitView WbLightTank  }   }
+unit.set-look-direction
+// 347:     :view-prefab  {  load-resource  {  UnitView WbLightTank  }   }
 UnitView
 WbLightTank
 load-resource
-unit.add.set-view-prefab
-// 350:     .
-// 351: unit.add
+unit.set-view-prefab
+// 348:     .add
 unit.add
-// 352: unit.brain...
-// 353:     .
-// 354: pop
+// 349:      ;
+// 350: unit.brain:
+// 351:      ;
+// 352: pop
 pop
-// 357: unit.add...
-// 358:     :type  {  UnitType Artillery enum  }
+// 355: unit:
+// 356:     :type  {  UnitType Artillery enum  }
 UnitType
 Artillery
 enum
-unit.add.set-type
-// 359:     :moved  {  false  }
+unit.set-type
+// 357:     :moved  {  false  }
 false
-unit.add.set-moved
-// 360:     :hp  {  10  }
+unit.set-moved
+// 358:     :hp  {  10  }
 10
-unit.add.set-hp
-// 361:     :position  {  -22 14 int2  }
+unit.set-hp
+// 359:     :position  {  -22 14 int2  }
 -22
 14
 int2
-unit.add.set-position
-// 362:     :look-direction  {  1 0 int2  }
+unit.set-position
+// 360:     :look-direction  {  1 0 int2  }
 1
 0
 int2
-unit.add.set-look-direction
-// 363:     :view-prefab  {  load-resource  {  UnitView WbHowitzer  }   }
+unit.set-look-direction
+// 361:     :view-prefab  {  load-resource  {  UnitView WbHowitzer  }   }
 UnitView
 WbHowitzer
 load-resource
-unit.add.set-view-prefab
-// 364:     .
-// 365: unit.add
+unit.set-view-prefab
+// 362:     .add
 unit.add
-// 366: unit.brain...
-// 367:     .
-// 368: pop
+// 363:      ;
+// 364: unit.brain:
+// 365:      ;
+// 366: pop
 pop
-// 371: unit.add...
-// 372:     :type  {  UnitType Infantry enum  }
+// 369: unit:
+// 370:     :type  {  UnitType Infantry enum  }
 UnitType
 Infantry
 enum
-unit.add.set-type
-// 373:     :moved  {  false  }
+unit.set-type
+// 371:     :moved  {  false  }
 false
-unit.add.set-moved
-// 374:     :hp  {  10  }
+unit.set-moved
+// 372:     :hp  {  10  }
 10
-unit.add.set-hp
-// 375:     :position  {  -21 16 int2  }
+unit.set-hp
+// 373:     :position  {  -21 16 int2  }
 -21
 16
 int2
-unit.add.set-position
-// 376:     :look-direction  {  1 0 int2  }
+unit.set-position
+// 374:     :look-direction  {  1 0 int2  }
 1
 0
 int2
-unit.add.set-look-direction
-// 377:     :view-prefab  {  load-resource  {  UnitView WbLightTank  }   }
+unit.set-look-direction
+// 375:     :view-prefab  {  load-resource  {  UnitView WbLightTank  }   }
 UnitView
 WbLightTank
 load-resource
-unit.add.set-view-prefab
-// 378:     .
-// 379: unit.add
+unit.set-view-prefab
+// 376:     .add
 unit.add
-// 380: unit.brain...
-// 381:     .
-// 382: pop
+// 377:      ;
+// 378: unit.brain:
+// 379:      ;
+// 380: pop
 pop
-// 385: unit.add...
-// 386:     :type  {  UnitType Rockets enum  }
+// 383: unit:
+// 384:     :type  {  UnitType Rockets enum  }
 UnitType
 Rockets
 enum
-unit.add.set-type
-// 387:     :moved  {  false  }
+unit.set-type
+// 385:     :moved  {  false  }
 false
-unit.add.set-moved
-// 388:     :hp  {  10  }
+unit.set-moved
+// 386:     :hp  {  10  }
 10
-unit.add.set-hp
-// 389:     :position  {  -23 8 int2  }
+unit.set-hp
+// 387:     :position  {  -23 8 int2  }
 -23
 8
 int2
-unit.add.set-position
-// 390:     :look-direction  {  1 0 int2  }
+unit.set-position
+// 388:     :look-direction  {  1 0 int2  }
 1
 0
 int2
-unit.add.set-look-direction
-// 391:     :view-prefab  {  load-resource  {  UnitView WbRockets  }   }
+unit.set-look-direction
+// 389:     :view-prefab  {  load-resource  {  UnitView WbRockets  }   }
 UnitView
 WbRockets
 load-resource
-unit.add.set-view-prefab
-// 392:     .
-// 393: unit.add
+unit.set-view-prefab
+// 390:     .add
 unit.add
-// 394: unit.brain...
-// 395:     .
-// 396: pop
+// 391:      ;
+// 392: unit.brain:
+// 393:      ;
+// 394: pop
 pop
-// 399: unit.add...
-// 400:     :type  {  UnitType Infantry enum  }
+// 397: unit:
+// 398:     :type  {  UnitType Infantry enum  }
 UnitType
 Infantry
 enum
-unit.add.set-type
-// 401:     :moved  {  false  }
+unit.set-type
+// 399:     :moved  {  false  }
 false
-unit.add.set-moved
-// 402:     :hp  {  10  }
+unit.set-moved
+// 400:     :hp  {  10  }
 10
-unit.add.set-hp
-// 403:     :position  {  -21 12 int2  }
+unit.set-hp
+// 401:     :position  {  -21 12 int2  }
 -21
 12
 int2
-unit.add.set-position
-// 404:     :look-direction  {  1 0 int2  }
+unit.set-position
+// 402:     :look-direction  {  1 0 int2  }
 1
 0
 int2
-unit.add.set-look-direction
-// 405:     :view-prefab  {  load-resource  {  UnitView WbLightTank  }   }
+unit.set-look-direction
+// 403:     :view-prefab  {  load-resource  {  UnitView WbLightTank  }   }
 UnitView
 WbLightTank
 load-resource
-unit.add.set-view-prefab
-// 406:     .
-// 407: unit.add
+unit.set-view-prefab
+// 404:     .add
 unit.add
-// 408: unit.brain...
-// 409:     .
-// 410: pop
+// 405:      ;
+// 406: unit.brain:
+// 407:      ;
+// 408: pop
 pop
-// 413: unit.add...
-// 414:     :type  {  UnitType Recon enum  }
+// 411: unit:
+// 412:     :type  {  UnitType Recon enum  }
 UnitType
 Recon
 enum
-unit.add.set-type
-// 415:     :moved  {  false  }
+unit.set-type
+// 413:     :moved  {  false  }
 false
-unit.add.set-moved
-// 416:     :hp  {  10  }
+unit.set-moved
+// 414:     :hp  {  10  }
 10
-unit.add.set-hp
-// 417:     :position  {  -18 19 int2  }
+unit.set-hp
+// 415:     :position  {  -18 19 int2  }
 -18
 19
 int2
-unit.add.set-position
-// 418:     :look-direction  {  1 0 int2  }
+unit.set-position
+// 416:     :look-direction  {  1 0 int2  }
 1
 0
 int2
-unit.add.set-look-direction
-// 419:     :view-prefab  {  load-resource  {  UnitView WbRecon  }   }
+unit.set-look-direction
+// 417:     :view-prefab  {  load-resource  {  UnitView WbRecon  }   }
 UnitView
 WbRecon
 load-resource
-unit.add.set-view-prefab
-// 420:     .
-// 421: unit.add
+unit.set-view-prefab
+// 418:     .add
 unit.add
-// 422: unit.brain...
-// 423:     .
-// 424: pop
+// 419:      ;
+// 420: unit.brain:
+// 421:      ;
+// 422: pop
 pop
-// 427: unit.add...
-// 428:     :type  {  UnitType Infantry enum  }
+// 425: unit:
+// 426:     :type  {  UnitType Infantry enum  }
 UnitType
 Infantry
 enum
-unit.add.set-type
-// 429:     :moved  {  false  }
+unit.set-type
+// 427:     :moved  {  false  }
 false
-unit.add.set-moved
-// 430:     :hp  {  10  }
+unit.set-moved
+// 428:     :hp  {  10  }
 10
-unit.add.set-hp
-// 431:     :position  {  -12 22 int2  }
+unit.set-hp
+// 429:     :position  {  -12 22 int2  }
 -12
 22
 int2
-unit.add.set-position
-// 432:     :look-direction  {  1 0 int2  }
+unit.set-position
+// 430:     :look-direction  {  1 0 int2  }
 1
 0
 int2
-unit.add.set-look-direction
-// 433:     :view-prefab  {  load-resource  {  UnitView WbLightTank  }   }
+unit.set-look-direction
+// 431:     :view-prefab  {  load-resource  {  UnitView WbLightTank  }   }
 UnitView
 WbLightTank
 load-resource
-unit.add.set-view-prefab
-// 434:     .
-// 435: unit.add
+unit.set-view-prefab
+// 432:     .add
 unit.add
-// 436: unit.brain...
-// 437:     .
-// 438: pop
+// 433:      ;
+// 434: unit.brain:
+// 435:      ;
+// 436: pop
 pop
-// 441: unit.add...
-// 442:     :type  {  UnitType Recon enum  }
+// 439: unit:
+// 440:     :type  {  UnitType Recon enum  }
 UnitType
 Recon
 enum
-unit.add.set-type
-// 443:     :moved  {  false  }
+unit.set-type
+// 441:     :moved  {  false  }
 false
-unit.add.set-moved
-// 444:     :hp  {  10  }
+unit.set-moved
+// 442:     :hp  {  10  }
 10
-unit.add.set-hp
-// 445:     :position  {  -13 10 int2  }
+unit.set-hp
+// 443:     :position  {  -13 10 int2  }
 -13
 10
 int2
-unit.add.set-position
-// 446:     :look-direction  {  1 0 int2  }
+unit.set-position
+// 444:     :look-direction  {  1 0 int2  }
 1
 0
 int2
-unit.add.set-look-direction
-// 447:     :view-prefab  {  load-resource  {  UnitView WbRecon  }   }
+unit.set-look-direction
+// 445:     :view-prefab  {  load-resource  {  UnitView WbRecon  }   }
 UnitView
 WbRecon
 load-resource
-unit.add.set-view-prefab
-// 448:     .
-// 449: unit.add
+unit.set-view-prefab
+// 446:     .add
 unit.add
-// 450: unit.brain...
-// 451:     .
-// 452: pop
+// 447:      ;
+// 448: unit.brain:
+// 449:      ;
+// 450: pop
 pop
-// 455: unit.add...
-// 456:     :type  {  UnitType Infantry enum  }
+// 453: unit:
+// 454:     :type  {  UnitType Infantry enum  }
 UnitType
 Infantry
 enum
-unit.add.set-type
-// 457:     :moved  {  false  }
+unit.set-type
+// 455:     :moved  {  false  }
 false
-unit.add.set-moved
-// 458:     :hp  {  10  }
+unit.set-moved
+// 456:     :hp  {  10  }
 10
-unit.add.set-hp
-// 459:     :position  {  -22 20 int2  }
+unit.set-hp
+// 457:     :position  {  -22 20 int2  }
 -22
 20
 int2
-unit.add.set-position
-// 460:     :look-direction  {  1 0 int2  }
+unit.set-position
+// 458:     :look-direction  {  1 0 int2  }
 1
 0
 int2
-unit.add.set-look-direction
-// 461:     :view-prefab  {  load-resource  {  UnitView WbLightTank  }   }
+unit.set-look-direction
+// 459:     :view-prefab  {  load-resource  {  UnitView WbLightTank  }   }
 UnitView
 WbLightTank
 load-resource
-unit.add.set-view-prefab
-// 462:     .
-// 463: unit.add
+unit.set-view-prefab
+// 460:     .add
 unit.add
-// 464: unit.brain...
-// 465:     .
-// 466: pop
+// 461:      ;
+// 462: unit.brain:
+// 463:      ;
+// 464: pop
 pop
-// 469: pop
+// 467: pop
 pop
-// 471: tiles.add  {  TileType Plain enum -24 9 int2 -24 15 int2 -24 20 int2 -24 21 int2 -24 22 int2 -23 18 int2 -23 19 int2 -23 20 int2 -23 21 int2 -23 22 int2 -23 23 int2 -23 24 int2 -22 11 int2 -22 12 int2 -22 18 int2 -22 19 int2 -22 20 int2 -22 21 int2 -22 22 int2 -22 23 int2 -22 24 int2 -22 25 int2 -22 26 int2 -21 9 int2 -21 10 int2 -21 12 int2 -21 16 int2 -21 17 int2 -21 18 int2 -21 19 int2 -21 20 int2 -21 21 int2 -21 24 int2 -21 25 int2 -20 9 int2 -20 10 int2 -20 12 int2 -20 16 int2 -20 17 int2 -20 19 int2 -20 20 int2 -20 21 int2 -19 9 int2 -19 10 int2 -19 11 int2 -19 12 int2 -19 16 int2 -19 17 int2 -19 19 int2 -19 20 int2 -19 21 int2 -19 22 int2 -19 23 int2 -19 24 int2 -18 17 int2 -18 19 int2 -18 20 int2 -18 21 int2 -18 22 int2 -18 23 int2 -18 24 int2 -18 25 int2 -17 19 int2 -17 20 int2 -17 21 int2 -17 22 int2 -17 23 int2 -17 24 int2 -17 25 int2 -16 18 int2 -16 19 int2 -16 21 int2 -16 22 int2 -16 23 int2 -16 24 int2 -16 25 int2 -15 18 int2 -15 19 int2 -15 20 int2 -15 21 int2 -15 22 int2 -15 23 int2 -15 24 int2 -15 25 int2 -14 19 int2 -14 20 int2 -14 21 int2 -14 25 int2 -13 22 int2 -13 26 int2 -12 26 int2 -11 26 int2 -10 17 int2 -10 18 int2 -10 20 int2 -10 21 int2 -10 22 int2 -10 23 int2 -10 24 int2 -10 26 int2 -9 8 int2 -9 9 int2 -9 10 int2 -9 11 int2 -9 12 int2 -9 14 int2 -9 15 int2 -9 16 int2 -9 17 int2 -9 18 int2 -9 19 int2 -9 20 int2 -9 21 int2 -9 22 int2 -9 23 int2 -9 24 int2 -9 26 int2 -8 8 int2 -8 9 int2 -8 10 int2 -8 11 int2 -8 12 int2 -8 15 int2 -8 16 int2 -8 17 int2 -8 18 int2 -8 19 int2 -8 20 int2 -8 21 int2 -8 22 int2 -8 23 int2 -8 24 int2 -8 26 int2 -6 8 int2 -6 9 int2 -6 10 int2 -6 17 int2 -6 18 int2 -6 19 int2 -6 20 int2 -6 22 int2 -6 24 int2 -6 26 int2 -5 8 int2 -5 9 int2 -5 10 int2 -5 13 int2 -5 17 int2 -5 18 int2 -5 22 int2 -5 23 int2 -5 25 int2 -5 26 int2 -4 9 int2 -4 10 int2 -4 13 int2 -4 14 int2 -4 15 int2 -4 17 int2 -4 23 int2 -4 24 int2 -4 25 int2 -4 26 int2 -3 10 int2 -3 13 int2 -3 14 int2 -3 15 int2 -3 17 int2 -3 23 int2 -3 24 int2 -3 25 int2 171  }
+// 469: tiles.add  {  TileType Plain enum -24 9 int2 -24 15 int2 -24 20 int2 -24 21 int2 -24 22 int2 -23 18 int2 -23 19 int2 -23 20 int2 -23 21 int2 -23 22 int2 -23 23 int2 -23 24 int2 -22 11 int2 -22 12 int2 -22 18 int2 -22 19 int2 -22 20 int2 -22 21 int2 -22 22 int2 -22 23 int2 -22 24 int2 -22 25 int2 -22 26 int2 -21 9 int2 -21 10 int2 -21 12 int2 -21 16 int2 -21 17 int2 -21 18 int2 -21 19 int2 -21 20 int2 -21 21 int2 -21 24 int2 -21 25 int2 -20 9 int2 -20 10 int2 -20 12 int2 -20 16 int2 -20 17 int2 -20 19 int2 -20 20 int2 -20 21 int2 -19 9 int2 -19 10 int2 -19 11 int2 -19 12 int2 -19 16 int2 -19 17 int2 -19 19 int2 -19 20 int2 -19 21 int2 -19 22 int2 -19 23 int2 -19 24 int2 -18 17 int2 -18 19 int2 -18 20 int2 -18 21 int2 -18 22 int2 -18 23 int2 -18 24 int2 -18 25 int2 -17 19 int2 -17 20 int2 -17 21 int2 -17 22 int2 -17 23 int2 -17 24 int2 -17 25 int2 -16 18 int2 -16 19 int2 -16 21 int2 -16 22 int2 -16 23 int2 -16 24 int2 -16 25 int2 -15 18 int2 -15 19 int2 -15 20 int2 -15 21 int2 -15 22 int2 -15 23 int2 -15 24 int2 -15 25 int2 -14 19 int2 -14 20 int2 -14 21 int2 -14 25 int2 -13 22 int2 -13 26 int2 -12 26 int2 -11 26 int2 -10 17 int2 -10 18 int2 -10 20 int2 -10 21 int2 -10 22 int2 -10 23 int2 -10 24 int2 -10 26 int2 -9 8 int2 -9 9 int2 -9 10 int2 -9 11 int2 -9 12 int2 -9 14 int2 -9 15 int2 -9 16 int2 -9 17 int2 -9 18 int2 -9 19 int2 -9 20 int2 -9 21 int2 -9 22 int2 -9 23 int2 -9 24 int2 -9 26 int2 -8 8 int2 -8 9 int2 -8 10 int2 -8 11 int2 -8 12 int2 -8 15 int2 -8 16 int2 -8 17 int2 -8 18 int2 -8 19 int2 -8 20 int2 -8 21 int2 -8 22 int2 -8 23 int2 -8 24 int2 -8 26 int2 -6 8 int2 -6 9 int2 -6 10 int2 -6 17 int2 -6 18 int2 -6 19 int2 -6 20 int2 -6 22 int2 -6 24 int2 -6 26 int2 -5 8 int2 -5 9 int2 -5 10 int2 -5 13 int2 -5 17 int2 -5 18 int2 -5 22 int2 -5 23 int2 -5 25 int2 -5 26 int2 -4 9 int2 -4 10 int2 -4 13 int2 -4 14 int2 -4 15 int2 -4 17 int2 -4 23 int2 -4 24 int2 -4 25 int2 -4 26 int2 -3 10 int2 -3 13 int2 -3 14 int2 -3 15 int2 -3 17 int2 -3 23 int2 -3 24 int2 -3 25 int2 171  }
 TileType
 Plain
 enum
@@ -2822,7 +2820,7 @@ int2
 int2
 171
 tiles.add
-// 472: tiles.add  {  TileType Road enum -23 8 int2 -23 9 int2 -23 10 int2 -23 11 int2 -23 12 int2 -23 13 int2 -23 14 int2 -23 15 int2 -23 16 int2 -22 13 int2 -22 14 int2 -22 15 int2 -21 13 int2 -21 14 int2 -21 15 int2 -20 13 int2 -20 14 int2 -20 15 int2 -20 23 int2 -20 24 int2 -20 25 int2 -20 26 int2 -19 26 int2 -18 26 int2 -17 26 int2 -16 26 int2 -15 17 int2 -15 26 int2 -14 10 int2 -14 13 int2 -14 17 int2 -14 18 int2 -13 10 int2 -13 13 int2 -12 10 int2 -12 13 int2 -11 10 int2 -11 13 int2 -11 25 int2 -10 10 int2 -10 13 int2 -10 25 int2 -9 13 int2 -9 25 int2 -8 13 int2 -8 25 int2 -7 12 int2 -7 13 int2 -7 14 int2 -7 15 int2 -7 16 int2 -7 17 int2 -7 18 int2 -7 19 int2 -7 20 int2 -7 21 int2 -7 22 int2 -7 23 int2 -7 24 int2 -7 25 int2 -7 26 int2 -6 12 int2 -6 16 int2 -6 21 int2 -5 12 int2 -5 16 int2 -5 21 int2 -4 12 int2 -4 16 int2 -4 21 int2 -3 12 int2 -3 16 int2 -3 21 int2 73  }
+// 470: tiles.add  {  TileType Road enum -23 8 int2 -23 9 int2 -23 10 int2 -23 11 int2 -23 12 int2 -23 13 int2 -23 14 int2 -23 15 int2 -23 16 int2 -22 13 int2 -22 14 int2 -22 15 int2 -21 13 int2 -21 14 int2 -21 15 int2 -20 13 int2 -20 14 int2 -20 15 int2 -20 23 int2 -20 24 int2 -20 25 int2 -20 26 int2 -19 26 int2 -18 26 int2 -17 26 int2 -16 26 int2 -15 17 int2 -15 26 int2 -14 10 int2 -14 13 int2 -14 17 int2 -14 18 int2 -13 10 int2 -13 13 int2 -12 10 int2 -12 13 int2 -11 10 int2 -11 13 int2 -11 25 int2 -10 10 int2 -10 13 int2 -10 25 int2 -9 13 int2 -9 25 int2 -8 13 int2 -8 25 int2 -7 12 int2 -7 13 int2 -7 14 int2 -7 15 int2 -7 16 int2 -7 17 int2 -7 18 int2 -7 19 int2 -7 20 int2 -7 21 int2 -7 22 int2 -7 23 int2 -7 24 int2 -7 25 int2 -7 26 int2 -6 12 int2 -6 16 int2 -6 21 int2 -5 12 int2 -5 16 int2 -5 21 int2 -4 12 int2 -4 16 int2 -4 21 int2 -3 12 int2 -3 16 int2 -3 21 int2 73  }
 TileType
 Road
 enum
@@ -3047,7 +3045,7 @@ int2
 int2
 73
 tiles.add
-// 473: tiles.add  {  TileType Sea enum -14 8 int2 -14 9 int2 -14 11 int2 -14 12 int2 -14 14 int2 -14 15 int2 -14 16 int2 -13 8 int2 -13 9 int2 -13 11 int2 -13 12 int2 -13 14 int2 -13 15 int2 -13 16 int2 -13 17 int2 -12 8 int2 -12 9 int2 -12 11 int2 -12 12 int2 -12 14 int2 -12 15 int2 -12 16 int2 -12 17 int2 -12 18 int2 -11 8 int2 -11 9 int2 -11 11 int2 -11 12 int2 -11 14 int2 -11 15 int2 -11 16 int2 -10 8 int2 -10 9 int2 -10 11 int2 -10 12 int2 -10 14 int2 -10 15 int2 37  }
+// 471: tiles.add  {  TileType Sea enum -14 8 int2 -14 9 int2 -14 11 int2 -14 12 int2 -14 14 int2 -14 15 int2 -14 16 int2 -13 8 int2 -13 9 int2 -13 11 int2 -13 12 int2 -13 14 int2 -13 15 int2 -13 16 int2 -13 17 int2 -12 8 int2 -12 9 int2 -12 11 int2 -12 12 int2 -12 14 int2 -12 15 int2 -12 16 int2 -12 17 int2 -12 18 int2 -11 8 int2 -11 9 int2 -11 11 int2 -11 12 int2 -11 14 int2 -11 15 int2 -11 16 int2 -10 8 int2 -10 9 int2 -10 11 int2 -10 12 int2 -10 14 int2 -10 15 int2 37  }
 TileType
 Sea
 enum
@@ -3164,7 +3162,7 @@ int2
 int2
 37
 tiles.add
-// 474: tiles.add  {  TileType Mountain enum -24 10 int2 -24 11 int2 -24 12 int2 -24 24 int2 -24 25 int2 -24 26 int2 -23 26 int2 -21 8 int2 -20 8 int2 -20 18 int2 -19 18 int2 -18 18 int2 -17 16 int2 -17 17 int2 -17 18 int2 -13 18 int2 -13 19 int2 -12 19 int2 -12 20 int2 -12 24 int2 -12 25 int2 -11 18 int2 -11 19 int2 -11 20 int2 -11 21 int2 -11 22 int2 -11 23 int2 -10 19 int2 -7 8 int2 -7 9 int2 -7 10 int2 -7 11 int2 -6 11 int2 -5 11 int2 -5 19 int2 -4 11 int2 -4 19 int2 -4 20 int2 -3 11 int2 39  }
+// 472: tiles.add  {  TileType Mountain enum -24 10 int2 -24 11 int2 -24 12 int2 -24 24 int2 -24 25 int2 -24 26 int2 -23 26 int2 -21 8 int2 -20 8 int2 -20 18 int2 -19 18 int2 -18 18 int2 -17 16 int2 -17 17 int2 -17 18 int2 -13 18 int2 -13 19 int2 -12 19 int2 -12 20 int2 -12 24 int2 -12 25 int2 -11 18 int2 -11 19 int2 -11 20 int2 -11 21 int2 -11 22 int2 -11 23 int2 -10 19 int2 -7 8 int2 -7 9 int2 -7 10 int2 -7 11 int2 -6 11 int2 -5 11 int2 -5 19 int2 -4 11 int2 -4 19 int2 -4 20 int2 -3 11 int2 39  }
 TileType
 Mountain
 enum
@@ -3287,7 +3285,7 @@ int2
 int2
 39
 tiles.add
-// 475: tiles.add  {  TileType Forest enum -24 13 int2 -24 17 int2 -24 18 int2 -24 19 int2 -24 23 int2 -23 17 int2 -23 25 int2 -22 8 int2 -22 9 int2 -22 10 int2 -22 16 int2 -22 17 int2 -21 11 int2 -21 22 int2 -20 11 int2 -20 22 int2 -19 8 int2 -19 13 int2 -19 14 int2 -19 15 int2 -19 25 int2 -18 8 int2 -18 9 int2 -18 10 int2 -18 11 int2 -18 12 int2 -18 13 int2 -18 14 int2 -18 15 int2 -18 16 int2 -17 8 int2 -17 9 int2 -17 10 int2 -17 11 int2 -17 12 int2 -17 13 int2 -17 14 int2 -17 15 int2 -16 8 int2 -16 9 int2 -16 10 int2 -16 11 int2 -16 12 int2 -16 13 int2 -16 14 int2 -16 15 int2 -16 16 int2 -16 17 int2 -16 20 int2 -15 8 int2 -15 9 int2 -15 10 int2 -15 11 int2 -15 12 int2 -15 13 int2 -15 14 int2 -15 15 int2 -15 16 int2 -14 22 int2 -14 23 int2 -14 24 int2 -13 20 int2 -13 21 int2 -13 23 int2 -13 24 int2 -12 21 int2 -12 22 int2 -12 23 int2 -11 17 int2 -10 16 int2 -8 14 int2 -6 14 int2 -6 15 int2 -6 23 int2 -5 14 int2 -5 15 int2 -5 20 int2 -5 24 int2 -4 8 int2 -4 18 int2 -4 22 int2 -3 8 int2 -3 9 int2 -3 18 int2 -3 19 int2 85  }
+// 473: tiles.add  {  TileType Forest enum -24 13 int2 -24 17 int2 -24 18 int2 -24 19 int2 -24 23 int2 -23 17 int2 -23 25 int2 -22 8 int2 -22 9 int2 -22 10 int2 -22 16 int2 -22 17 int2 -21 11 int2 -21 22 int2 -20 11 int2 -20 22 int2 -19 8 int2 -19 13 int2 -19 14 int2 -19 15 int2 -19 25 int2 -18 8 int2 -18 9 int2 -18 10 int2 -18 11 int2 -18 12 int2 -18 13 int2 -18 14 int2 -18 15 int2 -18 16 int2 -17 8 int2 -17 9 int2 -17 10 int2 -17 11 int2 -17 12 int2 -17 13 int2 -17 14 int2 -17 15 int2 -16 8 int2 -16 9 int2 -16 10 int2 -16 11 int2 -16 12 int2 -16 13 int2 -16 14 int2 -16 15 int2 -16 16 int2 -16 17 int2 -16 20 int2 -15 8 int2 -15 9 int2 -15 10 int2 -15 11 int2 -15 12 int2 -15 13 int2 -15 14 int2 -15 15 int2 -15 16 int2 -14 22 int2 -14 23 int2 -14 24 int2 -13 20 int2 -13 21 int2 -13 23 int2 -13 24 int2 -12 21 int2 -12 22 int2 -12 23 int2 -11 17 int2 -10 16 int2 -8 14 int2 -6 14 int2 -6 15 int2 -6 23 int2 -5 14 int2 -5 15 int2 -5 20 int2 -5 24 int2 -4 8 int2 -4 18 int2 -4 22 int2 -3 8 int2 -3 9 int2 -3 18 int2 -3 19 int2 85  }
 TileType
 Forest
 enum
@@ -3548,186 +3546,186 @@ int2
 int2
 85
 tiles.add
-// 478: null
+// 476: null
 null
-// 481: building.add...
-// 482:     :type  {  TileType City enum  }
+// 479: building:
+// 480:     :type  {  TileType City enum  }
 TileType
 City
 enum
-building.add.set-type
-// 483:     :position  {  -6 13 int2  }
+building.set-type
+// 481:     :position  {  -6 13 int2  }
 -6
 13
 int2
-building.add.set-position
-// 484:     :cp  {  20  }
+building.set-position
+// 482:     :cp  {  20  }
 20
-building.add.set-cp
-// 485:     :look-direction  {  0 -1 int2  }
+building.set-cp
+// 483:     :look-direction  {  0 -1 int2  }
 0
 -1
 int2
-building.add.set-look-direction
-// 486:     .
-// 487: building.add
+building.set-look-direction
+// 484:     .add
 building.add
-// 488: pop
+// 485:      ;
+// 486: pop
 pop
-// 491: building.add...
-// 492:     :type  {  TileType Factory enum  }
+// 489: building:
+// 490:     :type  {  TileType Factory enum  }
 TileType
 Factory
 enum
-building.add.set-type
-// 493:     :position  {  -13 25 int2  }
+building.set-type
+// 491:     :position  {  -13 25 int2  }
 -13
 25
 int2
-building.add.set-position
-// 494:     :cp  {  20  }
+building.set-position
+// 492:     :cp  {  20  }
 20
-building.add.set-cp
-// 495:     :look-direction  {  0 1 int2  }
+building.set-cp
+// 493:     :look-direction  {  0 1 int2  }
 0
 1
 int2
-building.add.set-look-direction
-// 496:     .
-// 497: building.add
+building.set-look-direction
+// 494:     .add
 building.add
-// 498: pop
+// 495:      ;
+// 496: pop
 pop
-// 501: building.add...
-// 502:     :type  {  TileType Factory enum  }
+// 499: building:
+// 500:     :type  {  TileType Factory enum  }
 TileType
 Factory
 enum
-building.add.set-type
-// 503:     :position  {  -14 26 int2  }
+building.set-type
+// 501:     :position  {  -14 26 int2  }
 -14
 26
 int2
-building.add.set-position
-// 504:     :cp  {  20  }
+building.set-position
+// 502:     :cp  {  20  }
 20
-building.add.set-cp
-// 505:     :look-direction  {  0 1 int2  }
+building.set-cp
+// 503:     :look-direction  {  0 1 int2  }
 0
 1
 int2
-building.add.set-look-direction
-// 506:     .
-// 507: building.add
+building.set-look-direction
+// 504:     .add
 building.add
-// 508: pop
+// 505:      ;
+// 506: pop
 pop
-// 511: building.add...
-// 512:     :type  {  TileType City enum  }
+// 509: building:
+// 510:     :type  {  TileType City enum  }
 TileType
 City
 enum
-building.add.set-type
-// 513:     :position  {  -21 26 int2  }
+building.set-type
+// 511:     :position  {  -21 26 int2  }
 -21
 26
 int2
-building.add.set-position
-// 514:     :cp  {  20  }
+building.set-position
+// 512:     :cp  {  20  }
 20
-building.add.set-cp
-// 515:     :look-direction  {  0 1 int2  }
+building.set-cp
+// 513:     :look-direction  {  0 1 int2  }
 0
 1
 int2
-building.add.set-look-direction
-// 516:     .
-// 517: building.add
+building.set-look-direction
+// 514:     .add
 building.add
-// 518: pop
+// 515:      ;
+// 516: pop
 pop
-// 521: building.add...
-// 522:     :type  {  TileType City enum  }
+// 519: building:
+// 520:     :type  {  TileType City enum  }
 TileType
 City
 enum
-building.add.set-type
-// 523:     :position  {  -21 23 int2  }
+building.set-type
+// 521:     :position  {  -21 23 int2  }
 -21
 23
 int2
-building.add.set-position
-// 524:     :cp  {  20  }
+building.set-position
+// 522:     :cp  {  20  }
 20
-building.add.set-cp
-// 525:     :look-direction  {  0 1 int2  }
+building.set-cp
+// 523:     :look-direction  {  0 1 int2  }
 0
 1
 int2
-building.add.set-look-direction
-// 526:     .
-// 527: building.add
+building.set-look-direction
+// 524:     .add
 building.add
-// 528: pop
+// 525:      ;
+// 526: pop
 pop
-// 530: pop
+// 529: pop
 pop
-// 532: trigger...
-// 533:     .select  {  TriggerName A enum  }
+// 531: trigger:
+// 532:     .select  {  TriggerName A enum  }
 TriggerName
 A
 enum
 trigger.select
-// 534:     .
-// 536: trigger...
-// 537:     .select  {  TriggerName B enum  }
+// 533:      ;
+// 535: trigger:
+// 536:     .select  {  TriggerName B enum  }
 TriggerName
 B
 enum
 trigger.select
-// 538:     .
-// 540: trigger...
-// 541:     .select  {  TriggerName C enum  }
+// 537:      ;
+// 539: trigger:
+// 540:     .select  {  TriggerName C enum  }
 TriggerName
 C
 enum
 trigger.select
-// 542:     .
-// 544: trigger...
-// 545:     .select  {  TriggerName D enum  }
+// 541:      ;
+// 543: trigger:
+// 544:     .select  {  TriggerName D enum  }
 TriggerName
 D
 enum
 trigger.select
-// 546:     .
-// 548: trigger...
-// 549:     .select  {  TriggerName E enum  }
+// 545:      ;
+// 547: trigger:
+// 548:     .select  {  TriggerName E enum  }
 TriggerName
 E
 enum
 trigger.select
-// 550:     .
-// 552: trigger...
-// 553:     .select  {  TriggerName F enum  }
+// 549:      ;
+// 551: trigger:
+// 552:     .select  {  TriggerName F enum  }
 TriggerName
 F
 enum
 trigger.select
-// 554:     .
-// 556: camera-rig...
-// 557:     :position  {  -13.28566 -4.104112E-05 15.98254 float3  }
--13.28566
--4.104112E-05
-15.98254
+// 553:      ;
+// 555: camera-rig:
+// 556:     :position  {  -14.21453 -4.177277E-05 14.54649 float3  }
+-14.21453
+-4.177277E-05
+14.54649
 float3
 camera-rig.set-position
-// 558:     :rotation  {  337.5  }
+// 557:     :rotation  {  337.5  }
 337.5
 camera-rig.set-rotation
-// 559:     :distance  {  27.63521  }
-27.63521
+// 558:     :distance  {  27.25073  }
+27.25073
 camera-rig.set-distance
-// 560:     :pitch-angle  {  46.45947  }
-46.45947
+// 559:     :pitch-angle  {  54.66989  }
+54.66989
 camera-rig.set-pitch-angle
-// 561:     .
+// 560:      ;

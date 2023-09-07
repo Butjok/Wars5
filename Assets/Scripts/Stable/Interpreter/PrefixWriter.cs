@@ -20,7 +20,7 @@ public class PrefixWriter {
     }
     public PrefixWriter BeginCommand(string commandName) {
         writer.Write(Tabs);
-        if (commandName[0] is '.' or ':' or '!')
+        if (commandName[0] is '.' or ':' or '!' or ';')
             writer.Write(new string(' ', indent));
         writer.Write(commandName + ' ');
         return this;
@@ -29,10 +29,10 @@ public class PrefixWriter {
         return BeginCommand(commandName).NoBlock();
     }
     public PrefixWriter PushPrefix(string prefix) {
-        return Command(prefix + "...");
+        return Command(prefix + ":");
     }
     public PrefixWriter PopPrefix() {
-        return Command(".");
+        return Command(";");
     }
     public PrefixWriter Command(string commandName, params object[] values) {
         BeginCommand(commandName).InlineBlock();

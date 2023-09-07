@@ -1,10 +1,10 @@
-game: 
+game... 
     .load-scene { LevelEditor } 
     :turn { 2 } 
-    ; 
+    . 
 
 // Red
-player: 
+player... 
     :color-name { ColorName Red enum } 
     :team { Team None enum } 
     :co-name { PersonName Natalie enum } 
@@ -15,69 +15,71 @@ player:
     :side { 0 } 
     .mark-as-local 
     .add 
-    ; 
+    . 
 
 // MissileSilo(-6, 25) Red
-building: 
+building... 
     :type { TileType MissileSilo enum } 
     :position { -6 25 int2 } 
     :cp { 20 } 
     :look-direction { 0 -1 int2 } 
-building.missile-silo: 
+building.missile-silo... 
     :last-launch-turn { -99 } 
     :launch-cooldown { 1 } 
     :ammo { 999 } 
     :range { 0 999 int2 } 
+    . 
+building.missile-silo.missile... 
     :blast-range { 0 3 int2 } 
     :unit-damage { 5 } 
     :bridge-damage { 10 } 
-    ; 
+    . 
     .add 
-    ; 
+    . 
 pop 
 
 // City(-11, 24) Red
-building: 
+building... 
     :type { TileType City enum } 
     :position { -11 24 int2 } 
     :cp { 20 } 
     :look-direction { 0 1 int2 } 
     .add 
-    ; 
+    . 
 pop 
 
 // Hq(-3, 26) Red
-building: 
+building... 
     :type { TileType Hq enum } 
     :position { -3 26 int2 } 
     :cp { 20 } 
     :look-direction { -1 0 int2 } 
     .add 
-    ; 
+    . 
 pop 
 
 // Factory(-3, 20) Red
-building: 
+building... 
     :type { TileType Factory enum } 
     :position { -3 20 int2 } 
     :cp { 20 } 
     :look-direction { -1 0 int2 } 
     .add 
-    ; 
+    . 
 pop 
 
 // Factory(-3, 22) Red
-building: 
+building... 
     :type { TileType Factory enum } 
     :position { -3 22 int2 } 
     :cp { 20 } 
     :look-direction { -1 0 int2 } 
     .add 
-    ; 
+    . 
 pop 
 
 // Artillery(-5, 20) Red
-unit: 
+unit... 
     :type { UnitType Artillery enum } 
     :moved { false } 
     :hp { 10 } 
@@ -85,15 +87,15 @@ unit:
     :look-direction { -1 0 int2 } 
     :view-prefab { load-resource { UnitView WbHowitzer } } 
     .add 
-    ; 
-unit.brain: 
+    . 
+unit.brain... 
     .add-state { StayingInZoneUnitBrainState type } 
 pop 
-    ; 
+    . 
 pop 
 
 // Infantry(-6, 24) Red
-unit: 
+unit... 
     :type { UnitType Infantry enum } 
     :moved { false } 
     :hp { 10 } 
@@ -101,15 +103,15 @@ unit:
     :look-direction { -1 0 int2 } 
     :view-prefab { load-resource { UnitView WbLightTank } } 
     .add 
-    ; 
-unit.brain: 
+    . 
+unit.brain... 
     .add-state { StayingInZoneUnitBrainState type } 
 pop 
-    ; 
+    . 
 pop 
 
 // Recon(-7, 21) Red
-unit: 
+unit... 
     :type { UnitType Recon enum } 
     :moved { false } 
     :hp { 10 } 
@@ -117,15 +119,15 @@ unit:
     :look-direction { -1 0 int2 } 
     :view-prefab { load-resource { UnitView WbRecon } } 
     .add 
-    ; 
-unit.brain: 
+    . 
+unit.brain... 
     .add-state { StayingInZoneUnitBrainState type } 
 pop 
-    ; 
+    . 
 pop 
 
 // Apc(-8, 24) Red
-unit: 
+unit... 
     :type { UnitType Apc enum } 
     :moved { false } 
     :hp { 10 } 
@@ -133,15 +135,15 @@ unit:
     :look-direction { -1 0 int2 } 
     :view-prefab { load-resource { UnitView WbApc } } 
     .add 
-    ; 
-unit.brain: 
+    . 
+unit.brain... 
     .add-state { StayingInZoneUnitBrainState type } 
 pop 
-    ; 
+    . 
 pop 
 
 // Infantry(-10, 13) Red
-unit: 
+unit... 
     :type { UnitType Infantry enum } 
     :moved { false } 
     :hp { 10 } 
@@ -149,13 +151,13 @@ unit:
     :look-direction { -1 0 int2 } 
     :view-prefab { load-resource { UnitView WbLightTank } } 
     .add 
-    ; 
-unit.brain: 
-    ; 
+    . 
+unit.brain... 
+    . 
 pop 
 
 // Infantry(-13, 19) Red
-unit: 
+unit... 
     :type { UnitType Infantry enum } 
     :moved { false } 
     :hp { 10 } 
@@ -163,15 +165,15 @@ unit:
     :look-direction { -1 0 int2 } 
     :view-prefab { load-resource { UnitView WbLightTank } } 
     .add 
-    ; 
-unit.brain: 
+    . 
+unit.brain... 
     .add-state { StayingInZoneUnitBrainState type } 
 pop 
-    ; 
+    . 
 pop 
 
 // Infantry(-16, 14) Red
-unit: 
+unit... 
     :type { UnitType Infantry enum } 
     :moved { false } 
     :hp { 10 } 
@@ -179,15 +181,15 @@ unit:
     :look-direction { -1 0 int2 } 
     :view-prefab { load-resource { UnitView WbLightTank } } 
     .add 
-    ; 
-unit.brain: 
+    . 
+unit.brain... 
     .add-state { StayingInZoneUnitBrainState type } 
 pop 
-    ; 
+    . 
 pop 
 
 // Recon(-18, 12) Red
-unit: 
+unit... 
     :type { UnitType Recon enum } 
     :moved { false } 
     :hp { 10 } 
@@ -195,18 +197,18 @@ unit:
     :look-direction { -1 0 int2 } 
     :view-prefab { load-resource { UnitView WbRecon } } 
     .add 
-    ; 
-unit.brain: 
+    . 
+unit.brain... 
     .add-state { StayingInZoneUnitBrainState type } 
 pop 
-    ; 
+    . 
 pop 
 
 // Red
 pop 
 
 // Blue
-player: 
+player... 
     :color-name { ColorName Blue enum } 
     :team { Team None enum } 
     :co-name { PersonName Natalie enum } 
@@ -216,9 +218,9 @@ player:
     :unit-look-direction { 1 0 int2 } 
     :side { 0 } 
     .add 
-    ; 
+    . 
 
-zone: 
+zone... 
     .add { Zone0 true } 
     .add-positions { -24 17 int2 -23 17 int2 -22 17 int2 -21 17 int2 -20 17 int2 -19 17 int2 -18 17 int2 -18 16 int2 -18 15 int2 -18 14 int2 -18 13 int2 -19 11 int2 -18 11 int2 -18 9 int2 -17 9 int2 -19 9 int2 -18 8 int2 -19 8 int2 -20 8 int2 -21 8 int2 -22 8 int2 -23 8 int2 -24 8 int2 -24 9 int2 -24 11 int2 -24 12 int2 -24 13 int2 -24 14 int2 -24 15 int2 -24 16 int2 -23 16 int2 -22 16 int2 -21 16 int2 -20 16 int2 -19 16 int2 -20 15 int2 -21 15 int2 -21 14 int2 -22 14 int2 -22 13 int2 -23 12 int2 -24 10 int2 -23 9 int2 -22 9 int2 -22 10 int2 -22 11 int2 -22 12 int2 -23 13 int2 -23 14 int2 -23 15 int2 -23 10 int2 -21 10 int2 -21 11 int2 -20 12 int2 -20 13 int2 -20 14 int2 -22 15 int2 -23 11 int2 -21 9 int2 -20 9 int2 -20 10 int2 -20 11 int2 -19 12 int2 -19 13 int2 -19 14 int2 -19 15 int2 -21 12 int2 -21 13 int2 -18 10 int2 -17 11 int2 -17 15 int2 -16 15 int2 -15 15 int2 -15 14 int2 -15 13 int2 -15 12 int2 -15 11 int2 -15 10 int2 -15 9 int2 -15 8 int2 -16 8 int2 -17 8 int2 -19 10 int2 -17 10 int2 -18 12 int2 -17 12 int2 -17 13 int2 -17 14 int2 -16 14 int2 -16 13 int2 -16 12 int2 -16 11 int2 -16 10 int2 -16 9 int2 -20 18 int2 -19 18 int2 -18 18 int2 -17 18 int2 -17 17 int2 -17 16 int2 100 } 
 pop 
@@ -249,40 +251,40 @@ pop
     .connect { Zone4 Zone3 } 
     .connect { Zone3 Zone0 } 
     .connect { Zone3 Zone4 } 
-    ; 
+    . 
 
 // Hq(-24, 8) Blue
-building: 
+building... 
     :type { TileType Hq enum } 
     :position { -24 8 int2 } 
     :cp { 20 } 
     :look-direction { 1 0 int2 } 
     .add 
-    ; 
+    . 
 pop 
 
 // Factory(-24, 14) Blue
-building: 
+building... 
     :type { TileType Factory enum } 
     :position { -24 14 int2 } 
     :cp { 20 } 
     :look-direction { 0 1 int2 } 
     .add 
-    ; 
+    . 
 pop 
 
 // Factory(-24, 16) Blue
-building: 
+building... 
     :type { TileType Factory enum } 
     :position { -24 16 int2 } 
     :cp { 20 } 
     :look-direction { 0 1 int2 } 
     .add 
-    ; 
+    . 
 pop 
 
 // Recon(-24, 9) Blue
-unit: 
+unit... 
     :type { UnitType Recon enum } 
     :moved { false } 
     :hp { 10 } 
@@ -290,13 +292,13 @@ unit:
     :look-direction { 1 0 int2 } 
     :view-prefab { load-resource { UnitView WbRecon } } 
     .add 
-    ; 
-unit.brain: 
-    ; 
+    . 
+unit.brain... 
+    . 
 pop 
 
 // Recon(-23, 10) Blue
-unit: 
+unit... 
     :type { UnitType Recon enum } 
     :moved { false } 
     :hp { 10 } 
@@ -304,13 +306,13 @@ unit:
     :look-direction { 1 0 int2 } 
     :view-prefab { load-resource { UnitView WbRecon } } 
     .add 
-    ; 
-unit.brain: 
-    ; 
+    . 
+unit.brain... 
+    . 
 pop 
 
 // Recon(-19, 14) Blue
-unit: 
+unit... 
     :type { UnitType Recon enum } 
     :moved { false } 
     :hp { 10 } 
@@ -318,13 +320,13 @@ unit:
     :look-direction { 1 0 int2 } 
     :view-prefab { load-resource { UnitView WbRecon } } 
     .add 
-    ; 
-unit.brain: 
-    ; 
+    . 
+unit.brain... 
+    . 
 pop 
 
 // Infantry(-22, 13) Blue
-unit: 
+unit... 
     :type { UnitType Infantry enum } 
     :moved { false } 
     :hp { 10 } 
@@ -332,13 +334,13 @@ unit:
     :look-direction { 1 0 int2 } 
     :view-prefab { load-resource { UnitView WbLightTank } } 
     .add 
-    ; 
-unit.brain: 
-    ; 
+    . 
+unit.brain... 
+    . 
 pop 
 
 // Infantry(-22, 15) Blue
-unit: 
+unit... 
     :type { UnitType Infantry enum } 
     :moved { false } 
     :hp { 10 } 
@@ -346,13 +348,13 @@ unit:
     :look-direction { 1 0 int2 } 
     :view-prefab { load-resource { UnitView WbLightTank } } 
     .add 
-    ; 
-unit.brain: 
-    ; 
+    . 
+unit.brain... 
+    . 
 pop 
 
 // Artillery(-22, 14) Blue
-unit: 
+unit... 
     :type { UnitType Artillery enum } 
     :moved { false } 
     :hp { 10 } 
@@ -360,13 +362,13 @@ unit:
     :look-direction { 1 0 int2 } 
     :view-prefab { load-resource { UnitView WbHowitzer } } 
     .add 
-    ; 
-unit.brain: 
-    ; 
+    . 
+unit.brain... 
+    . 
 pop 
 
 // Infantry(-21, 16) Blue
-unit: 
+unit... 
     :type { UnitType Infantry enum } 
     :moved { false } 
     :hp { 10 } 
@@ -374,13 +376,13 @@ unit:
     :look-direction { 1 0 int2 } 
     :view-prefab { load-resource { UnitView WbLightTank } } 
     .add 
-    ; 
-unit.brain: 
-    ; 
+    . 
+unit.brain... 
+    . 
 pop 
 
 // Rockets(-23, 8) Blue
-unit: 
+unit... 
     :type { UnitType Rockets enum } 
     :moved { false } 
     :hp { 10 } 
@@ -388,13 +390,13 @@ unit:
     :look-direction { 1 0 int2 } 
     :view-prefab { load-resource { UnitView WbRockets } } 
     .add 
-    ; 
-unit.brain: 
-    ; 
+    . 
+unit.brain... 
+    . 
 pop 
 
 // Infantry(-21, 12) Blue
-unit: 
+unit... 
     :type { UnitType Infantry enum } 
     :moved { false } 
     :hp { 10 } 
@@ -402,13 +404,13 @@ unit:
     :look-direction { 1 0 int2 } 
     :view-prefab { load-resource { UnitView WbLightTank } } 
     .add 
-    ; 
-unit.brain: 
-    ; 
+    . 
+unit.brain... 
+    . 
 pop 
 
 // Recon(-18, 19) Blue
-unit: 
+unit... 
     :type { UnitType Recon enum } 
     :moved { false } 
     :hp { 10 } 
@@ -416,13 +418,13 @@ unit:
     :look-direction { 1 0 int2 } 
     :view-prefab { load-resource { UnitView WbRecon } } 
     .add 
-    ; 
-unit.brain: 
-    ; 
+    . 
+unit.brain... 
+    . 
 pop 
 
 // Infantry(-12, 22) Blue
-unit: 
+unit... 
     :type { UnitType Infantry enum } 
     :moved { false } 
     :hp { 10 } 
@@ -430,13 +432,13 @@ unit:
     :look-direction { 1 0 int2 } 
     :view-prefab { load-resource { UnitView WbLightTank } } 
     .add 
-    ; 
-unit.brain: 
-    ; 
+    . 
+unit.brain... 
+    . 
 pop 
 
 // Recon(-13, 10) Blue
-unit: 
+unit... 
     :type { UnitType Recon enum } 
     :moved { false } 
     :hp { 10 } 
@@ -444,13 +446,13 @@ unit:
     :look-direction { 1 0 int2 } 
     :view-prefab { load-resource { UnitView WbRecon } } 
     .add 
-    ; 
-unit.brain: 
-    ; 
+    . 
+unit.brain... 
+    . 
 pop 
 
 // Infantry(-22, 20) Blue
-unit: 
+unit... 
     :type { UnitType Infantry enum } 
     :moved { false } 
     :hp { 10 } 
@@ -458,9 +460,9 @@ unit:
     :look-direction { 1 0 int2 } 
     :view-prefab { load-resource { UnitView WbLightTank } } 
     .add 
-    ; 
-unit.brain: 
-    ; 
+    . 
+unit.brain... 
+    . 
 pop 
 
 // Blue
@@ -476,85 +478,84 @@ tiles.add { TileType Forest enum -24 13 int2 -24 17 int2 -24 18 int2 -24 19 int2
 null 
 
 // City(-6, 13)
-building: 
+building... 
     :type { TileType City enum } 
     :position { -6 13 int2 } 
     :cp { 20 } 
     :look-direction { 0 -1 int2 } 
     .add 
-    ; 
+    . 
 pop 
 
 // Factory(-13, 25)
-building: 
+building... 
     :type { TileType Factory enum } 
     :position { -13 25 int2 } 
     :cp { 20 } 
     :look-direction { 0 1 int2 } 
     .add 
-    ; 
+    . 
 pop 
 
 // Factory(-14, 26)
-building: 
+building... 
     :type { TileType Factory enum } 
     :position { -14 26 int2 } 
     :cp { 20 } 
     :look-direction { 0 1 int2 } 
     .add 
-    ; 
+    . 
 pop 
 
 // City(-21, 26)
-building: 
+building... 
     :type { TileType City enum } 
     :position { -21 26 int2 } 
     :cp { 20 } 
     :look-direction { 0 1 int2 } 
     .add 
-    ; 
+    . 
 pop 
 
 // City(-21, 23)
-building: 
+building... 
     :type { TileType City enum } 
     :position { -21 23 int2 } 
     :cp { 20 } 
     :look-direction { 0 1 int2 } 
     .add 
-    ; 
+    . 
 pop 
-
 // null player
 pop 
 
-trigger: 
+trigger... 
     .select { TriggerName A enum } 
-    ; 
+    . 
 
-trigger: 
+trigger... 
     .select { TriggerName B enum } 
-    ; 
+    . 
 
-trigger: 
+trigger... 
     .select { TriggerName C enum } 
-    ; 
+    . 
 
-trigger: 
+trigger... 
     .select { TriggerName D enum } 
-    ; 
+    . 
 
-trigger: 
+trigger... 
     .select { TriggerName E enum } 
-    ; 
+    . 
 
-trigger: 
+trigger... 
     .select { TriggerName F enum } 
-    ; 
+    . 
 
-camera-rig: 
+camera-rig... 
     :position { -14.21453 -4.177277E-05 14.54649 float3 } 
-    :rotation { 337.5 } 
+    :rotation { 0 } 
     :distance { 27.25073 } 
     :pitch-angle { 54.66989 } 
-    ; 
+    . 

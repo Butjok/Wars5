@@ -93,6 +93,7 @@ public static class LevelWriter {
                 .Building(building)
                 .Command("pop");
         writer
+            .BlankLine()
             .Comment("null player")
             .Command("pop")
             .BlankLine();
@@ -134,7 +135,7 @@ public static class LevelWriter {
 
     public static PrefixWriter Bridge(this PrefixWriter writer, Bridge bridge) {
         writer
-            .PushPrefix("bridge.add")
+            .PushPrefix("bridge")
             .Command(":hp", bridge.Hp)
             .BeginCommand(":view").InlineBlock()
             .BeginCommand("get-component").InlineBlock()
@@ -145,41 +146,40 @@ public static class LevelWriter {
         foreach (var position in bridge.tiles.Keys)
             writer.Command(".add-position", position);
 
+        writer.Command(".add");
         writer.PopPrefix();
-        writer.Command("bridge.add");
         return writer;
     }
 
     public static PrefixWriter Building(this PrefixWriter writer, Building building) {
         writer
-            .PushPrefix("building.add")
+            .PushPrefix("building")
             .Command(":type", building.type)
             .Command(":position", building.position)
             .Command(":cp", building.Cp)
-            .Command(":look-direction", building.view.LookDirection)
-            .PopPrefix();
+            .Command(":look-direction", building.view.LookDirection);
 
         if (building.type == TileType.MissileSilo)
             writer
-                .PushPrefix("building.add.missile-silo")
+                .PushPrefix("building.missile-silo")
                 .Command(":last-launch-turn", building.missileSiloLastLaunchTurn)
                 .Command(":launch-cooldown", building.missileSiloLaunchCooldown)
                 .Command(":ammo", building.missileSiloAmmo)
                 .Command(":range", building.missileSiloRange)
-                .PopPrefix()
-                .PushPrefix("building.add.missile-silo.missile")
                 .Command(":blast-range", building.missileBlastRange)
                 .Command(":unit-damage", building.missileUnitDamage)
                 .Command(":bridge-damage", building.missileBridgeDamage)
                 .PopPrefix();
 
-        writer.Command("building.add");
+        writer
+            .Command(".add")
+            .PopPrefix();
         return writer;
     }
 
     public static PrefixWriter Player(this PrefixWriter writer, Player player) {
         writer
-            .PushPrefix("player.add")
+            .PushPrefix("player")
             .Command(":color-name", player.ColorName)
             .Command(":team", player.team)
             .Command(":co-name", player.coName)
@@ -195,15 +195,15 @@ public static class LevelWriter {
         if (player.abilityActivationTurn != null)
             writer.Command(":ability-activation-turn", player.abilityActivationTurn);
 
+        writer.Command(".add");
         writer.PopPrefix();
-        writer.Command("player.add");
         return writer;
     }
 
     public static PrefixWriter Unit(this PrefixWriter writer, Unit unit) {
         {
             writer
-                .PushPrefix("unit.add")
+                .PushPrefix("unit")
                 .Command(":type", unit.type)
                 .Command(":moved", unit.Moved)
                 .Command(":hp", unit.Hp);
@@ -219,8 +219,8 @@ public static class LevelWriter {
                         .End();
             }
 
+            writer.Command(".add");
             writer.PopPrefix();
-            writer.Command("unit.add");
         }
 
         {

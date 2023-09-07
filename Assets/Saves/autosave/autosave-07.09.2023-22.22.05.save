@@ -28,6 +28,8 @@ building.missile-silo:
     :launch-cooldown { 1 } 
     :ammo { 999 } 
     :range { 0 999 int2 } 
+    ; 
+building.missile-silo.missile: 
     :blast-range { 0 3 int2 } 
     :unit-damage { 5 } 
     :bridge-damage { 10 } 

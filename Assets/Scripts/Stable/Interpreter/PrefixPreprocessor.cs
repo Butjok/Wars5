@@ -7,7 +7,7 @@ public static class PrefixPreprocessor {
     public static string Processed(this string input) {
 
         input = Regex.Replace(input, @"//.*", " ");
-        input = input.Replace("{", " { ").Replace("}", " } ");
+        input = input.Replace("{", " { ").Replace("}", " } ").Replace(";", " ; ");
         if (string.IsNullOrWhiteSpace(input))
             return input;
 
@@ -49,7 +49,8 @@ public static class PrefixPreprocessor {
                     }
 
                     case "...":
-                    case ".":
+                    case ".": 
+                    case ";":
                         prefixStack.Pop();
                         break;
 
@@ -61,6 +62,8 @@ public static class PrefixPreprocessor {
                     default:
                         if (token.EndsWith("..."))
                             prefixStack.Push(token[..^3]);
+                        else if (token.EndsWith(":"))
+                            prefixStack.Push(token[..^1]);
                         else if (int.TryParse(token, out _) || float.TryParse(token, out _) || char.IsUpper(token[0]))
                             stack.Peek().body.Add(token);
                         else {
@@ -76,6 +79,7 @@ public static class PrefixPreprocessor {
         Debug.Assert(stack.Count == 1, "Unclosed braces.");
         Debug.Assert(stack.Peek().identifier == null);
         Debug.Assert(prefixStack.Count == 1, "Unclosed prefixes.");
+        
         return string.Join("\n", stack.Pop().body);
     }
 }
