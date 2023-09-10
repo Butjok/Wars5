@@ -22,6 +22,11 @@ Shader "Custom/Dissolve" {
         _MeltBottom ("_MeltBottom", Float) = 0.0
         
         _MeltFactor ("_MeltFactor", Range(0,1)) = 0.0
+        _Deformation ("_Deformation", Range(0,1)) = 1.0
+        
+        _Charcoal ("_Charcoal", Color) = (0,0,0,1)
+        _CharcoalWidth ("_CharcoalWidth", Float) = 0.0
+        _CharcoalSharpness ("_CharcoalSharpness", Float) = 0.0
 	}
 	SubShader {
 		Tags { "RenderType"="Opaque" }
@@ -29,7 +34,7 @@ Shader "Custom/Dissolve" {
 		
 		CGPROGRAM
 		// Physically based Standard lighting model, and enable shadows on all light types
-		#pragma surface surf Standard noshadow vertex:vert
+		#pragma surface surf Standard addshadow vertex:vert
 
 		// Use shader model 3.0 target, to get nicer looking lighting
 		#pragma target 3.0
@@ -178,8 +183,8 @@ Shader "Custom/Dissolve" {
 		half _Metallic, _NoiseScale, _Threshold, _HeightFactor, _DissolutionWidth, _DissolutionSharpness;
 		half _YellowStart, _YellowSharpness;
 		half _NoiseScaleBottom, _NoiseScaleTop, _Height;
-		fixed4 _Color, _DissolutionColorYellow, _DissolutionColorRed;
-		half _MeltWidth, _MeltBottom, _MeltFactor;
+		fixed4 _Color, _DissolutionColorYellow, _DissolutionColorRed, _Charcoal;
+		half _MeltWidth, _MeltBottom, _MeltFactor, _Deformation, _CharcoalWidth, _CharcoalSharpness;
 		
 		void vert (inout appdata_full v, out Input o) {
 			UNITY_INITIALIZE_OUTPUT(Input,o);
@@ -196,14 +201,20 @@ Shader "Custom/Dissolve" {
 			
 			v.vertex.y -= _Speed * _Threshold;*/
 			
+			if (_Deformation > .5){
+			
 			half a = saturate(1 - saturate((_Threshold - -1) / (.5 - -1)));
-			//a = sqrt(a);
-			half b = a * 10 + 1;
-			v.vertex.xz *= sqrt(b);
-			v.vertex.y -= .25;
-			v.vertex.y /= b;
-			v.vertex.y += .25;
-			v.vertex.y += a * 1;
+			a = 1 - (1 - a) * (1 - a);
+			//a = 1 - pow(2, -10 * a);
+			//a = sin(3.1415/2 * a);
+			half b = a * 1 + 1;
+			v.vertex.xz *= b;
+			v.vertex.y -= .5;
+			v.vertex.y /= b*b;
+			v.vertex.y += .5;
+			//v.vertex.y += a*3;
+			
+			}
 		}
 
 		void surf (Input IN, inout SurfaceOutputStandard o) {
@@ -221,15 +232,22 @@ Shader "Custom/Dissolve" {
 			float3 samplePoint = IN.localPos;
 			samplePoint.x *= noiseScale;
 			samplePoint.z *= noiseScale;
+			samplePoint.y *= noiseScale;
+			
+			half a = saturate(1 - saturate((_Threshold - -1) / (.5 - -1)));
+			a = 1 - (1 - a) * (1 - a);
+			half b = a * 1 + 1;
+			
+			samplePoint.y /= b*b;
 			
 			float noise = 0;
 			noise += (ClassicNoise(samplePoint));
 			noise += ClassicNoise(samplePoint * 2) / 2;
 			noise += ClassicNoise(samplePoint * 4) / 4;
 			noise += ClassicNoise(samplePoint * 8) / 8;
-			noise += ClassicNoise(samplePoint * 16) / 16;
-			noise += ClassicNoise(samplePoint * 32) / 32;
-			noise += ClassicNoise(samplePoint * 64) / 64;
+			//noise += ClassicNoise(samplePoint * 16) / 16;
+			//noise += ClassicNoise(samplePoint * 32) / 32;
+			//noise += ClassicNoise(samplePoint * 64) / 64;
 			//noise += ClassicNoise(IN.localPos * _NoiseScale * 4) / 4;
 			
 			half alpha = noise - IN.localPos.y * _HeightFactor + _Threshold;
@@ -237,6 +255,9 @@ Shader "Custom/Dissolve" {
 			
 			half emissionFactor = smoothstep(_DissolutionWidth+_DissolutionSharpness, _DissolutionWidth, alpha);
 			o.Emission = lerp(_DissolutionColorRed, _DissolutionColorYellow, smoothstep(_YellowStart, _YellowStart + _YellowSharpness, alpha)) * emissionFactor;
+			
+			half charcoalFactor = smoothstep(_CharcoalWidth+_CharcoalSharpness, _CharcoalWidth, alpha);
+			o.Albedo = lerp(o.Albedo, _Charcoal, charcoalFactor);
 		}
 		ENDCG
 	}

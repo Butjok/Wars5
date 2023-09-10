@@ -1,13 +1,14 @@
 using System.Linq;
+using Cinemachine;
 using DG.Tweening;
 using UnityEngine;
 
+[RequireComponent(typeof(CinemachineImpulseSource))]
 public class ShakeCameras : MonoBehaviour {
 
-    public Vector3 strength = new(.1f, .1f, .1f);
-    public float duration = 1;
-    public int vibrato = 10;
+    public CinemachineImpulseSource impulseSource;
     public bool shakeOnAwake = true;
+    public float force;
 
     private void Awake() {
         if (shakeOnAwake)
@@ -15,9 +16,7 @@ public class ShakeCameras : MonoBehaviour {
     }
 
     public void Shake() {
-        foreach (var camera in FindObjectsOfType<Camera>().Where(camera => camera.isActiveAndEnabled)) {
-            var distance = Vector3.Distance(transform.position, camera.transform.position);
-            camera.transform.DOShakePosition(duration, strength / distance / distance, vibrato);
-        }
+        if (impulseSource)
+            impulseSource.GenerateImpulse(force);
     }
 }

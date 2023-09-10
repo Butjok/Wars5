@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Custom_Dissolve
+  m_Name: Custom_Dissolve1
   m_Shader: {fileID: 4800000, guid: 7a1e5acc8b78412c891588866774b0b1, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -28,7 +28,7 @@ Material:
     m_Floats:
     - _CharcoalSharpness: 0.73
     - _CharcoalWidth: 1.52
-    - _Deformation: 1
+    - _Deformation: 0
     - _DissolutionSharpness: 1.4
     - _DissolutionWidth: 0.05
     - _Glossiness: 0.15
@@ -41,7 +41,7 @@ Material:
     - _MeltTop: 1
     - _MeltWidth: 0.67
     - _Metallic: 0
-    - _NoiseScale: 5.56
+    - _NoiseScale: 5
     - _NoiseScaleBottom: 5
     - _NoiseScaleFrom: 50
     - _NoiseScaleTo: 2
@@ -55,5 +55,5 @@ Material:
     - _Color: {r: 0, g: 0.36763096, b: 1, a: 1}
     - _DissolutionColor: {r: 3.9999995, g: 0.4818776, b: 0, a: 1}
     - _DissolutionColorRed: {r: 2.9960785, g: 0.0871113, b: 0, a: 1}
-    - _DissolutionColorYellow: {r: 45.250015, g: 5.4489546, b: 0, a: 1}
+    - _DissolutionColorYellow: {r: 45.250015, g: 5.291618, b: 0, a: 1}
   m_BuildTextureStacks: []
