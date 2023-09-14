@@ -1,9 +1,10 @@
 using System.Collections;
+using Butjok.CommandLine;
 using Cinemachine;
+using Drawing;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-[ExecuteInEditMode]
 public class CameraRig : MonoBehaviour {
 
     public Camera camera;
@@ -42,7 +43,7 @@ public class CameraRig : MonoBehaviour {
     public float zoomLerpFactor = 50;
     public Vector2 zoomCursorFactor = new(.5f, .5f);
     public float zoomSpeed = 1;
-    
+
     [Header("Free look")]
     public bool enableFreeLook = false;
     public Vector2 freeLookSpeed = new(180, 180);
@@ -54,6 +55,9 @@ public class CameraRig : MonoBehaviour {
     private float distanceDelta;
     private float lastClickTime = float.MinValue;
     public float targetDistance;
+
+    public float targetWidth = 1;
+    public float widthSpeed = .5f;
 
     public float ToWorldUnits(float sizeInViewportSpace) {
         var ray0 = camera.ScreenPointToRay(new Vector3(0, 0));
@@ -70,10 +74,50 @@ public class CameraRig : MonoBehaviour {
         return sizeInPixels * worldUnitsPerPixel;
     }
 
+    public Vector2[] zoomPresets = {
+        new Vector2(1, 60),
+        new Vector2(2, 30),
+        new Vector2(3, 10),
+    };
+    public IEnumerator zoomAnimation;
+    public IEnumerator ZoomAnimation(float duration, float targetWidth, float targetFov) {
+        var startTime = Time.unscaledTime;
+        var startFov = Fov;
+        var startWidth = 2 * Distance * Mathf.Tan(Mathf.Deg2Rad * Fov / 2);
+        while (Time.unscaledTime < startTime + duration) {
+            var t = (Time.unscaledTime - startTime) / duration;
+            var fov = Mathf.Lerp(startFov, targetFov, t);
+            var width = Mathf.Lerp(startWidth, targetWidth, t);
+            Distance = width / (2 * Mathf.Tan(Mathf.Deg2Rad * fov / 2));
+            Fov = fov;
+            yield return null;
+        }
+    }
+
+    public float zoomDuration = .24f;
+    public float dollyZoomWidth = 1;
+
+    public void SetupCamera(float width, float fov) {
+        Fov = fov;
+        Distance = width / (2 * Mathf.Tan(Mathf.Deg2Rad * fov / 2));
+    }
+
+    public Vector2 fovRange = new(45,10);
+    public Vector2 widthRange = new(2.5f,15);
+    public float dollyZoom = 0;
+    public float dollyZoomSpeed = .5f;
+    public float targetDollyZoom = 0;
+    public Easing.Name dollyZoomEasing = Easing.Name.Linear;
+    
+    [Command]
+    public static float verticalStretch = 1.1f;
+    
     private void Update() {
 
         Assert.IsTrue(camera);
         Assert.IsTrue(arm);
+        
+        
 
         var positionInput =
             transform.right.ToVector2() * Input.GetAxisRaw("Horizontal").ZeroSign() +
@@ -97,22 +141,65 @@ public class CameraRig : MonoBehaviour {
             TryRotate(rotationDirection);
 
         var zoomInput = Input.GetAxisRaw("Mouse ScrollWheel").ZeroSign() + Input.GetAxisRaw("Zoom").ZeroSign() * Time.deltaTime * zoomSpeed;
-        if (zoomInput != 0)
-            targetDistance = ClampedDistance(targetDistance + zoomInput * distanceStep * Distance);
-
-        var zoomMouseFactor = 1;//Mathf.Abs(Input.GetAxisRaw("Mouse ScrollWheel").ZeroSign());
+        if (zoomInput != 0) {
+            if (zoomPresets.Length > 0) {
+                var minDifference = float.MaxValue;
+                var closestIndex = -1;
+                for (var i = 0; i < zoomPresets.Length; i++) {
+                    var difference = Mathf.Abs(Fov - zoomPresets[i][1]);
+                    if (minDifference > difference) {
+                        minDifference = difference;
+                        closestIndex = i;
+                    }
+                }
+                var nextIndex = Mathf.Clamp(closestIndex - Input.GetAxisRaw("Mouse ScrollWheel").ZeroSign(), 0, zoomPresets.Length - 1);
+                Debug.Log(nextIndex);
+                //targetDistance = ClampedDistance(distancePresets[nextIndex]);
+                if (zoomAnimation != null) {
+                    StopCoroutine(zoomAnimation);
+                    zoomAnimation = null;
+                }
+                /*var zoomPreset = zoomPresets[nextIndex];
+                zoomAnimation = ZoomAnimation(zoomDuration, zoomPreset.x, zoomPreset.y);
+                StartCoroutine(zoomAnimation);*/
+            }
+            else
+                targetDistance = ClampedDistance(targetDistance + zoomInput * distanceStep * Distance);
+        }
 
         // ZOOM
 
+        targetDollyZoom = Mathf.Clamp01(targetDollyZoom + Input.GetAxisRaw("Mouse ScrollWheel").ZeroSign() * distanceStep );
+        dollyZoom = Mathf.Lerp(dollyZoom, targetDollyZoom, Time.unscaledDeltaTime * dollyZoomSpeed);
+        var fov = Mathf.Lerp(fovRange[0], fovRange[1], Easing.Dynamic(dollyZoomEasing, dollyZoom));
+        var width = Mathf.Lerp(widthRange[0], widthRange[1], Easing.Dynamic(dollyZoomEasing, dollyZoom));
+
         var oldDistance = Distance;
-        Distance = Mathf.Lerp(Distance, targetDistance, Time.unscaledDeltaTime * zoomLerpFactor);
+        var plane = new Plane(Vector3.up, Vector3.zero);
+
+        var oldRay = camera.FixedScreenPointToRay(Input.mousePosition);
+        
+        var oldRaycast = plane.Raycast(oldRay, out var oldEnter);
+        Distance = width / (2 * Mathf.Tan(Mathf.Deg2Rad * fov / 2));
+        Fov = fov;
         var delta = Distance - oldDistance;
-        var ray = camera.ScreenPointToRay(Input.mousePosition);
+
+        var newRay = camera.FixedScreenPointToRay(Input.mousePosition);
+        
+        var newRaycast = plane.Raycast(newRay, out var newEnter);
+        if (oldRaycast && newRaycast) {
+            var oldPoint = oldRay.GetPoint(oldEnter);
+            var newPoint = newRay.GetPoint(newEnter);
+            var cursorFactor = delta < 0 ? zoomCursorFactor[0] : zoomCursorFactor[1];
+            transform.position -= cursorFactor * (newPoint - oldPoint);
+        }
+
+
+        /*var ray = camera.ScreenPointToRay(Input.mousePosition);
         if (new Plane(Vector3.up, transform.position).Raycast(ray, out var enter)) {
             var point = ray.GetPoint(enter);
-            var cursorFactor = delta < 0 ? zoomCursorFactor[0] : zoomCursorFactor[1];
             transform.position -= zoomMouseFactor * cursorFactor * (point - transform.position) * delta / oldDistance;
-        }
+        }*/
 
         if (enableFreeLook) {
             if (freeLookCoroutine == null && Input.GetKeyDown(KeyCode.LeftAlt)) {
@@ -138,7 +225,7 @@ public class CameraRig : MonoBehaviour {
 
         if (Input.GetMouseButtonDown(Mouse.middle)) {
             if (lastClickTime + jumpCooldown > Time.unscaledTime && camera.TryGetMousePosition(out Vector3 target))
-                Jump(target);
+                Jump(target.ToVector2().ToVector3());
             else
                 lastClickTime = Time.unscaledTime;
         }
@@ -246,17 +333,20 @@ public class CameraRig : MonoBehaviour {
             position.z = -value;
             virtualCamera.transform.localPosition = position;
             var t = (value - distanceClamp[0]) / (distanceClamp[1] - distanceClamp[0]);
-            Fov = Mathf.Lerp(fov[0], fov[1], t);
+            // Fov = Mathf.Lerp(fov[0], fov[1], Easing.Dynamic(fovEasing, t));
         }
     }
+
+    public Easing.Name fovEasing = Easing.Name.Linear;
+
     public void SetDistance(float value, bool animate = true) {
         targetDistance = ClampedDistance(value);
         if (!animate)
             Distance = targetDistance;
     }
     public float Fov {
-        get => virtualCamera.m_Lens.FieldOfView;
-        set => virtualCamera.m_Lens.FieldOfView = value;
+        get => camera.fieldOfView;
+        set => camera.fieldOfView = value;
     }
 
     private float ClampedYaw(float yaw) {
@@ -269,7 +359,8 @@ public class CameraRig : MonoBehaviour {
         return yaw;
     }
     private float ClampedDistance(float distance) {
-        return Mathf.Clamp(distance, distanceClamp[0], distanceClamp[1]);
+        return distance;
+        //return Mathf.Clamp(distance, distanceClamp[0], distanceClamp[1]);
     }
 
     private IEnumerator rotationCoroutine;
@@ -299,8 +390,8 @@ public class CameraRig : MonoBehaviour {
 
         endYaw = ClampedYaw(endYaw);
 
-        if (direction is {} actualDirection2 && Mathf.Abs((endYaw + 360) % 90 - 45) < 5)
-            endYaw = ClampedYaw(endYaw + actualDirection2 * rotationStep);
+        //if (direction is {} actualDirection2 && Mathf.Abs((endYaw + 360) % 90 - 45) < 5)
+        //  endYaw = ClampedYaw(endYaw + actualDirection2 * rotationStep);
 
         rotationCoroutine = RotationAnimation(startYaw, endYaw);
         StartCoroutine(rotationCoroutine);

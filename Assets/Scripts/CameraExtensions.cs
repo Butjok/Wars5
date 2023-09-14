@@ -9,6 +9,30 @@ public static class CameraExtensions {
 
     public static int raycastLayerMask = (-1) ^ (1 << LayerMask.NameToLayer("UI")) ^ (1 << LayerMask.NameToLayer("Ignore Raycast"));
     
+    public static Ray FixedScreenPointToRay(this Camera camera, Vector3 position) {
+    
+        camera.ResetProjectionMatrix();
+        var m = camera.projectionMatrix;
+        m.m11 *= CameraRig.verticalStretch;
+        camera.projectionMatrix = m;
+        
+        position /= new Vector2(camera.pixelWidth, camera.pixelHeight);
+        
+        position.x = (position.x - 0.5f) * 2f;
+        position.y = (position.y - 0.5f) * 2f;
+        position.z = -1f;
+ 
+        var viewportToWorldMatrix = (camera.projectionMatrix * camera.worldToCameraMatrix).inverse;
+ 
+        var rayOrigin = viewportToWorldMatrix.MultiplyPoint(position);
+ 
+        var endPosition = position;
+        endPosition.z = 1f;
+        var rayEnd = viewportToWorldMatrix.MultiplyPoint(endPosition);
+ 
+        return new Ray(rayOrigin, rayEnd - rayOrigin);
+    }
+    
     public static bool TryGetMousePosition(this Camera camera, out RaycastHit hit) {
         if (!camera) {
             hit = default;
