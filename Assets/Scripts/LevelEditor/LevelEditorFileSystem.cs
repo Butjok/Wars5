@@ -13,7 +13,7 @@ public static class LevelEditorFileSystem {
     public static void Save(string name, Level level) {
         
         using var stringWriter = new StringWriter();
-        new PrefixWriter(stringWriter).Level(level);
+        new LevelWriter(stringWriter).WriteLevel(level);
         var text = stringWriter.ToString();
         if (!Directory.Exists(SaveRootDirectoryPath))
             Directory.CreateDirectory(SaveRootDirectoryPath);

@@ -34,7 +34,7 @@ public class LevelEditorSessionState : StateMachineState {
         get {
             LevelView.TryLoadScene(level.missionName);
             Assert.IsTrue(LevelView.TryInstantiatePrefab(out level.view));
-            LevelReader.ReadInto(level, input);
+            LevelReader.ReadInto(level, input.ToPostfix());
 
             new Thread(() => PrecalculatedDistances.TryLoad(level.missionName, out level.precalculatedDistances)).Start();
 

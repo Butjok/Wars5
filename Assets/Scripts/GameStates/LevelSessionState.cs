@@ -18,7 +18,7 @@ public class LevelSessionState : StateMachineState {
     public IEnumerator autoplayHandler;
     public Dictionary<(MoveType, Vector2Int, Vector2Int), int> precalculatedDistances;
 
-    public LevelSessionState(StateMachine stateMachine, string input, MissionName missionName, bool isFreshStart, Dictionary<(MoveType, Vector2Int, Vector2Int), int> precalculatedDistances=null) : base(stateMachine) {
+    public LevelSessionState(StateMachine stateMachine, string input, MissionName missionName, bool isFreshStart, Dictionary<(MoveType, Vector2Int, Vector2Int), int> precalculatedDistances = null) : base(stateMachine) {
         this.input = input;
         this.missionName = missionName;
         this.isFreshStart = isFreshStart;
@@ -42,7 +42,7 @@ public class LevelSessionState : StateMachineState {
             // give one extra frame to load the scene
             yield return StateChange.none;
             Assert.IsTrue(LevelView.TryInstantiatePrefab(out level.view));
-            LevelReader.ReadInto(level, input);
+            LevelReader.ReadInto(level, input.ToPostfix());
 
             autoplayHandler = AutoplayHandler();
             FindState<GameSessionState>().game.StartCoroutine(autoplayHandler);
@@ -63,7 +63,12 @@ public class LevelSessionState : StateMachineState {
                     meshRenderer.sharedMaterial = tilemapMaterial;
                 }
             }
-            
+
+            if (level.view.turnButton) {
+                level.view.turnButton.Visible = true;
+                level.view.turnButton.button.onClick.AddListener(() => FindState<GameSessionState>().game.EnqueueCommand(SelectionState.Command.EndTurn));
+            }
+
             yield return levelLogic.OnLevelStart(this);
             yield return StateChange.Push(new PlayerTurnState(stateMachine));
             yield return levelLogic.OnLevelEnd(this);

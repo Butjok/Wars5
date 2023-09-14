@@ -45,7 +45,7 @@ public static class TileMaskTexture {
         return texture;
     }
 
-    public static void Set(Material material, string uniformName, Texture patchTexture, Matrix4x4 patchTransform, bool destroyOld = true) {
+    public static void SetTileMask(this Material material, string uniformName, Texture patchTexture, Matrix4x4 patchTransform, bool destroyOld = true) {
         if (destroyOld) {
             var oldTexture = material.GetTexture(uniformName);
             if (oldTexture) {
@@ -57,12 +57,15 @@ public static class TileMaskTexture {
         material.SetTexture(uniformName, patchTexture);
         material.SetMatrix(uniformName + "_WorldToLocal", patchTransform.inverse);
     }
+    public static void UnsetTileMask(this Material material, string uniformName) {
+        SetTileMask(material, uniformName, null, Matrix4x4.identity);
+    }
 
     [Command]
     public static void Test(string json) {
         var material = "Custom_UvMapperTestShader".LoadAs<Material>();
         var positions = json.FromJson<int[][]>().Select(p => new Vector2Int(p[0], p[1])).ToHashSet();
         var (texture, transform) = Create(positions, 8);
-        Set(material, "_Visibility", texture, transform);
+        SetTileMask(material, "_Visibility", texture, transform);
     }
 }

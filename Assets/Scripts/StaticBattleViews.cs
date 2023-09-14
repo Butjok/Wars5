@@ -71,11 +71,11 @@ public class StaticBattleViews : MonoBehaviour {
     }
 }
 
-public class BattleView2 : IDisposable {
+public class BattleSideView : IDisposable {
 
     public StaticBattleViews.View view;
 
-    public BattleView2(int side, TileType tileType = TileType.Plain) {
+    public BattleSideView(int side, TileType tileType = TileType.Plain) {
 
         var battleViews = StaticBattleViews.Instance;
         if (!battleViews.TryGet(side, tileType, out view) && !battleViews.TryGet(side, TileType.Plain, out view))

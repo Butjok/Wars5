@@ -28,7 +28,7 @@ public class TurnButton : MonoBehaviour {
     public RectTransform carousel;
     public string gettextText = "Day {0}";
     public float duration = 2.5f;
-    [SerializeField] private Button button;
+    public Button button;
     public TMP_Text text;
     public Easing.Name easingName;
     public Sun debugSun;

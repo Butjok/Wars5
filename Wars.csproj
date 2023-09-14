@@ -148,6 +148,7 @@
      <Compile Include="Assets/Scripts/LevelEditor/LevelEditorPlayState.cs" />
      <Compile Include="Assets/Scripts/UiUtils.cs" />
      <Compile Include="Assets/Scripts/GameStates/GameSessionState.cs" />
+     <Compile Include="Assets/Scripts/ExtendedPostfix.cs" />
      <Compile Include="Assets/Scripts/UnitActionUiContainer.cs" />
      <Compile Include="Assets/Scripts/DialogueParser.cs" />
      <Compile Include="Assets/Scripts/MainMenuLoadGameState.cs" />
@@ -166,6 +167,7 @@
      <Compile Include="Assets/Scripts/GameStates/GameSettingsState.cs" />
      <Compile Include="Assets/Scripts/LevelLogic/LevelLogic.cs" />
      <Compile Include="Assets/Scripts/GameStates/ActionSelectionState.cs" />
+     <Compile Include="Assets/Scripts/PostfixExtensions.cs" />
      <Compile Include="Assets/Scripts/EntryPoint/MainMenuAboutState.cs" />
      <Compile Include="Assets/Scripts/MissionObjectivesUi.cs" />
      <Compile Include="Assets/Scripts/LevelEditor/LevelEditorTilesModeState.cs" />
@@ -181,6 +183,7 @@
      <Compile Include="Assets/Scripts/UnitActionView.cs" />
      <Compile Include="Assets/Scripts/Dissolve.cs" />
      <Compile Include="Assets/Scripts/UnitStats.cs" />
+     <Compile Include="Assets/Scripts/CameraStretcher.cs" />
      <Compile Include="Assets/Scripts/TextUnderlay.cs" />
      <Compile Include="Assets/Scripts/Bridge.cs" />
      <Compile Include="Assets/Scripts/DamageTable.cs" />
@@ -243,7 +246,6 @@
      <Compile Include="Assets/Scripts/FlipbookTest.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
      <Compile Include="Assets/Scripts/EntryPoint/MainMenuWelcomeState.cs" />
-     <Compile Include="Assets/Scripts/CameraStretcher.cs" />
      <Folder Include="Assets/Scripts/EntryPoint" />
      <None Include="Assets/Scripts/Wars.asmdef" />
      <Folder Include="Assets/Scripts/DialogueMarkupLanguage" />

@@ -1,558 +1,539 @@
-game: 
-    .load-scene { LevelEditor } 
-    :turn { 2 } 
-    ; 
+
+LevelEditor                                                      game.load-scene
+MissionName Tutorial enum                                        game.set-mission-name
+2                                                                game.set-turn
 
 // Red
-player: 
-    :color-name { ColorName Red enum } 
-    :team { Team None enum } 
-    :co-name { PersonName Natalie enum } 
-    :ui-position { 0 0 int2 } 
-    :credits { 16000 } 
-    :power-meter { 0 } 
-    :unit-look-direction { -1 0 int2 } 
-    :side { 0 } 
-    .mark-as-local 
-    .add 
-    ; 
 
-// MissileSilo(-6, 25) Red
-building: 
-    :type { TileType MissileSilo enum } 
-    :position { -6 25 int2 } 
-    :cp { 20 } 
-    :look-direction { 0 -1 int2 } 
-building.missile-silo: 
-    :last-launch-turn { -99 } 
-    :launch-cooldown { 1 } 
-    :ammo { 999 } 
-    :range { 0 999 int2 } 
-    :blast-range { 0 3 int2 } 
-    :unit-damage { 5 } 
-    :bridge-damage { 10 } 
-    ; 
-    .add 
-    ; 
-pop 
+ColorName Red enum                                               player.set-color-name
+Team None enum                                                   player.set-team
+PersonName Natalie enum                                          player.set-co-name
+0 0 int2                                                         player.set-ui-position
+16000                                                            player.set-credits
+0                                                                player.set-power-meter
+-1 0 int2                                                        player.set-unit-look-direction
+                                                                 player.mark-as-local
+                                                                 player.add
 
-// City(-11, 24) Red
-building: 
-    :type { TileType City enum } 
-    :position { -11 24 int2 } 
-    :cp { 20 } 
-    :look-direction { 0 1 int2 } 
-    .add 
-    ; 
-pop 
+// -6, 25 MissileSilo Red
 
-// Hq(-3, 26) Red
-building: 
-    :type { TileType Hq enum } 
-    :position { -3 26 int2 } 
-    :cp { 20 } 
-    :look-direction { -1 0 int2 } 
-    .add 
-    ; 
-pop 
+TileType MissileSilo enum                                        building.set-type
+-6 25 int2                                                       building.set-position
+20                                                               building.set-cp
+0 -1 int2                                                        building.set-look-direction
 
-// Factory(-3, 20) Red
-building: 
-    :type { TileType Factory enum } 
-    :position { -3 20 int2 } 
-    :cp { 20 } 
-    :look-direction { -1 0 int2 } 
-    .add 
-    ; 
-pop 
+-99                                                              building.missile-silo.set-last-launch-turn
+1                                                                building.missile-silo.set-launch-cooldown
+999                                                              building.missile-silo.set-ammo
+0 999 int2                                                       building.missile-silo.set-range
+0 3 int2                                                         building.missile-silo.set-blast-range
+5                                                                building.missile-silo.set-unit-damage
+10                                                               building.missile-silo.set-bridge-damage
 
-// Factory(-3, 22) Red
-building: 
-    :type { TileType Factory enum } 
-    :position { -3 22 int2 } 
-    :cp { 20 } 
-    :look-direction { -1 0 int2 } 
-    .add 
-    ; 
-pop 
+                                                                 building.add
 
-// Artillery(-5, 20) Red
-unit: 
-    :type { UnitType Artillery enum } 
-    :moved { false } 
-    :hp { 10 } 
-    :position { -5 20 int2 } 
-    :look-direction { -1 0 int2 } 
-    :view-prefab { load-resource { UnitView WbHowitzer } } 
-    .add 
-    ; 
-unit.brain: 
-    .add-state { StayingInZoneUnitBrainState type } 
-pop 
-    ; 
-pop 
+                                                                 pop
+// -11, 24 City Red
 
-// Infantry(-6, 24) Red
-unit: 
-    :type { UnitType Infantry enum } 
-    :moved { false } 
-    :hp { 10 } 
-    :position { -6 24 int2 } 
-    :look-direction { -1 0 int2 } 
-    :view-prefab { load-resource { UnitView WbLightTank } } 
-    .add 
-    ; 
-unit.brain: 
-    .add-state { StayingInZoneUnitBrainState type } 
-pop 
-    ; 
-pop 
+TileType City enum                                               building.set-type
+-11 24 int2                                                      building.set-position
+20                                                               building.set-cp
+0 1 int2                                                         building.set-look-direction
+                                                                 building.add
 
-// Recon(-7, 21) Red
-unit: 
-    :type { UnitType Recon enum } 
-    :moved { false } 
-    :hp { 10 } 
-    :position { -7 21 int2 } 
-    :look-direction { -1 0 int2 } 
-    :view-prefab { load-resource { UnitView WbRecon } } 
-    .add 
-    ; 
-unit.brain: 
-    .add-state { StayingInZoneUnitBrainState type } 
-pop 
-    ; 
-pop 
+                                                                 pop
+// -3, 26 Hq Red
 
-// Apc(-8, 24) Red
-unit: 
-    :type { UnitType Apc enum } 
-    :moved { false } 
-    :hp { 10 } 
-    :position { -8 24 int2 } 
-    :look-direction { -1 0 int2 } 
-    :view-prefab { load-resource { UnitView WbApc } } 
-    .add 
-    ; 
-unit.brain: 
-    .add-state { StayingInZoneUnitBrainState type } 
-pop 
-    ; 
-pop 
+TileType Hq enum                                                 building.set-type
+-3 26 int2                                                       building.set-position
+20                                                               building.set-cp
+-1 0 int2                                                        building.set-look-direction
+                                                                 building.add
 
-// Infantry(-10, 13) Red
-unit: 
-    :type { UnitType Infantry enum } 
-    :moved { false } 
-    :hp { 10 } 
-    :position { -10 13 int2 } 
-    :look-direction { -1 0 int2 } 
-    :view-prefab { load-resource { UnitView WbLightTank } } 
-    .add 
-    ; 
-unit.brain: 
-    ; 
-pop 
+                                                                 pop
+// -3, 20 Factory Red
 
-// Infantry(-13, 19) Red
-unit: 
-    :type { UnitType Infantry enum } 
-    :moved { false } 
-    :hp { 10 } 
-    :position { -13 19 int2 } 
-    :look-direction { -1 0 int2 } 
-    :view-prefab { load-resource { UnitView WbLightTank } } 
-    .add 
-    ; 
-unit.brain: 
-    .add-state { StayingInZoneUnitBrainState type } 
-pop 
-    ; 
-pop 
+TileType Factory enum                                            building.set-type
+-3 20 int2                                                       building.set-position
+20                                                               building.set-cp
+-1 0 int2                                                        building.set-look-direction
+                                                                 building.add
 
-// Infantry(-16, 14) Red
-unit: 
-    :type { UnitType Infantry enum } 
-    :moved { false } 
-    :hp { 10 } 
-    :position { -16 14 int2 } 
-    :look-direction { -1 0 int2 } 
-    :view-prefab { load-resource { UnitView WbLightTank } } 
-    .add 
-    ; 
-unit.brain: 
-    .add-state { StayingInZoneUnitBrainState type } 
-pop 
-    ; 
-pop 
+                                                                 pop
+// -3, 22 Factory Red
 
-// Recon(-18, 12) Red
-unit: 
-    :type { UnitType Recon enum } 
-    :moved { false } 
-    :hp { 10 } 
-    :position { -18 12 int2 } 
-    :look-direction { -1 0 int2 } 
-    :view-prefab { load-resource { UnitView WbRecon } } 
-    .add 
-    ; 
-unit.brain: 
-    ; 
-pop 
+TileType Factory enum                                            building.set-type
+-3 22 int2                                                       building.set-position
+20                                                               building.set-cp
+-1 0 int2                                                        building.set-look-direction
+                                                                 building.add
 
-// Red
-pop 
+                                                                 pop
+// -5, 20 Artillery Red
 
+UnitType Artillery enum                                          unit.set-type
+false                                                            unit.set-moved
+10                                                               unit.set-hp
+-5 20 int2                                                       unit.set-position
+-1 0 int2                                                        unit.set-look-direction
+UnitView WbHowitzer load-resource                                unit.set-view-prefab
+                                                                 unit.add
+
+StayingInZoneUnitBrainState type                                 unit.brain.add-state
+                                                                 pop
+
+
+                                                                 pop
+// -6, 24 Infantry Red
+
+UnitType Infantry enum                                           unit.set-type
+false                                                            unit.set-moved
+10                                                               unit.set-hp
+-6 24 int2                                                       unit.set-position
+-1 0 int2                                                        unit.set-look-direction
+UnitView WbLightTank load-resource                               unit.set-view-prefab
+                                                                 unit.add
+
+StayingInZoneUnitBrainState type                                 unit.brain.add-state
+                                                                 pop
+
+
+                                                                 pop
+// -7, 21 Recon Red
+
+UnitType Recon enum                                              unit.set-type
+false                                                            unit.set-moved
+10                                                               unit.set-hp
+-7 21 int2                                                       unit.set-position
+-1 0 int2                                                        unit.set-look-direction
+UnitView WbRecon load-resource                                   unit.set-view-prefab
+                                                                 unit.add
+
+StayingInZoneUnitBrainState type                                 unit.brain.add-state
+                                                                 pop
+
+
+                                                                 pop
+// -8, 24 Apc Red
+
+UnitType Apc enum                                                unit.set-type
+false                                                            unit.set-moved
+10                                                               unit.set-hp
+-8 24 int2                                                       unit.set-position
+-1 0 int2                                                        unit.set-look-direction
+UnitView WbApc load-resource                                     unit.set-view-prefab
+                                                                 unit.add
+
+StayingInZoneUnitBrainState type                                 unit.brain.add-state
+                                                                 pop
+
+
+                                                                 pop
+// -10, 13 Infantry Red
+
+UnitType Infantry enum                                           unit.set-type
+false                                                            unit.set-moved
+10                                                               unit.set-hp
+-10 13 int2                                                      unit.set-position
+-1 0 int2                                                        unit.set-look-direction
+UnitView WbLightTank load-resource                               unit.set-view-prefab
+                                                                 unit.add
+
+
+
+                                                                 pop
+// -13, 19 Infantry Red
+
+UnitType Infantry enum                                           unit.set-type
+false                                                            unit.set-moved
+10                                                               unit.set-hp
+-13 19 int2                                                      unit.set-position
+-1 0 int2                                                        unit.set-look-direction
+UnitView WbLightTank load-resource                               unit.set-view-prefab
+                                                                 unit.add
+
+StayingInZoneUnitBrainState type                                 unit.brain.add-state
+                                                                 pop
+
+
+                                                                 pop
+// -16, 14 Infantry Red
+
+UnitType Infantry enum                                           unit.set-type
+false                                                            unit.set-moved
+10                                                               unit.set-hp
+-16 14 int2                                                      unit.set-position
+-1 0 int2                                                        unit.set-look-direction
+UnitView WbLightTank load-resource                               unit.set-view-prefab
+                                                                 unit.add
+
+StayingInZoneUnitBrainState type                                 unit.brain.add-state
+                                                                 pop
+
+
+                                                                 pop
+// -18, 12 Recon Red
+
+UnitType Recon enum                                              unit.set-type
+false                                                            unit.set-moved
+10                                                               unit.set-hp
+-18 12 int2                                                      unit.set-position
+-1 0 int2                                                        unit.set-look-direction
+UnitView WbRecon load-resource                                   unit.set-view-prefab
+                                                                 unit.add
+
+
+
+                                                                 pop
+// -16, 22 Recon Red
+
+UnitType Recon enum                                              unit.set-type
+false                                                            unit.set-moved
+10                                                               unit.set-hp
+-16 22 int2                                                      unit.set-position
+-1 0 int2                                                        unit.set-look-direction
+UnitView WbRecon load-resource                                   unit.set-view-prefab
+                                                                 unit.add
+
+
+
+                                                                 pop
+// -16, 23 Recon Red
+
+UnitType Recon enum                                              unit.set-type
+false                                                            unit.set-moved
+10                                                               unit.set-hp
+-16 23 int2                                                      unit.set-position
+-1 0 int2                                                        unit.set-look-direction
+UnitView WbRecon load-resource                                   unit.set-view-prefab
+                                                                 unit.add
+
+
+
+                                                                 pop
+// -16, 24 Recon Red
+
+UnitType Recon enum                                              unit.set-type
+false                                                            unit.set-moved
+10                                                               unit.set-hp
+-16 24 int2                                                      unit.set-position
+-1 0 int2                                                        unit.set-look-direction
+UnitView WbRecon load-resource                                   unit.set-view-prefab
+                                                                 unit.add
+
+
+
+                                                                 pop
+// -16, 25 Recon Red
+
+UnitType Recon enum                                              unit.set-type
+false                                                            unit.set-moved
+10                                                               unit.set-hp
+-16 25 int2                                                      unit.set-position
+-1 0 int2                                                        unit.set-look-direction
+UnitView WbRecon load-resource                                   unit.set-view-prefab
+                                                                 unit.add
+
+
+
+                                                                 pop
 // Blue
-player: 
-    :color-name { ColorName Blue enum } 
-    :team { Team None enum } 
-    :co-name { PersonName Natalie enum } 
-    :ui-position { 0 0 int2 } 
-    :credits { 0 } 
-    :power-meter { 0 } 
-    :unit-look-direction { 1 0 int2 } 
-    :side { 0 } 
-    .add 
-    ; 
 
-zone: 
-    .add { Zone0 true } 
-    .add-positions { -24 17 int2 -23 17 int2 -22 17 int2 -21 17 int2 -20 17 int2 -19 17 int2 -18 17 int2 -18 16 int2 -18 15 int2 -18 14 int2 -18 13 int2 -19 11 int2 -18 11 int2 -18 9 int2 -17 9 int2 -19 9 int2 -18 8 int2 -19 8 int2 -20 8 int2 -21 8 int2 -22 8 int2 -23 8 int2 -24 8 int2 -24 9 int2 -24 11 int2 -24 12 int2 -24 13 int2 -24 14 int2 -24 15 int2 -24 16 int2 -23 16 int2 -22 16 int2 -21 16 int2 -19 16 int2 -20 15 int2 -21 15 int2 -21 14 int2 -22 14 int2 -22 13 int2 -23 12 int2 -24 10 int2 -23 9 int2 -22 9 int2 -22 10 int2 -22 11 int2 -22 12 int2 -23 13 int2 -23 14 int2 -23 15 int2 -23 10 int2 -21 10 int2 -21 11 int2 -20 12 int2 -20 13 int2 -22 15 int2 -23 11 int2 -21 9 int2 -20 9 int2 -20 10 int2 -20 11 int2 -19 12 int2 -19 13 int2 -19 14 int2 -21 12 int2 -21 13 int2 -18 10 int2 -17 15 int2 -15 15 int2 -15 14 int2 -15 12 int2 -15 11 int2 -15 10 int2 -15 9 int2 -15 8 int2 -16 8 int2 -17 8 int2 -19 10 int2 -17 10 int2 -17 12 int2 -17 13 int2 -17 14 int2 -16 14 int2 -16 13 int2 -16 12 int2 -16 11 int2 -16 10 int2 -16 9 int2 -20 18 int2 -19 18 int2 -18 18 int2 -17 18 int2 -17 17 int2 -17 16 int2 93 } 
-pop 
-    .add { Zone1 false } 
-    .add-positions { -23 23 int2 -23 24 int2 -22 25 int2 -22 26 int2 -21 26 int2 -21 25 int2 -21 24 int2 -21 23 int2 -22 23 int2 -22 24 int2 -23 25 int2 -24 25 int2 -24 24 int2 -24 23 int2 -24 22 int2 -24 21 int2 -24 20 int2 -24 19 int2 -24 18 int2 -23 18 int2 -20 19 int2 -19 19 int2 -22 18 int2 -21 18 int2 -21 19 int2 -21 20 int2 -21 21 int2 -22 22 int2 -23 22 int2 -23 20 int2 -22 20 int2 -22 21 int2 -21 22 int2 -22 19 int2 -23 21 int2 -23 19 int2 -19 20 int2 -19 21 int2 -20 21 int2 -20 22 int2 -20 23 int2 -20 24 int2 -20 25 int2 -20 26 int2 -19 26 int2 -18 26 int2 -18 25 int2 -18 24 int2 -18 23 int2 -18 22 int2 -18 21 int2 -18 20 int2 -18 19 int2 -20 20 int2 -19 25 int2 -19 24 int2 -19 23 int2 -19 22 int2 -17 25 int2 -17 26 int2 -17 24 int2 -17 21 int2 -17 20 int2 -17 19 int2 -17 22 int2 -17 23 int2 -16 18 int2 -15 18 int2 -14 18 int2 -13 18 int2 -14 17 int2 -16 16 int2 -16 17 int2 73 } 
-pop 
-    .add { Zone2 false } 
-    .add-positions { -16 26 int2 -15 26 int2 -15 25 int2 -14 25 int2 -14 24 int2 -13 24 int2 -12 21 int2 -12 23 int2 -12 22 int2 -13 21 int2 -13 20 int2 -14 20 int2 -13 19 int2 -14 19 int2 -15 19 int2 -16 19 int2 -16 20 int2 -16 21 int2 -16 22 int2 -16 23 int2 -16 24 int2 -16 25 int2 -15 24 int2 -15 23 int2 -14 23 int2 -14 22 int2 -14 21 int2 -13 22 int2 -13 23 int2 -15 22 int2 -15 21 int2 -14 26 int2 -13 25 int2 -12 24 int2 -12 25 int2 -11 22 int2 -11 23 int2 -11 21 int2 -11 20 int2 -11 19 int2 -12 19 int2 -12 20 int2 -11 18 int2 -10 19 int2 44 } 
-pop 
-    .add { Zone5 false } 
-    .add-positions { -13 26 int2 -12 26 int2 -11 26 int2 -10 26 int2 -9 26 int2 -8 26 int2 -7 26 int2 -6 26 int2 -5 26 int2 -4 26 int2 -3 26 int2 -3 25 int2 -3 24 int2 -3 23 int2 -3 22 int2 -3 21 int2 -3 20 int2 -3 19 int2 -3 18 int2 -3 17 int2 -3 16 int2 -4 16 int2 -5 16 int2 -6 16 int2 -7 16 int2 -8 16 int2 -9 16 int2 -10 17 int2 -10 18 int2 -9 18 int2 -9 19 int2 -8 19 int2 -8 20 int2 -9 20 int2 -10 20 int2 -10 21 int2 -10 22 int2 -10 23 int2 -10 24 int2 -10 25 int2 -11 24 int2 -11 25 int2 -9 25 int2 -8 25 int2 -7 25 int2 -6 25 int2 -5 25 int2 -4 25 int2 -5 24 int2 -6 24 int2 -7 24 int2 -7 23 int2 -8 23 int2 -9 22 int2 -9 21 int2 -8 21 int2 -7 22 int2 -8 24 int2 -9 24 int2 -9 23 int2 -6 21 int2 -5 21 int2 -5 22 int2 -4 23 int2 -6 23 int2 -7 20 int2 -7 19 int2 -6 19 int2 -5 19 int2 -5 20 int2 -6 22 int2 -8 18 int2 -8 17 int2 -7 17 int2 -7 18 int2 -6 18 int2 -9 17 int2 -8 22 int2 -4 19 int2 -4 22 int2 -5 23 int2 -5 18 int2 -5 17 int2 -4 17 int2 -4 18 int2 -4 20 int2 -4 21 int2 -6 20 int2 -6 17 int2 -4 24 int2 90 } 
-pop 
-    .add { Zone4 false } 
-    .add-positions { -9 15 int2 -8 15 int2 -7 15 int2 -6 15 int2 -5 15 int2 -4 15 int2 -3 15 int2 -3 14 int2 -3 13 int2 -3 12 int2 -3 11 int2 -3 10 int2 -3 9 int2 -3 8 int2 -4 8 int2 -5 8 int2 -6 8 int2 -7 8 int2 -8 8 int2 -9 8 int2 -9 9 int2 -9 10 int2 -9 11 int2 -9 12 int2 -9 13 int2 -9 14 int2 -8 14 int2 -7 14 int2 -6 14 int2 -7 13 int2 -8 12 int2 -8 11 int2 -8 10 int2 -8 9 int2 -6 9 int2 -6 10 int2 -6 11 int2 -6 12 int2 -6 13 int2 -7 12 int2 -7 11 int2 -7 10 int2 -5 10 int2 -5 11 int2 -5 12 int2 -5 13 int2 -7 9 int2 -5 9 int2 -8 13 int2 -5 14 int2 -4 9 int2 -4 10 int2 -4 11 int2 -4 12 int2 -4 13 int2 -4 14 int2 56 } 
-pop 
-    .add { Zone3 false } 
-    .add-positions { -14 13 int2 -13 13 int2 -12 13 int2 -11 13 int2 -10 13 int2 -14 10 int2 -13 10 int2 -12 10 int2 -11 10 int2 -10 10 int2 10 } 
-pop 
-    .connect { Zone0 Zone1 } 
-    .connect { Zone0 Zone3 } 
-    .connect { Zone1 Zone0 } 
-    .connect { Zone1 Zone2 } 
-    .connect { Zone2 Zone1 } 
-    .connect { Zone2 Zone5 } 
-    .connect { Zone5 Zone2 } 
-    .connect { Zone5 Zone4 } 
-    .connect { Zone4 Zone5 } 
-    .connect { Zone4 Zone3 } 
-    .connect { Zone3 Zone0 } 
-    .connect { Zone3 Zone4 } 
-    ; 
+ColorName Blue enum                                              player.set-color-name
+Team None enum                                                   player.set-team
+PersonName Natalie enum                                          player.set-co-name
+0 0 int2                                                         player.set-ui-position
+0                                                                player.set-credits
+0                                                                player.set-power-meter
+1 0 int2                                                         player.set-unit-look-direction
+                                                                 player.add
 
-// Hq(-24, 8) Blue
-building: 
-    :type { TileType Hq enum } 
-    :position { -24 8 int2 } 
-    :cp { 20 } 
-    :look-direction { 1 0 int2 } 
-    .add 
-    ; 
-pop 
 
-// Factory(-24, 14) Blue
-building: 
-    :type { TileType Factory enum } 
-    :position { -24 14 int2 } 
-    :cp { 20 } 
-    :look-direction { 0 1 int2 } 
-    .add 
-    ; 
-pop 
+Zone0 true                                                       zone.add
+-24 17 int2 -23 17 int2 -22 17 int2 -21 17 int2 -20 17 int2 -19 17 int2 -18 17 int2 -18 16 int2 -18 15 int2 -18 14 int2 -18 13 int2 -19 11 int2 -18 11 int2 -18 9 int2 -17 9 int2 -19 9 int2 -18 8 int2 -19 8 int2 -20 8 int2 -21 8 int2 -22 8 int2 -23 8 int2 -24 8 int2 -24 9 int2 -24 11 int2 -24 12 int2 -24 13 int2 -24 14 int2 -24 15 int2 -24 16 int2 -23 16 int2 -22 16 int2 -21 16 int2 -19 16 int2 -20 15 int2 -21 15 int2 -21 14 int2 -22 14 int2 -22 13 int2 -23 12 int2 -24 10 int2 -23 9 int2 -22 9 int2 -22 10 int2 -22 11 int2 -22 12 int2 -23 13 int2 -23 14 int2 -23 15 int2 -23 10 int2 -21 10 int2 -21 11 int2 -20 12 int2 -20 13 int2 -22 15 int2 -23 11 int2 -21 9 int2 -20 9 int2 -20 10 int2 -20 11 int2 -19 12 int2 -19 13 int2 -19 14 int2 -21 12 int2 -21 13 int2 -18 10 int2 -17 15 int2 -15 15 int2 -15 14 int2 -15 12 int2 -15 11 int2 -15 10 int2 -15 9 int2 -15 8 int2 -16 8 int2 -17 8 int2 -19 10 int2 -17 10 int2 -17 12 int2 -17 13 int2 -17 14 int2 -16 14 int2 -16 13 int2 -16 12 int2 -16 11 int2 -16 10 int2 -16 9 int2 -20 18 int2 -19 18 int2 -18 18 int2 -17 18 int2 -17 17 int2 -17 16 int2 93 zone.add-positions
+                                                                 pop
+Zone1 false                                                      zone.add
+-23 23 int2 -23 24 int2 -22 25 int2 -22 26 int2 -21 26 int2 -21 25 int2 -21 24 int2 -21 23 int2 -22 23 int2 -22 24 int2 -23 25 int2 -24 25 int2 -24 24 int2 -24 23 int2 -24 22 int2 -24 21 int2 -24 20 int2 -24 19 int2 -24 18 int2 -23 18 int2 -20 19 int2 -19 19 int2 -22 18 int2 -21 18 int2 -21 19 int2 -21 20 int2 -21 21 int2 -22 22 int2 -23 22 int2 -23 20 int2 -22 20 int2 -22 21 int2 -21 22 int2 -22 19 int2 -23 21 int2 -23 19 int2 -19 20 int2 -19 21 int2 -20 21 int2 -20 22 int2 -20 23 int2 -20 24 int2 -20 25 int2 -20 26 int2 -19 26 int2 -18 26 int2 -18 25 int2 -18 24 int2 -18 23 int2 -18 22 int2 -18 21 int2 -18 20 int2 -18 19 int2 -20 20 int2 -19 25 int2 -19 24 int2 -19 23 int2 -19 22 int2 -17 25 int2 -17 26 int2 -17 24 int2 -17 21 int2 -17 20 int2 -17 19 int2 -17 22 int2 -17 23 int2 -16 18 int2 -15 18 int2 -13 18 int2 -14 17 int2 -16 16 int2 -16 17 int2 72 zone.add-positions
+                                                                 pop
+Zone2 false                                                      zone.add
+-16 26 int2 -15 26 int2 -15 25 int2 -14 25 int2 -14 24 int2 -13 24 int2 -12 21 int2 -12 23 int2 -12 22 int2 -13 21 int2 -13 20 int2 -14 20 int2 -14 19 int2 -15 19 int2 -16 19 int2 -16 20 int2 -16 21 int2 -16 22 int2 -16 23 int2 -16 24 int2 -16 25 int2 -15 24 int2 -15 23 int2 -14 23 int2 -14 22 int2 -14 21 int2 -13 22 int2 -13 23 int2 -15 22 int2 -15 21 int2 -14 26 int2 -13 25 int2 -12 24 int2 -12 25 int2 -11 22 int2 -11 23 int2 -11 21 int2 -11 20 int2 -11 19 int2 -12 19 int2 -12 20 int2 -11 18 int2 -10 19 int2 43 zone.add-positions
+                                                                 pop
+Zone5 false                                                      zone.add
+-13 26 int2 -12 26 int2 -11 26 int2 -10 26 int2 -9 26 int2 -8 26 int2 -7 26 int2 -6 26 int2 -5 26 int2 -4 26 int2 -3 26 int2 -3 25 int2 -3 24 int2 -3 23 int2 -3 22 int2 -3 21 int2 -3 20 int2 -3 19 int2 -3 18 int2 -3 17 int2 -3 16 int2 -4 16 int2 -5 16 int2 -6 16 int2 -7 16 int2 -8 16 int2 -9 16 int2 -10 17 int2 -10 18 int2 -9 18 int2 -9 19 int2 -8 19 int2 -8 20 int2 -9 20 int2 -10 20 int2 -10 21 int2 -10 22 int2 -10 23 int2 -10 24 int2 -10 25 int2 -11 24 int2 -11 25 int2 -9 25 int2 -8 25 int2 -7 25 int2 -6 25 int2 -5 25 int2 -4 25 int2 -5 24 int2 -6 24 int2 -7 24 int2 -7 23 int2 -8 23 int2 -9 22 int2 -8 21 int2 -7 22 int2 -8 24 int2 -9 24 int2 -6 21 int2 -5 21 int2 -5 22 int2 -4 23 int2 -6 23 int2 -7 20 int2 -7 19 int2 -6 19 int2 -5 19 int2 -5 20 int2 -6 22 int2 -8 18 int2 -8 17 int2 -7 17 int2 -7 18 int2 -6 18 int2 -9 17 int2 -8 22 int2 -4 19 int2 -4 22 int2 -5 23 int2 -5 18 int2 -5 17 int2 -4 17 int2 -4 18 int2 -4 20 int2 -4 21 int2 -6 20 int2 -6 17 int2 -4 24 int2 88 zone.add-positions
+                                                                 pop
+Zone4 false                                                      zone.add
+-9 15 int2 -8 15 int2 -7 15 int2 -6 15 int2 -5 15 int2 -4 15 int2 -3 15 int2 -3 14 int2 -3 13 int2 -3 12 int2 -3 11 int2 -3 10 int2 -3 9 int2 -3 8 int2 -4 8 int2 -5 8 int2 -6 8 int2 -7 8 int2 -8 8 int2 -9 8 int2 -9 9 int2 -9 10 int2 -9 11 int2 -9 12 int2 -9 13 int2 -9 14 int2 -8 14 int2 -7 14 int2 -6 14 int2 -7 13 int2 -8 12 int2 -8 11 int2 -8 10 int2 -8 9 int2 -6 9 int2 -6 10 int2 -6 11 int2 -6 12 int2 -6 13 int2 -7 12 int2 -7 11 int2 -7 10 int2 -5 10 int2 -5 11 int2 -5 12 int2 -5 13 int2 -7 9 int2 -5 9 int2 -8 13 int2 -5 14 int2 -4 9 int2 -4 10 int2 -4 11 int2 -4 12 int2 -4 13 int2 -4 14 int2 56 zone.add-positions
+                                                                 pop
+Zone3 false                                                      zone.add
+-14 13 int2 -13 13 int2 -12 13 int2 -11 13 int2 -10 13 int2 -14 10 int2 -13 10 int2 -12 10 int2 -11 10 int2 -10 10 int2 10 zone.add-positions
+                                                                 pop
+Zone0 Zone1                                                      zone.connect
+Zone0 Zone3                                                      zone.connect
+Zone1 Zone0                                                      zone.connect
+Zone1 Zone2                                                      zone.connect
+Zone2 Zone1                                                      zone.connect
+Zone2 Zone5                                                      zone.connect
+Zone5 Zone2                                                      zone.connect
+Zone5 Zone4                                                      zone.connect
+Zone4 Zone5                                                      zone.connect
+Zone4 Zone3                                                      zone.connect
+Zone3 Zone0                                                      zone.connect
+Zone3 Zone4                                                      zone.connect
 
-// Factory(-24, 16) Blue
-building: 
-    :type { TileType Factory enum } 
-    :position { -24 16 int2 } 
-    :cp { 20 } 
-    :look-direction { 0 1 int2 } 
-    .add 
-    ; 
-pop 
+// -24, 8 Hq Blue
 
-// Recon(-24, 9) Blue
-unit: 
-    :type { UnitType Recon enum } 
-    :moved { false } 
-    :hp { 10 } 
-    :position { -24 9 int2 } 
-    :look-direction { 1 0 int2 } 
-    :view-prefab { load-resource { UnitView WbRecon } } 
-    .add 
-    ; 
-unit.brain: 
-    ; 
-pop 
+TileType Hq enum                                                 building.set-type
+-24 8 int2                                                       building.set-position
+20                                                               building.set-cp
+1 0 int2                                                         building.set-look-direction
+                                                                 building.add
 
-// Recon(-23, 10) Blue
-unit: 
-    :type { UnitType Recon enum } 
-    :moved { false } 
-    :hp { 10 } 
-    :position { -23 10 int2 } 
-    :look-direction { 1 0 int2 } 
-    :view-prefab { load-resource { UnitView WbRecon } } 
-    .add 
-    ; 
-unit.brain: 
-    ; 
-pop 
+                                                                 pop
+// -24, 14 Factory Blue
 
-// Recon(-19, 14) Blue
-unit: 
-    :type { UnitType Recon enum } 
-    :moved { false } 
-    :hp { 10 } 
-    :position { -19 14 int2 } 
-    :look-direction { 1 0 int2 } 
-    :view-prefab { load-resource { UnitView WbRecon } } 
-    .add 
-    ; 
-unit.brain: 
-    ; 
-pop 
+TileType Factory enum                                            building.set-type
+-24 14 int2                                                      building.set-position
+20                                                               building.set-cp
+0 1 int2                                                         building.set-look-direction
+                                                                 building.add
 
-// Infantry(-22, 13) Blue
-unit: 
-    :type { UnitType Infantry enum } 
-    :moved { false } 
-    :hp { 10 } 
-    :position { -22 13 int2 } 
-    :look-direction { 1 0 int2 } 
-    :view-prefab { load-resource { UnitView WbLightTank } } 
-    .add 
-    ; 
-unit.brain: 
-    ; 
-pop 
+                                                                 pop
+// -24, 16 Factory Blue
 
-// Infantry(-22, 15) Blue
-unit: 
-    :type { UnitType Infantry enum } 
-    :moved { false } 
-    :hp { 10 } 
-    :position { -22 15 int2 } 
-    :look-direction { 1 0 int2 } 
-    :view-prefab { load-resource { UnitView WbLightTank } } 
-    .add 
-    ; 
-unit.brain: 
-    ; 
-pop 
+TileType Factory enum                                            building.set-type
+-24 16 int2                                                      building.set-position
+20                                                               building.set-cp
+0 1 int2                                                         building.set-look-direction
+                                                                 building.add
 
-// Artillery(-22, 14) Blue
-unit: 
-    :type { UnitType Artillery enum } 
-    :moved { false } 
-    :hp { 10 } 
-    :position { -22 14 int2 } 
-    :look-direction { 1 0 int2 } 
-    :view-prefab { load-resource { UnitView WbHowitzer } } 
-    .add 
-    ; 
-unit.brain: 
-    ; 
-pop 
+                                                                 pop
+// -24, 9 Recon Blue
 
-// Infantry(-21, 16) Blue
-unit: 
-    :type { UnitType Infantry enum } 
-    :moved { false } 
-    :hp { 10 } 
-    :position { -21 16 int2 } 
-    :look-direction { 1 0 int2 } 
-    :view-prefab { load-resource { UnitView WbLightTank } } 
-    .add 
-    ; 
-unit.brain: 
-    ; 
-pop 
+UnitType Recon enum                                              unit.set-type
+false                                                            unit.set-moved
+10                                                               unit.set-hp
+-24 9 int2                                                       unit.set-position
+1 0 int2                                                         unit.set-look-direction
+UnitView WbRecon load-resource                                   unit.set-view-prefab
+                                                                 unit.add
 
-// Rockets(-23, 8) Blue
-unit: 
-    :type { UnitType Rockets enum } 
-    :moved { false } 
-    :hp { 10 } 
-    :position { -23 8 int2 } 
-    :look-direction { 1 0 int2 } 
-    :view-prefab { load-resource { UnitView WbRockets } } 
-    .add 
-    ; 
-unit.brain: 
-    ; 
-pop 
 
-// Infantry(-21, 12) Blue
-unit: 
-    :type { UnitType Infantry enum } 
-    :moved { false } 
-    :hp { 10 } 
-    :position { -21 12 int2 } 
-    :look-direction { 1 0 int2 } 
-    :view-prefab { load-resource { UnitView WbLightTank } } 
-    .add 
-    ; 
-unit.brain: 
-    ; 
-pop 
 
-// Recon(-18, 19) Blue
-unit: 
-    :type { UnitType Recon enum } 
-    :moved { false } 
-    :hp { 10 } 
-    :position { -18 19 int2 } 
-    :look-direction { 1 0 int2 } 
-    :view-prefab { load-resource { UnitView WbRecon } } 
-    .add 
-    ; 
-unit.brain: 
-    ; 
-pop 
+                                                                 pop
+// -23, 10 Recon Blue
 
-// Infantry(-12, 22) Blue
-unit: 
-    :type { UnitType Infantry enum } 
-    :moved { false } 
-    :hp { 10 } 
-    :position { -12 22 int2 } 
-    :look-direction { 1 0 int2 } 
-    :view-prefab { load-resource { UnitView WbLightTank } } 
-    .add 
-    ; 
-unit.brain: 
-    ; 
-pop 
+UnitType Recon enum                                              unit.set-type
+false                                                            unit.set-moved
+10                                                               unit.set-hp
+-23 10 int2                                                      unit.set-position
+1 0 int2                                                         unit.set-look-direction
+UnitView WbRecon load-resource                                   unit.set-view-prefab
+                                                                 unit.add
 
-// Recon(-13, 10) Blue
-unit: 
-    :type { UnitType Recon enum } 
-    :moved { false } 
-    :hp { 10 } 
-    :position { -13 10 int2 } 
-    :look-direction { 1 0 int2 } 
-    :view-prefab { load-resource { UnitView WbRecon } } 
-    .add 
-    ; 
-unit.brain: 
-    ; 
-pop 
 
-// Infantry(-22, 20) Blue
-unit: 
-    :type { UnitType Infantry enum } 
-    :moved { false } 
-    :hp { 10 } 
-    :position { -22 20 int2 } 
-    :look-direction { 1 0 int2 } 
-    :view-prefab { load-resource { UnitView WbLightTank } } 
-    .add 
-    ; 
-unit.brain: 
-    ; 
-pop 
 
-// Blue
-pop 
+                                                                 pop
+// -19, 14 Recon Blue
 
-tiles.add { TileType Sea enum -11 16 int2 -14 8 int2 -14 9 int2 -14 11 int2 -14 12 int2 -14 14 int2 -14 15 int2 -14 16 int2 -13 8 int2 -13 9 int2 -13 11 int2 -13 12 int2 -13 14 int2 -13 15 int2 -13 16 int2 -13 17 int2 -12 8 int2 -12 9 int2 -12 11 int2 -12 12 int2 -12 14 int2 -12 15 int2 -12 16 int2 -12 17 int2 -12 18 int2 -11 8 int2 -11 9 int2 -11 11 int2 -11 12 int2 -11 14 int2 -11 15 int2 -10 8 int2 -10 9 int2 -10 11 int2 -10 12 int2 -10 14 int2 -10 15 int2 -11 17 int2 38 } 
-tiles.add { TileType Plain enum -19 15 int2 -24 9 int2 -24 15 int2 -24 20 int2 -24 21 int2 -24 22 int2 -23 18 int2 -23 19 int2 -23 20 int2 -23 21 int2 -23 22 int2 -23 23 int2 -23 24 int2 -22 11 int2 -22 12 int2 -22 18 int2 -22 19 int2 -22 20 int2 -22 21 int2 -22 22 int2 -22 23 int2 -22 24 int2 -22 25 int2 -22 26 int2 -21 9 int2 -21 10 int2 -21 12 int2 -21 16 int2 -21 17 int2 -21 18 int2 -21 19 int2 -21 20 int2 -21 21 int2 -21 24 int2 -21 25 int2 -20 9 int2 -20 10 int2 -20 12 int2 -20 16 int2 -20 17 int2 -20 19 int2 -20 20 int2 -20 21 int2 -19 9 int2 -19 10 int2 -19 11 int2 -19 12 int2 -19 16 int2 -19 17 int2 -19 19 int2 -19 20 int2 -19 21 int2 -19 22 int2 -19 23 int2 -19 24 int2 -18 17 int2 -18 19 int2 -18 20 int2 -18 21 int2 -18 22 int2 -18 23 int2 -18 24 int2 -18 25 int2 -17 19 int2 -17 20 int2 -17 21 int2 -17 22 int2 -17 23 int2 -17 24 int2 -17 25 int2 -16 18 int2 -16 19 int2 -16 21 int2 -16 22 int2 -16 23 int2 -16 24 int2 -16 25 int2 -15 18 int2 -15 19 int2 -15 20 int2 -15 21 int2 -15 22 int2 -15 23 int2 -15 24 int2 -15 25 int2 -14 19 int2 -14 20 int2 -14 21 int2 -14 25 int2 -13 22 int2 -13 26 int2 -12 26 int2 -11 26 int2 -10 17 int2 -10 18 int2 -10 20 int2 -10 21 int2 -10 22 int2 -10 23 int2 -10 24 int2 -10 26 int2 -9 8 int2 -9 9 int2 -9 10 int2 -9 11 int2 -9 12 int2 -9 14 int2 -9 15 int2 -9 16 int2 -9 17 int2 -9 18 int2 -9 19 int2 -9 20 int2 -9 21 int2 -9 22 int2 -9 23 int2 -9 24 int2 -9 26 int2 -8 8 int2 -8 9 int2 -8 10 int2 -8 11 int2 -8 12 int2 -8 15 int2 -8 16 int2 -8 17 int2 -8 18 int2 -8 19 int2 -8 20 int2 -8 21 int2 -8 22 int2 -8 23 int2 -8 24 int2 -8 26 int2 -6 8 int2 -6 9 int2 -6 10 int2 -6 17 int2 -6 18 int2 -6 19 int2 -6 20 int2 -6 22 int2 -6 24 int2 -6 26 int2 -5 8 int2 -5 9 int2 -5 10 int2 -5 13 int2 -5 17 int2 -5 18 int2 -5 22 int2 -5 23 int2 -5 25 int2 -5 26 int2 -4 9 int2 -4 10 int2 -4 13 int2 -4 14 int2 -4 15 int2 -4 17 int2 -4 23 int2 -4 24 int2 -4 25 int2 -4 26 int2 -3 10 int2 -3 13 int2 -3 14 int2 -3 15 int2 -3 17 int2 -3 23 int2 -3 24 int2 -3 25 int2 -15 13 int2 -15 17 int2 -15 16 int2 175 } 
-tiles.add { TileType Road enum -23 8 int2 -23 9 int2 -23 10 int2 -23 11 int2 -23 12 int2 -23 13 int2 -23 14 int2 -23 15 int2 -23 16 int2 -22 13 int2 -22 14 int2 -22 15 int2 -21 13 int2 -21 14 int2 -21 15 int2 -20 13 int2 -20 14 int2 -20 15 int2 -20 23 int2 -20 24 int2 -20 25 int2 -20 26 int2 -19 26 int2 -18 26 int2 -17 26 int2 -16 26 int2 -15 26 int2 -14 10 int2 -14 13 int2 -14 17 int2 -14 18 int2 -13 10 int2 -13 13 int2 -12 10 int2 -12 13 int2 -11 10 int2 -11 13 int2 -11 25 int2 -10 10 int2 -10 13 int2 -10 25 int2 -9 13 int2 -9 25 int2 -8 13 int2 -8 25 int2 -7 12 int2 -7 13 int2 -7 14 int2 -7 15 int2 -7 16 int2 -7 17 int2 -7 18 int2 -7 19 int2 -7 20 int2 -7 21 int2 -7 22 int2 -7 23 int2 -7 24 int2 -7 25 int2 -7 26 int2 -6 12 int2 -6 16 int2 -6 21 int2 -5 12 int2 -5 16 int2 -5 21 int2 -4 12 int2 -4 16 int2 -4 21 int2 -3 12 int2 -3 16 int2 -3 21 int2 72 } 
-tiles.add { TileType Mountain enum -24 10 int2 -24 11 int2 -24 12 int2 -24 24 int2 -24 25 int2 -24 26 int2 -23 26 int2 -21 8 int2 -20 8 int2 -20 18 int2 -19 18 int2 -18 18 int2 -17 16 int2 -17 17 int2 -17 18 int2 -13 18 int2 -13 19 int2 -12 19 int2 -12 20 int2 -12 24 int2 -12 25 int2 -11 18 int2 -11 19 int2 -11 20 int2 -11 21 int2 -11 22 int2 -11 23 int2 -10 19 int2 -7 8 int2 -7 9 int2 -7 10 int2 -7 11 int2 -6 11 int2 -5 11 int2 -5 19 int2 -4 11 int2 -4 19 int2 -4 20 int2 -3 11 int2 39 } 
-tiles.add { TileType Forest enum -24 13 int2 -24 17 int2 -24 18 int2 -24 19 int2 -24 23 int2 -23 17 int2 -23 25 int2 -22 8 int2 -22 9 int2 -22 10 int2 -22 16 int2 -22 17 int2 -21 11 int2 -21 22 int2 -20 11 int2 -20 22 int2 -19 8 int2 -19 13 int2 -19 14 int2 -19 25 int2 -18 8 int2 -18 9 int2 -18 10 int2 -18 11 int2 -18 12 int2 -18 13 int2 -18 14 int2 -18 15 int2 -18 16 int2 -17 8 int2 -17 9 int2 -17 10 int2 -17 11 int2 -17 12 int2 -17 13 int2 -17 14 int2 -17 15 int2 -16 8 int2 -16 9 int2 -16 10 int2 -16 11 int2 -16 12 int2 -16 13 int2 -16 14 int2 -16 15 int2 -16 16 int2 -16 17 int2 -16 20 int2 -15 8 int2 -15 9 int2 -15 10 int2 -15 11 int2 -15 12 int2 -15 14 int2 -15 15 int2 -14 22 int2 -14 23 int2 -14 24 int2 -13 20 int2 -13 21 int2 -13 23 int2 -13 24 int2 -12 21 int2 -12 22 int2 -12 23 int2 -10 16 int2 -8 14 int2 -6 14 int2 -6 15 int2 -6 23 int2 -5 14 int2 -5 15 int2 -5 20 int2 -5 24 int2 -4 8 int2 -4 18 int2 -4 22 int2 -3 8 int2 -3 9 int2 -3 18 int2 -3 19 int2 81 } 
+UnitType Recon enum                                              unit.set-type
+false                                                            unit.set-moved
+10                                                               unit.set-hp
+-19 14 int2                                                      unit.set-position
+1 0 int2                                                         unit.set-look-direction
+UnitView WbRecon load-resource                                   unit.set-view-prefab
+                                                                 unit.add
 
-// Unowned buildings
-null 
 
-// City(-6, 13)
-building: 
-    :type { TileType City enum } 
-    :position { -6 13 int2 } 
-    :cp { 20 } 
-    :look-direction { 0 -1 int2 } 
-    .add 
-    ; 
-pop 
 
-// Factory(-13, 25)
-building: 
-    :type { TileType Factory enum } 
-    :position { -13 25 int2 } 
-    :cp { 20 } 
-    :look-direction { 0 1 int2 } 
-    .add 
-    ; 
-pop 
+                                                                 pop
+// -22, 13 Infantry Blue
 
-// Factory(-14, 26)
-building: 
-    :type { TileType Factory enum } 
-    :position { -14 26 int2 } 
-    :cp { 20 } 
-    :look-direction { 0 1 int2 } 
-    .add 
-    ; 
-pop 
+UnitType Infantry enum                                           unit.set-type
+false                                                            unit.set-moved
+10                                                               unit.set-hp
+-22 13 int2                                                      unit.set-position
+1 0 int2                                                         unit.set-look-direction
+UnitView WbLightTank load-resource                               unit.set-view-prefab
+                                                                 unit.add
 
-// City(-21, 26)
-building: 
-    :type { TileType City enum } 
-    :position { -21 26 int2 } 
-    :cp { 20 } 
-    :look-direction { 0 1 int2 } 
-    .add 
-    ; 
-pop 
 
-// City(-21, 23)
-building: 
-    :type { TileType City enum } 
-    :position { -21 23 int2 } 
-    :cp { 20 } 
-    :look-direction { 0 1 int2 } 
-    .add 
-    ; 
-pop 
 
-// null player
-pop 
+                                                                 pop
+// -22, 15 Infantry Blue
 
-trigger: 
-    .select { TriggerName A enum } 
-    ; 
+UnitType Infantry enum                                           unit.set-type
+false                                                            unit.set-moved
+10                                                               unit.set-hp
+-22 15 int2                                                      unit.set-position
+1 0 int2                                                         unit.set-look-direction
+UnitView WbLightTank load-resource                               unit.set-view-prefab
+                                                                 unit.add
 
-trigger: 
-    .select { TriggerName B enum } 
-    ; 
 
-trigger: 
-    .select { TriggerName C enum } 
-    ; 
 
-trigger: 
-    .select { TriggerName D enum } 
-    ; 
+                                                                 pop
+// -22, 14 Artillery Blue
 
-trigger: 
-    .select { TriggerName E enum } 
-    ; 
+UnitType Artillery enum                                          unit.set-type
+false                                                            unit.set-moved
+10                                                               unit.set-hp
+-22 14 int2                                                      unit.set-position
+1 0 int2                                                         unit.set-look-direction
+UnitView WbHowitzer load-resource                                unit.set-view-prefab
+                                                                 unit.add
 
-trigger: 
-    .select { TriggerName F enum } 
-    ; 
 
-camera-rig: 
-    :position { -17.13008 -0.000156096 12.93948 float3 } 
-    :rotation { 0 } 
-    :distance { 35.96291 } 
-    :pitch-angle { 45 } 
-    ; 
+
+                                                                 pop
+// -21, 16 Infantry Blue
+
+UnitType Infantry enum                                           unit.set-type
+false                                                            unit.set-moved
+10                                                               unit.set-hp
+-21 16 int2                                                      unit.set-position
+1 0 int2                                                         unit.set-look-direction
+UnitView WbLightTank load-resource                               unit.set-view-prefab
+                                                                 unit.add
+
+
+
+                                                                 pop
+// -23, 8 Rockets Blue
+
+UnitType Rockets enum                                            unit.set-type
+false                                                            unit.set-moved
+10                                                               unit.set-hp
+-23 8 int2                                                       unit.set-position
+1 0 int2                                                         unit.set-look-direction
+UnitView WbRockets load-resource                                 unit.set-view-prefab
+                                                                 unit.add
+
+
+
+                                                                 pop
+// -21, 12 Infantry Blue
+
+UnitType Infantry enum                                           unit.set-type
+false                                                            unit.set-moved
+10                                                               unit.set-hp
+-21 12 int2                                                      unit.set-position
+1 0 int2                                                         unit.set-look-direction
+UnitView WbLightTank load-resource                               unit.set-view-prefab
+                                                                 unit.add
+
+
+
+                                                                 pop
+// -18, 19 Recon Blue
+
+UnitType Recon enum                                              unit.set-type
+false                                                            unit.set-moved
+10                                                               unit.set-hp
+-18 19 int2                                                      unit.set-position
+1 0 int2                                                         unit.set-look-direction
+UnitView WbRecon load-resource                                   unit.set-view-prefab
+                                                                 unit.add
+
+
+
+                                                                 pop
+// -12, 22 Infantry Blue
+
+UnitType Infantry enum                                           unit.set-type
+false                                                            unit.set-moved
+10                                                               unit.set-hp
+-12 22 int2                                                      unit.set-position
+1 0 int2                                                         unit.set-look-direction
+UnitView WbLightTank load-resource                               unit.set-view-prefab
+                                                                 unit.add
+
+
+
+                                                                 pop
+// -13, 10 Recon Blue
+
+UnitType Recon enum                                              unit.set-type
+false                                                            unit.set-moved
+10                                                               unit.set-hp
+-13 10 int2                                                      unit.set-position
+1 0 int2                                                         unit.set-look-direction
+UnitView WbRecon load-resource                                   unit.set-view-prefab
+                                                                 unit.add
+
+
+
+                                                                 pop
+// -22, 20 Infantry Blue
+
+UnitType Infantry enum                                           unit.set-type
+false                                                            unit.set-moved
+10                                                               unit.set-hp
+-22 20 int2                                                      unit.set-position
+1 0 int2                                                         unit.set-look-direction
+UnitView WbLightTank load-resource                               unit.set-view-prefab
+                                                                 unit.add
+
+
+
+                                                                 pop
+
+TileType Sea enum -11 16 int2 -14 8 int2 -14 9 int2 -14 11 int2 -14 12 int2 -14 14 int2 -14 15 int2 -14 16 int2 -13 8 int2 -13 9 int2 -13 11 int2 -13 12 int2 -13 14 int2 -13 15 int2 -13 16 int2 -13 17 int2 -12 8 int2 -12 9 int2 -12 11 int2 -12 12 int2 -12 14 int2 -12 15 int2 -12 16 int2 -12 17 int2 -12 18 int2 -11 8 int2 -11 9 int2 -11 11 int2 -11 12 int2 -11 14 int2 -11 15 int2 -10 8 int2 -10 9 int2 -10 11 int2 -10 12 int2 -10 14 int2 -10 15 int2 -11 17 int2 38 tiles.add
+TileType Plain enum -19 15 int2 -24 9 int2 -24 15 int2 -24 20 int2 -24 21 int2 -24 22 int2 -23 18 int2 -23 19 int2 -23 20 int2 -23 21 int2 -23 22 int2 -23 23 int2 -23 24 int2 -22 11 int2 -22 12 int2 -22 18 int2 -22 19 int2 -22 20 int2 -22 21 int2 -22 22 int2 -22 23 int2 -22 24 int2 -22 25 int2 -22 26 int2 -21 9 int2 -21 10 int2 -21 12 int2 -21 16 int2 -21 17 int2 -21 18 int2 -21 19 int2 -21 20 int2 -21 21 int2 -21 24 int2 -21 25 int2 -20 9 int2 -20 10 int2 -20 12 int2 -20 16 int2 -20 17 int2 -20 19 int2 -20 20 int2 -20 21 int2 -19 9 int2 -19 10 int2 -19 11 int2 -19 12 int2 -19 16 int2 -19 17 int2 -19 19 int2 -19 20 int2 -19 21 int2 -19 22 int2 -19 23 int2 -19 24 int2 -18 17 int2 -18 19 int2 -18 20 int2 -18 21 int2 -18 22 int2 -18 23 int2 -18 24 int2 -18 25 int2 -17 19 int2 -17 20 int2 -17 21 int2 -17 22 int2 -17 23 int2 -17 24 int2 -17 25 int2 -16 18 int2 -16 19 int2 -16 21 int2 -16 22 int2 -16 23 int2 -16 24 int2 -16 25 int2 -15 18 int2 -15 19 int2 -15 20 int2 -15 21 int2 -15 22 int2 -15 23 int2 -15 24 int2 -15 25 int2 -14 19 int2 -14 20 int2 -14 21 int2 -14 25 int2 -13 22 int2 -13 26 int2 -12 26 int2 -11 26 int2 -10 17 int2 -10 18 int2 -10 20 int2 -10 21 int2 -10 22 int2 -10 23 int2 -10 24 int2 -10 26 int2 -9 8 int2 -9 9 int2 -9 10 int2 -9 11 int2 -9 12 int2 -9 14 int2 -9 15 int2 -9 16 int2 -9 17 int2 -9 18 int2 -9 19 int2 -9 20 int2 -9 21 int2 -9 22 int2 -9 23 int2 -9 24 int2 -9 26 int2 -8 8 int2 -8 9 int2 -8 10 int2 -8 11 int2 -8 12 int2 -8 15 int2 -8 16 int2 -8 17 int2 -8 18 int2 -8 19 int2 -8 20 int2 -8 21 int2 -8 22 int2 -8 23 int2 -8 24 int2 -8 26 int2 -6 8 int2 -6 9 int2 -6 10 int2 -6 17 int2 -6 18 int2 -6 19 int2 -6 20 int2 -6 22 int2 -6 24 int2 -6 26 int2 -5 8 int2 -5 9 int2 -5 10 int2 -5 13 int2 -5 17 int2 -5 18 int2 -5 22 int2 -5 23 int2 -5 25 int2 -5 26 int2 -4 9 int2 -4 10 int2 -4 13 int2 -4 14 int2 -4 15 int2 -4 17 int2 -4 23 int2 -4 24 int2 -4 25 int2 -4 26 int2 -3 10 int2 -3 13 int2 -3 14 int2 -3 15 int2 -3 17 int2 -3 23 int2 -3 24 int2 -3 25 int2 -15 13 int2 -15 17 int2 -15 16 int2 175 tiles.add
+TileType Road enum -23 8 int2 -23 9 int2 -23 10 int2 -23 11 int2 -23 12 int2 -23 13 int2 -23 14 int2 -23 15 int2 -23 16 int2 -22 13 int2 -22 14 int2 -22 15 int2 -21 13 int2 -21 14 int2 -21 15 int2 -20 13 int2 -20 14 int2 -20 15 int2 -20 23 int2 -20 24 int2 -20 25 int2 -20 26 int2 -19 26 int2 -18 26 int2 -17 26 int2 -16 26 int2 -15 26 int2 -14 10 int2 -14 13 int2 -14 17 int2 -13 10 int2 -13 13 int2 -12 10 int2 -12 13 int2 -11 10 int2 -11 13 int2 -11 25 int2 -10 10 int2 -10 13 int2 -10 25 int2 -9 13 int2 -9 25 int2 -8 13 int2 -8 25 int2 -7 12 int2 -7 13 int2 -7 14 int2 -7 15 int2 -7 16 int2 -7 17 int2 -7 18 int2 -7 19 int2 -7 20 int2 -7 21 int2 -7 22 int2 -7 23 int2 -7 24 int2 -7 25 int2 -7 26 int2 -6 12 int2 -6 16 int2 -6 21 int2 -5 12 int2 -5 16 int2 -5 21 int2 -4 12 int2 -4 16 int2 -4 21 int2 -3 12 int2 -3 16 int2 -3 21 int2 71 tiles.add
+TileType Mountain enum -14 18 int2 -24 10 int2 -24 11 int2 -24 12 int2 -24 24 int2 -24 25 int2 -24 26 int2 -23 26 int2 -21 8 int2 -20 8 int2 -20 18 int2 -19 18 int2 -18 18 int2 -17 16 int2 -17 17 int2 -17 18 int2 -13 18 int2 -13 19 int2 -12 19 int2 -12 20 int2 -12 24 int2 -12 25 int2 -11 18 int2 -11 19 int2 -11 20 int2 -11 21 int2 -11 22 int2 -11 23 int2 -10 19 int2 -7 8 int2 -7 9 int2 -7 10 int2 -7 11 int2 -6 11 int2 -5 11 int2 -5 19 int2 -4 11 int2 -4 19 int2 -4 20 int2 -3 11 int2 40 tiles.add
+TileType Forest enum -24 13 int2 -24 17 int2 -24 18 int2 -24 19 int2 -24 23 int2 -23 17 int2 -23 25 int2 -22 8 int2 -22 9 int2 -22 10 int2 -22 16 int2 -22 17 int2 -21 11 int2 -21 22 int2 -20 11 int2 -20 22 int2 -19 8 int2 -19 13 int2 -19 14 int2 -19 25 int2 -18 8 int2 -18 9 int2 -18 10 int2 -18 11 int2 -18 12 int2 -18 13 int2 -18 14 int2 -18 15 int2 -18 16 int2 -17 8 int2 -17 9 int2 -17 10 int2 -17 11 int2 -17 12 int2 -17 13 int2 -17 14 int2 -17 15 int2 -16 8 int2 -16 9 int2 -16 10 int2 -16 11 int2 -16 12 int2 -16 13 int2 -16 14 int2 -16 15 int2 -16 16 int2 -16 17 int2 -16 20 int2 -15 8 int2 -15 9 int2 -15 10 int2 -15 11 int2 -15 12 int2 -15 14 int2 -15 15 int2 -14 22 int2 -14 23 int2 -14 24 int2 -13 20 int2 -13 21 int2 -13 23 int2 -13 24 int2 -12 21 int2 -12 22 int2 -12 23 int2 -10 16 int2 -8 14 int2 -6 14 int2 -6 15 int2 -6 23 int2 -5 14 int2 -5 15 int2 -5 20 int2 -5 24 int2 -4 8 int2 -4 18 int2 -4 22 int2 -3 8 int2 -3 9 int2 -3 18 int2 -3 19 int2 81 tiles.add
+
+// Unowned                                                       buildings
+                                                                 null
+// -6, 13 City
+
+TileType City enum                                               building.set-type
+-6 13 int2                                                       building.set-position
+20                                                               building.set-cp
+0 -1 int2                                                        building.set-look-direction
+                                                                 building.add
+
+                                                                 pop
+// -13, 25 Factory
+
+TileType Factory enum                                            building.set-type
+-13 25 int2                                                      building.set-position
+20                                                               building.set-cp
+0 1 int2                                                         building.set-look-direction
+                                                                 building.add
+
+                                                                 pop
+// -14, 26 Factory
+
+TileType Factory enum                                            building.set-type
+-14 26 int2                                                      building.set-position
+20                                                               building.set-cp
+0 1 int2                                                         building.set-look-direction
+                                                                 building.add
+
+                                                                 pop
+// -21, 26 City
+
+TileType City enum                                               building.set-type
+-21 26 int2                                                      building.set-position
+20                                                               building.set-cp
+0 1 int2                                                         building.set-look-direction
+                                                                 building.add
+
+                                                                 pop
+// -21, 23 City
+
+TileType City enum                                               building.set-type
+-21 23 int2                                                      building.set-position
+20                                                               building.set-cp
+0 1 int2                                                         building.set-look-direction
+                                                                 building.add
+
+                                                                 pop
+                                                                 pop
+
+-15.49042 -0.0003127966 16.82599 float3                          camera-rig.set-position
+22.5                                                             camera-rig.set-rotation
+45                                                               camera-rig.set-pitch-angle
+1                                                                camera-rig.set-dolly-zoom
+

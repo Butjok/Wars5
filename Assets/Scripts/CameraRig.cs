@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using Butjok.CommandLine;
 using Cinemachine;
 using Drawing;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Serialization;
 
 public class CameraRig : MonoBehaviour {
 
@@ -74,50 +76,29 @@ public class CameraRig : MonoBehaviour {
         return sizeInPixels * worldUnitsPerPixel;
     }
 
-    public Vector2[] zoomPresets = {
-        new Vector2(1, 60),
-        new Vector2(2, 30),
-        new Vector2(3, 10),
-    };
-    public IEnumerator zoomAnimation;
-    public IEnumerator ZoomAnimation(float duration, float targetWidth, float targetFov) {
-        var startTime = Time.unscaledTime;
-        var startFov = Fov;
-        var startWidth = 2 * Distance * Mathf.Tan(Mathf.Deg2Rad * Fov / 2);
-        while (Time.unscaledTime < startTime + duration) {
-            var t = (Time.unscaledTime - startTime) / duration;
-            var fov = Mathf.Lerp(startFov, targetFov, t);
-            var width = Mathf.Lerp(startWidth, targetWidth, t);
-            Distance = width / (2 * Mathf.Tan(Mathf.Deg2Rad * fov / 2));
-            Fov = fov;
-            yield return null;
+    public float DollyZoom {
+        get => dollyZoom;
+        set {
+            targetDollyZoom = dollyZoom = value;
+            Fov = Mathf.Lerp(dollyZoomFovRange[0], dollyZoomFovRange[1], dollyZoom);
+            Distance = Mathf.Lerp(dollyZoomWidthRange[0], dollyZoomWidthRange[1], dollyZoom) / (2 * Mathf.Tan(Mathf.Deg2Rad * Fov / 2));
         }
     }
 
-    public float zoomDuration = .24f;
-    public float dollyZoomWidth = 1;
+    public Vector2 dollyZoomFovRange = new(45, 10);
+     public Vector2 dollyZoomWidthRange = new(2.5f, 15);
+    [Range(0, 1)] [SerializeField] private float dollyZoom = 0;
+    [Range(0, 1)] public float targetDollyZoom = 0;
+    public float dollyZoomSpeed = 20;
 
-    public void SetupCamera(float width, float fov) {
-        Fov = fov;
-        Distance = width / (2 * Mathf.Tan(Mathf.Deg2Rad * fov / 2));
-    }
-
-    public Vector2 fovRange = new(45,10);
-    public Vector2 widthRange = new(2.5f,15);
-    public float dollyZoom = 0;
-    public float dollyZoomSpeed = .5f;
-    public float targetDollyZoom = 0;
-    public Easing.Name dollyZoomEasing = Easing.Name.Linear;
-    
     [Command]
     public static float verticalStretch = 1.1f;
-    
+
     private void Update() {
 
         Assert.IsTrue(camera);
         Assert.IsTrue(arm);
-        
-        
+
 
         var positionInput =
             transform.right.ToVector2() * Input.GetAxisRaw("Horizontal").ZeroSign() +
@@ -140,52 +121,25 @@ public class CameraRig : MonoBehaviour {
         if (rotationCoroutine == null && rotationDirection != 0)
             TryRotate(rotationDirection);
 
-        var zoomInput = Input.GetAxisRaw("Mouse ScrollWheel").ZeroSign() + Input.GetAxisRaw("Zoom").ZeroSign() * Time.deltaTime * zoomSpeed;
-        if (zoomInput != 0) {
-            if (zoomPresets.Length > 0) {
-                var minDifference = float.MaxValue;
-                var closestIndex = -1;
-                for (var i = 0; i < zoomPresets.Length; i++) {
-                    var difference = Mathf.Abs(Fov - zoomPresets[i][1]);
-                    if (minDifference > difference) {
-                        minDifference = difference;
-                        closestIndex = i;
-                    }
-                }
-                var nextIndex = Mathf.Clamp(closestIndex - Input.GetAxisRaw("Mouse ScrollWheel").ZeroSign(), 0, zoomPresets.Length - 1);
-                Debug.Log(nextIndex);
-                //targetDistance = ClampedDistance(distancePresets[nextIndex]);
-                if (zoomAnimation != null) {
-                    StopCoroutine(zoomAnimation);
-                    zoomAnimation = null;
-                }
-                /*var zoomPreset = zoomPresets[nextIndex];
-                zoomAnimation = ZoomAnimation(zoomDuration, zoomPreset.x, zoomPreset.y);
-                StartCoroutine(zoomAnimation);*/
-            }
-            else
-                targetDistance = ClampedDistance(targetDistance + zoomInput * distanceStep * Distance);
-        }
-
         // ZOOM
 
-        targetDollyZoom = Mathf.Clamp01(targetDollyZoom + Input.GetAxisRaw("Mouse ScrollWheel").ZeroSign() * distanceStep );
+        targetDollyZoom = Mathf.Clamp01(targetDollyZoom + Input.GetAxisRaw("Mouse ScrollWheel").ZeroSign() * distanceStep);
         dollyZoom = Mathf.Lerp(dollyZoom, targetDollyZoom, Time.unscaledDeltaTime * dollyZoomSpeed);
-        var fov = Mathf.Lerp(fovRange[0], fovRange[1], Easing.Dynamic(dollyZoomEasing, dollyZoom));
-        var width = Mathf.Lerp(widthRange[0], widthRange[1], Easing.Dynamic(dollyZoomEasing, dollyZoom));
+        var fov = Mathf.Lerp(dollyZoomFovRange[0], dollyZoomFovRange[1], dollyZoom);
+        var width = Mathf.Lerp(dollyZoomWidthRange[0], dollyZoomWidthRange[1], dollyZoom);
 
         var oldDistance = Distance;
         var plane = new Plane(Vector3.up, Vector3.zero);
 
         var oldRay = camera.FixedScreenPointToRay(Input.mousePosition);
-        
+
         var oldRaycast = plane.Raycast(oldRay, out var oldEnter);
-        Distance = width / (2 * Mathf.Tan(Mathf.Deg2Rad * fov / 2));
         Fov = fov;
+        Distance = width / (2 * Mathf.Tan(Mathf.Deg2Rad * fov / 2));
         var delta = Distance - oldDistance;
 
         var newRay = camera.FixedScreenPointToRay(Input.mousePosition);
-        
+
         var newRaycast = plane.Raycast(newRay, out var newEnter);
         if (oldRaycast && newRaycast) {
             var oldPoint = oldRay.GetPoint(oldEnter);
@@ -293,10 +247,11 @@ public class CameraRig : MonoBehaviour {
     }
     public void Jump(Vector3 to) {
         StopJump();
-        JumpCoroutine = JumpAnimation(to);
+        var completed = false;
+        JumpCoroutine = JumpAnimation(to, () => completed=true);
         StartCoroutine(JumpCoroutine);
     }
-    private IEnumerator JumpAnimation(Vector3 to) {
+    private IEnumerator JumpAnimation(Vector3 to, Action onComplete) {
         var from = transform.position;
         var startTime = Time.unscaledTime;
         while (Time.unscaledTime < startTime + jumpDuration) {
@@ -307,6 +262,7 @@ public class CameraRig : MonoBehaviour {
         }
         transform.position = to;
         JumpCoroutine = null;
+        onComplete?.Invoke();
     }
 
     public float PitchAngle {

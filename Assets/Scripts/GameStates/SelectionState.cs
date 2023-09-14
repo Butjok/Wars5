@@ -37,6 +37,18 @@ public class SelectionState : StateMachineState {
             // 1 frame skip to let units' views to update to correct positions
             // yield return null;
 
+            var turnButton = level.view.turnButton;
+            void TrySetTurnButtonVisibility(bool visible) {
+                if (turnButton)
+                    turnButton.Visible = visible;
+            }
+            void TrySetTurnButtonInteractivity(bool interactable) {
+                if (turnButton)
+                    turnButton.Interactable = interactable;
+            }
+            
+            TrySetTurnButtonInteractivity(true);
+
             var unmovedUnits = level.units.Values
                 .Where(unit => unit.Player == player && !unit.Moved)
                 .ToList();
@@ -249,6 +261,12 @@ public class SelectionState : StateMachineState {
                     }
             }
         }
+    }
+
+    public override void Exit() {
+        var level = FindState<LevelSessionState>().level;
+        if (level.view.turnButton)
+            level.view.turnButton.Interactable = false;
     }
 
     public static IEnumerator StartAbility(Player player, int turn) {

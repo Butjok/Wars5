@@ -52,4 +52,6 @@ public class LevelView : MonoBehaviour {
     public DialogueUi3 dialogueUi;
     public MinimapUi minimap;
     public TilemapCursor tilemapCursor;
+    public Sun sun;
+    public TurnButton turnButton;
 }

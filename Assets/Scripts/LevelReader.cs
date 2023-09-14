@@ -117,15 +117,8 @@ public static class LevelReader {
         var unitTargetAssignmentActions = new List<Action>();
 
         stack.Clear();
-        // input = input.Preprocessed();
 
-        File.WriteAllText("Assets/Before.save", input);
-        File.WriteAllText("Assets/After.save", input.Processed());
-
-        var processed = input.Processed();
-        var clean = Regex.Replace(processed, @"//.*", " ");
-
-        foreach (var token in Tokenizer.Tokenize(clean)) {
+        foreach (var token in Tokenizer.Tokenize(input.ToPostfix())) {
             // try {
             switch (token) {
 
@@ -456,10 +449,13 @@ public static class LevelReader {
                     cameraRig.transform.rotation = Quaternion.Euler(0, (dynamic)stack.Pop(), 0);
                     break;
                 case "camera-rig.set-distance":
-                    cameraRig.SetDistance((dynamic)stack.Pop(), false);
+                    //cameraRig.SetDistance((dynamic)stack.Pop(), false);
                     break;
                 case "camera-rig.set-pitch-angle":
                     cameraRig.PitchAngle = (dynamic)stack.Pop();
+                    break;
+                case "camera-rig.set-dolly-zoom":
+                    cameraRig.DollyZoom = (dynamic)stack.Pop();
                     break;
 
                 case "find-in-level-with-name": {

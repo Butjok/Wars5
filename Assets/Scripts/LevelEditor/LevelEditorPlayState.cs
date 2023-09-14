@@ -15,7 +15,7 @@ public class LevelEditorPlayState : StateMachineState {
             level.view.gameObject.SetActive(false);
 
             using var stringWriter = new StringWriter();
-            new PrefixWriter(stringWriter).Level(level);
+            new LevelWriter(stringWriter).WriteLevel(level);
             save = stringWriter.ToString();
 
             editorState.gui

@@ -3,6 +3,7 @@ using System.Collections;
 using Butjok.CommandLine;
 using UnityEngine;
 using UnityEngine.Assertions;
+using Random = UnityEngine.Random;
 
 public class Sun : MonoBehaviour {
 
@@ -43,21 +44,27 @@ public class Sun : MonoBehaviour {
         startAngles = transform.localRotation.eulerAngles;
     }
 
+    public Easing.Name easing = Easing.Name.Linear;
+
     public IEnumerator Animation(Action onComplete = null) {
 
         Assert.IsTrue(axis is 0 or 1 or 2);
 
         var startTime = Time.unscaledTime;
         var angles = startAngles;
+        var a = Random.Range(0, 360f);
+        var axis2 = new Vector3(Mathf.Cos(a),0, Mathf.Sin(a));
+        var startRotation = transform.rotation;
         var from = angles[axis];
         var to = from + 360;
         var lightIntensityAmplitude = light ? light.intensity : 0;
         Time.timeScale = timeScale;
         while (Time.unscaledTime < startTime + dayChangeDuration) {
             var t = (Time.unscaledTime - startTime) / dayChangeDuration;
+            t = Easing.Dynamic(easing, t);
             var angle = Mathf.Lerp(from, to, t);
             angles[axis] = angle;
-            transform.localRotation = Quaternion.Euler(angles);
+            transform.rotation = startRotation * Quaternion.AngleAxis(t * 360, axis2);
             var nightIntensity = this.nightIntensity.Evaluate(360 * t);
             PostProcessing.ColorFilter = Color.Lerp(Color.white, nightColorFilterColor, nightIntensity);
             if (light) {
@@ -70,7 +77,7 @@ public class Sun : MonoBehaviour {
         }
         Time.timeScale = 1;
         angles[axis] = to;
-        transform.localRotation = Quaternion.Euler(startAngles);
+        transform.rotation = startRotation;
         PostProcessing.ColorFilter = Color.white;
         if (light) {
             light.color = Color.white;

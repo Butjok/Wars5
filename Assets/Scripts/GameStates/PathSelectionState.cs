@@ -9,6 +9,8 @@ public class PathSelectionState : StateMachineState {
 
     public enum Command { Cancel, Move, ReconstructPath, AppendToPath }
 
+    public const string tileMaskUniformName = "_TileMask";
+    
     public static GameObject pathMeshGameObject;
     public static MeshFilter pathMeshFilter;
     public static MeshRenderer pathMeshRenderer;
@@ -49,7 +51,7 @@ public class PathSelectionState : StateMachineState {
 
             if (!levelSession.autoplay) {
                 var (texture, transform) = TileMaskTexture.Create(reachable, 16);
-                TileMaskTexture.Set(level.view.terrainMaterial, "_TileMask", texture, transform);
+                level.view.terrainMaterial.SetTileMask(tileMaskUniformName, texture, transform);
             }
 
             void RebuildPathMesh() {
@@ -114,6 +116,7 @@ public class PathSelectionState : StateMachineState {
                             level.view.cursorView.Position = null;
 
                             pathMeshGameObject.SetActive(false);
+                            level.view.terrainMaterial.UnsetTileMask(tileMaskUniformName);
 
                             path = pathBuilder.positions;
                             var animation = new MoveSequence(unit.view.transform, path).Animation();
@@ -135,6 +138,7 @@ public class PathSelectionState : StateMachineState {
 
                         case (Command.Cancel, _):
                             unit.view.Selected = false;
+                            level.view.terrainMaterial.UnsetTileMask(tileMaskUniformName);
                             yield return StateChange.PopThenPush(2, new SelectionState(stateMachine));
                             break;
 
@@ -149,7 +153,7 @@ public class PathSelectionState : StateMachineState {
     public override void Exit() {
         var level = stateMachine.TryFind<LevelSessionState>().level;
         var unit = stateMachine.TryFind<SelectionState>().unit;
-        level.view.terrainMaterial.SetTexture("_TileMask", null);
+        level.view.terrainMaterial.UnsetTileMask(tileMaskUniformName);
         unit.view.Selected = false;
         if (pathMeshGameObject)
             pathMeshGameObject.SetActive(false);

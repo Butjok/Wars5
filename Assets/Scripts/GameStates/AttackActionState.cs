@@ -70,14 +70,16 @@ public class AttackActionState : StateMachineState {
                         color = target.Player.Color
                     }
                 };
-                var battleViews = new BattleView2[2];
+                var sides = new BattleSideView[2];
 
                 using (var battle = new Battle(setup))
-                using (battleViews[attackerSide] = new BattleView2(attackerSide, level.tiles[action.path[^1]]))
-                using (battleViews[targetSide] = new BattleView2(targetSide, level.tiles[action.targetUnit.NonNullPosition])) {
+                using (sides[attackerSide] = new BattleSideView(attackerSide, level.tiles[action.path[^1]]))
+                using (sides[targetSide] = new BattleSideView(targetSide, level.tiles[action.targetUnit.NonNullPosition])) {
 
-                    battleViews[left].Arrange(battle.units[left]);
-                    battleViews[right].Arrange(battle.units[right]);
+                    sides[left].Arrange(battle.units[left]);
+                    sides[right].Arrange(battle.units[right]);
+
+                    yield return StateChange.none;
 
                     level.view.cameraRig.camera.gameObject.SetActive(false);
                     level.view.battleCameras[left].gameObject.SetActive(true);
@@ -110,13 +112,25 @@ public class AttackActionState : StateMachineState {
                 }
             }
 
+            if (newTargetHp <= 0) {
+                level.view.cameraRig.Jump(target.view.transform.position);
+                var time = Time.time;
+                while(Time.time < time + level.view.cameraRig.jumpDuration)
+                    yield return StateChange.none;
+            }
             target.SetHp(newTargetHp, true);
 
-            attacker.SetHp(newAttackerHp, true);
-            if (attacker.Hp > 0) {
+            if (attacker.Hp <= 0) {
+                level.view.cameraRig.Jump(attacker.view.transform.position);
+                var time = Time.time;
+                while(Time.time < time + level.view.cameraRig.jumpDuration)
+                    yield return StateChange.none;
+            }
+            else {
                 attacker.Position = action.path.Last();
                 attacker.SetAmmo(action.weaponName, attacker.GetAmmo(action.weaponName) - 1);
             }
+            attacker.SetHp(newAttackerHp, true);
         }
     }
 }
