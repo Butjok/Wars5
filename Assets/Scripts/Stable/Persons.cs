@@ -86,11 +86,19 @@ public static class Persons {
                 Debug.LogWarning($"person {id} does not have photos");
         }
     }
-    
+
     public static bool IsCo(PersonName personName) {
         return personName is PersonName.Natalie or PersonName.Vladan;
     }
-    public static List<AudioClip> GetMusicThemes(PersonName coName) {
-        return new List<AudioClip>();
+
+    public static IEnumerable<AudioClip> GetMusicThemes(PersonName personName) {
+        switch (personName) {
+            case PersonName.Natalie:
+                yield return "grenzerkompanie".LoadAs<AudioClip>();
+                break;
+            case PersonName.Vladan:
+                yield return "chicherina".LoadAs<AudioClip>();
+                break;
+        }
     }
 }

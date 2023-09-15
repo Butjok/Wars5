@@ -211,6 +211,7 @@ GameObject:
   - component: {fileID: 34922876}
   - component: {fileID: 34922875}
   - component: {fileID: 34922874}
+  - component: {fileID: 34922880}
   m_Layer: 0
   m_Name: Main Camera (1)
   m_TagString: MainCamera
@@ -229,7 +230,7 @@ Camera:
   serializedVersion: 2
   m_ClearFlags: 2
   m_BackGroundColor: {r: 1, g: 1, b: 1, a: 0}
-  m_projectionMatrixMode: 1
+  m_projectionMatrixMode: 0
   m_GateFitMode: 2
   m_FOVAxisMode: 0
   m_SensorSize: {x: 36, y: 24}
@@ -311,7 +312,7 @@ MonoBehaviour:
     m_Bits: 8
   stopNaNPropagation: 1
   finalBlitToCameraTarget: 0
-  antialiasingMode: 3
+  antialiasingMode: 2
   temporalAntialiasing:
     jitterSpread: 0.75
     sharpness: 0.15
@@ -352,7 +353,9 @@ MonoBehaviour:
   breakBeforeColorGrading: 0
   m_BeforeTransparentBundles: []
   m_BeforeStackBundles: []
-  m_AfterStackBundles: []
+  m_AfterStackBundles:
+  - assemblyQualifiedName: CameraFading, Wars, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &34922877
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -410,6 +413,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 30.932, y: 0, z: 0}
+--- !u!114 &34922880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 34922872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77607e11da374bada39124095377e0fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  camera: {fileID: 34922873}
 --- !u!1 &43574249 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 426779576379108126, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
@@ -641,8 +657,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1421f13b99013f4fa5802d1db0495c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  views: []
-  target: {fileID: 981116907}
+  target: {fileID: 0}
   selectRandomTarget: 0
   manualControl: {fileID: 0}
 --- !u!4 &78179474
@@ -6208,8 +6223,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3eb270eb4f264317bc9e9d245d17bcfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  game: {fileID: 0}
-  playerIndex: 0
 --- !u!1 &486272033
 GameObject:
   m_ObjectHideFlags: 0
@@ -21382,19 +21395,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 51258076789849872, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 162.16077
+      value: 310.1365
       objectReference: {fileID: 0}
     - target: {fileID: 51258076789849872, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 131.42416
+      value: 276.37726
       objectReference: {fileID: 0}
     - target: {fileID: 51258076789849872, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 667.1507
+      value: 460.48605
       objectReference: {fileID: 0}
     - target: {fileID: 51258076789849872, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 170.61105
+      value: 310.03503
       objectReference: {fileID: 0}
     - target: {fileID: 742884794920560503, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
       propertyPath: m_LocalRotation.w
@@ -41930,10 +41943,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf4ed7defffe40cb9f8433104787bdd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
-  acceleration: 5
-  rotationSpeed: 90
-  maxSpeed: 3
   target: {fileID: 0}
 --- !u!114 &962888040
 MonoBehaviour:
@@ -41960,7 +41969,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1421f13b99013f4fa5802d1db0495c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  views: []
   target: {fileID: 0}
   selectRandomTarget: 1
   manualControl: {fileID: 962888039}
@@ -41981,7 +41989,6 @@ MonoBehaviour:
     m_Bits: 64
   speed: 1
   alwaysAbove: 0
-  rayOriginHeight: 100
   instant: 0
 --- !u!114 &962888043
 MonoBehaviour:
@@ -41996,7 +42003,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxDistance: 45
-  rayPosition: {x: 0, y: 1}
   multiplier: 1.5
   camera: {fileID: 0}
 --- !u!114 &962888044
@@ -42070,36 +42076,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbed03330a6d1c248a01dc45736d3b97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  raycastLayerMask:
-    serializedVersion: 2
-    m_Bits: 1
-  arm: {fileID: 1284911961}
-  virtualCamera: {fileID: 1373960116}
-  speed: 1
-  speedMultiplier: 1
-  velocitySmoothTime: 25
-  distance: 3.181904
-  distanceSmoothTime: 50
-  distanceStep: -0.1
-  distanceBounds: {x: 2, y: 15}
-  rotation: 0
-  rotationDuration: 0.33
-  rotationEase: 3
-  rotationStep: -22.5
-  rotationAmplitude: 1.7
-  rotationPeriod: 0
-  clampRotation: 1
-  rotationRange: {x: -1, y: 1}
-  pitchAngle: 30
-  pitchAngleSmoothTime: 0.02
-  pitchAngleSpeed: 90
-  pitchAngleBounds: {x: 0, y: 90}
-  compassResetCooldown: 0.2
-  teleportCooldown: 0.2
-  teleportDuration: 0.5
-  teleportEase: 18
-  placeOnTerrain: {fileID: 0}
-  speedupMultiplier: 2
 --- !u!4 &962888046
 Transform:
   m_ObjectHideFlags: 0
@@ -42226,17 +42202,6 @@ MonoBehaviour:
     Move\nfalse SetAim\n.5 Wait\n3 Move\n90 Rotate\n3 Move \nRestart"
   linearAcceleration: 0.75
   steerAcceleration: 45
---- !u!114 &981116907 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 9102701131239654383, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
-  m_PrefabInstance: {fileID: 674698234}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 981116870}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 429cb5d29afe47d798eb131265f72fc0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &981116908 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8780316190875479028, guid: ba0375ecfc111bc4a9c84dfd285e54c2, type: 3}
@@ -69341,10 +69306,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf4ed7defffe40cb9f8433104787bdd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
-  acceleration: 5
-  rotationSpeed: 90
-  maxSpeed: 3
   target: {fileID: 0}
 --- !u!114 &1740986520
 MonoBehaviour:
@@ -69371,8 +69332,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1421f13b99013f4fa5802d1db0495c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  views: []
-  target: {fileID: 981116907}
+  target: {fileID: 0}
   selectRandomTarget: 1
   manualControl: {fileID: 1740986519}
 --- !u!114 &1740986522
@@ -69392,7 +69352,6 @@ MonoBehaviour:
     m_Bits: 64
   speed: 1
   alwaysAbove: 0
-  rayOriginHeight: 100
   instant: 0
 --- !u!114 &1740986523
 MonoBehaviour:
@@ -69407,7 +69366,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxDistance: 45
-  rayPosition: {x: 0, y: 1}
   multiplier: 1.5
   camera: {fileID: 34922873}
 --- !u!114 &1740986524
@@ -69576,36 +69534,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbed03330a6d1c248a01dc45736d3b97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  raycastLayerMask:
-    serializedVersion: 2
-    m_Bits: 1
-  arm: {fileID: 837402010}
-  virtualCamera: {fileID: 2091211636}
-  speed: 1
-  speedMultiplier: 1
-  velocitySmoothTime: 25
-  distance: 1.42
-  distanceSmoothTime: 50
-  distanceStep: -0.1
-  distanceBounds: {x: 2, y: 15}
-  rotation: 3
-  rotationDuration: 0.33
-  rotationEase: 3
-  rotationStep: -45
-  rotationAmplitude: 1.7
-  rotationPeriod: 0
-  clampRotation: 0
-  rotationRange: {x: -1, y: 1}
-  pitchAngle: 20
-  pitchAngleSmoothTime: 0.02
-  pitchAngleSpeed: 90
-  pitchAngleBounds: {x: 15, y: 60}
-  compassResetCooldown: 0.2
-  teleportCooldown: 0.2
-  teleportDuration: 0.5
-  teleportEase: 18
-  placeOnTerrain: {fileID: 0}
-  speedupMultiplier: 2
 --- !u!4 &1740986526
 Transform:
   m_ObjectHideFlags: 0
@@ -80267,6 +80195,7 @@ MonoBehaviour:
   includeNamespaceName: 1
   maximumMultipleValues: 3
   show: 0
+  depth: -1000
 --- !u!4 &2142356400
 Transform:
   m_ObjectHideFlags: 0

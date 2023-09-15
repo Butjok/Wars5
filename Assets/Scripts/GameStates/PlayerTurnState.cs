@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -15,6 +16,14 @@ public class PlayerTurnState : StateMachineState {
             player.view.visible = true;
             Debug.Log($"Start of turn #{level.turn}: {player}");
 
+            if (MusicPlayer.TryGet(out var musicPlayer)) {
+                var musicTracks = Persons.GetMusicThemes(player.coName).ToList();
+                if (musicTracks.Count > 0)
+                    musicPlayer.StartPlaying(musicTracks.InfiniteSequence());
+                else
+                    musicPlayer.StopPlaying();
+            }
+
             var turnButton = level.view.turnButton;
             if (turnButton) {
                 turnButton.Color = player.Color;
@@ -28,6 +37,10 @@ public class PlayerTurnState : StateMachineState {
     }
     public override void Exit() {
         player.view.visible = false;
+        
+        if (MusicPlayer.TryGet(out var musicPlayer))
+            musicPlayer.StopPlaying();
+        
         Debug.Log($"End of turn");
     }
 }
