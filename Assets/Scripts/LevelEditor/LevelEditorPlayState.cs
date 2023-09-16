@@ -20,6 +20,9 @@ public class LevelEditorPlayState : StateMachineState {
 
             editorState.gui
                 .Push();
+            
+            if (editorState.musicSource)
+                Music.Mute(editorState.musicSource);
 
             yield return StateChange.Push(new LevelSessionState(stateMachine, save, level.missionName, editorState.playAsFreshStart, level.precalculatedDistances));
         }
@@ -28,5 +31,8 @@ public class LevelEditorPlayState : StateMachineState {
         var editorState = stateMachine.TryFind<LevelEditorSessionState>();
         editorState.level.view.gameObject.SetActive(true);
         editorState.gui.Pop();
+        
+        if (editorState.musicSource)
+            Music.Unmute(editorState.musicSource);
     }
 }

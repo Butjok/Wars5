@@ -44,7 +44,7 @@ public class StateMachine {
                 return castedState;
         return null;
     }
-    public T Find<T>() where T: StateMachineState {
+    public T Find<T>() where T : StateMachineState {
         var result = TryFind<T>();
         Assert.IsNotNull(result);
         return result;
@@ -125,7 +125,7 @@ public abstract class StateMachineState {
                     cursorView.Position = mousePosition;
                 break;
         }
-        
+
         return StateChange.none;
     }
 
@@ -153,8 +153,8 @@ public abstract class StateMachineState {
         }
         return false;
     }
-    
-    protected  StateChange HandleModeSelectionCommand(object command) {
+
+    protected StateChange HandleModeSelectionCommand(object command) {
         switch (command) {
             case (LevelEditorSessionState.SelectModeCommand.SelectTilesMode, _):
                 return StateChange.ReplaceWith(new LevelEditorTilesModeState(stateMachine));

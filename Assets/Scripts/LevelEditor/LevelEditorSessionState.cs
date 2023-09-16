@@ -24,6 +24,7 @@ public class LevelEditorSessionState : StateMachineState {
     }
 
     public int autosaveLifespanInDays = 30;
+    public AudioSource musicSource;
 
     public string input;
     public LevelEditorSessionState(StateMachine stateMachine, string input = "") : base(stateMachine) {
@@ -59,6 +60,10 @@ public class LevelEditorSessionState : StateMachineState {
 
             //ai = new Ai(FindState<GameSessionState>().game, level);
 
+            var theme = Resources.Load<AudioClip>("violin uzicko");
+            if (theme)
+                musicSource = Music.Play(theme);
+
             yield return StateChange.Push(new LevelEditorTilesModeState(stateMachine));
         }
     }
@@ -80,6 +85,8 @@ public class LevelEditorSessionState : StateMachineState {
         Object.Destroy(gui.gameObject);
         Object.Destroy(tileMeshFilter.gameObject);
 
+        if (musicSource)
+            Music.Kill(musicSource);
     }
 
     public void DrawBridges() {

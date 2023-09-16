@@ -46,7 +46,7 @@ public class SelectionState : StateMachineState {
                 if (turnButton)
                     turnButton.Interactable = interactable;
             }
-            
+
             TrySetTurnButtonInteractivity(true);
 
             var unmovedUnits = level.units.Values
@@ -130,7 +130,7 @@ public class SelectionState : StateMachineState {
 
                     else if (Input.GetKeyDown(KeyCode.F6) && Rules.CanUseAbility(level.CurrentPlayer))
                         game.EnqueueCommand(Command.UseAbility);
-                    
+
                     else if (Input.GetKeyDown(KeyCode.M) || Input.GetKeyDown(KeyCode.CapsLock))
                         game.EnqueueCommand(Command.OpenMinimap);
                 }
@@ -197,10 +197,12 @@ public class SelectionState : StateMachineState {
                             yield return StateChange.Push(new GameMenuState(stateMachine));
                             break;
 
-                        case (Command.ExitToLevelEditor, _):
-                            if (stateMachine.TryFind<LevelSessionState>() != null)
+                        case (Command.ExitToLevelEditor, _): {
+                            var levelEditorSessionState = stateMachine.TryFind<LevelEditorSessionState>();
+                            if (levelEditorSessionState != null)
                                 yield return StateChange.Pop();
                             break;
+                        }
 
                         case (Command.CyclePositions, int offset): {
                             if (positions.Length > 0) {
@@ -245,7 +247,7 @@ public class SelectionState : StateMachineState {
                                 preselectionCursor.Hide();
                             yield return StateChange.ReplaceWith(new DefeatState(stateMachine));
                             break;
-                        
+
                         case (Command.OpenMinimap, _):
                             yield return StateChange.Push(new MinimapState(stateMachine));
                             break;

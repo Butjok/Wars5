@@ -1,4 +1,5 @@
 using System;
+using System.Web.Compilation;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -19,26 +20,34 @@ public class UnitBuildMenu2 : MonoBehaviour {
     public TMP_Text nameText;
     public TMP_Text descriptionText;
 
-    private void Start() {
-        var factionName = FactionName.Novoslavia;
-        var credits = 9000;
-        Show(factionName, ColorName.Blue, credits,
-            type => Rules.Cost(type) <= credits,
-            type => Rules.Cost(type),
-            type => UnitInfo.GetFullName(factionName, type),
-            type => UnitInfo.GetDescription(factionName, type),
-            type => UnitInfo.TryGetThumbnail(factionName, type));
-    }
+    public Action<UnitType> build;
+    public Action cancel;
 
-    public void Show(FactionName factionName, ColorName colorName, int credits,
+    // private void Start() {
+    //     var factionName = FactionName.Novoslavia;
+    //     var credits = 9000;
+    //     Show(factionName, ColorName.Blue, credits,
+    //         type => Rules.Cost(type) <= credits,
+    //         type => Rules.Cost(type),
+    //         type => UnitInfo.GetFullName(factionName, type),
+    //         type => UnitInfo.GetDescription(factionName, type),
+    //         type => UnitInfo.TryGetThumbnail(factionName, type));
+    // }
+
+    public void Show(
+        Action<UnitType> build, Action cancel,
+        FactionName factionName, ColorName colorName, int credits,
         Func<UnitType, bool> isAvailable,
         Func<UnitType, int> getCost,
         Func<UnitType, string> getFullName,
         Func<UnitType, string> getDescription,
-        Func<UnitType, Sprite> tryGetThumbnail) {
+        Func<UnitType, Sprite> tryGetThumbnail,
+        BuildingView buildingView=null) {
 
         gameObject.SetActive(true);
 
+        this.build = build;
+        this.cancel = cancel;
         this.factionName = factionName;
         this.colorName = colorName;
         this.getCost = getCost;
@@ -68,8 +77,12 @@ public class UnitBuildMenu2 : MonoBehaviour {
             var index = Array.IndexOf(buttons, selectedButton);
             Select(buttons[(index + offset.Sign()).PositiveModulo(buttons.Length)]);
         }
-        else if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
-            TryBuild();
+        else if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return)) {
+            if (selectedButton)
+                build(selectedButton.unitType);
+        }
+            else if (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(Mouse.right))
+            cancel();
     }
 
     public void Select(UnitBuildMenuButton button) {
@@ -94,9 +107,13 @@ public class UnitBuildMenu2 : MonoBehaviour {
 
     public bool TryBuild() {
         if (selectedButton) {
-
+            build(selectedButton.unitType);
             return true;
         }
         return false;
+    }
+
+    public void Cancel() {
+        cancel();
     }
 }

@@ -8,6 +8,7 @@ public class PlayerTurnState : StateMachineState {
     public PlayerTurnState(StateMachine stateMachine) : base(stateMachine) { }
 
     public Player player;
+    public AudioSource musicSource;
 
     public override IEnumerator<StateChange> Enter {
         get {
@@ -16,13 +17,9 @@ public class PlayerTurnState : StateMachineState {
             player.view.visible = true;
             Debug.Log($"Start of turn #{level.turn}: {player}");
 
-            if (MusicPlayer.TryGet(out var musicPlayer)) {
-                var musicTracks = Persons.GetMusicThemes(player.coName).ToList();
-                if (musicTracks.Count > 0)
-                    musicPlayer.StartPlaying(musicTracks.InfiniteSequence());
-                else
-                    musicPlayer.StopPlaying();
-            }
+            var musicTracks = Persons.GetMusicThemes(player.coName).ToList();
+            if (musicTracks.Count > 0)
+                musicSource = Music.Play(musicTracks);
 
             var turnButton = level.view.turnButton;
             if (turnButton) {
@@ -37,10 +34,10 @@ public class PlayerTurnState : StateMachineState {
     }
     public override void Exit() {
         player.view.visible = false;
-        
-        if (MusicPlayer.TryGet(out var musicPlayer))
-            musicPlayer.StopPlaying();
-        
+
+        if (musicSource)
+            Music.Kill(musicSource);
+
         Debug.Log($"End of turn");
     }
 }

@@ -54,4 +54,5 @@ public class LevelView : MonoBehaviour {
     public TilemapCursor tilemapCursor;
     public Sun sun;
     public TurnButton turnButton;
+    public UnitBuildMenu2 unitBuildMenu;
 }

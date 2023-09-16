@@ -13,16 +13,28 @@ public class UnitBuildState : StateMachineState {
 
     public override IEnumerator<StateChange> Enter {
         get {
-            var (game, level, building, menu) = (FindState<GameSessionState>().game, FindState<LevelSessionState>().level, FindState<SelectionState>().building, FindObject<UnitBuildMenu>());
+            var (game, level, building) = (FindState<GameSessionState>().game, FindState<LevelSessionState>().level, FindState<SelectionState>().building);
+            var menu = level.view.unitBuildMenu;
 
+            Assert.IsTrue(menu);
             Assert.IsTrue(building.Player == level.CurrentPlayer);
             PlayerView.globalVisibility = false;
             yield return StateChange.none;
 
+            var success = Persons.TryGetFaction(level.CurrentPlayer.coName, out var factionName);
+            Assert.IsTrue(success);
+
+            int GetCost(UnitType unitType) {
+                return Rules.Cost(unitType, level.CurrentPlayer);
+            }
             menu.Show(
-                building,
                 unitType => game.EnqueueCommand(Command.Build, unitType),
-                () => game.EnqueueCommand(Command.Close));
+                () => game.EnqueueCommand(Command.Close),
+                factionName, level.CurrentPlayer.ColorName, level.CurrentPlayer.Credits, 
+                unitType => GetCost(unitType) <= level.CurrentPlayer.Credits, GetCost, 
+                unitType => UnitInfo.GetFullName(factionName, unitType), unitType => UnitInfo.GetDescription(factionName, unitType),
+                unitType => UnitInfo.TryGetThumbnail(factionName, unitType),
+                building.view);
 
             Debug.Log($"Building state at building: {building}");
 
@@ -57,14 +69,14 @@ public class UnitBuildState : StateMachineState {
                             building.Player.SetCredits(building.Player.Credits - Rules.Cost(type, building.Player), true);
 
                             menu.Hide();
-                            yield return StateChange.ReplaceWith(new SelectionState(stateMachine));
+                            yield return StateChange.Pop();
                             break;
                         }
 
                         case (Command.Close, _): {
                             menu.Hide();
                             PlayerView.globalVisibility = true;
-                            yield return StateChange.ReplaceWith(new SelectionState(stateMachine));
+                            yield return StateChange.Pop();
                             break;
                         }
 
