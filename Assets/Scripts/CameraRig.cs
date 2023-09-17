@@ -92,7 +92,7 @@ public class CameraRig : MonoBehaviour {
     public float dollyZoomSpeed = 20;
 
     [Command]
-    public static float verticalStretch = 1.1f;
+    public static float verticalStretch = 1.125f;
 
     private void Update() {
 
