@@ -160,8 +160,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 185.0217, y: 343.50467}
-  m_SizeDelta: {x: 201.89249, y: 340.0054}
+  m_AnchoredPosition: {x: 183.27783, y: 272.08902}
+  m_SizeDelta: {x: 168.77039, y: 319.73587}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &10685976
 MonoBehaviour:
@@ -3378,41 +3378,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbed03330a6d1c248a01dc45736d3b97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  raycastLayerMask:
-    serializedVersion: 2
-    m_Bits: 1
-  arm: {fileID: 2094398131}
-  virtualCamera: {fileID: 1384523824}
-  speed: 1
-  speedRange: {x: 1, y: 10}
-  speedMultiplier: 1
-  velocitySmoothTime: 25
-  distance: 13.5
-  distanceSmoothTime: 50
-  distanceStep: -0.1
-  distanceBounds: {x: 2, y: 30}
-  rotationDuration: 0.33
-  rotationEase: 3
-  rotationStep: -45
-  rotationAmplitude: 1.7
-  rotationPeriod: 0
-  clampRotation: 1
-  rotationRange: {x: -1, y: 1}
-  pitchAngle: 60
-  pitchAngleSmoothTime: 0.02
-  pitchAngleSpeed: 90
-  pitchAngleBounds: {x: 30, y: 60}
-  compassResetCooldown: 0.2
-  teleportCooldown: 0.2
-  teleportDuration: 0.5
-  teleportEase: 18
-  placeOnTerrain: {fileID: 0}
-  rotationEasingName: 3
-  speedupMultiplier: 2
-  camera: {fileID: 0}
-  fovBounds: {x: 45, y: 30}
-  fovLerpPower: 1
-  speedInViewportSpace: 0.2
 --- !u!4 &961738240
 Transform:
   m_ObjectHideFlags: 0
@@ -3684,8 +3649,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 793.652, y: 243.45728}
-  m_SizeDelta: {x: 219.57812, y: 353.2315}
+  m_AnchoredPosition: {x: 692.0575, y: 178.00598}
+  m_SizeDelta: {x: 183.55457, y: 332.17346}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1077786426
 MonoBehaviour:
@@ -4687,8 +4652,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 844.677, y: 561.29425}
-  m_SizeDelta: {x: 194.28638, y: 311.03412}
+  m_AnchoredPosition: {x: 734.7115, y: 476.89502}
+  m_SizeDelta: {x: 162.41211, y: 292.49164}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1355582743
 MonoBehaviour:
@@ -4944,6 +4909,7 @@ GameObject:
   - component: {fileID: 1400641669}
   - component: {fileID: 1400641675}
   - component: {fileID: 1400641676}
+  - component: {fileID: 1400641677}
   m_Layer: 3
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -4962,7 +4928,7 @@ Camera:
   serializedVersion: 2
   m_ClearFlags: 2
   m_BackGroundColor: {r: 0.49803922, g: 0.5019608, b: 0.4862745, a: 0}
-  m_projectionMatrixMode: 1
+  m_projectionMatrixMode: 0
   m_GateFitMode: 2
   m_FOVAxisMode: 0
   m_SensorSize: {x: 36, y: 24}
@@ -5044,7 +5010,7 @@ MonoBehaviour:
     m_Bits: 8
   stopNaNPropagation: 1
   finalBlitToCameraTarget: 0
-  antialiasingMode: 3
+  antialiasingMode: 2
   temporalAntialiasing:
     jitterSpread: 0.75
     sharpness: 0.15
@@ -5176,6 +5142,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   distance: 50
+--- !u!114 &1400641677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1400641667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77607e11da374bada39124095377e0fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  camera: {fileID: 1400641668}
 --- !u!1 &1413737973
 GameObject:
   m_ObjectHideFlags: 0

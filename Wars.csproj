@@ -172,6 +172,7 @@
      <Compile Include="Assets/Scripts/LevelLogic/LevelLogic.cs" />
      <Compile Include="Assets/Scripts/GameStates/ActionSelectionState.cs" />
      <Compile Include="Assets/Scripts/PostfixExtensions.cs" />
+     <Compile Include="Assets/Scripts/Views/UiFrame2.cs" />
      <Compile Include="Assets/Scripts/EntryPoint/MainMenuAboutState.cs" />
      <Compile Include="Assets/Scripts/MissionObjectivesUi.cs" />
      <Compile Include="Assets/Scripts/LevelEditor/LevelEditorTilesModeState.cs" />
@@ -251,7 +252,6 @@
      <Compile Include="Assets/Scripts/FlipbookTest.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
      <Compile Include="Assets/Scripts/EntryPoint/MainMenuWelcomeState.cs" />
-     <Compile Include="Assets/Scripts/Views/UiFrame2.cs" />
      <Folder Include="Assets/Scripts/EntryPoint" />
      <None Include="Assets/Scripts/Wars.asmdef" />
      <Folder Include="Assets/Scripts/DialogueMarkupLanguage" />
