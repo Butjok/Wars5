@@ -1,5 +1,6 @@
 using System;
 using System.Web.Compilation;
+using Cinemachine;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -22,6 +23,12 @@ public class UnitBuildMenu2 : MonoBehaviour {
 
     public Action<UnitType> build = type => { };
     public Action cancel = () => { };
+
+    public Image circle;
+    public BuildingView buildingView;
+    public float circleRadius = .6f;
+    public Vector3 circleWorldOffset = new(0, 0.25f, 0);
+    public Camera camera;
 
     // private void Start() {
     //     var factionName = FactionName.Novoslavia;
@@ -53,6 +60,7 @@ public class UnitBuildMenu2 : MonoBehaviour {
         this.getCost = getCost;
         this.getFullName = getFullName;
         this.getDescription = getDescription;
+        this.buildingView = buildingView;
 
         foreach (var button in buttons) {
             button.Available = isAvailable(button.unitType);
@@ -67,6 +75,7 @@ public class UnitBuildMenu2 : MonoBehaviour {
 
     public void Hide() {
         gameObject.SetActive(false);
+        circle.enabled = false;
     }
 
     private void Update() {
@@ -83,6 +92,23 @@ public class UnitBuildMenu2 : MonoBehaviour {
         }
         else if (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(Mouse.right))
             cancel();
+    }
+
+    public void LateUpdate() {
+        if (camera && circle && buildingView) {
+            var screenPoint0 = camera.WorldToScreenPoint(buildingView.transform.position + circleWorldOffset);
+            var screenPoint1 = camera.WorldToScreenPoint(buildingView.transform.position + circleWorldOffset + camera.transform.right * circleRadius);
+            if (screenPoint0.z > 0 && screenPoint1.z > 0) {
+                circle.enabled = true;
+                var center = screenPoint0;
+                var halfLength = (screenPoint0 - screenPoint1).magnitude;
+                circle.rectTransform.anchoredPosition = center - new Vector3(halfLength, halfLength);
+                circle.rectTransform.sizeDelta = new Vector2(halfLength, halfLength) * 2;
+                circle.materialForRendering.SetFloat("_Size", halfLength * 2);
+            }
+            else
+                circle.enabled = false;
+        }
     }
 
     public void Select(UnitBuildMenuButton button) {

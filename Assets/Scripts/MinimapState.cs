@@ -28,7 +28,7 @@ public class MinimapState : StateMachineState {
 
             while (true) {
                 yield return StateChange.none;
-                if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.M) || Input.GetKeyDown(KeyCode.CapsLock)) {
+                if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.M) || Input.GetKeyDown(KeyCode.CapsLock) || Input.GetMouseButtonDown(Mouse.right)) {
                     yield return StateChange.none;
                     break;
                 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.UI;
 
 [ExecuteInEditMode]
 [RequireComponent(typeof(RectTransform))]
@@ -91,5 +92,18 @@ public class UIFrame : MonoBehaviour {
 
         rectTransform.anchoredPosition = min;
         rectTransform.sizeDelta = max - min;
+    }
+}
+
+public static class UiFrame2 {
+    
+    public static bool TryFrame(this Image image, BoxCollider boxCollider, out Vector2 min, out Vector2 max) {
+        if (UIFrame.TryCalculateScreenSize(boxCollider, out  min, out  max)) {
+            image.enabled = true;
+            image.rectTransform.anchoredPosition = min;
+            image.rectTransform.sizeDelta = max - min;
+            return true;
+        }
+        return false;
     }
 }

@@ -14,6 +14,8 @@ Shader "Unlit/CameraFrustum"
         _StencilReadMask ("Stencil Read Mask", Float) = 255
  
         _ColorMask ("Color Mask", Float) = 15
+        
+        _Thickness ("_Thickness", Float) = 15
  
         [Toggle(UNITY_UI_ALPHACLIP)] _UseUIAlphaClip ("Use Alpha Clip", Float) = 0
     }
@@ -84,6 +86,8 @@ Shader "Unlit/CameraFrustum"
             fixed _SpeedX;
             fixed _SpeedY;
  
+ fixed _Thickness;
+ 
             v2f vert(appdata_t v)
             {
                 v2f OUT;
@@ -123,7 +127,7 @@ Shader "Unlit/CameraFrustum"
                 distance = min(distance, sdSegment(worldPosition, _V3, _V0));
                 float thickness = .05;
                 float falloff = .025;
-                float lineIntensity = 1 - smoothstep(thickness - falloff, thickness + falloff, distance) ;
+                float lineIntensity = 1 - smoothstep(_Thickness - falloff, _Thickness + falloff, distance) ;
                 color = float4(1,1,1,1);
                 color.a = lineIntensity;
 //color= distance;

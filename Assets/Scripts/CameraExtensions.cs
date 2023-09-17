@@ -7,7 +7,7 @@ using UnityEngine;
 
 public static class CameraExtensions {
 
-    public static int raycastLayerMask = (-1) ^ (1 << LayerMask.NameToLayer("UI")) ^ (1 << LayerMask.NameToLayer("Ignore Raycast"));
+    public static int raycastLayerMask = 1 << LayerMask.NameToLayer("Terrain");
     
     public static Ray FixedScreenPointToRay(this Camera camera, Vector3 position) {
     
