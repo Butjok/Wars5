@@ -103,6 +103,7 @@ public class LevelWriter {
         WriteLine("    :credits             ( {0} )", player.Credits);
         WriteLine("    :power-meter         ( {0} )", player.AbilityMeter);
         WriteLine("    :unit-look-direction ( {0} )", player.unitLookDirection);
+        WriteLine("    :side                ( {0} )", player.side);
 
         if (player.level.localPlayer == player)
             WriteLine("    .mark-as-local");

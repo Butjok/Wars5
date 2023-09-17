@@ -11,8 +11,8 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Button))]
 public class UnitBuildMenuButton : MonoBehaviour, IPointerMoveHandler {
 
-    public Vector2 normalSize = new(75, 75);
-    public Vector2 hoverSize = new(100, 100);
+    public Vector2 hoverSizeMultiplier = new(1.25f, 1.25f);
+    public Vector2 hoverOffset = new();
 
     public Button button;
     public RectTransform rectTransform;
@@ -24,6 +24,8 @@ public class UnitBuildMenuButton : MonoBehaviour, IPointerMoveHandler {
     public TMP_Text unavailableText;
     public float emphasizeDuration = .025f;
     public Ease emphasizeEase = Ease.Linear;
+    
+    public Vector2 normalSize ;
 
     public bool Available {
         set {
@@ -36,7 +38,7 @@ public class UnitBuildMenuButton : MonoBehaviour, IPointerMoveHandler {
     public Tween lastTween;
     public void Emphasize() {
         // lastTween?.Kill();
-        lastTween = rectTransform.DOSizeDelta(hoverSize, emphasizeDuration).SetEase(emphasizeEase);
+        lastTween = rectTransform.DOSizeDelta(normalSize * hoverSizeMultiplier, emphasizeDuration).SetEase(emphasizeEase);
         if (unavailableText && !Available)
             unavailableText.enabled = true;
     }
@@ -57,9 +59,12 @@ public class UnitBuildMenuButton : MonoBehaviour, IPointerMoveHandler {
         Assert.IsTrue(rectTransform);
         Assert.IsTrue(button);
         Assert.IsTrue(image);
+        normalSize = rectTransform.sizeDelta;
     }
 
     public void OnPointerMove(PointerEventData eventData) {
         buildMenu.Select(this);
     }
+    
+    
 }

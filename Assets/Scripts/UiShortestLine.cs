@@ -16,7 +16,7 @@ public class UiShortestLine : MonoBehaviour {
         lineRenderer.AddPoint(Vector2.zero);
         lineRenderer.AddPoint(Vector2.zero);
     }
-    private void Update() {
+    private void LateUpdate() {
         if (!a || !b || !a.isActiveAndEnabled || !b.isActiveAndEnabled ||
             !MathUtils.TryGetShortestLine(a.rectTransform.ToScreenSpace(), b.rectTransform.ToScreenSpace(), out var aa, out var bb)) {
             lineRenderer.enabled = false;

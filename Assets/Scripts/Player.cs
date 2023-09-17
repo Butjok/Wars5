@@ -75,13 +75,13 @@ public class Player : IDisposable {
 
     public int? abilityActivationTurn;
     public Vector2Int unitLookDirection;
-    public int side;
+    public Side side;
 
     private bool initialized;
 
     public Player(Level level, ColorName colorName, Team team = Team.None, int credits = 0, PersonName coName = PersonName.Natalie, PlayerView viewPrefab = null,
         PlayerType type = PlayerType.Human, AiDifficulty difficulty = AiDifficulty.Normal, Vector2Int? unitLookDirection = null,
-        bool spawnViewPrefab = true, Vector2Int? uiPosition = null, int abilityMeter = 0, int side = 0, int? abilityActivationTurn = null) {
+        bool spawnViewPrefab = true, Vector2Int? uiPosition = null, int abilityMeter = 0, Side side = default, int? abilityActivationTurn = null) {
 
         undisposed.Add(this);
 

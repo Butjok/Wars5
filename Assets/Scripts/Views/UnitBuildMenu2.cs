@@ -11,17 +11,17 @@ public class UnitBuildMenu2 : MonoBehaviour {
     public UnitBuildMenuButton selectedButton;
     public Button buildButton;
 
-    public FactionName factionName;
-    public ColorName colorName;
-    public Func<UnitType, int> getCost;
-    public Func<UnitType, string> getFullName;
-    public Func<UnitType, string> getDescription;
+    public FactionName factionName = FactionName.Novoslavia;
+    public ColorName colorName = ColorName.Red;
+    public Func<UnitType, int> getCost = type => Rules.Cost(type);
+    public Func<UnitType, string> getFullName = type => UnitInfo.GetFullName(FactionName.Novoslavia, type);
+    public Func<UnitType, string> getDescription = type => UnitInfo.GetDescription(FactionName.Novoslavia, type);
 
     public TMP_Text nameText;
     public TMP_Text descriptionText;
 
-    public Action<UnitType> build;
-    public Action cancel;
+    public Action<UnitType> build = type => { };
+    public Action cancel = () => { };
 
     // private void Start() {
     //     var factionName = FactionName.Novoslavia;
@@ -42,7 +42,7 @@ public class UnitBuildMenu2 : MonoBehaviour {
         Func<UnitType, string> getFullName,
         Func<UnitType, string> getDescription,
         Func<UnitType, Sprite> tryGetThumbnail,
-        BuildingView buildingView=null) {
+        BuildingView buildingView = null) {
 
         gameObject.SetActive(true);
 
@@ -70,7 +70,7 @@ public class UnitBuildMenu2 : MonoBehaviour {
     }
 
     private void Update() {
-        var offset = 0f;//Input.GetAxisRaw("Mouse ScrollWheel");
+        var offset = 0f; //Input.GetAxisRaw("Mouse ScrollWheel");
         if (Input.GetKeyDown(KeyCode.Tab))
             offset = Input.GetKey(KeyCode.LeftShift) ? -1 : 1;
         if (!Mathf.Approximately(0, offset)) {
@@ -81,7 +81,7 @@ public class UnitBuildMenu2 : MonoBehaviour {
             if (selectedButton)
                 build(selectedButton.unitType);
         }
-            else if (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(Mouse.right))
+        else if (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(Mouse.right))
             cancel();
     }
 
@@ -92,7 +92,7 @@ public class UnitBuildMenu2 : MonoBehaviour {
         foreach (var sibling in buttons)
             if (sibling != button)
                 sibling.Unemphasize();
-    
+
         button.Emphasize();
         // button.transform.SetSiblingIndex(button.transform.parent.childCount-1);
 

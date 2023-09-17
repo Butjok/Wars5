@@ -42,8 +42,14 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets/PhysicsTest/AlembicTest.cs" />
+     <Compile Include="Assets/MultiAudioListener/Example/Scripts/Explosion.cs" />
+     <Compile Include="Assets/MultiAudioListener/VirtualMultiAudioListener.cs" />
      <Compile Include="Assets/Scenes/PlayableTest/NewPlayableAsset.cs" />
+     <Compile Include="Assets/MultiAudioListener/TestScripts/MultiAudioListenerTestScript.cs" />
      <Compile Include="Assets/ExplosionTracer.cs" />
+     <Compile Include="Assets/MultiAudioListener/MultiAudioSource.cs" />
+     <Compile Include="Assets/MultiAudioListener/Example/Scripts/MovementCamera.cs" />
+     <Compile Include="Assets/MultiAudioListener/MainMultiAudioListener.cs" />
      <Folder Include="Assets" />
      <None Include="Assets/Saves/0/0-29.01.2023-15.07.01.txt" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />
@@ -64,6 +70,7 @@
      <Folder Include="Assets/Settings/Resources" />
      <Folder Include="Assets/UnitPreview" />
      <Folder Include="Assets/TextMesh Pro/Resources/Sprite Assets" />
+     <None Include="Assets/MultiAudioListener/HowToUse.txt" />
      <None Include="Assets/PriorityFormula.txt" />
      <Folder Include="Assets/Content" />
      <Folder Include="Assets/Settings" />
@@ -94,6 +101,7 @@
      <None Include="Assets/Saves/1/1-22.01.2023-19.38.06.txt" />
      <None Include="Assets/Shaders/DistortionFlow.shader" />
      <None Include="Assets/Shaders/Flow.cginc" />
+     <Folder Include="Assets/MultiAudioListener/TestScripts" />
      <None Include="Assets/Shaders/leaves.shader" />
      <None Include="Assets/Saves/test.1/20.01.2023-09.23.01.txt" />
      <Folder Include="Assets/Content/UI" />
@@ -128,6 +136,7 @@
      <None Include="Assets/Shaders/Utils.cginc" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Surface-Mobile.shader" />
      <Folder Include="Assets/Saves/test2" />
+     <Folder Include="Assets/MultiAudioListener/Example/Audio" />
      <None Include="Assets/Shaders/DirectionalFlow.shader" />
      <Folder Include="Assets/HDRPDefaultResources" />
      <Folder Include="Assets/Materials" />
@@ -138,6 +147,7 @@
      <None Include="Assets/Shaders/TerrainTilesTest.shader" />
      <Folder Include="Assets/Scenes/LoadingTest" />
      <Folder Include="Assets/Scenes/LoadingTestSubscene" />
+     <Folder Include="Assets/MultiAudioListener" />
      <Folder Include="Assets/TextMesh Pro" />
      <None Include="Assets/JsonDotNet/link.xml" />
      <Folder Include="Assets/Saves/test3" />
@@ -175,6 +185,7 @@
      <None Include="Assets/Saves/1/1-22.01.2023-19.48.14.txt" />
      <Folder Include="Assets/Saves/tutorial" />
      <None Include="Assets/Saves/1/1-22.01.2023-19.41.48.txt" />
+     <Folder Include="Assets/MultiAudioListener/Example/Scripts" />
      <None Include="Assets/Funny.txt" />
      <None Include="Assets/Saves/0/0-25.01.2023-02.07.18.txt" />
      <None Include="Assets/Shaders/water.shader" />
@@ -188,6 +199,7 @@
      <None Include="Assets/TextMesh Pro/Shaders/TMP_Bitmap-Custom-Atlas.shader" />
      <None Include="Assets/Shaders/TriggerShader.shader" />
      <None Include="Assets/Saves/0/0-28.01.2023-12.26.31.txt" />
+     <None Include="Assets/MultiAudioListener/LICENSE.txt" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF.shader" />
      <Folder Include="Assets/StreamingAssets/Distances" />
      <None Include="Assets/Saves/0/0-22.01.2023-18.24.23.txt" />
@@ -203,12 +215,14 @@
      <None Include="Assets/Saves/tutorial.1/20.01.2023-08.02.14.txt" />
      <Folder Include="Assets/Content/decals" />
      <Folder Include="Assets/Resources/Dialogue" />
+     <Folder Include="Assets/MultiAudioListener/Example" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro_Properties.cginc" />
      <Folder Include="Assets/Content/mrap" />
      <Folder Include="Assets/Scripts2" />
      <None Include="Assets/Shaders/TriggerUnlit.shader" />
      <Folder Include="Assets/Dithered" />
      <None Include="Assets/Saves/0/0-22.01.2023-18.25.37.txt" />
+     <Folder Include="Assets/MultiAudioListener/Example/Materials" />
      <Folder Include="Assets/Scenes/SampleScene" />
      <None Include="Assets/Resources/GitInfo.json" />
      <None Include="Assets/Saves/tutorial/19.01.2023-09.10.58.txt" />
@@ -238,6 +252,7 @@
      <Folder Include="Assets/StreamingAssets/Translations" />
      <Folder Include="Assets/Content/light-tank" />
      <None Include="Assets/TextMesh Pro/Resources/LineBreaking Following Characters.txt" />
+     <Folder Include="Assets/Scenes/TwoAudioListeners" />
      <Folder Include="Assets/Minimap" />
      <Folder Include="Assets/Shaders/Resources" />
      <Folder Include="Assets/glTF-test" />

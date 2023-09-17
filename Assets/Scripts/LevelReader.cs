@@ -34,7 +34,7 @@ public static class LevelReader {
         ColorName? playerColorName;
         int? playerAbilityActivationTurn;
         int playerAbilityMeter;
-        int playerSide;
+        Side playerSide;
         Vector2Int? playerUiPosition;
 
         void ResetPlayerValues() {
@@ -49,7 +49,7 @@ public static class LevelReader {
             playerUnitLookDirection = null;
             playerAbilityActivationTurn = null;
             playerAbilityMeter = 0;
-            playerSide = left;
+            playerSide = default;
             playerUiPosition = null;
         }
         ResetPlayerValues();
@@ -212,7 +212,7 @@ public static class LevelReader {
                 }
                 case "player.add.set-side":
                 case "player.set-side": {
-                    playerSide = (int)stack.Pop();
+                    playerSide = (Side)stack.Pop();
                     break;
                 }
                 case "player.add.set-ui-position":

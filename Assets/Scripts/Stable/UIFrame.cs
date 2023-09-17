@@ -79,7 +79,7 @@ public class UIFrame : MonoBehaviour {
                 max.y = Mathf.Max(max.y, screenPosition.y);
             }
             else
-                min = max = new Vector2(float.MinValue, float.MinValue);
+                return false;
         }
         return true;
     }

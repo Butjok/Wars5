@@ -32,11 +32,11 @@ public class StaticBattleViews : MonoBehaviour {
         var rightTree = transform.Find("Right");
         Assert.IsTrue(leftTree);
         Assert.IsTrue(rightTree);
-        ParseTree(left, leftTree);
-        ParseTree(right, rightTree);
+        ParseTree(Side.Left, leftTree);
+        ParseTree(Side.Right, rightTree);
     }
 
-    public void ParseTree(int side, Transform tree) {
+    public void ParseTree(Side side, Transform tree) {
 
         void FindSpawnPoints(Transform node, List<Transform> output) {
             for (var i = 0; i < node.childCount; i++) {
@@ -48,26 +48,26 @@ public class StaticBattleViews : MonoBehaviour {
             }
         }
 
-        views[side].Clear();
+        views[(int)side].Clear();
 
         for (var i = 0; i < tree.childCount; i++) {
 
             var child = tree.GetChild(i);
             if (!Enum.TryParse(child.name, out TileType tileType))
                 continue;
-            Assert.IsTrue(!views[side].ContainsKey(tileType), $"{side}, {tileType}");
+            Assert.IsTrue(!views[(int)side].ContainsKey(tileType), $"{side}, {tileType}");
 
             var view = new View {
                 transform = child,
                 spawnPoints = new List<Transform>()
             };
-            views[side].Add(tileType, view);
+            views[(int)side].Add(tileType, view);
             FindSpawnPoints(child, view.spawnPoints);
         }
     }
 
-    public bool TryGet(int side, TileType tileType, out View view) {
-        return views[side].TryGetValue(tileType, out view);
+    public bool TryGet(Side side, TileType tileType, out View view) {
+        return views[(int)side].TryGetValue(tileType, out view);
     }
 }
 
@@ -75,7 +75,7 @@ public class BattleSideView : IDisposable {
 
     public StaticBattleViews.View view;
 
-    public BattleSideView(int side, TileType tileType = TileType.Plain) {
+    public BattleSideView(Side side, TileType tileType = TileType.Plain) {
 
         var battleViews = StaticBattleViews.Instance;
         if (!battleViews.TryGet(side, tileType, out view) && !battleViews.TryGet(side, TileType.Plain, out view))
@@ -100,13 +100,14 @@ public class BattleSideView : IDisposable {
 
 public static class BattleConstants {
     public const int before = 0, after = 1;
-    public const int left = 0, right = 1;
 }
 
-public class Battle : IDisposable {
+public enum Side { Left = 0, Right = 1 }
 
-    public class Setup {
-        public class Side {
+public class BattleView : IDisposable {
+
+    public class Settings {
+        public class SideSettings {
             public UnitView unitViewPrefab;
             public Vector2Int count;
             public Transform parent;
@@ -120,17 +121,19 @@ public class Battle : IDisposable {
                 return new Vector2Int(Count(unitType, hpBefore), Count(unitType, hpAfter));
             }
         }
-        public Side left, right;
-        public Side this[int index] {
-            get => index switch {
-                0 => left, 1 => right, _ => throw new ArgumentOutOfRangeException()
+        public SideSettings left, right;
+        public SideSettings this[Side side] {
+            get => side switch {
+                Side.Left => left,
+                Side.Right => right,
+                _ => throw new ArgumentOutOfRangeException()
             };
             set {
-                switch (index) {
-                    case 0:
-                        left = value; 
+                switch (side) {
+                    case Side.Left:
+                        left = value;
                         break;
-                    case 1:
+                    case Side.Right:
                         right = value;
                         break;
                     default:
@@ -140,9 +143,12 @@ public class Battle : IDisposable {
         }
     }
 
-    public static readonly HashSet<Battle> undisposed = new();
+    public static readonly HashSet<BattleView> undisposed = new();
 
-    public readonly List<UnitView>[] units = { new(), new() };
+    public readonly Dictionary<Side, List<UnitView>> units = new() {
+        [Side.Left] = new List<UnitView>(),
+        [Side.Right] = new List<UnitView>()
+    };
     public readonly Dictionary<UnitView, List<UnitView>> targets = new();
 
     public void AddTarget(UnitView attacker, UnitView target) {
@@ -159,32 +165,32 @@ public class Battle : IDisposable {
         return targets.TryGetValue(attacker, out var list) && list.Remove(target);
     }
 
-    public Battle(Setup setup) {
+    public BattleView(Settings settings) {
 
-        Assert.IsTrue(setup.left.unitViewPrefab);
-        Assert.IsTrue(setup.left.count[before] >= 0);
-        Assert.IsTrue(setup.left.count[after] <= setup.left.count[before]);
+        Assert.IsTrue(settings.left.unitViewPrefab);
+        Assert.IsTrue(settings.left.count[before] >= 0);
+        Assert.IsTrue(settings.left.count[after] <= settings.left.count[before]);
 
-        Assert.IsTrue(setup.right.unitViewPrefab);
-        Assert.IsTrue(setup.right.count[before] >= 0);
-        Assert.IsTrue(setup.right.count[after] <= setup.right.count[before]);
+        Assert.IsTrue(settings.right.unitViewPrefab);
+        Assert.IsTrue(settings.right.count[before] >= 0);
+        Assert.IsTrue(settings.right.count[after] <= settings.right.count[before]);
 
         undisposed.Add(this);
 
-        for (var side = left; side <= right; side++)
-        for (var i = 0; i < setup[side].count[before]; i++) {
-            var view = Object.Instantiate(setup[side].unitViewPrefab, setup[side].parent);
+        for (var side = Side.Left; side <= Side.Right; side++)
+        for (var i = 0; i < settings[side].count[before]; i++) {
+            var view = Object.Instantiate(settings[side].unitViewPrefab, settings[side].parent);
             view.ResetWeapons();
             //Assert.IsTrue(view);
-            view.PlayerColor = setup[side].color;
+            view.PlayerColor = settings[side].color;
             units[side].Add(view);
-            view.survives = i < setup[side].count[after];
+            view.survives = i < settings[side].count[after];
         }
 
-        for (var i = 0; i < Mathf.Max(units[left].Count, units[right].Count); i++) {
-            AddTarget(units[left][i % units[left].Count], units[right][i % units[right].Count]);
-            if (setup.right.count[after] > 0)
-                AddTarget(units[right][i % setup.right.count[after]], units[left][i % units[left].Count]);
+        for (var i = 0; i < Mathf.Max(units[Side.Left].Count, units[Side.Right].Count); i++) {
+            AddTarget(units[Side.Left][i % units[Side.Left].Count], units[Side.Right][i % units[Side.Right].Count]);
+            if (settings.right.count[after] > 0)
+                AddTarget(units[Side.Right][i % settings.right.count[after]], units[Side.Left][i % units[Side.Left].Count]);
         }
     }
 
@@ -192,7 +198,7 @@ public class Battle : IDisposable {
         Assert.IsTrue(undisposed.Contains(this));
         undisposed.Remove(this);
 
-        foreach (var unitView in units[left].Concat(units[right]))
+        foreach (var unitView in units[Side.Left].Concat(units[Side.Right]))
             Object.Destroy(unitView.gameObject);
     }
 }

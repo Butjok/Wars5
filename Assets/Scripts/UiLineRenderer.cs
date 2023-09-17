@@ -48,7 +48,7 @@ public class UiLineRenderer : MaskableGraphic {
 
         UIVertex V(Vector2 position, float uvx, float uvy) {
             return new UIVertex {
-                color = Color.white,
+                color = color,
                 position = position,
                 uv0 = new Vector2(uvx, uvy)
             };

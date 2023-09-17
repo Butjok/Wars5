@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using static Rules;
 using static BattleConstants;
-using static Battle.Setup.Side;
+using static BattleView.Settings.SideSettings;
 
 public class AttackActionState : StateMachineState {
 
@@ -54,11 +54,11 @@ public class AttackActionState : StateMachineState {
                 var attackerSide = attacker.Player.side;
                 var targetSide = target.Player.side;
                 if (attackerSide == targetSide) {
-                    attackerSide = level.players.IndexOf(attacker.Player) < level.players.IndexOf(target.Player) ? left : right;
-                    targetSide = attackerSide == left ? right : left;
+                    attackerSide = level.players.IndexOf(attacker.Player) < level.players.IndexOf(target.Player) ? Side.Left : Side.Right;
+                    targetSide = attackerSide == Side.Left ? Side.Right : Side.Left;
                 }
 
-                var setup = new Battle.Setup {
+                var setup = new BattleView.Settings {
                     [attackerSide] = new() {
                         unitViewPrefab = attacker.view.prefab,
                         count = Count(attacker.type, attacker.Hp, newAttackerHp),
@@ -70,20 +70,20 @@ public class AttackActionState : StateMachineState {
                         color = target.Player.Color
                     }
                 };
-                var sides = new BattleSideView[2];
+                var sides = new Dictionary<Side, BattleSideView>();
 
-                using (var battle = new Battle(setup))
+                using (var battle = new BattleView(setup))
                 using (sides[attackerSide] = new BattleSideView(attackerSide, level.tiles[action.path[^1]]))
                 using (sides[targetSide] = new BattleSideView(targetSide, level.tiles[action.targetUnit.NonNullPosition])) {
 
-                    sides[left].Arrange(battle.units[left]);
-                    sides[right].Arrange(battle.units[right]);
+                    sides[Side.Left].Arrange(battle.units[Side.Left]);
+                    sides[Side.Right].Arrange(battle.units[Side.Right]);
 
                     yield return StateChange.none;
 
                     level.view.cameraRig.camera.gameObject.SetActive(false);
-                    level.view.battleCameras[left].gameObject.SetActive(true);
-                    level.view.battleCameras[right].gameObject.SetActive(true);
+                    foreach (var battleCamera in level.view.battleCameras)
+                        battleCamera.gameObject.SetActive(true);
 
                     var attackAnimations = new List<Func<bool>>();
                     foreach (var unit in battle.units[attackerSide])
@@ -107,15 +107,15 @@ public class AttackActionState : StateMachineState {
                     yield return StateChange.none;
 
                     level.view.cameraRig.camera.gameObject.SetActive(true);
-                    level.view.battleCameras[left].gameObject.SetActive(false);
-                    level.view.battleCameras[right].gameObject.SetActive(false);
+                    foreach (var battleCamera in level.view.battleCameras)
+                        battleCamera.gameObject.SetActive(false);
                 }
             }
 
             if (newTargetHp <= 0) {
                 level.view.cameraRig.Jump(target.view.transform.position);
                 var time = Time.time;
-                while(Time.time < time + level.view.cameraRig.jumpDuration)
+                while (Time.time < time + level.view.cameraRig.jumpDuration)
                     yield return StateChange.none;
             }
             target.SetHp(newTargetHp, true);
@@ -123,7 +123,7 @@ public class AttackActionState : StateMachineState {
             if (attacker.Hp <= 0) {
                 level.view.cameraRig.Jump(attacker.view.transform.position);
                 var time = Time.time;
-                while(Time.time < time + level.view.cameraRig.jumpDuration)
+                while (Time.time < time + level.view.cameraRig.jumpDuration)
                     yield return StateChange.none;
             }
             else {

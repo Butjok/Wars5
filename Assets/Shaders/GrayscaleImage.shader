@@ -6,6 +6,7 @@ Shader "Unlit/GrayscaleImage"
         _SpeedX ("_Speed X", Range(-1, 1)) = 0.1
         _SpeedY ("_Speed Y", Range(-1, 1)) = 0.1
         _Color ("Tint", Color) = (1,1,1,1)
+        _GrayscaleIntensity ("Grayscale Intensity", Range(0, 1)) = 1
  
         _StencilComp ("Stencil Comparison", Float) = 8
         _Stencil ("Stencil ID", Float) = 0
@@ -13,7 +14,8 @@ Shader "Unlit/GrayscaleImage"
         _StencilWriteMask ("Stencil Write Mask", Float) = 255
         _StencilReadMask ("Stencil Read Mask", Float) = 255
  
-        _ColorMask ("Color Mask", Float) = 15
+        _ColorMask ("Color Mask", Float) = 15       
+      
  
         [Toggle(UNITY_UI_ALPHACLIP)] _UseUIAlphaClip ("Use Alpha Clip", Float) = 0
     }
@@ -83,6 +85,7 @@ Shader "Unlit/GrayscaleImage"
             float4 _ClipRect;
             fixed _SpeedX;
             fixed _SpeedY;
+            fixed _GrayscaleIntensity;
  
             v2f vert(appdata_t v)
             {
@@ -105,10 +108,10 @@ Shader "Unlit/GrayscaleImage"
             fixed4 frag(v2f IN) : SV_Target
             {
                 half4 color = (tex2D(_MainTex, IN.texcoord) );
-		float intensity = IN.color.r;
-		// 0.299 ∙ Red + 0.587 ∙ Green + 0.114 ∙ Blue.
-		float3 grayscale = 0.299*color.r + 0.587*color.g + 0.114*color.b;
-		color.rgb = lerp(color, grayscale, intensity);
+				// 0.299 ∙ Red + 0.587 ∙ Green + 0.114 ∙ Blue.
+				float luminance = 0.299*color.r + 0.587*color.g + 0.114*color.b;
+				color = lerp(color, float4(luminance, luminance, luminance, color.a), _GrayscaleIntensity);
+				color *= IN.color;
  
                 #ifdef UNITY_UI_CLIP_RECT
                 color.a *= UnityGet2DClipping(IN.worldPosition.xy, _ClipRect);

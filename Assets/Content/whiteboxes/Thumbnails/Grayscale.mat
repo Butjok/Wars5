@@ -66,14 +66,15 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
+    - _GrayscaleIntensity: 0
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
-    - _SpeedX: 0.1
-    - _SpeedY: 0.1
+    - _SpeedX: 0
+    - _SpeedY: 0
     - _SrcBlend: 1
     - _Stencil: 0
     - _StencilComp: 8
