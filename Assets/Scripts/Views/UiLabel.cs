@@ -12,7 +12,7 @@ public class UiLabel : MonoBehaviour {
     public Color startBackgroundColor;
     public Color startTextColor;
     public float alpha = 1;
-    public bool hideOnStart = true;
+    public bool hideOnStart = false;
 
     public void Awake() {
         if (!background)

@@ -3,6 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class LevelView : MonoBehaviour {
 
@@ -54,4 +55,6 @@ public class LevelView : MonoBehaviour {
     public Sun sun;
     public TurnButton turnButton;
     public UnitBuildMenu2 unitBuildMenu;
+    public UiCircle actionCircle;
+    public UiLabel actionLabel;
 }

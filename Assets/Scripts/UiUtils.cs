@@ -66,4 +66,11 @@ public static class UiUtils {
         Vector2 size = Vector2.Scale(transform.rect.size, transform.lossyScale);
         return new Rect((Vector2)transform.position - (size * transform.pivot), size);
     }
+
+    public static void EncapsulateScreenRect(this RectTransform rectTransform, Vector3 center, Vector2 halfSize) {
+        rectTransform.anchorMax = rectTransform.anchorMin = Vector2.zero;
+        rectTransform.pivot = Vector2.zero;
+        rectTransform.anchoredPosition = center - (Vector3)halfSize;
+        rectTransform.sizeDelta = halfSize * 2;
+    }
 }

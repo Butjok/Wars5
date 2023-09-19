@@ -188,6 +188,7 @@
      <Compile Include="Assets/Scripts/LevelReader.cs" />
      <Compile Include="Assets/Scripts/UnitActionView.cs" />
      <Compile Include="Assets/Scripts/Dissolve.cs" />
+     <Compile Include="Assets/Scripts/UiRelativeScale.cs" />
      <Compile Include="Assets/Scripts/UnitStats.cs" />
      <Compile Include="Assets/Scripts/CameraStretcher.cs" />
      <Compile Include="Assets/Scripts/TextUnderlay.cs" />
@@ -209,6 +210,7 @@
      <Compile Include="Assets/Scripts/Views/CameraFrustumUi.cs" />
      <Compile Include="Assets/Scripts/TilemapCursor.cs" />
      <Compile Include="Assets/Scripts/GameLauncher.cs" />
+     <Compile Include="Assets/Scripts/UnitUi.cs" />
      <Compile Include="Assets/Scripts/UiLineRenderer.cs" />
      <Compile Include="Assets/Scripts/Body2.cs" />
      <Compile Include="Assets/Scripts/ImageStack.cs" />
@@ -253,6 +255,7 @@
      <Compile Include="Assets/Scripts/FlipbookTest.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
      <Compile Include="Assets/Scripts/EntryPoint/MainMenuWelcomeState.cs" />
+     <Compile Include="Assets/Scripts/GameStates/UiCircle.cs" />
      <Folder Include="Assets/Scripts/EntryPoint" />
      <None Include="Assets/Scripts/Wars.asmdef" />
      <Folder Include="Assets/Scripts/DialogueMarkupLanguage" />

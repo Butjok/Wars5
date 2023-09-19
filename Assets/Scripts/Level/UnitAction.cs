@@ -56,9 +56,9 @@ public class UnitAction : IDisposable {
         if (spawnView)
             switch (type) {
                 case UnitActionType.Attack: {
-                    var view = Object.Instantiate(UnitAttackActionView.Prefab, unit.Player.level.view.transform);
-                    view.action = this;
-                    this.view = view;
+                    //var view = Object.Instantiate(UnitAttackActionView.Prefab, unit.Player.level.view.transform);
+                    //view.action = this;
+                    //this.view = view;
                     break;
                 }
             }

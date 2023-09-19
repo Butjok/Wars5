@@ -156,8 +156,9 @@ public class Unit : IDisposable {
 
     public static implicit operator UnitType(Unit unit) => unit.type;
 
-    public Unit(Player player, UnitType type = UnitType.Infantry, Vector2Int? position = null, Vector2Int? lookDirection = null, int hp = int.MaxValue, int fuel = int.MaxValue, bool moved = false, UnitView viewPrefab = null) {
-
+    public Unit(Player player, UnitType type = UnitType.Infantry, Vector2Int? position = null, Vector2Int? lookDirection = null, int hp = int.MaxValue, int fuel = int.MaxValue, bool moved = false, UnitView viewPrefab = null
+        ) {
+        
         undisposed.Add(this);
 
         if (!viewPrefab)
@@ -183,6 +184,7 @@ public class Unit : IDisposable {
         Position = position;
 
         brain = new UnitBrain(this);
+
         
         initialized = true;
     }

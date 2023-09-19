@@ -6,6 +6,7 @@ public static class UnitInfo {
 
     public static string GetShortName(UnitType unitType) => unitType switch {
         UnitType.Infantry => _("Infantry"),
+        UnitType.Apc=> _("APC"),
         UnitType.AntiTank => _("Anti-tank"),
         UnitType.Artillery => _("Artillery"),
         UnitType.Recon => _("Recon"),
@@ -16,7 +17,7 @@ public static class UnitInfo {
         UnitType.AttackHelicopter => _("Attack helicopter"),
         UnitType.FighterJet => _("Fighter jet"),
         UnitType.Bomber => _("Bomber"),
-        _ => _(unitType.ToString())
+        _ => unitType.ToString()
     };
 
     public static string GetFullName(FactionName factionName, UnitType unitType) => (factionId: factionName, unitType)switch {
@@ -24,7 +25,7 @@ public static class UnitInfo {
         (FactionName.Novoslavia, UnitType.AntiTank) => _("RPG squad"),
         (FactionName.UnitedTreaty, UnitType.Infantry) => _("Infantry squad"),
         (FactionName.UnitedTreaty, UnitType.AntiTank) => _("Anti-tank squad"),
-        _ => _(unitType.ToString())
+        _ => GetShortName(unitType)
     };
 
     public static string GetDescription(FactionName factionName, UnitType unitType) => (factionId: factionName, unitType)switch {

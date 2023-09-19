@@ -112,7 +112,7 @@ public class AttackActionState : StateMachineState {
                 }
             }
 
-            if (newTargetHp <= 0) {
+            if (newTargetHp <= 0 && level.CurrentPlayer != level.localPlayer) {
                 level.view.cameraRig.Jump(target.view.transform.position);
                 var time = Time.time;
                 while (Time.time < time + level.view.cameraRig.jumpDuration)
@@ -120,7 +120,7 @@ public class AttackActionState : StateMachineState {
             }
             target.SetHp(newTargetHp, true);
 
-            if (attacker.Hp <= 0) {
+            if (attacker.Hp <= 0 && level.CurrentPlayer != level.localPlayer) {
                 level.view.cameraRig.Jump(attacker.view.transform.position);
                 var time = Time.time;
                 while (Time.time < time + level.view.cameraRig.jumpDuration)

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -29,6 +30,10 @@ public class ActionSelectionState : StateMachineState {
         foreach (var action in actions)
             action.Dispose();
         actions.Clear();
+
+        var level = FindState<LevelSessionState>().level;
+        if (level.view.actionCircle)
+            level.view.actionCircle.gameObject.SetActive(false);
     }
 
     public void HidePanel() {
@@ -39,6 +44,7 @@ public class ActionSelectionState : StateMachineState {
     }
 
     public void SelectAction(UnitAction action) {
+
         index = actions.IndexOf(action);
         Assert.IsTrue(index != -1);
 //      Debug.Log(actions[index]);
@@ -48,6 +54,29 @@ public class ActionSelectionState : StateMachineState {
         if (action.view)
             action.view.Show = true;
         oldAction = action;
+
+        var level = FindState<LevelSessionState>().level;
+        var circle = level.view.actionCircle;
+        var label = level.view.actionLabel;
+        if (circle) {
+
+            circle.gameObject.SetActive(true);
+            circle.position = null;
+
+            if (action.targetUnit != null)
+                circle.position = action.targetUnit.view.transform.position;
+            if (action.targetBuilding != null)
+                circle.position = action.targetBuilding.view.transform.position;
+            if (action.type == UnitActionType.Drop)
+                circle.position = action.targetPosition.ToVector3();
+
+            if (action.type == UnitActionType.Attack && TryGetDamage(action.unit, action.targetUnit, action.weaponName, out var damagePercentage)) {
+                label.gameObject.SetActive(true);
+                label.text.text = '-' + Mathf.RoundToInt(MaxHp(action.targetUnit) * damagePercentage).ToString();
+            }
+            else
+                label.gameObject.SetActive(false);
+        }
     }
 
     public IEnumerable<UnitAction> SpawnActions() {
@@ -159,7 +188,9 @@ public class ActionSelectionState : StateMachineState {
                         case (Command.Execute, UnitAction action): {
 
                             level.view.tilemapCursor.Hide();
-                            
+                            if (level.view.actionCircle)
+                                level.view.actionCircle.gameObject.SetActive(false);
+
                             selectedAction = action;
                             HidePanel();
 
@@ -178,12 +209,23 @@ public class ActionSelectionState : StateMachineState {
                                 }
 
                                 case UnitActionType.Capture: {
+
                                     unit.Position = destination;
                                     building.Cp -= Cp(unit);
+
                                     if (building.Cp <= 0) {
+
+                                        if (level.CurrentPlayer != level.localPlayer) {
+                                            level.view.cameraRig.Jump(building.view.transform.position);
+                                            var time = Time.time;
+                                            while (Time.time < time + level.view.cameraRig.jumpDuration)
+                                                yield return StateChange.none;
+                                        }
+
                                         building.Player = unit.Player;
                                         building.Cp = MaxCp(building);
                                     }
+
                                     break;
                                 }
 
@@ -230,7 +272,7 @@ public class ActionSelectionState : StateMachineState {
                             if (!unit.Disposed) {
                                 unit.Moved = true;
                                 if (unit.view.LookDirection != unit.Player.unitLookDirection)
-                                    game.StartCoroutine(new MoveSequence(unit.view.transform, null,_finalDirection: unit.Player.unitLookDirection).Animation());
+                                    game.StartCoroutine(new MoveSequence(unit.view.transform, null, _finalDirection: unit.Player.unitLookDirection).Animation());
                             }
 
                             /*
@@ -309,9 +351,10 @@ public class ActionSelectionState : StateMachineState {
                             HandleUnexpectedCommand(command);
                             break;
                     }
-                
+
                 level.UpdateTilemapCursor();
             }
         }
     }
+
 }
