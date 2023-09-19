@@ -12,7 +12,6 @@ public class GameMenuState : StateMachineState {
 
             PlayerView.globalVisibility = false;
             yield return StateChange.none;
-            level.view.cursorView.Position = null;
             level.view.cameraRig.enabled = false;
 
             menu.enqueueCloseCommand = () => game.EnqueueCommand(Command.Close);

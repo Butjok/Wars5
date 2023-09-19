@@ -105,30 +105,6 @@ public abstract class StateMachineState {
 
     public abstract IEnumerator<StateChange> Enter { get; }
 
-    protected StateChange MoveCursor((object name, object argument) command) {
-
-        var levelView = (stateMachine.TryFind<LevelSessionState>()?.level ?? stateMachine.TryFind<LevelEditorSessionState>().level).view;
-        var cursorView = levelView.cursorView;
-
-        switch (command) {
-            case (CursorInteractor.Command.MouseEnter, _):
-                if (levelView.cameraRig.camera.TryGetMousePosition(out Vector2Int mousePosition))
-                    cursorView.Position = mousePosition;
-                break;
-
-            case (CursorInteractor.Command.MouseExit, _):
-                cursorView.Position = null;
-                break;
-
-            case (CursorInteractor.Command.MouseOver, _):
-                if (levelView.cameraRig.camera.TryGetMousePosition(out mousePosition))
-                    cursorView.Position = mousePosition;
-                break;
-        }
-
-        return StateChange.none;
-    }
-
     protected static StateChange HandleUnexpectedCommand(object command) {
         return StateChange.none;
     }
@@ -185,4 +161,20 @@ public struct StateChange {
     };
     public static StateChange Push(StateMachineState state) => PopThenPush(0, state);
     public static StateChange ReplaceWith(StateMachineState state) => PopThenPush(1, state);
+}
+
+public static class StateMachineStateExtensions {
+    
+    public static void UpdateTilemapCursor(this Level level) {
+        
+        if (level.view.cameraRig.camera.TryGetMousePosition(out Vector2Int mousePosition2)) {
+            level.TryGetBuilding(mousePosition2, out var building);
+            level.TryGetTile(mousePosition2, out var tileType);
+            level.TryGetUnit(mousePosition2, out var unit);
+            level.view.tilemapCursor.Set(mousePosition2, tileType, building, unit);
+        }
+                
+        else
+            level.view.tilemapCursor.Hide();
+    }
 }

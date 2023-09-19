@@ -47,7 +47,6 @@ public class LevelView : MonoBehaviour {
     public Camera[] battleCameras = { null, null };
     public CameraRig cameraRig;
     public Material terrainMaterial;
-    public CursorView cursorView;
     public Canvas canvas;
     public DialogueUi3 dialogueUi;
     public MinimapUi minimap;

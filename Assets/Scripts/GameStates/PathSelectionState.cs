@@ -113,14 +113,14 @@ public class PathSelectionState : StateMachineState {
 
                         case (Command.Move, _): {
 
-                            level.view.cursorView.Position = null;
-
                             pathMeshGameObject.SetActive(false);
                             level.view.terrainMaterial.UnsetTileMask(tileMaskUniformName);
 
                             path = pathBuilder.positions;
                             var animation = new MoveSequence(unit.view.transform, path).Animation();
 
+                            level.view.tilemapCursor.Hide();
+                            
                             while (animation.MoveNext()) {
                                 yield return StateChange.none;
 
@@ -146,6 +146,8 @@ public class PathSelectionState : StateMachineState {
                             HandleUnexpectedCommand(command);
                             break;
                     }
+                
+                level.UpdateTilemapCursor();
             }
         }
     }

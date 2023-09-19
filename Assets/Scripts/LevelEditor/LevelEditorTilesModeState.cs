@@ -219,10 +219,6 @@ public class LevelEditorTilesModeState : StateMachineState {
                                 player = building.Player;
                             break;
 
-                        case (CursorInteractor.Command, _):
-                            MoveCursor(command);
-                            break;
-
                         default:
                             HandleUnexpectedCommand(command);
                             break;
@@ -234,6 +230,5 @@ public class LevelEditorTilesModeState : StateMachineState {
     public override void Exit() {
         var levelEditorState = stateMachine.TryFind<LevelEditorSessionState>();
         levelEditorState.gui.Pop();
-        levelEditorState.level.view.cursorView.Position = null;
     }
 }

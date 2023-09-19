@@ -3,6 +3,8 @@ using System;
 [Flags]
 public enum TileType {
 
+    None = 0,
+    
     Plain = 1 << 0,
     Road = 1 << 1,
     Sea = 1 << 2,

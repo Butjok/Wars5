@@ -22,7 +22,7 @@ public class SelectionState : StateMachineState {
         get {
             var levelSession = FindState<LevelSessionState>();
             var (game, level) = (FindState<GameSessionState>().game, levelSession.level);
-            var (cameraRig, cursor) = (level.view.cameraRig, level.view.cursorView);
+            var cameraRig = level.view.cameraRig;
 
             // stop the ability
             var player = level.CurrentPlayer;
@@ -179,7 +179,6 @@ public class SelectionState : StateMachineState {
                                 unit.Moved = false;
 
                             player.view.visible = false;
-                            cursor.Position = null;
                             if (preselectionCursor)
                                 preselectionCursor.Hide();
 
@@ -253,15 +252,12 @@ public class SelectionState : StateMachineState {
                             yield return StateChange.Push(new MinimapState(stateMachine));
                             break;
 
-                        case (CursorInteractor.Command, _):
-                            if (!levelSession.autoplay)
-                                MoveCursor(command);
-                            break;
-
                         default:
                             HandleUnexpectedCommand(command);
                             break;
                     }
+                
+                level.UpdateTilemapCursor();
             }
         }
     }
@@ -270,6 +266,7 @@ public class SelectionState : StateMachineState {
         var level = FindState<LevelSessionState>().level;
         if (level.view.turnButton)
             level.view.turnButton.Interactable = false;
+        level.view.tilemapCursor.Hide();
     }
 
     public static IEnumerator StartAbility(Player player, int turn) {

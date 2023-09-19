@@ -50,7 +50,7 @@ public class MissileTargetSelectionState : StateMachineState {
                             Debug.Log($"Launching missile from {missileSilo.position} to {targetPosition}");
                             using (Draw.ingame.WithDuration(1))
                             using (Draw.ingame.WithLineWidth(2))
-                                Draw.ingame.Arrow((Vector3)missileSilo.position.ToVector3Int(), (Vector3)targetPosition.ToVector3Int(), Color.red);
+                                Draw.ingame.Arrow((Vector3)missileSilo.position.ToVector3Int(), (Vector3)targetPosition.ToVector3Int(), Vector3.up, .25f, Color.red);
 
                             if (missileSiloView) {
 

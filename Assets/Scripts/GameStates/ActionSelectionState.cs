@@ -158,6 +158,8 @@ public class ActionSelectionState : StateMachineState {
 
                         case (Command.Execute, UnitAction action): {
 
+                            level.view.tilemapCursor.Hide();
+                            
                             selectedAction = action;
                             HidePanel();
 
@@ -307,6 +309,8 @@ public class ActionSelectionState : StateMachineState {
                             HandleUnexpectedCommand(command);
                             break;
                     }
+                
+                level.UpdateTilemapCursor();
             }
         }
     }

@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using Butjok.CommandLine;
 using Drawing;
 using TMPro;
@@ -22,14 +24,58 @@ public class TilemapCursor : MonoBehaviour {
     public bool enableKeyboard = false;
     public bool enableMouse = true;
 
+    public GameObject tilePreviewRoot;
     public Image tileThumbnail;
+    public TMP_Text tileName;
     public Image unitThumbnail;
+    public TMP_Text unitHp;
+    public TMP_Text unitName;
 
     public Sprite[] tileThumbnails = { };
     public Sprite[] unitThumbnails = { };
 
-    public Func<Vector2Int, TileType?> tryGetTile = _ => null;
-    public Func<Vector2Int, Unit> tryGetUnit = _ => null;
+    public bool ShowUi {
+        set {
+            if (tilePreviewRoot.activeSelf != value)
+                tilePreviewRoot.SetActive(value);
+        }
+    }
+    public bool ShowTile {
+        set {
+            if (tileThumbnail.gameObject.activeSelf != value)
+                tileThumbnail.gameObject.SetActive(value);
+        }
+    }
+    public bool ShowUnit {
+        set {
+            if (unitThumbnail.gameObject.activeSelf != value)
+                unitThumbnail.gameObject.SetActive(value);
+        }
+    }
+    public TileType TileType {
+        set {
+            tileThumbnail.sprite = tileThumbnails.FirstOrDefault(image => image.name == value.ToString());
+            tileName.text = TileInfos.GetName(value);
+        }
+    }
+    public Building Building {
+        set {
+            tileThumbnail.sprite = tileThumbnails.FirstOrDefault(image => image.name == $"{value.Player.coName}{value.type}");
+            tileName.text = TileInfos.GetName(value);
+        }
+    }
+    public Unit Unit {
+        set {
+            unitThumbnail.sprite = unitThumbnails.FirstOrDefault(image => image.name == $"{value.Player.coName}{value.type}");
+            unitName.text = UnitInfo.GetShortName(value);
+            if (value.Hp == Rules.MaxHp(value))
+                unitHp.enabled = false;
+            else {
+                unitHp.enabled = true;
+                unitHp.text = value.Hp.ToString();
+            }
+        }
+    }
 
     private Vector2Int? position;
     public bool TryGetPosition(out Vector2Int result) {
@@ -43,16 +89,43 @@ public class TilemapCursor : MonoBehaviour {
 
     [Command]
     public bool TrySetPosition(Vector2Int value) {
-        if (!isValidPosition(value))
-            return false;
-        var oldPosition = position;
+
         position = value;
-        if ((oldPosition == null) != (position == null)) {
-            viewRoot.SetActive(position != null);
-            if (text)
-                text.enabled = viewRoot.activeSelf;
-        }
+        if (!viewRoot.activeSelf)
+            viewRoot.SetActive(true);
+        if (text && text!.enabled)
+            text.enabled = viewRoot.activeSelf;
+
         return true;
+    }
+    public void Hide() {
+        viewRoot.SetActive(false);
+        ShowUi = false;
+    }
+
+    public void Set(Vector2Int position, TileType tileType, Building building, Unit unit) {
+
+        TrySetPosition(position);
+
+        ShowUi = true;
+
+        if (building != null) {
+            ShowTile = true;
+            Building = building;
+        }
+        else if (tileType != TileType.None) {
+            ShowTile = true;
+            TileType = tileType;
+        }
+        else
+            ShowTile = false;
+
+        if (unit != null) {
+            ShowUnit = true;
+            Unit = unit;
+        }
+        else
+            ShowUnit = false;
     }
 
     public Vector2Int GetAxis(int axisIndex) {
@@ -80,10 +153,16 @@ public class TilemapCursor : MonoBehaviour {
         repeatLoops[axisIndex] = null;
     }
 
+    public bool hideOnStart = true;
+
+    public void Awake() {
+        if (hideOnStart)
+            Hide();
+    }
 
     public void Update() {
 
-        if (enableMouse && cameraRig && cameraRig.camera.TryGetMousePosition(out Vector2Int mousePosition)) {
+        /*if (enableMouse && cameraRig && cameraRig.camera.TryGetMousePosition(out Vector2Int mousePosition)) {
             if (!TryGetPosition(out var oldPosition) || oldPosition != mousePosition) {
                 TrySetPosition(mousePosition);
                 
@@ -109,7 +188,7 @@ public class TilemapCursor : MonoBehaviour {
                     Draw.ingame.Arrow(viewRoot.transform.position, viewRoot.transform.position + upAxis.ToVector3() / 2, Vector3.up, .1f, Color.blue);
                 }
             }
-        }
+        }*/
 
         if (viewRoot.activeSelf && TryGetPosition(out var position)) {
             viewRoot.transform.position = Vector3.Lerp(viewRoot.transform.position, position.ToVector3(),
