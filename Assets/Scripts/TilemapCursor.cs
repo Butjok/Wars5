@@ -4,6 +4,7 @@ using Butjok.CommandLine;
 using Drawing;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TilemapCursor : MonoBehaviour {
 
@@ -18,6 +19,17 @@ public class TilemapCursor : MonoBehaviour {
     public IEnumerator[] repeatLoops = new IEnumerator[2];
     public CameraRig cameraRig;
     public float speed = .5f;
+    public bool enableKeyboard = false;
+    public bool enableMouse = true;
+
+    public Image tileThumbnail;
+    public Image unitThumbnail;
+
+    public Sprite[] tileThumbnails = { };
+    public Sprite[] unitThumbnails = { };
+
+    public Func<Vector2Int, TileType?> tryGetTile = _ => null;
+    public Func<Vector2Int, Unit> tryGetUnit = _ => null;
 
     private Vector2Int? position;
     public bool TryGetPosition(out Vector2Int result) {
@@ -71,29 +83,39 @@ public class TilemapCursor : MonoBehaviour {
 
     public void Update() {
 
+        if (enableMouse && cameraRig && cameraRig.camera.TryGetMousePosition(out Vector2Int mousePosition)) {
+            if (!TryGetPosition(out var oldPosition) || oldPosition != mousePosition) {
+                TrySetPosition(mousePosition);
+                
+            }
+        }
+
+        if (enableKeyboard) {
+
+            var rightAxis = GetAxis(right);
+            var upAxis = GetAxis(up);
+
+            if (rightAxis.ManhattanLength() == 1 && upAxis.ManhattanLength() == 1 && rightAxis != upAxis) {
+                if (repeatLoops[right] == null && GetAxisValue(right) != 0) {
+                    repeatLoops[right] = RepeatLoop(right);
+                    StartCoroutine(repeatLoops[right]);
+                }
+                if (repeatLoops[up] == null && GetAxisValue(up) != 0) {
+                    repeatLoops[up] = RepeatLoop(up);
+                    StartCoroutine(repeatLoops[up]);
+                }
+                if (viewRoot.activeSelf) {
+                    Draw.ingame.Arrow(viewRoot.transform.position, viewRoot.transform.position + rightAxis.ToVector3() / 2, Vector3.up, .1f, Color.red);
+                    Draw.ingame.Arrow(viewRoot.transform.position, viewRoot.transform.position + upAxis.ToVector3() / 2, Vector3.up, .1f, Color.blue);
+                }
+            }
+        }
+
         if (viewRoot.activeSelf && TryGetPosition(out var position)) {
             viewRoot.transform.position = Vector3.Lerp(viewRoot.transform.position, position.ToVector3(),
                 speed * Time.deltaTime / Vector2.Distance(viewRoot.transform.position.ToVector2(), position));
             if (text)
                 text.text = position.ToString();
-        }
-
-        var rightAxis = GetAxis(right);
-        var upAxis = GetAxis(up);
-
-        if (rightAxis.ManhattanLength() == 1 && upAxis.ManhattanLength() == 1 && rightAxis != upAxis) {
-            if (repeatLoops[right] == null && GetAxisValue(right) != 0) {
-                repeatLoops[right] = RepeatLoop(right);
-                StartCoroutine(repeatLoops[right]);
-            }
-            if (repeatLoops[up] == null && GetAxisValue(up) != 0) {
-                repeatLoops[up] = RepeatLoop(up);
-                StartCoroutine(repeatLoops[up]);
-            }
-            if (viewRoot.activeSelf) {
-                Draw.ingame.Arrow(viewRoot.transform.position, viewRoot.transform.position + rightAxis.ToVector3() / 2, Vector3.up, .1f, Color.red);
-                Draw.ingame.Arrow(viewRoot.transform.position, viewRoot.transform.position + upAxis.ToVector3() / 2, Vector3.up, .1f, Color.blue);
-            }
         }
     }
 }
