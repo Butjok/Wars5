@@ -214,6 +214,7 @@ public class ActionSelectionState : StateMachineState {
 
                                     var captureScreen = level.view.captureScreen;
                                     captureScreen.Visible = true;
+                                    captureScreen.circle.position = action.targetBuilding.view.Position.ToVector3();
                                     var startTime = Time.time;
                                     while (Time.time < startTime + capturePause[0])
                                         yield return StateChange.none;
@@ -224,6 +225,7 @@ public class ActionSelectionState : StateMachineState {
                                     while (Time.time < startTime + capturePause[1])
                                         yield return StateChange.none;
                                     captureScreen.Visible = false;
+                                    captureScreen.circle.position = null;
 
                                     unit.Position = destination;
                                     building.Cp -= Cp(unit);

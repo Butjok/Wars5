@@ -11,6 +11,7 @@ public class CaptureScreen : MonoBehaviour {
     public Easing.Name easing = Easing.Name.Linear;
     public float speed = 1;
     public UiLabel label;
+    public UiCircle circle;
 
     public bool Visible {
         set => gameObject.SetActive(value);

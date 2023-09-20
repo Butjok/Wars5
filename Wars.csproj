@@ -154,6 +154,7 @@
      <Compile Include="Assets\Scripts\UiUtils.cs" />
      <Compile Include="Assets\Scripts\GameStates\GameSessionState.cs" />
      <Compile Include="Assets\Scripts\ExtendedPostfix.cs" />
+     <Compile Include="Assets\Scripts\CaptureScreen.cs" />
      <Compile Include="Assets\Scripts\UnitActionUiContainer.cs" />
      <Compile Include="Assets\Scripts\DialogueParser.cs" />
      <Compile Include="Assets\Scripts\MainMenuLoadGameState.cs" />
@@ -256,7 +257,6 @@
      <Compile Include="Assets\Scripts\FlipbookTest.cs" />
      <Compile Include="Assets\Scripts\Animation\UnitViewSequenceSubroutines.cs" />
      <Compile Include="Assets\Scripts\EntryPoint\MainMenuWelcomeState.cs" />
-     <Compile Include="Assets\Scripts\CaptureScreen.cs" />
      <Folder Include="Assets\Scripts\EntryPoint" />
      <None Include="Assets\Scripts\Wars.asmdef" />
      <Folder Include="Assets\Scripts\DialogueMarkupLanguage" />
