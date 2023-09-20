@@ -57,4 +57,5 @@ public class LevelView : MonoBehaviour {
     public UnitBuildMenu2 unitBuildMenu;
     public UiCircle actionCircle;
     public UiLabel actionLabel;
+    public CaptureScreen captureScreen;
 }

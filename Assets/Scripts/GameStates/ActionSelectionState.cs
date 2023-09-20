@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
 using static Rules;
+using Random = UnityEngine.Random;
 
 // ReSharper disable ConvertToUsingDeclaration
 
@@ -17,6 +18,7 @@ public class ActionSelectionState : StateMachineState {
     public UnitActionsPanel panel;
     public UnitAction oldAction;
     public int index = -1;
+    public Vector2 capturePause = new(.5f, .5f);
 
     public UnitAction selectedAction;
 
@@ -209,6 +211,19 @@ public class ActionSelectionState : StateMachineState {
                                 }
 
                                 case UnitActionType.Capture: {
+
+                                    var captureScreen = level.view.captureScreen;
+                                    captureScreen.Visible = true;
+                                    var startTime = Time.time;
+                                    while (Time.time < startTime + capturePause[0])
+                                        yield return StateChange.none;
+                                    var completed = captureScreen.SetProgress(Random.value, MaxCp(action.targetBuilding));
+                                    while (!completed())
+                                        yield return StateChange.none;
+                                    startTime = Time.time;
+                                    while (Time.time < startTime + capturePause[1])
+                                        yield return StateChange.none;
+                                    captureScreen.Visible = false;
 
                                     unit.Position = destination;
                                     building.Cp -= Cp(unit);
