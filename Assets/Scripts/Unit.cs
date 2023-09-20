@@ -80,8 +80,10 @@ public class Unit : IDisposable {
                 view.Die();
             Dispose();
         }
-        else
+        else {
             view.Hp = hp;
+            view.ui.SetHp(hp, MaxHp(this));
+        }
     }
 
     private int fuel;
@@ -168,7 +170,8 @@ public class Unit : IDisposable {
         view = Object.Instantiate(viewPrefab, player.level.view.transform);
         view.prefab = viewPrefab;
         view.LookDirection = lookDirection ?? player.unitLookDirection;
-
+        view.TrySpawnUi(UnitUi.Prefab, player.level.view);
+        
         this.type = type;
         Player = player;
         Moved = moved;

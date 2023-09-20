@@ -5,6 +5,8 @@ using Image = UnityEngine.UI.Image;
 
 public class UnitUi : MonoBehaviour {
 
+    public static UnitUi Prefab => Resources.Load<UnitUi>("UnitUi2");
+
     public RectTransform root;
     public UiLabel hpLabel;
     public TMP_Text hpText;
@@ -32,10 +34,12 @@ public class UnitUi : MonoBehaviour {
             rectTransform.EncapsulateScreenRect(center, new Vector2(halfSize, halfSize * ratio));
             if (circle) {
                 circle.rectTransform.EncapsulateScreenRect(center, new Vector2(halfSize, halfSize) + new Vector2(circlePadding, circlePadding));
-                circle.materialForRendering.SetFloat("_Size", (halfSize + circlePadding)*2);
+                circle.materialForRendering.SetFloat("_Size", (halfSize + circlePadding) * 2);
             }
         }
     }
+
+    public bool ShouldBeActive => hpLabel.gameObject.activeSelf || ShowCargoIcon || ShowLowAmmoIcon || ShowLowFuelIcon;
 
     [Command]
     public void SetHp(int hp, int maxHp = 10) {
@@ -48,27 +52,34 @@ public class UnitUi : MonoBehaviour {
             hpLabel.gameObject.SetActive(true);
             hpLabel.text.text = hp.ToString();
         }
+        gameObject.SetActive(ShouldBeActive);
     }
 
     [Command]
     public bool ShowLowFuelIcon {
+        get => lowFuelIcon && lowFuelIcon.gameObject.activeSelf;
         set {
             if (lowFuelIcon)
                 lowFuelIcon.gameObject.SetActive(value);
+            gameObject.SetActive(ShouldBeActive);
         }
     }
     [Command]
     public bool ShowLowAmmoIcon {
+        get => lowAmmoIcon && lowAmmoIcon.gameObject.activeSelf;
         set {
             if (lowAmmoIcon)
                 lowAmmoIcon.gameObject.SetActive(value);
+            gameObject.SetActive(ShouldBeActive);
         }
     }
     [Command]
     public bool ShowCargoIcon {
+        get => cargoIcon && cargoIcon.gameObject.activeSelf;
         set {
             if (cargoIcon)
                 cargoIcon.gameObject.SetActive(value);
+            gameObject.SetActive(ShouldBeActive);
         }
     }
 }

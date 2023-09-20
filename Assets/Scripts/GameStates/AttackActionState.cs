@@ -84,6 +84,9 @@ public class AttackActionState : StateMachineState {
                     level.view.cameraRig.camera.gameObject.SetActive(false);
                     foreach (var battleCamera in level.view.battleCameras)
                         battleCamera.gameObject.SetActive(true);
+                    
+                    if (level.view.unitUiRoot)
+                        level.view.unitUiRoot.gameObject.SetActive(false);
 
                     var attackAnimations = new List<Func<bool>>();
                     foreach (var unit in battle.units[attackerSide])
@@ -109,6 +112,9 @@ public class AttackActionState : StateMachineState {
                     level.view.cameraRig.camera.gameObject.SetActive(true);
                     foreach (var battleCamera in level.view.battleCameras)
                         battleCamera.gameObject.SetActive(false);
+                    
+                    if (level.view.unitUiRoot)
+                        level.view.unitUiRoot.gameObject.SetActive(true);
                 }
             }
 

@@ -18,7 +18,6 @@ public class ActionSelectionState : StateMachineState {
     public UnitActionsPanel panel;
     public UnitAction oldAction;
     public int index = -1;
-    public Vector2 capturePause = new(.5f, .5f);
 
     public UnitAction selectedAction;
 
@@ -212,36 +211,58 @@ public class ActionSelectionState : StateMachineState {
 
                                 case UnitActionType.Capture: {
 
+                                    unit.Position = destination;
+                                    var oldCp = building.Cp;
+                                    building.Cp -= Cp(unit);
+
+                                    // if building is going to be captured by enemy, jump camera to it
+                                    if (building.Cp <= 0 && level.CurrentPlayer != level.localPlayer) {
+                                        level.view.cameraRig.Jump(building.view.transform.position);
+                                        var time = Time.time;
+                                        while (Time.time < time + level.view.cameraRig.jumpDuration)
+                                            yield return StateChange.none;
+                                    }
+
                                     var captureScreen = level.view.captureScreen;
                                     captureScreen.Visible = true;
                                     captureScreen.circle.position = action.targetBuilding.view.Position.ToVector3();
+                                    captureScreen.Color = building.Player?.Color ?? captureScreen.defaultColor;
+                                    captureScreen.SetCp(oldCp, MaxCp(building));
+
+                                    // pause
                                     var startTime = Time.time;
-                                    while (Time.time < startTime + capturePause[0])
+                                    while (Time.time < startTime + captureScreen.pauseBefore)
                                         yield return StateChange.none;
-                                    var completed = captureScreen.SetProgress(Random.value, MaxCp(action.targetBuilding));
+
+                                    var completed = captureScreen.AnimateCp(building.Cp, MaxCp(action.targetBuilding));
                                     while (!completed())
                                         yield return StateChange.none;
-                                    startTime = Time.time;
-                                    while (Time.time < startTime + capturePause[1])
-                                        yield return StateChange.none;
-                                    captureScreen.Visible = false;
-                                    captureScreen.circle.position = null;
-
-                                    unit.Position = destination;
-                                    building.Cp -= Cp(unit);
 
                                     if (building.Cp <= 0) {
 
-                                        if (level.CurrentPlayer != level.localPlayer) {
-                                            level.view.cameraRig.Jump(building.view.transform.position);
-                                            var time = Time.time;
-                                            while (Time.time < time + level.view.cameraRig.jumpDuration)
-                                                yield return StateChange.none;
-                                        }
-
                                         building.Player = unit.Player;
                                         building.Cp = MaxCp(building);
+
+                                        captureScreen.Color = building.Player.Color;
+                                        captureScreen.SetCp(0, MaxCp(building));
+
+                                        // pause
+                                        startTime = Time.time;
+                                        while (Time.time < startTime + captureScreen.pauseOwnerChange)
+                                            yield return StateChange.none;
+                                        
+                                        completed = captureScreen.AnimateCp(building.Cp, MaxCp(action.targetBuilding));
+                                        while (!completed())
+                                            yield return StateChange.none;
                                     }
+
+                                    // pause
+                                    startTime = Time.time;
+                                    while (Time.time < startTime + captureScreen.pauseAfter)
+                                        yield return StateChange.none;
+
+                                    captureScreen.Visible = false;
+                                    captureScreen.circle.position = null;
 
                                     break;
                                 }

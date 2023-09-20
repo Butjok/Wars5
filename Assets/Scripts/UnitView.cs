@@ -170,6 +170,21 @@ public class UnitView : MonoBehaviour {
     [NonSerialized] public int incomingProjectilesLeft = 0;
     [NonSerialized] public int spawnPointIndex;
     [NonSerialized] public int shuffledIndex;
+ 
+    public UnitUi ui;
+
+    public UnitUi TrySpawnUi(UnitUi prefab, LevelView levelView) {
+        if (!prefab)
+            return null;
+        ui = Instantiate(prefab, levelView.unitUiRoot);
+        ui.camera = levelView.cameraRig.camera;
+        ui.target = transform;
+        return ui;
+    }
+    public void OnDestroy() {
+        if (ui)
+            Destroy(ui.gameObject);
+    }
 
     private void Reset() {
         playerMaterialRenderers = GetComponentsInChildren<Renderer>().ToList();
@@ -298,7 +313,10 @@ public class UnitView : MonoBehaviour {
     }
 
     public bool HasCargo {
-        set { }
+        set {
+            if (ui)
+                ui.ShowCargoIcon = value;
+        }
     }
 
     private bool? moved;

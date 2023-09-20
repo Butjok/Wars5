@@ -12,6 +12,10 @@ public class CaptureScreen : MonoBehaviour {
     public float speed = 1;
     public UiLabel label;
     public UiCircle circle;
+    public Color defaultColor = Color.white;
+    public float pauseBefore = .5f;
+    public float pauseOwnerChange = .25f;
+    public float pauseAfter = .5f;
 
     public bool Visible {
         set => gameObject.SetActive(value);
@@ -20,29 +24,39 @@ public class CaptureScreen : MonoBehaviour {
         set => fillMeter.color = value;
     }
 
+    private int Label {
+        set {
+            if(label)
+                label.text.text = value.ToString();
+        }
+    }
+
+    public void SetCp(int cp, int maxCp) {
+        fillMeter.fillAmount = (float)cp / maxCp;
+        Label = cp;
+    }
+
     [Command]
-    public Func<bool> SetProgress(float targetValue, int maxCp) {
+    public Func<bool> AnimateCp(int cp, int maxCp) {
         var completed = false;
         StopAllCoroutines();
-        StartCoroutine(ProgressAnimation(targetValue, speed, easing, maxCp, () => completed=true));
+        StartCoroutine(ProgressAnimation((float)cp/maxCp, speed, easing, maxCp, () => completed=true));
         return () => completed;
     }
 
-    public IEnumerator ProgressAnimation(float targetValue, float speed, Easing.Name easing, int maxCp, Action onComplete) {
+    public IEnumerator ProgressAnimation(float targetFillAmount, float speed, Easing.Name easing, int maxCp, Action onComplete) {
         var startValue = fillMeter.fillAmount;
         var startTime = Time.time;
-        var duration = Mathf.Abs(targetValue - startValue) / speed;
+        var duration = Mathf.Abs(targetFillAmount - startValue) / speed;
         while (Time.time < startTime + duration) {
             var t = (Time.time - startTime) / duration;
             t = Easing.Dynamic(easing, t);
-            fillMeter.fillAmount = Mathf.Lerp(startValue, targetValue, t);
-            if (label)
-                label.text.text = Mathf.RoundToInt(fillMeter.fillAmount * maxCp).ToString();
+            fillMeter.fillAmount = Mathf.Lerp(startValue, targetFillAmount, t);
+            Label = Mathf.RoundToInt(fillMeter.fillAmount * maxCp);
             yield return null;
         }
-        fillMeter.fillAmount = targetValue;
-        if (label)
-            label.text.text = Mathf.RoundToInt(fillMeter.fillAmount * maxCp).ToString();
+        fillMeter.fillAmount = targetFillAmount;
+        Label =  Mathf.RoundToInt(fillMeter.fillAmount * maxCp);
         onComplete?.Invoke();
     }
 }

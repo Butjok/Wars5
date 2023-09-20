@@ -207,7 +207,14 @@ public static class Rules {
     public static int MoveCapacity(UnitType unitType, Player player) {
         return UnitStats.Loaded.TryGetValue(unitType, out var settings) ? settings.moveCapacity : 0;
     }
-    
+
+    public static bool IsLowOnAmmo(Unit unit, WeaponName weaponName) {
+        return unit.GetAmmo(weaponName) <= MaxAmmo(unit, weaponName) / 10;
+    }
+    public static bool IsLowOnFuel(Unit unit) {
+        return unit.Fuel <= MoveCapacity(unit, unit.Player) * 3;
+    }
+
     /*
      * TODO: remove TryGetMoveCost by unit type, use TryGetMoveCost by move type
      */
@@ -223,7 +230,7 @@ public static class Rules {
             cost = unreachable;
         return cost != unreachable;
     }
-    public static bool TryGetMoveCost(MoveType moveType,TileType tileType, out int cost) {
+    public static bool TryGetMoveCost(MoveType moveType, TileType tileType, out int cost) {
         const int unreachable = -1;
         cost = moveType switch {
             MoveType.Foot => tileType switch {
