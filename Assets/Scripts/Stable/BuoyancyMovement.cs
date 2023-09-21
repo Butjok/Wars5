@@ -12,10 +12,14 @@ public class BuoyancyMovement : MonoBehaviour {
 	public float maxSpeed = 5;
 	public float speedMultiplier = 2;
 	public Vector3 time;
+	public Quaternion startRotation;
+	public Vector3 startPosition;
 	public void Start() {
 		phases = new Vector3(Random.value * Mathf.PI * 2, Random.value * Mathf.PI * 2, Random.value * Mathf.PI * 2);
 		speedometer = GetComponent<Speedometer>();
 		Assert.IsTrue(speedometer);
+		startPosition = transform.localPosition;
+		startRotation = transform.localRotation;
 	}
 	public void Update() {
 		var multiplier = speedometer.speed is var speed ? Mathf.Lerp(1, speedMultiplier, (float)(speed / maxSpeed)) : 1;
@@ -30,7 +34,7 @@ public class BuoyancyMovement : MonoBehaviour {
 
 		values = new Vector2(x, y);
 
-		transform.localRotation = Quaternion.Euler(values.x, 0, values.y);
-		transform.localPosition = new Vector3(0, z, 0);
+		transform.localRotation = Quaternion.Euler(values.x, 0, values.y) * startRotation;
+		transform.localPosition = startPosition+ new Vector3(0, z, 0);
 	}
 }

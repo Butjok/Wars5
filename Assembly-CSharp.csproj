@@ -145,6 +145,7 @@
      <None Include="Assets/Shaders/leaves-area-tinted.shader" />
      <Folder Include="Assets/Textures" />
      <None Include="Assets/Shaders/TextFrame3d.shader" />
+     <Folder Include="Assets/LightingTest/LightingTest" />
      <None Include="Assets/Shaders/TerrainTilesTest.shader" />
      <Folder Include="Assets/Scenes/LoadingTest" />
      <Folder Include="Assets/Scenes/LoadingTestSubscene" />
@@ -255,6 +256,7 @@
      <Folder Include="Assets/Content/light-tank" />
      <None Include="Assets/TextMesh Pro/Resources/LineBreaking Following Characters.txt" />
      <Folder Include="Assets/Scenes/TwoAudioListeners" />
+     <None Include="Assets/Shaders/FadedEmissive.shader" />
      <Folder Include="Assets/Minimap" />
      <Folder Include="Assets/Shaders/Resources" />
      <Folder Include="Assets/glTF-test" />
@@ -291,6 +293,7 @@
      <None Include="Assets/Saves/test2/test2-09.02.2023-23.43.01.txt" />
      <None Include="Assets/Saves/tutorial.0/20.01.2023-08.16.17.txt" />
      <Folder Include="Assets/BattleView" />
+     <Folder Include="Assets/LightingTest" />
      <None Include="Assets/Saves/first-stage/19.01.2023-19.30.01.txt" />
      <None Include="Assets/Saves/0/0-28.01.2023-20.17.01.txt" />
      <None Include="Assets/Shaders/SDF.cginc" />
@@ -328,6 +331,7 @@
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader" />
      <None Include="Assets/Shaders/UnlitLeaves.shader" />
      <None Include="Assets/Shaders/LookingThroughWater.cginc" />
+     <Folder Include="Assets/LightingTest/SimpleBake_Bakes" />
      <Folder Include="Assets/Portraits" />
      <Folder Include="Assets/Scenes/PlainLeft" />
      <None Include="Assets/Shaders/Waves.shader" />
@@ -342,6 +346,7 @@
      <Folder Include="Assets/Saves/full-map" />
      <None Include="Assets/Saves/1/1-22.01.2023-18.56.26.txt" />
      <Folder Include="Assets/glTF-test/Prefabs" />
+     <None Include="Assets/Shaders/UnlitWithShadows.shader" />
      <Folder Include="Assets/Resources/Missions" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_Sprite.shader" />
      <None Include="Assets/StreamingAssets/Distances.txt" />
