@@ -226,8 +226,9 @@ public class ActionSelectionState : StateMachineState {
                                     var captureScreen = level.view.captureScreen;
                                     captureScreen.Visible = true;
                                     captureScreen.circle.position = action.targetBuilding.view.Position.ToVector3();
-                                    captureScreen.Color = building.Player?.Color ?? captureScreen.defaultColor;
+                                    captureScreen.UiColor = building.Player?.UiColor ?? captureScreen.defaultUiColor;
                                     captureScreen.SetCp(oldCp, MaxCp(building));
+                                    captureScreen.SpawnView(action.targetBuilding.view, building.Player?.UiColor ?? captureScreen.defaultColor);
 
                                     // pause
                                     var startTime = Time.time;
@@ -243,6 +244,7 @@ public class ActionSelectionState : StateMachineState {
                                         building.Player = unit.Player;
                                         building.Cp = MaxCp(building);
 
+                                        captureScreen.UiColor = building.Player.UiColor;
                                         captureScreen.Color = building.Player.Color;
                                         captureScreen.SetCp(0, MaxCp(building));
 
@@ -263,6 +265,7 @@ public class ActionSelectionState : StateMachineState {
 
                                     captureScreen.Visible = false;
                                     captureScreen.circle.position = null;
+                                    captureScreen.DestroyView();
 
                                     break;
                                 }

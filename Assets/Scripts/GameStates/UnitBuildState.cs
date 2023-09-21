@@ -20,6 +20,8 @@ public class UnitBuildState : StateMachineState {
             Assert.IsTrue(building.Player == level.CurrentPlayer);
             PlayerView.globalVisibility = false;
             yield return StateChange.none;
+            
+            level.view.tilemapCursor.Hide();
 
             var success = Persons.TryGetFaction(level.CurrentPlayer.coName, out var factionName);
             Assert.IsTrue(success);

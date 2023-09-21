@@ -28,7 +28,7 @@ public static class LevelReader {
         PlayerType playerType;
         AiDifficulty playerDifficulty;
         int playerCredits;
-        PlayerView playerViewPrefab;
+        PlayerView2 playerViewPrefab;
         bool playerLocal;
         Vector2Int? playerUnitLookDirection;
         ColorName? playerColorName;
@@ -43,7 +43,7 @@ public static class LevelReader {
             playerType = PlayerType.Human;
             playerDifficulty = AiDifficulty.Normal;
             playerCredits = 0;
-            playerViewPrefab = PlayerView.DefaultPrefab;
+            playerViewPrefab = PlayerView2.DefaultPrefab;
             playerLocal = false;
             playerColorName = null;
             playerUnitLookDirection = null;
@@ -178,7 +178,7 @@ public static class LevelReader {
                 }
                 case "player.add.set-prefab":
                 case "player.set-prefab": {
-                    playerViewPrefab = ((string)stack.Pop()).LoadAs<PlayerView>();
+                    playerViewPrefab = ((string)stack.Pop()).LoadAs<PlayerView2>();
                     break;
                 }
                 case "player.add.set-ai":

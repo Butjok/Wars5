@@ -59,4 +59,5 @@ public class LevelView : MonoBehaviour {
     public UiLabel actionLabel;
     public CaptureScreen captureScreen;
     public Transform unitUiRoot;
+    public Transform playerUiRoot;
 }

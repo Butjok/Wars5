@@ -178,7 +178,7 @@ public class SelectionState : StateMachineState {
                             foreach (var unit in level.units.Values)
                                 unit.Moved = false;
 
-                            player.view.visible = false;
+                            player.view.Hide();
                             if (preselectionCursor)
                                 preselectionCursor.Hide();
 

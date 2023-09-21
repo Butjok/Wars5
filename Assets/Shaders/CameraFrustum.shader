@@ -128,7 +128,7 @@ Shader "Unlit/CameraFrustum"
                 float thickness = .05;
                 float falloff = .025;
                 float lineIntensity = 1 - smoothstep(_Thickness - falloff, _Thickness + falloff, distance) ;
-                color = float4(1,1,1,1);
+                color = _Color;
                 color.a = lineIntensity;
 //color= distance;
  

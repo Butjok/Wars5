@@ -20,6 +20,8 @@ public class PersistentData {
     public void Save() {
         File.WriteAllText(Path, this.ToJson());
     }
+    private static PersistentData loaded;
+    public static PersistentData Loaded => loaded ??= Read();
 
     public Campaign campaign = new();
 
@@ -30,6 +32,8 @@ public class PersistentData {
 
     public GameSettings gameSettings = new();
     public List<GameLogEvent> events = new();
+
+    public bool showDebugGui = true;
 }
 
 public enum GameLogEventType {

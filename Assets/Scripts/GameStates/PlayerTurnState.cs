@@ -14,7 +14,7 @@ public class PlayerTurnState : StateMachineState {
         get {
             var level = FindState<LevelSessionState>().level;
             player = level.CurrentPlayer;
-            player.view.visible = true;
+            player.view.Show(player.uiPosition, player.Credits, player.AbilityMeter, Rules.MaxAbilityMeter(player), player.UiColor, player.coName);
             Debug.Log($"Start of turn #{level.turn}: {player}");
 
             var musicTracks = Persons.GetMusicThemes(player.coName).ToList();
@@ -23,7 +23,7 @@ public class PlayerTurnState : StateMachineState {
 
             var turnButton = level.view.turnButton;
             if (turnButton) {
-                turnButton.Color = player.Color;
+                turnButton.Color = player.UiColor;
                 var animation = turnButton.PlayAnimation(level.turn / level.players.Count);
                 while (!animation() && !Input.anyKeyDown)
                     yield return StateChange.none;
@@ -33,7 +33,8 @@ public class PlayerTurnState : StateMachineState {
         }
     }
     public override void Exit() {
-        player.view.visible = false;
+        
+        player.view.Hide();
 
         if (musicSource)
             Music.Kill(musicSource);

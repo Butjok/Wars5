@@ -12,6 +12,7 @@ public class UnitActionsPanel : MonoBehaviour {
     public RectTransform highlightFrame;
     public float highlightFrameMoveDuration = .5f;
     public Ease highlightFrameMoveEase = Ease.Linear;
+    public Vector2 highlightFramePadding = new Vector2(0, 0);
 
     public Action<Button, UnitAction> onClick;
 
@@ -24,10 +25,18 @@ public class UnitActionsPanel : MonoBehaviour {
         
         this.onClick = onClick;
         foreach (var action in actions) {
+        
             var button = Instantiate(buttonPrefab, buttonPrefab.transform.parent);
             buttons[action] = button;
             button.gameObject.SetActive(true);
-            button.GetComponentInChildren<TMP_Text>().text = action.ToString();
+            
+            var text = action.type.ToString();
+            if (action.targetUnit != null)
+                text += $" {action.targetUnit.type}";
+            if (action.type == UnitActionType.Attack)
+                text += $" with {action.weaponName}";
+            button.GetComponentInChildren<TMP_Text>().text = text;
+            
             button.onClick.AddListener(() => onClick(button,action));
         }
         gameObject.SetActive(true);
@@ -47,11 +56,11 @@ public class UnitActionsPanel : MonoBehaviour {
         if (!highlightFrame.gameObject.activeSelf) {
             highlightFrame.gameObject.SetActive(true);
             highlightFrame.anchoredPosition = buttonRectTransform.anchoredPosition;
-            highlightFrame.sizeDelta = buttonRectTransform.sizeDelta;
+            highlightFrame.sizeDelta = buttonRectTransform.sizeDelta+highlightFramePadding*2;
         }
         else {
-            highlightFrame.DOAnchorPos(buttonRectTransform.anchoredPosition, highlightFrameMoveDuration).SetEase(highlightFrameMoveEase);
-            highlightFrame.DOSizeDelta(buttonRectTransform.sizeDelta, highlightFrameMoveDuration).SetEase(highlightFrameMoveEase);
+            highlightFrame.DOAnchorPos(buttonRectTransform.anchoredPosition , highlightFrameMoveDuration).SetEase(highlightFrameMoveEase);
+            highlightFrame.DOSizeDelta(buttonRectTransform.sizeDelta + highlightFramePadding*2, highlightFrameMoveDuration).SetEase(highlightFrameMoveEase);
         }
     }
 

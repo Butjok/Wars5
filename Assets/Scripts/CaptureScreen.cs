@@ -12,16 +12,21 @@ public class CaptureScreen : MonoBehaviour {
     public float speed = 1;
     public UiLabel label;
     public UiCircle circle;
+    public Color defaultUiColor = Color.white;
     public Color defaultColor = Color.white;
     public float pauseBefore = .5f;
     public float pauseOwnerChange = .25f;
     public float pauseAfter = .5f;
+    public Transform root;
 
     public bool Visible {
         set => gameObject.SetActive(value);
     }
-    public Color Color {
+    public Color UiColor {
         set => fillMeter.color = value;
+    }
+    public Color Color {
+        set => buildingView.PlayerColor = value;
     }
 
     private int Label {
@@ -58,5 +63,14 @@ public class CaptureScreen : MonoBehaviour {
         fillMeter.fillAmount = targetFillAmount;
         Label =  Mathf.RoundToInt(fillMeter.fillAmount * maxCp);
         onComplete?.Invoke();
+    }
+
+    public BuildingView buildingView;
+    public void SpawnView(BuildingView buildingView, Color color) {
+        this.buildingView = Instantiate(buildingView,root.position,Quaternion.identity,root);
+        this.buildingView.PlayerColor = color;
+    }
+    public void DestroyView() {
+        Destroy(buildingView.gameObject);
     }
 }

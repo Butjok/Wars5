@@ -11,6 +11,8 @@ public class MissileTargetSelectionState : StateMachineState {
 
     public MissileTargetSelectionState(StateMachine stateMachine) : base(stateMachine) { }
 
+    public static Easing.Name easing = Easing.Name.InOutQuad;
+    
     public override IEnumerator<StateChange> Enter {
         get {
             var (game, level, action) = (FindState<GameSessionState>().game, FindState<LevelSessionState>().level, FindState<ActionSelectionState>().selectedAction);
@@ -48,24 +50,37 @@ public class MissileTargetSelectionState : StateMachineState {
                             Assert.AreEqual(TileType.MissileSilo, missileSilo.type);
 
                             Debug.Log($"Launching missile from {missileSilo.position} to {targetPosition}");
-                            using (Draw.ingame.WithDuration(1))
+                            /*using (Draw.ingame.WithDuration(1))
                             using (Draw.ingame.WithLineWidth(2))
-                                Draw.ingame.Arrow((Vector3)missileSilo.position.ToVector3Int(), (Vector3)targetPosition.ToVector3Int(), Vector3.up, .25f, Color.red);
+                                Draw.ingame.Arrow((Vector3)missileSilo.position.ToVector3Int(), (Vector3)targetPosition.ToVector3Int(), Vector3.up, .25f, Color.red);*/
 
                             if (missileSiloView) {
 
                                 missileSiloView.SnapToTargetRotationInstantly();
 
+                                var cameraRig = level.view.cameraRig;
+                                cameraRig.enabled = false;
+                                
+                                cameraRig.Jump(missileSiloView.transform.position.ToVector2().ToVector3());
+                                var startTime = Time.time;
+                                while (Time.time < startTime + cameraRig.jumpDuration)
+                                    yield return StateChange.none;
+                                
                                 var missile = missileSiloView.TryLaunchMissile();
                                 Assert.IsTrue(missile);
                                 if (missile.curve.totalTime is not { } flightTime)
                                     throw new AssertionException("missile.curve.totalTime = null", null);
 
-                                var cameraRig = level.view.cameraRig;
-                                cameraRig.Jump(Vector2.Lerp(missileSilo.position, targetPosition, .5f).Raycast());
-                                var startTime = Time.time;
-                                while (Time.time < startTime + flightTime)
+                                startTime = Time.time;
+                                var startPosition = cameraRig.transform.position.ToVector2();
+                                while (Time.time < startTime + flightTime) {
+                                    var t = (Time.time - startTime) / flightTime;
+                                    t = Easing.Dynamic(easing, t);
+                                    cameraRig.transform.position = Vector2.Lerp(startPosition, targetPosition, t).ToVector3();
                                     yield return StateChange.none;
+                                }
+
+                                cameraRig.enabled = true;
                             }
 
                             action.unit.Position = action.path[^1];

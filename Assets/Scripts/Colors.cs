@@ -1,47 +1,52 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Butjok.CommandLine;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public static class Colors {
+public class Colors {
 
-    private static Dictionary<ColorName, Color> palette;
-    public static Dictionary<ColorName, Color> Palette {
+    public struct Entry {
+        public string name;
+        public float[] color, uiColor;
+    }
+
+    [Command]
+    public static void Reset() {
+        palette = null;
+    }
+    
+    public static Dictionary<ColorName, Entry> palette;
+    public static Dictionary<ColorName, Entry> Palette {
         get {
             if (palette != null)
                 return palette;
-
-            palette = new Dictionary<ColorName, Color>();
-
-            var stack = new Stack();
-            foreach (var token in Tokenizer.Tokenize("Colors".LoadAs<TextAsset>().text))
-                stack.ExecuteToken(token);
-
-            while (stack.Count > 0) {
-                var b = (dynamic)stack.Pop();
-                var g = (dynamic)stack.Pop();
-                var r = (dynamic)stack.Pop();
-                var name = (ColorName)stack.Pop();
-                Assert.IsFalse(palette.ContainsKey(name), name.ToString());
-                palette.Add(name, new Color(r, g, b));
+            var data = "Colors2".LoadAs<TextAsset>().text.FromJson<Entry[]>();
+            palette = new Dictionary<ColorName, Entry>();
+            foreach (var entry in data) {
+                Assert.IsTrue(entry.color.Length == 3);
+                Assert.IsTrue(entry.uiColor.Length == 3);
+                palette.Add((ColorName)Enum.Parse(typeof(ColorName), entry.name), entry);
             }
-
-#if DEBUG
-            foreach (ColorName name in Enum.GetValues(typeof(ColorName)))
-                Assert.IsTrue(palette.ContainsKey(name));
-#endif
-
             return palette;
         }
     }
 
     public static Color Get(ColorName colorName) {
-        var found = Palette.TryGetValue(colorName, out var color);
-        Assert.IsTrue(found, colorName.ToString());
-        return color;
+        var found = Palette.TryGetValue(colorName, out var entry);
+        Assert.IsTrue(found);
+        return new Color(entry.color[0], entry.color[1], entry.color[2]);
     }
 
+    public static Color GetUi(ColorName colorName) {
+        var found = Palette.TryGetValue(colorName, out var entry);
+        Assert.IsTrue(found);
+        return new Color(entry.uiColor[0], entry.uiColor[1], entry.uiColor[2]);
+    }
+}
+
+public static class ColorExtensions {
     // https://www.shadertoy.com/view/ll2GD3
     public static Color ToColor(float t, in Color a, Color b, Color c, Color d) {
         Color Cos(Color c) {

@@ -15,6 +15,8 @@ public class MinimapState : StateMachineState {
             Assert.IsTrue(ui);
             var tiles = level.tiles;
             var units = level.units;
+            
+            level.view.tilemapCursor.Hide();
 
             ui.Show(
                 tiles.Keys.Select(position => (

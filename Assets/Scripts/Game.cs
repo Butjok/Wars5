@@ -123,19 +123,32 @@ public class Game : MonoBehaviour {
     private List<string> stateNames = new();
     [Command] public bool showAllUnitBrainStates;
     [Command] public float unitBrainStateFontScale = 1;
+    [Command] public int statesFontSize = 9;
+    [Command] public bool showStates = true;
+
+    [Command] public static bool ShowDebugGui {
+        get => PersistentData.Loaded.showDebugGui;
+        set => PersistentData.Loaded.showDebugGui = value;
+    }
+    
+    public GUIStyle statesLabelStyle;
+
     private void OnGUI() {
-        if (Debug.isDebugBuild) {
+        if (ShowDebugGui && showStates) {
 
             GUI.skin = DefaultGuiSkin.TryGet;
             GUI.depth = guiDepth;
             stateNames.Clear();
             stateNames.AddRange(stateMachine.StateNames);
             stateNames.Reverse();
+            statesLabelStyle ??= new GUIStyle(GUI.skin.label) {
+                fontSize = statesFontSize
+            };
             GUILayout.BeginHorizontal();
             for (var i = 0; i < stateNames.Count; i++) {
                 if (i != 0)
-                    GUILayout.Label("/");
-                GUILayout.Label(stateNames[i]);
+                    GUILayout.Label("/", statesLabelStyle);
+                GUILayout.Label(stateNames[i], statesLabelStyle);
             }
             GUILayout.EndHorizontal();
         }

@@ -18,18 +18,11 @@ public class PlayerView2 : MonoBehaviour {
         (new Vector2(0, 1), new Vector2(1, 1))
     };
 
-    private static Dictionary<Vector2Int, PlayerView2> playerViews = new() {
-        [new Vector2Int(left, top)] = null,
-        [new Vector2Int(right, top)] = null,
-        [new Vector2Int(left, bottom)] = null,
-        [new Vector2Int(right, bottom)] = null,
-    };
-
     public static PlayerView2 GetPrefab(PersonName personName) {
         return "PlayerView2".LoadAs<PlayerView2>();
     }
+    public static PlayerView2 DefaultPrefab => GetPrefab(PersonName.Natalie);
 
-    public Player player;
     public CreditsText creditsText;
     public PowerMeterStripe powerMeterStripe;
     public Image portrait;
@@ -44,61 +37,63 @@ public class PlayerView2 : MonoBehaviour {
     public RectTransform powerMeterStripePlaceholder;
     public RectTransform backgroundPlaceholder;
     public RectTransform placeholderRoot;
+    public PersonName coName;
 
     [Command]
     public void SetCreditsAmount(int amount, bool animate = true) {
         creditsText.SetAmount(amount, animate);
     }
     [Command]
-    public void SetPowerStripeMeter(int value, bool animate = true, bool playSoundOnFull = true) {
-        var max = Rules.MaxAbilityMeter(player);
+    public void SetPowerStripeMeter(int value, int max, bool animate = true, bool playSoundOnFull = true) {
         powerMeterStripe.SetProgress((float)value / max, animate, 
             value == max && playSoundOnFull ? () => Debug.Log("power meter full") : null);
     }
 
-    public void Show() {
+    public void Show(Vector2Int position, int credits, int abilityMeter, int maxAbilityMeter, Color color, PersonName coName) {
         
         root.SetActive(true);
 
-        Assert.IsTrue(player.uiPosition[horizontal] is left or right);
-        Assert.IsTrue(player.uiPosition[vertical] is top or bottom);
-        Assert.IsNull(playerViews[player.uiPosition]);
-
-        playerViews[player.uiPosition] = this;
+        Assert.IsTrue(position[horizontal] is left or right);
+        Assert.IsTrue(position[vertical] is top or bottom);
 
         var rectTransform = GetComponent<RectTransform>();
         Assert.IsTrue(rectTransform);
 
-        rectTransform.pivot = new Vector2(.5f, player.uiPosition[vertical]);
-        rectTransform.anchorMin = anchors[player.uiPosition[vertical]].min;
-        rectTransform.anchorMax = anchors[player.uiPosition[vertical]].max;
+        rectTransform.pivot = new Vector2(.5f, position[vertical]);
+        rectTransform.anchorMin = anchors[position[vertical]].min;
+        rectTransform.anchorMax = anchors[position[vertical]].max;
         rectTransform.anchoredPosition = new Vector2(0, 0);
 
-        placeholderRoot.localScale = new Vector3(player.uiPosition[horizontal] == left ? 1 : -1, 1, 1);
+        placeholderRoot.localScale = new Vector3(position[horizontal] == left ? 1 : -1, 1, 1);
 
         creditsText.transform.position = creditsTextPlaceholder.position;
         powerMeterStripe.transform.position = powerMeterStripePlaceholder.position;
         portrait.rectTransform.position = portraitPlaceholder.position;
         background.rectTransform.position = backgroundPlaceholder.position;
 
-        SetCreditsAmount(player.Credits, false);
-        SetPowerStripeMeter(player.AbilityMeter, false);
-        Color = player.Color;
+        SetCreditsAmount(credits, false);
+        SetPowerStripeMeter(abilityMeter, maxAbilityMeter, false);
+        Color = color;
+        this.coName = coName;
         Mood = Mood.Normal;
     }
     
     public void Hide() {
-        playerViews[player.uiPosition] = null;
         root.SetActive(false);
     }
 
     [Command]
     public Color Color {
-        set => backgroundInsetImage.color = value;
+        set {
+            backgroundInsetImage.color = value;
+            var outline=portraitInsetImage.GetComponent<Outline>();
+            if (outline)
+                outline.effectColor = value;
+        }
     }
 
     [Command]
     public Mood Mood {
-        set => portraitInsetImage.sprite = Persons.TryGetPortrait(player.coName, value);
+        set => portraitInsetImage.sprite = Persons.TryGetPortrait(coName, value);
     }
 }

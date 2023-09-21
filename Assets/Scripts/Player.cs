@@ -31,8 +31,7 @@ public class Player : IDisposable {
     public readonly PersonName coName;
     public readonly PlayerType type;
     public readonly AiDifficulty difficulty;
-    public readonly PlayerView view;
-    public readonly PlayerView2 view2;
+    public readonly PlayerView2 view;
     public readonly Vector2Int uiPosition;
     public Zone rootZone;
 
@@ -58,19 +57,20 @@ public class Player : IDisposable {
     }
 
     public Color Color => Colors.Get(ColorName);
+    public Color UiColor => Colors.GetUi(ColorName);
 
     public int maxCredits = defaultMaxCredits;
     public int Credits { get; private set; }
     public void SetCredits(int value, bool animate = false) {
         Credits = Clamp(value, 0, initialized ? MaxCredits(this) : defaultMaxCredits);
         if (initialized)
-            view2.SetCreditsAmount(Credits, animate);
+            view.SetCreditsAmount(Credits, animate);
     }
 
     public int AbilityMeter { get; private set; }
     public void SetAbilityMeter(int value, bool animate = false, bool playSoundOnFull = true) {
         AbilityMeter = Clamp(value, 0, initialized ? defaultMaxAbilityMeter : MaxAbilityMeter(this));
-        view2.SetPowerStripeMeter(value, initialized && animate, initialized && playSoundOnFull);
+        view.SetPowerStripeMeter(value, MaxAbilityMeter(this), initialized && animate, initialized && playSoundOnFull);
     }
 
     public int? abilityActivationTurn;
@@ -79,9 +79,9 @@ public class Player : IDisposable {
 
     private bool initialized;
 
-    public Player(Level level, ColorName colorName, Team team = Team.None, int credits = 0, PersonName coName = PersonName.Natalie, PlayerView viewPrefab = null,
+    public Player(Level level, ColorName colorName, Team team = Team.None, int credits = 0, PersonName coName = PersonName.Natalie, PlayerView2 viewPrefab = null,
         PlayerType type = PlayerType.Human, AiDifficulty difficulty = AiDifficulty.Normal, Vector2Int? unitLookDirection = null,
-        bool spawnViewPrefab = true, Vector2Int? uiPosition = null, int abilityMeter = 0, Side side = default, int? abilityActivationTurn = null) {
+        Vector2Int? uiPosition = null, int abilityMeter = 0, Side side = default, int? abilityActivationTurn = null) {
 
         undisposed.Add(this);
 
@@ -100,20 +100,12 @@ public class Player : IDisposable {
         Assert.IsFalse(level.players.Any(player => player.colorName == colorName));
         level.players.Add(this);
 
-        if (spawnViewPrefab) {
-            viewPrefab = viewPrefab ? viewPrefab : PlayerView.DefaultPrefab;
-            Assert.IsTrue(viewPrefab);
-            view = Object.Instantiate(viewPrefab, level.view.transform);
-            view.Initialize(this);
-            view.visible = false;
-        }
-
-
-        view2 = Object.Instantiate(PlayerView2.GetPrefab(coName), level.view.canvas.transform);
-        view2.player = this;
-        view2.Hide();
-
+        if (!viewPrefab)
+            viewPrefab = PlayerView2.GetPrefab(coName);
+        Assert.IsTrue(viewPrefab);
+        view = Object.Instantiate(viewPrefab, level.view.playerUiRoot);
         SetAbilityMeter(abilityMeter, false, false);
+        view.Hide();
 
         initialized = true;
     }

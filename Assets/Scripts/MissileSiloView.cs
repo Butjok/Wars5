@@ -66,8 +66,8 @@ public class MissileSiloView : BuildingView {
         if (!TryCalculateCurve(out var curve))
             return false;
 
-        foreach (var (start, end) in curve.Segments())
-            Draw.ingame.Line(start, end, Color.red);
+        //foreach (var (start, end) in curve.Segments())
+          //  Draw.ingame.Line(start, end, Color.red);
 
         var aimingPosition = transform.position + curve.forward * Mathf.Cos(curve.theta) + curve.up * Mathf.Sin(curve.theta);
 
