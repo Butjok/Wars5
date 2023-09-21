@@ -106,6 +106,7 @@ public class TerrainCreator : MonoBehaviour {
 
     private void Rebuild() {
         mesh = CatmullClark.Subdivide(MeshUtils2.Construct(quads.Values, mesh), subdivideLevel);
+        mesh.name = "Terrain";
         mesh.RecalculateNormals(30);
         meshFilter.sharedMesh = mesh;
         meshCollider.sharedMesh = mesh;
