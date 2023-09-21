@@ -7,7 +7,7 @@ public class LevelWriter {
 
     public TextWriter tw;
     public LevelWriter(TextWriter tw) => this.tw = tw;
-    public void Write(string format, params object[] values) => tw.WritePostfix(format, values);
+    public void Write(string format, params object[] values) => tw.PostfixWrite(format, values);
     public void WriteLine(string format, params object[] values) => Write(format + "\n", values);
     public void WriteLine() => tw.WriteLine();
 

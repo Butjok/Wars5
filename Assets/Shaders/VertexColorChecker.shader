@@ -1,5 +1,6 @@
 Shader "Custom/VertexColorChecker" {
 	Properties {
+		_MainTex ("_MainTex", 2D) = "white" {}
 		_ColorA ("_ColorA", Color) = (1,1,1,1)
 		_ColorB ("_ColorB", Color) = (0,0,0,1)
 		_Tint ("_Tint", Color) = (1,1,1,1)
@@ -40,6 +41,7 @@ Shader "Custom/VertexColorChecker" {
 //			float2 uv_Road;
 			float3 worldPos;
 			float4 color : COLOR;
+			float2 uv_MainTex;
 		};
 
 		half _Glossiness;
@@ -49,6 +51,7 @@ Shader "Custom/VertexColorChecker" {
 		fixed4 _ColorPlain, _ColorRoad, _ColorSea, _ColorMountain,_ColorForest, _ColorRiver,_Emissive;
 
 		void vert (inout appdata_full v) {
+		
 			float type = v.color.a;
 			if (abs(type - 4) < .01) {
 //				v.vertex.y -= 0.1;
@@ -56,6 +59,7 @@ Shader "Custom/VertexColorChecker" {
 			else if (abs(type - 8) < .01) {
 				//v.vertex.y += 0.1;
 			}
+			
 		}
 
 		void surf (Input IN, inout SurfaceOutputStandard o) {
@@ -117,6 +121,9 @@ Shader "Custom/VertexColorChecker" {
 			if (uv.x < 0 || uv.x > 1 || uv.y < 0 || uv.y > 1)
 				tileMask = 0;
 			o.Emission += _Emissive * tileMask;
+			
+			//o.Albedo.rg = IN.uv_MainTex;
+			//o.Albedo.b = 0;
 		}
 		ENDCG
 	}

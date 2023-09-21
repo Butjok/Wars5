@@ -207,6 +207,13 @@ public static class PostfixInterpreter {
                     break;
                 }
 
+                case "float2": {
+                    var y = (dynamic)stack.Pop();
+                    var x = (dynamic)stack.Pop();
+                    stack.Push(new Vector2(x, y));
+                    break;
+                }
+
                 case "float3": {
                     var z = (dynamic)stack.Pop();
                     var y = (dynamic)stack.Pop();

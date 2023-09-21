@@ -93,6 +93,7 @@
      <None Include="Assets/Resources/Settings/MoveDistances.json" />
      <Folder Include="Assets/Saves" />
      <None Include="Assets/Shaders/VertexColorChecker.shader" />
+     <None Include="Assets/Shaders/Terrain2.shader" />
      <None Include="Assets/Shaders/My First Lighting Shader Overlay NoShadow.shader" />
      <None Include="Assets/Saves/tutorial.0/20.01.2023-08.01.17.txt" />
      <Folder Include="Assets/Textures/Splat Maps" />
@@ -124,6 +125,7 @@
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF SSD.shader" />
      <Folder Include="Assets/TextMesh Pro/Resources" />
      <Folder Include="Assets/Scenes/blog-post0" />
+     <None Include="Assets/TerrainCreation/save.json" />
      <None Include="Assets/Shaders/MovePath.shader" />
      <None Include="Assets/Shaders/InstancedRendering.cginc" />
      <None Include="Assets/Shaders/vface.shader" />
@@ -239,6 +241,7 @@
      <Folder Include="Assets/TextMesh Pro/Shaders" />
      <None Include="Assets/Content/NewImageEffectShader.shader" />
      <Folder Include="Assets/Shaders" />
+     <Folder Include="Assets/TerrainCreation" />
      <None Include="Assets/Shaders/New Amplify Shader.shader" />
      <Folder Include="Assets/Textures/Circuitry" />
      <Folder Include="Assets/TextMesh Pro/Resources/Style Sheets" />
@@ -327,6 +330,7 @@
      <Folder Include="Assets/TextMesh Pro/Documentation" />
      <None Include="Assets/Resources/TutorialSaveData.txt" />
      <None Include="Assets/Shaders/UnlitMinimap.shader" />
+     <Folder Include="Assets/TerrainCreation/TerrainCreation" />
      <None Include="Assets/Shaders/PowerMeterStripe.shader" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader" />
      <None Include="Assets/Shaders/UnlitLeaves.shader" />

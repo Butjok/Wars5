@@ -94,6 +94,13 @@ public class CameraRig : MonoBehaviour {
     [Command]
     public static float verticalStretch = 1.1f;
 
+    private void Awake() {
+        var fov = Mathf.Lerp(dollyZoomFovRange[0], dollyZoomFovRange[1], dollyZoom);
+        var width = Mathf.Lerp(dollyZoomWidthRange[0], dollyZoomWidthRange[1], dollyZoom);
+        Fov = fov;
+        Distance = width / (2 * Mathf.Tan(Mathf.Deg2Rad * fov / 2));
+    }
+
     private void Update() {
 
         Assert.IsTrue(camera);
