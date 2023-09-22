@@ -45,10 +45,10 @@ public class TerrainCreator : MonoBehaviour {
         Rebuild();
     }
 
-    private  int subdivideLevel = 1;
-    
+    private int subdivideLevel = 1;
+
     [Command]
-    public  int SubdivideLevel {
+    public int SubdivideLevel {
         get => subdivideLevel;
         set {
             subdivideLevel = value;
@@ -70,7 +70,8 @@ public class TerrainCreator : MonoBehaviour {
         if (point is { } actualPoint) {
             var position = actualPoint.ToVector2Int();
 
-            Draw.ingame.CircleXZ(position.ToVector3() + Vector3.up * actualPoint.y, .25f, cursorColor);
+            using (Draw.ingame.WithLineWidth(cursorThickness))
+                Draw.ingame.CircleXZ(position.ToVector3() + Vector3.up * actualPoint.y, .25f, cursorColor);
 
             var needsRebuild = false;
 
@@ -141,6 +142,9 @@ public class TerrainCreator : MonoBehaviour {
         var vertexList = vertices.Values.ToList();
 
         var stringWriter = new StringWriter();
+
+        stringWriter.PostfixWriteLine("set-subdivide-level ( {0} )", subdivideLevel);
+
         foreach (var (key, vertex) in vertices) {
             stringWriter.PostfixWriteLine("vertex.add ( {0} {1} {2} {3} {4} {5} )", key, vertex.position, vertex.uv0, vertex.uv1, vertex.uv2, vertex.color);
             vertexList.Add(vertex);
@@ -164,9 +168,14 @@ public class TerrainCreator : MonoBehaviour {
 
         vertices.Clear();
         quads.Clear();
-        
+
         foreach (var token in Tokenizer.Tokenize(input))
             switch (token) {
+                case "set-subdivide-level": {
+                    var value = (int)stack.Pop();
+                    subdivideLevel = value;
+                    break;
+                }
                 case "vertex.add": {
                     var color = (Color)stack.Pop();
                     var uv2 = (Vector2)stack.Pop();

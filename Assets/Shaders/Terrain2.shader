@@ -65,6 +65,7 @@ _OutsideIntensity ("_OutsideIntensity", Range(0,1)) = 0.0
         _StoneColor ("_StoneColor", Color) = (1,1,1,1)
         _FlowerColor ("_FlowerColor", Color) = (1,1,1,1)
 
+        _Splat2 ("_Splat2", 2D) = "black" {}
     }
     SubShader
     {
@@ -88,7 +89,7 @@ _OutsideIntensity ("_OutsideIntensity", Range(0,1)) = 0.0
         sampler2D _Grass,_Grid,_Splat,_DarkGreen,_Wheat,_YellowGrass,_Ocean,_OceanMask,_GrassTinted,_GrassTint,_Distance;
         sampler2D _Normal;
         sampler2D _StonesNormal,_StonesAlpha, _StonesAo;
-        sampler2D _FlowersDiffuse,_FlowersAlpha, _FlowersAo;
+        sampler2D _FlowersDiffuse,_FlowersAlpha, _FlowersAo, _Splat2;
         float3 _StoneColor, _GrassColor;
         float4 _Normal_ST;
 
@@ -106,6 +107,7 @@ float4 _MapSize;
             float2 uv_MainTex;
             float2 uv_StonesNormal;
             float2 uv_FlowersAlpha;
+            float2 uv_Splat2;
         };
 
         half _Glossiness;
@@ -141,6 +143,7 @@ float4 _MapSize;
             half radius = smoothstep(_Radius+1,_Radius, radiusDistance);
             
             half3 splat = tex2D (_Splat, IN.worldPos.xz / _SplatScale);
+            splat = tex2D(_Splat2, IN.uv_Splat2);
             
             half darkGrassIntensity = splat.r;
             half wheatIntensity = splat.g;
@@ -233,20 +236,21 @@ o.Albedo *= lerp(float3(1,1,1), _BorderColor, border2);
             
             float stoneAlpha = tex2D(_StonesAlpha, IN.uv_StonesNormal).r;
 
-            o.Albedo = lerp(o.Albedo, _StoneColor, stoneAlpha);
-            o.Smoothness=lerp(o.Smoothness, .0, stoneAlpha);
-            o.Normal = normalize(lerp(o.Normal, stoneNormal, stoneAlpha));
+           // o.Albedo = lerp(o.Albedo, _StoneColor, stoneAlpha);
+           // o.Smoothness=lerp(o.Smoothness, .0, stoneAlpha);
+            //o.Normal = normalize(lerp(o.Normal, stoneNormal, stoneAlpha));
 
-            o.Occlusion = min(o.Occlusion, tex2D(_StonesAo, IN.uv_StonesNormal).r);
+           // o.Occlusion = min(o.Occlusion, tex2D(_StonesAo, IN.uv_StonesNormal).r);
 
             float flowerAlpha = tex2D(_FlowersAlpha, IN.uv_FlowersAlpha).r;
 
 half flowerAo = tex2D(_FlowersAo, IN.uv_FlowersAlpha).r;
-            o.Albedo *= smoothstep(0.25,.75,flowerAo);
+            //o.Albedo *= smoothstep(0.25,.75,flowerAo);
             
-            o.Albedo = lerp(o.Albedo, _FlowerColor, flowerAlpha);
+            //o.Albedo = lerp(o.Albedo, _FlowerColor, flowerAlpha);
             
-            o.Occlusion = min(o.Occlusion, flowerAo);
+            //o.Occlusion = min(o.Occlusion, flowerAo);
+            
         }
         ENDCG
     }
