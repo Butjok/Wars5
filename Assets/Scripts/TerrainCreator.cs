@@ -45,8 +45,16 @@ public class TerrainCreator : MonoBehaviour {
         Rebuild();
     }
 
+    private  int subdivideLevel = 1;
+    
     [Command]
-    public static int subdivideLevel = 1;
+    public  int SubdivideLevel {
+        get => subdivideLevel;
+        set {
+            subdivideLevel = value;
+            Rebuild();
+        }
+    }
 
     public void Update() {
 
@@ -108,6 +116,8 @@ public class TerrainCreator : MonoBehaviour {
         mesh = CatmullClark.Subdivide(MeshUtils2.Construct(quads.Values, mesh), subdivideLevel);
         mesh.name = "Terrain";
         mesh.RecalculateNormals(30);
+        mesh.RecalculateBounds();
+        mesh.RecalculateTangents();
         meshFilter.sharedMesh = mesh;
         meshCollider.sharedMesh = mesh;
     }

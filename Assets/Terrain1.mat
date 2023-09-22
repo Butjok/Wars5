@@ -96,6 +96,14 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _StonesAlpha:
+        m_Texture: {fileID: 2800000, guid: e82f5c7956db68440921b8e00e1ece22, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _StonesNormal:
+        m_Texture: {fileID: 2800000, guid: c8c7c75e84e824044a66229a61cd9954, type: 3}
+        m_Scale: {x: 0.12, y: 0.12}
+        m_Offset: {x: 0, y: 0}
     - _Wheat:
         m_Texture: {fileID: 2800000, guid: 6657d789556e3174ca2504efb6fc0102, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -147,7 +155,9 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _DarkGreenTint: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _GrassColor: {r: 0.41696978, g: 0.4811321, b: 0.079432175, a: 1}
     - _MapSize: {r: 10.82, g: 1, b: 0, a: 0}
     - _OutsideColor: {r: 0.9339623, g: 0.9339623, b: 0.9339623, a: 1}
+    - _StoneColor: {r: 0.38679248, g: 0.36368224, b: 0.0748042, a: 1}
     - _WheatTint: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

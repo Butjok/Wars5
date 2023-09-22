@@ -48,7 +48,14 @@ _OutsideIntensity ("_OutsideIntensity", Range(0,1)) = 0.0
 
 
 		_SplatScale ("_SplatScale", Float) = 1
+        
+        _StonesNormal ("_StonesNormal", 2D) = "bump" {}
+        _StonesAlpha ("_StonesAlpha", 2D) = "black" {}
+        
+        
 
+        _GrassColor ("_GrassColor", Color) = (1,1,1,1)
+        _StoneColor ("_StoneColor", Color) = (1,1,1,1)
 
     }
     SubShader
@@ -72,6 +79,8 @@ _OutsideIntensity ("_OutsideIntensity", Range(0,1)) = 0.0
 
         sampler2D _Grass,_Grid,_Splat,_DarkGreen,_Wheat,_YellowGrass,_Ocean,_OceanMask,_GrassTinted,_GrassTint,_Distance;
         sampler2D _Normal;
+        sampler2D _StonesNormal,_StonesAlpha;
+        float3 _StoneColor, _GrassColor;
         float4 _Normal_ST;
 
 float _LineDistance;
@@ -86,6 +95,7 @@ float4 _MapSize;
         {
             float3 worldPos;
             float2 uv_MainTex;
+            float2 uv_StonesNormal;
         };
 
         half _Glossiness;
@@ -204,6 +214,18 @@ o.Albedo = pow(o.Albedo, lerp(1, _BorderPower, border2));
 o.Albedo *= lerp(float3(1,1,1), _BorderColor, border2);
 
 
+            //o.Albedo=0;
+            //o.Albedo.rg = IN.uv_MainTex;
+
+            float3 stoneNormal = UnpackNormal( tex2D(_StonesNormal, IN.uv_StonesNormal) );
+            stoneNormal = sign(stoneNormal) * pow(abs(stoneNormal),.75);
+            stoneNormal=normalize(stoneNormal);
+            
+            float stoneAlpha = tex2D(_StonesAlpha, IN.uv_StonesNormal).r;
+
+            o.Albedo = lerp(o.Albedo, _StoneColor, stoneAlpha);
+            o.Smoothness=lerp(o.Smoothness, 0, stoneAlpha);
+            o.Normal = normalize(lerp(o.Normal, stoneNormal, stoneAlpha));
         }
         ENDCG
     }
