@@ -1,4 +1,11 @@
 {
+  "scopedRegistries": [
+    {
+      "name": "Keijiro",
+      "url": "https://registry.npmjs.com",
+      "scopes": [ "jp.keijiro" ]
+    }
+  ],
   "dependencies": {
     "com.singularitygroup.hotreload": "git+https://gitlab.com/singularitygroup/hot-reload-for-unity.git#1.1.9",
     "com.unity.2d.sprite": "1.0.0",

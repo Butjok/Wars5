@@ -3,18 +3,97 @@ Shader "Custom/Voronoi"
 	Properties
 	{
 		_Size ("_Size", Vector) = (1,1,1,1)
-		_Scale ("_Scale", Float) = 1
+		_CellScale ("_CellScale", Float) = 1
+		_FieldScale ("_FieldScale", Float) = 1
+		_RadiusNoiseScale ("_RadiusNoiseScale", Float) = 1
 		_Power ("_Power", Float) = 1
 		_Radius ("_Radius", Float) = 0.01
 		_MainTex ("_MainTex", 2D) = "white" {}
 		
 		_Thresholds ("_Thresholds", Vector) = (.25, 5, .75, 1)
 		_Smoothness ("_Smoothness", Float) = 0.05
+		
+		_RadiusRange ("_RadiusRange", Vector) = (.25, 5, .75, 1)
 	}
 	SubShader
 	{
 		Tags { "RenderType" = "Opaque" }
 
+		Pass
+		{
+			Name "Voronoi"
+		
+			CGPROGRAM
+			#pragma vertex vert
+			#pragma fragment frag
+
+			#include "UnityCG.cginc"
+
+			struct appdata
+			{
+				float4 vertex : POSITION;
+				float2 uv : TEXCOORD0;
+			};
+
+			struct v2f
+			{
+				float2 uv : TEXCOORD0;
+				float4 vertex : SV_POSITION;
+			};
+			
+			float _CellScale, _Power, _FieldScale;
+			fixed2 _Size;
+
+			v2f vert(appdata v)
+			{
+				v2f o;
+				o.vertex = UnityObjectToClipPos(v.vertex);
+				o.uv = v.uv;
+				return o;
+			}
+			float2 random2(float2 p)
+			{
+				return frac(sin(float2(dot(p,float2(117.12,341.7)),dot(p,float2(269.5,123.3))))*43458.5453);
+			}
+			float random (float2 st) {
+                return frac(sin(dot(st.xy,
+                                     float2(12.9898,78.233)))*
+                    43758.5453123);
+            }
+			
+			#include "Assets/Shaders/ClassicNoise.cginc"
+			
+			fixed4 frag(v2f i) : SV_Target
+			{
+				float2 uv = i.uv;
+				float2 position = uv * _Size;
+				int2 id = floor(position * _CellScale);
+				float minDist = 9999;
+				int2 closestId = id;
+				for (int y = -1; y <= 1; y++)
+					for (int x = -1; x <= 1; x++) {
+						int2 neighborId = id + int2(x, y);
+						float2 cellPoint = (neighborId + random2(neighborId)) / _CellScale;
+						float2 difference = abs(cellPoint - position);
+						float dist = pow(pow(difference.x, _Power) + pow(difference.y, _Power), 1 / _Power);
+						if (dist < minDist)
+						{
+							minDist = dist;
+							closestId = neighborId;
+						}
+					}
+				float2 cellPosition = (closestId);
+
+				float noise = 0;
+				noise += (ClassicNoise(float3(cellPosition * _FieldScale,0)) + 1) / 2;
+				noise += (ClassicNoise(float3(cellPosition * _FieldScale * 2,0)) + 1) / 2 * .5;
+				noise += (ClassicNoise(float3(cellPosition * _FieldScale * 4,0)) + 1) / 2 * .25;
+				noise /= 1.75;
+				return float4(noise, noise, noise, 1);
+			}
+		ENDCG
+		}
+		
 		Pass
 		{
 			Name "Blur"
@@ -39,8 +118,9 @@ Shader "Custom/Voronoi"
 			
 			sampler2D _MainTex;
 			fixed2 _Size;
-			float _Radius, _Smoothness;
+			float _Radius, _Smoothness, _RadiusNoiseScale;
 			float4 _Thresholds;
+			float2 _RadiusRange;
 
 			v2f vert(appdata v)
 			{
@@ -49,8 +129,17 @@ Shader "Custom/Voronoi"
 				o.uv = v.uv;
 				return o;
 			}
+
+			#include "Assets/Shaders/ClassicNoise.cginc"
+			
 			fixed4 frag(v2f i) : SV_Target
-			{			
+			{
+				float2 position = i.uv * _Size;
+				float noise = (ClassicNoise(float3(position * _RadiusNoiseScale, 0)) + 1) / 2;
+				float radius = lerp(_RadiusRange.x, _RadiusRange.y, noise);
+				float2 positionOffset = float2((ClassicNoise(float3(position * _RadiusNoiseScale, 0)) + 1) / 2, (ClassicNoise(float3(position * _RadiusNoiseScale + float2(100,234235), 0)) + 1) / 2);
+				return float4(positionOffset, 0, 1);
+				
 				const int samples = 16;
 				const float step = 3.1415926 * 2.0 / samples;
 				float4 col = 0;
@@ -66,86 +155,6 @@ Shader "Custom/Voronoi"
 						col += float4(0,0,1,1);
 				}
 				col /= samples;
-				return col;
-			}
-		ENDCG
-		}
-
-		Pass
-		{
-			Name "Voronoi"
-		
-			CGPROGRAM
-			#pragma vertex vert
-			#pragma fragment frag
-
-			#include "UnityCG.cginc"
-
-			struct appdata
-			{
-				float4 vertex : POSITION;
-				float2 uv : TEXCOORD0;
-			};
-
-			struct v2f
-			{
-				float2 uv : TEXCOORD0;
-				float4 vertex : SV_POSITION;
-			};
-			
-			half _Scale, _Power;
-			fixed2 _Size;
-
-			v2f vert(appdata v)
-			{
-				v2f o;
-				o.vertex = UnityObjectToClipPos(v.vertex);
-				o.uv = v.uv;
-				return o;
-			}
-			float2 random2(float2 p)
-			{
-				return frac(sin(float2(dot(p,float2(117.12,341.7)),dot(p,float2(269.5,123.3))))*43458.5453);
-			}
-			float random (float2 st) {
-                return frac(sin(dot(st.xy,
-                                     float2(12.9898,78.233)))*
-                    43758.5453123);
-            }
-			fixed4 frag(v2f i) : SV_Target
-			{
-				fixed4 col = fixed4(0,0,0,1);
-				float2 uv = i.uv;
-				uv *= _Size; //Size of the grid
-				uv *= _Scale; //Scaling amount (larger number more cells can be seen)
-				float2 iuv = floor(uv); //gets integer values no floating point
-				float2 fuv = frac(uv); // gets only the fractional part
-				float minDist = 1.0;  // minimun distance
-				float color = 0;
-				for (int y = -2; y <= 2; y++)
-				{
-					for (int x = -1; x <= 1; x++)
-					{
-						// Position of neighbour on the grid
-						float2 neighbour = float2(float(x), float(y));
-						// Random position from current + neighbour place in the grid
-						float2 pointv = random2(iuv + neighbour);
-						// Move the point with time
-						pointv = 0.5 + 0.5*sin(0*_Time.z + 6.2236*pointv);//each point moves in a certain way
-																		// Vector between the pixel and the point
-						float2 diff = neighbour + pointv - fuv;
-						// Distance to the point
-						float dist = length(diff);
-						dist = pow(pow(abs(diff.x), _Power) + pow(abs(diff.y), _Power), 1/_Power);
-						// Keep the closer distance
-						if (dist < minDist){
-							minDist = dist;
-							color = random(neighbour +iuv);
-						}
-					}
-				}
-				// Draw the min distance (distance field)
-				col += color;//minDist * minDist; // squared it to to make edges look sharper
 				return col;
 			}
 		ENDCG

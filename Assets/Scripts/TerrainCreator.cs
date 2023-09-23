@@ -51,6 +51,7 @@ public class TerrainCreator : MonoBehaviour {
     public int SubdivideLevel {
         get => subdivideLevel;
         set {
+            value = Mathf.Clamp(value, 0, 2);
             subdivideLevel = value;
             Rebuild();
         }
@@ -112,25 +113,31 @@ public class TerrainCreator : MonoBehaviour {
             elevation -= elevationStep;
     }
 
-    public GlExample glExample;
-    
+    public VoronoiRenderer voronoiRenderer;
+
     private void Rebuild() {
 
-        if (quads.Count == 0)
-            mesh.Clear();
+        if (quads.Count == 0) {
+            if (mesh)
+                mesh.Clear();
+        }
 
         else {
 
-            var minX = quads.Values.SelectMany(quad=>quad.Vertices).Min(v => v.position.x);
-            var minZ = quads.Values.SelectMany(quad=>quad.Vertices).Min(v => v.position.z);
-            var maxX = quads.Values.SelectMany(quad=>quad.Vertices).Max(v => v.position.x);
-            var maxZ = quads.Values.SelectMany(quad=>quad.Vertices).Max(v => v.position.z);
+            var minX = quads.Values.SelectMany(quad => quad.Vertices).Min(v => v.position.x);
+            var minZ = quads.Values.SelectMany(quad => quad.Vertices).Min(v => v.position.z);
+            var maxX = quads.Values.SelectMany(quad => quad.Vertices).Max(v => v.position.x);
+            var maxZ = quads.Values.SelectMany(quad => quad.Vertices).Max(v => v.position.z);
             var size = new Vector2(maxX - minX, maxZ - minZ).RoundToInt();
 
             foreach (var vertex in vertices.Values)
                 vertex.uv0 = vertex.position.ToVector2() - new Vector2(minX, minZ);
 
-            mesh = CatmullClark.Subdivide(MeshUtils2.Construct(quads.Values, mesh), subdivideLevel);
+            if (!mesh)
+                mesh = new Mesh();
+            mesh = MeshUtils2.Construct(quads.Values, mesh);
+            if (subdivideLevel > 0)
+                mesh = CatmullClark.Subdivide(mesh, subdivideLevel);
             mesh.name = "Terrain";
             mesh.RecalculateNormals(30);
             mesh.RecalculateBounds();
@@ -138,9 +145,11 @@ public class TerrainCreator : MonoBehaviour {
 
             if (meshRenderer && meshRenderer.sharedMaterial)
                 meshRenderer.sharedMaterial.SetVector("_Splat2Size", (Vector2)size);
-            
-            if (glExample)
-                glExample.size = size;
+
+            if (voronoiRenderer) {
+                voronoiRenderer.size = size;
+                voronoiRenderer.Render2(size, voronoiRenderer.pixelsPerUnit);
+            }
         }
 
         meshFilter.sharedMesh = mesh;

@@ -1,15 +1,16 @@
 using System.Collections.Generic;
+using System.IdentityModel.Tokens;
 using System.Linq;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 public static class MeshUtils2 {
-    
+
     public class Vertex {
         public Vector3 position;
-        public Vector2 uv0, uv1, uv2;
-        public Color color;
+        public Vector2? uv0, uv1, uv2;
+        public Color? color;
     }
 
     public class Quad {
@@ -20,7 +21,7 @@ public static class MeshUtils2 {
         }
         public IEnumerable<Vertex> Vertices {
             get {
-                yield return a; 
+                yield return a;
                 yield return b;
                 yield return c;
                 yield return d;
@@ -54,10 +55,14 @@ public static class MeshUtils2 {
             mesh = new Mesh();
 
         mesh.vertices = vertices.Select(vertex => vertex.position).ToArray();
-        mesh.uv = vertices.Select(vertex => vertex.uv0).ToArray();
-        mesh.uv2 = vertices.Select(vertex => vertex.uv1).ToArray();
-        mesh.uv3 = vertices.Select(vertex => vertex.uv2).ToArray();
-        mesh.colors = vertices.Select(vertex => vertex.color).ToArray();
+        if (vertices.All(vertex => vertex.uv0 != null))
+            mesh.uv = vertices.Select(vertex => vertex.uv0.Value).ToArray();
+        if (vertices.All(vertex => vertex.uv1 != null))
+            mesh.uv2 = vertices.Select(vertex => vertex.uv1.Value).ToArray();
+        if (vertices.All(vertex => vertex.uv2 != null))
+            mesh.uv3 = vertices.Select(vertex => vertex.uv2.Value).ToArray();
+        if (vertices.All(vertex => vertex.color != null))
+            mesh.colors = vertices.Select(vertex => vertex.color.Value).ToArray();
         mesh.triangles = triangles.ToArray();
 
         mesh.RecalculateBounds();

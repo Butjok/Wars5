@@ -3,11 +3,11 @@ using UnityEngine;
 
 public class ManualControl : MonoBehaviour {
 
-    [Command] public static float acceleration = 5;
-    [Command] public static float rotationSpeed = 90;
-    [Command] public static float maxSpeed = 3;
+    [Command] public  float acceleration = 5;
+    [Command] public  float rotationSpeed = 90;
+    [Command] public  float maxSpeed = 3;
 
-    private float speed;
+    public float speed;
     public Transform target;
 
     public void Reset() {
