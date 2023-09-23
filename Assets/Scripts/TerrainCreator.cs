@@ -90,7 +90,6 @@ public class TerrainCreator : MonoBehaviour {
                             position = position.ToVector3() + new Vector3(corner.x * .5f, 0, corner.y * .5f)
                         };
                     vertex.position.y = elevation;
-                    vertex.uv0 = vertex.position.ToVector2() + new Vector2(.5f, .5f);
                     return vertex;
                 }
 
@@ -113,12 +112,37 @@ public class TerrainCreator : MonoBehaviour {
             elevation -= elevationStep;
     }
 
+    public GlExample glExample;
+    
     private void Rebuild() {
-        mesh = CatmullClark.Subdivide(MeshUtils2.Construct(quads.Values, mesh), subdivideLevel);
-        mesh.name = "Terrain";
-        mesh.RecalculateNormals(30);
-        mesh.RecalculateBounds();
-        mesh.RecalculateTangents();
+
+        if (quads.Count == 0)
+            mesh.Clear();
+
+        else {
+
+            var minX = quads.Values.SelectMany(quad=>quad.Vertices).Min(v => v.position.x);
+            var minZ = quads.Values.SelectMany(quad=>quad.Vertices).Min(v => v.position.z);
+            var maxX = quads.Values.SelectMany(quad=>quad.Vertices).Max(v => v.position.x);
+            var maxZ = quads.Values.SelectMany(quad=>quad.Vertices).Max(v => v.position.z);
+            var size = new Vector2(maxX - minX, maxZ - minZ).RoundToInt();
+
+            foreach (var vertex in vertices.Values)
+                vertex.uv0 = vertex.position.ToVector2() - new Vector2(minX, minZ);
+
+            mesh = CatmullClark.Subdivide(MeshUtils2.Construct(quads.Values, mesh), subdivideLevel);
+            mesh.name = "Terrain";
+            mesh.RecalculateNormals(30);
+            mesh.RecalculateBounds();
+            mesh.RecalculateTangents();
+
+            if (meshRenderer && meshRenderer.sharedMaterial)
+                meshRenderer.sharedMaterial.SetVector("_Splat2Size", (Vector2)size);
+            
+            if (glExample)
+                glExample.size = size;
+        }
+
         meshFilter.sharedMesh = mesh;
         meshCollider.sharedMesh = mesh;
     }

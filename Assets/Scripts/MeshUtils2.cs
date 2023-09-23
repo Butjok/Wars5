@@ -18,6 +18,14 @@ public static class MeshUtils2 {
         public void Flip() {
             (a, c) = (c, a);
         }
+        public IEnumerable<Vertex> Vertices {
+            get {
+                yield return a; 
+                yield return b;
+                yield return c;
+                yield return d;
+            }
+        }
     }
 
     public static Mesh Construct(IEnumerable<Quad> quads, Mesh mesh, float thresholdAngle = 30) {

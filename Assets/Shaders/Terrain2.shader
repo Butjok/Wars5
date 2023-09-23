@@ -63,9 +63,12 @@ _OutsideIntensity ("_OutsideIntensity", Range(0,1)) = 0.0
 
         _GrassColor ("_GrassColor", Color) = (1,1,1,1)
         _StoneColor ("_StoneColor", Color) = (1,1,1,1)
+        _StoneDarkColor ("_StoneDarkColor", Color) = (1,1,1,1)
+        _StoneLightColor ("_StoneLightColor", Color) = (1,1,1,1)
         _FlowerColor ("_FlowerColor", Color) = (1,1,1,1)
 
         _Splat2 ("_Splat2", 2D) = "black" {}
+        _Splat2Size ("_Splat2Size", Vector) = (1,1,1,1)
     }
     SubShader
     {
@@ -90,7 +93,7 @@ _OutsideIntensity ("_OutsideIntensity", Range(0,1)) = 0.0
         sampler2D _Normal;
         sampler2D _StonesNormal,_StonesAlpha, _StonesAo;
         sampler2D _FlowersDiffuse,_FlowersAlpha, _FlowersAo, _Splat2;
-        float3 _StoneColor, _GrassColor;
+        float3 _StoneColor, _GrassColor, _StoneDarkColor, _StoneLightColor;
         float4 _Normal_ST;
 
 float _LineDistance;
@@ -100,6 +103,7 @@ float3 _OutsideColor,_BorderColor,_FlowerColor;
 float4 _Bounds;
 
 float4 _MapSize;
+float2 _Splat2Size;
 
         struct Input
         {
@@ -128,107 +132,91 @@ float4 _MapSize;
                
         void surf (Input IN, inout SurfaceOutputStandard o)
         {
+            
             float2 position = IN.worldPos.xz;
-            int2 cell = round(position);
-
-            half minDist = 999;
-
-            half radiusDistance = length(_From-position)-(_Time.y - _SelectTime)*50*_TimeDirection;
-            //minDist = max(minDist,radiusDistance);
+                        int2 cell = round(position);
             
-            half highlightIntensity = smoothstep(.01,0.005,minDist-_Rounding);
-            half border = smoothstep(.01 + .01,0.01,abs(0.0-(minDist-_Rounding)));
-            half3 highlight = half3(1,1,1)/3;
+                        half minDist = 999;
             
-            half radius = smoothstep(_Radius+1,_Radius, radiusDistance);
+                        half radiusDistance = length(_From-position)-(_Time.y - _SelectTime)*50*_TimeDirection;
+                        //minDist = max(minDist,radiusDistance);
+                        
+                        half highlightIntensity = smoothstep(.01,0.005,minDist-_Rounding);
+                        half border = smoothstep(.01 + .01,0.01,abs(0.0-(minDist-_Rounding)));
+                        half3 highlight = half3(1,1,1)/3;
+                        
+                        half radius = smoothstep(_Radius+1,_Radius, radiusDistance);
+                        
+                        half3 splat = tex2D (_Splat, IN.uv_MainTex);
+            splat = tex2D(_Splat2, IN.uv_Splat2 / _Splat2Size);
+                        half darkGrassIntensity = splat.r;
+                        half wheatIntensity = splat.g;
+                        half yellowGrassIntensity = splat.b;
+                        half oceanMask = tex2D (_OceanMask, IN.uv_MainTex);
+                        
+                        // Albedo comes from a texture tinted by color
+                        fixed4 grass = tex2D (_Grass, TRANSFORM_TEX(position, _Grass) );
+                        fixed4 grassTinted = tex2D (_GrassTinted, TRANSFORM_TEX(position, _Grass) );
+                        fixed4 grassTint = tex2D (_GrassTint, TRANSFORM_TEX(position, _GrassTint) );
+                        
+                        o.Albedo =  lerp(grass,grassTinted,grassTint) ;
+                        
+                        float2 darkGreenUv = position;
+                        darkGreenUv.x += sin(darkGreenUv.y*2)/16 + sin(darkGreenUv.y*5+.4)/32  + sin(darkGreenUv.y*10+.846)/32;
+                        fixed3 darkGrass = tex2D (_DarkGreen, TRANSFORM_TEX(darkGreenUv, _DarkGreen) );//tex2D (_Grass, TRANSFORM_TEX(position, _Grass) );
             
-            half3 splat = tex2D (_Splat, IN.worldPos.xz / _SplatScale);
-            splat = tex2D(_Splat2, IN.uv_Splat2);
+                        
+                        o.Albedo =  lerp(o.Albedo, darkGrass, darkGrassIntensity);
             
-            half darkGrassIntensity = splat.r;
-            half wheatIntensity = splat.g;
-            half yellowGrassIntensity = splat.b;
-            half oceanMask = tex2D (_OceanMask, IN.uv_MainTex);
+                        float2 wheatUv = position;
+                        wheatUv.xy += sin(wheatUv.x)/32 + sin(wheatUv.x*2.5+.4)/64  + sin(wheatUv.x*10+.846)/32;
+                        fixed3 wheat = tex2D (_Wheat, TRANSFORM_TEX(wheatUv, _Wheat) );;
+                        //fixed3 wheatTinted = tex2D (_WheatTinted, TRANSFORM_TEX(wheatUv, _Wheat) );;
+                        //fixed3 finalWheat = lerp(wheat,wheatTinted,grassTint);
+                        fixed3 finalWheat = wheat;
             
-            // Albedo comes from a texture tinted by color
-            fixed4 grass = tex2D (_Grass, TRANSFORM_TEX(position, _Grass) );
-            fixed4 grassTinted = tex2D (_GrassTinted, TRANSFORM_TEX(position, _Grass) );
-            fixed4 grassTint = tex2D (_GrassTint, TRANSFORM_TEX(position, _GrassTint) );
+                        
             
-            o.Albedo =  lerp(grass,grassTinted,grassTint) ;
+                        fixed3 yellowGrass = tex2D (_YellowGrass, TRANSFORM_TEX(position, _YellowGrass) );
+                        o.Albedo =  lerp(o.Albedo, yellowGrass, yellowGrassIntensity);
             
-            float2 darkGreenUv = position;
-            darkGreenUv.x += sin(darkGreenUv.y*2)/16 + sin(darkGreenUv.y*5+.4)/32  + sin(darkGreenUv.y*10+.846)/32;
-            fixed3 darkGrass = tex2D (_DarkGreen, TRANSFORM_TEX(darkGreenUv, _DarkGreen) );//tex2D (_Grass, TRANSFORM_TEX(position, _Grass) );
-
             
-            o.Albedo =  lerp(o.Albedo, darkGrass, darkGrassIntensity);
-
-            float2 wheatUv = position;
-            wheatUv.xy += sin(wheatUv.x)/32 + sin(wheatUv.x*2.5+.4)/64  + sin(wheatUv.x*10+.846)/32;
-            fixed3 wheat = tex2D (_Wheat, TRANSFORM_TEX(wheatUv, _Wheat) );;
-            //fixed3 wheatTinted = tex2D (_WheatTinted, TRANSFORM_TEX(wheatUv, _Wheat) );;
-            //fixed3 finalWheat = lerp(wheat,wheatTinted,grassTint);
-            fixed3 finalWheat = wheat;
-
+                        //o.Albedo = lerp(o.Albedo, finalWheat, wheatIntensity);
             
-
-            fixed3 yellowGrass = tex2D (_YellowGrass, TRANSFORM_TEX(position, _YellowGrass) );
-            o.Albedo =  lerp(o.Albedo, yellowGrass, yellowGrassIntensity);
-
-
-            //o.Albedo = lerp(o.Albedo, finalWheat, wheatIntensity);
-
-            /*float3 ocean = IN.worldPos.z tex2D (_Ocean, IN.uv_MainTex);
-            o.Albedo=lerp(o.Albedo, ocean ,1-oceanMask);*/
+                        //float3 ocean = tex2D (_Ocean, IN.uv_MainTex);
+                        //o.Albedo=lerp(o.Albedo, ocean ,1-oceanMask);
+                        
+                        // Metallic and smoothness come from slider variables
+                        o.Metallic = 0;
+                        o.Smoothness = _Glossiness;
+                        o.Alpha = 1;
             
-            float oceanIntensity = smoothstep(0,-.1, IN.worldPos.y);
-            o.Albedo = lerp(o.Albedo, float3(0,0,1), oceanIntensity);
+                        //o.Albedo=float3(1,0,0);
+                        
+                       // o.Emission=border*10*o.Albedo+highlightIntensity*o.Albedo * tex2D (_Grid, position-.5) *10;
+                       // o.Emission*= radius;
+                        
+                       // o.Emission *=  IN.worldPos.y > 0;
             
-            // Metallic and smoothness come from slider variables
-            o.Metallic = 0;
-            o.Smoothness = _Glossiness;
-            o.Alpha = 1;
-
-            //o.Albedo=float3(1,0,0);
+                        float3 normal = UnpackNormal( tex2D (_Normal, TRANSFORM_TEX(position, _Normal) ));
+                        normal = sign(normal) * pow(abs(normal),.75);
+                        //normal.z/=2;
+                        normal=normalize(normal);
+                        o.Normal = normal;
             
-           // o.Emission=border*10*o.Albedo+highlightIntensity*o.Albedo * tex2D (_Grid, position-.5) *10;
-           // o.Emission*= radius;
+                        //o.Albedo=splat;
             
-           // o.Emission *=  IN.worldPos.y > 0;
-
-            float3 normal = UnpackNormal( tex2D (_Normal, TRANSFORM_TEX(position, _Normal) ));
-            normal = sign(normal) * pow(abs(normal),.75);
-            //normal.z/=2;
-            normal=normalize(normal);
-            o.Normal = normal;
-
-            //o.Albedo=splat;
-
-            half gridMask = smoothstep(-.1,-.05,IN.worldPos.y);
-            o.Albedo *= lerp(float3(1,1,1), 1-tex2D (_Grid, position-.5), gridMask);
-
-            //o.Albedo = tint(o.Albedo, .0, .975, 1);
-
-float2 uv = (IN.worldPos.xz - _Bounds.xy) / (_Bounds.zw - _Bounds.xy);
-fixed4 c = tex2D (_Distance, uv);
-float dist = c.r;
-float distanceChange = fwidth(dist) * 0.5;
-float majorLineDistance = abs(frac(dist / _LineDistance + 0.5) - 0.5) * _LineDistance;
-float majorLines = smoothstep(_LineThickness - distanceChange, _LineThickness + distanceChange, majorLineDistance);
-
-float border2 = smoothstep(_BorderThinkness+_BorderSharpness,_BorderThinkness-_BorderSharpness,abs(dist - _BorderOffset));
-float outside = smoothstep(0, _OutsideSmoothness, dist - _OutsideOffset);
-
-//o.Emission = border2*_BorderColor;
-o.Albedo *= lerp(float3(1,1,1), _OutsideColor, outside * _OutsideIntensity);
-//o.Albedo *= (1-majorLines);
-o.Albedo = pow(o.Albedo, lerp(1, _BorderPower, border2));
-o.Albedo *= lerp(float3(1,1,1), _BorderColor, border2);
-
-
-            //o.Albedo=0;
-            //o.Albedo.rg = IN.uv_MainTex;
+                        half gridMask = smoothstep(-.1,-.05,IN.worldPos.y);
+                        o.Albedo *= lerp(float3(1,1,1), 1-tex2D (_Grid, position-.5), gridMask);
+            
+                        //o.Albedo = tint(o.Albedo, .0, .975, 1);
+            
+            float2 uv = (IN.worldPos.xz - _Bounds.xy) / (_Bounds.zw - _Bounds.xy);
+            fixed4 c = tex2D (_Distance, uv);
+            float dist = c.r;
+            float distanceChange = fwidth(dist) * 0.5;
+            float majorLineDistance = abs(frac(dist / _LineDistance + 0.5) - 0.5) * _LineDistance;
+            float majorLines = smoothstep(_LineThickness - distanceChange, _LineThickness + distanceChange, majorLineDistance);
 
             float3 stoneNormal = UnpackNormal( tex2D(_StonesNormal, IN.uv_StonesNormal) );
             stoneNormal = sign(stoneNormal) * pow(abs(stoneNormal),.75);
@@ -236,20 +224,24 @@ o.Albedo *= lerp(float3(1,1,1), _BorderColor, border2);
             
             float stoneAlpha = tex2D(_StonesAlpha, IN.uv_StonesNormal).r;
 
-           // o.Albedo = lerp(o.Albedo, _StoneColor, stoneAlpha);
-           // o.Smoothness=lerp(o.Smoothness, .0, stoneAlpha);
-            //o.Normal = normalize(lerp(o.Normal, stoneNormal, stoneAlpha));
+			float3 stoneColor = _StoneColor;
+			stoneColor = lerp(stoneColor, _StoneDarkColor, darkGrassIntensity);
+			stoneColor = lerp(stoneColor, _StoneLightColor, yellowGrassIntensity);
+            o.Albedo = lerp(o.Albedo, stoneColor, stoneAlpha);
+            
+            o.Smoothness=lerp(o.Smoothness, .0, stoneAlpha);
+            o.Normal = normalize(lerp(o.Normal, stoneNormal, stoneAlpha));
 
-           // o.Occlusion = min(o.Occlusion, tex2D(_StonesAo, IN.uv_StonesNormal).r);
+            o.Occlusion = min(o.Occlusion, tex2D(_StonesAo, IN.uv_StonesNormal).r);
 
             float flowerAlpha = tex2D(_FlowersAlpha, IN.uv_FlowersAlpha).r;
 
 half flowerAo = tex2D(_FlowersAo, IN.uv_FlowersAlpha).r;
-            //o.Albedo *= smoothstep(0.25,.75,flowerAo);
+            o.Albedo *= smoothstep(0.25,.75,flowerAo);
             
-            //o.Albedo = lerp(o.Albedo, _FlowerColor, flowerAlpha);
+            o.Albedo = lerp(o.Albedo, _FlowerColor, flowerAlpha);
             
-            //o.Occlusion = min(o.Occlusion, flowerAo);
+            o.Occlusion = min(o.Occlusion, flowerAo);
             
         }
         ENDCG
