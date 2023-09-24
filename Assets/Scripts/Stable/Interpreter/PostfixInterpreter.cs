@@ -33,6 +33,8 @@ public static class PostfixInterpreter {
                 return $"{Format(v.x)} {Format(v.y)} float2";
             case Vector3 v:
                 return $"{Format(v.x)} {Format(v.y)} {Format(v.z)} float3";
+            case Quaternion v:
+                return $"{Format(v.x)} {Format(v.y)} {Format(v.z)} {Format(v.w)} quat";
             case Vector2Int v:
                 return $"{Format(v.x)} {Format(v.y)} int2";
             case Vector3Int v:
@@ -219,6 +221,15 @@ public static class PostfixInterpreter {
                     var y = (dynamic)stack.Pop();
                     var x = (dynamic)stack.Pop();
                     stack.Push(new Vector3(x, y, z));
+                    break;
+                }
+
+                case "quat": {
+                    var w = (dynamic)stack.Pop();
+                    var z = (dynamic)stack.Pop();
+                    var y = (dynamic)stack.Pop();
+                    var x = (dynamic)stack.Pop();
+                    stack.Push(new Quaternion(x, y, z, w));
                     break;
                 }
 

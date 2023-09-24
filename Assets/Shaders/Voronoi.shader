@@ -6,6 +6,10 @@ Shader "Custom/Voronoi"
 		_CellScale ("_CellScale", Float) = 1
 		_FieldScale ("_FieldScale", Float) = 1
 		_RadiusNoiseScale ("_RadiusNoiseScale", Float) = 1
+		
+		_BlurRadiusNoiseScale ("_BlurRadiusNoiseScale", Float) = 1
+		_BlurRadiusRange ("_BlurRadiusRange", Vector) = (.25, 5, .75, 1)
+		
 		_Power ("_Power", Float) = 1
 		_Radius ("_Radius", Float) = 0.01
 		_MainTex ("_MainTex", 2D) = "white" {}
@@ -69,7 +73,7 @@ Shader "Custom/Voronoi"
 				float2 position = uv * _Size;
 				int2 id = floor(position * _CellScale);
 				float minDist = 9999;
-				int2 closestId = id;
+				float2 closestPoint = position;
 				for (int y = -1; y <= 1; y++)
 					for (int x = -1; x <= 1; x++) {
 						int2 neighborId = id + int2(x, y);
@@ -79,15 +83,15 @@ Shader "Custom/Voronoi"
 						if (dist < minDist)
 						{
 							minDist = dist;
-							closestId = neighborId;
+							closestPoint = cellPoint;
 						}
 					}
-				float2 cellPosition = (closestId);
+				//return float4(closestPoint, 0, 1);
 
 				float noise = 0;
-				noise += (ClassicNoise(float3(cellPosition * _FieldScale,0)) + 1) / 2;
-				noise += (ClassicNoise(float3(cellPosition * _FieldScale * 2,0)) + 1) / 2 * .5;
-				noise += (ClassicNoise(float3(cellPosition * _FieldScale * 4,0)) + 1) / 2 * .25;
+				noise += (ClassicNoise(float3(closestPoint * _FieldScale,0)) + 1) / 2;
+				noise += (ClassicNoise(float3(closestPoint * _FieldScale * 2,0)) + 1) / 2 * .5;
+				noise += (ClassicNoise(float3(closestPoint * _FieldScale * 4,0)) + 1) / 2 * .25;
 				noise /= 1.75;
 				return float4(noise, noise, noise, 1);
 			}
@@ -118,9 +122,9 @@ Shader "Custom/Voronoi"
 			
 			sampler2D _MainTex;
 			fixed2 _Size;
-			float _Radius, _Smoothness, _RadiusNoiseScale;
+			float _Radius, _Smoothness, _RadiusNoiseScale, _BlurRadiusNoiseScale;
 			float4 _Thresholds;
-			float2 _RadiusRange;
+			float2 _RadiusRange, _BlurRadiusRange;
 
 			v2f vert(appdata v)
 			{
@@ -131,31 +135,79 @@ Shader "Custom/Voronoi"
 			}
 
 			#include "Assets/Shaders/ClassicNoise.cginc"
+			#include "Assets/Shaders/TerrainMask.cginc"
 			
 			fixed4 frag(v2f i) : SV_Target
 			{
 				float2 position = i.uv * _Size;
-				float noise = (ClassicNoise(float3(position * _RadiusNoiseScale, 0)) + 1) / 2;
-				float radius = lerp(_RadiusRange.x, _RadiusRange.y, noise);
-				float2 positionOffset = float2((ClassicNoise(float3(position * _RadiusNoiseScale, 0)) + 1) / 2, (ClassicNoise(float3(position * _RadiusNoiseScale + float2(100,234235), 0)) + 1) / 2);
-				return float4(positionOffset, 0, 1);
+				float blurRadius = lerp(_BlurRadiusRange.x, _BlurRadiusRange.y, (ClassicNoise(float3(position * _BlurRadiusNoiseScale, 0)) + 1) / 2);
 				
 				const int samples = 16;
-				const float step = 3.1415926 * 2.0 / samples;
-				float4 col = 0;
-				for (int j = 0; j < samples; j++)
-				{
-					float2 offset = float2(cos(j * step), sin(j * step)) * _Radius / _Size;
-					float3 input = tex2D(_MainTex, i.uv + offset);
-					if (input.r < _Thresholds.x) 
-						col += float4(1,0,0,1);
-					else if (input.r < _Thresholds.y)
-						col += float4(0,1,0,1);
-					else if (input.r < _Thresholds.z)
-						col += float4(0,0,1,1);
+				const float angleStep = 3.1415926 * 2.0 / samples;
+				float4 mask = 0;
+				for (int j = 0; j < samples; j++) {
+					float2 uv = (position + float2(cos(j * angleStep), sin(j * angleStep)) * blurRadius) / _Size;
+					mask += MakeTerrainMask(tex2D(_MainTex, uv), _Thresholds);
 				}
-				col /= samples;
-				return col;
+				mask /= samples;
+				return mask;
+			}
+		ENDCG
+		}
+		
+		Pass
+		{
+			Name "BushMask"
+			
+			CGPROGRAM
+			#pragma vertex vert
+			#pragma fragment frag
+
+			#include "UnityCG.cginc"
+
+			struct appdata
+			{
+				float4 vertex : POSITION;
+				float2 uv : TEXCOORD0;
+			};
+
+			struct v2f
+			{
+				float2 uv : TEXCOORD0;
+				float4 vertex : SV_POSITION;
+			};
+			
+			sampler2D _MainTex;
+			fixed2 _Size;
+			float _Radius, _Smoothness, _RadiusNoiseScale, _BlurRadiusNoiseScale;
+			float4 _Thresholds;
+			float2 _RadiusRange, _BlurRadiusRange;
+
+			v2f vert(appdata v)
+			{
+				v2f o;
+				o.vertex = UnityObjectToClipPos(v.vertex);
+				o.uv = v.uv;
+				return o;
+			}
+
+			#include "Assets/Shaders/ClassicNoise.cginc"
+			#include "Assets/Shaders/TerrainMask.cginc"
+			
+			fixed4 frag(v2f i) : SV_Target
+			{
+				float2 position = i.uv * _Size;
+				
+				float3 neighborMaskMX = MakeTerrainMask(tex2D(_MainTex, (position - float2(_Radius, 0)) / _Size), _Thresholds);
+                float3 neighborMaskMY = MakeTerrainMask(tex2D(_MainTex, (position - float2(0, _Radius)) / _Size), _Thresholds);
+				float3 neighborMaskPX = MakeTerrainMask(tex2D(_MainTex, (position + float2(_Radius, 0)) / _Size), _Thresholds);
+				float3 neighborMaskPY = MakeTerrainMask(tex2D(_MainTex, (position + float2(0, _Radius)) / _Size), _Thresholds);
+				float result = 1;
+				result = min(result, dot(neighborMaskMX, neighborMaskPX));
+				result = min(result, dot(neighborMaskMY, neighborMaskPY));
+				result = 1-result;
+				 
+				return float4(result,result,result,1);
 			}
 		ENDCG
 		}

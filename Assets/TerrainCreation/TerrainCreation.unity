@@ -1086,9 +1086,13 @@ MonoBehaviour:
   mesh: {fileID: 0}
   cursorColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   cursorThickness: 2
+  bushSize: 0.5
+  bushColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   elevation: 0
   elevationStep: 0.25
   voronoiRenderer: {fileID: 679169713}
+  bushDensityPerUnit: 10
+  bushSeed: 0
 --- !u!64 &679169710
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1176,11 +1180,14 @@ MonoBehaviour:
   previewRenderer: {fileID: 744873113}
   finalPreviewRenderer: {fileID: 1510500778}
   terrainMaterial: {fileID: 2100000, guid: b1f420d0546f841529dcb04f9c10dbcc, type: 2}
-  renderTexture: {fileID: 0}
-  finalRenderTexture: {fileID: 0}
-  autoRender: 0
-  size: {x: 5, y: 5}
+  fieldMaskRenderTexture: {fileID: 0}
+  blurredFieldMaskRenderTexture: {fileID: 0}
+  bushMaskRenderTexture: {fileID: 0}
+  autoRender: 1
+  worldSize: {x: 5, y: 5}
   pixelsPerUnit: 64
+  renderBushMask: 1
+  densityMap: {fileID: 0}
 --- !u!1 &744873111
 GameObject:
   m_ObjectHideFlags: 0
@@ -1199,7 +1206,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!64 &744873112
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -2433,7 +2440,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!64 &1510500777
 MeshCollider:
   m_ObjectHideFlags: 0

@@ -26,15 +26,19 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _BlurRadiusNoiseScale: 7.07
     - _CellScale: 0.5
+    - _EdgeNoiseRange: 0.61
     - _FieldScale: 0.2
     - _Power: 10
-    - _Radius: 0.37
-    - _RadiusNoiseScale: 1.07
+    - _Radius: 0.36
+    - _RadiusNoiseScale: 0
     - _Scale: 0.66
     - _Smoothness: 0.03
     m_Colors:
-    - _RadiusRange: {r: 0.12, g: 0.91, b: 0.75, a: 1}
-    - _Size: {r: 14, g: 14, b: 1, a: 1}
-    - _Thresholds: {r: 0.46, g: 0.66, b: 0.74, a: 1}
+    - _BlurRadiusRange: {r: 0.1, g: 0.5, b: 0.75, a: 1}
+    - _EdgeNoiseScale: {r: 0.25, g: 5, b: 0.75, a: 1}
+    - _RadiusRange: {r: 0.59, g: 0.41, b: 0.75, a: 1}
+    - _Size: {r: 21, g: 18, b: 1, a: 1}
+    - _Thresholds: {r: 0.52, g: 0.63, b: 1, a: 1}
   m_BuildTextureStacks: []

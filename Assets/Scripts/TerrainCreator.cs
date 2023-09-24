@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using Butjok.CommandLine;
@@ -15,7 +16,7 @@ using Torec;
 [RequireComponent(typeof(MeshFilter))]
 public class TerrainCreator : MonoBehaviour {
 
-    public const string savePath = "Assets/TerrainCreation/autosave.save";
+    public const string autoSavePath = "Assets/TerrainCreation/autosave.save";
 
     public Camera camera;
     public MeshFilter meshFilter;
@@ -26,6 +27,12 @@ public class TerrainCreator : MonoBehaviour {
 
     public Color cursorColor = Color.yellow;
     public float cursorThickness = 2;
+
+    public List<(Vector3 position, Quaternion rotation)> bushes = new();
+    [Command]
+    public float bushSize = .5f;
+    [Command]
+    public Color bushColor = Color.yellow;
 
     private void Reset() {
         meshFilter = GetComponent<MeshFilter>();
@@ -41,8 +48,8 @@ public class TerrainCreator : MonoBehaviour {
     public float elevationStep = .25f;
 
     private void Awake() {
-        TryLoad();
-        Rebuild();
+        TryLoad(autoSavePath);
+        RebuildTerrain(false);
     }
 
     private int subdivideLevel = 1;
@@ -53,7 +60,7 @@ public class TerrainCreator : MonoBehaviour {
         set {
             value = Mathf.Clamp(value, 0, 2);
             subdivideLevel = value;
-            Rebuild();
+            RebuildTerrain();
         }
     }
 
@@ -104,18 +111,23 @@ public class TerrainCreator : MonoBehaviour {
             }
 
             if (needsRebuild)
-                Rebuild();
+                RebuildTerrain();
         }
 
         if (Input.GetKeyDown(KeyCode.PageUp))
             elevation += elevationStep;
         else if (Input.GetKeyDown(KeyCode.PageDown))
             elevation -= elevationStep;
+
+        // draw bushes
+        foreach (var (position, rotation) in bushes)
+            using (Draw.ingame.WithMatrix(Matrix4x4.TRS(position, rotation, Vector3.one)))
+                Draw.ingame.Cross(Vector3.zero, bushSize, bushColor);
     }
 
     public VoronoiRenderer voronoiRenderer;
 
-    private void Rebuild() {
+    private void RebuildTerrain(bool clearBushes = true) {
 
         if (quads.Count == 0) {
             if (mesh)
@@ -147,13 +159,37 @@ public class TerrainCreator : MonoBehaviour {
                 meshRenderer.sharedMaterial.SetVector("_Splat2Size", (Vector2)size);
 
             if (voronoiRenderer) {
-                voronoiRenderer.size = size;
+                voronoiRenderer.worldSize = size;
                 voronoiRenderer.Render2(size, voronoiRenderer.pixelsPerUnit);
             }
         }
 
         meshFilter.sharedMesh = mesh;
         meshCollider.sharedMesh = mesh;
+        
+        if(clearBushes)
+            bushes.Clear();
+    }
+
+    [Command]
+    public float bushDensityPerUnit = 1;
+    [Command]
+    public int bushSeed = 0;
+
+    [Command]
+    public void FindBushes() {
+        var origin = meshFilter.sharedMesh ? meshFilter.sharedMesh.bounds.min.ToVector2() : Vector2.zero;
+        var uvs = voronoiRenderer.Distribute(voronoiRenderer.bushMaskRenderTexture, voronoiRenderer.worldSize, bushDensityPerUnit, bushSeed).ToList();
+        bushes = uvs.Select(uv => {
+            var position2d = origin + uv * voronoiRenderer.worldSize;
+            var position3d = position2d.ToVector3();
+            var rotation = Quaternion.identity;
+            if (PlaceOnTerrain.TryRaycast(position2d, out var hit)) {
+                position3d = hit.point;
+                rotation = Quaternion.LookRotation(Vector3.forward, hit.normal);
+            }
+            return (position3d, rotation);
+        }).ToList();
     }
 
     private void OnGUI() {
@@ -163,14 +199,13 @@ public class TerrainCreator : MonoBehaviour {
     }
 
     private void OnApplicationQuit() {
-        Save();
+        Save(autoSavePath);
     }
 
     public Dictionary<Vector2Int, MeshUtils2.Vertex> vertices = new();
     public Dictionary<Vector2Int, MeshUtils2.Quad> quads = new();
 
-    [Command]
-    public void Save() {
+    public void Save(string path) {
 
         var vertexList = vertices.Values.ToList();
 
@@ -186,16 +221,18 @@ public class TerrainCreator : MonoBehaviour {
         foreach (var (key, quad) in quads)
             stringWriter.PostfixWriteLine("quad.add ( {0} {1} {2} {3} {4} )", key, vertexList.IndexOf(quad.a), vertexList.IndexOf(quad.b), vertexList.IndexOf(quad.c), vertexList.IndexOf(quad.d));
 
-        File.WriteAllText(savePath, stringWriter.ToString());
+        foreach (var (position, rotation) in bushes)
+            stringWriter.PostfixWriteLine("bush.add ( {0} {1} )", position, rotation);
+
+        File.WriteAllText(path, stringWriter.ToString());
     }
 
-    [Command]
-    public bool TryLoad() {
+    public bool TryLoad(string path) {
 
-        if (!File.Exists(savePath))
+        if (!File.Exists(path))
             return false;
 
-        var input = File.ReadAllText(savePath).ToPostfix();
+        var input = File.ReadAllText(path).ToPostfix();
         var stack = new Stack();
         var verticesList = new List<MeshUtils2.Vertex>();
 
@@ -210,10 +247,10 @@ public class TerrainCreator : MonoBehaviour {
                     break;
                 }
                 case "vertex.add": {
-                    var color = (Color)stack.Pop();
-                    var uv2 = (Vector2)stack.Pop();
-                    var uv1 = (Vector2)stack.Pop();
-                    var uv0 = (Vector2)stack.Pop();
+                    var color = (Color?)stack.Pop();
+                    var uv2 = (Vector2?)stack.Pop();
+                    var uv1 = (Vector2?)stack.Pop();
+                    var uv0 = (Vector2?)stack.Pop();
                     var position = (Vector3)stack.Pop();
                     var key = (Vector2Int)stack.Pop();
                     var vertex = new MeshUtils2.Vertex {
@@ -239,6 +276,12 @@ public class TerrainCreator : MonoBehaviour {
                         c = verticesList[cIndex],
                         d = verticesList[dIndex]
                     });
+                    break;
+                }
+                case "bush.add": {
+                    var rotation = (Quaternion)stack.Pop();
+                    var position = (Vector3)stack.Pop();
+                    bushes.Add((position, rotation));
                     break;
                 }
                 default:
