@@ -38,6 +38,8 @@ public class TerrainCreator : MonoBehaviour {
     public TransformList bushTransformList;
     public Vector2 bushSizeRange = new(.25f, 1.5f);
 
+    public RoadCreator roadCreator;
+
     private void Reset() {
         meshFilter = GetComponent<MeshFilter>();
         meshRenderer = GetComponent<MeshRenderer>();
@@ -177,6 +179,9 @@ public class TerrainCreator : MonoBehaviour {
             if (instancedMeshRenderer)
                 instancedMeshRenderer.transformList = null;
         }
+
+        if (roadCreator)
+            roadCreator.Rebuild();
     }
 
     [Command]
@@ -195,8 +200,10 @@ public class TerrainCreator : MonoBehaviour {
             var position2d = origin + uv * voronoiRenderer.worldSize;
             var scale = Vector3.one * Mathf.Lerp(bushSizeRange[0], bushSizeRange[1], Random.value);
             if (PlaceOnTerrain.TryRaycast(position2d, out var hit) && hit.point.y > -.01) {
+                if (roadCreator && roadCreator.positions.Contains(position2d.RoundToInt()))
+                    continue;
                 var position3d = hit.point;
-                var rotation = Quaternion.LookRotation(-hit.normal) * Quaternion.Euler(0, 0, Random.value * 360);
+                var rotation = Quaternion.LookRotation(Vector3.forward, -hit.normal) * Quaternion.Euler(0,  Random.value * 360,0);
                 bushes.Add((position3d, rotation, scale));
             }
         }

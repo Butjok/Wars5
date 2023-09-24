@@ -1,24 +1,40 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class MeshProjector {
+public class MeshProjector : MonoBehaviour {
 
-    public static bool TryProjectDown(this Mesh destinationMesh, Mesh sourceMesh, Vector3 position, float yaw, LayerMask layerMask,
+    public Mesh sourceMesh;
+    public Mesh mesh;
+    public MeshFilter meshFilter;
+    public float offset = 0;
+
+    public void Awake() {
+        mesh = Instantiate(sourceMesh);
+    }
+
+    public void Update() {
+        if (TryProjectDown(mesh, sourceMesh, transform.position, transform.rotation.eulerAngles.y, 1 << LayerMask.NameToLayer("Terrain"), offset))
+            meshFilter.sharedMesh = mesh;
+    }
+    public static bool TryProjectDown(Mesh destinationMesh, Mesh sourceMesh, Vector3 position, float yaw, LayerMask layerMask,
         float offset = 0) {
 
+        var result = true;
         var outputVertices = new List<Vector3>();
 
         var transform = Matrix4x4.TRS(position, Quaternion.Euler(0, yaw, 0), Vector3.one);
         foreach (var vertex in sourceMesh.vertices) {
             var worldPosition = transform.MultiplyPoint(vertex);
-            var ray = new Ray(worldPosition, Vector3.down);
-            if (Physics.Raycast(ray, out var hit, float.PositiveInfinity, layerMask)) {
-                var localPosition = transform.inverse.MultiplyPoint(hit.point + (vertex.y + offset) * Vector3.up);
-                outputVertices.Add(localPosition);
-            }
-            else
-                return false;
+            var ray = new Ray(worldPosition + Vector3.up*1000, Vector3.down);
+            var wasHit = Physics.Raycast(ray, out var hit, float.PositiveInfinity, layerMask);
+            if (!wasHit)
+                result = false;
+            var point = wasHit ? hit.point : ray.origin;
+            var localPosition = transform.inverse.MultiplyPoint(point + (vertex.y + offset) * Vector3.up);
+            outputVertices.Add(localPosition);
         }
+
+        destinationMesh.Clear();
 
         destinationMesh.vertices = outputVertices.ToArray();
         destinationMesh.triangles = sourceMesh.triangles;
@@ -32,6 +48,6 @@ public static class MeshProjector {
         destinationMesh.RecalculateNormals();
         destinationMesh.RecalculateTangents();
 
-        return true;
+        return result;
     }
 }

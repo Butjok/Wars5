@@ -77,7 +77,6 @@
      <Compile Include="Assets/Scripts/Views/UnitBuildMenu2.cs" />
      <Compile Include="Assets/Scripts/EntryPoint/MainMenuLoadGameState.cs" />
      <Compile Include="Assets/Scripts/VoronoiTest.cs" />
-     <Compile Include="Assets/Scripts/MeshProjector.cs" />
      <Compile Include="Assets/Scripts/MainMenuView.cs" />
      <Compile Include="Assets/Scripts/MainMenuButton.cs" />
      <Compile Include="Assets/Scripts/MeshUtils2.cs" />
@@ -257,7 +256,7 @@
      <Compile Include="Assets/Scripts/UnitBuildMenu.cs" />
      <Compile Include="Assets/Scripts/GradientMap.cs" />
      <Compile Include="Assets/Scripts/GameStates/PathSelectionState.cs" />
-     <Compile Include="Assets/Scripts/MeshProjectorTest.cs" />
+     <Compile Include="Assets/Scripts/MeshProjector.cs" />
      <Compile Include="Assets/Scripts/PostProcessingFade.cs" />
      <Compile Include="Assets/Scripts/MinimapState.cs" />
      <Compile Include="Assets/Scripts/Level/UnitAttackActionView.cs" />
@@ -268,6 +267,7 @@
      <Compile Include="Assets/Scripts/FlipbookTest.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
      <Compile Include="Assets/Scripts/EntryPoint/MainMenuWelcomeState.cs" />
+     <Compile Include="Assets/Scripts/RoadCreator.cs" />
      <Folder Include="Assets/Scripts/EntryPoint" />
      <None Include="Assets/Scripts/Wars.asmdef" />
      <Folder Include="Assets/Scripts/DialogueMarkupLanguage" />
