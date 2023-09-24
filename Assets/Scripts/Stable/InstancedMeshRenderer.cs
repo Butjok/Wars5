@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -46,11 +47,19 @@ public class InstancedMeshRenderer : MonoBehaviour {
         }
     }
 
-    public void OnDestroy() {
-        transformsBuffer?.Release();
+    private void OnEnable() {
+        Clear();
     }
 
-    public void MarkDirty() {
+    public void OnDisable() {
+        Clear();
+    }
+
+    public void OnDestroy() {
+        Clear();
+    }
+
+    public void Clear() {
         transformsBuffer?.Release();
         transformsBuffer = null;
         foreach (var argsBuffer in argsBuffers)

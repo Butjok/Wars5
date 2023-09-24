@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Butjok.CommandLine;
 using Drawing;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -24,6 +25,15 @@ public class RoadCreator : MonoBehaviour {
     public HashSet<Vector2Int> positions = new();
 
     public Color color = Color.grey;
+    public TerrainCreator terrainCreator;
+
+    [Command]
+    public void SwitchToTerrainMode() {
+        if (terrainCreator) {
+            enabled = false;
+            terrainCreator.enabled = true;
+        }
+    }
 
     private void Reset() {
         meshFilter = GetComponent<MeshFilter>();
