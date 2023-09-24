@@ -89,6 +89,7 @@
      <Compile Include="Assets/Scripts/Rules.cs" />
      <Compile Include="Assets/Scripts/Colors.cs" />
      <Compile Include="Assets/Scripts/CameraFading.cs" />
+     <Compile Include="Assets/Scripts/UvMapperTest2.cs" />
      <Compile Include="Assets/Scripts/Compass.cs" />
      <Compile Include="Assets/Scripts/HardFollow.cs" />
      <Compile Include="Assets/Scripts/NormalSolver.cs" />
@@ -141,6 +142,7 @@
      <Compile Include="Assets/Scripts/Ai/UnitBrain.cs" />
      <Compile Include="Assets/Scripts/LoadingView.cs" />
      <Compile Include="Assets/Scripts/EntryPoint/LoadGameState.cs" />
+     <Compile Include="Assets/Scripts/RoadCreator.cs" />
      <Compile Include="Assets/Scripts/UnitDescription.cs" />
      <Compile Include="Assets/Scripts/GameStates/DistanceField.cs" />
      <Compile Include="Assets/Scripts/Unit.cs" />
@@ -267,8 +269,6 @@
      <Compile Include="Assets/Scripts/FlipbookTest.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
      <Compile Include="Assets/Scripts/EntryPoint/MainMenuWelcomeState.cs" />
-     <Compile Include="Assets/Scripts/RoadCreator.cs" />
-     <Compile Include="Assets/Scripts/UvMapperTest2.cs" />
      <Folder Include="Assets/Scripts/EntryPoint" />
      <None Include="Assets/Scripts/Wars.asmdef" />
      <Folder Include="Assets/Scripts/DialogueMarkupLanguage" />
