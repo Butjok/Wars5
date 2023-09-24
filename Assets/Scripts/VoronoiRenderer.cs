@@ -33,13 +33,13 @@ public class VoronoiRenderer : MonoBehaviour {
     public void Render2(
         Vector2Int worldSize, int pixelsPerUnit) {
 
-        void EnsureRenderTexture(ref RenderTexture renderTexture, Vector2Int sizeInPixels) {
+        void EnsureRenderTexture(ref RenderTexture renderTexture, Vector2Int sizeInPixels, int mipCount=0) {
             if (renderTexture && (renderTexture.width != sizeInPixels.x || renderTexture.height != sizeInPixels.y)) {
                 renderTexture.Release();
                 renderTexture = null;
             }
             if (!renderTexture) {
-                renderTexture = new RenderTexture(sizeInPixels.x, sizeInPixels.y, 0, RenderTextureFormat.ARGB32, 0);
+                renderTexture = new RenderTexture(sizeInPixels.x, sizeInPixels.y, 0, RenderTextureFormat.ARGB32, mipCount);
                 if (!renderTexture.IsCreated()) {
                     var created = renderTexture.Create();
                     Assert.IsTrue(created);
@@ -50,7 +50,8 @@ public class VoronoiRenderer : MonoBehaviour {
         var sizeInPixels = worldSize * pixelsPerUnit;
         EnsureRenderTexture(ref fieldMaskRenderTexture, sizeInPixels);
         fieldMaskRenderTexture.filterMode = FilterMode.Point;
-        EnsureRenderTexture(ref blurredFieldMaskRenderTexture, sizeInPixels);
+        EnsureRenderTexture(ref blurredFieldMaskRenderTexture, sizeInPixels, 3);
+        blurredFieldMaskRenderTexture.filterMode = FilterMode.Bilinear;
         EnsureRenderTexture(ref bushMaskRenderTexture, sizeInPixels);
 
         if (!material)
@@ -60,7 +61,7 @@ public class VoronoiRenderer : MonoBehaviour {
         Graphics.Blit(null, fieldMaskRenderTexture, material, material.FindPass("Voronoi"));
         Graphics.Blit(fieldMaskRenderTexture, blurredFieldMaskRenderTexture, material, material.FindPass( "Blur"));
         Graphics.Blit(fieldMaskRenderTexture, bushMaskRenderTexture, material, material.FindPass( "BushMask"));
-
+        
         if (terrainMaterial)
             terrainMaterial.SetTexture("_Splat2", blurredFieldMaskRenderTexture);
 

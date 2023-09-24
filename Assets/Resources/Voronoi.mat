@@ -26,17 +26,17 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _BlurRadiusNoiseScale: 7.24
+    - _BlurRadiusNoiseScale: 17.49
     - _CellScale: 0.56
     - _EdgeNoiseRange: 0.61
     - _FieldScale: 0.2
     - _Power: 10
-    - _Radius: 0.25
+    - _Radius: 0.2
     - _RadiusNoiseScale: 0
     - _Scale: 0.66
     - _Smoothness: 0.03
     m_Colors:
-    - _BlurRadiusRange: {r: 0, g: 0.25, b: 0.75, a: 1}
+    - _BlurRadiusRange: {r: 0, g: 0.4, b: 0.75, a: 1}
     - _EdgeNoiseScale: {r: 0.25, g: 5, b: 0.75, a: 1}
     - _RadiusRange: {r: -0.24, g: 0, b: 0.75, a: 1}
     - _Size: {r: 22, g: 19, b: 1, a: 1}

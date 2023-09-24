@@ -24,6 +24,8 @@ Shader "Custom/LeavesAreaTinted"
         _YellowGrass ("_YellowGrass", Color) = (1,1,1,1)
         
          _Splat ("_Splat", 2D) = "black" {}
+         _Splat2 ("_Splat2", 2D) = "black" {}
+        
     }
     SubShader
     {
@@ -38,7 +40,7 @@ Shader "Custom/LeavesAreaTinted"
             // Use shader model 3.0 target, to get nicer looking lighting
             #pragma target 5.0
 
-            sampler2D _MainTex,_Occlusion,_SSS,_Dist,_Normal,_Tint,_GlobalOcclusion,_WithSSS,_Indirect,_Splat;
+            sampler2D _MainTex,_Occlusion,_SSS,_Dist,_Normal,_Tint,_GlobalOcclusion,_WithSSS,_Indirect,_Splat, _Splat2;
             half2 _Flip;
             float3 _Grass,_DarkGrass,_Wheat,_YellowGrass;
             float4 _Bounds;
@@ -54,6 +56,7 @@ Shader "Custom/LeavesAreaTinted"
             half _Glossiness;
             half _Metallic,_SSSIntensity;
             fixed4 _Color;
+            float4x4 _WorldToLocal;
 
             struct InstancedRenderingAppdata {
                 float4 vertex : POSITION;
@@ -61,8 +64,10 @@ Shader "Custom/LeavesAreaTinted"
                 float3 normal : NORMAL;
                 float4 texcoord : TEXCOORD0;
                 float4 texcoord1 : TEXCOORD1;
+                
 
                 uint inst : SV_InstanceID;
+               
             };
             #include "Assets/Shaders/InstancedRendering.cginc"
 
@@ -79,7 +84,8 @@ Shader "Custom/LeavesAreaTinted"
                 
                 /*float3 viewDir = UNITY_MATRIX_IT_MV[2].xyz;
                 if (dot(v.normal,lightDirection)<0)
-                    v.normal = -v.normal;   */ 
+                    v.normal = -v.normal;   */
+                    
 
             #endif 
             }
@@ -122,13 +128,22 @@ Shader "Custom/LeavesAreaTinted"
                 //o.Albedo=HueShift(o.Albedo,-.01);
                 //o.Emission=HueShift(o.Emission,-.01);
 
-                float2 splatUv = (IN.worldPos.xz - _Bounds.xy) / (_Bounds.zw);
+                /*float2 splatUv = (IN.worldPos.xz - _Bounds.xy) / (_Bounds.zw);
             if (_Flip.x > .5)
                 splatUv.x = 1 - splatUv.x;
             if (_Flip.y > .5)
                 splatUv.y = 1 - splatUv.y;
 
-            float3 splat = tex2Dlod(_Splat, float4(splatUv, 1,_Lod));
+            float3 splat = tex2Dlod(_Splat, float4(splatUv, 1,_Lod));*/
+            
+            
+            
+            float3 localPos = mul(_WorldToLocal, float4(IN.worldPos, 1)).xyz;
+            float2 uv = localPos.xz;
+            float3 splat = tex2D(_Splat2, uv);
+            
+            
+            
 
             o.Albedo = _Grass;
             o.Albedo = lerp(o.Albedo, _DarkGrass, splat.r);
@@ -149,6 +164,7 @@ Shader "Custom/LeavesAreaTinted"
 
                 //o.Albedo=;
                 //o.Albedo=1-IN.IsFacing;
+                
             }
             ENDCG
     }
