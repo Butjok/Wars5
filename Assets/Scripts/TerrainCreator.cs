@@ -10,6 +10,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
 using Torec;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(MeshRenderer))]
@@ -30,16 +31,20 @@ public class TerrainCreator : MonoBehaviour {
     public float cursorThickness = 2;
 
     public List<(Vector3 position, Quaternion rotation, Vector3 scale)> bushes = new();
-    [Command]
-    public float bushSize = .5f;
-    [Command]
-    public Color bushColor = Color.yellow;
-    public InstancedMeshRenderer instancedMeshRenderer;
-    public TransformList bushTransformList;
-    public Vector2 bushSizeRange = new(.25f, 1.5f);
+    public List<(Vector3 position, Quaternion rotation, Vector3 scale)> trees = new();
+    [Command] public float bushSize = .5f;
+    [Command] public Color bushColor = Color.yellow;
+    [FormerlySerializedAs("bushesRenderer")]
+    public InstancedMeshRenderer bushRenderer;
+    [Command] public Vector2 bushSizeRange = new(.25f, 1.5f);
 
     public RoadCreator roadCreator;
     public Material bushMaterial;
+
+    [FormerlySerializedAs("treesRenderer")]
+    public InstancedMeshRenderer treeRenderer;
+    public float treeRadius = .1f;
+    [Command] public Vector2 treeSizeRange = new(.25f, 1.5f);
 
     private void Reset() {
         meshFilter = GetComponent<MeshFilter>();
@@ -57,7 +62,8 @@ public class TerrainCreator : MonoBehaviour {
     private void Awake() {
         TryLoad(autoSavePath);
         RebuildTerrain(false);
-        UpdateInstancesRenderer();
+        UpdateBushRenderer();
+        UpdateTreeRenderer();
     }
 
     private int subdivideLevel = 1;
@@ -72,29 +78,53 @@ public class TerrainCreator : MonoBehaviour {
         }
     }
 
+    [Command]
+    public void ClearTrees() {
+        trees.Clear();
+        UpdateTreeRenderer();
+    }
+
     public void Update() {
 
         var ray = camera.FixedScreenPointToRay(Input.mousePosition);
         var plane = new Plane(Vector3.up, Vector3.zero);
 
         Vector3? point = null;
-        if (Physics.Raycast(ray, out var hit, float.MaxValue, 1 << gameObject.layer))
+        var normal = Vector3.up;
+        if (Physics.Raycast(ray, out var hit, float.MaxValue, 1 << gameObject.layer)) {
             point = hit.point;
-        else if (plane.Raycast(ray, out var enter))
+            normal = hit.normal;
+        }
+        else if (plane.Raycast(ray, out var enter)) {
             point = ray.GetPoint(enter);
+            normal = Vector3.up;
+        }
 
         if (point is { } actualPoint) {
             var position = actualPoint.ToVector2Int();
 
-            using (Draw.ingame.WithLineWidth(cursorThickness))
-                Draw.ingame.CircleXZ(position.ToVector3() + Vector3.up * actualPoint.y, .25f, cursorColor);
+            Vector3? treePosition = null;
+            foreach (var (pos, _, _) in trees)
+                if (Vector3.Distance(pos, actualPoint) < treeRadius) {
+                    treePosition = pos;
+                    break;
+                }
 
-            var needsRebuild = false;
+            using (Draw.ingame.WithLineWidth(cursorThickness)) {
+
+                Draw.ingame.CircleXZ(position.ToVector3() + Vector3.up * actualPoint.y, .25f, cursorColor);
+                Draw.ingame.Ray(actualPoint, normal, cursorColor);
+
+                if (treePosition is { } actualTreePosition) {
+                    Draw.ingame.Line(actualPoint, actualTreePosition, Color.red);
+                    Draw.ingame.CircleXZ(actualTreePosition, treeRadius, Color.red);
+                }
+            }
 
             if (Input.GetMouseButton(Mouse.right)) {
                 if (quads.ContainsKey(position)) {
                     quads.Remove(position);
-                    needsRebuild = true;
+                    RebuildTerrain();
                 }
             }
 
@@ -115,11 +145,16 @@ public class TerrainCreator : MonoBehaviour {
                 var d = UpdateOrCreateVertex(position, new Vector2Int(1, -1), elevation);
 
                 quads[position] = new MeshUtils2.Quad { a = a, b = b, c = c, d = d };
-                needsRebuild = true;
+                RebuildTerrain();
             }
 
-            if (needsRebuild)
-                RebuildTerrain();
+            else if (Input.GetKeyDown(KeyCode.T)) {
+                if (treePosition is { } actualTreePosition)
+                    trees.RemoveAll(t => t.position == actualTreePosition);
+                else
+                    trees.Add((actualPoint, Quaternion.LookRotation(Vector3.forward, Vector3.down) * Quaternion.Euler(0, Random.value * 360, 0), Vector3.one * Random.Range(treeSizeRange.x, treeSizeRange.y)));
+                UpdateTreeRenderer();
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.PageUp))
@@ -177,8 +212,8 @@ public class TerrainCreator : MonoBehaviour {
 
         if (clearBushes) {
             bushes.Clear();
-            if (instancedMeshRenderer)
-                instancedMeshRenderer.transformList = null;
+            if (bushRenderer)
+                bushRenderer.transformList = null;
         }
 
         if (roadCreator)
@@ -217,22 +252,34 @@ public class TerrainCreator : MonoBehaviour {
             }
         }
 
-        UpdateInstancesRenderer();
+        UpdateBushRenderer();
     }
 
-    public void UpdateInstancesRenderer() {
-        if (instancedMeshRenderer) {
-            if (bushTransformList) {
-                Destroy(bushTransformList);
-                bushTransformList = null;
+    public void UpdateBushRenderer() {
+        if (bushRenderer) {
+            if (bushRenderer.transformList) {
+                Destroy(bushRenderer.transformList);
+                bushRenderer.transformList = null;
             }
-            bushTransformList = ScriptableObject.CreateInstance<TransformList>();
-            bushTransformList.name = "Bushes";
-            bushTransformList.matrices = bushes.Select(bush => Matrix4x4.TRS(bush.position, bush.rotation, bush.scale)).ToArray();
-            bushTransformList.bounds = new Bounds(Vector3.zero, Vector3.one * 100);
+            bushRenderer.transformList = ScriptableObject.CreateInstance<TransformList>();
+            bushRenderer.transformList.name = "Bushes";
+            bushRenderer.transformList.matrices = bushes.Select(bush => Matrix4x4.TRS(bush.position, bush.rotation, bush.scale)).ToArray();
+            bushRenderer.transformList.bounds = new Bounds(Vector3.zero, Vector3.one * 100);
+            bushRenderer.MarkDirty();
+        }
+    }
 
-            instancedMeshRenderer.transformList = bushTransformList;
-            instancedMeshRenderer.Clear();
+    public void UpdateTreeRenderer() {
+        if (treeRenderer) {
+            if (treeRenderer.transformList) {
+                Destroy(treeRenderer.transformList);
+                treeRenderer.transformList = null;
+            }
+            treeRenderer.transformList = ScriptableObject.CreateInstance<TransformList>();
+            treeRenderer.transformList.name = "Trees";
+            treeRenderer.transformList.matrices = trees.Select(tree => Matrix4x4.TRS(tree.position, tree.rotation, tree.scale)).ToArray();
+            treeRenderer.transformList.bounds = new Bounds(Vector3.zero, Vector3.one * 100);
+            treeRenderer.MarkDirty();
         }
     }
 
@@ -267,6 +314,9 @@ public class TerrainCreator : MonoBehaviour {
 
         foreach (var (position, rotation, scale) in bushes)
             stringWriter.PostfixWriteLine("bush.add ( {0} {1} {2} )", position, rotation, scale);
+
+        foreach (var (position, rotation, scale) in trees)
+            stringWriter.PostfixWriteLine("tree.add ( {0} {1} {2} )", position, rotation, scale);
 
         File.WriteAllText(path, stringWriter.ToString());
     }
@@ -327,6 +377,13 @@ public class TerrainCreator : MonoBehaviour {
                     var rotation = (Quaternion)stack.Pop();
                     var position = (Vector3)stack.Pop();
                     bushes.Add((position, rotation, scale));
+                    break;
+                }
+                case "tree.add": {
+                    var scale = (Vector3)stack.Pop();
+                    var rotation = (Quaternion)stack.Pop();
+                    var position = (Vector3)stack.Pop();
+                    trees.Add((position, rotation, scale));
                     break;
                 }
                 default:
