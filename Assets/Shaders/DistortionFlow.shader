@@ -21,6 +21,8 @@
 		_Metallic ("Metallic", Range(0,1)) = 0.0
 		_Normal ("_Normal", 2D) = "normal" {}
 		_Grid ("_Grid", 2D) = "black" {}
+		
+		_WaveAmplitude ("_WaveAmplitude", Float) = 0.0001
 	}
 	SubShader {
 		Tags { "RenderType"="Transparent" "Queue"="Transparent" }
@@ -44,6 +46,7 @@
 		float _UJump, _VJump, _Tiling, _Speed, _FlowStrength, _FlowOffset;
 		float _HeightScale, _HeightScaleModulated;
 		half _Scale;
+		float _WaveAmplitude;
 		
 		struct Input {
 			float2 uv_MainTex;
@@ -66,7 +69,7 @@
             half distance =tex2Dlod (_SDF,  float4(data.texcoord.xy, 0.0, 0.0)).r;
             half wave =  sin(distance*_Scale + _Speed*_Time.y + data.vertex.x*5 + data.vertex.z*5);
             half wavesMask = smoothstep(.5, .0, distance);
-            data.vertex.y += wavesMask*wave*.00050;
+            data.vertex.y += wavesMask*wave*_WaveAmplitude;
                                           
         }
 

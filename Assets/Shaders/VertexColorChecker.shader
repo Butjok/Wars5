@@ -27,7 +27,7 @@ Shader "Custom/VertexColorChecker" {
 		
 		CGPROGRAM
 		// Physically based Standard lighting model, and enable shadows on all light types
-		#pragma surface surf Standard fullforwardshadows vertex:vert
+		#pragma surface surf Standard fullforwardshadows addshadow vertex:vert
 
 		// Use shader model 3.0 target, to get nicer looking lighting
 		#pragma target 3.0
@@ -81,6 +81,7 @@ Shader "Custom/VertexColorChecker" {
 				color *= _ColorRoad;
 			}
 			else if (abs(type - 4) < epsilon) {
+				clip(-1);
 				color = _ColorSea;
 			}
 			else if (abs(type - 8) < epsilon) {
@@ -94,6 +95,7 @@ Shader "Custom/VertexColorChecker" {
 					color *= 1.5;
 			}
 			else if (abs(type - 32) < epsilon) {
+				clip(-1);
 				color = _ColorRiver;
 			}
 			else {

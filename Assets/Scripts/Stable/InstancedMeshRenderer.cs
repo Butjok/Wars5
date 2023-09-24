@@ -11,6 +11,10 @@ public class InstancedMeshRenderer : MonoBehaviour {
 
 	public ComputeBuffer buffer;
 
+	public void Clear() {
+		materialPropertyBlock = null;
+	}
+
 	public void Update() {
 
 		if (!transformList || !mesh || transformList.matrices.Length == 0)

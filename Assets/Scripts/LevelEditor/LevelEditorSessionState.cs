@@ -11,6 +11,8 @@ public class LevelEditorSessionState : StateMachineState {
 
     public enum SelectModeCommand { SelectTilesMode, SelectUnitsMode, SelectTriggersMode, SelectAreasMode, SelectBridgesMode, Play }
 
+    public static Vector3 tileMeshPosition => new(0, -.01f, 0);
+    
     public LevelView levelViewPrefab;
     public Level level = new();
     public MeshFilter tileMeshFilter;
@@ -50,6 +52,7 @@ public class LevelEditorSessionState : StateMachineState {
             }
             {
                 var gameObject = new GameObject("LevelEditorTileMesh");
+                gameObject.transform.position = tileMeshPosition;
                 gameObject.layer = LayerMask.NameToLayer("Terrain");
                 tileMeshFilter = gameObject.AddComponent<MeshFilter>();
                 tileMeshCollider = gameObject.AddComponent<MeshCollider>();

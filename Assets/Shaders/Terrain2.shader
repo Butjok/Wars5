@@ -69,6 +69,8 @@ _OutsideIntensity ("_OutsideIntensity", Range(0,1)) = 0.0
 
         _Splat2 ("_Splat2", 2D) = "black" {}
         _Splat2Size ("_Splat2Size", Vector) = (1,1,1,1)
+        
+        _SeaColor ("_SeaColor", Color) = (1,1,1,1)
     }
     SubShader
     {
@@ -118,6 +120,7 @@ float2 _Splat2Size;
         half _Metallic,_Radius,_Rounding,_K,_SelectTime,_TimeDirection;
         half _SplatScale;
         fixed4 _Color;
+        fixed4 _SeaColor;
 
         #define SIZE 128
         int2 _From;
@@ -242,6 +245,9 @@ half flowerAo = tex2D(_FlowersAo, IN.uv_FlowersAlpha).r;
             o.Albedo = lerp(o.Albedo, _FlowerColor, flowerAlpha);
             
             o.Occlusion = min(o.Occlusion, flowerAo);
+            
+            
+            o.Albedo = lerp(o.Albedo, _SeaColor, smoothstep(0,-0.25,IN.worldPos.y));
             
         }
         ENDCG

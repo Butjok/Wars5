@@ -10,6 +10,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
 using Torec;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(MeshRenderer))]
 [RequireComponent(typeof(MeshCollider))]
@@ -28,11 +29,14 @@ public class TerrainCreator : MonoBehaviour {
     public Color cursorColor = Color.yellow;
     public float cursorThickness = 2;
 
-    public List<(Vector3 position, Quaternion rotation)> bushes = new();
+    public List<(Vector3 position, Quaternion rotation, Vector3 scale)> bushes = new();
     [Command]
     public float bushSize = .5f;
     [Command]
     public Color bushColor = Color.yellow;
+    public InstancedMeshRenderer instancedMeshRenderer;
+    public TransformList bushTransformList;
+    public Vector2 bushSizeRange = new(.25f, 1.5f);
 
     private void Reset() {
         meshFilter = GetComponent<MeshFilter>();
@@ -50,6 +54,7 @@ public class TerrainCreator : MonoBehaviour {
     private void Awake() {
         TryLoad(autoSavePath);
         RebuildTerrain(false);
+        UpdateInstancesRenderer();
     }
 
     private int subdivideLevel = 1;
@@ -120,9 +125,9 @@ public class TerrainCreator : MonoBehaviour {
             elevation -= elevationStep;
 
         // draw bushes
-        foreach (var (position, rotation) in bushes)
+        /*foreach (var (position, rotation) in bushes)
             using (Draw.ingame.WithMatrix(Matrix4x4.TRS(position, rotation, Vector3.one)))
-                Draw.ingame.Cross(Vector3.zero, bushSize, bushColor);
+                Draw.ingame.Cross(Vector3.zero, bushSize, bushColor);*/
     }
 
     public VoronoiRenderer voronoiRenderer;
@@ -166,9 +171,12 @@ public class TerrainCreator : MonoBehaviour {
 
         meshFilter.sharedMesh = mesh;
         meshCollider.sharedMesh = mesh;
-        
-        if(clearBushes)
+
+        if (clearBushes) {
             bushes.Clear();
+            if (instancedMeshRenderer)
+                instancedMeshRenderer.transformList = null;
+        }
     }
 
     [Command]
@@ -177,19 +185,39 @@ public class TerrainCreator : MonoBehaviour {
     public int bushSeed = 0;
 
     [Command]
-    public void FindBushes() {
+    public void PlaceBushes() {
+
         var origin = meshFilter.sharedMesh ? meshFilter.sharedMesh.bounds.min.ToVector2() : Vector2.zero;
         var uvs = voronoiRenderer.Distribute(voronoiRenderer.bushMaskRenderTexture, voronoiRenderer.worldSize, bushDensityPerUnit, bushSeed).ToList();
-        bushes = uvs.Select(uv => {
+
+        bushes.Clear();
+        foreach (var uv in uvs) {
             var position2d = origin + uv * voronoiRenderer.worldSize;
-            var position3d = position2d.ToVector3();
-            var rotation = Quaternion.identity;
-            if (PlaceOnTerrain.TryRaycast(position2d, out var hit)) {
-                position3d = hit.point;
-                rotation = Quaternion.LookRotation(Vector3.forward, hit.normal);
+            var scale = Vector3.one * Mathf.Lerp(bushSizeRange[0], bushSizeRange[1], Random.value);
+            if (PlaceOnTerrain.TryRaycast(position2d, out var hit) && hit.point.y > -.01) {
+                var position3d = hit.point;
+                var rotation = Quaternion.LookRotation(-hit.normal) * Quaternion.Euler(0, 0, Random.value * 360);
+                bushes.Add((position3d, rotation, scale));
             }
-            return (position3d, rotation);
-        }).ToList();
+        }
+
+        UpdateInstancesRenderer();
+    }
+
+    public void UpdateInstancesRenderer() {
+        if (instancedMeshRenderer) {
+            if (bushTransformList) {
+                Destroy(bushTransformList);
+                bushTransformList = null;
+            }
+            bushTransformList = ScriptableObject.CreateInstance<TransformList>();
+            bushTransformList.name = "Bushes";
+            bushTransformList.matrices = bushes.Select(bush => Matrix4x4.TRS(bush.position, bush.rotation, bush.scale)).ToArray();
+            bushTransformList.bounds = new Bounds(Vector3.zero, Vector3.one * 100);
+
+            instancedMeshRenderer.transformList = bushTransformList;
+            instancedMeshRenderer.Clear();
+        }
     }
 
     private void OnGUI() {
@@ -221,8 +249,8 @@ public class TerrainCreator : MonoBehaviour {
         foreach (var (key, quad) in quads)
             stringWriter.PostfixWriteLine("quad.add ( {0} {1} {2} {3} {4} )", key, vertexList.IndexOf(quad.a), vertexList.IndexOf(quad.b), vertexList.IndexOf(quad.c), vertexList.IndexOf(quad.d));
 
-        foreach (var (position, rotation) in bushes)
-            stringWriter.PostfixWriteLine("bush.add ( {0} {1} )", position, rotation);
+        foreach (var (position, rotation, scale) in bushes)
+            stringWriter.PostfixWriteLine("bush.add ( {0} {1} {2} )", position, rotation, scale);
 
         File.WriteAllText(path, stringWriter.ToString());
     }
@@ -279,9 +307,10 @@ public class TerrainCreator : MonoBehaviour {
                     break;
                 }
                 case "bush.add": {
+                    var scale = (Vector3)stack.Pop();
                     var rotation = (Quaternion)stack.Pop();
                     var position = (Vector3)stack.Pop();
-                    bushes.Add((position, rotation));
+                    bushes.Add((position, rotation, scale));
                     break;
                 }
                 default:
