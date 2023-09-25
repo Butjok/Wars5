@@ -1,4 +1,10 @@
 [{
+  "commit": "9a26318c",
+  "author": "Viktor Fedotov <butjok@gmail.com>",
+  "date": "2023-09-25T00:55:05+02:00",
+  "message": "fixed-a-bug-with-InstancedMeshRenderer.cs-which-led-to-usage-of-freed-ComputeBuffer-if-multiple-InstancedMeshRenderers-are-using-the-same-material"
+},
+{
   "commit": "b7daf382",
   "author": "Viktor Fedotov <butjok@gmail.com>",
   "date": "2023-09-25T00:04:09+02:00",

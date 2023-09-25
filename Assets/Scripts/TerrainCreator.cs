@@ -273,7 +273,7 @@ public class TerrainCreator : MonoBehaviour {
             bushRenderer.transformList.name = "Bushes";
             bushRenderer.transformList.matrices = bushes.Select(bush => Matrix4x4.TRS(bush.position, bush.rotation, bush.scale)).ToArray();
             bushRenderer.transformList.bounds = new Bounds(Vector3.zero, Vector3.one * 100);
-            bushRenderer.Clear();
+            bushRenderer.ResetGpuBuffers();
         }
     }
 
@@ -287,7 +287,7 @@ public class TerrainCreator : MonoBehaviour {
             treeRenderer.transformList.name = "Trees";
             treeRenderer.transformList.matrices = trees.Select(tree => Matrix4x4.TRS(tree.position, tree.rotation, tree.scale)).ToArray();
             treeRenderer.transformList.bounds = new Bounds(Vector3.zero, Vector3.one * 100);
-            treeRenderer.Clear();
+            treeRenderer.ResetGpuBuffers();
         }
     }
 

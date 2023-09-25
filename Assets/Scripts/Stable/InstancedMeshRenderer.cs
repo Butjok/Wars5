@@ -48,18 +48,18 @@ public class InstancedMeshRenderer : MonoBehaviour {
     }
 
     private void OnEnable() {
-        Clear();
+        ResetGpuBuffers();
     }
 
     public void OnDisable() {
-        Clear();
+        ResetGpuBuffers();
     }
 
     public void OnDestroy() {
-        Clear();
+        ResetGpuBuffers();
     }
 
-    public void Clear() {
+    public void ResetGpuBuffers() {
         transformsBuffer?.Release();
         transformsBuffer = null;
         foreach (var argsBuffer in argsBuffers)
