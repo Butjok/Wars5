@@ -71,6 +71,16 @@ _OutsideIntensity ("_OutsideIntensity", Range(0,1)) = 0.0
         _Splat2Size ("_Splat2Size", Vector) = (1,1,1,1)
         
         _SeaColor ("_SeaColor", Color) = (1,1,1,1)
+        _DeepSeaColor ("_DeepSeaColor", Color) = (1,1,1,1)
+        
+        _SeaLevel ("_SeaLevel", Float) = 0
+        _SeaThickness ("_SeaThickness", Float) = 0.1
+        _SeaSharpness ("_SeaSharpness", Float) = 0.1
+        
+        _SandColor ("_SandColor", Color) = (1,1,1,1)
+        
+        _SandNoiseScale ("_SandNoiseScale",Float)=1
+        _SandNoiseAmplitude ("_SandNoiseAmplitude",Float)=1
     }
     SubShader
     {
@@ -120,19 +130,25 @@ float2 _Splat2Size;
         half _Metallic,_Radius,_Rounding,_K,_SelectTime,_TimeDirection;
         half _SplatScale;
         fixed4 _Color;
-        fixed4 _SeaColor;
+        fixed4 _SeaColor,_DeepSeaColor;
 
         #define SIZE 128
         int2 _From;
         int _Size=3;
 
         #include "Assets/Shaders/SDF.cginc"
+        #include "Assets/Shaders/ClassicNoise.cginc"
         
         float4 _Grass_ST, _DarkGreen_ST, _Wheat_ST,_YellowGrass_ST,_Ocean_ST,_OceanMask_ST,_GrassTint_ST;
         
         sampler2D _FogOfWar;
         float4x4 _FogOfWar_WorldToLocal;
-               
+
+        float _SeaLevel, _SeaThickness, _SeaSharpness;
+        float4 _SandColor;
+
+        float _SandNoiseScale, _SandNoiseAmplitude;
+        
         void surf (Input IN, inout SurfaceOutputStandard o)
         {
             
@@ -246,8 +262,29 @@ half flowerAo = tex2D(_FlowersAo, IN.uv_FlowersAlpha).r;
             
             o.Occlusion = min(o.Occlusion, flowerAo);
             
+
+
+            float noise = 0;
+            noise += ClassicNoise(float3(IN.worldPos.xz, 0) * _SandNoiseScale);
+            noise += ClassicNoise(float3(IN.worldPos.xz*2, 0) * _SandNoiseScale) ;
+            noise /= 2;
             
-            o.Albedo = lerp(o.Albedo, _SeaColor, smoothstep(0,-0.25,IN.worldPos.y));
+            float3 seaColor = lerp(_SeaColor, _DeepSeaColor, smoothstep(-.25,-0.75,IN.worldPos.y + noise/15));
+            o.Albedo = lerp(o.Albedo, seaColor, smoothstep(-.125,-0.25,IN.worldPos.y));
+
+
+            
+            
+            float seaLevel = IN.worldPos.y - _SeaLevel;
+            seaLevel += noise * _SandNoiseAmplitude;
+            
+            float seaMask1 = smoothstep(_SeaThickness + _SeaSharpness, _SeaThickness - _SeaSharpness, seaLevel);
+            float seaMask2 = smoothstep(_SeaThickness + _SeaSharpness*20, _SeaThickness - _SeaSharpness*20, -seaLevel);
+            //o.Albedo = min(seaMask1,seaMask2);
+            
+            float sandMask = min(seaMask1,seaMask2);//smoothstep(_SeaThickness + _SeaSharpness, _SeaThickness - _SeaSharpness, abs(IN.worldPos.y - _SeaLevel));
+            o.Albedo = lerp(o.Albedo, _SandColor, sandMask);
+
             
         }
         ENDCG

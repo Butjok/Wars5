@@ -92,6 +92,7 @@
 
 			float finalHeightScale =
 				flow.z * _HeightScaleModulated + _HeightScale;
+			
 
 			float3 dhA =
 				UnpackDerivativeHeight(tex2D(_DerivHeightMap, uvwA.xy)) *

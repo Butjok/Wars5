@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Butjok.CommandLine;
 using Drawing;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -20,6 +21,11 @@ public class PropPlacement : MonoBehaviour {
     public Transform prefab;
     public Dictionary<Transform, Transform> previews = new();
     public Dictionary<Transform, Transform> getPrefab = new();
+
+    public bool useRandomRotation = true;
+    [Command] public Vector2 randomRotationRange = new(0, 360);
+    [Command] public float rotationStep = 90;
+    public float rotation;
 
     private void Awake() {
         if (prefabs.Count > 0)
@@ -53,13 +59,13 @@ public class PropPlacement : MonoBehaviour {
                     preview = previews[prefab] = Instantiate(prefab);
             }*/
 
-            if (Input.GetKeyDown(KeyCode.P)) {
-                if (closestProp) {
-                    props.Remove(closestProp);
-                    Destroy(closestProp.gameObject);
-                }
-                else if (prefab)
-                    AddProp(prefab, hit.point, Quaternion.LookRotation(Vector3.forward, hit.normal) * Quaternion.Euler(0, Random.value * 360, 0), Vector3.one);
+            if (!closestProp && prefab && Input.GetMouseButtonDown(Mouse.left)) {
+                var yaw = useRandomRotation ? Random.Range(randomRotationRange[0], randomRotationRange[1]) : rotation;
+                AddProp(prefab, hit.point, Quaternion.LookRotation(Vector3.forward, hit.normal) * Quaternion.Euler(0, yaw, 0), Vector3.one);
+            }
+            else if (closestProp && Input.GetMouseButtonDown(Mouse.right)) {
+                props.Remove(closestProp);
+                Destroy(closestProp.gameObject);
             }
         }
 
@@ -68,6 +74,18 @@ public class PropPlacement : MonoBehaviour {
             var nextIndex = index == -1 ? 0 : (index + 1).PositiveModulo(prefabs.Count);
             prefab = prefabs[nextIndex];
         }
+
+        else if (Input.GetKeyDown(KeyCode.Minus))
+            rotation = (rotation - rotationStep).PositiveModulo(360);
+        else if (Input.GetKeyDown(KeyCode.Equals))
+            rotation = (rotation + rotationStep).PositiveModulo(360);
+
+        else if (Input.GetKeyDown(KeyCode.Alpha0))
+            useRandomRotation = !useRandomRotation;
+        else if (Input.GetKeyDown(KeyCode.R))
+            useRandomRotation = true;
+        else if (Input.GetKeyDown(KeyCode.F))
+            useRandomRotation = false;
     }
 
     public Transform AddProp(Transform prefab, Vector3 position, Quaternion rotation, Vector3 scale) {
@@ -84,6 +102,10 @@ public class PropPlacement : MonoBehaviour {
         GUI.skin = DefaultGuiSkin.TryGet;
         if (prefab)
             GUILayout.Label($"Prop: {prefab.name}");
+        if (useRandomRotation)
+            GUILayout.Label("Random Rotation");
+        else
+            GUILayout.Label($"Rotation: {rotation} (step: {rotationStep})");
     }
 
     private void OnApplicationQuit() {

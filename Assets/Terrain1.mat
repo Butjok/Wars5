@@ -161,6 +161,11 @@ Material:
     - _Parallax: 0.02
     - _Radius: 0
     - _Rounding: 0.02
+    - _SandNoiseAmplitude: 0.01
+    - _SandNoiseScale: 4.13
+    - _SeaLevel: -0.125
+    - _SeaSharpness: 0.015
+    - _SeaThickness: 0.04
     - _ShowTime: 0
     - _Size: 0
     - _SmoothnessTextureChannel: 0
@@ -174,12 +179,14 @@ Material:
     - _BorderColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _DarkGreenTint: {r: 1, g: 1, b: 1, a: 1}
+    - _DeepSeaColor: {r: 0, g: 0.047181625, b: 0.3679245, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FlowerColor: {r: 0.7924528, g: 0, b: 0.07110587, a: 1}
     - _GrassColor: {r: 0.4039216, g: 0.37647063, b: 0, a: 1}
     - _MapSize: {r: 10.82, g: 1, b: 0, a: 0}
     - _OutsideColor: {r: 0.9339623, g: 0.9339623, b: 0.9339623, a: 1}
-    - _SeaColor: {r: 0.09838911, g: 0.40846586, b: 0.6320754, a: 1}
+    - _SandColor: {r: 0.8773585, g: 0.578954, b: 0.24417053, a: 1}
+    - _SeaColor: {r: 0.11801354, g: 0.44278148, b: 0.6415094, a: 1}
     - _Splat2Size: {r: 22, g: 19, b: 0, a: 0}
     - _StoneColor: {r: 0.4039216, g: 0.37647063, b: 0, a: 1}
     - _StoneDarkColor: {r: 0.4039216, g: 0.40000004, b: 0, a: 1}

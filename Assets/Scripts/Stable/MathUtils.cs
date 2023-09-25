@@ -121,6 +121,12 @@ public static class MathUtils {
         Assert.IsTrue(result >= 0);
         return result;
     }
+    public static float PositiveModulo(this float a, float b) {
+        Assert.IsTrue(b > 0);
+        var result = (a % b + b) % b;
+        Assert.IsTrue(result >= 0);
+        return result;
+    }
     public static float Wrap360(this float value) {
         return (value % 360 + 360) % 360;
     }
