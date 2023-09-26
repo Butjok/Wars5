@@ -31,6 +31,24 @@ public class PropPlacement : MonoBehaviour {
     public float normalLength = .25f;
     [Command] public bool alignToNormal = true;
 
+    [Command] public float highlightDuration = 3f;
+    [Command] public float highlightFrequency = 66;
+    [Command] public Color highlightColor = Color.red;
+
+    [Command]
+    public void HighlightProps() {
+        StartCoroutine(HighlightAnimation());
+    }
+    public IEnumerator HighlightAnimation() {
+        var startTime = Time.time;
+        while (Time.time < startTime + highlightDuration) {
+            using (Draw.ingame.WithLineWidth(thickness))
+                foreach (var prop in props)
+                    Draw.ingame.CircleXZ(prop.position, .1f, highlightColor * (Mathf.Sin((Time.time - startTime) * highlightFrequency) + 1) / 2);
+            yield return null;
+        }
+    }
+
     private void Awake() {
         if (prefabs.Count > 0)
             prefab = prefabs[0];
@@ -47,18 +65,22 @@ public class PropPlacement : MonoBehaviour {
         foreach (var preview in previews.Values)
             if (preview) // when quitting this may happen
                 preview.gameObject.SetActive(false);
-        CloseSearch();
+        HideSearch();
     }
 
-    public void CloseSearch() {
+    public void ShowSearch() {
+        searchInput = "";
+        justOpened = true;
+    }
+    public void HideSearch() {
         searchInput = null;
         matches.Clear();
     }
 
-    public void Update() {
+    public void LateUpdate() {
 
         if (Input.GetKeyDown(KeyCode.P)) {
-            searchInput = "";
+            ShowSearch();
             return;
         }
 
@@ -70,7 +92,7 @@ public class PropPlacement : MonoBehaviour {
             var up = alignToNormal ? hit.normal : Vector3.up;
             var right = Vector3.Cross(Vector3.forward, up);
             var forward = Vector3.Cross(up, right);
-            var rotation = Quaternion.LookRotation(forward,up) * Quaternion.Euler(0, yaw, 0);
+            var rotation = Quaternion.LookRotation(forward, up) * Quaternion.Euler(0, yaw, 0);
             var scale = Vector3.one;
 
             var preview = previews[prefab];
@@ -94,7 +116,7 @@ public class PropPlacement : MonoBehaviour {
 
             using (Draw.ingame.WithLineWidth(thickness)) {
 
-                Draw.ingame.Line(hit.point, hit.point + hit.normal * normalLength, color);
+                //Draw.ingame.Line(hit.point, hit.point + hit.normal * normalLength, color);
                 Draw.ingame.Arrow(hit.point, hit.point + rotation * Vector3.forward * arrowLength, color);
 
                 if (closestProp) {
@@ -153,18 +175,25 @@ public class PropPlacement : MonoBehaviour {
     public List<Transform> matches = new();
     private GUIStyle searchInputStyle;
     private GUIContent guiContent = new();
+    private bool justOpened = false;
 
     private void OnGUI() {
 
         GUI.skin = DefaultGuiSkin.TryGet;
-        if (prefab)
+
+        GUILayout.Label($"[Tab] Cycle prop");
+        GUILayout.Label($"  [F] Rotate by {Mathf.RoundToInt(Mathf.Abs(rotationStep))}°");
+        GUILayout.Label($"  [R] Random rotation");
+        GUILayout.Label($"  [P] Search");
+
+        /*if (prefab)
             GUILayout.Label($"Prop: {prefab.name}");
-        GUILayout.Label($"Rotation: {Mathf.RoundToInt(yaw)} (step: {rotationStep})");
+        GUILayout.Label($"Rotation: {Mathf.RoundToInt(yaw)} (step: {rotationStep})");*/
 
         if (searchInput != null) {
 
             if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.Escape)
-                CloseSearch();
+                HideSearch();
 
             else {
                 // ugly hack because in the CommandLine GUI skin I used transparent text for the text field
@@ -182,7 +211,8 @@ public class PropPlacement : MonoBehaviour {
                 searchInput = GUI.TextField(new Rect(position, size), searchInput, searchInputStyle);
                 GUI.FocusControl("SearchInput");
 
-                if (oldSearchInput != searchInput) {
+                if (justOpened || oldSearchInput != searchInput) {
+                    justOpened = false;
                     matches.Clear();
                     foreach (var prefab in prefabs) {
                         if (prefab && searchInput.MatchesFuzzy(prefab.name))
@@ -192,7 +222,7 @@ public class PropPlacement : MonoBehaviour {
                     if (matches.Count > 0)
                         prefab = matches[0];
                     if (matches.Count == 1)
-                        CloseSearch();
+                        HideSearch();
                 }
 
                 position += new Vector2(0, height);
