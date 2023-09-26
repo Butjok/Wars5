@@ -175,7 +175,7 @@ public static class MathUtils {
         return values[nextIndex];
     }
     public static T GetWrapped<T>(this IReadOnlyList<T> list, int index) {
-        Assert.IsTrue(list.Count>0);
+        Assert.IsTrue(list.Count > 0);
         return list[index.PositiveModulo(list.Count)];
     }
 
@@ -356,5 +356,11 @@ public static class MathUtils {
         aa = new Vector2(abx[0], aby[0]);
         bb = new Vector2(abx[1], aby[1]);
         return true;
+    }
+
+    public static Quaternion ToRotation(this Vector3 normal, float yaw = 0) {
+        var right = Vector3.Cross(Vector3.forward, normal);
+        var forward = Vector3.Cross(normal, right);
+        return Quaternion.LookRotation(forward, normal) * Quaternion.Euler(0, yaw, 0);
     }
 }

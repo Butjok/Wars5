@@ -27,14 +27,6 @@ public class RoadCreator : MonoBehaviour {
     public Color color = Color.grey;
     public TerrainCreator terrainCreator;
 
-    [Command]
-    public void SwitchToTerrainMode() {
-        if (terrainCreator) {
-            enabled = false;
-            terrainCreator.enabled = true;
-        }
-    }
-
     private void Reset() {
         meshFilter = GetComponent<MeshFilter>();
         Assert.IsTrue(meshFilter);
@@ -161,6 +153,11 @@ public class RoadCreator : MonoBehaviour {
 
     private void OnApplicationQuit() {
         Save(autoSavePath);
+    }
+
+    private void OnGUI() {
+        GUI.skin = DefaultGuiSkin.TryGet;
+        GUILayout.Label($"Roads: {positions.Count}");
     }
 
     public bool TryLoad(string path) {

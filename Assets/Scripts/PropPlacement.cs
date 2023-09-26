@@ -89,10 +89,7 @@ public class PropPlacement : MonoBehaviour {
         if (Physics.Raycast(ray, out var hit, float.MaxValue, 1 << LayerMask.NameToLayer("Terrain"))) {
 
             var position = hit.point;
-            var up = alignToNormal ? hit.normal : Vector3.up;
-            var right = Vector3.Cross(Vector3.forward, up);
-            var forward = Vector3.Cross(up, right);
-            var rotation = Quaternion.LookRotation(forward, up) * Quaternion.Euler(0, yaw, 0);
+            var rotation = (alignToNormal ? hit.normal : Vector3.up).ToRotation(yaw);
             var scale = Vector3.one;
 
             var preview = previews[prefab];
@@ -153,7 +150,9 @@ public class PropPlacement : MonoBehaviour {
             lastRotationWasRandom = false;
         }
         else if (Input.GetKeyDown(KeyCode.N))
-            alignToNormal=!alignToNormal;
+            alignToNormal = !alignToNormal;
+        else if (Input.GetKeyDown(KeyCode.H))
+            HighlightProps();
     }
 
     public float RandomYaw => Random.Range(randomRotationRange.x, randomRotationRange.y);
@@ -183,15 +182,17 @@ public class PropPlacement : MonoBehaviour {
 
         GUI.skin = DefaultGuiSkin.TryGet;
 
-        GUILayout.Label($"[Tab] Cycle props");
-        GUILayout.Label($"  [F] Rotate by {Mathf.RoundToInt(Mathf.Abs(rotationStep))}°");
-        GUILayout.Label($"  [R] Random rotation");
-        GUILayout.Label($"  [P] Search");
-        GUILayout.Label($"  [N] Align to normal");
-        if(prefab) {
+        if (prefab) {
+            GUILayout.Label($"Prop: {prefab.name}");
             GUILayout.Space(15);
-            GUILayout.Label(prefab.name);
         }
+
+        GUILayout.Label($"[Tab] Cycle Props");
+        GUILayout.Label($"  [F] Snap & Rotate By {Mathf.RoundToInt(Mathf.Abs(rotationStep))}°");
+        GUILayout.Label($"  [R] Random Rotation");
+        GUILayout.Label($"  [P] Search");
+        GUILayout.Label($"  [N] Align To Normal");
+        GUILayout.Label($"  [H] Highlight Props");
 
         /*if (prefab)
             GUILayout.Label($"Prop: {prefab.name}");
@@ -240,6 +241,18 @@ public class PropPlacement : MonoBehaviour {
                     GUI.Label(new Rect(position, size), guiContent);
                     position += new Vector2(0, height);
                 }
+            }
+        }
+    }
+
+    [Command]
+    public void ProjectProps() {
+        foreach (var prop in props) {
+            var ray = new Ray(prop.position + Vector3.up * 100, Vector3.down);
+            if (Physics.Raycast(ray, out var hit, float.MaxValue, 1 << LayerMask.NameToLayer("Terrain"))) {
+                prop.position = hit.point;
+                var forward = Vector3.ProjectOnPlane(prop.forward, hit.normal);
+                prop.rotation = Quaternion.LookRotation(forward, hit.normal);
             }
         }
     }

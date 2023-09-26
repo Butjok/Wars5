@@ -36,6 +36,7 @@ namespace Butjok.CommandLine
         [Command]
         public int maximumMultipleValues = 3;
         public bool show;
+        [Command] public bool closeOnEnter = true; 
 
         private string input = "";
         private int index = -1;
@@ -126,6 +127,8 @@ namespace Butjok.CommandLine
                         input = "";
                         index = -1;
                         matches.Clear();
+                        if (closeOnEnter)
+                            show = false;
                         break;
 
                     case KeyCode.Tab: {

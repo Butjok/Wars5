@@ -5,7 +5,12 @@ public static class FuzzyMatch {
     [Command]
     public static bool MatchesFuzzy(this string pattern, string input, bool ignoreCase = true) {
         var offset = 0;
-        foreach (var c in pattern) {
+        for (var i = 0; i < pattern.Length; i++) {
+            var c = pattern[i];
+
+            if (c is '$' or '^')
+                continue;
+
             var index = -1;
             if (ignoreCase) {
                 var alternateCase = char.IsLower(c) ? char.ToUpper(c) : char.ToLower(c);
@@ -23,6 +28,10 @@ public static class FuzzyMatch {
             if (index == -1)
                 return false;
             offset = index + 1;
+
+            if (i - 1 >= 0 && pattern[i - 1] == '^' && index != 0 ||
+                i + 1 < pattern.Length && pattern[i + 1] == '$' && index != input.Length - 1)
+                return false;
         }
         return true;
     }

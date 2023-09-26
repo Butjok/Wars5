@@ -170,14 +170,6 @@ public class TerrainCreator : MonoBehaviour {
 
     public VoronoiRenderer voronoiRenderer;
 
-    [Command]
-    public void SwitchToRoadsMode() {
-        if (roadCreator) {
-            enabled = false;
-            roadCreator.enabled = true;
-        }
-    }
-
     private void RebuildTerrain(bool clearBushes = true) {
 
         if (quads.Count == 0) {
@@ -255,7 +247,7 @@ public class TerrainCreator : MonoBehaviour {
                 if (roadCreator && roadCreator.positions.Contains(position2d.RoundToInt()))
                     continue;
                 var position3d = hit.point;
-                var rotation = Quaternion.LookRotation(Vector3.forward, -hit.normal) * Quaternion.Euler(0, Random.value * 360, 0);
+                var rotation = (-hit.normal).ToRotation(Random.value * 360);
                 bushes.Add((position3d, rotation, scale));
             }
         }
@@ -293,8 +285,10 @@ public class TerrainCreator : MonoBehaviour {
 
     private void OnGUI() {
         GUI.skin = DefaultGuiSkin.TryGet;
-        GUILayout.Label($"Elevation: {elevation}");
-        GUILayout.Label($"{vertices.Count} vertices");
+        GUILayout.Label($"Terrain Elevation: {elevation}");
+        GUILayout.Space(15);
+        GUILayout.Label($"[T] Place Or Remove Tree");
+        //GUILayout.Label($"{vertices.Count} vertices");
     }
 
     private void OnApplicationQuit() {
