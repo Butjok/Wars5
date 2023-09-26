@@ -22,24 +22,62 @@ public class PropPlacement : MonoBehaviour {
     public Dictionary<Transform, Transform> previews = new();
     public Dictionary<Transform, Transform> getPrefab = new();
 
-    public bool useRandomRotation = true;
     [Command] public Vector2 randomRotationRange = new(0, 360);
     [Command] public float rotationStep = 90;
-    public float rotation;
+    public float yaw;
+    private bool lastRotationWasRandom;
+    public float thickness = 2;
+    public float arrowLength = .33f;
+    public float normalLength = .25f;
+    [Command] public bool alignToNormal = true;
 
     private void Awake() {
         if (prefabs.Count > 0)
             prefab = prefabs[0];
         TryLoad();
+        foreach (var prefab in prefabs) {
+            var preview = Instantiate(prefab, transform);
+            preview.name = prefab.name + "Preview";
+            preview.gameObject.SetActive(false);
+            previews.Add(prefab, preview);
+        }
     }
 
+    private void OnDisable() {
+        foreach (var preview in previews.Values)
+            if (preview) // when quitting this may happen
+                preview.gameObject.SetActive(false);
+        searchInput = null;
+        matches.Clear();
+    }
+
+    [Command] public void Toggle() { enabled = !enabled; }
+
     public void Update() {
+
+        if (Input.GetKeyDown(KeyCode.P)) {
+            searchInput = "";
+            return;
+        }
 
         Transform closestProp = null;
         var ray = camera.FixedScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out var hit, float.MaxValue, 1 << LayerMask.NameToLayer("Terrain"))) {
 
-            Draw.ingame.Ray(hit.point, hit.normal, color);
+            var position = hit.point;
+            var rotation = Quaternion.LookRotation(Vector3.forward, alignToNormal ? hit.normal : Vector3.up) * Quaternion.Euler(0, yaw, 0);
+            var scale = Vector3.one;
+
+            var preview = previews[prefab];
+            foreach (var item in previews.Values)
+                if (item != preview)
+                    item.gameObject.SetActive(false);
+                else if (!preview.gameObject.activeSelf)
+                    preview.gameObject.SetActive(true);
+
+            preview.position = position;
+            preview.rotation = rotation;
+            preview.localScale = scale;
 
             foreach (var prop in props) {
                 var distance = Vector3.Distance(hit.point, prop.position);
@@ -49,24 +87,27 @@ public class PropPlacement : MonoBehaviour {
                     closestProp = prop;
             }
 
-            if (closestProp) {
-                Draw.ingame.CircleXZ(closestProp.position, .1f, Color.red);
-                Draw.ingame.Line(hit.point, closestProp.position);
+            using (Draw.ingame.WithLineWidth(thickness)) {
+
+                //Draw.ingame.Line(hit.point, hit.point + hit.normal * normalLength, color);
+                Draw.ingame.Arrow(hit.point, hit.point + rotation * Vector3.forward * arrowLength, color);
+
+                if (closestProp) {
+                    Draw.ingame.CircleXZ(closestProp.position, .1f, Color.red);
+                    Draw.ingame.Line(hit.point, closestProp.position);
+                }
             }
 
-            /*if (prefab) {
-                if (!previews.TryGetValue(prefab, out var preview))
-                    preview = previews[prefab] = Instantiate(prefab);
-            }*/
-
-            if (!closestProp && prefab && Input.GetMouseButtonDown(Mouse.left)) {
-                var yaw = useRandomRotation ? Random.Range(randomRotationRange[0], randomRotationRange[1]) : rotation;
-                AddProp(prefab, hit.point, Quaternion.LookRotation(Vector3.forward, hit.normal) * Quaternion.Euler(0, yaw, 0), Vector3.one);
-            }
-            else if (closestProp && Input.GetMouseButtonDown(Mouse.right)) {
-                props.Remove(closestProp);
-                Destroy(closestProp.gameObject);
-            }
+            if (searchInput == null)
+                if (prefab && Input.GetMouseButtonDown(Mouse.left)) {
+                    if (closestProp)
+                        RemoveProp(closestProp);
+                    AddProp(prefab, position, rotation, scale);
+                    if (lastRotationWasRandom)
+                        yaw = RandomYaw;
+                }
+                else if (closestProp && Input.GetMouseButtonDown(Mouse.right))
+                    RemoveProp(closestProp);
         }
 
         if (Input.GetKeyDown(KeyCode.Tab) && prefabs.Count > 0) {
@@ -75,19 +116,23 @@ public class PropPlacement : MonoBehaviour {
             prefab = prefabs[nextIndex];
         }
 
-        else if (Input.GetKeyDown(KeyCode.Minus))
-            rotation = (rotation - rotationStep).PositiveModulo(360);
-        else if (Input.GetKeyDown(KeyCode.Equals))
-            rotation = (rotation + rotationStep).PositiveModulo(360);
-
-        else if (Input.GetKeyDown(KeyCode.Alpha0))
-            useRandomRotation = !useRandomRotation;
-        else if (Input.GetKeyDown(KeyCode.R))
-            useRandomRotation = true;
-        else if (Input.GetKeyDown(KeyCode.F))
-            useRandomRotation = false;
+        else if (Input.GetKeyDown(KeyCode.R)) {
+            yaw = RandomYaw;
+            lastRotationWasRandom = true;
+        }
+        else if (Input.GetKeyDown(KeyCode.F)) {
+            var direction = Input.GetKey(KeyCode.LeftShift) ? -1 : 1;
+            yaw = (Mathf.Round(yaw / rotationStep) * rotationStep + direction * rotationStep).PositiveModulo(360);
+            lastRotationWasRandom = false;
+        }
     }
 
+    public float RandomYaw => Random.Range(randomRotationRange.x, randomRotationRange.y);
+
+    public void RemoveProp(Transform prop) {
+        props.Remove(prop);
+        Destroy(prop.gameObject);
+    }
     public Transform AddProp(Transform prefab, Vector3 position, Quaternion rotation, Vector3 scale) {
         var prop = Instantiate(prefab);
         prop.position = position;
@@ -98,14 +143,62 @@ public class PropPlacement : MonoBehaviour {
         return prop;
     }
 
+    private string searchInput, oldSearchInput;
+    public float searchInputWidth = 500;
+    public List<Transform> matches = new();
+    private GUIStyle searchInputStyle;
+    private GUIContent guiContent = new();
+
     private void OnGUI() {
+
         GUI.skin = DefaultGuiSkin.TryGet;
         if (prefab)
             GUILayout.Label($"Prop: {prefab.name}");
-        if (useRandomRotation)
-            GUILayout.Label("Random Rotation");
-        else
-            GUILayout.Label($"Rotation: {rotation} (step: {rotationStep})");
+        GUILayout.Label($"Rotation: {Mathf.RoundToInt(yaw)} (step: {rotationStep})");
+
+        if (searchInput != null) {
+
+            if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.Escape) {
+                searchInput = null;
+                matches.Clear();
+            }
+
+            else {
+                if (searchInputStyle == null) {
+                    searchInputStyle = new GUIStyle(GUI.skin.textField);
+                    searchInputStyle.normal.textColor = Color.white;
+                }
+
+                guiContent.text = searchInput;
+                var height = searchInputStyle.CalcHeight(guiContent, searchInputWidth);
+                var size = new Vector2(searchInputWidth, height);
+                var position = new Vector2(Screen.width, Screen.height) / 2 - size / 2;
+                GUI.SetNextControlName("SearchInput");
+                oldSearchInput = searchInput;
+                searchInput = GUI.TextField(new Rect(position, size), searchInput, searchInputStyle);
+                GUI.FocusControl("SearchInput");
+
+                if (oldSearchInput != searchInput) {
+                    matches.Clear();
+                    foreach (var prefab in prefabs) {
+                        if (prefab && searchInput.MatchesFuzzy(prefab.name))
+                            matches.Add(prefab);
+                    }
+                    matches.Sort((a, b) => Levenshtein.Distance(a.name, searchInput) - Levenshtein.Distance(b.name, searchInput));
+                    if (matches.Count > 0)
+                        prefab = matches[0];
+                }
+
+                position += new Vector2(0, height);
+                foreach (var match in matches) {
+                    guiContent.text = match.name;
+                    height = GUI.skin.label.CalcHeight(guiContent, searchInputWidth);
+                    size = new Vector2(searchInputWidth, height);
+                    GUI.Label(new Rect(position, size), guiContent);
+                    position += new Vector2(0, height);
+                }
+            }
+        }
     }
 
     private void OnApplicationQuit() {
