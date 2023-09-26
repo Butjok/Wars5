@@ -46,6 +46,9 @@ public class TerrainCreator : MonoBehaviour {
     public float treeRadius = .1f;
     [Command] public Vector2 treeSizeRange = new(.25f, 1.5f);
 
+    public Bird birdPrefab;
+    public List<Bird> birds = new();
+
     private void Reset() {
         meshFilter = GetComponent<MeshFilter>();
         meshRenderer = GetComponent<MeshRenderer>();
@@ -225,6 +228,32 @@ public class TerrainCreator : MonoBehaviour {
             bushMaterial.SetMatrix("_WorldToLocal", localToWorld.inverse);
             if (voronoiRenderer)
                 bushMaterial.SetTexture("_Splat2", voronoiRenderer.blurredFieldMaskRenderTexture);
+        }
+
+        RespawnBirds();
+    }
+
+    
+    [Command]
+    public void RespawnBirds(int count = 3) {
+        
+        foreach (var bird in birds)
+            Destroy(bird.gameObject);
+        birds.Clear();
+
+        if (!birdPrefab)
+            return;
+        
+        var bounds = meshRenderer.bounds;
+        var min = bounds.min.ToVector2();
+        var max = bounds.max.ToVector2();
+
+        for (var i = 0; i < count; i++) {
+            var bird = Instantiate(birdPrefab);
+            birds.Add(bird);
+            bird.transform.position = new Vector2(Random.Range(min.x, max.x), Random.Range(min.y, max.y)).ToVector3();
+            bird.transform.rotation = Quaternion.Euler(0, Random.value * 360, 0);
+            bird.bounds = bounds;
         }
     }
 

@@ -13,6 +13,7 @@ public class Bird : MonoBehaviour {
     public float steeringSpeed = 90;
     public float nextTimestamp;
     public BoxCollider box;
+    public Bounds? bounds;
     public MeshRenderer meshRenderer;
     public float minVisibilityHeight = 10;
 
@@ -30,8 +31,9 @@ public class Bird : MonoBehaviour {
             transform.rotation = Quaternion.Euler(euler.x, euler.y + steeringDirection * steeringSpeed * Time.deltaTime, euler.z);
         }
 
-        if (box) {
-            var bounds = box.bounds;
+        if (box || bounds !=null) {
+
+            var bounds = this.bounds ?? box.bounds;
             var position = transform.position;
 
             if (transform.position.x > bounds.max.x)

@@ -93,6 +93,7 @@
      <Compile Include="Assets/Scripts/UvMapperTest2.cs" />
      <Compile Include="Assets/Scripts/Compass.cs" />
      <Compile Include="Assets/Scripts/HardFollow.cs" />
+     <Compile Include="Assets/Scripts/ModeSelector.cs" />
      <Compile Include="Assets/Scripts/NormalSolver.cs" />
      <Compile Include="Assets/Scripts/Ai/AiPlayer.cs" />
      <Compile Include="Assets/Scripts/GameStates/VictoryState.cs" />
@@ -247,6 +248,7 @@
      <Compile Include="Assets/Scripts/InputState.cs" />
      <Compile Include="Assets/Scripts/MissileSiloView.cs" />
      <Compile Include="Assets/Scripts/InGameOverlayMenuView.cs" />
+     <Compile Include="Assets/Scripts/FuzzyMatch.cs" />
      <Compile Include="Assets/Scripts/Building.cs" />
      <Compile Include="Assets/Scripts/AiPlayground.cs" />
      <Compile Include="Assets/Scripts/ZoneDistances.cs" />
@@ -270,8 +272,6 @@
      <Compile Include="Assets/Scripts/FlipbookTest.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
      <Compile Include="Assets/Scripts/EntryPoint/MainMenuWelcomeState.cs" />
-     <Compile Include="Assets/Scripts/FuzzyMatch.cs" />
-     <Compile Include="Assets/Scripts/ModeSelector.cs" />
      <Folder Include="Assets/Scripts/EntryPoint" />
      <None Include="Assets/Scripts/Wars.asmdef" />
      <Folder Include="Assets/Scripts/DialogueMarkupLanguage" />
