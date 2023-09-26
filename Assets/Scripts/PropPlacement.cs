@@ -47,11 +47,13 @@ public class PropPlacement : MonoBehaviour {
         foreach (var preview in previews.Values)
             if (preview) // when quitting this may happen
                 preview.gameObject.SetActive(false);
+        CloseSearch();
+    }
+
+    public void CloseSearch() {
         searchInput = null;
         matches.Clear();
     }
-
-    [Command] public void Toggle() { enabled = !enabled; }
 
     public void Update() {
 
@@ -65,7 +67,10 @@ public class PropPlacement : MonoBehaviour {
         if (Physics.Raycast(ray, out var hit, float.MaxValue, 1 << LayerMask.NameToLayer("Terrain"))) {
 
             var position = hit.point;
-            var rotation = Quaternion.LookRotation(Vector3.forward, alignToNormal ? hit.normal : Vector3.up) * Quaternion.Euler(0, yaw, 0);
+            var up = alignToNormal ? hit.normal : Vector3.up;
+            var right = Vector3.Cross(Vector3.forward, up);
+            var forward = Vector3.Cross(up, right);
+            var rotation = Quaternion.LookRotation(forward,up) * Quaternion.Euler(0, yaw, 0);
             var scale = Vector3.one;
 
             var preview = previews[prefab];
@@ -89,7 +94,7 @@ public class PropPlacement : MonoBehaviour {
 
             using (Draw.ingame.WithLineWidth(thickness)) {
 
-                //Draw.ingame.Line(hit.point, hit.point + hit.normal * normalLength, color);
+                Draw.ingame.Line(hit.point, hit.point + hit.normal * normalLength, color);
                 Draw.ingame.Arrow(hit.point, hit.point + rotation * Vector3.forward * arrowLength, color);
 
                 if (closestProp) {
@@ -158,12 +163,11 @@ public class PropPlacement : MonoBehaviour {
 
         if (searchInput != null) {
 
-            if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.Escape) {
-                searchInput = null;
-                matches.Clear();
-            }
+            if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.Escape)
+                CloseSearch();
 
             else {
+                // ugly hack because in the CommandLine GUI skin I used transparent text for the text field
                 if (searchInputStyle == null) {
                     searchInputStyle = new GUIStyle(GUI.skin.textField);
                     searchInputStyle.normal.textColor = Color.white;
@@ -187,6 +191,8 @@ public class PropPlacement : MonoBehaviour {
                     matches.Sort((a, b) => Levenshtein.Distance(a.name, searchInput) - Levenshtein.Distance(b.name, searchInput));
                     if (matches.Count > 0)
                         prefab = matches[0];
+                    if (matches.Count == 1)
+                        CloseSearch();
                 }
 
                 position += new Vector2(0, height);
