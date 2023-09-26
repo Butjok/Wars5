@@ -56,6 +56,9 @@ public class RoadCreator : MonoBehaviour {
 
         foreach (var position in positions)
             Draw.ingame.SolidPlane(position.ToVector3(), Vector3.up, Vector2.one, color);
+        
+        if (Input.GetKeyDown(KeyCode.R))
+            Rebuild();
     }
 
     public enum RoadTileType { I, L, T, X, Island, Cap }
@@ -159,6 +162,8 @@ public class RoadCreator : MonoBehaviour {
     private void OnGUI() {
         GUI.skin = DefaultGuiSkin.TryGet;
         GUILayout.Label($"Roads: {positions.Count}");
+        GUILayout.Space(15);
+        GUILayout.Label("[R] Rebuild");
     }
 
     public bool TryLoad(string path) {

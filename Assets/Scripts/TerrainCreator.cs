@@ -57,6 +57,9 @@ public class TerrainCreator : MonoBehaviour {
     public Transform water;
     public RectTransform overlay3d;
     public TMP_Text missionNameText;
+    
+    public MeshFilter bushesMeshFilter;
+    public Mesh bushesMesh;
 
     [Command]
     public int BirdsCount {
@@ -193,6 +196,9 @@ public class TerrainCreator : MonoBehaviour {
             elevation += elevationStep;
         else if (Input.GetKeyDown(KeyCode.PageDown) || Input.GetKeyDown(KeyCode.Minus))
             elevation -= elevationStep;
+        
+        else if (Input.GetKeyDown(KeyCode.B))
+            PlaceBushes();
 
         // draw bushes
         /*foreach (var (position, rotation) in bushes)
@@ -416,6 +422,8 @@ public class TerrainCreator : MonoBehaviour {
     [Command]
     public int bushSeed = 0;
 
+    public Mesh bushMesh;
+    
     [Command]
     public void PlaceBushes() {
 
@@ -434,6 +442,16 @@ public class TerrainCreator : MonoBehaviour {
                 bushes.Add((position3d, rotation, scale));
             }
         }
+        
+        /*if (!bushesMesh)
+            bushesMesh = new Mesh();
+        bushesMesh.Clear();
+        var vertices = new List<Vector3>();
+        var triangles = new List<int>();
+        foreach (var bush in bushes) {
+            var matrix = Matrix4x4.TRS(bush.position, bush.rotation, bush.scale);
+            foreach (var vertex in )
+        }*/
 
         UpdateBushRenderer();
     }
@@ -470,7 +488,8 @@ public class TerrainCreator : MonoBehaviour {
         GUI.skin = DefaultGuiSkin.TryGet;
         GUILayout.Label($"Terrain Elevation: {elevation}");
         GUILayout.Space(15);
-        GUILayout.Label($"[T] Place Or Remove Tree");
+        GUILayout.Label("[T] Place Or Remove Tree");
+        GUILayout.Label("[B] Place bushes");
         //GUILayout.Label($"{vertices.Count} vertices");
     }
 
