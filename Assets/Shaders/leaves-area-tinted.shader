@@ -2,21 +2,10 @@ Shader "Custom/LeavesAreaTinted"
 {
     Properties
     {
-        _Color ("Color", Color) = (1,1,1,1)
-        _MainTex ("Albedo (RGB)", 2D) = "white" {}
-        _Tint ("_Tint", 2D) = "white" {}        
+        _MainTex ("Albedo (RGB)", 2D) = "white" {}   
         _Normal ("_Normal", 2D) = "normal" {}
-        _Dist ("_Dist", 2D) = "white" {}
-        _SSS ("_SSS", 2D) = "white" {}
-        _WithSSS ("_WithSSS", 2D) = "white" {}
-        _Indirect ("_Indirect", 2D) = "white" {}
         _Occlusion ("_Occlusion", 2D) = "white" {}
         _GlobalOcclusion ("_GlobalOcclusion", 2D) = "white" {}
-        _Glossiness ("Smoothness", Range(0,1)) = 0.5
-        _Metallic ("Metallic", Range(0,1)) = 0.0
-        _SSSIntensity ("_SSSIntensity", Range(0,1)) = 0.0
-        
-        _Lod ("_Lod", Float) = 0
         
         _Grass ("_Grass", Color) = (1,1,1,1)
         _DarkGrass ("_DarkGrass", Color) = (1,1,1,1)
@@ -25,7 +14,9 @@ Shader "Custom/LeavesAreaTinted"
         
          _Splat ("_Splat", 2D) = "black" {}
          _Splat2 ("_Splat2", 2D) = "black" {}
-        
+         
+         _Min ("_Min", Vector) = (0,0,0,1)
+         _Size ("_Size", Vector) = (1,1,0,1)
     }
     SubShader
     {
@@ -40,11 +31,8 @@ Shader "Custom/LeavesAreaTinted"
             // Use shader model 3.0 target, to get nicer looking lighting
             #pragma target 5.0
 
-            sampler2D _MainTex,_Occlusion,_SSS,_Dist,_Normal,_Tint,_GlobalOcclusion,_WithSSS,_Indirect,_Splat, _Splat2;
-            half2 _Flip;
-            float3 _Grass,_DarkGrass,_Wheat,_YellowGrass;
-            float4 _Bounds;
-            half _Lod;
+            sampler2D _MainTex,_Occlusion,_Normal,_GlobalOcclusion, _Splat2;
+            half3 _Grass,_DarkGrass,_Wheat,_YellowGrass;
 
             struct Input {
                 float2 uv_MainTex ;
@@ -53,10 +41,8 @@ Shader "Custom/LeavesAreaTinted"
                 float IsFacing:VFACE;
             };
 
-            half _Glossiness;
-            half _Metallic,_SSSIntensity;
-            fixed4 _Color;
-            float4x4 _WorldToLocal;
+            half4x4 _WorldToLocal;
+            half2 _Min,_Size;
 
             struct InstancedRenderingAppdata {
                 float4 vertex : POSITION;
@@ -64,33 +50,23 @@ Shader "Custom/LeavesAreaTinted"
                 float3 normal : NORMAL;
                 float4 texcoord : TEXCOORD0;
                 float4 texcoord1 : TEXCOORD1;
-                
-
                 uint inst : SV_InstanceID;
-               
             };
+            
             #include "Assets/Shaders/InstancedRendering.cginc"
+            #include "Assets/Shaders/SDF.cginc"
+            #include  "Utils.cginc"
 
             void instanced_rendering_vertex2(inout InstancedRenderingAppdata v) { 
             #if defined(SHADER_API_D3D11) || defined(SHADER_API_METAL)
 
-                const float4x4 transform = mul(unity_WorldToObject, _Transforms[v.inst].mat);
+                const half4x4 transform = mul(unity_WorldToObject, _Transforms[v.inst].mat);
 
                 v.vertex = mul(transform, v.vertex);
-                //v.tangent = mul(transform, v.tangent);
                 v.normal = normalize(mul(transform, v.normal)) ;
-
-                float3 lightDirection = normalize(_WorldSpaceLightPos0.xyz);
-                
-                /*float3 viewDir = UNITY_MATRIX_IT_MV[2].xyz;
-                if (dot(v.normal,lightDirection)<0)
-                    v.normal = -v.normal;   */
-                    
 
             #endif 
             }
-
-            #include  "Utils.cginc"
 
             float3 tint(float3 color, float hueShift, float saturationShift, float valueShift){
                 float3 hsv = RGBtoHSV(color);
@@ -99,72 +75,31 @@ Shader "Custom/LeavesAreaTinted"
                 hsv.z *= valueShift;
                 return HSVtoRGB(hsv);
             }
-            
+          
             void surf (Input IN, inout SurfaceOutputStandard o)
             {
-                
-                
-                // Albedo comes from a texture tinted by color
-                fixed4 c = tex2D (_MainTex, IN.uv_MainTex);
+                half4 c = tex2D (_MainTex, IN.uv_MainTex);
                 clip(c.a-.5);
-
                 
-                o.Occlusion = lerp(tex2D (_Occlusion, IN.uv_MainTex),1,.5);//globalOcclusion*localOcclusion *  (1-_SSSIntensity);
+                o.Occlusion = lerp(tex2D (_Occlusion, IN.uv_MainTex),1,.5);
                 
-                //o.Emission= tex2D (_Indirect, IN.uv2_GlobalOcclusion)*(1-_SSSIntensity)*c + tex2D (_SSS, IN.uv2_GlobalOcclusion)*_SSSIntensity;
-                //o.Albedo = 0;
-                //o.Emission = tex2D (_SSS, IN.uv2_SSS);
-                
-                // Metallic and smoothness come from slider variables
-                o.Metallic = 0;
-                //o.Smoothness =lerp(.1, .25, pow(tex2D (_Occlusion, IN.uv_MainTex),.5));
-                half globalOcclusion =tex2D (_GlobalOcclusion, IN.uv2_GlobalOcclusion).r; 
-                o.Smoothness = .2;//lerp(.1, .5, pow(tex2D (_Occlusion, IN.uv_MainTex),5)) ;//* (globalOcclusion);
-                //o.Alpha = c.a;
-                
-
+                o.Metallic = 0; 
+                o.Smoothness = .2;
                 o.Normal = UnpackNormal(tex2D (_Normal, IN.uv_MainTex));
-
-                //o.Albedo=HueShift(o.Albedo,-.01);
-                //o.Emission=HueShift(o.Emission,-.01);
-
-                /*float2 splatUv = (IN.worldPos.xz - _Bounds.xy) / (_Bounds.zw);
-            if (_Flip.x > .5)
-                splatUv.x = 1 - splatUv.x;
-            if (_Flip.y > .5)
-                splatUv.y = 1 - splatUv.y;
-
-            float3 splat = tex2Dlod(_Splat, float4(splatUv, 1,_Lod));*/
-            
-            
-            
-            float3 localPos = mul(_WorldToLocal, float4(IN.worldPos, 1)).xyz;
-            float2 uv = localPos.xz;
-            float3 splat = tex2D(_Splat2, uv);
-            
-            
-            
-
-            o.Albedo = _Grass;
-            o.Albedo = lerp(o.Albedo, _DarkGrass, splat.r);
-            //o.Albedo = lerp(o.Albedo, _Wheat, splat.g);
-            o.Albedo = lerp(o.Albedo, _YellowGrass, splat.b);
-
-                
-                //o.Emission =(1-IN.IsFacing)* o.Albedo*.15;
+ 
+				/*half2 center = _Min + _Size/2;
+				float dist = sdfBox(IN.worldPos.xz-center, _Size/2);
+				clip(-(dist-.5));*/
+			   
+				half3 localPos = mul(_WorldToLocal, half4(IN.worldPos, 1)).xyz;
+				half2 uv = localPos.xz;
+				half3 splat = tex2D(_Splat2, uv);
+		   
+				o.Albedo = _Grass;
+				o.Albedo = lerp(o.Albedo, _DarkGrass, splat.r);
+				o.Albedo = lerp(o.Albedo, _YellowGrass, splat.b);
 
                 o.Albedo = lerp(o.Albedo, tint(o.Albedo, 0, 1.1, .5), 1 - tex2D (_Occlusion, IN.uv_MainTex).r);
-                
-                //o.Albedo*= lerp(1, tex2D (_Occlusion, IN.uv_MainTex).r,.5);// * (1-_SSSIntensity);
-                /*o.Albedo=splat;
-                o.Albedo=0;
-                o.Albedo.rg=splatUv;*/
-
-                //o.Alpha=.5;
-
-                //o.Albedo=;
-                //o.Albedo=1-IN.IsFacing;
-                
             }
             ENDCG
     }

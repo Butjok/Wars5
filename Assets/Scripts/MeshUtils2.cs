@@ -29,24 +29,43 @@ public static class MeshUtils2 {
         }
     }
 
+    private static readonly List<Quad> quads2 = new();
+    private static readonly Dictionary<Vertex, int> indices = new();
+    private static readonly List<int> triangles = new();
+    private static readonly List<Vector3> vertices = new();
+    private static readonly HashSet<Vertex> uniqueVertices = new();
+    private static readonly List<Vector2> uv0s = new();
+
     public static Mesh Construct(IEnumerable<Quad> quads, Mesh mesh, float thresholdAngle = 30) {
 
-        var quads2 = quads.ToList();
-        var vertices = quads2.SelectMany(quad => new[] { quad.a, quad.b, quad.c, quad.d }).Distinct().ToList();
-        int Index(Vertex vertex) {
-            var index = vertices.IndexOf(vertex);
-            Assert.IsTrue(index != -1);
-            return index;
+        quads2.Clear();
+        quads2.AddRange(quads);
+        
+        uniqueVertices.Clear();
+        foreach (var quad in quads2) {
+            uniqueVertices.Add(quad.a);
+            uniqueVertices.Add(quad.b);
+            uniqueVertices.Add(quad.c);
+            uniqueVertices.Add(quad.d);
+        }
+        
+        vertices.Clear();
+        indices.Clear();
+        uv0s.Clear();
+        foreach (var vertex in uniqueVertices) {
+            vertices.Add(vertex.position);
+            indices[vertex] = indices.Count;
+            uv0s.Add(vertex.uv0 ?? default);
         }
 
-        var triangles = new List<int>();
+        triangles.Clear();
         foreach (var quad in quads2) {
-            triangles.Add(Index(quad.a));
-            triangles.Add(Index(quad.b));
-            triangles.Add(Index(quad.c));
-            triangles.Add(Index(quad.a));
-            triangles.Add(Index(quad.c));
-            triangles.Add(Index(quad.d));
+            triangles.Add(indices[quad.a]);
+            triangles.Add(indices[quad.b]);
+            triangles.Add(indices[quad.c]);
+            triangles.Add(indices[quad.a]);
+            triangles.Add(indices[quad.c]);
+            triangles.Add(indices[quad.d]);
         }
 
         if (mesh)
@@ -54,16 +73,19 @@ public static class MeshUtils2 {
         else
             mesh = new Mesh();
 
-        mesh.vertices = vertices.Select(vertex => vertex.position).ToArray();
-        if (vertices.All(vertex => vertex.uv0 != null))
-            mesh.uv = vertices.Select(vertex => vertex.uv0.Value).ToArray();
-        if (vertices.All(vertex => vertex.uv1 != null))
-            mesh.uv2 = vertices.Select(vertex => vertex.uv1.Value).ToArray();
-        if (vertices.All(vertex => vertex.uv2 != null))
-            mesh.uv3 = vertices.Select(vertex => vertex.uv2.Value).ToArray();
-        if (vertices.All(vertex => vertex.color != null))
-            mesh.colors = vertices.Select(vertex => vertex.color.Value).ToArray();
-        mesh.triangles = triangles.ToArray();
+        mesh.SetVertices(vertices);
+        mesh.SetTriangles(triangles, 0);
+        mesh.SetUVs(0, uv0s);
+        
+        //if (vertices.Any(vertex => vertex.uv0 != null))
+        //  mesh.uv = vertices.Select(vertex => vertex.uv0 ?? default).ToArray();
+        /*if (vertices.Any(vertex => vertex.uv1 != null))
+            mesh.uv2 = vertices.Select(vertex => vertex.uv1 ?? default).ToArray();
+        if (vertices.Any(vertex => vertex.uv2 != null))
+            mesh.uv3 = vertices.Select(vertex => vertex.uv2 ?? default).ToArray();
+        if (vertices.Any(vertex => vertex.color != null))
+            mesh.colors = vertices.Select(vertex => vertex.color ?? default).ToArray();*/
+        //mesh.triangles = triangles.ToArray();
 
         mesh.RecalculateBounds();
         mesh.RecalculateNormals();

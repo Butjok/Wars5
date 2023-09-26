@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 [ExecuteInEditMode]
 public class InstancedMeshRenderer : MonoBehaviour {
@@ -11,6 +12,8 @@ public class InstancedMeshRenderer : MonoBehaviour {
 
     public ComputeBuffer transformsBuffer;
     public List<ComputeBuffer> argsBuffers = new();
+
+    public ShadowCastingMode castShadows = ShadowCastingMode.On;
 
     public void Update() {
 
@@ -29,7 +32,7 @@ public class InstancedMeshRenderer : MonoBehaviour {
 
             for (var i = 0; i < mesh.subMeshCount; i++) {
                 var argsBuffer = new ComputeBuffer(1, sizeof(int) * 5, ComputeBufferType.IndirectArguments);
-                argsBuffer.SetData(new[] { (int)mesh.GetIndexCount(i), transformList.matrices.Length, (int)mesh.GetIndexStart(i),(int) mesh.GetBaseVertex(i), 0 });
+                argsBuffer.SetData(new[] { (int)mesh.GetIndexCount(i), transformList.matrices.Length, (int)mesh.GetIndexStart(i), (int)mesh.GetBaseVertex(i), 0 });
                 argsBuffers.Add(argsBuffer);
             }
 
@@ -42,7 +45,7 @@ public class InstancedMeshRenderer : MonoBehaviour {
                 Debug.LogWarning($"Empty material for submesh {i}.", this);
                 continue;
             }
-            Graphics.DrawMeshInstancedIndirect(mesh, i, materials[i], transformList.bounds, argsBuffers[i], 0, null, layer: gameObject.layer);
+            Graphics.DrawMeshInstancedIndirect(mesh, i, materials[i], transformList.bounds, argsBuffers[i], 0, null, layer: gameObject.layer, castShadows: castShadows);
             //Graphics.DrawMeshInstancedProcedural(mesh, i, materials[i], transformList.bounds, transformList.matrices.Length, null, layer:gameObject.layer);
         }
     }

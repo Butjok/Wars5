@@ -18,6 +18,7 @@ public class BlendShapesAnimation : MonoBehaviour {
 
 	public void Start() {
 		renderer = GetComponent<SkinnedMeshRenderer>();
+		time = Random.value * 200000;
 	}
 
 	public void Update() {

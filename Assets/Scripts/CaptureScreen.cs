@@ -18,9 +18,13 @@ public class CaptureScreen : MonoBehaviour {
     public float pauseOwnerChange = .25f;
     public float pauseAfter = .5f;
     public Transform root;
+    public Camera camera;
 
     public bool Visible {
-        set => gameObject.SetActive(value);
+        set {
+            gameObject.SetActive(value);
+            camera.enabled = value;
+        }
     }
     public Color UiColor {
         set => fillMeter.color = value;

@@ -90,6 +90,7 @@ public class RoadCreator : MonoBehaviour {
     public static readonly List<int> triangles = new();
     public static readonly List<Vector2> uvs0 = new();
 
+    [Command]
     public void Rebuild() {
 
         if (positions.Count == 0) {

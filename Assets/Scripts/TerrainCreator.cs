@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using Butjok.CommandLine;
 using Drawing;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -25,7 +26,11 @@ public class TerrainCreator : MonoBehaviour {
     public MeshRenderer meshRenderer;
     public MeshCollider meshCollider;
 
+    public MeshFilter edgeMeshFilter;
+    public Material edgeMaterial;
+
     public Mesh mesh;
+    public Mesh edgeMesh;
 
     public Color cursorColor = Color.yellow;
     public float cursorThickness = 2;
@@ -48,6 +53,24 @@ public class TerrainCreator : MonoBehaviour {
 
     public Bird birdPrefab;
     public List<Bird> birds = new();
+    private int birdsCount;
+    public Transform water;
+    public RectTransform overlay3d;
+    public TMP_Text missionNameText;
+
+    [Command]
+    public int BirdsCount {
+        get => birdsCount;
+        set {
+            birdsCount = value;
+            RespawnBirds();
+        }
+    }
+    
+    [Command]
+    public bool EnableBushes {
+        set => bushRenderer.enabled = value;
+    }
 
     private void Reset() {
         meshFilter = GetComponent<MeshFilter>();
@@ -133,22 +156,28 @@ public class TerrainCreator : MonoBehaviour {
 
             else if (Input.GetMouseButton(Mouse.left)) {
 
-                MeshUtils2.Vertex UpdateOrCreateVertex(Vector2Int position, Vector2Int corner, float elevation) {
-                    if (!vertices.TryGetValue(position * 2 + corner, out var vertex))
+                bool UpdateOrCreateVertex(Vector2Int position, Vector2Int corner, float elevation, out MeshUtils2.Vertex vertex) {
+                    var modified = false;
+                    if (!vertices.TryGetValue(position * 2 + corner, out vertex)) {
+                        modified = true;
                         vertices[(position * 2 + corner)] = vertex = new MeshUtils2.Vertex {
                             position = position.ToVector3() + new Vector3(corner.x * .5f, 0, corner.y * .5f)
                         };
+                    }
+                    modified = modified || Math.Abs(vertex.position.y - elevation) > 0.001f;
                     vertex.position.y = elevation;
-                    return vertex;
+                    return modified;
                 }
 
-                var a = UpdateOrCreateVertex(position, new Vector2Int(-1, -1), elevation);
-                var b = UpdateOrCreateVertex(position, new Vector2Int(-1, 1), elevation);
-                var c = UpdateOrCreateVertex(position, new Vector2Int(1, 1), elevation);
-                var d = UpdateOrCreateVertex(position, new Vector2Int(1, -1), elevation);
-
-                quads[position] = new MeshUtils2.Quad { a = a, b = b, c = c, d = d };
-                RebuildTerrain();
+                var modified = false;
+                modified = UpdateOrCreateVertex(position, new Vector2Int(-1, -1), elevation, out var a) || modified;
+                modified = UpdateOrCreateVertex(position, new Vector2Int(-1, 1), elevation, out var b) || modified;
+                modified = UpdateOrCreateVertex(position, new Vector2Int(1, 1), elevation, out var c) || modified;
+                modified = UpdateOrCreateVertex(position, new Vector2Int(1, -1), elevation, out var d) || modified;
+                if (modified || !quads.ContainsKey(position)) {
+                    quads[position] = new MeshUtils2.Quad { a = a, b = b, c = c, d = d };
+                    RebuildTerrain();
+                }
             }
 
             else if (Input.GetKeyDown(KeyCode.T)) {
@@ -160,9 +189,9 @@ public class TerrainCreator : MonoBehaviour {
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.PageUp))
+        if (Input.GetKeyDown(KeyCode.PageUp) || Input.GetKeyDown(KeyCode.Equals))
             elevation += elevationStep;
-        else if (Input.GetKeyDown(KeyCode.PageDown))
+        else if (Input.GetKeyDown(KeyCode.PageDown) || Input.GetKeyDown(KeyCode.Minus))
             elevation -= elevationStep;
 
         // draw bushes
@@ -172,20 +201,67 @@ public class TerrainCreator : MonoBehaviour {
     }
 
     public VoronoiRenderer voronoiRenderer;
+    public float edgeThickness = 100;
+
+    private HashSet<MeshUtils2.Vertex> usedVertices = new();
+    private HashSet<MeshUtils2.Vertex> unusedVertices = new();
+    private Dictionary<MeshUtils2.Vertex, Vector2Int> getPosition = new();
 
     private void RebuildTerrain(bool clearBushes = true) {
+
+        //remove unused vertices
+        {
+            usedVertices.Clear();
+            foreach (var quad in quads.Values) {
+                usedVertices.Add(quad.a);
+                usedVertices.Add(quad.b);
+                usedVertices.Add(quad.c);
+                usedVertices.Add(quad.d);
+            }
+            unusedVertices.Clear();
+            unusedVertices.UnionWith(vertices.Values);
+            unusedVertices.ExceptWith(usedVertices);
+
+            getPosition.Clear();
+            foreach (var (position, vertex) in vertices)
+                getPosition[vertex] = position;
+
+            foreach (var vertex in unusedVertices)
+                vertices.Remove(getPosition[vertex]);
+        }
 
         if (quads.Count == 0) {
             if (mesh)
                 mesh.Clear();
+            if (edgeMesh)
+                edgeMesh.Clear();
         }
 
         else {
 
-            var minX = quads.Values.SelectMany(quad => quad.Vertices).Min(v => v.position.x);
-            var minZ = quads.Values.SelectMany(quad => quad.Vertices).Min(v => v.position.z);
-            var maxX = quads.Values.SelectMany(quad => quad.Vertices).Max(v => v.position.x);
-            var maxZ = quads.Values.SelectMany(quad => quad.Vertices).Max(v => v.position.z);
+            float minX = float.MaxValue, minZ = float.MaxValue, maxX = float.MinValue, maxZ = float.MinValue;
+            foreach (var quad in quads.Values) {
+
+                minX = Mathf.Min(minX, quad.a.position.x);
+                minX = Mathf.Min(minX, quad.b.position.x);
+                minX = Mathf.Min(minX, quad.c.position.x);
+                minX = Mathf.Min(minX, quad.d.position.x);
+
+                minZ = Mathf.Min(minZ, quad.a.position.z);
+                minZ = Mathf.Min(minZ, quad.b.position.z);
+                minZ = Mathf.Min(minZ, quad.c.position.z);
+                minZ = Mathf.Min(minZ, quad.d.position.z);
+
+                maxX = Mathf.Max(maxX, quad.a.position.x);
+                maxX = Mathf.Max(maxX, quad.b.position.x);
+                maxX = Mathf.Max(maxX, quad.c.position.x);
+                maxX = Mathf.Max(maxX, quad.d.position.x);
+
+                maxZ = Mathf.Max(maxZ, quad.a.position.z);
+                maxZ = Mathf.Max(maxZ, quad.b.position.z);
+                maxZ = Mathf.Max(maxZ, quad.c.position.z);
+                maxZ = Mathf.Max(maxZ, quad.d.position.z);
+            }
             var size = new Vector2(maxX - minX, maxZ - minZ).RoundToInt();
 
             foreach (var vertex in vertices.Values)
@@ -197,7 +273,7 @@ public class TerrainCreator : MonoBehaviour {
             if (subdivideLevel > 0)
                 mesh = CatmullClark.Subdivide(mesh, subdivideLevel);
             mesh.name = "Terrain";
-            mesh.RecalculateNormals(30);
+            mesh.RecalculateNormals();
             mesh.RecalculateBounds();
             mesh.RecalculateTangents();
 
@@ -208,10 +284,74 @@ public class TerrainCreator : MonoBehaviour {
                 voronoiRenderer.worldSize = size;
                 voronoiRenderer.Render2(size, voronoiRenderer.pixelsPerUnit);
             }
+
+            {
+                var edgePositions = new HashSet<Vector2Int>();
+                foreach (var position in quads.Keys)
+                    for (var y = -1; y <= 1; y++)
+                    for (var x = -1; x <= 1; x++)
+                        edgePositions.Add(position + new Vector2Int(x, y));
+                edgePositions.ExceptWith(quads.Keys);
+                var edgeVertices = new Dictionary<Vector2Int, MeshUtils2.Vertex>();
+                var xMax = edgePositions.Max(p => p.x);
+                var xMin = edgePositions.Min(p => p.x);
+                var yMax = edgePositions.Max(p => p.y);
+                var yMin = edgePositions.Min(p => p.y);
+                foreach (var position in edgePositions) {
+                    var a = edgeVertices[position * 2 + new Vector2Int(-1, -1)] = new MeshUtils2.Vertex { position = position.ToVector3() + new Vector3(-.5f, 0, -.5f) };
+                    var b = edgeVertices[position * 2 + new Vector2Int(-1, 1)] = new MeshUtils2.Vertex { position = position.ToVector3() + new Vector3(-.5f, 0, .5f) };
+                    var c = edgeVertices[position * 2 + new Vector2Int(1, 1)] = new MeshUtils2.Vertex { position = position.ToVector3() + new Vector3(.5f, 0, .5f) };
+                    var d = edgeVertices[position * 2 + new Vector2Int(1, -1)] = new MeshUtils2.Vertex { position = position.ToVector3() + new Vector3(.5f, 0, -.5f) };
+                    if (position.x == xMin) {
+                        a.position.x -= edgeThickness;
+                        b.position.x -= edgeThickness;
+                    }
+                    if (position.x == xMax) {
+                        c.position.x += edgeThickness;
+                        d.position.x += edgeThickness;
+                    }
+                    if (position.y == yMin) {
+                        a.position.z -= edgeThickness;
+                        d.position.z -= edgeThickness;
+                    }
+                    if (position.y == yMax) {
+                        b.position.z += edgeThickness;
+                        c.position.z += edgeThickness;
+                    }
+                }
+                var edgeQuads = new List<MeshUtils2.Quad>();
+                foreach (var position in edgePositions)
+                    edgeQuads.Add(new MeshUtils2.Quad {
+                        a = vertices.TryGetValue(position * 2 + new Vector2Int(-1, -1), out var a) ? a : edgeVertices[position * 2 + new Vector2Int(-1, -1)],
+                        b = vertices.TryGetValue(position * 2 + new Vector2Int(-1, 1), out var b) ? b : edgeVertices[position * 2 + new Vector2Int(-1, 1)],
+                        c = vertices.TryGetValue(position * 2 + new Vector2Int(1, 1), out var c) ? c : edgeVertices[position * 2 + new Vector2Int(1, 1)],
+                        d = vertices.TryGetValue(position * 2 + new Vector2Int(1, -1), out var d) ? d : edgeVertices[position * 2 + new Vector2Int(1, -1)]
+                    });
+
+                if (!edgeMesh)
+                    edgeMesh = new Mesh();
+                edgeMesh = MeshUtils2.Construct(edgeQuads, edgeMesh);
+                if (subdivideLevel > 0)
+                    edgeMesh = CatmullClark.Subdivide(edgeMesh, subdivideLevel);
+                edgeMesh.name = "TerrainEdge";
+                edgeMesh.RecalculateNormals();
+                edgeMesh.RecalculateBounds();
+                edgeMesh.RecalculateTangents();
+
+                edgeMeshFilter.sharedMesh = edgeMesh;
+            }
         }
 
         meshFilter.sharedMesh = mesh;
         meshCollider.sharedMesh = mesh;
+
+        if (edgeMeshFilter)
+            edgeMeshFilter.sharedMesh = edgeMesh;
+        if (edgeMaterial) {
+            var bounds = meshRenderer.bounds;
+            edgeMaterial.SetVector("_Min", bounds.min.ToVector2() + new Vector2(.5f, .5f));
+            edgeMaterial.SetVector("_Size", bounds.size.ToVector2() - new Vector2(1, 1));
+        }
 
         if (clearBushes) {
             bushes.Clear();
@@ -219,36 +359,50 @@ public class TerrainCreator : MonoBehaviour {
                 bushRenderer.transformList = null;
         }
 
-        if (roadCreator)
-            roadCreator.Rebuild();
+        //if (roadCreator)
+        //roadCreator.Rebuild();
 
         if (bushMaterial) {
             var bounds = meshRenderer.bounds;
             var localToWorld = Matrix4x4.TRS(bounds.min, Quaternion.identity, new Vector3(bounds.size.x, 1, bounds.size.z));
             bushMaterial.SetMatrix("_WorldToLocal", localToWorld.inverse);
+            bushMaterial.SetVector("_Min", bounds.min.ToVector2() + new Vector2(.5f, .5f));
+            bushMaterial.SetVector("_Size", bounds.size.ToVector2() - new Vector2(1, 1));
             if (voronoiRenderer)
                 bushMaterial.SetTexture("_Splat2", voronoiRenderer.blurredFieldMaskRenderTexture);
+        }
+
+        if (water) {
+            var bounds = meshRenderer.bounds;
+            water.position = bounds.center.ToVector2().ToVector3();
+            water.localScale = new Vector3(bounds.size.x, 1, bounds.size.z);
+        }
+
+        if (overlay3d) {
+            var bounds = meshRenderer.bounds;
+            overlay3d.position = bounds.center.ToVector2().ToVector3();
+            overlay3d.sizeDelta = bounds.size.ToVector2();
         }
 
         RespawnBirds();
     }
 
-    
+
     [Command]
-    public void RespawnBirds(int count = 3) {
-        
+    public void RespawnBirds() {
+
         foreach (var bird in birds)
             Destroy(bird.gameObject);
         birds.Clear();
 
         if (!birdPrefab)
             return;
-        
+
         var bounds = meshRenderer.bounds;
         var min = bounds.min.ToVector2();
         var max = bounds.max.ToVector2();
 
-        for (var i = 0; i < count; i++) {
+        for (var i = 0; i < birdsCount; i++) {
             var bird = Instantiate(birdPrefab);
             birds.Add(bird);
             bird.transform.position = new Vector2(Random.Range(min.x, max.x), Random.Range(min.y, max.y)).ToVector3();
@@ -349,6 +503,8 @@ public class TerrainCreator : MonoBehaviour {
         foreach (var (position, rotation, scale) in trees)
             stringWriter.PostfixWriteLine("tree.add ( {0} {1} {2} )", position, rotation, scale);
 
+        stringWriter.PostfixWriteLine("set-birds-count ( {0} )", birdsCount);
+
         File.WriteAllText(path, stringWriter.ToString());
     }
 
@@ -369,6 +525,11 @@ public class TerrainCreator : MonoBehaviour {
                 case "set-subdivide-level": {
                     var value = (int)stack.Pop();
                     subdivideLevel = value;
+                    break;
+                }
+                case "set-birds-count": {
+                    birdsCount = (int)stack.Pop();
+                    RespawnBirds();
                     break;
                 }
                 case "vertex.add": {

@@ -71,11 +71,14 @@ public class UnitBuildMenu2 : MonoBehaviour {
 
         if (buttons.Length > 0)
             Select(buttons[0]);
+
+        camera.enabled = true;
     }
 
     public void Hide() {
         gameObject.SetActive(false);
         circle.enabled = false;
+        camera.enabled = false;
     }
 
     private void Update() {

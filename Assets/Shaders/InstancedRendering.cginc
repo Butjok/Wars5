@@ -1,5 +1,5 @@
 struct InstancedRenderingTransform {
-    float4x4 mat;
+    half4x4 mat;
 };
 
 #if defined(SHADER_API_D3D11) || defined(SHADER_API_METAL)
@@ -9,7 +9,7 @@ struct InstancedRenderingTransform {
 void instanced_rendering_vertex(inout InstancedRenderingAppdata v) {
 #if defined(SHADER_API_D3D11) || defined(SHADER_API_METAL)
 
-    const float4x4 transform = mul(unity_WorldToObject, _Transforms[v.inst].mat);
+    const half4x4 transform = mul(unity_WorldToObject, _Transforms[v.inst].mat);
 
     v.vertex = mul(transform, v.vertex);
     //v.tangent = mul(transform, v.tangent);
