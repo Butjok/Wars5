@@ -152,6 +152,8 @@ public class PropPlacement : MonoBehaviour {
             yaw = (Mathf.Round(yaw / rotationStep) * rotationStep + direction * rotationStep).PositiveModulo(360);
             lastRotationWasRandom = false;
         }
+        else if (Input.GetKeyDown(KeyCode.N))
+            alignToNormal=!alignToNormal;
     }
 
     public float RandomYaw => Random.Range(randomRotationRange.x, randomRotationRange.y);
@@ -161,7 +163,7 @@ public class PropPlacement : MonoBehaviour {
         Destroy(prop.gameObject);
     }
     public Transform AddProp(Transform prefab, Vector3 position, Quaternion rotation, Vector3 scale) {
-        var prop = Instantiate(prefab);
+        var prop = Instantiate(prefab, transform);
         prop.position = position;
         prop.rotation = rotation;
         prop.localScale = scale;
@@ -181,10 +183,15 @@ public class PropPlacement : MonoBehaviour {
 
         GUI.skin = DefaultGuiSkin.TryGet;
 
-        GUILayout.Label($"[Tab] Cycle prop");
+        GUILayout.Label($"[Tab] Cycle props");
         GUILayout.Label($"  [F] Rotate by {Mathf.RoundToInt(Mathf.Abs(rotationStep))}°");
         GUILayout.Label($"  [R] Random rotation");
         GUILayout.Label($"  [P] Search");
+        GUILayout.Label($"  [N] Align to normal");
+        if(prefab) {
+            GUILayout.Space(15);
+            GUILayout.Label(prefab.name);
+        }
 
         /*if (prefab)
             GUILayout.Label($"Prop: {prefab.name}");

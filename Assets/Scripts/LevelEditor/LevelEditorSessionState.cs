@@ -12,6 +12,7 @@ public class LevelEditorSessionState : StateMachineState {
     public enum SelectModeCommand { SelectTilesMode, SelectUnitsMode, SelectTriggersMode, SelectAreasMode, SelectBridgesMode, Play }
 
     public static Vector3 tileMeshPosition => new(0, -.01f, 0);
+    public static bool createTileMesh = true;
     
     public LevelView levelViewPrefab;
     public Level level = new();
@@ -50,7 +51,7 @@ public class LevelEditorSessionState : StateMachineState {
                 var gameObject = new GameObject("LevelEditorGui");
                 gui = gameObject.AddComponent<LevelEditorGui>();
             }
-            {
+            if (createTileMesh){
                 var gameObject = new GameObject("LevelEditorTileMesh");
                 gameObject.transform.position = tileMeshPosition;
                 gameObject.layer = LayerMask.NameToLayer("Terrain");
@@ -59,6 +60,8 @@ public class LevelEditorSessionState : StateMachineState {
                 // gameObject.AddComponent<CursorInteractor>();
                 var tileMeshRenderer = gameObject.AddComponent<MeshRenderer>();
                 tileMeshRenderer.sharedMaterial = "EditorTileMap".LoadAs<Material>();
+
+                //tileMeshRenderer.enabled = false;
             }
 
             //ai = new Ai(FindState<GameSessionState>().game, level);
