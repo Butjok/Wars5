@@ -58,7 +58,7 @@ public class TerrainCreator : MonoBehaviour {
     public Transform water;
     public RectTransform overlay3d;
     public TMP_Text missionNameText;
-    
+
     public MeshFilter bushesMeshFilter;
     public Mesh bushesMesh;
 
@@ -73,7 +73,7 @@ public class TerrainCreator : MonoBehaviour {
 
     [Command]
     public bool EnableBushShadows {
-        set => bushRenderer.shadowCastingMode  =value? ShadowCastingMode.On : ShadowCastingMode.Off;
+        set => bushRenderer.shadowCastingMode = value ? ShadowCastingMode.On : ShadowCastingMode.Off;
     }
 
     private void Reset() {
@@ -121,11 +121,11 @@ public class TerrainCreator : MonoBehaviour {
 
         Vector3? point = null;
         var normal = Vector3.up;
-        if (Physics.Raycast(ray, out var hit, float.MaxValue, 1 << gameObject.layer)) {
+        /*if (Physics.Raycast(ray, out var hit, float.MaxValue, 1 << gameObject.layer)) {
             point = hit.point;
             normal = hit.normal;
         }
-        else if (plane.Raycast(ray, out var enter)) {
+        else*/ if (plane.Raycast(ray, out var enter)) {
             point = ray.GetPoint(enter);
             normal = Vector3.up;
         }
@@ -197,7 +197,7 @@ public class TerrainCreator : MonoBehaviour {
             elevation += elevationStep;
         else if (Input.GetKeyDown(KeyCode.PageDown) || Input.GetKeyDown(KeyCode.Minus))
             elevation -= elevationStep;
-        
+
         else if (Input.GetKeyDown(KeyCode.B))
             PlaceBushes();
 
@@ -211,8 +211,7 @@ public class TerrainCreator : MonoBehaviour {
     public float edgeThickness = 100;
 
     private HashSet<MeshUtils2.Vertex> usedVertices = new();
-    private HashSet<MeshUtils2.Vertex> unusedVertices = new();
-    private Dictionary<MeshUtils2.Vertex, Vector2Int> getPosition = new();
+    private List<(Vector2Int position, MeshUtils2.Vertex vertex)> vertices2 = new();
 
     private void RebuildTerrain(bool clearBushes = true) {
 
@@ -225,16 +224,13 @@ public class TerrainCreator : MonoBehaviour {
                 usedVertices.Add(quad.c);
                 usedVertices.Add(quad.d);
             }
-            unusedVertices.Clear();
-            unusedVertices.UnionWith(vertices.Values);
-            unusedVertices.ExceptWith(usedVertices);
 
-            getPosition.Clear();
+            vertices2.Clear();
             foreach (var (position, vertex) in vertices)
-                getPosition[vertex] = position;
-
-            foreach (var vertex in unusedVertices)
-                vertices.Remove(getPosition[vertex]);
+                vertices2.Add((position, vertex));
+            foreach (var (position, vertex)in vertices2)
+                if (!usedVertices.Contains(vertex))
+                    vertices.Remove(position);
         }
 
         if (quads.Count == 0) {
@@ -424,7 +420,7 @@ public class TerrainCreator : MonoBehaviour {
     public int bushSeed = 0;
 
     public Mesh bushMesh;
-    
+
     [Command]
     public void PlaceBushes() {
 
@@ -443,7 +439,7 @@ public class TerrainCreator : MonoBehaviour {
                 bushes.Add((position3d, rotation, scale));
             }
         }
-        
+
         /*if (!bushesMesh)
             bushesMesh = new Mesh();
         bushesMesh.Clear();
