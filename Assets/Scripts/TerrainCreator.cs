@@ -11,6 +11,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
 using Torec;
+using UnityEngine.Rendering;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
@@ -69,10 +70,10 @@ public class TerrainCreator : MonoBehaviour {
             RespawnBirds();
         }
     }
-    
+
     [Command]
-    public bool EnableBushes {
-        set => bushRenderer.enabled = value;
+    public bool EnableBushShadows {
+        set => bushRenderer.shadowCastingMode  =value? ShadowCastingMode.On : ShadowCastingMode.Off;
     }
 
     private void Reset() {
