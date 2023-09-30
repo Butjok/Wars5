@@ -118,6 +118,7 @@ Material:
     - _Metallic: 0
     - _Mode: 1
     - _OcclusionStrength: 1
+    - _Offset: 0.04
     - _Parallax: 0.02
     - _SSSIntensity: 0.33
     - _SSSPower: 0
@@ -128,13 +129,14 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _DarkGrass: {r: 0.4139328, g: 0.5377358, b: 0.0076094554, a: 1}
+    - _DarkGrass: {r: 0.4679742, g: 0.6132076, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Emissive: {r: 2.9960785, g: 0.2509804, b: 0, a: 1}
+    - _Emissive: {r: 2.1886792, g: 0.33960882, b: 0, a: 1}
     - _Emissive2: {r: 1, g: 1, b: 1, a: 1}
-    - _Grass: {r: 0.68685675, g: 0.8113208, b: 0, a: 1}
+    - _Grass: {r: 0.6411966, g: 0.8018868, b: 0, a: 1}
     - _Min: {r: -27, g: 8, b: 0, a: 0}
+    - _Offset: {r: 0, g: -0.015, b: 0, a: 0}
     - _Size: {r: 29, g: 21, b: 0, a: 0}
     - _Wheat: {r: 1, g: 0.6906122, b: 0, a: 1}
-    - _YellowGrass: {r: 0.8107565, g: 0.8584906, b: 0.0040494935, a: 1}
+    - _YellowGrass: {r: 0.85089386, g: 0.9433962, b: 0, a: 1}
   m_BuildTextureStacks: []

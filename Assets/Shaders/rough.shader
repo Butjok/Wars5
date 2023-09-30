@@ -62,7 +62,7 @@ Shader "Custom/rough"
             			float tileMask = saturate(tex2D(_TileMask, uv2).r);
             			if (uv2.x < 0 || uv2.x > 1 || uv2.y < 0 || uv2.y > 1)
             				tileMask = 0;
-            			o.Emission += _Emissive * tileMask;
+            			o.Emission += _Emissive * tileMask*o.Albedo;
         }
         ENDCG
     }

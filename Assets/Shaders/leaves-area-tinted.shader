@@ -17,6 +17,7 @@ Shader "Custom/LeavesAreaTinted"
          _Size ("_Size", Vector) = (1,1,0,1)
          
          [HDR]_Emissive ("_Emissive", Color) = (1,1,1,1)
+         _Offset ("_Offset", Vector) = (0,0,0,0)
     }
     SubShader
     {
@@ -43,6 +44,7 @@ Shader "Custom/LeavesAreaTinted"
             half4x4 _WorldToLocal;
             half2 _Min,_Size;
             fixed4 _Emissive;
+            fixed4 _Offset;
 
             struct InstancedRenderingAppdata {
                 half4 vertex : POSITION;
@@ -64,18 +66,10 @@ Shader "Custom/LeavesAreaTinted"
 
                 const half4x4 transform =  _Transforms[v.inst];
 
-                v.vertex = mul(transform, v.vertex);
+                v.vertex = mul(transform, v.vertex - _Offset);
                 v.normal = normalize(mul(transform, v.normal)) ;
 
             #endif 
-            }
-
-            float3 tint(float3 color, float hueShift, float saturationShift, float valueShift){
-                float3 hsv = RGBtoHSV(color);
-                hsv.x += hueShift;
-                hsv.y *= saturationShift;
-                hsv.z *= valueShift;
-                return HSVtoRGB(hsv);
             }
           
             void surf (Input IN, inout SurfaceOutputStandard o)
@@ -85,11 +79,11 @@ Shader "Custom/LeavesAreaTinted"
                 
                 half inputOcclusion = tex2D (_Occlusion, IN.uv_MainTex).r;
                 
-                o.Occlusion = lerp(inputOcclusion,1,.5);
+                o.Occlusion = inputOcclusion;//lerp(inputOcclusion,1,.5);
                 
                 o.Metallic = 0; 
                 o.Smoothness = .2;
-                //o.Normal = UnpackNormal(tex2D (_Normal, IN.uv_MainTex));
+                o.Normal = UnpackNormal(tex2D (_Normal, IN.uv_MainTex));
  
 				half2 center = _Min + _Size/2;
 				float dist = sdfBox(IN.worldPos.xz-center, _Size/2);
@@ -103,7 +97,7 @@ Shader "Custom/LeavesAreaTinted"
 				o.Albedo = lerp(o.Albedo, _DarkGrass, splat.r);
 				o.Albedo = lerp(o.Albedo, _YellowGrass, splat.b);
 
-                o.Albedo = lerp(o.Albedo, tint(o.Albedo, 0, 1.1, .5), 1 - inputOcclusion);
+                o.Albedo = lerp(o.Albedo, /*tint(o.Albedo, 0, 1.1, .5)*/ o.Albedo/2, 1 - inputOcclusion);
                 
                 //o.Albedo = _Grass;
                 
