@@ -15,6 +15,8 @@ Shader "Custom/LeavesAreaTinted"
          
          _Min ("_Min", Vector) = (0,0,0,1)
          _Size ("_Size", Vector) = (1,1,0,1)
+         
+         [HDR]_Emissive ("_Emissive", Color) = (1,1,1,1)
     }
     SubShader
     {
@@ -29,8 +31,9 @@ Shader "Custom/LeavesAreaTinted"
             // Use shader model 3.0 target, to get nicer looking lighting
             #pragma target 5.0
 
-            sampler2D _MainTex,_Occlusion,_Normal,_GlobalOcclusion, _Splat2;
+            sampler2D _MainTex,_Occlusion,_Normal,_GlobalOcclusion, _Splat2, _TileMask;
             half3 _Grass,_DarkGrass,_Wheat,_YellowGrass;
+            fixed4x4 _TileMask_WorldToLocal;
 
             struct Input {
                 float2 uv_MainTex;
@@ -39,6 +42,7 @@ Shader "Custom/LeavesAreaTinted"
 
             half4x4 _WorldToLocal;
             half2 _Min,_Size;
+            fixed4 _Emissive;
 
             struct InstancedRenderingAppdata {
                 half4 vertex : POSITION;
@@ -102,6 +106,14 @@ Shader "Custom/LeavesAreaTinted"
                 o.Albedo = lerp(o.Albedo, tint(o.Albedo, 0, 1.1, .5), 1 - inputOcclusion);
                 
                 //o.Albedo = _Grass;
+                
+                float2 uv2 = mul(_TileMask_WorldToLocal, float4(IN.worldPos.xyz, 1)).xz;
+                			float tileMask = saturate(tex2D(_TileMask, uv2).r);
+                			if (uv2.x < 0 || uv2.x > 1 || uv2.y < 0 || uv2.y > 1)
+                				tileMask = 0;
+                			o.Emission += _Emissive * tileMask;
+                			
+                			//o.Emission += _Emissive2*o.Albedo;
             }
             ENDCG
     }

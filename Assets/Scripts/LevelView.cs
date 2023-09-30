@@ -47,7 +47,7 @@ public class LevelView : MonoBehaviour {
     public LevelView prefab;
     public Camera[] battleCameras = { null, null };
     public CameraRig cameraRig;
-    public Material terrainMaterial;
+    public Material terrainMaterial, roadMaterial, bushMaterial;
     public Canvas canvas;
     public DialogueUi3 dialogueUi;
     public MinimapUi minimap;

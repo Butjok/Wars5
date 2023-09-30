@@ -28,7 +28,8 @@ public class UnitBuildMenu2 : MonoBehaviour {
     public BuildingView buildingView;
     public float circleRadius = .6f;
     public Vector3 circleWorldOffset = new(0, 0.25f, 0);
-    public Camera camera;
+    public Camera mainCamera;
+    public Camera previewCamera;
 
     // private void Start() {
     //     var factionName = FactionName.Novoslavia;
@@ -72,13 +73,13 @@ public class UnitBuildMenu2 : MonoBehaviour {
         if (buttons.Length > 0)
             Select(buttons[0]);
 
-        camera.enabled = true;
+        previewCamera.enabled = true;
     }
 
     public void Hide() {
         gameObject.SetActive(false);
         circle.enabled = false;
-        camera.enabled = false;
+        previewCamera.enabled = false;
     }
 
     private void Update() {
@@ -98,9 +99,9 @@ public class UnitBuildMenu2 : MonoBehaviour {
     }
 
     public void LateUpdate() {
-        if (camera && circle && buildingView) {
-            var screenPoint0 = camera.WorldToScreenPoint(buildingView.transform.position + circleWorldOffset);
-            var screenPoint1 = camera.WorldToScreenPoint(buildingView.transform.position + circleWorldOffset + camera.transform.right * circleRadius);
+        if (mainCamera && circle && buildingView) {
+            var screenPoint0 = mainCamera.WorldToScreenPoint(buildingView.transform.position + circleWorldOffset);
+            var screenPoint1 = mainCamera.WorldToScreenPoint(buildingView.transform.position + circleWorldOffset + mainCamera.transform.right * circleRadius);
             if (screenPoint0.z > 0 && screenPoint1.z > 0) {
                 circle.enabled = true;
                 var center = screenPoint0;

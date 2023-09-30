@@ -6,6 +6,7 @@ Shader "Custom/rough"
         _MainTex ("Albedo (RGB)", 2D) = "white" {}
         _Roughness ("_Roughness", 2D) = "white" {}
         _Metallic ("Metallic", Range(0,1)) = 0.0
+       [HDR] _Emissive ("Emissive", Color) = (1,1,1,1)
     }
     SubShader
     {
@@ -19,11 +20,14 @@ Shader "Custom/rough"
         // Use shader model 3.0 target, to get nicer looking lighting
         #pragma target 3.0
 
-        sampler2D _MainTex, _Roughness;
+        sampler2D _MainTex, _Roughness, _TileMask;
+        fixed4x4 _TileMask_WorldToLocal;
+        fixed4 _Emissive;
 
         struct Input
         {
             float2 uv_MainTex;
+            float3 worldPos;
         };
 
         half _Metallic;
@@ -53,6 +57,12 @@ Shader "Custom/rough"
             //hsv.y *= .95;
             hsv.z *= .75;
             o.Albedo = HSVtoRGB(hsv);*/
+            
+            float2 uv2 = mul(_TileMask_WorldToLocal, float4(IN.worldPos.xyz, 1)).xz;
+            			float tileMask = saturate(tex2D(_TileMask, uv2).r);
+            			if (uv2.x < 0 || uv2.x > 1 || uv2.y < 0 || uv2.y > 1)
+            				tileMask = 0;
+            			o.Emission += _Emissive * tileMask;
         }
         ENDCG
     }
