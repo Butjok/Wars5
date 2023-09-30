@@ -238,7 +238,7 @@ public class CameraRig : MonoBehaviour {
                     continue;
                 var newPoint = newRay.GetPoint(newEnter);
                 var oldPoint = oldRay.GetPoint(oldEnter);
-                Draw.ingame.Line(oldPoint, newPoint, Color.cyan);
+                //Draw.ingame.Line(oldPoint, newPoint, Color.cyan);
                 var delta = oldPoint - newPoint;
                 if (delta != Vector3.zero)
                     delta = delta.normalized * Mathf.Clamp(delta.magnitude, 0, ToWorldUnits(maxDragLengthInViewportSpace));
