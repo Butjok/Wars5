@@ -219,7 +219,7 @@ MonoBehaviour:
   nextTimestamp: 0
   box: {fileID: 0}
   meshRenderer: {fileID: 6546187855384593529}
-  visibilityDistance: 10
+  minVisibilityHeight: 10
 --- !u!114 &7280669306027067087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -227,7 +227,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7280669306027067073}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1120cf80882da3240b5611a9d90ad8ee, type: 3}
   m_Name: 
@@ -237,5 +237,4 @@ MonoBehaviour:
     m_Bits: 64
   speed: 999
   alwaysAbove: 1
-  rayOriginHeight: 100
   instant: 0

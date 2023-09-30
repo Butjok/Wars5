@@ -62,6 +62,7 @@ public class TerrainCreator : MonoBehaviour {
     public MeshFilter bushesMeshFilter;
     public Mesh bushesMesh;
 
+
     [Command]
     public int BirdsCount {
         get => birdsCount;
@@ -72,8 +73,11 @@ public class TerrainCreator : MonoBehaviour {
     }
 
     [Command]
-    public bool EnableBushShadows {
-        set => bushRenderer.shadowCastingMode = value ? ShadowCastingMode.On : ShadowCastingMode.Off;
+    public void ToggleBushRendering() {
+        if (!bushContainer || !bushRenderer)
+            return;
+        bushRenderer.enabled = !bushRenderer.enabled;
+        bushContainer.gameObject.SetActive(!bushRenderer.enabled);
     }
 
     private void Reset() {
@@ -125,7 +129,8 @@ public class TerrainCreator : MonoBehaviour {
             point = hit.point;
             normal = hit.normal;
         }
-        else*/ if (plane.Raycast(ray, out var enter)) {
+        else*/
+        if (plane.Raycast(ray, out var enter)) {
             point = ray.GetPoint(enter);
             normal = Vector3.up;
         }
@@ -154,7 +159,11 @@ public class TerrainCreator : MonoBehaviour {
             if (Input.GetMouseButton(Mouse.right)) {
                 if (quads.ContainsKey(position)) {
                     quads.Remove(position);
-                    RebuildTerrain();
+                    SubdivideLevel = 0;
+                }
+                if (roadCreator && roadCreator.positions.Contains(position)) {
+                    roadCreator.positions.Remove(position);
+                    roadCreator.Rebuild();
                 }
             }
 
@@ -180,7 +189,7 @@ public class TerrainCreator : MonoBehaviour {
                 modified = UpdateOrCreateVertex(position, new Vector2Int(1, -1), elevation, out var d) || modified;
                 if (modified || !quads.ContainsKey(position)) {
                     quads[position] = new MeshUtils2.Quad { a = a, b = b, c = c, d = d };
-                    RebuildTerrain();
+                    SubdivideLevel = 0;
                 }
             }
 
@@ -213,6 +222,14 @@ public class TerrainCreator : MonoBehaviour {
     private HashSet<MeshUtils2.Vertex> usedVertices = new();
     private List<(Vector2Int position, MeshUtils2.Vertex vertex)> vertices2 = new();
 
+    [Command]
+    public void TrimRoads() {
+        if (!roadCreator)
+            return;
+        roadCreator.positions.IntersectWith(quads.Keys);
+        roadCreator.Rebuild();
+    }
+    
     private void RebuildTerrain(bool clearBushes = true) {
 
         //remove unused vertices
@@ -280,8 +297,9 @@ public class TerrainCreator : MonoBehaviour {
             mesh.RecalculateBounds();
             mesh.RecalculateTangents();
 
-            if (meshRenderer && meshRenderer.sharedMaterial)
+            if (meshRenderer && meshRenderer.sharedMaterial) {
                 meshRenderer.sharedMaterial.SetVector("_Splat2Size", (Vector2)size);
+            }
 
             if (voronoiRenderer) {
                 voronoiRenderer.worldSize = size;
@@ -420,6 +438,7 @@ public class TerrainCreator : MonoBehaviour {
     public int bushSeed = 0;
 
     public Mesh bushMesh;
+    public Material bushMaterial2;
 
     [Command]
     public void PlaceBushes() {
@@ -465,6 +484,32 @@ public class TerrainCreator : MonoBehaviour {
             bushRenderer.transformList.bounds = new Bounds(Vector3.zero, Vector3.one * 100);
             bushRenderer.ResetGpuBuffers();
         }
+    }
+
+    public Transform bushContainer;
+    public ParticleSystem bushesParticleSystem;
+
+    [Command]
+    public void CreateBushes() {
+        if (!bushesParticleSystem)
+            return;
+        var particles = new ParticleSystem.Particle[bushes.Count];
+        for (var i = 0; i < bushes.Count; i++) {
+            var bush = bushes[i];
+            particles[i] = new ParticleSystem.Particle {
+                position = bush.position,
+                rotation3D = bush.rotation.eulerAngles,
+                startSize3D = bush.scale,
+                startColor = Color.white
+            };
+        }
+        bushesParticleSystem.SetParticles(particles, particles.Length);
+    }
+
+    [Command]
+    public void ToggleBushes() {
+        if (bushesParticleSystem)
+            bushesParticleSystem.gameObject.SetActive(!bushesParticleSystem.gameObject.activeSelf);
     }
 
     public void UpdateTreeRenderer() {

@@ -101,7 +101,7 @@ public class CameraRig : MonoBehaviour {
         Distance = width / (2 * Mathf.Tan(Mathf.Deg2Rad * fov / 2));
     }
 
-    private void Update() {
+    private void LateUpdate() {
 
         Assert.IsTrue(camera);
         Assert.IsTrue(arm);
@@ -191,6 +191,7 @@ public class CameraRig : MonoBehaviour {
                 lastClickTime = Time.unscaledTime;
         }
     }
+    private Vector3 oldMousePosition;
 
     private IEnumerator freeLookCoroutine;
     private IEnumerator FreeLookCoroutine() {

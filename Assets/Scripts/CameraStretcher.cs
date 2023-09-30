@@ -9,7 +9,7 @@ public class CameraStretcher : MonoBehaviour {
         camera = GetComponent<Camera>();
     }
 
-    public void Update() {
+    public void LateUpdate() {
         camera.ResetProjectionMatrix();
         var m = camera.projectionMatrix;
         m.m11 *= CameraRig.verticalStretch;

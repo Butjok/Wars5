@@ -11,10 +11,10 @@ public static class CameraExtensions {
 
     public static Ray FixedScreenPointToRay(this Camera camera, Vector3 position) {
 
-        camera.ResetProjectionMatrix();
+        /*camera.ResetProjectionMatrix();
         var m = camera.projectionMatrix;
         m.m11 *= CameraRig.verticalStretch;
-        camera.projectionMatrix = m;
+        camera.projectionMatrix = m;*/
 
         position /= new Vector2(camera.pixelWidth, camera.pixelHeight);
 
