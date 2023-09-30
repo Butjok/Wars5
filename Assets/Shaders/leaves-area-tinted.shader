@@ -114,6 +114,9 @@ Shader "Custom/LeavesAreaTinted"
                 			o.Emission += _Emissive * tileMask;
                 			
                 			//o.Emission += _Emissive2*o.Albedo;
+                			
+                			o.Emission += o.Albedo*.5;
+                			o.Albedo*=.5;
             }
             ENDCG
     }
