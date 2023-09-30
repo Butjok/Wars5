@@ -7,7 +7,7 @@ using UnityEngine.Rendering.PostProcessing;
 public static class PostProcessing {
 
     static PostProcessing() {
-        profile = nameof(PostProcessProfile).LoadAs<PostProcessProfile>();
+        profile = "PostProcessProfile1".LoadAs<PostProcessProfile>();
         colorGrading = profile.GetSetting<ColorGrading>();
         Assert.IsTrue(colorGrading);
     }

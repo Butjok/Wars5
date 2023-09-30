@@ -14,6 +14,7 @@ public class InstancedMeshRenderer : MonoBehaviour {
     public List<ComputeBuffer> argsBuffers = new();
 
     public ShadowCastingMode shadowCastingMode = ShadowCastingMode.On;
+    public LightProbeUsage lightProbeUsage = LightProbeUsage.BlendProbes;
 
     public void Update() {
 
@@ -45,7 +46,8 @@ public class InstancedMeshRenderer : MonoBehaviour {
                 Debug.LogWarning($"Empty material for submesh {i}.", this);
                 continue;
             }
-            Graphics.DrawMeshInstancedIndirect(mesh, i, materials[i], transformList.bounds, argsBuffers[i], 0, null, layer: gameObject.layer, castShadows: shadowCastingMode);
+            Graphics.DrawMeshInstancedIndirect(mesh, i, materials[i], transformList.bounds, argsBuffers[i], 0, null, layer: gameObject.layer, castShadows: shadowCastingMode,
+                lightProbeUsage: lightProbeUsage);
             //Graphics.DrawMeshInstancedProcedural(mesh, i, materials[i], transformList.bounds, transformList.matrices.Length, null, layer:gameObject.layer);
         }
     }

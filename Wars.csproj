@@ -196,6 +196,7 @@
      <Compile Include="Assets/Scripts/EntryPoint/EntryPointState.cs" />
      <Compile Include="Assets/Scripts/Projectile2.cs" />
      <Compile Include="Assets/Scripts/GameStates/DayText.cs" />
+     <Compile Include="Assets/Scripts/DraggingTest.cs" />
      <Compile Include="Assets/Scripts/Strings.cs" />
      <Compile Include="Assets/Scripts/LevelEditor/LevelEditorGui.cs" />
      <Compile Include="Assets/Scripts/EditorCursor.cs" />
@@ -272,7 +273,6 @@
      <Compile Include="Assets/Scripts/FlipbookTest.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
      <Compile Include="Assets/Scripts/EntryPoint/MainMenuWelcomeState.cs" />
-     <Compile Include="Assets/Scripts/DraggingTest.cs" />
      <Folder Include="Assets/Scripts/EntryPoint" />
      <None Include="Assets/Scripts/Wars.asmdef" />
      <Folder Include="Assets/Scripts/DialogueMarkupLanguage" />
