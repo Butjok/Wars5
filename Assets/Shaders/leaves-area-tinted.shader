@@ -17,6 +17,7 @@ Shader "Custom/LeavesAreaTinted"
          _Size ("_Size", Vector) = (1,1,0,1)
          
          [HDR]_Emissive ("_Emissive", Color) = (1,1,1,1)
+         _Offset ("_Offset", Vector) = (0,0,0,0)
     }
     SubShader
     {
@@ -42,7 +43,7 @@ Shader "Custom/LeavesAreaTinted"
 
             half4x4 _WorldToLocal;
             half2 _Min,_Size;
-            fixed4 _Emissive;
+            fixed4 _Emissive, _Offset;
 
             struct InstancedRenderingAppdata {
                 half4 vertex : POSITION;
@@ -64,7 +65,7 @@ Shader "Custom/LeavesAreaTinted"
 
                 const half4x4 transform =  _Transforms[v.inst];
 
-                v.vertex = mul(transform, v.vertex);
+                v.vertex = mul(transform, v.vertex + _Offset);
                 v.normal = normalize(mul(transform, v.normal)) ;
 
             #endif 

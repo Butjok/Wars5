@@ -58,6 +58,10 @@ Shader "Custom/rough"
             hsv.z *= .75;
             o.Albedo = HSVtoRGB(hsv);*/
             
+            half2 dst = abs(IN.worldPos.xz-.5 - round(IN.worldPos.xz-.5));
+            half dst2 = min(dst.x, dst.y);
+            o.Albedo.rgb = lerp(o.Albedo, o.Albedo*.75, smoothstep(.0125, .0, dst2));
+            
             float2 uv2 = mul(_TileMask_WorldToLocal, float4(IN.worldPos.xyz, 1)).xz;
             			float tileMask = saturate(tex2D(_TileMask, uv2).r);
             			if (uv2.x < 0 || uv2.x > 1 || uv2.y < 0 || uv2.y > 1)
