@@ -81,6 +81,8 @@ _OutsideIntensity ("_OutsideIntensity", Range(0,1)) = 0.0
         
         _SandNoiseScale ("_SandNoiseScale",Float)=1
         _SandNoiseAmplitude ("_SandNoiseAmplitude",Float)=1
+        
+        [HDR]_Emissive ("_Emissive", Color) = (0,0,0,1)
     }
     SubShader
     {
@@ -106,7 +108,7 @@ _OutsideIntensity ("_OutsideIntensity", Range(0,1)) = 0.0
         sampler2D _StonesNormal,_StonesAlpha, _StonesAo;
         sampler2D _FlowersDiffuse,_FlowersAlpha, _FlowersAo, _Splat2;
         float3 _StoneColor, _GrassColor, _StoneDarkColor, _StoneLightColor;
-        float4 _Normal_ST;
+        float4 _Normal_ST, _Emissive;
 
 float _LineDistance;
 float _LineThickness,_BorderPower;
@@ -148,6 +150,8 @@ float2 _Splat2Size;
         float4 _SandColor;
 
         float _SandNoiseScale, _SandNoiseAmplitude;
+        sampler2D _TileMask;
+        fixed4x4 _TileMask_WorldToLocal;
         
         void surf (Input IN, inout SurfaceOutputStandard o)
         {
@@ -284,6 +288,13 @@ half flowerAo = tex2D(_FlowersAo, IN.uv_FlowersAlpha).r;
             
             float sandMask = min(seaMask1,seaMask2);//smoothstep(_SeaThickness + _SeaSharpness, _SeaThickness - _SeaSharpness, abs(IN.worldPos.y - _SeaLevel));
             o.Albedo = lerp(o.Albedo, _SandColor, sandMask);
+            
+            
+            float2 uv2 = mul(_TileMask_WorldToLocal, float4(IN.worldPos.xyz, 1)).xz;
+			float tileMask = saturate(tex2D(_TileMask, uv2).r);
+			if (uv2.x < 0 || uv2.x > 1 || uv2.y < 0 || uv2.y > 1)
+				tileMask = 0;
+			o.Emission += _Emissive * tileMask*o.Albedo;
 
             
         }

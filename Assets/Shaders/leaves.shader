@@ -54,6 +54,8 @@ Shader "Custom/leaves"
             half _Glossiness;
             half _Metallic,_SSSIntensity;
             fixed4 _Color;
+            sampler2D _TileMask;
+            fixed4x4 _TileMask_WorldToLocal;
 
             #include "Assets/Shaders/SDF.cginc"
 
@@ -75,7 +77,11 @@ Shader "Custom/leaves"
             
             void surf (Input IN, inout SurfaceOutputStandard o)
             {
-                
+                float2 uv2 = mul(_TileMask_WorldToLocal, float4(IN.worldPos.xyz, 1)).xz;
+				float tileMask = saturate(tex2D(_TileMask, uv2).r);
+				if (uv2.x < 0 || uv2.x > 1 || uv2.y < 0 || uv2.y > 1)
+					tileMask = 0;
+				clip(-(tileMask - 0.5));
                 
                 // Albedo comes from a texture tinted by color
                 fixed4 c = tex2D (_MainTex, IN.uv_MainTex);

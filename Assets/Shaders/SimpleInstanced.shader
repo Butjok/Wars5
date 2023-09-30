@@ -25,13 +25,23 @@ Shader "Custom/SimpleInstanced" {
 		
 		struct Input {
 			float2 uv_MainTex;
+			float3 worldPos;
 		};
 
 		sampler2D _MainTex;
 		half _Roughness;
 		fixed4 _Color;
+		sampler2D _TileMask;
+                    fixed4x4 _TileMask_WorldToLocal;
 
 		void surf (Input IN, inout SurfaceOutputStandard o) {
+		
+		float2 uv2 = mul(_TileMask_WorldToLocal, float4(IN.worldPos.xyz, 1)).xz;
+        				float tileMask = saturate(tex2D(_TileMask, uv2).r);
+        				if (uv2.x < 0 || uv2.x > 1 || uv2.y < 0 || uv2.y > 1)
+        					tileMask = 0;
+        				clip(-(tileMask - 0.5));
+		
 			fixed4 color = tex2D(_MainTex, IN.uv_MainTex);
 			clip(color.a - .5);
 			o.Albedo = color.rgb * _Color;

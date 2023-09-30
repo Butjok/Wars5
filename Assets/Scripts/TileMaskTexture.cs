@@ -8,8 +8,6 @@ using Object = UnityEngine.Object;
 
 public static class TileMaskTexture {
 
-    public static HashSet<Texture> textures = new();
-
     public static (Texture texture, Matrix4x4 transform) Create(HashSet<Vector2Int> positions, int resolution = 1, Color? on = null, Color? off = null) {
         var min = new Vector2Int(int.MaxValue, int.MaxValue);
         var max = new Vector2Int(int.MinValue, int.MinValue);
@@ -30,10 +28,9 @@ public static class TileMaskTexture {
         if (size.x <= 0 || size.y <= 0)
             return null;
         var texture = new Texture2D(size.x * resolution, size.y * resolution, TextureFormat.R8, false, linear) {
-            filterMode = FilterMode.Bilinear,
+            filterMode = FilterMode.Point,
             wrapMode = TextureWrapMode.Clamp
         };
-        textures.Add(texture);
         for (var y = 0; y < size.y; y++)
         for (var x = 0; x < size.x; x++) {
             var color = setPixels.Contains(new Vector2Int(x, y)) ? on ?? Color.white : off ?? Color.black;
@@ -45,15 +42,7 @@ public static class TileMaskTexture {
         return texture;
     }
 
-    public static void SetTileMask(this Material material, string uniformName, Texture patchTexture, Matrix4x4 patchTransform, bool destroyOld = true) {
-        if (destroyOld) {
-            var oldTexture = material.GetTexture(uniformName);
-            if (oldTexture) {
-                Assert.IsTrue(textures.Contains(oldTexture));
-                textures.Remove(oldTexture);
-                Object.Destroy(oldTexture);
-            }
-        }
+    public static void SetTileMask(this Material material, string uniformName, Texture patchTexture, Matrix4x4 patchTransform) {
         material.SetTexture(uniformName, patchTexture);
         material.SetMatrix(uniformName + "_WorldToLocal", patchTransform.inverse);
     }
