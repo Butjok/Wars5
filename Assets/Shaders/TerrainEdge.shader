@@ -8,7 +8,8 @@ Shader "Unlit/TerrainEdge"
 		_OutsideColor ("_OutsideColor", Color) = (0,0,0,1)
 		_BorderColor ("_BorderColor", Color) = (1,1,1,1)
 		_BorderSmoothness ("_BorderSmoothness", Float) = 0.1
-		_BorderColor2 ("_BorderColor2", Color) = (1,1,1,1)
+		[HDR]_BorderColor2 ("_BorderColor2", Color) = (1,1,1,1)
+		_Thickness ("_Thickness", Float) = .5
 	}
 	SubShader
 	{
@@ -41,6 +42,7 @@ Shader "Unlit/TerrainEdge"
 			float2 _Min, _Size;
 			float4 _OutsideColor, _BorderColor, _BorderColor2;
 			float _BorderSmoothness;
+			fixed _Thickness;
 			
 			v2f vert (appdata v)
 			{
@@ -64,13 +66,14 @@ Shader "Unlit/TerrainEdge"
 				col.rg = position;
 				float2 center = _Min + _Size/2;
 				float dist = length(position - center);
+				_Size -= .33;
 				dist = sdfBox(position-center, _Size/2);
 				
 				//col.rgb = dist;
-				float borderMask =  smoothstep(.5 + _BorderSmoothness, .5, dist);
-				col.rgb = lerp(_OutsideColor, _BorderColor.rgb, borderMask);
+				float borderMask =  smoothstep(.6 + _BorderSmoothness, .6, dist);
+				col.rgb = lerp(_OutsideColor, _BorderColor.rgb, borderMask*borderMask);
 				
-				col.rgb = lerp(col.rgb, _BorderColor2, smoothstep(.55, .5125, dist));
+				col.rgb = lerp(col.rgb, _BorderColor2, smoothstep(_Thickness+.525, _Thickness+.5125, dist));
 				//col.rgb += (sin(dist*10)+1)/2/10;
 				
 				return col;
