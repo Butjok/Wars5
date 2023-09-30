@@ -176,10 +176,12 @@ public class CameraRig : MonoBehaviour {
         if (draggingCoroutine == null && Input.GetMouseButtonDown(Mouse.middle)) {
             draggingCoroutine = DraggingAnimation();
             StartCoroutine(draggingCoroutine);
+            Cursor.visible = false;
         }
         if (draggingCoroutine != null && Input.GetMouseButtonUp(Mouse.middle)) {
             StopCoroutine(draggingCoroutine);
             draggingCoroutine = null;
+            Cursor.visible = true;
         }
 
         // JUMP
@@ -229,7 +231,6 @@ public class CameraRig : MonoBehaviour {
         var plane = new Plane(Vector3.up, transform.position);
         var oldMousePosition = Input.mousePosition;
         while (true) {
-            yield return null;
             if (Input.mousePosition != oldMousePosition) {
                 var newRay = camera.ScreenPointToRay(Input.mousePosition);
                 var oldRay = camera.ScreenPointToRay(oldMousePosition);
@@ -237,12 +238,14 @@ public class CameraRig : MonoBehaviour {
                     continue;
                 var newPoint = newRay.GetPoint(newEnter);
                 var oldPoint = oldRay.GetPoint(oldEnter);
+                Draw.ingame.Line(oldPoint, newPoint, Color.cyan);
                 var delta = oldPoint - newPoint;
                 if (delta != Vector3.zero)
                     delta = delta.normalized * Mathf.Clamp(delta.magnitude, 0, ToWorldUnits(maxDragLengthInViewportSpace));
                 transform.position += delta;
             }
             oldMousePosition = Input.mousePosition;
+            yield return null;
         }
     }
 

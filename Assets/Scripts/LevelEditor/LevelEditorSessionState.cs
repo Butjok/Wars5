@@ -61,7 +61,7 @@ public class LevelEditorSessionState : StateMachineState {
                 var tileMeshRenderer = gameObject.AddComponent<MeshRenderer>();
                 tileMeshRenderer.sharedMaterial = "EditorTileMap".LoadAs<Material>();
 
-                //tileMeshRenderer.enabled = false;
+                tileMeshRenderer.enabled = false;
             }
 
             //ai = new Ai(FindState<GameSessionState>().game, level);
