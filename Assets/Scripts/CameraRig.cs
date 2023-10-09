@@ -92,7 +92,7 @@ public class CameraRig : MonoBehaviour {
     public float dollyZoomSpeed = 20;
 
     [Command]
-    public static float verticalStretch = 1.1f;
+    public static float verticalStretch = 1.125f;
 
     private void Awake() {
         var fov = Mathf.Lerp(dollyZoomFovRange[0], dollyZoomFovRange[1], dollyZoom);

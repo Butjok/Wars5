@@ -67,6 +67,7 @@ Shader "Custom/LeavesAreaTinted"
 
                 v.vertex = mul(transform, v.vertex + _Offset);
                 v.normal = normalize(mul(transform, v.normal)) ;
+                //v.normal = lerp(v.normal, float3(0,1,0), .25);
 
             #endif 
             }

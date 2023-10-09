@@ -324,20 +324,20 @@ public class TerrainCreator : MonoBehaviour {
                     var c = edgeVertices[position * 2 + new Vector2Int(1, 1)] = new MeshUtils2.Vertex { position = position.ToVector3() + new Vector3(.5f, 0, .5f) };
                     var d = edgeVertices[position * 2 + new Vector2Int(1, -1)] = new MeshUtils2.Vertex { position = position.ToVector3() + new Vector3(.5f, 0, -.5f) };
                     if (position.x == xMin) {
-                        a.position.x -= edgeThickness;
-                        b.position.x -= edgeThickness;
+                        a.position.y -= edgeThickness;
+                        b.position.y -= edgeThickness;
                     }
                     if (position.x == xMax) {
-                        c.position.x += edgeThickness;
-                        d.position.x += edgeThickness;
+                        c.position.y -= edgeThickness;
+                        d.position.y -= edgeThickness;
                     }
                     if (position.y == yMin) {
-                        a.position.z -= edgeThickness;
-                        d.position.z -= edgeThickness;
+                        a.position.y -= edgeThickness;
+                        d.position.y -= edgeThickness;
                     }
                     if (position.y == yMax) {
-                        b.position.z += edgeThickness;
-                        c.position.z += edgeThickness;
+                        b.position.y -= edgeThickness;
+                        c.position.y -= edgeThickness;
                     }
                 }
                 var edgeQuads = new List<MeshUtils2.Quad>();

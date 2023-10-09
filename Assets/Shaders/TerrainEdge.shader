@@ -8,8 +8,11 @@ Shader "Unlit/TerrainEdge"
 		_OutsideColor ("_OutsideColor", Color) = (0,0,0,1)
 		_BorderColor ("_BorderColor", Color) = (1,1,1,1)
 		_BorderSmoothness ("_BorderSmoothness", Float) = 0.1
+		_BorderOffset ("_BorderOffset", Float) = 0.1
 		[HDR]_BorderColor2 ("_BorderColor2", Color) = (1,1,1,1)
 		_Thickness ("_Thickness", Float) = .5
+		
+		_SoilColor ("_SoilColor", Color) = (1,1,1,1)
 	}
 	SubShader
 	{
@@ -40,8 +43,8 @@ Shader "Unlit/TerrainEdge"
 			sampler2D _MainTex;
 			float4 _MainTex_ST;
 			float2 _Min, _Size;
-			float4 _OutsideColor, _BorderColor, _BorderColor2;
-			float _BorderSmoothness;
+			float4 _OutsideColor, _BorderColor, _BorderColor2, _SoilColor;
+			float _BorderSmoothness, _BorderOffset;
 			fixed _Thickness;
 			
 			v2f vert (appdata v)
@@ -61,20 +64,8 @@ Shader "Unlit/TerrainEdge"
 				fixed4 col = 0;
 				// apply fog
 				
-				float2 position = i.worldPos.xz;
-				col = 0;
-				col.rg = position;
-				float2 center = _Min + _Size/2;
-				float dist = length(position - center);
-				_Size -= .33;
-				dist = sdfBox(position-center, _Size/2);
-				
-				//col.rgb = dist;
-				float borderMask =  smoothstep(.6 + _BorderSmoothness, .6, dist);
-				col.rgb = lerp(_OutsideColor, _BorderColor.rgb, borderMask*borderMask);
-				
-				col.rgb = lerp(col.rgb, _BorderColor2, smoothstep(_Thickness+.525, _Thickness+.5125, dist));
-				//col.rgb += (sin(dist*10)+1)/2/10;
+				col.a = 1;
+				col.rgb = lerp(_SoilColor.rgb, _OutsideColor.rgb, smoothstep(-.5, -.6, i.worldPos.y));
 				
 				return col;
 			}
