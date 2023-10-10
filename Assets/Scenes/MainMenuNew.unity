@@ -4838,7 +4838,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   showSplashScreen: 1
-  showWelcomeScreen: 0
+  showWelcomeScreen: 1
 --- !u!4 &309214369 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 23492aed46ba29144afba0cb065069c5, type: 3}
@@ -8371,6 +8371,7 @@ MonoBehaviour:
   highlightFrame: {fileID: 1235294307}
   highlightFrameMoveDuration: 0.15
   highlightFrameMoveEase: 18
+  highlightFramePadding: {x: 0, y: 0}
 --- !u!114 &614145419
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11613,6 +11614,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf4ed7defffe40cb9f8433104787bdd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  acceleration: 5
+  rotationSpeed: 90
+  maxSpeed: 3
+  speed: 0
   target: {fileID: 0}
 --- !u!114 &961738234
 MonoBehaviour:

@@ -5,13 +5,13 @@ using UnityEngine.Assertions;
 
 public class ModeSelector : MonoBehaviour {
 
-    public enum Mode { Terrain, Roads, Props }
+    public enum Mode { None, Terrain, Roads, Props }
 
     public TerrainCreator terrainCreator;
     public RoadCreator roadCreator;
     public PropPlacement propPlacement;
 
-    public Mode startMode = Mode.Terrain;
+    public Mode startMode = Mode.None;
 
     private void Awake() {
 

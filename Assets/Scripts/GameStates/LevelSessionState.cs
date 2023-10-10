@@ -47,7 +47,7 @@ public class LevelSessionState : StateMachineState {
             autoplayHandler = AutoplayHandler();
             FindState<GameSessionState>().game.StartCoroutine(autoplayHandler);
 
-            if (stateMachine.TryFind<LevelEditorSessionState>() == null) {
+            /*if (stateMachine.TryFind<LevelEditorSessionState>() == null) {
                 var tilemapMesh = Resources.Load<Mesh>("TilemapMeshes/" + level.missionName);
                 var tilemapMaterial = "EditorTileMap".LoadAs<Material>();
                 if (tilemapMesh && tilemapMaterial) {
@@ -62,7 +62,7 @@ public class LevelSessionState : StateMachineState {
                     meshCollider.convex = false;
                     meshRenderer.sharedMaterial = tilemapMaterial;
                 }
-            }
+            }*/
 
             if (level.view.turnButton) {
                 level.view.turnButton.Visible = true;

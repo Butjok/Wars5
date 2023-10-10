@@ -59,7 +59,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _BorderOffset: 0
-    - _BorderSmoothness: 3.39
+    - _BorderSmoothness: 15
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
@@ -74,16 +74,16 @@ Material:
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _Thickness: 0
+    - _Thickness: 0.17
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _BorderColor: {r: 0.38613132, g: 0.4716981, b: 0.08232467, a: 0}
+    - _BorderColor: {r: 0.6092445, g: 0.6886792, b: 0.4255518, a: 0}
     - _BorderColor2: {r: 0.20087834, g: 0.24528301, b: 0.061320752, a: 1}
     - _Color: {r: 0.36935562, g: 0.41509432, b: 0.2721609, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Min: {r: -27, g: 8, b: 0, a: 0}
-    - _OutsideColor: {r: 0.3647059, g: 0.39607844, b: 0.29803923, a: 0}
+    - _OutsideColor: {r: 0.5050798, g: 0.5471698, b: 0.41037735, a: 0}
     - _Size: {r: 29, g: 21, b: 0, a: 0}
     - _SoilColor: {r: 0.2665554, g: 0.31132078, b: 0.11307405, a: 1}
   m_BuildTextureStacks: []
