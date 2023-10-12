@@ -99,11 +99,12 @@ Shader "Custom/LeavesAreaTinted"
 			   
 				half3 localPos = mul(_WorldToLocal, half4(IN.worldPos, 1)).xyz;
 				half2 uv = localPos.xz;
-				half3 splat = tex2D(_Splat2, uv);
+				half4 splat = tex2D(_Splat2, uv);
 		   
 				o.Albedo = _Grass;
 				o.Albedo = lerp(o.Albedo, _DarkGrass, splat.r);
 				o.Albedo = lerp(o.Albedo, _YellowGrass, splat.b);
+				o.Albedo = lerp(o.Albedo, _Wheat, splat.a);
 
                 o.Albedo = lerp(o.Albedo, tint(o.Albedo, 0, 1.1, .5), 1 - inputOcclusion);
                 

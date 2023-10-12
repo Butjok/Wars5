@@ -36,9 +36,9 @@ Material:
     - _Scale: 0.66
     - _Smoothness: 0.03
     m_Colors:
-    - _BlurRadiusRange: {r: 0, g: 0.4, b: 0.75, a: 1}
+    - _BlurRadiusRange: {r: 0, g: 0.4, b: 0.75, a: 0.79}
     - _EdgeNoiseScale: {r: 0.25, g: 5, b: 0.75, a: 1}
     - _RadiusRange: {r: -0.24, g: 0, b: 0.75, a: 1}
     - _Size: {r: 30, g: 24, b: 1, a: 1}
-    - _Thresholds: {r: 0.475, g: 0.6, b: 1, a: 1}
+    - _Thresholds: {r: 0.475, g: 0.6, b: 0.675, a: 1}
   m_BuildTextureStacks: []

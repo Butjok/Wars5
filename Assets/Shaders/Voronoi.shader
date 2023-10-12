@@ -198,10 +198,10 @@ Shader "Custom/Voronoi"
 			{
 				float2 position = i.uv * _Size;
 				
-				float3 neighborMaskMX = MakeTerrainMask(tex2D(_MainTex, (position - float2(_Radius, 0)) / _Size), _Thresholds);
-                float3 neighborMaskMY = MakeTerrainMask(tex2D(_MainTex, (position - float2(0, _Radius)) / _Size), _Thresholds);
-				float3 neighborMaskPX = MakeTerrainMask(tex2D(_MainTex, (position + float2(_Radius, 0)) / _Size), _Thresholds);
-				float3 neighborMaskPY = MakeTerrainMask(tex2D(_MainTex, (position + float2(0, _Radius)) / _Size), _Thresholds);
+				float4 neighborMaskMX = MakeTerrainMask(tex2D(_MainTex, (position - float2(_Radius, 0)) / _Size), _Thresholds);
+                float4 neighborMaskMY = MakeTerrainMask(tex2D(_MainTex, (position - float2(0, _Radius)) / _Size), _Thresholds);
+				float4 neighborMaskPX = MakeTerrainMask(tex2D(_MainTex, (position + float2(_Radius, 0)) / _Size), _Thresholds);
+				float4 neighborMaskPY = MakeTerrainMask(tex2D(_MainTex, (position + float2(0, _Radius)) / _Size), _Thresholds);
 				float result = 1;
 				result = min(result, dot(neighborMaskMX, neighborMaskPX));
 				result = min(result, dot(neighborMaskMY, neighborMaskPY));

@@ -14,7 +14,6 @@ Shader "Custom/Terrain2"
         _Wheat ("_Wheat", 2D) = "white" {}
         _WheatTinted ("_WheatTinted", 2D) = "white" {}
         _YellowGrass ("_YellowGrass", 2D) = "white" {}
-        _OceanMask ("_OceanMask", 2D) = "white" {}
         _Ocean ("_Ocean", 2D) = "white" {}
         _Grid ("_Grid", 2D) = "black" {}
         _Splat ("_Splat", 2D) = "black" {}
@@ -65,6 +64,7 @@ _OutsideIntensity ("_OutsideIntensity", Range(0,1)) = 0.0
         _StoneColor ("_StoneColor", Color) = (1,1,1,1)
         _StoneDarkColor ("_StoneDarkColor", Color) = (1,1,1,1)
         _StoneLightColor ("_StoneLightColor", Color) = (1,1,1,1)
+        _StoneWheatColor ("_StoneWheatColor", Color) = (1,1,1,1)
         _FlowerColor ("_FlowerColor", Color) = (1,1,1,1)
 
         _Splat2 ("_Splat2", 2D) = "black" {}
@@ -103,11 +103,11 @@ _OutsideIntensity ("_OutsideIntensity", Range(0,1)) = 0.0
 
         #include "Assets/Shaders/Utils.cginc"
 
-        sampler2D _Grass,_Grid,_Splat,_DarkGreen,_Wheat,_YellowGrass,_Ocean,_OceanMask,_GrassTinted,_GrassTint,_Distance;
+        sampler2D _Grass,_Grid,_Splat,_DarkGreen,_Wheat,_YellowGrass,_GrassTinted,_GrassTint,_Distance;
         sampler2D _Normal;
         sampler2D _StonesNormal,_StonesAlpha, _StonesAo;
         sampler2D _FlowersDiffuse,_FlowersAlpha, _FlowersAo, _Splat2;
-        float3 _StoneColor, _GrassColor, _StoneDarkColor, _StoneLightColor;
+        float3 _StoneColor, _GrassColor, _StoneDarkColor, _StoneLightColor, _StoneWheatColor;
         float4 _Normal_ST, _Emissive;
 
 float _LineDistance;
@@ -170,12 +170,11 @@ float2 _Splat2Size;
                         
                         half radius = smoothstep(_Radius+1,_Radius, radiusDistance);
                         
-                        half3 splat = tex2D (_Splat, IN.uv_MainTex);
+                        half4 splat = tex2D (_Splat, IN.uv_MainTex);
             splat = tex2D(_Splat2, IN.uv_Splat2 / _Splat2Size);
                         half darkGrassIntensity = splat.r;
-                        half wheatIntensity = splat.g;
+                        half wheatIntensity = splat.a;
                         half yellowGrassIntensity = splat.b;
-                        half oceanMask = tex2D (_OceanMask, IN.uv_MainTex);
                         
                         // Albedo comes from a texture tinted by color
                         fixed4 grass = tex2D (_Grass, TRANSFORM_TEX(position, _Grass) );
@@ -196,7 +195,7 @@ float2 _Splat2Size;
                         fixed3 wheat = tex2D (_Wheat, TRANSFORM_TEX(wheatUv, _Wheat) );;
                         //fixed3 wheatTinted = tex2D (_WheatTinted, TRANSFORM_TEX(wheatUv, _Wheat) );;
                         //fixed3 finalWheat = lerp(wheat,wheatTinted,grassTint);
-                        fixed3 finalWheat = wheat;
+                        fixed3 finalWheat = Tint( wheat, 0, 1 - .025/2, 1 );
             
                         
             
@@ -204,7 +203,7 @@ float2 _Splat2Size;
                         o.Albedo =  lerp(o.Albedo, yellowGrass, yellowGrassIntensity);
             
             
-                        //o.Albedo = lerp(o.Albedo, finalWheat, wheatIntensity);
+                        o.Albedo = lerp(o.Albedo, finalWheat, wheatIntensity);
             
                         //float3 ocean = tex2D (_Ocean, IN.uv_MainTex);
                         //o.Albedo=lerp(o.Albedo, ocean ,1-oceanMask);
@@ -250,6 +249,7 @@ float2 _Splat2Size;
 			float3 stoneColor = _StoneColor;
 			stoneColor = lerp(stoneColor, _StoneDarkColor, darkGrassIntensity);
 			stoneColor = lerp(stoneColor, _StoneLightColor, yellowGrassIntensity);
+			stoneColor = lerp(stoneColor, _StoneWheatColor, wheatIntensity);
             o.Albedo = lerp(o.Albedo, stoneColor, stoneAlpha);
             
             o.Smoothness=lerp(o.Smoothness, .0, stoneAlpha);
@@ -259,12 +259,12 @@ float2 _Splat2Size;
 
             float flowerAlpha = tex2D(_FlowersAlpha, IN.uv_FlowersAlpha).r;
 
-half flowerAo = tex2D(_FlowersAo, IN.uv_FlowersAlpha).r;
-            o.Albedo *= smoothstep(0.25,.75,flowerAo);
+//half flowerAo = tex2D(_FlowersAo, IN.uv_FlowersAlpha).r;
+//            o.Albedo *= smoothstep(0.25,.75,flowerAo);
             
             o.Albedo = lerp(o.Albedo, _FlowerColor, flowerAlpha);
             
-            o.Occlusion = min(o.Occlusion, flowerAo);
+            //o.Occlusion = min(o.Occlusion, flowerAo);
             
 
 
@@ -312,6 +312,7 @@ half flowerAo = tex2D(_FlowersAo, IN.uv_FlowersAlpha).r;
             tileMaskEmission += 7.5*_Emissive * smoothstep(0.025, 0.0125, abs(tileMaskDistance - .025));
             
             o.Emission = tileMaskEmission ;
+            
         }
         ENDCG
     }
