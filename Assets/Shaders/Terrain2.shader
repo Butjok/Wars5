@@ -290,13 +290,28 @@ half flowerAo = tex2D(_FlowersAo, IN.uv_FlowersAlpha).r;
             o.Albedo = lerp(o.Albedo, _SandColor, sandMask);
             
             
-            float2 uv2 = mul(_TileMask_WorldToLocal, float4(IN.worldPos.xyz, 1)).xz;
-			float tileMask = saturate(tex2D(_TileMask, uv2).r);
-			if (uv2.x < 0 || uv2.x > 1 || uv2.y < 0 || uv2.y > 1)
-				tileMask = 0;
-			o.Emission += _Emissive * tileMask*o.Albedo;
-
             
+			//float tileMask = tex2D(_TileMask, mul(_TileMask_WorldToLocal, float4(IN.worldPos.x, 0, IN.worldPos.z, 1)).xz).r;
+			//if (uv2.x < 0 || uv2.x > 1 || uv2.y < 0 || uv2.y > 1)
+			//	tileMask = 0;
+			
+			float tileMaskDistance = 1;			
+			float2 nearestTile = round(IN.worldPos.xz);
+			for (int x = -1; x <= 1; x++)
+			for (int y = -1; y <= 1; y++) {
+				float2 pos = nearestTile + float2(x, y);
+				float selected = tex2D(_TileMask, mul(_TileMask_WorldToLocal, float4(pos.x, 0, pos.y, 1)).xz).r;
+				if (selected > .5)
+					 tileMaskDistance = min(tileMaskDistance, sdfBox(IN.worldPos.xz - pos, 0.5));
+			}
+
+            //o.Albedo = saturate(tileMaskDistance);
+            
+            float3 tileMaskEmission = 0;
+            tileMaskEmission += _Emissive * smoothstep(0.05, -.05, tileMaskDistance);
+            tileMaskEmission += 7.5*_Emissive * smoothstep(0.025, 0.0125, abs(tileMaskDistance - .025));
+            
+            o.Emission = tileMaskEmission ;
         }
         ENDCG
     }
