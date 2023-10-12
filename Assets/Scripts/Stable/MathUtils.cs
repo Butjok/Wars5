@@ -363,4 +363,8 @@ public static class MathUtils {
         var forward = Vector3.Cross(normal, right);
         return Quaternion.LookRotation(forward, normal) * Quaternion.Euler(0, yaw, 0);
     }
+
+    public static float Square(this float value) {
+        return value * value;
+    }
 }

@@ -195,7 +195,7 @@ float2 _Splat2Size;
                         fixed3 wheat = tex2D (_Wheat, TRANSFORM_TEX(wheatUv, _Wheat) );;
                         //fixed3 wheatTinted = tex2D (_WheatTinted, TRANSFORM_TEX(wheatUv, _Wheat) );;
                         //fixed3 finalWheat = lerp(wheat,wheatTinted,grassTint);
-                        fixed3 finalWheat = Tint( wheat, 0, 1 - .025/2, 1 );
+                        fixed3 finalWheat =wheat;// Tint( wheat, 0, 1 - .025/2, 1 );
             
                         
             
@@ -203,7 +203,7 @@ float2 _Splat2Size;
                         o.Albedo =  lerp(o.Albedo, yellowGrass, yellowGrassIntensity);
             
             
-                        o.Albedo = lerp(o.Albedo, finalWheat, wheatIntensity);
+                        //o.Albedo = lerp(o.Albedo, finalWheat, wheatIntensity);
             
                         //float3 ocean = tex2D (_Ocean, IN.uv_MainTex);
                         //o.Albedo=lerp(o.Albedo, ocean ,1-oceanMask);
@@ -249,7 +249,7 @@ float2 _Splat2Size;
 			float3 stoneColor = _StoneColor;
 			stoneColor = lerp(stoneColor, _StoneDarkColor, darkGrassIntensity);
 			stoneColor = lerp(stoneColor, _StoneLightColor, yellowGrassIntensity);
-			stoneColor = lerp(stoneColor, _StoneWheatColor, wheatIntensity);
+			//stoneColor = lerp(stoneColor, _StoneWheatColor, wheatIntensity);
             o.Albedo = lerp(o.Albedo, stoneColor, stoneAlpha);
             
             o.Smoothness=lerp(o.Smoothness, .0, stoneAlpha);

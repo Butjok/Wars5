@@ -35,11 +35,15 @@ public class CloseUpImage : MonoBehaviour, IDragHandler, IEndDragHandler {
     }
 
     public void OnDrag(PointerEventData eventData) {
+        if (eventData.button != PointerEventData.InputButton.Left)
+            return;
         speed = Vector2.zero;
         Angles += ToAngles(eventData.delta) * rotationSpeed;
     }
 
     public void OnEndDrag(PointerEventData eventData) {
+        if (eventData.button != PointerEventData.InputButton.Left)
+            return;
         speed = ToAngles(eventData.delta) * rotationSpeed / Time.deltaTime;
     }
 }

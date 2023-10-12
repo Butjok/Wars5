@@ -5,6 +5,7 @@ using System.IO;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.Assertions;
+using static Gettext;
 using Object = UnityEngine.Object;
 
 public class LevelSessionState : StateMachineState {
@@ -69,9 +70,17 @@ public class LevelSessionState : StateMachineState {
                 level.view.turnButton.button.onClick.AddListener(() => FindState<GameSessionState>().game.EnqueueCommand(SelectionState.Command.EndTurn));
             }
 
-            yield return levelLogic.OnLevelStart(this);
+            //yield return levelLogic.OnLevelStart(this);
+
+            if (missionName == MissionName.Tutorial) {
+                var animation=CameraRigAnimation.ZoomFadeAnimation(level.view.cameraRig, 4);
+                while (animation.MoveNext())
+                    yield return StateChange.none;
+                yield return StateChange.Push(new TutorialStartDialogue(stateMachine));
+            }
+            
             yield return StateChange.Push(new PlayerTurnState(stateMachine));
-            yield return levelLogic.OnLevelEnd(this);
+            //yield return levelLogic.OnLevelEnd(this);
         }
     }
 
@@ -96,6 +105,20 @@ public class LevelSessionState : StateMachineState {
                 yield return null;
                 autoplay = false;
             }
+        }
+    }
+}
+
+public class TutorialStartDialogue : DialogueState {
+    public TutorialStartDialogue(StateMachine stateMachine) : base(stateMachine) { }
+    public override IEnumerator<StateChange> Enter {
+        get {
+            Show();
+            yield return AddPerson(PersonName.Natalie);
+            yield return SayWait(_("Welcome to Wars3D!"));
+            yield return SayWait(_("This is a strategy game and you are in charge!"));
+            yield return RemovePerson(PersonName.Natalie);
+            Hide();
         }
     }
 }

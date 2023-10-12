@@ -37,6 +37,7 @@ public abstract class DialogueState : StateMachineState {
         public Func<bool> completed;
         public PersonRemovalState(DialogueState dialogueState, PersonName personName) : base(dialogueState.stateMachine) {
             var portraitStack = dialogueState.portraitStacks[personName];
+            dialogueState.portraitStacks.Remove(personName);
             var coroutine = portraitStack.RemovePerson(personName);
             completed = () => portraitStack.IsCompleted(coroutine);
         }
@@ -201,8 +202,6 @@ public abstract class DialogueState : StateMachineState {
         return StateChange.Push(new PersonAdditionState(this, personName, side, mood));
     }
     public StateChange RemovePerson(PersonName personName) {
-        var portraitStack = portraitStacks[personName];
-        portraitStacks.Remove(personName);
         return StateChange.Push(new PersonRemovalState(this, personName));
     }
     protected StateChange ClearPersons() {
@@ -217,17 +216,17 @@ public abstract class DialogueState : StateMachineState {
         ui.SfxSource.PlayOneShot(audioClip);
     }
 
-    protected StateChange Say(string text, bool waitInput = true, bool append = false) {
+    protected StateChange SayWait(string text, bool waitInput = true, bool append = false) {
         return StateChange.Push(new TalkState(this, text, append, waitInput));
     }
-    protected StateChange SayAndContinue(string text) {
-        return Say(text, false);
+    protected StateChange Say(string text) {
+        return SayWait(text, false);
+    }
+    protected StateChange AppendWait(string text) {
+        return SayWait(text, true, true);
     }
     protected StateChange Append(string text) {
-        return Say(text, true, true);
-    }
-    protected StateChange AppendAndContinue(string text) {
-        return Say(text, false, true);
+        return SayWait(text, false, true);
     }
 
     public Stack<SkippableSequence> skippableSequences = new();

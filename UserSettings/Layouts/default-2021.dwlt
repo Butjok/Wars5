@@ -118,7 +118,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 1
-  controlID: 25046
+  controlID: 20941
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -143,7 +143,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 25047
+  controlID: 20942
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -168,7 +168,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 200}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 24967
+  controlID: 21003
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -246,7 +246,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 25048
+  controlID: 20943
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -299,7 +299,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 24998
+  controlID: 20966
 --- !u!114 &13
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -474,10 +474,10 @@ MonoBehaviour:
     m_SaveData: []
   m_SceneHierarchy:
     m_TreeViewState:
-      scrollPos: {x: 0, y: 0}
+      scrollPos: {x: 0, y: 273}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: f8e5f1ff26a0f2ff02abf2ff9ee8f2ff3ef7f2ffc2f9f3ff9a02f4ff2281f6ff0eb0f6ffe236f7ff70d3f7ff12d4f7ffecdaf7fff025f8ff9226f8ff6c2df8ff7863f8ff9a71f8ff8cd3f8ff08dcf8ffea3bf9ff2652f9fffa52f9ff768df9ffe492f9ff74eef9ffe2defeffc2ecfeff404efffff272ffffc4fafffff4ffffff5a5e0000b6c3010032c50100f2cc010098cf01007ee1030002e303003614040094140400b4140400901604003441040066190500ca2a0500f2e90500b2f1050058f4050028850700e88c07008e8f07003af40800fafb0800a0fe0800
+      m_ExpandedIDs: fc2dfaffc856faff543dfbff8052fbff388ffcff3ee2fcff6298fdff0e81ffff7e92fffffcf1ffff96faffff9a660100306d01005a6e0100007101003a5c0500545c0500a25c0500245f0500ea62050014640500ba6605009e670500
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -982,7 +982,7 @@ MonoBehaviour:
     m_LastAppliedPresetName: Default
     m_SaveData: []
   m_SearchFilter:
-    m_NameFilter: terraincr
+    m_NameFilter: bush1
     m_ClassNames: []
     m_AssetLabels: []
     m_AssetBundleNames: []
@@ -994,22 +994,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scripts
+    - Assets/Shaders
     m_Globs: []
-    m_OriginalText: terraincr
+    m_OriginalText: bush1
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Scripts
+  - Assets/Shaders
   m_LastFoldersGridSize: 16
   m_LastProjectPath: /Users/butjok/Documents/GitHub/Wars5
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 703}
-    m_SelectedIDs: 22840000
-    m_LastClickedID: 33826
-    m_ExpandedIDs: 000000005e83000060830000628300006483000066830000688300006a8300006c8300006e83000070830000728300007483000076830000788300007a8300007c8300007e83000080830000828300008483000086830000888300008a8300008c8300008e830000908300009283000094830000ffffff7f
+    scrollPos: {x: 0, y: 596}
+    m_SelectedIDs: 38640000
+    m_LastClickedID: 25656
+    m_ExpandedIDs: 000000000464000006640000086400000a6400000c6400000e64000010640000126400001464000016640000186400001a6400001c6400001e64000020640000226400002464000026640000286400002a6400002c6400002e64000030640000326400003464000036640000386400003a640000ffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1037,7 +1037,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 2564}
     m_SelectedIDs: 4afc0300
     m_LastClickedID: 261194
-    m_ExpandedIDs: 000000005e83000060830000628300006483000066830000688300006a8300006c8300006e83000070830000728300007483000076830000788300007a8300007c8300007e83000080830000828300008483000086830000888300008a8300008c8300008e830000908300009283000094830000ffffff7f
+    m_ExpandedIDs: 000000000464000006640000086400000a6400000c6400000e64000010640000126400001464000016640000186400001a6400001c6400001e64000020640000226400002464000026640000286400002a6400002c6400002e64000030640000326400003464000036640000386400003a640000ffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 

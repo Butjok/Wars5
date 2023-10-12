@@ -104,7 +104,7 @@ Shader "Custom/LeavesAreaTinted"
 				o.Albedo = _Grass;
 				o.Albedo = lerp(o.Albedo, _DarkGrass, splat.r);
 				o.Albedo = lerp(o.Albedo, _YellowGrass, splat.b);
-				o.Albedo = lerp(o.Albedo, _Wheat, splat.a);
+				//o.Albedo = lerp(o.Albedo, _Wheat, splat.a);
 
                 o.Albedo = lerp(o.Albedo, tint(o.Albedo, 0, 1.1, .5), 1 - inputOcclusion);
                 
