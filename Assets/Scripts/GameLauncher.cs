@@ -8,6 +8,7 @@ public class GameLauncher : MonoBehaviour {
     public TextAsset save;
     public string saveName;
     public bool startInLevelEditor;
+    public bool showLevelEditorTileMesh = false;
 
     private void Start() {
 
@@ -23,7 +24,7 @@ public class GameLauncher : MonoBehaviour {
 
         if (input != null)
             if (startInLevelEditor)
-                game.EnqueueCommand(GameSessionState.Command.OpenLevelEditor, input);
+                game.EnqueueCommand(GameSessionState.Command.OpenLevelEditor, (input, showLevelEditorTileMesh));
             else
                 game.EnqueueCommand(GameSessionState.Command.PlayLevel, input);
         else

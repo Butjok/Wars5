@@ -33,8 +33,8 @@ public class GameSessionState : StateMachineState {
                         case (Command.PlayLevel, (string input, MissionName missionName, bool isFreshStart)):
                             yield return StateChange.Push(new LevelSessionState(stateMachine, input, missionName,isFreshStart));
                             break;
-                        case (Command.OpenLevelEditor, string input):
-                            yield return StateChange.Push(new LevelEditorSessionState(stateMachine, input));
+                        case (Command.OpenLevelEditor, (string input, bool showLevelEditorTileMesh)):
+                            yield return StateChange.Push(new LevelEditorSessionState(stateMachine, input, showLevelEditorTileMesh));
                             break;
                         default:
                             HandleUnexpectedCommand(command);

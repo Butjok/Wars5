@@ -230,7 +230,7 @@ public class TerrainCreator : MonoBehaviour {
         roadCreator.positions.IntersectWith(quads.Keys);
         roadCreator.Rebuild();
     }
-    
+
     private void RebuildTerrain(bool clearBushes = true) {
 
         //remove unused vertices
@@ -306,11 +306,11 @@ public class TerrainCreator : MonoBehaviour {
                 voronoiRenderer.worldSize = size;
                 voronoiRenderer.Render2(size, voronoiRenderer.pixelsPerUnit);
             }
-            
-            borderTopLeft.position = new Vector3(minX+2, 0, maxZ-2);
-            borderTopRight.position = new Vector3(maxX-2, 0, maxZ-2);
-            borderBottomLeft.position = new Vector3(minX+2, 0, minZ+2);
-            borderBottomRight.position = new Vector3(maxX-2, 0, minZ+2);
+
+            borderTopLeft.position = new Vector3(minX + 2, 0, maxZ - 2);
+            borderTopRight.position = new Vector3(maxX - 2, 0, maxZ - 2);
+            borderBottomLeft.position = new Vector3(minX + 2, 0, minZ + 2);
+            borderBottomRight.position = new Vector3(maxX - 2, 0, minZ + 2);
 
             {
                 var edgePositions = new HashSet<Vector2Int>();
@@ -465,7 +465,15 @@ public class TerrainCreator : MonoBehaviour {
             var position2d = origin + uv * voronoiRenderer.worldSize;
             var scale = Vector3.one * Mathf.Lerp(bushSizeRange[0], bushSizeRange[1], Random.value);
             if (PlaceOnTerrain.TryRaycast(position2d, out var hit) && hit.point.y > -.01) {
-                if (roadCreator && roadCreator.positions.Contains(position2d.RoundToInt()))
+                var skip = false;
+                if (roadCreator)
+                    for (var y = -1; y <= 1; y++)
+                    for (var x = -1; x <= 1; x++)
+                        if (!skip && roadCreator.positions.Contains((position2d + new Vector2(x, y) * .25f).RoundToInt())) {
+                            skip = true;
+                            break;
+                        }
+                if (skip)
                     continue;
                 var position3d = hit.point;
                 var rotation = (-hit.normal).ToRotation(Random.value * 360);

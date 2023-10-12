@@ -12,7 +12,6 @@ public class LevelEditorSessionState : StateMachineState {
     public enum SelectModeCommand { SelectTilesMode, SelectUnitsMode, SelectTriggersMode, SelectAreasMode, SelectBridgesMode, Play }
 
     public static Vector3 tileMeshPosition => new(0, -.01f, 0);
-    public static bool createTileMesh = true;
     
     public LevelView levelViewPrefab;
     public Level level = new();
@@ -30,8 +29,10 @@ public class LevelEditorSessionState : StateMachineState {
     public AudioSource musicSource;
 
     public string input;
-    public LevelEditorSessionState(StateMachine stateMachine, string input = "") : base(stateMachine) {
+    public bool showLevelEditorTileMesh;
+    public LevelEditorSessionState(StateMachine stateMachine, string input = "", bool showLevelEditorTileMesh = false) : base(stateMachine) {
         this.input = input;
+        this.showLevelEditorTileMesh = showLevelEditorTileMesh;
     }
 
     public override IEnumerator<StateChange> Enter {
@@ -51,7 +52,8 @@ public class LevelEditorSessionState : StateMachineState {
                 var gameObject = new GameObject("LevelEditorGui");
                 gui = gameObject.AddComponent<LevelEditorGui>();
             }
-            if (createTileMesh){
+            
+            {
                 var gameObject = new GameObject("LevelEditorTileMesh");
                 gameObject.transform.position = tileMeshPosition;
                 gameObject.layer = LayerMask.NameToLayer("Terrain");
@@ -61,8 +63,8 @@ public class LevelEditorSessionState : StateMachineState {
                 var tileMeshRenderer = gameObject.AddComponent<MeshRenderer>();
                 tileMeshRenderer.sharedMaterial = "EditorTileMap".LoadAs<Material>();
 
-                tileMeshRenderer.enabled = false;
-                tileMeshCollider.enabled = false;
+                tileMeshRenderer.enabled = showLevelEditorTileMesh;
+                tileMeshCollider.enabled = showLevelEditorTileMesh;
             }
 
             //ai = new Ai(FindState<GameSessionState>().game, level);
