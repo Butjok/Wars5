@@ -80,10 +80,14 @@ Material:
     m_Colors:
     - _BorderColor: {r: 0.6092445, g: 0.6886792, b: 0.4255518, a: 0}
     - _BorderColor2: {r: 0.20087834, g: 0.24528301, b: 0.061320752, a: 1}
+    - _CenterSize: {r: 1, g: 1, b: 0, a: 1}
     - _Color: {r: 0.36935562, g: 0.41509432, b: 0.2721609, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _GridRange: {r: 7.5, g: 0, b: 0, a: 1}
     - _Min: {r: -27, g: 8, b: 0, a: 0}
     - _OutsideColor: {r: 0.5050798, g: 0.5471698, b: 0.41037735, a: 0}
     - _Size: {r: 29, g: 21, b: 0, a: 0}
-    - _SoilColor: {r: 0.2665554, g: 0.31132078, b: 0.11307405, a: 1}
+    - _SoilColor: {r: 0.33224973, g: 0.3773585, b: 0.18689924, a: 1}
+    - _UnderlayColor: {r: 0.254717, g: 0.24360316, b: 0.21026167, a: 1}
+    - _UnderlayColor2: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

@@ -10,6 +10,11 @@ Shader "Unlit/TerrainEdge"
 		_BorderSmoothness ("_BorderSmoothness", Float) = 0.1
 		[HDR]_BorderColor2 ("_BorderColor2", Color) = (1,1,1,1)
 		_Thickness ("_Thickness", Float) = .5
+		_GridRange ("_GridRange", Vector) = (1,1,0,1)
+		_CenterSize ("_CenterSize", Vector) = (1,1,0,1)
+		_UnderlayColor ("_UnderlayColor", Color) = (1,1,1,1)
+		_UnderlayColor2 ("_UnderlayColor2", Color) = (1,1,1,1)
+		_SoilColor ("_SoilColor", Color) = (1,1,1,1)
 	}
 	SubShader
 	{
@@ -40,9 +45,11 @@ Shader "Unlit/TerrainEdge"
 			sampler2D _MainTex;
 			float4 _MainTex_ST;
 			float2 _Min, _Size;
-			float4 _OutsideColor, _BorderColor, _BorderColor2;
+			float4 _OutsideColor, _BorderColor, _BorderColor2, _UnderlayColor, _UnderlayColor2, _SoilColor;
 			float _BorderSmoothness;
 			fixed _Thickness;
+			fixed2 _GridRange;
+			float4 _CenterSize;
 			
 			v2f vert (appdata v)
 			{
@@ -75,6 +82,23 @@ Shader "Unlit/TerrainEdge"
 				
 				col.rgb = lerp(col.rgb, _BorderColor2, smoothstep(_Thickness+.525, _Thickness+.5125, dist));
 				//col.rgb += (sin(dist*10)+1)/2/10;
+				
+				half2 dst = abs(i.worldPos.xz-.5 - round(i.worldPos.xz-.5)) / fwidth(i.worldPos.xz);
+				half dst2 = min(dst.x, dst.y);
+				half gridMask = smoothstep(_GridRange.x, _GridRange.y, dist);
+				col.rgb = lerp(col, col*.85, gridMask*smoothstep(.75, .5, dst2));
+				
+				
+				float3 direction = normalize(i.worldPos - _WorldSpaceCameraPos);
+				if (direction.y < 0) {
+					float enter = (_WorldSpaceCameraPos.y ) / (-direction.y);
+					float3 hitPoint = _WorldSpaceCameraPos + enter * direction;
+					float distance = sdfBox(hitPoint.xz - center, _Size/2);
+					col.rgb = lerp(col.rgb, _UnderlayColor, smoothstep(.025, 0, sdfBox(hitPoint.xz - center, _Size/2 + 1)-.125));
+					float3 soilColor = lerp(_SoilColor/2, _SoilColor, smoothstep(5, 0, distance+2.5));
+					col.rgb = lerp(col.rgb, soilColor, smoothstep(.05, .025, distance -.65));
+				}
+				
 				
 				return col;
 			}

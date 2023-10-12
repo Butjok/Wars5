@@ -60,4 +60,5 @@ public class LevelView : MonoBehaviour {
     public CaptureScreen captureScreen;
     public Transform unitUiRoot;
     public Transform playerUiRoot;
+    public InGameMenu inGameMenu;
 }

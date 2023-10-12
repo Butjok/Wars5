@@ -8,14 +8,15 @@ public class GameMenuState : StateMachineState {
 
     public override IEnumerator<StateChange> Enter {
         get {
-            var (game, level, menu) = (FindState<GameSessionState>().game, FindState<LevelSessionState>().level, FindObject<GameMenuView>());
+            var (game, level) = (FindState<GameSessionState>().game, FindState<LevelSessionState>().level);
+            var inGameMenu = level.view.inGameMenu;
 
             PlayerView.globalVisibility = false;
             yield return StateChange.none;
-            level.view.cameraRig.enabled = false;
+            //level.view.cameraRig.enabled = false;
 
-            menu.enqueueCloseCommand = () => game.EnqueueCommand(Command.Close);
-            menu.Show();
+            inGameMenu.Show(() => game.EnqueueCommand(Command.Close));
+            level.view.tilemapCursor.Hide();
 
             while (true) {
                 yield return StateChange.none;
@@ -44,9 +45,10 @@ public class GameMenuState : StateMachineState {
     }
 
     public override void Exit() {
-        var (menu, level)= (FindObject<GameMenuView>(), FindState<LevelSessionState>().level);
-        menu.Hide();
-        level.view.cameraRig.enabled = true;
+        var level = FindState<LevelSessionState>().level;
+        var inGameMenu = level.view.inGameMenu;
+        inGameMenu.Hide();
+        //level.view.cameraRig.enabled = true;
         PlayerView.globalVisibility = true;
     }
 }

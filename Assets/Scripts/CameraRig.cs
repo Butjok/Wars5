@@ -61,6 +61,8 @@ public class CameraRig : MonoBehaviour {
     public float targetWidth = 1;
     public float widthSpeed = .5f;
 
+    public bool acceptInput = true;
+
     public float ToWorldUnits(float sizeInViewportSpace) {
         var ray0 = camera.ScreenPointToRay(new Vector3(0, 0));
         var ray1 = camera.ScreenPointToRay(new Vector3(1, 0));

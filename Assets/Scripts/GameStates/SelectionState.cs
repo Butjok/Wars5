@@ -134,6 +134,9 @@ public class SelectionState : StateMachineState {
 
                     else if (Input.GetKeyDown(KeyCode.M) || Input.GetKeyDown(KeyCode.CapsLock))
                         game.EnqueueCommand(Command.OpenMinimap);
+                    
+                    else if (Input.GetKeyDown(KeyCode.Escape))
+                        game.EnqueueCommand(Command.OpenGameMenu);
                 }
 
                 while (game.TryDequeueCommand(out var command))

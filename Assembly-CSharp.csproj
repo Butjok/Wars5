@@ -91,6 +91,7 @@
      <None Include="Assets/Saves/test/20.01.2023-21.38.32.txt" />
      <None Include="Assets/Saves/0/0-28.01.2023-14.11.05.txt" />
      <None Include="Assets/Dialogues2.txt" />
+     <Folder Include="Assets/Splash" />
      <None Include="Assets/Resources/Settings/MoveDistances.json" />
      <Folder Include="Assets/Saves" />
      <None Include="Assets/Shaders/VertexColorChecker.shader" />
@@ -133,6 +134,7 @@
      <None Include="Assets/Shaders/InstancedRendering.cginc" />
      <None Include="Assets/Shaders/vface.shader" />
      <None Include="Assets/Shaders/NewSurfaceShader.shader" />
+     <None Include="Assets/ShaderTests/contrastgrid.shader" />
      <Folder Include="Assets/HoleShader" />
      <None Include="Assets/Shaders/Stone.shader" />
      <Folder Include="Assets/Saves/autosave" />
@@ -153,6 +155,7 @@
      <None Include="Assets/Shaders/FrozenFrame.shader" />
      <None Include="Assets/Shaders/leaves-area-tinted.shader" />
      <Folder Include="Assets/Textures" />
+     <None Include="Assets/Shaders/TerrainEdge2.shader" />
      <None Include="Assets/Shaders/TextFrame3d.shader" />
      <Folder Include="Assets/LightingTest/LightingTest" />
      <None Include="Assets/Shaders/TerrainTilesTest.shader" />
@@ -277,6 +280,7 @@
      <Folder Include="Assets/Shaders/Resources" />
      <Folder Include="Assets/glTF-test" />
      <None Include="Assets/Resources/Missions/SecondMission.txt" />
+     <None Include="Assets/ShaderTests/test-shader.shader" />
      <None Include="Assets/Saves/0/0-24.01.2023-16.12.40.txt" />
      <None Include="Assets/Saves/test/18.01.2023-18.58.09.txt" />
      <None Include="Assets/Shaders/My Shadows.cginc" />
