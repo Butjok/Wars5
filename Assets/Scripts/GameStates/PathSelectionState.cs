@@ -63,7 +63,7 @@ public class PathSelectionState : StateMachineState {
                     return;
                 pathMeshFilter.sharedMesh = MoveSequenceMeshBuilder.Build(
                     pathMeshFilter.sharedMesh,
-                    new MoveSequence(unit.view.transform, pathBuilder.positions),
+                    new MoveSequence(unit.view.transform, pathBuilder),
                     nameof(MoveSequenceAtlas).LoadAs<MoveSequenceAtlas>());
             }
 
@@ -87,7 +87,7 @@ public class PathSelectionState : StateMachineState {
                     else if (Input.GetMouseButtonDown(Mouse.left) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return)) {
 
                         if (level.view.cameraRig.camera.TryGetMousePosition(out Vector2Int mousePosition) && reachable.Contains(mousePosition)) {
-                            if (pathBuilder.positions.Last() == mousePosition)
+                            if (pathBuilder.Last() == mousePosition)
                                 game.EnqueueCommand(Command.Move);
                             else
                                 game.EnqueueCommand(Command.ReconstructPath, mousePosition);
@@ -121,7 +121,7 @@ public class PathSelectionState : StateMachineState {
 
                             UnsetTileMasks(level);
 
-                            path = pathBuilder.positions;
+                            path = pathBuilder.ToList();
                             var animation = new MoveSequence(unit.view.transform, path).Animation();
 
                             level.view.tilemapCursor.Hide();

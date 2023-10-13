@@ -139,7 +139,7 @@ public class Game : MonoBehaviour {
     public GUIStyle statesLabelStyle;
 
     private void OnGUI() {
-        if (ShowDebugGui && showStates) {
+        if (showStates) {
 
             GUI.skin = DefaultGuiSkin.TryGet;
             GUI.depth = guiDepth;

@@ -197,4 +197,12 @@ public class TilemapCursor : MonoBehaviour {
                 text.text = position.ToString();
         }
     }
+
+    private void OnGUI() {
+        GUI.skin = DefaultGuiSkin.TryGet;
+        if ( TryGetPosition(out var position)) {
+            GUILayout.Space(30);
+            GUILayout.Label(position.ToString());
+        }
+    }
 }

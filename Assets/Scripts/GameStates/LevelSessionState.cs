@@ -2,11 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading;
+using Butjok.CommandLine;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.Video;
-using static Gettext;
 using Object = UnityEngine.Object;
 
 public class LevelSessionState : StateMachineState {
@@ -77,7 +77,29 @@ public class LevelSessionState : StateMachineState {
 
             if (missionName == MissionName.Tutorial) {
                 if (persistentData.showIntroDialogue) {
-                    yield return StateChange.Push(new WaitForCoroutineState(stateMachine, CameraRigAnimation.ZoomFadeAnimation(level.view.cameraRig, 4)));
+
+                    Vector2Int startPosition = new(-21, 12);
+                    Vector2Int fromPosition = new(-19, 3);
+                    var speed = 2f;
+
+                    IEnumerator unitMoveAnimation = null;
+                    if (level.TryGetUnit(startPosition, out var unit)) {
+                        var pathBuilder = new PathBuilder(fromPosition);
+                        pathBuilder.AddRange(Woo.Traverse2D(fromPosition, startPosition));
+                        unitMoveAnimation = new MoveSequence(unit.view.transform, pathBuilder, _speed: speed, _finalDirection: unit.view.LookDirection).Animation();
+                    }
+
+                    var zoomFadeAnimation = CameraRigAnimation.ZoomFadeAnimation(level.view.cameraRig, 4);
+                    while (true) {
+                        var isPlaying = false;
+                        if (unitMoveAnimation != null)
+                            isPlaying = unitMoveAnimation.MoveNext() || isPlaying;
+                        isPlaying = zoomFadeAnimation.MoveNext() || isPlaying;
+                        if (!isPlaying)
+                            break;
+                        yield return StateChange.none;
+                    }
+
                     yield return StateChange.Push(new TutorialStartDialogue(stateMachine));
                 }
             }
@@ -108,45 +130,6 @@ public class LevelSessionState : StateMachineState {
                 yield return null;
                 autoplay = false;
             }
-        }
-    }
-}
-
-public class TutorialStartDialogue : DialogueState {
-    public TutorialStartDialogue(StateMachine stateMachine) : base(stateMachine) { }
-    public override IEnumerator<StateChange> Enter {
-        get {
-
-            var persistentData = stateMachine.Find<GameSessionState>().persistentData;
-
-            Show();
-            yield return AddPerson(PersonName.Natalie);
-            yield return SayWait(_("Welcome to Wars3D!"));
-            yield return SayWait(_("This is a strategy game and you are in charge!"));
-
-            if (persistentData.playTutorial) {
-                yield return Say(_("Do you want to watch tutorial?"));
-                bool yes = default;
-                yield return ChooseYesNo(value => yes = value);
-                if (yes) { 
-                    yield return Say(_("Sure thing!"));
-                    yield return Wait(.5f);
-                    yield return SayWait(_("Let us start with the basics!"));
-                    var video = CreateVideo("encoded2".LoadAs<VideoClip>(), target: VideoPanelImage);
-                    yield return ShowVideoPanel();
-                    //yield return Wait(.5f);
-                    video.player.playbackSpeed=1;
-                    yield return WaitWhile(() => !video.Completed);
-                    yield return SayWait(_("Now that you know the basics, let us get started!"));
-                    yield return HideVideoPanel();
-                    DestroyVideo(video);
-                }
-                else
-                    yield return SayWait(_("Sure thing, let us get started!"));
-            }
-
-            yield return RemovePerson(PersonName.Natalie);
-            Hide();
         }
     }
 }

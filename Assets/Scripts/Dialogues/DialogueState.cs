@@ -91,7 +91,7 @@ public abstract class DialogueState : StateMachineState {
 
                 foreach (var c in text) {
                     ui.Text += c;
-                    if (Input.GetKeyDown(KeyCode.Space)) {
+                    if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Escape)) {
                         sequence ??= new SkippableSequence();
                         sequence.shouldSkip = true;
                         yield return StateChange.none;
@@ -104,7 +104,7 @@ public abstract class DialogueState : StateMachineState {
                 if (waitInput) {
 
                     ui.ShowSpaceKey = true;
-                    while (!Input.GetKeyDown(KeyCode.Space))
+                    while (!Input.GetKeyDown(KeyCode.Space) && !Input.GetKeyDown(KeyCode.Escape))
                         yield return StateChange.none;
                     yield return StateChange.none;
                     ui.ShowSpaceKey = false;
@@ -153,30 +153,36 @@ public abstract class DialogueState : StateMachineState {
         public DialogueState dialogueState;
         public string[] options;
         public Action<int> setter;
-        public OptionSelectionState(DialogueState dialogueState, string[] options, Action<int> setter) : base(dialogueState.stateMachine) {
+        public int? confirmIndex, cancelIndex;
+        public OptionSelectionState(DialogueState dialogueState, string[] options, Action<int> setter,
+            int? confirmIndex = null, int? cancelIndex = null) : base(dialogueState.stateMachine) {
             Assert.IsTrue(options.Length > 0);
             this.dialogueState = dialogueState;
             this.options = options;
             this.setter = setter;
+            this.confirmIndex = confirmIndex;
+            this.cancelIndex = cancelIndex;
         }
         public override IEnumerator<StateChange> Enter {
             get {
                 var ui = dialogueState.ui;
 
                 setter(-1);
+                var wasSet = false;
+
+                void Set(int index) {
+                    setter(index);
+                    wasSet = true;
+                }
 
                 var buttons = new List<Button>();
-                var wasSet = false;
                 var totalWidth = 0f;
                 for (var i = 0; i < options.Length; i++) {
                     var index = i;
                     var button = Object.Instantiate(ui.buttonPrefab, ui.transform);
                     button.gameObject.SetActive(true);
                     button.GetComponentInChildren<TMP_Text>().text = options[index];
-                    button.onClick.AddListener(() => {
-                        setter(index);
-                        wasSet = true;
-                    });
+                    button.onClick.AddListener(() => Set(index));
                     buttons.Add(button);
                     totalWidth += button.GetComponent<RectTransform>().sizeDelta.x;
                 }
@@ -189,8 +195,13 @@ public abstract class DialogueState : StateMachineState {
                     position += Vector2.right * (rectTransform.sizeDelta.x + ui.buttonSpacing);
                 }
 
-                while (!wasSet)
+                while (!wasSet) {
+                    if (confirmIndex is { } actualConfirmIndex && Input.GetKeyDown(KeyCode.Return))
+                        Set(actualConfirmIndex);
+                    else if (cancelIndex is { } actualCancelIndex && Input.GetKeyDown(KeyCode.Escape))
+                        Set(actualCancelIndex);
                     yield return StateChange.none;
+                }
 
                 foreach (var button in buttons)
                     Object.Destroy(button.gameObject);
@@ -208,7 +219,16 @@ public abstract class DialogueState : StateMachineState {
         ui.Visible = false;
     }
 
-    protected StateChange AddPerson(PersonName personName, int side = left, Mood mood = default) {
+    public static int GetDefaultSide(PersonName personName) {
+        return personName switch {
+            PersonName.Natalie => left,
+            PersonName.Vladan => right,
+            _ => left
+        };
+    }
+
+    protected StateChange AddPerson(PersonName personName, int side = -1, Mood mood = default) {
+        side = side == -1 ? GetDefaultSide(personName) : side;
         var portraitStack = ui.portraitStacks[side];
         portraitStacks.Add(personName, portraitStack);
         return StateChange.Push(new PersonAdditionState(this, personName, side, mood));
@@ -255,6 +275,9 @@ public abstract class DialogueState : StateMachineState {
     protected StateChange Wait(float delay) {
         var startTime = Time.time;
         return WaitWhile(() => Time.time - startTime < delay);
+    }
+    protected StateChange Wait(IEnumerator coroutine) {
+        return StateChange.Push(new WaitForCoroutineState(stateMachine, coroutine));
     }
 
     protected Image ShowImage(Sprite sprite, Vector2? size = null, Vector2 position = default) {
@@ -333,16 +356,16 @@ public abstract class DialogueState : StateMachineState {
         return StateChange.Push(new OptionSelectionState(this, options, setter));
     }
     protected StateChange ChooseYesNo(Action<bool> setter) {
-        return ChooseOption(i => setter(i == 0), _("Yes"), _("No"));
+        return StateChange.Push(new OptionSelectionState(this, new[] { _("Yes"), _("No") }, i => setter(i == 0), confirmIndex: 0, cancelIndex: 1));
     }
 
-    protected void Show() {
+    protected void Start() {
         ui.Visible = true;
         ui.Reset();
 
         FindState<LevelSessionState>().level.view.cameraRig.enabled = false;
     }
-    protected void Hide() {
+    protected void End() {
         ui.Visible = false;
 
         FindState<LevelSessionState>().level.view.cameraRig.enabled = true;
@@ -363,7 +386,7 @@ public class WaitForCoroutineState : StateMachineState {
     public override IEnumerator<StateChange> Enter {
         get {
             while (coroutine.MoveNext())
-                yield return  StateChange.none;
+                yield return StateChange.none;
         }
     }
 }

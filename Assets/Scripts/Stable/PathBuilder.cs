@@ -1,13 +1,14 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class PathBuilder {
+public class PathBuilder : IEnumerable<Vector2Int> {
 
     public readonly Vector2Int startPosition;
-    public List<Vector2Int> positions = new();
-    public HashSet<Vector2Int> set = new();
+    private List<Vector2Int> positions = new();
+    private HashSet<Vector2Int> set = new();
 
     public PathBuilder(Vector2Int startPosition) {
         this.startPosition = startPosition;
@@ -38,5 +39,17 @@ public class PathBuilder {
                 set.Remove(positions[i]);
                 positions.RemoveAt(i);
             }
+    }
+
+    public void AddRange(IEnumerable<Vector2Int> positions) {
+        foreach (var position in positions)
+            Add(position);
+    }
+    
+    public IEnumerator<Vector2Int> GetEnumerator() {
+        return positions.GetEnumerator();
+    }
+    IEnumerator IEnumerable.GetEnumerator() {
+        return ((IEnumerable)positions).GetEnumerator();
     }
 }
