@@ -37,6 +37,8 @@ public class TilemapCursor : MonoBehaviour {
     public Sprite[] tileThumbnails = { };
     public Sprite[] unitThumbnails = { };
 
+    public bool showGui = false;
+
     public bool ShowUi {
         set {
             if (uiRoot.activeSelf != value)
@@ -202,6 +204,8 @@ public class TilemapCursor : MonoBehaviour {
     }
 
     private void OnGUI() {
+        if (!showGui)
+            return;
         GUI.skin = DefaultGuiSkin.TryGet;
         if (viewRoot.activeSelf && TryGetPosition(out var position)) {
             var content = new GUIContent(position.ToString());

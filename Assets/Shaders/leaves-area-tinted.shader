@@ -123,8 +123,8 @@ Shader "Custom/LeavesAreaTinted"
 				//o.Albedo = saturate(tileMaskDistance);
 				
 				float3 tileMaskEmission = 0;
-				tileMaskEmission += _Emissive * smoothstep(0.05, -.05, tileMaskDistance);
-				tileMaskEmission += 5*_Emissive * smoothstep(0.025, 0.0125, abs(tileMaskDistance - .025));
+				tileMaskEmission += _Emissive * smoothstep(0.05, -.025, tileMaskDistance);
+				tileMaskEmission += 3.3*_Emissive * smoothstep(0.025, 0.0125, abs(tileMaskDistance - .025));
 				
 				o.Emission = tileMaskEmission ;
 				o.Albedo  = lerp(o.Albedo, o.Emission, (o.Emission.r + o.Emission.g + o.Emission.b) / 1);
