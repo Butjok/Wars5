@@ -1,3 +1,6 @@
+using System;
+using System.Collections;
+using Butjok.CommandLine;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,7 +22,7 @@ public class DialogueUi3 : MonoBehaviour {
             _ => Color.white
         };
     }
-    
+
     public TMP_Text speakerName;
     public TMP_Text text;
     public PortraitStack[] portraitStacks = { };
@@ -27,7 +30,45 @@ public class DialogueUi3 : MonoBehaviour {
     public Button buttonPrefab;
     public float buttonSpacing = 25;
     public Image spaceKey;
-    
+    public RectTransform videoPanelRoot;
+    public RawImage videoPanelImage;
+    public float videoPanelStartY;
+    public float videoPanelMoveDuration = .5f;
+    public float videoPanelOffsetScreenY = 1000;
+
+    public void Awake() {
+        videoPanelStartY = videoPanelRoot.anchoredPosition.y;
+    }
+
+    [Command]
+    public IEnumerator ShowVideoPanel() {
+        var position = videoPanelRoot.anchoredPosition;
+        position.y = videoPanelOffsetScreenY;
+        videoPanelRoot.anchoredPosition = position;
+        videoPanelRoot.gameObject.SetActive(true);
+        return MoveVideoPanel(videoPanelStartY, videoPanelMoveDuration, false);
+    }
+    [Command]
+    public IEnumerator HideVideoPanel() {
+        return MoveVideoPanel(videoPanelOffsetScreenY, videoPanelMoveDuration, true);
+    }
+    public IEnumerator MoveVideoPanel(float targetY, float duration, bool hide) {
+        var startTime = Time.time;
+        var startY = videoPanelRoot.anchoredPosition.y;
+        var position = videoPanelRoot.anchoredPosition;
+        while (Time.time < startTime + duration) {
+            var t = (Time.time - startTime) / duration;
+            t = Easing.InOutQuad(t);
+            position.y = Mathf.Lerp(startY, targetY, t);
+            videoPanelRoot.anchoredPosition = position;
+            yield return null;
+        }
+        position.y = targetY;
+        videoPanelRoot.anchoredPosition = position;
+        if (hide)
+            videoPanelRoot.gameObject.SetActive(false);
+    }
+
     public bool ShowSpaceKey {
         set => spaceKey.enabled = value;
     }

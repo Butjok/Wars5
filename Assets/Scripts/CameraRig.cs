@@ -96,6 +96,8 @@ public class CameraRig : MonoBehaviour {
     [Command]
     public static float verticalStretch = 1.1f;
 
+    public Bounds? bounds;
+
     private void Awake() {
         var fov = Mathf.Lerp(dollyZoomFovRange[0], dollyZoomFovRange[1], dollyZoom);
         var width = Mathf.Lerp(dollyZoomWidthRange[0], dollyZoomWidthRange[1], dollyZoom);
@@ -193,6 +195,14 @@ public class CameraRig : MonoBehaviour {
                 Jump(target.ToVector2().ToVector3());
             else
                 lastClickTime = Time.unscaledTime;
+        }
+        
+        // clamp
+
+        if (bounds is { } actualBounds) {
+            var closestPoint = actualBounds.ClosestPoint(transform.position);
+            closestPoint.y  = transform.position.y;
+            transform.position = closestPoint;
         }
     }
     private Vector3 oldMousePosition;

@@ -1,12 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing.Imaging;
 using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
 using UnityEngine.Video;
+using static Gettext;
 using Object = UnityEngine.Object;
 
 public abstract class DialogueState : StateMachineState {
@@ -116,23 +118,33 @@ public abstract class DialogueState : StateMachineState {
         }
     }
 
-    public class PauseState : StateMachineState {
+    public class WaitState : StateMachineState {
         public DialogueState dialogueState;
         public Func<bool> condition;
-        public PauseState(DialogueState dialogueState, Func<bool> condition) : base(dialogueState.stateMachine) {
+        public float startTime;
+        public WaitState(DialogueState dialogueState, Func<bool> condition) : base(dialogueState.stateMachine) {
             this.dialogueState = dialogueState;
             this.condition = condition;
         }
+        public WaitState(DialogueState dialogueState, float duration) : base(dialogueState.stateMachine) {
+            this.dialogueState = dialogueState;
+            condition = () => Time.time < startTime + duration;
+        }
         public override IEnumerator<StateChange> Enter {
             get {
+                startTime = Time.time;
                 var skipGroup = dialogueState.skippableSequences.Count > 0 ? dialogueState.skippableSequences.Peek() : null;
-                while (skipGroup is not { shouldSkip: true } && condition()) {
-                    if (Input.GetKeyDown(KeyCode.Space)) {
-                        skipGroup ??= new SkippableSequence();
-                        skipGroup.shouldSkip = true;
+                if (skipGroup != null)
+                    while (skipGroup is not { shouldSkip: true } && condition()) {
+                        if (Input.GetKeyDown(KeyCode.Space)) {
+                            skipGroup ??= new SkippableSequence();
+                            skipGroup.shouldSkip = true;
+                        }
+                        yield return StateChange.none;
                     }
-                    yield return StateChange.none;
-                }
+                else
+                    while (condition())
+                        yield return StateChange.none;
             }
         }
     }
@@ -186,8 +198,8 @@ public abstract class DialogueState : StateMachineState {
         }
     }
 
-    public Dictionary<PersonName, PortraitStack> portraitStacks = new();
-    public DialogueUi3 ui;
+    private Dictionary<PersonName, PortraitStack> portraitStacks = new();
+    private DialogueUi3 ui;
     protected DialogueState(StateMachine stateMachine) : base(stateMachine) {
         ui = stateMachine.TryFind<LevelSessionState>().level.view.dialogueUi;
     }
@@ -238,9 +250,9 @@ public abstract class DialogueState : StateMachineState {
     }
 
     protected StateChange WaitWhile(Func<bool> condition) {
-        return StateChange.Push(new PauseState(this, condition));
+        return StateChange.Push(new WaitState(this, condition));
     }
-    protected StateChange Pause(float delay) {
+    protected StateChange Wait(float delay) {
         var startTime = Time.time;
         return WaitWhile(() => Time.time - startTime < delay);
     }
@@ -259,7 +271,27 @@ public abstract class DialogueState : StateMachineState {
         Object.Destroy(image.gameObject);
     }
 
-    protected (VideoPlayer videoPlayer, RawImage image) ShowVideo(VideoClip videoClip, Vector2 size, Vector2 position = default) {
+    public class Video {
+        public VideoPlayer player;
+        public RawImage rawImage;
+        private Func<bool> completed;
+        public Video(VideoPlayer videoPlayer, RawImage image, Func<bool> completed) {
+            player = videoPlayer;
+            rawImage = image;
+            this.completed = completed;
+        }
+        public bool Completed => completed();
+    }
+
+    protected RawImage VideoPanelImage => ui.videoPanelImage;
+    protected StateChange ShowVideoPanel() {
+        return StateChange.Push(new WaitForCoroutineState(stateMachine, ui.ShowVideoPanel()));
+    }
+    protected StateChange HideVideoPanel() {
+        return StateChange.Push(new WaitForCoroutineState(stateMachine, ui.HideVideoPanel()));
+    }
+
+    protected Video CreateVideo(VideoClip videoClip, float? width = null, Vector2 position = default, RawImage target = null) {
 
         var go = new GameObject($"Video{videoClip}");
         go.transform.SetParent(ui.transform);
@@ -270,22 +302,38 @@ public abstract class DialogueState : StateMachineState {
         var renderTexture = new RenderTexture((int)videoClip.width, (int)videoClip.height, 0);
         videoPlayer.targetTexture = renderTexture;
         videoPlayer.transform.SetParent(ui.transform);
+        bool completed = false;
+        videoPlayer.loopPointReached += _ => completed = true;
         videoPlayer.Play();
+        videoPlayer.playbackSpeed = 0;
 
-        var rawImage = go.AddComponent<RawImage>();
-        rawImage.texture = renderTexture;
+        float actualWidth;
+        if (target)
+            actualWidth = target.rectTransform.sizeDelta.x;
+        else {
+            Assert.IsTrue(width != null);
+            actualWidth = (float)width;
+            target = go.AddComponent<RawImage>();
+            target.rectTransform.anchoredPosition = position;
+        }
         // fits horizontally
-        rawImage.rectTransform.sizeDelta = new Vector2(size.x, size.x * ((float)videoClip.height / videoClip.width));
-        rawImage.rectTransform.anchoredPosition = position;
+        target.rectTransform.sizeDelta = new Vector2(actualWidth, actualWidth * ((float)videoClip.height / videoClip.width));
+        target.enabled = true;
+        target.texture = renderTexture;
 
-        return (videoPlayer, rawImage);
+        return new Video(videoPlayer, target, () => completed);
     }
-    protected void HideVideo(VideoPlayer videoPlayer) {
-        Object.Destroy(videoPlayer.gameObject);
+    protected void DestroyVideo(Video video) {
+        video.rawImage.enabled = false;
+        Object.Destroy(video.player.targetTexture);
+        Object.Destroy(video.player.gameObject);
     }
 
-    protected StateChange SelectOption(Action<int> setter, params string[] options) {
+    protected StateChange ChooseOption(Action<int> setter, params string[] options) {
         return StateChange.Push(new OptionSelectionState(this, options, setter));
+    }
+    protected StateChange ChooseYesNo(Action<bool> setter) {
+        return ChooseOption(i => setter(i == 0), _("Yes"), _("No"));
     }
 
     protected void Show() {
@@ -304,5 +352,18 @@ public abstract class DialogueState : StateMachineState {
     }
     protected string Text {
         set => ui.Text = value;
+    }
+}
+
+public class WaitForCoroutineState : StateMachineState {
+    public IEnumerator coroutine;
+    public WaitForCoroutineState(StateMachine stateMachine, IEnumerator coroutine) : base(stateMachine) {
+        this.coroutine = coroutine;
+    }
+    public override IEnumerator<StateChange> Enter {
+        get {
+            while (coroutine.MoveNext())
+                yield return  StateChange.none;
+        }
     }
 }

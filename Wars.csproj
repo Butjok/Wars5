@@ -138,6 +138,7 @@
      <Compile Include="Assets/Scripts/LoadingSpinnerTest.cs" />
      <Compile Include="Assets/Scripts/PowerMeterStripe.cs" />
      <Compile Include="Assets/Scripts/DepthOfFieldDistanceSetter.cs" />
+     <Compile Include="Assets/Scripts/CameraRigAnimation.cs" />
      <Compile Include="Assets/Scripts/EntryPoint/MainMenuState.cs" />
      <Compile Include="Assets/Scripts/SetTextToLocalizedGameObjectName.cs" />
      <Compile Include="Assets/Scripts/UnitMoveSequenceTest.cs" />
@@ -274,7 +275,6 @@
      <Compile Include="Assets/Scripts/FlipbookTest.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
      <Compile Include="Assets/Scripts/EntryPoint/MainMenuWelcomeState.cs" />
-     <Compile Include="Assets/Scripts/CameraRigAnimation.cs" />
      <Folder Include="Assets/Scripts/EntryPoint" />
      <None Include="Assets/Scripts/Wars.asmdef" />
      <Folder Include="Assets/Scripts/DialogueMarkupLanguage" />

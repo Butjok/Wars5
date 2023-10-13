@@ -44,6 +44,7 @@ public class GameSessionState : StateMachineState {
         }
     }
     public override void Exit() {
+        
         if (Player.undisposed.Count > 0)
             Debug.LogError($"undisposed players: {Player.undisposed.Count}");
         if (Building.undisposed.Count > 0)
@@ -52,5 +53,7 @@ public class GameSessionState : StateMachineState {
             Debug.LogError($"undisposed units: {Unit.undisposed.Count}");
         if (UnitAction.undisposed.Count > 0)
             Debug.LogError($"undisposed unit actions: {UnitAction.undisposed.Count}");
+        
+        persistentData.Save();
     }
 }

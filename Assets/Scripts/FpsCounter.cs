@@ -12,7 +12,7 @@ public class FpsCounter : MonoBehaviour {
 	public GUIContent content;
 	
 	public void OnGUI() {
-		if (!Debug.isDebugBuild || !Game.ShowDebugGui)
+		if (!Debug.isDebugBuild)
 			return;
 		GUI.skin = skin;
 		var fps = Mathf.RoundToInt(1f / Time.unscaledDeltaTime);

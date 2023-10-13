@@ -83,6 +83,8 @@ public class LevelEditorSessionState : StateMachineState {
 
     public override void Exit() {
 
+        SaveTerrainMesh();
+        
         LevelEditorFileSystem.Save("autosave", level);
         LevelEditorFileSystem.DeleteOldAutosaves(autosaveLifespanInDays);
 

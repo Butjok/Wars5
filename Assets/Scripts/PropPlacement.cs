@@ -11,13 +11,21 @@ using Random = UnityEngine.Random;
 
 public class PropPlacement : MonoBehaviour {
 
+    [Serializable]
+    public class PrefabInfo {
+        public enum RotationType { Random, Fixed }
+        public Transform prefab;
+        public RotationType defaultRotation = RotationType.Random;
+        public bool defaultAlignToNormal = true;
+    }
+
     public const string savePath = "Assets/Props.save";
 
     public Camera camera;
     public Color color = Color.yellow;
 
     public List<Transform> props = new();
-    public List<Transform> prefabs = new();
+    public List<PrefabInfo> prefabInfos = new();
     public Transform prefab;
     public Dictionary<Transform, Transform> previews = new();
     public Dictionary<Transform, Transform> getPrefab = new();
@@ -50,10 +58,11 @@ public class PropPlacement : MonoBehaviour {
     }
 
     private void Awake() {
-        if (prefabs.Count > 0)
-            prefab = prefabs[0];
+        if (prefabInfos.Count > 0)
+            SelectPrefab(prefabInfos[0]);
         TryLoad();
-        foreach (var prefab in prefabs) {
+        foreach (var prefabInfo in prefabInfos) {
+            var prefab = prefabInfo.prefab;
             var preview = Instantiate(prefab, transform);
             preview.name = prefab.name + "Preview";
             preview.gameObject.SetActive(false);
@@ -134,25 +143,38 @@ public class PropPlacement : MonoBehaviour {
                     RemoveProp(closestProp);
         }
 
-        if (Input.GetKeyDown(KeyCode.Tab) && prefabs.Count > 0) {
-            var index = prefabs.IndexOf(prefab);
-            var nextIndex = index == -1 ? 0 : (index + 1).PositiveModulo(prefabs.Count);
-            prefab = prefabs[nextIndex];
+        if (Input.GetKeyDown(KeyCode.Tab) && prefabInfos.Count > 0) {
+            var index = prefabInfos.FindIndex(info => info.prefab == prefab);
+            var nextIndex = index == -1 ? 0 : (index + 1).PositiveModulo(prefabInfos.Count);
+            SelectPrefab(prefabInfos[nextIndex]);
         }
 
-        else if (Input.GetKeyDown(KeyCode.R)) {
-            yaw = RandomYaw;
-            lastRotationWasRandom = true;
-        }
-        else if (Input.GetKeyDown(KeyCode.F)) {
-            var direction = Input.GetKey(KeyCode.LeftShift) ? -1 : 1;
-            yaw = (Mathf.Round(yaw / rotationStep) * rotationStep + direction * rotationStep).PositiveModulo(360);
-            lastRotationWasRandom = false;
-        }
+        else if (Input.GetKeyDown(KeyCode.R))
+            RotateRandomly();
+        else if (Input.GetKeyDown(KeyCode.F))
+            CycleFixedRotation();
         else if (Input.GetKeyDown(KeyCode.N))
             alignToNormal = !alignToNormal;
         else if (Input.GetKeyDown(KeyCode.H))
             HighlightProps();
+    }
+
+    public void CycleFixedRotation() {
+        var direction = Input.GetKey(KeyCode.LeftShift) ? -1 : 1;
+        yaw = (Mathf.Round(yaw / rotationStep) * rotationStep + direction * rotationStep).PositiveModulo(360);
+        lastRotationWasRandom = false;
+    }
+    public void RotateRandomly() {
+        yaw = RandomYaw;
+        lastRotationWasRandom = true;
+    }
+    public void SelectPrefab(PrefabInfo prefabInfo) {
+        prefab = prefabInfo.prefab;
+        alignToNormal = prefabInfo.defaultAlignToNormal;
+        if (prefabInfo.defaultRotation == PrefabInfo.RotationType.Random)
+            RotateRandomly();
+        else
+            CycleFixedRotation(); 
     }
 
     public float RandomYaw => Random.Range(randomRotationRange.x, randomRotationRange.y);
@@ -191,7 +213,7 @@ public class PropPlacement : MonoBehaviour {
         GUILayout.Label($"  [F] Snap & Rotate By {Mathf.RoundToInt(Mathf.Abs(rotationStep))}°");
         GUILayout.Label($"  [R] Random Rotation");
         GUILayout.Label($"  [P] Search");
-        GUILayout.Label($"  [N] Align To Normal");
+        GUILayout.Label($"  [N] {(alignToNormal ? "Unalign" : "Align")} To Terrain");
         GUILayout.Label($"  [H] Highlight Props");
 
         /*if (prefab)
@@ -222,7 +244,7 @@ public class PropPlacement : MonoBehaviour {
                 if (justOpened || oldSearchInput != searchInput) {
                     justOpened = false;
                     matches.Clear();
-                    foreach (var prefab in prefabs) {
+                    foreach (var prefab in prefabInfos.Select(i=>i.prefab)) {
                         if (prefab && searchInput.MatchesFuzzy(prefab.name))
                             matches.Add(prefab);
                     }
@@ -279,9 +301,9 @@ public class PropPlacement : MonoBehaviour {
                     var rotation = (Quaternion)stack.Pop();
                     var position = (Vector3)stack.Pop();
                     var prefabName = (string)stack.Pop();
-                    var prefabs = this.prefabs.Where(p => p.name == prefabName).ToList();
-                    Assert.IsTrue(prefabs.Count == 1);
-                    AddProp(prefabs[0], position, rotation, scale);
+                    var prefabInfos = this.prefabInfos.Where(i => i.prefab.name == prefabName).ToList();
+                    Assert.IsTrue(prefabInfos.Count == 1);
+                    AddProp(prefabInfos[0].prefab, position, rotation, scale);
                     break;
                 }
                 default:

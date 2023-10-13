@@ -111,12 +111,7 @@ public class Game : MonoBehaviour {
     }
 
     private void OnApplicationQuit() {
-        var editorSessionState = stateMachine.TryFind<LevelEditorSessionState>();
-        if (editorSessionState != null) {
-            LevelEditorFileSystem.Save("autosave", editorSessionState.level);
-            editorSessionState.SaveTerrainMesh();
-            // PrecalculatedDistances.CalculateAndWrite(editorSessionState.level.tiles, editorSessionState.level.missionName);
-        }
+        stateMachine.Pop(all: true);
     }
 
     [Command] public static int guiDepth = -1000;
@@ -126,11 +121,21 @@ public class Game : MonoBehaviour {
     [Command] public int statesFontSize = 9;
     [Command] public bool showStates = true;
 
-    [Command] public static bool ShowDebugGui {
-        get => PersistentData.Loaded.showDebugGui;
-        set => PersistentData.Loaded.showDebugGui = value;
+    public PersistentData PersistentData => stateMachine.Find<GameSessionState>().persistentData;
+
+    [Command] public bool ShowDebugGui {
+        get => PersistentData.showDebugGui;
+        set => PersistentData.showDebugGui = value;
     }
-    
+    [Command] public bool ShowIntroDialogue {
+        get => PersistentData.showIntroDialogue;
+        set => PersistentData.showIntroDialogue = value;
+    }
+    [Command] public bool PlayTutorial {
+        get => PersistentData.playTutorial;
+        set => PersistentData.playTutorial = value;
+    }
+
     public GUIStyle statesLabelStyle;
 
     private void OnGUI() {

@@ -33,20 +33,20 @@ public class TestDialogueState : DialogueState {
 
             yield return SayWait("We are going to look at some video!");
 
-            var (videoPlayer, _) = ShowVideo("encoded2".LoadAs<VideoClip>(), new Vector2(300, 300));
-            var completed = false;
-            videoPlayer.loopPointReached += _ => completed = true;
+            // var (videoPlayer, _) = ShowVideo("encoded2".LoadAs<VideoClip>(), new Vector2(300, 300));
+            // var completed = false;
+            // videoPlayer.loopPointReached += _ => completed = true;
 
             PushSkippableSequence();
-            yield return WaitWhile(() => !completed);
-            HideVideo(videoPlayer);
+            // yield return WaitWhile(() => !completed);
+            // HideVideo(videoPlayer);
             yield return Say("So...");
-            yield return Pause(1);
+            yield return Wait(1);
             yield return Append(" What do you think?");
             PopSkippableSequence();
 
             var opinionOnVideo = -1;
-            yield return SelectOption(value => opinionOnVideo = value, _("It was good"), _("Kinda meh"));
+            yield return ChooseOption(value => opinionOnVideo = value, _("It was good"), _("Kinda meh"));
             if (opinionOnVideo == 0)
                 yield return SayWait("I was thinking the same! Pretty cool, right?");
             else
@@ -55,7 +55,7 @@ public class TestDialogueState : DialogueState {
             var opinionOnApples = -1;
             while (opinionOnApples is not (0 or 1)) {
                 yield return Say(_("Do you like apples?"));
-                yield return SelectOption(value => opinionOnApples = value, _("Yes"), _("No"), _("Explain"));
+                yield return ChooseOption(value => opinionOnApples = value, _("Yes"), _("No"), _("Explain"));
                 switch (opinionOnApples) {
                     case 0:
                         yield return SayWait(_("I like apples too!"));
@@ -67,16 +67,16 @@ public class TestDialogueState : DialogueState {
                         var image = ShowImage("apple".LoadAs<Sprite>(), new Vector2(150, 150));
                         PushSkippableSequence();
                         yield return Say(_("This is an apple."));
-                        yield return Pause(1);
+                        yield return Wait(1);
                         yield return AppendWait(_(" It is a fruit."));
                         yield return Append(_(" It is red."));
-                        yield return Pause(1);
+                        yield return Wait(1);
                         yield return Append(_(" It is tasty."));
-                        yield return Pause(.5f);
+                        yield return Wait(.5f);
                         yield return Append(_("."));
-                        yield return Pause(.5f);
+                        yield return Wait(.5f);
                         yield return Append(_("."));
-                        yield return Pause(1);
+                        yield return Wait(1);
                         yield return AppendWait(_(" Got it?"));
                         PopSkippableSequence();
                         HideImage(image);

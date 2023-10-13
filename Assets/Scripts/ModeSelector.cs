@@ -19,7 +19,7 @@ public class ModeSelector : MonoBehaviour {
         Assert.IsTrue(roadCreator);
         Assert.IsTrue(propPlacement);
 
-        DisableAll();
+        DisableAllModes();
         switch (startMode) {
             case Mode.Terrain:
                 SwitchToTerrainMode();
@@ -33,7 +33,8 @@ public class ModeSelector : MonoBehaviour {
         }
     }
 
-    public void DisableAll() {
+    [Command]
+    public void DisableAllModes() {
         terrainCreator.enabled = false;
         roadCreator.enabled = false;
         propPlacement.enabled = false;
@@ -41,19 +42,19 @@ public class ModeSelector : MonoBehaviour {
 
     [Command]
     public void SwitchToTerrainMode() {
-        DisableAll();
+        DisableAllModes();
         terrainCreator.enabled = true;
     }
 
     [Command]
     public void SwitchToRoadMode() {
-        DisableAll();
+        DisableAllModes();
         roadCreator.enabled = true;
     }
 
     [Command]
     public void SwitchToPropMode() {
-        DisableAll();
+        DisableAllModes();
         propPlacement.enabled = true;
     }
 }

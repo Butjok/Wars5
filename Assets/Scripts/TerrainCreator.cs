@@ -23,6 +23,7 @@ public class TerrainCreator : MonoBehaviour {
     public const string autoSavePath = "Assets/TerrainCreation/autosave.save";
 
     public Camera camera;
+    public CameraRig cameraRig;
     public MeshFilter meshFilter;
     public MeshRenderer meshRenderer;
     public MeshCollider meshCollider;
@@ -420,6 +421,9 @@ public class TerrainCreator : MonoBehaviour {
         }
 
         RespawnBirds();
+
+        if (cameraRig)
+            cameraRig.bounds = meshRenderer.bounds;
     }
 
 
@@ -469,7 +473,7 @@ public class TerrainCreator : MonoBehaviour {
                 if (roadCreator)
                     for (var y = -1; y <= 1; y++)
                     for (var x = -1; x <= 1; x++)
-                        if (!skip && roadCreator.positions.Contains((position2d + new Vector2(x, y) * .25f).RoundToInt())) {
+                        if (!skip && roadCreator.positions.Contains((position2d + new Vector2(x, y) * .33f).RoundToInt())) {
                             skip = true;
                             break;
                         }
