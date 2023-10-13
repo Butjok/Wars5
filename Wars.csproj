@@ -150,6 +150,7 @@
      <Compile Include="Assets/Scripts/GameStates/DistanceField.cs" />
      <Compile Include="Assets/Scripts/Unit.cs" />
      <Compile Include="Assets/Scripts/BridgeView.cs" />
+     <Compile Include="Assets/Scripts/GameStates/TutorialDialogues.cs" />
      <Compile Include="Assets/Scripts/GameStates/GameMenuState.cs" />
      <Compile Include="Assets/Scripts/FpsCounter.cs" />
      <Compile Include="Assets/Scripts/UiShortestLine.cs" />
@@ -275,7 +276,6 @@
      <Compile Include="Assets/Scripts/FlipbookTest.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
      <Compile Include="Assets/Scripts/EntryPoint/MainMenuWelcomeState.cs" />
-     <Compile Include="Assets/Scripts/GameStates/TutorialDialogues.cs" />
      <Folder Include="Assets/Scripts/EntryPoint" />
      <None Include="Assets/Scripts/Wars.asmdef" />
      <Folder Include="Assets/Scripts/DialogueMarkupLanguage" />

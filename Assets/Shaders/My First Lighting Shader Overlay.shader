@@ -2,7 +2,7 @@
 
 	Properties {
 		[HDR]_Tint ("Tint", Color) = (1, 1, 1, 1)
-		_Tint2 ("Tint2", Color) = (1, 1, 1, 1)
+		[HDR]_Tint2 ("Tint2", Color) = (1, 1, 1, 1)
 		_MainTex ("Albedo", 2D) = "white" {}
 		
 		_UVs ("_UVs", 2D) = "black" {}

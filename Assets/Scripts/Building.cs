@@ -32,7 +32,7 @@ public class Building : IDisposable {
             player = value;
 
             if (view)
-                view.PlayerColor = player?.Color ?? new Color(0, 0, 0, 0);
+                view.PlayerColor = player?.Color ?? new Color(0, 1, 0, 0);
         }
     }
 

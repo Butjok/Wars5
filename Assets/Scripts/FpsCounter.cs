@@ -11,7 +11,7 @@ public class FpsCounter : MonoBehaviour {
 	public GUISkin skin;
 	public GUIContent content;
 	
-	public void OnGUI() {
+	/*public void OnGUI() {
 		if (!Debug.isDebugBuild)
 			return;
 		GUI.skin = skin;
@@ -23,5 +23,5 @@ public class FpsCounter : MonoBehaviour {
 		content.text = text;
 		var size = style.CalcSize(content);
 		GUI.Label(new Rect(new Vector2(Screen.width-size.x, 0), size), text);
-	}
+	}*/
 }

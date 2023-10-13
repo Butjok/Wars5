@@ -312,7 +312,7 @@ float2 _Splat2Size;
             tileMaskEmission += 7.5*_Emissive * smoothstep(0.025, 0.0125, abs(tileMaskDistance - .025));
             
             o.Emission = tileMaskEmission ;
-            
+            o.Albedo  = lerp(o.Albedo, o.Emission, (o.Emission.r + o.Emission.g + o.Emission.b) / 1);
         }
         ENDCG
     }

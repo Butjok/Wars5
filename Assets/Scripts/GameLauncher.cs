@@ -28,6 +28,6 @@ public class GameLauncher : MonoBehaviour {
             else
                 game.EnqueueCommand(GameSessionState.Command.PlayLevel, input);
         else
-            game.EnqueueCommand(GameSessionState.Command.LaunchEntryPoint, (showSplashScreen, showWelcome));
+            game.EnqueueCommand(GameSessionState.Command.LaunchMainMenu, (showSplashScreen, showWelcome));
     }
 }

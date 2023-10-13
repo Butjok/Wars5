@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameSessionState : StateMachineState {
 
-    public enum Command { LaunchEntryPoint, PlayLevel, OpenLevelEditor }
+    public enum Command { LaunchMainMenu, PlayLevel, OpenLevelEditor }
 
     public Game game;
     public PersistentData persistentData;
@@ -27,8 +27,8 @@ public class GameSessionState : StateMachineState {
                 yield return StateChange.none;
                 while (game.TryDequeueCommand(out var command))
                     switch (command) {
-                        case (Command.LaunchEntryPoint, (bool showSplashScreen, bool showWelcome)):
-                            yield return StateChange.Push(new EntryPointState(stateMachine, showSplashScreen, showWelcome));
+                        case (Command.LaunchMainMenu, (bool showSplashScreen, bool showWelcome)):
+                            yield return StateChange.Push(new MainMenuState2(stateMachine, showSplashScreen, showWelcome));
                             break;
                         case (Command.PlayLevel, (string input, MissionName missionName, bool isFreshStart)):
                             yield return StateChange.Push(new LevelSessionState(stateMachine, input, missionName,isFreshStart));

@@ -12,6 +12,6 @@ public class MainMenuLauncher : MonoBehaviour {
             return;
 
         game.stateMachine.Push(new GameSessionState(game));
-        game.stateMachine.Push(new MainMenuState2(game.stateMachine, showSplashScreen, showWelcomeScreen));
+        game.EnqueueCommand(GameSessionState.Command.LaunchMainMenu, (showSplashScreen, showWelcomeScreen));
     }
 }

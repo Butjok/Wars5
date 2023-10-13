@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Butjok.CommandLine;
 using UnityEditor;
@@ -26,7 +27,7 @@ public class UnitThumbnailRenderer : MonoBehaviour {
         Assert.IsTrue(camera);
     }
 
-    public void RenderThumbnail(Image targetImage) {
+    public void RenderThumbnail(Image targetImage, string assetName = null) {
 
         camera.Render();
 
@@ -53,6 +54,11 @@ public class UnitThumbnailRenderer : MonoBehaviour {
 
         var sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
         targetImage.sprite = sprite;
+
+        if (assetName != null) {
+            var path = "Assets/Resources/UnitThumbnails/" + assetName + ".exr";
+            File.WriteAllBytes(path, texture.EncodeToPNG());
+        }
     }
 
     [ContextMenu(nameof(RenderThumbnails))]
@@ -72,11 +78,21 @@ public class UnitThumbnailRenderer : MonoBehaviour {
             foreach (var renderer in unit.GetComponentsInChildren<Renderer>())
                 renderer.SetPropertyBlock(propertyBlock);
 
-            RenderThumbnail(targetImage);
+            RenderThumbnail(targetImage, unit.name);
             unit.SetActive(false);
         }
 
         if (units.Length > 0)
             units[0].SetActive(true);
+        
+        AssetDatabase.Refresh();
+        foreach (var path in Directory.GetFiles("Assets/Resources/UnitThumbnails", "*.exr")) {
+            var importer = AssetImporter.GetAtPath(path) as TextureImporter;
+            Assert.IsNotNull(importer);
+            importer.textureType = TextureImporterType.Sprite;
+            importer.mipmapEnabled = true;
+            importer.sRGBTexture = false;
+            importer.SaveAndReimport();
+        }
     }
 }

@@ -10,7 +10,8 @@ public class CloseUpImage : MonoBehaviour, IDragHandler, IEndDragHandler {
     public Vector2 rotationSpeed = new(1, 1);
     public Vector2 pitchBounds = new(0,90);
     public Vector2 deceleration = new(1000,1000);
-
+    public Vector2 startAngles;
+    
     public Vector2 Angles {
         get =>  cameraArm.rotation.eulerAngles;
         set {
@@ -20,6 +21,15 @@ public class CloseUpImage : MonoBehaviour, IDragHandler, IEndDragHandler {
     }
     public static Vector2 ToAngles(Vector2 mouseDeltaPosition) {
         return new Vector2(-mouseDeltaPosition.y, mouseDeltaPosition.x);
+    }
+
+    private void Awake() {
+        startAngles = Angles;
+    }
+
+    private void OnEnable() {
+        Angles = startAngles;
+        speed=Vector2.zero;
     }
 
     public Vector2 speed;

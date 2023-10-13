@@ -35,6 +35,7 @@ public class UnitBuildMenuButton2 : MonoBehaviour, IPointerEnterHandler, IPointe
         startColor = image.color;
         startSize = image.rectTransform.sizeDelta;
         startPosition = image.rectTransform.anchoredPosition;
+        image.sprite = Resources.Load<Sprite>("UnitThumbnails/" + name);
     }
 
     private bool highlighted;

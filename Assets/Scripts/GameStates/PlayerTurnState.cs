@@ -29,7 +29,7 @@ public class PlayerTurnState : StateMachineState {
                     yield return StateChange.none;
             }
 
-            if (level.missionName == MissionName.Tutorial && level.Day() == 0 && level.CurrentPlayer.ColorName == ColorName.Blue)
+            if (level.missionName == MissionName.Tutorial && level.Day() == 0 && level.CurrentPlayer.ColorName == ColorName.Red)
                 yield return StateChange.Push(new TutorialVladansTurnDialogue(stateMachine));
 
             yield return StateChange.Push(new SelectionState(stateMachine));

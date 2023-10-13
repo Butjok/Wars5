@@ -6,6 +6,7 @@ using Butjok.CommandLine;
 using Drawing;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class TilemapCursor : MonoBehaviour {
@@ -24,9 +25,11 @@ public class TilemapCursor : MonoBehaviour {
     public bool enableKeyboard = false;
     public bool enableMouse = true;
 
-    public GameObject tilePreviewRoot;
+    public GameObject uiRoot;
+    public GameObject tileRoot;
     public Image tileThumbnail;
     public TMP_Text tileName;
+    public GameObject unitRoot;
     public Image unitThumbnail;
     public TMP_Text unitHp;
     public TMP_Text unitName;
@@ -36,20 +39,20 @@ public class TilemapCursor : MonoBehaviour {
 
     public bool ShowUi {
         set {
-            if (tilePreviewRoot.activeSelf != value)
-                tilePreviewRoot.SetActive(value);
+            if (uiRoot.activeSelf != value)
+                uiRoot.SetActive(value);
         }
     }
     public bool ShowTile {
         set {
-            if (tileThumbnail.gameObject.activeSelf != value)
-                tileThumbnail.gameObject.SetActive(value);
+            if (tileRoot.activeSelf != value)
+                tileRoot.SetActive(value);
         }
     }
     public bool ShowUnit {
         set {
-            if (unitThumbnail.gameObject.activeSelf != value)
-                unitThumbnail.gameObject.SetActive(value);
+            if (unitRoot.activeSelf != value)
+                unitRoot.SetActive(value);
         }
     }
     public TileType TileType {
@@ -200,9 +203,10 @@ public class TilemapCursor : MonoBehaviour {
 
     private void OnGUI() {
         GUI.skin = DefaultGuiSkin.TryGet;
-        if ( TryGetPosition(out var position)) {
-            GUILayout.Space(30);
-            GUILayout.Label(position.ToString());
+        if (viewRoot.activeSelf && TryGetPosition(out var position)) {
+            var content = new GUIContent(position.ToString());
+            var size = GUI.skin.label.CalcSize(content);
+            GUI.Label(new Rect(0, Screen.height - size.y, size.x, size.y), content);
         }
     }
 }

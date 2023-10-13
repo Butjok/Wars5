@@ -41,9 +41,8 @@ public class LevelSessionState : StateMachineState {
                 new Thread(() => PrecalculatedDistances.TryLoad(level.missionName, out level.precalculatedDistances)).Start();
 
             LevelView.TryLoadScene(level.missionName);
-            // give one extra frame to load the scene
-            yield return StateChange.none;
-            Assert.IsTrue(LevelView.TryInstantiatePrefab(out level.view));
+            while (!LevelView.TryInstantiatePrefab(out level.view))
+                yield return StateChange.none;
             LevelReader.ReadInto(level, input.ToPostfix());
 
             autoplayHandler = AutoplayHandler();
