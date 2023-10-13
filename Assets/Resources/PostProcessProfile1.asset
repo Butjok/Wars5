@@ -59,7 +59,7 @@ MonoBehaviour:
   active: 1
   enabled:
     overrideState: 1
-    value: 1
+    value: 0
   focusDistance:
     overrideState: 1
     value: 0.1
@@ -295,7 +295,7 @@ MonoBehaviour:
     value: 9
   colorFilter:
     overrideState: 1
-    value: {r: 0.039215688, g: 0.03529412, b: 0.03137255, a: 1}
+    value: {r: 1, g: 1, b: 1, a: 1}
   hueShift:
     overrideState: 0
     value: 0
