@@ -26,14 +26,18 @@ public class TutorialStartDialogue : DialogueState {
                     yield return Say(_("Sure thing!"));
                     yield return Wait(.5f);
                     yield return SayWait(_("Let us start with the basics!"));
-                    var video = CreateVideo("encoded2".LoadAs<VideoClip>(), target: VideoPanelImage);
                     yield return ShowVideoPanel();
-                    //yield return Wait(.5f);
+                    yield return Wait(.25f);
+                    MakeDark();
+                    var video = CreateVideo("unit-movement".LoadAs<VideoClip>(), target: VideoPanelImage);                    
                     video.player.playbackSpeed = 1;
                     yield return WaitWhile(() => !video.Completed);
                     yield return SayWait(_("Now that you know the basics, let us get started!"));
-                    yield return HideVideoPanel();
                     DestroyVideo(video);
+                    yield return Wait(.25f);
+                    MakeLight();
+                    yield return Wait(.25f);
+                    yield return HideVideoPanel();
                 }
                 else
                     yield return SayWait(_("Sure thing, let us get started!"));

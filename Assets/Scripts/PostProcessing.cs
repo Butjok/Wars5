@@ -10,6 +10,8 @@ public static class PostProcessing {
         profile = "PostProcessProfile1".LoadAs<PostProcessProfile>();
         colorGrading = profile.GetSetting<ColorGrading>();
         Assert.IsTrue(colorGrading);
+        depthOfField = profile.GetSetting<DepthOfField>();
+        Assert.IsTrue(depthOfField);
     }
 
     public static PostProcessProfile profile;
@@ -17,6 +19,10 @@ public static class PostProcessing {
     public static Color ColorFilter {
         get => colorGrading.colorFilter.value;
         set => colorGrading.colorFilter.value = value;
+    }
+    public static DepthOfField depthOfField;
+    public static bool Blur {
+        set => depthOfField.enabled.value = value;
     }
     
     private static Tweener fadeTweener;

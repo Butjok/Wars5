@@ -323,6 +323,9 @@ public abstract class DialogueState : StateMachineState {
         videoPlayer.clip = videoClip;
         videoPlayer.renderMode = VideoRenderMode.RenderTexture;
         var renderTexture = new RenderTexture((int)videoClip.width, (int)videoClip.height, 0);
+        renderTexture.useMipMap = true;
+        renderTexture.autoGenerateMips = true;
+        renderTexture.wrapMode= TextureWrapMode.Clamp;
         videoPlayer.targetTexture = renderTexture;
         videoPlayer.transform.SetParent(ui.transform);
         bool completed = false;
@@ -350,6 +353,13 @@ public abstract class DialogueState : StateMachineState {
         video.rawImage.enabled = false;
         Object.Destroy(video.player.targetTexture);
         Object.Destroy(video.player.gameObject);
+    }
+
+    protected void MakeDark() {
+        ui.MakeDark();
+    }
+    protected void MakeLight() {
+        ui.MakeLight();
     }
 
     protected StateChange ChooseOption(Action<int> setter, params string[] options) {

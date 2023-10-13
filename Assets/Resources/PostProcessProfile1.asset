@@ -56,19 +56,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 556797029e73b2347956b6579e77e05b, type: 3}
   m_Name: DepthOfField
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   enabled:
     overrideState: 1
     value: 1
   focusDistance:
     overrideState: 1
-    value: 4.06
+    value: 0.1
   aperture:
     overrideState: 1
-    value: 1.5
+    value: 0.1
   focalLength:
     overrideState: 0
-    value: 50
+    value: 1
   kernelSize:
     overrideState: 0
     value: 1
@@ -295,7 +295,7 @@ MonoBehaviour:
     value: 9
   colorFilter:
     overrideState: 1
-    value: {r: 1, g: 1, b: 1, a: 1}
+    value: {r: 0.039215688, g: 0.03529412, b: 0.03137255, a: 1}
   hueShift:
     overrideState: 0
     value: 0

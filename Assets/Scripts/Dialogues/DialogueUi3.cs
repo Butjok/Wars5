@@ -35,6 +35,9 @@ public class DialogueUi3 : MonoBehaviour {
     public float videoPanelStartY;
     public float videoPanelMoveDuration = .5f;
     public float videoPanelOffsetScreenY = 1000;
+    public Image underlayImage;
+    public Color videoUnderlayDarknessColorTint = Color.white;
+    [ColorUsage(false,true)] public Color postProcessingDarknessColorFilter = Color.white;
 
     public void Awake() {
         videoPanelStartY = videoPanelRoot.anchoredPosition.y;
@@ -123,5 +126,16 @@ public class DialogueUi3 : MonoBehaviour {
         ShowSpaceKey = false;
         Text = null;
         Speaker = null;
+    }
+
+    public void MakeDark() {
+        underlayImage.color = videoUnderlayDarknessColorTint;
+        PostProcessing.ColorFilter = postProcessingDarknessColorFilter;
+        PostProcessing.Blur = true;
+    }
+    public void MakeLight() {
+        underlayImage.color = Color.white;
+        PostProcessing.ColorFilter = Color.white;
+        PostProcessing.Blur = false;
     }
 }
