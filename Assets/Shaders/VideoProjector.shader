@@ -27,6 +27,8 @@ Shader "Custom/VideoProjector" {
 		half _Metallic;
 		fixed4 _Color;
 		fixed4x4 _WorldToProjection;
+		
+		#include "Assets/Shaders/SDF.cginc"
 
 		void surf (Input IN, inout SurfaceOutputStandard o) {
 			// Metallic and smoothness come from slider variables
@@ -37,10 +39,15 @@ Shader "Custom/VideoProjector" {
 			
 			half3 video = 0;
 			float2 projectionSpace = (mul(_WorldToProjection, float4(IN.worldPos, 1)).xy + 1) / 2;
-			if (projectionSpace.x >= 0 && projectionSpace.x <= 1 && projectionSpace.y >= 0 && projectionSpace.y <= 1)
-				video = tex2D(_MainTex, projectionSpace).rgb;
+			
+			half dist = sdfBox(projectionSpace - .5, 1);
+			
+			o.Emission = dist;
+			
+			//if (projectionSpace.x >= 0 && projectionSpace.x <= 1 && projectionSpace.y >= 0 && projectionSpace.y <= 1)
+			//	video = tex2D(_MainTex, projectionSpace).rgb;
 				
-			o.Emission = video * o.Albedo.rgb;
+			//o.Emission = video * o.Albedo.rgb;
 		}
 		ENDCG
 	}

@@ -52,7 +52,7 @@ Shader "Custom/TerrainBorder" {
             float2 newcoords = uv - 0.5; //move to center
             newcoords.x = (uv.x * coss) + (uv.y * (-sinn));
             newcoords.y = (uv.x * sinn) + (uv.y * coss);
-			o.Smoothness = (1-tex2D(_Roughness, newcoords).r)*.1 + .15;
+			o.Smoothness = (tex2D(_Roughness, newcoords).r)*.066 + .25;
 		}
 		ENDCG
 	}
