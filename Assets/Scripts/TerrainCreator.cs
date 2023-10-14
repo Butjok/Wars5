@@ -1,17 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using Butjok.CommandLine;
 using Drawing;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
 using Torec;
-using UnityEngine.Rendering;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
@@ -20,7 +17,7 @@ using Random = UnityEngine.Random;
 [RequireComponent(typeof(MeshFilter))]
 public class TerrainCreator : MonoBehaviour {
 
-    public const string autoSavePath = "Assets/TerrainCreation/autosave.save";
+    public const string autosaveName = "Autosave";
 
     public Camera camera;
     public CameraRig cameraRig;
@@ -65,6 +62,11 @@ public class TerrainCreator : MonoBehaviour {
 
     public Transform borderTopLeft, borderTopRight, borderBottomLeft, borderBottomRight;
 
+    public float elevation = 0;
+    public float elevationStep = .25f;
+
+    public string loadOnAwake = autosaveName;
+
     [Command]
     public int BirdsCount {
         get => birdsCount;
@@ -92,14 +94,25 @@ public class TerrainCreator : MonoBehaviour {
         gameObject.layer = LayerMask.NameToLayer("Terrain");
     }
 
-    public float elevation = 0;
-    public float elevationStep = .25f;
-
     private void Awake() {
-        TryLoad(autoSavePath);
-        RebuildTerrain(false);
+        TryLoad(loadOnAwake);
+    }
+
+    public bool TryLoad(string name) {
+        var input = LevelEditorFileSystem.TryReadLatest(name + "Terrain");
+        if (input == null)
+            return false;
+        Read(input.ToPostfix());
+        RebuildTerrain(false, false);
         UpdateBushRenderer();
         UpdateTreeRenderer();
+        return true;
+    }
+
+    public void Save(string name) {
+        using var stringWriter = new StringWriter();
+        Write(stringWriter);
+        LevelEditorFileSystem.Save(name + "Terrain", stringWriter.ToString());
     }
 
     private int subdivideLevel = 1;
@@ -110,7 +123,8 @@ public class TerrainCreator : MonoBehaviour {
         set {
             value = Mathf.Clamp(value, 0, 2);
             subdivideLevel = value;
-            RebuildTerrain();
+            RebuildTerrain(true, false);
+            UpdateBushRenderer();
         }
     }
 
@@ -118,6 +132,14 @@ public class TerrainCreator : MonoBehaviour {
     public void ClearTrees() {
         trees.Clear();
         UpdateTreeRenderer();
+    }
+
+    [Command]
+    public void Clear() {
+        vertices.Clear();
+        vertices2.Clear();
+        quads.Clear();
+        RebuildTerrain(true, true);
     }
 
     public void Update() {
@@ -232,7 +254,7 @@ public class TerrainCreator : MonoBehaviour {
         roadCreator.Rebuild();
     }
 
-    private void RebuildTerrain(bool clearBushes = true) {
+    private void RebuildTerrain(bool clearBushes = true, bool clearTrees = false) {
 
         //remove unused vertices
         {
@@ -391,8 +413,11 @@ public class TerrainCreator : MonoBehaviour {
 
         if (clearBushes) {
             bushes.Clear();
-            if (bushRenderer)
-                bushRenderer.transformList = null;
+            UpdateBushRenderer();
+        }
+        if (clearTrees) {
+            trees.Clear();
+            UpdateTreeRenderer();
         }
 
         //if (roadCreator)
@@ -459,6 +484,12 @@ public class TerrainCreator : MonoBehaviour {
     public Material bushMaterial2;
 
     [Command]
+    public void ClearBushes() {
+        bushes.Clear();
+        UpdateBushRenderer();
+    }
+
+    [Command]
     public void PlaceBushes() {
 
         var origin = meshFilter.sharedMesh ? meshFilter.sharedMesh.bounds.min.ToVector2() : Vector2.zero;
@@ -504,11 +535,13 @@ public class TerrainCreator : MonoBehaviour {
                 Destroy(bushRenderer.transformList);
                 bushRenderer.transformList = null;
             }
-            bushRenderer.transformList = ScriptableObject.CreateInstance<TransformList>();
-            bushRenderer.transformList.name = "Bushes";
-            bushRenderer.transformList.matrices = bushes.Select(bush => Matrix4x4.TRS(bush.position, bush.rotation, bush.scale)).ToArray();
-            bushRenderer.transformList.bounds = new Bounds(Vector3.zero, Vector3.one * 100);
-            bushRenderer.ResetGpuBuffers();
+            if (bushes.Count > 0) {
+                bushRenderer.transformList = ScriptableObject.CreateInstance<TransformList>();
+                bushRenderer.transformList.name = "Bushes";
+                bushRenderer.transformList.matrices = bushes.Select(bush => Matrix4x4.TRS(bush.position, bush.rotation, bush.scale)).ToArray();
+                bushRenderer.transformList.bounds = new Bounds(Vector3.zero, Vector3.one * 100);
+                bushRenderer.ResetGpuBuffers();
+            }
         }
     }
 
@@ -544,11 +577,13 @@ public class TerrainCreator : MonoBehaviour {
                 Destroy(treeRenderer.transformList);
                 treeRenderer.transformList = null;
             }
-            treeRenderer.transformList = ScriptableObject.CreateInstance<TransformList>();
-            treeRenderer.transformList.name = "Trees";
-            treeRenderer.transformList.matrices = trees.Select(tree => Matrix4x4.TRS(tree.position, tree.rotation, tree.scale)).ToArray();
-            treeRenderer.transformList.bounds = new Bounds(Vector3.zero, Vector3.one * 100);
-            treeRenderer.ResetGpuBuffers();
+            if (trees.Count > 0) {
+                treeRenderer.transformList = ScriptableObject.CreateInstance<TransformList>();
+                treeRenderer.transformList.name = "Trees";
+                treeRenderer.transformList.matrices = trees.Select(tree => Matrix4x4.TRS(tree.position, tree.rotation, tree.scale)).ToArray();
+                treeRenderer.transformList.bounds = new Bounds(Vector3.zero, Vector3.one * 100);
+                treeRenderer.ResetGpuBuffers();
+            }
         }
     }
 
@@ -561,51 +596,41 @@ public class TerrainCreator : MonoBehaviour {
         //GUILayout.Label($"{vertices.Count} vertices");
     }
 
-    private void OnApplicationQuit() {
-        Save(autoSavePath);
-    }
-
     public Dictionary<Vector2Int, MeshUtils2.Vertex> vertices = new();
     public Dictionary<Vector2Int, MeshUtils2.Quad> quads = new();
 
-    public void Save(string path) {
+    public void Write(TextWriter textWriter) {
 
         var vertexList = vertices.Values.ToList();
 
-        var stringWriter = new StringWriter();
-
-        stringWriter.PostfixWriteLine("set-subdivide-level ( {0} )", subdivideLevel);
+        textWriter.PostfixWriteLine("set-subdivide-level ( {0} )", subdivideLevel);
 
         foreach (var (key, vertex) in vertices) {
-            stringWriter.PostfixWriteLine("vertex.add ( {0} {1} {2} {3} {4} {5} )", key, vertex.position, vertex.uv0, vertex.uv1, vertex.uv2, vertex.color);
+            textWriter.PostfixWriteLine("vertex.add ( {0} {1} {2} {3} {4} {5} )", key, vertex.position, vertex.uv0, vertex.uv1, vertex.uv2, vertex.color);
             vertexList.Add(vertex);
         }
 
         foreach (var (key, quad) in quads)
-            stringWriter.PostfixWriteLine("quad.add ( {0} {1} {2} {3} {4} )", key, vertexList.IndexOf(quad.a), vertexList.IndexOf(quad.b), vertexList.IndexOf(quad.c), vertexList.IndexOf(quad.d));
+            textWriter.PostfixWriteLine("quad.add ( {0} {1} {2} {3} {4} )", key, vertexList.IndexOf(quad.a), vertexList.IndexOf(quad.b), vertexList.IndexOf(quad.c), vertexList.IndexOf(quad.d));
 
         foreach (var (position, rotation, scale) in bushes)
-            stringWriter.PostfixWriteLine("bush.add ( {0} {1} {2} )", position, rotation, scale);
+            textWriter.PostfixWriteLine("bush.add ( {0} {1} {2} )", position, rotation, scale);
 
         foreach (var (position, rotation, scale) in trees)
-            stringWriter.PostfixWriteLine("tree.add ( {0} {1} {2} )", position, rotation, scale);
+            textWriter.PostfixWriteLine("tree.add ( {0} {1} {2} )", position, rotation, scale);
 
-        stringWriter.PostfixWriteLine("set-birds-count ( {0} )", birdsCount);
-
-        File.WriteAllText(path, stringWriter.ToString());
+        textWriter.PostfixWriteLine("set-birds-count ( {0} )", birdsCount);
     }
 
-    public bool TryLoad(string path) {
+    public void Read(string input) {
 
-        if (!File.Exists(path))
-            return false;
-
-        var input = File.ReadAllText(path).ToPostfix();
         var stack = new Stack();
         var verticesList = new List<MeshUtils2.Vertex>();
 
         vertices.Clear();
         quads.Clear();
+        bushes.Clear();
+        trees.Clear();
 
         foreach (var token in Tokenizer.Tokenize(input))
             switch (token) {
@@ -669,7 +694,5 @@ public class TerrainCreator : MonoBehaviour {
                     stack.ExecuteToken(token);
                     break;
             }
-
-        return true;
     }
 }

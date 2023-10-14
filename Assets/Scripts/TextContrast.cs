@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
 
+[ExecuteInEditMode]
 public class TextContrast : MonoBehaviour {
 
     public Graphic graphic;

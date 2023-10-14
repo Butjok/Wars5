@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Video;
 using static Gettext;
 
@@ -29,12 +30,14 @@ public class TutorialStartDialogue : DialogueState {
                     yield return ShowVideoPanel();
                     yield return Wait(.25f);
                     MakeDark();
+                    Time.timeScale = .25f;
                     var video = CreateVideo("unit-movement".LoadAs<VideoClip>(), target: VideoPanelImage);                    
                     video.player.playbackSpeed = 1;
                     yield return WaitWhile(() => !video.Completed);
                     yield return SayWait(_("Now that you know the basics, let us get started!"));
                     DestroyVideo(video);
                     yield return Wait(.25f);
+                    Time.timeScale = 1;
                     MakeLight();
                     yield return Wait(.25f);
                     yield return HideVideoPanel();

@@ -37,7 +37,7 @@ public class TilemapCursor : MonoBehaviour {
     public Sprite[] tileThumbnails = { };
     public Sprite[] unitThumbnails = { };
 
-    public bool showGui = false;
+    [Command] public bool showGui = false;
 
     public bool ShowUi {
         set {

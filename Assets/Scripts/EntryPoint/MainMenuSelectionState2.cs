@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuState2 : StateMachineState {
 
-    public const string sceneName = "MainMenuNew";
+    public const string sceneName = "MainMenuTest";
 
     public MainMenuView2 view;
     public bool showSplash, showWelcome;
@@ -20,12 +20,16 @@ public class MainMenuState2 : StateMachineState {
 
     public override IEnumerator<StateChange> Enter {
         get {
-            /*if (SceneManager.GetActiveScene().name != sceneName) {
+            if (SceneManager.GetActiveScene().name != sceneName)
                 SceneManager.LoadScene(sceneName);
-                yield return StateChange.none;
-            }*/
 
-            view = FindObject<MainMenuView2>();
+            view = Object.FindObjectOfType<MainMenuView2>();
+            while (!view) {
+                yield return StateChange.none;
+                view = Object.FindObjectOfType<MainMenuView2>();
+            }
+            view.enabled = false;
+
             if (GitInfoEntry.TryLoad(out var gitInfo))
                 view.gitInfo = gitInfo;
 
@@ -34,10 +38,11 @@ public class MainMenuState2 : StateMachineState {
 
             if (CameraFader.IsBlack == true)
                 CameraFader.FadeToWhite();
-            
+
             var zoomFadeAnimation = CameraAnimation.ZoomFadeAnimation(view.mainCamera, 2, startFovFactor: .9f);
             while (zoomFadeAnimation.MoveNext())
                 yield return StateChange.none;
+
 
             if (showWelcome) {
 
@@ -54,6 +59,8 @@ public class MainMenuState2 : StateMachineState {
                 if (view.pressAnyKey.activeSelf)
                     view.pressAnyKey.SetActive(false);
             }
+
+            view.enabled = true;
 
             yield return StateChange.Push(new MainMenuSelectionState2(stateMachine));
         }
@@ -96,7 +103,9 @@ public class MainMenuSelectionState2 : StateMachineState {
                     switch (command) {
 
                         case (Command.OpenQuitDialog, _):
+                            view.enabled = false;
                             yield return StateChange.Push(new MinaMenuQuitConfirmationState(stateMachine));
+                            view.enabled = true;
                             break;
 
                         case (Command.GoToCampaignOverview, _):
@@ -107,22 +116,21 @@ public class MainMenuSelectionState2 : StateMachineState {
                             break;
 
                         case (Command.OpenLoadGameMenu, _):
+                            view.enabled = false;
                             yield return StateChange.Push(new MainMenuLoadGameState(stateMachine));
-                            yield return StateChange.none;
+                            view.enabled = true;
                             break;
 
                         case (Command.OpenGameSettingsMenu, _):
-                            //HideButtons();
+                            view.enabled = false;
                             yield return StateChange.Push(new MainMenuGameSettingsState(stateMachine));
-                            yield return StateChange.none;
-                            //ShowButtons();
+                            view.enabled = true;
                             break;
 
                         case (Command.OpenAboutMenu, _):
-                            //HideButtons();
+                            view.enabled = false;
                             yield return StateChange.Push(new MainMenuAboutState(stateMachine));
-                            yield return StateChange.none;
-                            //ShowButtons();
+                            view.enabled = true;
                             break;
 
                         default:

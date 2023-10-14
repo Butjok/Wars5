@@ -12,7 +12,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(MeshFilter))]
 public class RoadCreator : MonoBehaviour {
 
-    public const string autoSavePath = "Assets/RoadAutosave.save";
+    public const string autosaveName = "Autosave";
 
     public Camera camera;
 
@@ -26,6 +26,8 @@ public class RoadCreator : MonoBehaviour {
 
     public Color color = Color.grey;
     public TerrainCreator terrainCreator;
+    
+    public string loadOnAwake = autosaveName;
 
     private void Reset() {
         meshFilter = GetComponent<MeshFilter>();
@@ -151,12 +153,13 @@ public class RoadCreator : MonoBehaviour {
     public float offset = .05f;
 
     public void Awake() {
-        TryLoad(autoSavePath);
+        TryLoad(loadOnAwake);
         Rebuild();
     }
 
-    private void OnApplicationQuit() {
-        Save(autoSavePath);
+    public void Clear() {
+        positions.Clear();
+        Rebuild();
     }
 
     private void OnGUI() {
@@ -166,14 +169,10 @@ public class RoadCreator : MonoBehaviour {
         GUILayout.Label("[R] Rebuild");
     }
 
-    public bool TryLoad(string path) {
-
-        if (!File.Exists(path))
-            return false;
-
-        var input = File.ReadAllText(path).ToPostfix();
+    public void Read(string input) {
+        positions.Clear();
         var stack = new Stack();
-        foreach (var token in Tokenizer.Tokenize(input))
+        foreach (var token in Tokenizer.Tokenize(input.ToPostfix()))
             switch (token) {
                 case "add": {
                     positions.Add((Vector2Int)stack.Pop());
@@ -184,17 +183,21 @@ public class RoadCreator : MonoBehaviour {
                     break;
                 }
             }
+    }
 
+    public bool TryLoad(string name) {
+        var input = LevelEditorFileSystem.TryReadLatest(name + "Roads");
+        if (input == null)
+            return false;
+        Read(input);
+        Rebuild();
         return true;
     }
 
-    public void Save(string path) {
-
+    public void Save(string name) {
         var output = new StringWriter();
-
         foreach (var position in positions)
             output.PostfixWriteLine("add ( {0} )", position);
-
-        File.WriteAllText(path, output.ToString());
+        LevelEditorFileSystem.Save(name + "Roads", output.ToString());
     }
 }

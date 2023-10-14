@@ -119,7 +119,16 @@ public class Game : MonoBehaviour {
     [Command] public bool showAllUnitBrainStates;
     [Command] public float unitBrainStateFontScale = 1;
     [Command] public int statesFontSize = 9;
-    [Command] public bool showStates = false;
+    public bool showStates = false;
+
+    [Command]
+    public void ShowStates() {
+        showStates=true;
+    }
+    [Command]
+    public void HideStates() {
+        showStates = false;
+    }
 
     public PersistentData PersistentData => stateMachine.Find<GameSessionState>().persistentData;
 

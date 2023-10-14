@@ -1,0 +1,7 @@
+set-subdivide-level ( 0 )
+vertex.add ( -17 53 int2 -8.5 0 26.5 float3 1 0 float2 null null null )
+vertex.add ( -17 55 int2 -8.5 0 27.5 float3 1 1 float2 null null null )
+vertex.add ( -19 55 int2 -9.5 0 27.5 float3 0 1 float2 null null null )
+vertex.add ( -19 53 int2 -9.5 0 26.5 float3 0 0 float2 null null null )
+quad.add ( -9 27 int2 3 2 1 0 )
+set-birds-count ( 0 )

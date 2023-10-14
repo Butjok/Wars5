@@ -11,6 +11,7 @@ public class MissionView : MonoBehaviour {
     public Material defaultMaterial;
     public Material hoveredMaterial;
     public Material unavailableMaterial;
+    public GameObject uiRoot;
     public TMP_Text text;
     
     public MissionName MissionName {

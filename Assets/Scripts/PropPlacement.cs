@@ -19,7 +19,7 @@ public class PropPlacement : MonoBehaviour {
         public bool defaultAlignToNormal = true;
     }
 
-    public const string savePath = "Assets/Props.save";
+    public const string autosaveName = "Autosave";
 
     public Camera camera;
     public Color color = Color.yellow;
@@ -42,6 +42,8 @@ public class PropPlacement : MonoBehaviour {
     [Command] public float highlightDuration = 3f;
     [Command] public float highlightFrequency = 66;
     [Command] public Color highlightColor = Color.red;
+    
+    public string loadOnAwake = autosaveName;
 
     [Command]
     public void HighlightProps() {
@@ -57,10 +59,16 @@ public class PropPlacement : MonoBehaviour {
         }
     }
 
+    [Command]
+    public void Clear() {
+        foreach (var prop in props.ToList())
+            RemoveProp(prop);
+    }
+
     private void Awake() {
         if (prefabInfos.Count > 0)
             SelectPrefab(prefabInfos[0]);
-        TryLoad();
+        TryLoad(loadOnAwake);
         foreach (var prefabInfo in prefabInfos) {
             var prefab = prefabInfo.prefab;
             var preview = Instantiate(prefab, transform);
@@ -174,7 +182,7 @@ public class PropPlacement : MonoBehaviour {
         if (prefabInfo.defaultRotation == PrefabInfo.RotationType.Random)
             RotateRandomly();
         else
-            CycleFixedRotation(); 
+            CycleFixedRotation();
     }
 
     public float RandomYaw => Random.Range(randomRotationRange.x, randomRotationRange.y);
@@ -244,7 +252,7 @@ public class PropPlacement : MonoBehaviour {
                 if (justOpened || oldSearchInput != searchInput) {
                     justOpened = false;
                     matches.Clear();
-                    foreach (var prefab in prefabInfos.Select(i=>i.prefab)) {
+                    foreach (var prefab in prefabInfos.Select(i => i.prefab)) {
                         if (prefab && searchInput.MatchesFuzzy(prefab.name))
                             matches.Add(prefab);
                     }
@@ -279,22 +287,20 @@ public class PropPlacement : MonoBehaviour {
         }
     }
 
-    private void OnApplicationQuit() {
-        Save();
-    }
-
-    public void Save(string path = savePath) {
+    public void Save(string name) {
         var writer = new StringWriter();
         foreach (var prop in props)
             writer.PostfixWriteLine("add ( {0} {1} {2} {3} )", getPrefab[prop].name, prop.position, prop.rotation, prop.localScale);
-        File.WriteAllText(path, writer.ToString());
+        LevelEditorFileSystem.Save(name + "Props", writer.ToString());
     }
 
-    public bool TryLoad(string path = savePath) {
-        if (!File.Exists(path))
+    public bool TryLoad(string name) {
+        var input = LevelEditorFileSystem.TryReadLatest(name + "Props");
+        if (input == null)
             return false;
         var stack = new Stack();
-        foreach (var token in Tokenizer.Tokenize(File.ReadAllText(path).ToPostfix()))
+        Clear();
+        foreach (var token in Tokenizer.Tokenize(input.ToPostfix()))
             switch (token) {
                 case "add": {
                     var scale = (Vector3)stack.Pop();

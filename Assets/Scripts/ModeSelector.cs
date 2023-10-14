@@ -13,6 +13,27 @@ public class ModeSelector : MonoBehaviour {
 
     public Mode startMode = Mode.None;
 
+    [Command]
+    public void TryLoad(string name) {
+        if (!terrainCreator.TryLoad(name))
+            terrainCreator.Clear();
+        if (!roadCreator.TryLoad(name))
+            roadCreator.Clear();
+        if (!propPlacement.TryLoad(name))
+            propPlacement.Clear();
+    }
+    [Command]
+    public void Save(string name) {
+        terrainCreator.Save(name);
+        roadCreator.Save(name);
+        propPlacement.Save(name);
+    }
+
+    
+    private void OnApplicationQuit() {
+        Save("Autosave");
+    }
+
     private void Awake() {
 
         Assert.IsTrue(terrainCreator);
