@@ -791,12 +791,12 @@ public class UnitView : MonoBehaviour {
             using (Draw.ingame.WithMatrix(matrix)) {
                 if (wheel.transform) {
                     wheel.transform.SetPositionAndRotation(wheel.position, wheel.rotation);
-                    if (!Application.isPlaying || drawWheelCircleAnyway)
-                        Draw.ingame.Circle(Vector3.zero, Vector3.right, wheel.radius);
+                    //if (!Application.isPlaying || drawWheelCircleAnyway)
+                    //    Draw.ingame.Circle(Vector3.zero, Vector3.right, wheel.radius);
                 }
                 else {
-                    Draw.ingame.SolidCircle(Vector3.zero, Vector3.right, wheel.radius);
-                    Draw.ingame.Line(Vector3.zero, Vector3.forward * wheel.radius, Color.black);
+                    //Draw.ingame.SolidCircle(Vector3.zero, Vector3.right, wheel.radius);
+                    //Draw.ingame.Line(Vector3.zero, Vector3.forward * wheel.radius, Color.black);
                 }
             }
         }

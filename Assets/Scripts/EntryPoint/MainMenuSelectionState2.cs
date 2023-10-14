@@ -20,10 +20,10 @@ public class MainMenuState2 : StateMachineState {
 
     public override IEnumerator<StateChange> Enter {
         get {
-            if (SceneManager.GetActiveScene().name != sceneName) {
+            /*if (SceneManager.GetActiveScene().name != sceneName) {
                 SceneManager.LoadScene(sceneName);
                 yield return StateChange.none;
-            }
+            }*/
 
             view = FindObject<MainMenuView2>();
             if (GitInfoEntry.TryLoad(out var gitInfo))
@@ -34,6 +34,10 @@ public class MainMenuState2 : StateMachineState {
 
             if (CameraFader.IsBlack == true)
                 CameraFader.FadeToWhite();
+            
+            var zoomFadeAnimation = CameraAnimation.ZoomFadeAnimation(view.mainCamera, 2, startFovFactor: .9f);
+            while (zoomFadeAnimation.MoveNext())
+                yield return StateChange.none;
 
             if (showWelcome) {
 
@@ -67,6 +71,8 @@ public class MainMenuSelectionState2 : StateMachineState {
         get {
             var game = stateMachine.Find<GameSessionState>().game;
             var view = stateMachine.Find<MainMenuState2>().view;
+
+            view.enqueueCommand = command => game.EnqueueCommand(command);
 
             foreach (var button in view.Buttons) {
                 button.Interactable = button != view.loadGameButton || PersistentData.Read().savedGames.Count > 0;

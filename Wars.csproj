@@ -138,7 +138,7 @@
      <Compile Include="Assets/Scripts/LoadingSpinnerTest.cs" />
      <Compile Include="Assets/Scripts/PowerMeterStripe.cs" />
      <Compile Include="Assets/Scripts/DepthOfFieldDistanceSetter.cs" />
-     <Compile Include="Assets/Scripts/CameraRigAnimation.cs" />
+     <Compile Include="Assets/Scripts/CameraAnimation.cs" />
      <Compile Include="Assets/Scripts/EntryPoint/MainMenuState.cs" />
      <Compile Include="Assets/Scripts/SetTextToLocalizedGameObjectName.cs" />
      <Compile Include="Assets/Scripts/UnitMoveSequenceTest.cs" />
@@ -201,6 +201,7 @@
      <Compile Include="Assets/Scripts/DraggingTest.cs" />
      <Compile Include="Assets/Scripts/Strings.cs" />
      <Compile Include="Assets/Scripts/LevelEditor/LevelEditorGui.cs" />
+     <Compile Include="Assets/Scripts/VideoProjector.cs" />
      <Compile Include="Assets/Scripts/EditorCursor.cs" />
      <Compile Include="Assets/Scripts/BodyTorque.cs" />
      <Compile Include="Assets/Scripts/LevelReader.cs" />
@@ -276,7 +277,6 @@
      <Compile Include="Assets/Scripts/FlipbookTest.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
      <Compile Include="Assets/Scripts/EntryPoint/MainMenuWelcomeState.cs" />
-     <Compile Include="Assets/Scripts/VideoProjector.cs" />
      <Folder Include="Assets/Scripts/EntryPoint" />
      <None Include="Assets/Scripts/Wars.asmdef" />
      <Folder Include="Assets/Scripts/DialogueMarkupLanguage" />

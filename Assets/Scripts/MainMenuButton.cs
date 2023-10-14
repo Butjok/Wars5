@@ -3,7 +3,7 @@ using UnityEngine.Assertions;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-public class MainMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler {
+public class MainMenuButton : MonoBehaviour{
 
     public Renderer renderer;
     
@@ -43,24 +43,5 @@ public class MainMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     private void Reset() {
         renderer = GetComponent<Renderer>();
         Assert.IsTrue(renderer);
-    }
-
-    private bool isUnderPointer;
-    public void OnPointerEnter(PointerEventData eventData) {
-        isUnderPointer = true;
-    }
-    public void OnPointerExit(PointerEventData eventData) {
-        isUnderPointer = false;
-    }
-    public void OnPointerDown(PointerEventData eventData) {
-        if (interactable)
-            onClick.Invoke(this);
-    }
-
-    private void Start() {
-        Interactable = true;
-    }
-    private void Update() {
-        HighlightIntensity = interactable && isUnderPointer ? 1 : 0;
     }
 }

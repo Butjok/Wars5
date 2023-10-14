@@ -27,7 +27,7 @@ MonoBehaviour:
     value: {x: 0.5, y: 0.5}
   intensity:
     overrideState: 1
-    value: 0.4
+    value: 0.425
   smoothness:
     overrideState: 0
     value: 0.2
@@ -56,22 +56,56 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 556797029e73b2347956b6579e77e05b, type: 3}
   m_Name: DepthOfField
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   enabled:
     overrideState: 1
-    value: 0
+    value: 1
   focusDistance:
     overrideState: 1
-    value: 0.1
+    value: 4.95
   aperture:
     overrideState: 1
-    value: 0.1
+    value: 3.1
   focalLength:
     overrideState: 0
     value: 1
   kernelSize:
     overrideState: 0
+    value: 3
+--- !u!114 &-4674404111854962985
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32447a1199224125bc431776ee4a94ee, type: 3}
+  m_Name: CameraFading
+  m_EditorClassIdentifier: 
+  active: 1
+  enabled:
+    overrideState: 1
     value: 1
+  squareSize:
+    overrideState: 1
+    value: 20
+  smoothness:
+    overrideState: 1
+    value: 0.5
+  progress:
+    overrideState: 1
+    value: 1
+  progressSmoothness:
+    overrideState: 1
+    value: 0.25
+  yContribution:
+    overrideState: 1
+    value: 0
+  invert:
+    overrideState: 1
+    value: 0
 --- !u!114 &-2934800088279575139
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -140,6 +174,7 @@ MonoBehaviour:
   - {fileID: -738822964933945584}
   - {fileID: -2934800088279575139}
   - {fileID: -7068823219901514713}
+  - {fileID: -4674404111854962985}
 --- !u!114 &4747937170106336988
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -207,10 +242,10 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 1
+    value: 2
   threshold:
     overrideState: 0
-    value: 2
+    value: 0.5
   softKnee:
     overrideState: 0
     value: 0
@@ -219,7 +254,7 @@ MonoBehaviour:
     value: 1.5
   diffusion:
     overrideState: 1
-    value: 4.1
+    value: 3
   anamorphicRatio:
     overrideState: 0
     value: 1

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Web.UI.WebControls;
 using Butjok.CommandLine;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -76,6 +77,8 @@ public class LevelSessionState : StateMachineState {
 
             if (missionName == MissionName.Tutorial) {
                 if (persistentData.showIntroDialogue) {
+                    
+                    level.view.cameraRig.enabled = false;
 
                     Vector2Int startPosition = new(-21, 12);
                     Vector2Int fromPosition = new(-19, 3);
@@ -88,7 +91,7 @@ public class LevelSessionState : StateMachineState {
                         unitMoveAnimation = new MoveSequence(unit.view.transform, pathBuilder, _speed: speed, _finalDirection: unit.view.LookDirection).Animation();
                     }
 
-                    var zoomFadeAnimation = CameraRigAnimation.ZoomFadeAnimation(level.view.cameraRig, 4);
+                    var zoomFadeAnimation = CameraAnimation.ZoomFadeAnimation(level.view.cameraRig.camera, 4);
                     while (true) {
                         var isPlaying = false;
                         if (unitMoveAnimation != null)
@@ -100,6 +103,8 @@ public class LevelSessionState : StateMachineState {
                     }
 
                     yield return StateChange.Push(new TutorialStartDialogue(stateMachine));
+                    
+                    level.view.cameraRig.enabled = true;
                 }
             }
 
