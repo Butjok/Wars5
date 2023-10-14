@@ -7,7 +7,7 @@ public class Spinner : MonoBehaviour {
 
 	public enum Axis { X, Y, Z }
 
-	public float timeMultiplier = 1;
+	private float timeMultiplier;
 	public AnimationCurve curve = AnimationCurve.Linear(0, 0, 4, 360);
 	public float stopDuration = .1f;
 	public float startDuration = 3;
@@ -15,8 +15,10 @@ public class Spinner : MonoBehaviour {
 	public Tweener tweener;
 	public Axis axis = Axis.Y;
 	public bool randomizePhase=true;
+	public Vector2 timeMultiplierRange = new Vector2(1, 1);
 
 	public void Start() {
+		timeMultiplier = Random.Range(timeMultiplierRange.x, timeMultiplierRange.y);
 		if (randomizePhase && curve.length > 0)
 			time = Random.Range(0, curve[curve.length - 1].time);
 	}

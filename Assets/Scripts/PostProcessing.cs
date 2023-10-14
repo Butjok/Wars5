@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices;
+using Butjok.CommandLine;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -12,19 +13,28 @@ public static class PostProcessing {
         Assert.IsTrue(colorGrading);
         depthOfField = profile.GetSetting<DepthOfField>();
         Assert.IsTrue(depthOfField);
+        cameraFlip = profile.GetSetting<CameraFlip>();
     }
 
     public static PostProcessProfile profile;
     public static ColorGrading colorGrading;
-    public static Color ColorFilter {
+    public static CameraFlip cameraFlip;
+
+    [Command] public static Color ColorFilter {
         get => colorGrading.colorFilter.value;
         set => colorGrading.colorFilter.value = value;
     }
     public static DepthOfField depthOfField;
-    public static bool Blur {
+    [Command] public static bool Blur {
         set => depthOfField.enabled.value = value;
     }
-    
+    [Command] public static bool Flip {
+        set {
+            if (cameraFlip)
+                cameraFlip.enabled.value = value;
+        }
+    }
+
     private static Tweener fadeTweener;
 
     public static Tweener Fade(Color color, float duration, Ease ease = default) {
@@ -38,7 +48,7 @@ public static class PostProcessing {
         set {
             var layer = Camera.main ? Camera.main.GetComponent<PostProcessLayer>() : null;
             //if (layer)
-                //layer.antialiasingMode = value;
+            //layer.antialiasingMode = value;
         }
     }
 

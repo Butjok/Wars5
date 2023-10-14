@@ -32,3 +32,4 @@ public sealed class CameraFadingRenderer : PostProcessEffectRenderer<CameraFadin
         context.command.BlitFullscreenTriangle(context.source, context.destination, sheet, 0);
     }
 }
+

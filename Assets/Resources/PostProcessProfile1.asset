@@ -56,19 +56,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 556797029e73b2347956b6579e77e05b, type: 3}
   m_Name: DepthOfField
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   enabled:
     overrideState: 1
-    value: 1
+    value: 0
   focusDistance:
     overrideState: 1
-    value: 4.95
+    value: 0.1
   aperture:
     overrideState: 1
-    value: 3.1
+    value: 0.1
   focalLength:
     overrideState: 0
-    value: 1
+    value: 117
   kernelSize:
     overrideState: 0
     value: 3
@@ -154,6 +154,22 @@ MonoBehaviour:
   fastMode:
     overrideState: 1
     value: 1
+--- !u!114 &-293636538174673072
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e17441c8a5c1498d84925ce5919a629a, type: 3}
+  m_Name: CameraFlip
+  m_EditorClassIdentifier: 
+  active: 1
+  enabled:
+    overrideState: 1
+    value: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,6 +191,7 @@ MonoBehaviour:
   - {fileID: -2934800088279575139}
   - {fileID: -7068823219901514713}
   - {fileID: -4674404111854962985}
+  - {fileID: -293636538174673072}
 --- !u!114 &4747937170106336988
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -220,7 +237,7 @@ MonoBehaviour:
     value: 0
   radius:
     overrideState: 1
-    value: 1.4
+    value: 0.46
   quality:
     overrideState: 0
     value: 4
@@ -254,7 +271,7 @@ MonoBehaviour:
     value: 1.5
   diffusion:
     overrideState: 1
-    value: 3
+    value: 4
   anamorphicRatio:
     overrideState: 0
     value: 1
