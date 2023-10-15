@@ -93,6 +93,7 @@
      <None Include="Assets/Saves/0/0-28.01.2023-14.11.05.txt" />
      <None Include="Assets/Dialogues2.txt" />
      <Folder Include="Assets/Splash" />
+     <Folder Include="Assets/Saves/WorldMapRoads" />
      <None Include="Assets/Resources/Settings/MoveDistances.json" />
      <Folder Include="Assets/Saves" />
      <None Include="Assets/Shaders/VertexColorChecker.shader" />
@@ -107,6 +108,7 @@
      <None Include="Assets/Shaders/TileMasked.shader" />
      <None Include="Assets/Saves/1/1-22.01.2023-19.38.06.txt" />
      <None Include="Assets/Shaders/DistortionFlow.shader" />
+     <Folder Include="Assets/Saves/TerrainCreatorAutosave" />
      <None Include="Assets/Shaders/Flow.cginc" />
      <Folder Include="Assets/MultiAudioListener/TestScripts" />
      <None Include="Assets/Shaders/leaves.shader" />
@@ -134,6 +136,7 @@
      <None Include="Assets/Shaders/MovePath.shader" />
      <None Include="Assets/Shaders/InstancedRendering.cginc" />
      <None Include="Assets/Shaders/vface.shader" />
+     <Folder Include="Assets/Saves/AutosaveProps" />
      <None Include="Assets/Shaders/NewSurfaceShader.shader" />
      <None Include="Assets/ShaderTests/contrastgrid.shader" />
      <Folder Include="Assets/HoleShader" />
@@ -143,6 +146,7 @@
      <Folder Include="Assets/ShaderTests" />
      <None Include="Assets/Shaders/Terrain.shader" />
      <None Include="Assets/Shaders/Thumbnail.shader" />
+     <Folder Include="Assets/Saves/PatchTerrain" />
      <None Include="Assets/Saves/0/0-22.01.2023-18.36.21.txt" />
      <None Include="Assets/Shaders/NoiseCommon.cginc" />
      <None Include="Assets/Shaders/Utils.cginc" />
@@ -187,6 +191,7 @@
      <None Include="Assets/Shaders/Building.shader" />
      <Folder Include="Assets/CampaignOverview" />
      <Folder Include="Assets/Coin" />
+     <Folder Include="Assets/Saves/TutorialProps" />
      <None Include="Assets/Shaders/Unit.shader" />
      <None Include="Assets/Saves/1/1-22.01.2023-19.40.42.txt" />
      <None Include="Assets/Scripts2/SDFtest.shader" />
@@ -261,6 +266,7 @@
      <Folder Include="Assets/SceneTemplates" />
      <Folder Include="Assets/TextMesh Pro/Shaders" />
      <None Include="Assets/Content/NewImageEffectShader.shader" />
+     <Folder Include="Assets/Saves/TutorialTerrain" />
      <Folder Include="Assets/Shaders" />
      <Folder Include="Assets/TerrainCreation" />
      <None Include="Assets/Shaders/New Amplify Shader.shader" />
@@ -297,6 +303,7 @@
      <Folder Include="Assets/StreamingAssets" />
      <None Include="Assets/Shaders/Hole2.shader" />
      <Folder Include="Assets/Content/Whiteboxes/Resources" />
+     <Folder Include="Assets/Saves/PatchRoads" />
      <Folder Include="Assets/Textures/Cookies" />
      <Folder Include="Assets/Textures/Bumps" />
      <None Include="Assets/Shaders/SimpleInstanced.shader" />
@@ -309,6 +316,7 @@
      <None Include="Assets/Saves/test3/test3-27.02.2023-00.52.49.txt" />
      <None Include="Assets/Shaders/Texture Splatting.shader" />
      <Folder Include="Assets/Resources/TilemapMeshes" />
+     <Folder Include="Assets/Saves/AutosaveRoads" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Masking.shader" />
      <None Include="Assets/Resources/Colors2.json" />
      <None Include="Assets/Saves/0/0-28.01.2023-22.10.38.txt" />
@@ -320,6 +328,7 @@
      <Folder Include="Assets/Scenes/Explosion" />
      <None Include="Assets/Saves/test2/test2-09.02.2023-23.43.01.txt" />
      <None Include="Assets/Saves/tutorial.0/20.01.2023-08.16.17.txt" />
+     <Folder Include="Assets/Saves/TutorialRoads" />
      <Folder Include="Assets/BattleView" />
      <Folder Include="Assets/LightingTest" />
      <None Include="Assets/Saves/first-stage/19.01.2023-19.30.01.txt" />
@@ -328,6 +337,8 @@
      <None Include="Assets/Shaders/MainMenuButtonShader.shader" />
      <None Include="Assets/Saves/NewSaveTest.txt" />
      <None Include="Assets/File.json" />
+     <Folder Include="Assets/Saves/AutosaveTerrain" />
+     <Folder Include="Assets/Saves/WorldMap" />
      <None Include="Assets/Shaders/InstancedIndirectColor.shader" />
      <Folder Include="Assets/Content/minimap" />
      <Folder Include="Assets/Saves/first-stage" />
@@ -338,6 +349,7 @@
      <None Include="Assets/Shaders/FrozenFrame2.shader" />
      <None Include="Assets/Shaders/SimpleChecker.shader" />
      <None Include="Assets/Saves/test2/test2-10.02.2023-02.00.13.txt" />
+     <Folder Include="Assets/Saves/WorldMapProps" />
      <None Include="Assets/Shaders/Bush.shader" />
      <Folder Include="Assets/Scenes/ThumbnailRenderScene" />
      <None Include="Assets/Shaders/Hole.shader" />
@@ -370,6 +382,7 @@
      <Folder Include="Assets/Roboto" />
      <Folder Include="Assets/PhysicsTest" />
      <None Include="Assets/Saves/1/1-22.01.2023-19.42.47.txt" />
+     <Folder Include="Assets/Saves/WorldMapTerrain" />
      <None Include="Assets/Shaders/UvMapperTestShader.shader" />
      <None Include="Assets/TextMesh Pro/Sprites/EmojiOne.json" />
      <Folder Include="Assets/Saves/full-map" />
@@ -384,6 +397,7 @@
      <None Include="Assets/!TODO.txt" />
      <Folder Include="Assets/Units" />
      <None Include="Assets/Output.json" />
+     <Folder Include="Assets/Saves/PatchProps" />
      <Reference Include="UnityEngine">
      <HintPath>/Applications/Unity/Hub/Editor/2021.3.1f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
      </Reference>

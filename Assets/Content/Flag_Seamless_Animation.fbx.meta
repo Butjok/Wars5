@@ -3,7 +3,12 @@ guid: 1051738857cfeeb45a6b4883bc474a88
 ModelImporter:
   serializedVersion: 21202
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Flagpole
+    second: {fileID: 2100000, guid: d3f145779c41e40c0a946d579dae2b14, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
