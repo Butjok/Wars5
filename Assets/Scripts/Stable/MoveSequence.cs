@@ -42,7 +42,7 @@ public class MoveSequence {
     public Vector2Int finalPosition;
     public Action onComplete;
 
-    [Command] public static float unitSpeed = 5;    
+    [Command] public static float unitSpeed = 4;    
 
     public MoveSequence(Transform target, IEnumerable<Vector2Int> _positions, float? _speed = null, Vector2Int? _finalDirection = null,
         Action onComplete = null) {

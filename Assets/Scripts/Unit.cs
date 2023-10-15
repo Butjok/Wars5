@@ -171,6 +171,7 @@ public class Unit : IDisposable {
         view.prefab = viewPrefab;
         view.LookDirection = lookDirection ?? player.unitLookDirection;
         view.TrySpawnUi(UnitUi.Prefab, player.level.view);
+        view.ConvertToSkinnedMesh();
         
         this.type = type;
         Player = player;

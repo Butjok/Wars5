@@ -81,6 +81,7 @@
      <Compile Include="Assets/Scripts/MainMenuButton.cs" />
      <Compile Include="Assets/Scripts/MeshUtils2.cs" />
      <Compile Include="Assets/Scripts/PostProcessing.cs" />
+     <Compile Include="Assets/Scripts/SkinningTest.cs" />
      <Compile Include="Assets/Scripts/EntryPoint/EntryPointView.cs" />
      <Compile Include="Assets/Scripts/EntryPoint/GitInfoEntry.cs" />
      <Compile Include="Assets/Scripts/AttackActionView.cs" />
@@ -102,6 +103,7 @@
      <Compile Include="Assets/Scripts/LevelView.cs" />
      <Compile Include="Assets/Scripts/ProjectileNew.cs" />
      <Compile Include="Assets/Scripts/LevelLogic/TutorialLevelLogic.cs" />
+     <Compile Include="Assets/Scripts/UnitViewSkinnedMeshMigrator.cs" />
      <Compile Include="Assets/Scripts/Dialogues/DialogueState.cs" />
      <Compile Include="Assets/Scripts/Funny.cs" />
      <Compile Include="Assets/Scripts/Quadratic.cs" />

@@ -49,7 +49,7 @@ public class UnitView2TreeParser : MonoBehaviour {
         Assert.IsTrue(view.body, "no body");
 
         view.playerMaterialRenderers = view.transform.GetComponentsInChildren<Renderer>()
-            .Where(r => r.sharedMaterials.Any(m => playerMaterialShaders.Contains(m.shader.name)))
+            //.Where(r => r.sharedMaterials.Any(m => playerMaterialShaders.Contains(m.shader.name)))
             .ToList();
 
         view.wheels.Clear();

@@ -170,7 +170,7 @@ public class UnitView : MonoBehaviour {
     [NonSerialized] public int incomingProjectilesLeft = 0;
     [NonSerialized] public int spawnPointIndex;
     [NonSerialized] public int shuffledIndex;
- 
+
     public UnitUi ui;
 
     public UnitUi TrySpawnUi(UnitUi prefab, LevelView levelView) {
@@ -186,8 +186,14 @@ public class UnitView : MonoBehaviour {
             Destroy(ui.gameObject);
     }
 
+    public void ConvertToSkinnedMesh() {
+        var skinnedMeshMigrator = GetComponent<UnitViewSkinnedMeshMigrator>();
+        if (skinnedMeshMigrator)
+            skinnedMeshMigrator.Migrate();
+    }
+
     private void Reset() {
-        playerMaterialRenderers = GetComponentsInChildren<Renderer>().ToList();
+        //playerMaterialRenderers = GetComponentsInChildren<Renderer>().ToList();
         prefab = this;
     }
 
@@ -196,20 +202,16 @@ public class UnitView : MonoBehaviour {
         hitPoints.Clear();
         hitPoints.AddRange(GetComponentsInChildren<Transform>().Where(t => t.name.StartsWith("HitPoint")));
     }
-
+    
     private MaterialPropertyBlock materialPropertyBlock;
-    private MaterialPropertyBlock MaterialPropertyBlock => materialPropertyBlock ??= new MaterialPropertyBlock();
-    private void ApplyMaterialPropertyBlock() {
-        foreach (var renderer in playerMaterialRenderers)
-            renderer.SetPropertyBlock(MaterialPropertyBlock);
-    }
 
     [Command]
     public Color PlayerColor {
-        get => MaterialPropertyBlock.GetColor(playerColorUniformName);
         set {
-            MaterialPropertyBlock.SetColor(playerColorUniformName, value);
-            ApplyMaterialPropertyBlock();
+            materialPropertyBlock ??= new MaterialPropertyBlock();
+            materialPropertyBlock.SetColor(playerColorUniformName, value);
+            foreach (var renderer in GetComponentsInChildren<Renderer>())
+                            renderer.SetPropertyBlock(materialPropertyBlock);
         }
     }
 
@@ -308,7 +310,7 @@ public class UnitView : MonoBehaviour {
             highlightAsTarget = value;
             //MaterialPropertyBlock.SetFloat(attackHighlightFactorUniformName, value ? 1 : 0);
             //MaterialPropertyBlock.SetFloat(attackHighlightStartTimeUniformName, Time.timeSinceLevelLoad);
-            ApplyMaterialPropertyBlock();
+            //ApplyMaterialPropertyBlock();
         }
     }
 
@@ -329,8 +331,10 @@ public class UnitView : MonoBehaviour {
         }
         set {
             moved = value;
-            MaterialPropertyBlock.SetFloat(movedUniformName, value ? 1 : 0);
-            ApplyMaterialPropertyBlock();
+            materialPropertyBlock ??= new MaterialPropertyBlock();
+            materialPropertyBlock.SetFloat(movedUniformName, value ? 1 : 0);
+            foreach (var renderer in GetComponentsInChildren<Renderer>())
+                renderer.SetPropertyBlock(materialPropertyBlock);
         }
     }
 
@@ -363,15 +367,14 @@ public class UnitView : MonoBehaviour {
             var hasHit = Physics.SphereCast(ray, wheel.radius, out var hit, float.MaxValue, TerrainLayerMask);
             if (hasHit) {
                 wheel.position = ray.GetPoint(hit.distance);
+                var noise = Mathf.PerlinNoise(wheel.position.x * terrainBumpTiling, wheel.position.z * terrainBumpTiling);
+                var height = Mathf.Lerp(terrainBumpRange[0], terrainBumpRange[1], noise);
+                wheel.position += height * Vector3.up;
             }
             else {
                 wheel.position.x = projectedOriginWorldPosition.x;
                 wheel.position.z = projectedOriginWorldPosition.z;
             }
-
-            var noise = Mathf.PerlinNoise(wheel.position.x * terrainBumpTiling, wheel.position.z * terrainBumpTiling);
-            var height = Mathf.Lerp(terrainBumpRange[0], terrainBumpRange[1], noise);
-            wheel.position += height * Vector3.up;
         }
 
         if (wheel.previousPosition is { } actualPreviousPosition) {
@@ -584,7 +587,7 @@ public class UnitView : MonoBehaviour {
 
             var startTime = points[0].time;
             var endTime = points[^1].time;
-            
+
             linearSpeed = linearPositionApproximation.FirstDerivative(endTime);
             linearAcceleration = linearPositionApproximation.SecondDerivative;
 
@@ -592,7 +595,7 @@ public class UnitView : MonoBehaviour {
                 foreach (var point in points)
                     Draw.ingame.SolidCircleXY(GetScreenPosition(point), 5, Color.white);
 
-                
+
                 for (var time = startTime; time <= endTime; time += (endTime - startTime) / 10)
                     Draw.ingame.SolidCircleXY(GetScreenPosition((time, pos: linearPositionApproximation[time])), 1, Color.cyan);
 

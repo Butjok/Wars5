@@ -75,36 +75,38 @@ public class LevelSessionState : StateMachineState {
 
             var persistentData = stateMachine.Find<GameSessionState>().persistentData;
 
-            if (missionName == MissionName.Tutorial) {
-                if (persistentData.showIntroDialogue) {
-                    
-                    level.view.cameraRig.enabled = false;
+            if (stateMachine.TryFind<LevelEditorSessionState>() == null) {
+                if (missionName == MissionName.Tutorial) {
+                    if (persistentData.showIntroDialogue) {
 
-                    Vector2Int startPosition = new(-21, 12);
-                    Vector2Int fromPosition = new(-19, 3);
-                    var speed = 2f;
+                        level.view.cameraRig.enabled = false;
 
-                    IEnumerator unitMoveAnimation = null;
-                    if (level.TryGetUnit(startPosition, out var unit)) {
-                        var pathBuilder = new PathBuilder(fromPosition);
-                        pathBuilder.AddRange(Woo.Traverse2D(fromPosition, startPosition));
-                        unitMoveAnimation = new MoveSequence(unit.view.transform, pathBuilder, _speed: speed, _finalDirection: unit.view.LookDirection).Animation();
+                        Vector2Int startPosition = new(-21, 12);
+                        Vector2Int fromPosition = new(-19, 3);
+                        var speed = 2f;
+
+                        IEnumerator unitMoveAnimation = null;
+                        if (level.TryGetUnit(startPosition, out var unit)) {
+                            var pathBuilder = new PathBuilder(fromPosition);
+                            pathBuilder.AddRange(Woo.Traverse2D(fromPosition, startPosition));
+                            unitMoveAnimation = new MoveSequence(unit.view.transform, pathBuilder, _speed: speed, _finalDirection: unit.view.LookDirection).Animation();
+                        }
+
+                        var zoomFadeAnimation = CameraAnimation.ZoomFadeAnimation(level.view.cameraRig.camera, 4);
+                        while (true) {
+                            var isPlaying = false;
+                            if (unitMoveAnimation != null)
+                                isPlaying = unitMoveAnimation.MoveNext() || isPlaying;
+                            isPlaying = zoomFadeAnimation.MoveNext() || isPlaying;
+                            if (!isPlaying)
+                                break;
+                            yield return StateChange.none;
+                        }
+
+                        yield return StateChange.Push(new TutorialStartDialogue(stateMachine));
+
+                        level.view.cameraRig.enabled = true;
                     }
-
-                    var zoomFadeAnimation = CameraAnimation.ZoomFadeAnimation(level.view.cameraRig.camera, 4);
-                    while (true) {
-                        var isPlaying = false;
-                        if (unitMoveAnimation != null)
-                            isPlaying = unitMoveAnimation.MoveNext() || isPlaying;
-                        isPlaying = zoomFadeAnimation.MoveNext() || isPlaying;
-                        if (!isPlaying)
-                            break;
-                        yield return StateChange.none;
-                    }
-
-                    yield return StateChange.Push(new TutorialStartDialogue(stateMachine));
-                    
-                    level.view.cameraRig.enabled = true;
                 }
             }
 
