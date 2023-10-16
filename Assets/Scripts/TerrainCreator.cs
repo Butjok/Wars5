@@ -66,6 +66,7 @@ public class TerrainCreator : MonoBehaviour {
     public float elevationStep = .25f;
 
     public string loadOnAwake = autosaveName;
+    public BushTester bushTester;
 
     [Command]
     public int BirdsCount {
@@ -500,19 +501,19 @@ public class TerrainCreator : MonoBehaviour {
             var position2d = origin + uv * voronoiRenderer.worldSize;
             var scale = Vector3.one * Mathf.Lerp(bushSizeRange[0], bushSizeRange[1], Random.value);
             if (PlaceOnTerrain.TryRaycast(position2d, out var hit) && hit.point.y > -.01) {
-                var skip = false;
-                if (roadCreator)
-                    for (var y = -1; y <= 1; y++)
-                    for (var x = -1; x <= 1; x++)
-                        if (!skip && roadCreator.positions.Contains((position2d + new Vector2(x, y) * .33f).RoundToInt())) {
-                            skip = true;
+                var position3d = hit.point;
+                if (roadCreator && bushTester) {
+                    bushTester.transform.position = hit.point;
+                    bushTester.transform.localScale = scale;
+                    for (var tries = 0; tries < 5; tries++) {
+                        var rotation = (-hit.normal).ToRotation(Random.value * 360);
+                        bushTester.transform.rotation = rotation;
+                        if (!bushTester.IntersectsRoads()) {
+                            bushes.Add((position3d, rotation, scale));
                             break;
                         }
-                if (skip)
-                    continue;
-                var position3d = hit.point;
-                var rotation = (-hit.normal).ToRotation(Random.value * 360);
-                bushes.Add((position3d, rotation, scale));
+                    }
+                }
             }
         }
 

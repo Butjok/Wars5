@@ -32,12 +32,16 @@ public class MainMenuState2 : StateMachineState {
 
             if (GitInfoEntry.TryLoad(out var gitInfo))
                 view.gitInfo = gitInfo;
+            
+            Time.timeScale = 0;
 
             if (showSplash)
                 yield return StateChange.Push(new SplashState(stateMachine));
 
             if (CameraFader.IsBlack == true)
                 CameraFader.FadeToWhite();
+            
+            Time.timeScale = 1;
 
             var zoomFadeAnimation = CameraAnimation.ZoomFadeAnimation(view.mainCamera, 2, startFovFactor: .9f);
             while (zoomFadeAnimation.MoveNext())

@@ -21,6 +21,7 @@ public class RoadCreator : MonoBehaviour {
 
     public Mesh mesh, projectedMesh;
     public MeshFilter meshFilter;
+    public MeshCollider meshCollider;
 
     public HashSet<Vector2Int> positions = new();
 
@@ -100,6 +101,7 @@ public class RoadCreator : MonoBehaviour {
 
         if (positions.Count == 0) {
             meshFilter.mesh = null;
+            meshCollider.sharedMesh = null;
             return;
         }
 
@@ -148,6 +150,7 @@ public class RoadCreator : MonoBehaviour {
 
         MeshProjector.TryProjectDown(projectedMesh, mesh, Vector3.zero, 0, 1 << LayerMask.NameToLayer("Terrain"), offset);
         meshFilter.sharedMesh = projectedMesh;
+        meshCollider.sharedMesh = projectedMesh;
     }
 
     public float offset = .05f;
@@ -157,6 +160,7 @@ public class RoadCreator : MonoBehaviour {
         Rebuild();
     }
 
+    [Command]
     public void Clear() {
         positions.Clear();
         Rebuild();
