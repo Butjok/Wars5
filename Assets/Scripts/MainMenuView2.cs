@@ -17,6 +17,7 @@ public class MainMenuView2 : MonoBehaviour {
     public VideoClip splashScreenVideoClip;
     public GameObject pressAnyKey;
     public Camera mainCamera;
+    public LoadGamePanel loadGamePanel;
 
     public IEnumerable<MainMenuButton> Buttons {
         get {

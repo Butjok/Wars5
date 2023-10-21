@@ -59,7 +59,7 @@ MonoBehaviour:
   active: 0
   enabled:
     overrideState: 1
-    value: 1
+    value: 0
   focusDistance:
     overrideState: 1
     value: 0.1
@@ -121,7 +121,7 @@ MonoBehaviour:
   active: 0
   enabled:
     overrideState: 1
-    value: 1
+    value: 0
   shutterAngle:
     overrideState: 1
     value: 270
@@ -359,7 +359,7 @@ MonoBehaviour:
     value: 0
   postExposure:
     overrideState: 1
-    value: 0.66
+    value: 1
   contrast:
     overrideState: 0
     value: 17

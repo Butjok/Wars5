@@ -16,6 +16,7 @@ public class PersistentData {
         persistentData.gameSessionState = gameSessionState;
         return persistentData;
     }
+
     public void Write() {
         File.WriteAllText(Path, this.ToJson());
         Debug.Log($"Written:\n\n" + this.ToJson());
@@ -140,9 +141,12 @@ public abstract class Mission {
 public class SavedMission {
 
     [JsonProperty] public Mission mission;
-    [JsonProperty] public DateTime dateTimeUtc;
+    [JsonProperty] public DateTime dateTimeUtc = DateTime.UtcNow;
     [JsonProperty] public string input;
     [JsonProperty] public byte[] screenshot;
+    [JsonProperty] public int day;
+    [JsonProperty] public ColorName turnColor;
+    [JsonProperty] public AiDifficulty difficulty;
 
     public Texture2D Screenshot {
         get {

@@ -25,7 +25,7 @@ public class BuildingView : MonoBehaviour {
         get => transform.position.ToVector2().RoundToInt();
         set => transform.position = value.Raycast();
     }
-    virtual public Vector2Int LookDirection {
+    public virtual Vector2Int LookDirection {
         get => transform.forward.ToVector2().RoundToInt();
         set => transform.rotation = Quaternion.LookRotation(value.ToVector3Int(), Vector3.up);
     }

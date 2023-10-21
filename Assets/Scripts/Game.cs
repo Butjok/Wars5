@@ -7,6 +7,27 @@ using UnityEngine.Assertions;
 
 public class Game : MonoBehaviour {
 
+    [Command]
+    public void ClearSaveData() {
+        var persistentData = stateMachine.Find<GameSessionState>().persistentData;
+        foreach (var mission in persistentData.campaign.Missions)
+            mission.saves.Clear();
+        persistentData.Write();
+    }
+    
+    [Command]
+    public void AddRandomSaveData() {
+        var gameSessionState = stateMachine.Find<GameSessionState>();
+        var campaign = gameSessionState.persistentData.campaign;
+        var mission = campaign.Missions.Random();
+        mission.saves.Add(new SavedMission {
+            mission = mission,
+            dateTimeUtc = System.DateTime.UtcNow,
+            input = "Hello World",
+            Screenshot = Resources.Load<Texture2D>("NatalieHappy")
+        });
+    }
+    
     public const bool createCommandLineGui = true;
 
     private static Game instance;

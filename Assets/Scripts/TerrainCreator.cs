@@ -9,7 +9,9 @@ using Stable;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEditor;
 using Torec;
+using UnityEngine.Rendering;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
@@ -17,6 +19,41 @@ using Random = UnityEngine.Random;
 [RequireComponent(typeof(MeshCollider))]
 [RequireComponent(typeof(MeshFilter))]
 public class TerrainCreator : MonoBehaviour {
+
+    public const string splatMapExportPath = "G:\\Мой диск\\!Wars\\FromEngine\\";
+
+    [Command]
+    public void ExportSplatMap() {
+        
+        var material = voronoiRenderer.terrainMaterial;
+        var texture = ((RenderTexture)material.GetTexture("_Splat2")).ToTexture2D();
+        var size = material.GetVector("_Splat2Size");
+        File.WriteAllBytes(splatMapExportPath + "Splat.png", texture.EncodeToPNG());
+        File.WriteAllText(splatMapExportPath + "Size.txt", size.ToString());
+    }
+
+    [Command]
+    public void CombineBushes() {
+        
+            var matrices = bushRenderer.transformList.matrices;
+            var mesh = bushRenderer.mesh;
+            var combinedMesh = new Mesh();
+            combinedMesh.indexFormat = IndexFormat.UInt32;
+            var combineInstances = matrices.Select(matrix => new CombineInstance { mesh = mesh, transform = matrix, }).ToArray();
+            combinedMesh.CombineMeshes(combineInstances);
+
+            var go = new GameObject("Bushes");
+            go.transform.SetParent(transform);
+            var meshFilter = go.AddComponent<MeshFilter>();
+            meshFilter.sharedMesh = combinedMesh;
+            var meshRenderer = go.AddComponent<MeshRenderer>();
+            meshRenderer.sharedMaterial = AssetDatabase.GetBuiltinExtraResource<Material>("Default-Diffuse.mat");
+
+            var matrix = bushRenderer.materials[0].GetMatrix("_WorldToLocal");
+            var origin = matrix.MultiplyPoint(Vector3.zero);
+            var scale = voronoiRenderer.worldSize;
+            File.WriteAllText(splatMapExportPath + "BushOffset.txt", $"origin: {origin}\nscale: {scale}");
+    }
 
     public const string autosaveName = "Autosave";
 
@@ -39,8 +76,10 @@ public class TerrainCreator : MonoBehaviour {
     public List<(Vector3 position, Quaternion rotation, Vector3 scale)> trees = new();
     [Command] public float bushSize = .5f;
     [Command] public Color bushColor = Color.yellow;
+
     [FormerlySerializedAs("bushesRenderer")]
     public InstancedMeshRenderer bushRenderer;
+
     [Command] public Vector2 bushSizeRange = new(.25f, 1.5f);
 
     public RoadCreator roadCreator;
@@ -48,6 +87,7 @@ public class TerrainCreator : MonoBehaviour {
 
     [FormerlySerializedAs("treesRenderer")]
     public InstancedMeshRenderer treeRenderer;
+
     public float treeRadius = .1f;
     [Command] public Vector2 treeSizeRange = new(.25f, 1.5f);
 
@@ -145,7 +185,6 @@ public class TerrainCreator : MonoBehaviour {
     }
 
     public void Update() {
-
         var ray = camera.FixedScreenPointToRay(Input.mousePosition);
         var plane = new Plane(Vector3.up, Vector3.zero);
 
@@ -172,7 +211,6 @@ public class TerrainCreator : MonoBehaviour {
                 }
 
             using (Draw.ingame.WithLineWidth(cursorThickness)) {
-
                 Draw.ingame.CircleXZ(position.ToVector3() + Vector3.up * actualPoint.y, .25f, cursorColor);
                 Draw.ingame.Ray(actualPoint, normal, cursorColor);
 
@@ -187,6 +225,7 @@ public class TerrainCreator : MonoBehaviour {
                     quads.Remove(position);
                     SubdivideLevel = 0;
                 }
+
                 if (roadCreator && roadCreator.positions.Contains(position)) {
                     roadCreator.positions.Remove(position);
                     roadCreator.Rebuild();
@@ -194,7 +233,6 @@ public class TerrainCreator : MonoBehaviour {
             }
 
             else if (Input.GetMouseButton(Mouse.left)) {
-
                 bool UpdateOrCreateVertex(Vector2Int position, Vector2Int corner, float elevation, out MeshUtils2.Vertex vertex) {
                     var modified = false;
                     if (!vertices.TryGetValue(position * 2 + corner, out vertex)) {
@@ -203,6 +241,7 @@ public class TerrainCreator : MonoBehaviour {
                             position = position.ToVector3() + new Vector3(corner.x * .5f, 0, corner.y * .5f)
                         };
                     }
+
                     modified = modified || Math.Abs(vertex.position.y - elevation) > 0.001f;
                     vertex.position.y = elevation;
                     return modified;
@@ -257,7 +296,6 @@ public class TerrainCreator : MonoBehaviour {
     }
 
     private void RebuildTerrain(bool clearBushes = true, bool clearTrees = false) {
-
         //remove unused vertices
         {
             usedVertices.Clear();
@@ -284,10 +322,8 @@ public class TerrainCreator : MonoBehaviour {
         }
 
         else {
-
             float minX = float.MaxValue, minZ = float.MaxValue, maxX = float.MinValue, maxZ = float.MinValue;
             foreach (var quad in quads.Values) {
-
                 minX = Mathf.Min(minX, quad.a.position.x);
                 minX = Mathf.Min(minX, quad.b.position.x);
                 minX = Mathf.Min(minX, quad.c.position.x);
@@ -308,6 +344,7 @@ public class TerrainCreator : MonoBehaviour {
                 maxZ = Mathf.Max(maxZ, quad.c.position.z);
                 maxZ = Mathf.Max(maxZ, quad.d.position.z);
             }
+
             var size = new Vector2(maxX - minX, maxZ - minZ).RoundToInt();
 
             foreach (var vertex in vertices.Values)
@@ -360,18 +397,21 @@ public class TerrainCreator : MonoBehaviour {
                         a.position.y = edgeThickness;
                         b.position.y = edgeThickness;
                     }
+
                     if (position.x == xMax) {
                         // c.position.x += edgeThickness;
                         // d.position.x += edgeThickness;
                         c.position.y = edgeThickness;
                         d.position.y = edgeThickness;
                     }
+
                     if (position.y == yMin) {
                         // a.position.z -= edgeThickness;
                         // d.position.z -= edgeThickness;
                         a.position.y = edgeThickness;
                         d.position.y = edgeThickness;
                     }
+
                     if (position.y == yMax) {
                         // b.position.z += edgeThickness;
                         // c.position.z += edgeThickness;
@@ -379,6 +419,7 @@ public class TerrainCreator : MonoBehaviour {
                         c.position.y = edgeThickness;
                     }
                 }
+
                 var edgeQuads = new List<MeshUtils2.Quad>();
                 foreach (var position in edgePositions)
                     edgeQuads.Add(new MeshUtils2.Quad {
@@ -417,6 +458,7 @@ public class TerrainCreator : MonoBehaviour {
             bushes.Clear();
             UpdateBushRenderer();
         }
+
         if (clearTrees) {
             trees.Clear();
             UpdateTreeRenderer();
@@ -456,7 +498,6 @@ public class TerrainCreator : MonoBehaviour {
 
     [Command]
     public void RespawnBirds() {
-
         foreach (var bird in birds)
             Destroy(bird.gameObject);
         birds.Clear();
@@ -479,6 +520,7 @@ public class TerrainCreator : MonoBehaviour {
 
     [Command]
     public float bushDensityPerUnit = 1;
+
     [Command]
     public int bushSeed = 0;
 
@@ -493,7 +535,6 @@ public class TerrainCreator : MonoBehaviour {
 
     [Command]
     public void PlaceBushes() {
-
         var origin = meshFilter.sharedMesh ? meshFilter.sharedMesh.bounds.min.ToVector2() : Vector2.zero;
         var uvs = voronoiRenderer.Distribute(voronoiRenderer.bushMaskRenderTexture, voronoiRenderer.worldSize, bushDensityPerUnit, bushSeed).ToList();
 
@@ -537,6 +578,7 @@ public class TerrainCreator : MonoBehaviour {
                 Destroy(bushRenderer.transformList);
                 bushRenderer.transformList = null;
             }
+
             if (bushes.Count > 0) {
                 bushRenderer.transformList = ScriptableObject.CreateInstance<TransformList>();
                 bushRenderer.transformList.name = "Bushes";
@@ -564,6 +606,7 @@ public class TerrainCreator : MonoBehaviour {
                 startColor = Color.white
             };
         }
+
         bushesParticleSystem.SetParticles(particles, particles.Length);
     }
 
@@ -579,6 +622,7 @@ public class TerrainCreator : MonoBehaviour {
                 Destroy(treeRenderer.transformList);
                 treeRenderer.transformList = null;
             }
+
             if (trees.Count > 0) {
                 treeRenderer.transformList = ScriptableObject.CreateInstance<TransformList>();
                 treeRenderer.transformList.name = "Trees";
@@ -602,7 +646,6 @@ public class TerrainCreator : MonoBehaviour {
     public Dictionary<Vector2Int, MeshUtils2.Quad> quads = new();
 
     public void Write(TextWriter textWriter) {
-
         var vertexList = vertices.Values.ToList();
 
         textWriter.PostfixWriteLine("set-subdivide-level ( {0} )", subdivideLevel);
@@ -625,7 +668,6 @@ public class TerrainCreator : MonoBehaviour {
     }
 
     public void Read(string input) {
-
         var stack = new Stack();
         var verticesList = new List<MeshUtils2.Vertex>();
 

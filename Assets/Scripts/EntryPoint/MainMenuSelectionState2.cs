@@ -31,21 +31,18 @@ public class MainMenuState2 : StateMachineState {
 
             if (GitInfoEntry.TryLoad(out var gitInfo))
                 view.gitInfo = gitInfo;
-            
-            Time.timeScale = 0;
 
-            if (showSplash)
-                yield return StateChange.Push(new SplashState(stateMachine));
-
-            if (CameraFader.IsBlack == true)
-                CameraFader.FadeToWhite();
-            
-            Time.timeScale = 1;
+            // splash
+            {
+                Time.timeScale = 0;
+                if (showSplash)
+                    yield return StateChange.Push(new SplashState(stateMachine));
+                Time.timeScale = 1;
+            }
 
             var zoomFadeAnimation = CameraAnimation.ZoomFadeAnimation(view.mainCamera, 2, startFovFactor: .9f);
             while (zoomFadeAnimation.MoveNext())
                 yield return StateChange.none;
-
 
             if (showWelcome) {
 
@@ -89,15 +86,6 @@ public class MainMenuSelectionState2 : StateMachineState {
                 button.Interactable = button != view.loadGameButton || gameSession.persistentData.campaign.Missions.Any(mission => mission.saves.Any());
                 button.onClick.RemoveAllListeners();
                 button.onClick.AddListener(_ => game.EnqueueCommand(button.command));
-            }
-
-            void HideButtons() {
-                foreach (var button in view.Buttons)
-                    button.Visible = false;
-            }
-            void ShowButtons() {
-                foreach (var button in view.Buttons)
-                    button.Visible = true;
             }
 
             while (true) {
