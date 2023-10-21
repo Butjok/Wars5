@@ -17,7 +17,7 @@ public class SavedGameView : MonoBehaviour {
 
     public List<Action> cleanUpActions = new();
 
-    public SavedGame SavedGame {
+    /*public SavedGame SavedGame {
         set {
 
             foreach (var action in cleanUpActions)
@@ -50,5 +50,5 @@ public class SavedGameView : MonoBehaviour {
                 loadButton.onClick.AddListener(() => { });
             }
         }
-    }
+    }*/
 }

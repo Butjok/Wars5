@@ -47,26 +47,20 @@ public static class PostProcessing {
     public static PostProcessLayer.Antialiasing Antialiasing {
         set {
             var layer = Camera.main ? Camera.main.GetComponent<PostProcessLayer>() : null;
-            //if (layer)
-            //layer.antialiasingMode = value;
+            if (layer)
+                layer.antialiasingMode = value;
         }
     }
 
-    public static void Setup(GameSettings gameSettings) {
+    public static void Setup(Settings settings) {
         Setup(
-            gameSettings.antiAliasing,
-            gameSettings.motionBlurShutterAngle,
-            gameSettings.enableBloom,
-            gameSettings.enableScreenSpaceReflections,
-            gameSettings.enableAmbientOcclusion);
+            settings.video.enableAntiAliasing ? PostProcessLayer.Antialiasing.SubpixelMorphologicalAntialiasing : PostProcessLayer.Antialiasing.None,
+            settings.video.enableMotionBlur ? 270 : null,
+            settings.video.enableBloom,
+            settings.video.enableAmbientOcclusion);
     }
 
-    public static void Setup(
-        PostProcessLayer.Antialiasing antialiasing = PostProcessLayer.Antialiasing.TemporalAntialiasing,
-        float? motionBlurShutterAngle = 270,
-        bool enableBloom = true,
-        bool enableScreenSpaceReflections = true,
-        bool enableAmbientOcclusion = true) {
+    public static void Setup(PostProcessLayer.Antialiasing antialiasing, float? motionBlurShutterAngle, bool enableBloom, bool enableAmbientOcclusion) {
 
         Antialiasing = antialiasing;
 
@@ -83,11 +77,6 @@ public static class PostProcessing {
         var bloom = profile.GetSetting<Bloom>();
         if (bloom)
             bloom.enabled.value = enableBloom;
-
-        var screenSpaceReflections = profile.GetSetting<ScreenSpaceReflections>();
-        if (screenSpaceReflections) {
-            screenSpaceReflections.enabled.value = enableScreenSpaceReflections;
-        }
 
         var ambientOcclusion = profile.GetSetting<AmbientOcclusion>();
         if (ambientOcclusion)

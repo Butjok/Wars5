@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
-using UnityEngine.SceneManagement;
+using Stable;
 
 public class LevelWriter {
 
@@ -14,8 +14,6 @@ public class LevelWriter {
     public void WriteLevel(Level level) {
 
         WriteLine("game {{");
-        WriteLine("    .load-scene   ( {0} )", SceneManager.GetActiveScene().name);
-        WriteLine("    :mission-name ( {0} )", level.missionName);
         WriteLine("    :turn ( {0} )", level.turn);
         WriteLine("}}");
 

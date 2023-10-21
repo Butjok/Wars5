@@ -9,8 +9,8 @@ public class Level : IDisposable {
     public static readonly Vector2Int[] offsets = { Vector2Int.up, Vector2Int.down, Vector2Int.right, Vector2Int.left };
     
     public LevelView view;
-    
-    public MissionName missionName;
+
+    public Mission mission;
     public List<Player> players = new();
     public Player localPlayer;
     public int turn = 0;

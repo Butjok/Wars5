@@ -20,18 +20,18 @@ public class MainMenuLoadGameState : StateMachineState {
             view.loadGameButtonPrefab.gameObject.SetActive(false);
 
             var first = true;
-            foreach (var savedGame in PersistentData.Read().savedGames) {
+            /*foreach (var savedGame in PersistentData.Read().savedMissions) {
                 var button = Object.Instantiate(view.loadGameButtonPrefab, view.loadGameButtonPrefab.transform.parent);
                 button.gameObject.SetActive(true);
                 buttons.Add(button);
-                button.guid = savedGame.guid;
+                button.guid = savedGame.id;
                 button.saveName.text = savedGame.name;
                 button.textUnderlay.ForceUpdate();
                 button.button.onClick.AddListener(() => Select(savedGame));
                 var screenshotTexture = savedGame.Screenshot;
                 if (screenshotTexture) {
                     var screenshotSprite = Sprite.Create(screenshotTexture, new Rect(Vector2.zero, new Vector2(screenshotTexture.width, screenshotTexture.height)), Vector2.one / 2);
-                    screenshotSprites.Add(savedGame.guid, screenshotSprite);
+                    screenshotSprites.Add(savedGame.id, screenshotSprite);
                     button.horizontalFitter.Sprite = screenshotSprite;
                 }
                 else
@@ -41,7 +41,7 @@ public class MainMenuLoadGameState : StateMachineState {
                     first = false;
                     Select(savedGame);
                 }
-            }
+            }*/
 
             while (true) {
                 var shouldStop = InputState.TryConsumeKeyDown(KeyCode.Escape);
@@ -54,11 +54,11 @@ public class MainMenuLoadGameState : StateMachineState {
         }
     }
 
-    public void Select(SavedGame savedGame) {
+    //public void Select(SavedGame savedGame) {
         
-        var view = stateMachine.TryFind<EntryPointState>().view;
+        /*var view = stateMachine.TryFind<EntryPointState>().view;
         
-        view.savedGameScreenshotImage.sprite = screenshotSprites.TryGetValue(savedGame.guid, out var sprite) ? sprite : null;
+        view.savedGameScreenshotImage.sprite = screenshotSprites.TryGetValue(savedGame.id, out var sprite) ? sprite : null;
         view.savedGameNameText.text = savedGame.name;
         view.savedGameDateTimeText.text = savedGame.dateTime.ToString(CultureInfo.InvariantCulture);
         view.savedGameInfoLeftText.text = string.Format(view.savedGameInfoLeftFormat,
@@ -66,8 +66,8 @@ public class MainMenuLoadGameState : StateMachineState {
             Gettext._p("LoadGame", "BRIEF"),
             Strings.GetDescription(savedGame.missionName));
         view.savedGameInfoRightText.text = string.Format(view.savedGameInfoRightFormat,
-            Strings.GetName(savedGame.missionName));
-    }
+            Strings.GetName(savedGame.missionName));*/
+    //}
 
     public override void Exit() {
         

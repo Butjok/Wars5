@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using System.Data;
+using System.Linq;
 using Butjok.CommandLine;
-using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -80,13 +79,14 @@ public class MainMenuSelectionState2 : StateMachineState {
     public MainMenuSelectionState2(StateMachine stateMachine) : base(stateMachine) { }
     public override IEnumerator<StateChange> Enter {
         get {
-            var game = stateMachine.Find<GameSessionState>().game;
+            var gameSession = stateMachine.Find<GameSessionState>();
+            var game = gameSession.game;
             var view = stateMachine.Find<MainMenuState2>().view;
 
             view.enqueueCommand = command => game.EnqueueCommand(command);
 
             foreach (var button in view.Buttons) {
-                button.Interactable = button != view.loadGameButton || PersistentData.Read().savedGames.Count > 0;
+                button.Interactable = button != view.loadGameButton || gameSession.persistentData.campaign.Missions.Any(mission => mission.saves.Any());
                 button.onClick.RemoveAllListeners();
                 button.onClick.AddListener(_ => game.EnqueueCommand(button.command));
             }

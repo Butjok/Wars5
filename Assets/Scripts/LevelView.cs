@@ -7,25 +7,6 @@ using UnityEngine.UI;
 
 public class LevelView : MonoBehaviour {
 
-    public static string TryGetSceneName(MissionName missionName) {
-        return missionName switch {
-            _ => null
-        };
-    }
-    public static bool TryLoadScene(MissionName missionName) {
-        var requiredSceneName = TryGetSceneName(missionName);
-        if (requiredSceneName == null || SceneManager.GetActiveScene().name == requiredSceneName)
-            return false;
-        SceneManager.LoadScene(requiredSceneName);
-        return true;
-    }
-    public static bool TryUnloadScene(MissionName missionName) {
-        var requiredSceneName = TryGetSceneName(missionName);
-        if (requiredSceneName == null || SceneManager.GetActiveScene().name != requiredSceneName)
-            return false;
-        SceneManager.UnloadSceneAsync(requiredSceneName);
-        return true;
-    }
     public static bool TryFindPrefab(out LevelView prefab) {
         var instances = FindObjectsOfType<LevelView>(true).Where(i => !i.prefab).ToList();
         Assert.IsTrue(instances.Count is 0 or 1);

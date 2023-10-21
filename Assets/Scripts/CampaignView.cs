@@ -9,7 +9,6 @@ public class CampaignView : MonoBehaviour {
 
     [Serializable]
     public class Mission {
-        public MissionName name;
         public string humanFriendlyName;
         public MeshRenderer[] renderers = { };
         public string availableUniformName = "_Available";
@@ -45,7 +44,7 @@ public class CampaignView : MonoBehaviour {
         
         foreach (var missionView in missions) {
 
-            var mission = campaign.Find(missionView.name);
+            /*var mission = campaign.Find(missionView.name);
             var isCompleted = mission.isCompleted;
             var isAvailable = campaign.IsAvailable(missionView.name);
             
@@ -65,7 +64,7 @@ public class CampaignView : MonoBehaviour {
             propertyBlock.SetFloat(missionView.availableUniformName, isAvailable ? 1 : 0);
             
             foreach (var renderer in missionView.renderers)
-                renderer.SetPropertyBlock(propertyBlock);
+                renderer.SetPropertyBlock(propertyBlock);*/
         }
     }
 

@@ -49,7 +49,7 @@ public class SavedGameListView : MonoBehaviour {
     [Command]
     public bool TryShowPage(int page) {
 
-        Assert.IsTrue(buttonContainer);
+        /*Assert.IsTrue(buttonContainer);
         Assert.IsTrue(buttonPrefab);
 
         var savedGames = new List<SavedGame>();
@@ -134,7 +134,7 @@ public class SavedGameListView : MonoBehaviour {
                 nextPageButton.gameObject.SetActive(active);
         }
 
-        oldPage = page;
+        oldPage = page;*/
 
         return true;
     }

@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using Butjok.CommandLine;
 using Drawing;
+using Stable;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;

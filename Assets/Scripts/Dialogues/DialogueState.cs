@@ -373,12 +373,12 @@ public abstract class DialogueState : StateMachineState {
         ui.Visible = true;
         ui.Reset();
 
-        FindState<LevelSessionState>().level.view.cameraRig.enabled = false;
+        stateMachine.Find<LevelSessionState>().level.view.cameraRig.enabled = false;
     }
     protected void End() {
         ui.Visible = false;
 
-        FindState<LevelSessionState>().level.view.cameraRig.enabled = true;
+        stateMachine.Find<LevelSessionState>().level.view.cameraRig.enabled = true;
     }
     protected PersonName? Speaker {
         set => ui.Speaker = value;

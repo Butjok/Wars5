@@ -32,7 +32,7 @@ public class ActionSelectionState : StateMachineState {
             action.Dispose();
         actions.Clear();
 
-        var level = FindState<LevelSessionState>().level;
+        var level = stateMachine.Find<LevelSessionState>().level;
         if (level.view.actionCircle)
             level.view.actionCircle.gameObject.SetActive(false);
     }
@@ -56,7 +56,7 @@ public class ActionSelectionState : StateMachineState {
             action.view.Show = true;
         oldAction = action;
 
-        var level = FindState<LevelSessionState>().level;
+        var level = stateMachine.Find<LevelSessionState>().level;
         var circle = level.view.actionCircle;
         var label = level.view.actionLabel;
         if (circle) {
@@ -82,7 +82,7 @@ public class ActionSelectionState : StateMachineState {
 
     public IEnumerable<UnitAction> SpawnActions() {
 
-        var (level, unit, path) = (FindState<LevelSessionState>().level, FindState<SelectionState>().unit, FindState<PathSelectionState>().path);
+        var (level, unit, path) = (stateMachine.Find<LevelSessionState>().level, stateMachine.Find<SelectionState>().unit, stateMachine.Find<PathSelectionState>().path);
 
         var destination = path[^1];
         level.TryGetUnit(destination, out var other);
@@ -137,8 +137,8 @@ public class ActionSelectionState : StateMachineState {
 
     public override IEnumerator<StateChange> Enter {
         get {
-            var levelSession = FindState<LevelSessionState>();
-            var (game, level, unit, path) = (FindState<GameSessionState>().game, levelSession.level, FindState<SelectionState>().unit, FindState<PathSelectionState>().path);
+            var levelSession = stateMachine.Find<LevelSessionState>();
+            var (game, level, unit, path) = (stateMachine.Find<GameSessionState>().game, levelSession.level, stateMachine.Find<SelectionState>().unit, stateMachine.Find<PathSelectionState>().path);
 
             var destination = path[^1];
             level.TryGetUnit(destination, out var other);

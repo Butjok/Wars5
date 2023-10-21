@@ -5,6 +5,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Stable;
 using UnityEngine;
 using UnityEngine.Assertions;
 using static BattleConstants;
@@ -124,15 +125,6 @@ public static class LevelReader {
 
                 case "game.set-turn": {
                     level.turn = (int)stack.Pop();
-                    break;
-                }
-                case "game.load-scene": {
-                    var name = (string)stack.Pop();
-                    break;
-                }
-                case "game.set-mission-name": {
-                    var name = (MissionName)stack.Pop();
-                    level.missionName = name;
                     break;
                 }
 

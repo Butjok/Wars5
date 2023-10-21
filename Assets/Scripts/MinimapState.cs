@@ -10,7 +10,7 @@ public class MinimapState : StateMachineState {
     
     public override IEnumerator<StateChange> Enter {
         get {
-            var level = FindState<LevelSessionState>().level;
+            var level = stateMachine.Find<LevelSessionState>().level;
             ui = level.view.minimap;
             Assert.IsTrue(ui);
             var tiles = level.tiles;

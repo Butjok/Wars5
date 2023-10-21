@@ -37,15 +37,17 @@ public class GameSettingsMenu : MonoBehaviour {
 
     public const PostProcessLayer.Antialiasing antiAliasing = PostProcessLayer.Antialiasing.TemporalAntialiasing;
 
-    public GameSettings gameSettings;
+    public PersistentData persistentData;
 
     public Action enqueueCloseCommand;
+    public string oldJson;
 
-    public void Show(Action enqueueCloseCommand) {
+    public void Show(Settings settings, Action enqueueCloseCommand) {
 
         this.enqueueCloseCommand = enqueueCloseCommand;
 
-        gameSettings = PersistentData.Read().gameSettings.ShallowCopy();
+        persistentData = settings.persistentData;
+        oldJson = settings.ToJson();
 
         root.SetActive(true);
         UpdateControls();
@@ -53,47 +55,41 @@ public class GameSettingsMenu : MonoBehaviour {
 
     public void UpdateControls() {
 
-        masterVolumeSlider.SetValueWithoutNotify(gameSettings.masterVolume);
-        musicVolumeSlider.SetValueWithoutNotify(gameSettings.musicVolume);
-        sfxVolumeSlider.SetValueWithoutNotify(gameSettings.sfxVolume);
-        uiVolumeSlider.SetValueWithoutNotify(gameSettings.uiVolume);
+        masterVolumeSlider.SetValueWithoutNotify(persistentData.settings.audio.volume.master);
+        musicVolumeSlider.SetValueWithoutNotify(persistentData.settings.audio.volume.music);
+        sfxVolumeSlider.SetValueWithoutNotify(persistentData.settings.audio.volume.effects);
+        uiVolumeSlider.SetValueWithoutNotify(persistentData.settings.audio.volume.ui);
+        shuffleMusicToggle.SetIsOnWithoutNotify(persistentData.settings.audio.shuffleMusic);
 
-        showBattleAnimationToggle.SetIsOnWithoutNotify(gameSettings.showBattleAnimation);
-        unitSpeedSlider.SetValueWithoutNotify(gameSettings.unitSpeed);
-        unitSpeedText.text = Mathf.RoundToInt(gameSettings.unitSpeed).ToString();
-        antiAliasingToggle.SetIsOnWithoutNotify(gameSettings.antiAliasing == antiAliasing);
-        motionBlurShutterAngleSlider.SetValueWithoutNotify(gameSettings.motionBlurShutterAngle is { } value ? value : 0);
-        bloomToggle.SetIsOnWithoutNotify(gameSettings.enableBloom);
-        screenSpaceReflectionsToggle.SetIsOnWithoutNotify(gameSettings.enableScreenSpaceReflections);
-        ambientOcclusionToggle.SetIsOnWithoutNotify(gameSettings.enableAmbientOcclusion);
-        shuffleMusicToggle.SetIsOnWithoutNotify(gameSettings.shuffleMusic);
+        showBattleAnimationToggle.SetIsOnWithoutNotify(persistentData.settings.game.showBattleAnimation);
+        unitSpeedSlider.SetValueWithoutNotify(persistentData.settings.game.unitSpeed);
+        unitSpeedText.text = Mathf.RoundToInt(persistentData.settings.game.unitSpeed).ToString();
 
-        //okButton.interactable =game.settings.DiffersFrom(oldSettings);
-        closeButton.interactable = !gameSettings.DiffersFrom(PersistentData.Read().gameSettings);
+        antiAliasingToggle.SetIsOnWithoutNotify(persistentData.settings.video.enableAntiAliasing);
+        motionBlurShutterAngleSlider.SetValueWithoutNotify(persistentData.settings.video.enableMotionBlur ? 270 : 0);
+        bloomToggle.SetIsOnWithoutNotify(persistentData.settings.video.enableBloom);
+        ambientOcclusionToggle.SetIsOnWithoutNotify(persistentData.settings.video.enableAmbientOcclusion);
+
+        closeButton.interactable = persistentData.settings.ToJson() == oldJson;
     }
 
     public void UpdateSettings() {
 
-        gameSettings.masterVolume = masterVolumeSlider.value;
-        gameSettings.musicVolume = musicVolumeSlider.value;
-        gameSettings.sfxVolume = sfxVolumeSlider.value;
-        gameSettings.uiVolume = uiVolumeSlider.value;
+        persistentData.settings.audio.volume.master = masterVolumeSlider.value;
+        persistentData.settings.audio.volume.music = musicVolumeSlider.value;
+        persistentData.settings.audio.volume.effects = sfxVolumeSlider.value;
+        persistentData.settings.audio.volume.ui = uiVolumeSlider.value;
+        persistentData.settings.audio.shuffleMusic = shuffleMusicToggle.isOn;
 
-        gameSettings.showBattleAnimation = showBattleAnimationToggle.isOn;
-        gameSettings.unitSpeed = unitSpeedSlider.value;
-        gameSettings.antiAliasing = antiAliasingToggle.isOn ? antiAliasing : PostProcessLayer.Antialiasing.None;
-        if (Camera.main) {
-            var layer = Camera.main.GetComponent<PostProcessLayer>();
-            if (layer)
-                layer.antialiasingMode = gameSettings.antiAliasing;
-        }
-        gameSettings.motionBlurShutterAngle = Mathf.Approximately(motionBlurShutterAngleSlider.value, 0) ? null : motionBlurShutterAngleSlider.value;
-        gameSettings.enableBloom = bloomToggle.isOn;
-        gameSettings.enableScreenSpaceReflections = screenSpaceReflectionsToggle.isOn;
-        gameSettings.enableAmbientOcclusion = ambientOcclusionToggle.isOn;
-        gameSettings.shuffleMusic = shuffleMusicToggle.isOn;
+        persistentData.settings.game.showBattleAnimation = showBattleAnimationToggle.isOn;
+        persistentData.settings.game.unitSpeed = unitSpeedSlider.value;
 
-        PostProcessing.Setup(gameSettings);
+        persistentData.settings.video.enableAntiAliasing = antiAliasingToggle.isOn;
+        persistentData.settings.video.enableMotionBlur = !Mathf.Approximately(motionBlurShutterAngleSlider.value, 0);
+        persistentData.settings.video.enableBloom = bloomToggle.isOn;
+        persistentData.settings.video.enableAmbientOcclusion = ambientOcclusionToggle.isOn;
+        PostProcessing.Setup(persistentData.settings);
+
         UpdateControls();
     }
 
@@ -101,36 +97,36 @@ public class GameSettingsMenu : MonoBehaviour {
         root.SetActive(false);
     }
 
-    public void Close() {
-        if (!PersistentData.Read().gameSettings.DiffersFrom(gameSettings))
+    public bool TryClose() {
+        if (oldJson == persistentData.settings.ToJson()) {
             enqueueCloseCommand?.Invoke();
-        else {
-            shakeTweener?.Complete();
-            shakeTweener = buttonsRoot.GetComponent<RectTransform>()
-                .DOShakePosition(shakeDuration, shakeStrength, shakeVibrato, 0, false, shakeFadeOut)
-                .SetEase(shakeEase);
+            return true;
         }
+        shakeTweener?.Complete();
+        shakeTweener = buttonsRoot.GetComponent<RectTransform>()
+            .DOShakePosition(shakeDuration, shakeStrength, shakeVibrato, 0, false, shakeFadeOut)
+            .SetEase(shakeEase);
+        return false;
     }
     public void SetDefaultValues() {
-        gameSettings = new GameSettings();
-        PostProcessing.Setup(gameSettings);
+        persistentData.settings = new Settings { persistentData = persistentData.settings.persistentData };
+        PostProcessing.Setup(persistentData.settings);
         UpdateControls();
     }
     public void Cancel() {
-        gameSettings = PersistentData.Read().gameSettings.ShallowCopy();
-        PostProcessing.Setup(gameSettings);
+        persistentData.settings = oldJson.FromJson<Settings>();
+        persistentData.settings.persistentData = persistentData;
+        PostProcessing.Setup(persistentData.settings);
         enqueueCloseCommand?.Invoke();
     }
     public void Ok() {
-        var persistentData = PersistentData.Read();
-        persistentData.gameSettings = gameSettings;
-        persistentData.Save();
+        persistentData.Write();
         enqueueCloseCommand?.Invoke();
     }
 
     private void Update() {
         if (Input.GetKeyDown(KeyCode.Escape))
-            Close();
+            TryClose();
         else if (Input.GetKeyDown(KeyCode.Return))
             Ok();
     }

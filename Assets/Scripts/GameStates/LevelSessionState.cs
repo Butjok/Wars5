@@ -1,53 +1,46 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Web.UI.WebControls;
-using Butjok.CommandLine;
+using Stable;
 using UnityEngine;
-using UnityEngine.Assertions;
+using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
 
 public class LevelSessionState : StateMachineState {
 
+    public struct StartParameters {
+        public string sceneName;
+        public string input;
+    }
+
     public Level level;
-    public string input;
-    public MissionName missionName;
-    public bool isFreshStart;
-    public LevelLogic levelLogic;
+    public SavedMission savedMission;
     public bool autoplay;
     public IEnumerator autoplayHandler;
-    public Dictionary<(MoveType, Vector2Int, Vector2Int), int> precalculatedDistances;
+    //public Dictionary<(MoveType, Vector2Int, Vector2Int), int> precalculatedDistances;
 
-    public LevelSessionState(StateMachine stateMachine, string input, MissionName missionName, bool isFreshStart, Dictionary<(MoveType, Vector2Int, Vector2Int), int> precalculatedDistances = null) : base(stateMachine) {
-        this.input = input;
-        this.missionName = missionName;
-        this.isFreshStart = isFreshStart;
-        levelLogic = missionName switch {
-            MissionName.Tutorial => new TutorialLevelLogic(),
-            _ => new LevelLogic()
-        };
-        levelLogic = new TutorialLevelLogic();
-        this.precalculatedDistances = precalculatedDistances;
+    public LevelSessionState(StateMachine stateMachine, SavedMission savedMission) : base(stateMachine) {
+        this.savedMission = savedMission;
+        //  this.precalculatedDistances = precalculatedDistances;
     }
 
     public override IEnumerator<StateChange> Enter {
         get {
-            level = new Level { missionName = missionName };
-            if (precalculatedDistances != null)
+            
+            level = new Level { mission = savedMission.mission };
+            
+            /*if (precalculatedDistances != null)
                 level.precalculatedDistances = precalculatedDistances;
             else
-                new Thread(() => PrecalculatedDistances.TryLoad(level.missionName, out level.precalculatedDistances)).Start();
+                new Thread(() => PrecalculatedDistances.TryLoad(level.missionName, out level.precalculatedDistances)).Start();*/
 
-            LevelView.TryLoadScene(level.missionName);
+            if (SceneManager.GetActiveScene().name != savedMission.mission.SceneName)
+                SceneManager.LoadScene(savedMission.mission.SceneName);
             while (!LevelView.TryInstantiatePrefab(out level.view))
                 yield return StateChange.none;
-            LevelReader.ReadInto(level, input.ToPostfix());
+            LevelReader.ReadInto(level, savedMission.input);
 
             autoplayHandler = AutoplayHandler();
-            FindState<GameSessionState>().game.StartCoroutine(autoplayHandler);
+            stateMachine.Find<GameSessionState>().game.StartCoroutine(autoplayHandler);
 
             /*if (stateMachine.TryFind<LevelEditorSessionState>() == null) {
                 var tilemapMesh = Resources.Load<Mesh>("TilemapMeshes/" + level.missionName);
@@ -68,16 +61,17 @@ public class LevelSessionState : StateMachineState {
 
             if (level.view.turnButton) {
                 level.view.turnButton.Visible = true;
-                level.view.turnButton.button.onClick.AddListener(() => FindState<GameSessionState>().game.EnqueueCommand(SelectionState.Command.EndTurn));
+                level.view.turnButton.button.onClick.AddListener(() => stateMachine.Find<GameSessionState>().game.EnqueueCommand(SelectionState.Command.EndTurn));
             }
 
             //yield return levelLogic.OnLevelStart(this);
 
             var persistentData = stateMachine.Find<GameSessionState>().persistentData;
+            var campaign = persistentData.campaign;
 
             if (stateMachine.TryFind<LevelEditorSessionState>() == null) {
-                if (missionName == MissionName.Tutorial) {
-                    if (persistentData.showIntroDialogue) {
+                if (level.mission == campaign.tutorial) {
+                    if (true) {
 
                         level.view.cameraRig.enabled = false;
 
@@ -116,9 +110,10 @@ public class LevelSessionState : StateMachineState {
     }
 
     public override void Exit() {
-        FindState<GameSessionState>().game.StopCoroutine(autoplayHandler);
+        stateMachine.Find<GameSessionState>().game.StopCoroutine(autoplayHandler);
         level.Dispose();
-        LevelView.TryUnloadScene(level.missionName);
+        if (SceneManager.GetActiveScene().name == level.mission.SceneName)
+            SceneManager.UnloadSceneAsync(level.mission.SceneName);
         Object.Destroy(level.view.gameObject);
         level.view = null;
     }

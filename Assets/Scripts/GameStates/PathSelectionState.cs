@@ -22,8 +22,8 @@ public class PathSelectionState : StateMachineState {
 
     public override IEnumerator<StateChange> Enter {
         get {
-            var levelSession = FindState<LevelSessionState>();
-            var (game, level, unit) = (FindState<GameSessionState>().game, levelSession.level, FindState<SelectionState>().unit);
+            var levelSession = stateMachine.Find<LevelSessionState>();
+            var (game, level, unit) = (stateMachine.Find<GameSessionState>().game, levelSession.level, stateMachine.Find<SelectionState>().unit);
 
             var unitPosition = unit.NonNullPosition;
             Assert.IsTrue(level.tiles.ContainsKey(unitPosition));

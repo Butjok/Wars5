@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices.ComTypes;
-using System.Threading;
 using Butjok.CommandLine;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -91,6 +89,10 @@ public class Game : MonoBehaviour {
         aiPlayerCommander.game = this;
     }
 
+    private void Start() {
+        stateMachine.Push(new GameSessionState(this));
+    }
+
     private void Update() {
 
         stateMachine.Tick();
@@ -130,21 +132,6 @@ public class Game : MonoBehaviour {
         showStates = false;
     }
 
-    public PersistentData PersistentData => stateMachine.Find<GameSessionState>().persistentData;
-
-    [Command] public bool ShowDebugGui {
-        get => PersistentData.showDebugGui;
-        set => PersistentData.showDebugGui = value;
-    }
-    [Command] public bool ShowIntroDialogue {
-        get => PersistentData.showIntroDialogue;
-        set => PersistentData.showIntroDialogue = value;
-    }
-    [Command] public bool PlayTutorial {
-        get => PersistentData.playTutorial;
-        set => PersistentData.playTutorial = value;
-    }
-
     public GUIStyle statesLabelStyle;
 
     private void OnGUI() {
@@ -166,14 +153,6 @@ public class Game : MonoBehaviour {
             }
             GUILayout.EndHorizontal();
         }
-    }
-
-    [Command]
-    public void LoadPrecalculatedDistances() {
-        new Thread(() => {
-            PrecalculatedDistances.TryLoad(Level.missionName, out Level.precalculatedDistances);
-            Debug.Log("Loaded");
-        }).Start();
     }
 }
 

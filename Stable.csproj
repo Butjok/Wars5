@@ -92,7 +92,6 @@
      <Compile Include="Assets/Scripts/Stable/TileType.cs" />
      <Compile Include="Assets/Scripts/Stable/CloudMovement.cs" />
      <Compile Include="Assets/Scripts/Stable/Foliage.cs" />
-     <Compile Include="Assets/Scripts/Stable/PersistentData.cs" />
      <Compile Include="Assets/Scripts/Stable/TangentSpaceVisualizer.cs" />
      <Compile Include="Assets/Scripts/Stable/SubsceneRoot.cs" />
      <Compile Include="Assets/Scripts/Stable/Trail.cs" />
@@ -139,7 +138,6 @@
      <Compile Include="Assets/Scripts/Stable/Accelerometer.cs" />
      <Compile Include="Assets/Scripts/Stable/ImageLoadTest.cs" />
      <Compile Include="Assets/Scripts/Stable/MoveSequenceMeshBuilder.cs" />
-     <Compile Include="Assets/Scripts/Stable/Missions.cs" />
      <Compile Include="Assets/Scripts/Stable/TestRenderer.cs" />
      <Compile Include="Assets/Scripts/Stable/GameUiView.cs" />
      <Compile Include="Assets/Scripts/Stable/MoveSequenceAtlas.cs" />
@@ -147,6 +145,8 @@
      <Compile Include="Assets/Scripts/Stable/ResourceExtensions.cs" />
      <Compile Include="Assets/Scripts/Stable/LookAt.cs" />
      <Compile Include="Assets/Scripts/Stable/PistonBody.cs" />
+     <Compile Include="Assets/Scripts/Stable/PostfixExtensions.cs" />
+     <Compile Include="Assets/Scripts/Stable/ExtendedPostfix.cs" />
      <Folder Include="Assets/Scripts/Stable/Foliage" />
      <Folder Include="Assets/Scripts/Stable/Interpreter" />
      <None Include="Assets/Scripts/Stable/Stable.asmdef" />

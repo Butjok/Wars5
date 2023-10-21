@@ -162,8 +162,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 323.66666, y: 399.09872}
-  m_SizeDelta: {x: 56.44104, y: 103.83508}
+  m_AnchoredPosition: {x: 351.8055, y: 401.22723}
+  m_SizeDelta: {x: 56.76291, y: 104.388885}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &10685976
 MonoBehaviour:
@@ -1184,7 +1184,7 @@ GameObject:
   - component: {fileID: 296007553}
   - component: {fileID: 296007554}
   m_Layer: 7
-  m_Name: SecondMission
+  m_Name: Missions+SecondMission
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1273,8 +1273,7 @@ MonoBehaviour:
   defaultMaterial: {fileID: 2100000, guid: cf07941466fee49c2806236b4d3f84ff, type: 2}
   hoveredMaterial: {fileID: 2100000, guid: 0c8c076d8dee0492384f4346c842eeb2, type: 2}
   unavailableMaterial: {fileID: 2100000, guid: e95bb2afabf7546d9b47aec7717b0480, type: 2}
-  uiRoot: {fileID: 0}
-  text: {fileID: 1841873534}
+  label: {fileID: 1242703779}
 --- !u!65 &296007554
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1682,6 +1681,7 @@ MonoBehaviour:
   elevation: 0
   elevationStep: 0.25
   loadOnAwake: WorldMap
+  bushTester: {fileID: 0}
   voronoiRenderer: {fileID: 363339169}
   edgeThickness: -1000
   bushDensityPerUnit: 100
@@ -2351,7 +2351,6 @@ MonoBehaviour:
   text: {fileID: 0}
   startBackgroundColor: {r: 0, g: 0, b: 0, a: 0}
   startTextColor: {r: 0, g: 0, b: 0, a: 0}
-  alpha: 1
   hideOnStart: 0
 --- !u!114 &483301390
 MonoBehaviour:
@@ -2403,6 +2402,7 @@ GameObject:
   - component: {fileID: 485385853}
   - component: {fileID: 485385852}
   - component: {fileID: 485385851}
+  - component: {fileID: 485385855}
   m_Layer: 0
   m_Name: road creator
   m_TagString: Untagged
@@ -2488,6 +2488,7 @@ MonoBehaviour:
   mesh: {fileID: 0}
   projectedMesh: {fileID: 0}
   meshFilter: {fileID: 485385852}
+  meshCollider: {fileID: 485385855}
   color: {r: 0.5, g: 0.5, b: 0.5, a: 0}
   terrainCreator: {fileID: 0}
   loadOnAwake: WorldMap
@@ -2507,6 +2508,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &485385855
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 485385850}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}
 --- !u!1 &561350080
 GameObject:
   m_ObjectHideFlags: 0
@@ -3618,7 +3633,6 @@ MonoBehaviour:
   text: {fileID: 0}
   startBackgroundColor: {r: 0, g: 0, b: 0, a: 0}
   startTextColor: {r: 0, g: 0, b: 0, a: 0}
-  alpha: 1
   hideOnStart: 0
 --- !u!114 &846869932
 MonoBehaviour:
@@ -4694,8 +4708,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 696.9013, y: 408.48288}
-  m_SizeDelta: {x: 53.762695, y: 103.363434}
+  m_AnchoredPosition: {x: 727.1687, y: 410.66144}
+  m_SizeDelta: {x: 54.069275, y: 103.914734}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1077786426
 MonoBehaviour:
@@ -5467,7 +5481,7 @@ GameObject:
   - component: {fileID: 1223878331}
   - component: {fileID: 1223878332}
   m_Layer: 7
-  m_Name: Tutorial
+  m_Name: Missions+Tutorial
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5556,8 +5570,7 @@ MonoBehaviour:
   defaultMaterial: {fileID: 2100000, guid: cf07941466fee49c2806236b4d3f84ff, type: 2}
   hoveredMaterial: {fileID: 2100000, guid: 0c8c076d8dee0492384f4346c842eeb2, type: 2}
   unavailableMaterial: {fileID: 2100000, guid: e95bb2afabf7546d9b47aec7717b0480, type: 2}
-  uiRoot: {fileID: 0}
-  text: {fileID: 904023943}
+  label: {fileID: 846869931}
 --- !u!65 &1223878332
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5792,7 +5805,6 @@ MonoBehaviour:
   text: {fileID: 0}
   startBackgroundColor: {r: 0, g: 0, b: 0, a: 0}
   startTextColor: {r: 0, g: 0, b: 0, a: 0}
-  alpha: 1
   hideOnStart: 0
 --- !u!114 &1242703780
 MonoBehaviour:
@@ -6052,8 +6064,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 754.4949, y: 593.043}
-  m_SizeDelta: {x: 49.96704, y: 93.79443}
+  m_AnchoredPosition: {x: 785.0908, y: 596.20593}
+  m_SizeDelta: {x: 50.251892, y: 94.29468}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1355582743
 MonoBehaviour:
@@ -8895,7 +8907,7 @@ GameObject:
   - component: {fileID: 1851363848}
   - component: {fileID: 1851363849}
   m_Layer: 7
-  m_Name: FirstMission
+  m_Name: Missions+FirstMission
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8984,8 +8996,7 @@ MonoBehaviour:
   defaultMaterial: {fileID: 2100000, guid: cf07941466fee49c2806236b4d3f84ff, type: 2}
   hoveredMaterial: {fileID: 2100000, guid: 0c8c076d8dee0492384f4346c842eeb2, type: 2}
   unavailableMaterial: {fileID: 2100000, guid: e95bb2afabf7546d9b47aec7717b0480, type: 2}
-  uiRoot: {fileID: 0}
-  text: {fileID: 811466703}
+  label: {fileID: 483301389}
 --- !u!65 &1851363849
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9440,8 +9451,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   missions:
-  - name: 0
-    humanFriendlyName: Tutorial
+  - humanFriendlyName: Tutorial
     renderers: []
     availableUniformName: _Available
     completedUniformName: _Completed
@@ -9450,8 +9460,7 @@ MonoBehaviour:
     availableTextColor: {r: 1, g: 1, b: 1, a: 1}
     unavailableTextColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     completedTextColor: {r: 0, g: 1, b: 0, a: 1}
-  - name: 0
-    humanFriendlyName: First
+  - humanFriendlyName: First
     renderers: []
     availableUniformName: _Available
     completedUniformName: _Completed
@@ -9460,8 +9469,7 @@ MonoBehaviour:
     availableTextColor: {r: 1, g: 1, b: 1, a: 1}
     unavailableTextColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     completedTextColor: {r: 0, g: 1, b: 0, a: 1}
-  - name: 0
-    humanFriendlyName: Second
+  - humanFriendlyName: Second
     renderers: []
     availableUniformName: _Available
     completedUniformName: _Completed

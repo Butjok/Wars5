@@ -20,8 +20,8 @@ public class SelectionState : StateMachineState {
 
     public override IEnumerator<StateChange> Enter {
         get {
-            var levelSession = FindState<LevelSessionState>();
-            var (game, level) = (FindState<GameSessionState>().game, levelSession.level);
+            var levelSession = stateMachine.Find<LevelSessionState>();
+            var (game, level) = (stateMachine.Find<GameSessionState>().game, levelSession.level);
             var cameraRig = level.view.cameraRig;
 
             // stop the ability
@@ -266,7 +266,7 @@ public class SelectionState : StateMachineState {
     }
 
     public override void Exit() {
-        var level = FindState<LevelSessionState>().level;
+        var level = stateMachine.Find<LevelSessionState>().level;
         if (level.view.turnButton)
             level.view.turnButton.Interactable = false;
         level.view.tilemapCursor.Hide();

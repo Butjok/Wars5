@@ -19,7 +19,7 @@ public class TutorialStartDialogue : DialogueState {
             //yield return SayWait(_("This is a strategy game and you are in charge!"));
 
 
-            if (persistentData.playTutorial) {
+            if (true) {
                 yield return Say(_("Do you want to watch tutorial?"));
                 bool yes = default;
                 yield return ChooseYesNo(value => yes = value);

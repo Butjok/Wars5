@@ -11,9 +11,10 @@ public class GameSettingsState : StateMachineState {
 
     public override IEnumerator<StateChange> Enter {
         get {
-            var (game, menu) = (FindState<GameSessionState>().game, FindObject<GameSettingsMenu>());
+            var gameSessionState = stateMachine.Find<GameSessionState>();
+            var (game, menu) = (gameSessionState.game, Object.FindObjectOfType<GameSettingsMenu>());
 
-            menu.Show(() => game.EnqueueCommand(Command.Close));
+            menu.Show(gameSessionState.persistentData.settings, () => game.EnqueueCommand(Command.Close));
             while (true) {
                 yield return StateChange.none;
                 while (game.TryDequeueCommand(out var command))

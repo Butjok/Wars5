@@ -2,9 +2,11 @@ using System.Collections.Generic;
 using System.Threading;
 using Butjok.CommandLine;
 using Drawing;
+using Stable;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
 
 public class LevelEditorSessionState : StateMachineState {
@@ -37,11 +39,13 @@ public class LevelEditorSessionState : StateMachineState {
 
     public override IEnumerator<StateChange> Enter {
         get {
-            LevelView.TryLoadScene(level.missionName);
-            Assert.IsTrue(LevelView.TryInstantiatePrefab(out level.view));
+            if (SceneManager.GetActiveScene().name!=level.mission.SceneName  )
+                SceneManager.LoadScene(level.mission.SceneName);
+            while (!LevelView.TryInstantiatePrefab(out level.view))
+                yield return StateChange.none;
             LevelReader.ReadInto(level, input.ToPostfix());
 
-            new Thread(() => PrecalculatedDistances.TryLoad(level.missionName, out level.precalculatedDistances)).Start();
+            //new Thread(() => PrecalculatedDistances.TryLoad(level.missionName, out level.precalculatedDistances)).Start();
 
             if (level.players.Count == 0) {
                 level.players.Add(new Player(level, ColorName.Red));
@@ -78,7 +82,7 @@ public class LevelEditorSessionState : StateMachineState {
     }
 
     public void SaveTerrainMesh() {
-        AssetDatabase.CreateAsset(tileMeshFilter.sharedMesh, "Assets/Resources/TilemapMeshes/" + level.missionName + ".asset");
+        //AssetDatabase.CreateAsset(tileMeshFilter.sharedMesh, "Assets/Resources/TilemapMeshes/" + level.missionName + ".asset");
     }
 
     public override void Exit() {
@@ -89,9 +93,10 @@ public class LevelEditorSessionState : StateMachineState {
         LevelEditorFileSystem.DeleteOldAutosaves(autosaveLifespanInDays);
 
         level.Dispose();
-        LevelView.TryUnloadScene(level.missionName);
         Object.Destroy(level.view.gameObject);
         level.view = null;
+        if (SceneManager.GetActiveScene().name == level.mission.SceneName)
+            SceneManager.UnloadSceneAsync(level.mission.SceneName);
 
         Object.Destroy(gui.gameObject);
         Object.Destroy(tileMeshFilter.gameObject);

@@ -7,9 +7,10 @@ public class MainMenuGameSettingsState : StateMachineState {
     public MainMenuGameSettingsState(StateMachine stateMachine) : base(stateMachine) { }
     public override IEnumerator<StateChange> Enter {
         get {
-            var game = stateMachine.Find<GameSessionState>().game;
+            var gameSessionState = stateMachine.Find<GameSessionState>();
+            var game = gameSessionState.game;
             var view = stateMachine.Find<MainMenuState2>().view;
-            view.gameSettingsMenu.Show(() => game.EnqueueCommand(Command.Close));
+            view.gameSettingsMenu.Show(gameSessionState.persistentData.settings, () => game.EnqueueCommand(Command.Close));
 
             while (true) {
                 while (game.TryDequeueCommand(out var command))
@@ -27,7 +28,6 @@ public class MainMenuGameSettingsState : StateMachineState {
         }
     }
     public override void Exit() {
-        var view = stateMachine.Find<MainMenuState2>().view;
-        view.gameSettingsMenu.Hide();
+        stateMachine.Find<MainMenuState2>().view.gameSettingsMenu.Hide();
     }
 }

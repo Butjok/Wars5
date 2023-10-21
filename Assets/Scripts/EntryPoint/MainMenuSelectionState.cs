@@ -27,8 +27,8 @@ public class MainMenuSelectionState : StateMachineState {
             view.textFrame3d.gameObject.SetActive(true);
 
             defaultColor = view.loadGameText.color;
-            if (PersistentData.Read().savedGames.Count == 0 || simulateNoSavedGames)
-                view.loadGameText.color = view.inactiveColor;
+            //if (PersistentData.Read().savedMissions.Count == 0 || simulateNoSavedGames)
+               // view.loadGameText.color = view.inactiveColor;
 
             while (true) {
 

@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using System.IO;
-using UnityEngine;
 
 public class LevelEditorPlayState : StateMachineState {
 
-    public string save;
+    public string input;
     public LevelEditorPlayState(StateMachine stateMachine) : base(stateMachine) {
     }
 
@@ -16,7 +15,7 @@ public class LevelEditorPlayState : StateMachineState {
 
             using var stringWriter = new StringWriter();
             new LevelWriter(stringWriter).WriteLevel(level);
-            save = stringWriter.ToString();
+            input = stringWriter.ToString();
 
             editorState.gui
                 .Push();
@@ -24,7 +23,7 @@ public class LevelEditorPlayState : StateMachineState {
             if (editorState.musicSource)
                 Music.Mute(editorState.musicSource);
 
-            yield return StateChange.Push(new LevelSessionState(stateMachine, save, level.missionName, editorState.playAsFreshStart, level.precalculatedDistances));
+            yield return StateChange.Push(new LevelSessionState(stateMachine, new SavedMission{mission = level.mission, input = input }));
         }
     }
     public override void Exit() {

@@ -12,7 +12,7 @@ public class PlayerTurnState : StateMachineState {
 
     public override IEnumerator<StateChange> Enter {
         get {
-            var level = FindState<LevelSessionState>().level;
+            var level = stateMachine.Find<LevelSessionState>().level;
             player = level.CurrentPlayer;
             player.view.Show(player.uiPosition, player.Credits, player.AbilityMeter, Rules.MaxAbilityMeter(player), player.UiColor, player.coName);
             Debug.Log($"Start of turn #{level.turn}: {player}");
@@ -29,7 +29,8 @@ public class PlayerTurnState : StateMachineState {
                     yield return StateChange.none;
             }
 
-            if (level.missionName == MissionName.Tutorial && level.Day() == 0 && level.CurrentPlayer.ColorName == ColorName.Red)
+            var campaign = stateMachine.Find<GameSessionState>().persistentData.campaign;
+            if (level.mission == campaign.tutorial && level.Day() == 0 && level.CurrentPlayer.ColorName == ColorName.Red)
                 yield return StateChange.Push(new TutorialVladansTurnDialogue(stateMachine));
 
             yield return StateChange.Push(new SelectionState(stateMachine));

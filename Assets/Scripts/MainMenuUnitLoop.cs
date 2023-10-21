@@ -29,7 +29,7 @@ public class MainMenuUnitLoop : MonoBehaviour {
             var nextDistance = distance + speed * Time.deltaTime;
             var oldPosition = actor.position;
             var nextPosition = LineStart + LineDirection * nextDistance;
-            if (rotate)
+            if (rotate && nextPosition != oldPosition)
                 actor.rotation = Quaternion.LookRotation(nextPosition - oldPosition, transform.up);
             var wrappedDistance = nextDistance % length;
             actor.position = LineStart + LineDirection * wrappedDistance;

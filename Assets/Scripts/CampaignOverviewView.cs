@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web.UI.Design;
+using System.Web.UI.WebControls;
 using Butjok.CommandLine;
 using Cinemachine;
 using DG.Tweening;
@@ -9,9 +11,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 using Object = UnityEngine.Object;
 using static Mouse;
+using Button = UnityEngine.UI.Button;
 
 public class CampaignOverviewView : MonoBehaviour {
 
@@ -24,6 +26,10 @@ public class CampaignOverviewView : MonoBehaviour {
     public TMP_Text missionDescription;
     public Button startMissionButton;
     public Button backButton, previousButton, nextButton;
+    public Campaign campaign;
+    public Mission selected;
+    public Action startMission, goToMainMenu;
+    public Action<int> cycleMission;
 
     public IEnumerable<MissionView> MissionViews => GetComponentsInChildren<MissionView>();
 
@@ -32,7 +38,7 @@ public class CampaignOverviewView : MonoBehaviour {
     private void Start() {
         var game = Game.Instance;
         if (start && game.stateMachine.Count == 0)
-            game.stateMachine.Push(new CampaignOverviewState2(game.stateMachine));
+            game.EnqueueCommand(GameSessionState.Command.StartCampaignOverview);
     }
 
     public bool ShowLoadingSpinner {
@@ -40,54 +46,35 @@ public class CampaignOverviewView : MonoBehaviour {
     }
 
     public void StartMission() {
-        CampaignOverviewMissionCloseUpState.shouldStart = true;
+        startMission?.Invoke();
     }
-
     public void CycleMission(int offset) {
-        var campaign = PersistentData.Read().campaign;
-        var missionNames = MissionViews.Select(mv => mv.MissionName);
-        var availableMissionNames = missionNames.Where(campaign.IsAvailable).ToList();
-        var index = availableMissionNames.IndexOf(CampaignOverviewMissionCloseUpState.missionName);
-        var nextIndex = (index + offset).PositiveModulo(availableMissionNames.Count);
-        CampaignOverviewSelectionState.targetMissionName = availableMissionNames[nextIndex];
+        cycleMission?.Invoke(offset);
     }
-
     public void GoToMainMenu() {
-        CampaignOverviewSelectionState.shouldGoBackToMainMenu = true;
+        goToMainMenu?.Invoke();
     }
 }
 
 public class CampaignOverviewState2 : StateMachineState {
 
     [Command] public static string sceneName = "Campaign";
-    [Command] public static float fadeDuration = .25f;
-    [Command] public static Ease fadeEasing = Ease.Unset;
+
+    public CampaignOverviewView view;
 
     public CampaignOverviewState2(StateMachine stateMachine) : base(stateMachine) { }
 
     public override IEnumerator<StateChange> Enter {
         get {
-
-            if (CameraFader.IsBlack == false) {
-                var completed = CameraFader.FadeToBlack();
-                while (!completed())
-                    yield return StateChange.none;
-            }
-
-            if (SceneManager.GetActiveScene().name != sceneName) {
+            if (SceneManager.GetActiveScene().name != sceneName)
                 SceneManager.LoadScene(sceneName);
+
+            while (!view) {
+                view = Object.FindObjectOfType<CampaignOverviewView>();
                 yield return StateChange.none;
             }
 
-            CameraFader.FadeToWhite();
-            
-            var view = Object.FindObjectOfType<CampaignOverviewView>();
-            Assert.IsTrue(view);
-
-            //PostProcessing.ColorFilter = Color.black;
-            //PostProcessing.Fade(Color.white, fadeDuration, fadeEasing);
-
-            yield return StateChange.Push(new CampaignOverviewSelectionState(stateMachine, view));
+            yield return StateChange.Push(new CampaignOverviewSelectionState(stateMachine));
         }
     }
 }
@@ -97,44 +84,50 @@ public class CampaignOverviewSelectionState : StateMachineState {
     [Command] public static float fadeDuration = .25f;
     [Command] public static Ease fadeEasing = Ease.Unset;
     [Command] public static bool drawDebugHit = false;
-    [Command] public static bool shouldGoBackToMainMenu = false;
 
-    public static MissionName? targetMissionName;
-
-    public CampaignOverviewView view;
+    public MissionView targetMissionView;
     public MissionView hoveredMissionView;
+    public bool shouldGoBackToMainMenu = false;
 
-    public CampaignOverviewSelectionState(StateMachine stateMachine, CampaignOverviewView view) : base(stateMachine) {
-        this.view = view;
+    public CampaignOverviewSelectionState(StateMachine stateMachine) : base(stateMachine) { }
+
+    public void CycleMission(int offset) {
+        var campaign = stateMachine.Find<GameSessionState>().persistentData.campaign;
+        var view = stateMachine.Find<CampaignOverviewState2>().view;
+        var availableMissionViews = view.MissionViews.Where(missionView => campaign.GetMission(missionView.MissionType).IsAvailable).ToList();
+        var index = availableMissionViews.IndexOf(stateMachine.TryFind<CampaignOverviewMissionCloseUpState>()?.missionView);
+        var nextIndex = (index + offset).PositiveModulo(availableMissionViews.Count);
+        targetMissionView = availableMissionViews[nextIndex];
     }
 
     public override IEnumerator<StateChange> Enter {
         get {
 
+            var view = stateMachine.Find<CampaignOverviewState2>().view;
+
             view.backButton.onClick.RemoveAllListeners();
-            view.backButton.onClick.AddListener(view.GoToMainMenu);
+            view.backButton.onClick.AddListener(() => shouldGoBackToMainMenu = true);
+
+            view.cycleMission = CycleMission;
 
             view.defaultVirtualCamera.enabled = true;
 
-            var campaign = PersistentData.Read().campaign;
-            foreach (var missionView in view.MissionViews) {
-                var missionName = missionView.MissionName;
-                var isAvailable = campaign.IsAvailable(missionName);
-                missionView.IsAvailable = isAvailable;
-            }
+            var campaign = stateMachine.Find<GameSessionState>().persistentData.campaign;
+            foreach (var missionView in view.MissionViews)
+                missionView.IsAvailable = campaign.GetMission(missionView.MissionType).IsAvailable;
 
             while (true) {
 
                 if (InputState.TryConsumeKeyDown(KeyCode.Tab))
-                    view.CycleMission(Input.GetKey(KeyCode.LeftShift) ? -1 : 1);
+                    CycleMission(Input.GetKey(KeyCode.LeftShift) ? -1 : 1);
 
                 if (InputState.TryConsumeScrollWheel(out var scrollWheel))
-                    view.CycleMission(scrollWheel);
+                    CycleMission(scrollWheel);
 
-                if (targetMissionName is { } actualMissionName) {
-                    targetMissionName = null;
-                    var missionView = view.MissionViews.Single(mv => mv.MissionName == actualMissionName);
-                    yield return StateChange.Push(new CampaignOverviewMissionCloseUpState(stateMachine, view, missionView, actualMissionName));
+                if (targetMissionView) {
+                    var target = targetMissionView;
+                    targetMissionView = null;
+                    yield return StateChange.Push(new CampaignOverviewMissionCloseUpState(stateMachine, target));
                     continue;
                 }
 
@@ -144,7 +137,7 @@ public class CampaignOverviewSelectionState : StateMachineState {
                     shouldGoBackToMainMenu = false;
 
                     var completed = CameraFader.FadeToBlack();
-                    while(!completed())
+                    while (!completed())
                         yield return StateChange.none;
                     yield return StateChange.PopThenPush(2, new MainMenuState2(stateMachine, false, false));
                 }
@@ -176,12 +169,9 @@ public class CampaignOverviewSelectionState : StateMachineState {
                             using (Draw.ingame.WithDuration(1))
                                 Draw.ingame.Cross(hit.point);
 
-                        var name = hit.collider.name;
-                        var parsed = Enum.TryParse(name, out MissionName missionName);
-                        Assert.IsTrue(parsed, name);
-
-                        if (campaign.IsAvailable(missionName)) {
-                            yield return StateChange.Push(new CampaignOverviewMissionCloseUpState(stateMachine, view, missionView, missionName));
+                        var missionType = missionView.MissionType;
+                        if (campaign.GetMission(missionType).IsAvailable) {
+                            yield return StateChange.Push(new CampaignOverviewMissionCloseUpState(stateMachine, missionView));
                             continue;
                         }
                         else
@@ -200,43 +190,43 @@ public class CampaignOverviewSelectionState : StateMachineState {
     }
 
     public override void Exit() {
-        view.defaultVirtualCamera.enabled = false;
+        stateMachine.Find<CampaignOverviewState2>().view.defaultVirtualCamera.enabled = false;
     }
 }
 
 public class CampaignOverviewMissionCloseUpState : StateMachineState {
 
-    public static MissionName missionName;
-    public static bool shouldStart;
+    public bool shouldStart;
 
-    public CampaignOverviewView view;
     public MissionView missionView;
 
-    public CampaignOverviewMissionCloseUpState(StateMachine stateMachine, CampaignOverviewView view, MissionView missionView, MissionName missionName) : base(stateMachine) {
-        this.view = view;
+    public CampaignOverviewMissionCloseUpState(StateMachine stateMachine, MissionView missionView) : base(stateMachine) {
         this.missionView = missionView;
-        CampaignOverviewMissionCloseUpState.missionName = missionName;
     }
 
     public override IEnumerator<StateChange> Enter {
         get {
 
-            var campaign = PersistentData.Read().campaign;
-            var availableMissionsCount = view.MissionViews.Count(mv => campaign.IsAvailable(mv.MissionName));
+            var view = stateMachine.Find<CampaignOverviewState2>().view;
+            var campaign = stateMachine.Find<GameSessionState>().persistentData.campaign;
+
+            var availableMissionsCount = campaign.Missions.Count(mission => mission.IsAvailable);
             view.previousButton.interactable = view.nextButton.interactable = availableMissionsCount > 1;
 
-            view.missionPanel.SetActive(true);
-            view.missionName.text = Strings.GetName(missionName);
-            view.missionDescription.text = Strings.GetDescription(missionName);
+            var mission = campaign.GetMission(missionView.MissionType);
 
-            var isAvailable = campaign.IsAvailable(missionName);
-            view.startMissionButton.interactable = isAvailable;
+            view.missionPanel.SetActive(true);
+            view.missionName.text = mission.Name;
+            view.missionDescription.text = mission.Description;
+
+            view.startMission = () => shouldStart = true;
+            view.startMissionButton.interactable = mission.IsAvailable;
 
             if (missionView.TryGetVirtualCamera)
                 missionView.TryGetVirtualCamera.enabled = true;
 
-            if (missionView.text)
-                missionView.text.enabled = false;
+            if (missionView.label)
+                missionView.label.Alpha = 0;
 
             var shouldGoBack = false;
             view.backButton.onClick.RemoveAllListeners();
@@ -251,7 +241,7 @@ public class CampaignOverviewMissionCloseUpState : StateMachineState {
                     view.CycleMission(Input.GetKey(KeyCode.LeftShift) ? -1 : 1);
 
                 // if we should switch to other mission
-                if (CampaignOverviewSelectionState.targetMissionName is { })
+                if (stateMachine.Find<CampaignOverviewSelectionState>().targetMissionView)
                     yield return StateChange.Pop();
 
                 shouldGoBack = InputState.TryConsumeKeyDown(KeyCode.Escape) || shouldGoBack;
@@ -265,12 +255,11 @@ public class CampaignOverviewMissionCloseUpState : StateMachineState {
 
                 if (shouldStart) {
                     shouldStart = false;
-                    if (isAvailable) {
+                    if (mission.IsAvailable) {
                         var completed = CameraFader.FadeToBlack();
-                        while(!completed())
+                        while (!completed())
                             yield return StateChange.none;
-                        yield return StateChange.PopThenPush(3, new LoadingState(stateMachine, missionName, LevelEditorFileSystem.TryReadLatest("autosave"), true));
-//                        yield return StateChange.PopThenPush(3, new LoadingState(stateMachine, missionName, Campaign.Mission.GetInputCode(missionName), true));
+                        yield return StateChange.PopThenPush(3, new LoadingState(stateMachine, new SavedMission { mission = mission, input = LevelEditorFileSystem.TryReadLatest("autosave") }));
                         continue;
                     }
                     UiSound.Instance.notAllowed.PlayOneShot();
@@ -282,15 +271,17 @@ public class CampaignOverviewMissionCloseUpState : StateMachineState {
     }
 
     public override void Exit() {
+        
+        var view = stateMachine.Find<CampaignOverviewState2>().view;
+        
         if (missionView.TryGetVirtualCamera)
             missionView.TryGetVirtualCamera.enabled = false;
-        if (missionView.text)
-            missionView.text.enabled = true;
+        if (missionView.label)
+            missionView.label.Alpha = 1;
         view.missionPanel.SetActive(false);
 
         view.backButton.onClick.RemoveAllListeners();
         view.backButton.onClick.AddListener(view.GoToMainMenu);
 
-        missionName = MissionName.None;
     }
 }

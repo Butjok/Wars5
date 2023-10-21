@@ -17,7 +17,7 @@ public class AttackActionState : StateMachineState {
 
     public override IEnumerator<StateChange> Enter {
         get {
-            var (level, action) = (FindState<LevelSessionState>().level, FindState<ActionSelectionState>().selectedAction);
+            var (level, action) = (stateMachine.Find<LevelSessionState>().level, stateMachine.Find<ActionSelectionState>().selectedAction);
 
             Assert.IsNotNull(level);
             Assert.IsNotNull(action);
@@ -49,7 +49,7 @@ public class AttackActionState : StateMachineState {
                 responseWeaponName = bestChoice.weaponName;
             }
 
-            if (PersistentData.Read().gameSettings.showBattleAnimation) {
+            if (true) {
 
                 var attackerSide = attacker.Player.side;
                 var targetSide = target.Player.side;

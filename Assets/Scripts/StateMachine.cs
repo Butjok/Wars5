@@ -90,17 +90,6 @@ public abstract class StateMachineState {
         this.stateMachine = stateMachine;
     }
 
-    protected T FindState<T>() where T : StateMachineState {
-        var state = stateMachine.TryFind<T>();
-        Assert.IsNotNull(state);
-        return state;
-    }
-    protected T FindObject<T>() where T : Object {
-        var obj = Object.FindObjectOfType<T>();
-        Assert.IsTrue(obj);
-        return obj;
-    }
-
     public virtual void Exit() { }
 
     public abstract IEnumerator<StateChange> Enter { get; }
@@ -110,7 +99,7 @@ public abstract class StateMachineState {
     }
 
     protected bool TryEnqueueModeSelectionCommand() {
-        var game = FindState<GameSessionState>().game;
+        var game = stateMachine.Find<GameSessionState>().game;
         if (Input.GetKeyDown(KeyCode.T) && Input.GetKey(KeyCode.LeftShift)) {
             game.EnqueueCommand(LevelEditorSessionState.SelectModeCommand.SelectTilesMode);
             return true;

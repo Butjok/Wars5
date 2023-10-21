@@ -8,7 +8,7 @@ public class GameMenuState : StateMachineState {
 
     public override IEnumerator<StateChange> Enter {
         get {
-            var (game, level) = (FindState<GameSessionState>().game, FindState<LevelSessionState>().level);
+            var (game, level) = (stateMachine.Find<GameSessionState>().game, stateMachine.Find<LevelSessionState>().level);
             var inGameMenu = level.view.inGameMenu;
 
             PlayerView.globalVisibility = false;
@@ -45,7 +45,7 @@ public class GameMenuState : StateMachineState {
     }
 
     public override void Exit() {
-        var level = FindState<LevelSessionState>().level;
+        var level = stateMachine.Find<LevelSessionState>().level;
         var inGameMenu = level.view.inGameMenu;
         inGameMenu.Hide();
         //level.view.cameraRig.enabled = true;

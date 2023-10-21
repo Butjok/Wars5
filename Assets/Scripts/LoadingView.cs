@@ -17,6 +17,7 @@ public class LoadingView : MonoBehaviour {
     public Image splashImage;
     public TMP_Text progressText;
     public string progressTextFormat = "{}%";
+    public Action launch;
 
     public float Progress {
         set {
@@ -41,16 +42,9 @@ public class LoadingView : MonoBehaviour {
         usefulTip.gameObject.SetActive(true);
     }
 
-    public static Sprite TryGetMissionSplashSprite(MissionName missionName) {
-        return missionName switch {
-            MissionName.Tutorial or MissionName.FirstMission or MissionName.SecondMission => Resources.Load<Sprite>(missionName.ToString()),
-            _ => throw new ArgumentOutOfRangeException(nameof(missionName), missionName, null)
-        };
-    }
-
-    public MissionName MissionName {
+    public Mission Mission {
         set {
-            splashImage.sprite = TryGetMissionSplashSprite(value);
+            splashImage.sprite = value.LoadingScreen;
             if (!splashImage.sprite)
                 splashImage.sprite = null;
         }
@@ -77,7 +71,7 @@ public class LoadingView : MonoBehaviour {
     }
 
     public void Launch() {
-        LoadingState.allowSceneActivation = true;
+        launch?.Invoke();
     }
 }
 
@@ -88,53 +82,27 @@ public class LoadingState : StateMachineState {
     [Command]
     public static string sceneName = "Loading";
 
-    public static bool allowSceneActivation;
+    public SavedMission savedMission;
 
-    public MissionName missionName;
-    public string saveData;
-    public bool isFreshStart;
-
-    public LoadingState(StateMachine stateMachine, MissionName missionName, string saveData, bool isFreshStart) : base(stateMachine) {
-        this.missionName = missionName;
-        this.saveData = saveData;
-        this.isFreshStart = isFreshStart;
-    }
-
-    public static string GetSceneName(MissionName missionName) {
-        return missionName switch {
-            MissionName.Tutorial or MissionName.FirstMission or MissionName.SecondMission => "LevelEditor",
-            _ => throw new ArgumentOutOfRangeException(nameof(missionName), missionName, null)
-        };
+    public LoadingState(StateMachine stateMachine, SavedMission savedMission) : base(stateMachine) {
+        this.savedMission = savedMission;
     }
 
     public override IEnumerator<StateChange> Enter {
         get {
 
-            allowSceneActivation = false;
+            LoadingView view = null;
 
-            if (CameraFader.IsBlack == false) {
-                var completed = CameraFader.FadeToBlack();
-                while (!completed())
-                    yield return StateChange.none;
-            }
-                
-            if (SceneManager.GetActiveScene().name != sceneName) {
+            if (SceneManager.GetActiveScene().name != sceneName)
                 SceneManager.LoadScene(sceneName);
+            while (!view) {
+                view = Object.FindObjectOfType<LoadingView>();
                 yield return StateChange.none;
             }
-
-            {
-                var completed=CameraFader.FadeToWhite();
-                while (!completed())
-                    yield return StateChange.none;
-            }
-
-            var view = Object.FindObjectOfType<LoadingView>();
-            Assert.IsTrue(view);
-
-            var missionSceneName = GetSceneName(missionName);
-            var loadingOperation = SceneManager.LoadSceneAsync(missionSceneName);
+            
+            var loadingOperation = SceneManager.LoadSceneAsync(savedMission.mission.SceneName);
             loadingOperation.allowSceneActivation = false;
+            view.launch = () => loadingOperation.allowSceneActivation = true;
 
             var startTime = Time.time;
             while (Time.time < startTime + minimumLoadingTime || loadingOperation.progress < .9f) {
@@ -145,18 +113,18 @@ public class LoadingState : StateMachineState {
             view.Ready = true;
             while (true) {
 
-                allowSceneActivation = InputState.TryConsumeKeyDown(KeyCode.Return) || allowSceneActivation;
-                allowSceneActivation = InputState.TryConsumeKeyDown(KeyCode.Space) || allowSceneActivation;
+                loadingOperation.allowSceneActivation = InputState.TryConsumeKeyDown(KeyCode.Return) || loadingOperation.allowSceneActivation;
+                loadingOperation.allowSceneActivation = InputState.TryConsumeKeyDown(KeyCode.Space) || loadingOperation.allowSceneActivation;
 
-                if (allowSceneActivation)
+                if (loadingOperation.allowSceneActivation)
                     break;
                 yield return StateChange.none;
             }
 
-            loadingOperation.allowSceneActivation = true;
-            yield return StateChange.none;
+            while (SceneManager.GetActiveScene().name != savedMission.mission.SceneName)
+                yield return StateChange.none;
 
-            yield return StateChange.ReplaceWith(new LevelSessionState(stateMachine, saveData, missionName, isFreshStart));
+            yield return StateChange.ReplaceWith(new LevelSessionState(stateMachine, savedMission));
         }
     }
 

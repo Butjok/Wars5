@@ -35,8 +35,8 @@ public class MinaMenuQuitConfirmationState : StateMachineState {
     public MinaMenuQuitConfirmationState(StateMachine stateMachine) : base(stateMachine) { }
     public override IEnumerator<StateChange> Enter {
         get {
-            var game = FindState<GameSessionState>().game;
-            var view = FindState<MainMenuState2>().view;
+            var game = stateMachine.Find<GameSessionState>().game;
+            var view = stateMachine.Find<MainMenuState2>().view;
 
             dialog = view.quitDialog;
             dialog.onConfirm = () => game.EnqueueCommand(Command.Quit);

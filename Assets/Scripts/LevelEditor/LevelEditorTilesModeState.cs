@@ -41,7 +41,7 @@ public class LevelEditorTilesModeState : StateMachineState {
     public LevelEditorTilesModeState(StateMachine stateMachine) : base(stateMachine) { }
 
     public void RebuildTilemapMesh() {
-        var levelEditorState = FindState<LevelEditorSessionState>();
+        var levelEditorState = stateMachine.Find<LevelEditorSessionState>();
         var level = levelEditorState.level;
         var tiles = level.tiles;
         var buildings = level.buildings;

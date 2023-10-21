@@ -11,14 +11,13 @@ public class MissionView : MonoBehaviour {
     public Material defaultMaterial;
     public Material hoveredMaterial;
     public Material unavailableMaterial;
-    public GameObject uiRoot;
-    public TMP_Text text;
+    public UiLabel label;
     
-    public MissionName MissionName {
+    public Type MissionType {
         get {
-            var parsed = Enum.TryParse(name, out MissionName missionName);
-            Assert.IsTrue(parsed, name);
-            return missionName;
+            var type = Type.GetType(name);
+            Assert.IsNotNull(type, name);
+            return type;
         }
     }
 

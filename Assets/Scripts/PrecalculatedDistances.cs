@@ -10,7 +10,7 @@ using FileMode = System.IO.FileMode;
 
 public class PrecalculatedDistances : MonoBehaviour {
 
-    private static PrecalculatedDistances instance;
+    /*private static PrecalculatedDistances instance;
     public static PrecalculatedDistances Instance {
         get {
             if (instance == null) {
@@ -110,5 +110,5 @@ public class PrecalculatedDistances : MonoBehaviour {
     }
     public static bool Exists(MissionName missionName, string extension) {
         return File.Exists(Path(missionName, extension));
-    }
+    }*/
 }

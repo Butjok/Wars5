@@ -11,7 +11,7 @@ public class UiLabel : MonoBehaviour {
     public TMP_Text text;
     public Color startBackgroundColor;
     public Color startTextColor;
-    public float alpha = 1;
+    private float alpha = 1;
     public bool hideOnStart = false;
 
     public void Awake() {

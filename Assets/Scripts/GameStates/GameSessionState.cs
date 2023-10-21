@@ -1,23 +1,21 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GameSessionState : StateMachineState {
 
-    public enum Command { LaunchMainMenu, PlayLevel, OpenLevelEditor }
+    public enum Command { LaunchMainMenu, PlayMission, OpenLevelEditor, StartCampaignOverview, }
 
     public Game game;
-    public PersistentData persistentData;
-    
+    public readonly PersistentData persistentData;
+
     public GameSessionState(Game game) : base(game.stateMachine) {
         this.game = game;
+        persistentData = PersistentData.Read(this);
     }
 
     public override IEnumerator<StateChange> Enter {
         get {
 
-            persistentData = PersistentData.Read();
-            
             Player.undisposed.Clear();
             Building.undisposed.Clear();
             Unit.undisposed.Clear();
@@ -30,8 +28,13 @@ public class GameSessionState : StateMachineState {
                         case (Command.LaunchMainMenu, (bool showSplashScreen, bool showWelcome)):
                             yield return StateChange.Push(new MainMenuState2(stateMachine, showSplashScreen, showWelcome));
                             break;
-                        case (Command.PlayLevel, (string input, MissionName missionName, bool isFreshStart)):
-                            yield return StateChange.Push(new LevelSessionState(stateMachine, input, missionName,isFreshStart));
+                        case (Command.StartCampaignOverview, _): {
+                            Debug.Log(Command.StartCampaignOverview);
+                            yield return StateChange.Push(new CampaignOverviewState2(stateMachine));
+                            break;
+                        }
+                        case (Command.PlayMission, Mission mission):
+                            yield return StateChange.Push(new LevelSessionState(stateMachine, new SavedMission{mission = mission, }));
                             break;
                         case (Command.OpenLevelEditor, (string input, bool showLevelEditorTileMesh)):
                             yield return StateChange.Push(new LevelEditorSessionState(stateMachine, input, showLevelEditorTileMesh));
@@ -44,7 +47,6 @@ public class GameSessionState : StateMachineState {
         }
     }
     public override void Exit() {
-        
         if (Player.undisposed.Count > 0)
             Debug.LogError($"undisposed players: {Player.undisposed.Count}");
         if (Building.undisposed.Count > 0)
@@ -53,7 +55,5 @@ public class GameSessionState : StateMachineState {
             Debug.LogError($"undisposed units: {Unit.undisposed.Count}");
         if (UnitAction.undisposed.Count > 0)
             Debug.LogError($"undisposed unit actions: {UnitAction.undisposed.Count}");
-        
-        persistentData.Save();
     }
 }

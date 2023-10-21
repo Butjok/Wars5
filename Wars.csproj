@@ -102,7 +102,6 @@
      <Compile Include="Assets/Scripts/SavedGameView.cs" />
      <Compile Include="Assets/Scripts/LevelView.cs" />
      <Compile Include="Assets/Scripts/ProjectileNew.cs" />
-     <Compile Include="Assets/Scripts/LevelLogic/TutorialLevelLogic.cs" />
      <Compile Include="Assets/Scripts/UnitViewSkinnedMeshMigrator.cs" />
      <Compile Include="Assets/Scripts/Dialogues/DialogueState.cs" />
      <Compile Include="Assets/Scripts/Funny.cs" />
@@ -133,6 +132,7 @@
      <Compile Include="Assets/Scripts/CursorView.cs" />
      <Compile Include="Assets/Scripts/SideCamera.cs" />
      <Compile Include="Assets/Scripts/PlayerView.cs" />
+     <Compile Include="Assets/Scripts/PersistentData.cs" />
      <Compile Include="Assets/Scripts/ScalarField.cs" />
      <Compile Include="Assets/Scripts/CursorInteractor.cs" />
      <Compile Include="Assets/Scripts/Level/UnitAttackActionViewTest.cs" />
@@ -168,7 +168,6 @@
      <Compile Include="Assets/Scripts/LevelEditor/LevelEditorPlayState.cs" />
      <Compile Include="Assets/Scripts/UiUtils.cs" />
      <Compile Include="Assets/Scripts/GameStates/GameSessionState.cs" />
-     <Compile Include="Assets/Scripts/ExtendedPostfix.cs" />
      <Compile Include="Assets/Scripts/CaptureScreen.cs" />
      <Compile Include="Assets/Scripts/UnitActionUiContainer.cs" />
      <Compile Include="Assets/Scripts/BushTester.cs" />
@@ -189,9 +188,7 @@
      <Compile Include="Assets/Scripts/EntryPoint/MainMenuLauncher.cs" />
      <Compile Include="Assets/Scripts/GameStates/GameSettingsState.cs" />
      <Compile Include="Assets/Scripts/TerrainCreator.cs" />
-     <Compile Include="Assets/Scripts/LevelLogic/LevelLogic.cs" />
      <Compile Include="Assets/Scripts/GameStates/ActionSelectionState.cs" />
-     <Compile Include="Assets/Scripts/PostfixExtensions.cs" />
      <Compile Include="Assets/Scripts/Views/UiFrame2.cs" />
      <Compile Include="Assets/Scripts/EntryPoint/MainMenuAboutState.cs" />
      <Compile Include="Assets/Scripts/MissionObjectivesUi.cs" />
@@ -281,6 +278,10 @@
      <Compile Include="Assets/Scripts/FlipbookTest.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
      <Compile Include="Assets/Scripts/EntryPoint/MainMenuWelcomeState.cs" />
+     <Compile Include="Assets/Scripts/Missions.Tutorial.cs" />
+     <Compile Include="Assets/Scripts/Missions.cs" />
+     <Compile Include="Assets/Scripts/Missions.FirstMission.cs" />
+     <Compile Include="Assets/Scripts/Missions.SecondMission.cs" />
      <Folder Include="Assets/Scripts/EntryPoint" />
      <None Include="Assets/Scripts/Wars.asmdef" />
      <Folder Include="Assets/Scripts/DialogueMarkupLanguage" />

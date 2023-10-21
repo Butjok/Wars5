@@ -13,7 +13,7 @@ public class UnitBuildState : StateMachineState {
 
     public override IEnumerator<StateChange> Enter {
         get {
-            var (game, level, building) = (FindState<GameSessionState>().game, FindState<LevelSessionState>().level, FindState<SelectionState>().building);
+            var (game, level, building) = (stateMachine.Find<GameSessionState>().game, stateMachine.Find<LevelSessionState>().level, stateMachine.Find<SelectionState>().building);
             var menu = level.view.unitBuildMenu;
 
             Assert.IsTrue(menu);

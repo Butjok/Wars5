@@ -26,7 +26,7 @@ public class GameLauncher : MonoBehaviour {
             if (startInLevelEditor)
                 game.EnqueueCommand(GameSessionState.Command.OpenLevelEditor, (input, showLevelEditorTileMesh));
             else
-                game.EnqueueCommand(GameSessionState.Command.PlayLevel, input);
+                game.EnqueueCommand(GameSessionState.Command.PlayMission, input);
         else
             game.EnqueueCommand(GameSessionState.Command.LaunchMainMenu, (showSplashScreen, showWelcome));
     }
