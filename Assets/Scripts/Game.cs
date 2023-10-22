@@ -7,6 +7,29 @@ using UnityEngine.Assertions;
 
 public class Game : MonoBehaviour {
 
+    public Color colorPlain = new Color(.5f,1,0);
+    public Color colorRoad = new(1, .66f, 0);
+    public Color colorSea = new(0,.25f,1);
+    public Color colorMountain = new(0.75f, 0.5f, 0.25f);
+    public Color colorForest = new(0f, 0.66f, 0f);
+    public Color colorRiver = new(0,.5f,1);
+
+    public Color GetColor(TileType tileType, Building building) {
+
+        if (TileType.Buildings.HasFlag(tileType))
+            return building?.Player?.Color ?? Color.white;
+
+        return tileType switch {
+            TileType.Plain => colorPlain,
+            TileType.Road => colorRoad,
+            TileType.Sea => colorSea,
+            TileType.Mountain => colorMountain,
+            TileType.Forest => colorForest,
+            TileType.River => colorRiver,
+            _ => Color.red
+        };
+    }
+    
     [Command]
     public void ClearSaveData() {
         var persistentData = stateMachine.Find<GameSessionState>().persistentData;

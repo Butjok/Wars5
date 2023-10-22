@@ -30,6 +30,7 @@ public class LoadGamePanel : MonoBehaviour {
     public Image screenshotImage;
 
     public Button playButton;
+    public Button cancelButton;
 
     public Dictionary<SavedMission, Sprite> screenshots = new();
     public SavedMission selectedSavedMission;
@@ -49,7 +50,7 @@ public class LoadGamePanel : MonoBehaviour {
         image.sprite = sprite;
     }
 
-    public void Show(IReadOnlyList<SavedMission> saves, Action<SavedMission> playMission) {
+    public void Show(IReadOnlyList<SavedMission> saves, Action<SavedMission> playMission, Action cancel) {
         Assert.IsTrue(saves.Count > 0);
 
         root.SetActive(true);
@@ -73,6 +74,9 @@ public class LoadGamePanel : MonoBehaviour {
             Assert.IsTrue(selectedSavedMission != null);
             playMission(selectedSavedMission);
         });
+        
+        cancelButton.onClick.RemoveAllListeners();
+        cancelButton.onClick.AddListener(() => cancel?.Invoke());
 
         Show(saves[0]);
     }

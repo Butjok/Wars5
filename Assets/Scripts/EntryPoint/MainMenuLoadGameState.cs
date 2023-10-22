@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MainMenuLoadGameState : StateMachineState {
 
-    public enum Command {LoadGame}
+    public enum Command {LoadGame, Cancel}
     
     public MainMenuLoadGameState(StateMachine stateMachine) : base(stateMachine) { }
 
@@ -23,24 +23,27 @@ public class MainMenuLoadGameState : StateMachineState {
             foreach (var mission in persistentData.campaign.Missions)
                 saves.AddRange(mission.saves);
             saves.Sort((a, b) => a.dateTimeUtc.CompareTo(b.dateTimeUtc));
-            
-            panel.Show(saves, savedMission => game.EnqueueCommand(Command.LoadGame, savedMission));
+
+            panel.Show(saves, savedMission => game.EnqueueCommand(Command.LoadGame, savedMission), () => game.EnqueueCommand(Command.Cancel));
 
             while (true) {
                 yield return StateChange.none;
+                
+                if (Input.GetKeyDown(KeyCode.Escape))
+                    game.EnqueueCommand(Command.Cancel);
                 
                 while (game.TryDequeueCommand(out var command))
                     switch (command) {
                         case (Command.LoadGame, SavedMission savedMission):
                             yield return StateChange.PopThenPush(3, new LoadingState(stateMachine, savedMission));
                             break;
+                        case (Command.Cancel, _):
+                            yield return StateChange.Pop();
+                            break;
                         default:
                             HandleUnexpectedCommand(command);
                             break;
                     }
-
-                if (Input.GetKeyDown(KeyCode.Escape))
-                    break;
             }
         }
     }

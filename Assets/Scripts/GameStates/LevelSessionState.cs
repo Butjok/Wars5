@@ -33,7 +33,7 @@ public class LevelSessionState : StateMachineState {
             else
                 new Thread(() => PrecalculatedDistances.TryLoad(level.missionName, out level.precalculatedDistances)).Start();*/
 
-            if (SceneManager.GetActiveScene().name != savedMission.mission.SceneName)
+            if (savedMission.mission != null && SceneManager.GetActiveScene().name != savedMission.mission.SceneName)
                 SceneManager.LoadScene(savedMission.mission.SceneName);
             while (!LevelView.TryInstantiatePrefab(out level.view))
                 yield return StateChange.none;
@@ -112,7 +112,7 @@ public class LevelSessionState : StateMachineState {
     public override void Exit() {
         stateMachine.Find<GameSessionState>().game.StopCoroutine(autoplayHandler);
         level.Dispose();
-        if (SceneManager.GetActiveScene().name == level.mission.SceneName)
+        if (level.mission!=null && SceneManager.GetActiveScene().name == level.mission.SceneName)
             SceneManager.UnloadSceneAsync(level.mission.SceneName);
         Object.Destroy(level.view.gameObject);
         level.view = null;

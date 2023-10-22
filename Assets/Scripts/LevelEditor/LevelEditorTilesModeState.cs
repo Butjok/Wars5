@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Drawing;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -37,8 +38,20 @@ public class LevelEditorTilesModeState : StateMachineState {
     public Player player;
     public Vector2Int lookDirection = Vector2Int.up;
     public Mode mode;
+    public GameObject tileMeshGameObject;
+    public Material tileMeshMaterial;
 
-    public LevelEditorTilesModeState(StateMachine stateMachine) : base(stateMachine) { }
+    public LevelEditorTilesModeState(StateMachine stateMachine) : base(stateMachine) {
+        var terrainCreator = Object.FindObjectOfType<TerrainCreator>();
+        if (terrainCreator) {
+            tileMeshGameObject = new GameObject("LevelEditorTileMesh");
+            var meshFilter = tileMeshGameObject.AddComponent<MeshFilter>();
+            meshFilter.sharedMesh = terrainCreator.mesh;
+            var meshRenderer = tileMeshGameObject.AddComponent<MeshRenderer>();
+            tileMeshMaterial = "Unlit_TileMap".LoadAs<Material>();
+            meshRenderer.sharedMaterial = tileMeshMaterial;
+        }
+    }
 
     public void RebuildTilemapMesh() {
         var levelEditorState = stateMachine.Find<LevelEditorSessionState>();
@@ -105,7 +118,40 @@ public class LevelEditorTilesModeState : StateMachineState {
 
         tileMeshFilter.sharedMesh = mesh;
         tileMeshCollider.sharedMesh = mesh;
-        
+
+        // TerrainCreator
+        if (tileMeshMaterial) {
+            var oldTexture = tileMeshMaterial.GetTexture("_TileMap");
+            if (oldTexture)
+                Object.Destroy(oldTexture);
+            if (level.tiles.Count > 0) {
+                var minX = level.tiles.Keys.Select(v => v.x).Min();
+                var maxX = level.tiles.Keys.Select(v => v.x).Max();
+                var minY = level.tiles.Keys.Select(v => v.y).Min();
+                var maxY = level.tiles.Keys.Select(v => v.y).Max();
+                var min = new Vector2Int(minX, minY);
+                var max = new Vector2Int(maxX, maxY);
+                var size = max - min + Vector2Int.one;
+                var worldToTileMap = Matrix4x4.TRS((min - new Vector2(.5f, .5f)).ToVector3(), Quaternion.identity, new Vector3(size.x, 1, size.y)).inverse;
+                tileMeshMaterial.SetMatrix("_WorldToTileMap", worldToTileMap);
+                var texture = new Texture2D(size.x, size.y, TextureFormat.RGBA32, false) {
+                    filterMode = FilterMode.Point
+                };
+                var game = stateMachine.TryFind<GameSessionState>().game;
+                for (var y = min.y; y <= max.y; y++)
+                for (var x = min.x; x <= max.x; x++) {
+                    var position = new Vector2Int(x, y);
+                    texture.SetPixel(x - minX, y - minY,
+                        level.TryGetTile(position, out var tileType)
+                            ? game.GetColor(tileType, level.TryGetBuilding(position, out var building) ? building : null)
+                            : Color.clear);
+                }
+                texture.Apply();
+                tileMeshMaterial.SetTexture("_TileMap", texture);
+            }
+            else
+                tileMeshMaterial.SetTexture("_TileMap", null);
+        }
     }
 
     public override IEnumerator<StateChange> Enter {
@@ -118,6 +164,11 @@ public class LevelEditorTilesModeState : StateMachineState {
             var buildings = level.buildings;
             var units = level.units;
             var camera = level.view.cameraRig.camera;
+
+            var terrainCreator = Object.FindObjectOfType<TerrainCreator>();
+            if (terrainCreator) {
+                var mesh = terrainCreator.mesh;
+            }
 
             RebuildTilemapMesh();
 
@@ -223,11 +274,23 @@ public class LevelEditorTilesModeState : StateMachineState {
                             HandleUnexpectedCommand(command);
                             break;
                     }
+
+                //foreach (var (position, tileType) in level.tiles)
+                //  Draw.ingame.SolidPlane(position.ToVector3(), Vector3.up, Vector2.one, GetColor(tileType, level.TryGetBuilding(position, out var building) ? building : null));
             }
         }
     }
 
     public override void Exit() {
+
+        if (tileMeshMaterial) {
+            var texture = tileMeshMaterial.GetTexture("_TileMap");
+            if (texture)
+                Object.Destroy(texture);
+        }
+        if (tileMeshGameObject)
+            Object.Destroy(tileMeshGameObject);
+
         var levelEditorState = stateMachine.TryFind<LevelEditorSessionState>();
         levelEditorState.gui.Pop();
     }

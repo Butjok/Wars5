@@ -11,10 +11,12 @@ using Object = UnityEngine.Object;
 
 public class LevelEditorSessionState : StateMachineState {
 
+    public const string sceneName = "LevelEditor";
+
     public enum SelectModeCommand { SelectTilesMode, SelectUnitsMode, SelectTriggersMode, SelectAreasMode, SelectBridgesMode, Play }
 
     public static Vector3 tileMeshPosition => new(0, -.01f, 0);
-    
+
     public LevelView levelViewPrefab;
     public Level level = new();
     public MeshFilter tileMeshFilter;
@@ -39,10 +41,11 @@ public class LevelEditorSessionState : StateMachineState {
 
     public override IEnumerator<StateChange> Enter {
         get {
-            if (SceneManager.GetActiveScene().name!=level.mission.SceneName  )
-                SceneManager.LoadScene(level.mission.SceneName);
+            if (SceneManager.GetActiveScene().name != sceneName)
+                SceneManager.LoadScene(sceneName);
             while (!LevelView.TryInstantiatePrefab(out level.view))
                 yield return StateChange.none;
+
             LevelReader.ReadInto(level, input.ToPostfix());
 
             //new Thread(() => PrecalculatedDistances.TryLoad(level.missionName, out level.precalculatedDistances)).Start();
@@ -56,7 +59,7 @@ public class LevelEditorSessionState : StateMachineState {
                 var gameObject = new GameObject("LevelEditorGui");
                 gui = gameObject.AddComponent<LevelEditorGui>();
             }
-            
+
             {
                 var gameObject = new GameObject("LevelEditorTileMesh");
                 gameObject.transform.position = tileMeshPosition;
@@ -77,7 +80,7 @@ public class LevelEditorSessionState : StateMachineState {
             if (theme)
                 musicSource = Music.Play(theme);
 
-            yield return StateChange.Push(new LevelEditorTilesModeState(stateMachine));
+            yield return StateChange.Push(new LevelEditorUnitsModeState(stateMachine));
         }
     }
 
@@ -88,15 +91,15 @@ public class LevelEditorSessionState : StateMachineState {
     public override void Exit() {
 
         SaveTerrainMesh();
-        
+
         LevelEditorFileSystem.Save("autosave", level);
         LevelEditorFileSystem.DeleteOldAutosaves(autosaveLifespanInDays);
 
         level.Dispose();
         Object.Destroy(level.view.gameObject);
         level.view = null;
-        if (SceneManager.GetActiveScene().name == level.mission.SceneName)
-            SceneManager.UnloadSceneAsync(level.mission.SceneName);
+        if (SceneManager.GetActiveScene().name == sceneName)
+            SceneManager.UnloadSceneAsync(sceneName);
 
         Object.Destroy(gui.gameObject);
         Object.Destroy(tileMeshFilter.gameObject);
