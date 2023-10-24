@@ -1,7 +1,7 @@
 Shader "Custom/UvTest2" {
 	Properties {
 		_Color ("Color", Color) = (1,1,1,1)
-		_MainTex ("Albedo (RGB)", 2D) = "white" {}
+		_TerrainHeight ("Albedo (RGB)", 2D) = "white" {}
 		_Glossiness ("Smoothness", Range(0,1)) = 0.5
 		_Metallic ("Metallic", Range(0,1)) = 0.0
 	}
@@ -16,7 +16,7 @@ Shader "Custom/UvTest2" {
 		// Use shader model 3.0 target, to get nicer looking lighting
 		#pragma target 3.0
 
-		sampler2D _MainTex;
+		sampler2D _TerrainHeight;
 
 		struct Input {
 			float2 uv_MainTex;
@@ -26,7 +26,7 @@ Shader "Custom/UvTest2" {
 		half _Glossiness;
 		half _Metallic;
 		fixed4 _Color;
-		float4x4 _WorldToLocal;
+		float4x4 _WorldToTerrainHeightUv;
 
 		// Add instancing support for this shader. You need to check 'Enable Instancing' on materials that use the shader.
 		// See https://docs.unity3d.com/Manual/GPUInstancing.html for more information about instancing.
@@ -37,11 +37,11 @@ Shader "Custom/UvTest2" {
 
 		void surf (Input IN, inout SurfaceOutputStandard o) {
 		
-			float3 localPos = mul(_WorldToLocal, float4(IN.worldPos, 1.0)).xyz;
+			float3 localPos = mul(_WorldToTerrainHeightUv, float4(IN.worldPos, 1.0)).xyz;
 			float2 uv = localPos.xz;
 		
 			// Albedo comes from a texture tinted by color
-			fixed4 c = tex2D (_MainTex, uv) * _Color;
+			fixed4 c = tex2D (_TerrainHeight, uv) * _Color;
 			o.Albedo = c.rgb;
 			// Metallic and smoothness come from slider variables
 			o.Metallic = _Metallic;

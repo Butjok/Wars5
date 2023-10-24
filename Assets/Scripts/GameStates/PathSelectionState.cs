@@ -129,7 +129,8 @@ public class PathSelectionState : StateMachineState {
                             while (animation.MoveNext()) {
                                 yield return StateChange.none;
 
-                                if (Input.GetMouseButtonDown(Mouse.left) || Input.GetMouseButtonDown(Mouse.right) || Input.GetKeyDown(KeyCode.Space)) {
+                                if (Input.GetMouseButtonDown(Mouse.left) || Input.GetMouseButtonDown(Mouse.right) || Input.GetKeyDown(KeyCode.Space) ||
+                                    Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Escape)) {
                                     unit.view.Position = path[^1];
                                     if (path.Count >= 2)
                                         unit.view.LookDirection = path[^1] - path[^2];

@@ -48,7 +48,7 @@ public static class LevelEditorFileSystem {
     }
     public static int DeleteOldAutosaves(int autosaveLifespanInDays) {
         return DeleteAutosaves(path => {
-            var lastAccessTime = File.GetLastAccessTime(path);
+            var lastAccessTime = File.GetLastWriteTime(path);
             return DateTime.Now.Subtract(lastAccessTime).Days > autosaveLifespanInDays;
         });
     }

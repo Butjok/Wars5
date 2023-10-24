@@ -69,9 +69,10 @@ public class CampaignOverviewState2 : StateMachineState {
             if (SceneManager.GetActiveScene().name != sceneName)
                 SceneManager.LoadScene(sceneName);
 
+            view = Object.FindObjectOfType<CampaignOverviewView>();
             while (!view) {
-                view = Object.FindObjectOfType<CampaignOverviewView>();
                 yield return StateChange.none;
+                view = Object.FindObjectOfType<CampaignOverviewView>();
             }
 
             yield return StateChange.Push(new CampaignOverviewSelectionState(stateMachine));

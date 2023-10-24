@@ -95,9 +95,11 @@ public class LoadingState : StateMachineState {
 
             if (SceneManager.GetActiveScene().name != sceneName)
                 SceneManager.LoadScene(sceneName);
+            
+            view = Object.FindObjectOfType<LoadingView>();
             while (!view) {
-                view = Object.FindObjectOfType<LoadingView>();
                 yield return StateChange.none;
+                view = Object.FindObjectOfType<LoadingView>();
             }
             
             var loadingOperation = SceneManager.LoadSceneAsync(savedMission.mission.SceneName);

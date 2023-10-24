@@ -107,6 +107,7 @@
      <None Include="Assets/Shaders/test.shader" />
      <None Include="Assets/Saves/1/1-22.01.2023-19.32.58.txt" />
      <None Include="Assets/Shaders/TileMasked.shader" />
+     <None Include="Assets/Shaders/HeightMap.shader" />
      <None Include="Assets/Saves/1/1-22.01.2023-19.38.06.txt" />
      <None Include="Assets/Shaders/DistortionFlow.shader" />
      <Folder Include="Assets/Saves/TerrainCreatorAutosave" />
@@ -134,6 +135,7 @@
      <Folder Include="Assets/TextMesh Pro/Resources" />
      <Folder Include="Assets/Scenes/blog-post0" />
      <None Include="Assets/TerrainCreation/save.json" />
+     <None Include="Assets/Shaders/TestShader2.shader" />
      <None Include="Assets/Shaders/MovePath.shader" />
      <None Include="Assets/Shaders/InstancedRendering.cginc" />
      <None Include="Assets/Shaders/vface.shader" />
@@ -228,6 +230,7 @@
      <Folder Include="Assets/StreamingAssets/Distances" />
      <None Include="Assets/Saves/0/0-22.01.2023-18.24.23.txt" />
      <None Include="Assets/Shaders/GlTestShader.shader" />
+     <Folder Include="Assets/ShaderTests/Stanford Dragon" />
      <Folder Include="Assets/Saves/0" />
      <None Include="Assets/Dialogues.txt" />
      <None Include="Assets/Shaders/UI Additive.shader" />
@@ -288,10 +291,12 @@
      <None Include="Assets/TextMesh Pro/Resources/LineBreaking Following Characters.txt" />
      <None Include="Assets/Shaders/Terrain3.shader" />
      <Folder Include="Assets/Scenes/TwoAudioListeners" />
+     <None Include="Assets/Shaders/CursorShader.shader" />
      <None Include="Assets/Shaders/FadedEmissive.shader" />
      <None Include="Assets/Shaders/Voronoi.shader" />
      <Folder Include="Assets/Minimap" />
      <Folder Include="Assets/Shaders/Resources" />
+     <Folder Include="Assets/ShaderTests/ShaderTests" />
      <Folder Include="Assets/glTF-test" />
      <None Include="Assets/Resources/Missions/SecondMission.txt" />
      <None Include="Assets/ShaderTests/test-shader.shader" />
@@ -309,6 +314,7 @@
      <Folder Include="Assets/Textures/Bumps" />
      <None Include="Assets/Shaders/SimpleInstanced.shader" />
      <None Include="Assets/Saves/0/0-27.01.2023-21.16.19.txt" />
+     <None Include="Assets/Shaders/BentNormal.shader" />
      <Folder Include="Assets/Music" />
      <Folder Include="Assets/Scenes/BattleViews" />
      <None Include="Assets/Saves/0/0-22.01.2023-18.53.29.txt" />

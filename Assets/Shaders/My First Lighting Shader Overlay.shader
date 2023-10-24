@@ -4,6 +4,7 @@
 		[HDR]_Tint ("Tint", Color) = (1, 1, 1, 1)
 		[HDR]_Tint2 ("Tint2", Color) = (1, 1, 1, 1)
 		_MainTex ("Albedo", 2D) = "white" {}
+		_TerrainHeight ("Terrain Height Map", 2D) = "black" {}
 		
 		_UVs ("_UVs", 2D) = "black" {}
 		_Splat ("_Splat", 2D) = "black" {}

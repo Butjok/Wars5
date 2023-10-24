@@ -146,6 +146,7 @@
      <Compile Include="Assets/Scripts/CameraAnimation.cs" />
      <Compile Include="Assets/Scripts/EntryPoint/MainMenuState.cs" />
      <Compile Include="Assets/Scripts/SetTextToLocalizedGameObjectName.cs" />
+     <Compile Include="Assets/Scripts/LevelEditor/TileMapTester.cs" />
      <Compile Include="Assets/Scripts/UnitMoveSequenceTest.cs" />
      <Compile Include="Assets/Scripts/Ai/UnitBrain.cs" />
      <Compile Include="Assets/Scripts/LoadingView.cs" />
@@ -242,6 +243,7 @@
      <Compile Include="Assets/Scripts/AnimationScript.cs" />
      <Compile Include="Assets/Scripts/DefaultGuiSkin.cs" />
      <Compile Include="Assets/Scripts/GameStates/LoadingImage.cs" />
+     <Compile Include="Assets/Scripts/LightProbeUtility.cs" />
      <Compile Include="Assets/Scripts/EntryPoint/AboutRow.cs" />
      <Compile Include="Assets/Scripts/Faction.cs" />
      <Compile Include="Assets/Scripts/InputCommandsListener.cs" />
@@ -279,12 +281,13 @@
      <Compile Include="Assets/Scripts/TextureExtensions.cs" />
      <Compile Include="Assets/Scripts/Level/UnitAction.cs" />
      <Compile Include="Assets/Scripts/LevelEditor/LevelEditorTriggersModeState.cs" />
+     <Compile Include="Assets/Scripts/TestShader2.cs" />
      <Compile Include="Assets/Scripts/StateMachine.cs" />
      <Compile Include="Assets/Scripts/Missions.cs" />
      <Compile Include="Assets/Scripts/FlipbookTest.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
      <Compile Include="Assets/Scripts/EntryPoint/MainMenuWelcomeState.cs" />
-     <Compile Include="Assets/Scripts/LevelEditor/TileMapTester.cs" />
+     <Compile Include="Assets/Scripts/HeightMapBaker.cs" />
      <Folder Include="Assets/Scripts/EntryPoint" />
      <None Include="Assets/Scripts/Wars.asmdef" />
      <Folder Include="Assets/Scripts/DialogueMarkupLanguage" />

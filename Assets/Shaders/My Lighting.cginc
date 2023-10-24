@@ -29,6 +29,9 @@ float4 _Flip;
 float _AlphaCutoff;
 float _Offset;
 
+sampler2D _TerrainHeight;
+fixed4x4 _WorldToTerrainHeightUv;
+
 struct VertexData {
 	float4 vertex : POSITION;
 	float3 normal : NORMAL;
@@ -163,7 +166,8 @@ Interpolators MyVertexProgram (VertexData v) {
 	if (_Flip.y > .5)
 		splatUv.y = 1 - splatUv.y;
 
-	half height = tex2Dlod(_Splat, float4(splatUv,0,0));
+	fixed2 heightUv = mul(_WorldToTerrainHeightUv, float4(worldPos.xyz,1)).xz;
+	half height = tex2Dlod(_TerrainHeight, float4(heightUv,0,0));
 	worldPos.y = height;
 	//v.vertex += float4(0,1,0,1);
 	v.vertex.y = height+_Offset;

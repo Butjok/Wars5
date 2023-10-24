@@ -109,6 +109,8 @@ public class TerrainCreator : MonoBehaviour {
     public string loadOnAwake = autosaveName;
     public BushTester bushTester;
 
+    public HeightMapBaker heightMapBaker;
+    
     [Command]
     public int BirdsCount {
         get => birdsCount;
@@ -493,6 +495,9 @@ public class TerrainCreator : MonoBehaviour {
 
         if (cameraRig)
             cameraRig.bounds = meshRenderer.bounds;
+
+        if (heightMapBaker)
+            heightMapBaker.Bake();
     }
 
 

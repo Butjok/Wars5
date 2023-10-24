@@ -21,7 +21,8 @@ float4 _Tint;
 sampler2D _MainTex;
 float4 _MainTex_ST;
 float _AlphaCutoff;
-sampler2D _Splat;
+sampler2D _TerrainHeight;
+fixed4x4 _WorldToTerrainHeightUv;
 float4 _Bounds;
 float4 _Flip;
 float _Offset;
@@ -77,7 +78,8 @@ InterpolatorsVertex MyShadowVertexProgram (VertexData v) {
 	if (_Flip.y > .5)
 		splatUv.y = 1 - splatUv.y;
 
-	half height = tex2Dlod(_Splat, float4(splatUv,0,0));
+	fixed2 heightUv = mul(_WorldToTerrainHeightUv, float4(worldPos.xyz,1)).xz;
+	half height = tex2Dlod(_TerrainHeight, float4(heightUv,0,0));
 	worldPos.y = height;
 	//v.vertex += float4(0,1,0,1);
 	v.position.y = height+_Offset;

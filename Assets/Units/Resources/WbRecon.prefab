@@ -145,7 +145,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 8b0afb6b76d9f4989a6785c7cf0bd0f1, type: 3}
       propertyPath: m_Name
-      value: WbReconLowpoly2
+      value: WbRecon
       objectReference: {fileID: 0}
     - target: {fileID: 2512243300098982147, guid: 8b0afb6b76d9f4989a6785c7cf0bd0f1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -288,6 +288,23 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 8b0afb6b76d9f4989a6785c7cf0bd0f1, type: 3}
   m_PrefabInstance: {fileID: 7289152003345172628}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2120960651380908488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7631680458316215749}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf4ed7defffe40cb9f8433104787bdd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  acceleration: 5
+  rotationSpeed: 90
+  maxSpeed: 3
+  speed: 0
+  target: {fileID: 7107520642056597375}
 --- !u!114 &3021560665081385253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -384,23 +401,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wheelThickness: 0
---- !u!114 &2120960651380908488
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7631680458316215749}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf4ed7defffe40cb9f8433104787bdd7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  acceleration: 5
-  rotationSpeed: 90
-  maxSpeed: 3
-  speed: 0
-  target: {fileID: 7107520642056597375}
 --- !u!23 &8364916303239476809 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 1242538498506964701, guid: 8b0afb6b76d9f4989a6785c7cf0bd0f1, type: 3}
