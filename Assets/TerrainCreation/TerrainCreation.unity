@@ -6719,7 +6719,7 @@ MonoBehaviour:
   bushSize: 0.5
   bushColor: {r: 0.34509805, g: 0.42352942, b: 0, a: 1}
   bushRenderer: {fileID: 679169714}
-  bushSizeRange: {x: 0.2, y: 2}
+  bushSizeRange: {x: 0.2, y: 1.5}
   roadCreator: {fileID: 1730959471}
   bushMaterial: {fileID: 2100000, guid: f6082924458ae4ab7809c9f4a613abae, type: 2}
   treeRenderer: {fileID: 679169715}
@@ -6740,9 +6740,10 @@ MonoBehaviour:
   elevationStep: 0.25
   loadOnAwake: Autosave
   bushTester: {fileID: 1693652548}
+  heightMapBaker: {fileID: 0}
   voronoiRenderer: {fileID: 679169713}
   edgeThickness: -1000
-  bushDensityPerUnit: 100
+  bushDensityPerUnit: 150
   bushSeed: 0
   bushMesh: {fileID: 3419889569566592343, guid: 16bc209fad8994e469db253a63669536, type: 3}
   bushMaterial2: {fileID: 2100000, guid: 0f5683205137049688cd787a4c01f9b0, type: 2}
@@ -9475,7 +9476,7 @@ MonoBehaviour:
   widthSpeed: 0.5
   acceptInput: 1
   dollyZoomFovRange: {x: 30, y: 20}
-  dollyZoomWidthRange: {x: 2.5, y: 15}
+  dollyZoomWidthRange: {x: 2.5, y: 20}
   dollyZoom: 0.6
   targetDollyZoom: 0.6
   dollyZoomSpeed: 50
