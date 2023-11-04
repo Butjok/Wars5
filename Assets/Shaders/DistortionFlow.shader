@@ -121,7 +121,7 @@
             fixed3 normal2 = UnpackNormal( tex2D (_Normal, TRANSFORM_TEX((position*2 - float2(0, _Time.x*4.676*2)),_Normal)));
 			float3 targetNormal =BlendNormals(lerp(float3(0,0,1),normal,.5), lerp(float3(0,0,1),normal2,.25));
 			//targetNormal = normalize(normal/2 + normal2);
-			targetNormal =BlendNormals(lerp(float3(0,0,1),normal3,.25), targetNormal);
+			targetNormal =BlendNormals(lerp(float3(0,0,1),normal3,.5), targetNormal);
 			o.Normal = normalize( targetNormal);
 
 			o.Emission = ColorBelowWater(IN.screenPos, o.Normal) * _Color.rgb * (1 - c.a);

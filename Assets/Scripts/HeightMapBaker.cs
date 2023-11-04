@@ -45,6 +45,7 @@ public class HeightMapBaker : MonoBehaviour {
         camera.Render();
         
         texture = new Texture2D(renderTexture.width, renderTexture.height, TextureFormat.RFloat, false);
+        texture.filterMode = FilterMode.Bilinear;
         RenderTexture.active = renderTexture;
         texture.ReadPixels(new Rect(0, 0, renderTexture.width, renderTexture.height), 0, 0);
         texture.Apply();
