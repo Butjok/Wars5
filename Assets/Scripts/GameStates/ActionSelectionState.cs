@@ -12,7 +12,11 @@ using Random = UnityEngine.Random;
 
 public class ActionSelectionState : StateMachineState {
 
-    public enum Command { Cancel, CycleActions, Execute }
+    public enum Command {
+        Cancel,
+        CycleActions,
+        Execute
+    }
 
     public List<UnitAction> actions = new();
     public UnitActionsPanel panel;
@@ -45,7 +49,6 @@ public class ActionSelectionState : StateMachineState {
     }
 
     public void SelectAction(UnitAction action) {
-
         index = actions.IndexOf(action);
         Assert.IsTrue(index != -1);
 //      Debug.Log(actions[index]);
@@ -60,7 +63,6 @@ public class ActionSelectionState : StateMachineState {
         var circle = level.view.actionCircle;
         var label = level.view.actionLabel;
         if (circle) {
-
             circle.gameObject.SetActive(true);
             circle.position = null;
 
@@ -81,7 +83,6 @@ public class ActionSelectionState : StateMachineState {
     }
 
     public IEnumerable<UnitAction> SpawnActions() {
-
         var (level, unit, path) = (stateMachine.Find<LevelSessionState>().level, stateMachine.Find<SelectionState>().unit, stateMachine.Find<PathSelectionState>().path);
 
         var destination = path[^1];
@@ -97,41 +98,44 @@ public class ActionSelectionState : StateMachineState {
             if (level.TryGetBuilding(destination, out building) &&
                 building.type is TileType.MissileSilo &&
                 CanLaunchMissile(unit, building)) {
-
                 yield return new UnitAction(UnitActionType.LaunchMissile, unit, path, targetBuilding: building, spawnView: true);
             }
         }
 
-        // join
-        if (other != null && CanJoin(unit, other))
-            yield return new UnitAction(UnitActionType.Join, unit, path, unit, spawnView: true);
+        if (other != null) {
+            // join
+            if (CanJoin(unit, other))
+                yield return new UnitAction(UnitActionType.Join, unit, path, unit, spawnView: true);
 
-        // load in
-        if (other != null && CanGetIn(unit, other))
-            yield return new UnitAction(UnitActionType.GetIn, unit, path, other, spawnView: true);
-
-        // attack
-        if ((!IsArtillery(unit) || path.Count == 1) && TryGetAttackRange(unit, out var attackRange))
-            foreach (var otherPosition in level.PositionsInRange(destination, attackRange))
-                if (level.TryGetUnit(otherPosition, out var target))
-                    foreach (var (weaponName, _) in GetDamageValues(unit, target))
-                        yield return new UnitAction(UnitActionType.Attack, unit, path, target, weaponName: weaponName, targetPosition: otherPosition, spawnView: true);
-
-        // supply
-        foreach (var offset in gridOffsets) {
-            var otherPosition = destination + offset;
-            if (level.TryGetUnit(otherPosition, out var target) && CanSupply(unit, target))
-                yield return new UnitAction(UnitActionType.Supply, unit, path, target, targetPosition: otherPosition, spawnView: true);
+            // load in
+            if (CanGetIn(unit, other))
+                yield return new UnitAction(UnitActionType.GetIn, unit, path, other, spawnView: true);
         }
+        else {
+            
+            // attack
+            if ((!IsArtillery(unit) || path.Count == 1) && TryGetAttackRange(unit, out var attackRange))
+                foreach (var otherPosition in level.PositionsInRange(destination, attackRange))
+                    if (level.TryGetUnit(otherPosition, out var target))
+                        foreach (var (weaponName, _) in GetDamageValues(unit, target))
+                            yield return new UnitAction(UnitActionType.Attack, unit, path, target, weaponName: weaponName, targetPosition: otherPosition, spawnView: true);
 
-        // drop out
-        foreach (var cargo in unit.Cargo)
-        foreach (var offset in gridOffsets) {
-            var targetPosition = destination + offset;
-            if ((!level.TryGetUnit(targetPosition, out var other2) || other2 == unit) &&
-                level.TryGetTile(targetPosition, out var tileType) &&
-                CanStay(cargo, tileType))
-                yield return new UnitAction(UnitActionType.Drop, unit, path, targetUnit: cargo, targetPosition: targetPosition, spawnView: true);
+            // supply
+            foreach (var offset in gridOffsets) {
+                var otherPosition = destination + offset;
+                if (level.TryGetUnit(otherPosition, out var target) && CanSupply(unit, target))
+                    yield return new UnitAction(UnitActionType.Supply, unit, path, target, targetPosition: otherPosition, spawnView: true);
+            }
+
+            // drop out
+            foreach (var cargo in unit.Cargo)
+            foreach (var offset in gridOffsets) {
+                var targetPosition = destination + offset;
+                if ((!level.TryGetUnit(targetPosition, out var other2) || other2 == unit) &&
+                    level.TryGetTile(targetPosition, out var tileType) &&
+                    CanStay(cargo, tileType))
+                    yield return new UnitAction(UnitActionType.Drop, unit, path, targetUnit: cargo, targetPosition: targetPosition, spawnView: true);
+            }
         }
     }
 
@@ -168,7 +172,6 @@ public class ActionSelectionState : StateMachineState {
                     }
                 }
                 else if (!level.CurrentPlayer.IsAi) {
-
                     if (Input.GetMouseButtonDown(Mouse.right) || Input.GetKeyDown(KeyCode.Escape))
                         game.EnqueueCommand(Command.Cancel);
 
@@ -185,9 +188,7 @@ public class ActionSelectionState : StateMachineState {
 
                 while (game.TryDequeueCommand(out var command))
                     switch (command) {
-
                         case (Command.Execute, UnitAction action): {
-
                             level.view.tilemapCursor.Hide();
                             if (level.view.actionCircle)
                                 level.view.actionCircle.gameObject.SetActive(false);
@@ -196,7 +197,6 @@ public class ActionSelectionState : StateMachineState {
                             HidePanel();
 
                             switch (action.type) {
-
                                 case UnitActionType.Stay: {
                                     unit.Position = destination;
                                     break;
@@ -210,7 +210,6 @@ public class ActionSelectionState : StateMachineState {
                                 }
 
                                 case UnitActionType.Capture: {
-
                                     unit.Position = destination;
                                     var oldCp = building.Cp;
                                     building.Cp -= Cp(unit);
@@ -240,7 +239,6 @@ public class ActionSelectionState : StateMachineState {
                                         yield return StateChange.none;
 
                                     if (building.Cp <= 0) {
-
                                         building.Player = unit.Player;
                                         building.Cp = MaxCp(building);
 
@@ -252,7 +250,7 @@ public class ActionSelectionState : StateMachineState {
                                         startTime = Time.time;
                                         while (Time.time < startTime + captureScreen.pauseOwnerChange)
                                             yield return StateChange.none;
-                                        
+
                                         completed = captureScreen.AnimateCp(building.Cp, MaxCp(action.targetBuilding));
                                         while (!completed())
                                             yield return StateChange.none;
@@ -321,10 +319,8 @@ public class ActionSelectionState : StateMachineState {
                              */
 
                             if (level.triggers.TryGetValue(TriggerName.A, out var reconTrigger)) {
-
                                 var unitsInReconTrigger = level.units.Values.Where(u => u.Player == level.localPlayer && u.Position is { } position && reconTrigger.Contains(position)).ToArray();
                                 if (unitsInReconTrigger.Length > 0) {
-
                                     reconTrigger.Clear();
                                     // ((LevelEditor)level).LoadAdditively("1");
 
@@ -352,7 +348,6 @@ public class ActionSelectionState : StateMachineState {
                             var lost = Lost(level.localPlayer);
 
                             if (won || lost) {
-
                                 foreach (var u in level.units.Values)
                                     u.Moved = false;
 
@@ -385,6 +380,7 @@ public class ActionSelectionState : StateMachineState {
                             }
                             else
                                 UiSound.Instance.notAllowed.PlayOneShot();
+
                             break;
                         }
 
