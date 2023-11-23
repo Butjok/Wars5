@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Butjok.CommandLine;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -9,6 +10,8 @@ public class PlayerTurnState : StateMachineState {
 
     public Player player;
     public AudioSource musicSource;
+
+    [Command] public static bool triggerVladansSpeech = false;
 
     public override IEnumerator<StateChange> Enter {
         get {
@@ -30,7 +33,7 @@ public class PlayerTurnState : StateMachineState {
             }
 
             var campaign = stateMachine.Find<GameSessionState>().persistentData.campaign;
-            if (level.mission == campaign.tutorial && level.Day() == 0 && level.CurrentPlayer.ColorName == ColorName.Red)
+            if ((triggerVladansSpeech || level.mission == campaign.tutorial) && level.Day() == 0 && level.CurrentPlayer.ColorName == ColorName.Red)
                 yield return StateChange.Push(new TutorialVladansTurnDialogue(stateMachine));
 
             yield return StateChange.Push(new SelectionState(stateMachine));
