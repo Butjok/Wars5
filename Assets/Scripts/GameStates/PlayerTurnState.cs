@@ -32,15 +32,24 @@ public class PlayerTurnState : StateMachineState {
                     yield return StateChange.none;
             }
 
-            var campaign = stateMachine.Find<GameSessionState>().persistentData.campaign;
-            if ((triggerVladansSpeech || level.mission == campaign.tutorial) && level.Day() == 0 && level.CurrentPlayer.ColorName == ColorName.Red)
-                yield return StateChange.Push(new TutorialVladansTurnDialogue(stateMachine));
+            switch (level.Day()) {
+                case 0:
+                    switch (level.CurrentPlayer.ColorName) {
+                        case ColorName.Blue:
+                            yield return StateChange.Push(new TutorialStartDialogue(stateMachine));
+                            break;
+                        case ColorName.Red:
+                            yield return StateChange.Push(new TutorialVladansTurnDialogue(stateMachine));
+                            break;
+                    }
+                    break;
+            }
 
             yield return StateChange.Push(new SelectionState(stateMachine));
         }
     }
     public override void Exit() {
-        
+
         player.view.Hide();
 
         if (musicSource)

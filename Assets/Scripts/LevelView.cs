@@ -42,4 +42,5 @@ public class LevelView : MonoBehaviour {
     public Transform unitUiRoot;
     public Transform playerUiRoot;
     public InGameMenu inGameMenu;
+    public DialogueUi4 newDialogueUi;
 }

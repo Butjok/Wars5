@@ -20,53 +20,6 @@ public abstract class DialogueState : StateMachineState {
         public bool shouldSkip;
     }
 
-    public class PersonAdditionState : StateMachineState {
-        public Func<bool> completed;
-        public PersonAdditionState(DialogueState dialogueState, PersonName personName, int side, Mood mood = default) : base(dialogueState.stateMachine) {
-            var portraitStack = dialogueState.ui.portraitStacks[side];
-            var (_, coroutine) = portraitStack.AddPerson(personName, mood);
-            completed = () => portraitStack.IsCompleted(coroutine);
-        }
-        public override IEnumerator<StateChange> Enter {
-            get {
-                while (!completed())
-                    yield return StateChange.none;
-            }
-        }
-    }
-
-    public class PersonRemovalState : StateMachineState {
-        public Func<bool> completed;
-        public PersonRemovalState(DialogueState dialogueState, PersonName personName) : base(dialogueState.stateMachine) {
-            var portraitStack = dialogueState.portraitStacks[personName];
-            dialogueState.portraitStacks.Remove(personName);
-            var coroutine = portraitStack.RemovePerson(personName);
-            completed = () => portraitStack.IsCompleted(coroutine);
-        }
-        public override IEnumerator<StateChange> Enter {
-            get {
-                while (!completed())
-                    yield return StateChange.none;
-            }
-        }
-    }
-
-    public class PersonsClearingState : StateMachineState {
-        public Func<bool> completed;
-        public PersonsClearingState(DialogueState dialogueState) : base(dialogueState.stateMachine) {
-            var coroutines = new List<(PortraitStack portraitStack, IEnumerator coroutine)>();
-            foreach (var portraitStack in dialogueState.ui.portraitStacks)
-                coroutines.Add((portraitStack, portraitStack.Clear()));
-            completed = () => coroutines.All(pair => pair.portraitStack.IsCompleted(pair.coroutine));
-        }
-        public override IEnumerator<StateChange> Enter {
-            get {
-                while (!completed())
-                    yield return StateChange.none;
-            }
-        }
-    }
-
     public class TalkState : StateMachineState {
         DialogueState dialogueState;
         public string text;
@@ -82,15 +35,12 @@ public abstract class DialogueState : StateMachineState {
                 var ui = dialogueState.ui;
                 var sequence = dialogueState.skippableSequences.Count > 0 ? dialogueState.skippableSequences.Peek() : null;
 
-                if (!append)
-                    ui.Text = "";
-
-                ui.VoiceOverSource.Stop();
+                //ui.VoiceOverSource.Stop();
                 // if (voiceOverClip)
                 //     ui.VoiceOverSource.PlayOneShot(voiceOverClip);
 
-                foreach (var c in text) {
-                    ui.Text += c;
+                var typingAnimation = ui.TextTypingAnimation(append ? ui.speechText.text : "", text);
+                while (typingAnimation.MoveNext()) {
                     if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Escape)) {
                         sequence ??= new SkippableSequence();
                         sequence.shouldSkip = true;
@@ -100,20 +50,32 @@ public abstract class DialogueState : StateMachineState {
                     if (sequence is not { shouldSkip: true })
                         yield return StateChange.none;
                 }
+                
+                /*foreach (var c in text) {
+                    ui.Text += c;
+                    if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Escape)) {
+                        sequence ??= new SkippableSequence();
+                        sequence.shouldSkip = true;
+                        yield return StateChange.none;
+                        continue;
+                    }
+                    if (sequence is not { shouldSkip: true })
+                        yield return StateChange.none;
+                }*/
 
                 if (waitInput) {
 
-                    ui.ShowSpaceKey = true;
+                    ui.ShowSpaceBarKey = true;
                     while (!Input.GetKeyDown(KeyCode.Space) && !Input.GetKeyDown(KeyCode.Escape))
                         yield return StateChange.none;
                     yield return StateChange.none;
-                    ui.ShowSpaceKey = false;
+                    ui.ShowSpaceBarKey = false;
 
                     if (sequence != null)
                         sequence.shouldSkip = false;
                 }
 
-                ui.VoiceOverSource.Stop();
+                //ui.VoiceOverSource.Stop();
             }
         }
     }
@@ -177,7 +139,7 @@ public abstract class DialogueState : StateMachineState {
 
                 var buttons = new List<Button>();
                 var totalWidth = 0f;
-                for (var i = 0; i < options.Length; i++) {
+                /*for (var i = 0; i < options.Length; i++) {
                     var index = i;
                     var button = Object.Instantiate(ui.buttonPrefab, ui.transform);
                     button.gameObject.SetActive(true);
@@ -193,7 +155,7 @@ public abstract class DialogueState : StateMachineState {
                     var rectTransform = button.GetComponent<RectTransform>();
                     rectTransform.anchoredPosition = position;
                     position += Vector2.right * (rectTransform.sizeDelta.x + ui.buttonSpacing);
-                }
+                }*/
 
                 while (!wasSet) {
                     if (confirmIndex is { } actualConfirmIndex && Input.GetKeyDown(KeyCode.Return))
@@ -210,42 +172,43 @@ public abstract class DialogueState : StateMachineState {
     }
 
     private Dictionary<PersonName, PortraitStack> portraitStacks = new();
-    private DialogueUi3 ui;
+    private DialogueUi4 ui;
     protected DialogueState(StateMachine stateMachine) : base(stateMachine) {
-        ui = stateMachine.TryFind<LevelSessionState>().level.view.dialogueUi;
+        ui = stateMachine.TryFind<LevelSessionState>().level.view.newDialogueUi;
     }
 
     public override void Exit() {
-        ui.Visible = false;
+        ui.Hide();
     }
 
-    public static int GetDefaultSide(PersonName personName) {
+    public static DialogueUi4.Side GetDefaultSide(PersonName personName) {
         return personName switch {
-            PersonName.Natalie => left,
-            PersonName.Vladan => right,
-            _ => left
+            PersonName.Natalie => DialogueUi4.Side.Left,
+            PersonName.Vladan => DialogueUi4.Side.Right,
+            _ =>   DialogueUi4.Side.Left,
         };
     }
 
-    protected StateChange AddPerson(PersonName personName, int side = -1, Mood mood = default) {
-        side = side == -1 ? GetDefaultSide(personName) : side;
-        var portraitStack = ui.portraitStacks[side];
-        portraitStacks.Add(personName, portraitStack);
-        return StateChange.Push(new PersonAdditionState(this, personName, side, mood));
+    protected StateChange AddPerson(PersonName personName, DialogueUi4.Side ?side = null, Mood mood = default) {
+        var actualSide = side ?? GetDefaultSide(personName);
+        ui.SetPortrait(actualSide, personName, mood);
+        return StateChange.none;
     }
-    public StateChange RemovePerson(PersonName personName) {
-        return StateChange.Push(new PersonRemovalState(this, personName));
+    public StateChange RemovePerson(DialogueUi4.Side side) {
+        ui.SetPortrait(side,null);
+        return StateChange.none;
     }
     protected StateChange ClearPersons() {
-        portraitStacks.Clear();
-        return StateChange.Push(new PersonsClearingState(this));
+        RemovePerson(DialogueUi4.Side.Left);
+        RemovePerson(DialogueUi4.Side.Right);
+        return StateChange.none;
     }
 
     public void SetMood(PersonName personName, Mood mood) {
         portraitStacks[personName].SetMood(personName, mood);
     }
     public void PlaySoundEffect(AudioClip audioClip) {
-        ui.SfxSource.PlayOneShot(audioClip);
+        //ui.SfxSource.PlayOneShot(audioClip);
     }
 
     protected StateChange SayWait(string text, bool waitInput = true, bool append = false) {
@@ -306,13 +269,13 @@ public abstract class DialogueState : StateMachineState {
         public bool Completed => completed();
     }
 
-    protected RawImage VideoPanelImage => ui.videoPanelImage;
+    /*protected RawImage VideoPanelImage => ui.videoPanelImage;
     protected StateChange ShowVideoPanel() {
         return StateChange.Push(new WaitForCoroutineState(stateMachine, ui.ShowVideoPanel()));
     }
     protected StateChange HideVideoPanel() {
         return StateChange.Push(new WaitForCoroutineState(stateMachine, ui.HideVideoPanel()));
-    }
+    }*/
 
     protected Video CreateVideo(VideoClip videoClip, float? width = null, Vector2 position = default, RawImage target = null) {
 
@@ -356,10 +319,10 @@ public abstract class DialogueState : StateMachineState {
     }
 
     protected void MakeDark() {
-        ui.MakeDark();
+        //ui.MakeDark();
     }
     protected void MakeLight() {
-        ui.MakeLight();
+        //ui.MakeLight();
     }
 
     protected StateChange ChooseOption(Action<int> setter, params string[] options) {
@@ -370,21 +333,25 @@ public abstract class DialogueState : StateMachineState {
     }
 
     protected void Start() {
-        ui.Visible = true;
-        ui.Reset();
+        ui.Show();
+        ui.SetSpeaker(null);
+        ui.ClearText();
 
         stateMachine.Find<LevelSessionState>().level.view.cameraRig.enabled = false;
     }
     protected void End() {
-        ui.Visible = false;
+        ui.Hide();
 
         stateMachine.Find<LevelSessionState>().level.view.cameraRig.enabled = true;
     }
     protected PersonName? Speaker {
-        set => ui.Speaker = value;
+        set => ui.SetSpeaker(value, true);
     }
-    protected string Text {
-        set => ui.Text = value;
+    protected void SetText(string text) {
+        ui.TypeText(text);
+    }
+    protected void AppendText(string text) {
+        ui.TypeText(text, ui.speechText.text);
     }
 }
 

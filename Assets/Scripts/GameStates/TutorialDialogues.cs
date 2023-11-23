@@ -13,13 +13,13 @@ public class TutorialStartDialogue : DialogueState {
             var level = stateMachine.Find<LevelSessionState>().level;
 
             Start();
-            yield return AddPerson(PersonName.Natalie);
+            yield return AddPerson(PersonName.Natalie, DialogueUi4.Side.Left);
             Speaker = PersonName.Natalie;
-            //yield return SayWait(_("Welcome to Wars3D!"));
-            //yield return SayWait(_("This is a strategy game and you are in charge!"));
+            yield return SayWait(_("Welcome to Wars3D!"));
+            yield return SayWait(_("This is a strategy game and you are in charge!"));
 
 
-            if (true) {
+            /*if (true) {
                 yield return Say(_("Do you want to watch tutorial?"));
                 bool yes = default;
                 yield return ChooseYesNo(value => yes = value);
@@ -44,9 +44,9 @@ public class TutorialStartDialogue : DialogueState {
                 }
                 else
                     yield return SayWait(_("Sure thing, let us get started!"));
-            }
+            }*/
 
-            yield return RemovePerson(PersonName.Natalie);
+            yield return RemovePerson(DialogueUi4.Side.Left);
             End();
         }
     }
@@ -57,10 +57,10 @@ public class TutorialVladansTurnDialogue : DialogueState {
     public override IEnumerator<StateChange> Enter {
         get {
             Start();
-            yield return AddPerson(PersonName.Vladan);
+            yield return AddPerson(PersonName.Vladan, DialogueUi4.Side.Right);
             Speaker = PersonName.Vladan;
             yield return SayWait(_("Finally! My turn!"));
-            yield return RemovePerson(PersonName.Vladan);
+            yield return RemovePerson(DialogueUi4.Side.Right);
             End();
         }
     }

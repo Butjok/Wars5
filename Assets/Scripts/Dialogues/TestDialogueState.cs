@@ -84,7 +84,7 @@ public class TestDialogueState : DialogueState {
                 }
             }
 
-            yield return AddPerson(PersonName.Vladan, right);
+            yield return AddPerson(PersonName.Vladan, DialogueUi4.Side.Right);
 
             Speaker = PersonName.Vladan;
             yield return SayWait(_("Well well well! Look who we have here! Natalie with her apples again!"));
@@ -93,7 +93,7 @@ public class TestDialogueState : DialogueState {
             yield return SayWait(_("No, Vladan! Not you again!"));
 
             Speaker = null;
-            Text = null;
+            SetText("");
 
             yield return ClearPersons();
             End();
