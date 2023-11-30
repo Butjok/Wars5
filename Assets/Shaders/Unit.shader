@@ -39,6 +39,7 @@ Shader "Custom/Unit"
         struct Input
         {
             float2 uv_MainTex;
+            float2 uv2_Occlusion;
             float3 worldPos;
         };
 
@@ -51,7 +52,7 @@ Shader "Custom/Unit"
 
             half2 uv = IN.uv_MainTex + _Offset.xy*_OffsetIntensity;
 
-            half3 bounce = tex2D (_BounceLight, uv);
+            half3 bounce = tex2D (_BounceLight, IN.uv2_Occlusion);
 
             //bounce=Tint(bounce,_HueShift,1,1);
 
@@ -72,7 +73,8 @@ Shader "Custom/Unit"
             //if (IN.worldPos.y < .1)
               //  o.Smoothness=1;
             //o.Alpha = c.a;
-            o.Occlusion= tex2D (_Occlusion, uv);
+            o.Occlusion= tex2D (_Occlusion, IN.uv2_Occlusion);
+            //o.Albedo = o.Occlusion;
             o.Normal=UnpackNormal(tex2D (_Normal, uv));
             
             o.Emission=c.rgb*bounce.rgb*_BounceIntensity     * movedTint;
