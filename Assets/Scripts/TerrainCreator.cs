@@ -95,6 +95,7 @@ public class TerrainCreator : MonoBehaviour {
     public List<Bird> birds = new();
     private int birdsCount;
     public Transform water;
+    public Vector2 waterScalePadding = new(50,50);
     public RectTransform overlay3d;
     public TMP_Text missionNameText;
 
@@ -482,7 +483,7 @@ public class TerrainCreator : MonoBehaviour {
         if (water) {
             var bounds = meshRenderer.bounds;
             water.position = bounds.center.ToVector2().ToVector3();
-            water.localScale = new Vector3(bounds.size.x, 1, bounds.size.z);
+            water.localScale = new Vector3(bounds.size.x + waterScalePadding.x*2, 1, bounds.size.z + waterScalePadding.y*2);
         }
 
         if (overlay3d) {
