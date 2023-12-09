@@ -44,11 +44,8 @@ public abstract class DialogueState : StateMachineState {
                     if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Escape)) {
                         sequence ??= new SkippableSequence();
                         sequence.shouldSkip = true;
-                        yield return StateChange.none;
-                        continue;
                     }
-                    if (sequence is not { shouldSkip: true })
-                        yield return StateChange.none;
+                    yield return StateChange.none;
                 }
                 
                 /*foreach (var c in text) {
