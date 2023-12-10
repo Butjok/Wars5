@@ -17,6 +17,7 @@ Shader "Custom/Unit"
         _AttackHighlightFactor ("_AttackHighlightFactor", Range(0,1)) = 0
         _AttackHighlightColor ("_AttackHighlightColor", Color) = (1,1,1,1)
         _AttackHighlight ("_AttackHighlight", Vector) = (.25, .5, 5.0, 2.5)
+        _RedAmount ("_RedAmount", Range(0,1)) = 0
     }
     SubShader
     {
@@ -46,6 +47,28 @@ Shader "Custom/Unit"
         fixed4 _PlayerColor,_Offset,_AttackHighlightColor,_AttackHighlight;
         half _Selected,_HueShift,_BounceIntensity,_OffsetIntensity;
         half _Moved,_AttackHighlightFactor,_AttackHighlightStartTime;
+        half _RedAmount;
+
+        float3 ToRed(float3 blue) {
+            float3 hsv = RGBtoHSV(blue);
+            float hue = hsv.x;
+            
+            float newHue = 0.0;
+            if (hue<0.622) {
+                newHue = lerp(1, 0.015626, hue/0.622);
+            }
+            else if (hue < 0.653) {
+                newHue = lerp(0.015626, 0, (hue-0.622)/(0.653-0.622));
+            }
+            else if (hue < 0.710) {
+                newHue = lerp(0, 0.011, (hue-0.653)/(0.710-0.653));
+            }
+            else if (hue < 1.00) {
+                newHue = lerp(0.011, 0, (hue-0.710)/(1.0-0.710));
+            }
+
+            return HSVtoRGB(float3(newHue, hsv.y, hsv.z));
+        }
         
         void surf (Input IN, inout SurfaceOutputStandard o)
         {
@@ -53,6 +76,7 @@ Shader "Custom/Unit"
             half2 uv = IN.uv_MainTex + _Offset.xy*_OffsetIntensity;
 
             half3 bounce = tex2D (_BounceLight, IN.uv2_Occlusion);
+            bounce = ToRed(bounce);
 
             //bounce=Tint(bounce,_HueShift,1,1);
 
@@ -61,6 +85,7 @@ Shader "Custom/Unit"
             
             // Albedo comes from a texture tinted by color
             fixed3 c = tex2D (_MainTex, uv); // * _PlayerColor;
+            c = lerp(c, ToRed(c), _RedAmount);
 
             //c=Tint(c,_HueShift,1,1);
             
@@ -74,17 +99,18 @@ Shader "Custom/Unit"
               //  o.Smoothness=1;
             //o.Alpha = c.a;
             o.Occlusion= tex2D (_Occlusion, IN.uv2_Occlusion);
+            //o.Albedo  = o.Occlusion;
             //o.Albedo = o.Occlusion;
             o.Normal=UnpackNormal(tex2D (_Normal, uv));
             
-            o.Emission=c.rgb*bounce.rgb*_BounceIntensity     * movedTint;
+            //o.Emission=c.rgb*bounce.rgb*_BounceIntensity     * movedTint;
 
-            o.Albedo = Tint(o.Albedo,-.0025,1,1) ;//* _PlayerColor;
+            //o.Albedo = Tint(o.Albedo,-.0025,1,1) ;//* _PlayerColor;
             
-            o.Emission += lerp(_AttackHighlight.x, _AttackHighlight.y, pow
+            /*o.Emission += lerp(_AttackHighlight.x, _AttackHighlight.y, pow
         (sin        ((_Time.y-_AttackHighlightStartTime)*_AttackHighlight.z      )/2+.5, 
             _AttackHighlight.w)) * 
-            _AttackHighlightColor *  _AttackHighlightFactor;
+            _AttackHighlightColor *  _AttackHighlightFactor;*/
             
             /*o.Emission =smoothstep(.8,.9, frac( (IN.worldPos.x + IN
             .worldPos.y 

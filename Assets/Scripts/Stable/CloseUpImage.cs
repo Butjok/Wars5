@@ -1,5 +1,8 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using Butjok.CommandLine;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -11,6 +14,17 @@ public class CloseUpImage : MonoBehaviour, IDragHandler, IEndDragHandler {
     public Vector2 pitchBounds = new(0,90);
     public Vector2 deceleration = new(1000,1000);
     public Vector2 startAngles;
+    public List<GameObject> previewUnits = new(){};
+
+    [Command()]
+    public void Cycle() {
+        if (previewUnits.Count==0)
+            return;
+        var firstVisible = previewUnits.FirstOrDefault(previewUnit => previewUnit.activeSelf);
+        var nextIndex = !firstVisible ? 0 : (previewUnits.IndexOf(firstVisible) + 1) % previewUnits.Count;
+        for (var i =0 ;i < previewUnits.Count; i++)
+            previewUnits[i].SetActive(i == nextIndex);
+    }
     
     public Vector2 Angles {
         get =>  cameraArm.rotation.eulerAngles;
