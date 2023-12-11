@@ -6728,6 +6728,7 @@ MonoBehaviour:
   birdPrefab: {fileID: 7280669306027067074, guid: e135459dcd257004086d27a293e52085, type: 3}
   birds: []
   water: {fileID: 1718987277}
+  waterScalePadding: {x: 50, y: 50}
   overlay3d: {fileID: 0}
   missionNameText: {fileID: 0}
   bushesMeshFilter: {fileID: 0}
@@ -10251,15 +10252,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camera: {fileID: 116798472}
-  pieceI: {fileID: -2521245407137789825, guid: e3032b7edd8f645f9bc8607087edc53a, type: 3}
-  pieceL: {fileID: 582977817089021278, guid: e3032b7edd8f645f9bc8607087edc53a, type: 3}
-  pieceT: {fileID: -6414288632228724897, guid: e3032b7edd8f645f9bc8607087edc53a, type: 3}
-  pieceX: {fileID: 7196441373348368383, guid: e3032b7edd8f645f9bc8607087edc53a, type: 3}
-  pieceIsland: {fileID: 9023955764063960635, guid: e3032b7edd8f645f9bc8607087edc53a, type: 3}
-  pieceCap: {fileID: -8254804224689600507, guid: e3032b7edd8f645f9bc8607087edc53a, type: 3}
+  pieceI: {fileID: -2521245407137789825, guid: 766c1e39d2610324aae146b4c4c2fb09, type: 3}
+  pieceL: {fileID: 582977817089021278, guid: 766c1e39d2610324aae146b4c4c2fb09, type: 3}
+  pieceT: {fileID: -6414288632228724897, guid: 766c1e39d2610324aae146b4c4c2fb09, type: 3}
+  pieceX: {fileID: 7196441373348368383, guid: 766c1e39d2610324aae146b4c4c2fb09, type: 3}
+  pieceIsland: {fileID: 9023955764063960635, guid: 766c1e39d2610324aae146b4c4c2fb09, type: 3}
+  pieceCap: {fileID: -8254804224689600507, guid: 766c1e39d2610324aae146b4c4c2fb09, type: 3}
   rotateI: 0
-  rotateL: 2
-  rotateT: 2
+  rotateL: 0
+  rotateT: 3
   rotateX: 0
   rotateIsland: 0
   rotateCap: 0
