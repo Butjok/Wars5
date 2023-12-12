@@ -3,12 +3,14 @@ using UnityEngine;
 public static class LayerMasks {
 	public static int Selectable => 1 << Layers.Selectable;
 	public static int Terrain => 1 << Layers.Terrain;
+	public static int Roads => 1 << Layers.Roads;
 }
 
 public static class Layers {
 	
 	public static int Selectable => LayerMask.NameToLayer("Selectable");
 	public static int Terrain => LayerMask.NameToLayer("Terrain");
+	public static int Roads => LayerMask.NameToLayer("Roads");
 
 	public static int Player0 => LayerMask.NameToLayer("Player0");
 	public static int Player1 => LayerMask.NameToLayer("Player1");

@@ -127,7 +127,7 @@ public class UnitView : MonoBehaviour {
     [Command] public static float maxTorque = 25;
     [Command] public static float turnTorqueMultiplier = 0.125f;
 
-    public static LayerMask TerrainLayerMask => LayerMasks.Terrain;
+    public static LayerMask TerrainLayerMask => LayerMasks.Terrain | LayerMasks.Roads;
 
     public UnitView prefab;
 
@@ -349,6 +349,8 @@ public class UnitView : MonoBehaviour {
         set => lowFuelText.enabled = value;
     }
 
+    // TODO: update fixed wheels after body update
+    
     private void UpdateWheel(Wheel wheel) {
 
         var spinRotation = Quaternion.Euler(wheel.spinAngle, 0, 0);
