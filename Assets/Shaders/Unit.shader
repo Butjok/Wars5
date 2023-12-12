@@ -86,6 +86,7 @@ Shader "Custom/Unit"
             
             // Albedo comes from a texture tinted by color
             fixed3 c = tex2D (_MainTex, uv); // * _PlayerColor;
+            //c = Tint(c, 0, 1.0, 1    );
             c = lerp(c, ToRed(c), _RedAmount);
 
             //c=Tint(c,_HueShift,1,1);
