@@ -102,7 +102,7 @@ public class ActionSelectionState : StateMachineState {
             }
         }
 
-        if (other != null) {
+        if (other != null && other != unit) {
             // join
             if (CanJoin(unit, other))
                 yield return new UnitAction(UnitActionType.Join, unit, path, unit, spawnView: true);

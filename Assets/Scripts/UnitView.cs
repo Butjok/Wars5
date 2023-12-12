@@ -26,6 +26,7 @@ public class UnitView : MonoBehaviour {
             }
 
             public Wheel left, right;
+
             public Wheel this[int side] {
                 get => side == Constants.left ? left : right;
                 set {
@@ -38,7 +39,11 @@ public class UnitView : MonoBehaviour {
         }
 
         public enum SteeringGroup {
-            None, A, B, C, D
+            None,
+            A,
+            B,
+            C,
+            D
         }
 
         public const float rayOriginHeight = 1000;
@@ -119,6 +124,7 @@ public class UnitView : MonoBehaviour {
     [Command] public static float barrelMaxVelocity = 90;
     [Command] public static float guiClippingDistance = .5f;
     [Command] public static string playerColorUniformName = "_PlayerColor";
+    [Command] public static string redAmountUniformName = "_RedAmount";
     [Command] public static string attackHighlightFactorUniformName = "_AttackHighlightFactor";
     [Command] public static string attackHighlightStartTimeUniformName = "_AttackHighlightStartTime";
     [Command] public static string movedUniformName = "_Moved";
@@ -136,8 +142,10 @@ public class UnitView : MonoBehaviour {
 
     [Space]
     public Transform body;
+
     [FormerlySerializedAs("playerColorRenderers")]
     public List<Renderer> playerMaterialRenderers = new();
+
     public List<Wheel> wheels = new();
     public List<Turret> turrets = new();
     public float barrelRestAngle = -15;
@@ -147,10 +155,12 @@ public class UnitView : MonoBehaviour {
 
     [Space]
     public Vector3 bodyCenterOfMass;
+
     public float accelerationTorqueMultiplier = 7.5f;
 
     [Space]
     public int maxHp = 10;
+
     public TMP_Text hpText;
     public Vector3 uiBoxCenter;
     public Vector3 uiBoxHalfSize = new(.5f, .5f, .5f);
@@ -161,6 +171,7 @@ public class UnitView : MonoBehaviour {
 
     [Space]
     public List<Record> subroutines = new();
+
     public WeaponNameBattleAnimationInputsDictionary inputs = new();
     [NonSerialized] public float speed;
     [NonSerialized] public float acceleration;
@@ -181,6 +192,7 @@ public class UnitView : MonoBehaviour {
         ui.target = transform;
         return ui;
     }
+
     public void OnDestroy() {
         if (ui)
             Destroy(ui.gameObject);
@@ -202,7 +214,7 @@ public class UnitView : MonoBehaviour {
         hitPoints.Clear();
         hitPoints.AddRange(GetComponentsInChildren<Transform>().Where(t => t.name.StartsWith("HitPoint")));
     }
-    
+
     private MaterialPropertyBlock materialPropertyBlock;
 
     [Command]
@@ -210,12 +222,17 @@ public class UnitView : MonoBehaviour {
         set {
             materialPropertyBlock ??= new MaterialPropertyBlock();
             materialPropertyBlock.SetColor(playerColorUniformName, value);
+
+            materialPropertyBlock.SetFloat(redAmountUniformName, value.r > value.b ? 1 : 0);
+
             foreach (var renderer in GetComponentsInChildren<Renderer>())
-                            renderer.SetPropertyBlock(materialPropertyBlock);
+                renderer.SetPropertyBlock(materialPropertyBlock);
         }
     }
 
-    public bool Selected { set { } }
+    public bool Selected {
+        set { }
+    }
 
     [Command]
     public Vector2Int Position {
@@ -225,6 +242,7 @@ public class UnitView : MonoBehaviour {
             PlaceOnTerrain();
         }
     }
+
     public Func<bool> MoveAlong(IEnumerable<Vector2Int> path, Vector2Int? finalDirection = null) {
         var completed = false;
         StartCoroutine(new MoveSequence(transform, path, _finalDirection: finalDirection, onComplete: () => completed = true).Animation());
@@ -244,6 +262,7 @@ public class UnitView : MonoBehaviour {
             PlaceOnTerrain();
         }
     }
+
     [Command]
     public void RotateTowards(Vector2Int value) {
         MoveAlong(null, value);
@@ -267,6 +286,7 @@ public class UnitView : MonoBehaviour {
                 PlaceOnTerrain();
         }
     }
+
     public void Die() {
         Visible = false;
     }
@@ -281,10 +301,12 @@ public class UnitView : MonoBehaviour {
             }
         }
     }
+
     [Command]
     public void AnimateHp(int value) {
         StartCoroutine(HpAnimation(value));
     }
+
     private IEnumerator HpAnimation(int to) {
         var from = Hp;
         if (from == to)
@@ -299,6 +321,7 @@ public class UnitView : MonoBehaviour {
     }
 
     private bool? highlightAsTarget;
+
     [Command]
     public bool HighlightAsTarget {
         get {
@@ -322,6 +345,7 @@ public class UnitView : MonoBehaviour {
     }
 
     private bool? moved;
+
     [Command]
     public bool Moved {
         get {
@@ -343,6 +367,7 @@ public class UnitView : MonoBehaviour {
         get => lowAmmoText.enabled;
         set => lowAmmoText.enabled = value;
     }
+
     [Command]
     public bool LowFuel {
         get => lowFuelText.enabled;
@@ -350,9 +375,8 @@ public class UnitView : MonoBehaviour {
     }
 
     // TODO: update fixed wheels after body update
-    
-    private void UpdateWheel(Wheel wheel) {
 
+    private void UpdateWheel(Wheel wheel) {
         var spinRotation = Quaternion.Euler(wheel.spinAngle, 0, 0);
         var steeringRotation = Quaternion.Euler(0, wheel.steeringAngle, 0);
         wheel.rotation = body.rotation * steeringRotation * spinRotation;
@@ -388,6 +412,7 @@ public class UnitView : MonoBehaviour {
             var deltaAngle = distance / wheel.radius * ratio;
             wheel.spinAngle += deltaAngle;
         }
+
         wheel.previousPosition = wheel.position;
 
         if (wheel.IsSteeringWheel && wheel.previousOriginPosition is { } actualPreviousOriginPosition) {
@@ -406,6 +431,7 @@ public class UnitView : MonoBehaviour {
                 wheel.steeringAngle = Mathf.Clamp(wheel.steeringAngle, wheelSteeringRange[0], wheelSteeringRange[1]);
             }
         }
+
         wheel.previousOriginPosition = projectedOriginWorldPosition;
     }
 
@@ -414,13 +440,13 @@ public class UnitView : MonoBehaviour {
 
     [ContextMenu(nameof(UpdateAxes))]
     private void UpdateAxes() {
-
         axes.Clear();
         foreach (var wheel in wheels) {
             var y = Mathf.RoundToInt(wheel.raycastOrigin.y * 100);
             if (!axes.TryGetValue(y, out var axis)) {
                 axis = axes[y] = new Wheel.Axis();
             }
+
             axis[wheel.Side] = wheel;
         }
 
@@ -438,9 +464,7 @@ public class UnitView : MonoBehaviour {
     }
 
     private void UpdateBodyRotation() {
-
         if (axes.Count > 0 && pitchAxes.Count > 0) {
-
             var rightSum = Vector3.zero;
             foreach (var axis in axes.Values.Where(axis => !axis[left].isFixed && !axis[right].isFixed))
                 rightSum += axis[right].springWeightPosition - axis[left].springWeightPosition;
@@ -460,8 +484,8 @@ public class UnitView : MonoBehaviour {
     }
 
     private Queue<Vector3> instantaneousTorques = new();
-    private void UpdateSpring(Wheel wheel, Vector3 accelerationTorque, Vector3 turnTorque, float deltaTime) {
 
+    private void UpdateSpring(Wheel wheel, Vector3 accelerationTorque, Vector3 turnTorque, float deltaTime) {
         if (wheel.isFixed)
             return;
 
@@ -510,13 +534,14 @@ public class UnitView : MonoBehaviour {
             min = Vector3.Min(min, wheel.springWeightPosition);
             max = Vector3.Max(max, wheel.springWeightPosition);
         }
+
         body.position = Vector3.Lerp(min, max, .5f);
     }
 
     private float? lastSpringUpdateTime;
+
     private void UpdateSprings(bool isCalledFromUpdate) {
         if (lastSpringUpdateTime is { } actualLastTime) {
-
             Vector3 accelerationTorque, turnTorque;
             if (TryCalculateAcceleration(isCalledFromUpdate && drawAccelerationGraph, out var linearSpeed, out var linearAcceleration, out var angularSpeed)) {
                 accelerationTorque = -body.right * Mathf.Clamp(linearAcceleration * accelerationTorqueMultiplier, -maxTorque, maxTorque);
@@ -532,12 +557,13 @@ public class UnitView : MonoBehaviour {
                 UpdateSpring(wheel, accelerationTorque, turnTorque, Time.time - actualLastTime);
             instantaneousTorques.Clear();
         }
+
         lastSpringUpdateTime = Time.time;
     }
 
     private List<(float time, float position)> accelerationPoints = new();
-    private bool TryCalculateAcceleration(bool canDrawGraph, out float linearSpeed, out float linearAcceleration, out float angularSpeed) {
 
+    private bool TryCalculateAcceleration(bool canDrawGraph, out float linearSpeed, out float linearAcceleration, out float angularSpeed) {
         float GetXInGraphSpace(float time) {
             var deltaTime = Time.time - time;
             return 1 - deltaTime / accelerationCalculationTimeRange;
@@ -563,7 +589,6 @@ public class UnitView : MonoBehaviour {
 
         using (canDrawGraph ? (IDisposable)Draw.ingame.InScreenSpace(Camera.main) : new CommandBuilder.ScopeEmpty())
         using (canDrawGraph ? (IDisposable)Draw.ingame.WithLineWidth(1.5f) : new CommandBuilder.ScopeEmpty()) {
-
             linearSpeed = angularSpeed = linearAcceleration = 0;
 
             if (positions.Count <= 0)
@@ -634,6 +659,7 @@ public class UnitView : MonoBehaviour {
             wheel.springVelocity = 0;
             wheel.springWeightPosition = wheel.position + body.up * wheel.SpringTargetLength;
         }
+
         instantaneousTorques.Clear();
         positions.Clear();
     }
@@ -648,15 +674,17 @@ public class UnitView : MonoBehaviour {
         var torque = Vector3.Cross(position - centerOfMass, force);
         instantaneousTorques.Enqueue(torque);
     }
+
     [Command]
     public void ApplyInstantaneousLocalForce(Vector3 localPosition, Vector3 localForce) {
         ApplyInstantaneousTorque(transform.TransformPoint(localPosition), transform.TransformPoint(localForce));
     }
+
     public void ApplyInstantaneousWorldForce(Vector3 position, Vector3 force) {
         ApplyInstantaneousTorque(position, force);
     }
-    public void Shoot(Turret turret, Turret.Barrel barrel) {
 
+    public void Shoot(Turret turret, Turret.Barrel barrel) {
         var turretRotation = Quaternion.Euler(0, turret.angle, 0);
         var barrelPosition = body.position + body.rotation * (turret.position + turretRotation * barrel.position);
         var barrelRotation = Quaternion.Euler(barrel.angle, 0, 0);
@@ -672,6 +700,7 @@ public class UnitView : MonoBehaviour {
 
         ApplyInstantaneousWorldForce(barrelPosition, -barrelForward * barrel.recoil);
     }
+
     [Command]
     public void Shoot(string turretName, string barrelName) {
         var turret = turrets.SingleOrDefault(t => t.name == turretName);
@@ -698,7 +727,6 @@ public class UnitView : MonoBehaviour {
     }
 
     private void FixedUpdate() {
-
         if (!body)
             return;
 
@@ -708,7 +736,6 @@ public class UnitView : MonoBehaviour {
             target = debugTarget.position;
 
         foreach (var turret in turrets) {
-
             if (turret.workMode == WorkMode.Idle)
                 continue;
 
@@ -732,7 +759,6 @@ public class UnitView : MonoBehaviour {
             turret.angle += turret.velocity * Time.fixedDeltaTime;
 
             foreach (var barrel in turret.barrels) {
-
                 if (barrel.workMode == WorkMode.Idle)
                     continue;
 
@@ -762,8 +788,8 @@ public class UnitView : MonoBehaviour {
     }
 
     private Dictionary<Wheel.SteeringGroup, (float angleAccumulator, int count)> steeringGroups = new();
-    private void Update() {
 
+    private void Update() {
         if (!body)
             return;
 
@@ -788,7 +814,6 @@ public class UnitView : MonoBehaviour {
         }
 
         foreach (var wheel in wheels) {
-
             if (wheel.IsSteeringWheel && steeringGroups.TryGetValue(wheel.steeringGroup, out var group))
                 wheel.steeringAngle = group.angleAccumulator / group.count;
 
@@ -817,7 +842,6 @@ public class UnitView : MonoBehaviour {
         UpdateHpTextPosition();
 
         foreach (var turret in turrets) {
-
             var turretPosition = body.position + body.rotation * turret.position;
             var turretRotation = Quaternion.Euler(0, turret.angle, 0);
             if (turret.transform)
@@ -830,7 +854,6 @@ public class UnitView : MonoBehaviour {
             }
 
             foreach (var barrel in turret.barrels) {
-
                 var barrelPosition = body.position + body.rotation * (turret.position + turretRotation * barrel.position);
                 var barrelRotation = Quaternion.Euler(barrel.angle, 0, 0);
 
@@ -889,13 +912,16 @@ public class UnitView : MonoBehaviour {
         weaponName = GetFallbackWeaponName(weaponName);
         return "reset-weapons 1.5 .5 2 move-in " + GetDefaultAttackInput(weaponName);
     }
+
     public int automaticWeaponShotsCount = 5;
+
     public string GetDefaultAttackInput(WeaponName weaponName) {
         weaponName = GetFallbackWeaponName(weaponName);
         var shotsCount = weaponName is WeaponName.Rifle or WeaponName.MachineGun ? automaticWeaponShotsCount : 1;
         var loop = Enumerable.Repeat($"Main {weaponName} shoot .1 wait", shotsCount);
         return $"reset-weapons .33 wait Main _ aim .33 wait Main {weaponName} aim .66 wait " + string.Join(" ", loop);
     }
+
     public string GetDefaultResponseInput(WeaponName weaponName) {
         weaponName = GetFallbackWeaponName(weaponName);
         return GetDefaultAttackInput(weaponName);
@@ -905,10 +931,12 @@ public class UnitView : MonoBehaviour {
     public Func<bool> MoveAttack(WeaponName weaponName) {
         return Play(inputs.TryGetValue(weaponName, out var record) ? record.moveAttack : GetDefaultMoveAttackInput(weaponName));
     }
+
     [Command]
     public Func<bool> Attack(WeaponName weaponName) {
         return Play(inputs.TryGetValue(weaponName, out var record) ? record.attack : GetDefaultAttackInput(weaponName));
     }
+
     [Command]
     public Func<bool> Respond(WeaponName weaponName) {
         return Play(inputs.TryGetValue(weaponName, out var record) ? record.respond : GetDefaultResponseInput(weaponName));
@@ -954,12 +982,10 @@ public class UnitView : MonoBehaviour {
     }
 
     private IEnumerator PlayAnimation(string input, Action onComplete = null, int level = 0, Stack stack = null) {
-
         stack ??= new Stack();
 
         foreach (var token in Tokenizer.Tokenize(input))
             switch (token) {
-
                 case "reset-weapons": {
                     ResetWeapons();
                     break;
@@ -979,6 +1005,7 @@ public class UnitView : MonoBehaviour {
                         else
                             turret.workMode = workMode;
                     }
+
                     break;
                 }
 
@@ -1044,5 +1071,7 @@ public class UnitView : MonoBehaviour {
 }
 
 public enum WorkMode {
-    RotateToRest, RotateToTarget, Idle
+    RotateToRest,
+    RotateToTarget,
+    Idle
 }

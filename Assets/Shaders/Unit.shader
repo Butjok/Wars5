@@ -75,13 +75,14 @@ Shader "Custom/Unit"
 
             half2 uv = IN.uv_MainTex + _Offset.xy*_OffsetIntensity;
 
-            half3 bounce = tex2D (_BounceLight, IN.uv2_Occlusion);
-            bounce = ToRed(bounce);
+            half3 bounce = tex2D (_BounceLight, IN.uv2_Occlusion)+.001;
+            bounce = lerp(bounce, ToRed(bounce), _RedAmount);
+            //bounce = ToRed(bounce);
 
             //bounce=Tint(bounce,_HueShift,1,1);
 
             
-            half3 movedTint = lerp(float3(1,1,1), float3(1,1,1) / 2, _Moved);
+            half3 movedTint = lerp(float3(1,1,1), float3(1,1,1) / 7.5, _Moved);
             
             // Albedo comes from a texture tinted by color
             fixed3 c = tex2D (_MainTex, uv); // * _PlayerColor;
@@ -93,7 +94,10 @@ Shader "Custom/Unit"
             //o.Albedo=tex2D (_Normal, IN.uv_MainTex);
             // Metallic and smoothness come from slider variables
             o.Metallic = tex2D (_Metallic, uv);
-            o.Smoothness = 1- tex2D (_Roughness, uv);
+
+
+            
+            o.Smoothness = (1- tex2D (_Roughness, uv)) * lerp(1,0.25,_Moved);
             //o.Smoothness = max(o.Smoothness, smoothstep(.1, .0, IN.worldPos.y));
             //if (IN.worldPos.y < .1)
               //  o.Smoothness=1;
@@ -102,8 +106,12 @@ Shader "Custom/Unit"
             //o.Albedo  = o.Occlusion;
             //o.Albedo = o.Occlusion;
             o.Normal=UnpackNormal(tex2D (_Normal, uv));
+
+            bounce *= (1-o.Metallic);
+            bounce *= (1-_Moved);
+            //bounce *= (o.Smoothness);
             
-            //o.Emission=c.rgb*bounce.rgb*_BounceIntensity     * movedTint;
+            o.Emission=bounce.rgb*_BounceIntensity     * movedTint;
 
             //o.Albedo = Tint(o.Albedo,-.0025,1,1) ;//* _PlayerColor;
             
