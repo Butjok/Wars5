@@ -12,6 +12,7 @@ public class TerrainCreator2 : MonoBehaviour {
 
     public const string fileName = "NewTerrain";
     public Camera camera;
+    public VoronoiRenderer voronoiRenderer;
 
     [Command]
     public void Save() {
@@ -71,7 +72,7 @@ public class TerrainCreator2 : MonoBehaviour {
         if (plane.Raycast(ray, out var enter)) {
             var position = ray.GetPoint(enter).ToVector2Int();
             Draw.ingame.Circle(position.ToVector3(), Vector3.up, pointRadius * 2, Color.yellow);
-            if (Input.GetMouseButton(Mouse.right) || height == 0) {
+            if (Input.GetMouseButton(Mouse.right) || Input.GetMouseButton(Mouse.left) && height == 0) {
                 if (corners.ContainsKey(position)) {
                     corners.Remove(position);
                     RebuildMesh();
@@ -132,7 +133,30 @@ public class TerrainCreator2 : MonoBehaviour {
             if (square.rotation2 is { } actualRotation2)
                 AppendMesh(actualRotation2);
         }
+        if (meshBuilder.vertices.Count > 0) {
+            var min = new Vector2(
+                meshBuilder.vertices.Min(x => x.x),
+                meshBuilder.vertices.Min(x => x.z)
+            );
+            meshBuilder.uv[0] = new List<Vector2>();
+            foreach (var vertex in meshBuilder.vertices)
+                meshBuilder.uv[0].Add(vertex.ToVector2() - min);
+        }
         meshBuilder.PopulateMesh(ref shoreMesh);
+
+        var bounds = new RectInt {
+            xMin = corners.Keys.Min(x => x.x),
+            xMax = corners.Keys.Max(x => x.x),
+            yMin = corners.Keys.Min(x => x.y),
+            yMax = corners.Keys.Max(x => x.y)
+        };
+        var size = bounds.size + Vector2Int.one;
+        
+        if (voronoiRenderer && corners.Count > 0) {
+            voronoiRenderer.worldSize = size;
+            voronoiRenderer.Render2(size, voronoiRenderer.pixelsPerUnit);
+            voronoiRenderer.terrainMaterial.SetVector("_Splat2Size", (Vector2)size);
+        }
     }
 
     private void OnGUI() {
