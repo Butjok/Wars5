@@ -11,6 +11,7 @@ public enum TileType {
     Mountain = 1 << 3,
     Forest = 1 << 4,
     River = 1 << 5,
+    Beach = 1 << 12,
 
     City = 1 << 6,
     Hq = 1 << 7,

@@ -37,25 +37,31 @@ public static class MarchingSquares {
     public static IEnumerable<Square> EnumerateSquares(Dictionary<Vector2Int, int> corners, float threshold) {
 
         if (corners.Count == 0)
-            yield break;
+            return Enumerable.Empty<Square>();
 
-        var cornersRange = new RectInt {
-            xMin = corners.Keys.Min(x => x.x),
-            xMax = corners.Keys.Max(x => x.x),
-            yMin = corners.Keys.Min(x => x.y),
-            yMax = corners.Keys.Max(x => x.y)
+        return EnumerateSquares(
+            corners.Keys.Range(),
+            (square, corner) => (corners.TryGetValue(square + corner, out var height) ? height : 0) > threshold);
+    }
+
+    public static RectInt Range(this IReadOnlyCollection<Vector2Int> positions) {
+        return new RectInt {
+            xMin = positions.Min(x => x.x),
+            xMax = positions.Max(x => x.x),
+            yMin = positions.Min(x => x.y),
+            yMax = positions.Max(x => x.y)
         };
+    }
+
+    public static IEnumerable<Square> EnumerateSquares(RectInt cornersRange, Func<Vector2Int, Vector2Int, bool> isInside) {
 
         for (var squareMinY = cornersRange.yMin - 1; squareMinY <= cornersRange.yMax; squareMinY++)
         for (var squareMinX = cornersRange.xMin - 1; squareMinX <= cornersRange.xMax; squareMinX++) {
 
-            var bottomLeft = new Vector2Int(squareMinX, squareMinY);
-            var center = bottomLeft + Vector2.one / 2;
-            int HeightAt(Vector2Int corner) {
-                return corners.TryGetValue(bottomLeft + corner, out var height) ? height : 0;
-            }
+            var squarePosition = new Vector2Int(squareMinX, squareMinY);
+            var center = squarePosition + Vector2.one / 2;
             int CornerBit(Vector2Int corner) {
-                return HeightAt(corner) > threshold ? 1 : 0;
+                return isInside(squarePosition, corner) ? 1 : 0;
             }
             var caseMask = (CornerBit(Vector2Int.zero) << 0) +
                            (CornerBit(Vector2Int.right) << 1) +

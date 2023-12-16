@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using Butjok.CommandLine;
 using Drawing;
 using Stable;
@@ -65,33 +64,7 @@ public class RoadCreator : MonoBehaviour {
             Rebuild();
     }
 
-    public enum RoadTileType { I, L, T, X, Island, Cap }
-    public static readonly List<Vector2Int> neighbors = new();
-    public static readonly Vector2Int[] offsets = { Vector2Int.up, Vector2Int.right, Vector2Int.down, Vector2Int.left };
-    public (RoadTileType type, Vector2Int forward) DetermineTile(Vector2Int position) {
-        neighbors.Clear();
-        neighbors.AddRange(positions.Where(p => (position - p).ManhattanLength() == 1).ToList());
-        if (neighbors.Count == 0)
-            return (RoadTileType.Island, Vector2Int.up.Rotate(rotateIsland));
-        if (neighbors.Count == 1)
-            return (RoadTileType.Cap, (position - neighbors[0]).Rotate(rotateCap));
-        if (neighbors.Count == 4)
-            return (RoadTileType.X, Vector2Int.up.Rotate(rotateX));
-        if (neighbors.Count == 3) {
-            var missingPosition = offsets.Select(offset => offset + position).Except(neighbors).Single();
-            return (RoadTileType.T, (position - missingPosition).Rotate(rotateT));
-        }
-        if (neighbors.Count == 2) {
-            var offset = neighbors[0] - position;
-            // I
-            if (neighbors.Contains(position - offset))
-                return (RoadTileType.I, offset.Rotate(rotateI));
-            // L
-            var up = ((neighbors[0] - position).Rotate(3) == (neighbors[1] - position) ? neighbors[0] : neighbors[1]) - position;
-            return (RoadTileType.L, up.Rotate(rotateL));
-        }
-        throw new Exception("should be unreachable");
-    }
+    
 
     public static readonly List<Vector3> vertices = new();
     public static readonly List<int> triangles = new();
@@ -121,17 +94,17 @@ public class RoadCreator : MonoBehaviour {
         uvs0.Clear();
 
         foreach (var position in positions) {
-            var (type, forward) = DetermineTile(position);
-            var mesh = type switch {
-                RoadTileType.I => pieceI,
-                RoadTileType.L => pieceL,
-                RoadTileType.T => pieceT,
-                RoadTileType.X => pieceX,
-                RoadTileType.Island => pieceIsland,
-                RoadTileType.Cap => pieceCap,
+            var (type, forward) = RoadTiles.DetermineTile(position, positions);
+            var (mesh, actualForward) = type switch {
+                RoadTiles.Type.I => (pieceI, forward.Rotate(rotateI)),
+                RoadTiles.Type.L => (pieceL, forward.Rotate(rotateL)),
+                RoadTiles.Type.T => (pieceT, forward.Rotate(rotateT)),
+                RoadTiles.Type.X => (pieceX, forward.Rotate(rotateX)),
+                RoadTiles.Type.Isolated => (pieceIsland, forward.Rotate(rotateIsland)),
+                RoadTiles.Type.Cap => (pieceCap, forward.Rotate(rotateCap)),
                 _ => throw new ArgumentOutOfRangeException()
             };
-            var matrix = Matrix4x4.TRS(position.ToVector3(), Quaternion.LookRotation(forward.ToVector3(), Vector3.up), Vector3.one);
+            var matrix = Matrix4x4.TRS(position.ToVector3(), Quaternion.LookRotation(actualForward.ToVector3(), Vector3.up), Vector3.one);
             var verticesStart = vertices.Count;
             foreach (var vertex in mesh.vertices)
                 vertices.Add(matrix.MultiplyPoint(vertex));

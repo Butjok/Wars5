@@ -63,6 +63,7 @@
      <Compile Include="Assets/Scripts/GameStates/PlayerTurnState.cs" />
      <Compile Include="Assets/Scripts/TouchGame.cs" />
      <Compile Include="Assets/Scripts/EntryPoint/MainMenuSelectionState2.cs" />
+     <Compile Include="Assets/Scripts/BushPlacer.cs" />
      <Compile Include="Assets/Scripts/LoadingSpinner.cs" />
      <Compile Include="Assets/Scripts/Missions.Tutorial.cs" />
      <Compile Include="Assets/Scripts/BattleAnimationPlayer.cs" />
@@ -169,12 +170,14 @@
      <Compile Include="Assets/Scripts/Ai/Zone.cs" />
      <Compile Include="Assets/Scripts/GameStates/UnitBuildState.cs" />
      <Compile Include="Assets/Scripts/PlayerView2.cs" />
+     <Compile Include="Assets/Scripts/TerrainCreator2.cs" />
      <Compile Include="Assets/Scripts/Views/UiLabel.cs" />
      <Compile Include="Assets/Scripts/LevelEditor/LevelEditorPlayState.cs" />
      <Compile Include="Assets/Scripts/UiUtils.cs" />
      <Compile Include="Assets/Scripts/GameStates/GameSessionState.cs" />
      <Compile Include="Assets/Scripts/CaptureScreen.cs" />
      <Compile Include="Assets/Scripts/UnitActionUiContainer.cs" />
+     <Compile Include="Assets/Scripts/RoadTiles.cs" />
      <Compile Include="Assets/Scripts/BushTester.cs" />
      <Compile Include="Assets/Scripts/DialogueParser.cs" />
      <Compile Include="Assets/Scripts/MainMenuLoadGameState.cs" />
@@ -184,6 +187,7 @@
      <Compile Include="Assets/Scripts/VoronoiRenderer.cs" />
      <Compile Include="Assets/Scripts/NativeInterop.cs" />
      <Compile Include="Assets/Scripts/Animation/SteeringArm.cs" />
+     <Compile Include="Assets/Scripts/MarchingSquares.cs" />
      <Compile Include="Assets/Scripts/SavedGamesView.cs" />
      <Compile Include="Assets/Scripts/TextContrast.cs" />
      <Compile Include="Assets/Scripts/StaticBattleViews.cs" />
@@ -235,6 +239,7 @@
      <Compile Include="Assets/Scripts/Views/CameraFrustumUi.cs" />
      <Compile Include="Assets/Scripts/TilemapCursor.cs" />
      <Compile Include="Assets/Scripts/GameLauncher.cs" />
+     <Compile Include="Assets/Scripts/ProceduralMeshBuilder.cs" />
      <Compile Include="Assets/Scripts/UnitUi.cs" />
      <Compile Include="Assets/Scripts/UiLineRenderer.cs" />
      <Compile Include="Assets/Scripts/Body2.cs" />
@@ -264,7 +269,7 @@
      <Compile Include="Assets/Scripts/InGameOverlayMenuView.cs" />
      <Compile Include="Assets/Scripts/FuzzyMatch.cs" />
      <Compile Include="Assets/Scripts/Building.cs" />
-     <Compile Include="Assets/Scripts/AiPlayground.cs" />
+     <Compile Include="Assets/Scripts/TileMapPacker.cs" />
      <Compile Include="Assets/Scripts/ZoneDistances.cs" />
      <Compile Include="Assets/Scripts/Player.cs" />
      <Compile Include="Assets/Scripts/LevelEditor/LevelEditorSessionState.cs" />
@@ -289,10 +294,6 @@
      <Compile Include="Assets/Scripts/FlipbookTest.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
      <Compile Include="Assets/Scripts/EntryPoint/MainMenuWelcomeState.cs" />
-     <Compile Include="Assets/Scripts/TerrainCreator2.cs" />
-     <Compile Include="Assets/Scripts/MarchingSquares.cs" />
-     <Compile Include="Assets/Scripts/ProceduralMeshBuilder.cs" />
-     <Compile Include="Assets/Scripts/BushPlacer.cs" />
      <Folder Include="Assets/Scripts/EntryPoint" />
      <None Include="Assets/Scripts/Wars.asmdef" />
      <Folder Include="Assets/Scripts/DialogueMarkupLanguage" />
