@@ -55,7 +55,7 @@ public class TileMapPacker : MonoBehaviour {
                     break;
                 }
                 case "set-piece-transform": {
-                    var localScaleX = Convert.ToSingle(stack.Pop());
+                    /*var localScaleX = Convert.ToSingle(stack.Pop());
                     var rotationY = Convert.ToSingle(stack.Pop());
                     var position = (Vector3)stack.Pop();
                     var name = (string)stack.Pop();
@@ -66,7 +66,7 @@ public class TileMapPacker : MonoBehaviour {
                         piece.transform.localScale = new Vector3(localScaleX, 1, 1);
                     }
                     else
-                        Debug.LogError($"Piece with name {name} not found");
+                        Debug.LogError($"Piece with name {name} not found");*/
                     break;
                 }
                 case "set-camera-rig-transform": {
@@ -477,6 +477,8 @@ public class TileMapPacker : MonoBehaviour {
         GUI.skin = DefaultGuiSkin.TryGet;
         GUILayout.Label($"Mode:  {mode}");
         GUILayout.Label($"Quads: {quads.Count}");
+        if(mode == Mode.Test)
+            GUILayout.Label($"TileType: {tileType}");
     }
 
     public Matrix4x4 QuadMatrix(Quad quad) {
