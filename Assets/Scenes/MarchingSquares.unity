@@ -668,6 +668,8 @@ GameObject:
   m_Component:
   - component: {fileID: 219172595}
   - component: {fileID: 219172594}
+  - component: {fileID: 219172597}
+  - component: {fileID: 219172596}
   m_Layer: 0
   m_Name: map picker
   m_TagString: Untagged
@@ -687,11 +689,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23216089a34c499cbfdbdbf37593d978, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileTypes: 04000000010000002000000000100000
+  tileTypes: 0400000001000000200000000010000008000000
   seaColor: {r: 0, g: 0, b: 0.8018868, a: 1}
   plainColor: {r: 0.53631115, g: 1, b: 0, a: 1}
   riverColor: {r: 0, g: 0.7176471, b: 0.98039216, a: 1}
   beachColor: {r: 1, g: 0.66803044, b: 0.015686274, a: 1}
+  mountainColor: {r: 0.56, g: 0.23, b: 0, a: 1}
   colorAlpha: {r: 1, g: 1, b: 1, a: 1}
   fileName: TileMap
   cameraRig: {fileID: 1852965069}
@@ -702,8 +705,10 @@ MonoBehaviour:
     bottomRight: 1
     position: {x: 0, y: 0}
   schemeHeight: 0
+  meshFilter: {fileID: 219172597}
+  meshRenderer: {fileID: 219172596}
   placedPieces: []
-  mode: 0
+  mode: 2
   piecesRoot: {fileID: 543450652107410598}
   pieces:
   - {fileID: 149076761}
@@ -728,12 +733,17 @@ MonoBehaviour:
   - {fileID: 149076742}
   - {fileID: 149076741}
   - {fileID: 149076740}
-  - {fileID: 149076736}
-  - {fileID: 149076735}
-  - {fileID: 149076734}
   - {fileID: 7944985}
   - {fileID: 1161708834}
   - {fileID: 149076737}
+  - {fileID: 149076736}
+  - {fileID: 149076735}
+  - {fileID: 149076734}
+  - {fileID: 383437720}
+  - {fileID: 727988966}
+  - {fileID: 1521814194}
+  - {fileID: 1414570394}
+  - {fileID: 1492959211}
   tileType: 0
   drawScheme: 1
   labelSize: 0.1
@@ -765,6 +775,56 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!23 &219172596
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 219172593}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &219172597
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 219172593}
+  m_Mesh: {fileID: 0}
 --- !u!1 &362607964
 GameObject:
   m_ObjectHideFlags: 0
@@ -814,6 +874,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!23 &383437720 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 1714901262901842341, guid: 5df7ce134f76842dfb97ecb550a4d452, type: 3}
+  m_PrefabInstance: {fileID: 149076733}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &655474559
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1039,6 +1104,11 @@ MonoBehaviour:
   - assemblyQualifiedName: CameraFading, Wars, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   - assemblyQualifiedName: CameraFlip, Wars, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+--- !u!23 &727988966 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -74190570699924520, guid: 5df7ce134f76842dfb97ecb550a4d452, type: 3}
+  m_PrefabInstance: {fileID: 149076733}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &747270385
 GameObject:
   m_ObjectHideFlags: 0
@@ -1532,6 +1602,21 @@ MonoBehaviour:
 --- !u!23 &1161708834 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 7195912258332508970, guid: 5df7ce134f76842dfb97ecb550a4d452, type: 3}
+  m_PrefabInstance: {fileID: 149076733}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &1414570394 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -795231949355115034, guid: 5df7ce134f76842dfb97ecb550a4d452, type: 3}
+  m_PrefabInstance: {fileID: 149076733}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &1492959211 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -328063730776284411, guid: 5df7ce134f76842dfb97ecb550a4d452, type: 3}
+  m_PrefabInstance: {fileID: 149076733}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &1521814194 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7887416875318310960, guid: 5df7ce134f76842dfb97ecb550a4d452, type: 3}
   m_PrefabInstance: {fileID: 149076733}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &1810950638 stripped

@@ -16,21 +16,27 @@ public class TileMapPacker : MonoBehaviour {
         TileType.Sea,
         TileType.Plain,
         TileType.River,
-        TileType.Beach
+        TileType.Beach,
+        TileType.Mountain
     };
+
     public Color seaColor = Color.blue;
     public Color plainColor = Color.green;
     public Color riverColor = Color.cyan;
     public Color beachColor = Color.yellow;
+    public Color mountainColor = new Color(0.56f, 0.23f, 0f);
+
     public Color GetColor(TileType value) {
         return value switch {
             TileType.Sea => seaColor,
             TileType.Plain => plainColor,
             TileType.River => riverColor,
             TileType.Beach => beachColor,
+            TileType.Mountain => mountainColor,
             _ => Color.magenta
         } * colorAlpha;
     }
+
     public Color colorAlpha = new(1, 1, 1, .25f);
 
     public string fileName = "TileMap";
@@ -84,6 +90,7 @@ public class TileMapPacker : MonoBehaviour {
                     stack.ExecuteToken(token);
                     break;
             }
+
         return true;
     }
 
@@ -102,9 +109,10 @@ public class TileMapPacker : MonoBehaviour {
     }
 
     [Serializable]
-    public class Quad {
+    public class Quad : IEnumerable<TileType> {
         public TileType topRight, topLeft, bottomLeft, bottomRight;
         public Vector2 position;
+
         public Quad(TileType topLeft = default, TileType topRight = default, TileType bottomLeft = default, TileType bottomRight = default, Vector2 position = default) {
             this.topRight = topRight;
             this.topLeft = topLeft;
@@ -112,6 +120,7 @@ public class TileMapPacker : MonoBehaviour {
             this.bottomRight = bottomRight;
             this.position = position;
         }
+
         public TileType this[int x, int y] => (x, y) switch {
             (1, 1) => topRight,
             (-1, 1) => topLeft,
@@ -125,17 +134,20 @@ public class TileMapPacker : MonoBehaviour {
             this[1, -1], this[-1, -1],
             position
         );
+
         public Quad RotatedClockwise => new(
             this[-1, -1], this[-1, 1],
             this[1, -1], this[1, 1],
             position
         );
+
         public IEnumerable<Quad> AllFlips {
             get {
                 yield return this;
                 yield return FlippedHorizontally;
             }
         }
+
         public IEnumerable<Quad> AllRotations {
             get {
                 yield return this;
@@ -144,6 +156,7 @@ public class TileMapPacker : MonoBehaviour {
                 yield return RotatedClockwise.RotatedClockwise.RotatedClockwise;
             }
         }
+
         public IEnumerable<Quad> AllFlipsAndRotations {
             get {
                 foreach (var flipped in AllFlips)
@@ -151,14 +164,28 @@ public class TileMapPacker : MonoBehaviour {
                     yield return rotated;
             }
         }
+
         public bool HasSameCorners(Quad other) {
             return topRight == other.topRight && topLeft == other.topLeft && bottomLeft == other.bottomLeft && bottomRight == other.bottomRight;
         }
+
         public bool HasSameInvariant(Quad other) {
             return AllFlipsAndRotations.Any(modified => modified.HasSameCorners(other));
         }
+
+        public IEnumerator<TileType> GetEnumerator() {
+            yield return topRight;
+            yield return topLeft;
+            yield return bottomLeft;
+            yield return bottomRight;
+        }
+
         public override string ToString() {
             return $"{topLeft} {topRight} {bottomLeft} {bottomRight}";
+        }
+
+        IEnumerator IEnumerable.GetEnumerator() {
+            return GetEnumerator();
         }
     }
 
@@ -167,25 +194,35 @@ public class TileMapPacker : MonoBehaviour {
     };
 
     [Command]
-    public void GenerateAllValidInvariants() {
-
+    public void AddMissingInvariants() {
         var position = new Vector2(0, 0);
         var step = 1;
         var row = 5;
         var count = 0;
 
-        quads.Clear();
-        foreach (var a in tileTypes)
-        foreach (var b in tileTypes)
-        foreach (var c in tileTypes)
-        foreach (var d in tileTypes) {
+        IEnumerable<Quad> EnumerateWith(IReadOnlyCollection<TileType> tileTypes) {
+            var result = new HashSet<Quad>();
 
-            var values = new[] { a, b, c, d };
-            if (values.Contains(TileType.River) && values.Contains(TileType.Beach))
-                continue;
+            foreach (var a in tileTypes)
+            foreach (var b in tileTypes)
+            foreach (var c in tileTypes)
+            foreach (var d in tileTypes) {
+                var values = new[] { a, b, c, d };
+                if (values.Contains(TileType.River) && values.Contains(TileType.Beach))
+                    continue;
 
-            var quad = new Quad(a, b, c, d);
-            if (quad.AllFlipsAndRotations.Any(modified => quads.Any(q => q.HasSameCorners(modified))))
+                var quad = new Quad(a, b, c, d);
+                if (result.Any(q => q.HasSameInvariant(quad)))
+                    continue;
+
+                result.Add(quad);
+            }
+
+            return result;
+        }
+
+        foreach (var quad in EnumerateWith(tileTypes.Except(new[] { TileType.Mountain }).ToHashSet()).Concat(EnumerateWith(new[] { TileType.Sea, TileType.Mountain }))) {
+            if (quads.Any(q => q.HasSameInvariant(quad)))
                 continue;
 
             if (count++ % row == 0)
@@ -209,6 +246,7 @@ public class TileMapPacker : MonoBehaviour {
                 result = ray.GetPoint(enter).ToVector2();
                 return true;
             }
+
             result = default;
             return false;
         }
@@ -232,6 +270,7 @@ public class TileMapPacker : MonoBehaviour {
                                     quads.RemoveAt(selectedQuadIndex);
                                     break;
                                 }
+
                                 quads[selectedQuadIndex] = quad;
 
                                 using (Draw.ingame.WithMatrix(QuadMatrix(quad)))
@@ -273,6 +312,7 @@ public class TileMapPacker : MonoBehaviour {
                     Assert.IsTrue(tileTypes.Length > 0);
                     tileType = tileTypes[0];
                 }
+
                 if (Input.GetKeyDown(KeyCode.Tab))
                     tileType = tileTypes[(Array.IndexOf(tileTypes, tileType) + 1) % tileTypes.Length];
                 if (TryGetMousePosition(out var position)) {
@@ -294,8 +334,65 @@ public class TileMapPacker : MonoBehaviour {
         }
     }
 
+    public MeshFilter meshFilter;
+    public MeshRenderer meshRenderer;
+
     [Command]
     public void RebuildPieces() {
+        var materials = pieces.SelectMany(r => r.sharedMaterials).Distinct().ToList();
+        var submeshCombiners = materials.ToDictionary(m => m, _ => new List<CombineInstance>());
+
+        void AddQuadPiece(Quad quad) {
+            // find quad with the same invariant in quads
+            var foundQuad = quads.FirstOrDefault(q => q.HasSameInvariant(quad));
+            if (foundQuad != null) {
+                int TryFindRotation(Quad from, Quad to) {
+                    if (from.HasSameCorners(to))
+                        return 0;
+                    if (from.RotatedClockwise.HasSameCorners(to))
+                        return 1;
+                    if (from.RotatedClockwise.RotatedClockwise.HasSameCorners(to))
+                        return 2;
+                    if (from.RotatedClockwise.RotatedClockwise.RotatedClockwise.HasSameCorners(to))
+                        return 3;
+                    return -1;
+                }
+
+                var flipped = false;
+                var rotation = TryFindRotation(foundQuad, quad);
+                if (rotation == -1) {
+                    rotation = TryFindRotation(foundQuad.FlippedHorizontally, quad);
+                    flipped = true;
+                    Assert.IsTrue(rotation != -1);
+                }
+
+                // find piece in the same location as found quad
+                var piece = pieces.FirstOrDefault(piece => Vector2.Distance(piece.transform.position.ToVector2(), foundQuad.position) < .1f);
+                if (piece) {
+                    /*var copy = Instantiate(piece);
+                    copy.transform.localScale = new Vector3(flipped ? -1 : 1, 1, 1);
+                    copy.transform.rotation = Quaternion.Euler(0, rotation * 90, 0);
+                    copy.transform.position = quad.position.ToVector3();
+                    copy.gameObject.SetActive(true);
+                    placedPieces.Add(copy);*/
+
+                    var matrix = Matrix4x4.TRS(quad.position.ToVector3(), Quaternion.Euler(0, rotation * 90, 0), new Vector3(flipped ? -1 : 1, 1, 1));
+                    var mesh = piece.GetComponent<MeshFilter>().sharedMesh;
+                    for (var submeshIndex = 0; submeshIndex < mesh.subMeshCount; submeshIndex++)
+                        submeshCombiners[piece.sharedMaterials[submeshIndex]].Add(new CombineInstance {
+                            mesh = mesh,
+                            subMeshIndex = submeshIndex,
+                            transform = matrix
+                        });
+                }
+                else
+                    Debug.Log($"No piece found for {foundQuad}, quad position: {foundQuad.position}");
+            }
+            else
+                Debug.Log($"No quad found for {quad}");
+        }
+
+        //-------------
 
         foreach (var piece in placedPieces)
             Destroy(piece.gameObject);
@@ -312,61 +409,65 @@ public class TileMapPacker : MonoBehaviour {
         for (var x = minX - .5f; x <= maxX + .5f; x++)
         for (var y = minY - .5f; y <= maxY + .5f; y++) {
             var cornerPosition = new Vector2(x, y);
+
             TileType GetTileType(int xOffset, int yOffset) {
                 var tilePosition = new Vector2(cornerPosition.x + xOffset * .5f, cornerPosition.y + yOffset * .5f).RoundToInt();
                 return tiles.TryGetValue(tilePosition, out var result) ? result : TileType.Sea;
             }
-            var quad = new Quad(
-                GetTileType(-1, 1), GetTileType(1, 1),
-                GetTileType(-1, -1), GetTileType(1, -1),
+
+            TileType ToGroundTileType(TileType tileType) => tileType == TileType.Mountain ? TileType.Plain : tileType;
+            TileType ToMountainTileType(TileType tileType) => tileType == TileType.Mountain ? tileType : TileType.Sea;
+
+            var groundQuad = new Quad(
+                ToGroundTileType(GetTileType(-1, 1)), ToGroundTileType(GetTileType(1, 1)),
+                ToGroundTileType(GetTileType(-1, -1)), ToGroundTileType(GetTileType(1, -1)),
                 cornerPosition
             );
+            AddQuadPiece(groundQuad);
 
-            // find quad with the same invariant in quads
-            var foundQuad = quads.FirstOrDefault(q => q.HasSameInvariant(quad));
-            if (foundQuad != null) {
-
-                int TryFindRotation(Quad from, Quad to) {
-                    if (from.HasSameCorners(to))
-                        return 0;
-                    if (from.RotatedClockwise.HasSameCorners(to))
-                        return 1;
-                    if (from.RotatedClockwise.RotatedClockwise.HasSameCorners(to))
-                        return 2;
-                    if (from.RotatedClockwise.RotatedClockwise.RotatedClockwise.HasSameCorners(to))
-                        return 3;
-                    return -1;
-                }
-                var flipped = false;
-                var rotation = TryFindRotation(foundQuad, quad);
-                if (rotation == -1) {
-                    rotation = TryFindRotation(foundQuad.FlippedHorizontally, quad);
-                    flipped = true;
-                    Assert.IsTrue(rotation != -1);
-                }
-                
-                // find piece in the same location as found quad
-                var piece = pieces.FirstOrDefault(piece => Vector2.Distance(piece.transform.position.ToVector2(), foundQuad.position) < .1f);
-                if (piece) {                    
-                    var copy = Instantiate(piece);
-                    copy.transform.localScale = new Vector3(flipped ? -1 : 1, 1, 1);
-                    copy.transform.rotation = Quaternion.Euler(0, rotation * 90, 0);
-                    copy.transform.position = quad.position.ToVector3();
-                    copy.gameObject.SetActive(true);
-                    placedPieces.Add(copy);
-                }
-                else 
-                    Debug.Log($"No piece found for {foundQuad}, quad position: {foundQuad.position}");
+            var mountainQuad = new Quad(
+                ToMountainTileType(GetTileType(-1, 1)), ToMountainTileType(GetTileType(1, 1)),
+                ToMountainTileType(GetTileType(-1, -1)), ToMountainTileType(GetTileType(1, -1)),
+                cornerPosition
+            );
+            if (mountainQuad.Any(t => t == TileType.Mountain)) {
+                AddQuadPiece(mountainQuad);
             }
-            else 
-                Debug.Log($"No quad found for {quad}");
         }
+
+        if (meshFilter.sharedMesh) {
+            Destroy(meshFilter.sharedMesh);
+            meshFilter.sharedMesh = null;
+        }
+
+        var finalMaterials = new List<Material>();
+        
+        var submeshes = new List<Mesh>();
+        foreach (var material in materials) {
+            var submesh = new Mesh();
+            if (submeshCombiners[material].Count > 0) {
+                submesh.CombineMeshes(submeshCombiners[material].ToArray());
+                submeshes.Add(submesh);
+                finalMaterials.Add(material);
+            }
+        }
+
+        var combinedMesh = new Mesh();
+        combinedMesh.CombineMeshes(submeshes.Select(mesh => new CombineInstance { mesh = mesh }).ToArray(), false, false);
+        meshFilter.sharedMesh = combinedMesh;
+
+        meshRenderer.sharedMaterials = finalMaterials.ToArray();
     }
 
     public Dictionary<Vector2Int, TileType> tiles = new();
     public List<MeshRenderer> placedPieces = new();
 
-    public enum Mode { Quads, Pieces, Test }
+    public enum Mode {
+        Quads,
+        Pieces,
+        Test
+    }
+
     public Mode mode = Mode.Quads;
 
     public Transform piecesRoot;
@@ -394,6 +495,7 @@ public class TileMapPacker : MonoBehaviour {
                 return quad;
             }
         }
+
         index = -1;
         return null;
     }
@@ -421,6 +523,7 @@ public class TileMapPacker : MonoBehaviour {
             if (rect.Contains(position))
                 return piece;
         }
+
         return null;
     }
 
@@ -428,14 +531,15 @@ public class TileMapPacker : MonoBehaviour {
         TryLoad();
         StartCoroutine(Loop());
     }
+
     private void OnApplicationQuit() {
         Save();
     }
 
     [Command]
     public bool drawScheme = true;
-    public void Update() {
 
+    public void Update() {
         var shift = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
 
         if (Input.GetKeyDown(KeyCode.H))
@@ -477,7 +581,7 @@ public class TileMapPacker : MonoBehaviour {
         GUI.skin = DefaultGuiSkin.TryGet;
         GUILayout.Label($"Mode:  {mode}");
         GUILayout.Label($"Quads: {quads.Count}");
-        if(mode == Mode.Test)
+        if (mode == Mode.Test)
             GUILayout.Label($"TileType: {tileType}");
     }
 
@@ -486,7 +590,6 @@ public class TileMapPacker : MonoBehaviour {
     }
 
     public void DrawQuad(Quad quad) {
-
         colorBuffer.Clear();
         if (quads.Count(q => q.position == quad.position) > 1)
             colorBuffer.AddRange(Enumerable.Repeat(Color.red, 4));
@@ -515,44 +618,38 @@ public class TileMapPacker : MonoBehaviour {
     }
 }
 
-public static class TransformExtensions
-{
-    public static void SetFromMatrix(this Transform transform, Matrix4x4 matrix)
-    {
+public static class TransformExtensions {
+    public static void SetFromMatrix(this Transform transform, Matrix4x4 matrix) {
         transform.localScale = matrix.ExtractScale();
         transform.rotation = matrix.ExtractRotation();
         transform.position = matrix.ExtractPosition();
     }
 }
 
-public static class MatrixExtensions
-{
-    public static Quaternion ExtractRotation(this Matrix4x4 matrix)
-    {
+public static class MatrixExtensions {
+    public static Quaternion ExtractRotation(this Matrix4x4 matrix) {
         Vector3 forward;
         forward.x = matrix.m02;
         forward.y = matrix.m12;
         forward.z = matrix.m22;
- 
+
         Vector3 upwards;
         upwards.x = matrix.m01;
         upwards.y = matrix.m11;
         upwards.z = matrix.m21;
- 
+
         return Quaternion.LookRotation(forward, upwards);
     }
- 
-    public static Vector3 ExtractPosition(this Matrix4x4 matrix)
-    {
+
+    public static Vector3 ExtractPosition(this Matrix4x4 matrix) {
         Vector3 position;
         position.x = matrix.m03;
         position.y = matrix.m13;
         position.z = matrix.m23;
         return position;
     }
- 
-    public static Vector3 ExtractScale(this Matrix4x4 matrix)
-    {
+
+    public static Vector3 ExtractScale(this Matrix4x4 matrix) {
         Vector3 scale;
         scale.x = new Vector4(matrix.m00, matrix.m10, matrix.m20, matrix.m30).magnitude;
         scale.y = new Vector4(matrix.m01, matrix.m11, matrix.m21, matrix.m31).magnitude;
