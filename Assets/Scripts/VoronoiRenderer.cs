@@ -18,26 +18,37 @@ public class VoronoiRenderer : MonoBehaviour {
 
     [Command]
     public bool autoRender = true;
+
     [Command]
     public Vector2Int worldSize = new(5, 5);
+
     [Command]
     public int pixelsPerUnit = 64;
+
     [Command]
     public bool renderBushMask = false;
 
     public void Update() {
         if (autoRender)
-            Render2(worldSize, pixelsPerUnit);
+            Render();
     }
 
-    public void Render2(
-        Vector2Int worldSize, int pixelsPerUnit) {
+    [Command]
+    [ContextMenu(nameof(Export))]
+    public void Export() {
+        blurredFieldMaskRenderTexture.ToTexture2D().SaveAsPng("Assets/Textures/FieldMask.png");
+        bushMaskRenderTexture.ToTexture2D().SaveAsPng("Assets/Textures/BushMask.png");
+    }
 
-        void EnsureRenderTexture(ref RenderTexture renderTexture, Vector2Int sizeInPixels, int mipCount=0) {
+    [Command]
+    [ContextMenu(nameof(Render))]
+    public void Render() {
+        void EnsureRenderTexture(ref RenderTexture renderTexture, Vector2Int sizeInPixels, int mipCount = 0) {
             if (renderTexture && (renderTexture.width != sizeInPixels.x || renderTexture.height != sizeInPixels.y)) {
                 renderTexture.Release();
                 renderTexture = null;
             }
+
             if (!renderTexture) {
                 renderTexture = new RenderTexture(sizeInPixels.x, sizeInPixels.y, 0, RenderTextureFormat.ARGB32, mipCount);
                 if (!renderTexture.IsCreated()) {
@@ -59,9 +70,9 @@ public class VoronoiRenderer : MonoBehaviour {
 
         material.SetVector("_Size", new Vector4(worldSize.x, worldSize.y, 1, 1));
         Graphics.Blit(null, fieldMaskRenderTexture, material, material.FindPass("Voronoi"));
-        Graphics.Blit(fieldMaskRenderTexture, blurredFieldMaskRenderTexture, material, material.FindPass( "Blur"));
-        Graphics.Blit(fieldMaskRenderTexture, bushMaskRenderTexture, material, material.FindPass( "BushMask"));
-        
+        Graphics.Blit(fieldMaskRenderTexture, blurredFieldMaskRenderTexture, material, material.FindPass("Blur"));
+        Graphics.Blit(fieldMaskRenderTexture, bushMaskRenderTexture, material, material.FindPass("BushMask"));
+
         if (terrainMaterial)
             terrainMaterial.SetTexture("_Splat2", blurredFieldMaskRenderTexture);
 
@@ -70,6 +81,7 @@ public class VoronoiRenderer : MonoBehaviour {
                 previewRenderer.sharedMaterial.mainTexture = fieldMaskRenderTexture;
             previewRenderer.transform.localScale = new Vector3(worldSize.x, worldSize.y, 1);
         }
+
         if (finalPreviewRenderer) {
             if (finalPreviewRenderer.sharedMaterial)
                 finalPreviewRenderer.sharedMaterial.mainTexture = blurredFieldMaskRenderTexture;
@@ -77,15 +89,15 @@ public class VoronoiRenderer : MonoBehaviour {
         }
     }
 
-    public  Texture2D densityMap;
+    public Texture2D densityMap;
 
-    public  IEnumerable<Vector2> Distribute(RenderTexture renderTexture, Vector2Int worldSize, float densityPerSquareUnit, int seed = 0) {
-
+    public IEnumerable<Vector2> Distribute(RenderTexture renderTexture, Vector2Int worldSize, float densityPerSquareUnit, int seed = 0) {
         if (!densityMap || (densityMap.width != renderTexture.width || densityMap.height != renderTexture.height)) {
             if (densityMap) {
                 Destroy(densityMap);
                 densityMap = null;
             }
+
             densityMap = new Texture2D(renderTexture.width, renderTexture.height, TextureFormat.RFloat, 0, true);
             Assert.IsTrue(densityMap);
         }

@@ -10,6 +10,11 @@ public class ManualControl : MonoBehaviour {
     public float speed;
     public Transform target;
 
+    public void Awake() {
+        if (!target)
+            target = transform;
+    }
+    
     public void Reset() {
         target = transform;
     }

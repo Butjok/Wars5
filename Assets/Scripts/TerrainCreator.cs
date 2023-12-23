@@ -15,6 +15,7 @@ using UnityEngine.Rendering;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
+
 [RequireComponent(typeof(MeshRenderer))]
 [RequireComponent(typeof(MeshCollider))]
 [RequireComponent(typeof(MeshFilter))]
@@ -369,7 +370,7 @@ public class TerrainCreator : MonoBehaviour {
 
             if (voronoiRenderer) {
                 voronoiRenderer.worldSize = size;
-                voronoiRenderer.Render2(size, voronoiRenderer.pixelsPerUnit);
+                voronoiRenderer.Render();
             }
 
             borderTopLeft.position = new Vector3(minX + 2, 0, maxZ - 2);

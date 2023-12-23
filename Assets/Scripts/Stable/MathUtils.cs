@@ -8,12 +8,14 @@ using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Assertions;
 using static UnityEngine.Mathf;
+using Random = System.Random;
 
 public static class MathUtils {
 
     public static int Cross(this Vector2Int a, Vector2Int b) {
         return a.x * b.y - a.y * b.x;
     }
+
     public static float Cross(this Vector2 a, Vector2 b) {
         return a.x * b.y - a.y * b.x;
     }
@@ -67,6 +69,7 @@ public static class MathUtils {
     public static Vector3Int RoundToInt(this Vector3 v) {
         return new Vector3Int(Mathf.RoundToInt(v.x), Mathf.RoundToInt(v.y), Mathf.RoundToInt(v.z));
     }
+
     public static Vector3 ToVector3(this Vector3Int v) {
         return new Vector3(v.x, v.y, v.z);
     }
@@ -78,6 +81,7 @@ public static class MathUtils {
     public static T Random<T>(this T[] array) {
         return array[UnityEngine.Random.Range(0, array.Length)];
     }
+
     public static T Random<T>(this IEnumerable<T> sequence) {
         var i = 0;
         T result = default;
@@ -87,6 +91,7 @@ public static class MathUtils {
             if (UnityEngine.Random.Range(0, ++i) == 0)
                 result = item;
         }
+
         Assert.AreNotEqual(0, count, "empty sequence for Random()");
         return result;
     }
@@ -108,9 +113,11 @@ public static class MathUtils {
     public static int ManhattanLength(this Vector2Int vector) {
         return Mathf.Abs(vector.x) + Mathf.Abs(vector.y);
     }
+
     public static int ManhattanDistance(Vector2Int a, Vector2Int b) {
         return (a - b).ManhattanLength();
     }
+
     public static bool IsInRange(this int value, Vector2Int range) {
         return range[0] <= value && value <= range[1];
     }
@@ -121,12 +128,14 @@ public static class MathUtils {
         Assert.IsTrue(result >= 0);
         return result;
     }
+
     public static float PositiveModulo(this float a, float b) {
         Assert.IsTrue(b > 0);
         var result = (a % b + b) % b;
         Assert.IsTrue(result >= 0);
         return result;
     }
+
     public static float Wrap360(this float value) {
         return (value % 360 + 360) % 360;
     }
@@ -142,8 +151,8 @@ public static class MathUtils {
     public static Vector2 Abs(this Vector2 v) {
         return new Vector2(Mathf.Abs(v.x), Mathf.Abs(v.y));
     }
-    public static float SignedDistanceBox(this Vector2 samplePosition, Vector2 halfSize) {
 
+    public static float SignedDistanceBox(this Vector2 samplePosition, Vector2 halfSize) {
         var componentWiseEdgeDistance = Abs(samplePosition) - halfSize;
         var outsideDistance = Vector2.Max(componentWiseEdgeDistance, Vector2.zero).magnitude;
         var insideDistance = Mathf.Min(Mathf.Max(componentWiseEdgeDistance.x, componentWiseEdgeDistance.y), 0);
@@ -151,7 +160,6 @@ public static class MathUtils {
     }
 
     public static (Vector2Int min, Vector2Int max) GetMinMax(this IEnumerable<Vector2Int> positions) {
-
         var minX = int.MaxValue;
         var minY = int.MaxValue;
         var maxX = int.MinValue;
@@ -174,6 +182,7 @@ public static class MathUtils {
         var nextIndex = index == -1 ? 0 : (index + offset).PositiveModulo(values.Length);
         return values[nextIndex];
     }
+
     public static T GetWrapped<T>(this IReadOnlyList<T> list, int index) {
         Assert.IsTrue(list.Count > 0);
         return list[index.PositiveModulo(list.Count)];
@@ -195,12 +204,12 @@ public static class MathUtils {
             accumulator += position;
             count++;
         }
+
         Assert.AreNotEqual(0, count);
         return accumulator / count;
     }
 
     public static Vector2 Center(this IEnumerable<Vector2Int> positions) {
-
         var min = new Vector2Int(int.MaxValue, int.MaxValue);
         var max = new Vector2Int(int.MinValue, int.MinValue);
 
@@ -231,6 +240,7 @@ public static class MathUtils {
         var yiq = (color.r * 299 + color.r * 587 + color.r * 114) / 1000;
         return yiq >= 128 ? Color.black : Color.white;
     }
+
     public static Color YiqContrastColor(this Color color) {
         return YiqContrastColor((Color32)color);
     }
@@ -265,6 +275,7 @@ public static class MathUtils {
             low = Mathf.Max(0, low - high + count - 1);
             high = count - 1;
         }
+
         return (low, high);
     }
 
@@ -279,6 +290,7 @@ public static class MathUtils {
     public static Vector2Int ToVector2Int(this Vector3 vector3) {
         return vector3.ToVector2().RoundToInt();
     }
+
     public static Vector3 ToVector3(this Vector2Int vector2Int) {
         return vector2Int.ToVector3Int().ToVector3();
     }
@@ -306,12 +318,13 @@ public static class MathUtils {
             min = Vector2.Min(min, screenSpacePoint);
             max = Vector2.Max(max, screenSpacePoint);
         }
+
         return new Rect(min, max - min);
     }
 
     public static bool TryGetShortestLine(Rect a, Rect b, out Vector2 aa, out Vector2 bb) {
-
         const int min = 0, max = 1;
+
         bool TryIntersectRanges(float aMin, float aMax, float bMin, float bMax, out Vector2 ab) {
             var a = new Vector2(aMin, aMax);
             var b = new Vector2(bMin, bMax);
@@ -319,30 +332,36 @@ public static class MathUtils {
                 ab = new Vector2(a[min], b[max]);
                 return false;
             }
+
             if (b[min] > a[max]) {
                 ab = new Vector2(a[max], b[min]);
                 return false;
             }
+
             if (b[min] <= a[min] && b[max] >= a[max]) {
                 var center = (a[min] + a[max]) / 2;
                 ab = new Vector2(center, center);
                 return true;
             }
+
             if (b[min] >= a[min] && b[max] <= a[max]) {
                 var center = (b[min] + b[max]) / 2;
                 ab = new Vector2(center, center);
                 return true;
             }
+
             if (b[max] >= a[min] && b[max] <= a[max]) {
                 var center = (a[min] + b[max]) / 2;
                 ab = new Vector2(center, center);
                 return true;
             }
+
             if (b[min] >= a[min] && b[min] <= a[max]) {
                 var center = (b[min] + a[max]) / 2;
                 ab = new Vector2(center, center);
                 return true;
             }
+
             throw new Exception();
         }
 
@@ -366,5 +385,21 @@ public static class MathUtils {
 
     public static float Square(this float value) {
         return value * value;
+    }
+
+    public static T RandomElementByWeight<T>(this IEnumerable<T> sequence, float totalWeight, Func<T, float> weightSelector) {
+        // The weight we are after...
+        var itemWeightIndex = (float)new Random().NextDouble() * totalWeight;
+        float currentWeightIndex = 0;
+
+        foreach (var item in from weightedItem in sequence select new { Value = weightedItem, Weight = weightSelector(weightedItem) }) {
+            currentWeightIndex += item.Weight;
+
+            // If we've hit or passed the weight we are after for this item then it's the one we want....
+            if (currentWeightIndex >= itemWeightIndex)
+                return item.Value;
+        }
+
+        return default(T);
     }
 }

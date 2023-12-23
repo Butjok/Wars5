@@ -42,6 +42,8 @@ public class TileMapPacker : MonoBehaviour {
     public string fileName = "TileMap";
     public CameraRig cameraRig;
 
+    public UvMapper uvMapper;
+
     [Command]
     public bool TryLoad() {
         var text = LevelEditorFileSystem.TryReadLatest(fileName);
@@ -61,18 +63,7 @@ public class TileMapPacker : MonoBehaviour {
                     break;
                 }
                 case "set-piece-transform": {
-                    /*var localScaleX = Convert.ToSingle(stack.Pop());
-                    var rotationY = Convert.ToSingle(stack.Pop());
-                    var position = (Vector3)stack.Pop();
-                    var name = (string)stack.Pop();
-                    var piece = pieces.SingleOrDefault(p => p.name == name);
-                    if (piece) {
-                        piece.transform.position = position;
-                        piece.transform.rotation = Quaternion.Euler(0, rotationY, 0);
-                        piece.transform.localScale = new Vector3(localScaleX, 1, 1);
-                    }
-                    else
-                        Debug.LogError($"Piece with name {name} not found");*/
+                    // ignore
                     break;
                 }
                 case "set-camera-rig-transform": {
@@ -86,10 +77,18 @@ public class TileMapPacker : MonoBehaviour {
                     cameraRig.DollyZoom = dollyZoom;
                     break;
                 }
+                case "add-tile": {
+                    var position = (Vector2Int)stack.Pop();
+                    var tileType = (TileType)stack.Pop();
+                    tiles[position] = tileType;
+                    break;
+                }
                 default:
                     stack.ExecuteToken(token);
                     break;
             }
+        
+        RebuildPieces();
 
         return true;
     }
@@ -100,10 +99,11 @@ public class TileMapPacker : MonoBehaviour {
 
         foreach (var quad in quads)
             stringWriter.PostfixWriteLine("add-quad ( {0} {1} {2} {3} {4} )", quad.topLeft, quad.topRight, quad.bottomLeft, quad.bottomRight, quad.position);
-        foreach (var piece in pieces)
-            stringWriter.PostfixWriteLine("set-piece-transform ( {0} {1} {2} {3} )", piece.name, piece.transform.position, piece.transform.rotation.eulerAngles.y, piece.transform.localScale.x);
 
         stringWriter.PostfixWriteLine("set-camera-rig-transform ( {0} {1} {2} {3} )", cameraRig.transform.position, cameraRig.transform.rotation.eulerAngles.y, cameraRig.PitchAngle, cameraRig.DollyZoom);
+        
+        foreach (var (position, tileType) in tiles)
+            stringWriter.PostfixWriteLine("add-tile ( {0} {1} )", tileType,position);
 
         LevelEditorFileSystem.Save(fileName, stringWriter.ToString());
     }
@@ -313,8 +313,10 @@ public class TileMapPacker : MonoBehaviour {
                     tileType = tileTypes[0];
                 }
 
-                if (Input.GetKeyDown(KeyCode.Tab))
-                    tileType = tileTypes[(Array.IndexOf(tileTypes, tileType) + 1) % tileTypes.Length];
+                if (Input.GetKeyDown(KeyCode.Tab)) {
+                    var offset = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) ? -1 : 1;
+                    tileType = tileTypes[(Array.IndexOf(tileTypes, tileType) + offset + tileTypes.Length) % tileTypes.Length];
+                }
                 if (TryGetMousePosition(out var position)) {
                     var tilePosition = position.RoundToInt();
                     if (Input.GetMouseButton(Mouse.left)) {
@@ -336,6 +338,7 @@ public class TileMapPacker : MonoBehaviour {
 
     public MeshFilter meshFilter;
     public MeshRenderer meshRenderer;
+    public MeshCollider meshCollider;
 
     [Command]
     public void RebuildPieces() {
@@ -439,6 +442,10 @@ public class TileMapPacker : MonoBehaviour {
             Destroy(meshFilter.sharedMesh);
             meshFilter.sharedMesh = null;
         }
+        
+        //
+        // COMBINING PIECES INTO A SINGLE MESH
+        //
 
         var finalMaterials = new List<Material>();
         
@@ -454,13 +461,44 @@ public class TileMapPacker : MonoBehaviour {
 
         var combinedMesh = new Mesh();
         combinedMesh.CombineMeshes(submeshes.Select(mesh => new CombineInstance { mesh = mesh }).ToArray(), false, false);
-        meshFilter.sharedMesh = combinedMesh;
+        
+        //
+        // DISPLACEMENT
+        // 
+        
+        var vertices = combinedMesh.vertices;
+        for (var i = 0; i < vertices.Length; i++) {
+            var position2d = vertices[i].ToVector2();
+            var displacement = 0f;
+            var noiseScale = this.noiseScale;
+            var noiseAmplitude = this.noiseAmplitude;
+            for (var j =0 ; j < noiseOctavesCount; j++) {
+                displacement +=  Mathf.PerlinNoise(position2d.x / noiseScale.x, position2d.y / noiseScale.y) * noiseAmplitude;
+                noiseScale /= 2;
+                noiseAmplitude /= 2;
+            }
+            vertices[i] += Vector3.up * displacement;
+        }
 
+        combinedMesh.vertices = vertices;
+        combinedMesh.RecalculateBounds();
+        //combinedMesh.RecalculateNormals();
+        //combinedMesh.RecalculateTangents();
+
+        meshFilter.sharedMesh = combinedMesh;
         meshRenderer.sharedMaterials = finalMaterials.ToArray();
+        meshCollider.sharedMesh = combinedMesh;
+
+        if (uvMapper)
+            uvMapper.transform.position = new Vector2(minX - 1, minY - 1).ToVector3();
     }
 
     public Dictionary<Vector2Int, TileType> tiles = new();
     public List<MeshRenderer> placedPieces = new();
+
+    public Vector2 noiseScale = new(10,10);
+    public float noiseAmplitude = 1;
+    public int noiseOctavesCount = 3;
 
     public enum Mode {
         Quads,
@@ -527,9 +565,16 @@ public class TileMapPacker : MonoBehaviour {
         return null;
     }
 
-    public void Start() {
+    public void Awake() {
         TryLoad();
+    }
+
+    public void OnEnable() {
         StartCoroutine(Loop());
+    }
+
+    public void OnDisable() {
+        StopAllCoroutines();
     }
 
     private void OnApplicationQuit() {
