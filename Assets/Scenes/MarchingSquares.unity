@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.17628056, g: 0.22062713, b: 0.3029516, a: 1}
+  m_IndirectSpecularColor: {r: 0.17628035, g: 0.22062677, b: 0.30295074, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -712,9 +712,9 @@ MonoBehaviour:
   meshRenderer: {fileID: 219172596}
   meshCollider: {fileID: 219172598}
   placedPieces: []
-  noiseScale: {x: 2.5, y: 2.5}
+  noiseScale: {x: 5, y: 5}
   noiseAmplitude: 0.25
-  noiseOctavesCount: 3
+  noiseOctavesCount: 5
   mode: 2
   piecesRoot: {fileID: 543450652107410598}
   pieces:
@@ -1143,7 +1143,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &655474559
 PrefabInstance:
@@ -1665,56 +1665,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3ad905e073ca29d4d9e931808d6f4d88, type: 3}
---- !u!1 &1043673035
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1043673037}
-  - component: {fileID: 1043673036}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1043673036
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1043673035}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b76e453ea394d9d8d8d51b7ebec3477, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  material: {fileID: 0}
-  uniformName: _WorldToUv
-  bushRenderer: {fileID: 0}
-  bushMaskTexture: {fileID: 0}
-  resolution: {x: 1000, y: 1000}
-  maxBushesCount: 1000
---- !u!4 &1043673037
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1043673035}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 29.31999, y: -9.718007, z: -18.898142}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 9
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1060996778
 GameObject:
   m_ObjectHideFlags: 0
@@ -1763,8 +1713,9 @@ MonoBehaviour:
   uniformName: _Splat_WorldToLocal
   bushRenderer: {fileID: 0}
   bushMaskTexture: {fileID: 2800000, guid: 9ab1d75a1653f1d43be4d1114f6e3ebf, type: 3}
+  updateRealTime: 1
   resolution: {x: 1000, y: 1000}
-  maxBushesCount: 100000
+  maxBushesCount: 250000
 --- !u!1 &1069182238
 GameObject:
   m_ObjectHideFlags: 0
