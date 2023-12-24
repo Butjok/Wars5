@@ -472,12 +472,15 @@ public class TileMapPacker : MonoBehaviour {
         // 
 
         var vertices = combinedMesh.vertices;
+        var uvs = new Vector2[vertices.Length];
         var extendedTilePositions = tiles.Keys.GrownBy(1);
         var edgeTilePositions = extendedTilePositions.Where(p => (tiles.TryGetValue(p, out var t) ? t : TileType.Sea) is TileType.Beach or TileType.Sea or TileType.River).ToList();
 
         Parallel.For(0, vertices.Length, i => {
 
             var vertex2d = vertices[i].ToVector2();
+            uvs[i] = vertex2d;
+            
             var tilePosition = vertex2d.RoundToInt();
             if (!tiles.TryGetValue(tilePosition, out var t) || t == TileType.Sea)
                 return;
@@ -501,6 +504,7 @@ public class TileMapPacker : MonoBehaviour {
         }); 
 
         combinedMesh.vertices = vertices;
+        combinedMesh.uv = uvs;
         combinedMesh.RecalculateBounds();
         combinedMesh.RecalculateNormals();
         combinedMesh.RecalculateTangents();
