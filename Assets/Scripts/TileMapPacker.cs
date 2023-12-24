@@ -507,6 +507,24 @@ public class TileMapPacker : MonoBehaviour {
         combinedMesh.uv = uvs;
         combinedMesh.RecalculateBounds();
         combinedMesh.RecalculateNormals();
+        
+        // smoothen normals
+
+        var normals = combinedMesh.normals;
+        var newNormals = new Vector3[normals.Length];
+        Parallel.For(0, normals.Length, i => {
+            var accumulator = Vector3.zero;
+            var count = 0;
+            for (var j = 0;j < normals.Length; j++) {
+                if ( Vector3.Distance(vertices[i], vertices[j]) < .0001f) {
+                    accumulator += normals[j];
+                    count++;
+                }
+            }
+            newNormals[i] = accumulator / count;
+        });
+        combinedMesh.normals = newNormals;
+        
         combinedMesh.RecalculateTangents();
 
         meshFilter.sharedMesh = combinedMesh;
