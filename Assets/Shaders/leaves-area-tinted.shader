@@ -41,7 +41,7 @@ Shader "Custom/LeavesAreaTinted"
                 float3 worldPos;
             };
 
-            half4x4 _WorldToLocal;
+            half4x4 _Splat_WorldToLocal;
             half2 _Min,_Size;
             fixed4 _Emissive, _Offset;
 
@@ -95,9 +95,9 @@ Shader "Custom/LeavesAreaTinted"
  
 				half2 center = _Min + _Size/2;
 				float dist = sdfBox(IN.worldPos.xz-center, _Size/2);
-				clip(-(dist-.5));
+				//clip(-(dist-.5));
 			   
-				half3 localPos = mul(_WorldToLocal, half4(IN.worldPos, 1)).xyz;
+				half3 localPos = mul(_Splat_WorldToLocal, half4(IN.worldPos, 1)).xyz;
 				half2 uv = localPos.xz;
 				half4 splat = tex2D(_Splat2, uv);
 		   

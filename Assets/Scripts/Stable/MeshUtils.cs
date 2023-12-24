@@ -69,5 +69,22 @@ public static class MeshUtils {
         colors = new List<Color>();
     }
 
-    
+    // https://forum.unity.com/threads/get-material-of-individual-triangle.51868/
+    public static int GetSubMeshIndex(this Mesh mesh, int triangleIndex) {
+        if (mesh.isReadable == false) {
+            Debug.LogError("You need to mark model's mesh as Read/Write Enabled in Import Settings.", mesh);
+            return 0;
+        }
+
+        var triangleCounter = 0;
+        for (var subMeshIndex = 0; subMeshIndex < mesh.subMeshCount; subMeshIndex++) {
+            var indexCount = mesh.GetSubMesh(subMeshIndex).indexCount;
+            triangleCounter += indexCount / 3;
+            if (triangleIndex < triangleCounter) {
+                return subMeshIndex;
+            }
+        }
+
+        return -1;
+    }
 }

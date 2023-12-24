@@ -9,6 +9,7 @@ using Stable;
 using UnityEditor.Search;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Serialization;
 
 public class TileMapPacker : MonoBehaviour {
 
@@ -42,7 +43,7 @@ public class TileMapPacker : MonoBehaviour {
     public string fileName = "TileMap";
     public CameraRig cameraRig;
 
-    public UvMapper uvMapper;
+    [FormerlySerializedAs("uvMapper")] public TerrainMapper terrainMapper;
 
     [Command]
     public bool TryLoad() {
@@ -489,8 +490,8 @@ public class TileMapPacker : MonoBehaviour {
         meshRenderer.sharedMaterials = finalMaterials.ToArray();
         meshCollider.sharedMesh = combinedMesh;
 
-        if (uvMapper)
-            uvMapper.transform.position = new Vector2(minX - 1, minY - 1).ToVector3();
+        if (terrainMapper)
+            terrainMapper.transform.position = new Vector2(minX - 1, minY - 1).ToVector3();
     }
 
     public Dictionary<Vector2Int, TileType> tiles = new();
@@ -567,6 +568,8 @@ public class TileMapPacker : MonoBehaviour {
 
     public void Awake() {
         TryLoad();
+        if (terrainMapper)
+            terrainMapper.PlaceBushes();
     }
 
     public void OnEnable() {

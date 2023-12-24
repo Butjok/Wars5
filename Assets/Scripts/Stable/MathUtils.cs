@@ -387,19 +387,7 @@ public static class MathUtils {
         return value * value;
     }
 
-    public static T RandomElementByWeight<T>(this IEnumerable<T> sequence, float totalWeight, Func<T, float> weightSelector) {
-        // The weight we are after...
-        var itemWeightIndex = (float)new Random().NextDouble() * totalWeight;
-        float currentWeightIndex = 0;
-
-        foreach (var item in from weightedItem in sequence select new { Value = weightedItem, Weight = weightSelector(weightedItem) }) {
-            currentWeightIndex += item.Weight;
-
-            // If we've hit or passed the weight we are after for this item then it's the one we want....
-            if (currentWeightIndex >= itemWeightIndex)
-                return item.Value;
-        }
-
-        return default(T);
-    }
+    public static Vector3 Abs(this Vector3 vector3) {
+        return new Vector3(Mathf.Abs(vector3.x), Mathf.Abs(vector3.y), Mathf.Abs(vector3.z));
+    } 
 }
