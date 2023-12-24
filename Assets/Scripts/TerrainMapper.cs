@@ -22,6 +22,8 @@ public class TerrainMapper : MonoBehaviour {
     public bool drawBushRaycastOrigins = false;
     public Vector2 bushScaleRange = new(.2f, 1.5f);
 
+    public float minBushSeaLevel = .15f;
+
     public void RefreshUniforms() {
         foreach (var material in materials)
             material.SetMatrix(uniformName, transform.worldToLocalMatrix);
@@ -79,7 +81,7 @@ public class TerrainMapper : MonoBehaviour {
         for (var x = 0; x < resolution.x; x++) {
             var localPosition2d = new Vector2(x / (float)resolution.x, y / (float)resolution.y);
             var centerRayOrigin = transform.TransformPoint(localPosition2d.ToVector3());
-            if (TryRaycastTerrainAndRoads(centerRayOrigin, out var hit))
+            if (TryRaycastTerrainAndRoads(centerRayOrigin, out var hit) && hit.point.y > minBushSeaLevel)
                 for (var i = 0; i < triesCount; i++) {
                     var yaw = Random.value * 360;
                     var scale = Random.Range(bushScaleRange[0], bushScaleRange[1]);

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Butjok.CommandLine;
 using Drawing;
 using Stable;
@@ -336,31 +337,6 @@ public class TileMapPacker : MonoBehaviour {
                         }
                     }
                 }
-
-                else if (mode == Mode.EvenTiles) {
-                    foreach (var (position, height) in presetHeights) {
-                        Draw.ingame.SolidPlane(position.ToVector3(), Vector3.up, Vector2.one, new Color(1, 1, 1, .5f));
-                        Draw.ingame.Label3D(position.ToVector3(), Quaternion.Euler(90, 0, 0), height.ToString(), labelSize, Color.white);
-                    }
-
-                    var changed = false;
-                    if (Input.GetMouseButton(Mouse.left)) {
-                        if (!presetHeights.TryGetValue(tilePosition, out var oldHeight) || oldHeight != height) {
-                            presetHeights[tilePosition] = height;
-                            changed = true;
-                        }
-                    }
-                    else if (Input.GetMouseButton(Mouse.right))
-                        changed = presetHeights.Remove(tilePosition);
-                    
-                    else if (Input.GetKeyDown(KeyCode.Equals))
-                        height += heightStep;
-                    else if (Input.GetKeyDown(KeyCode.Minus))
-                        height -= heightStep;
-
-                    if (changed)
-                        RebuildPieces();
-                }
             }
         }
     }
@@ -496,21 +472,33 @@ public class TileMapPacker : MonoBehaviour {
         // 
 
         var vertices = combinedMesh.vertices;
+        var extendedTilePositions = tiles.Keys.GrownBy(1);
+        var edgeTilePositions = extendedTilePositions.Where(p => (tiles.TryGetValue(p, out var t) ? t : TileType.Sea) is TileType.Beach or TileType.Sea or TileType.River).ToList();
 
-        for (var i = 0; i < vertices.Length; i++) {
-            var position2d = vertices[i].ToVector2();
+        Parallel.For(0, vertices.Length, i => {
+
+            var vertex2d = vertices[i].ToVector2();
+            var tilePosition = vertex2d.RoundToInt();
+            if (!tiles.TryGetValue(tilePosition, out var t) || t == TileType.Sea)
+                return;
+
+            float distance = edgeTilePositions.Aggregate<Vector2Int, float>(9999, (current, position) => Mathf.Min(current, (vertex2d - position).SignedDistanceBox(.5f.ToVector2())));
+
+            var displacementMask = Mathf.Clamp01(distance / slopeLength);
+            if (displacementMask < Mathf.Epsilon)
+                return;
+
             var displacement = 0f;
             var noiseScale = this.noiseScale;
             var noiseAmplitude = this.noiseAmplitude;
             for (var j = 0; j < noiseOctavesCount; j++) {
-                displacement += Mathf.PerlinNoise(position2d.x / noiseScale.x, position2d.y / noiseScale.y) * noiseAmplitude;
+                displacement += Mathf.PerlinNoise(vertex2d.x / noiseScale.x, vertex2d.y / noiseScale.y) * noiseAmplitude;
                 noiseScale /= 2;
                 noiseAmplitude /= 2;
             }
-            vertices[i] += Vector3.up * displacement;
-            
-            // TODO: vary displacement based on tile type: eg. beach should not be displaced
-        }
+
+            vertices[i] += Vector3.up * displacementMask * displacement;
+        }); 
 
         combinedMesh.vertices = vertices;
         combinedMesh.RecalculateBounds();
@@ -531,6 +519,7 @@ public class TileMapPacker : MonoBehaviour {
     public Vector2 noiseScale = new(10, 10);
     public float noiseAmplitude = 1;
     public int noiseOctavesCount = 3;
+    public float slopeLength = 5;
 
     public enum Mode {
         Quads,
@@ -665,8 +654,6 @@ public class TileMapPacker : MonoBehaviour {
         GUILayout.Label($"Quads: {quads.Count}");
         if (mode == Mode.Test)
             GUILayout.Label($"TileType: {tileType}");
-        if (mode == Mode.EvenTiles)
-            GUILayout.Label($"Height: {height}");
     }
 
     public Matrix4x4 QuadMatrix(Quad quad) {
@@ -700,4 +687,5 @@ public class TileMapPacker : MonoBehaviour {
         //     Draw.ingame.SolidMesh(vertexBuffer, triangleBuffer, colorBuffer);
         // }
     }
+
 }

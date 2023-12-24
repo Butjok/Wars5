@@ -214,10 +214,10 @@ public static class MathUtils {
         var max = new Vector2Int(int.MinValue, int.MinValue);
 
         foreach (var position in positions) {
-            min.x = Min(min.x, position.x);
-            min.y = Min(min.y, position.y);
-            max.x = Max(min.x, position.x);
-            max.y = Max(min.y, position.y);
+            min.x = Mathf.Min(min.x, position.x);
+            min.y = Mathf.Min(min.y, position.y);
+            max.x = Mathf.Max(min.x, position.x);
+            max.y = Mathf.Max(min.y, position.y);
         }
 
         Assert.AreNotEqual(min, new Vector2Int(int.MaxValue, int.MaxValue));
@@ -390,4 +390,14 @@ public static class MathUtils {
     public static Vector3 Abs(this Vector3 vector3) {
         return new Vector3(Mathf.Abs(vector3.x), Mathf.Abs(vector3.y), Mathf.Abs(vector3.z));
     } 
+    public static Vector2 Max(this Vector2 a, Vector2 b) {
+        return new Vector2(Mathf.Max(a.x, b.x), Mathf.Max(a.y, b.y));
+    }
+    public static Vector2 Min(this Vector2 a, Vector2 b) {
+        return new Vector2(Mathf.Min(a.x, b.x), Mathf.Min(a.y, b.y));
+    }
+
+    public static Vector2 ToVector2(this float value) {
+        return new Vector2(value, value);
+    }
 }
