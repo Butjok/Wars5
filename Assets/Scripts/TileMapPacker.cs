@@ -6,7 +6,6 @@ using System.Linq;
 using Butjok.CommandLine;
 using Drawing;
 using Stable;
-using UnityEditor.Search;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Serialization;
@@ -88,7 +87,7 @@ public class TileMapPacker : MonoBehaviour {
                     stack.ExecuteToken(token);
                     break;
             }
-        
+
         RebuildPieces();
 
         return true;
@@ -102,9 +101,9 @@ public class TileMapPacker : MonoBehaviour {
             stringWriter.PostfixWriteLine("add-quad ( {0} {1} {2} {3} {4} )", quad.topLeft, quad.topRight, quad.bottomLeft, quad.bottomRight, quad.position);
 
         stringWriter.PostfixWriteLine("set-camera-rig-transform ( {0} {1} {2} {3} )", cameraRig.transform.position, cameraRig.transform.rotation.eulerAngles.y, cameraRig.PitchAngle, cameraRig.DollyZoom);
-        
+
         foreach (var (position, tileType) in tiles)
-            stringWriter.PostfixWriteLine("add-tile ( {0} {1} )", tileType,position);
+            stringWriter.PostfixWriteLine("add-tile ( {0} {1} )", tileType, position);
 
         LevelEditorFileSystem.Save(fileName, stringWriter.ToString());
     }
@@ -255,71 +254,75 @@ public class TileMapPacker : MonoBehaviour {
         while (true) {
             yield return null;
 
-            if (mode is Mode.Quads or Mode.Pieces) {
-                if (Input.GetMouseButtonDown(Mouse.left) && TryGetMousePosition(out var position)) {
-                    if (drawScheme && mode == Mode.Quads) {
-                        var quad = FindQuad(position, out var selectedQuadIndex);
-                        if (quad != null) {
-                            while (Input.GetMouseButton(Mouse.left) && TryGetMousePosition(out position)) {
-                                yield return null;
-                                quad.position = (position + new Vector2(1, 1) / 2).RoundToInt() - new Vector2(1, 1) / 2;
-                                if (Input.GetKeyDown(KeyCode.R))
-                                    quad = quad.RotatedClockwise;
-                                else if (Input.GetKeyDown(KeyCode.F))
-                                    quad = quad.FlippedHorizontally;
-                                else if (Input.GetKeyDown(KeyCode.Delete)) {
-                                    quads.RemoveAt(selectedQuadIndex);
-                                    break;
-                                }
+            if (TryGetMousePosition(out var mousePosition2d)) {
 
-                                quads[selectedQuadIndex] = quad;
+                var tilePosition = mousePosition2d.RoundToInt();
+                Draw.ingame.CircleXZ(mousePosition2d.ToVector3(), .5f, Color.white);
 
-                                using (Draw.ingame.WithMatrix(QuadMatrix(quad)))
-                                using (Draw.ingame.WithLineWidth(lineThickness))
-                                    Draw.ingame.Polyline(vertexBuffer, true, lineColor);
-                            }
-                        }
-                    }
-                    /*else if (mode == Mode.Pieces) {
-                        var piece = FindPiece(position);
-                        if (piece) {
-                            while (Input.GetMouseButton(Mouse.left) && TryGetMousePosition(out position)) {
-                                yield return null;
-                                piece.transform.position = ((position + new Vector2(1, 1) / 2).RoundToInt() - new Vector2(1, 1) / 2).ToVector3();
-                                // if (Input.GetKeyDown(KeyCode.R)) {
-                                //     var angle = piece.transform.rotation.eulerAngles.y;
-                                //     var roundedAngle = Mathf.RoundToInt(angle / 90) * 90;
-                                //     piece.transform.rotation = Quaternion.Euler(0, roundedAngle + 90, 0);
-                                // }
-                                // else if (Input.GetKeyDown(KeyCode.F)) {
-                                //     var localScale = piece.transform.localScale;
-                                //     localScale.x *= -1;
-                                //     piece.transform.localScale = localScale;
-                                // }
+                if (mode is Mode.Quads or Mode.Pieces) {
+                    if (Input.GetMouseButtonDown(Mouse.left)) {
+                        if (drawScheme && mode == Mode.Quads) {
+                            var quad = FindQuad(mousePosition2d, out var selectedQuadIndex);
+                            if (quad != null) {
+                                while (Input.GetMouseButton(Mouse.left)) {
+                                    yield return null;
+                                    quad.position = (mousePosition2d + new Vector2(1, 1) / 2).RoundToInt() - new Vector2(1, 1) / 2;
+                                    if (Input.GetKeyDown(KeyCode.R))
+                                        quad = quad.RotatedClockwise;
+                                    else if (Input.GetKeyDown(KeyCode.F))
+                                        quad = quad.FlippedHorizontally;
+                                    else if (Input.GetKeyDown(KeyCode.Delete)) {
+                                        quads.RemoveAt(selectedQuadIndex);
+                                        break;
+                                    }
 
-                                var mesh = piece.GetComponent<MeshFilter>().sharedMesh;
-                                if (mesh)
-                                    using (Draw.ingame.WithMatrix(piece.transform.localToWorldMatrix))
+                                    quads[selectedQuadIndex] = quad;
+
+                                    using (Draw.ingame.WithMatrix(QuadMatrix(quad)))
                                     using (Draw.ingame.WithLineWidth(lineThickness))
-                                        Draw.ingame.WireMesh(mesh, lineColor);
+                                        Draw.ingame.Polyline(vertexBuffer, true, lineColor);
+                                }
                             }
                         }
-                    }*/
+                        /*else if (mode == Mode.Pieces) {
+                            var piece = FindPiece(position);
+                            if (piece) {
+                                while (Input.GetMouseButton(Mouse.left) && TryGetMousePosition(out position)) {
+                                    yield return null;
+                                    piece.transform.position = ((position + new Vector2(1, 1) / 2).RoundToInt() - new Vector2(1, 1) / 2).ToVector3();
+                                    // if (Input.GetKeyDown(KeyCode.R)) {
+                                    //     var angle = piece.transform.rotation.eulerAngles.y;
+                                    //     var roundedAngle = Mathf.RoundToInt(angle / 90) * 90;
+                                    //     piece.transform.rotation = Quaternion.Euler(0, roundedAngle + 90, 0);
+                                    // }
+                                    // else if (Input.GetKeyDown(KeyCode.F)) {
+                                    //     var localScale = piece.transform.localScale;
+                                    //     localScale.x *= -1;
+                                    //     piece.transform.localScale = localScale;
+                                    // }
+    
+                                    var mesh = piece.GetComponent<MeshFilter>().sharedMesh;
+                                    if (mesh)
+                                        using (Draw.ingame.WithMatrix(piece.transform.localToWorldMatrix))
+                                        using (Draw.ingame.WithLineWidth(lineThickness))
+                                            Draw.ingame.WireMesh(mesh, lineColor);
+                                }
+                            }
+                        }*/
+                    }
                 }
-            }
 
-            else if (mode == Mode.Test) {
-                if (tileType == 0) {
-                    Assert.IsTrue(tileTypes.Length > 0);
-                    tileType = tileTypes[0];
-                }
+                else if (mode == Mode.Test) {
 
-                if (Input.GetKeyDown(KeyCode.Tab)) {
-                    var offset = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) ? -1 : 1;
-                    tileType = tileTypes[(Array.IndexOf(tileTypes, tileType) + offset + tileTypes.Length) % tileTypes.Length];
-                }
-                if (TryGetMousePosition(out var position)) {
-                    var tilePosition = position.RoundToInt();
+                    if (tileType == 0) {
+                        Assert.IsTrue(tileTypes.Length > 0);
+                        tileType = tileTypes[0];
+                    }
+
+                    if (Input.GetKeyDown(KeyCode.Tab)) {
+                        var offset = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) ? -1 : 1;
+                        tileType = tileTypes[(Array.IndexOf(tileTypes, tileType) + offset + tileTypes.Length) % tileTypes.Length];
+                    }
                     if (Input.GetMouseButton(Mouse.left)) {
                         if (!tiles.TryGetValue(tilePosition, out var type) || type != tileType) {
                             tiles[tilePosition] = tileType;
@@ -332,6 +335,31 @@ public class TileMapPacker : MonoBehaviour {
                             RebuildPieces();
                         }
                     }
+                }
+
+                else if (mode == Mode.EvenTiles) {
+                    foreach (var (position, height) in presetHeights) {
+                        Draw.ingame.SolidPlane(position.ToVector3(), Vector3.up, Vector2.one, new Color(1, 1, 1, .5f));
+                        Draw.ingame.Label3D(position.ToVector3(), Quaternion.Euler(90, 0, 0), height.ToString(), labelSize, Color.white);
+                    }
+
+                    var changed = false;
+                    if (Input.GetMouseButton(Mouse.left)) {
+                        if (!presetHeights.TryGetValue(tilePosition, out var oldHeight) || oldHeight != height) {
+                            presetHeights[tilePosition] = height;
+                            changed = true;
+                        }
+                    }
+                    else if (Input.GetMouseButton(Mouse.right))
+                        changed = presetHeights.Remove(tilePosition);
+                    
+                    else if (Input.GetKeyDown(KeyCode.Equals))
+                        height += heightStep;
+                    else if (Input.GetKeyDown(KeyCode.Minus))
+                        height -= heightStep;
+
+                    if (changed)
+                        RebuildPieces();
                 }
             }
         }
@@ -443,13 +471,13 @@ public class TileMapPacker : MonoBehaviour {
             Destroy(meshFilter.sharedMesh);
             meshFilter.sharedMesh = null;
         }
-        
+
         //
         // COMBINING PIECES INTO A SINGLE MESH
         //
 
         var finalMaterials = new List<Material>();
-        
+
         var submeshes = new List<Mesh>();
         foreach (var material in materials) {
             var submesh = new Mesh();
@@ -462,29 +490,32 @@ public class TileMapPacker : MonoBehaviour {
 
         var combinedMesh = new Mesh();
         combinedMesh.CombineMeshes(submeshes.Select(mesh => new CombineInstance { mesh = mesh }).ToArray(), false, false);
-        
+
         //
         // DISPLACEMENT
         // 
-        
+
         var vertices = combinedMesh.vertices;
+
         for (var i = 0; i < vertices.Length; i++) {
             var position2d = vertices[i].ToVector2();
             var displacement = 0f;
             var noiseScale = this.noiseScale;
             var noiseAmplitude = this.noiseAmplitude;
-            for (var j =0 ; j < noiseOctavesCount; j++) {
-                displacement +=  Mathf.PerlinNoise(position2d.x / noiseScale.x, position2d.y / noiseScale.y) * noiseAmplitude;
+            for (var j = 0; j < noiseOctavesCount; j++) {
+                displacement += Mathf.PerlinNoise(position2d.x / noiseScale.x, position2d.y / noiseScale.y) * noiseAmplitude;
                 noiseScale /= 2;
                 noiseAmplitude /= 2;
             }
             vertices[i] += Vector3.up * displacement;
+            
+            // TODO: vary displacement based on tile type: eg. beach should not be displaced
         }
 
         combinedMesh.vertices = vertices;
         combinedMesh.RecalculateBounds();
-        //combinedMesh.RecalculateNormals();
-        //combinedMesh.RecalculateTangents();
+        combinedMesh.RecalculateNormals();
+        combinedMesh.RecalculateTangents();
 
         meshFilter.sharedMesh = combinedMesh;
         meshRenderer.sharedMaterials = finalMaterials.ToArray();
@@ -497,14 +528,15 @@ public class TileMapPacker : MonoBehaviour {
     public Dictionary<Vector2Int, TileType> tiles = new();
     public List<MeshRenderer> placedPieces = new();
 
-    public Vector2 noiseScale = new(10,10);
+    public Vector2 noiseScale = new(10, 10);
     public float noiseAmplitude = 1;
     public int noiseOctavesCount = 3;
 
     public enum Mode {
         Quads,
         Pieces,
-        Test
+        Test,
+        EvenTiles
     }
 
     public Mode mode = Mode.Quads;
@@ -604,6 +636,8 @@ public class TileMapPacker : MonoBehaviour {
                 mode = Mode.Pieces;
             else if (Input.GetKeyDown(KeyCode.T))
                 mode = Mode.Test;
+            else if (Input.GetKeyDown(KeyCode.E))
+                mode = Mode.EvenTiles;
         }
 
         if (drawScheme)
@@ -631,6 +665,8 @@ public class TileMapPacker : MonoBehaviour {
         GUILayout.Label($"Quads: {quads.Count}");
         if (mode == Mode.Test)
             GUILayout.Label($"TileType: {tileType}");
+        if (mode == Mode.EvenTiles)
+            GUILayout.Label($"Height: {height}");
     }
 
     public Matrix4x4 QuadMatrix(Quad quad) {
@@ -663,45 +699,5 @@ public class TileMapPacker : MonoBehaviour {
         //     colorBuffer[0] = colorBuffer[1] = colorBuffer[2] = colorBuffer[3] = Color.red;
         //     Draw.ingame.SolidMesh(vertexBuffer, triangleBuffer, colorBuffer);
         // }
-    }
-}
-
-public static class TransformExtensions {
-    public static void SetFromMatrix(this Transform transform, Matrix4x4 matrix) {
-        transform.localScale = matrix.ExtractScale();
-        transform.rotation = matrix.ExtractRotation();
-        transform.position = matrix.ExtractPosition();
-    }
-}
-
-public static class MatrixExtensions {
-    public static Quaternion ExtractRotation(this Matrix4x4 matrix) {
-        Vector3 forward;
-        forward.x = matrix.m02;
-        forward.y = matrix.m12;
-        forward.z = matrix.m22;
-
-        Vector3 upwards;
-        upwards.x = matrix.m01;
-        upwards.y = matrix.m11;
-        upwards.z = matrix.m21;
-
-        return Quaternion.LookRotation(forward, upwards);
-    }
-
-    public static Vector3 ExtractPosition(this Matrix4x4 matrix) {
-        Vector3 position;
-        position.x = matrix.m03;
-        position.y = matrix.m13;
-        position.z = matrix.m23;
-        return position;
-    }
-
-    public static Vector3 ExtractScale(this Matrix4x4 matrix) {
-        Vector3 scale;
-        scale.x = new Vector4(matrix.m00, matrix.m10, matrix.m20, matrix.m30).magnitude;
-        scale.y = new Vector4(matrix.m01, matrix.m11, matrix.m21, matrix.m31).magnitude;
-        scale.z = new Vector4(matrix.m02, matrix.m12, matrix.m22, matrix.m32).magnitude;
-        return scale;
     }
 }
