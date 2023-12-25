@@ -45,6 +45,8 @@ public class TerrainMapper : MonoBehaviour {
             }
         }
     }
+
+    public float maxBushGap = .01f;
     
     [Command]
     public void PlaceBushes() {
@@ -89,7 +91,7 @@ public class TerrainMapper : MonoBehaviour {
                     var isValidPlacement = true;
                     foreach (var bushRayOriginLocal in bushRaycastOrigins) {
                         var bushRayOriginWorld = matrix.MultiplyPoint(bushRayOriginLocal);
-                        if (!TryRaycastTerrainAndRoads(bushRayOriginWorld, out _)) {
+                        if (!TryRaycastTerrainAndRoads(bushRayOriginWorld, out var hit2) || Vector3.Distance(bushRayOriginWorld, hit2.point) > maxBushGap) {
                             isValidPlacement = false;
                             break;
                         }
