@@ -76,6 +76,7 @@ _OutsideIntensity ("_OutsideIntensity", Range(0,1)) = 0.0
         _SeaLevel ("_SeaLevel", Float) = 0
         _SeaThickness ("_SeaThickness", Float) = 0.1
         _DeepSeaLevel ("_DeepSeaLevel", Float) = 0
+    	_DeepSeaSharpness ("_DeepSeaSharpness", Float) = 0
                 _DeepSeaThickness ("_DeepSeaThickness", Float) = 0.1
         _SeaSharpness ("_SeaSharpness", Float) = 0.1
         
@@ -118,6 +119,7 @@ _OutsideIntensity ("_OutsideIntensity", Range(0,1)) = 0.0
 float _LineDistance;
 float _LineThickness,_BorderPower;
 float _BorderOffset, _BorderThinkness, _BorderSharpness,_OutsideSmoothness,_OutsideOffset,_OutsideIntensity;
+        half _DeepSeaSharpness;
 float3 _OutsideColor,_BorderColor,_FlowerColor;
 float4 _Bounds;
 
@@ -293,7 +295,7 @@ float2 _Splat2Size;
             deepSeaNoise /= 1.25;
             
             float3 seaColor = lerp(_SeaColor, _DeepSeaColor, smoothstep(_DeepSeaLevel - _DeepSeaThickness, _DeepSeaLevel + _DeepSeaThickness ,IN.worldPos.y + noise/15));
-            o.Albedo = lerp(o.Albedo, lerp(_SeaColor, _DeepSeaColor, (deepSeaNoise+noise/5)*1.125+.33), smoothstep(_SeaLevel - _SeaSharpness, _SeaLevel + _SeaSharpness, IN.worldPos.y));//smoothstep(_SeaLevel - _SeaSharpness, _SeaLevel + _SeaSharpness ,IN.worldPos.y));
+            o.Albedo = lerp(o.Albedo, lerp(_SeaColor, _DeepSeaColor, smoothstep(_DeepSeaLevel - _DeepSeaSharpness, _DeepSeaLevel + _DeepSeaSharpness, (deepSeaNoise+noise/5)*1.125+.33)), smoothstep(_SeaLevel - _SeaSharpness, _SeaLevel + _SeaSharpness, IN.worldPos.y));//smoothstep(_SeaLevel - _SeaSharpness, _SeaLevel + _SeaSharpness ,IN.worldPos.y));
 
 
             o.Albedo = lerp(o.Albedo, _SandColor, smoothstep(_SandThickness - _SandSharpness, _SandThickness + _SandSharpness ,abs(IN.worldPos.y+ noise/50 - _SandLevel)));
