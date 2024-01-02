@@ -97,6 +97,15 @@ public class TerrainMapper : MonoBehaviour {
     }
 
     public float maxBushGap = .01f;
+
+    [Command]
+    public void ClearBushes() {
+        if (bushRenderer) {
+            bushRenderer.transforms.Clear();
+            bushRenderer.RecalculateBounds();
+            bushRenderer.UpdateGpuData();
+        }
+    }
     
     [Command]
     public void PlaceBushes() {

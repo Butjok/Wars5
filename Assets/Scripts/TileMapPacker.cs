@@ -90,6 +90,7 @@ public class TileMapPacker : MonoBehaviour {
             }
 
         RebuildPieces();
+        FinalizeMesh();
 
         return true;
     }
@@ -105,7 +106,7 @@ public class TileMapPacker : MonoBehaviour {
 
         foreach (var (position, tileType) in tiles)
             stringWriter.PostfixWriteLine("add-tile ( {0} {1} )", tileType, position);
-        
+
         LevelEditorFileSystem.Save(fileName, stringWriter.ToString());
     }
 
@@ -256,7 +257,6 @@ public class TileMapPacker : MonoBehaviour {
             yield return null;
 
             if (TryGetMousePosition(out var mousePosition2d)) {
-
                 var tilePosition = mousePosition2d.RoundToInt();
                 Draw.ingame.CircleXZ(mousePosition2d.ToVector3(), .5f, Color.white);
 
@@ -314,7 +314,6 @@ public class TileMapPacker : MonoBehaviour {
                 }
 
                 else if (mode == Mode.Test) {
-
                     if (tileType == 0) {
                         Assert.IsTrue(tileTypes.Length > 0);
                         tileType = tileTypes[0];
@@ -324,6 +323,7 @@ public class TileMapPacker : MonoBehaviour {
                         var offset = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) ? -1 : 1;
                         tileType = tileTypes[(Array.IndexOf(tileTypes, tileType) + offset + tileTypes.Length) % tileTypes.Length];
                     }
+
                     if (Input.GetMouseButton(Mouse.left)) {
                         if (!tiles.TryGetValue(tilePosition, out var type) || type != tileType) {
                             tiles[tilePosition] = tileType;
@@ -471,62 +471,69 @@ public class TileMapPacker : MonoBehaviour {
         // DISPLACEMENT
         // 
 
-        var vertices = combinedMesh.vertices;
-        var uvs = new Vector2[vertices.Length];
-        var extendedTilePositions = tiles.Keys.GrownBy(1);
-        var edgeTilePositions = extendedTilePositions.Where(p => (tiles.TryGetValue(p, out var t) ? t : TileType.Sea) is TileType.Beach or TileType.Sea or TileType.River).ToList();
-
-        Parallel.For(0, vertices.Length, i => {
-
-            var vertex2d = vertices[i].ToVector2();
-            uvs[i] = vertex2d;
+        finalizeMesh = () => {
             
-            var tilePosition = vertex2d.RoundToInt();
-            if (!tiles.TryGetValue(tilePosition, out var t) || t == TileType.Sea)
-                return;
+            var vertices = combinedMesh.vertices;
+            var uvs = new Vector2[vertices.Length];
+            var extendedTilePositions = tiles.Keys.GrownBy(1);
+            var edgeTilePositions = extendedTilePositions.Where(p => (tiles.TryGetValue(p, out var t) ? t : TileType.Sea) is TileType.Beach or TileType.Sea or TileType.River).ToList();
 
-            float distance = edgeTilePositions.Aggregate<Vector2Int, float>(9999, (current, position) => Mathf.Min(current, (vertex2d - position).SignedDistanceBox(.5f.ToVector2())));
+            Parallel.For(0, vertices.Length, i => {
+                var vertex2d = vertices[i].ToVector2();
+                uvs[i] = vertex2d;
 
-            var displacementMask = Mathf.Clamp01(distance / slopeLength);
-            if (displacementMask < Mathf.Epsilon)
-                return;
+                var tilePosition = vertex2d.RoundToInt();
+                if (!tiles.TryGetValue(tilePosition, out var t) || t == TileType.Sea)
+                    return;
 
-            var displacement = 0f;
-            var noiseScale = this.noiseScale;
-            var noiseAmplitude = this.noiseAmplitude;
-            for (var j = 0; j < noiseOctavesCount; j++) {
-                displacement += Mathf.PerlinNoise(vertex2d.x / noiseScale.x, vertex2d.y / noiseScale.y) * noiseAmplitude;
-                noiseScale /= 2;
-                noiseAmplitude /= 2;
-            }
+                float distance = edgeTilePositions.Aggregate<Vector2Int, float>(9999, (current, position) => Mathf.Min(current, (vertex2d - position).SignedDistanceBox(.5f.ToVector2())));
 
-            vertices[i] += Vector3.up * displacementMask * displacement;
-        }); 
+                var displacementMask = Mathf.Clamp01(distance / slopeLength);
+                if (displacementMask < Mathf.Epsilon)
+                    return;
 
-        combinedMesh.vertices = vertices;
-        combinedMesh.uv = uvs;
-        combinedMesh.RecalculateBounds();
-        combinedMesh.RecalculateNormals();
-        
-        // smoothen normals
-
-        var normals = combinedMesh.normals;
-        var newNormals = new Vector3[normals.Length];
-        Parallel.For(0, normals.Length, i => {
-            var accumulator = Vector3.zero;
-            var count = 0;
-            for (var j = 0;j < normals.Length; j++) {
-                if ( Vector3.Distance(vertices[i], vertices[j]) < .0001f) {
-                    accumulator += normals[j];
-                    count++;
+                var displacement = 0f;
+                var noiseScale = this.noiseScale;
+                var noiseAmplitude = this.noiseAmplitude;
+                for (var j = 0; j < noiseOctavesCount; j++) {
+                    displacement += Mathf.PerlinNoise(vertex2d.x / noiseScale.x, vertex2d.y / noiseScale.y) * noiseAmplitude;
+                    noiseScale /= 2;
+                    noiseAmplitude /= 2;
                 }
-            }
-            newNormals[i] = accumulator / count;
-        });
-        combinedMesh.normals = newNormals;
-        
-        combinedMesh.RecalculateTangents();
 
+                vertices[i] += Vector3.up * displacementMask * displacement;
+            });
+
+            combinedMesh.vertices = vertices;
+            combinedMesh.uv = uvs;
+            combinedMesh.RecalculateBounds();
+            combinedMesh.RecalculateNormals();
+
+            // smoothen normals
+
+            var normals = combinedMesh.normals;
+            var newNormals = new Vector3[normals.Length];
+            Parallel.For(0, normals.Length, i => {
+                var accumulator = Vector3.zero;
+                var count = 0;
+                for (var j = 0; j < normals.Length; j++) {
+                    if (Vector3.Distance(vertices[i], vertices[j]) < .0001f) {
+                        accumulator += normals[j];
+                        count++;
+                    }
+                }
+
+                newNormals[i] = accumulator / count;
+            });
+            combinedMesh.normals = newNormals;
+
+            combinedMesh.RecalculateTangents();
+            
+            meshFilter.sharedMesh = combinedMesh;
+            meshRenderer.sharedMaterials = finalMaterials.ToArray();
+            meshCollider.sharedMesh = combinedMesh;
+        };
+        
         meshFilter.sharedMesh = combinedMesh;
         meshRenderer.sharedMaterials = finalMaterials.ToArray();
         meshCollider.sharedMesh = combinedMesh;
@@ -534,6 +541,14 @@ public class TileMapPacker : MonoBehaviour {
         if (terrainMapper)
             terrainMapper.transform.position = new Vector2(minX - 1, minY - 1).ToVector3();
     }
+
+    [Command]
+    public void FinalizeMesh() {
+        finalizeMesh?.Invoke();
+        finalizeMesh = null;
+    }
+
+    public Action finalizeMesh;
 
     public Dictionary<Vector2Int, TileType> tiles = new();
     public List<MeshRenderer> placedPieces = new();
@@ -612,7 +627,7 @@ public class TileMapPacker : MonoBehaviour {
     public void Awake() {
         TryLoad();
         //if (terrainMapper)
-          //  terrainMapper.PlaceBushes();
+        //  terrainMapper.PlaceBushes();
     }
 
     public void OnEnable() {
