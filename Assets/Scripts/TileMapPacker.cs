@@ -105,7 +105,7 @@ public class TileMapPacker : MonoBehaviour {
 
         foreach (var (position, tileType) in tiles)
             stringWriter.PostfixWriteLine("add-tile ( {0} {1} )", tileType, position);
-
+        
         LevelEditorFileSystem.Save(fileName, stringWriter.ToString());
     }
 
@@ -611,8 +611,8 @@ public class TileMapPacker : MonoBehaviour {
 
     public void Awake() {
         TryLoad();
-        if (terrainMapper)
-            terrainMapper.PlaceBushes();
+        //if (terrainMapper)
+          //  terrainMapper.PlaceBushes();
     }
 
     public void OnEnable() {

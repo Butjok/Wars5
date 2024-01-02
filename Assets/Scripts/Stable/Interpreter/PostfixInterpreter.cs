@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
 using Butjok.CommandLine;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -41,6 +42,12 @@ public static class PostfixInterpreter {
                 return $"{Format(v.x)} {Format(v.y)} {Format(v.z)} int3";
             case Color v:
                 return $"{Format(v.r)} {Format(v.g)} {Format(v.b)} {Format(v.a)} rgba";
+            case Matrix4x4 m:
+                var sb = new StringBuilder();
+                for (var i = 0; i < 16; i++)
+                    sb.Append($"{Format(m[i])} ");
+                sb.Append("float4x4");
+                return sb.ToString();
             case string v:
                 Assert.AreNotEqual(0, v.Length);
                 Assert.IsTrue(char.IsUpper(v[0]));
@@ -58,14 +65,15 @@ public static class PostfixInterpreter {
                 if (type != null)
                     break;
             }
+
             Assert.IsNotNull(type, typeName);
             typeCache[typeName] = type;
         }
+
         return type;
     }
 
     public static void ExecuteToken(this Stack stack, string token) {
-
         if (int.TryParse(token, NumberStyles.Any, CultureInfo.InvariantCulture, out var intValue))
             stack.Push(intValue);
 
@@ -77,7 +85,6 @@ public static class PostfixInterpreter {
 
         else
             switch (token) {
-
                 case "+":
                 case "-":
                 case "*":
@@ -161,12 +168,11 @@ public static class PostfixInterpreter {
 
                 case "load": // obsolete
                 case "load-resource": {
-
                     var second = stack.Pop();
                     var first = stack.Pop();
-                    
-                    var (type,name) = (first, second) switch {
-                        (string tn, string n) => (FindType(tn),name: n),
+
+                    var (type, name) = (first, second) switch {
+                        (string tn, string n) => (FindType(tn), name: n),
                         (Type t, string n) => (t, name: n),
                         (string n, Type t) => (t, name: n),
                         _ => throw new ArgumentOutOfRangeException((first, second).ToString())
@@ -175,13 +181,12 @@ public static class PostfixInterpreter {
                     var resource = Resources.Load(name, type);
                     if (!resource)
                         Debug.Log($"resource '{name}' ({type}) was not loaded");
-                    
+
                     stack.Push(resource);
                     break;
                 }
 
                 case "enum": {
-
                     object Parse(Type type, string valueName) {
                         var parsed = Enum.TryParse(type, valueName, out var result);
                         Assert.IsTrue(parsed, (type, valueName).ToString());
@@ -221,6 +226,14 @@ public static class PostfixInterpreter {
                     var y = (dynamic)stack.Pop();
                     var x = (dynamic)stack.Pop();
                     stack.Push(new Vector3(x, y, z));
+                    break;
+                }
+
+                case "float4x4": {
+                    var m = new Matrix4x4();
+                    for (var i = 15; i >= 0; i--)
+                        m[i] = (dynamic)stack.Pop();
+                    stack.Push(m);
                     break;
                 }
 

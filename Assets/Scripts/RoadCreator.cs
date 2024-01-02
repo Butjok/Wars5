@@ -7,12 +7,13 @@ using Drawing;
 using Stable;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(MeshFilter))]
 public class RoadCreator : MonoBehaviour {
 
-    public const string autosaveName = "Autosave";
+    public const string defaultAutoSaveName = "Autosave";
 
     public Camera camera;
 
@@ -28,7 +29,7 @@ public class RoadCreator : MonoBehaviour {
     public Color color = Color.grey;
     public TerrainCreator terrainCreator;
     
-    public string loadOnAwake = autosaveName;
+    [FormerlySerializedAs("loadOnAwake")] public string autoSaveName = defaultAutoSaveName;
 
     private void Reset() {
         meshFilter = GetComponent<MeshFilter>();
@@ -130,8 +131,12 @@ public class RoadCreator : MonoBehaviour {
     public float offset = .05f;
 
     public void Awake() {
-        TryLoad(loadOnAwake);
+        TryLoad(autoSaveName);
         Rebuild();
+    }
+
+    private void OnApplicationQuit() {
+        Save(autoSaveName);
     }
 
     [Command]

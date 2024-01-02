@@ -1,9 +1,14 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Butjok.CommandLine;
 using Drawing;
 using KaimiraGames;
+using Stable;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class TerrainMapper : MonoBehaviour {
 
@@ -24,9 +29,54 @@ public class TerrainMapper : MonoBehaviour {
 
     public float minBushSeaLevel = .15f;
 
+    public const string defaultAutoSaveName = "Bushes";
+    public string autoSaveName = defaultAutoSaveName;
+
     public void RefreshUniforms() {
         foreach (var material in materials)
             material.SetMatrix(uniformName, transform.worldToLocalMatrix);
+    }
+
+    public void Awake() {
+        TryLoad(autoSaveName);
+    }
+
+    public void OnApplicationQuit() {
+        Save(autoSaveName);
+    }
+    
+    public void Save(string saveName) {
+        if (!bushRenderer)
+            return;
+        var stringWriter = new StringWriter();
+        foreach (var matrix in bushRenderer.transforms) 
+            stringWriter.PostfixWriteLine("add ( {0} )", matrix);
+        LevelEditorFileSystem.Save(saveName, stringWriter.ToString());
+    }
+
+    public bool TryLoad(string saveName) {
+        if (!bushRenderer)
+            return false;
+        var text = LevelEditorFileSystem.TryReadLatest(autoSaveName);
+        if (text == null)
+            return false;
+        var stack = new Stack();
+        bushRenderer.transforms.Clear();
+        foreach (var token in Tokenizer.Tokenize(text.ToPostfix()))
+            switch (token) {
+                case "add": {
+                    var matrix = (Matrix4x4)stack.Pop();
+                    bushRenderer.transforms.Add(matrix);
+                    break;
+                }
+                default: {
+                    stack.ExecuteToken(token);
+                    break;
+                }
+            }
+        bushRenderer.RecalculateBounds();
+        bushRenderer.UpdateGpuData();
+        return true;
     }
 
     public void Start() {
