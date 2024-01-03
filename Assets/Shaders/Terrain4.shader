@@ -18,6 +18,8 @@ Shader "Custom/Terrain4"
         _Grid ("_Grid", 2D) = "black" {}
         _Splat ("_Splat", 2D) = "black" {}
 _Distance ("_Distance", 2D) = "black" {}
+    	
+    	_ForestMask ("_ForestMask", 2D) = "black" {}
         
         
         _Glossiness ("Smoothness", Range(0,1)) = 0.5
@@ -113,6 +115,8 @@ _OutsideIntensity ("_OutsideIntensity", Range(0,1)) = 0.0
         sampler2D _Normal;
         sampler2D _StonesNormal,_StonesAlpha, _StonesAo;
         sampler2D _FlowersDiffuse,_FlowersAlpha, _FlowersAo, _Splat2;
+        sampler2D _ForestMask;
+        float4x4 _ForestMask_WorldToLocal;
         float3 _StoneColor, _GrassColor, _StoneDarkColor, _StoneLightColor, _StoneWheatColor;
         float4 _Normal_ST, _Emissive;
 
@@ -280,6 +284,24 @@ float2 _Splat2Size;
             o.Albedo = lerp(o.Albedo, _FlowerColor, flowerAlpha);
             
             //o.Occlusion = min(o.Occlusion, flowerAo);
+
+
+
+
+
+
+
+float forestMask = tex2D(_ForestMask, mul(_ForestMask_WorldToLocal, float4(IN.worldPos, 1)).xz).r;
+        	float3 forestHSV = RGBtoHSV(o.Albedo);
+        	forestHSV.y *= 1.25; // saturation
+        	forestHSV.z *= .5; // value
+        	float3 forest = HSVtoRGB(forestHSV);
+        	o.Albedo = lerp(o.Albedo, forest, forestMask);
+
+
+
+
+        	
             
 
 
@@ -335,6 +357,9 @@ float2 _Splat2Size;
             o.Emission = tileMaskEmission ;
             o.Albedo  = lerp(o.Albedo, o.Emission, (o.Emission.r + o.Emission.g + o.Emission.b) / 1);
 
+
+
+        	
         }
         ENDCG
     }

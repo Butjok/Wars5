@@ -10,6 +10,7 @@ Shader "Custom/LeavesAreaTinted"
         _DarkGrass ("_DarkGrass", Color) = (1,1,1,1)
         _Wheat ("_Wheat", Color) = (1,1,1,1)
         _YellowGrass ("_YellowGrass", Color) = (1,1,1,1)
+    	_Forest ("_Forest", Color) = (1,1,1,1)
         
          _Splat2 ("_Splat2", 2D) = "black" {}
          
@@ -18,6 +19,8 @@ Shader "Custom/LeavesAreaTinted"
          
          [HDR]_Emissive ("_Emissive", Color) = (1,1,1,1)
          _Offset ("_Offset", Vector) = (0,0,0,0)
+    	
+    	_ForestMask ("_ForestMask", 2D) = "black" {}
     }
     SubShader
     {
@@ -32,9 +35,9 @@ Shader "Custom/LeavesAreaTinted"
             // Use shader model 3.0 target, to get nicer looking lighting
             #pragma target 5.0
 
-            sampler2D _MainTex,_Occlusion,_Normal,_GlobalOcclusion, _Splat2, _TileMask;
-            half3 _Grass,_DarkGrass,_Wheat,_YellowGrass;
-            fixed4x4 _TileMask_WorldToLocal;
+            sampler2D _MainTex,_Occlusion,_Normal,_GlobalOcclusion, _Splat2, _TileMask, _ForestMask;
+            half3 _Grass,_DarkGrass,_Wheat,_YellowGrass,_Forest;
+            fixed4x4 _TileMask_WorldToLocal, _ForestMask_WorldToLocal;
 
             struct Input {
                 float2 uv_MainTex;
@@ -105,6 +108,9 @@ Shader "Custom/LeavesAreaTinted"
 				o.Albedo = lerp(o.Albedo, _DarkGrass, splat.r);
 				o.Albedo = lerp(o.Albedo, _YellowGrass, splat.b);
 				//o.Albedo = lerp(o.Albedo, _Wheat, splat.a);
+
+            	float forestMask = tex2D(_ForestMask, mul(_ForestMask_WorldToLocal, float4(IN.worldPos.x, 0, IN.worldPos.z, 1)).xz).r;
+            	o.Albedo = lerp(o.Albedo, _Forest, forestMask);
 
                 o.Albedo = lerp(o.Albedo, tint(o.Albedo, 0, 1.1, .5), 1 - inputOcclusion);
                 

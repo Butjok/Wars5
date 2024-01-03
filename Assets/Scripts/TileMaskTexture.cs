@@ -8,7 +8,7 @@ using Object = UnityEngine.Object;
 
 public static class TileMaskTexture {
 
-    public static (Texture texture, Matrix4x4 transform) Create(HashSet<Vector2Int> positions, int resolution = 1, Color? on = null, Color? off = null) {
+    public static (Texture texture, Matrix4x4 transform) Create(HashSet<Vector2Int> positions, int resolution = 1, Color? on = null, Color? off = null, FilterMode filterMode = FilterMode.Point) {
         var min = new Vector2Int(int.MaxValue, int.MaxValue);
         var max = new Vector2Int(int.MinValue, int.MinValue);
         foreach (var position in positions) {
@@ -21,14 +21,15 @@ public static class TileMaskTexture {
         min -= Vector2Int.one;
         size += 2 * Vector2Int.one;
         var transform = Matrix4x4.TRS((min - Vector2.one / 2).ToVector3(), Quaternion.identity, new Vector3(size.x, 1, size.y));
-        return (Create(size, positions.Select(p => p - min).ToHashSet(), resolution), transform);
+        return (Create(size, positions.Select(p => p - min).ToHashSet(), resolution, filterMode:filterMode), transform);
     }
 
-    public static Texture Create(Vector2Int size, HashSet<Vector2Int> setPixels, int resolution = 1, Color? on = null, Color? off = null,bool linear=true) {
+    public static Texture Create(Vector2Int size, HashSet<Vector2Int> setPixels, int resolution = 1, Color? on = null, Color? off = null,bool linear=true,
+        FilterMode filterMode = FilterMode.Point) {
         if (size.x <= 0 || size.y <= 0)
             return null;
         var texture = new Texture2D(size.x * resolution, size.y * resolution, TextureFormat.R8, false, linear) {
-            filterMode = FilterMode.Point,
+            filterMode = filterMode,
             wrapMode = TextureWrapMode.Clamp
         };
         for (var y = 0; y < size.y; y++)

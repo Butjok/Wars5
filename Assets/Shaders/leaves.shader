@@ -123,6 +123,16 @@ Shader "Custom/leaves"
                 
                 o.Albedo = shift(o.Albedo);
                 o.Emission = shift(o.Emission);
+
+                float3 albedoHSV = RGBtoHSV(o.Albedo);
+                albedoHSV.y *= 1.25; //s
+                //albedoHSV.z *= .9; //v
+                o.Albedo = HSVtoRGB(albedoHSV);
+
+                float3 emissionHSV = RGBtoHSV(o.Emission);
+                emissionHSV.z *= .75;
+                o.Emission = HSVtoRGB(emissionHSV);
+                o.Emission *= .5;
             }
             ENDCG
     }
