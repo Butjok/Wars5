@@ -112,7 +112,6 @@ public class ActionSelectionState : StateMachineState {
                 yield return new UnitAction(UnitActionType.GetIn, unit, path, other, spawnView: true);
         }
         else {
-            
             // attack
             if ((!IsArtillery(unit) || path.Count == 1) && TryGetAttackRange(unit, out var attackRange))
                 foreach (var otherPosition in level.PositionsInRange(destination, attackRange))
@@ -328,7 +327,8 @@ public class ActionSelectionState : StateMachineState {
                                     var startTime = Time.time;
                                     while (Time.time < startTime + .5f)
                                         yield return StateChange.none;
-                                    cameraRig.Jump(new Vector2Int(-21, -14).Raycast());
+                                    if (new Vector2Int(-21, -14).TryRaycast(out var hit))
+                                        cameraRig.Jump(hit.point);
                                 }
                             }
 

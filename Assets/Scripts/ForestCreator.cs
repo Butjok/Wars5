@@ -6,7 +6,6 @@ using Butjok.CommandLine;
 using Drawing;
 using Stable;
 using UnityEngine;
-using UnityEngine.Assertions;
 using UnityEngine.Serialization;
 
 public class ForestCreator : MonoBehaviour {
@@ -17,13 +16,15 @@ public class ForestCreator : MonoBehaviour {
     [FormerlySerializedAs("renderer")] public InstancedMeshRenderer2 treeRenderer;
     public Camera camera;
     public Dictionary<Vector2Int, List<Matrix4x4>> trees = new();
+    public bool wasModified = false;
 
     public void Awake() {
         TryLoad(autoSaveName);
     }
 
     public void OnApplicationQuit() {
-        Save(autoSaveName);
+        if (wasModified)
+            Save(autoSaveName);
     }
 
     public bool TryLoad(string saveName) {
@@ -117,12 +118,16 @@ public class ForestCreator : MonoBehaviour {
         trees.Add(position, list);
         UpdateTreeRenderer();
         UpdateTerrainMaterialForestMask();
+
+        wasModified = true;
     }
 
     public void RemoveTreesAt(Vector2Int position) {
         trees.Remove(position);
         UpdateTreeRenderer();
         UpdateTerrainMaterialForestMask();
+
+        wasModified = true;
     }
 
     public void UpdateTreeRenderer() {

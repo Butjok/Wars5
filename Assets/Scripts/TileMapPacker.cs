@@ -241,24 +241,16 @@ public class TileMapPacker : MonoBehaviour {
     public float schemeHeight = 0;
 
     public IEnumerator Loop() {
-        bool TryGetMousePosition(out Vector2 result) {
-            var ray = cameraRig.camera.ScreenPointToRay(Input.mousePosition);
-            var mousePlane = new Plane(Vector3.up, Vector3.up * schemeHeight);
-            if (mousePlane.Raycast(ray, out var enter)) {
-                result = ray.GetPoint(enter).ToVector2();
-                return true;
-            }
-
-            result = default;
-            return false;
-        }
 
         while (true) {
             yield return null;
 
-            if (TryGetMousePosition(out var mousePosition2d)) {
+            if (cameraRig.camera.TryPhysicsRaycast(out Vector3 hitPoint ) || cameraRig.camera.TryRaycastPlane(out hitPoint)) {
+                var mousePosition2d = hitPoint.ToVector2();
                 var tilePosition = mousePosition2d.RoundToInt();
-                Draw.ingame.CircleXZ(mousePosition2d.ToVector3(), .5f, Color.white);
+                
+                if (tilePosition.TryRaycast(out var hit))
+                    Draw.ingame.CircleXZ(hit.point, .5f, Color.white);
 
                 if (mode is Mode.Quads or Mode.Pieces) {
                     if (Input.GetMouseButtonDown(Mouse.left)) {
@@ -472,7 +464,6 @@ public class TileMapPacker : MonoBehaviour {
         // 
 
         finalizeMesh = () => {
-            
             var vertices = combinedMesh.vertices;
             var uvs = new Vector2[vertices.Length];
             var extendedTilePositions = tiles.Keys.GrownBy(1);
@@ -528,12 +519,12 @@ public class TileMapPacker : MonoBehaviour {
             combinedMesh.normals = newNormals;
 
             combinedMesh.RecalculateTangents();
-            
+
             meshFilter.sharedMesh = combinedMesh;
             meshRenderer.sharedMaterials = finalMaterials.ToArray();
             meshCollider.sharedMesh = combinedMesh;
         };
-        
+
         meshFilter.sharedMesh = combinedMesh;
         meshRenderer.sharedMaterials = finalMaterials.ToArray();
         meshCollider.sharedMesh = combinedMesh;
@@ -687,6 +678,8 @@ public class TileMapPacker : MonoBehaviour {
 
     private void OnGUI() {
         GUI.skin = DefaultGuiSkin.TryGet;
+        GUILayout.Label("Tile map editor");
+        GUILayout.Space(20);
         GUILayout.Label($"Mode:  {mode}");
         GUILayout.Label($"Quads: {quads.Count}");
         if (mode == Mode.Test)

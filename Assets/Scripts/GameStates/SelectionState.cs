@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Drawing;
+using UnityEditor.Build.Content;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -71,11 +72,11 @@ public class SelectionState : StateMachineState {
 
             var positions = unmovedUnits.Select(unit => (
                     priority: 1,
-                    coordinates: ((Vector2Int)unit.Position).Raycast(),
+                    coordinates: unit.NonNullPosition.TryRaycast(out var hit) ? hit.point : unit.NonNullPosition.ToVector3(),
                     thumbnail: GetUnitThumbnail(unit)))
                 .Concat(accessibleBuildings.Select(building => (
                     priority: 0,
-                    coordinates: building.position.Raycast(),
+                    coordinates: building.position.TryRaycast(out var hit) ? hit.point : building.position.ToVector3(),
                     thumbnail: (Sprite)null)))
                 .ToArray();
 
@@ -144,7 +145,7 @@ public class SelectionState : StateMachineState {
 
                         case (Command.Select, Vector2Int position): {
 
-                            var position3d = position.Raycast();
+                            //var position3d = position.Raycast();
 
 //                            Debug.Log($"selecting unit at {position}");
 

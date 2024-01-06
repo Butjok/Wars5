@@ -32,29 +32,32 @@ public class TerrainMapper : MonoBehaviour {
     public const string defaultAutoSaveName = "Bushes";
     public string autoSaveName = defaultAutoSaveName;
 
+    public bool bushesWereModified = false;
+
     public void RefreshUniforms() {
         foreach (var material in materials)
             material.SetMatrix(uniformName, transform.worldToLocalMatrix);
     }
 
     public void Awake() {
-        TryLoad(autoSaveName);
+        TryLoadBushes(autoSaveName);
     }
 
     public void OnApplicationQuit() {
-        Save(autoSaveName);
+        if (bushesWereModified)
+            SaveBushes(autoSaveName);
     }
-    
-    public void Save(string saveName) {
+
+    public void SaveBushes(string saveName) {
         if (!bushRenderer)
             return;
         var stringWriter = new StringWriter();
-        foreach (var matrix in bushRenderer.transforms) 
+        foreach (var matrix in bushRenderer.transforms)
             stringWriter.PostfixWriteLine("add ( {0} )", matrix);
         LevelEditorFileSystem.Save(saveName, stringWriter.ToString());
     }
 
-    public bool TryLoad(string saveName) {
+    public bool TryLoadBushes(string saveName) {
         if (!bushRenderer)
             return false;
         var text = LevelEditorFileSystem.TryReadLatest(autoSaveName);
@@ -74,6 +77,7 @@ public class TerrainMapper : MonoBehaviour {
                     break;
                 }
             }
+
         bushRenderer.RecalculateBounds();
         bushRenderer.UpdateGpuData();
         return true;
@@ -106,10 +110,9 @@ public class TerrainMapper : MonoBehaviour {
             bushRenderer.UpdateGpuData();
         }
     }
-    
+
     [Command]
     public void PlaceBushes() {
-
         if (!bushRenderer)
             return;
 
@@ -117,6 +120,7 @@ public class TerrainMapper : MonoBehaviour {
             var localPosition = transform.InverseTransformPoint(position);
             return new Vector2(localPosition.x, localPosition.z);
         }
+
         float SampleMask(Vector2 uv) {
             var pixel = bushMaskTexture.GetPixelBilinear(uv.x, uv.y);
             return pixel.r;
@@ -132,6 +136,7 @@ public class TerrainMapper : MonoBehaviour {
                         return true;
                 }
             }
+
             return false;
         }
 
@@ -155,6 +160,7 @@ public class TerrainMapper : MonoBehaviour {
                             break;
                         }
                     }
+
                     if (isValidPlacement) {
                         var mask = SampleMask(ToUv(hit.point));
                         var integerWeight = (int)(mask * 255);
@@ -165,6 +171,7 @@ public class TerrainMapper : MonoBehaviour {
                     }
                 }
         }
+
         var weightedList = new WeightedList<(RaycastHit hit, float yaw, float scale)>(samples);
 
         var targetBushCount = (int)(totalWeight / resolution.x / resolution.y * maxBushesCount);
@@ -176,5 +183,7 @@ public class TerrainMapper : MonoBehaviour {
         bushRenderer.transforms.AddRange(selected.Select(s => Matrix4x4.TRS(s.hit.point, (-s.hit.normal).ToRotation(s.yaw), Vector3.one * s.scale)));
         bushRenderer.RecalculateBounds();
         bushRenderer.UpdateGpuData();
+
+        bushesWereModified = true;
     }
 }

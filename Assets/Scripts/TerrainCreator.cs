@@ -540,7 +540,7 @@ public class TerrainCreator : MonoBehaviour {
         UpdateBushRenderer();
     }
 
-    [Command]
+    //[Command]
     public void PlaceBushes() {
         var origin = meshFilter.sharedMesh ? meshFilter.sharedMesh.bounds.min.ToVector2() : Vector2.zero;
         var uvs = voronoiRenderer.Distribute(voronoiRenderer.bushMaskRenderTexture, voronoiRenderer.worldSize, bushDensityPerUnit, bushSeed).ToList();

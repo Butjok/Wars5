@@ -25,6 +25,7 @@ public class Unit : IDisposable {
     private readonly bool initialized;
 
     private Vector2Int? position;
+
     public Vector2Int? Position {
         get => position;
         set {
@@ -34,6 +35,7 @@ public class Unit : IDisposable {
                 if (position is { } oldPosition)
                     player.level.units.Remove(oldPosition);
             }
+
             position = value;
 
             if (position is { } newPosition) {
@@ -46,6 +48,7 @@ public class Unit : IDisposable {
                 view.Visible = false;
         }
     }
+
     public Vector2Int NonNullPosition {
         get {
             if (Position is not { } value)
@@ -55,6 +58,7 @@ public class Unit : IDisposable {
     }
 
     private bool moved;
+
     public bool Moved {
         get => moved;
         set {
@@ -87,6 +91,7 @@ public class Unit : IDisposable {
     }
 
     private int fuel;
+
     public int Fuel {
         get => Fuel(this, fuel);
         set {
@@ -99,6 +104,7 @@ public class Unit : IDisposable {
     }
 
     private Player player;
+
     public Player Player {
         get => player;
         set {
@@ -112,6 +118,7 @@ public class Unit : IDisposable {
     }
 
     private Unit carrier;
+
     public Unit Carrier {
         get => carrier;
         set {
@@ -124,7 +131,6 @@ public class Unit : IDisposable {
     private Dictionary<WeaponName, int> ammo = new();
 
     public void SetAmmo(WeaponName weaponName, int value) {
-
         var found = ammo.TryGetValue(weaponName, out var amount);
         Assert.IsTrue(found, weaponName.ToString());
 
@@ -143,11 +149,13 @@ public class Unit : IDisposable {
 
     private List<Unit> cargo = new();
     public IReadOnlyList<Unit> Cargo => cargo;
+
     public void AddCargo(Unit unit) {
         Assert.IsTrue(CanGetIn(unit, this), $"{unit} -> {this}");
         cargo.Add(unit);
         view.HasCargo = true;
     }
+
     public void RemoveCargo(Unit unit) {
         var index = cargo.IndexOf(unit);
         Assert.AreNotEqual(-1, index, unit.ToString());
@@ -159,8 +167,7 @@ public class Unit : IDisposable {
     public static implicit operator UnitType(Unit unit) => unit.type;
 
     public Unit(Player player, UnitType type = UnitType.Infantry, Vector2Int? position = null, Vector2Int? lookDirection = null, int hp = int.MaxValue, int fuel = int.MaxValue, bool moved = false, UnitView viewPrefab = null
-        ) {
-        
+    ) {
         undisposed.Add(this);
 
         if (!viewPrefab)
@@ -172,7 +179,7 @@ public class Unit : IDisposable {
         view.LookDirection = lookDirection ?? player.unitLookDirection;
         view.TrySpawnUi(UnitUi.Prefab, player.level.view);
         view.ConvertToSkinnedMesh();
-        
+
         this.type = type;
         Player = player;
         Moved = moved;
@@ -189,12 +196,11 @@ public class Unit : IDisposable {
 
         brain = new UnitBrain(this);
 
-        
+
         initialized = true;
     }
 
     public void Dispose() {
-
         Assert.IsTrue(undisposed.Contains(this));
 
         foreach (var unit in cargo)
@@ -212,11 +218,20 @@ public class Unit : IDisposable {
     }
 }
 
-public static class EntityExtensions {
-    public static Vector3 Raycast(this Vector2Int position2d) {
-        return PlaceOnTerrain.TryRaycast(position2d, out var hit) ? hit.point : position2d.ToVector3Int();
+public static class RaycastExtensions {
+    public static bool TryRaycast(this Vector2 position, out RaycastHit hit) {
+        return TryRaycast(position, out hit, LayerMasks.Terrain | LayerMasks.Roads);
     }
-    public static Vector3 Raycast(this Vector2 position2d) {
-        return PlaceOnTerrain.TryRaycast(position2d, out var hit) ? hit.point : position2d.ToVector3();
+
+    public static bool TryRaycast(this Vector2 position, out RaycastHit hit, LayerMask layerMask) {
+        return Physics.Raycast(position.ToVector3() + Vector3.up * 100, Vector3.down, out hit, float.MaxValue, layerMask);
+    }
+
+    public static bool TryRaycast(this Vector2Int position, out RaycastHit hit) {
+        return position.TryRaycast(out hit, LayerMasks.Terrain | LayerMasks.Roads);
+    }
+
+    public static bool TryRaycast(this Vector2Int position, out RaycastHit hit, LayerMask layerMask) {
+        return ((Vector2)position).TryRaycast(out hit, layerMask);
     }
 }

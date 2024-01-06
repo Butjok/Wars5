@@ -17,7 +17,7 @@ public class BushPlacer : MonoBehaviour {
     [Command]
     public int bushSeed = 0;
     
-    [Command]
+    //[Command]
     public void PlaceBushes() {
         var origin = meshFilter.sharedMesh ? meshFilter.sharedMesh.bounds.min.ToVector2() : Vector2.zero;
         var uvs = voronoiRenderer.Distribute(voronoiRenderer.bushMaskRenderTexture, voronoiRenderer.worldSize, bushDensityPerUnit, bushSeed).ToList();

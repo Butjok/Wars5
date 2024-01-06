@@ -25,10 +25,11 @@ public class RoadCreator : MonoBehaviour {
     public MeshCollider meshCollider;
 
     public HashSet<Vector2Int> positions = new();
+    public HashSet<Vector2Int> loadedPositions = new();
 
     public Color color = Color.grey;
     public TerrainCreator terrainCreator;
-    
+
     [FormerlySerializedAs("loadOnAwake")] public string autoSaveName = defaultAutoSaveName;
 
     private void Reset() {
@@ -37,7 +38,6 @@ public class RoadCreator : MonoBehaviour {
     }
 
     public void Update() {
-
         var ray = camera.FixedScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out var hit, float.MaxValue, LayerMask.GetMask("Terrain"))) {
             var position = hit.point.ToVector2Int();
@@ -60,12 +60,11 @@ public class RoadCreator : MonoBehaviour {
 
         foreach (var position in positions)
             Draw.ingame.SolidPlane(position.ToVector3(), Vector3.up, Vector2.one, color);
-        
+
         if (Input.GetKeyDown(KeyCode.R))
             Rebuild();
     }
 
-    
 
     public static readonly List<Vector3> vertices = new();
     public static readonly List<int> triangles = new();
@@ -73,7 +72,6 @@ public class RoadCreator : MonoBehaviour {
 
     [Command]
     public void Rebuild() {
-
         if (positions.Count == 0) {
             meshFilter.mesh = null;
             meshCollider.sharedMesh = null;
@@ -89,7 +87,7 @@ public class RoadCreator : MonoBehaviour {
             projectedMesh = new Mesh { name = "ProjectedRoads" };
         else
             projectedMesh.Clear();
-        
+
         vertices.Clear();
         triangles.Clear();
         uvs0.Clear();
@@ -132,11 +130,15 @@ public class RoadCreator : MonoBehaviour {
 
     public void Awake() {
         TryLoad(autoSaveName);
+        loadedPositions.Clear();
+        loadedPositions.UnionWith(positions);
         Rebuild();
     }
 
     private void OnApplicationQuit() {
-        Save(autoSaveName);
+        loadedPositions.SymmetricExceptWith(positions);
+        if (loadedPositions.Count > 0)
+            Save(autoSaveName);
     }
 
     [Command]
