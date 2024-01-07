@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 public static class Easing {
 
     public enum Name {
-        InOutQuad, OutExpo, Linear, OutSine, OutQuad, OutCubic, OutCirc, InOutCirc, InQuad
+        InOutQuad, OutExpo, Linear, OutSine, OutQuad, OutCubic, OutCirc, InOutCirc, InQuad, InOutBack
     }
 
     public static float InOutQuad(float t) => t < 0.5f ? 2 * t * t : 1 - Mathf.Pow(-2 * t + 2, 2) / 2;
@@ -18,6 +18,13 @@ public static class Easing {
         ? (1 - Mathf.Sqrt(1 - Mathf.Pow(2 * t, 2))) / 2
         : (Mathf.Sqrt(1 - Mathf.Pow(-2 * t + 2, 2)) + 1) / 2;
     public static float InQuad(float t) => t * t;
+    public static float InOutBack(float x) {
+        const float c1 = 1.70158f;
+        const float c2 = c1 * 1.525f;
+        return x < 0.5
+            ? (Mathf.Pow(2 * x, 2) * ((c2 + 1) * 2 * x - c2)) / 2
+            : (Mathf.Pow(2 * x - 2, 2) * ((c2 + 1) * (x * 2 - 2) + c2) + 2) / 2;
+    }
 
     public static float Dynamic(Name name, float t) {
         return name switch {
@@ -29,7 +36,8 @@ public static class Easing {
             Name.OutCubic => OutCubic(t),
             Name.OutCirc => OutCirc(t),
             Name.InOutCirc => InOutCirc(t),
-            Name.InQuad=>InQuad(t),
+            Name.InQuad => InQuad(t),
+            Name.InOutBack => InOutBack(t),
             _ => throw new ArgumentOutOfRangeException(nameof(name), name, null)
         };
     }
