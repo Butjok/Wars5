@@ -1321,6 +1321,9 @@ MonoBehaviour:
   useCurve: 0
   footSpeedFactor: 1
   minFootSpeed: 10
+  factor: 1
+  walkingLayerWeight: 0
+  walkingLayerChangeSpeed: 1
   height: 1.4
   body: {fileID: 1926118606}
   stepWidth: 0.5
@@ -2845,7 +2848,7 @@ MonoBehaviour:
   - {fileID: 1763266293}
   - {fileID: 1763266292}
   drawDebug: 0
-  footRotationIntensity: 50
+  footRotationIntensity: 5
   stepSize: 0.35
   resetLocation: 7
   floatingFootDistanceThreshold: 1000
@@ -2861,8 +2864,11 @@ MonoBehaviour:
   maxDuration: 0.5
   easing: 0
   useCurve: 1
-  footSpeedFactor: 0.25
+  footSpeedFactor: 0.33
   minFootSpeed: 5
+  factor: 0.25
+  walkingLayerWeight: 0
+  walkingLayerChangeSpeed: 2.5
   height: 2.2
   body: {fileID: 460918103}
   stepWidth: 0.25
@@ -2885,11 +2891,11 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0.99853516
       value: 0.9920654
-      inSlope: -1.3526684
-      outSlope: -1.3526684
+      inSlope: -2.3579159
+      outSlope: -2.3579159
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.062605776
+      inWeight: 0.040609132
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -3659,6 +3665,9 @@ MonoBehaviour:
   useCurve: 0
   footSpeedFactor: 0.25
   minFootSpeed: 5
+  factor: 1
+  walkingLayerWeight: 0
+  walkingLayerChangeSpeed: 1
   height: 2.65
   body: {fileID: 1663965677}
   stepWidth: 0.25

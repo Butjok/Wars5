@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 
 public class BipedalWalker : MonoBehaviour {
-    
+
     public float location;
     public Vector2 footLocationRange = new(-1, 1);
     public Vector3? oldPosition;
@@ -53,7 +53,7 @@ public class BipedalWalker : MonoBehaviour {
         return Physics.Raycast(origin + Vector3.up * 100, Vector3.down, out hit, float.MaxValue, LayerMasks.Terrain | LayerMasks.Roads);
     }
 
-    public IEnumerator FootMovement(int side, RaycastHit target, float? maxDuration = null) {
+    public IEnumerator FootMovement(int side, RaycastHit target, float? maxDuration = null, Func<float,float> easing = null) {
         var startTime = Time.time;
         var oldTarget = footTargets[side];
         var manualControl = GetComponent<ManualControl>();
@@ -62,19 +62,20 @@ public class BipedalWalker : MonoBehaviour {
         while (Time.time - startTime < duration) {
             var t = (Time.time - startTime) / duration;
             // t = stepCurve.Evaluate(t);
-            t = useCurve ? stepCurve.Evaluate(t) : Easing.Dynamic(easing, t);
+            //t = useCurve ? stepCurve.Evaluate(t) : Easing.Dynamic(easing, t);
+            t = (easing ?? stepCurve.Evaluate)(t);
             footTargets[side].point = Vector3.LerpUnclamped(oldTarget.point, target.point, t);
             footTargets[side].normal = Vector3.LerpUnclamped(oldTarget.normal, target.normal, t);
             yield return null;
         }
         footTargets[side] = target;
     }
-    public IEnumerator FootMovement(int side, float direction, float? maxDuration = null) {
-        return TryRaycast(side, direction, out var hit) ? FootMovement(side, hit, maxDuration) : null;
+    public IEnumerator FootMovement(int side, float direction, float? maxDuration = null, Func<float,float> easing = null) {
+        return TryRaycast(side, direction, out var hit) ? FootMovement(side, hit, maxDuration, easing) : null;
     }
     public IEnumerator FeetResetMovement(float left, float right) {
-        yield return FootMovement(0, left, feetResetDuration);
-        yield return FootMovement(1, right, feetResetDuration);
+        yield return FootMovement(0, left, feetResetDuration, Easing.InOutQuad);
+        yield return FootMovement(1, right, feetResetDuration, Easing.InOutQuad);
     }
 
     public void Start() {
@@ -85,16 +86,30 @@ public class BipedalWalker : MonoBehaviour {
     public float minFootSpeed = 10;
 
     public Stack<IEnumerator> coroutineStack = new();
+    public float factor = 1;
 
+    public float walkingLayerWeight = 0;
+    public float walkingLayerChangeSpeed = 1;
+    
     public void LateUpdate() {
 
-        if (Input.GetKeyDown(KeyCode.P)) {
-            var animator = GetComponent<Animator>();
-            if (animator) {
-                animator.SetTrigger("StartWavingArms");
-            }
-        }
+        var leftFootOffset = transform.InverseTransformPoint(feetBones[left].position).z / stepLength;
         
+
+        var manualControl = GetComponent<ManualControl>();
+        var animator = GetComponent<Animator>();
+        var walkingCycleAnimation = animator.runtimeAnimatorController.animationClips[0];
+        var length = walkingCycleAnimation.length;
+        //animator.SetFloat("Time", animator.GetFloat("Time") + Time.deltaTime);
+        var targetWalkingLayerWeight = MathUtils.SmoothStep(.5f, 1, Mathf.Abs(manualControl.speed));
+        var difference = Mathf.Abs(targetWalkingLayerWeight - walkingLayerWeight);
+        var maxChangeThisFrame = Time.deltaTime * walkingLayerChangeSpeed;
+        walkingLayerWeight = maxChangeThisFrame > difference ? targetWalkingLayerWeight : Mathf.Lerp(walkingLayerWeight, targetWalkingLayerWeight, maxChangeThisFrame / difference);
+        animator.SetLayerWeight(animator.GetLayerIndex("WalkingLayer"), walkingLayerWeight);
+        animator.SetFloat("Time", animator.GetFloat("Time") + manualControl.speed * factor * Time.deltaTime);
+        
+        //Debug.Log(leftFootOffset + .5f);
+
         while (coroutineStack.Count > 0) {
             var top = coroutineStack.Peek();
             if (top.MoveNext()) {
@@ -117,10 +132,8 @@ public class BipedalWalker : MonoBehaviour {
             if (coroutineStack.Count == 0 && Vector2.Distance(feetBones[side].position.ToVector2(), (hipBones[side].position + transform.forward * stepForwardOffset).ToVector2()) > stepLength) {
                 if (side == left)
                     coroutineStack.Push(FootMovement(left, 1));
-                else {
-                    var leftFootOffset = transform.InverseTransformPoint(feetBones[left].position).z / stepLength;
+                else
                     coroutineStack.Push(FootMovement(right, leftFootOffset + 1));
-                }
             }
 
         if (transform.position == oldPosition && coroutineStack.Count == 0)
