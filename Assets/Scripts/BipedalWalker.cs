@@ -18,7 +18,6 @@ public class BipedalWalker : MonoBehaviour {
     public IEnumerator[] feetMovementCoroutines = new IEnumerator[2];
 
     public float duration = .1f;
-    public Easing.Name easing = Easing.Name.Linear;
 
     public RaycastHit[] footTargets = new RaycastHit[2];
     public Transform[] hipJoints = new Transform[2];
@@ -48,6 +47,9 @@ public class BipedalWalker : MonoBehaviour {
 
     public Color[] colors = { Color.red, Color.green, };
     public float maxDuration = .5f;
+    
+    public Easing.Name easing = Easing.Name.InOutQuad;
+    public bool useCurve = false;
 
     public bool TryRaycast(int side, float direction, out RaycastHit hit) {
         var origin = (direction + stepForwardOffset) * transform.forward * stepLength + hipJoints[side].position;
@@ -62,7 +64,8 @@ public class BipedalWalker : MonoBehaviour {
         var duration = Mathf.Min(maxDuration, distance / Mathf.Abs(manualControl.speed) * footSpeedFactor);
         while (Time.time - startTime < duration) {
             var t = (Time.time - startTime) / duration;
-            t = stepCurve.Evaluate(t);
+            // t = stepCurve.Evaluate(t);
+            t = useCurve ? stepCurve.Evaluate(t) : Easing.Dynamic(easing, t);
             footTargets[side].point = Vector3.LerpUnclamped(oldTarget.point, target.point, t);
             footTargets[side].normal = Vector3.LerpUnclamped(oldTarget.normal, target.normal, t);
             yield return null;
