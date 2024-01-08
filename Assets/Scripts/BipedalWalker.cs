@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using Drawing;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -18,9 +20,8 @@ public class BipedalWalker : MonoBehaviour {
     public float duration = .1f;
     public Easing.Name easing = Easing.Name.Linear;
 
-    public Vector3[] feet = new Vector3[2];
-    [FormerlySerializedAs("hips")] public Transform[] hipJoints = new Transform[2];
-    public RaycastHit[] footRaycastHits = new RaycastHit[2];
+    public RaycastHit[] footTargets = new RaycastHit[2];
+    public Transform[] hipJoints = new Transform[2];
 
     public float legLength = .5f;
 
@@ -36,43 +37,94 @@ public class BipedalWalker : MonoBehaviour {
 
     public float floatingFootDistanceThreshold = .1f;
 
-    public void Start() {
-        location = resetLocation;
-        feetLocations[left] = feetLocations[right] = -10000;
+    public float stepLength = .5f;
+    public float stepTriggerLength = .5f;
+    public IEnumerator footMovementCoroutine = null;
+    public float feetTargetMovementSpeed = 1;
+    public int[] sign = new int[2];
+    public int[] previousSign = new int[2];
+
+    public float minStepLength = .25f;
+
+    public Color[] colors = { Color.red, Color.green, };
+    public float maxDuration = .5f;
+
+    public bool TryRaycast(int side, float direction, out RaycastHit hit) {
+        var origin = (direction + stepForwardOffset) * transform.forward * stepLength + hipJoints[side].position;
+        return Physics.Raycast(origin + Vector3.up * 100, Vector3.down, out hit, float.MaxValue, LayerMasks.Terrain | LayerMasks.Roads);
     }
+
+    public IEnumerator FootMovement(int side, RaycastHit target, bool clearOnFinish = true) {
+        var startTime = Time.time;
+        var oldTarget = footTargets[side];
+        var manualControl = GetComponent<ManualControl>();
+        var distance = Vector2.Distance(oldTarget.point.ToVector2(), target.point.ToVector2());
+        var duration = Mathf.Min(maxDuration, distance / Mathf.Abs(manualControl.speed) * footSpeedFactor);
+        while (Time.time - startTime < duration) {
+            var t = (Time.time - startTime) / duration;
+            t = stepCurve.Evaluate(t);
+            footTargets[side].point = Vector3.LerpUnclamped(oldTarget.point, target.point, t);
+            footTargets[side].normal = Vector3.LerpUnclamped(oldTarget.normal, target.normal, t);
+            yield return null;
+        }
+        footTargets[side] = target;
+        if (clearOnFinish)
+            footMovementCoroutine = null;
+    }
+    public IEnumerator FootMovement(int side, float direction, bool clearOnFinish = true) {
+        return TryRaycast(side, direction, out var hit) ? FootMovement(side, hit, clearOnFinish) : null;
+    }
+    public IEnumerator FeetMovement(float left, float right) {
+        yield return FootMovement(0, left, false);
+        yield return FootMovement(1, right);
+    }
+
+    public void Start() {
+        footMovementCoroutine = FeetMovement(.5f, -.5f);
+        StartCoroutine(footMovementCoroutine);
+    }
+
+    public float footSpeedFactor = 1;
+    public float minFootSpeed = 10;
 
     public void Update() {
 
-        if (oldPosition is { } actualOldPosition) {
-            var deltaPosition = transform.position - actualOldPosition;
-            location += Vector3.Dot(transform.forward, deltaPosition);
-        }
+        if (drawDebug)
+            for (var side = left; side <= right; side++) {
+                var hipWorldPosition = (hipJoints[side].position + transform.forward * stepForwardOffset).ToVector2();
+                Draw.ingame.SolidCircleXZ(footTargets[side].point, .1f, colors[side]);
+                Draw.ingame.CircleXZ(hipWorldPosition.ToVector3(), stepTriggerLength, Color.white);
+            }
 
-        if (Input.GetKey(KeyCode.R)) {
-            location = resetLocation;
-            feetLocations[left] = feetLocations[right] = -10000;
+        if (footMovementCoroutine == null) {
+
+            for (var side = left; side <= right; side++)
+                if (footMovementCoroutine == null && Vector2.Distance(feetBones[side].position.ToVector2(), (hipJoints[side].position + transform.forward * stepForwardOffset).ToVector2()) > stepLength) {
+                    if (side == left) {
+                        footMovementCoroutine = FootMovement(side, 1);
+                        StartCoroutine(footMovementCoroutine);
+                    }
+                    else {
+                        var leftFootOffset = transform.InverseTransformPoint(feetBones[left].position).z / stepLength;
+                        footMovementCoroutine = FootMovement(right, leftFootOffset + 1);
+                        StartCoroutine(footMovementCoroutine);
+                    }
+                }
+
+            if (transform.position == oldPosition && footMovementCoroutine == null) {
+                footMovementCoroutine = FeetMovement(.5f, -.5f);
+                StartCoroutine(footMovementCoroutine);
+            }
         }
 
         for (var side = left; side <= right; side++) {
-            var targetLocation = GetFootTargetLocation(side);
-            if ((Math.Abs(feetLocations[side] - targetLocation) > Mathf.Epsilon || Vector3.Distance(feet[side], feetBones[side].position) > floatingFootDistanceThreshold)
-                && feetMovementCoroutines[side] == null 
-                && TryRaycastFootTargetPosition(side, targetLocation, out var hit)) {
-                footRaycastHits[side] = hit;
-
-                //Draw.ingame.Cross(footRaycastHits[side].point, .1f, Color.yellow);
-
-                feetLocations[side] = targetLocation;
-                var coroutine = feetMovementCoroutines[side] = MoveFoot(side);
-                StartCoroutine(coroutine);
-            }
 
             var hipJoint = hipJoints[side];
             // 2d space starting at the hip joint going right along X axis
             var hipCircle2d = (center: Vector2.zero, radius: legLength / 2);
-            var footCircle2d = (center: new Vector2(Vector3.Distance(hipJoint.position, feet[side]), 0), radius: legLength / 2);
+            var footCircle2d = (center: new Vector2(Vector3.Distance(hipJoint.position, footTargets[side].point), 0), radius: legLength / 2);
 
-            var directionAlongLeg = (feet[side] - hipJoint.position).normalized;
+            var directionAlongLeg = (footTargets[side].point - hipJoint.position).normalized;
             var bendForwardDirection = Vector3.Cross(directionAlongLeg, transform.right);
 
             Vector3 footPosition, kneePosition;
@@ -84,8 +136,8 @@ public class BipedalWalker : MonoBehaviour {
                 var projectedHip2d = Vector2.Dot(hip2d, Vector2.right) * Vector2.right;
                 var bend2d = intersectionPoint2d - projectedHip2d;
                 var bendAmount = bend2d.magnitude;
-                footPosition = feet[side];
-                kneePosition = Vector3.Lerp(hipJoint.position, feet[side], .5f) + bendAmount * bendForwardDirection;
+                footPosition = footTargets[side].point;
+                kneePosition = Vector3.Lerp(hipJoint.position, footTargets[side].point, .5f) + bendAmount * bendForwardDirection;
                 isTouchingGround = true;
             }
             // straight leg, cannot reach up to foot target
@@ -117,14 +169,14 @@ public class BipedalWalker : MonoBehaviour {
             var footBone = feetBones[side];
             if (footBone) {
                 footBone.position = footPosition;
-                var targetRotation = Quaternion.LookRotation(isTouchingGround ? footRaycastHits[side].normal : kneePosition - footPosition, transform.forward);
+                var targetRotation = Quaternion.LookRotation(isTouchingGround ? footTargets[side].normal : kneePosition - footPosition, transform.forward);
                 footBone.rotation = Quaternion.Slerp(footBone.rotation, targetRotation, Time.deltaTime * footRotationIntensity);
             }
         }
 
         if (drawDebug) {
             void DrawFoot(int side) {
-                Draw.ingame.SolidCircleXZ(feet[side], .1f);
+                Draw.ingame.SolidCircleXZ(footTargets[side].point, .1f);
             }
             using (Draw.ingame.WithColor(Color.red))
                 DrawFoot(left);
@@ -132,7 +184,7 @@ public class BipedalWalker : MonoBehaviour {
                 DrawFoot(right);
         }
 
-        var feetAverage = (feet[left] + feet[right]) / 2;
+        var feetAverage = (footTargets[left].point + footTargets[right].point) / 2;
         var targetBodyPosition = transform.position.ToVector2().ToVector3() + Vector3.up * (feetAverage.y + height);
         body.position = Vector3.Lerp(body.position, targetBodyPosition, Time.deltaTime * bodyYPositionChangeIntensity);
 
@@ -142,41 +194,14 @@ public class BipedalWalker : MonoBehaviour {
     public float height = .5f;
     public Transform body;
 
-    public bool TryRaycastFootTargetPosition(int side, float footLocation, out RaycastHit hit) {
-        var origin = transform.position + transform.forward * (footLocation - location + stepForwardOffset) + transform.right * (side == left ? -1 : 1) * stepWidth;
-        return Physics.Raycast(origin + Vector3.up * 100, Vector3.down, out hit, float.MaxValue, LayerMasks.Terrain | LayerMasks.Roads);
-    }
-    public float GetFootTargetLocation(int side) {
-        return side == left ? (Mathf.Floor(location * stepSize) + .5f) / stepSize : Mathf.Floor(location * stepSize + .5f) / stepSize;
-    }
 
     public float stepWidth = .5f;
     public float stepForwardOffset = 0;
-    [FormerlySerializedAs("bodyHeightChangeIntensity")] public float bodyYPositionChangeIntensity = 10;
+    [FormerlySerializedAs("bodyHeightChangeIntensity")]
+    public float bodyYPositionChangeIntensity = 10;
 
     public float stepDurationFactor = .5f;
 
-    public IEnumerator MoveFoot(int side) {
-        var startPosition = feet[side];
-        var manualControl = GetComponent<ManualControl>();
-        if (manualControl) {
-            var speed = Mathf.Abs(manualControl.speed);
-            if (speed > .1f) {
-                var startTime = Time.time;
-                var duration = stepDurationFactor / speed;
-                //Debug.Log(1);
-                while (Time.time < startTime + duration) {
-                    var t = (Time.time - startTime) / duration;
-                    t = stepCurve.Evaluate(t);
-                    //t = Easing.Dynamic(easing, t);
-                    feet[side] = Vector3.LerpUnclamped(startPosition, footRaycastHits[side].point, t);
-                    yield return null;
-                }
-            }
-        }
-        feet[side] = footRaycastHits[side].point;
-        feetMovementCoroutines[side] = null;
-    }
 
     public AnimationCurve stepCurve = new();
 }

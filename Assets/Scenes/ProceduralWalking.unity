@@ -962,6 +962,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: feet-rig
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b87a9010893984b2d991ce7fcf58c24f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6905609870639353253, guid: b87a9010893984b2d991ce7fcf58c24f, type: 3}
       propertyPath: m_Icon
       value: 
@@ -1223,9 +1227,6 @@ MonoBehaviour:
   - 0
   duration: 0.2
   easing: 0
-  feet:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
   hipJoints:
   - {fileID: 2032647826}
   - {fileID: 2025511599}
@@ -1244,6 +1245,18 @@ MonoBehaviour:
   stepSize: 1
   resetLocation: 7
   floatingFootDistanceThreshold: 0.1
+  stepLength: 0.5
+  stepTriggerLength: 0.5
+  feetTargetMovementSpeed: 1
+  sign: 0000000000000000
+  previousSign: 0000000000000000
+  minStepLength: 0.25
+  colors:
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 0, g: 1, b: 0, a: 1}
+  maxDuration: 0.5
+  footSpeedFactor: 1
+  minFootSpeed: 10
   height: 1.4
   body: {fileID: 1926118606}
   stepWidth: 0.5
@@ -1908,6 +1921,79 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -6721011648160903204, guid: b87a9010893984b2d991ce7fcf58c24f, type: 3}
   m_PrefabInstance: {fileID: 615007787}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1543685761
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1543685764}
+  - component: {fileID: 1543685763}
+  - component: {fileID: 1543685762}
+  m_Layer: 0
+  m_Name: GameObject.1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &1543685762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1543685761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf4ed7defffe40cb9f8433104787bdd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  acceleration: 5
+  rotationSpeed: 90
+  maxSpeed: 3
+  speed: 0
+  target: {fileID: 1543685764}
+--- !u!114 &1543685763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1543685761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c12bffa19a04c3cb1d2b31f993d1314, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stepLength: 1
+  feetTargetMovementSpeed: 10
+  sign: 0000000000000000
+  previousSign: 0000000000000000
+  duration: 0.5
+  colors:
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 0, g: 1, b: 0, a: 1}
+  hips:
+  - {x: -0.5, y: 0, z: 0}
+  - {x: 0.5, y: 0, z: 0}
+--- !u!4 &1543685764
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1543685761}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1597011691
 GameObject:
   m_ObjectHideFlags: 0
@@ -2522,7 +2608,7 @@ MonoBehaviour:
   velocityDecelerationFactor: 25
   arm: {fileID: 1087985287}
   pitchAngleSpeed: 135
-  pitchClamp: {x: 30, y: 90}
+  pitchClamp: {x: 0, y: 90}
   rotationDuration: 0.2
   rotationEasing: 3
   rotationStep: -22.5
@@ -3198,9 +3284,6 @@ MonoBehaviour:
   - 0
   duration: 0.1
   easing: 0
-  feet:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
   hipJoints:
   - {fileID: 446655284}
   - {fileID: 886677659}
@@ -3219,10 +3302,22 @@ MonoBehaviour:
   stepSize: 0.35
   resetLocation: 7
   floatingFootDistanceThreshold: 1000
+  stepLength: 1
+  stepTriggerLength: 1.1
+  feetTargetMovementSpeed: 10
+  sign: 0000000000000000
+  previousSign: 0000000000000000
+  minStepLength: 0.25
+  colors:
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 0, g: 1, b: 0, a: 1}
+  maxDuration: 0.5
+  footSpeedFactor: 0.25
+  minFootSpeed: 5
   height: 2.65
   body: {fileID: 1663965677}
   stepWidth: 0.25
-  stepForwardOffset: 0.5
+  stepForwardOffset: 0
   bodyYPositionChangeIntensity: 10
   stepDurationFactor: 1
   stepCurve:
@@ -3240,11 +3335,11 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0.99853516
       value: 0.9920654
-      inSlope: -1.5512486
-      outSlope: -1.5512486
+      inSlope: -1.8123571
+      outSlope: -1.8123571
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.06091373
+      inWeight: 0.054145552
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
