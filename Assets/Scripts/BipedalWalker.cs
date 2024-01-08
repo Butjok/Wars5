@@ -90,7 +90,12 @@ public class BipedalWalker : MonoBehaviour {
 
     public float walkingLayerWeight = 0;
     public float walkingLayerChangeSpeed = 1;
-    
+
+    private void OnGUI() {
+        GUI.skin = DefaultGuiSkin.TryGet;
+        GUILayout.Label($"stack count: {coroutineStack.Count}");
+    }
+
     public void LateUpdate() {
 
         var leftFootOffset = transform.InverseTransformPoint(feetBones[left].position).z / stepLength;
@@ -114,7 +119,7 @@ public class BipedalWalker : MonoBehaviour {
             var top = coroutineStack.Peek();
             if (top.MoveNext()) {
                 var value = top.Current;
-                if (value is IEnumerator subCoroutine)
+                if (value != null && value is IEnumerator subCoroutine)
                     coroutineStack.Push(subCoroutine);
                 break;
             }
