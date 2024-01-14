@@ -5022,11 +5022,11 @@ MonoBehaviour:
   factor: 0.1
   walkingLayerWeight: 0
   walkingLayerChangeSpeed: 1
-  height: 0.175
+  height: 0.185
   body: {fileID: 1004586038}
   stepWidth: 0.25
   stepForwardOffset: 0
-  bodyYPositionChangeIntensity: 10
+  bodyYPositionChangeIntensity: 50
   stepDurationFactor: 1
   feetResetDuration: 0.15
   stepCurve:
