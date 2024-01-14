@@ -59,6 +59,9 @@ public class BipedalWalker : MonoBehaviour {
         var manualControl = GetComponent<ManualControl>();
         var distance = Vector2.Distance(oldTarget.point.ToVector2(), target.point.ToVector2());
         var duration = Mathf.Min(maxDuration ?? this.maxDuration, distance / Mathf.Abs(manualControl.speed) * footSpeedFactor);
+        if (Mathf.Abs(manualControl.speed) < .001f)
+            duration = this.maxDuration;
+        //Debug.Log(duration);
         while (Time.time - startTime < duration) {
             var t = (Time.time - startTime) / duration;
             // t = stepCurve.Evaluate(t);
@@ -103,15 +106,17 @@ public class BipedalWalker : MonoBehaviour {
 
         var manualControl = GetComponent<ManualControl>();
         var animator = GetComponent<Animator>();
-        var walkingCycleAnimation = animator.runtimeAnimatorController.animationClips[0];
-        var length = walkingCycleAnimation.length;
-        //animator.SetFloat("Time", animator.GetFloat("Time") + Time.deltaTime);
-        var targetWalkingLayerWeight = MathUtils.SmoothStep(.5f, 1, Mathf.Abs(manualControl.speed));
-        var difference = Mathf.Abs(targetWalkingLayerWeight - walkingLayerWeight);
-        var maxChangeThisFrame = Time.deltaTime * walkingLayerChangeSpeed;
-        walkingLayerWeight = maxChangeThisFrame > difference ? targetWalkingLayerWeight : Mathf.Lerp(walkingLayerWeight, targetWalkingLayerWeight, maxChangeThisFrame / difference);
-        animator.SetLayerWeight(animator.GetLayerIndex("WalkingLayer"), walkingLayerWeight);
-        animator.SetFloat("Time", animator.GetFloat("Time") + manualControl.speed * factor * Time.deltaTime);
+        if (animator) {
+            var walkingCycleAnimation = animator.runtimeAnimatorController.animationClips[0];
+            var length = walkingCycleAnimation.length;
+            //animator.SetFloat("Time", animator.GetFloat("Time") + Time.deltaTime);
+            var targetWalkingLayerWeight = MathUtils.SmoothStep(.5f, 1, Mathf.Abs(manualControl.speed));
+            var difference = Mathf.Abs(targetWalkingLayerWeight - walkingLayerWeight);
+            var maxChangeThisFrame = Time.deltaTime * walkingLayerChangeSpeed;
+            walkingLayerWeight = maxChangeThisFrame > difference ? targetWalkingLayerWeight : Mathf.Lerp(walkingLayerWeight, targetWalkingLayerWeight, maxChangeThisFrame / difference);
+            animator.SetLayerWeight(animator.GetLayerIndex("WalkingLayer"), walkingLayerWeight);
+            animator.SetFloat("Time", animator.GetFloat("Time") + manualControl.speed * factor * Time.deltaTime);
+        }
         
         //Debug.Log(leftFootOffset + .5f);
 
