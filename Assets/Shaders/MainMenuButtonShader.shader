@@ -5,6 +5,7 @@ Shader "Custom/MainMenuButtonShader" {
 		_Glossiness ("Smoothness", Range(0,1)) = 0.5
 		_Metallic ("Metallic", Range(0,1)) = 0.0
 		_Selected ("Selected", Range(0,1)) = 0.0
+		[HDR] _SelectedColor ("Selected Color", Color) = (1,1,1,1)
 	}
 	SubShader {
 		Tags { "RenderType"="Opaque" }
@@ -25,7 +26,7 @@ Shader "Custom/MainMenuButtonShader" {
 
 		half _Glossiness;
 		half _Metallic;
-		fixed4 _Color;
+		fixed4 _Color, _SelectedColor;
 		half _Selected;
 
 		void surf (Input IN, inout SurfaceOutputStandard o) {
@@ -36,7 +37,7 @@ Shader "Custom/MainMenuButtonShader" {
 			o.Metallic = _Metallic;
 			o.Smoothness = _Glossiness;
 			o.Alpha = c.a;
-			o.Emission = _Selected;
+			o.Emission = _Selected * _SelectedColor;
 		}
 		ENDCG
 	}

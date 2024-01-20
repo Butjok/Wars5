@@ -9,15 +9,9 @@ using UnityEngine.Serialization;
 
 public class BipedalWalker : MonoBehaviour {
 
-    public float location;
-    public Vector2 footLocationRange = new(-1, 1);
     public Vector3? oldPosition;
 
     public const int left = 0, right = 1;
-    public float[] feetLocations = new float[2];
-    public IEnumerator[] feetMovementCoroutines = new IEnumerator[2];
-
-    public float duration = .1f;
 
     public RaycastHit[] footTargets = new RaycastHit[2];
 
@@ -28,25 +22,12 @@ public class BipedalWalker : MonoBehaviour {
     public Transform[] feetBones = new Transform[2];
     public bool drawDebug = false;
     public float footRotationIntensity = .1f;
-
-    public float stepSize = 1;
-    public float resetLocation = 7;
-
-    public float floatingFootDistanceThreshold = .1f;
-
+    
     public float stepLength = .5f;
     public float stepTriggerLength = .5f;
-    public float feetTargetMovementSpeed = 1;
-    public int[] sign = new int[2];
-    public int[] previousSign = new int[2];
-
-    public float minStepLength = .25f;
 
     public Color[] colors = { Color.red, Color.green, };
     public float maxDuration = .5f;
-
-    public Easing.Name easing = Easing.Name.InOutQuad;
-    public bool useCurve = false;
 
     public bool TryRaycast(int side, float direction, out RaycastHit hit) {
         var origin = (direction + stepForwardOffset) * transform.forward * stepLength + hipBones[side].position;
@@ -86,18 +67,12 @@ public class BipedalWalker : MonoBehaviour {
     }
 
     public float footSpeedFactor = 1;
-    public float minFootSpeed = 10;
 
     public Stack<IEnumerator> coroutineStack = new();
-    public float factor = 1;
+    public float walkingAnimationSpeedFactor = 1;
 
     public float walkingLayerWeight = 0;
     public float walkingLayerChangeSpeed = 1;
-
-    private void OnGUI() {
-        GUI.skin = DefaultGuiSkin.TryGet;
-        GUILayout.Label($"stack count: {coroutineStack.Count}");
-    }
 
     public void LateUpdate() {
 
@@ -115,7 +90,7 @@ public class BipedalWalker : MonoBehaviour {
             var maxChangeThisFrame = Time.deltaTime * walkingLayerChangeSpeed;
             walkingLayerWeight = maxChangeThisFrame > difference ? targetWalkingLayerWeight : Mathf.Lerp(walkingLayerWeight, targetWalkingLayerWeight, maxChangeThisFrame / difference);
             animator.SetLayerWeight(animator.GetLayerIndex("WalkingLayer"), walkingLayerWeight);
-            animator.SetFloat("Time", animator.GetFloat("Time") + manualControl.speed * factor * Time.deltaTime);
+            animator.SetFloat("Time", animator.GetFloat("Time") + manualControl.speed * walkingAnimationSpeedFactor * Time.deltaTime);
         }
         
         //Debug.Log(leftFootOffset + .5f);
@@ -228,12 +203,9 @@ public class BipedalWalker : MonoBehaviour {
     public Transform body;
 
 
-    public float stepWidth = .5f;
     public float stepForwardOffset = 0;
-    [FormerlySerializedAs("bodyHeightChangeIntensity")]
     public float bodyYPositionChangeIntensity = 10;
 
-    public float stepDurationFactor = .5f;
     public float feetResetDuration = .25f;
 
     public AnimationCurve stepCurve = new();
