@@ -30497,7 +30497,7 @@ Light:
       e32: 0
       e33: 1
     m_UseCullingMatrixOverride: 0
-  m_Cookie: {fileID: 2800000, guid: 854b203f97a8a4d42a8f4a67761ea7b1, type: 3}
+  m_Cookie: {fileID: 2800000, guid: 541e952d2f7fade48b9d395b04e95e37, type: 3}
   m_DrawHalo: 0
   m_Flare: {fileID: 0}
   m_RenderMode: 0
@@ -35941,7 +35941,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c30b57adcb147fb89d8bbb49c00d0f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocity: {x: 1, y: 0, z: 0.5}
+  velocity: {x: 0.5, y: 0, z: 0.25}
 --- !u!114 &1952239950
 MonoBehaviour:
   m_ObjectHideFlags: 0

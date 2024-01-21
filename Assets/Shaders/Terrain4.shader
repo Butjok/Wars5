@@ -311,9 +311,9 @@ float forestMask = tex2D(_ForestMask, mul(_ForestMask_WorldToLocal, float4(IN.wo
             noise /= 2;
             
             float deepSeaNoise = 0;
-            deepSeaNoise += ClassicNoise(float3(IN.worldPos.xz/5, 0));
-            deepSeaNoise += ClassicNoise(float3(IN.worldPos.xz/5*2, 0))/2;
-            deepSeaNoise += ClassicNoise(float3(IN.worldPos.xz/5*4, 0))/4;
+            deepSeaNoise += ClassicNoise(float3(IN.worldPos.xz/3, 0));
+            deepSeaNoise += ClassicNoise(float3(IN.worldPos.xz/3*2, 0))/2;
+            deepSeaNoise += ClassicNoise(float3(IN.worldPos.xz/3*4, 0))/4;
             deepSeaNoise /= 1.25;
             
 
