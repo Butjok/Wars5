@@ -11,7 +11,7 @@ using Object = UnityEngine.Object;
 
 public class LevelEditorSessionState : StateMachineState {
 
-    public const string sceneName = "LevelEditor";
+    public const string sceneName = "MarchingSquares";
 
     public enum SelectModeCommand { SelectTilesMode, SelectUnitsMode, SelectTriggersMode, SelectAreasMode, SelectBridgesMode, Play }
 

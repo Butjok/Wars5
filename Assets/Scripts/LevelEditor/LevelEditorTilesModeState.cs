@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Butjok.CommandLine;
 using Drawing;
 using UnityEditor;
 using UnityEngine;
@@ -12,10 +13,18 @@ using Vector2Int = UnityEngine.Vector2Int;
 public class LevelEditorTilesModeState : StateMachineState {
 
     public enum Command {
-        CycleTileType, PlaceTile, RemoveTile, PickTile, CyclePlayer,
+        CycleTileType,
+        PlaceTile,
+        RemoveTile,
+        PickTile,
+        CyclePlayer,
         ToggleMode
     }
-    public enum Mode { Add, Remove }
+
+    public enum Mode {
+        Add,
+        Remove
+    }
 
     private static readonly List<Vector3> vertices = new();
     private static readonly List<int> triangles = new();
@@ -33,13 +42,37 @@ public class LevelEditorTilesModeState : StateMachineState {
     private static Vector3[] mountainVertices;
     private static int[] mountainTriangles;
 
-    public TileType[] tileTypes = { TileType.Plain, TileType.Road, TileType.Forest, TileType.Mountain, TileType.River, TileType.Sea, TileType.City, TileType.Hq, TileType.Factory, TileType.Airport, TileType.Shipyard, TileType.MissileSilo };
+    public TileType[] tileTypes = { TileType.Plain, TileType.Beach, TileType.Road, TileType.Forest, TileType.Mountain, TileType.River, TileType.Sea, TileType.City, TileType.Hq, TileType.Factory, TileType.Airport, TileType.Shipyard, TileType.MissileSilo };
     public TileType tileType = TileType.Plain;
     public Player player;
-    public Vector2Int lookDirection = Vector2Int.up;
     public Mode mode;
     public GameObject tileMeshGameObject;
     public Material tileMeshMaterial;
+    public TileMapCreator tileMapCreator;
+
+    [Command] public static Color plainColor = Color.green;
+    [Command] public static Color roadColor = Color.gray;
+    [Command] public static Color seaColor = Color.blue;
+    [Command] public static Color mountainColor = new(0.5f, 0.37f, 0.22f);
+    [Command] public static Color forestColor = new(0.09f, 0.51f, 0.2f);
+    [Command] public static Color riverColor = Color.cyan;
+    [Command] public static Color beachColor = Color.yellow;
+    [Command] public static Color unownedBuildingColor = Color.white;
+
+    public bool showTiles = true;
+
+    public static Color GetColor(TileType tileType) {
+        return tileType switch {
+            TileType.Plain => plainColor,
+            TileType.Road => roadColor,
+            TileType.Sea => seaColor,
+            TileType.Mountain => mountainColor,
+            TileType.Forest => forestColor,
+            TileType.River => riverColor,
+            TileType.Beach => beachColor,
+            _ => Color.magenta
+        };
+    }
 
     public LevelEditorTilesModeState(StateMachine stateMachine) : base(stateMachine) {
         var terrainCreator = Object.FindObjectOfType<TerrainCreator>();
@@ -79,7 +112,6 @@ public class LevelEditorTilesModeState : StateMachineState {
             LoadMesh("mountain-placeholder", out mountainMesh, out mountainVertices, out mountainTriangles);
 
         foreach (var position in tiles.Keys) {
-
             var tileType = tiles[position];
             var color = buildings.TryGetValue(position, out var building) && building.Player != null
                 ? building.Player.Color
@@ -146,6 +178,7 @@ public class LevelEditorTilesModeState : StateMachineState {
                             ? game.GetColor(tileType, level.TryGetBuilding(position, out var building) ? building : null)
                             : Color.clear);
                 }
+
                 texture.Apply();
                 tileMeshMaterial.SetTexture("_TileMap", texture);
             }
@@ -170,7 +203,10 @@ public class LevelEditorTilesModeState : StateMachineState {
                 var mesh = terrainCreator.mesh;
             }
 
+            tileMapCreator = Object.FindObjectOfType<TileMapCreator>();
+            
             RebuildTilemapMesh();
+
 
             void TryRemoveTile(Vector2Int position, bool removeUnit) {
                 if (!tiles.ContainsKey(position))
@@ -193,6 +229,7 @@ public class LevelEditorTilesModeState : StateMachineState {
                             }
                         }
             }
+
             void TryPlaceTile(Vector2Int position, TileType tileType, Player player) {
                 if (tiles.ContainsKey(position))
                     TryRemoveTile(position, false);
@@ -201,7 +238,7 @@ public class LevelEditorTilesModeState : StateMachineState {
                     new Building(level, position, tileType, player, viewPrefab: BuildingView.GetPrefab(tileType), lookDirection: player?.unitLookDirection ?? Vector2Int.up);
                 RebuildTilemapMesh();
             }
-            
+
             gui.layerStack.Push(() => {
                 GUILayout.Label($"Level editor > Tiles [{player} {tileType}]");
                 GUILayout.Space(DefaultGuiSkin.defaultSpacingSize);
@@ -229,10 +266,11 @@ public class LevelEditorTilesModeState : StateMachineState {
                     game.EnqueueCommand(LevelEditorSessionState.SelectModeCommand.Play);
                 else if (Input.GetKeyDown(KeyCode.LeftAlt) && camera.TryGetMousePosition(out mousePosition))
                     game.EnqueueCommand(Command.PickTile, mousePosition);
+                else if (Input.GetKeyDown(KeyCode.H)) 
+                    showTiles = !showTiles;
 
                 while (game.TryDequeueCommand(out var command))
                     switch (command) {
-
                         case (LevelEditorSessionState.SelectModeCommand, _):
                             yield return HandleModeSelectionCommand(command);
                             break;
@@ -274,19 +312,20 @@ public class LevelEditorTilesModeState : StateMachineState {
                             break;
                     }
 
-                //foreach (var (position, tileType) in level.tiles)
-                //  Draw.ingame.SolidPlane(position.ToVector3(), Vector3.up, Vector2.one, GetColor(tileType, level.TryGetBuilding(position, out var building) ? building : null));
+                if (showTiles)
+                    foreach (var (position, tileType) in level.tiles)
+                        Draw.ingame.SolidPlane(position.ToVector3(), Vector3.up, Vector2.one, level.TryGetBuilding(position, out var building) ? building.Player?.Color ?? unownedBuildingColor : GetColor(tileType));
             }
         }
     }
 
     public override void Exit() {
-
         if (tileMeshMaterial) {
             var texture = tileMeshMaterial.GetTexture("_TileMap");
             if (texture)
                 Object.Destroy(texture);
         }
+
         if (tileMeshGameObject)
             Object.Destroy(tileMeshGameObject);
 

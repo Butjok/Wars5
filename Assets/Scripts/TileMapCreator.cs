@@ -9,6 +9,7 @@ using Drawing;
 using Stable;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Rendering;
 
 public class TileMapCreator : MonoBehaviour {
 
@@ -445,6 +446,7 @@ public class TileMapCreator : MonoBehaviour {
         }
 
         var combinedMesh = new Mesh();
+        combinedMesh.indexFormat = IndexFormat.UInt32;
         combinedMesh.CombineMeshes(submeshes.Select(mesh => new CombineInstance { mesh = mesh }).ToArray(), false, false);
 
         //

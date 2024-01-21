@@ -13,6 +13,8 @@ public class LevelEditorPlayState : StateMachineState {
             var editorState = stateMachine.TryFind<LevelEditorSessionState>();
             var level = editorState.level;
             level.view.gameObject.SetActive(false);
+            
+            editorState.gui.layerStack.Push(() => { });
 
             using var stringWriter = new StringWriter();
             new LevelWriter(stringWriter).WriteLevel(level);
@@ -27,6 +29,8 @@ public class LevelEditorPlayState : StateMachineState {
     public override void Exit() {
         var editorState = stateMachine.TryFind<LevelEditorSessionState>();
         editorState.level.view.gameObject.SetActive(true);
+
+        editorState.gui.layerStack.Pop();
         
         if (editorState.musicSource)
             Music.Unmute(editorState.musicSource);

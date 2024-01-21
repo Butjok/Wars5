@@ -35,10 +35,10 @@ public class PlayerTurnState : StateMachineState {
             switch (level.Day()) {
                 case 0:
                     switch (level.CurrentPlayer.ColorName) {
-                        case ColorName.Blue:
+                        case ColorName.Red:
                             yield return StateChange.Push(new TutorialStartDialogue(stateMachine));
                             break;
-                        case ColorName.Red:
+                        case ColorName.Blue:
                             yield return StateChange.Push(new TutorialVladansTurnDialogue(stateMachine));
                             break;
                     }
