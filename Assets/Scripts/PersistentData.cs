@@ -126,7 +126,7 @@ public class Campaign {
 public abstract class Mission {
 
     [JsonProperty] public Campaign campaign;
-    public virtual string SceneName => "LevelEditor";
+    public virtual string SceneName => "MarchingSquares";
     public abstract string Input { get; }
     public virtual bool IsAvailable => true;
     public virtual string Name => GetType().Name;
