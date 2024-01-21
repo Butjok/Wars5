@@ -148,8 +148,8 @@ Material:
     - _BorderThinkness: 0.015
     - _BumpScale: 1
     - _Cutoff: 0.5
-    - _DeepSeaLevel: 1.38
-    - _DeepSeaSharpness: 2.03
+    - _DeepSeaLevel: 1.69
+    - _DeepSeaSharpness: 2.39
     - _DeepSeaThickness: 0
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
@@ -171,10 +171,10 @@ Material:
     - _SandLevel: 0.1
     - _SandNoiseAmplitude: 0.01
     - _SandNoiseScale: 4.12
-    - _SandSharpness: -0.05
+    - _SandSharpness: -0.025
     - _SandThickness: 0.025
-    - _SeaLevel: -0.13
-    - _SeaSharpness: -0.2
+    - _SeaLevel: -0.09
+    - _SeaSharpness: -0.19
     - _SeaThickness: -0.01
     - _ShowTime: 0
     - _Size: 0
@@ -189,7 +189,7 @@ Material:
     - _BorderColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _DarkGreenTint: {r: 1, g: 1, b: 1, a: 1}
-    - _DeepSeaColor: {r: 0.36690104, g: 0.8018868, b: 0.41247097, a: 1}
+    - _DeepSeaColor: {r: 0.227, g: 0.816, b: 0.518, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Emissive: {r: 0.11773585, g: 0.24528301, b: 0, a: 1}
     - _FlowerColor: {r: 0.7924528, g: 0, b: 0.07110587, a: 1}
@@ -197,7 +197,7 @@ Material:
     - _MapSize: {r: 10.82, g: 1, b: 0, a: 0}
     - _OutsideColor: {r: 0.9339623, g: 0.9339623, b: 0.9339623, a: 1}
     - _SandColor: {r: 1, g: 0.61574924, b: 0.18396229, a: 1}
-    - _SeaColor: {r: 0, g: 0.16981131, b: 0.16688351, a: 1}
+    - _SeaColor: {r: 0, g: 0.092, b: 0.163, a: 1}
     - _Splat2Size: {r: 47, g: 41, b: 0, a: 0}
     - _StoneColor: {r: 0.4039216, g: 0.37647063, b: 0, a: 1}
     - _StoneDarkColor: {r: 0.4039216, g: 0.40000004, b: 0, a: 1}
