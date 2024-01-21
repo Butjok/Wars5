@@ -15630,7 +15630,7 @@ Transform:
   m_GameObject: {fileID: 703953808}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 19.5, y: 0.09, z: -2.5}
-  m_LocalScale: {x: 39, y: 1, z: 23}
+  m_LocalScale: {x: 41, y: 1, z: 25}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 66661095}
@@ -30470,7 +30470,7 @@ Light:
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
-  m_CookieSize: 35
+  m_CookieSize: 25
   m_Shadows:
     m_Type: 2
     m_Resolution: 3
@@ -30497,7 +30497,7 @@ Light:
       e32: 0
       e33: 1
     m_UseCullingMatrixOverride: 0
-  m_Cookie: {fileID: 2800000, guid: 2ca9f34f56b289848ab134d92cc306b9, type: 3}
+  m_Cookie: {fileID: 2800000, guid: 854b203f97a8a4d42a8f4a67761ea7b1, type: 3}
   m_DrawHalo: 0
   m_Flare: {fileID: 0}
   m_RenderMode: 0
@@ -35941,7 +35941,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c30b57adcb147fb89d8bbb49c00d0f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocity: {x: 0.5, y: 0, z: 0.25}
+  velocity: {x: 1, y: 0, z: 0.5}
 --- !u!114 &1952239950
 MonoBehaviour:
   m_ObjectHideFlags: 0
