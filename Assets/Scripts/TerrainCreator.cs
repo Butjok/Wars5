@@ -56,7 +56,7 @@ public class TerrainCreator : MonoBehaviour {
             File.WriteAllText(splatMapExportPath + "BushOffset.txt", $"origin: {origin}\nscale: {scale}");
     }
 
-    public const string autosaveName = "Autosave";
+    public const string defaultLoadOnAwakeFileName = "Autosave";
 
     public Camera camera;
     public CameraRig cameraRig;
@@ -108,7 +108,8 @@ public class TerrainCreator : MonoBehaviour {
     public float elevation = 0;
     public float elevationStep = .25f;
 
-    public string loadOnAwake = autosaveName;
+    public bool loadOnAwake = true;
+    [FormerlySerializedAs("loadOnAwake")] public string loadOnAwakeFileName = defaultLoadOnAwakeFileName;
     public BushTester bushTester;
 
     public HeightMapBaker heightMapBaker;
@@ -141,11 +142,11 @@ public class TerrainCreator : MonoBehaviour {
     }
 
     private void Awake() {
-        TryLoad(loadOnAwake);
+        TryLoad(loadOnAwakeFileName);
     }
 
     public bool TryLoad(string name) {
-        var input = LevelEditorFileSystem.TryReadLatest(name + "Terrain");
+        var input = LevelEditorFileSystem.TryReadLatest(name);
         if (input == null)
             return false;
         Read(input.ToPostfix());
@@ -155,10 +156,15 @@ public class TerrainCreator : MonoBehaviour {
         return true;
     }
 
+    [Command]
+    public void Save() {
+        Save(loadOnAwakeFileName);
+    }
+    
     public void Save(string name) {
         using var stringWriter = new StringWriter();
         Write(stringWriter);
-        LevelEditorFileSystem.Save(name + "Terrain", stringWriter.ToString());
+        LevelEditorFileSystem.Save(name, stringWriter.ToString());
     }
 
     private int subdivideLevel = 1;
@@ -472,13 +478,13 @@ public class TerrainCreator : MonoBehaviour {
         //roadCreator.Rebuild();
 
         if (bushMaterial) {
-            var bounds = meshRenderer.bounds;
-            var localToWorld = Matrix4x4.TRS(bounds.min, Quaternion.identity, new Vector3(bounds.size.x, 1, bounds.size.z));
-            bushMaterial.SetMatrix("_WorldToLocal", localToWorld.inverse);
-            bushMaterial.SetVector("_Min", bounds.min.ToVector2() + new Vector2(.5f, .5f));
-            bushMaterial.SetVector("_Size", bounds.size.ToVector2() - new Vector2(1, 1));
-            if (voronoiRenderer)
-                bushMaterial.SetTexture("_Splat2", voronoiRenderer.blurredFieldMaskRenderTexture);
+            // var bounds = meshRenderer.bounds;
+            // var localToWorld = Matrix4x4.TRS(bounds.min, Quaternion.identity, new Vector3(bounds.size.x, 1, bounds.size.z));
+            // bushMaterial.SetMatrix("_WorldToLocal", localToWorld.inverse);
+            // bushMaterial.SetVector("_Min", bounds.min.ToVector2() + new Vector2(.5f, .5f));
+            // bushMaterial.SetVector("_Size", bounds.size.ToVector2() - new Vector2(1, 1));
+            // if (voronoiRenderer)
+                // bushMaterial.SetTexture("_Splat2", voronoiRenderer.blurredFieldMaskRenderTexture);
         }
 
         if (water) {

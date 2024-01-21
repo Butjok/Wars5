@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using UnityEngine;
 
 public class LevelEditorPlayState : StateMachineState {
 
@@ -16,9 +17,6 @@ public class LevelEditorPlayState : StateMachineState {
             using var stringWriter = new StringWriter();
             new LevelWriter(stringWriter).WriteLevel(level);
             input = stringWriter.ToString();
-
-            editorState.gui
-                .Push();
             
             if (editorState.musicSource)
                 Music.Mute(editorState.musicSource);
@@ -29,7 +27,6 @@ public class LevelEditorPlayState : StateMachineState {
     public override void Exit() {
         var editorState = stateMachine.TryFind<LevelEditorSessionState>();
         editorState.level.view.gameObject.SetActive(true);
-        editorState.gui.Pop();
         
         if (editorState.musicSource)
             Music.Unmute(editorState.musicSource);

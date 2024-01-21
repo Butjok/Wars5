@@ -10,29 +10,9 @@ public class LevelEditorUnitsModeState : StateMachineState {
     public UnitType[] unitTypes = { UnitType.Infantry, UnitType.AntiTank, UnitType.Artillery, UnitType.Apc, UnitType.Recon, UnitType.LightTank, UnitType.MediumTank, UnitType.Rockets, };
     public UnitType unitType = UnitType.Infantry;
     public Player player;
-
-    public Unit InspectedUnit { get; private set; }
+    public Unit inspectedUnit;
 
     public LevelEditorUnitsModeState(StateMachine stateMachine) : base(stateMachine) { }
-
-    public void SetInspectedUnit(LevelEditorGui gui, Unit unit) {
-
-        InspectedUnit = unit;
-
-        gui.Remove(name => name.StartsWith("InspectedUnit."));
-
-        if (unit != null) {
-            gui
-                .Add("InspectedUnit.Type", () => unit.type)
-                .Add("InspectedUnit.Player", () => unit.Player)
-                .Add("InspectedUnit.Position", () => unit.Position)
-                .Add("InspectedUnit.Moved", () => unit.Moved)
-                .Add("InspectedUnit.Hp", () => $"{unit.Hp} / {Rules.MaxHp(unit)}")
-                .Add("InspectedUnit.MoveCapacity", () => Rules.MoveCapacity(unit))
-                .Add("InspectedUnit.Fuel", () => $"{unit.Fuel} / {Rules.MaxFuel(unit)}")
-                .Add("InspectedUnit.BrainStates", () => unit.brain.states.Count == 0 ? "-" : string.Join(" / ", unit.brain.states.Reverse().Select(state => state.ToString())));
-        }
-    }
 
     public override IEnumerator<StateChange> Enter {
         get {
@@ -48,15 +28,25 @@ public class LevelEditorUnitsModeState : StateMachineState {
                 if (!units.TryGetValue(position, out var unit))
                     return false;
                 unit.Dispose();
-                if (InspectedUnit == unit)
-                    SetInspectedUnit(gui, null);
+                if (inspectedUnit == unit)
+                    inspectedUnit = null;
                 return true;
             }
 
-            gui
-                .Push()
-                .Add("UnitType", () => unitType)
-                .Add("Player", () => player);
+            gui.layerStack.Push(() => {
+                GUILayout.Label($"Level editor > Units [{player} {unitType}]");
+                if (inspectedUnit != null) {
+                    GUILayout.Space(DefaultGuiSkin.defaultSpacingSize);
+                    GUILayout.Label($"  Type: {inspectedUnit.type}");
+                    GUILayout.Label($"  Player: {inspectedUnit.Player}");
+                    GUILayout.Label($"  Position: {inspectedUnit.Position}");
+                    GUILayout.Label($"  Moved: {inspectedUnit.Moved}");
+                    GUILayout.Label($"  Hp: {inspectedUnit.Hp} / {Rules.MaxHp(inspectedUnit)}");
+                    GUILayout.Label($"  Move capacity: {Rules.MoveCapacity(inspectedUnit)}");
+                    GUILayout.Label($"  Fuel: {inspectedUnit.Fuel} / {Rules.MaxFuel(inspectedUnit)}");
+                    GUILayout.Label($"  Brain states: {(inspectedUnit.brain.states.Count == 0 ? "-" : string.Join(" / ", inspectedUnit.brain.states.Reverse().Select(state => state.ToString())))}");
+                }
+            });
 
             player = level.players[0];
 
@@ -69,7 +59,7 @@ public class LevelEditorUnitsModeState : StateMachineState {
                     Unit unit = null;
                     if (level.view.cameraRig.camera.TryGetMousePosition(out Vector2Int mousePosition))
                         level.TryGetUnit(mousePosition, out unit);
-                    SetInspectedUnit(gui, unit);
+                    inspectedUnit = unit;
                 }
 
                 if (TryEnqueueModeSelectionCommand()) { }
@@ -151,6 +141,6 @@ public class LevelEditorUnitsModeState : StateMachineState {
 
     public override void Exit() {
         var gui = stateMachine.TryFind<LevelEditorSessionState>().gui;
-        gui.Pop();
+        gui.layerStack.Pop();
     }
 }

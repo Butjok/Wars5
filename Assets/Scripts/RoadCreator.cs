@@ -7,30 +7,44 @@ using Drawing;
 using Stable;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.Serialization;
-using UnityEngine.UI;
 
 [RequireComponent(typeof(MeshFilter))]
 public class RoadCreator : MonoBehaviour {
 
-    public const string defaultAutoSaveName = "Autosave";
+    public const string defaultLoadOnAwakeFileName = "Autosave";
 
+    public static readonly List<Vector3> vertices = new();
+    public static readonly List<int> triangles = new();
+    public static readonly List<Vector2> uvs0 = new();
+    
+    [Header("Mesh pieces")]
+    public Mesh pieceI;
+    public Mesh pieceL, pieceT, pieceX, pieceIsland, pieceCap;
+    [Header("Rotation shifts")]
+    public int rotateI;
+    public int rotateL, rotateT, rotateX, rotateIsland, rotateCap;
+
+    [Header("Dependencies")]
     public Camera camera;
-
-    public Mesh pieceI, pieceL, pieceT, pieceX, pieceIsland, pieceCap;
-    public int rotateI, rotateL, rotateT, rotateX, rotateIsland, rotateCap;
-
     public Mesh mesh, projectedMesh;
     public MeshFilter meshFilter;
     public MeshCollider meshCollider;
+    
+    [Header("Startup")]
+    public bool loadOnAwake = true;
+    public string loadOnAwakeFileName = defaultLoadOnAwakeFileName;
+    public bool autoSave = true;
 
+    [Header("Editing")]
+    public float offset = .05f;
+    public Color debugColor = Color.grey;
     public HashSet<Vector2Int> positions = new();
     public HashSet<Vector2Int> loadedPositions = new();
 
-    public Color color = Color.grey;
-    public TerrainCreator terrainCreator;
-
-    [FormerlySerializedAs("loadOnAwake")] public string autoSaveName = defaultAutoSaveName;
+    public void Awake() {
+        if (loadOnAwake)
+            TryLoad(loadOnAwakeFileName);
+    }
 
     private void Reset() {
         meshFilter = GetComponent<MeshFilter>();
@@ -59,16 +73,28 @@ public class RoadCreator : MonoBehaviour {
         }
 
         foreach (var position in positions)
-            Draw.ingame.SolidPlane(position.ToVector3(), Vector3.up, Vector2.one, color);
+            Draw.ingame.SolidPlane(position.ToVector3(), Vector3.up, Vector2.one, debugColor);
 
         if (Input.GetKeyDown(KeyCode.R))
             Rebuild();
     }
 
+    private void OnGUI() {
+        GUI.skin = DefaultGuiSkin.TryGet;
+        GUILayout.Label($"Road creator");
+        GUILayout.Space(DefaultGuiSkin.defaultSpacingSize);
+        GUILayout.Label($"[{DefaultGuiSkin.leftClick}] Place roads");
+        GUILayout.Label($"[{DefaultGuiSkin.rightClick}] Remove roads");
+        GUILayout.Label($"[{KeyCode.R}] Rebuild");
+    }
 
-    public static readonly List<Vector3> vertices = new();
-    public static readonly List<int> triangles = new();
-    public static readonly List<Vector2> uvs0 = new();
+    private void OnApplicationQuit() {
+        if (autoSave) {
+            loadedPositions.SymmetricExceptWith(positions);
+            if (loadedPositions.Count > 0)
+                Save(loadOnAwakeFileName);
+        }
+    }
 
     [Command]
     public void Rebuild() {
@@ -126,32 +152,10 @@ public class RoadCreator : MonoBehaviour {
         meshCollider.sharedMesh = projectedMesh;
     }
 
-    public float offset = .05f;
-
-    public void Awake() {
-        TryLoad(autoSaveName);
-        loadedPositions.Clear();
-        loadedPositions.UnionWith(positions);
-        Rebuild();
-    }
-
-    private void OnApplicationQuit() {
-        loadedPositions.SymmetricExceptWith(positions);
-        if (loadedPositions.Count > 0)
-            Save(autoSaveName);
-    }
-
     [Command]
     public void Clear() {
         positions.Clear();
         Rebuild();
-    }
-
-    private void OnGUI() {
-        GUI.skin = DefaultGuiSkin.TryGet;
-        GUILayout.Label($"Roads: {positions.Count}");
-        GUILayout.Space(15);
-        GUILayout.Label("[R] Rebuild");
     }
 
     public void Read(string input) {
@@ -171,18 +175,25 @@ public class RoadCreator : MonoBehaviour {
     }
 
     public bool TryLoad(string name) {
-        var input = LevelEditorFileSystem.TryReadLatest(name + "Roads");
+        var input = LevelEditorFileSystem.TryReadLatest(name);
         if (input == null)
             return false;
         Read(input);
         Rebuild();
+        loadedPositions.Clear();
+        loadedPositions.UnionWith(positions);
         return true;
     }
-
+    
     public void Save(string name) {
         var output = new StringWriter();
         foreach (var position in positions)
             output.PostfixWriteLine("add ( {0} )", position);
-        LevelEditorFileSystem.Save(name + "Roads", output.ToString());
+        LevelEditorFileSystem.Save(name, output.ToString());
+    }
+
+    [Command]
+    public void Save() {
+        Save(loadOnAwakeFileName);
     }
 }

@@ -32,9 +32,9 @@ public class LevelEditorTriggersModeState : StateMachineState {
             var triggers = level.triggers;
             var camera = level.view.cameraRig.camera;
             
-            gui
-                .Push()
-                .Add("TriggerName", () => triggerName);
+            gui.layerStack.Push(() => {
+                GUILayout.Label($"Level editor > Triggers [{triggerName}]");
+            });
 
             while (true) {
                 yield return StateChange.none;
@@ -109,6 +109,6 @@ public class LevelEditorTriggersModeState : StateMachineState {
     }
 
     public override void Exit() {
-        stateMachine.TryFind<LevelEditorSessionState>().gui.Pop();
+        stateMachine.TryFind<LevelEditorSessionState>().gui.layerStack.Pop();
     }
 }

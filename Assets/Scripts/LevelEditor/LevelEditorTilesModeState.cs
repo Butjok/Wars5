@@ -201,14 +201,13 @@ public class LevelEditorTilesModeState : StateMachineState {
                     new Building(level, position, tileType, player, viewPrefab: BuildingView.GetPrefab(tileType), lookDirection: player?.unitLookDirection ?? Vector2Int.up);
                 RebuildTilemapMesh();
             }
-
-            gui
-                .Push()
-                .Add("TileType", () => tileType)
-                .Add("Player", () => player)
-                .Add("LookDirection", () => lookDirection)
-                // .Add("Mode", () => mode)
-                ;
+            
+            gui.layerStack.Push(() => {
+                GUILayout.Label($"Level editor > Tiles [{player} {tileType}]");
+                GUILayout.Space(DefaultGuiSkin.defaultSpacingSize);
+                GUILayout.Label("[F2] Cycle player");
+                GUILayout.Label("[Tab] Cycle tile type");
+            });
 
             while (true) {
                 yield return StateChange.none;
@@ -292,6 +291,6 @@ public class LevelEditorTilesModeState : StateMachineState {
             Object.Destroy(tileMeshGameObject);
 
         var levelEditorState = stateMachine.TryFind<LevelEditorSessionState>();
-        levelEditorState.gui.Pop();
+        levelEditorState.gui.layerStack.Pop();
     }
 }

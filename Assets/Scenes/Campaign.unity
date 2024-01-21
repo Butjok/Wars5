@@ -162,8 +162,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 351.8055, y: 401.22723}
-  m_SizeDelta: {x: 56.76291, y: 104.388885}
+  m_AnchoredPosition: {x: 318.55197, y: 373.5564}
+  m_SizeDelta: {x: 52.828766, y: 97.18967}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &10685976
 MonoBehaviour:
@@ -793,6 +793,93 @@ Transform:
   m_Father: {fileID: 1389611540}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!1 &75109247
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 75109248}
+  - component: {fileID: 75109250}
+  - component: {fileID: 75109249}
+  m_Layer: 6
+  m_Name: TerrainMapper
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &75109248
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 75109247}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -37.75, y: 0, z: -4.9}
+  m_LocalScale: {x: 100, y: 100, z: 100}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 363339173}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &75109249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 75109247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40eeefcc1319482f86db24c0451643ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mesh: {fileID: 3419889569566592343, guid: 16bc209fad8994e469db253a63669536, type: 3}
+  materials:
+  - {fileID: 2100000, guid: f6082924458ae4ab7809c9f4a613abae, type: 2}
+  transformsUniformName: _Transforms
+  shadowCastingMode: 1
+  lightProbeUsage: 1
+  transforms: []
+  radius: 1
+--- !u!114 &75109250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 75109247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b76e453ea394d9d8d8d51b7ebec3477, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bushMesh: {fileID: 3419889569566592343, guid: 16bc209fad8994e469db253a63669536, type: 3}
+  bushMeshRaycastOrigins:
+  - {x: 0.23, y: -0.03, z: 0.13}
+  - {x: -0.1, y: -0.05, z: 0}
+  - {x: 0.02, y: -0.05, z: 0.03}
+  drawBushRaycastOrigins: 0
+  bushSeaLevelThreshold: 0.15
+  maxBushGap: 0.1
+  resolution: {x: 1000, y: 1000}
+  maxBushesCount: 500000
+  bushScaleRange: {x: 0.2, y: 1.5}
+  bushRenderer: {fileID: 75109249}
+  bushMaskTexture: {fileID: 2800000, guid: 9ab1d75a1653f1d43be4d1114f6e3ebf, type: 3}
+  materials:
+  - {fileID: 2100000, guid: 1ee41d6641e93914fb9386c2d6b27e6e, type: 2}
+  - {fileID: 2100000, guid: f6082924458ae4ab7809c9f4a613abae, type: 2}
+  worldToSplatUniformName: _Splat_WorldToLocal
+  loadOnAwake: 1
+  loadOnAwakeFileName: CampaignBushes
+  updateInRealTime: 0
+  autoSave: 1
+  bushesWereModified: 0
 --- !u!1 &169325633
 GameObject:
   m_ObjectHideFlags: 0
@@ -1592,7 +1679,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 363339165}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 00e3f00f3efb47beb055ea966ecf3175, type: 3}
   m_Name: 
@@ -1647,7 +1734,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a511320cc78744579c927949ebb0edd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camera: {fileID: 0}
+  camera: {fileID: 1400641668}
   cameraRig: {fileID: 0}
   meshFilter: {fileID: 363339168}
   meshRenderer: {fileID: 363339172}
@@ -1670,6 +1757,7 @@ MonoBehaviour:
   birdPrefab: {fileID: 7280669306027067074, guid: e135459dcd257004086d27a293e52085, type: 3}
   birds: []
   water: {fileID: 0}
+  waterScalePadding: {x: 50, y: 50}
   overlay3d: {fileID: 0}
   missionNameText: {fileID: 0}
   bushesMeshFilter: {fileID: 0}
@@ -1680,8 +1768,10 @@ MonoBehaviour:
   borderBottomRight: {fileID: 1394168796}
   elevation: 0
   elevationStep: 0.25
-  loadOnAwake: WorldMap
+  loadOnAwake: 1
+  loadOnAwakeFileName: WorldMapTerrain
   bushTester: {fileID: 0}
+  heightMapBaker: {fileID: 0}
   voronoiRenderer: {fileID: 363339169}
   edgeThickness: -1000
   bushDensityPerUnit: 100
@@ -1724,7 +1814,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b1f420d0546f841529dcb04f9c10dbcc, type: 2}
+  - {fileID: 2100000, guid: 1ee41d6641e93914fb9386c2d6b27e6e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1762,6 +1852,7 @@ Transform:
   - {fileID: 1928280131}
   - {fileID: 1697398268}
   - {fileID: 38784528}
+  - {fileID: 75109248}
   m_Father: {fileID: 0}
   m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2472,7 +2563,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdf4403d26284b6d8b914879a176faae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camera: {fileID: 1400641668}
   pieceI: {fileID: -2521245407137789825, guid: e3032b7edd8f645f9bc8607087edc53a, type: 3}
   pieceL: {fileID: 582977817089021278, guid: e3032b7edd8f645f9bc8607087edc53a, type: 3}
   pieceT: {fileID: -6414288632228724897, guid: e3032b7edd8f645f9bc8607087edc53a, type: 3}
@@ -2485,14 +2575,16 @@ MonoBehaviour:
   rotateX: 0
   rotateIsland: 0
   rotateCap: 0
+  camera: {fileID: 1400641668}
   mesh: {fileID: 0}
   projectedMesh: {fileID: 0}
   meshFilter: {fileID: 485385852}
   meshCollider: {fileID: 485385855}
-  color: {r: 0.5, g: 0.5, b: 0.5, a: 0}
-  terrainCreator: {fileID: 0}
-  loadOnAwake: WorldMap
+  loadOnAwake: 0
+  loadOnAwakeFileName: Autosave
+  autoSave: 1
   offset: 0
+  debugColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
 --- !u!4 &485385854
 Transform:
   m_ObjectHideFlags: 0
@@ -4708,8 +4800,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 727.1687, y: 410.66144}
-  m_SizeDelta: {x: 54.069275, y: 103.914734}
+  m_AnchoredPosition: {x: 667.89954, y: 382.33997}
+  m_SizeDelta: {x: 50.3219, y: 96.74817}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1077786426
 MonoBehaviour:
@@ -6064,8 +6156,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 785.0908, y: 596.20593}
-  m_SizeDelta: {x: 50.251892, y: 94.29468}
+  m_AnchoredPosition: {x: 721.8072, y: 555.08826}
+  m_SizeDelta: {x: 46.769043, y: 87.791626}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1355582743
 MonoBehaviour:

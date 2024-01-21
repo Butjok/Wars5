@@ -62,7 +62,7 @@ public class ScalarFieldDrawer : MonoBehaviour {
 
     [Command]
     public static void DrawDistances() {
-        var inspectedUnit = Game.Instance.stateMachine.Find<LevelEditorUnitsModeState>().InspectedUnit;
+        var inspectedUnit = Game.Instance.stateMachine.Find<LevelEditorUnitsModeState>().inspectedUnit;
         var level = Game.Instance.stateMachine.Find<LevelEditorSessionState>().level;
         if (inspectedUnit != null) {
             var distances = level.tiles.Keys.ToDictionary(

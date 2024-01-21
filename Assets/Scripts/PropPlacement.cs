@@ -8,19 +8,12 @@ using Drawing;
 using Stable;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class PropPlacement : MonoBehaviour {
 
-    [Serializable]
-    public class PrefabInfo {
-        public enum RotationType { Random, Fixed }
-        public Transform prefab;
-        public RotationType defaultRotation = RotationType.Random;
-        public bool defaultAlignToNormal = true;
-    }
-
-    public const string autosaveName = "Autosave";
+    public const string defaultLoadOnAwakeFileName = "Autosave";
 
     public Camera camera;
     public Color color = Color.yellow;
@@ -28,13 +21,10 @@ public class PropPlacement : MonoBehaviour {
     public List<Transform> props = new();
     public List<PrefabInfo> prefabInfos = new();
     public Transform prefab;
-    public Dictionary<Transform, Transform> previews = new();
-    public Dictionary<Transform, Transform> getPrefab = new();
 
     [Command] public Vector2 randomRotationRange = new(0, 360);
     [Command] public float rotationStep = 90;
     public float yaw;
-    private bool lastRotationWasRandom;
     public float thickness = 2;
     public float arrowLength = .33f;
     public float normalLength = .25f;
@@ -43,33 +33,30 @@ public class PropPlacement : MonoBehaviour {
     [Command] public float highlightDuration = 3f;
     [Command] public float highlightFrequency = 66;
     [Command] public Color highlightColor = Color.red;
-    
-    public string loadOnAwake = autosaveName;
 
-    [Command]
-    public void HighlightProps() {
-        StartCoroutine(HighlightAnimation());
-    }
-    public IEnumerator HighlightAnimation() {
-        var startTime = Time.time;
-        while (Time.time < startTime + highlightDuration) {
-            using (Draw.ingame.WithLineWidth(thickness))
-                foreach (var prop in props)
-                    Draw.ingame.CircleXZ(prop.position, .1f, highlightColor * (Mathf.Sin((Time.time - startTime) * highlightFrequency) + 1) / 2);
-            yield return null;
-        }
-    }
+    [Header("Startup")]
+    public bool loadOnAwake = true;
+    [FormerlySerializedAs("loadOnAwake")] public string loadOnAwakeFileName = defaultLoadOnAwakeFileName;
+    public float searchInputWidth = 500;
+    public List<Transform> matches = new();
+    public Dictionary<Transform, Transform> getPrefab = new();
+    private readonly GUIContent guiContent = new();
+    private bool justOpened;
+    private bool lastRotationWasRandom;
+    public Dictionary<Transform, Transform> previews = new();
 
-    [Command]
-    public void Clear() {
-        foreach (var prop in props.ToList())
-            RemoveProp(prop);
-    }
+    private string searchInput, oldSearchInput;
+    private GUIStyle searchInputStyle;
+
+    public float RandomYaw => Random.Range(randomRotationRange.x, randomRotationRange.y);
 
     private void Awake() {
         if (prefabInfos.Count > 0)
             SelectPrefab(prefabInfos[0]);
-        TryLoad(loadOnAwake);
+
+        if (loadOnAwake)
+            TryLoad(loadOnAwakeFileName);
+
         foreach (var prefabInfo in prefabInfos) {
             var prefab = prefabInfo.prefab;
             var preview = Instantiate(prefab, transform);
@@ -77,22 +64,6 @@ public class PropPlacement : MonoBehaviour {
             preview.gameObject.SetActive(false);
             previews.Add(prefab, preview);
         }
-    }
-
-    private void OnDisable() {
-        foreach (var preview in previews.Values)
-            if (preview) // when quitting this may happen
-                preview.gameObject.SetActive(false);
-        HideSearch();
-    }
-
-    public void ShowSearch() {
-        searchInput = "";
-        justOpened = true;
-    }
-    public void HideSearch() {
-        searchInput = null;
-        matches.Clear();
     }
 
     public void LateUpdate() {
@@ -148,8 +119,9 @@ public class PropPlacement : MonoBehaviour {
                     if (lastRotationWasRandom)
                         yaw = RandomYaw;
                 }
-                else if (closestProp && Input.GetMouseButtonDown(Mouse.right))
+                else if (closestProp && Input.GetMouseButtonDown(Mouse.right)) {
                     RemoveProp(closestProp);
+                }
         }
 
         if (Input.GetKeyDown(KeyCode.Tab) && prefabInfos.Count > 0) {
@@ -158,64 +130,36 @@ public class PropPlacement : MonoBehaviour {
             SelectPrefab(prefabInfos[nextIndex]);
         }
 
-        else if (Input.GetKeyDown(KeyCode.R))
+        else if (Input.GetKeyDown(KeyCode.R)) {
             RotateRandomly();
-        else if (Input.GetKeyDown(KeyCode.F))
+        }
+        else if (Input.GetKeyDown(KeyCode.F)) {
             CycleFixedRotation();
-        else if (Input.GetKeyDown(KeyCode.N))
+        }
+        else if (Input.GetKeyDown(KeyCode.N)) {
             alignToNormal = !alignToNormal;
-        else if (Input.GetKeyDown(KeyCode.H))
+        }
+        else if (Input.GetKeyDown(KeyCode.H)) {
             HighlightProps();
+        }
     }
 
-    public void CycleFixedRotation() {
-        var direction = Input.GetKey(KeyCode.LeftShift) ? -1 : 1;
-        yaw = (Mathf.Round(yaw / rotationStep) * rotationStep + direction * rotationStep).PositiveModulo(360);
-        lastRotationWasRandom = false;
+    private void OnDisable() {
+        foreach (var preview in previews.Values)
+            if (preview) // when quitting this may happen
+                preview.gameObject.SetActive(false);
+        HideSearch();
     }
-    public void RotateRandomly() {
-        yaw = RandomYaw;
-        lastRotationWasRandom = true;
-    }
-    public void SelectPrefab(PrefabInfo prefabInfo) {
-        prefab = prefabInfo.prefab;
-        alignToNormal = prefabInfo.defaultAlignToNormal;
-        if (prefabInfo.defaultRotation == PrefabInfo.RotationType.Random)
-            RotateRandomly();
-        else
-            CycleFixedRotation();
-    }
-
-    public float RandomYaw => Random.Range(randomRotationRange.x, randomRotationRange.y);
-
-    public void RemoveProp(Transform prop) {
-        props.Remove(prop);
-        Destroy(prop.gameObject);
-    }
-    public Transform AddProp(Transform prefab, Vector3 position, Quaternion rotation, Vector3 scale) {
-        var prop = Instantiate(prefab, transform);
-        prop.position = position;
-        prop.rotation = rotation;
-        prop.localScale = scale;
-        props.Add(prop);
-        getPrefab.Add(prop, prefab);
-        return prop;
-    }
-
-    private string searchInput, oldSearchInput;
-    public float searchInputWidth = 500;
-    public List<Transform> matches = new();
-    private GUIStyle searchInputStyle;
-    private GUIContent guiContent = new();
-    private bool justOpened = false;
 
     private void OnGUI() {
 
         GUI.skin = DefaultGuiSkin.TryGet;
+        GUILayout.Label("Prop placement");
+        GUILayout.Space(DefaultGuiSkin.defaultSpacingSize);
 
         if (prefab) {
             GUILayout.Label($"Prop: {prefab.name}");
-            GUILayout.Space(15);
+            GUILayout.Space(DefaultGuiSkin.defaultSpacingSize);
         }
 
         GUILayout.Label($"[Tab] Cycle Props");
@@ -231,8 +175,9 @@ public class PropPlacement : MonoBehaviour {
 
         if (searchInput != null) {
 
-            if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.Escape)
+            if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.Escape) {
                 HideSearch();
+            }
 
             else {
                 // ugly hack because in the CommandLine GUI skin I used transparent text for the text field
@@ -253,10 +198,9 @@ public class PropPlacement : MonoBehaviour {
                 if (justOpened || oldSearchInput != searchInput) {
                     justOpened = false;
                     matches.Clear();
-                    foreach (var prefab in prefabInfos.Select(i => i.prefab)) {
+                    foreach (var prefab in prefabInfos.Select(i => i.prefab))
                         if (prefab && searchInput.MatchesFuzzy(prefab.name))
                             matches.Add(prefab);
-                    }
                     matches.Sort((a, b) => Levenshtein.Distance(a.name, searchInput) - Levenshtein.Distance(b.name, searchInput));
                     if (matches.Count > 0)
                         prefab = matches[0];
@@ -277,6 +221,68 @@ public class PropPlacement : MonoBehaviour {
     }
 
     [Command]
+    public void HighlightProps() {
+        StartCoroutine(HighlightAnimation());
+    }
+    public IEnumerator HighlightAnimation() {
+        var startTime = Time.time;
+        while (Time.time < startTime + highlightDuration) {
+            using (Draw.ingame.WithLineWidth(thickness)) {
+                foreach (var prop in props)
+                    Draw.ingame.CircleXZ(prop.position, .1f, highlightColor * (Mathf.Sin((Time.time - startTime) * highlightFrequency) + 1) / 2);
+            }
+            yield return null;
+        }
+    }
+
+    [Command]
+    public void Clear() {
+        foreach (var prop in props.ToList())
+            RemoveProp(prop);
+    }
+
+    public void ShowSearch() {
+        searchInput = "";
+        justOpened = true;
+    }
+    public void HideSearch() {
+        searchInput = null;
+        matches.Clear();
+    }
+
+    public void CycleFixedRotation() {
+        var direction = Input.GetKey(KeyCode.LeftShift) ? -1 : 1;
+        yaw = (Mathf.Round(yaw / rotationStep) * rotationStep + direction * rotationStep).PositiveModulo(360);
+        lastRotationWasRandom = false;
+    }
+    public void RotateRandomly() {
+        yaw = RandomYaw;
+        lastRotationWasRandom = true;
+    }
+    public void SelectPrefab(PrefabInfo prefabInfo) {
+        prefab = prefabInfo.prefab;
+        alignToNormal = prefabInfo.defaultAlignToNormal;
+        if (prefabInfo.defaultRotation == PrefabInfo.RotationType.Random)
+            RotateRandomly();
+        else
+            CycleFixedRotation();
+    }
+
+    public void RemoveProp(Transform prop) {
+        props.Remove(prop);
+        Destroy(prop.gameObject);
+    }
+    public Transform AddProp(Transform prefab, Vector3 position, Quaternion rotation, Vector3 scale) {
+        var prop = Instantiate(prefab, transform);
+        prop.position = position;
+        prop.rotation = rotation;
+        prop.localScale = scale;
+        props.Add(prop);
+        getPrefab.Add(prop, prefab);
+        return prop;
+    }
+
+    [Command]
     public void ProjectProps() {
         foreach (var prop in props) {
             var ray = new Ray(prop.position + Vector3.up * 100, Vector3.down);
@@ -288,15 +294,20 @@ public class PropPlacement : MonoBehaviour {
         }
     }
 
+    [Command]
+    public void Save() {
+        Save(loadOnAwakeFileName);
+    }
+    
     public void Save(string name) {
         var writer = new StringWriter();
         foreach (var prop in props)
             writer.PostfixWriteLine("add ( {0} {1} {2} {3} )", getPrefab[prop].name, prop.position, prop.rotation, prop.localScale);
-        LevelEditorFileSystem.Save(name + "Props", writer.ToString());
+        LevelEditorFileSystem.Save(name, writer.ToString());
     }
 
     public bool TryLoad(string name) {
-        var input = LevelEditorFileSystem.TryReadLatest(name + "Props");
+        var input = LevelEditorFileSystem.TryReadLatest(name);
         if (input == null)
             return false;
         var stack = new Stack();
@@ -318,5 +329,13 @@ public class PropPlacement : MonoBehaviour {
                     break;
             }
         return true;
+    }
+
+    [Serializable]
+    public class PrefabInfo {
+        public enum RotationType { Random, Fixed }
+        public Transform prefab;
+        public RotationType defaultRotation = RotationType.Random;
+        public bool defaultAlignToNormal = true;
     }
 }

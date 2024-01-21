@@ -10,21 +10,71 @@ using UnityEngine.Serialization;
 
 public class ForestCreator : MonoBehaviour {
 
-    public const string defaultAutoSaveName = "Forests";
-    public string autoSaveName = defaultAutoSaveName;
+    public const string defaultAutoFileName = "Forests";
+    
+    [Header("Startup")]
+    public bool loadOnAwake = true;
+    [FormerlySerializedAs("autoSaveName")] public string loadOnAwakeFileName = defaultAutoFileName;
 
+    [Header("Autosave")]
+    public bool autoSave = true;
+    public bool wasModified;
+
+    [Header("Dependencies")]
     [FormerlySerializedAs("renderer")] public InstancedMeshRenderer2 treeRenderer;
     public Camera camera;
+
+    [Header("Editing")]
     public Dictionary<Vector2Int, List<Matrix4x4>> trees = new();
-    public bool wasModified = false;
+    public Vector2Int treeCountRange = new(1, 2);
+    public Vector2 treeScaleRange = new(.5f, 1);
+    [Range(0, 1)] public float jitterAmount = 1;
+
+    [Header("Materials")]
+    public Material terrainMaterial;
+    public string terrainMaterialForestMaskUniformName = "_ForestMask";
+    public Material bushMaterial;
+    public string bushMaterialForestMaskUniformName = "_ForestMask";
+    public Texture forestMaskTexture;
+    public Matrix4x4 forestMaskTransform;
 
     public void Awake() {
-        TryLoad(autoSaveName);
+        TryLoad(loadOnAwakeFileName);
+    }
+
+    public void Update() {
+        if (!camera)
+            return;
+        var ray = camera.ScreenPointToRay(Input.mousePosition);
+        if (!Physics.Raycast(ray, out var hit, float.MaxValue, LayerMasks.Terrain))
+            return;
+        var tilePosition = hit.point.ToVector2Int();
+        if (!Physics.Raycast(tilePosition.ToVector3() + Vector3.up * 100, Vector3.down, out var hit2, float.MaxValue, LayerMasks.Terrain))
+            return;
+        var tileCenterPosition3D = hit2.point;
+        Draw.ingame.WireBox(tileCenterPosition3D, Vector2.one.ToVector3(), Color.white);
+
+        if (Input.GetMouseButton(Mouse.left)) {
+            if (!trees.ContainsKey(tilePosition))
+                PlaceTreesAt(tilePosition);
+        }
+        else if (Input.GetMouseButton(Mouse.right)) {
+            if (trees.ContainsKey(tilePosition))
+                RemoveTreesAt(tilePosition);
+        }
+    }
+
+    public void OnGUI() {
+        GUI.skin = DefaultGuiSkin.TryGet;
+        GUILayout.Label("Forest creator");
+        GUILayout.Space(DefaultGuiSkin.defaultSpacingSize);
+        GUILayout.Label("[LMB] Place trees");
+        GUILayout.Label("[RMB] Remove trees");
     }
 
     public void OnApplicationQuit() {
-        if (wasModified)
-            Save(autoSaveName);
+        if (autoSave && wasModified)
+            Save(loadOnAwakeFileName);
     }
 
     public bool TryLoad(string saveName) {
@@ -61,28 +111,6 @@ public class ForestCreator : MonoBehaviour {
         LevelEditorFileSystem.Save(saveName, stringWriter.ToString());
     }
 
-    public void Update() {
-        if (!camera)
-            return;
-        var ray = camera.ScreenPointToRay(Input.mousePosition);
-        if (!Physics.Raycast(ray, out var hit, float.MaxValue, LayerMasks.Terrain))
-            return;
-        var tilePosition = hit.point.ToVector2Int();
-        if (!Physics.Raycast(tilePosition.ToVector3() + Vector3.up * 100, Vector3.down, out var hit2, float.MaxValue, LayerMasks.Terrain))
-            return;
-        var tileCenterPosition3D = hit2.point;
-        Draw.ingame.WireBox(tileCenterPosition3D, Vector2.one.ToVector3(), Color.white);
-
-        if (Input.GetMouseButton(Mouse.left)) {
-            if (!trees.ContainsKey(tilePosition))
-                PlaceTreesAt(tilePosition);
-        }
-        else if (Input.GetMouseButton(Mouse.right)) {
-            if (trees.ContainsKey(tilePosition))
-                RemoveTreesAt(tilePosition);
-        }
-    }
-
     public static IEnumerable<Vector2> UniformPointsAt(Vector2Int position, Vector2Int count) {
         var size = new Vector2(1f / count.x, 1f / count.y);
         var margin = size / 2;
@@ -98,15 +126,11 @@ public class ForestCreator : MonoBehaviour {
         return point + randomOffset * amount;
     }
 
-    public Vector2Int treeCountRange = new(1, 2);
-    public Vector2 treeScaleRange = new(.5f, 1);
-    [Range(0, 1)] public float jitterAmount = 1;
-
     public void PlaceTreesAt(Vector2Int position) {
         if (!Physics.Raycast(position.ToVector3() + Vector3.up * 100, Vector3.down, out var centerHit, float.MaxValue, LayerMasks.Terrain))
             return;
 
-        var list = new List<Matrix4x4> { };
+        var list = new List<Matrix4x4>();
 
         var count = new Vector2Int(Random.Range(treeCountRange[0], treeCountRange[1] + 1), Random.Range(treeCountRange[0], treeCountRange[1] + 1));
         foreach (var point in UniformPointsAt(position, count)) {
@@ -139,16 +163,9 @@ public class ForestCreator : MonoBehaviour {
         treeRenderer.UpdateGpuData();
     }
 
-    public Material terrainMaterial;
-    public string terrainMaterialForestMaskUniformName = "_ForestMask";
-    public Material bushMaterial;
-    public string bushMaterialForestMaskUniformName = "_ForestMask";
-    public Texture forestMaskTexture;
-    public Matrix4x4 forestMaskTransform;
-
     public void UpdateTerrainMaterialForestMask() {
         if (terrainMaterial || bushMaterial)
-            (forestMaskTexture, forestMaskTransform) = TileMaskTexture.Create(trees.Keys.ToHashSet(), resolution: 4, filterMode: FilterMode.Bilinear);
+            (forestMaskTexture, forestMaskTransform) = TileMaskTexture.Create(trees.Keys.ToHashSet(), 4, filterMode: FilterMode.Bilinear);
         if (terrainMaterial)
             terrainMaterial.SetTileMask(terrainMaterialForestMaskUniformName, forestMaskTexture, forestMaskTransform);
         if (bushMaterial)

@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -8,44 +7,67 @@ using Drawing;
 using KaimiraGames;
 using Stable;
 using UnityEngine;
-using Random = UnityEngine.Random;
+using UnityEngine.Serialization;
 
 public class TerrainMapper : MonoBehaviour {
 
-    public Material[] materials = { };
-    public string uniformName = "_Splat_WorldToLocal";
-    public Vector3? oldPosition, oldLocalScale;
-    public Quaternion? oldRotation;
-    public InstancedMeshRenderer2 bushRenderer;
-    public Texture2D bushMaskTexture;
-    public bool updateRealTime = false;
+    [Header("Bush mesh and raycasting")]
+    public Mesh bushMesh;
+    public List<Vector3> bushMeshRaycastOrigins = new();
+    public bool drawBushRaycastOrigins;
+    public float bushSeaLevelThreshold = .15f;
+    public float maxBushGap = .01f;
     public Vector2Int resolution = new(1000, 1000);
     public int maxBushesCount = 500000;
-
-    public Mesh bushMesh;
-    public List<Vector3> bushRaycastOrigins = new();
-    public bool drawBushRaycastOrigins = false;
     public Vector2 bushScaleRange = new(.2f, 1.5f);
 
-    public float minBushSeaLevel = .15f;
+    [Header("Bush rendering")]
+    public InstancedMeshRenderer2 bushRenderer;
 
-    public const string defaultAutoSaveName = "Bushes";
-    public string autoSaveName = defaultAutoSaveName;
+    [Header("Uv mapping")]
+    public Texture2D bushMaskTexture;
+    public Material[] materials = { };
+    public string worldToSplatUniformName = "_Splat_WorldToLocal";
 
-    public bool bushesWereModified = false;
-
-    public void RefreshUniforms() {
-        foreach (var material in materials)
-            material.SetMatrix(uniformName, transform.worldToLocalMatrix);
-    }
+    public const string defaultLoadOnAwakeFileName = "Bushes";
+    [Header("Startup")]
+    public bool loadOnAwake = true;
+    public string loadOnAwakeFileName = defaultLoadOnAwakeFileName;
+    
+    [FormerlySerializedAs("updateRealTime")] [Header("Editing")]
+    public bool updateInRealTime;
+    public bool autoSave = true;
+    public bool bushesWereModified;
 
     public void Awake() {
-        TryLoadBushes(autoSaveName);
+        if (loadOnAwake)
+            TryLoadBushes(loadOnAwakeFileName);
+    }
+
+    public void Start() {
+        RefreshUniforms();
+    }
+
+    public void Update() {
+        if (updateInRealTime)
+            RefreshUniforms();
+
+        if (drawBushRaycastOrigins)
+            using (Draw.editor.WithLineWidth(2)) {
+                Draw.editor.SolidMesh(bushMesh);
+                foreach (var origin in bushMeshRaycastOrigins)
+                    Draw.editor.WireSphere(origin, .05f, Color.red);
+            }
     }
 
     public void OnApplicationQuit() {
-        if (bushesWereModified)
-            SaveBushes(autoSaveName);
+        if (autoSave && bushesWereModified)
+            SaveBushes(loadOnAwakeFileName);
+    }
+
+    public void RefreshUniforms() {
+        foreach (var material in materials)
+            material.SetMatrix(worldToSplatUniformName, transform.worldToLocalMatrix);
     }
 
     public void SaveBushes(string saveName) {
@@ -60,7 +82,7 @@ public class TerrainMapper : MonoBehaviour {
     public bool TryLoadBushes(string saveName) {
         if (!bushRenderer)
             return false;
-        var text = LevelEditorFileSystem.TryReadLatest(autoSaveName);
+        var text = LevelEditorFileSystem.TryReadLatest(loadOnAwakeFileName);
         if (text == null)
             return false;
         var stack = new Stack();
@@ -82,25 +104,6 @@ public class TerrainMapper : MonoBehaviour {
         bushRenderer.UpdateGpuData();
         return true;
     }
-
-    public void Start() {
-        RefreshUniforms();
-    }
-
-    public void Update() {
-        if (updateRealTime)
-            RefreshUniforms();
-
-        if (drawBushRaycastOrigins) {
-            using (Draw.editor.WithLineWidth(2)) {
-                Draw.editor.SolidMesh(bushMesh);
-                foreach (var origin in bushRaycastOrigins)
-                    Draw.editor.WireSphere(origin, .05f, Color.red);
-            }
-        }
-    }
-
-    public float maxBushGap = .01f;
 
     [Command]
     public void ClearBushes() {
@@ -147,13 +150,13 @@ public class TerrainMapper : MonoBehaviour {
         for (var x = 0; x < resolution.x; x++) {
             var localPosition2d = new Vector2(x / (float)resolution.x, y / (float)resolution.y);
             var centerRayOrigin = transform.TransformPoint(localPosition2d.ToVector3());
-            if (TryRaycastTerrainAndRoads(centerRayOrigin, out var hit) && hit.point.y > minBushSeaLevel)
+            if (TryRaycastTerrainAndRoads(centerRayOrigin, out var hit) && hit.point.y > bushSeaLevelThreshold)
                 for (var i = 0; i < triesCount; i++) {
                     var yaw = Random.value * 360;
                     var scale = Random.Range(bushScaleRange[0], bushScaleRange[1]);
                     var matrix = Matrix4x4.TRS(hit.point, (-hit.normal).ToRotation(yaw), Vector3.one * scale);
                     var isValidPlacement = true;
-                    foreach (var bushRayOriginLocal in bushRaycastOrigins) {
+                    foreach (var bushRayOriginLocal in bushMeshRaycastOrigins) {
                         var bushRayOriginWorld = matrix.MultiplyPoint(bushRayOriginLocal);
                         if (!TryRaycastTerrainAndRoads(bushRayOriginWorld, out var hit2) || Vector3.Distance(bushRayOriginWorld, hit2.point) > maxBushGap) {
                             isValidPlacement = false;

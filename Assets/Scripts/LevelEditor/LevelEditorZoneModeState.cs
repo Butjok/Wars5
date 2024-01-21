@@ -22,6 +22,11 @@ public class LevelEditorZoneModeState : StateMachineState {
 
     [Command] public static MoveType moveType;
 
+    public override void Exit() {
+        stateMachine.TryFind<LevelEditorSessionState>().gui.layerStack.Pop();
+        base.Exit();
+    }
+
     public LevelEditorZoneModeState(StateMachine stateMachine) : base(stateMachine) { }
     public override IEnumerator<StateChange> Enter {
         get {
@@ -44,10 +49,9 @@ public class LevelEditorZoneModeState : StateMachineState {
                 return true;
             }
 
-            gui
-                .Push()
-                .Add("Player", () => player)
-                .Add("ZoneName", () => zoneName);
+            gui.layerStack.Push(() => {
+                GUILayout.Label($"Level editor > Zones [{player} {zoneName}]");
+            });
 
             player = level.players[0];
 
