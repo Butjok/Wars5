@@ -12966,7 +12966,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 600453558}
   m_LocalRotation: {x: -0.03091431, y: 0.9590108, z: -0.11537381, w: -0.2569661}
-  m_LocalPosition: {x: 0, y: 0.25, z: 0}
+  m_LocalPosition: {x: 0, y: 0.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -15629,8 +15629,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 703953808}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 18.5, y: 0.09, z: -3}
-  m_LocalScale: {x: 49, y: 1, z: 28}
+  m_LocalPosition: {x: 19.5, y: 0.09, z: -2.5}
+  m_LocalScale: {x: 39, y: 1, z: 23}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 66661095}
@@ -21085,7 +21085,7 @@ MonoBehaviour:
   worldToSplatUniformName: _Splat_WorldToLocal
   loadOnAwake: 1
   loadOnAwakeFileName: Bushes
-  updateInRealTime: 0
+  updateInRealTime: 1
   autoSave: 1
   bushesWereModified: 0
 --- !u!114 &1060996781
@@ -23468,7 +23468,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   arrow: {fileID: 1190937755}
   angle: 0
-  cameraRig: {fileID: 0}
+  cameraRig: {fileID: 1852965069}
 --- !u!114 &1190937755
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34286,7 +34286,7 @@ MonoBehaviour:
   targetWidth: 1
   widthSpeed: 0.5
   acceptInput: 1
-  dollyZoomFovRange: {x: 30, y: 20}
+  dollyZoomFovRange: {x: 45, y: 20}
   dollyZoomWidthRange: {x: 3, y: 25}
   dollyZoom: 0
   targetDollyZoom: 0
