@@ -453,7 +453,7 @@ public class TileMapCreator : MonoBehaviour {
 
         var submeshes = new List<Mesh>();
         foreach (var material in materials) {
-            var submesh = new Mesh();
+            var submesh = new Mesh{indexFormat = IndexFormat.UInt32};
             if (submeshCombiners[material].Count > 0) {
                 submesh.CombineMeshes(submeshCombiners[material].ToArray());
                 submeshes.Add(submesh);

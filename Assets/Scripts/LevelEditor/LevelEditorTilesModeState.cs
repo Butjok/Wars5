@@ -205,7 +205,7 @@ public class LevelEditorTilesModeState : StateMachineState {
                 tileMapCreator.FinalizeMesh();
             }
             if (roadCreator) {
-                roadCreator.tiles  = tiles.Where(p=>p.Value is TileType.Road or TileType.Bridge or TileType.BridgeSea).ToDictionary(p=>p.Key, p=>p.Value);
+                roadCreator.tiles  = tiles.Where(p=>p.Value is TileType.Road or TileType.Bridge or TileType.BridgeSea || (TileType.Buildings & p.Value) != 0).ToDictionary(p=>p.Key, p=>p.Value);
                 roadCreator.Rebuild();
             }
             if (forestCreator) {
@@ -228,7 +228,7 @@ public class LevelEditorTilesModeState : StateMachineState {
                         tileMapCreator.terrainMapper.ClearBushes();
                 }
 
-                if (roadCreator && tileType is TileType.Road or TileType.Bridge or TileType.BridgeSea) {
+                if (roadCreator && tileType is TileType.Road or TileType.Bridge or TileType.BridgeSea || (TileType.Buildings & tileType) != 0) {
                     roadCreator.tiles.Remove(position);
                     roadCreator.Rebuild();
                 }
@@ -269,7 +269,7 @@ public class LevelEditorTilesModeState : StateMachineState {
                 }
 
                 if (roadCreator) {
-                    if (tileType is TileType.Road or TileType.Bridge or TileType.BridgeSea)
+                    if (tileType is TileType.Road or TileType.Bridge or TileType.BridgeSea || (TileType.Buildings & tileType) != 0)
                         roadCreator.tiles.Add(position,tileType);
                     roadCreator.Rebuild();
                 }

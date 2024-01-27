@@ -92,8 +92,8 @@ public class ActionSelectionState : StateMachineState {
         if (other == null || other == unit) {
             if (level.TryGetBuilding(destination, out var building) && CanCapture(unit, building))
                 yield return new UnitAction(UnitActionType.Capture, unit, path, null, building, spawnView: true);
-            else
-                yield return new UnitAction(UnitActionType.Stay, unit, path, spawnView: true);
+
+            yield return new UnitAction(UnitActionType.Stay, unit, path, spawnView: true);
 
             if (level.TryGetBuilding(destination, out building) &&
                 building.type is TileType.MissileSilo &&

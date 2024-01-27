@@ -21,7 +21,7 @@ float2 AlignWithGrabTexel (float2 uv) {
 		abs(_CameraDepthTexture_TexelSize.xy);
 }
 
-float3 ColorBelowWater (float4 screenPos, float3 tangentSpaceNormal) {
+float4 ColorBelowWater (float4 screenPos, float3 tangentSpaceNormal) {
 	float2 uvOffset = tangentSpaceNormal.xy * _RefractionStrength;
 	uvOffset.y *=
 		_CameraDepthTexture_TexelSize.z * abs(_CameraDepthTexture_TexelSize.y);
@@ -38,9 +38,9 @@ float3 ColorBelowWater (float4 screenPos, float3 tangentSpaceNormal) {
 		LinearEyeDepth(SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, uv));
 	depthDifference = backgroundDepth - surfaceDepth;
 	
-	float3 backgroundColor = tex2D(_WaterBackground, uv).rgb;
+	float4 backgroundColor = tex2D(_WaterBackground, uv);
 	float fogFactor = exp2(-_WaterFogDensity * depthDifference);
-	return lerp(_WaterFogColor, backgroundColor, fogFactor);
+	return lerp(float4(_WaterFogColor,0), backgroundColor, fogFactor);
 }
 
 #endif

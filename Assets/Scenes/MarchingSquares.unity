@@ -5925,7 +5925,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.43529412, g: 0.47058824, b: 0.3137255, a: 0}
+  m_BackGroundColor: {r: 0.06666667, g: 0.32941177, b: 0.5764706, a: 1}
   m_projectionMatrixMode: 0
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -7081,6 +7081,67 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 244299908}
   m_CullTransparentMesh: 1
+--- !u!1 &256689091
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 256689094}
+  - component: {fileID: 256689093}
+  - component: {fileID: 256689092}
+  m_Layer: 0
+  m_Name: BirdSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &256689092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 256689091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd0b0581bafc4fb8a8197b06335c81db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 7280669306027067074, guid: e135459dcd257004086d27a293e52085, type: 3}
+  count: 15
+  birds: []
+--- !u!65 &256689093
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 256689091}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 40, y: 1, z: 40}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!4 &256689094
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 256689091}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 20, y: 0, z: -5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 50
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &260043703
 GameObject:
   m_ObjectHideFlags: 0
@@ -12592,7 +12653,7 @@ MonoBehaviour:
   pieceT: {fileID: -6414288632228724897, guid: 766c1e39d2610324aae146b4c4c2fb09, type: 3}
   pieceX: {fileID: 7196441373348368383, guid: 766c1e39d2610324aae146b4c4c2fb09, type: 3}
   pieceIsland: {fileID: 9023955764063960635, guid: 766c1e39d2610324aae146b4c4c2fb09, type: 3}
-  pieceCap: {fileID: -2521245407137789825, guid: 766c1e39d2610324aae146b4c4c2fb09, type: 3}
+  pieceCap: {fileID: -8254804224689600507, guid: 766c1e39d2610324aae146b4c4c2fb09, type: 3}
   rotateI: 0
   rotateL: 0
   rotateT: 3
@@ -12606,7 +12667,7 @@ MonoBehaviour:
   meshCollider: {fileID: 583602429}
   loadOnAwake: 1
   loadOnAwakeFileName: MarchingSquaresRoads
-  autoSave: 1
+  autoSave: 0
   offset: 0.0125
   debugColor: {r: 0.5, g: 0.5, b: 0.5, a: 0}
   tileTypes: 020000000020000000400000
@@ -15631,8 +15692,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 703953808}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 19.5, y: 0.09, z: -2.5}
-  m_LocalScale: {x: 41, y: 1, z: 25}
+  m_LocalPosition: {x: 20, y: 0.09, z: -5}
+  m_LocalScale: {x: 41, y: 1, z: 41}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 66661095}
@@ -21088,7 +21149,7 @@ MonoBehaviour:
   loadOnAwake: 1
   loadOnAwakeFileName: Bushes
   updateInRealTime: 1
-  autoSave: 1
+  autoSave: 0
   bushesWereModified: 0
 --- !u!114 &1060996781
 MonoBehaviour:
@@ -33527,7 +33588,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   loadOnAwake: 1
   loadOnAwakeFileName: Forests
-  autoSave: 1
+  autoSave: 0
   wasModified: 0
   treeRenderer: {fileID: 1824131962}
   camera: {fileID: 157206632}

@@ -127,7 +127,11 @@
 			targetNormal =BlendNormals(lerp(float3(0,0,1),normal3,.75), targetNormal);
 			o.Normal = normalize( targetNormal);
 
-			o.Emission = ColorBelowWater(IN.screenPos, o.Normal) * _Color.rgb * (1 - c.a);
+			float4 colorBelowWater = ColorBelowWater(IN.screenPos, o.Normal);
+			clip(colorBelowWater.a - 0.5);
+			
+			o.Emission = colorBelowWater * _Color.rgb * (1 - c.a);
+			//o.Emission = ColorBelowWater(IN.screenPos, o.Normal).a;;
 			o.Occlusion=0.25;
 
 			o.Albedo *= 1-tex2D (_Grid, position-.5);

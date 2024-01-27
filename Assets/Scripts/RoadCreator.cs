@@ -131,7 +131,7 @@ public class RoadCreator : MonoBehaviour {
         triangles.Clear();
         uvs0.Clear();
 
-        foreach (var position in tiles.Keys.Where(p => tiles[p] == TileType.Road)) {
+        foreach (var position in tiles.Keys) {
             var (type, forward) = RoadTiles.DetermineTile(position, tiles.Keys);
             var (mesh, actualForward) = type switch {
                 RoadTiles.Type.I => (pieceI, forward.Rotate(rotateI)),
