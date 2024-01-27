@@ -236,8 +236,8 @@ public class TerrainCreator : MonoBehaviour {
                     SubdivideLevel = 0;
                 }
 
-                if (roadCreator && roadCreator.positions.Contains(position)) {
-                    roadCreator.positions.Remove(position);
+                if (roadCreator && roadCreator.tiles.ContainsKey(position)) {
+                    roadCreator.tiles.Remove(position);
                     roadCreator.Rebuild();
                 }
             }
@@ -297,13 +297,6 @@ public class TerrainCreator : MonoBehaviour {
     private HashSet<MeshUtils2.Vertex> usedVertices = new();
     private List<(Vector2Int position, MeshUtils2.Vertex vertex)> vertices2 = new();
 
-    [Command]
-    public void TrimRoads() {
-        if (!roadCreator)
-            return;
-        roadCreator.positions.IntersectWith(quads.Keys);
-        roadCreator.Rebuild();
-    }
 
     private void RebuildTerrain(bool clearBushes = true, bool clearTrees = false) {
         //remove unused vertices

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Butjok.CommandLine;
 using Drawing;
 using Stable;
@@ -16,30 +17,38 @@ public class RoadCreator : MonoBehaviour {
     public static readonly List<Vector3> vertices = new();
     public static readonly List<int> triangles = new();
     public static readonly List<Vector2> uvs0 = new();
-    
+
     [Header("Mesh pieces")]
     public Mesh pieceI;
+
     public Mesh pieceL, pieceT, pieceX, pieceIsland, pieceCap;
+
     [Header("Rotation shifts")]
     public int rotateI;
+
     public int rotateL, rotateT, rotateX, rotateIsland, rotateCap;
 
     [Header("Dependencies")]
     public Camera camera;
+
     public Mesh mesh, projectedMesh;
     public MeshFilter meshFilter;
     public MeshCollider meshCollider;
-    
+
     [Header("Startup")]
     public bool loadOnAwake = true;
+
     public string loadOnAwakeFileName = defaultLoadOnAwakeFileName;
     public bool autoSave = true;
 
     [Header("Editing")]
     public float offset = .05f;
+
     public Color debugColor = Color.grey;
-    public HashSet<Vector2Int> positions = new();
-    public HashSet<Vector2Int> loadedPositions = new();
+    public Dictionary<Vector2Int, TileType> tiles = new();
+
+    public TileType[] tileTypes = { TileType.Road , TileType.Bridge, TileType.BridgeSea};
+    public TileType tileType = TileType.Road;
 
     public void Awake() {
         if (loadOnAwake)
@@ -59,46 +68,50 @@ public class RoadCreator : MonoBehaviour {
             Draw.ingame.CircleXZ(position.ToVector3() + hit.point.y * Vector3.up, .5f, Color.yellow);
 
             if (Input.GetMouseButton(Mouse.left)) {
-                if (!positions.Contains(position)) {
-                    positions.Add(position);
+                if (!tiles.TryGetValue(position, out var oldTileType) || oldTileType != tileType) {
+                    tiles[position] = tileType;
                     Rebuild();
                 }
             }
             else if (Input.GetMouseButton(Mouse.right)) {
-                if (positions.Contains(position)) {
-                    positions.Remove(position);
+                if (tiles.ContainsKey(position)) {
+                    tiles.Remove(position);
                     Rebuild();
                 }
             }
         }
 
-        foreach (var position in positions)
+        foreach (var position in tiles.Keys)
             Draw.ingame.SolidPlane(position.ToVector3(), Vector3.up, Vector2.one, debugColor);
 
         if (Input.GetKeyDown(KeyCode.R))
             Rebuild();
+        else if (Input.GetKeyDown(KeyCode.Tab)) {
+            var index = Array.IndexOf(tileTypes, tileType);
+            tileType = tileTypes[(index+1).PositiveModulo(tileTypes.Length)];
+        }
     }
 
     private void OnGUI() {
         GUI.skin = DefaultGuiSkin.TryGet;
-        GUILayout.Label($"Road creator");
+        GUILayout.Label($"Road creator [{tileType}]");
         GUILayout.Space(DefaultGuiSkin.defaultSpacingSize);
         GUILayout.Label($"[{DefaultGuiSkin.leftClick}] Place roads");
         GUILayout.Label($"[{DefaultGuiSkin.rightClick}] Remove roads");
         GUILayout.Label($"[{KeyCode.R}] Rebuild");
     }
 
-    private void OnApplicationQuit() {
+    /*private void OnApplicationQuit() {
         if (autoSave) {
             loadedPositions.SymmetricExceptWith(positions);
             if (loadedPositions.Count > 0)
                 Save(loadOnAwakeFileName);
         }
-    }
+    }*/
 
     [Command]
     public void Rebuild() {
-        if (positions.Count == 0) {
+        if (tiles.Count == 0) {
             meshFilter.mesh = null;
             meshCollider.sharedMesh = null;
             return;
@@ -118,8 +131,8 @@ public class RoadCreator : MonoBehaviour {
         triangles.Clear();
         uvs0.Clear();
 
-        foreach (var position in positions) {
-            var (type, forward) = RoadTiles.DetermineTile(position, positions);
+        foreach (var position in tiles.Keys.Where(p => tiles[p] == TileType.Road)) {
+            var (type, forward) = RoadTiles.DetermineTile(position, tiles.Keys);
             var (mesh, actualForward) = type switch {
                 RoadTiles.Type.I => (pieceI, forward.Rotate(rotateI)),
                 RoadTiles.Type.L => (pieceL, forward.Rotate(rotateL)),
@@ -154,17 +167,23 @@ public class RoadCreator : MonoBehaviour {
 
     [Command]
     public void Clear() {
-        positions.Clear();
+        tiles.Clear();
         Rebuild();
     }
 
     public void Read(string input) {
-        positions.Clear();
+        tiles.Clear();
         var stack = new Stack();
         foreach (var token in Tokenizer.Tokenize(input.ToPostfix()))
             switch (token) {
                 case "add": {
-                    positions.Add((Vector2Int)stack.Pop());
+                    tiles.Add((Vector2Int)stack.Pop(), TileType.Road);
+                    break;
+                }
+                case "add-tile": {
+                    var tileType = (TileType)stack.Pop();
+                    var position = (Vector2Int)stack.Pop();
+                    tiles.Add(position, tileType);
                     break;
                 }
                 default: {
@@ -180,15 +199,13 @@ public class RoadCreator : MonoBehaviour {
             return false;
         Read(input);
         Rebuild();
-        loadedPositions.Clear();
-        loadedPositions.UnionWith(positions);
         return true;
     }
-    
+
     public void Save(string name) {
         var output = new StringWriter();
-        foreach (var position in positions)
-            output.PostfixWriteLine("add ( {0} )", position);
+        foreach (var (position, tileType) in tiles)
+            output.PostfixWriteLine("add-tile ( {0} {1} )", position, tileType);
         LevelEditorFileSystem.Save(name, output.ToString());
     }
 

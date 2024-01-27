@@ -10,7 +10,7 @@ public static class RoadTiles {
     public static readonly List<Vector2Int> neighbors = new();
     public static readonly Vector2Int[] offsets = { Vector2Int.up, Vector2Int.right, Vector2Int.down, Vector2Int.left };
     
-    public static (Type type, Vector2Int forward) DetermineTile(Vector2Int position, HashSet<Vector2Int> positions) {
+    public static (Type type, Vector2Int forward) DetermineTile(Vector2Int position, ICollection<Vector2Int> positions) {
         
         neighbors.Clear();
         neighbors.AddRange(positions.Where(p => (position - p).ManhattanLength() == 1).ToList());

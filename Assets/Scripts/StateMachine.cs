@@ -100,20 +100,24 @@ public abstract class StateMachineState {
 
     protected bool TryEnqueueModeSelectionCommand() {
         var game = stateMachine.Find<GameSessionState>().game;
-        if (Input.GetKeyDown(KeyCode.T) && Input.GetKey(KeyCode.LeftShift)) {
+        if (Input.GetKeyDown(KeyCode.F5)) {
             game.EnqueueCommand(LevelEditorSessionState.SelectModeCommand.SelectTilesMode);
             return true;
         }
-        if (Input.GetKeyDown(KeyCode.U) && Input.GetKey(KeyCode.LeftShift)) {
+        if (Input.GetKeyDown(KeyCode.F6)) {
             game.EnqueueCommand(LevelEditorSessionState.SelectModeCommand.SelectUnitsMode);
             return true;
         }
-        if (Input.GetKeyDown(KeyCode.R) && Input.GetKey(KeyCode.LeftShift)) {
+        if (Input.GetKeyDown(KeyCode.F7)) {
             game.EnqueueCommand(LevelEditorSessionState.SelectModeCommand.SelectTriggersMode);
             return true;
         }
-        if (Input.GetKeyDown(KeyCode.Z) && Input.GetKey(KeyCode.LeftShift)) {
+        if (Input.GetKeyDown(KeyCode.F8)) {
             game.EnqueueCommand(LevelEditorSessionState.SelectModeCommand.SelectAreasMode);
+            return true;
+        }
+        if (Input.GetKeyDown(KeyCode.F3)) {
+            game.EnqueueCommand(LevelEditorSessionState.SelectModeCommand.Play);
             return true;
         }
         return false;

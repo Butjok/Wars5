@@ -10,6 +10,7 @@ using Stable;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Rendering;
+using static UnityEngine.Object;
 
 public class TileMapCreator : MonoBehaviour {
 
@@ -26,11 +27,13 @@ public class TileMapCreator : MonoBehaviour {
         TileType.Beach,
         TileType.Mountain
     };
+
     public TileType tileType = default;
     public Dictionary<Vector2Int, TileType> tiles = new();
 
     [Header("Colors")]
     public Color colorAlpha = new(1, 1, 1, .25f);
+
     public Color seaColor = Color.blue;
     public Color plainColor = Color.green;
     public Color riverColor = Color.cyan;
@@ -39,11 +42,13 @@ public class TileMapCreator : MonoBehaviour {
 
     [Header("Startup")]
     public Mode mode = Mode.EditQuads;
+
     public bool loadOnAwake = true;
     public string loadOnAwakeFileName = "TileMap";
 
     [Header("Dependencies")]
     public CameraRig cameraRig;
+
     public TerrainMapper terrainMapper;
     public MeshFilter meshFilter;
     public MeshRenderer meshRenderer;
@@ -51,6 +56,7 @@ public class TileMapCreator : MonoBehaviour {
 
     [Header("Quad editing")]
     public float quadOverlayHeight;
+
     public float lineThickness = .5f;
     public Color lineColor = Color.white;
 
@@ -60,11 +66,13 @@ public class TileMapCreator : MonoBehaviour {
 
     [Header("Mesh pieces")]
     public Transform piecesRoot;
+
     public List<MeshRenderer> pieces = new();
     public List<MeshRenderer> placedPieces = new();
 
     [Header("Mesh postprocessing")]
     public Vector2 noiseScale = new(10, 10);
+
     public float noiseAmplitude = 1;
     public int noiseOctavesCount = 3;
     public float slopeLength = 5;
@@ -82,7 +90,6 @@ public class TileMapCreator : MonoBehaviour {
     }
 
     public void Update() {
-
         void ShowPieces(bool value) {
             foreach (var piece in pieces)
                 piece.gameObject.SetActive(value);
@@ -253,7 +260,6 @@ public class TileMapCreator : MonoBehaviour {
     }
 
     public IEnumerator Loop() {
-
         while (true) {
             yield return null;
 
@@ -370,7 +376,7 @@ public class TileMapCreator : MonoBehaviour {
                         });
                 }
                 else {
-                    Debug.Log($"No piece found for {foundQuad}, quad position: {foundQuad.position}");
+//                    Debug.Log($"No piece found for {foundQuad}, quad position: {foundQuad.position}");
                 }
             }
             else {
@@ -398,12 +404,22 @@ public class TileMapCreator : MonoBehaviour {
 
             TileType GetTileType(int xOffset, int yOffset) {
                 var tilePosition = new Vector2(cornerPosition.x + xOffset * .5f, cornerPosition.y + yOffset * .5f).RoundToInt();
-                return tiles.TryGetValue(tilePosition, out var result) ? result : TileType.Sea;
+                return tiles.TryGetValue(tilePosition, out var result)
+                    ? (TileType.Buildings & result) != 0
+                        ? TileType.Plain
+                        : result switch {
+                            TileType.Road or TileType.Forest => TileType.Plain,
+                            TileType.Bridge => TileType.River,
+                            TileType.BridgeSea => TileType.Sea,
+                            _ => result
+                        }
+                    : TileType.Sea;
             }
 
             TileType ToGroundTileType(TileType tileType) {
                 return tileType == TileType.Mountain ? TileType.Plain : tileType;
             }
+
             TileType ToMountainTileType(TileType tileType) {
                 return tileType == TileType.Mountain ? tileType : TileType.Sea;
             }

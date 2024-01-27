@@ -17,6 +17,7 @@ public static class TileInfos {
             TileType.Shipyard => _("Shipyard"),
             TileType.MissileSilo => _("Missile Silo"),
             TileType.Beach => _("Beach"),
+            TileType.Bridge or TileType.BridgeSea => _("Bridge"),
             _ => throw new ArgumentOutOfRangeException(nameof(tileType), tileType, null)
         };
     }

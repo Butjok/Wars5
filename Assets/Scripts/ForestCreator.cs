@@ -111,6 +111,10 @@ public class ForestCreator : MonoBehaviour {
         LevelEditorFileSystem.Save(saveName, stringWriter.ToString());
     }
 
+    public void Save() {
+        Save(loadOnAwakeFileName);
+    }
+
     public static IEnumerable<Vector2> UniformPointsAt(Vector2Int position, Vector2Int count) {
         var size = new Vector2(1f / count.x, 1f / count.y);
         var margin = size / 2;

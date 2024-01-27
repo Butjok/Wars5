@@ -7,7 +7,7 @@ public class BuildingView : MonoBehaviour {
         return type switch {
             TileType.City or TileType.Hq or TileType.Factory => "WbFactory".LoadAs<BuildingView>(),
             TileType.MissileSilo => "WbMissileSilo".LoadAs<BuildingView>(),
-            _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
+            _ => "WbFactory".LoadAs<BuildingView>()
         };
     }
 

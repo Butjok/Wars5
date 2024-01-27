@@ -42,13 +42,15 @@ public class LevelEditorTilesModeState : StateMachineState {
     private static Vector3[] mountainVertices;
     private static int[] mountainTriangles;
 
-    public TileType[] tileTypes = { TileType.Plain, TileType.Beach, TileType.Road, TileType.Forest, TileType.Mountain, TileType.River, TileType.Sea, TileType.City, TileType.Hq, TileType.Factory, TileType.Airport, TileType.Shipyard, TileType.MissileSilo };
+    public TileType[] tileTypes = { TileType.Plain, TileType.Beach, TileType.Road, TileType.Bridge, TileType.BridgeSea, TileType.Forest, TileType.Mountain, TileType.River, TileType.Sea, TileType.City, TileType.Hq, TileType.Factory, TileType.Airport, TileType.Shipyard, TileType.MissileSilo };
     public TileType tileType = TileType.Plain;
     public Player player;
     public Mode mode;
     public GameObject tileMeshGameObject;
     public Material tileMeshMaterial;
     public TileMapCreator tileMapCreator;
+    public RoadCreator roadCreator;
+    public ForestCreator forestCreator;
 
     [Command] public static Color plainColor = Color.green;
     [Command] public static Color roadColor = Color.gray;
@@ -59,12 +61,12 @@ public class LevelEditorTilesModeState : StateMachineState {
     [Command] public static Color beachColor = Color.yellow;
     [Command] public static Color unownedBuildingColor = Color.white;
 
-    public bool showTiles = true;
+    public bool showTiles = false;
 
     public static Color GetColor(TileType tileType) {
         return tileType switch {
             TileType.Plain => plainColor,
-            TileType.Road => roadColor,
+            TileType.Road or TileType.Bridge or TileType.BridgeSea => roadColor,
             TileType.Sea => seaColor,
             TileType.Mountain => mountainColor,
             TileType.Forest => forestColor,
@@ -72,18 +74,6 @@ public class LevelEditorTilesModeState : StateMachineState {
             TileType.Beach => beachColor,
             _ => Color.magenta
         };
-    }
-
-    public LevelEditorTilesModeState(StateMachine stateMachine) : base(stateMachine) {
-        var terrainCreator = Object.FindObjectOfType<TerrainCreator>();
-        if (terrainCreator) {
-            tileMeshGameObject = new GameObject("LevelEditorTileMesh");
-            var meshFilter = tileMeshGameObject.AddComponent<MeshFilter>();
-            meshFilter.sharedMesh = terrainCreator.mesh;
-            var meshRenderer = tileMeshGameObject.AddComponent<MeshRenderer>();
-            tileMeshMaterial = "Unlit_TileMap".LoadAs<Material>();
-            meshRenderer.sharedMaterial = tileMeshMaterial;
-        }
     }
 
     public void RebuildTilemapMesh() {
@@ -204,14 +194,48 @@ public class LevelEditorTilesModeState : StateMachineState {
             }
 
             tileMapCreator = Object.FindObjectOfType<TileMapCreator>();
-            
-            RebuildTilemapMesh();
+            roadCreator = Object.FindObjectOfType<RoadCreator>();
+            forestCreator = Object.FindObjectOfType<ForestCreator>();
 
+            if (tileMapCreator) {
+                tileMapCreator.tiles.Clear();
+                foreach (var (position, tileType) in tiles)
+                    tileMapCreator.tiles.Add(position, tileType);
+                tileMapCreator.RebuildPieces();
+                tileMapCreator.FinalizeMesh();
+            }
+            if (roadCreator) {
+                roadCreator.tiles  = tiles.Where(p=>p.Value is TileType.Road or TileType.Bridge or TileType.BridgeSea).ToDictionary(p=>p.Key, p=>p.Value);
+                roadCreator.Rebuild();
+            }
+            if (forestCreator) {
+                forestCreator.trees.Clear();
+                foreach (var position in tiles.Keys.Where(p => tiles[p] == TileType.Forest))
+                    forestCreator.PlaceTreesAt(position);
+            }
 
             void TryRemoveTile(Vector2Int position, bool removeUnit) {
-                if (!tiles.ContainsKey(position))
+                if (!tiles.TryGetValue(position, out var tileType))
                     return;
+                
                 tiles.Remove(position);
+
+                if (tileMapCreator) {
+                    tileMapCreator.tiles.Remove(position);
+                    tileMapCreator.RebuildPieces();
+
+                    if (tileMapCreator.terrainMapper) 
+                        tileMapCreator.terrainMapper.ClearBushes();
+                }
+
+                if (roadCreator && tileType is TileType.Road or TileType.Bridge or TileType.BridgeSea) {
+                    roadCreator.tiles.Remove(position);
+                    roadCreator.Rebuild();
+                }
+
+                if (forestCreator && tileType == TileType.Forest)
+                    forestCreator.RemoveTreesAt(position);
+
                 if (buildings.TryGetValue(position, out var building))
                     building.Dispose();
                 if (removeUnit && units.TryGetValue(position, out var unit))
@@ -233,7 +257,26 @@ public class LevelEditorTilesModeState : StateMachineState {
             void TryPlaceTile(Vector2Int position, TileType tileType, Player player) {
                 if (tiles.ContainsKey(position))
                     TryRemoveTile(position, false);
+
                 tiles.Add(position, tileType);
+
+                if (tileMapCreator) {
+                    tileMapCreator.tiles.Add(position, tileType is TileType.Road or TileType.Forest || ((tileType & TileType.Buildings) != 0) ? TileType.Plain : tileType);
+                    tileMapCreator.RebuildPieces();
+                    
+                    if (tileMapCreator.terrainMapper) 
+                        tileMapCreator.terrainMapper.ClearBushes();
+                }
+
+                if (roadCreator) {
+                    if (tileType is TileType.Road or TileType.Bridge or TileType.BridgeSea)
+                        roadCreator.tiles.Add(position,tileType);
+                    roadCreator.Rebuild();
+                }
+
+                if (forestCreator && tileType == TileType.Forest)
+                    forestCreator.PlaceTreesAt(position);
+
                 if (TileType.Buildings.HasFlag(tileType))
                     new Building(level, position, tileType, player, viewPrefab: BuildingView.GetPrefab(tileType), lookDirection: player?.unitLookDirection ?? Vector2Int.up);
                 RebuildTilemapMesh();
@@ -266,8 +309,35 @@ public class LevelEditorTilesModeState : StateMachineState {
                     game.EnqueueCommand(LevelEditorSessionState.SelectModeCommand.Play);
                 else if (Input.GetKeyDown(KeyCode.LeftAlt) && camera.TryGetMousePosition(out mousePosition))
                     game.EnqueueCommand(Command.PickTile, mousePosition);
-                else if (Input.GetKeyDown(KeyCode.H)) 
+                else if (Input.GetKeyDown(KeyCode.H))
                     showTiles = !showTiles;
+                else if (Input.GetKeyDown(KeyCode.Print)) {
+                    if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) {
+                        if (tileMapCreator) {
+                            tileMapCreator.Save();
+                            if (tileMapCreator.terrainMapper)
+                                tileMapCreator.terrainMapper.SaveBushes();
+                        }
+                        if (roadCreator)
+                            roadCreator.Save();
+                        if (forestCreator)
+                            forestCreator.Save();
+                    }
+                    else {
+                        if (tileMapCreator)
+                            tileMapCreator.FinalizeMesh();
+                        if (roadCreator)
+                            roadCreator.Rebuild();
+                        if (tileMapCreator && tileMapCreator.terrainMapper)
+                            tileMapCreator.terrainMapper.PlaceBushes();
+                        if (forestCreator) {
+                            foreach (var position in forestCreator.trees.Keys.ToList())
+                                forestCreator.RemoveTreesAt(position);
+                            foreach (var position in tiles.Keys.Where(p => tiles[p] == TileType.Forest))
+                                forestCreator.PlaceTreesAt(position);
+                        }
+                    }
+                }
 
                 while (game.TryDequeueCommand(out var command))
                     switch (command) {
@@ -332,4 +402,6 @@ public class LevelEditorTilesModeState : StateMachineState {
         var levelEditorState = stateMachine.TryFind<LevelEditorSessionState>();
         levelEditorState.gui.layerStack.Pop();
     }
+
+    public LevelEditorTilesModeState(StateMachine stateMachine) : base(stateMachine) { }
 }
