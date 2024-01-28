@@ -57,7 +57,9 @@ public class MinimapUi : MaskableGraphic {
                 cameraFrustumUi.enabled = value;
         }
     }
+
     private bool rotate = true;
+
     public bool Rotate {
         set {
             rotate = value;
@@ -72,12 +74,12 @@ public class MinimapUi : MaskableGraphic {
             var scale = Mathf.Clamp(scalingRoot.localScale.x * (1 + value), scalingBounds[0], scalingBounds[1]);
             scalingRoot.localScale = new Vector3(scale, scale, 1);
         }
+
         if (rotate)
             rotationRoot.rotation = Quaternion.Euler(0, 0, cameraRig.eulerAngles.y);
     }
 
     public void RebuildTiles(IEnumerable<( Vector2Int position, TileType type, Color playerColor)> tiles) {
-
         this.tiles.Clear();
         foreach (var (position, type, playerColor) in tiles)
             this.tiles.Add(position, (type, playerColor));
@@ -126,20 +128,83 @@ public class MinimapUi : MaskableGraphic {
     public void Show(
         IEnumerable<( Vector2Int position, TileType type, Color playerColor)> tiles,
         IEnumerable<(Transform transform, UnitType type, Color playerColor)> units) {
-
         root.SetActive(true);
         RebuildTiles(tiles);
-        RespawnIcons(units.Select(unit => (unit.transform, unitAtlas.TryGetValue(unit.type, out var sprite) ? sprite : null, unit.playerColor)));
+        RespawnIcons(units.Select(unit => (unit.transform, TryGetSprite(unit.type), unit.playerColor)));
         LateUpdate();
     }
+
     public void Hide() {
         root.SetActive(false);
     }
 
-    public UnitTypeSpriteDictionary unitAtlas = new();
-    public TileTypeSpriteDictionary tileAtlas = new();
     public RectInt tileBounds;
     public Vector2Int Count => tileBounds.max - tileBounds.min + Vector2Int.one;
+
+    [Header("Tile sprites")]
+    public Sprite spritePlain;
+    public Sprite spriteRoad;
+    public Sprite spriteBridge;
+    public Sprite spriteBridgeSea;
+    public Sprite spriteSea;
+    public Sprite spriteMountain;
+    public Sprite spriteForest;
+    public Sprite spriteRiver;
+    public Sprite spriteBeach;
+
+    [Header("Building sprites")]
+    public Sprite spriteCity;
+    public Sprite spriteHq;
+    public Sprite spriteFactory;
+    public Sprite spriteAirport;
+    public Sprite spriteShipyard;
+    public Sprite spriteMissileSilo;
+
+    [Header("Unit sprites")]
+    public Sprite spriteInfantry;
+    public Sprite spriteAntiTank;
+    public Sprite spriteArtillery;
+    public Sprite spriteApc;
+    public Sprite spriteRecon;
+    public Sprite spriteLightTank;
+    public Sprite spriteRockets;
+    public Sprite spriteMediumTank;
+
+    public Sprite TryGetSprite(TileType tileType) {
+        return tileType switch {
+            TileType.Plain => spritePlain,
+            TileType.Road => spriteRoad,
+            TileType.Bridge => spriteBridge,
+            TileType.BridgeSea => spriteBridgeSea,
+            TileType.Sea => spriteSea,
+            TileType.Mountain => spriteMountain,
+            TileType.Forest => spriteForest,
+            TileType.River => spriteRiver,
+            TileType.Beach => spriteBeach,
+
+            TileType.City => spriteCity,
+            TileType.Hq => spriteHq,
+            TileType.Factory => spriteFactory,
+            TileType.Airport => spriteAirport,
+            TileType.Shipyard => spriteShipyard,
+            TileType.MissileSilo => spriteMissileSilo,
+
+            _ => null
+        };
+    }
+    public Sprite TryGetSprite(UnitType unitType) {
+        return unitType switch {
+            UnitType.Infantry => spriteInfantry,
+            UnitType.AntiTank => spriteAntiTank,
+            UnitType.Artillery => spriteArtillery,
+            UnitType.Apc => spriteApc,
+            UnitType.Recon => spriteRecon,
+            UnitType.LightTank => spriteLightTank,
+            UnitType.Rockets => spriteRockets,
+            UnitType.MediumTank => spriteMediumTank,
+            _ => null
+        };
+    }
 
     // actually update our mesh
     protected override void OnPopulateMesh(VertexHelper vertexHelper) {
@@ -158,14 +223,34 @@ public class MinimapUi : MaskableGraphic {
                 continue;
             var (tileType, playerColor) = tuple;
             var offset = startOffset + unitSize * index;
-            var uvMin = Vector2.zero;
-            var uvMax = Vector2.one;
-            if (tileAtlas.TryGetValue(tileType, out var sprite)) {
-                var textureSize = new Vector2Int(sprite.texture.width, sprite.texture.height);
-                uvMin = sprite ? sprite.rect.min / textureSize : Vector2.zero;
-                uvMax = sprite ? sprite.rect.max / textureSize : Vector2.one;
+
+            {
+                var uvMin = Vector2.zero;
+                var uvMax = Vector2.one;
+                var tileSprite = TryGetSprite((tileType & TileType.Buildings) != 0 ? TileType.Plain : tileType);
+                if (tileSprite) {
+                    var textureSize = new Vector2Int(tileSprite.texture.width, tileSprite.texture.height);
+                    uvMin = tileSprite ? tileSprite.rect.min / textureSize : Vector2.zero;
+                    uvMax = tileSprite ? tileSprite.rect.max / textureSize : Vector2.one;
+                }
+
+                vertexHelper.AddRect(new Rect(offset, unitSize), new Rect(uvMin, uvMax - uvMin), new Rect(index, Vector2Int.one), Color.white);
             }
-            vertexHelper.AddRect(new Rect(offset, unitSize), new Rect(uvMin, uvMax - uvMin), new Rect(index, Vector2Int.one), playerColor);
+
+            {
+                var uvMin = Vector2.zero;
+                var uvMax = Vector2.one;
+                if ((tileType & TileType.Buildings) != 0) {
+                    var buildingSprite = TryGetSprite(tileType);
+                    if (buildingSprite) {
+                        var textureSize = new Vector2Int(buildingSprite.texture.width, buildingSprite.texture.height);
+                        uvMin = buildingSprite ? buildingSprite.rect.min / textureSize : Vector2.zero;
+                        uvMax = buildingSprite ? buildingSprite.rect.max / textureSize : Vector2.one;
+                    }
+
+                    vertexHelper.AddRect(new Rect(offset, unitSize), new Rect(uvMin, uvMax - uvMin), new Rect(index, Vector2Int.one), playerColor);
+                }
+            }
         }
     }
 
@@ -184,6 +269,7 @@ public static class VertexHelperExtensions {
     }
 
     public const int min = 0, max = 1;
+
     public static void AddRect(this VertexHelper vertexHelper, Rect position, Rect uv0, Rect uv1, Color color) {
         UIVertex V(int x, int y) => new() {
             position = new Vector2(x == min ? position.xMin : position.xMax, y == min ? position.yMin : position.yMax),
@@ -191,6 +277,7 @@ public static class VertexHelperExtensions {
             uv1 = new Vector2(x == min ? uv1.xMin : uv1.xMax, y == min ? uv1.yMin : uv1.yMax),
             color = color
         };
+
         vertexHelper.AddQuad(V(min, min), V(min, max), V(max, max), V(max, min));
     }
 }

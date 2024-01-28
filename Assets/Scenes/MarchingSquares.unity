@@ -26547,9 +26547,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   root: {fileID: 1504259369}
-  texture: {fileID: 2800000, guid: 48b7bbf70abd59c4a98d2f2689a66285, type: 3}
+  texture: {fileID: 2800000, guid: 1f343b8ee9c5b7445a88e2700d3d573d, type: 3}
   cameraFrustumUi: {fileID: 1453291366}
-  unitSize: {x: 25, y: 25}
+  unitSize: {x: 30, y: 30}
   scalingRoot: {fileID: 990599908}
   scalingBounds: {x: 1, y: 1}
   underlayImage: {fileID: 990599910}
@@ -26557,23 +26557,34 @@ MonoBehaviour:
   cameraRig: {fileID: 1852965076}
   rotationRoot: {fileID: 990599908}
   icons: []
-  unitAtlas:
-    m_keys: 
-    m_values: []
-  tileAtlas:
-    m_keys: 010000000200000004000000080000001000000020000000
-    m_values:
-    - {fileID: -1549407346, guid: 48b7bbf70abd59c4a98d2f2689a66285, type: 3}
-    - {fileID: 596169335, guid: 48b7bbf70abd59c4a98d2f2689a66285, type: 3}
-    - {fileID: 2122663689, guid: 48b7bbf70abd59c4a98d2f2689a66285, type: 3}
-    - {fileID: 502719968, guid: 48b7bbf70abd59c4a98d2f2689a66285, type: 3}
-    - {fileID: 1740426002, guid: 48b7bbf70abd59c4a98d2f2689a66285, type: 3}
-    - {fileID: -350948461, guid: 48b7bbf70abd59c4a98d2f2689a66285, type: 3}
   tileBounds:
     x: 0
     y: 0
     width: 0
     height: 0
+  spritePlain: {fileID: -2076919405, guid: 1f343b8ee9c5b7445a88e2700d3d573d, type: 3}
+  spriteRoad: {fileID: 1874945594, guid: 1f343b8ee9c5b7445a88e2700d3d573d, type: 3}
+  spriteBridge: {fileID: 1874945594, guid: 1f343b8ee9c5b7445a88e2700d3d573d, type: 3}
+  spriteBridgeSea: {fileID: 1874945594, guid: 1f343b8ee9c5b7445a88e2700d3d573d, type: 3}
+  spriteSea: {fileID: -2123678431, guid: 1f343b8ee9c5b7445a88e2700d3d573d, type: 3}
+  spriteMountain: {fileID: 1626241885, guid: 1f343b8ee9c5b7445a88e2700d3d573d, type: 3}
+  spriteForest: {fileID: -587106378, guid: 1f343b8ee9c5b7445a88e2700d3d573d, type: 3}
+  spriteRiver: {fileID: 1539772157, guid: 1f343b8ee9c5b7445a88e2700d3d573d, type: 3}
+  spriteBeach: {fileID: -894330805, guid: 1f343b8ee9c5b7445a88e2700d3d573d, type: 3}
+  spriteCity: {fileID: 1896056979, guid: 1f343b8ee9c5b7445a88e2700d3d573d, type: 3}
+  spriteHq: {fileID: -390327854, guid: 1f343b8ee9c5b7445a88e2700d3d573d, type: 3}
+  spriteFactory: {fileID: 36433095, guid: 1f343b8ee9c5b7445a88e2700d3d573d, type: 3}
+  spriteAirport: {fileID: -533721575, guid: 1f343b8ee9c5b7445a88e2700d3d573d, type: 3}
+  spriteShipyard: {fileID: 0}
+  spriteMissileSilo: {fileID: 887250646, guid: 1f343b8ee9c5b7445a88e2700d3d573d, type: 3}
+  spriteInfantry: {fileID: -1645531154, guid: 1f343b8ee9c5b7445a88e2700d3d573d, type: 3}
+  spriteAntiTank: {fileID: -685594612, guid: 1f343b8ee9c5b7445a88e2700d3d573d, type: 3}
+  spriteArtillery: {fileID: 1601187333, guid: 1f343b8ee9c5b7445a88e2700d3d573d, type: 3}
+  spriteApc: {fileID: 39675892, guid: 1f343b8ee9c5b7445a88e2700d3d573d, type: 3}
+  spriteRecon: {fileID: 176316671, guid: 1f343b8ee9c5b7445a88e2700d3d573d, type: 3}
+  spriteLightTank: {fileID: -406338777, guid: 1f343b8ee9c5b7445a88e2700d3d573d, type: 3}
+  spriteRockets: {fileID: 715116880, guid: 1f343b8ee9c5b7445a88e2700d3d573d, type: 3}
+  spriteMediumTank: {fileID: -1884447708, guid: 1f343b8ee9c5b7445a88e2700d3d573d, type: 3}
 --- !u!1001 &1366570345
 PrefabInstance:
   m_ObjectHideFlags: 0
