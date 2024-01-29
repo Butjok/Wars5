@@ -17,6 +17,7 @@ public class MissileSiloView : BuildingView {
     public bool aim = true;
     public BallisticMotion projectilePrefab;
     public bool selectHighCurve = true;
+    public float restAngle = -30;
 
     public Vector2Int lookDirection;
 
@@ -44,7 +45,7 @@ public class MissileSiloView : BuildingView {
         barrel.localRotation = barrel.localRotation.SlerpWithMaxSpeed(
             aim && TryCalculateBarrelTargetLocalRotation(out var barrelTargetLocalRotation)
                 ? barrelTargetLocalRotation
-                : Quaternion.identity, speeds[1]);
+                : Quaternion.Euler(restAngle,0,0), speeds[1]);
     }
 
     public bool TryCalculateHorizontalTargetRotation(out Quaternion targetRotation) {
