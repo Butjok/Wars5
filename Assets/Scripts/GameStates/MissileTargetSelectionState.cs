@@ -7,12 +7,15 @@ using UnityEngine.Assertions;
 
 public class MissileTargetSelectionState : StateMachineState {
 
-    public enum Command { LaunchMissile, Cancel }
+    public enum Command {
+        LaunchMissile,
+        Cancel
+    }
 
     public MissileTargetSelectionState(StateMachine stateMachine) : base(stateMachine) { }
 
     public static Easing.Name easing = Easing.Name.InOutQuad;
-    
+
     public override IEnumerator<StateChange> Enter {
         get {
             var (game, level, action) = (stateMachine.Find<GameSessionState>().game, stateMachine.Find<LevelSessionState>().level, stateMachine.Find<ActionSelectionState>().selectedAction);
@@ -44,9 +47,7 @@ public class MissileTargetSelectionState : StateMachineState {
 
                 while (game.TryDequeueCommand(out var command))
                     switch (command) {
-
                         case (Command.LaunchMissile, Vector2Int targetPosition): {
-
                             Assert.AreEqual(TileType.MissileSilo, missileSilo.type);
 
                             Debug.Log($"Launching missile from {missileSilo.position} to {targetPosition}");
@@ -55,17 +56,16 @@ public class MissileTargetSelectionState : StateMachineState {
                                 Draw.ingame.Arrow((Vector3)missileSilo.position.ToVector3Int(), (Vector3)targetPosition.ToVector3Int(), Vector3.up, .25f, Color.red);*/
 
                             if (missileSiloView) {
-
                                 missileSiloView.SnapToTargetRotationInstantly();
 
                                 var cameraRig = level.view.cameraRig;
                                 cameraRig.enabled = false;
-                                
+
                                 cameraRig.Jump(missileSiloView.transform.position.ToVector2().ToVector3());
                                 var startTime = Time.time;
                                 while (Time.time < startTime + cameraRig.jumpDuration)
                                     yield return StateChange.none;
-                                
+
                                 var missile = missileSiloView.TryLaunchMissile();
                                 Assert.IsTrue(missile);
                                 if (missile.curve.totalTime is not { } flightTime)
@@ -146,13 +146,18 @@ public class MissileTargetSelectionState : StateMachineState {
 
                 if (launchPosition is { } actualLaunchPosition)
                     foreach (var attackPosition in level.PositionsInRange(actualLaunchPosition, missileSilo.missileBlastRange))
-                        Draw.ingame.SolidPlane((Vector3)attackPosition.ToVector3Int(), Vector3.up, Vector2.one, Color.red);
+                        Draw.ingame.SolidPlane((Vector3)attackPosition.ToVector3Int(), Vector3.up, Vector2.one, new Color(1f, 0.5f, 0f));
 
                 if (level.view.cameraRig.camera.TryGetMousePosition(out var hit, out mousePosition) && missileSiloView &&
                     (mousePosition - missileSilo.position).ManhattanLength().IsInRange(missileSilo.missileSiloRange)) {
-
                     missileSiloView.aim = true;
-                    missileSiloView.targetPosition = hit.point;
+                    if (hit.point.ToVector2Int().TryRaycast(out var hit2)) {
+                        missileSiloView.targetPosition = hit2.point;
+                        if (missileSiloView.TryCalculateCurve(out var curve))
+                            using (Draw.ingame.WithLineWidth(1.5f))
+                                foreach (var (start, end) in curve.Segments())
+                                    Draw.ingame.Line(start, end, Color.yellow);
+                    }
                 }
                 else
                     missileSiloView.aim = false;
