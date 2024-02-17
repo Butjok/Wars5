@@ -97,7 +97,7 @@ public class LevelSessionState : StateMachineState {
                             yield return StateChange.none;
                         }
 
-                        yield return StateChange.Push(new TutorialStartDialogue(stateMachine));
+                        //yield return StateChange.Push(new TutorialStartDialogue(stateMachine));
 
                         level.view.cameraRig.enabled = true;
                     }

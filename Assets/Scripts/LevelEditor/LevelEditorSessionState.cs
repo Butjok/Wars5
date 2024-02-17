@@ -13,7 +13,7 @@ public class LevelEditorSessionState : StateMachineState {
 
     public const string sceneName = "MarchingSquares";
 
-    public enum SelectModeCommand { SelectTilesMode, SelectUnitsMode, SelectTriggersMode, SelectAreasMode, SelectBridgesMode, Play }
+    public enum SelectModeCommand { SelectTilesMode, SelectUnitsMode, SelectTriggersMode, SelectAreasMode, SelectBridgesMode, SelectPropsMode, Play }
 
     public static Vector3 tileMeshPosition => new(0, -.01f, 0);
 

@@ -43,6 +43,8 @@ Shader "Custom/rough"
             // put more per-instance properties here
         UNITY_INSTANCING_BUFFER_END(Props)
 
+        #include "Assets/Shaders/ClassicNoise.cginc"
+
         void surf (Input IN, inout SurfaceOutputStandard o)
         {
             // Albedo comes from a texture tinted by color
@@ -81,6 +83,19 @@ Shader "Custom/rough"
 			
 			o.Emission = tileMaskEmission ;
 			o.Albedo  = lerp(o.Albedo, o.Emission, (o.Emission.r + o.Emission.g + o.Emission.b) / 1);
+
+
+        	float noise3 = ClassicNoise(IN.worldPos/4);
+        	noise3 += ClassicNoise(IN.worldPos/2)/1.5;
+			noise3 += ClassicNoise(IN.worldPos)/2;
+        	noise3 += ClassicNoise(IN.worldPos*2)/3;
+
+        	noise3 /= 3.5;
+        	        	
+        	float3 color2 = RGBtoHSV(o.Albedo);
+        	color2.z *= max(1, 1 + 7.5 * noise3);
+
+        	o.Albedo = HSVtoRGB(color2);
         }
         ENDCG
     }

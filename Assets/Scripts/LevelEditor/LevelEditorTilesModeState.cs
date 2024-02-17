@@ -51,8 +51,9 @@ public class LevelEditorTilesModeState : StateMachineState {
     public TileMapCreator tileMapCreator;
     public RoadCreator roadCreator;
     public ForestCreator forestCreator;
+    public PropPlacement propPlacement;
 
-    [Command] public static Color plainColor = Color.green;
+        [Command] public static Color plainColor = Color.green;
     [Command] public static Color roadColor = Color.gray;
     [Command] public static Color seaColor = Color.blue;
     [Command] public static Color mountainColor = new(0.5f, 0.37f, 0.22f);
@@ -196,6 +197,7 @@ public class LevelEditorTilesModeState : StateMachineState {
             tileMapCreator = Object.FindObjectOfType<TileMapCreator>();
             roadCreator = Object.FindObjectOfType<RoadCreator>();
             forestCreator = Object.FindObjectOfType<ForestCreator>();
+            propPlacement = Object.FindObjectOfType<PropPlacement>();
 
             if (tileMapCreator) {
                 tileMapCreator.tiles.Clear();
@@ -322,6 +324,10 @@ public class LevelEditorTilesModeState : StateMachineState {
                             roadCreator.Save();
                         if (forestCreator)
                             forestCreator.Save();
+                        if (propPlacement)
+                            propPlacement.Save();
+                        
+                        gui.AddNotification("Saved");
                     }
                     else {
                         if (tileMapCreator)

@@ -72,8 +72,10 @@ public class TileMapCreator : MonoBehaviour {
 
     [Header("Mesh postprocessing")]
     public Vector2 noiseScale = new(10, 10);
+    public Vector2 noiseScale2 = new(5, 5);
 
     public float noiseAmplitude = 1;
+    public float noiseAmplitude2 = .1f;
     public int noiseOctavesCount = 3;
     public float slopeLength = 5;
 
@@ -498,7 +500,7 @@ public class TileMapCreator : MonoBehaviour {
                     noiseAmplitude /= 2;
                 }
 
-                vertices[i] += Vector3.up * displacementMask * displacement;
+                vertices[i] += Vector3.up * (displacementMask * (displacement + Mathf.PerlinNoise(vertex2d.x / noiseScale2.x, vertex2d.y / noiseScale2.y) * .2f));
             });
 
             combinedMesh.vertices = vertices;

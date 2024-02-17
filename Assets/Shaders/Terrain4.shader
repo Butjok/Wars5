@@ -359,6 +359,17 @@ float forestMask = tex2D(_ForestMask, mul(_ForestMask_WorldToLocal, float4(IN.wo
 
 
 
+        	float noise3 = ClassicNoise(IN.worldPos/4);
+        	noise3 += ClassicNoise(IN.worldPos/2)/1.5;
+			noise3 += ClassicNoise(IN.worldPos)/2;
+        	noise3 += ClassicNoise(IN.worldPos*2)/3;
+
+        	noise3 /= 3.5;
+        	        	
+        	float3 color2 = RGBtoHSV(o.Albedo);
+        	color2.z *= max(1, 1 + 2.5 * noise3);
+
+        	o.Albedo = HSVtoRGB(color2);
         	
         }
         ENDCG

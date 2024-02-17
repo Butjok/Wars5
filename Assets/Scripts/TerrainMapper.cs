@@ -79,6 +79,7 @@ public class TerrainMapper : MonoBehaviour {
         LevelEditorFileSystem.Save(saveName, stringWriter.ToString());
     }
 
+    [Command()]
     public void SaveBushes() {
         SaveBushes(loadOnAwakeFileName);
     }

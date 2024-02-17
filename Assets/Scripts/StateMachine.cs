@@ -100,21 +100,31 @@ public abstract class StateMachineState {
 
     protected bool TryEnqueueModeSelectionCommand() {
         var game = stateMachine.Find<GameSessionState>().game;
-        if (Input.GetKeyDown(KeyCode.F5)) {
-            game.EnqueueCommand(LevelEditorSessionState.SelectModeCommand.SelectTilesMode);
-            return true;
-        }
-        if (Input.GetKeyDown(KeyCode.F6)) {
-            game.EnqueueCommand(LevelEditorSessionState.SelectModeCommand.SelectUnitsMode);
-            return true;
-        }
-        if (Input.GetKeyDown(KeyCode.F7)) {
-            game.EnqueueCommand(LevelEditorSessionState.SelectModeCommand.SelectTriggersMode);
-            return true;
-        }
-        if (Input.GetKeyDown(KeyCode.F8)) {
-            game.EnqueueCommand(LevelEditorSessionState.SelectModeCommand.SelectAreasMode);
-            return true;
+        if (Input.GetKey(KeyCode.LeftShift)) {
+            if (Input.GetKeyDown(KeyCode.T)) {
+                game.EnqueueCommand(LevelEditorSessionState.SelectModeCommand.SelectTilesMode);
+                return true;
+            }
+
+            if (Input.GetKeyDown(KeyCode.U)) {
+                game.EnqueueCommand(LevelEditorSessionState.SelectModeCommand.SelectUnitsMode);
+                return true;
+            }
+
+            if (Input.GetKeyDown(KeyCode.R)) {
+                game.EnqueueCommand(LevelEditorSessionState.SelectModeCommand.SelectTriggersMode);
+                return true;
+            }
+
+            if (Input.GetKeyDown(KeyCode.Z)) {
+                game.EnqueueCommand(LevelEditorSessionState.SelectModeCommand.SelectAreasMode);
+                return true;
+            }
+
+            if (Input.GetKeyDown(KeyCode.P)) {
+                game.EnqueueCommand(LevelEditorSessionState.SelectModeCommand.SelectPropsMode);
+                return true;
+            }
         }
         if (Input.GetKeyDown(KeyCode.F3)) {
             game.EnqueueCommand(LevelEditorSessionState.SelectModeCommand.Play);
@@ -133,10 +143,57 @@ public abstract class StateMachineState {
                 return StateChange.ReplaceWith(new LevelEditorTriggersModeState(stateMachine));
             case (LevelEditorSessionState.SelectModeCommand.SelectAreasMode, _):
                 return StateChange.ReplaceWith(new LevelEditorZoneModeState(stateMachine));
+            case (LevelEditorSessionState.SelectModeCommand.SelectPropsMode, _):
+                return StateChange.ReplaceWith(new LevelEditorPropsModeState(stateMachine));
             case (LevelEditorSessionState.SelectModeCommand.Play, _):
                 return StateChange.Push(new LevelEditorPlayState(stateMachine));
         }
         return StateChange.none;
+    }
+}
+
+public class LevelEditorPropsModeState : StateMachineState {
+    public PropPlacement propPlacement;
+    public LevelEditorPropsModeState(StateMachine sm)  : base(sm) {
+    }
+
+    public override IEnumerator<StateChange> Enter {
+        get {
+            var game = stateMachine.Find<GameSessionState>().game;
+            
+            yield return StateChange.none;
+            
+            propPlacement = Object.FindObjectOfType<PropPlacement>();
+            Assert.IsTrue(propPlacement);
+            propPlacement.enabled = true;
+
+            while (true) {
+                yield return StateChange.none;
+                
+                if (TryEnqueueModeSelectionCommand())
+                {}
+
+                while (game.TryDequeueCommand(out var command)) {
+                    switch (command) {
+
+                        case (LevelEditorSessionState.SelectModeCommand, _):
+                            yield return HandleModeSelectionCommand(command);
+                            break;
+
+                        default:
+                            HandleUnexpectedCommand(command);
+                            break;
+                    }
+                }
+            }
+        }
+    }
+
+    public override void Exit() {
+        propPlacement.enabled = false;
+        Debug.Log("LevelEditorPropsModeState.Exit");
+        base.Exit();
+        
     }
 }
 

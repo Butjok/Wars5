@@ -6740,7 +6740,9 @@ MonoBehaviour:
   - {fileID: 1492959211}
   placedPieces: []
   noiseScale: {x: 5, y: 5}
+  noiseScale2: {x: 1, y: 1}
   noiseAmplitude: 0.75
+  noiseAmplitude2: 0.05
   noiseOctavesCount: 3
   slopeLength: 5
 --- !u!4 &219172595
@@ -15693,7 +15695,7 @@ Transform:
   m_GameObject: {fileID: 703953808}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 20, y: 0.09, z: -5}
-  m_LocalScale: {x: 41, y: 1, z: 41}
+  m_LocalScale: {x: 60, y: 1, z: 41}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 66661095}
@@ -26572,6 +26574,7 @@ GameObject:
   - component: {fileID: 1356200729}
   - component: {fileID: 1356200728}
   - component: {fileID: 1356200727}
+  - component: {fileID: 1356200730}
   m_Layer: 5
   m_Name: Minimap
   m_TagString: Untagged
@@ -26682,6 +26685,21 @@ MonoBehaviour:
   spriteLightTank: {fileID: -406338777, guid: 1f343b8ee9c5b7445a88e2700d3d573d, type: 3}
   spriteRockets: {fileID: 715116880, guid: 1f343b8ee9c5b7445a88e2700d3d573d, type: 3}
   spriteMediumTank: {fileID: -1884447708, guid: 1f343b8ee9c5b7445a88e2700d3d573d, type: 3}
+--- !u!114 &1356200730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1356200725}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 0, y: -5}
+  m_UseGraphicAlpha: 1
 --- !u!1001 &1366570345
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28153,7 +28171,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1504259369}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -34433,7 +34451,7 @@ MonoBehaviour:
   velocityDecelerationFactor: 25
   arm: {fileID: 1087985287}
   pitchAngleSpeed: 135
-  pitchClamp: {x: 30, y: 50}
+  pitchClamp: {x: 30, y: 45}
   rotationDuration: 0.2
   rotationEasing: 3
   rotationStep: -22.5
@@ -34458,7 +34476,7 @@ MonoBehaviour:
   widthSpeed: 0.5
   acceptInput: 1
   dollyZoomFovRange: {x: 35, y: 20}
-  dollyZoomWidthRange: {x: 3, y: 25}
+  dollyZoomWidthRange: {x: 3, y: 15}
   dollyZoom: 0
   targetDollyZoom: 0
   dollyZoomSpeed: 25
