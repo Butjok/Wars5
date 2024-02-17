@@ -71,9 +71,6 @@ public class LevelEditorZoneModeState : StateMachineState {
                 else if (Input.GetMouseButton(Mouse.right) && camera.TryGetMousePosition(out mousePosition))
                     game.EnqueueCommand(Command.RemoveTile, mousePosition);
 
-                else if (Input.GetKeyDown(KeyCode.F5))
-                    game.EnqueueCommand(LevelEditorSessionState.SelectModeCommand.Play);
-
                 else if (Input.GetKeyDown(KeyCode.LeftAlt) && camera.TryGetMousePosition(out mousePosition))
                     game.EnqueueCommand(Command.PickZone, mousePosition);
 

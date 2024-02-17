@@ -211,6 +211,8 @@ public class MinimapUi : MaskableGraphic {
         vertexHelper.Clear();
         if (tiles.Count == 0)
             return;
+        
+        Debug.Log(Count.x * Count.y);
 
         var size = Count * unitSize;
         var startOffset = -size / 2;
@@ -251,6 +253,8 @@ public class MinimapUi : MaskableGraphic {
                     vertexHelper.AddRect(new Rect(offset, unitSize), new Rect(uvMin, uvMax - uvMin), new Rect(index, Vector2Int.one), playerColor);
                 }
             }
+            
+            Debug.Log(vertexHelper.currentVertCount);
         }
     }
 
@@ -277,7 +281,7 @@ public static class VertexHelperExtensions {
             uv1 = new Vector2(x == min ? uv1.xMin : uv1.xMax, y == min ? uv1.yMin : uv1.yMax),
             color = color
         };
-
+        
         vertexHelper.AddQuad(V(min, min), V(min, max), V(max, max), V(max, min));
     }
 }

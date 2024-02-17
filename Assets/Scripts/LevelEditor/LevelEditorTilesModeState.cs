@@ -307,8 +307,6 @@ public class LevelEditorTilesModeState : StateMachineState {
                     game.EnqueueCommand(Command.PlaceTile, (mousePosition, tileType, player));
                 else if (Input.GetMouseButton(Mouse.right) && camera.TryGetMousePosition(out mousePosition))
                     game.EnqueueCommand(Command.RemoveTile, mousePosition);
-                else if (Input.GetKeyDown(KeyCode.F5))
-                    game.EnqueueCommand(LevelEditorSessionState.SelectModeCommand.Play);
                 else if (Input.GetKeyDown(KeyCode.LeftAlt) && camera.TryGetMousePosition(out mousePosition))
                     game.EnqueueCommand(Command.PickTile, mousePosition);
                 else if (Input.GetKeyDown(KeyCode.H))

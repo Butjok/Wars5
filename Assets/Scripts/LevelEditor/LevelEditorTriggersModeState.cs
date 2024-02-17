@@ -53,9 +53,6 @@ public class LevelEditorTriggersModeState : StateMachineState {
                 else if (Input.GetMouseButton(Mouse.right) && camera.TryGetMousePosition(out mousePosition))
                     game.EnqueueCommand(Command.RemoveTrigger, mousePosition);
 
-                else if (Input.GetKeyDown(KeyCode.F5))
-                    game.EnqueueCommand(LevelEditorSessionState.SelectModeCommand.Play);
-
                 else if (Input.GetKeyDown(KeyCode.LeftAlt) && camera.TryGetMousePosition(out mousePosition))
                     game.EnqueueCommand(Command.PickTrigger, mousePosition);
                 

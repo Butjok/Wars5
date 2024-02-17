@@ -76,9 +76,6 @@ public class LevelEditorUnitsModeState : StateMachineState {
                 else if (Input.GetMouseButton(Mouse.right) && camera.TryGetMousePosition(out mousePosition))
                     game.EnqueueCommand(Command.RemoveUnit, mousePosition);
 
-                else if (Input.GetKeyDown(KeyCode.F5))
-                    game.EnqueueCommand(LevelEditorSessionState.SelectModeCommand.Play);
-
                 else if (Input.GetKeyDown(KeyCode.LeftAlt) && camera.TryGetMousePosition(out mousePosition))
                     game.EnqueueCommand(Command.PickUnit, mousePosition);
 
