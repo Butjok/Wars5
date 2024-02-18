@@ -254,7 +254,7 @@ public class MinimapUi : MaskableGraphic {
                 }
             }
             
-            Debug.Log(vertexHelper.currentVertCount);
+//            Debug.Log(vertexHelper.currentVertCount);
         }
     }
 
