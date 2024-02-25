@@ -118,7 +118,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b94fcd11afffcb142908bfcb1e261fba, type: 3}
   m_Name: MotionBlur
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   enabled:
     overrideState: 1
     value: 1
@@ -347,7 +347,7 @@ MonoBehaviour:
     value: 9
   colorFilter:
     overrideState: 1
-    value: {r: 1, g: 1, b: 1, a: 1}
+    value: {r: 1, g: 0.9247312, b: 0.75, a: 1}
   hueShift:
     overrideState: 0
     value: 0
@@ -395,7 +395,7 @@ MonoBehaviour:
     value: {x: 1, y: 1, z: 1, w: -0.03770028}
   gamma:
     overrideState: 0
-    value: {x: 1, y: 1, z: 1, w: -0.2286902}
+    value: {x: 0.94683754, y: 1, z: 0.83804405, w: 0.011350723}
   gain:
     overrideState: 0
     value: {x: 1, y: 0.89926445, z: 0.916478, w: -0.012361125}

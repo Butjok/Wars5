@@ -212,7 +212,7 @@ public class MinimapUi : MaskableGraphic {
         if (tiles.Count == 0)
             return;
         
-        Debug.Log(Count.x * Count.y);
+//        Debug.Log(Count.x * Count.y);
 
         var size = Count * unitSize;
         var startOffset = -size / 2;

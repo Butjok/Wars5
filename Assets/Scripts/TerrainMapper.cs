@@ -45,6 +45,7 @@ public class TerrainMapper : MonoBehaviour {
     }
 
     public void Start() {
+        PlaceBushes();
         RefreshUniforms();
     }
 

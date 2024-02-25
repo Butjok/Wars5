@@ -94,7 +94,7 @@ public class BipedalWalker : MonoBehaviour {
 
         while (coroutineStack.Count > 0) {
             var top = coroutineStack.Peek();
-            if (top.MoveNext()) {
+            if (top != null && top.MoveNext()) {
                 var value = top.Current;
                 if (value != null && value is IEnumerator subCoroutine)
                     coroutineStack.Push(subCoroutine);
