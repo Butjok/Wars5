@@ -257,7 +257,7 @@ float2 _Splat2Size;
             float majorLineDistance = abs(frac(dist / _LineDistance + 0.5) - 0.5) * _LineDistance;
             float majorLines = smoothstep(_LineThickness - distanceChange, _LineThickness + distanceChange, majorLineDistance);
 
-			float2 stonesUv = IN.worldPos.xz * .12;
+			float2 stonesUv = IN.worldPos.xz * .2;
         	
             float3 stoneNormal = UnpackNormal( tex2D(_StonesNormal, stonesUv) );
             stoneNormal = sign(stoneNormal) * pow(abs(stoneNormal),.75);
@@ -276,7 +276,7 @@ float2 _Splat2Size;
 
             o.Occlusion = min(o.Occlusion, tex2D(_StonesAo, stonesUv).r);
 
-            float flowerAlpha = tex2D(_FlowersAlpha, IN.worldPos.xz * 0.125).r;
+            float flowerAlpha = tex2D(_FlowersAlpha, IN.worldPos.xz * 0.25).r;
 
 //half flowerAo = tex2D(_FlowersAo, IN.uv_FlowersAlpha).r;
 //            o.Albedo *= smoothstep(0.25,.75,flowerAo);
@@ -299,6 +299,30 @@ float forestMask = tex2D(_ForestMask, mul(_ForestMask_WorldToLocal, float4(IN.wo
         	o.Albedo = lerp(o.Albedo, forest, forestMask);
 
 
+
+
+
+
+
+
+        	float noise3 = ClassicNoise(IN.worldPos/4);
+        	noise3 += ClassicNoise(IN.worldPos/2+1.24)/2;
+			noise3 += ClassicNoise(IN.worldPos+7.54)/4;
+        	noise3 += ClassicNoise(IN.worldPos*2+9.456654)/8;
+
+        	noise3 *= 1.5;
+        	        	
+        	float3 color2 = RGBtoHSV(o.Albedo);
+        	color2.z = lerp(color2.z, color2.z / 2, saturate(noise3)); //= max(1, 5 * noise3);
+        	color2.y = lerp(color2.y, color2.y * 1.125, saturate(noise3)); //= max(1, 5 * noise3);
+
+        	o.Albedo = HSVtoRGB(color2);
+
+
+
+
+
+        	
 
 
         	
@@ -359,17 +383,9 @@ float forestMask = tex2D(_ForestMask, mul(_ForestMask_WorldToLocal, float4(IN.wo
 
 
 
-        	float noise3 = ClassicNoise(IN.worldPos/4);
-        	noise3 += ClassicNoise(IN.worldPos/2)/1.5;
-			noise3 += ClassicNoise(IN.worldPos)/2;
-        	noise3 += ClassicNoise(IN.worldPos*2)/3;
+        	
 
-        	noise3 /= 3.5;
-        	        	
-        	float3 color2 = RGBtoHSV(o.Albedo);
-        	color2.z *= max(1, 1 + 2.5 * noise3);
-
-        	o.Albedo = HSVtoRGB(color2);
+        	//o.Albedo = noise3;
         	
         }
         ENDCG

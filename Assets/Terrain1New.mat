@@ -50,7 +50,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _FlowersAlpha:
         m_Texture: {fileID: 2800000, guid: fdaff739f36228040a282d9300d56527, type: 3}
-        m_Scale: {x: 0.125, y: 0.125}
+        m_Scale: {x: 0.25, y: 0.25}
         m_Offset: {x: 0, y: 0}
     - _FlowersAo:
         m_Texture: {fileID: 2800000, guid: 181da02d8cd8595428fe720d87d1d4d7, type: 3}
@@ -192,16 +192,16 @@ Material:
     - _DeepSeaColor: {r: 0.06763971, g: 0.6855772, b: 0.754717, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Emissive: {r: 0.11773585, g: 0.24528301, b: 0, a: 1}
-    - _FlowerColor: {r: 0.7924528, g: 0, b: 0.07110587, a: 1}
-    - _GrassColor: {r: 0.4039216, g: 0.37647063, b: 0, a: 1}
+    - _FlowerColor: {r: 0.8, g: 0.04002978, b: 0, a: 1}
+    - _GrassColor: {r: 0.33962262, g: 0.31654146, b: 0, a: 1}
     - _MapSize: {r: 10.82, g: 1, b: 0, a: 0}
     - _OutsideColor: {r: 0.9339623, g: 0.9339623, b: 0.9339623, a: 1}
     - _SandColor: {r: 1, g: 0.61574924, b: 0.18396229, a: 1}
     - _SeaColor: {r: 0.003737978, g: 0.17876104, b: 0.26415092, a: 1}
     - _Splat2Size: {r: 47, g: 41, b: 0, a: 0}
-    - _StoneColor: {r: 0.4039216, g: 0.37647063, b: 0, a: 1}
-    - _StoneDarkColor: {r: 0.4039216, g: 0.40000004, b: 0, a: 1}
-    - _StoneLightColor: {r: 0.62352943, g: 0.5882353, b: 0.09019608, a: 1}
+    - _StoneColor: {r: 0.4528302, g: 0.43172407, b: 0.10964752, a: 1}
+    - _StoneDarkColor: {r: 0.3744907, g: 0.403, b: 0.086774625, a: 1}
+    - _StoneLightColor: {r: 0.6886792, g: 0.6459711, b: 0.043313082, a: 1}
     - _StoneWheatColor: {r: 0.93333334, g: 0.5439534, b: 0, a: 1}
     - _WheatTint: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

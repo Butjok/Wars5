@@ -21,6 +21,8 @@ Shader "Custom/LeavesAreaTinted"
          _Offset ("_Offset", Vector) = (0,0,0,0)
     	
     	_ForestMask ("_ForestMask", 2D) = "black" {}
+    	
+    	_Lod ("_Lod", Float) = 0
     }
     SubShader
     {
@@ -35,9 +37,13 @@ Shader "Custom/LeavesAreaTinted"
             // Use shader model 3.0 target, to get nicer looking lighting
             #pragma target 5.0
 
+
+            #include "Assets/Shaders/ClassicNoise.cginc"
+            
             sampler2D _MainTex,_Occlusion,_Normal,_GlobalOcclusion, _Splat2, _TileMask, _ForestMask;
             half3 _Grass,_DarkGrass,_Wheat,_YellowGrass,_Forest;
             fixed4x4 _TileMask_WorldToLocal, _ForestMask_WorldToLocal;
+            half _Lod;
 
             struct Input {
                 float2 uv_MainTex;
@@ -134,6 +140,21 @@ Shader "Custom/LeavesAreaTinted"
 				
 				o.Emission = tileMaskEmission ;
 				o.Albedo  = lerp(o.Albedo, o.Emission, (o.Emission.r + o.Emission.g + o.Emission.b) / 1);
+
+            	float noise3 = ClassicNoise(IN.worldPos/4);
+        	noise3 += ClassicNoise(IN.worldPos/2+1.24)/2;
+			noise3 += ClassicNoise(IN.worldPos+7.54)/4;
+        	noise3 += ClassicNoise(IN.worldPos*2+9.456654)/8;
+
+        	noise3 *= 1.5;
+        	        	
+        	float3 color2 = RGBtoHSV(o.Albedo);
+        	color2.z = lerp(color2.z, color2.z / 2, saturate(noise3)); //= max(1, 5 * noise3);
+        	color2.y = lerp(color2.y, color2.y * 1.125, saturate(noise3)); //= max(1, 5 * noise3);
+
+        	o.Albedo = HSVtoRGB(color2);
+
+            	
             }
             ENDCG
     }
