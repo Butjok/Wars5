@@ -109,6 +109,7 @@ public class LevelEditorUnitsModeState : StateMachineState {
                                 UnitType.LightTank => "WbLightTank",
                                 UnitType.Rockets => "WbRockets",
                                 UnitType.MediumTank => "WbMdTank",
+                                UnitType.Infantry=>"WbInfantry",
                                 _ => "WbLightTank"
                             }).LoadAs<UnitView>();
 

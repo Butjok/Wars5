@@ -173,9 +173,9 @@ public class UnitView : MonoBehaviour {
     public List<Record> subroutines = new();
 
     public WeaponNameBattleAnimationInputsDictionary inputs = new();
-    [NonSerialized] public float speed;
-    [NonSerialized] public float acceleration;
-    [NonSerialized] public bool survives;
+    public float speed;
+    public float acceleration;
+    public bool survives;
     public List<UnitView> targets = new();
     public List<Transform> hitPoints = new();
     [NonSerialized] public int incomingProjectilesLeft = 0;
@@ -275,6 +275,11 @@ public class UnitView : MonoBehaviour {
         ResetSteering();
         UpdateBodyPosition();
         UpdateBodyRotation();
+        
+        // TODO: hack
+        var bipedalWalker = GetComponent<BipedalWalker>();
+        if (bipedalWalker) 
+            bipedalWalker.ResetFeet();
     }
 
     [Command]
@@ -790,8 +795,6 @@ public class UnitView : MonoBehaviour {
     private Dictionary<Wheel.SteeringGroup, (float angleAccumulator, int count)> steeringGroups = new();
 
     private void Update() {
-        if (!body)
-            return;
 
         if (!Application.isPlaying)
             UpdateAxes();
@@ -799,6 +802,9 @@ public class UnitView : MonoBehaviour {
         speed += acceleration * Time.deltaTime;
         transform.position += transform.forward * speed * Time.deltaTime;
 
+        if (!body)
+            return;
+        
         steeringGroups.Clear();
 
         foreach (var wheel in wheels) {

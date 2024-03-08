@@ -309,8 +309,11 @@ public class ActionSelectionState : StateMachineState {
 
                             if (!unit.Disposed) {
                                 unit.Moved = true;
-                                if (unit.view.LookDirection != unit.Player.unitLookDirection)
-                                    game.StartCoroutine(new MoveSequence(unit.view.transform, null, _finalDirection: unit.Player.unitLookDirection).Animation());
+                                if (unit.view.LookDirection != unit.Player.unitLookDirection) {
+                                    var bipedalWalker = unit.view.GetComponent<BipedalWalker>();
+                                    game.StartCoroutine(new MoveSequence(unit.view.transform, null, _finalDirection: unit.Player.unitLookDirection, 
+                                        onComplete: bipedalWalker ? bipedalWalker.ResetFeet : null).Animation());
+                                }
                             }
 
                             /*

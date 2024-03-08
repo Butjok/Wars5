@@ -32,15 +32,15 @@ public class BipedalWalker : MonoBehaviour {
     }
 
     public IEnumerator FootMovement(int side, RaycastHit target, float? maxDuration = null, Func<float,float> easing = null) {
-        var startTime = Time.time;
+        /*var startTime = Time.time;
         var oldTarget = footTargets[side];
         var manualControl = GetComponent<ManualControl>();
         var distance = Vector2.Distance(oldTarget.point.ToVector2(), target.point.ToVector2());
         var duration = Mathf.Min(maxDuration ?? this.maxDuration, distance / Mathf.Abs(manualControl.speed) * footSpeedFactor);
         if (Mathf.Abs(manualControl.speed) < .001f)
-            duration = this.maxDuration;
+            duration = this.maxDuration;*/
         //Debug.Log(duration);
-        while (Time.time - startTime < duration) {
+        /*while (Time.time - startTime < duration) {
             var t = (Time.time - startTime) / duration;
             // t = stepCurve.Evaluate(t);
             //t = useCurve ? stepCurve.Evaluate(t) : Easing.Dynamic(easing, t);
@@ -48,8 +48,9 @@ public class BipedalWalker : MonoBehaviour {
             footTargets[side].point = Vector3.LerpUnclamped(oldTarget.point, target.point, t);
             footTargets[side].normal = Vector3.LerpUnclamped(oldTarget.normal, target.normal, t);
             yield return null;
-        }
+        }*/
         footTargets[side] = target;
+        yield break;
     }
     public IEnumerator FootMovement(int side, float direction, float? maxDuration = null, Func<float,float> easing = null) {
         return TryRaycast(side, direction, out var hit) ? FootMovement(side, hit, maxDuration, easing) : null;
@@ -59,8 +60,13 @@ public class BipedalWalker : MonoBehaviour {
         yield return FootMovement(1, right, feetResetDuration, Easing.InOutQuad);
     }
 
-    public void Start() {
+    public void ResetFeet() {
+        coroutineStack.Clear();
         coroutineStack.Push(FeetResetMovement(.5f, -.5f));
+    }
+
+    public void Start() {
+        ResetFeet();
     }
 
     public float footSpeedFactor = 1;
@@ -118,8 +124,8 @@ public class BipedalWalker : MonoBehaviour {
                     coroutineStack.Push(FootMovement(right, leftFootOffset + 1));
             }
 
-        if (transform.position == oldPosition && coroutineStack.Count == 0)
-            coroutineStack.Push(FeetResetMovement(.5f, -.5f));
+        /*if (transform.position == oldPosition && coroutineStack.Count == 0)
+            coroutineStack.Push(FeetResetMovement(.5f, -.5f));*/
 
         for (var side = left; side <= right; side++) {
 
