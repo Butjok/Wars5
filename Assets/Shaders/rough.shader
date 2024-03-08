@@ -85,7 +85,7 @@ Shader "Custom/rough"
 			o.Albedo  = lerp(o.Albedo, o.Emission, (o.Emission.r + o.Emission.g + o.Emission.b) / 1);
 
 
-        	float noise3 = ClassicNoise(IN.worldPos/4);
+        	/*float noise3 = ClassicNoise(IN.worldPos/4);
         	noise3 += ClassicNoise(IN.worldPos/2+1.24)/2;
 			noise3 += ClassicNoise(IN.worldPos+7.54)/4;
         	noise3 += ClassicNoise(IN.worldPos*2+9.456654)/8;
@@ -96,7 +96,7 @@ Shader "Custom/rough"
         	color2.z = lerp(color2.z, color2.z / 2, saturate(noise3)); //= max(1, 5 * noise3);
         	color2.y = lerp(color2.y, color2.y * 1.125, saturate(noise3)); //= max(1, 5 * noise3);
 
-        	o.Albedo = HSVtoRGB(color2);
+        	o.Albedo = HSVtoRGB(color2);*/
         }
         ENDCG
     }

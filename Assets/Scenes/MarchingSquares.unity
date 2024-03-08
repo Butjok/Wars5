@@ -20225,7 +20225,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &949352811
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -30759,7 +30759,7 @@ Light:
   m_CookieSize: 30
   m_Shadows:
     m_Type: 2
-    m_Resolution: 3
+    m_Resolution: 2
     m_CustomResolution: -1
     m_Strength: 1
     m_Bias: 0.01
@@ -39672,6 +39672,10 @@ PrefabInstance:
     - target: {fileID: 6689599387964436913, guid: bb548514b29ee6a4f8fd9a8b70475629, type: 3}
       propertyPath: m_Name
       value: infantry-rigged0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6689599387964436913, guid: bb548514b29ee6a4f8fd9a8b70475629, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bb548514b29ee6a4f8fd9a8b70475629, type: 3}

@@ -94,16 +94,16 @@ Shader "Custom/LeavesAreaTinted"
                 half4 c = tex2D (_MainTex, IN.uv_MainTex);
                 clip(c.a-.5);
                 
-                half inputOcclusion = tex2D (_Occlusion, IN.uv_MainTex).r;
+                //half inputOcclusion = tex2D (_Occlusion, IN.uv_MainTex).r;
                 
-                o.Occlusion = lerp(inputOcclusion,1,.5);
+                //o.Occlusion = lerp(inputOcclusion,1,.5);
                 
                 o.Metallic = 0; 
                 o.Smoothness = .2;
                 //o.Normal = UnpackNormal(tex2D (_Normal, IN.uv_MainTex));
  
-				half2 center = _Min + _Size/2;
-				float dist = sdfBox(IN.worldPos.xz-center, _Size/2);
+				//half2 center = _Min + _Size/2;
+				//float dist = sdfBox(IN.worldPos.xz-center, _Size/2);
 				//clip(-(dist-.5));
 			   
 				half3 localPos = mul(_Splat_WorldToLocal, half4(IN.worldPos, 1)).xyz;
@@ -111,18 +111,18 @@ Shader "Custom/LeavesAreaTinted"
 				half4 splat = tex2D(_Splat2, uv);
 		   
 				o.Albedo = _Grass;
-				o.Albedo = lerp(o.Albedo, _DarkGrass, splat.r);
+				//o.Albedo = lerp(o.Albedo, _DarkGrass, splat.r);
 				o.Albedo = lerp(o.Albedo, _YellowGrass, splat.b);
 				//o.Albedo = lerp(o.Albedo, _Wheat, splat.a);
 
             	float forestMask = tex2D(_ForestMask, mul(_ForestMask_WorldToLocal, float4(IN.worldPos.x, 0, IN.worldPos.z, 1)).xz).r;
             	o.Albedo = lerp(o.Albedo, _Forest, forestMask);
 
-                o.Albedo = lerp(o.Albedo, tint(o.Albedo, 0, 1.1, .5), 1 - inputOcclusion);
+                //o.Albedo = lerp(o.Albedo, tint(o.Albedo, 0, 1.1, .5), 1 - inputOcclusion);
                 
                 //o.Albedo = _Grass;
                 
-                float tileMaskDistance = 1;			
+                /*float tileMaskDistance = 1;			
 				float2 nearestTile = round(IN.worldPos.xz);
 				for (int x = -1; x <= 1; x++)
 				for (int y = -1; y <= 1; y++) {
@@ -130,18 +130,18 @@ Shader "Custom/LeavesAreaTinted"
 					float selected = tex2D(_TileMask, mul(_TileMask_WorldToLocal, float4(pos.x, 0, pos.y, 1)).xz).r;
 					if (selected > .5)
 						 tileMaskDistance = min(tileMaskDistance, sdfBox(IN.worldPos.xz - pos, 0.5));
-				}
+				}*/
 	
 				//o.Albedo = saturate(tileMaskDistance);
 				
-				float3 tileMaskEmission = 0;
+				/*float3 tileMaskEmission = 0;
 				tileMaskEmission += _Emissive * smoothstep(0.05, -.025, tileMaskDistance);
-				tileMaskEmission += 3.3*_Emissive * smoothstep(0.025, 0.0125, abs(tileMaskDistance - .025));
+				tileMaskEmission += 3.3*_Emissive * smoothstep(0.025, 0.0125, abs(tileMaskDistance - .025));*/
 				
-				o.Emission = tileMaskEmission ;
-				o.Albedo  = lerp(o.Albedo, o.Emission, (o.Emission.r + o.Emission.g + o.Emission.b) / 1);
+				//o.Emission = tileMaskEmission ;
+				//o.Albedo  = lerp(o.Albedo, o.Emission, (o.Emission.r + o.Emission.g + o.Emission.b) / 1);
 
-            	float noise3 = ClassicNoise(IN.worldPos/4);
+            	/*float noise3 = ClassicNoise(IN.worldPos/4);
         	noise3 += ClassicNoise(IN.worldPos/2+1.24)/2;
 			noise3 += ClassicNoise(IN.worldPos+7.54)/4;
         	noise3 += ClassicNoise(IN.worldPos*2+9.456654)/8;
@@ -152,7 +152,7 @@ Shader "Custom/LeavesAreaTinted"
         	color2.z = lerp(color2.z, color2.z / 2, saturate(noise3)); //= max(1, 5 * noise3);
         	color2.y = lerp(color2.y, color2.y * 1.125, saturate(noise3)); //= max(1, 5 * noise3);
 
-        	o.Albedo = HSVtoRGB(color2);
+        	o.Albedo = HSVtoRGB(color2);*/
 
             	
             }

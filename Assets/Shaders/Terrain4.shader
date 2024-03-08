@@ -274,7 +274,7 @@ float2 _Splat2Size;
             o.Smoothness=lerp(o.Smoothness, .0, stoneAlpha);
             o.Normal = normalize(lerp(o.Normal, stoneNormal, stoneAlpha));
 
-            o.Occlusion = min(o.Occlusion, tex2D(_StonesAo, stonesUv).r);
+            //o.Occlusion = min(o.Occlusion, tex2D(_StonesAo, stonesUv).r);
 
             float flowerAlpha = tex2D(_FlowersAlpha, IN.worldPos.xz * 0.25).r;
 
@@ -305,7 +305,7 @@ float forestMask = tex2D(_ForestMask, mul(_ForestMask_WorldToLocal, float4(IN.wo
 
 
 
-        	float noise3 = ClassicNoise(IN.worldPos/4);
+        	/*float noise3 = ClassicNoise(IN.worldPos/4);
         	noise3 += ClassicNoise(IN.worldPos/2+1.24)/2;
 			noise3 += ClassicNoise(IN.worldPos+7.54)/4;
         	noise3 += ClassicNoise(IN.worldPos*2+9.456654)/8;
@@ -316,7 +316,7 @@ float forestMask = tex2D(_ForestMask, mul(_ForestMask_WorldToLocal, float4(IN.wo
         	color2.z = lerp(color2.z, color2.z / 2, saturate(noise3)); //= max(1, 5 * noise3);
         	color2.y = lerp(color2.y, color2.y * 1.125, saturate(noise3)); //= max(1, 5 * noise3);
 
-        	o.Albedo = HSVtoRGB(color2);
+        	o.Albedo = HSVtoRGB(color2);*/
 
 
 
@@ -329,7 +329,7 @@ float forestMask = tex2D(_ForestMask, mul(_ForestMask_WorldToLocal, float4(IN.wo
             
 
 
-            float noise = 0;
+            /*float noise = 0;
             noise += ClassicNoise(float3(IN.worldPos.xz, 0) * _SandNoiseScale);
             noise += ClassicNoise(float3(IN.worldPos.xz*2, 0) * _SandNoiseScale) ;
             noise /= 2;
@@ -338,16 +338,16 @@ float forestMask = tex2D(_ForestMask, mul(_ForestMask_WorldToLocal, float4(IN.wo
             deepSeaNoise += ClassicNoise(float3(IN.worldPos.xz/6, 0));
             deepSeaNoise += ClassicNoise(float3(IN.worldPos.xz/5*2, 0))/2;
             deepSeaNoise += ClassicNoise(float3(IN.worldPos.xz/4*4, 0))/4;
-            deepSeaNoise /= 1.25;
+            deepSeaNoise /= 1.25;*/
             
 
 
-            o.Albedo = lerp(o.Albedo, _SandColor, smoothstep(_SandThickness - _SandSharpness, _SandThickness + _SandSharpness ,abs(IN.worldPos.y+ noise/50 - _SandLevel)));
-            o.Albedo = lerp(o.Albedo, lerp(_SeaColor, _DeepSeaColor, smoothstep(_DeepSeaLevel - _DeepSeaSharpness, _DeepSeaLevel + _DeepSeaSharpness, (deepSeaNoise+noise/5)*1.125+.33)), smoothstep(_SeaLevel - _SeaSharpness, _SeaLevel + _SeaSharpness, IN.worldPos.y));//smoothstep(_SeaLevel - _SeaSharpness, _SeaLevel + _SeaSharpness ,IN.worldPos.y));
+            o.Albedo = lerp(o.Albedo, _SandColor, smoothstep(_SandThickness - _SandSharpness, _SandThickness + _SandSharpness ,abs(IN.worldPos.y+ /*noise/50*/ - _SandLevel)));
+            o.Albedo = lerp(o.Albedo, lerp(_SeaColor, _DeepSeaColor, smoothstep(_DeepSeaLevel - _DeepSeaSharpness, _DeepSeaLevel + _DeepSeaSharpness, /*(deepSeaNoise+noise/5)*1.125*/+.33)), smoothstep(_SeaLevel - _SeaSharpness, _SeaLevel + _SeaSharpness, IN.worldPos.y));//smoothstep(_SeaLevel - _SeaSharpness, _SeaLevel + _SeaSharpness ,IN.worldPos.y));
             
             
             float seaLevel = IN.worldPos.y - _SeaLevel;
-            seaLevel += noise * _SandNoiseAmplitude;
+            //seaLevel += noise * _SandNoiseAmplitude;
             
             float seaMask1 = smoothstep(_SeaThickness + _SeaSharpness, _SeaThickness - _SeaSharpness, seaLevel);
             float seaMask2 = smoothstep(_SeaThickness + _SeaSharpness*20, _SeaThickness - _SeaSharpness*20, -seaLevel);

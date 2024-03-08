@@ -5,7 +5,14 @@ using UnityEngine;
 
 public class LevelEditorUnitsModeState : StateMachineState {
 
-    public enum Command { CycleUnitType, CyclePlayer, PlaceUnit, RemoveUnit, PickUnit, InspectUnit }
+    public enum Command {
+        CycleUnitType,
+        CyclePlayer,
+        PlaceUnit,
+        RemoveUnit,
+        PickUnit,
+        InspectUnit
+    }
 
     public UnitType[] unitTypes = { UnitType.Infantry, UnitType.AntiTank, UnitType.Artillery, UnitType.Apc, UnitType.Recon, UnitType.LightTank, UnitType.MediumTank, UnitType.Rockets, };
     public UnitType unitType = UnitType.Infantry;
@@ -84,7 +91,6 @@ public class LevelEditorUnitsModeState : StateMachineState {
 
                 while (game.TryDequeueCommand(out var command))
                     switch (command) {
-
                         case (LevelEditorSessionState.SelectModeCommand, _):
                             yield return HandleModeSelectionCommand(command);
                             break;
@@ -98,7 +104,6 @@ public class LevelEditorUnitsModeState : StateMachineState {
                             break;
 
                         case (Command.PlaceUnit, (Vector2Int position, UnitType unitType, Player player)): {
-
                             if (units.ContainsKey(position))
                                 TryRemoveUnit(position);
 
@@ -109,7 +114,7 @@ public class LevelEditorUnitsModeState : StateMachineState {
                                 UnitType.LightTank => "WbLightTank",
                                 UnitType.Rockets => "WbRockets",
                                 UnitType.MediumTank => "WbMdTank",
-                                UnitType.Infantry=>"WbInfantry",
+                                UnitType.Infantry or UnitType.AntiTank => "WbInfantry",
                                 _ => "WbLightTank"
                             }).LoadAs<UnitView>();
 
@@ -126,6 +131,7 @@ public class LevelEditorUnitsModeState : StateMachineState {
                                 unitType = unit.type;
                                 player = unit.Player;
                             }
+
                             break;
                         }
 
