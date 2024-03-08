@@ -5828,7 +5828,7 @@ MonoBehaviour:
     m_Bits: 8
   stopNaNPropagation: 1
   finalBlitToCameraTarget: 0
-  antialiasingMode: 2
+  antialiasingMode: 0
   temporalAntialiasing:
     jitterSpread: 0.75
     sharpness: 0.15
@@ -23197,7 +23197,7 @@ MonoBehaviour:
     m_Bits: 8
   stopNaNPropagation: 1
   finalBlitToCameraTarget: 1
-  antialiasingMode: 2
+  antialiasingMode: 0
   temporalAntialiasing:
     jitterSpread: 0.75
     sharpness: 0.15
@@ -31908,7 +31908,7 @@ MonoBehaviour:
     m_Bits: 8
   stopNaNPropagation: 1
   finalBlitToCameraTarget: 1
-  antialiasingMode: 2
+  antialiasingMode: 0
   temporalAntialiasing:
     jitterSpread: 0.75
     sharpness: 0.15
@@ -34656,7 +34656,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camera: {fileID: 157206632}
   virtualCamera: {fileID: 1069182240}
-  speedInViewportSpace: 0.075
+  speedInViewportSpace: 0.1
   speedUpMultiplier: 2
   velocityDecelerationFactor: 25
   arm: {fileID: 1087985287}
@@ -36414,7 +36414,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eefd1c41b11c44639c21f638157b4805, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dayChangeDuration: 3
+  dayChangeDuration: 1.5
   axis: 0
   startAngles: {x: 0, y: 0, z: 0}
   nightColorFilterColor: {r: 0.23335704, g: 0.36102143, b: 0.8679245, a: 1}
