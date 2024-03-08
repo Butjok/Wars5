@@ -5828,7 +5828,7 @@ MonoBehaviour:
     m_Bits: 8
   stopNaNPropagation: 1
   finalBlitToCameraTarget: 0
-  antialiasingMode: 0
+  antialiasingMode: 2
   temporalAntialiasing:
     jitterSpread: 0.75
     sharpness: 0.15
@@ -7654,7 +7654,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: 183.7}
-  m_SizeDelta: {x: -800, y: 50}
+  m_SizeDelta: {x: -1000, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &283769769
 GameObject:
@@ -12205,7 +12205,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 350, y: 350}
+  m_SizeDelta: {x: 500, y: 500}
   m_Pivot: {x: 0, y: 0}
 --- !u!1 &562194816
 GameObject:
@@ -12756,7 +12756,7 @@ MeshRenderer:
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
   m_MotionVectors: 1
-  m_LightProbeUsage: 1
+  m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
@@ -14345,7 +14345,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: 151.2}
-  m_SizeDelta: {x: -800, y: 50}
+  m_SizeDelta: {x: -1000, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &642961670
 PrefabInstance:
@@ -16103,7 +16103,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 350, y: 350}
+  m_SizeDelta: {x: 500, y: 500}
   m_Pivot: {x: 1, y: 0}
 --- !u!1 &741135262
 GameObject:
@@ -16799,8 +16799,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: -250}
-  m_SizeDelta: {x: 0, y: 500}
+  m_AnchoredPosition: {x: 0, y: -600}
+  m_SizeDelta: {x: 0, y: 1000}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &809009685
 MonoBehaviour:
@@ -16831,7 +16831,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 50
+  m_PixelsPerUnitMultiplier: 0.5
 --- !u!222 &809009686
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -21493,9 +21493,9 @@ MonoBehaviour:
   drawBushRaycastOrigins: 0
   bushSeaLevelThreshold: 0.15
   maxBushGap: 0.1
-  resolution: {x: 400, y: 400}
+  resolution: {x: 500, y: 500}
   maxBushesCount: 500000
-  bushScaleRange: {x: 0.2, y: 1.5}
+  bushScaleRange: {x: 0.25, y: 1}
   bushRenderer: {fileID: 1060996781}
   bushMaskTexture: {fileID: 2800000, guid: 9ab1d75a1653f1d43be4d1114f6e3ebf, type: 3}
   materials:
@@ -23197,7 +23197,7 @@ MonoBehaviour:
     m_Bits: 8
   stopNaNPropagation: 1
   finalBlitToCameraTarget: 1
-  antialiasingMode: 0
+  antialiasingMode: 2
   temporalAntialiasing:
     jitterSpread: 0.75
     sharpness: 0.15
@@ -31908,7 +31908,7 @@ MonoBehaviour:
     m_Bits: 8
   stopNaNPropagation: 1
   finalBlitToCameraTarget: 1
-  antialiasingMode: 0
+  antialiasingMode: 2
   temporalAntialiasing:
     jitterSpread: 0.75
     sharpness: 0.15
@@ -34660,7 +34660,7 @@ MonoBehaviour:
   speedUpMultiplier: 2
   velocityDecelerationFactor: 25
   arm: {fileID: 1087985287}
-  pitchAngleSpeed: 135
+  pitchAngleSpeed: 90
   pitchClamp: {x: 30, y: 50}
   rotationDuration: 0.2
   rotationEasing: 3
@@ -34685,7 +34685,7 @@ MonoBehaviour:
   targetWidth: 1
   widthSpeed: 0.5
   acceptInput: 1
-  dollyZoomFovRange: {x: 25, y: 10}
+  dollyZoomFovRange: {x: 30, y: 10}
   dollyZoomWidthRange: {x: 7.5, y: 20}
   dollyZoom: 0
   targetDollyZoom: 0

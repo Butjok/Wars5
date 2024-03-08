@@ -99,7 +99,7 @@ Shader "Custom/LeavesAreaTinted"
                 //o.Occlusion = lerp(inputOcclusion,1,.5);
                 
                 o.Metallic = 0; 
-                o.Smoothness = .2;
+                o.Smoothness = 0;
                 //o.Normal = UnpackNormal(tex2D (_Normal, IN.uv_MainTex));
  
 				//half2 center = _Min + _Size/2;
