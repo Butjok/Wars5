@@ -10,7 +10,7 @@ using UnityEngine.UI;
 
 public class PostProcessing : MonoBehaviour {
 
-    public void Reset() {
+    public void Awake() {
         profile = "PostProcessProfile1".LoadAs<PostProcessProfile>();
         colorGrading = profile.GetSetting<ColorGrading>();
         Assert.IsTrue(colorGrading);
