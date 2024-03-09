@@ -169,7 +169,7 @@ public class ForestCreator : MonoBehaviour {
 
     public void UpdateTerrainMaterialForestMask() {
         if (terrainMaterial || bushMaterial)
-            (forestMaskTexture, forestMaskTransform) = TileMaskTexture.Create(trees.Keys.ToHashSet(), 4, filterMode: FilterMode.Bilinear);
+            (forestMaskTexture, forestMaskTransform) = TileMask.Create(trees.Keys.ToHashSet(), 4, filterMode: FilterMode.Bilinear);
         if (terrainMaterial)
             terrainMaterial.SetTileMask(terrainMaterialForestMaskUniformName, forestMaskTexture, forestMaskTransform);
         if (bushMaterial)

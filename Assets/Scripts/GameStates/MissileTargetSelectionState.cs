@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Butjok.CommandLine;
 using Drawing;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -15,6 +16,8 @@ public class MissileTargetSelectionState : StateMachineState {
     public MissileTargetSelectionState(StateMachine stateMachine) : base(stateMachine) { }
 
     public static Easing.Name easing = Easing.Name.InOutQuad;
+    
+    [Command]public static Color color = new Color(1f, 0.92f, 0.02f, 0.33f);
 
     public override IEnumerator<StateChange> Enter {
         get {
@@ -145,22 +148,26 @@ public class MissileTargetSelectionState : StateMachineState {
                     }
 
                 if (launchPosition is { } actualLaunchPosition)
-                    foreach (var attackPosition in level.PositionsInRange(actualLaunchPosition, missileSilo.missileBlastRange))
-                        Draw.ingame.SolidPlane((Vector3)attackPosition.ToVector3Int(), Vector3.up, Vector2.one, new Color(1f, 0.5f, 0f));
-
-                if (level.view.cameraRig.camera.TryGetMousePosition(out var hit, out mousePosition) && missileSiloView &&
-                    (mousePosition - missileSilo.position).ManhattanLength().IsInRange(missileSilo.missileSiloRange)) {
-                    missileSiloView.aim = true;
-                    if (hit.point.ToVector2Int().TryRaycast(out var hit2)) {
-                        missileSiloView.targetPosition = hit2.point;
-                        if (missileSiloView.TryCalculateCurve(out var curve))
-                            using (Draw.ingame.WithLineWidth(1.5f))
-                                foreach (var (start, end) in curve.Segments())
-                                    Draw.ingame.Line(start, end, Color.yellow);
+                    foreach (var attackPosition in level.PositionsInRange(actualLaunchPosition, missileSilo.missileBlastRange)) {
+                        var point = attackPosition.TryRaycast(out var hit) ? hit.point : attackPosition.ToVector3();
+                        Draw.ingame.SolidPlane(point, Vector3.up, Vector2.one, color);
                     }
+
+                {
+                    if (level.view.cameraRig.camera.TryGetMousePosition(out var hit, out mousePosition) && missileSiloView &&
+                        (mousePosition - missileSilo.position).ManhattanLength().IsInRange(missileSilo.missileSiloRange)) {
+                        missileSiloView.aim = true;
+                        if (hit.point.ToVector2Int().TryRaycast(out var hit2)) {
+                            missileSiloView.targetPosition = hit2.point;
+                            if (missileSiloView.TryCalculateCurve(out var curve))
+                                using (Draw.ingame.WithLineWidth(1.5f))
+                                    foreach (var (start, end) in curve.Segments())
+                                        Draw.ingame.Line(start, end, Color.yellow);
+                        }
+                    }
+                    else
+                        missileSiloView.aim = false;
                 }
-                else
-                    missileSiloView.aim = false;
             }
         }
     }

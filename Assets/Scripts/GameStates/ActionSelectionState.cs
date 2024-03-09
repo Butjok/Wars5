@@ -67,11 +67,11 @@ public class ActionSelectionState : StateMachineState {
             circle.position = null;
 
             if (action.targetUnit != null)
-                circle.position = action.targetUnit.view.transform.position;
+                circle.position = action.targetUnit.view.body.transform.position;
             if (action.targetBuilding != null)
-                circle.position = action.targetBuilding.view.transform.position;
-            if (action.type == UnitActionType.Drop)
-                circle.position = action.targetPosition.ToVector3();
+                circle.position = action.targetBuilding.position.TryRaycast(out var hit) ? hit.point : action.targetBuilding.position.ToVector3();
+            if (action.type == UnitActionType.Drop) 
+                circle.position = action.targetPosition.TryRaycast(out var hit) ? hit.point : action.targetPosition.ToVector3();
 
             if (action.type == UnitActionType.Attack && TryGetDamage(action.unit, action.targetUnit, action.weaponName, out var damagePercentage)) {
                 label.gameObject.SetActive(true);

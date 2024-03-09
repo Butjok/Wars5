@@ -594,7 +594,7 @@ MonoBehaviour:
   prefab: {fileID: 5771172581021797629}
   debugTarget: {fileID: 0}
   target: {x: 0, y: 0, z: 0}
-  body: {fileID: 0}
+  body: {fileID: 813264836505164025}
   playerMaterialRenderers: []
   wheels: []
   turrets: []
@@ -614,6 +614,9 @@ MonoBehaviour:
   inputs:
     m_keys: 
     m_values: []
+  speed: 0
+  acceleration: 0
+  survives: 0
   targets: []
   hitPoints: []
   ui: {fileID: 0}

@@ -1,0 +1,72 @@
+game {
+    :turn ( 0 )
+}
+// Red
+player {
+    :color-name          ( ColorName Red enum )
+    :team                ( Team None enum )
+    :co-name             ( PersonName Natalie enum )
+    :ui-position         ( 0 1 int2 )
+    :credits             ( 16000 )
+    :power-meter         ( 0 )
+    :unit-look-direction ( 1 0 int2 )
+    :side                ( Side Left enum )
+    .mark-as-local
+    .add
+}
+// Hq(1, -2) Red
+building {
+    :type           ( TileType Hq enum )
+    :position       ( 1 -2 int2 )
+    :cp             ( 20 )
+    :look-direction ( -1 0 int2 )
+    .add
+}
+pop
+// Factory(9, 2) Red
+building {
+    :type           ( TileType Factory enum )
+    :position       ( 9 2 int2 )
+    :cp             ( 20 )
+    :look-direction ( -1 0 int2 )
+    .add
+}
+pop
+// Factory(12, 2) Red
+building {
+    :type           ( TileType Factory enum )
+    :position       ( 12 2 int2 )
+    :cp             ( 20 )
+    :look-direction ( -1 0 int2 )
+    .add
+}
+pop
+// MissileSilo(12, -3) Red
+building {
+    :type           ( TileType MissileSilo enum )
+    :position       ( 12 -3 int2 )
+    :cp             ( 20 )
+    :look-direction ( -1 0 int2 )
+    .missile-silo {
+        :last-launch-turn ( -99 )
+        :launch-cooldown  ( 1 )
+        :ammo             ( 999 )
+        :range            ( 0 999 int2 )
+        :blast-range      ( 0 3 int2 )
+        :unit-damage      ( 5 )
+        :bridge-damage    ( 10 )
+    }
+    .add
+}
+pop
+tiles {
+}
+// Unowned buildings
+null
+pop
+camera-rig {
+    :position    ( 10.61334 2.622606E-05 -9.697965 float3 )
+    :rotation    ( 315 )
+    :pitch-angle ( 30 )
+    :dolly-zoom  ( 1 )
+}

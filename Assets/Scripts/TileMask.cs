@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
 
-public static class TileMaskTexture {
+public static class TileMask {
 
     public static (Texture texture, Matrix4x4 transform) Create(HashSet<Vector2Int> positions, int resolution = 1, Color? on = null, Color? off = null, FilterMode filterMode = FilterMode.Point) {
         var min = new Vector2Int(int.MaxValue, int.MaxValue);
@@ -57,5 +57,22 @@ public static class TileMaskTexture {
         var positions = json.FromJson<int[][]>().Select(p => new Vector2Int(p[0], p[1])).ToHashSet();
         var (texture, transform) = Create(positions, 8);
         SetTileMask(material, "_Visibility", texture, transform);
+    }
+    
+    public const string tileMaskUniformName = "_TileMask";
+
+    public static void ReplaceGlobal(HashSet<Vector2Int> positions, string uniformName = tileMaskUniformName) { 
+        var (texture, transform) = Create(positions, 1);
+        var oldTexture = Shader.GetGlobalTexture(tileMaskUniformName);
+        if (oldTexture && oldTexture != Texture2D.blackTexture)
+            Object.Destroy(oldTexture);
+        Shader.SetGlobalTexture(tileMaskUniformName, texture);
+        Shader.SetGlobalMatrix(tileMaskUniformName + "_WorldToLocal", transform.inverse);
+    }
+    public static void UnsetGlobal(string uniformName = tileMaskUniformName) {
+        var oldTexture = Shader.GetGlobalTexture(tileMaskUniformName);
+        if (oldTexture && oldTexture != Texture2D.blackTexture)
+            Object.Destroy(oldTexture);
+        Shader.SetGlobalTexture(tileMaskUniformName,Texture2D.blackTexture);
     }
 }

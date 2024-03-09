@@ -117,6 +117,8 @@ public class LevelEditorUnitsModeState : StateMachineState {
                                 UnitType.Infantry or UnitType.AntiTank => "WbInfantry",
                                 _ => "WbLightTank"
                             }).LoadAs<UnitView>();
+                            
+                            Debug.Log("placing");
 
                             var unit = new Unit(player, unitType, position, player.unitLookDirection, viewPrefab: viewPrefab);
                             break;

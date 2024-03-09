@@ -14,7 +14,10 @@ using static Rules;
 
 public class AiPlayerCommander : MonoBehaviour {
 
-    public enum PriorityPreference { Min, Max }
+    public enum PriorityPreference {
+        Min,
+        Max
+    }
 
     public GradientMap priorityGradientMap = new();
 
@@ -46,11 +49,10 @@ public class AiPlayerCommander : MonoBehaviour {
     //
     // potential unit action priority formula handling
     //
-    
+
     public PriorityPreference priorityPreference = PriorityPreference.Max;
 
     public bool TryFindBestMove(out PotentialUnitAction bestPotentialUnitAction) {
-
         var actions = new List<PotentialUnitAction>();
         foreach (var unit in Level.units.Values.Where(unit => unit.Player == Level.CurrentPlayer && !unit.Moved))
             actions.AddRange(EnumeratePotentialUnitActions(unit));
@@ -71,7 +73,10 @@ public class AiPlayerCommander : MonoBehaviour {
     }
 
     public enum NextTask {
-        None, SelectUnit, SelectPath, SelectAction
+        None,
+        SelectUnit,
+        SelectPath,
+        SelectAction
     }
 
     public PotentialUnitAction selectedAction;
@@ -88,7 +93,8 @@ public class AiPlayerCommander : MonoBehaviour {
                 selectedAction.path.Count > 1 && IsArtillery(selectedAction.unit) ||
                 selectedAction.type == UnitActionType.Gather)
 
-                selectedAction.type = UnitActionType.Stay;
+                if (selectedAction.type != UnitActionType.Join)
+                    selectedAction.type = UnitActionType.Stay;
         }
 
         if (!foundMove)
@@ -121,13 +127,15 @@ public class AiPlayerCommander : MonoBehaviour {
             return valid;
         }).ToList();
 
+        Debug.Log($"selected action type: {selectedAction.type}");
+
+
         Assert.AreEqual(1, actions.Count);
         game.EnqueueCommand(ActionSelectionState.Command.Execute, actions[0]);
     }
 
     [Command]
     public void DrawPotentialUnitActions() {
-
         if (!Level.view.cameraRig.camera.TryGetMousePosition(out Vector2Int mousePosition) || !Level.TryGetUnit(mousePosition, out var unit))
             return;
 
@@ -141,7 +149,6 @@ public class AiPlayerCommander : MonoBehaviour {
     public PathFinder joinMovesFinder = new();
 
     public IEnumerable<PotentialUnitAction> EnumeratePotentialUnitActions(Unit unit) {
-
         stayMovesFinder.FindStayMoves(unit);
 
         //
@@ -191,14 +198,12 @@ public class AiPlayerCommander : MonoBehaviour {
         if (TryGetAttackRange(unit, out var attackRange))
 
             foreach (var target in Level.units.Values) {
-
                 List<Vector2Int> path = null;
                 List<Vector2Int> restPath = null;
 
                 foreach (var weaponName in GetWeaponNames(unit))
                     if (AreEnemies(unit.Player, target.Player) &&
                         TryGetDamage(unit, target, weaponName, out _)) {
-
                         if (path == null) {
                             var targets = Level.PositionsInRange(target.NonNullPosition, attackRange).Where(position => CanStay(unit, position));
                             if (!stayMovesFinder.TryFindPath(out path, out restPath, targets: targets))
@@ -242,7 +247,6 @@ public class AiPlayerCommander : MonoBehaviour {
         var joinMovesFinderInitialized = false;
 
         foreach (var ally in allies) {
-
             var canJoin = CanJoin(unit, ally);
             var canGetIn = CanGetIn(unit, ally);
             if (!canJoin && !canGetIn)
@@ -280,9 +284,7 @@ public class AiPlayerCommander : MonoBehaviour {
     }
 
     public void PrioritizePotentialUnitActions(IEnumerable<PotentialUnitAction> actions) {
-
         foreach (var action in actions) {
-
             float pathLength = action.path.Count;
             float fullPathLength = action.path.Count + action.restPath.Count - 1;
             float pathLengthPercentage = pathLength / fullPathLength;
@@ -293,7 +295,6 @@ public class AiPlayerCommander : MonoBehaviour {
             action.priority = 0;
 
             switch (action.type) {
-
                 case UnitActionType.Attack: {
                     var isValid = TryGetDamage(action.unit, action.targetUnit, action.weaponName, out var damagePercentage);
                     Assert.IsTrue(isValid);
@@ -339,7 +340,6 @@ public class AiPlayerCommander : MonoBehaviour {
     }
 
     public IEnumerator DrawPotentialUnitActions(IEnumerable<PotentialUnitAction> actions) {
-
         var list = actions.ToList();
         if (list.Count == 0)
             yield break;
@@ -355,7 +355,6 @@ public class AiPlayerCommander : MonoBehaviour {
             var priorityRange = maxPriority - minPriority;
 
             foreach (var action in list) {
-
                 var color = Mathf.Approximately(0, priorityRange) ? Color.blue : priorityGradientMap.Sample((action.priority - minPriority) / priorityRange);
 
                 using (Draw.ingame.WithLineWidth(pathThickness))
@@ -431,9 +430,11 @@ public class AiPlayerCommander : MonoBehaviour {
             Assert.IsTrue(isValid);
             total += cost;
         }
+
         return total;
     }
 }
+
 [Serializable]
 public class PotentialUnitAction {
 

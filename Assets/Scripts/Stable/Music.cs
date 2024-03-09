@@ -16,9 +16,9 @@ public class Music : MonoBehaviour {
             }
             return instance;
         }
-    }
+    } 
 
-    public static AudioSource Play(IEnumerable<AudioClip> clips, bool loop = true) {
+    public static AudioSource CreateAudioSource(IEnumerable<AudioClip> clips, bool loop = true) {
 
         var source = Instance.gameObject.AddComponent<AudioSource>();
         source.spatialize = false;
@@ -30,8 +30,8 @@ public class Music : MonoBehaviour {
         return source;
     }
 
-    public static AudioSource Play(AudioClip clip, bool loop = true) {
-        return Play(new[] { clip }, loop);
+    public static AudioSource CreateAudioSource(AudioClip clip, bool loop = true) {
+        return CreateAudioSource(new[] { clip }, loop);
     }
 
     private static IEnumerator PlaySequence(AudioSource source, IEnumerable<AudioClip> clips) {
@@ -40,7 +40,7 @@ public class Music : MonoBehaviour {
             if (!source)
                 yield break;
             source.clip = clip;
-            source.Play();
+            //source.Play();
             while (source && source.isPlaying)
                 yield return null;
         }

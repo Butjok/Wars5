@@ -189,7 +189,7 @@ public class UnitView : MonoBehaviour {
             return null;
         ui = Instantiate(prefab, levelView.unitUiRoot);
         ui.camera = levelView.cameraRig.camera;
-        ui.target = transform;
+        ui.target = body;
         return ui;
     }
 
@@ -275,10 +275,10 @@ public class UnitView : MonoBehaviour {
         ResetSteering();
         UpdateBodyPosition();
         UpdateBodyRotation();
-        
+
         // TODO: hack
         var bipedalWalker = GetComponent<BipedalWalker>();
-        if (bipedalWalker) 
+        if (bipedalWalker)
             bipedalWalker.ResetFeet();
     }
 
@@ -356,6 +356,7 @@ public class UnitView : MonoBehaviour {
         get {
             if (moved is { } actualValue)
                 return actualValue;
+            return false;
             throw new AssertionException("moved == null", null);
         }
         set {
@@ -541,7 +542,16 @@ public class UnitView : MonoBehaviour {
         }
 
         body.position = Vector3.Lerp(min, max, .5f);
+
+        if (!Moved)
+            body.position += body.up * bodyDanceAmplitude * Mathf.PingPong(Time.time * bodyDanceFrequency, bodyDanceAmplitude);
     }
+
+    [Command] public static float bodyDanceAmplitude = 0.15f;
+    [Command] public static float bodyDanceFrequency = .7f;
+    
+    [Command] public static float barrelDanceAmplitude = 5f;
+    [Command] public static float barrelDanceFrequency = 7.5f;
 
     private float? lastSpringUpdateTime;
 
@@ -775,7 +785,10 @@ public class UnitView : MonoBehaviour {
                 var barrelTo = targetOnBarrelPlane - barrelPosition;
                 var barrelRotation = Quaternion.Euler(barrel.angle, 0, 0);
                 var barrelFrom = body.rotation * turretRotation * barrelRotation * Vector3.forward;
-                var barrelDeltaAngle = barrel.workMode == WorkMode.RotateToRest ? barrelRestAngle - barrel.angle : Vector3.SignedAngle(barrelFrom, barrelTo, barrelPlane.normal);
+                var actualBarrelRestAngle = barrelRestAngle;
+                if (!Moved)
+                    actualBarrelRestAngle += barrelDanceAmplitude * Mathf.Sin(Time.time * barrelDanceFrequency);
+                var barrelDeltaAngle = barrel.workMode == WorkMode.RotateToRest ? actualBarrelRestAngle - barrel.angle : Vector3.SignedAngle(barrelFrom, barrelTo, barrelPlane.normal);
 
                 var barrelForce = barrelDeltaAngle * barrelSpringForce;
                 barrelForce -= barrel.velocity * barrelSpringDrag;
@@ -795,16 +808,16 @@ public class UnitView : MonoBehaviour {
     private Dictionary<Wheel.SteeringGroup, (float angleAccumulator, int count)> steeringGroups = new();
 
     private void Update() {
-
         if (!Application.isPlaying)
             UpdateAxes();
 
         speed += acceleration * Time.deltaTime;
         transform.position += transform.forward * speed * Time.deltaTime;
 
-        if (!body)
+        // TODO: hack
+        if (!body || GetComponent<BipedalWalker>())
             return;
-        
+
         steeringGroups.Clear();
 
         foreach (var wheel in wheels) {

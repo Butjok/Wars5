@@ -78,7 +78,7 @@ public class LevelEditorSessionState : StateMachineState {
 
             var theme = Resources.Load<AudioClip>("violin uzicko");
             if (theme)
-                musicSource = Music.Play(theme);
+                musicSource = Music.CreateAudioSource(theme);
 
             yield return StateChange.Push(new LevelEditorUnitsModeState(stateMachine));
         }

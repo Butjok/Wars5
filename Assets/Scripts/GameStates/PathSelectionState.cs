@@ -9,8 +9,6 @@ public class PathSelectionState : StateMachineState {
 
     public enum Command { Cancel, Move, ReconstructPath, AppendToPath }
 
-    public const string tileMaskUniformName = "_TileMask";
-    
     public static GameObject pathMeshGameObject;
     public static MeshFilter pathMeshFilter;
     public static MeshRenderer pathMeshRenderer;
@@ -49,14 +47,8 @@ public class PathSelectionState : StateMachineState {
 
             var pathBuilder = new PathBuilder(unitPosition);
 
-            if (!levelSession.autoplay) {
-                var (texture, transform) = TileMaskTexture.Create(reachable, 1);
-                var oldTexture = Shader.GetGlobalTexture(tileMaskUniformName);
-                if (oldTexture && oldTexture != Texture2D.blackTexture)
-                    Object.Destroy(oldTexture);
-                Shader.SetGlobalTexture(tileMaskUniformName, texture);
-                Shader.SetGlobalMatrix(tileMaskUniformName + "_WorldToLocal", transform.inverse);
-            }
+            if (!levelSession.autoplay) 
+                TileMask.ReplaceGlobal(reachable);
 
             void RebuildPathMesh() {
                 if (levelSession.autoplay)
@@ -119,7 +111,7 @@ public class PathSelectionState : StateMachineState {
 
                             pathMeshGameObject.SetActive(false);
 
-                            UnsetTileMasks(level);
+                            TileMask.UnsetGlobal();
 
                             path = pathBuilder.ToList();
                             var animation = new MoveSequence(unit.view.transform, path).Animation();
@@ -144,7 +136,7 @@ public class PathSelectionState : StateMachineState {
 
                         case (Command.Cancel, _):
                             unit.view.Selected = false;
-                            UnsetTileMasks(level);
+                            TileMask.UnsetGlobal();
                             yield return StateChange.PopThenPush(2, new SelectionState(stateMachine));
                             break;
 
@@ -157,18 +149,11 @@ public class PathSelectionState : StateMachineState {
             }
         }
     }
-    
-    private static void UnsetTileMasks(Level level) {
-        var oldTexture = Shader.GetGlobalTexture(tileMaskUniformName);
-        if (oldTexture && oldTexture != Texture2D.blackTexture)
-            Object.Destroy(oldTexture);
-        Shader.SetGlobalTexture(tileMaskUniformName,Texture2D.blackTexture);
-    }
 
     public override void Exit() {
         var level = stateMachine.TryFind<LevelSessionState>().level;
         var unit = stateMachine.TryFind<SelectionState>().unit;
-        UnsetTileMasks(level);
+        TileMask.UnsetGlobal();
         unit.view.Selected = false;
         if (pathMeshGameObject)
             pathMeshGameObject.SetActive(false);

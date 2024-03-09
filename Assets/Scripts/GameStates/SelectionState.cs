@@ -10,8 +10,16 @@ using UnityEngine.Assertions;
 public class SelectionState : StateMachineState {
 
     public enum Command {
-        EndTurn, OpenGameMenu, ExitToLevelEditor, CyclePositions, Select, TriggerVictory, TriggerDefeat, UseAbility,
-        OpenMinimap
+        EndTurn,
+        OpenGameMenu,
+        ExitToLevelEditor,
+        CyclePositions,
+        Select,
+        TriggerVictory,
+        TriggerDefeat,
+        UseAbility,
+        OpenMinimap,
+        ShowAttackRange
     }
 
     public Unit unit;
@@ -40,10 +48,12 @@ public class SelectionState : StateMachineState {
             // yield return null;
 
             var turnButton = level.view.turnButton;
+
             void TrySetTurnButtonVisibility(bool visible) {
                 if (turnButton)
                     turnButton.Visible = visible;
             }
+
             void TrySetTurnButtonInteractivity(bool interactable) {
                 if (turnButton)
                     turnButton.Interactable = interactable;
@@ -108,7 +118,6 @@ public class SelectionState : StateMachineState {
                     }
                 }
                 else if (!level.CurrentPlayer.IsAi) {
-
                     if (Input.GetKeyDown(KeyCode.F2))
                         game.EnqueueCommand(Command.EndTurn);
 
@@ -130,21 +139,22 @@ public class SelectionState : StateMachineState {
                     else if ((Input.GetMouseButtonDown(Mouse.left) || Input.GetKeyDown(KeyCode.Space)) && level.view.cameraRig.camera.TryGetMousePosition(out Vector2Int mousePosition))
                         game.EnqueueCommand(Command.Select, mousePosition);
 
+                    else if (Input.GetMouseButtonDown(Mouse.right) && level.view.cameraRig.camera.TryGetMousePosition(out mousePosition) && level.TryGetUnit(mousePosition, out var mouseUnit))
+                        game.EnqueueCommand(Command.ShowAttackRange, mouseUnit);
+
                     else if (Input.GetKeyDown(KeyCode.F6) && Rules.CanUseAbility(level.CurrentPlayer))
                         game.EnqueueCommand(Command.UseAbility);
 
                     else if (Input.GetKeyDown(KeyCode.M) || Input.GetKeyDown(KeyCode.CapsLock))
                         game.EnqueueCommand(Command.OpenMinimap);
-                    
+
                     else if (Input.GetKeyDown(KeyCode.Escape))
                         game.EnqueueCommand(Command.OpenGameMenu);
                 }
 
                 while (game.TryDequeueCommand(out var command))
                     switch (command) {
-
                         case (Command.Select, Vector2Int position): {
-
                             //var position3d = position.Raycast();
 
 //                            Debug.Log($"selecting unit at {position}");
@@ -174,11 +184,11 @@ public class SelectionState : StateMachineState {
                                     yield return StateChange.Push(new UnitBuildState(stateMachine));
                                 }
                             }
+
                             break;
                         }
 
                         case (Command.EndTurn, _): {
-
                             foreach (var unit in level.units.Values)
                                 unit.Moved = false;
 
@@ -189,10 +199,7 @@ public class SelectionState : StateMachineState {
                             //MusicPlayer.Instance.source.Stop();
                             //MusicPlayer.Instance.queue = null;
 
-                            var oldDay = level.Day();
                             level.turn++;
-                            if (level.Day() != oldDay)
-                                yield return StateChange.Push(new DayChangeState(stateMachine));
                             yield return StateChange.PopThenPush(2, new PlayerTurnState(stateMachine));
                             break;
                         }
@@ -226,6 +233,7 @@ public class SelectionState : StateMachineState {
                             }
                             else if (preselectionCursor)
                                 preselectionCursor.Hide();
+
                             break;
                         }
 
@@ -237,6 +245,7 @@ public class SelectionState : StateMachineState {
                             }
                             else
                                 UiSound.Instance.notAllowed.PlayOneShot();
+
                             break;
                         }
 
@@ -256,11 +265,32 @@ public class SelectionState : StateMachineState {
                             yield return StateChange.Push(new MinimapState(stateMachine));
                             break;
 
+                        case (Command.ShowAttackRange, Unit mouseUnit): {
+                            var attackPositions = new HashSet<Vector2Int>();
+                            if (Rules.TryGetAttackRange(mouseUnit, out var attackRange)) {
+                                if (Rules.IsArtillery(mouseUnit))
+                                    attackPositions.UnionWith(level.PositionsInRange(mouseUnit.NonNullPosition, attackRange));
+                                else if (attackRange == new Vector2Int(1,1)) {
+                                    var pathFinder = new PathFinder();
+                                    pathFinder.FindMoves(mouseUnit);
+                                    var movePositions = pathFinder.movePositions;
+                                    foreach (var position in movePositions)
+                                        foreach (var offset in Rules.gridOffsets)
+                                            attackPositions.Add(position + offset);
+                                }
+                            }
+                            TileMask.ReplaceGlobal(attackPositions);
+                            while (Input.GetMouseButton(Mouse.right))
+                                yield return StateChange.none;
+                            TileMask.UnsetGlobal();
+                            break;
+                        }
+
                         default:
                             HandleUnexpectedCommand(command);
                             break;
                     }
-                
+
                 level.UpdateTilemapCursor();
             }
         }
@@ -286,8 +316,6 @@ public class SelectionState : StateMachineState {
     }
 
     public static IEnumerator StopAbility(Player player) {
-
-
         yield return null;
     }
 };

@@ -94,10 +94,10 @@ public static class Persons {
     public static IEnumerable<AudioClip> GetMusicThemes(PersonName personName) {
         switch (personName) {
             case PersonName.Natalie:
-                yield return "normal uzicko".LoadAs<AudioClip>();
+                yield return "hardbass".LoadAs<AudioClip>();
                 break;
             case PersonName.Vladan:
-                yield return "chicherina-trimmed".LoadAs<AudioClip>();
+                yield return "sakkijarven".LoadAs<AudioClip>();
                 break;
         }
     }

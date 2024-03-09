@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Butjok.CommandLine;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -87,6 +88,16 @@ public class Unit : IDisposable {
         else {
             view.Hp = hp;
             view.ui.SetHp(hp, MaxHp(this));
+        }
+    }
+
+    [Command]
+    public static void SetHpAt(int value) {
+        var game = Object.FindObjectOfType<Game>();
+        var levelEditorSessionState = game.stateMachine.TryFind<LevelEditorSessionState>();
+        if (levelEditorSessionState != null) {
+            var level = levelEditorSessionState.level;
+            if (level.view.cameraRig.camera.TryGetMousePosition(out Vector2Int position) && level.TryGetUnit(position, out var unit)) unit.SetHp(value);
         }
     }
 

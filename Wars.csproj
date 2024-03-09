@@ -58,7 +58,7 @@
      <Compile Include="Assets\Scripts\Turret2.cs" />
      <Compile Include="Assets\Scripts\LevelEditor\LevelEditorZoneModeState.cs" />
      <Compile Include="Assets\Scripts\TerrainMapper.cs" />
-     <Compile Include="Assets\Scripts\TileMaskTexture.cs" />
+     <Compile Include="Assets\Scripts\TileMask.cs" />
      <Compile Include="Assets\Scripts\AiPlayerCommanderSwitcher.cs" />
      <Compile Include="Assets\Scripts\GameStates\PlayerTurnState.cs" />
      <Compile Include="Assets\Scripts\TouchGame.cs" />
@@ -300,6 +300,7 @@
      <Compile Include="Assets\Scripts\FlipbookTest.cs" />
      <Compile Include="Assets\Scripts\Animation\UnitViewSequenceSubroutines.cs" />
      <Compile Include="Assets\Scripts\EntryPoint\MainMenuWelcomeState.cs" />
+     <Compile Include="Assets\Scripts\Music2.cs" />
      <Folder Include="Assets\Scripts\EntryPoint" />
      <None Include="Assets\Scripts\Wars.asmdef" />
      <Folder Include="Assets\Scripts\DialogueMarkupLanguage" />

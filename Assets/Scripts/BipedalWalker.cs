@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Butjok.CommandLine;
 using Drawing;
 using UnityEngine;
 
@@ -198,9 +199,14 @@ public class BipedalWalker : MonoBehaviour {
         var feetAverage = (footTargets[left].point + footTargets[right].point) / 2;
         var targetBodyPosition = transform.position.ToVector2().ToVector3() + Vector3.up * (feetAverage.y + height);
         body.position = Vector3.Lerp(body.position, targetBodyPosition, Time.deltaTime * bodyYPositionChangeIntensity);
+        
+        body.position += Vector3.down * Mathf.PingPong(Time.time * danceFreuqency, danceAmplitude);
 
         oldPosition = transform.position;
     }
+    
+    [Command] public static float danceFreuqency = .1f;
+    [Command] public static float danceAmplitude = .02f;
 
     public float height = .5f;
     public Transform body;
