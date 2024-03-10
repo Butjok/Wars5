@@ -18,6 +18,8 @@ Shader "Custom/Unit"
         _AttackHighlightColor ("_AttackHighlightColor", Color) = (1,1,1,1)
         _AttackHighlight ("_AttackHighlight", Vector) = (.25, .5, 5.0, 2.5)
         _RedAmount ("_RedAmount", Range(0,1)) = 0
+        _DamageFalloffIntensity ("_DamageFalloffIntensity", Float) = 10
+        [HDR] _DamageColor ("_DamageColor", Color) = (0.67, 0.52, 0, 1)
     }
     SubShader
     {
@@ -48,6 +50,9 @@ Shader "Custom/Unit"
         half _Selected,_HueShift,_BounceIntensity,_OffsetIntensity;
         half _Moved,_AttackHighlightFactor,_AttackHighlightStartTime;
         half _RedAmount;
+        half _DamageTime = -1000;
+        half4 _DamageColor;
+        half _DamageFalloffIntensity;
 
         float3 ToRed(float3 blue) {
             float3 hsv = RGBtoHSV(blue);
@@ -126,7 +131,8 @@ Shader "Custom/Unit"
             + IN
         .worldPos.z)
             *10));*/
-            
+
+            o.Emission += float4(1,1,0,1)/4 * exp(-(_Time.y-_DamageTime)*40);
             
         }
         ENDCG

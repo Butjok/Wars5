@@ -3,12 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Butjok.CommandLine;
+using Cinemachine;
+using DG.Tweening;
 using Drawing;
 using TMPro;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Serialization;
 using static UnitView.Wheel.Axis.Constants;
+using Random = UnityEngine.Random;
 
 [ExecuteInEditMode]
 public class UnitView : MonoBehaviour {
@@ -92,6 +96,7 @@ public class UnitView : MonoBehaviour {
             [NonSerialized] public float angle;
             [NonSerialized] public float velocity;
             public float recoil = 10;
+            public string gunshotAudioClipName;
         }
     }
 
@@ -178,9 +183,11 @@ public class UnitView : MonoBehaviour {
     public bool survives;
     public List<UnitView> targets = new();
     public List<Transform> hitPoints = new();
-    [NonSerialized] public int incomingProjectilesLeft = 0;
+    public int incomingProjectilesLeft = 0;
+    public int totalIncomingProjectiles = 0;
     [NonSerialized] public int spawnPointIndex;
     [NonSerialized] public int shuffledIndex;
+    public bool enableDance = true;
 
     public UnitUi ui;
 
@@ -228,6 +235,21 @@ public class UnitView : MonoBehaviour {
             foreach (var renderer in GetComponentsInChildren<Renderer>())
                 renderer.SetPropertyBlock(materialPropertyBlock);
         }
+    }
+
+    [Command]
+    public float DamageTime {
+        set {
+            materialPropertyBlock ??= new MaterialPropertyBlock();
+            materialPropertyBlock.SetFloat("_DamageTime", value);
+            foreach (var renderer in GetComponentsInChildren<Renderer>())
+                renderer.SetPropertyBlock(materialPropertyBlock);
+        }
+    }
+
+    [Command]
+    public void TriggerDamage() {
+        DamageTime = Time.time;
     }
 
     public bool Selected {
@@ -292,8 +314,9 @@ public class UnitView : MonoBehaviour {
         }
     }
 
-    public void Die() {
+    public void DieOnMap() {
         Visible = false;
+        Effects.SpawnExplosion(body.position);
     }
 
     [Command]
@@ -543,13 +566,13 @@ public class UnitView : MonoBehaviour {
 
         body.position = Vector3.Lerp(min, max, .5f);
 
-        if (!Moved)
-            body.position += body.up * bodyDanceAmplitude * Mathf.PingPong(Time.time * bodyDanceFrequency, bodyDanceAmplitude);
+        if (enableDance && !Moved)
+            body.position += body.up * bodyDanceAmplitude * Mathf.PingPong(Time.unscaledTime * bodyDanceFrequency, bodyDanceAmplitude);
     }
 
     [Command] public static float bodyDanceAmplitude = 0.15f;
     [Command] public static float bodyDanceFrequency = .7f;
-    
+
     [Command] public static float barrelDanceAmplitude = 5f;
     [Command] public static float barrelDanceFrequency = 7.5f;
 
@@ -714,15 +737,43 @@ public class UnitView : MonoBehaviour {
             barrel.audioSource.Play();
 
         ApplyInstantaneousWorldForce(barrelPosition, -barrelForward * barrel.recoil);
+
+        var prefab = "Shell2".LoadAs<Projectile3View>();
+        var projectile = Instantiate(prefab);
+        projectile.Setup(barrel.transform, targets);
     }
 
-    [Command]
-    public void Shoot(string turretName, string barrelName) {
-        var turret = turrets.SingleOrDefault(t => t.name == turretName);
-        var barrel = turret?.barrels.SingleOrDefault(b => b.name == barrelName);
-        if (barrel != null)
-            Shoot(turret, barrel);
+    public void Shoot(WeaponName weaponName) {
+        var prefab = "Shell2".LoadAs<Projectile3View>();
+        var projectile = Instantiate(prefab);
+        projectile.Setup(body.transform, targets);
+        projectile.unitView = this;
+        projectile.weaponName = weaponName;
+
+        var audioClips = weaponSounds.FirstOrDefault(entry => entry.weaponName == weaponName)?.audioClips;
+        AudioClip audioClip = null;
+        if (audioClips is { Length: > 0 })
+            audioClip = audioClips.Random();
+        else {
+            if (weaponName is WeaponName.Rifle or WeaponName.MachineGun)
+                audioClip = Sounds.rifleShot;
+            else if (weaponName is WeaponName.Cannon)
+                audioClip = Sounds.cannonShot;
+            else if (weaponName is WeaponName.RocketLauncher)
+                audioClip = Sounds.rocketLauncherShot;
+        }
+
+        if (audioClip)
+            Sounds.PlayOneShot(audioClip);
     }
+
+    [Serializable]
+    public class WeaponSoundEntry {
+        public WeaponName weaponName;
+        public AudioClip[] audioClips = Array.Empty<AudioClip>();
+    }
+
+    public List<WeaponSoundEntry> weaponSounds = new();
 
     private void OnEnable() {
         FindHitPoints();
@@ -786,8 +837,8 @@ public class UnitView : MonoBehaviour {
                 var barrelRotation = Quaternion.Euler(barrel.angle, 0, 0);
                 var barrelFrom = body.rotation * turretRotation * barrelRotation * Vector3.forward;
                 var actualBarrelRestAngle = barrelRestAngle;
-                if (!Moved)
-                    actualBarrelRestAngle += barrelDanceAmplitude * Mathf.Sin(Time.time * barrelDanceFrequency);
+                if (enableDance && !Moved)
+                    actualBarrelRestAngle += barrelDanceAmplitude * Mathf.Sin(Time.unscaledTime * barrelDanceFrequency);
                 var barrelDeltaAngle = barrel.workMode == WorkMode.RotateToRest ? actualBarrelRestAngle - barrel.angle : Vector3.SignedAngle(barrelFrom, barrelTo, barrelPlane.normal);
 
                 var barrelForce = barrelDeltaAngle * barrelSpringForce;
@@ -896,10 +947,112 @@ public class UnitView : MonoBehaviour {
         TakeHit(hitPoints.Random(), force);
     }
 
+    public void TakeHit(Projectile3View projectile, bool canMakeSound) {
+        var isInfantry = prefab.name is "WbInfantry";
+        var isVehicle = prefab.name is not "WbInfantry";
+
+        var isExplosiveWeapon = projectile.weaponName is WeaponName.RocketLauncher or WeaponName.Cannon;
+        var isBulletWeapon = projectile.weaponName is WeaponName.Rifle or WeaponName.MachineGun;
+
+        AudioClip hitAudioClip = null;
+        if (incomingProjectilesLeft == totalIncomingProjectiles && canMakeSound)
+            if (isVehicle) {
+                if (isExplosiveWeapon)
+                    hitAudioClip = Sounds.armorHit;
+                else if (isBulletWeapon)
+                    hitAudioClip = Sounds.bulletRicochet;
+            }
+            else if (isInfantry) {
+                if (isExplosiveWeapon)
+                    hitAudioClip = Sounds.explosion;
+                else if (isBulletWeapon)
+                    hitAudioClip = Sounds.bulletRicochet;
+            }
+
+        --incomingProjectilesLeft;
+
+        var dies = false;
+
+        if (incomingProjectilesLeft == 0 && !survives) {
+            if (canMakeSound)
+                if (isInfantry)
+                    if (isExplosiveWeapon)
+                        hitAudioClip = Sounds.explosion;
+                    else
+                        hitAudioClip = Sounds.bulletRicochet;
+                else if (isVehicle)
+                    hitAudioClip = Sounds.explosion;
+
+            dies = true;
+        }
+
+        var isExplosion = hitAudioClip == Sounds.explosion || hitAudioClip == Sounds.armorHit;
+
+        if (hitAudioClip) {
+            Sounds.PlayOneShot(hitAudioClip);
+
+            var torque = isExplosion ? explosionTorque : bulletTorque;
+            instantaneousTorques.Enqueue((new Vector3(Random.value, Random.value, Random.value) * 2 - Vector3.one) * torque);
+
+            if (isExplosion) {
+                var virtualCameras = GameObject.FindGameObjectsWithTag("BattleVirtualCamera")
+                    .Select(go => go.GetComponent<CinemachineVirtualCamera>())
+                    .Where(vc => vc);
+                foreach (var virtualCamera in virtualCameras) {
+                    var noise = virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+                    if (cameraShakes.ContainsKey(noise))
+                        continue;
+                    var distance = Vector3.Distance(virtualCamera.transform.position, body.position);
+                    var power = explosionShakePower / distance / distance;
+                    var shake = ShakeCamera(noise, power, explosionShakeDuration);
+                    cameraShakes.Add(noise, shake);
+                    CoroutineRunner.Instance.StartCoroutine(shake);
+                }
+            }
+        }
+
+        if (dies) {
+            Visible = false;
+            if (isExplosion) {
+                var explosionPrefab = "Explosion".LoadAs<ParticleSystem>();
+                var explosion = Instantiate(explosionPrefab, body.position, Quaternion.identity);
+                explosion.Play();
+                explosion.gameObject.SetLayerRecursively(gameObject.layer);
+            }
+        }
+
+        DamageTime = Time.time;
+    }
+
+    public static Dictionary<CinemachineBasicMultiChannelPerlin, IEnumerator> cameraShakes = new();
+    public static IEnumerator ShakeCamera(CinemachineBasicMultiChannelPerlin noise, float power, float duration) {
+        var startTime = Time.time;
+        while (Time.time < startTime + duration) {
+            var t = (Time.time - startTime) / duration;
+            noise.m_AmplitudeGain = Mathf.Lerp(power, 0, t);
+            //noise.m_FrequencyGain = Mathf.Lerp(10, 0, t);
+            yield return null;
+        }
+
+        noise.m_AmplitudeGain = 0;
+        cameraShakes.Remove(noise);
+        //noise.m_FrequencyGain = 0;
+    }
+
+    [Command]
+    public static float explosionTorque = 3;
+    [Command]
+    public static float bulletTorque = .25f;
+    [Command]
+    public static float explosionShakePower = 10;
+    [Command]
+    public static float explosionShakeDuration = 1;
+
     public void TakeHit(Transform hitPoint, float force) {
-        ApplyInstantaneousWorldForce(hitPoint.position, -hitPoint.forward * force);
-        using (Draw.ingame.WithDuration(2))
-            Draw.ingame.Ray(hitPoint.position, hitPoint.forward);
+        //ApplyInstantaneousWorldForce(hitPoint.position, -hitPoint.forward * force);
+        //using (Draw.ingame.WithDuration(2))
+        //  Draw.ingame.Ray(hitPoint.position, hitPoint.forward);
+        DamageTime = Time.time;
     }
 
     [Command]
@@ -934,11 +1087,14 @@ public class UnitView : MonoBehaviour {
 
     public int automaticWeaponShotsCount = 5;
 
+    public int GetShotsCount(WeaponName weaponName) {
+        return weaponName is WeaponName.Rifle or WeaponName.MachineGun ? automaticWeaponShotsCount : 1;
+    }
+
     public string GetDefaultAttackInput(WeaponName weaponName) {
         weaponName = GetFallbackWeaponName(weaponName);
-        var shotsCount = weaponName is WeaponName.Rifle or WeaponName.MachineGun ? automaticWeaponShotsCount : 1;
-        var loop = Enumerable.Repeat($"Main {weaponName} shoot .1 wait", shotsCount);
-        return $"reset-weapons .33 wait Main _ aim .33 wait Main {weaponName} aim .66 wait " + string.Join(" ", loop);
+        var loop = Enumerable.Repeat($"Main {weaponName} shoot .1 wait", GetShotsCount(weaponName));
+        return $"reset-weapons .33 .1 spawn-point-index * + wait Main _ aim .33 wait Main {weaponName} aim .5 wait " + string.Join(" ", loop);
     }
 
     public string GetDefaultResponseInput(WeaponName weaponName) {
@@ -1010,6 +1166,13 @@ public class UnitView : MonoBehaviour {
                     break;
                 }
 
+                case "random": {
+                    var max = (dynamic)stack.Pop();
+                    var min = (dynamic)stack.Pop();
+                    stack.Push(UnityEngine.Random.Range(min, max));
+                    break;
+                }
+
                 case "rest":
                 case "aim": {
                     var barrelName = (string)stack.Pop();
@@ -1052,9 +1215,9 @@ public class UnitView : MonoBehaviour {
                 }
 
                 case "shoot": {
-                    var barrelName = (string)stack.Pop();
+                    var weaponName = (string)stack.Pop();
                     var turretName = (string)stack.Pop();
-                    Shoot(turretName, barrelName);
+                    Shoot(Enum.Parse<WeaponName>(weaponName));
                     break;
                 }
 

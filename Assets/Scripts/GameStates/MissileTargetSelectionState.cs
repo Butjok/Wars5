@@ -83,6 +83,9 @@ public class MissileTargetSelectionState : StateMachineState {
                                     yield return StateChange.none;
                                 }
 
+                                Effects.SpawnExplosion(missileSiloView.targetPosition);
+                                Sounds.PlayOneShot(Sounds.explosion);
+
                                 cameraRig.enabled = true;
                             }
 

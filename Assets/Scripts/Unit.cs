@@ -82,7 +82,7 @@ public class Unit : IDisposable {
 
         if (hp <= 0) {
             if (animateDeath)
-                view.Die();
+                view.DieOnMap();
             Dispose();
         }
         else {

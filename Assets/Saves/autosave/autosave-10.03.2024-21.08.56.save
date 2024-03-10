@@ -1,0 +1,458 @@
+game {
+    :turn ( 0 )
+}
+// Blue
+player {
+    :color-name          ( ColorName Blue enum )
+    :team                ( Team None enum )
+    :co-name             ( PersonName Natalie enum )
+    :ui-position         ( 0 1 int2 )
+    :credits             ( 16000 )
+    :power-meter         ( 0 )
+    :unit-look-direction ( 1 0 int2 )
+    :side                ( Side Left enum )
+    .mark-as-local
+    .add
+}
+// Hq(1, -2) Blue
+building {
+    :type           ( TileType Hq enum )
+    :position       ( 1 -2 int2 )
+    :cp             ( 20 )
+    :look-direction ( -1 0 int2 )
+    .add
+}
+pop
+// Factory(12, 2) Blue
+building {
+    :type           ( TileType Factory enum )
+    :position       ( 12 2 int2 )
+    :cp             ( 20 )
+    :look-direction ( -1 0 int2 )
+    .add
+}
+pop
+// MissileSilo(12, -3) Blue
+building {
+    :type           ( TileType MissileSilo enum )
+    :position       ( 12 -3 int2 )
+    :cp             ( 20 )
+    :look-direction ( -1 0 int2 )
+    .missile-silo {
+        :last-launch-turn ( -99 )
+        :launch-cooldown  ( 1 )
+        :ammo             ( 999 )
+        :range            ( 0 999 int2 )
+        :blast-range      ( 0 3 int2 )
+        :unit-damage      ( 5 )
+        :bridge-damage    ( 10 )
+    }
+    .add
+}
+pop
+// MissileSilo(20, 3) Blue
+building {
+    :type           ( TileType MissileSilo enum )
+    :position       ( 20 3 int2 )
+    :cp             ( 20 )
+    :look-direction ( 1 0 int2 )
+    .missile-silo {
+        :last-launch-turn ( -99 )
+        :launch-cooldown  ( 1 )
+        :ammo             ( 999 )
+        :range            ( 0 999 int2 )
+        :blast-range      ( 0 3 int2 )
+        :unit-damage      ( 5 )
+        :bridge-damage    ( 10 )
+    }
+    .add
+}
+pop
+// Infantry(12, -3) Blue
+unit {
+    :type  ( UnitType Infantry enum )
+    :moved ( false )
+    :hp    ( 10 )
+    :position ( 12 -3 int2 )
+    :look-direction ( 1 0 int2 )
+    :view-prefab ( UnitView WbInfantry load-resource )
+    .add
+    .brain {
+    }
+}
+pop
+// Infantry(18, 5) Blue
+unit {
+    :type  ( UnitType Infantry enum )
+    :moved ( false )
+    :hp    ( 10 )
+    :position ( 18 5 int2 )
+    :look-direction ( 1 0 int2 )
+    :view-prefab ( UnitView WbInfantry load-resource )
+    .add
+    .brain {
+    }
+}
+pop
+// Infantry(18, 4) Blue
+unit {
+    :type  ( UnitType Infantry enum )
+    :moved ( false )
+    :hp    ( 10 )
+    :position ( 18 4 int2 )
+    :look-direction ( 1 0 int2 )
+    :view-prefab ( UnitView WbInfantry load-resource )
+    .add
+    .brain {
+    }
+}
+pop
+// Infantry(20, 4) Blue
+unit {
+    :type  ( UnitType Infantry enum )
+    :moved ( false )
+    :hp    ( 10 )
+    :position ( 20 4 int2 )
+    :look-direction ( 1 0 int2 )
+    :view-prefab ( UnitView WbInfantry load-resource )
+    .add
+    .brain {
+    }
+}
+pop
+// Infantry(22, 5) Blue
+unit {
+    :type  ( UnitType Infantry enum )
+    :moved ( false )
+    :hp    ( 10 )
+    :position ( 22 5 int2 )
+    :look-direction ( 1 0 int2 )
+    :view-prefab ( UnitView WbInfantry load-resource )
+    .add
+    .brain {
+    }
+}
+pop
+// Artillery(21, 6) Blue
+unit {
+    :type  ( UnitType Artillery enum )
+    :moved ( false )
+    :hp    ( 10 )
+    :position ( 21 6 int2 )
+    :look-direction ( 1 0 int2 )
+    :view-prefab ( UnitView WbHowitzer load-resource )
+    .add
+    .brain {
+    }
+}
+pop
+// Artillery(21, 3) Blue
+unit {
+    :type  ( UnitType Artillery enum )
+    :moved ( false )
+    :hp    ( 10 )
+    :position ( 21 3 int2 )
+    :look-direction ( 1 0 int2 )
+    :view-prefab ( UnitView WbHowitzer load-resource )
+    .add
+    .brain {
+    }
+}
+pop
+// Artillery(31, 7) Blue
+unit {
+    :type  ( UnitType Artillery enum )
+    :moved ( false )
+    :hp    ( 10 )
+    :position ( 31 7 int2 )
+    :look-direction ( 1 0 int2 )
+    :view-prefab ( UnitView WbHowitzer load-resource )
+    .add
+    .brain {
+    }
+}
+pop
+// Artillery(30, 4) Blue
+unit {
+    :type  ( UnitType Artillery enum )
+    :moved ( false )
+    :hp    ( 10 )
+    :position ( 30 4 int2 )
+    :look-direction ( 1 0 int2 )
+    :view-prefab ( UnitView WbHowitzer load-resource )
+    .add
+    .brain {
+    }
+}
+pop
+// Recon(23, 2) Blue
+unit {
+    :type  ( UnitType Recon enum )
+    :moved ( false )
+    :hp    ( 10 )
+    :position ( 23 2 int2 )
+    :look-direction ( 1 0 int2 )
+    :view-prefab ( UnitView WbRecon load-resource )
+    .add
+    .brain {
+    }
+}
+pop
+// LightTank(23, 5) Blue
+unit {
+    :type  ( UnitType LightTank enum )
+    :moved ( false )
+    :hp    ( 10 )
+    :position ( 23 5 int2 )
+    :look-direction ( 1 0 int2 )
+    :view-prefab ( UnitView WbLightTank load-resource )
+    .add
+    .brain {
+    }
+}
+pop
+// MediumTank(23, 4) Blue
+unit {
+    :type  ( UnitType MediumTank enum )
+    :moved ( false )
+    :hp    ( 10 )
+    :position ( 23 4 int2 )
+    :look-direction ( 1 0 int2 )
+    :view-prefab ( UnitView WbMdTank load-resource )
+    .add
+    .brain {
+    }
+}
+pop
+// Infantry(32, 2) Blue
+unit {
+    :type  ( UnitType Infantry enum )
+    :moved ( false )
+    :hp    ( 10 )
+    :position ( 32 2 int2 )
+    :look-direction ( 1 0 int2 )
+    :view-prefab ( UnitView WbInfantry load-resource )
+    .add
+    .brain {
+    }
+}
+pop
+// Artillery(23, 3) Blue
+unit {
+    :type  ( UnitType Artillery enum )
+    :moved ( false )
+    :hp    ( 10 )
+    :position ( 23 3 int2 )
+    :look-direction ( 1 0 int2 )
+    :view-prefab ( UnitView WbHowitzer load-resource )
+    .add
+    .brain {
+    }
+}
+pop
+// Infantry(24, 2) Blue
+unit {
+    :type  ( UnitType Infantry enum )
+    :moved ( false )
+    :hp    ( 10 )
+    :position ( 24 2 int2 )
+    :look-direction ( 1 0 int2 )
+    :view-prefab ( UnitView WbInfantry load-resource )
+    .add
+    .brain {
+    }
+}
+pop
+// Infantry(24, 6) Blue
+unit {
+    :type  ( UnitType Infantry enum )
+    :moved ( false )
+    :hp    ( 10 )
+    :position ( 24 6 int2 )
+    :look-direction ( 1 0 int2 )
+    :view-prefab ( UnitView WbInfantry load-resource )
+    .add
+    .brain {
+    }
+}
+pop
+// Red
+player {
+    :color-name          ( ColorName Red enum )
+    :team                ( Team None enum )
+    :co-name             ( PersonName Vladan enum )
+    :ui-position         ( 1 1 int2 )
+    :credits             ( 16000 )
+    :power-meter         ( 0 )
+    :unit-look-direction ( -1 0 int2 )
+    :side                ( Side Right enum )
+    .add
+}
+// Hq(34, 8) Red
+building {
+    :type           ( TileType Hq enum )
+    :position       ( 34 8 int2 )
+    :cp             ( 20 )
+    :look-direction ( -1 0 int2 )
+    .add
+}
+pop
+// Infantry(26, 3) Red
+unit {
+    :type  ( UnitType Infantry enum )
+    :moved ( false )
+    :hp    ( 10 )
+    :position ( 26 3 int2 )
+    :look-direction ( -1 0 int2 )
+    :view-prefab ( UnitView WbInfantry load-resource )
+    .add
+    .brain {
+    }
+}
+pop
+// Infantry(28, 5) Red
+unit {
+    :type  ( UnitType Infantry enum )
+    :moved ( false )
+    :hp    ( 10 )
+    :position ( 28 5 int2 )
+    :look-direction ( -1 0 int2 )
+    :view-prefab ( UnitView WbInfantry load-resource )
+    .add
+    .brain {
+    }
+}
+pop
+// Infantry(27, 6) Red
+unit {
+    :type  ( UnitType Infantry enum )
+    :moved ( false )
+    :hp    ( 10 )
+    :position ( 27 6 int2 )
+    :look-direction ( -1 0 int2 )
+    :view-prefab ( UnitView WbInfantry load-resource )
+    .add
+    .brain {
+    }
+}
+pop
+// Artillery(28, 6) Red
+unit {
+    :type  ( UnitType Artillery enum )
+    :moved ( false )
+    :hp    ( 1 )
+    :position ( 28 6 int2 )
+    :look-direction ( -1 0 int2 )
+    :view-prefab ( UnitView WbHowitzer load-resource )
+    .add
+    .brain {
+    }
+}
+pop
+// Artillery(28, 7) Red
+unit {
+    :type  ( UnitType Artillery enum )
+    :moved ( false )
+    :hp    ( 5 )
+    :position ( 28 7 int2 )
+    :look-direction ( -1 0 int2 )
+    :view-prefab ( UnitView WbHowitzer load-resource )
+    .add
+    .brain {
+    }
+}
+pop
+// Infantry(26, 4) Red
+unit {
+    :type  ( UnitType Infantry enum )
+    :moved ( false )
+    :hp    ( 10 )
+    :position ( 26 4 int2 )
+    :look-direction ( -1 0 int2 )
+    :view-prefab ( UnitView WbInfantry load-resource )
+    .add
+    .brain {
+    }
+}
+pop
+// AntiTank(28, 2) Red
+unit {
+    :type  ( UnitType AntiTank enum )
+    :moved ( false )
+    :hp    ( 10 )
+    :position ( 28 2 int2 )
+    :look-direction ( -1 0 int2 )
+    :view-prefab ( UnitView WbInfantry load-resource )
+    .add
+    .brain {
+    }
+}
+pop
+// Artillery(27, 1) Red
+unit {
+    :type  ( UnitType Artillery enum )
+    :moved ( false )
+    :hp    ( 10 )
+    :position ( 27 1 int2 )
+    :look-direction ( -1 0 int2 )
+    :view-prefab ( UnitView WbHowitzer load-resource )
+    .add
+    .brain {
+    }
+}
+pop
+// LightTank(27, 2) Red
+unit {
+    :type  ( UnitType LightTank enum )
+    :moved ( false )
+    :hp    ( 10 )
+    :position ( 27 2 int2 )
+    :look-direction ( -1 0 int2 )
+    :view-prefab ( UnitView WbLightTank load-resource )
+    .add
+    .brain {
+    }
+}
+pop
+// MediumTank(27, 3) Red
+unit {
+    :type  ( UnitType MediumTank enum )
+    :moved ( false )
+    :hp    ( 10 )
+    :position ( 27 3 int2 )
+    :look-direction ( -1 0 int2 )
+    :view-prefab ( UnitView WbMdTank load-resource )
+    .add
+    .brain {
+    }
+}
+pop
+// Artillery(26, 5) Red
+unit {
+    :type  ( UnitType Artillery enum )
+    :moved ( false )
+    :hp    ( 10 )
+    :position ( 26 5 int2 )
+    :look-direction ( -1 0 int2 )
+    :view-prefab ( UnitView WbHowitzer load-resource )
+    .add
+    .brain {
+    }
+}
+pop
+tiles {
+    .add ( TileType Plain enum 13 -2 int2 13 -3 int2 9 2 int2 16 7 int2 17 7 int2 18 7 int2 18 8 int2 19 7 int2 16 4 int2 14 3 int2 14 5 int2 15 7 int2 15 5 int2 15 4 int2 14 4 int2 13 5 int2 12 6 int2 12 9 int2 13 9 int2 15 11 int2 14 11 int2 13 11 int2 12 11 int2 11 11 int2 10 11 int2 9 11 int2 10 9 int2 13 -4 int2 12 8 int2 13 8 int2 16 8 int2 17 9 int2 19 9 int2 20 9 int2 20 8 int2 20 7 int2 16 5 int2 15 8 int2 17 11 int2 18 11 int2 19 11 int2 21 10 int2 15 9 int2 16 9 int2 18 1 int2 18 -1 int2 17 0 int2 14 -2 int2 15 -2 int2 15 -1 int2 16 -1 int2 17 -3 int2 18 -3 int2 18 -2 int2 16 -2 int2 17 -2 int2 17 -1 int2 18 0 int2 16 1 int2 18 4 int2 18 3 int2 18 2 int2 17 1 int2 16 0 int2 20 2 int2 21 4 int2 21 5 int2 21 6 int2 20 6 int2 17 5 int2 17 4 int2 16 3 int2 10 -4 int2 10 -5 int2 9 -6 int2 8 -6 int2 9 -3 int2 9 -4 int2 11 -1 int2 8 -3 int2 8 -2 int2 9 -2 int2 8 -5 int2 9 -1 int2 8 -4 int2 11 0 int2 12 0 int2 12 1 int2 14 2 int2 14 -1 int2 13 -1 int2 13 0 int2 13 1 int2 13 2 int2 12 10 int2 13 10 int2 16 11 int2 14 6 int2 13 6 int2 18 5 int2 20 5 int2 20 4 int2 21 11 int2 22 11 int2 23 11 int2 24 11 int2 25 11 int2 26 11 int2 27 11 int2 28 11 int2 29 11 int2 30 11 int2 32 11 int2 34 10 int2 33 10 int2 33 9 int2 32 9 int2 32 8 int2 31 8 int2 30 7 int2 29 7 int2 27 5 int2 26 5 int2 23 6 int2 21 7 int2 21 8 int2 22 9 int2 26 9 int2 24 10 int2 22 10 int2 21 9 int2 25 8 int2 22 8 int2 22 7 int2 23 5 int2 23 7 int2 22 6 int2 22 5 int2 22 4 int2 24 4 int2 26 3 int2 26 4 int2 21 2 int2 20 0 int2 20 -1 int2 20 1 int2 21 1 int2 22 1 int2 22 0 int2 22 -1 int2 23 -1 int2 24 -1 int2 23 0 int2 21 -1 int2 21 0 int2 22 -2 int2 23 -2 int2 24 -2 int2 25 -2 int2 26 -1 int2 27 -1 int2 27 -2 int2 27 0 int2 26 1 int2 25 1 int2 24 1 int2 23 1 int2 25 -1 int2 26 -2 int2 28 -2 int2 29 -2 int2 29 -1 int2 30 0 int2 30 1 int2 29 -3 int2 29 0 int2 29 1 int2 28 2 int2 27 2 int2 24 0 int2 25 0 int2 23 2 int2 26 2 int2 24 2 int2 22 2 int2 25 2 int2 28 0 int2 27 1 int2 26 0 int2 28 -1 int2 28 1 int2 29 2 int2 29 3 int2 29 4 int2 28 4 int2 23 4 int2 24 6 int2 24 7 int2 25 7 int2 24 5 int2 26 7 int2 27 8 int2 27 9 int2 25 10 int2 28 7 int2 28 8 int2 28 9 int2 27 10 int2 30 8 int2 30 9 int2 29 9 int2 29 8 int2 31 9 int2 31 10 int2 30 10 int2 29 10 int2 26 8 int2 27 7 int2 27 4 int2 27 3 int2 28 3 int2 28 5 int2 29 5 int2 30 2 int2 30 4 int2 30 5 int2 31 1 int2 32 2 int2 32 4 int2 31 3 int2 31 2 int2 30 3 int2 32 3 int2 32 5 int2 31 7 int2 32 10 int2 31 4 int2 31 5 int2 32 7 int2 34 7 int2 34 6 int2 34 5 int2 34 4 int2 34 3 int2 34 9 int2 34 2 int2 34 1 int2 33 1 int2 32 1 int2 33 2 int2 31 0 int2 30 -1 int2 31 -1 int2 32 0 int2 33 0 int2 34 0 int2 10 2 int2 11 2 int2 11 1 int2 10 0 int2 10 1 int2 9 1 int2 9 0 int2 10 -1 int2 10 -2 int2 10 -3 int2 9 -5 int2 11 -3 int2 11 -2 int2 12 -1 int2 12 -2 int2 2 -2 int2 2 -3 int2 2 -4 int2 7 -4 int2 1 -3 int2 1 -4 int2 277 )
+    .add ( TileType Road enum 16 6 int2 15 6 int2 19 1 int2 19 2 int2 21 3 int2 19 6 int2 18 6 int2 17 6 int2 19 5 int2 19 4 int2 19 3 int2 29 6 int2 28 6 int2 25 5 int2 22 3 int2 23 3 int2 24 3 int2 25 6 int2 25 4 int2 19 0 int2 25 3 int2 26 6 int2 27 6 int2 32 6 int2 31 6 int2 30 6 int2 33 8 int2 33 7 int2 33 6 int2 33 5 int2 30 )
+    .add ( TileType Forest enum 17 8 int2 19 8 int2 18 9 int2 17 2 int2 16 2 int2 17 3 int2 15 3 int2 15 2 int2 14 0 int2 14 1 int2 15 1 int2 15 0 int2 9 10 int2 11 9 int2 10 10 int2 11 10 int2 31 11 int2 33 11 int2 34 11 int2 24 9 int2 25 9 int2 28 10 int2 23 10 int2 23 9 int2 24 8 int2 23 8 int2 26 10 int2 27 )
+    .add ( TileType River enum 12 7 int2 17 10 int2 14 7 int2 14 8 int2 15 10 int2 20 10 int2 19 10 int2 18 10 int2 16 10 int2 14 9 int2 14 10 int2 13 7 int2 20 11 int2 13 )
+    .add ( TileType Sea enum 37 15 int2 -3 -10 int2 2 )
+}
+// Unowned buildings
+null
+pop
+camera-rig {
+    :position    ( 27.29594 -2.861023E-06 4.451918 float3 )
+    :rotation    ( 349.9405 )
+    :pitch-angle ( 50.00001 )
+    :dolly-zoom  ( 0 )
+}

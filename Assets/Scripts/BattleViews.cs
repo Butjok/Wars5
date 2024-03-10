@@ -6,16 +6,17 @@ using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
 using static BattleConstants;
 
-public class StaticBattleViews : MonoBehaviour {
+public class BattleViews : MonoBehaviour {
 
-    private static StaticBattleViews instance;
-    public static StaticBattleViews Instance {
+    private static BattleViews instance;
+
+    public static BattleViews Instance {
         get {
             if (instance)
                 return instance;
-            var objects = FindObjectsOfType<StaticBattleViews>();
+            var objects = FindObjectsOfType<BattleViews>();
             Assert.IsTrue(objects.Length <= 1);
-            return instance = objects.Length == 1 ? objects[0] : nameof(StaticBattleViews).LoadAs<StaticBattleViews>();
+            return instance = objects.Length == 1 ? objects[0] : nameof(BattleViews).LoadAs<BattleViews>();
         }
     }
 
@@ -37,7 +38,6 @@ public class StaticBattleViews : MonoBehaviour {
     }
 
     public void ParseTree(Side side, Transform tree) {
-
         void FindSpawnPoints(Transform node, List<Transform> output) {
             for (var i = 0; i < node.childCount; i++) {
                 var child = node.GetChild(i);
@@ -51,7 +51,6 @@ public class StaticBattleViews : MonoBehaviour {
         views[(int)side].Clear();
 
         for (var i = 0; i < tree.childCount; i++) {
-
             var child = tree.GetChild(i);
             if (!Enum.TryParse(child.name, out TileType tileType))
                 continue;
@@ -71,25 +70,38 @@ public class StaticBattleViews : MonoBehaviour {
     }
 }
 
-public class BattleSideView : IDisposable {
+public class BattleViewSide : IDisposable {
 
-    public StaticBattleViews.View view;
+    public BattleViews.View view;
 
-    public BattleSideView(Side side, TileType tileType = TileType.Plain) {
-
-        var battleViews = StaticBattleViews.Instance;
+    public BattleViewSide(Side side, BattleView battleView, TileType tileType = TileType.Plain) {
+        var battleViews = BattleViews.Instance;
         if (!battleViews.TryGet(side, tileType, out view) && !battleViews.TryGet(side, TileType.Plain, out view))
             throw new AssertionException($"{side} {tileType}", null);
         view.transform.gameObject.SetActive(true);
+
+        PlaceUnits(battleView.unitViews[side]);
     }
 
-    public void Arrange(IEnumerable<UnitView> units) {
+    public void PlaceUnits(IEnumerable<UnitView> units) {
         var queue = new Queue<Transform>(view.spawnPoints);
+        var index = 0;
         foreach (var unit in units) {
             var valid = queue.TryDequeue(out var spawnPoint);
             Assert.IsTrue(valid);
             unit.transform.SetPositionAndRotation(spawnPoint.position, spawnPoint.rotation);
             unit.PlaceOnTerrain();
+            unit.spawnPointIndex = index;
+            unit.enableDance = false;
+            if (unit.prefab.name == "WbInfantry") {
+                unit.transform.localScale = Vector3.one * .8f;
+                var bipedalWalker = unit.GetComponent<BipedalWalker>();
+                if (bipedalWalker) {
+                    bipedalWalker.legLength *= .8f;
+                    bipedalWalker.height *= .8f;
+                }
+            }
+            index++;
         }
     }
 
@@ -102,26 +114,34 @@ public static class BattleConstants {
     public const int before = 0, after = 1;
 }
 
-public enum Side { Left = 0, Right = 1 }
+public enum Side {
+    Left = 0,
+    Right = 1
+}
 
 public class BattleView : IDisposable {
 
-    public class Settings {
+    public class Setup {
         public class SideSettings {
+            public Side side;
             public UnitView unitViewPrefab;
             public Vector2Int count;
             public Transform parent;
             public Color color;
+            public WeaponName? weaponName;
             public static int Count(UnitType unitType, int hp) {
                 if (unitType == UnitType.Apc)
                     return hp > 0 ? 1 : 0;
                 return (hp + 1) / 2;
             }
-            public static Vector2Int Count(UnitType unitType, int hpBefore, int hpAfter) {
+            public static Vector2Int CountBeforeAndAfter(UnitType unitType, int hpBefore, int hpAfter) {
                 return new Vector2Int(Count(unitType, hpBefore), Count(unitType, hpAfter));
             }
         }
+
         public SideSettings left, right;
+        public SideSettings attacker, target;
+
         public SideSettings this[Side side] {
             get => side switch {
                 Side.Left => left,
@@ -145,52 +165,60 @@ public class BattleView : IDisposable {
 
     public static readonly HashSet<BattleView> undisposed = new();
 
-    public readonly Dictionary<Side, List<UnitView>> units = new() {
+    public readonly Dictionary<Side, List<UnitView>> unitViews = new() {
         [Side.Left] = new List<UnitView>(),
         [Side.Right] = new List<UnitView>()
     };
-    public readonly Dictionary<UnitView, List<UnitView>> targets = new();
+    public readonly Dictionary<UnitView, List<UnitView>> targetsMap = new();
 
-    public void AddTarget(UnitView attacker, UnitView target) {
-        if (!targets.TryGetValue(attacker, out var list)) {
+    public void AddTarget(UnitView attacker, UnitView target, WeaponName weaponName) {
+        if (!targetsMap.TryGetValue(attacker, out var list)) {
             list = new List<UnitView>();
-            targets.Add(attacker, list);
+            targetsMap.Add(attacker, list);
         }
+
         list.Add(target);
+        if (!attacker.targets.Contains(target)) {
+            attacker.targets.Add(target);
+            target.incomingProjectilesLeft += attacker.GetShotsCount(weaponName);
+            target.totalIncomingProjectiles = target.incomingProjectilesLeft;
+        }
     }
     public IEnumerable<UnitView> GetTargets(UnitView attacker) {
-        return targets.TryGetValue(attacker, out var list) ? list : Enumerable.Empty<UnitView>();
+        return targetsMap.TryGetValue(attacker, out var list) ? list : Enumerable.Empty<UnitView>();
     }
     public bool TryRemoveTarget(UnitView attacker, UnitView target) {
-        return targets.TryGetValue(attacker, out var list) && list.Remove(target);
+        return targetsMap.TryGetValue(attacker, out var list) && list.Remove(target);
     }
 
-    public BattleView(Settings settings) {
+    public BattleView(Setup setup) {
+        Assert.IsTrue(setup.left.unitViewPrefab);
+        Assert.IsTrue(setup.left.count[before] >= 0);
+        Assert.IsTrue(setup.left.count[after] <= setup.left.count[before]);
 
-        Assert.IsTrue(settings.left.unitViewPrefab);
-        Assert.IsTrue(settings.left.count[before] >= 0);
-        Assert.IsTrue(settings.left.count[after] <= settings.left.count[before]);
-
-        Assert.IsTrue(settings.right.unitViewPrefab);
-        Assert.IsTrue(settings.right.count[before] >= 0);
-        Assert.IsTrue(settings.right.count[after] <= settings.right.count[before]);
+        Assert.IsTrue(setup.right.unitViewPrefab);
+        Assert.IsTrue(setup.right.count[before] >= 0);
+        Assert.IsTrue(setup.right.count[after] <= setup.right.count[before]);
 
         undisposed.Add(this);
 
         for (var side = Side.Left; side <= Side.Right; side++)
-        for (var i = 0; i < settings[side].count[before]; i++) {
-            var view = Object.Instantiate(settings[side].unitViewPrefab, settings[side].parent);
+        for (var i = 0; i < setup[side].count[before]; i++) {
+            var view = Object.Instantiate(setup[side].unitViewPrefab, setup[side].parent);
             view.ResetWeapons();
             //Assert.IsTrue(view);
-            view.PlayerColor = settings[side].color;
-            units[side].Add(view);
-            view.survives = i < settings[side].count[after];
+            view.PlayerColor = setup[side].color;
+            unitViews[side].Add(view);
+            view.survives = i < setup[side].count[after];
+            view.prefab = setup[side].unitViewPrefab;
         }
 
-        for (var i = 0; i < Mathf.Max(units[Side.Left].Count, units[Side.Right].Count); i++) {
-            AddTarget(units[Side.Left][i % units[Side.Left].Count], units[Side.Right][i % units[Side.Right].Count]);
-            if (settings.right.count[after] > 0)
-                AddTarget(units[Side.Right][i % settings.right.count[after]], units[Side.Left][i % units[Side.Left].Count]);
+        var attackers = unitViews[setup.attacker.side];
+        var targets = unitViews[setup.target.side];
+        for (var i = 0; i < Mathf.Max(attackers.Count, targets.Count); i++) {
+            AddTarget(attackers[i % attackers.Count], targets[i % targets.Count], (WeaponName)setup.attacker.weaponName);
+            if (setup.target.count[after] > 0 && setup.target.weaponName is {} actualTargetWeaponName)
+                AddTarget(targets[i % setup.target.count[after]], attackers[i % attackers.Count], actualTargetWeaponName);
         }
     }
 
@@ -198,7 +226,7 @@ public class BattleView : IDisposable {
         Assert.IsTrue(undisposed.Contains(this));
         undisposed.Remove(this);
 
-        foreach (var unitView in units[Side.Left].Concat(units[Side.Right]))
+        foreach (var unitView in unitViews[Side.Left].Concat(unitViews[Side.Right]))
             Object.Destroy(unitView.gameObject);
     }
 }

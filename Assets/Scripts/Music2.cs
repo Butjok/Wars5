@@ -26,37 +26,43 @@ public class Music2 : MonoBehaviour {
     public void Awake() {
         source = gameObject.AddComponent<AudioSource>();
         source.spatialize = false;
-        source.volume = 1;
+        source.volume = .5f;
         source.loop = true;
     }
 
+    public const string natalieTheme = "grenzerkompanie_i";
+    public const string nataliePowerTheme = "chicherina-trimmed";
+
+    public const string vladanTheme = "normal uzicko";
+    public const string vladanPowerTheme = "hardbass";
+
     public void Update() {
         if (Input.GetKeyDown(KeyCode.F3))
-            Play("grenzerkompanie_i");
+            Play(natalieTheme);
         else if (Input.GetKeyDown(KeyCode.F2)) {
             PostProcessing.SuperPowerMode = false;
-            if (source.clip.name == "normal uzicko" || source.clip.name == "hardbass")
-                Play("grenzerkompanie_i");
+            if (source.clip.name is vladanTheme or vladanPowerTheme)
+                Play(natalieTheme);
             else
-                Play("normal uzicko");
+                Play(vladanTheme);
         }
         else if (Input.GetKeyDown(KeyCode.F7)) {
             switch (source.clip.name) {
-                case "normal uzicko":
+                case vladanTheme:
                     PostProcessing.SuperPowerMode = true;
-                    Play("hardbass");
+                    Play(vladanPowerTheme);
                     break;
-                case "chicherina-trimmed":
+                case vladanPowerTheme:
                     PostProcessing.SuperPowerMode = false;
-                    Play("grenzerkompanie_i");
+                    Play(vladanTheme);
                     break;
-                case "grenzerkompanie_i":
+                case natalieTheme:
                     PostProcessing.SuperPowerMode = true;
-                    Play("chicherina-trimmed");
+                    Play(nataliePowerTheme);
                     break;
-                case "hardbass":
+                case nataliePowerTheme:
                     PostProcessing.SuperPowerMode = false;
-                    Play("normal uzicko");
+                    Play(natalieTheme);
                     break;
             }
         }
@@ -79,4 +85,28 @@ public class Music2 : MonoBehaviour {
     public static void Stop() {
         Instance.source.Stop();
     }
+}
+
+public static class Sounds {
+
+    private static AudioSource source;
+    public static void PlayOneShot(AudioClip clip) {
+        if (!source) {
+            var gameObject = new GameObject(nameof(Sounds));
+            source = gameObject.AddComponent<AudioSource>();
+            source.spatialize = false;
+        }
+
+        source.PlayOneShot(clip);
+    }
+
+    public static readonly AudioClip lightTankMovement = Resources.Load<AudioClip>("song025");
+    public static readonly AudioClip mediumTankMovement = Resources.Load<AudioClip>("song027");
+    public static readonly AudioClip armorHit = Resources.Load<AudioClip>("song002");
+    public static readonly AudioClip explosion = Resources.Load<AudioClip>("song016");
+    public static readonly AudioClip rifleShot = Resources.Load<AudioClip>("song019");
+    public static readonly AudioClip rocketLauncherShot = Resources.Load<AudioClip>("song021");
+    public static readonly AudioClip reconMovement = Resources.Load<AudioClip>("song029");
+    public static readonly AudioClip bulletRicochet = Resources.Load<AudioClip>("song049");
+    public static readonly AudioClip cannonShot = Resources.Load<AudioClip>("song023");
 }

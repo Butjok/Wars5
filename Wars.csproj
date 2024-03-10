@@ -192,7 +192,7 @@
      <Compile Include="Assets\Scripts\MarchingSquares.cs" />
      <Compile Include="Assets\Scripts\SavedGamesView.cs" />
      <Compile Include="Assets\Scripts\TextContrast.cs" />
-     <Compile Include="Assets\Scripts\StaticBattleViews.cs" />
+     <Compile Include="Assets\Scripts\BattleViews.cs" />
      <Compile Include="Assets\Scripts\UnitView2TreeParser.cs" />
      <Compile Include="Assets\Scripts\LoadGameMenu.cs" />
      <Compile Include="Assets\Scripts\TileAreaMeshBuilder.cs" />
@@ -211,6 +211,7 @@
      <Compile Include="Assets\Scripts\Projectile2.cs" />
      <Compile Include="Assets\Scripts\GameStates\DayText.cs" />
      <Compile Include="Assets\Scripts\DraggingTest.cs" />
+     <Compile Include="Assets\Scripts\Music2.cs" />
      <Compile Include="Assets\Scripts\Strings.cs" />
      <Compile Include="Assets\Scripts\LevelEditor\LevelEditorGui.cs" />
      <Compile Include="Assets\Scripts\VideoProjector.cs" />
@@ -300,7 +301,9 @@
      <Compile Include="Assets\Scripts\FlipbookTest.cs" />
      <Compile Include="Assets\Scripts\Animation\UnitViewSequenceSubroutines.cs" />
      <Compile Include="Assets\Scripts\EntryPoint\MainMenuWelcomeState.cs" />
-     <Compile Include="Assets\Scripts\Music2.cs" />
+     <Compile Include="Assets\Scripts\Projectile3View.cs" />
+     <Compile Include="Assets\Scripts\CoroutineRunner.cs" />
+     <Compile Include="Assets\Scripts\Effects.cs" />
      <Folder Include="Assets\Scripts\EntryPoint" />
      <None Include="Assets\Scripts\Wars.asmdef" />
      <Folder Include="Assets\Scripts\DialogueMarkupLanguage" />
