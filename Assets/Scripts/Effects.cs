@@ -5,7 +5,7 @@ public static class Effects {
         var prefab = Resources.Load<ParticleSystem>("Explosion");
         if (!prefab)
             return null;
-        var explosion = Object.Instantiate(prefab, position, up.ToRotation(Random.value));
+        var explosion = Object.Instantiate(prefab, position, Quaternion.LookRotation(up));
         if (play)
             explosion.Play();
         return explosion;

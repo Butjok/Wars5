@@ -1014,9 +1014,7 @@ public class UnitView : MonoBehaviour {
         if (dies) {
             Visible = false;
             if (isExplosion) {
-                var explosionPrefab = "Explosion".LoadAs<ParticleSystem>();
-                var explosion = Instantiate(explosionPrefab, body.position, Quaternion.identity);
-                explosion.Play();
+                var explosion = Effects.SpawnExplosion(body.position);
                 explosion.gameObject.SetLayerRecursively(gameObject.layer);
             }
         }
