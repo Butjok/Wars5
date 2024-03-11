@@ -70,6 +70,7 @@
      <Compile Include="Assets\Scripts\Views\MinimapUi.cs" />
      <Compile Include="Assets\Scripts\Torec\Subdivision\Demo\SubdivisionDemo.cs" />
      <Compile Include="Assets\Scripts\WhiteBoxSwitcher.cs" />
+     <Compile Include="Assets\Scripts\Projectile3View.cs" />
      <Compile Include="Assets\Scripts\CameraFader.cs" />
      <Compile Include="Assets\Scripts\SavedGameListView.cs" />
      <Compile Include="Assets\Scripts\Torec\Subdivision\Editor\SubdivisionUtility.cs" />
@@ -141,6 +142,7 @@
      <Compile Include="Assets\Scripts\Missions.SecondMission.cs" />
      <Compile Include="Assets\Scripts\PersistentData.cs" />
      <Compile Include="Assets\Scripts\ScalarField.cs" />
+     <Compile Include="Assets\Scripts\Effects.cs" />
      <Compile Include="Assets\Scripts\CursorInteractor.cs" />
      <Compile Include="Assets\Scripts\Level\UnitAttackActionViewTest.cs" />
      <Compile Include="Assets\Scripts\GameStates\DebugDraw.cs" />
@@ -283,6 +285,7 @@
      <Compile Include="Assets\Scripts\MoveFinderDebugDrawer.cs" />
      <Compile Include="Assets\Scripts\BuildingMaterialSwitcher.cs" />
      <Compile Include="Assets\Scripts\GameSettingsMenu.cs" />
+     <Compile Include="Assets\Scripts\CoroutineRunner.cs" />
      <Compile Include="Assets\Scripts\UnitBuildMenu.cs" />
      <Compile Include="Assets\Scripts\GradientMap.cs" />
      <Compile Include="Assets\Scripts\GameStates\PathSelectionState.cs" />
@@ -301,9 +304,6 @@
      <Compile Include="Assets\Scripts\FlipbookTest.cs" />
      <Compile Include="Assets\Scripts\Animation\UnitViewSequenceSubroutines.cs" />
      <Compile Include="Assets\Scripts\EntryPoint\MainMenuWelcomeState.cs" />
-     <Compile Include="Assets\Scripts\Projectile3View.cs" />
-     <Compile Include="Assets\Scripts\CoroutineRunner.cs" />
-     <Compile Include="Assets\Scripts\Effects.cs" />
      <Folder Include="Assets\Scripts\EntryPoint" />
      <None Include="Assets\Scripts\Wars.asmdef" />
      <Folder Include="Assets\Scripts\DialogueMarkupLanguage" />
