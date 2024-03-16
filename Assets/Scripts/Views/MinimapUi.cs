@@ -86,6 +86,12 @@ public class MinimapUi : MaskableGraphic {
 
         tileBounds.min = this.tiles.Keys.Aggregate(new Vector2Int(int.MaxValue, int.MaxValue), Vector2Int.Min);
         tileBounds.max = this.tiles.Keys.Aggregate(new Vector2Int(int.MinValue, int.MinValue), Vector2Int.Max);
+        
+        for (var y = tileBounds.min.y; y <= tileBounds.max.y; y++)
+            for (var x = tileBounds.min.x; x <= tileBounds.max.x; x++)
+                if (!this.tiles.ContainsKey(new Vector2Int(x, y)))
+                    this.tiles.Add(new Vector2Int(x, y), (TileType.Sea, Color.white));
+        
         if (cameraFrustumUi) {
             cameraFrustumUi.unitSize = unitSize;
             cameraFrustumUi.worldBounds = tileBounds.ToPreciseBounds();

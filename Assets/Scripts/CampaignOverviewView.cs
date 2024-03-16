@@ -260,7 +260,7 @@ public class CampaignOverviewMissionCloseUpState : StateMachineState {
                         var completed = CameraFader.FadeToBlack();
                         while (!completed())
                             yield return StateChange.none;
-                        yield return StateChange.PopThenPush(3, new LoadingState(stateMachine, new SavedMission { mission = mission, input = LevelEditorFileSystem.TryReadLatest("autosave") }));
+                        yield return StateChange.PopThenPush(3, new LoadingState(stateMachine, new SavedMission { mission = mission, input = LevelEditorFileSystem.TryReadLatest("Tutorial") }));
                         continue;
                     }
                     UiSound.Instance.notAllowed.PlayOneShot();
