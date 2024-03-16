@@ -7,7 +7,12 @@ using Object = UnityEngine.Object;
 
 public class PathSelectionState : StateMachineState {
 
-    public enum Command { Cancel, Move, ReconstructPath, AppendToPath }
+    public enum Command {
+        Cancel,
+        Move,
+        ReconstructPath,
+        AppendToPath
+    }
 
     public static GameObject pathMeshGameObject;
     public static MeshFilter pathMeshFilter;
@@ -47,7 +52,7 @@ public class PathSelectionState : StateMachineState {
 
             var pathBuilder = new PathBuilder(unitPosition);
 
-            if (!levelSession.autoplay) 
+            if (!levelSession.autoplay)
                 TileMask.ReplaceGlobal(reachable);
 
             void RebuildPathMesh() {
@@ -61,6 +66,18 @@ public class PathSelectionState : StateMachineState {
 
             unit.view.Selected = true;
             initialLookDirection = unit.view.LookDirection;
+
+            if (level.name == LevelName.Tutorial) {
+                if (!level.tutorialState.startedCapturing && !level.tutorialState.askedToCaptureBuilding) {
+                    level.tutorialState.askedToCaptureBuilding = true;
+                    yield return StateChange.Push(new TutorialDialogue(stateMachine, TutorialDialogue.Part.PleaseCaptureBuilding));
+                }
+
+                if (unit.type == UnitType.Apc && !level.tutorialState.explainedApc) {
+                    level.tutorialState.explainedApc = true;
+                    yield return StateChange.Push(new TutorialDialogue(stateMachine, TutorialDialogue.Part.ExplainApc));
+                }
+            }
 
             var issuedAiCommands = false;
             while (true) {
@@ -77,7 +94,6 @@ public class PathSelectionState : StateMachineState {
                         game.EnqueueCommand(Command.Cancel);
 
                     else if (Input.GetMouseButtonDown(Mouse.left) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return)) {
-
                         if (level.view.cameraRig.camera.TryGetMousePosition(out Vector2Int mousePosition) && reachable.Contains(mousePosition)) {
                             if (pathBuilder.Last() == mousePosition)
                                 game.EnqueueCommand(Command.Move);
@@ -89,9 +105,24 @@ public class PathSelectionState : StateMachineState {
                     }
                 }
 
-                while (game.TryDequeueCommand(out var command))
-                    switch (command) {
+                while (game.TryDequeueCommand(out var command)) {
+                    
+                    // Tutorial logic
+                    if (level.name == LevelName.Tutorial)
+                        if (!level.tutorialState.startedCapturing)
+                            switch (command) {
+                                case (Command.ReconstructPath or Command.AppendToPath or Command.Cancel, _):
+                                    break;
+                                case (Command.Move, _):
+                                    if (level.TryGetBuilding(pathBuilder[^1], out var building) && building.Player != level.localPlayer && building.type == TileType.Factory)
+                                        break;
+                                    goto default;
+                                default:
+                                    yield return StateChange.Push(new TutorialDialogue(stateMachine, TutorialDialogue.Part.WrongPathSelectionPleaseMoveToBuilding));
+                                    continue;
+                            }
 
+                    switch (command) {
                         case (Command.ReconstructPath, Vector2Int targetPosition): {
                             if (pathFinder.TryFindPath(out var path, out _, target: targetPosition)) {
                                 pathBuilder.Clear();
@@ -99,6 +130,7 @@ public class PathSelectionState : StateMachineState {
                                     pathBuilder.Add(position);
                                 RebuildPathMesh();
                             }
+
                             break;
                         }
 
@@ -108,16 +140,14 @@ public class PathSelectionState : StateMachineState {
                             break;
 
                         case (Command.Move, _): {
-
                             pathMeshGameObject.SetActive(false);
-
                             TileMask.UnsetGlobal();
 
                             path = pathBuilder.ToList();
                             var animation = new MoveSequence(unit.view.transform, path).Animation();
 
                             level.view.tilemapCursor.Hide();
-                            
+
                             while (animation.MoveNext()) {
                                 yield return StateChange.none;
 
@@ -144,7 +174,8 @@ public class PathSelectionState : StateMachineState {
                             HandleUnexpectedCommand(command);
                             break;
                     }
-                
+                }
+
                 level.UpdateTilemapCursor();
             }
         }

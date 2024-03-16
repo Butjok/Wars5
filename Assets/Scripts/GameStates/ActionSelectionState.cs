@@ -70,7 +70,7 @@ public class ActionSelectionState : StateMachineState {
                 circle.position = action.targetUnit.view.body.transform.position;
             if (action.targetBuilding != null)
                 circle.position = action.targetBuilding.position.TryRaycast(out var hit) ? hit.point : action.targetBuilding.position.ToVector3();
-            if (action.type == UnitActionType.Drop) 
+            if (action.type == UnitActionType.Drop)
                 circle.position = action.targetPosition.TryRaycast(out var hit) ? hit.point : action.targetPosition.ToVector3();
 
             if (action.type == UnitActionType.Attack && TryGetDamage(action.unit, action.targetUnit, action.weaponName, out var damagePercentage)) {
@@ -185,7 +185,28 @@ public class ActionSelectionState : StateMachineState {
                     }
                 }
 
-                while (game.TryDequeueCommand(out var command))
+                while (game.TryDequeueCommand(out var command)) {
+                    
+                    // Tutorial logic
+                    var showCaptureDialogue = false;
+                    if (level.name == LevelName.Tutorial) {
+                        if (!level.tutorialState.startedCapturing)
+                            switch (command) {
+                                case (Command.Cancel or Command.CycleActions, _):
+                                    break;
+                                case (Command.Execute, UnitAction action):
+                                    if (action.type == UnitActionType.Capture) {
+                                        level.tutorialState.startedCapturing = true;
+                                        showCaptureDialogue = true;
+                                        break;
+                                    }
+                                    goto default;
+                                default:
+                                    yield return StateChange.Push(new TutorialDialogue(stateMachine, TutorialDialogue.Part.WrongActionSelectionPleaseCaptureBuilding));
+                                    continue;
+                            }
+                    }
+
                     switch (command) {
                         case (Command.Execute, UnitAction action): {
                             level.view.tilemapCursor.Hide();
@@ -264,6 +285,9 @@ public class ActionSelectionState : StateMachineState {
                                     captureScreen.circle.position = null;
                                     captureScreen.DestroyView();
 
+                                    if (showCaptureDialogue)
+                                        yield return StateChange.Push(new TutorialDialogue(stateMachine, TutorialDialogue.Part.NiceJobStartedCapturingBuilding));
+
                                     break;
                                 }
 
@@ -311,7 +335,7 @@ public class ActionSelectionState : StateMachineState {
                                 unit.Moved = true;
                                 if (unit.view.LookDirection != unit.Player.unitLookDirection) {
                                     var bipedalWalker = unit.view.GetComponent<BipedalWalker>();
-                                    game.StartCoroutine(new MoveSequence(unit.view.transform, null, _finalDirection: unit.Player.unitLookDirection, 
+                                    game.StartCoroutine(new MoveSequence(unit.view.transform, null, _finalDirection: unit.Player.unitLookDirection,
                                         onComplete: bipedalWalker ? bipedalWalker.ResetFeet : null).Animation());
                                 }
                             }
@@ -391,6 +415,7 @@ public class ActionSelectionState : StateMachineState {
                             HandleUnexpectedCommand(command);
                             break;
                     }
+                }
 
                 level.UpdateTilemapCursor();
             }

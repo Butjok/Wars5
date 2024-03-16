@@ -92,8 +92,8 @@ public class LevelEditorSessionState : StateMachineState {
 
         SaveTerrainMesh();
 
-        LevelEditorFileSystem.Save("autosave", level);
-        LevelEditorFileSystem.DeleteOldAutosaves(autosaveLifespanInDays);
+        //LevelEditorFileSystem.Save("autosave", level);
+        //LevelEditorFileSystem.DeleteOldAutosaves(autosaveLifespanInDays);
 
         level.Dispose();
         Object.Destroy(level.view.gameObject);

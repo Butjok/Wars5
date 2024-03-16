@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class PathBuilder : IEnumerable<Vector2Int> {
+public class PathBuilder : IReadOnlyList<Vector2Int> {
 
     public readonly Vector2Int startPosition;
     private List<Vector2Int> positions = new();
@@ -52,4 +52,7 @@ public class PathBuilder : IEnumerable<Vector2Int> {
     IEnumerator IEnumerable.GetEnumerator() {
         return ((IEnumerable)positions).GetEnumerator();
     }
+
+    public int Count => positions.Count;
+    public Vector2Int this[int index] => positions[index];
 }

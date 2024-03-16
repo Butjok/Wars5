@@ -169,7 +169,7 @@ public class CameraRig : MonoBehaviour {
         var newRay = camera.FixedScreenPointToRay(Input.mousePosition);
 
         var newRaycast = plane.Raycast(newRay, out var newEnter);
-        if (oldRaycast && newRaycast) {
+        if (oldRaycast && newRaycast && enabledMovements != MovementType.FixedInPosition) {
             var oldPoint = oldRay.GetPoint(oldEnter);
             var newPoint = newRay.GetPoint(newEnter);
             var cursorFactor = delta < 0 ? zoomCursorFactor[0] : zoomCursorFactor[1];

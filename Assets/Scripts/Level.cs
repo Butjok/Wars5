@@ -29,6 +29,17 @@ public class Level : IDisposable {
     };
     public Dictionary<(MoveType, Vector2Int, Vector2Int), int> precalculatedDistances;
     public Dictionary<(Zone, Vector2Int), int> zoneDistances;
+    
+    public IEnumerable<Building> Buildings=> buildings.Values;
+    public IEnumerable<Unit> Units => units.Values;
+
+    public class TutorialState {
+        public bool startedCapturing;
+        public bool askedToCaptureBuilding;
+        public bool explainedTurnEnd;
+        public bool explainedApc;
+    }
+    public TutorialState tutorialState = new();
 
     public void Dispose() {
         foreach (var player in players)

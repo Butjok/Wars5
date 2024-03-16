@@ -107,6 +107,13 @@ public class SelectionState : StateMachineState {
                     turnButton.PlayAnimation(level.Day(level.turn) + 1);
             }*/
 
+            if (level.name == LevelName.Tutorial) {
+                if (level.tutorialState.startedCapturing && !level.tutorialState.explainedTurnEnd) {
+                    level.tutorialState.explainedTurnEnd = true;
+                    yield return StateChange.Push(new TutorialDialogue(stateMachine, TutorialDialogue.Part.ExplainTurnEnd));
+                }
+            }
+
             var issuedAiCommands = false;
             while (true) {
                 yield return StateChange.none;
@@ -152,18 +159,26 @@ public class SelectionState : StateMachineState {
                         game.EnqueueCommand(Command.OpenGameMenu);
                 }
 
-                while (game.TryDequeueCommand(out var command))
+                while (game.TryDequeueCommand(out var command)) {
+                    
+                    // Tutorial logic
+                    if (level.name == LevelName.Tutorial)
+                        if (!level.tutorialState.startedCapturing)
+                            switch (command) {
+                                case (Command.OpenGameMenu or Command.CyclePositions or Command.OpenMinimap or Command.ShowAttackRange or Command.ExitToLevelEditor, _):
+                                    break;
+                                case (Command.Select, Vector2Int position):
+                                    if (level.TryGetUnit(position, out var unit) && unit.Player == level.localPlayer && !unit.Moved && unit.type == UnitType.Infantry)
+                                        break;
+                                    goto default;
+                                default:
+                                    yield return StateChange.Push(new TutorialDialogue(stateMachine, TutorialDialogue.Part.WrongSelectionPleaseSelectInfantry));
+                                    continue;
+                            }
+
                     switch (command) {
                         case (Command.Select, Vector2Int position): {
-                            //var position3d = position.Raycast();
-
-//                            Debug.Log($"selecting unit at {position}");
-
-                            var camera = Camera.main;
-                            /*if (camera && cameraRig && preselectionCursor && !preselectionCursor.VisibleOnTheScreen(camera, position3d)) {
-                                Debug.DrawLine(position3d, position3d + Vector3.up, Color.yellow, 3);
-                                cameraRig.Jump(position3d);
-                            }*/
+                            StateMachineState nextState = null;
 
                             if (level.TryGetUnit(position, out unit)) {
                                 if (unit.Player != player || unit.Moved)
@@ -270,15 +285,16 @@ public class SelectionState : StateMachineState {
                             if (Rules.TryGetAttackRange(mouseUnit, out var attackRange)) {
                                 if (Rules.IsArtillery(mouseUnit))
                                     attackPositions.UnionWith(level.PositionsInRange(mouseUnit.NonNullPosition, attackRange));
-                                else if (attackRange == new Vector2Int(1,1)) {
+                                else if (attackRange == new Vector2Int(1, 1)) {
                                     var pathFinder = new PathFinder();
                                     pathFinder.FindMoves(mouseUnit);
                                     var movePositions = pathFinder.movePositions;
                                     foreach (var position in movePositions)
-                                        foreach (var offset in Rules.gridOffsets)
-                                            attackPositions.Add(position + offset);
+                                    foreach (var offset in Rules.gridOffsets)
+                                        attackPositions.Add(position + offset);
                                 }
                             }
+
                             TileMask.ReplaceGlobal(attackPositions);
                             while (Input.GetMouseButton(Mouse.right))
                                 yield return StateChange.none;
@@ -290,6 +306,7 @@ public class SelectionState : StateMachineState {
                             HandleUnexpectedCommand(command);
                             break;
                     }
+                }
 
                 level.UpdateTilemapCursor();
             }

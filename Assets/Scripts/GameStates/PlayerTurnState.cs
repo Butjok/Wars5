@@ -52,7 +52,7 @@ public class PlayerTurnState : StateMachineState {
                     case 0:
                         switch (level.CurrentPlayer.ColorName) {
                             case ColorName.Blue:
-                                yield return StateChange.Push(new TutorialStartDialogue(stateMachine));
+                                yield return StateChange.Push(new TutorialDialogue(stateMachine, TutorialDialogue.Part.WelcomePleaseSelectInfantry));
                                 break;
                             case ColorName.Red:
                                 yield return StateChange.Push(new TutorialVladansTurnDialogue(stateMachine));
