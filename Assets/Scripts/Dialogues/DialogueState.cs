@@ -169,7 +169,7 @@ public abstract class DialogueState : StateMachineState {
     }
 
     private Dictionary<PersonName, PortraitStack> portraitStacks = new();
-    private DialogueUi4 ui;
+    public DialogueUi4 ui;
     protected DialogueState(StateMachine stateMachine) : base(stateMachine) {
         ui = stateMachine.TryFind<LevelSessionState>().level.view.newDialogueUi;
     }
@@ -334,12 +334,12 @@ public abstract class DialogueState : StateMachineState {
         ui.SetSpeaker(null);
         ui.ClearText();
 
-        stateMachine.Find<LevelSessionState>().level.view.cameraRig.enabled = false;
+        //stateMachine.Find<LevelSessionState>().level.view.cameraRig.enabled = false;
     }
     protected void End() {
         ui.Hide();
 
-        stateMachine.Find<LevelSessionState>().level.view.cameraRig.enabled = true;
+        //stateMachine.Find<LevelSessionState>().level.view.cameraRig.enabled = true;
     }
     protected PersonName? Speaker {
         set => ui.SetSpeaker(value, true);

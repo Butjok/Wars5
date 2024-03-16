@@ -5,23 +5,30 @@ public class BuildingView : MonoBehaviour {
 
     public static BuildingView GetPrefab(TileType type) {
         return type switch {
-            TileType.City or TileType.Hq or TileType.Factory => "WbFactory".LoadAs<BuildingView>(),
+            TileType.City or TileType.Factory=>"City".LoadAs<BuildingView>(),
+            TileType.Hq => "Hq".LoadAs<BuildingView>(),
             TileType.MissileSilo => "WbMissileSilo".LoadAs<BuildingView>(),
             _ => "WbFactory".LoadAs<BuildingView>()
         };
     }
+    
+    public static Color unownedColor = new(.75f, .66f, .45f);
+    public static Color unownedLightsColor = Color.black;
 
     public BuildingView prefab;
     public Building building;
     public MeshRenderer[] renderers = { };
     public MaterialPropertyBlock materialPropertyBlock;
+    public Light[] lights = Array.Empty<Light>();
 
     public void Awake() {
         materialPropertyBlock = new MaterialPropertyBlock();
+        lights = GetComponentsInChildren<Light>();
     }
 
     public void Reset() {
         renderers = GetComponentsInChildren<MeshRenderer>();
+        lights = GetComponentsInChildren<Light>();
     }
 
     public Vector2Int Position {
@@ -42,6 +49,14 @@ public class BuildingView : MonoBehaviour {
             materialPropertyBlock.SetColor("_PlayerColor", value);
             foreach (var renderer in renderers)
                 renderer.SetPropertyBlock(materialPropertyBlock);
+        }
+    }
+
+    public Color LightsColor {
+        set {
+            foreach (var light in lights)
+                if (light.name.StartsWith("Player"))
+                    light.color = value;
         }
     }
 

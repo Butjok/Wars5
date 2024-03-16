@@ -5,6 +5,7 @@ using Cinemachine;
 using Drawing;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
 
 public class CameraRig : MonoBehaviour {
@@ -63,6 +64,20 @@ public class CameraRig : MonoBehaviour {
 
     public bool acceptInput = true;
 
+    [Flags]
+    public enum MovementType {
+        Wasd = 1,
+        Pitch = 2,
+        Rotate = 4,
+        Zoom = 8,
+        Drag = 16,
+        All = Wasd | Pitch | Rotate | Zoom | Drag,
+        None = 0,
+        FixedInPosition = Pitch | Rotate | Zoom,
+    }
+    
+    public MovementType enabledMovements = MovementType.All;
+
     public float ToWorldUnits(float sizeInViewportSpace) {
         var ray0 = camera.ScreenPointToRay(new Vector3(0, 0));
         var ray1 = camera.ScreenPointToRay(new Vector3(1, 0));
@@ -112,8 +127,10 @@ public class CameraRig : MonoBehaviour {
 
 
         var positionInput =
-            transform.right.ToVector2() * Input.GetAxisRaw("Horizontal").ZeroSign() +
-            transform.forward.ToVector2() * Input.GetAxisRaw("Vertical").ZeroSign();
+            enabledMovements.HasFlag(MovementType.Wasd)
+                ? transform.right.ToVector2() * Input.GetAxisRaw("Horizontal").ZeroSign() +
+                  transform.forward.ToVector2() * Input.GetAxisRaw("Vertical").ZeroSign()
+                : Vector2.zero;
 
         if (positionInput != Vector2.zero) {
             StopJump();
@@ -124,17 +141,17 @@ public class CameraRig : MonoBehaviour {
 
         transform.position += velocity.ToVector3() * Time.unscaledDeltaTime;
 
-        var pitchInput = Input.GetAxisRaw("PitchCamera").ZeroSign();
+        var pitchInput = enabledMovements.HasFlag(MovementType.Pitch) ? Input.GetAxisRaw("PitchCamera").ZeroSign() : 0;
         if (pitchInput != 0)
             PitchAngle += pitchInput * pitchAngleSpeed * Time.unscaledDeltaTime;
 
-        var rotationDirection = Input.GetAxisRaw("RotateCamera").ZeroSign();
+        var rotationDirection = enabledMovements.HasFlag(MovementType.Rotate) ? Input.GetAxisRaw("RotateCamera").ZeroSign() : 0;
         if (rotationCoroutine == null && rotationDirection != 0)
             TryRotate(rotationDirection);
 
         // ZOOM
 
-        targetDollyZoom = Mathf.Clamp01(targetDollyZoom + Input.GetAxisRaw("Mouse ScrollWheel").ZeroSign() * distanceStep);
+        targetDollyZoom = Mathf.Clamp01(targetDollyZoom + (enabledMovements.HasFlag(MovementType.Zoom) ? Input.GetAxisRaw("Mouse ScrollWheel").ZeroSign() * distanceStep : 0));
         dollyZoom = Mathf.Lerp(dollyZoom, targetDollyZoom, Time.unscaledDeltaTime * dollyZoomSpeed);
         var fov = Mathf.Lerp(dollyZoomFovRange[0], dollyZoomFovRange[1], dollyZoom);
         var width = Mathf.Lerp(dollyZoomWidthRange[0], dollyZoomWidthRange[1], dollyZoom);
@@ -177,12 +194,12 @@ public class CameraRig : MonoBehaviour {
             }
         }
 
-        if (draggingCoroutine == null && Input.GetMouseButtonDown(Mouse.middle)) {
+        if (draggingCoroutine == null && Input.GetMouseButtonDown(Mouse.middle) && enabledMovements.HasFlag(MovementType.Drag)) {
             draggingCoroutine = DraggingAnimation();
             StartCoroutine(draggingCoroutine);
             Cursor.visible = false;
         }
-        if (draggingCoroutine != null && Input.GetMouseButtonUp(Mouse.middle)) {
+        if (draggingCoroutine != null && (Input.GetMouseButtonUp(Mouse.middle) || !enabledMovements.HasFlag(MovementType.Drag))) {
             StopCoroutine(draggingCoroutine);
             draggingCoroutine = null;
             Cursor.visible = true;
@@ -268,11 +285,12 @@ public class CameraRig : MonoBehaviour {
             JumpCoroutine = null;
         }
     }
-    public void Jump(Vector3 to) {
+    public Func<bool> Jump(Vector3 to) {
         StopJump();
         var completed = false;
         JumpCoroutine = JumpAnimation(to, () => completed=true);
         StartCoroutine(JumpCoroutine);
+        return () => completed;
     }
     private IEnumerator JumpAnimation(Vector3 to, Action onComplete) {
         var from = transform.position;

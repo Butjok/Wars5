@@ -226,7 +226,7 @@ public class ActionSelectionState : StateMachineState {
                                     captureScreen.circle.position = action.targetBuilding.view.Position.ToVector3();
                                     captureScreen.UiColor = building.Player?.UiColor ?? captureScreen.defaultUiColor;
                                     captureScreen.SetCp(oldCp, MaxCp(building));
-                                    captureScreen.SpawnView(action.targetBuilding.view, building.Player?.Color ?? captureScreen.defaultColor);
+                                    captureScreen.SpawnView(action.targetBuilding.view, building.Player?.Color);
 
                                     // pause
                                     var startTime = Time.time;

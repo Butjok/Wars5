@@ -43,4 +43,5 @@ public class LevelView : MonoBehaviour {
     public Transform playerUiRoot;
     public InGameMenu inGameMenu;
     public DialogueUi4 newDialogueUi;
+    public UiCircle dialogueCircle;
 }

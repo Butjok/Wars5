@@ -1,0 +1,40 @@
+game {
+    :turn ( 0 )
+    :level-name ( LevelName Tutorial enum )
+}
+// Blue
+player {
+    :color-name          ( ColorName Blue enum )
+    :team                ( Team None enum )
+    :co-name             ( PersonName Natalie enum )
+    :ui-position         ( 0 0 int2 )
+    :credits             ( 0 )
+    :power-meter         ( 0 )
+    :unit-look-direction ( 0 1 int2 )
+    :side                ( Side Left enum )
+    .add
+}
+// Red
+player {
+    :color-name          ( ColorName Red enum )
+    :team                ( Team None enum )
+    :co-name             ( PersonName Vladan enum )
+    :ui-position         ( 1 0 int2 )
+    :credits             ( 0 )
+    :power-meter         ( 0 )
+    :unit-look-direction ( 0 1 int2 )
+    :side                ( Side Right enum )
+    .add
+}
+tiles {
+    .add ( TileType Plain enum 21 2 int2 20 1 int2 21 1 int2 23 1 int2 21 -1 int2 20 -1 int2 20 0 int2 24 2 int2 28 6 int2 28 5 int2 36 -3 int2 25 -1 int2 24 -1 int2 23 -1 int2 22 0 int2 22 1 int2 23 2 int2 26 3 int2 28 3 int2 30 -3 int2 29 -3 int2 33 -3 int2 36 -4 int2 27 0 int2 27 1 int2 32 -3 int2 37 -4 int2 35 -3 int2 34 -3 int2 26 0 int2 25 0 int2 27 6 int2 25 2 int2 24 3 int2 23 4 int2 23 5 int2 26 5 int2 27 2 int2 28 2 int2 29 4 int2 30 4 int2 30 5 int2 29 6 int2 27 5 int2 27 4 int2 28 4 int2 32 5 int2 33 6 int2 32 7 int2 31 8 int2 29 8 int2 26 8 int2 24 7 int2 23 6 int2 22 5 int2 25 7 int2 25 8 int2 24 8 int2 23 7 int2 22 7 int2 22 6 int2 24 5 int2 25 6 int2 25 5 int2 25 3 int2 25 1 int2 26 1 int2 27 3 int2 26 4 int2 25 4 int2 24 1 int2 24 0 int2 26 6 int2 24 6 int2 24 4 int2 26 2 int2 27 7 int2 27 8 int2 26 7 int2 29 5 int2 29 3 int2 31 6 int2 31 4 int2 32 4 int2 33 5 int2 32 6 int2 30 7 int2 30 6 int2 31 5 int2 31 7 int2 90 )
+}
+// Unowned buildings
+null
+pop
+camera-rig {
+    :position    ( 30.18084 9.298323E-06 2.749811 float3 )
+    :rotation    ( 0 )
+    :pitch-angle ( 50.00001 )
+    :dolly-zoom  ( 0.726 )
+}

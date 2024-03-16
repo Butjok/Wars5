@@ -10,6 +10,7 @@ public class Level : IDisposable {
     
     public LevelView view;
 
+    public LevelName name;
     public Mission mission;
     public List<Player> players = new();
     public Player localPlayer;

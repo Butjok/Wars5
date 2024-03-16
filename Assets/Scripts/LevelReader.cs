@@ -10,6 +10,10 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using static BattleConstants;
 
+public enum LevelName {
+    Tutorial, FirstMission
+}
+
 public static class LevelReader {
 
     public static readonly Stack stack = new();
@@ -125,6 +129,10 @@ public static class LevelReader {
 
                 case "game.set-turn": {
                     level.turn = (int)stack.Pop();
+                    break;
+                }
+                case "game.set-level-name": {
+                    level.name = (LevelName)stack.Pop();
                     break;
                 }
 
@@ -509,5 +517,7 @@ public static class LevelReader {
                     break;
             }
         }
+        
+        Assert.IsTrue(level.localPlayer != null);
     }
 }

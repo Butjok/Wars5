@@ -105,6 +105,7 @@ GameObject:
   - component: {fileID: 4732428887849646199}
   - component: {fileID: 7479122848049476969}
   - component: {fileID: 3299422482469128638}
+  - component: {fileID: -6336045077976210380}
   m_Layer: 0
   m_Name: Hq2(Clone) 1(Clone) 1 2 1 1
   m_TagString: Untagged
@@ -196,6 +197,32 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &-6336045077976210380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 317660540620200845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ffc81c2ce724c6b9253501e02539cbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: -6336045077976210380}
+  renderers:
+  - {fileID: 3299422482469128638}
+  lights:
+  - {fileID: 6507550484633108296}
+  - {fileID: 1477853125079921911}
+  - {fileID: 1075427980355496169}
+  - {fileID: 296344599868992973}
+  - {fileID: 2667893020731473773}
+  - {fileID: 4827772494743595933}
+  - {fileID: 4093542170201276675}
+  - {fileID: 5329503262897415647}
+  - {fileID: 1238284150383833426}
+  - {fileID: 729170295637239739}
 --- !u!1 &1198238011687664116
 GameObject:
   m_ObjectHideFlags: 0

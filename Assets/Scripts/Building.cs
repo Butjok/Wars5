@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
@@ -24,6 +25,7 @@ public class Building : IDisposable {
     public int missileBridgeDamage = 10;
 
     private Player player;
+
     public Player Player {
         get => player;
         set {
@@ -31,12 +33,15 @@ public class Building : IDisposable {
                 return;
             player = value;
 
-            if (view)
-                view.PlayerColor = player?.Color ?? new Color(0, 1, 0, 0);
+            if (view) {
+                view.PlayerColor = player?.Color ?? BuildingView.unownedColor;
+                view.LightsColor = player?.Color ?? BuildingView.unownedLightsColor;
+            }
         }
     }
 
     private int cp;
+
     public int Cp {
         get => cp;
         set {
@@ -52,14 +57,17 @@ public class Building : IDisposable {
 
     public Building(Level level, Vector2Int position, TileType type = TileType.City, Player player = null, int cp = int.MaxValue,
         BuildingView viewPrefab = null, Vector2Int? lookDirection = null) {
-
         undisposed.Add(this);
+
+        //var views = Object.FindObjectsOfType<BuildingView>();
+        //viewPrefab = views.FirstOrDefault(v => v.transform.position.ToVector2Int() == position);
 
         if (viewPrefab) {
             view = Object.Instantiate(viewPrefab, level.view.transform);
             view.prefab = viewPrefab;
             view.Position = position;
-            view.LookDirection = lookDirection ?? Vector2Int.up;
+            if (type != TileType.Hq)
+                view.LookDirection = lookDirection ?? Vector2Int.up;
         }
 
         this.type = type;
@@ -85,7 +93,6 @@ public class Building : IDisposable {
         return $"{type}{position} {Player}";
     }
     public void Dispose() {
-
         Assert.IsTrue(undisposed.Contains(this));
         undisposed.Remove(this);
 

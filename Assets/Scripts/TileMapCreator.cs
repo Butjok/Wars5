@@ -200,11 +200,11 @@ public class TileMapCreator : MonoBehaviour {
         return true;
     }
 
-    [Command]
     public void Save() {
         Save(loadOnAwakeFileName);
     }
 
+    [Command]
     public void Save(string fileName) {
         var stringWriter = new StringWriter();
 

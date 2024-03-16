@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Butjok.CommandLine;
 using Drawing;
@@ -53,7 +54,7 @@ public class LevelEditorTilesModeState : StateMachineState {
     public ForestCreator forestCreator;
     public PropPlacement propPlacement;
 
-        [Command] public static Color plainColor = Color.green;
+    [Command] public static Color plainColor = Color.green;
     [Command] public static Color roadColor = Color.gray;
     [Command] public static Color seaColor = Color.blue;
     [Command] public static Color mountainColor = new(0.5f, 0.37f, 0.22f);
@@ -200,16 +201,19 @@ public class LevelEditorTilesModeState : StateMachineState {
             propPlacement = Object.FindObjectOfType<PropPlacement>();
 
             if (tileMapCreator) {
+                //tileMapCreator.TryLoad(tileMapCreator.loadOnAwakeFileName);
                 tileMapCreator.tiles.Clear();
                 foreach (var (position, tileType) in tiles)
                     tileMapCreator.tiles.Add(position, tileType);
                 tileMapCreator.RebuildPieces();
                 tileMapCreator.FinalizeMesh();
             }
+
             if (roadCreator) {
-                roadCreator.tiles  = tiles.Where(p=>p.Value is TileType.Road or TileType.Bridge or TileType.BridgeSea || (TileType.Buildings & p.Value) != 0).ToDictionary(p=>p.Key, p=>p.Value);
+                roadCreator.tiles = tiles.Where(p => p.Value is TileType.Road or TileType.Bridge or TileType.BridgeSea || (TileType.Buildings & p.Value) != 0).ToDictionary(p => p.Key, p => p.Value);
                 roadCreator.Rebuild();
             }
+
             if (forestCreator) {
                 forestCreator.trees.Clear();
                 foreach (var position in tiles.Keys.Where(p => tiles[p] == TileType.Forest))
@@ -219,14 +223,14 @@ public class LevelEditorTilesModeState : StateMachineState {
             void TryRemoveTile(Vector2Int position, bool removeUnit) {
                 if (!tiles.TryGetValue(position, out var tileType))
                     return;
-                
+
                 tiles.Remove(position);
 
                 if (tileMapCreator) {
                     tileMapCreator.tiles.Remove(position);
                     tileMapCreator.RebuildPieces();
 
-                    if (tileMapCreator.terrainMapper) 
+                    if (tileMapCreator.terrainMapper)
                         tileMapCreator.terrainMapper.ClearBushes();
                 }
 
@@ -263,16 +267,18 @@ public class LevelEditorTilesModeState : StateMachineState {
                 tiles.Add(position, tileType);
 
                 if (tileMapCreator) {
+                    if (tileMapCreator.tiles.ContainsKey(position))
+                        tileMapCreator.tiles.Remove(position);
                     tileMapCreator.tiles.Add(position, tileType is TileType.Road or TileType.Forest || ((tileType & TileType.Buildings) != 0) ? TileType.Plain : tileType);
                     tileMapCreator.RebuildPieces();
-                    
-                    if (tileMapCreator.terrainMapper) 
+
+                    if (tileMapCreator.terrainMapper)
                         tileMapCreator.terrainMapper.ClearBushes();
                 }
 
                 if (roadCreator) {
                     if (tileType is TileType.Road or TileType.Bridge or TileType.BridgeSea || (TileType.Buildings & tileType) != 0)
-                        roadCreator.tiles.Add(position,tileType);
+                        roadCreator.tiles.Add(position, tileType);
                     roadCreator.Rebuild();
                 }
 
@@ -285,10 +291,18 @@ public class LevelEditorTilesModeState : StateMachineState {
             }
 
             gui.layerStack.Push(() => {
-                GUILayout.Label($"Level editor > Tiles [{player} {tileType}]");
+                GUILayout.Label("Level editor > Tiles " + ((TileType.Buildings & tileType) == 0 ? $"[{tileType}]" : $"[{(player?.ColorName.ToString() ?? "---")} {tileType}]"));
                 GUILayout.Space(DefaultGuiSkin.defaultSpacingSize);
                 GUILayout.Label("[F2] Cycle player");
                 GUILayout.Label("[Tab] Cycle tile type");
+
+                var camera = level.view.cameraRig.camera;
+                if ((camera.TryPhysicsRaycast(out Vector3 point) || camera.TryRaycastPlane(out point)) &&
+                    level.TryGetTile(point.ToVector2Int(), out var mouseTileType)) {
+                    var text = buildings.TryGetValue(point.ToVector2Int(), out var building) ? building.ToString() : mouseTileType.ToString();
+                    GUILayout.Space(DefaultGuiSkin.defaultSpacingSize);
+                    GUILayout.Label(text);
+                }
             });
 
             while (true) {
@@ -318,13 +332,16 @@ public class LevelEditorTilesModeState : StateMachineState {
                             if (tileMapCreator.terrainMapper)
                                 tileMapCreator.terrainMapper.SaveBushes();
                         }
+
                         if (roadCreator)
                             roadCreator.Save();
                         if (forestCreator)
                             forestCreator.Save();
                         if (propPlacement)
                             propPlacement.Save();
-                        
+
+                        LevelEditorFileSystem.Save(level.name.ToString(), level);
+
                         gui.AddNotification("Saved");
                     }
                     else {

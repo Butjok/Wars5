@@ -23,6 +23,9 @@ Shader "Custom/LeavesAreaTinted"
     	_ForestMask ("_ForestMask", 2D) = "black" {}
     	
     	_Lod ("_Lod", Float) = 0
+    	
+    	_SpotMask ("_SpotMask", 2D) = "white" {}
+    	_SpotColor ("_SpotColor", Color) = (1,1,1,1)
     }
     SubShader
     {
@@ -40,10 +43,11 @@ Shader "Custom/LeavesAreaTinted"
 
             #include "Assets/Shaders/ClassicNoise.cginc"
             
-            sampler2D _MainTex,_Occlusion,_Normal,_GlobalOcclusion, _Splat2, _TileMask, _ForestMask;
+            sampler2D _MainTex,_Occlusion,_Normal,_GlobalOcclusion, _Splat2, _TileMask, _ForestMask, _SpotMask;
             half3 _Grass,_DarkGrass,_Wheat,_YellowGrass,_Forest;
             fixed4x4 _TileMask_WorldToLocal, _ForestMask_WorldToLocal;
             half _Lod;
+            fixed4 _SpotColor, _SpotMask_ST;
 
             struct Input {
                 float2 uv_MainTex;
@@ -117,6 +121,9 @@ Shader "Custom/LeavesAreaTinted"
 
             	float forestMask = tex2D(_ForestMask, mul(_ForestMask_WorldToLocal, float4(IN.worldPos.x, 0, IN.worldPos.z, 1)).xz).r;
             	o.Albedo = lerp(o.Albedo, _Forest, forestMask);
+
+            	//fixed4 spots = tex2D(_SpotMask, TRANSFORM_TEX( IN.worldPos.xz, _SpotMask));
+            	//o.Albedo *= lerp(1, _SpotColor, 1-spots.r);
 
                 //o.Albedo = lerp(o.Albedo, tint(o.Albedo, 0, 1.1, .5), 1 - inputOcclusion);
                 

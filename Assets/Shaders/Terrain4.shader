@@ -91,6 +91,10 @@ _OutsideIntensity ("_OutsideIntensity", Range(0,1)) = 0.0
         _SandNoiseAmplitude ("_SandNoiseAmplitude",Float)=1
         
         [HDR]_Emissive ("_Emissive", Color) = (0,0,0,1)
+    	
+    	_SpotMask ("_SpotMask", 2D) = "white" {}
+    	_SpotGrassColor ("_SpotGrassColor", Color) = (1,1,1,1)
+    	_SpotOceanColor ("_SpotOceanColor", Color) = (1,1,1,1)
     }
     SubShader
     {
@@ -115,10 +119,11 @@ _OutsideIntensity ("_OutsideIntensity", Range(0,1)) = 0.0
         sampler2D _Normal;
         sampler2D _StonesNormal,_StonesAlpha, _StonesAo;
         sampler2D _FlowersDiffuse,_FlowersAlpha, _FlowersAo, _Splat2;
-        sampler2D _ForestMask;
+        sampler2D _ForestMask, _SpotMask;
         float4x4 _ForestMask_WorldToLocal;
         float3 _StoneColor, _GrassColor, _StoneDarkColor, _StoneLightColor, _StoneWheatColor;
         float4 _Normal_ST, _Emissive;
+        float3 _SpotGrassColor, _SpotOceanColor;
 
 float _LineDistance;
 float _LineThickness,_BorderPower;
@@ -155,7 +160,7 @@ float2 _Splat2Size;
         #include "Assets/Shaders/SDF.cginc"
         #include "Assets/Shaders/ClassicNoise.cginc"
         
-        float4 _Grass_ST, _DarkGreen_ST, _Wheat_ST,_YellowGrass_ST,_Ocean_ST,_OceanMask_ST,_GrassTint_ST;
+        float4 _Grass_ST, _DarkGreen_ST, _Wheat_ST,_YellowGrass_ST,_Ocean_ST,_OceanMask_ST,_GrassTint_ST, _SpotMask_ST;
         
         sampler2D _FogOfWar;
         float4x4 _FogOfWar_WorldToLocal;
@@ -192,6 +197,8 @@ float2 _Splat2Size;
                         half darkGrassIntensity = splat.r;
                         half wheatIntensity = splat.a;
                         half yellowGrassIntensity = splat.b;
+
+        				
                         
                         // Albedo comes from a texture tinted by color
                         fixed4 grass = tex2D (_Grass, TRANSFORM_TEX(position, _Grass) );
@@ -218,6 +225,9 @@ float2 _Splat2Size;
             
                         fixed3 yellowGrass = tex2D (_YellowGrass, TRANSFORM_TEX(position, _YellowGrass) );
                         o.Albedo =  lerp(o.Albedo, yellowGrass, yellowGrassIntensity);
+
+
+        				//o.Albedo.rgb *= lerp(float3(1,1,1), _SpotGrassColor, spot);
             
             
                         //o.Albedo = lerp(o.Albedo, finalWheat, wheatIntensity);
@@ -341,9 +351,14 @@ float forestMask = tex2D(_ForestMask, mul(_ForestMask_WorldToLocal, float4(IN.wo
             deepSeaNoise /= 1.25;*/
             
 
+        	fixed4 spots = tex2D(_SpotMask, TRANSFORM_TEX(position, _SpotMask));
+        				fixed spot = 1-spots.r;
+        	_SeaColor.rgb *= lerp (float3(1,1,1), _SpotOceanColor, spot);
+        	_DeepSeaColor.rgb *= lerp (float3(1,1,1), _SpotOceanColor, spot);
 
             o.Albedo = lerp(o.Albedo, _SandColor, smoothstep(_SandThickness - _SandSharpness, _SandThickness + _SandSharpness ,abs(IN.worldPos.y+ /*noise/50*/ - _SandLevel)));
             o.Albedo = lerp(o.Albedo, lerp(_SeaColor, _DeepSeaColor, smoothstep(_DeepSeaLevel - _DeepSeaSharpness, _DeepSeaLevel + _DeepSeaSharpness, /*(deepSeaNoise+noise/5)*1.125*/+.33)), smoothstep(_SeaLevel - _SeaSharpness, _SeaLevel + _SeaSharpness, IN.worldPos.y));//smoothstep(_SeaLevel - _SeaSharpness, _SeaLevel + _SeaSharpness ,IN.worldPos.y));
+        	
             
             
             float seaLevel = IN.worldPos.y - _SeaLevel;
@@ -382,6 +397,8 @@ float forestMask = tex2D(_ForestMask, mul(_ForestMask_WorldToLocal, float4(IN.wo
             o.Albedo  = lerp(o.Albedo, o.Emission, (o.Emission.r + o.Emission.g + o.Emission.b) / 1);
 
 
+
+        	//o.Albedo = spot;
 
         	
 

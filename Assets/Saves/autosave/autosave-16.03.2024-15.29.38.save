@@ -1,0 +1,62 @@
+game {
+    :turn ( 0 )
+}
+// Red
+player {
+    :color-name          ( ColorName Red enum )
+    :team                ( Team None enum )
+    :co-name             ( PersonName Natalie enum )
+    :ui-position         ( 0 0 int2 )
+    :credits             ( 0 )
+    :power-meter         ( 0 )
+    :unit-look-direction ( 0 1 int2 )
+    :side                ( Side Left enum )
+    .add
+}
+// Red
+player {
+    :color-name          ( ColorName Red enum )
+    :team                ( Team None enum )
+    :co-name             ( PersonName Natalie enum )
+    :ui-position         ( 0 0 int2 )
+    :credits             ( 0 )
+    :power-meter         ( 0 )
+    :unit-look-direction ( 0 1 int2 )
+    :side                ( Side Left enum )
+    .add
+}
+// Blue
+player {
+    :color-name          ( ColorName Blue enum )
+    :team                ( Team None enum )
+    :co-name             ( PersonName Natalie enum )
+    :ui-position         ( 0 0 int2 )
+    :credits             ( 0 )
+    :power-meter         ( 0 )
+    :unit-look-direction ( 0 1 int2 )
+    :side                ( Side Left enum )
+    .add
+}
+// Blue
+player {
+    :color-name          ( ColorName Blue enum )
+    :team                ( Team None enum )
+    :co-name             ( PersonName Natalie enum )
+    :ui-position         ( 0 0 int2 )
+    :credits             ( 0 )
+    :power-meter         ( 0 )
+    :unit-look-direction ( 0 1 int2 )
+    :side                ( Side Left enum )
+    .add
+}
+tiles {
+}
+// Unowned buildings
+null
+pop
+camera-rig {
+    :position    ( -5.193301 9.536743E-07 -7.830973 float3 )
+    :rotation    ( 0 )
+    :pitch-angle ( 30.93196 )
+    :dolly-zoom  ( 0.33 )
+}

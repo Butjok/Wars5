@@ -6,7 +6,7 @@ Shader "Custom/Unit"
         _MainTex ("_MainTex", 2D) = "white" {}
         _BounceLight ("_BounceLight", 2D) = "black" {}
         _Occlusion ("_Occlusion", 2D) = "white" {}
-        _Roughness ("_Roughness", 2D) = "black" {}
+        _Roughness ("_Roughness", 2D) = "white" {}
         _Normal ("_Normal", 2D) = "bump" {}
         _Metallic ("_Metallic", 2D) = "black" {}
         _HueShift ("_HueShift", Range(0,1)) = 1.0
@@ -19,7 +19,7 @@ Shader "Custom/Unit"
         _AttackHighlight ("_AttackHighlight", Vector) = (.25, .5, 5.0, 2.5)
         _RedAmount ("_RedAmount", Range(0,1)) = 0
         _DamageFalloffIntensity ("_DamageFalloffIntensity", Float) = 10
-        [HDR] _DamageColor ("_DamageColor", Color) = (0.67, 0.52, 0, 1)
+        [HDR] _DamageColor ("_DamageColor", Color) = (.25, .25, 0, .25)
     }
     SubShader
     {
@@ -132,7 +132,7 @@ Shader "Custom/Unit"
         .worldPos.z)
             *10));*/
 
-            o.Emission += float4(1,1,0,1)/4 * exp(-(_Time.y-_DamageTime)*40);
+            o.Emission += _DamageColor * exp(-(_Time.y-_DamageTime)*40);
             
         }
         ENDCG

@@ -70,9 +70,10 @@ public class CaptureScreen : MonoBehaviour {
     }
 
     public BuildingView buildingView;
-    public void SpawnView(BuildingView buildingView, Color color) {
+    public void SpawnView(BuildingView buildingView, Color? color) {
         this.buildingView = Instantiate(buildingView,root.position,Quaternion.identity,root);
-        this.buildingView.PlayerColor = color;
+        this.buildingView.PlayerColor = color ?? BuildingView.unownedColor;
+        this.buildingView.LightsColor = color ?? BuildingView.unownedLightsColor;
     }
     public void DestroyView() {
         Destroy(buildingView.gameObject);

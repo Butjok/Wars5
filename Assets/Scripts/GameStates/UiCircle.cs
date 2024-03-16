@@ -1,3 +1,4 @@
+using Drawing;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
@@ -17,7 +18,8 @@ public class UiCircle : MonoBehaviour {
 
     private void LateUpdate() {
         if (image && camera) {
-            if (position is { } actualPosition && camera.TryCalculateScreenCircle(actualPosition+offset, radius, out var center, out var halfSize)) {
+            if (position is { } actualPosition && camera.TryCalculateScreenCircle(actualPosition + offset, radius, out var center, out var halfSize)) {
+                //Draw.ingame.Cross(actualPosition);
                 image.enabled = true;
                 image.rectTransform.EncapsulateScreenRect(center, new Vector2(halfSize, halfSize));
                 image.materialForRendering.SetFloat("_Size", halfSize * 2);

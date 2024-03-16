@@ -116,6 +116,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: 21c4cc7c16884f54bbab442d1d3ff12d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SpotMask:
+        m_Texture: {fileID: 2800000, guid: c8d1267bea8c2e2448ebfbd7dfd1cff5, type: 3}
+        m_Scale: {x: 0.05, y: 0.05}
+        m_Offset: {x: 0, y: 0}
     - _StonesAlpha:
         m_Texture: {fileID: 2800000, guid: e82f5c7956db68440921b8e00e1ece22, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -199,6 +203,9 @@ Material:
     - _SandColor: {r: 1, g: 0.61574924, b: 0.18396229, a: 1}
     - _SeaColor: {r: 0.003737978, g: 0.17876104, b: 0.26415092, a: 1}
     - _Splat2Size: {r: 47, g: 41, b: 0, a: 0}
+    - _SpotColor: {r: 0.79480654, g: 0.8207547, b: 0.7704254, a: 1}
+    - _SpotGrassColor: {r: 1, g: 1, b: 1, a: 1}
+    - _SpotOceanColor: {r: 0.78208435, g: 0.82366467, b: 0.8962264, a: 1}
     - _StoneColor: {r: 0.4528302, g: 0.43172407, b: 0.10964752, a: 1}
     - _StoneDarkColor: {r: 0.3744907, g: 0.403, b: 0.086774625, a: 1}
     - _StoneLightColor: {r: 0.6886792, g: 0.6459711, b: 0.043313082, a: 1}

@@ -15,6 +15,7 @@ public class LevelWriter {
 
         WriteLine("game {{");
         WriteLine("    :turn ( {0} )", level.turn);
+        WriteLine("    :level-name ( {0} )", level.name);
         WriteLine("}}");
 
         foreach (var player in level.players) {
