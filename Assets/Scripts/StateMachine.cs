@@ -52,7 +52,6 @@ public class StateMachine {
 
     public const int maxDepth = 100;
     public void Tick() {
-
         var depth = 0;
 
         while (true) {
@@ -78,6 +77,7 @@ public class StateMachine {
                 depth++;
                 continue;
             }
+
             break;
         }
     }
@@ -88,6 +88,71 @@ public abstract class StateMachineState {
     public readonly StateMachine stateMachine;
     protected StateMachineState(StateMachine stateMachine) {
         this.stateMachine = stateMachine;
+    }
+
+    private Game game;
+
+    public Game Game {
+        get {
+            if (game == null) {
+                game = stateMachine.Find<GameSessionState>().game;
+                Assert.IsNotNull(game);
+            }
+
+            return game;
+        }
+    }
+
+    private Level level;
+
+    public Level Level {
+        get {
+            if (level == null) {
+                level = stateMachine.Find<LevelSessionState>().level;
+                Assert.IsNotNull(level);
+            }
+
+            return level;
+        }
+    }
+
+    public void UpdateTilemapCursor() {
+        Level.SetGui("tilemap-cursor", () => {
+            if (Level.view.cameraRig.camera.TryGetMousePosition(out Vector2Int mousePosition)) {
+                Level.TryGetBuilding(mousePosition, out var building);
+                Level.TryGetTile(mousePosition, out var tileType);
+                Level.TryGetUnit(mousePosition, out var unit);
+                Level.view.tilemapCursor.Set(mousePosition, tileType, building, unit);
+
+                if (mousePosition.TryRaycast(out var hit)) {
+                    var text = "";
+
+                    if (unit != null) {
+                        string FormatUnit(Unit unit) {
+                            return $"<b><color=#{ColorUtility.ToHtmlStringRGB(unit.Player.UiColor)}>{unit.type}</color></b> ({unit.Hp})";
+                        }
+
+                        text = $"{FormatUnit(unit)}";
+                        if (unit.Cargo.Count > 0)
+                            text += ':';
+                        text += '\n';
+                        foreach (var cargo in unit.Cargo)
+                            text += $"  {FormatUnit(cargo)}\n";
+                    }
+
+                    if (building != null)
+                        text += $"<b><color=#{ColorUtility.ToHtmlStringRGB(building.Player?.UiColor ?? Color.white)}>{building.type}</color></b>\n";
+                    else if (tileType != 0)
+                        text += $"{tileType}\n";
+
+                    if (text.Length > 0)
+                        WarsGui.CenteredLabel(Level, hit.point, text.TrimEnd(), new Vector2(0, 50));
+                }
+            }
+
+            else
+                Level.view.tilemapCursor.Hide();
+        });
     }
 
     public virtual void Exit() { }
@@ -126,10 +191,12 @@ public abstract class StateMachineState {
                 return true;
             }
         }
+
         if (Input.GetKeyDown(KeyCode.F3)) {
             game.EnqueueCommand(LevelEditorSessionState.SelectModeCommand.Play);
             return true;
         }
+
         return false;
     }
 
@@ -148,34 +215,32 @@ public abstract class StateMachineState {
             case (LevelEditorSessionState.SelectModeCommand.Play, _):
                 return StateChange.Push(new LevelEditorPlayState(stateMachine));
         }
+
         return StateChange.none;
     }
 }
 
 public class LevelEditorPropsModeState : StateMachineState {
     public PropPlacement propPlacement;
-    public LevelEditorPropsModeState(StateMachine sm)  : base(sm) {
-    }
+    public LevelEditorPropsModeState(StateMachine sm) : base(sm) { }
 
     public override IEnumerator<StateChange> Enter {
         get {
             var game = stateMachine.Find<GameSessionState>().game;
-            
+
             yield return StateChange.none;
-            
+
             propPlacement = Object.FindObjectOfType<PropPlacement>();
             Assert.IsTrue(propPlacement);
             propPlacement.enabled = true;
 
             while (true) {
                 yield return StateChange.none;
-                
-                if (TryEnqueueModeSelectionCommand())
-                {}
+
+                if (TryEnqueueModeSelectionCommand()) { }
 
                 while (game.TryDequeueCommand(out var command)) {
                     switch (command) {
-
                         case (LevelEditorSessionState.SelectModeCommand, _):
                             yield return HandleModeSelectionCommand(command);
                             break;
@@ -193,7 +258,6 @@ public class LevelEditorPropsModeState : StateMachineState {
         propPlacement.enabled = false;
         Debug.Log("LevelEditorPropsModeState.Exit");
         base.Exit();
-        
     }
 }
 
@@ -211,20 +275,4 @@ public struct StateChange {
     };
     public static StateChange Push(StateMachineState state) => PopThenPush(0, state);
     public static StateChange ReplaceWith(StateMachineState state) => PopThenPush(1, state);
-}
-
-public static class StateMachineStateExtensions {
-    
-    public static void UpdateTilemapCursor(this Level level) {
-        
-        if (level.view.cameraRig.camera.TryGetMousePosition(out Vector2Int mousePosition2)) {
-            level.TryGetBuilding(mousePosition2, out var building);
-            level.TryGetTile(mousePosition2, out var tileType);
-            level.TryGetUnit(mousePosition2, out var unit);
-            level.view.tilemapCursor.Set(mousePosition2, tileType, building, unit);
-        }
-                
-        else
-            level.view.tilemapCursor.Hide();
-    }
 }

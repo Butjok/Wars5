@@ -33,6 +33,13 @@ public static class Rules {
         }
     }
 
+    public static bool CanRepair(Building building, Unit unit) {
+        return building.Player == unit.Player && unit.Hp != MaxHp(unit);
+    }
+    public static int RepairAmount(TileType buildingType) {
+        return 2;
+    }
+
     public static bool Lost(Player player) {
         var hasUnits = player.level.FindUnitsOf(player).Any();
         var buildings = player.level.FindBuildingsOf(player).ToList();
@@ -300,7 +307,7 @@ public static class Rules {
     }
     public static bool CanLaunchMissile(Building missileSilo) {
         Assert.AreEqual(TileType.MissileSilo, missileSilo.type);
-        return missileSilo.level.turn >= missileSilo.missileSiloLastLaunchTurn + missileSilo.missileSiloLaunchCooldown * missileSilo.level.players.Count &&
+        return missileSilo.level.Day() >= missileSilo.missileSiloLastLaunchDay + missileSilo.missileSiloLaunchCooldown &&
                missileSilo.missileSiloAmmo > 0;
     }
 

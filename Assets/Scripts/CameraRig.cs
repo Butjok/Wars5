@@ -195,6 +195,7 @@ public class CameraRig : MonoBehaviour {
         }
 
         if (draggingCoroutine == null && Input.GetMouseButtonDown(Mouse.middle) && enabledMovements.HasFlag(MovementType.Drag)) {
+            StopJump();
             draggingCoroutine = DraggingAnimation();
             StartCoroutine(draggingCoroutine);
             Cursor.visible = false;
@@ -278,18 +279,18 @@ public class CameraRig : MonoBehaviour {
         }
     }
 
-    public IEnumerator JumpCoroutine { get; private set; }
+    private IEnumerator jumpCoroutine;
     public void StopJump() {
-        if (JumpCoroutine != null) {
-            StopCoroutine(JumpCoroutine);
-            JumpCoroutine = null;
+        if (jumpCoroutine != null) {
+            StopCoroutine(jumpCoroutine);
+            jumpCoroutine = null;
         }
     }
     public Func<bool> Jump(Vector3 to) {
         StopJump();
         var completed = false;
-        JumpCoroutine = JumpAnimation(to, () => completed=true);
-        StartCoroutine(JumpCoroutine);
+        jumpCoroutine = JumpAnimation(to, () => completed=true);
+        StartCoroutine(jumpCoroutine);
         return () => completed;
     }
     private IEnumerator JumpAnimation(Vector3 to, Action onComplete) {
@@ -302,7 +303,7 @@ public class CameraRig : MonoBehaviour {
             yield return null;
         }
         transform.position = to;
-        JumpCoroutine = null;
+        jumpCoroutine = null;
         onComplete?.Invoke();
     }
 

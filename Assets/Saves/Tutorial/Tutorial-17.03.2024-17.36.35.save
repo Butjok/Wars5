@@ -1,0 +1,184 @@
+game {
+    :turn ( 0 )
+    :level-name ( LevelName Tutorial enum )
+}
+// Blue
+player {
+    :color-name          ( ColorName Blue enum )
+    :team                ( Team None enum )
+    :co-name             ( PersonName Natalie enum )
+    :ui-position         ( 0 1 int2 )
+    :credits             ( 0 )
+    :power-meter         ( 0 )
+    :unit-look-direction ( 1 0 int2 )
+    :side                ( Side Left enum )
+    .mark-as-local
+    .add
+}
+// Hq(23, 3) Blue
+building {
+    :type           ( TileType Hq enum )
+    :position       ( 23 3 int2 )
+    :cp             ( 20 )
+    :look-direction ( 0 1 int2 )
+    .add
+}
+pop
+// City(28, 7) Blue
+building {
+    :type           ( TileType City enum )
+    :position       ( 28 7 int2 )
+    :cp             ( 20 )
+    :look-direction ( 1 0 int2 )
+    .add
+}
+pop
+// MissileSilo(30, 4) Blue
+building {
+    :type           ( TileType MissileSilo enum )
+    :position       ( 30 4 int2 )
+    :cp             ( 20 )
+    :look-direction ( 1 0 int2 )
+    .missile-silo {
+        :last-launch-turn ( -99 )
+        :launch-cooldown  ( 3 )
+        :ammo             ( 999 )
+        :range            ( 0 999 int2 )
+        :blast-range      ( 0 3 int2 )
+        :unit-damage      ( 5 )
+        :bridge-damage    ( 10 )
+    }
+    .add
+}
+pop
+// Apc(24, 4) Blue
+unit {
+    :type  ( UnitType Apc enum )
+    :moved ( false )
+    :hp    ( 10 )
+    :position ( 24 4 int2 )
+    :look-direction ( 1 0 int2 )
+    :view-prefab ( UnitView WbApc load-resource )
+    .add
+    .brain {
+    }
+}
+pop
+// Infantry(28, 4) Blue
+unit {
+    :type  ( UnitType Infantry enum )
+    :moved ( false )
+    :hp    ( 10 )
+    :position ( 28 4 int2 )
+    :look-direction ( 1 0 int2 )
+    :view-prefab ( UnitView WbInfantry load-resource )
+    .add
+    .brain {
+    }
+}
+pop
+// Red
+player {
+    :color-name          ( ColorName Red enum )
+    :team                ( Team None enum )
+    :co-name             ( PersonName Vladan enum )
+    :ui-position         ( 1 1 int2 )
+    :credits             ( 0 )
+    :power-meter         ( 0 )
+    :unit-look-direction ( -1 0 int2 )
+    :side                ( Side Right enum )
+    .add
+}
+// Hq(40, 7) Red
+building {
+    :type           ( TileType Hq enum )
+    :position       ( 40 7 int2 )
+    :cp             ( 20 )
+    :look-direction ( 0 1 int2 )
+    .add
+}
+pop
+// City(37, 8) Red
+building {
+    :type           ( TileType City enum )
+    :position       ( 37 8 int2 )
+    :cp             ( 20 )
+    :look-direction ( -1 0 int2 )
+    .add
+}
+pop
+// Factory(35, 8) Red
+building {
+    :type           ( TileType Factory enum )
+    :position       ( 35 8 int2 )
+    :cp             ( 20 )
+    :look-direction ( -1 0 int2 )
+    .add
+}
+pop
+// Infantry(38, 7) Red
+unit {
+    :type  ( UnitType Infantry enum )
+    :moved ( false )
+    :hp    ( 10 )
+    :position ( 38 7 int2 )
+    :look-direction ( -1 0 int2 )
+    :view-prefab ( UnitView WbInfantry load-resource )
+    .add
+    .brain {
+    }
+}
+pop
+// Infantry(37, 5) Red
+unit {
+    :type  ( UnitType Infantry enum )
+    :moved ( false )
+    :hp    ( 10 )
+    :position ( 37 5 int2 )
+    :look-direction ( -1 0 int2 )
+    :view-prefab ( UnitView WbInfantry load-resource )
+    .add
+    .brain {
+    }
+}
+pop
+// Infantry(38, 5) Red
+unit {
+    :type  ( UnitType Infantry enum )
+    :moved ( false )
+    :hp    ( 10 )
+    :position ( 38 5 int2 )
+    :look-direction ( -1 0 int2 )
+    :view-prefab ( UnitView WbInfantry load-resource )
+    .add
+    .brain {
+    }
+}
+pop
+tiles {
+    .add ( TileType Plain enum 30 7 int2 36 11 int2 34 11 int2 35 12 int2 36 12 int2 37 11 int2 40 9 int2 40 8 int2 39 8 int2 39 10 int2 38 10 int2 34 10 int2 35 10 int2 36 8 int2 34 9 int2 35 9 int2 39 9 int2 38 9 int2 36 9 int2 38 8 int2 33 8 int2 34 7 int2 36 6 int2 33 7 int2 34 8 int2 34 3 int2 37 5 int2 37 6 int2 38 6 int2 41 7 int2 40 6 int2 37 4 int2 36 5 int2 34 5 int2 33 5 int2 33 4 int2 35 3 int2 34 2 int2 33 3 int2 34 4 int2 35 4 int2 35 5 int2 36 4 int2 36 3 int2 35 2 int2 34 1 int2 32 2 int2 32 1 int2 28 6 int2 29 8 int2 28 8 int2 23 2 int2 29 3 int2 25 6 int2 27 6 int2 30 5 int2 24 5 int2 24 6 int2 25 7 int2 26 7 int2 25 3 int2 23 4 int2 23 5 int2 25 5 int2 26 6 int2 26 2 int2 27 5 int2 28 5 int2 26 3 int2 27 3 int2 32 5 int2 27 7 int2 32 4 int2 32 7 int2 28 3 int2 22 2 int2 22 3 int2 25 2 int2 24 2 int2 22 5 int2 22 4 int2 27 8 int2 26 8 int2 25 8 int2 84 )
+    .add ( TileType Forest enum 38 11 int2 33 9 int2 35 11 int2 36 10 int2 37 10 int2 37 9 int2 28 2 int2 27 2 int2 24 7 int2 33 1 int2 33 2 int2 32 9 int2 29 9 int2 28 9 int2 21 4 int2 21 5 int2 21 3 int2 17 )
+    .add ( TileType River enum 31 5 int2 31 7 int2 31 4 int2 3 )
+    .add ( TileType Road enum 35 7 int2 35 6 int2 34 6 int2 33 6 int2 36 7 int2 37 7 int2 38 7 int2 39 6 int2 39 7 int2 39 5 int2 38 5 int2 38 4 int2 32 6 int2 24 4 int2 29 7 int2 27 4 int2 29 6 int2 25 4 int2 29 5 int2 28 4 int2 24 3 int2 29 4 int2 26 4 int2 30 6 int2 24 )
+    .add ( TileType Bridge enum 31 6 int2 1 )
+    .add ( TileType Beach enum 37 2 int2 35 1 int2 36 2 int2 23 6 int2 37 3 int2 38 3 int2 41 8 int2 41 9 int2 33 10 int2 9 )
+    .add ( TileType Sea enum 22 12 int2 22 13 int2 21 13 int2 19 14 int2 18 14 int2 18 15 int2 46 -4 int2 17 15 int2 17 14 int2 19 15 int2 10 )
+}
+// Unowned buildings
+null
+// Factory(26, 5) 
+building {
+    :type           ( TileType Factory enum )
+    :position       ( 26 5 int2 )
+    :cp             ( 20 )
+    :look-direction ( 0 1 int2 )
+    .add
+}
+pop
+pop
+camera-rig {
+    :position    ( 31.58432 1.907349E-06 5.402807 float3 )
+    :rotation    ( 0 )
+    :pitch-angle ( 50.00001 )
+    :dolly-zoom  ( 0.06600006 )
+}

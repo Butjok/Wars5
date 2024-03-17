@@ -125,7 +125,7 @@ public class LevelWriter {
 
         if (building.type == TileType.MissileSilo) {
             WriteLine("    .missile-silo {{");
-            WriteLine("        :last-launch-turn ( {0} )", building.missileSiloLastLaunchTurn);
+            WriteLine("        :last-launch-day ( {0} )", building.missileSiloLastLaunchDay);
             WriteLine("        :launch-cooldown  ( {0} )", building.missileSiloLaunchCooldown);
             WriteLine("        :ammo             ( {0} )", building.missileSiloAmmo);
             WriteLine("        :range            ( {0} )", building.missileSiloRange);

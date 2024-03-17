@@ -26,10 +26,10 @@ public class PathSelectionState : StateMachineState {
     public override IEnumerator<StateChange> Enter {
         get {
             var levelSession = stateMachine.Find<LevelSessionState>();
-            var (game, level, unit) = (stateMachine.Find<GameSessionState>().game, levelSession.level, stateMachine.Find<SelectionState>().unit);
+            var unit = stateMachine.Find<SelectionState>().unit;
 
             var unitPosition = unit.NonNullPosition;
-            Assert.IsTrue(level.tiles.ContainsKey(unitPosition));
+            Assert.IsTrue(Level.tiles.ContainsKey(unitPosition));
 
             var pathFinder = new PathFinder();
             pathFinder.FindMoves(unit);
@@ -67,14 +67,14 @@ public class PathSelectionState : StateMachineState {
             unit.view.Selected = true;
             initialLookDirection = unit.view.LookDirection;
 
-            if (level.name == LevelName.Tutorial) {
-                if (!level.tutorialState.startedCapturing && !level.tutorialState.askedToCaptureBuilding) {
-                    level.tutorialState.askedToCaptureBuilding = true;
+            if (Level.EnableTutorial && Level.name == LevelName.Tutorial) {
+                if (!Level.tutorialState.startedCapturing && !Level.tutorialState.askedToCaptureBuilding) {
+                    Level.tutorialState.askedToCaptureBuilding = true;
                     yield return StateChange.Push(new TutorialDialogue(stateMachine, TutorialDialogue.Part.PleaseCaptureBuilding));
                 }
 
-                if (unit.type == UnitType.Apc && !level.tutorialState.explainedApc) {
-                    level.tutorialState.explainedApc = true;
+                if (unit.type == UnitType.Apc && !Level.tutorialState.explainedApc) {
+                    Level.tutorialState.explainedApc = true;
                     yield return StateChange.Push(new TutorialDialogue(stateMachine, TutorialDialogue.Part.ExplainApc));
                 }
             }
@@ -86,35 +86,35 @@ public class PathSelectionState : StateMachineState {
                 if (levelSession.autoplay) {
                     if (!issuedAiCommands) {
                         issuedAiCommands = true;
-                        game.aiPlayerCommander.IssueCommandsForPathSelectionState();
+                        Game.aiPlayerCommander.IssueCommandsForPathSelectionState();
                     }
                 }
-                else if (!level.CurrentPlayer.IsAi) {
+                else if (!Level.CurrentPlayer.IsAi) {
                     if (Input.GetMouseButtonDown(Mouse.right) || Input.GetKeyDown(KeyCode.Escape))
-                        game.EnqueueCommand(Command.Cancel);
+                        Game.EnqueueCommand(Command.Cancel);
 
                     else if (Input.GetMouseButtonDown(Mouse.left) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return)) {
-                        if (level.view.cameraRig.camera.TryGetMousePosition(out Vector2Int mousePosition) && reachable.Contains(mousePosition)) {
+                        if (Level.view.cameraRig.camera.TryGetMousePosition(out Vector2Int mousePosition) && reachable.Contains(mousePosition)) {
                             if (pathBuilder.Last() == mousePosition)
-                                game.EnqueueCommand(Command.Move);
+                                Game.EnqueueCommand(Command.Move);
                             else
-                                game.EnqueueCommand(Command.ReconstructPath, mousePosition);
+                                Game.EnqueueCommand(Command.ReconstructPath, mousePosition);
                         }
                         else
                             UiSound.Instance.notAllowed.PlayOneShot();
                     }
                 }
 
-                while (game.TryDequeueCommand(out var command)) {
+                while (Game.TryDequeueCommand(out var command)) {
                     
                     // Tutorial logic
-                    if (level.name == LevelName.Tutorial)
-                        if (!level.tutorialState.startedCapturing)
+                    if (Level.EnableTutorial && Level.name == LevelName.Tutorial)
+                        if (!Level.tutorialState.startedCapturing)
                             switch (command) {
                                 case (Command.ReconstructPath or Command.AppendToPath or Command.Cancel, _):
                                     break;
                                 case (Command.Move, _):
-                                    if (level.TryGetBuilding(pathBuilder[^1], out var building) && building.Player != level.localPlayer && building.type == TileType.Factory)
+                                    if (Level.TryGetBuilding(pathBuilder[^1], out var building) && building.Player != Level.localPlayer && building.type == TileType.Factory)
                                         break;
                                     goto default;
                                 default:
@@ -146,7 +146,7 @@ public class PathSelectionState : StateMachineState {
                             path = pathBuilder.ToList();
                             var animation = new MoveSequence(unit.view.transform, path).Animation();
 
-                            level.view.tilemapCursor.Hide();
+                            Level.view.tilemapCursor.Hide();
 
                             while (animation.MoveNext()) {
                                 yield return StateChange.none;
@@ -176,7 +176,7 @@ public class PathSelectionState : StateMachineState {
                     }
                 }
 
-                level.UpdateTilemapCursor();
+                UpdateTilemapCursor();
             }
         }
     }

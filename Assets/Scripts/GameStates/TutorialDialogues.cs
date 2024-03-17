@@ -18,6 +18,7 @@ public class TutorialDialogue : DialogueState {
         WrongPathSelectionPleaseMoveToBuilding,
         WrongActionSelectionPleaseCaptureBuilding,
         NiceJobStartedCapturingBuilding,
+        ActionSelectionExplanation,
         ExplainTurnEnd,
         ExplainApc
     }
@@ -35,6 +36,9 @@ public class TutorialDialogue : DialogueState {
 
     public override IEnumerator<StateChange> Enter {
         get {
+            if (!Level.EnableTutorial)
+                yield break;
+            
             var persistentData = stateMachine.Find<GameSessionState>().persistentData;
             var level = stateMachine.Find<LevelSessionState>().level;
             var cameraRig = level.view.cameraRig;
@@ -133,10 +137,16 @@ public class TutorialDialogue : DialogueState {
                 case Part.WrongActionSelectionPleaseCaptureBuilding:
                     yield return SayWait(_("Please select capture order, use [Tab] to cycle through available actions. Press [Space] to confirm."));
                     break;
+                
+                case Part.ActionSelectionExplanation:
+                    yield return SayWait(_("Here you can see the available actions for the selected unit. You can simply stay on the current tile or start capturing the building."));
+                    yield return SayWait(_("Please select capture order, use [Tab] to cycle through available actions. Press [Space] to confirm."));
+                    break;
 
                 case Part.NiceJobStartedCapturingBuilding:
                     yield return SayWait(_("Nice job! You have started capturing the building."));
                     yield return SayWait(_("Once the capture is complete, the building will be yours. It takes two turns to capture a building if the unit at full health."));
+                    yield return SayWait(_("Captured building will provide you with additional income and will allow you to produce new units."));
                     break;
 
                 case Part.ExplainTurnEnd:

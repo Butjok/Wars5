@@ -63,7 +63,7 @@ public static class LevelReader {
         TileType buildingType;
         int buildingCp;
         Vector2Int? buildingLookDirection;
-        int buildingMissileSiloLastLaunchTurn;
+        int buildingMissileSiloLastLaunchDay;
         int buildingMissileSiloLaunchCooldown;
         int buildingMissileSiloLaunchAmmo;
         Vector2Int buildingMissileSiloRange;
@@ -75,7 +75,7 @@ public static class LevelReader {
             buildingType = 0;
             buildingCp = 20;
             buildingLookDirection = null;
-            buildingMissileSiloLastLaunchTurn = -99;
+            buildingMissileSiloLastLaunchDay = -99;
             buildingMissileSiloLaunchCooldown = 1;
             buildingMissileSiloLaunchAmmo = 999;
             buildingMissileSiloRange = new Vector2Int(0, 999);
@@ -251,7 +251,7 @@ public static class LevelReader {
 
                     var building = new Building(level, position, buildingType, player, buildingCp, viewPrefab, buildingLookDirection);
 
-                    building.missileSiloLastLaunchTurn = buildingMissileSiloLastLaunchTurn;
+                    building.missileSiloLastLaunchDay = buildingMissileSiloLastLaunchDay;
                     building.missileSiloLaunchCooldown = buildingMissileSiloLaunchCooldown;
                     building.missileSiloAmmo = buildingMissileSiloLaunchAmmo;
                     building.missileSiloRange = buildingMissileSiloRange;
@@ -285,8 +285,9 @@ public static class LevelReader {
                     break;
                 }
                 case "building.add.missile-silo.set-last-launch-turn":
-                case "building.missile-silo.set-last-launch-turn": {
-                    buildingMissileSiloLastLaunchTurn = (int)stack.Pop();
+                case "building.missile-silo.set-last-launch-turn":
+                case "building.missile-silo.set-last-launch-day": {
+                    buildingMissileSiloLastLaunchDay = (int)stack.Pop();
                     break;
                 }
                 case "building.add.missile-silo.set-launch-cooldown":

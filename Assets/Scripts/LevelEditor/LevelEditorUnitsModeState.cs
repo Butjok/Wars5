@@ -30,6 +30,9 @@ public class LevelEditorUnitsModeState : StateMachineState {
             var tiles = level.tiles;
             var units = level.units;
             var camera = level.view.cameraRig.camera;
+            
+            //while (true)
+              //  yield return StateChange.none;
 
             bool TryRemoveUnit(Vector2Int position) {
                 if (!units.TryGetValue(position, out var unit))

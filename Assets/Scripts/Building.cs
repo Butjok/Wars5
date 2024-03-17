@@ -16,13 +16,17 @@ public class Building : IDisposable {
     public readonly Vector2Int position;
     public readonly BuildingView view;
 
-    public int missileSiloLastLaunchTurn = -99;
-    public int missileSiloLaunchCooldown = 1;
+    public int missileSiloLastLaunchDay = -99;
+    public int missileSiloLaunchCooldown = 3;
     public int missileSiloAmmo = 999;
     public Vector2Int missileSiloRange = new(0, 999);
     public Vector2Int missileBlastRange = new(0, 3);
     public int missileUnitDamage = 5;
     public int missileBridgeDamage = 10;
+
+    public int Cooldown(int day) {
+        return Max(0, missileSiloLastLaunchDay + missileSiloLaunchCooldown - day);
+    }
 
     private Player player;
 
@@ -101,5 +105,11 @@ public class Building : IDisposable {
 
         level.tiles.Remove(position);
         level.buildings.Remove(position);
+    }
+
+    private bool moved;
+    public bool Moved {
+        get => moved;
+        set => moved = view.Moved = value;
     }
 }

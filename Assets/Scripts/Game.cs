@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -134,7 +135,7 @@ public class Game : MonoBehaviour {
     }
 
     private void Start() {
-        stateMachine.Push(new GameSessionState(this));
+        //stateMachine.Push(new GameSessionState(this));
     }
 
     private void Update() {
@@ -178,11 +179,20 @@ public class Game : MonoBehaviour {
 
     public GUIStyle statesLabelStyle;
 
-    private void OnGUI() {
-        if (showStates) {
+    private readonly Dictionary<object, Action> guiCommands = new();
+    public void SetGui(object key, Action action) {
+        guiCommands[key] = action;
+    }
+    public void RemoveGui(object key) {
+        guiCommands.Remove(key);
+    }
 
-            GUI.skin = DefaultGuiSkin.TryGet;
-            GUI.depth = guiDepth;
+    private void OnGUI() {
+        
+        GUI.skin = DefaultGuiSkin.TryGet;
+        GUI.depth = guiDepth;
+        
+        if (showStates) {
             stateNames.Clear();
             stateNames.AddRange(stateMachine.StateNames);
             stateNames.Reverse();
@@ -197,6 +207,9 @@ public class Game : MonoBehaviour {
             }
             GUILayout.EndHorizontal();
         }
+        
+        foreach (var action in guiCommands.Values)
+            action();
     }
 }
 

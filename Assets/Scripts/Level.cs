@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Butjok.CommandLine;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -38,8 +39,15 @@ public class Level : IDisposable {
         public bool askedToCaptureBuilding;
         public bool explainedTurnEnd;
         public bool explainedApc;
+        public bool explainedActionSelection;
     }
     public TutorialState tutorialState = new();
+
+    [Command]
+    public static bool EnableTutorial {
+        get => PlayerPrefs.GetInt(nameof(EnableTutorial), 1) != 0;
+        set => PlayerPrefs.SetInt(nameof(EnableTutorial), value ? 1 : 0);
+    }
 
     public void Dispose() {
         foreach (var player in players)
@@ -103,6 +111,13 @@ public class Level : IDisposable {
     }
     public IEnumerable<Vector2Int> Neighbors(Vector2Int position) {
         return from offset in Rules.gridOffsets where tiles.ContainsKey(position + offset) select position + offset;
+    }
+    
+    public void SetGui(object key, Action action) {
+        view.guiCommands[key] = action;
+    }
+    public void RemoveGui(object key) {
+        view.guiCommands.Remove(key);
     }
 }
 

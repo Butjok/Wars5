@@ -30,12 +30,11 @@ public class SelectionState : StateMachineState {
     public override IEnumerator<StateChange> Enter {
         get {
             var levelSession = stateMachine.Find<LevelSessionState>();
-            var (game, level) = (stateMachine.Find<GameSessionState>().game, levelSession.level);
-            var cameraRig = level.view.cameraRig;
+            var cameraRig = Level.view.cameraRig;
 
             // stop the ability
-            var player = level.CurrentPlayer;
-            if (player.abilityActivationTurn != null && level.turn != player.abilityActivationTurn) {
+            var player = Level.CurrentPlayer;
+            if (player.abilityActivationTurn != null && Level.turn != player.abilityActivationTurn) {
                 var enumerator = StopAbility(player);
                 while (enumerator.MoveNext())
                     yield return StateChange.none;
@@ -47,7 +46,7 @@ public class SelectionState : StateMachineState {
             // 1 frame skip to let units' views to update to correct positions
             // yield return null;
 
-            var turnButton = level.view.turnButton;
+            var turnButton = Level.view.turnButton;
 
             void TrySetTurnButtonVisibility(bool visible) {
                 if (turnButton)
@@ -61,14 +60,14 @@ public class SelectionState : StateMachineState {
 
             TrySetTurnButtonInteractivity(true);
 
-            var unmovedUnits = level.units.Values
+            var unmovedUnits = Level.units.Values
                 .Where(unit => unit.Player == player && !unit.Moved)
                 .ToList();
 
-            var accessibleBuildings = level.buildings.Values
+            var accessibleBuildings = Level.buildings.Values
                 .Where(building => building.Player == player &&
                                    Rules.GetBuildableUnitTypes(building).Any() &&
-                                   !level.TryGetUnit(building.position, out _))
+                                   !Level.TryGetUnit(building.position, out _))
                 .ToList();
 
             Sprite GetUnitThumbnail(Unit unit) {
@@ -100,19 +99,38 @@ public class SelectionState : StateMachineState {
             if (preselectionCursor)
                 preselectionCursor.Hide();
 
-            /*var turnButton = Object.FindObjectOfType<TurnButton>();
-            if (turnButton) {
-                turnButton.Color = player.Color;
-                if (turnStart)
-                    turnButton.PlayAnimation(level.Day(level.turn) + 1);
-            }*/
-
-            if (level.name == LevelName.Tutorial) {
-                if (level.tutorialState.startedCapturing && !level.tutorialState.explainedTurnEnd) {
-                    level.tutorialState.explainedTurnEnd = true;
+            if (Level.EnableTutorial && Level.name == LevelName.Tutorial) {
+                if (Level.tutorialState.startedCapturing && !Level.tutorialState.explainedTurnEnd) {
+                    Level.tutorialState.explainedTurnEnd = true;
                     yield return StateChange.Push(new TutorialDialogue(stateMachine, TutorialDialogue.Part.ExplainTurnEnd));
                 }
             }
+
+            var missileSilos = Level.Buildings.Where(b => b.Player == Level.CurrentPlayer && b.type == TileType.MissileSilo).ToList();
+            foreach (var missileSilo in missileSilos)
+                if (missileSilo.Moved && missileSilo.Cooldown(Level.Day()) == 0) {
+                    if (Level.CurrentPlayer == Level.localPlayer && missileSilo.position.TryRaycast(out var hit)) {
+                        var jumpCompleted = cameraRig.Jump(hit.point);
+                        while (!jumpCompleted())
+                            yield return StateChange.none;
+                    }
+                    missileSilo.Moved = false;
+                }
+
+            Level.SetGui("missile-silos", () => {
+                foreach (var missileSilo in missileSilos)
+                    if (missileSilo.position.TryRaycast(out var hit)) {
+                        var cooldown = missileSilo.Cooldown(Level.Day());
+                        if (cooldown > 0)
+                            WarsGui.CenteredLabel(Level, hit.point, $"Reloading: {cooldown} day(s)");
+                    }
+            });
+            Level.SetGui("keys", () => {
+                var text = "[F2] End turn / [M] Minimap";
+                var size = GUI.skin.label.CalcSize(new GUIContent(text));
+                var padding = DefaultGuiSkin.padding;
+                GUI.Label(new Rect(Screen.width - padding.x - size.x, Screen.height - padding.y - size.y, size.x, size.y), text);
+            });
 
             var issuedAiCommands = false;
             while (true) {
@@ -121,54 +139,53 @@ public class SelectionState : StateMachineState {
                 if (levelSession.autoplay) {
                     if (!issuedAiCommands) {
                         issuedAiCommands = true;
-                        game.aiPlayerCommander.IssueCommandsForSelectionState();
+                        Game.aiPlayerCommander.IssueCommandsForSelectionState();
                     }
                 }
-                else if (!level.CurrentPlayer.IsAi) {
+                else if (!Level.CurrentPlayer.IsAi) {
                     if (Input.GetKeyDown(KeyCode.F2))
-                        game.EnqueueCommand(Command.EndTurn);
+                        Game.EnqueueCommand(Command.EndTurn);
 
                     //else if ((Input.GetKeyDown(KeyCode.Escape)) && (!preselectionCursor || !preselectionCursor.Visible))
                     //    main.commands.Enqueue(openGameMenu);
 
                     else if (Input.GetKeyDown(KeyCode.F3))
-                        game.EnqueueCommand(Command.ExitToLevelEditor);
+                        Game.EnqueueCommand(Command.ExitToLevelEditor);
 
                     else if ((Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(Mouse.right)) && preselectionCursor && preselectionCursor.Visible)
                         preselectionCursor.Hide();
 
                     else if (Input.GetKeyDown(KeyCode.Tab))
-                        game.EnqueueCommand(Command.CyclePositions, Input.GetKey(KeyCode.LeftShift) ? -1 : 1);
+                        Game.EnqueueCommand(Command.CyclePositions, Input.GetKey(KeyCode.LeftShift) ? -1 : 1);
 
                     else if (Input.GetKeyDown(KeyCode.Space) && preselectionCursor.Visible)
-                        game.EnqueueCommand(Command.Select, preselectionCursor.transform.position.ToVector2().RoundToInt());
+                        Game.EnqueueCommand(Command.Select, preselectionCursor.transform.position.ToVector2().RoundToInt());
 
-                    else if ((Input.GetMouseButtonDown(Mouse.left) || Input.GetKeyDown(KeyCode.Space)) && level.view.cameraRig.camera.TryGetMousePosition(out Vector2Int mousePosition))
-                        game.EnqueueCommand(Command.Select, mousePosition);
+                    else if ((Input.GetMouseButtonDown(Mouse.left) || Input.GetKeyDown(KeyCode.Space)) && Level.view.cameraRig.camera.TryGetMousePosition(out Vector2Int mousePosition))
+                        Game.EnqueueCommand(Command.Select, mousePosition);
 
-                    else if (Input.GetMouseButtonDown(Mouse.right) && level.view.cameraRig.camera.TryGetMousePosition(out mousePosition) && level.TryGetUnit(mousePosition, out var mouseUnit))
-                        game.EnqueueCommand(Command.ShowAttackRange, mouseUnit);
+                    else if (Input.GetMouseButtonDown(Mouse.right) && Level.view.cameraRig.camera.TryGetMousePosition(out mousePosition) && Level.TryGetUnit(mousePosition, out var mouseUnit))
+                        Game.EnqueueCommand(Command.ShowAttackRange, mouseUnit);
 
-                    else if (Input.GetKeyDown(KeyCode.F6) && Rules.CanUseAbility(level.CurrentPlayer))
-                        game.EnqueueCommand(Command.UseAbility);
+                    else if (Input.GetKeyDown(KeyCode.F6) && Rules.CanUseAbility(Level.CurrentPlayer))
+                        Game.EnqueueCommand(Command.UseAbility);
 
                     else if (Input.GetKeyDown(KeyCode.M) || Input.GetKeyDown(KeyCode.CapsLock))
-                        game.EnqueueCommand(Command.OpenMinimap);
+                        Game.EnqueueCommand(Command.OpenMinimap);
 
                     else if (Input.GetKeyDown(KeyCode.Escape))
-                        game.EnqueueCommand(Command.OpenGameMenu);
+                        Game.EnqueueCommand(Command.OpenGameMenu);
                 }
 
-                while (game.TryDequeueCommand(out var command)) {
-                    
+                while (Game.TryDequeueCommand(out var command)) {
                     // Tutorial logic
-                    if (level.name == LevelName.Tutorial)
-                        if (!level.tutorialState.startedCapturing)
+                    if (Level.EnableTutorial && Level.name == LevelName.Tutorial)
+                        if (!Level.tutorialState.startedCapturing)
                             switch (command) {
                                 case (Command.OpenGameMenu or Command.CyclePositions or Command.OpenMinimap or Command.ShowAttackRange or Command.ExitToLevelEditor, _):
                                     break;
                                 case (Command.Select, Vector2Int position):
-                                    if (level.TryGetUnit(position, out var unit) && unit.Player == level.localPlayer && !unit.Moved && unit.type == UnitType.Infantry)
+                                    if (Level.TryGetUnit(position, out var unit) && unit.Player == Level.localPlayer && !unit.Moved && unit.type == UnitType.Infantry)
                                         break;
                                     goto default;
                                 default:
@@ -180,7 +197,7 @@ public class SelectionState : StateMachineState {
                         case (Command.Select, Vector2Int position): {
                             StateMachineState nextState = null;
 
-                            if (level.TryGetUnit(position, out unit)) {
+                            if (Level.TryGetUnit(position, out unit)) {
                                 if (unit.Player != player || unit.Moved)
                                     UiSound.Instance.notAllowed.PlayOneShot();
                                 else {
@@ -190,7 +207,7 @@ public class SelectionState : StateMachineState {
                                 }
                             }
 
-                            else if (level.TryGetBuilding(position, out building) && Rules.GetBuildableUnitTypes(building).Any()) {
+                            else if (Level.TryGetBuilding(position, out building) && Rules.GetBuildableUnitTypes(building).Any()) {
                                 if (building.Player != player)
                                     UiSound.Instance.notAllowed.PlayOneShot();
                                 else {
@@ -204,7 +221,7 @@ public class SelectionState : StateMachineState {
                         }
 
                         case (Command.EndTurn, _): {
-                            foreach (var unit in level.units.Values)
+                            foreach (var unit in Level.units.Values)
                                 unit.Moved = false;
 
                             player.view.Hide();
@@ -214,7 +231,7 @@ public class SelectionState : StateMachineState {
                             //MusicPlayer.Instance.source.Stop();
                             //MusicPlayer.Instance.queue = null;
 
-                            level.turn++;
+                            Level.turn++;
                             yield return StateChange.PopThenPush(2, new PlayerTurnState(stateMachine));
                             break;
                         }
@@ -254,7 +271,7 @@ public class SelectionState : StateMachineState {
 
                         case (Command.UseAbility, _): {
                             if (Rules.CanUseAbility(player)) {
-                                var enumerator = StartAbility(player, level.turn);
+                                var enumerator = StartAbility(player, Level.turn);
                                 while (enumerator.MoveNext())
                                     yield return StateChange.none;
                             }
@@ -284,7 +301,7 @@ public class SelectionState : StateMachineState {
                             var attackPositions = new HashSet<Vector2Int>();
                             if (Rules.TryGetAttackRange(mouseUnit, out var attackRange)) {
                                 if (Rules.IsArtillery(mouseUnit))
-                                    attackPositions.UnionWith(level.PositionsInRange(mouseUnit.NonNullPosition, attackRange));
+                                    attackPositions.UnionWith(Level.PositionsInRange(mouseUnit.NonNullPosition, attackRange));
                                 else if (attackRange == new Vector2Int(1, 1)) {
                                     var pathFinder = new PathFinder();
                                     pathFinder.FindMoves(mouseUnit);
@@ -308,7 +325,7 @@ public class SelectionState : StateMachineState {
                     }
                 }
 
-                level.UpdateTilemapCursor();
+                UpdateTilemapCursor();
             }
         }
     }
@@ -318,6 +335,9 @@ public class SelectionState : StateMachineState {
         if (level.view.turnButton)
             level.view.turnButton.Interactable = false;
         level.view.tilemapCursor.Hide();
+
+        Level.RemoveGui("missile-silos");
+        Level.RemoveGui("keys");
     }
 
     public static IEnumerator StartAbility(Player player, int turn) {
@@ -335,4 +355,18 @@ public class SelectionState : StateMachineState {
     public static IEnumerator StopAbility(Player player) {
         yield return null;
     }
-};
+}
+
+public static class WarsGui {
+    public static void CenteredLabel(Level level, Vector3 worldPosition, string text, Vector2 offset) {
+        var screenPosition = level.view.cameraRig.camera.WorldToScreenPoint(worldPosition);
+        if (screenPosition.z > 0) {
+            var size = GUI.skin.label.CalcSize(new GUIContent(text));
+            screenPosition.y = Screen.height - screenPosition.y;
+            GUI.Label(new Rect(screenPosition.x - size.x / 2 + offset.x, screenPosition.y - size.y / 2 + offset.y, size.x, size.y), text);
+        }
+    }
+    public static void CenteredLabel(Level level, Vector3 worldPosition, string text) {
+        CenteredLabel(level, worldPosition, text, new Vector2(0, 20));
+    }
+}

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -44,4 +45,11 @@ public class LevelView : MonoBehaviour {
     public InGameMenu inGameMenu;
     public DialogueUi4 newDialogueUi;
     public UiCircle dialogueCircle;
+    
+    public readonly Dictionary<object, Action> guiCommands = new();
+    private void OnGUI() {
+        GUI.skin = DefaultGuiSkin.TryGet;
+        foreach (var action in guiCommands.Values)
+            action();
+    }
 }

@@ -141,11 +141,12 @@ public class ActionSelectionState : StateMachineState {
     public override IEnumerator<StateChange> Enter {
         get {
             var levelSession = stateMachine.Find<LevelSessionState>();
-            var (game, level, unit, path) = (stateMachine.Find<GameSessionState>().game, levelSession.level, stateMachine.Find<SelectionState>().unit, stateMachine.Find<PathSelectionState>().path);
+            var unit = stateMachine.Find<SelectionState>().unit;
+            var path = stateMachine.Find<PathSelectionState>().path;
 
             var destination = path[^1];
-            level.TryGetUnit(destination, out var other);
-            level.TryGetBuilding(destination, out var building);
+            Level.TryGetUnit(destination, out var other);
+            Level.TryGetBuilding(destination, out var building);
 
             // !!! important
             actions = SpawnActions().ToList();
@@ -155,9 +156,14 @@ public class ActionSelectionState : StateMachineState {
             yield return StateChange.none;
 
             if (!levelSession.autoplay) {
-                panel.Show(() => game.EnqueueCommand(Command.Cancel), actions, (_, action) => SelectAction(action));
+                panel.Show(() => Game.EnqueueCommand(Command.Cancel), actions, (_, action) => SelectAction(action));
                 if (actions.Count > 0)
                     SelectAction(actions[0]);
+            }
+
+            if (Level.EnableTutorial && !Level.tutorialState.startedCapturing && !Level.tutorialState.explainedActionSelection) {
+                Level.tutorialState.explainedActionSelection = true;
+                yield return StateChange.Push(new TutorialDialogue(stateMachine, TutorialDialogue.Part.ActionSelectionExplanation));
             }
 
             var issuedAiCommands = false;
@@ -167,36 +173,36 @@ public class ActionSelectionState : StateMachineState {
                 if (levelSession.autoplay) {
                     if (!issuedAiCommands) {
                         issuedAiCommands = true;
-                        game.aiPlayerCommander.IssueCommandsForActionSelectionState();
+                        Game.aiPlayerCommander.IssueCommandsForActionSelectionState();
                     }
                 }
-                else if (!level.CurrentPlayer.IsAi) {
+                else if (!Level.CurrentPlayer.IsAi) {
                     if (Input.GetMouseButtonDown(Mouse.right) || Input.GetKeyDown(KeyCode.Escape))
-                        game.EnqueueCommand(Command.Cancel);
+                        Game.EnqueueCommand(Command.Cancel);
 
                     else if (Input.GetKeyDown(KeyCode.Tab))
-                        game.EnqueueCommand(Command.CycleActions, Input.GetKey(KeyCode.LeftShift) ? -1 : 1);
+                        Game.EnqueueCommand(Command.CycleActions, Input.GetKey(KeyCode.LeftShift) ? -1 : 1);
 
                     else if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space)) {
                         if (actions.Count == 0)
                             UiSound.Instance.notAllowed.PlayOneShot();
                         else
-                            game.EnqueueCommand(Command.Execute, actions[index]);
+                            Game.EnqueueCommand(Command.Execute, actions[index]);
                     }
                 }
 
-                while (game.TryDequeueCommand(out var command)) {
+                while (Game.TryDequeueCommand(out var command)) {
                     
                     // Tutorial logic
                     var showCaptureDialogue = false;
-                    if (level.name == LevelName.Tutorial) {
-                        if (!level.tutorialState.startedCapturing)
+                    if (Level.EnableTutorial && Level.name == LevelName.Tutorial) {
+                        if (!Level.tutorialState.startedCapturing)
                             switch (command) {
                                 case (Command.Cancel or Command.CycleActions, _):
                                     break;
                                 case (Command.Execute, UnitAction action):
                                     if (action.type == UnitActionType.Capture) {
-                                        level.tutorialState.startedCapturing = true;
+                                        Level.tutorialState.startedCapturing = true;
                                         showCaptureDialogue = true;
                                         break;
                                     }
@@ -209,9 +215,9 @@ public class ActionSelectionState : StateMachineState {
 
                     switch (command) {
                         case (Command.Execute, UnitAction action): {
-                            level.view.tilemapCursor.Hide();
-                            if (level.view.actionCircle)
-                                level.view.actionCircle.gameObject.SetActive(false);
+                            Level.view.tilemapCursor.Hide();
+                            if (Level.view.actionCircle)
+                                Level.view.actionCircle.gameObject.SetActive(false);
 
                             selectedAction = action;
                             HidePanel();
@@ -235,14 +241,14 @@ public class ActionSelectionState : StateMachineState {
                                     building.Cp -= Cp(unit);
 
                                     // if building is going to be captured by enemy, jump camera to it
-                                    if (building.Cp <= 0 && level.CurrentPlayer != level.localPlayer) {
-                                        level.view.cameraRig.Jump(building.view.transform.position);
+                                    if (building.Cp <= 0 && Level.CurrentPlayer != Level.localPlayer) {
+                                        Level.view.cameraRig.Jump(building.view.transform.position);
                                         var time = Time.time;
-                                        while (Time.time < time + level.view.cameraRig.jumpDuration)
+                                        while (Time.time < time + Level.view.cameraRig.jumpDuration)
                                             yield return StateChange.none;
                                     }
 
-                                    var captureScreen = level.view.captureScreen;
+                                    var captureScreen = Level.view.captureScreen;
                                     captureScreen.Visible = true;
                                     captureScreen.circle.position = action.targetBuilding.view.Position.ToVector3();
                                     captureScreen.UiColor = building.Player?.UiColor ?? captureScreen.defaultUiColor;
@@ -335,7 +341,7 @@ public class ActionSelectionState : StateMachineState {
                                 unit.Moved = true;
                                 if (unit.view.LookDirection != unit.Player.unitLookDirection) {
                                     var bipedalWalker = unit.view.GetComponent<BipedalWalker>();
-                                    game.StartCoroutine(new MoveSequence(unit.view.transform, null, _finalDirection: unit.Player.unitLookDirection,
+                                    Game.StartCoroutine(new MoveSequence(unit.view.transform, null, _finalDirection: unit.Player.unitLookDirection,
                                         onComplete: bipedalWalker ? bipedalWalker.ResetFeet : null).Animation());
                                 }
                             }
@@ -344,13 +350,13 @@ public class ActionSelectionState : StateMachineState {
                              * some custom level logic on action completion 
                              */
 
-                            if (level.triggers.TryGetValue(TriggerName.A, out var reconTrigger)) {
-                                var unitsInReconTrigger = level.units.Values.Where(u => u.Player == level.localPlayer && u.Position is { } position && reconTrigger.Contains(position)).ToArray();
+                            if (Level.triggers.TryGetValue(TriggerName.A, out var reconTrigger)) {
+                                var unitsInReconTrigger = Level.units.Values.Where(u => u.Player == Level.localPlayer && u.Position is { } position && reconTrigger.Contains(position)).ToArray();
                                 if (unitsInReconTrigger.Length > 0) {
                                     reconTrigger.Clear();
                                     // ((LevelEditor)level).LoadAdditively("1");
 
-                                    var cameraRig = level.view.cameraRig;
+                                    var cameraRig = Level.view.cameraRig;
                                     var startTime = Time.time;
                                     while (Time.time < startTime + .5f)
                                         yield return StateChange.none;
@@ -359,8 +365,8 @@ public class ActionSelectionState : StateMachineState {
                                 }
                             }
 
-                            if (level.triggers.TryGetValue(TriggerName.B, out var aggroTrigger)) {
-                                var unitsInAggroTrigger = level.units.Values.Where(u => u.Player == level.localPlayer && u.Position is { } position && aggroTrigger.Contains(position)).ToArray();
+                            if (Level.triggers.TryGetValue(TriggerName.B, out var aggroTrigger)) {
+                                var unitsInAggroTrigger = Level.units.Values.Where(u => u.Player == Level.localPlayer && u.Position is { } position && aggroTrigger.Contains(position)).ToArray();
                                 if (unitsInAggroTrigger.Length > 0) {
                                     aggroTrigger.Clear();
                                     Debug.Log("ENEMY NOTICED YOU");
@@ -371,11 +377,11 @@ public class ActionSelectionState : StateMachineState {
                              * check victory or defeat
                              */
 
-                            var won = Won(level.localPlayer);
-                            var lost = Lost(level.localPlayer);
+                            var won = Won(Level.localPlayer);
+                            var lost = Lost(Level.localPlayer);
 
                             if (won || lost) {
-                                foreach (var u in level.units.Values)
+                                foreach (var u in Level.units.Values)
                                     u.Moved = false;
 
                                 // TODO: add a DRAW outcome
@@ -417,7 +423,7 @@ public class ActionSelectionState : StateMachineState {
                     }
                 }
 
-                level.UpdateTilemapCursor();
+                UpdateTilemapCursor();
             }
         }
     }
