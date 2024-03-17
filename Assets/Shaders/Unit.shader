@@ -132,7 +132,7 @@ Shader "Custom/Unit"
         .worldPos.z)
             *10));*/
 
-            o.Emission += _DamageColor * exp(-(_Time.y-_DamageTime)*40);
+            o.Emission += _DamageColor * saturate(exp(-(_Time.y-_DamageTime)*40));
             
         }
         ENDCG

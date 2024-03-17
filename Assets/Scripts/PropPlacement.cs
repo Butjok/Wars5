@@ -79,7 +79,6 @@ public class PropPlacement : MonoBehaviour {
 
             var position = hit.point;
             var rotation = (alignToNormal ? hit.normal : Vector3.up).ToRotation(yaw);
-            var scale = Vector3.one;
 
             var preview = previews[prefab];
             foreach (var item in previews.Values)
@@ -90,7 +89,6 @@ public class PropPlacement : MonoBehaviour {
 
             preview.position = position;
             preview.rotation = rotation;
-            preview.localScale = scale;
 
             foreach (var prop in props) {
                 var distance = Vector3.Distance(hit.point, prop.position);
@@ -115,7 +113,7 @@ public class PropPlacement : MonoBehaviour {
                 if (prefab && Input.GetMouseButtonDown(Mouse.left)) {
                     if (closestProp)
                         RemoveProp(closestProp);
-                    AddProp(prefab, position, rotation, scale);
+                    AddProp(prefab, position, rotation, prefab.localScale);
                     if (lastRotationWasRandom)
                         yaw = RandomYaw;
                 }

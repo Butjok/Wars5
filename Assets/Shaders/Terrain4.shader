@@ -20,6 +20,7 @@ Shader "Custom/Terrain4"
 _Distance ("_Distance", 2D) = "black" {}
     	
     	_ForestMask ("_ForestMask", 2D) = "black" {}
+    	_ForestColor ("_ForestColor", Color) = (1,1,1,1)
         
         
         _Glossiness ("Smoothness", Range(0,1)) = 0.5
@@ -123,7 +124,7 @@ _OutsideIntensity ("_OutsideIntensity", Range(0,1)) = 0.0
         float4x4 _ForestMask_WorldToLocal;
         float3 _StoneColor, _GrassColor, _StoneDarkColor, _StoneLightColor, _StoneWheatColor;
         float4 _Normal_ST, _Emissive;
-        float3 _SpotGrassColor, _SpotOceanColor;
+        float3 _SpotGrassColor, _SpotOceanColor, _ForestColor;
 
 float _LineDistance;
 float _LineThickness,_BorderPower;
@@ -256,7 +257,7 @@ float2 _Splat2Size;
                         //o.Albedo=splat;
             
                         half gridMask = smoothstep(-.1,-.05,IN.worldPos.y);
-                        o.Albedo *= lerp(float3(1,1,1), 1-tex2D (_Grid, position-.5), gridMask);
+                        //o.Albedo *= lerp(float3(1,1,1), (1-tex2D (_Grid, position-.5)), gridMask);
             
                         //o.Albedo = tint(o.Albedo, .0, .975, 1);
             
@@ -281,7 +282,8 @@ float2 _Splat2Size;
 			//stoneColor = lerp(stoneColor, _StoneWheatColor, wheatIntensity);
             o.Albedo = lerp(o.Albedo, stoneColor, stoneAlpha);
             
-            o.Smoothness=lerp(o.Smoothness, .0, stoneAlpha);
+            //o.Smoothness=lerp(o.Smoothness, .0, stoneAlpha);
+        	o.Smoothness = _Glossiness;
             o.Normal = normalize(lerp(o.Normal, stoneNormal, stoneAlpha));
 
             //o.Occlusion = min(o.Occlusion, tex2D(_StonesAo, stonesUv).r);
@@ -302,11 +304,12 @@ float2 _Splat2Size;
 
 
 float forestMask = tex2D(_ForestMask, mul(_ForestMask_WorldToLocal, float4(IN.worldPos, 1)).xz).r;
-        	float3 forestHSV = RGBtoHSV(o.Albedo);
+        	/*float3 forestHSV = RGBtoHSV(o.Albedo);
         	forestHSV.y *= 1.25; // saturation
         	forestHSV.z *= .5; // value
-        	float3 forest = HSVtoRGB(forestHSV);
-        	o.Albedo = lerp(o.Albedo, forest, forestMask);
+        	float3 forest = HSVtoRGB(forestHSV);*/
+        	o.Albedo *= lerp(1, _ForestColor, forestMask);
+        	//o.Albedo = lerp(o.Albedo, forest, forestMask);
 
 
 
@@ -356,10 +359,14 @@ float forestMask = tex2D(_ForestMask, mul(_ForestMask_WorldToLocal, float4(IN.wo
         	_SeaColor.rgb *= lerp (float3(1,1,1), _SpotOceanColor, spot);
         	_DeepSeaColor.rgb *= lerp (float3(1,1,1), _SpotOceanColor, spot);
 
-            o.Albedo = lerp(o.Albedo, _SandColor, smoothstep(_SandThickness - _SandSharpness, _SandThickness + _SandSharpness ,abs(IN.worldPos.y+ /*noise/50*/ - _SandLevel)));
-            o.Albedo = lerp(o.Albedo, lerp(_SeaColor, _DeepSeaColor, smoothstep(_DeepSeaLevel - _DeepSeaSharpness, _DeepSeaLevel + _DeepSeaSharpness, /*(deepSeaNoise+noise/5)*1.125*/+.33)), smoothstep(_SeaLevel - _SeaSharpness, _SeaLevel + _SeaSharpness, IN.worldPos.y));//smoothstep(_SeaLevel - _SeaSharpness, _SeaLevel + _SeaSharpness ,IN.worldPos.y));
+
+        	half sea = smoothstep(_SeaLevel - _SeaSharpness,  _SeaLevel + _SeaSharpness , IN.worldPos.y);
+        	half3 seaColor = lerp(_SeaColor, _DeepSeaColor, smoothstep(_DeepSeaLevel - _DeepSeaSharpness,  _DeepSeaLevel + _DeepSeaSharpness , IN.worldPos.y));
+        	seaColor *= lerp (float3(1,1,1), _SpotOceanColor, spot);
+            o.Albedo = lerp(o.Albedo, seaColor,sea);
         	
             
+            o.Albedo = lerp(o.Albedo, _SandColor, smoothstep(_SandThickness - _SandSharpness, _SandThickness + _SandSharpness ,abs(IN.worldPos.y+ /*noise/50*/ - _SandLevel)));
             
             float seaLevel = IN.worldPos.y - _SeaLevel;
             //seaLevel += noise * _SandNoiseAmplitude;
@@ -390,12 +397,18 @@ float forestMask = tex2D(_ForestMask, mul(_ForestMask_WorldToLocal, float4(IN.wo
             //o.Albedo = saturate(tileMaskDistance);
             
             float3 tileMaskEmission = 0;
-            tileMaskEmission += _Emissive * smoothstep(0.05, -.025, tileMaskDistance);
-            tileMaskEmission += 3.3*_Emissive * smoothstep(0.025, 0.0125, abs(tileMaskDistance - .025));
+        	float border2 = smoothstep(0.025, 0.0125, abs(tileMaskDistance - .025));
+            tileMaskEmission += smoothstep(0.05, -.025, tileMaskDistance);
+        	tileMaskEmission += border2 * 2.5;
+            //tileMaskEmission += 5 * smoothstep(0.025, 0.0125, abs(tileMaskDistance - .025));
             
-            o.Emission = tileMaskEmission ;
-            o.Albedo  = lerp(o.Albedo, o.Emission, (o.Emission.r + o.Emission.g + o.Emission.b) / 1);
+            //o.Emission = tileMaskEmission * _Emissive;
+            //o.Albedo  = lerp(o.Albedo, o.Emission, (o.Emission.r + o.Emission.g + o.Emission.b) / 1);
 
+        	o.Emission = tileMaskEmission * _Emissive;
+        	o.Albedo = lerp(o.Albedo, _Emissive, border2);
+
+        	o.Emission *= lerp(float3(1,1,1), (1-tex2D (_Grid, position-.5)), gridMask);
 
 
         	//o.Albedo = spot;

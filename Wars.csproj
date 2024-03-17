@@ -53,6 +53,7 @@
      <Compile Include="Assets\Scripts\PreviousPositions.cs" />
      <Compile Include="Assets\Scripts\LevelEditor\LevelEditor.cs" />
      <Compile Include="Assets\Scripts\GameStates\AttackActionState.cs" />
+     <Compile Include="Assets\Scripts\GameStates\UiWindowDragZone.cs" />
      <Compile Include="Assets\Scripts\Missions.FirstMission.cs" />
      <Compile Include="Assets\Scripts\MainMenuQuitDialog.cs" />
      <Compile Include="Assets\Scripts\Turret2.cs" />
@@ -204,6 +205,7 @@
      <Compile Include="Assets\Scripts\TerrainCreator.cs" />
      <Compile Include="Assets\Scripts\GameStates\ActionSelectionState.cs" />
      <Compile Include="Assets\Scripts\Views\UiFrame2.cs" />
+     <Compile Include="Assets\Scripts\GameStates\UiWindowManager.cs" />
      <Compile Include="Assets\Scripts\EntryPoint\MainMenuAboutState.cs" />
      <Compile Include="Assets\Scripts\MissionObjectivesUi.cs" />
      <Compile Include="Assets\Scripts\LevelEditor\LevelEditorTilesModeState.cs" />
@@ -260,6 +262,7 @@
      <Compile Include="Assets\Scripts\EntryPoint\AboutRow.cs" />
      <Compile Include="Assets\Scripts\Faction.cs" />
      <Compile Include="Assets\Scripts\InputCommandsListener.cs" />
+     <Compile Include="Assets\Scripts\GameStates\UiWindow.cs" />
      <Compile Include="Assets\Scripts\EntryPoint\MainMenuSelectionState.cs" />
      <Compile Include="Assets\Scripts\MinimapIcon.cs" />
      <Compile Include="Assets\Scripts\CameraFlip.cs" />
@@ -304,9 +307,6 @@
      <Compile Include="Assets\Scripts\FlipbookTest.cs" />
      <Compile Include="Assets\Scripts\Animation\UnitViewSequenceSubroutines.cs" />
      <Compile Include="Assets\Scripts\EntryPoint\MainMenuWelcomeState.cs" />
-     <Compile Include="Assets\Scripts\GameStates\UiWindowManager.cs" />
-     <Compile Include="Assets\Scripts\GameStates\UiWindow.cs" />
-     <Compile Include="Assets\Scripts\GameStates\UiWindowDragZone.cs" />
      <Folder Include="Assets\Scripts\EntryPoint" />
      <None Include="Assets\Scripts\Wars.asmdef" />
      <Folder Include="Assets\Scripts\DialogueMarkupLanguage" />

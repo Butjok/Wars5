@@ -101,6 +101,7 @@ MonoBehaviour:
   renderers:
   - {fileID: 2203379918829342173}
   - {fileID: 6691498372990168907}
+  lights: []
   target: {fileID: 0}
   targetPosition: {x: 0, y: 0, z: 0}
   barrel: {fileID: 366914701635296369}
@@ -176,7 +177,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 43e82fe9269d43c4aa97ecb07c7bdbf9, type: 2}
-  - {fileID: 2100000, guid: 9be2aceef02b84f4f81d40eaa63e91b9, type: 2}
+  - {fileID: 2100000, guid: 83ca34bfba1d6d24295fd9580a66dc8b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

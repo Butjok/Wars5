@@ -5884,7 +5884,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.06666667, g: 0.32941177, b: 0.5764706, a: 1}
+  m_BackGroundColor: {r: 0.11764706, g: 0.24705882, b: 0.50980395, a: 1}
   m_projectionMatrixMode: 0
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -21914,7 +21914,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 2100000, guid: c4aeb43e64dca4bcdb1121fbcfa9cfa9, type: 2}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0, b: 0.31764707, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -32500,14 +32500,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1671052351}
-  m_LocalRotation: {x: 0.8294378, y: -0.102949135, z: 0.15259402, w: 0.52739877}
+  m_LocalRotation: {x: 0.85180175, y: -0.09673165, z: 0.15609714, w: 0.49062255}
   m_LocalPosition: {x: 7.408, y: 0, z: 2.382901}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1952239951}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 115, y: -20, z: 1.3320007}
+  m_LocalEulerAnglesHint: {x: 120, y: -20, z: 1.3320007}
 --- !u!1001 &1676235070
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -36374,7 +36374,7 @@ MonoBehaviour:
   velocityDecelerationFactor: 25
   arm: {fileID: 1087985287}
   pitchAngleSpeed: 90
-  pitchClamp: {x: 30, y: 50}
+  pitchClamp: {x: 30, y: 55}
   rotationDuration: 0.2
   rotationEasing: 3
   rotationStep: -22.5
@@ -40232,7 +40232,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: b0b956cd482d18543b98e1256b31e4ed, type: 3}
       propertyPath: m_LightProbeUsage
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: b0b956cd482d18543b98e1256b31e4ed, type: 3}
       propertyPath: m_Materials.Array.data[0]

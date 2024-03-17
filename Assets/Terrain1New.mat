@@ -118,7 +118,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _SpotMask:
         m_Texture: {fileID: 2800000, guid: c8d1267bea8c2e2448ebfbd7dfd1cff5, type: 3}
-        m_Scale: {x: 0.05, y: 0.05}
+        m_Scale: {x: 0.025, y: 0.025}
         m_Offset: {x: 0, y: 0}
     - _StonesAlpha:
         m_Texture: {fileID: 2800000, guid: e82f5c7956db68440921b8e00e1ece22, type: 3}
@@ -152,13 +152,13 @@ Material:
     - _BorderThinkness: 0.015
     - _BumpScale: 1
     - _Cutoff: 0.5
-    - _DeepSeaLevel: 1.51
-    - _DeepSeaSharpness: 2.21
+    - _DeepSeaLevel: 0
+    - _DeepSeaSharpness: 0.2
     - _DeepSeaThickness: 0
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _GlossMapScale: 1
-    - _Glossiness: 0
+    - _Glossiness: 0.1
     - _GlossyReflections: 1
     - _K: 5
     - _LineDistance: 0.1
@@ -177,8 +177,8 @@ Material:
     - _SandNoiseScale: 4.12
     - _SandSharpness: -0.025
     - _SandThickness: 0.025
-    - _SeaLevel: -0.09
-    - _SeaSharpness: -0.19
+    - _SeaLevel: 0.1
+    - _SeaSharpness: -0.2
     - _SeaThickness: -0.01
     - _ShowTime: 0
     - _Size: 0
@@ -193,19 +193,20 @@ Material:
     - _BorderColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _DarkGreenTint: {r: 1, g: 1, b: 1, a: 1}
-    - _DeepSeaColor: {r: 0, g: 0.6899193, b: 0.764151, a: 1}
+    - _DeepSeaColor: {r: 0.5283019, g: 0.30040696, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Emissive: {r: 0.11773585, g: 0.24528301, b: 0, a: 1}
+    - _Emissive: {r: 0, g: 0.23529412, b: 2, a: 1}
     - _FlowerColor: {r: 0.8, g: 0.04002978, b: 0, a: 1}
+    - _ForestColor: {r: 0.6261305, g: 0.6886792, b: 0.32917994, a: 1}
     - _GrassColor: {r: 0.33962262, g: 0.31654146, b: 0, a: 1}
     - _MapSize: {r: 10.82, g: 1, b: 0, a: 0}
     - _OutsideColor: {r: 0.9339623, g: 0.9339623, b: 0.9339623, a: 1}
-    - _SandColor: {r: 1, g: 0.61574924, b: 0.18396229, a: 1}
-    - _SeaColor: {r: 0, g: 0.06415097, b: 0.16037738, a: 1}
+    - _SandColor: {r: 1, g: 0.6156863, b: 0.18431373, a: 1}
+    - _SeaColor: {r: 0.07920967, g: 0.26449078, b: 0.2830189, a: 1}
     - _Splat2Size: {r: 47, g: 41, b: 0, a: 0}
     - _SpotColor: {r: 0.79480654, g: 0.8207547, b: 0.7704254, a: 1}
     - _SpotGrassColor: {r: 1, g: 1, b: 1, a: 1}
-    - _SpotOceanColor: {r: 0.78039217, g: 0.8235294, b: 0.8980392, a: 1}
+    - _SpotOceanColor: {r: 0.4585261, g: 0.8176632, b: 0.9056604, a: 1}
     - _StoneColor: {r: 0.4528302, g: 0.43172407, b: 0.10964752, a: 1}
     - _StoneDarkColor: {r: 0.3744907, g: 0.403, b: 0.086774625, a: 1}
     - _StoneLightColor: {r: 0.6886792, g: 0.6459711, b: 0.043313082, a: 1}

@@ -210,7 +210,7 @@ public class BipedalWalker : MonoBehaviour {
     }
 
     [Command] public static float danceFreuqency = .1f;
-    [Command] public static float danceAmplitude = .02f;
+    [Command] public static float danceAmplitude = .03f;
 
     public float height = .5f;
     public Transform body;

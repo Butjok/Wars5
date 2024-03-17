@@ -146,7 +146,7 @@ public abstract class StateMachineState {
                     //        text += $"{tileType}\n";
 
                     if (text.Length > 0)
-                        WarsGui.CenteredLabel(Level, hit.point, text.TrimEnd(), new Vector2(0, 50));
+                        WarsGui.CenteredLabel(Level, hit.point, text.TrimEnd(), new Vector2(0, 75));
                 }
             }
 

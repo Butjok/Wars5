@@ -570,7 +570,7 @@ public class UnitView : MonoBehaviour {
             body.position += body.up * bodyDanceAmplitude * Mathf.PingPong(Time.unscaledTime * bodyDanceFrequency, bodyDanceAmplitude);
     }
 
-    [Command] public static float bodyDanceAmplitude = 0.15f;
+    [Command] public static float bodyDanceAmplitude = 0.2f;
     [Command] public static float bodyDanceFrequency = .7f;
 
     [Command] public static float barrelDanceAmplitude = 5f;

@@ -110,7 +110,7 @@ Shader "Custom/leaves"
                 
                 // Metallic and smoothness come from slider variables
                 o.Metallic = 0;
-                o.Smoothness =lerp(.15, .25, pow(tex2D (_Occlusion, IN.uv_MainTex),1)) * (globalOcclusion);
+                o.Smoothness = lerp(0, .125, pow(tex2D (_Occlusion, IN.uv_MainTex),1)) * (globalOcclusion);
                 //o.Alpha = c.a;
                 
 
@@ -133,6 +133,9 @@ Shader "Custom/leaves"
                 emissionHSV.z *= .75;
                 o.Emission = HSVtoRGB(emissionHSV);
                 o.Emission *= .5;
+
+                o.Albedo *= _Color;
+                o.Emission *= _Color;
             }
             ENDCG
     }

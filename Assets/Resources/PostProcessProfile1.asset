@@ -27,13 +27,13 @@ MonoBehaviour:
     value: {x: 0.5, y: 0.5}
   intensity:
     overrideState: 1
-    value: 0.45
-  smoothness:
-    overrideState: 0
     value: 0.5
-  roundness:
-    overrideState: 0
+  smoothness:
+    overrideState: 1
     value: 1
+  roundness:
+    overrideState: 1
+    value: 0.5
   rounded:
     overrideState: 0
     value: 0
@@ -262,7 +262,7 @@ MonoBehaviour:
     value: 1
   threshold:
     overrideState: 1
-    value: 1.25
+    value: 2
   softKnee:
     overrideState: 0
     value: 0
@@ -398,7 +398,7 @@ MonoBehaviour:
     value: {x: 0.94683754, y: 1, z: 0.83804405, w: 0.011350723}
   gain:
     overrideState: 1
-    value: {x: 0, y: 0, z: 0, w: 0}
+    value: {x: 1, y: 1, z: 1, w: 0}
   masterCurve:
     overrideState: 0
     value:

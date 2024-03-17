@@ -46,6 +46,8 @@ Shader "Custom/TileMasked" {
 			o.Smoothness = ms.a;
 			o.Alpha = c.a;
 			o.Normal = UnpackNormal(tex2D(_Normal, IN.uv_MainTex));
+
+			o.Emission = _Emissive;
 			
 			/*float2 uv2 = mul(_TileMask_WorldToLocal, round(float4(IN.worldPos.xyz, 1))).xz;
                             			float tileMask = saturate(tex2D(_TileMask, uv2).r);

@@ -52,7 +52,7 @@ Shader "Custom/rough"
             o.Albedo = c.rgb;
             // Metallic and smoothness come from slider variables
             o.Metallic = _Metallic;
-            o.Smoothness = lerp((1-tex2D (_Roughness, IN.uv_MainTex)), .25, .5);
+            o.Smoothness = lerp(0, .25, (1-tex2D (_Roughness, IN.uv_MainTex)));
             o.Alpha = c.a;
 
             /*float3 hsv = RGBtoHSV(o.Albedo);
@@ -63,7 +63,7 @@ Shader "Custom/rough"
             
             half2 dst = abs(IN.worldPos.xz-.5 - round(IN.worldPos.xz-.5));
             half dst2 = min(dst.x, dst.y);
-            o.Albedo.rgb = lerp(o.Albedo, o.Albedo*.75, smoothstep(.0125, .0, dst2));
+            
             
             float tileMaskDistance = 1;			
 			float2 nearestTile = round(IN.worldPos.xz);
@@ -81,8 +81,9 @@ Shader "Custom/rough"
 			tileMaskEmission += _Emissive * smoothstep(0.05, -.025, tileMaskDistance);
 			tileMaskEmission += 3.3*_Emissive * smoothstep(0.025, 0.0125, abs(tileMaskDistance - .025));
 			
-			o.Emission = tileMaskEmission ;
-			o.Albedo  = lerp(o.Albedo, o.Emission, (o.Emission.r + o.Emission.g + o.Emission.b) / 1);
+			o.Emission = tileMaskEmission * _Emissive;
+        	o.Emission *= 1-smoothstep(.0125, .0, dst2);
+			//o.Albedo  = lerp(o.Albedo, o.Emission, (o.Emission.r + o.Emission.g + o.Emission.b) / 1);
 
 
         	/*float noise3 = ClassicNoise(IN.worldPos/4);

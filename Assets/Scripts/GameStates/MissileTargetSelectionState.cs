@@ -78,9 +78,7 @@ public class MissileTargetSelectionState : StateMachineState {
                                 Draw.ingame.Arrow((Vector3)missileSilo.position.ToVector3Int(), (Vector3)targetPosition.ToVector3Int(), Vector3.up, .25f, Color.red);*/
 
                             action.unit.Position = action.path[^1];
-                            missileSilo.missileSiloLastLaunchDay = Level.Day();
-                            missileSilo.missileSiloAmmo--;
-                            missileSilo.Moved = true;
+                            
 
                             if (missileSiloView) {
                                 missileSiloView.SnapToTargetRotationInstantly();
@@ -126,6 +124,10 @@ public class MissileTargetSelectionState : StateMachineState {
 
                                 cameraRig.enabled = true;
                             }
+                            
+                            missileSilo.missileSiloLastLaunchDay = Level.Day();
+                            missileSilo.missileSiloAmmo--;
+                            missileSilo.Moved = true;
 
                             var anyBridgeDestroyed = false;
                             var targetedBridges = Level.bridges.Where(bridge => bridge.tiles.ContainsKey(targetPosition));

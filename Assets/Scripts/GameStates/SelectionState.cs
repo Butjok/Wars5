@@ -119,7 +119,7 @@ public class SelectionState : StateMachineState {
 
             Level.SetGui("missile-silos", () => {
                 foreach (var missileSilo in missileSilos)
-                    if (missileSilo.position.TryRaycast(out var hit)) {
+                    if (missileSilo.position.TryRaycast(out var hit) && Level.view.cameraRig.camera.TryGetMousePosition(out Vector2Int mousePosition) && mousePosition == hit.point.ToVector2Int()) {
                         var cooldown = missileSilo.Cooldown(Level.Day());
                         if (cooldown > 0)
                             WarsGui.CenteredLabel(Level, hit.point, $"Reloading: {cooldown} day(s)");

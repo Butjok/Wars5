@@ -73,7 +73,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Roughness:
-        m_Texture: {fileID: 2800000, guid: 9d56b3c272c6e84408c248a6db24467a, type: 3}
+        m_Texture: {fileID: 2800000, guid: 210e450b3981a9742a3794351d472392, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
@@ -82,6 +82,7 @@ Material:
     - _BounceIntensity: 1
     - _BumpScale: 1
     - _Cutoff: 0.5
+    - _DamageFalloffIntensity: 10
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _GlossMapScale: 1
@@ -104,6 +105,7 @@ Material:
     - _AttackHighlight: {r: 0.25, g: 0.5, b: 5, a: 2.5}
     - _AttackHighlightColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _DamageColor: {r: 0.25, g: 0.25, b: 0, a: 0.25}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Offset: {r: 0, g: 0, b: 0.5, a: 1}
     - _PlayerColor: {r: 1, g: 1, b: 1, a: 1}
