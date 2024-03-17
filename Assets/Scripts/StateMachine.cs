@@ -142,8 +142,8 @@ public abstract class StateMachineState {
 
                     if (building != null)
                         text += $"<b><color=#{ColorUtility.ToHtmlStringRGB(building.Player?.UiColor ?? Color.white)}>{building.type}</color></b>\n";
-                    else if (tileType != 0)
-                        text += $"{tileType}\n";
+                    //    else if (tileType != 0)
+                    //        text += $"{tileType}\n";
 
                     if (text.Length > 0)
                         WarsGui.CenteredLabel(Level, hit.point, text.TrimEnd(), new Vector2(0, 50));

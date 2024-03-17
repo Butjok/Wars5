@@ -21,7 +21,7 @@ public class MissileTargetSelectionState : StateMachineState {
 
     public override IEnumerator<StateChange> Enter {
         get {
-            var action =  stateMachine.Find<ActionSelectionState>().selectedAction;
+            var action = stateMachine.Find<ActionSelectionState>().selectedAction;
 
             Assert.AreEqual(TileType.MissileSilo, action.targetBuilding);
             Assert.IsTrue(Rules.CanLaunchMissile(action.unit, action.targetBuilding));
@@ -33,7 +33,7 @@ public class MissileTargetSelectionState : StateMachineState {
 
             var targets = new List<(Unit target, int damage)>();
             Game.SetGui("missile-targets", () => {
-                foreach (var (target, damage) in targets) 
+                foreach (var (target, damage) in targets)
                     WarsGui.CenteredLabel(Level, target.view.body.position, $"-{damage}");
             });
 
@@ -46,9 +46,14 @@ public class MissileTargetSelectionState : StateMachineState {
                             launchPosition = mousePosition;
 
                             targets.Clear();
-                            foreach (var position in Level.PositionsInRange(mousePosition, missileSilo.missileBlastRange))
-                                if (Level.TryGetUnit(position, out var unit))
+                            foreach (var unit in Level.Units) {
+                                // unit might make a move to the missile silo and fire the missile from there
+                                // therefore we need to behave like unit's position is at the missile silo position
+                                var unitPosition = unit == action.unit ? missileSilo.position : unit.NonNullPosition;
+                                var distance = (unitPosition - mousePosition).ManhattanLength();
+                                if (distance.IsInRange(missileSilo.missileBlastRange))
                                     targets.Add((unit, missileSilo.missileUnitDamage));
+                            }
                         }
                         else
                             Game.EnqueueCommand(Command.LaunchMissile, launchPosition);
@@ -72,6 +77,11 @@ public class MissileTargetSelectionState : StateMachineState {
                             using (Draw.ingame.WithLineWidth(2))
                                 Draw.ingame.Arrow((Vector3)missileSilo.position.ToVector3Int(), (Vector3)targetPosition.ToVector3Int(), Vector3.up, .25f, Color.red);*/
 
+                            action.unit.Position = action.path[^1];
+                            missileSilo.missileSiloLastLaunchDay = Level.Day();
+                            missileSilo.missileSiloAmmo--;
+                            missileSilo.Moved = true;
+
                             if (missileSiloView) {
                                 missileSiloView.SnapToTargetRotationInstantly();
 
@@ -86,7 +96,7 @@ public class MissileTargetSelectionState : StateMachineState {
                                 Assert.IsTrue(missile);
                                 if (missile.curve.totalTime is not { } flightTime)
                                     throw new AssertionException("missile.curve.totalTime = null", null);
-                                
+
                                 Level.RemoveGui("tilemap-cursor");
 
                                 var startTime = Time.time;
@@ -103,10 +113,12 @@ public class MissileTargetSelectionState : StateMachineState {
                                     foreach (var position in Level.PositionsInRange(targetPosition, new Vector2Int(radius, radius))) {
                                         if (Level.TryGetUnit(position, out var unit)) {
                                             unit.SetHp(unit.Hp - missileSilo.missileUnitDamage, true);
-                                        }        
+                                        }
+
                                         if (position.TryRaycast(out var hit))
                                             Effects.SpawnExplosion(hit.point);
                                     }
+
                                     startTime = Time.time;
                                     while (Time.time < startTime + .05f)
                                         yield return StateChange.none;
@@ -114,11 +126,6 @@ public class MissileTargetSelectionState : StateMachineState {
 
                                 cameraRig.enabled = true;
                             }
-
-                            action.unit.Position = action.path[^1];
-                            missileSilo.missileSiloLastLaunchDay = Level.Day();
-                            missileSilo.missileSiloAmmo--;
-                            missileSilo.Moved = true;
 
                             var anyBridgeDestroyed = false;
                             var targetedBridges = Level.bridges.Where(bridge => bridge.tiles.ContainsKey(targetPosition));
@@ -148,7 +155,7 @@ public class MissileTargetSelectionState : StateMachineState {
 
                                 var cameraRig = Level.view.cameraRig;
                                 var jumpCompleted = cameraRig.Jump(Vector3.zero);
-                                while  (!jumpCompleted())
+                                while (!jumpCompleted())
                                     yield return StateChange.none;
 
                                 foreach (var stateChange in dialogue.Play(@"

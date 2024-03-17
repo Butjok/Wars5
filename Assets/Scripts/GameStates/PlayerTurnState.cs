@@ -47,7 +47,7 @@ public class PlayerTurnState : StateMachineState {
                     yield return StateChange.none;
             }
 
-            if (EnableDialogues)
+            if (Level.EnableTutorial)
                 switch (Level.Day()) {
                     case 0:
                         switch (Level.CurrentPlayer.ColorName) {
