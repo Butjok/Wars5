@@ -204,12 +204,12 @@ public class BipedalWalker : MonoBehaviour {
 
         var unitView = GetComponent<UnitView>();
         if (unitView && !unitView.Moved && unitView.enableDance)
-            body.position += Vector3.down * Mathf.PingPong(Time.unscaledTime * danceFreuqency, danceAmplitude);
+            body.position += Vector3.down * Mathf.PingPong(Time.unscaledTime * danceFrequency, danceAmplitude);
 
         oldPosition = transform.position;
     }
 
-    [Command] public static float danceFreuqency = .1f;
+    [Command] public static float danceFrequency = .1f;
     [Command] public static float danceAmplitude = .03f;
 
     public float height = .5f;

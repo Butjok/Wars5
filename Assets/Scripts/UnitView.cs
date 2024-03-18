@@ -1000,13 +1000,15 @@ public class UnitView : MonoBehaviour {
                     .Where(vc => vc);
                 foreach (var virtualCamera in virtualCameras) {
                     var noise = virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
-                    if (cameraShakes.ContainsKey(noise))
-                        continue;
+                    if (cameraShakes.TryGetValue(noise, out var coroutine)) {
+                        CoroutineRunner.Instance.StopCoroutine(coroutine);
+                        cameraShakes.Remove(noise);
+                    }
                     var distance = Vector3.Distance(virtualCamera.transform.position, body.position);
                     var power = explosionShakePower / distance / distance;
-                    var shake = ShakeCamera(noise, power, explosionShakeDuration);
-                    cameraShakes.Add(noise, shake);
-                    CoroutineRunner.Instance.StartCoroutine(shake);
+                    coroutine = ShakeCamera(noise, power, explosionShakeDuration);
+                    cameraShakes.Add(noise, coroutine);
+                    CoroutineRunner.Instance.StartCoroutine(coroutine);
                 }
             }
         }
@@ -1028,13 +1030,10 @@ public class UnitView : MonoBehaviour {
         while (Time.time < startTime + duration) {
             var t = (Time.time - startTime) / duration;
             noise.m_AmplitudeGain = Mathf.Lerp(power, 0, t);
-            //noise.m_FrequencyGain = Mathf.Lerp(10, 0, t);
             yield return null;
         }
-
         noise.m_AmplitudeGain = 0;
         cameraShakes.Remove(noise);
-        //noise.m_FrequencyGain = 0;
     }
 
     [Command]

@@ -26,8 +26,19 @@ public class DialogueUi4 : MonoBehaviour {
     public Image wasdImage;
     public Image movement2;
 
+    public AudioSource voiceOverSource;
+
     public bool ShowSpaceBarKey {
         set => spaceBarKeyImage.enabled = value;
+    }
+
+    public void Awake() {
+        if (!voiceOverSource) {
+            voiceOverSource = gameObject.AddComponent<AudioSource>();
+            voiceOverSource.playOnAwake = false;
+            voiceOverSource.loop = false;
+            voiceOverSource.spatialize = false;
+        }
     }
 
     public class CirclePulsation : IDisposable {
