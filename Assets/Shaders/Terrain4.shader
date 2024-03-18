@@ -359,6 +359,8 @@ float forestMask = tex2D(_ForestMask, mul(_ForestMask_WorldToLocal, float4(IN.wo
         	_SeaColor.rgb *= lerp (float3(1,1,1), _SpotOceanColor, spot);
         	_DeepSeaColor.rgb *= lerp (float3(1,1,1), _SpotOceanColor, spot);
 
+        	o.Albedo *= lerp(float3(1,1,1), _SpotGrassColor, spot);
+
 
         	half sea = smoothstep(_SeaLevel - _SeaSharpness,  _SeaLevel + _SeaSharpness , IN.worldPos.y);
         	half3 seaColor = lerp(_SeaColor, _DeepSeaColor, smoothstep(_DeepSeaLevel - _DeepSeaSharpness,  _DeepSeaLevel + _DeepSeaSharpness , IN.worldPos.y));
@@ -399,16 +401,25 @@ float forestMask = tex2D(_ForestMask, mul(_ForestMask_WorldToLocal, float4(IN.wo
             float3 tileMaskEmission = 0;
         	float border2 = smoothstep(0.025, 0.0125, abs(tileMaskDistance - .025));
             tileMaskEmission += smoothstep(0.05, -.025, tileMaskDistance);
-        	tileMaskEmission += border2 * 2.5;
+			float2 cell2 = round(IN.worldPos.xz);
+        	float2 distanceToCell = length( cell2 - IN.worldPos.xz);
+        	float circle = tileMaskEmission*smoothstep(0.05, 0.025, distanceToCell);
+        	o.Albedo *= lerp(1, float3(0,.75,1), saturate(tileMaskEmission));
+        	o.Emission = (border2 + circle/2.5) * float3(0,1,0); 
+        	
+        	
+        	//tileMaskEmission += border2 * 2.5;
             //tileMaskEmission += 5 * smoothstep(0.025, 0.0125, abs(tileMaskDistance - .025));
             
             //o.Emission = tileMaskEmission * _Emissive;
             //o.Albedo  = lerp(o.Albedo, o.Emission, (o.Emission.r + o.Emission.g + o.Emission.b) / 1);
 
-        	o.Emission = tileMaskEmission * _Emissive;
-        	o.Albedo = lerp(o.Albedo, _Emissive, border2);
+        	//o.Emission = tileMaskEmission * _Emissive;
+        	//o.Albedo = lerp(o.Albedo, _Emissive, border2);
 
-        	o.Emission *= lerp(float3(1,1,1), (1-tex2D (_Grid, position-.5)), gridMask);
+        	//o.Emission *= lerp(float3(1,1,1), (1-tex2D (_Grid, position-.5)), gridMask);
+
+        	
 
 
         	//o.Albedo = spot;

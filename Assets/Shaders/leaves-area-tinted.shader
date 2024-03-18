@@ -166,7 +166,13 @@ Shader "Custom/LeavesAreaTinted"
                             			float tileMask = saturate(tex2D(_TileMask, uv2).r);
                             			if (uv2.x < 0 || uv2.x > 1 || uv2.y < 0 || uv2.y > 1)
                             				tileMask = 0;
-                            			o.Emission += _Emissive * tileMask;
+
+            	float2 cell2 = round(IN.worldPos.xz);
+        	float2 distanceToCell = length( cell2 - IN.worldPos.xz);
+        	float circle = tileMask*smoothstep(0.05, 0.025, distanceToCell);
+        	o.Albedo *= lerp(1, float3(0,.75,1), saturate(tileMask));
+        	o.Emission = ( circle/2.5) * float3(0,1,0); 
+            	
 
             	
             }

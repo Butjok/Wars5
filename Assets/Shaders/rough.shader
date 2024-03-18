@@ -78,11 +78,20 @@ Shader "Custom/rough"
 			//o.Albedo = saturate(tileMaskDistance);
 			
 			float3 tileMaskEmission = 0;
-			tileMaskEmission += _Emissive * smoothstep(0.05, -.025, tileMaskDistance);
-			tileMaskEmission += 3.3*_Emissive * smoothstep(0.025, 0.0125, abs(tileMaskDistance - .025));
-			
-			o.Emission = tileMaskEmission * _Emissive;
-        	o.Emission *= 1-smoothstep(.0125, .0, dst2);
+        	float border2 = smoothstep(0.025, 0.0125, abs(tileMaskDistance - .025));
+			tileMaskEmission +=  smoothstep(0.05, -.025, tileMaskDistance);
+        	float2 cell2 = round(IN.worldPos.xz);
+        	float2 distanceToCell = length( cell2 - IN.worldPos.xz);
+        	float circle = tileMaskEmission*smoothstep(0.05, 0.025, distanceToCell);
+			//tileMaskEmission += 3.3*_Emissive * smoothstep(0.025, 0.0125, abs(tileMaskDistance - .025));
+
+			o.Albedo *= lerp(1, float3(0,.75,1), saturate(tileMaskEmission));
+        	o.Emission = (border2+circle/2.5) * float3(0,1,0);
+
+        	
+        	
+			//o.Emission = tileMaskEmission * _Emissive;
+        	//o.Emission *= 1-smoothstep(.0125, .0, dst2);
 			//o.Albedo  = lerp(o.Albedo, o.Emission, (o.Emission.r + o.Emission.g + o.Emission.b) / 1);
 
 
