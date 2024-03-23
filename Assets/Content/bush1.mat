@@ -113,6 +113,8 @@ Material:
     m_Floats:
     - _BumpScale: 1
     - _Cutoff: 0.5
+    - _DeepSeaLevel: 0.28
+    - _DeepSeaSharpness: -0.26
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _GlossMapScale: 1
@@ -133,6 +135,7 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _DarkGrass: {r: 0.41758636, g: 0.4811321, b: 0, a: 1}
+    - _DeepSeaColor: {r: 0.056971468, g: 0.11320752, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Emissive: {r: 0, g: 0.11764706, b: 1, a: 1}
     - _Forest: {r: 0.36136502, g: 0.43529412, b: 0, a: 1}

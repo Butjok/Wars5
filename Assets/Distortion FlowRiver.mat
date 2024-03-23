@@ -63,7 +63,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _Normal:
         m_Texture: {fileID: 2800000, guid: 46e2a7c5d178cf743b50eedfacbaabda, type: 3}
-        m_Scale: {x: 0.5, y: 0.5}
+        m_Scale: {x: 0.75, y: 0.75}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
         m_Texture: {fileID: 2800000, guid: ca2018cce4b3041ca94fe509b701bce5, type: 3}
@@ -101,7 +101,7 @@ Material:
     - _ModulatedHeightScale: 1
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _RefractionStrength: 0.175
+    - _RefractionStrength: 0.09
     - _Scale: 64.04
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 0
@@ -116,7 +116,8 @@ Material:
     - _WaveAmplitude: 0.0001
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0, g: 1, b: 0.9394505, a: 0}
+    - _BackgroundColor: {r: 0.20363113, g: 0.32585892, b: 0.6226415, a: 0}
+    - _Color: {r: 0, g: 1, b: 0.9787035, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _UVJump: {r: 0, g: 0, b: 0, a: 0}
     - _WaterFogColor: {r: 0, g: 0.12406111, b: 1, a: 1}

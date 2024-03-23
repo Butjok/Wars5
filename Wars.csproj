@@ -146,6 +146,7 @@
      <Compile Include="Assets\Scripts\Effects.cs" />
      <Compile Include="Assets\Scripts\CursorInteractor.cs" />
      <Compile Include="Assets\Scripts\Level\UnitAttackActionViewTest.cs" />
+     <Compile Include="Assets\Scripts\GlobalGameSettings.cs" />
      <Compile Include="Assets\Scripts\GameStates\DebugDraw.cs" />
      <Compile Include="Assets\Scripts\LoadingSpinnerTest.cs" />
      <Compile Include="Assets\Scripts\PowerMeterStripe.cs" />
@@ -307,6 +308,7 @@
      <Compile Include="Assets\Scripts\FlipbookTest.cs" />
      <Compile Include="Assets\Scripts\Animation\UnitViewSequenceSubroutines.cs" />
      <Compile Include="Assets\Scripts\EntryPoint\MainMenuWelcomeState.cs" />
+     <Compile Include="Assets\Scripts\VignetteBlur.cs" />
      <Folder Include="Assets\Scripts\EntryPoint" />
      <None Include="Assets\Scripts\Wars.asmdef" />
      <Folder Include="Assets\Scripts\DialogueMarkupLanguage" />
@@ -319,6 +321,7 @@
      <Folder Include="Assets\Scripts\Torec\Subdivision\Demo" />
      <Folder Include="Assets\Scripts\Torec\Subdivision" />
      <Folder Include="Assets\Scripts\Marketing" />
+     <None Include="Assets\Scripts\VignetteBlur.shader" />
      <Folder Include="Assets\Scripts" />
      <Folder Include="Assets\Scripts\Torec\Subdivision\Assets" />
      <Folder Include="Assets\Scripts\Views" />
@@ -1215,9 +1218,6 @@
      <Reference Include="Cinemachine">
      <HintPath>C:\Users\v.fedotov\RiderProjects\Wars5\Library\ScriptAssemblies\Cinemachine.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.Postprocessing.Runtime">
-     <HintPath>C:\Users\v.fedotov\RiderProjects\Wars5\Library\ScriptAssemblies\Unity.Postprocessing.Runtime.dll</HintPath>
-     </Reference>
      <Reference Include="Unity.Mathematics">
      <HintPath>C:\Users\v.fedotov\RiderProjects\Wars5\Library\ScriptAssemblies\Unity.Mathematics.dll</HintPath>
      </Reference>
@@ -1246,6 +1246,10 @@
     <ProjectReference Include="FullscreenEditor.csproj">
       <Project>{ea66c163-c16e-dd96-3d67-e5c567917ba9}</Project>
       <Name>FullscreenEditor</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.Postprocessing.Runtime.csproj">
+      <Project>{091aa702-4d91-b5db-cc8d-9330429d1595}</Project>
+      <Name>Unity.Postprocessing.Runtime</Name>
     </ProjectReference>
     <ProjectReference Include="SerializableDictionary.csproj">
       <Project>{2528cbf2-fe47-72f6-8962-6beddbb0cda3}</Project>

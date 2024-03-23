@@ -86,7 +86,7 @@ Shader "Custom/rough"
 			//tileMaskEmission += 3.3*_Emissive * smoothstep(0.025, 0.0125, abs(tileMaskDistance - .025));
 
 			o.Albedo *= lerp(1, float3(0,.75,1), saturate(tileMaskEmission));
-        	o.Emission = (border2+circle/2.5) * float3(0,1,0);
+        	o.Emission = (border2+circle*5) * float3(0,1,0);
 
         	
         	

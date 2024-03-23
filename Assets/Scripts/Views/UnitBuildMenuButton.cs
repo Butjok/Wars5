@@ -63,7 +63,7 @@ public class UnitBuildMenuButton : MonoBehaviour, IPointerMoveHandler {
     }
 
     public void OnPointerMove(PointerEventData eventData) {
-        buildMenu.Select(this);
+        //buildMenu.Select(this);
     }
     
     

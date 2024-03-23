@@ -25,6 +25,8 @@
 		_WaveAmplitude ("_WaveAmplitude", Float) = 0.0001
 		
 		[ToggleOff] _SpecularHighlights("Specular Highlights", Float) = 1.0
+		
+		_BackgroundColor ("_BackgroundColor", Color) = (0, 0, 0, 0)
 	}
 	SubShader {
 		Tags { "RenderType"="Transparent" "Queue"="Transparent" }
@@ -59,7 +61,7 @@
 
 		half _Glossiness;
 		half _Metallic;
-		fixed4 _Color;
+		fixed4 _Color, _BackgroundColor;
 		float4 _Normal_ST;
 
 		float3 UnpackDerivativeHeight (float4 textureData) {
@@ -119,6 +121,9 @@
 			float2 position = IN.worldPos.xz;
             
             // Albedo comes from a texture tinted by color
+
+			_Time.x *= .5;
+			
             fixed3 normal3 = UnpackNormal( tex2D (_Normal, TRANSFORM_TEX(((position/1.5)/12 + float2(_Time.x*.125/3, _Time.x*.125/3)),_Normal)));
             fixed3 normal = UnpackNormal( tex2D (_Normal, TRANSFORM_TEX(((position/1.5)*2 + float2(_Time.x*3/3, 0)),_Normal)));
             fixed3 normal2 = UnpackNormal( tex2D (_Normal, TRANSFORM_TEX(((position/1.5) - float2(0, _Time.x*4.676/3)),_Normal)));
@@ -128,7 +133,11 @@
 			o.Normal = normalize( targetNormal);
 
 			float4 colorBelowWater = ColorBelowWater(IN.screenPos, o.Normal);
-			clip(colorBelowWater.a - 0.5);
+			if (colorBelowWater.a < 0.1)
+				colorBelowWater = _BackgroundColor;
+			//clip(colorBelowWater.a - 0.5);
+			
+			//colorBelowWater = lerp(_BackgroundColor,colorBelowWater, colorBelowWater.a);
 			
 			o.Emission = colorBelowWater * _Color.rgb * (1 - c.a);
 			//o.Emission = ColorBelowWater(IN.screenPos, o.Normal).a;;

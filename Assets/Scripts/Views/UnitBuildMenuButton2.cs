@@ -35,7 +35,7 @@ public class UnitBuildMenuButton2 : MonoBehaviour, IPointerEnterHandler, IPointe
         startColor = image.color;
         startSize = image.rectTransform.sizeDelta;
         startPosition = image.rectTransform.anchoredPosition;
-        image.sprite = Resources.Load<Sprite>("UnitThumbnails/" + name);
+        //image.sprite = Resources.Load<Sprite>("UnitThumbnails/" + name);
     }
 
     private bool highlighted;
@@ -58,6 +58,22 @@ public class UnitBuildMenuButton2 : MonoBehaviour, IPointerEnterHandler, IPointe
             
         }
         get => highlighted;
+    }
+
+    private bool isAvailable = true;
+    public bool IsAvailable {
+        get => isAvailable;
+        set {
+            isAvailable = value;
+            if (!value)
+                image.color = Color.grey;
+        }
+    }
+
+    public UnitType unitType;
+
+    public void UpdateColor() {
+        
     }
 
     public void OnPointerEnter(PointerEventData eventData) {

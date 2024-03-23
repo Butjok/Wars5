@@ -177,7 +177,7 @@ public class PostProcessing : MonoBehaviour {
                 ChromaticAberration = 0;
                 Bloom = 1;
                 Instance.StopAllCoroutines();
-                Contrast = 0;
+                Contrast = 5;
                 //Vignette = .45f;
                 Gain = 0;
                 ShowBorder = false;

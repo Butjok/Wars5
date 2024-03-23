@@ -51,52 +51,73 @@
      <Compile Include="Assets\MultiAudioListener\Example\Scripts\MovementCamera.cs" />
      <Compile Include="Assets\MultiAudioListener\MainMultiAudioListener.cs" />
      <Folder Include="Assets" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\StdLib.hlsl" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Debug\Waveform.shader" />
      <None Include="Assets\Saves\0\0-29.01.2023-15.07.01.txt" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\Shaders\My First Lighting Shader.shader" />
      <None Include="Assets\Saves\full-map\19.01.2023-19.29.32.txt" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\MultiScaleVOUpsample.compute" />
      <None Include="Assets\Resources\TileTypeColors.json" />
      <None Include="Assets\Saves\0\0-22.01.2023-19.43.46.txt" />
+     <Folder Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Textures\LensDirt" />
      <Folder Include="Assets\Particles" />
      <None Include="Assets\Saves\0\0-27.01.2023-10.25.01.txt" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\Resources\Missions\Tutorial.txt" />
      <Folder Include="Assets\New Folder" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\Distortion.hlsl" />
      <Folder Include="Assets\TextMesh Pro\Sprites" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\ExposureHistogram.hlsl" />
      <Folder Include="Assets\Content\whiteboxes\Resources\Trash" />
      <Folder Include="Assets\Saves\1" />
      <Folder Include="Assets\Content\City" />
      <Folder Include="Assets\JsonDotNet\Assemblies\Standalone" />
      <None Include="Assets\Shaders\Flip.shader" />
      <Folder Include="Assets\Content\whiteboxes\Thumbnails" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\Texture3DLerp.compute" />
+     <Folder Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Debug" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\DeferredFog.shader" />
      <Folder Include="Assets\Settings\Resources" />
      <Folder Include="Assets\UnitPreview" />
      <Folder Include="Assets\TextMesh Pro\Resources\Sprite Assets" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\TemporalAntialiasing.shader" />
      <None Include="Assets\MultiAudioListener\HowToUse.txt" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\FastApproximateAntialiasing.hlsl" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\SubpixelMorphologicalAntialiasing.shader" />
      <None Include="Assets\PriorityFormula.txt" />
      <Folder Include="Assets\Content" />
      <Folder Include="Assets\Settings" />
      <None Include="Assets\Content\MovePathUnlit.shader" />
      <None Include="Assets\Shaders\ClassicNoise.cginc" />
      <Folder Include="Assets\EmptyScene" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\Dithering.hlsl" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\Bloom.shader" />
      <None Include="Assets\Shaders\My Lighting.cginc" />
      <Folder Include="Assets\StreamingAssets\Translations\ru_RU" />
      <Folder Include="Assets\SceneTemplates\MainMenu\SimpleBake_Bakes" />
      <None Include="Assets\Saves\0\0-22.01.2023-18.22.53.txt" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Debug\Vectorscope.compute" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Sampling.hlsl" />
      <Folder Include="Assets\Scenery Materials" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\CopyStdFromTexArray.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
      <Folder Include="Assets\Units\Resources" />
      <Folder Include="Assets\BattleView\Resources" />
      <None Include="Assets\Shaders\My First Lighting Shader Overlay.shader" />
      <Folder Include="Assets\JsonDotNet" />
      <Folder Include="Assets\Content\whiteboxes" />
+     <Folder Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Textures\Cubes" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\Lut3DBaker.compute" />
      <None Include="Assets\Saves\test\20.01.2023-21.38.32.txt" />
      <None Include="Assets\Shaders\TileMap.shader" />
      <None Include="Assets\Saves\0\0-28.01.2023-14.11.05.txt" />
      <None Include="Assets\Dialogues2.txt" />
+     <Folder Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Gizmos" />
      <Folder Include="Assets\Splash" />
      <Folder Include="Assets\Saves\WorldMapRoads" />
      <None Include="Assets\Resources\Settings\MoveDistances.json" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Debug\Waveform.compute" />
      <Folder Include="Assets\Saves" />
      <None Include="Assets\Shaders\VertexColorChecker.shader" />
      <None Include="Assets\Shaders\Terrain2.shader" />
@@ -110,6 +131,7 @@
      <None Include="Assets\Shaders\HeightMap.shader" />
      <None Include="Assets\Saves\1\1-22.01.2023-19.38.06.txt" />
      <None Include="Assets\Shaders\DistortionFlow.shader" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\API\PSSL.hlsl" />
      <Folder Include="Assets\Saves\TerrainCreatorAutosave" />
      <None Include="Assets\Shaders\Flow.cginc" />
      <Folder Include="Assets\MultiAudioListener\TestScripts" />
@@ -124,6 +146,7 @@
      <None Include="Assets\Saves\0\0-22.01.2023-18.57.43.txt" />
      <Folder Include="Assets\Fonts" />
      <Folder Include="Assets\Saves\test.0" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Debug\LightMeter.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
      <Folder Include="Assets\SceneTemplates\MainMenu" />
      <None Include="Assets\Saves\0\0-22.01.2023-19.45.37.txt" />
@@ -132,7 +155,11 @@
      <Folder Include="Assets\JsonDotNet\Assemblies\Windows" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
      <Folder Include="Assets\TextMesh Pro\Resources" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\AutoExposure.compute" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\MultiScaleVORender.compute" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\Texture2DLerp.shader" />
      <Folder Include="Assets\Scenes\blog-post0" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\SubpixelMorphologicalAntialiasingBridge.hlsl" />
      <None Include="Assets\TerrainCreation\save.json" />
      <None Include="Assets\Shaders\TestShader2.shader" />
      <None Include="Assets\Shaders\MovePath.shader" />
@@ -141,9 +168,14 @@
      <Folder Include="Assets\Saves\AutosaveProps" />
      <None Include="Assets\Shaders\NewSurfaceShader.shader" />
      <None Include="Assets\ShaderTests\contrastgrid.shader" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\DiskKernels.hlsl" />
+     <Folder Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Textures\BlueNoise256px" />
      <Folder Include="Assets\HoleShader" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\API\D3D11.hlsl" />
      <None Include="Assets\Shaders\Stone.shader" />
      <Folder Include="Assets\Saves\autosave" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\MultiScaleVODownsample2.compute" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\ScalableAO.hlsl" />
      <Folder Include="Assets\Props\flag" />
      <Folder Include="Assets\ShaderTests" />
      <None Include="Assets\Shaders\Terrain.shader" />
@@ -184,6 +216,7 @@
      <None Include="Assets\Saves\1\1-22.01.2023-18.36.36.txt" />
      <Folder Include="Assets\SceneTemplates\Test" />
      <None Include="Assets\Roboto\LICENSE.txt" />
+     <Folder Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders" />
      <Folder Include="Assets\SceneTemplates\MainMenuTest" />
      <Folder Include="Assets\JsonDotNet\Documentation" />
      <None Include="Assets\Saves\0\0-24.01.2023-03.03.07.txt" />
@@ -200,15 +233,20 @@
      <Folder Include="Assets\Saves\TutorialProps" />
      <None Include="Assets\Shaders\Unit.shader" />
      <None Include="Assets\Saves\1\1-22.01.2023-19.40.42.txt" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\package.json" />
      <None Include="Assets\Scripts2\SDFtest.shader" />
      <None Include="Assets\Saves\simple\simple-19.03.2023-15.45.01.txt" />
      <None Include="Assets\Resources\Funny.txt" />
      <None Include="Assets\Shaders\Difference.shader" />
      <None Include="Assets\Shaders\TileArea.shader" />
      <Folder Include="Assets\JsonDotNet\Assemblies" />
+     <Folder Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Textures\SpectralLUTs" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\MultiScaleVO.shader" />
      <None Include="Assets\Saves\1\1-22.01.2023-19.43.37.txt" />
      <None Include="Assets\Saves\1\1-22.01.2023-19.44.37.txt" />
      <Folder Include="Assets\Scenes\EntryPoint" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Debug\Vectorscope.shader" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\API\D3D9.hlsl" />
      <Folder Include="Assets\Scenes\BattleViews_Profiles" />
      <None Include="Assets\Saves\1\1-22.01.2023-19.48.14.txt" />
      <None Include="Assets\Shaders\Terrain4.shader" />
@@ -219,14 +257,24 @@
      <None Include="Assets\Funny.txt" />
      <None Include="Assets\Saves\0\0-25.01.2023-02.07.18.txt" />
      <None Include="Assets\Shaders\water.shader" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\ScalableAO.shader" />
      <Folder Include="Assets\Saves\MarchingSquaresRoads" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\ACES.hlsl" />
      <None Include="Assets\Shaders\ShrinkToTerrain.shader" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\FinalPass.shader" />
      <Folder Include="Assets\Portraits\Resources" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Debug\Histogram.shader" />
      <Folder Include="Assets\Buildings" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
      <None Include="Assets\Shaders\MinimapUnit.shader" />
      <None Include="Assets\Saves\0\0-22.01.2023-19.47.53.txt" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Debug\Histogram.compute" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\API\Switch.hlsl" />
+     <Folder Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Textures" />
      <None Include="Assets\Shaders\Minimap.shader" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\API\Metal.hlsl" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\Uber.shader" />
+     <Folder Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Textures\SMAA" />
      <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
      <None Include="Assets\Shaders\TriggerShader.shader" />
@@ -237,7 +285,9 @@
      <Folder Include="Assets\StreamingAssets\Distances" />
      <None Include="Assets\Saves\0\0-22.01.2023-18.24.23.txt" />
      <None Include="Assets\Shaders\GlTestShader.shader" />
+     <Folder Include="Packages\com.unity.postprocessing@3.2.2\Tests" />
      <Folder Include="Assets\ShaderTests\Stanford Dragon" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\xRLib.hlsl" />
      <Folder Include="Assets\Saves\0" />
      <None Include="Assets\Dialogues.txt" />
      <None Include="Assets\Shaders\UI Additive.shader" />
@@ -248,6 +298,7 @@
      <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
      <None Include="Assets\Shaders\Circle.shader" />
      <Folder Include="Assets\Scenes\PlainRight" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\CopyStdFromDoubleWide.shader" />
      <None Include="Assets\Saves\0\0-22.01.2023-18.59.01.txt" />
      <None Include="Assets\Shaders\GrayscaleImage.shader" />
      <None Include="Assets\Shaders\TerrainBorder.shader" />
@@ -256,6 +307,7 @@
      <Folder Include="Assets\MultiAudioListener\Example" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
      <Folder Include="Assets\Content\mrap" />
+     <Folder Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Textures\LUTs" />
      <Folder Include="Assets\Scripts2" />
      <None Include="Assets\Shaders\TriggerUnlit.shader" />
      <Folder Include="Assets\Resources\UnitThumbnails" />
@@ -267,24 +319,31 @@
      <None Include="Assets\Resources\GitInfo.json" />
      <None Include="Assets\Shaders\Dithered.shader" />
      <None Include="Assets\Shaders\Polygon.shader" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Debug\Overlays.shader" />
      <None Include="Assets\Saves\0\0-22.01.2023-18.53.34.txt" />
      <None Include="Assets\Saves\test\test-31.01.2023-04.24.37.txt" />
      <None Include="Assets\Shaders\UvTest2.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
      <None Include="Assets\Shaders\FrostedGlass.shader" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\API\PSP2.hlsl" />
      <Folder Include="Assets\SceneTemplates" />
      <Folder Include="Assets\TextMesh Pro\Shaders" />
      <None Include="Assets\Content\NewImageEffectShader.shader" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\ScreenSpaceReflections.shader" />
      <Folder Include="Assets\Saves\TutorialTerrain" />
      <Folder Include="Assets\Shaders" />
      <Folder Include="Assets\TerrainCreation" />
      <None Include="Assets\Shaders\New Amplify Shader.shader" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\DepthOfField.hlsl" />
      <Folder Include="Assets\Textures\Circuitry" />
      <Folder Include="Assets\TextMesh Pro\Resources\Style Sheets" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\DiscardAlpha.shader" />
      <Folder Include="Assets\Textures\Lava" />
      <Folder Include="Assets\Scenes\Campaign" />
      <None Include="Assets\StreamingAssets\Distances\Tutorial.txt" />
      <Folder Include="Assets\TextMesh Pro\Fonts" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\API\OpenGL.hlsl" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\Lut2DBaker.shader" />
      <None Include="Assets\Shaders\Dissolve.shader" />
      <Folder Include="Assets\Saves\test.1" />
      <None Include="Assets\Out.json" />
@@ -302,6 +361,8 @@
      <None Include="Assets\Shaders\Voronoi.shader" />
      <Folder Include="Assets\Minimap" />
      <Folder Include="Assets\Shaders\Resources" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\CopyStd.shader" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Editor\CurveGrid.shader" />
      <Folder Include="Assets\ShaderTests\ShaderTests" />
      <Folder Include="Assets\glTF-test" />
      <None Include="Assets\Resources\Missions\SecondMission.txt" />
@@ -319,16 +380,21 @@
      <Folder Include="Assets\Content\whiteboxes\Resources" />
      <Folder Include="Assets\Saves\PatchRoads" />
      <Folder Include="Assets\Textures\Cookies" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\MotionBlur.shader" />
      <Folder Include="Assets\Saves\TutorialForests" />
      <Folder Include="Assets\Textures\Bumps" />
      <None Include="Assets\Shaders\SimpleInstanced.shader" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\MultiScaleVODownsample1.compute" />
      <None Include="Assets\Saves\0\0-27.01.2023-21.16.19.txt" />
+     <Folder Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Editor" />
      <None Include="Assets\Shaders\BentNormal.shader" />
      <Folder Include="Assets\Music" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\Fog.hlsl" />
      <Folder Include="Assets\Scenes\BattleViews" />
      <None Include="Assets\Saves\0\0-22.01.2023-18.53.29.txt" />
      <Folder Include="Assets\MainMenu2" />
      <None Include="Assets\Shaders\TerrainEdge.shader" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\ExposureHistogram.compute" />
      <None Include="Assets\Saves\test3\test3-27.02.2023-00.52.49.txt" />
      <None Include="Assets\Shaders\Texture Splatting.shader" />
      <Folder Include="Assets\Resources\TilemapMeshes" />
@@ -344,10 +410,13 @@
      <Folder Include="Assets\Buildings\Resources" />
      <None Include="Assets\Shaders\rough.shader" />
      <None Include="Assets\Saves\0\0-24.01.2023-01.56.26.txt" />
+     <Folder Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\API" />
      <Folder Include="Assets\Scenes\Explosion" />
      <Folder Include="Assets\Props\MissileSilo\Resources" />
      <None Include="Assets\Saves\test2\test2-09.02.2023-23.43.01.txt" />
+     <Folder Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing" />
      <Folder Include="Assets\Bipedal" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\GrainBaker.shader" />
      <Folder Include="Assets\Saves\TutorialRoads" />
      <Folder Include="Assets\BattleView" />
      <Folder Include="Assets\Ui" />
@@ -357,23 +426,29 @@
      <None Include="Assets\Shaders\SDF.cginc" />
      <None Include="Assets\Shaders\MainMenuButtonShader.shader" />
      <None Include="Assets\Saves\NewSaveTest.txt" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\GaussianDownsample.compute" />
      <None Include="Assets\File.json" />
      <Folder Include="Assets\Saves\AutosaveTerrain" />
      <Folder Include="Assets\Saves\WorldMap" />
      <None Include="Assets\Shaders\SimplePlayerColor.shader" />
      <None Include="Assets\Shaders\InstancedIndirectColor.shader" />
      <Folder Include="Assets\Content\minimap" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\ScreenSpaceReflections.hlsl" />
      <Folder Include="Assets\Content\Hq" />
      <Folder Include="Assets\Saves\first-stage" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\API\XboxOne.hlsl" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\Copy.shader" />
      <Folder Include="Assets\Resources\Settings" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
      <Folder Include="Assets\Saves\second-stage" />
      <Folder Include="Assets\Scenes\SampleScene_Profiles" />
      <None Include="Assets\Shaders\FrozenFrame2.shader" />
      <None Include="Assets\Shaders\SimpleChecker.shader" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\API\D3D12.hlsl" />
      <Folder Include="Assets\Saves\TutorialTileMap" />
      <Folder Include="Assets\Saves\Forests" />
      <None Include="Assets\Saves\test2\test2-10.02.2023-02.00.13.txt" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\DepthOfField.shader" />
      <Folder Include="Assets\Ui\Resources" />
      <Folder Include="Assets\Saves\WorldMapProps" />
      <None Include="Assets\Shaders\Bush.shader" />
@@ -383,7 +458,9 @@
      <Folder Include="Assets\Resources\Units" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
      <None Include="Assets\Shaders\CameraFrustum.shader" />
+     <Folder Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins" />
      <None Include="Assets\Shaders\My First Shader.shader" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\SubpixelMorphologicalAntialiasing.hlsl" />
      <None Include="Assets\Shaders\Textured With Detail.shader" />
      <None Include="Assets\Resources\Missions\FirstMission.txt" />
      <None Include="Assets\Scripts2\TileAreaTest.shader" />
@@ -395,7 +472,10 @@
      <Folder Include="Assets\TextMesh Pro\Documentation" />
      <None Include="Assets\Resources\TutorialSaveData.txt" />
      <None Include="Assets\Shaders\UnlitMinimap.shader" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Editor\Trackball.shader" />
+     <Folder Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Textures\BlueNoise64px" />
      <Folder Include="Assets\Saves\TutorialBushes" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Editor\ConvertToLog.shader" />
      <None Include="Assets\Shaders\PowerMeterStripe.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
      <None Include="Assets\Shaders\UnlitLeaves.shader" />
@@ -406,6 +486,7 @@
      <Folder Include="Assets\Scenes\PlainLeft" />
      <None Include="Assets\Shaders\Waves.shader" />
      <Folder Include="Assets\Scenes\PlayableTest" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\API\Vulkan.hlsl" />
      <None Include="Assets\Shaders\UiLine.shader" />
      <Folder Include="Assets\HotReload" />
      <Folder Include="Assets\Roboto" />
@@ -413,6 +494,7 @@
      <None Include="Assets\Saves\1\1-22.01.2023-19.42.47.txt" />
      <Folder Include="Assets\Saves\WorldMapTerrain" />
      <None Include="Assets\Shaders\UvMapperTestShader.shader" />
+     <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Colors.hlsl" />
      <None Include="Assets\TextMesh Pro\Sprites\EmojiOne.json" />
      <Folder Include="Assets\Saves\full-map" />
      <None Include="Assets\Saves\1\1-22.01.2023-18.56.26.txt" />
@@ -427,6 +509,7 @@
      <Folder Include="Assets\Saves\simple" />
      <None Include="Assets\!TODO.txt" />
      <Folder Include="Assets\Units" />
+     <Folder Include="Packages\com.unity.postprocessing@3.2.2" />
      <None Include="Assets\Output.json" />
      <Folder Include="Assets\Saves\PatchProps" />
      <Reference Include="UnityEngine">
@@ -1380,17 +1463,11 @@
      <Reference Include="Unity.2D.Sprite.Editor">
      <HintPath>C:\Users\v.fedotov\RiderProjects\Wars5\Library\ScriptAssemblies\Unity.2D.Sprite.Editor.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.Postprocessing.Editor">
-     <HintPath>C:\Users\v.fedotov\RiderProjects\Wars5\Library\ScriptAssemblies\Unity.Postprocessing.Editor.dll</HintPath>
-     </Reference>
      <Reference Include="Unity.Mathematics">
      <HintPath>C:\Users\v.fedotov\RiderProjects\Wars5\Library\ScriptAssemblies\Unity.Mathematics.dll</HintPath>
      </Reference>
      <Reference Include="Unity.Burst">
      <HintPath>C:\Users\v.fedotov\RiderProjects\Wars5\Library\ScriptAssemblies\Unity.Burst.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.Postprocessing.Runtime">
-     <HintPath>C:\Users\v.fedotov\RiderProjects\Wars5\Library\ScriptAssemblies\Unity.Postprocessing.Runtime.dll</HintPath>
      </Reference>
      <Reference Include="UnityEngine.XR.LegacyInputHelpers">
      <HintPath>C:\Users\v.fedotov\RiderProjects\Wars5\Library\ScriptAssemblies\UnityEngine.XR.LegacyInputHelpers.dll</HintPath>
@@ -1482,6 +1559,14 @@
     <ProjectReference Include="ALINEPackageToolsEditor.csproj">
       <Project>{acc937ff-be72-6096-e219-b39fdc0d4207}</Project>
       <Name>ALINEPackageToolsEditor</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.Postprocessing.Editor.csproj">
+      <Project>{0e381afc-26b0-7712-9df9-d964681940fc}</Project>
+      <Name>Unity.Postprocessing.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.Postprocessing.Runtime.csproj">
+      <Project>{091aa702-4d91-b5db-cc8d-9330429d1595}</Project>
+      <Name>Unity.Postprocessing.Runtime</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

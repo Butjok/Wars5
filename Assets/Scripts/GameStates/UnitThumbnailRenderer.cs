@@ -36,6 +36,17 @@ public class UnitThumbnailRenderer : MonoBehaviour {
         RenderTexture.active = renderTexture;
         texture.ReadPixels(new Rect(0, 0, renderTexture.width, renderTexture.height), 0, 0);
         texture.Apply();
+        
+        var colorsCount = new Dictionary<Color, int>();
+        for (var y = 0; y < texture.height; y++)
+            for (var x = 0; x < texture.width; x++) {
+                var color = texture.GetPixel(x, y);
+                if (colorsCount.ContainsKey(color))
+                    colorsCount[color]++;
+                else
+                    colorsCount[color] = 1;
+            }
+        greenScreenColor = colorsCount.OrderByDescending(pair => pair.Value).First().Key;
 
         var colors = new List<Color>();
 

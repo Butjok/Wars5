@@ -41,12 +41,12 @@ public class Music2 : MonoBehaviour {
             Play(natalieTheme);
         else if (Input.GetKeyDown(KeyCode.F2)) {
             PostProcessing.SuperPowerMode = false;
-            if (source.clip.name is vladanTheme or vladanPowerTheme)
+            if (source && source.clip && source.clip.name is vladanTheme or vladanPowerTheme)
                 Play(natalieTheme);
             else
                 Play(vladanTheme);
         }
-        else if (Input.GetKeyDown(KeyCode.F7)) {
+        else if (Input.GetKeyDown(KeyCode.F7) && source && source.clip) {
             switch (source.clip.name) {
                 case vladanTheme:
                     PostProcessing.SuperPowerMode = true;

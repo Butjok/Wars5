@@ -26,6 +26,10 @@ Shader "Custom/LeavesAreaTinted"
     	
     	_SpotMask ("_SpotMask", 2D) = "white" {}
     	_SpotColor ("_SpotColor", Color) = (1,1,1,1)
+    	
+    	_DeepSeaLevel ("_DeepSeaLevel", Float) = 0
+    	_DeepSeaSharpness ("_DeepSeaSharpness", Float) = 0
+    	_DeepSeaColor ("_DeepSeaColor", Color) = (1,1,1,1)
     }
     SubShader
     {
@@ -48,6 +52,9 @@ Shader "Custom/LeavesAreaTinted"
             fixed4x4 _TileMask_WorldToLocal, _ForestMask_WorldToLocal;
             half _Lod;
             fixed4 _SpotColor, _SpotMask_ST;
+
+            float _DeepSeaLevel, _DeepSeaSharpness;
+            half3 _DeepSeaColor;
 
             struct Input {
                 float2 uv_MainTex;
@@ -171,9 +178,11 @@ Shader "Custom/LeavesAreaTinted"
         	float2 distanceToCell = length( cell2 - IN.worldPos.xz);
         	float circle = tileMask*smoothstep(0.05, 0.025, distanceToCell);
         	o.Albedo *= lerp(1, float3(0,.75,1), saturate(tileMask));
-        	o.Emission = ( circle/2.5) * float3(0,1,0); 
+        	o.Emission = ( circle*5) * float3(0,1,0); 
             	
 
+            	float tint = smoothstep(_DeepSeaLevel - _DeepSeaSharpness,  _DeepSeaLevel + _DeepSeaSharpness , IN.worldPos.y);
+            	o.Albedo = lerp(o.Albedo, _DeepSeaColor, tint);
             	
             }
             ENDCG

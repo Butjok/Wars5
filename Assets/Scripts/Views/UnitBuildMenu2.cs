@@ -8,8 +8,8 @@ using UnityEngine.UI;
 
 public class UnitBuildMenu2 : MonoBehaviour {
 
-    public UnitBuildMenuButton[] buttons = { };
-    public UnitBuildMenuButton selectedButton;
+    public UnitBuildMenuButton2[] buttons = { };
+    public UnitBuildMenuButton2 selectedButton;
     public Button buildButton;
 
     public FactionName factionName = FactionName.Novoslavia;
@@ -64,7 +64,7 @@ public class UnitBuildMenu2 : MonoBehaviour {
         this.buildingView = buildingView;
 
         foreach (var button in buttons) {
-            button.Available = isAvailable(button.unitType);
+            button.IsAvailable = isAvailable(button.unitType);
             var newThumbnail = tryGetThumbnail(button.unitType);
             if (newThumbnail)
                 button.image.sprite = newThumbnail;
@@ -115,15 +115,15 @@ public class UnitBuildMenu2 : MonoBehaviour {
         }
     }
 
-    public void Select(UnitBuildMenuButton button) {
+    public void Select(UnitBuildMenuButton2 button) {
 
         selectedButton = button;
 
         foreach (var sibling in buttons)
             if (sibling != button)
-                sibling.Unemphasize();
+                sibling.Highlighted = false;
 
-        button.Emphasize();
+        button.Highlighted = true;
         // button.transform.SetSiblingIndex(button.transform.parent.childCount-1);
 
         if (nameText)
@@ -132,7 +132,7 @@ public class UnitBuildMenu2 : MonoBehaviour {
             descriptionText.text = $"{getDescription(button.unitType)}";
 
         if (buildButton)
-            buildButton.interactable = button.Available;
+            buildButton.interactable = button.IsAvailable;
     }
 
     public bool TryBuild() {

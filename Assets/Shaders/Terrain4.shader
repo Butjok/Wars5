@@ -75,15 +75,19 @@ _OutsideIntensity ("_OutsideIntensity", Range(0,1)) = 0.0
         
         _SeaColor ("_SeaColor", Color) = (1,1,1,1)
         _DeepSeaColor ("_DeepSeaColor", Color) = (1,1,1,1)
+    	_DeepSeaColor2 ("_DeepSeaColor", Color) = (1,1,1,1)
         
         _SeaLevel ("_SeaLevel", Float) = 0
         _SeaThickness ("_SeaThickness", Float) = 0.1
         _DeepSeaLevel ("_DeepSeaLevel", Float) = 0
+    	_DeepSea2Level ("_DeepSea2Level", Float) = 0
     	_DeepSeaSharpness ("_DeepSeaSharpness", Float) = 0
+    	_DeepSea2Sharpness ("_DeepSea2Sharpness", Float) = 0
                 _DeepSeaThickness ("_DeepSeaThickness", Float) = 0.1
         _SeaSharpness ("_SeaSharpness", Float) = 0.1
         
         _SandColor ("_SandColor", Color) = (1,1,1,1)
+    	_SandColor2 ("_SandColor2", Color) = (1,1,1,1)
         _SandLevel ("_SandLevel",Float)=1
         _SandThickness ("_SandThickness",Float)=1
         _SandSharpness ("_SandSharpness",Float)=1
@@ -149,10 +153,10 @@ float2 _Splat2Size;
         half _Metallic,_Radius,_Rounding,_K,_SelectTime,_TimeDirection;
         half _SplatScale;
         fixed4 _Color;
-        fixed4 _SeaColor,_DeepSeaColor;
+        fixed4 _SeaColor,_DeepSeaColor, _DeepSeaColor2;
         half _SandThickness, _SandSharpness, _SandLevel;
         
-        half _DeepSeaThickness, _DeepSeaLevel;
+        half _DeepSeaThickness, _DeepSeaLevel, _DeepSea2Level, _DeepSea2Sharpness;
 
         #define SIZE 128
         int2 _From;
@@ -168,6 +172,7 @@ float2 _Splat2Size;
 
         float _SeaLevel, _SeaThickness, _SeaSharpness;
         float4 _SandColor;
+float4 _SandColor2;
 
         float _SandNoiseScale, _SandNoiseAmplitude;
         sampler2D _TileMask;
@@ -249,7 +254,7 @@ float2 _Splat2Size;
                        // o.Emission *=  IN.worldPos.y > 0;
             
                         float3 normal = UnpackNormal( tex2D (_Normal, TRANSFORM_TEX(position, _Normal) ));
-                        normal = sign(normal) * pow(abs(normal),.75);
+                        normal = sign(normal) * pow(abs(normal),.8);
                         //normal.z/=2;
                         normal=normalize(normal);
                         o.Normal = normal;
@@ -288,7 +293,7 @@ float2 _Splat2Size;
 
             //o.Occlusion = min(o.Occlusion, tex2D(_StonesAo, stonesUv).r);
 
-            float flowerAlpha = tex2D(_FlowersAlpha, IN.worldPos.xz * 0.25).r;
+            float flowerAlpha = tex2D(_FlowersAlpha, IN.worldPos.xz * 0.15).r;
 
 //half flowerAo = tex2D(_FlowersAo, IN.uv_FlowersAlpha).r;
 //            o.Albedo *= smoothstep(0.25,.75,flowerAo);
@@ -364,11 +369,15 @@ float forestMask = tex2D(_ForestMask, mul(_ForestMask_WorldToLocal, float4(IN.wo
 
         	half sea = smoothstep(_SeaLevel - _SeaSharpness,  _SeaLevel + _SeaSharpness , IN.worldPos.y);
         	half3 seaColor = lerp(_SeaColor, _DeepSeaColor, smoothstep(_DeepSeaLevel - _DeepSeaSharpness,  _DeepSeaLevel + _DeepSeaSharpness , IN.worldPos.y));
+        	seaColor = lerp (seaColor, _DeepSeaColor2, smoothstep( _DeepSea2Level - _DeepSea2Sharpness,  _DeepSea2Level + _DeepSea2Sharpness , IN.worldPos.y));
         	seaColor *= lerp (float3(1,1,1), _SpotOceanColor, spot);
             o.Albedo = lerp(o.Albedo, seaColor,sea);
+
+        	o.Normal = lerp(o.Normal, float3(0,1,0), sea/10);
         	
-            
-            o.Albedo = lerp(o.Albedo, _SandColor, smoothstep(_SandThickness - _SandSharpness, _SandThickness + _SandSharpness ,abs(IN.worldPos.y+ /*noise/50*/ - _SandLevel)));
+
+        	float3 sandColor = lerp(_SandColor, _SandColor2, smoothstep( _SandLevel - _SandSharpness,  _SandLevel + _SandSharpness , IN.worldPos.y));
+            o.Albedo = lerp(o.Albedo, sandColor, smoothstep(_SandThickness - _SandSharpness, _SandThickness + _SandSharpness ,abs(IN.worldPos.y+ /*noise/50*/ - _SandLevel)));
             
             float seaLevel = IN.worldPos.y - _SeaLevel;
             //seaLevel += noise * _SandNoiseAmplitude;
@@ -405,7 +414,7 @@ float forestMask = tex2D(_ForestMask, mul(_ForestMask_WorldToLocal, float4(IN.wo
         	float2 distanceToCell = length( cell2 - IN.worldPos.xz);
         	float circle = tileMaskEmission*smoothstep(0.05, 0.025, distanceToCell);
         	o.Albedo *= lerp(1, float3(0,.75,1), saturate(tileMaskEmission));
-        	o.Emission = (border2 + circle/2.5) * float3(0,1,0); 
+        	o.Emission = (border2 + circle*5) * float3(0,1,0); 
         	
         	
         	//tileMaskEmission += border2 * 2.5;

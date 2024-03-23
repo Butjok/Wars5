@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.Composition.Hosting;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -74,10 +75,10 @@ public class TileMapCreator : MonoBehaviour {
     public Vector2 noiseScale = new(10, 10);
     public Vector2 noiseScale2 = new(5, 5);
 
-    public float noiseAmplitude = 1;
-    public float noiseAmplitude2 = .1f;
-    public int noiseOctavesCount = 3;
-    public float slopeLength = 5;
+    [Command] public float noiseAmplitude = 1;
+    [Command] public float noiseAmplitude2 = .1f;
+    [Command] public int noiseOctavesCount = 3;
+    [Command] public float slopeLength = 5;
 
     // Buffers
     public static List<Vector3> vertexBuffer = new() { new Vector2(1, 1) / 2, new Vector2(-1, 1) / 2, new Vector2(-1, -1) / 2, new Vector2(1, -1) / 2 };
@@ -328,6 +329,11 @@ public class TileMapCreator : MonoBehaviour {
             }
         }
     }
+    
+    [Command]
+    public float landDisplacement = 1;
+    [Command]
+    public float seaDisplacement = 3;
 
     [Command]
     public void RebuildPieces() {
@@ -455,7 +461,7 @@ public class TileMapCreator : MonoBehaviour {
 
         var submeshes = new List<Mesh>();
         foreach (var material in materials) {
-            var submesh = new Mesh{indexFormat = IndexFormat.UInt32};
+            var submesh = new Mesh { indexFormat = IndexFormat.UInt32 };
             if (submeshCombiners[material].Count > 0) {
                 submesh.CombineMeshes(submeshCombiners[material].ToArray());
                 submeshes.Add(submesh);
@@ -476,31 +482,37 @@ public class TileMapCreator : MonoBehaviour {
             var uvs = new Vector2[vertices.Length];
             var extendedTilePositions = tiles.Keys.GrownBy(1);
             var edgeTilePositions = extendedTilePositions.Where(p => (tiles.TryGetValue(p, out var t) ? t : TileType.Sea) is TileType.Beach or TileType.Sea or TileType.River).ToList();
+            var landPositions =  extendedTilePositions.Where(p => (tiles.TryGetValue(p, out var t) ? t : TileType.Sea) != TileType.Sea).ToList();
 
             Parallel.For(0, vertices.Length, i => {
                 var vertex2d = vertices[i].ToVector2();
                 uvs[i] = vertex2d;
 
-                var tilePosition = vertex2d.RoundToInt();
+                /*var tilePosition = vertex2d.RoundToInt();
                 if (!tiles.TryGetValue(tilePosition, out var t) || t == TileType.Sea)
-                    return;
+                    return;*/
 
-                var distance = edgeTilePositions.Aggregate<Vector2Int, float>(9999, (current, position) => Mathf.Min(current, (vertex2d - position).SignedDistanceBox(.5f.ToVector2())));
+                var distanceToSea = edgeTilePositions.Aggregate<Vector2Int, float>(9999, (current, position) => Mathf.Min(current, (vertex2d - position).SignedDistanceBox(.5f.ToVector2())));
+                var distanceToLand = landPositions.Aggregate<Vector2Int, float>(9999, (current, position) => Mathf.Min(current, (vertex2d - position).SignedDistanceBox(.5f.ToVector2())));
 
-                var displacementMask = Mathf.Clamp01(distance / slopeLength);
-                if (displacementMask < Mathf.Epsilon)
-                    return;
+                Displace(distanceToSea, Vector3.up * landDisplacement, noiseAmplitude);
+                Displace(distanceToLand, Vector3.down * seaDisplacement, noiseAmplitude);
+                
+                void Displace(float distance, Vector3 offset, float noiseAmplitude, float noiseAmplitudeMultiplier = 2) {
+                    var displacementMask = Mathf.Clamp01(distance / slopeLength);
+                    if (displacementMask < Mathf.Epsilon)
+                        return;
 
-                var displacement = 0f;
-                var noiseScale = this.noiseScale;
-                var noiseAmplitude = this.noiseAmplitude;
-                for (var j = 0; j < noiseOctavesCount; j++) {
-                    displacement += Mathf.PerlinNoise(vertex2d.x / noiseScale.x, vertex2d.y / noiseScale.y) * noiseAmplitude;
-                    noiseScale /= 2;
-                    noiseAmplitude /= 2;
+                    var displacementAmount = 0f;
+                    var noiseScale = this.noiseScale;
+                    for (var j = 0; j < noiseOctavesCount; j++) {
+                        displacementAmount += Mathf.PerlinNoise(vertex2d.x / noiseScale.x, vertex2d.y / noiseScale.y) * noiseAmplitude;
+                        noiseScale /= 2;
+                        noiseAmplitude /= 2;
+                    }
+
+                    vertices[i] += offset * (displacementMask * (displacementAmount + Mathf.PerlinNoise(vertex2d.x / noiseScale2.x, vertex2d.y / noiseScale2.y) * .2f));    
                 }
-
-                vertices[i] += Vector3.up * (displacementMask * (displacement + Mathf.PerlinNoise(vertex2d.x / noiseScale2.x, vertex2d.y / noiseScale2.y) * .2f));
             });
 
             combinedMesh.vertices = vertices;
