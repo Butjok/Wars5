@@ -414,7 +414,7 @@ float forestMask = tex2D(_ForestMask, mul(_ForestMask_WorldToLocal, float4(IN.wo
         	float2 distanceToCell = length( cell2 - IN.worldPos.xz);
         	float circle = tileMaskEmission*smoothstep(0.05, 0.025, distanceToCell);
         	o.Albedo *= lerp(1, float3(0,.75,1), saturate(tileMaskEmission));
-        	o.Emission = (border2 + circle*5) * float3(0,1,0); 
+        	o.Emission = (border2 + circle*1.5) * float3(0,1,0); 
         	
         	
         	//tileMaskEmission += border2 * 2.5;

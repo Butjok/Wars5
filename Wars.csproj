@@ -132,6 +132,7 @@
      <Compile Include="Assets\Scripts\DisplacementTest.cs" />
      <Compile Include="Assets\Scripts\BufferedBinaryReader.cs" />
      <Compile Include="Assets\Scripts\UiFrameWithLineTest.cs" />
+     <Compile Include="Assets\Scripts\VignetteBlur.cs" />
      <Compile Include="Assets\Scripts\GameStates\LevelSessionState.cs" />
      <Compile Include="Assets\Scripts\PrecalculatedDistances.cs" />
      <Compile Include="Assets\Scripts\HardFollowToggler.cs" />
@@ -308,7 +309,6 @@
      <Compile Include="Assets\Scripts\FlipbookTest.cs" />
      <Compile Include="Assets\Scripts\Animation\UnitViewSequenceSubroutines.cs" />
      <Compile Include="Assets\Scripts\EntryPoint\MainMenuWelcomeState.cs" />
-     <Compile Include="Assets\Scripts\VignetteBlur.cs" />
      <Folder Include="Assets\Scripts\EntryPoint" />
      <None Include="Assets\Scripts\Wars.asmdef" />
      <Folder Include="Assets\Scripts\DialogueMarkupLanguage" />

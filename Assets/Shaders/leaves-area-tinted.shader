@@ -178,7 +178,7 @@ Shader "Custom/LeavesAreaTinted"
         	float2 distanceToCell = length( cell2 - IN.worldPos.xz);
         	float circle = tileMask*smoothstep(0.05, 0.025, distanceToCell);
         	o.Albedo *= lerp(1, float3(0,.75,1), saturate(tileMask));
-        	o.Emission = ( circle*5) * float3(0,1,0); 
+        	o.Emission = ( circle*1.5) * float3(0,1,0); 
             	
 
             	float tint = smoothstep(_DeepSeaLevel - _DeepSeaSharpness,  _DeepSeaLevel + _DeepSeaSharpness , IN.worldPos.y);

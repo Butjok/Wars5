@@ -1540,6 +1540,10 @@
       <Project>{0b979f64-6409-506b-a265-67092679b5f9}</Project>
       <Name>FoliageEditor</Name>
     </ProjectReference>
+    <ProjectReference Include="Unity.Postprocessing.Editor.csproj">
+      <Project>{0e381afc-26b0-7712-9df9-d964681940fc}</Project>
+      <Name>Unity.Postprocessing.Editor</Name>
+    </ProjectReference>
     <ProjectReference Include="Antlr4.csproj">
       <Project>{e077983a-6b87-9a3d-0ce8-d89551a1fd06}</Project>
       <Name>Antlr4</Name>
@@ -1556,17 +1560,13 @@
       <Project>{04a2449b-c7cc-f037-fca8-a9c0695f60cf}</Project>
       <Name>ALINEEditor</Name>
     </ProjectReference>
-    <ProjectReference Include="ALINEPackageToolsEditor.csproj">
-      <Project>{acc937ff-be72-6096-e219-b39fdc0d4207}</Project>
-      <Name>ALINEPackageToolsEditor</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.Postprocessing.Editor.csproj">
-      <Project>{0e381afc-26b0-7712-9df9-d964681940fc}</Project>
-      <Name>Unity.Postprocessing.Editor</Name>
-    </ProjectReference>
     <ProjectReference Include="Unity.Postprocessing.Runtime.csproj">
       <Project>{091aa702-4d91-b5db-cc8d-9330429d1595}</Project>
       <Name>Unity.Postprocessing.Runtime</Name>
+    </ProjectReference>
+    <ProjectReference Include="ALINEPackageToolsEditor.csproj">
+      <Project>{acc937ff-be72-6096-e219-b39fdc0d4207}</Project>
+      <Name>ALINEPackageToolsEditor</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

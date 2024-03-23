@@ -30,6 +30,8 @@ Shader "Custom/leaves"
             // Use shader model 3.0 target, to get nicer looking lighting
             #pragma target 3.0
 
+            #include "Assets/Shaders/Utils.cginc"
+            
             struct InstancedRenderingAppdata {
                 float4 vertex : POSITION;
                 float4 tangent : TANGENT;
@@ -39,9 +41,33 @@ Shader "Custom/leaves"
 
                 uint inst : SV_InstanceID;
             };
-            #include "Assets/Shaders/InstancedRendering.cginc"
+            
+            struct InstancedRenderingTransform {
+                half4x4 mat;
+            };
 
-            #include "Assets/Shaders/Utils.cginc"
+            #if defined(SHADER_API_D3D11) || defined(SHADER_API_METAL)
+                StructuredBuffer<InstancedRenderingTransform> _Transforms;
+            #endif
+
+            void instanced_rendering_vertex(inout InstancedRenderingAppdata v) {
+            #if defined(SHADER_API_D3D11) || defined(SHADER_API_METAL)
+
+                const half4x4 transform = mul(unity_WorldToObject, _Transforms[v.inst].mat);
+
+                half intensity = length(v.vertex.xz);
+                
+                v.vertex = mul(transform, v.vertex);
+                //v.tangent = mul(transform, v.tangent);
+                v.normal = normalize(mul(transform, v.normal));
+
+                half wind = sin(_Time.y*7 - v.vertex.x*4)/2+.5;
+                v.vertex += wind * intensity* float4(1,0,0,0) * sin(_Time.y*4 + v.vertex.z*15)*.03;
+                v.vertex += wind * intensity* float4(0,0,1,0) * sin(_Time.y*5 + v.vertex.x*12.4535)*.03;
+
+            #endif
+            }
+
             
             sampler2D _MainTex,_Occlusion,_SSS,_Dist,_Normal,_Tint,_GlobalOcclusion,_WithSSS,_Indirect;
 
