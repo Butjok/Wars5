@@ -87,7 +87,7 @@ MonoBehaviour:
   active: 1
   enabled:
     overrideState: 1
-    value: 0
+    value: 1
   preset:
     overrideState: 0
     value: 3
@@ -471,7 +471,7 @@ MonoBehaviour:
     value: {x: 0.78368896, y: 1, z: 0.30412835, w: 0.9221311}
   gain:
     overrideState: 0
-    value: {x: 0, y: 0, z: 0, w: 0}
+    value: {x: 1, y: 1, z: 1, w: 0}
   masterCurve:
     overrideState: 0
     value:

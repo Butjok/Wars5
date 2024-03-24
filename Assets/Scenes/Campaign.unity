@@ -6859,10 +6859,10 @@ MonoBehaviour:
     m_Bits: 8
   stopNaNPropagation: 1
   finalBlitToCameraTarget: 0
-  antialiasingMode: 2
+  antialiasingMode: 3
   temporalAntialiasing:
     jitterSpread: 0.75
-    sharpness: 0.15
+    sharpness: 0.1
     stationaryBlending: 0.95
     motionBlending: 0.5
   subpixelMorphologicalAntialiasing:
@@ -6904,6 +6904,8 @@ MonoBehaviour:
   - assemblyQualifiedName: CameraFading, Wars, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   - assemblyQualifiedName: CameraFlip, Wars, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  - assemblyQualifiedName: VignetteBlur, Wars, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &1400641672
 MonoBehaviour:
   m_ObjectHideFlags: 0
