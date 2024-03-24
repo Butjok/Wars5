@@ -495,10 +495,10 @@ public class TileMapCreator : MonoBehaviour {
                 var distanceToSea = edgeTilePositions.Aggregate<Vector2Int, float>(9999, (current, position) => Mathf.Min(current, (vertex2d - position).SignedDistanceBox(.5f.ToVector2())));
                 var distanceToLand = landPositions.Aggregate<Vector2Int, float>(9999, (current, position) => Mathf.Min(current, (vertex2d - position).SignedDistanceBox(.5f.ToVector2())));
 
-                Displace(distanceToSea, Vector3.up * landDisplacement, noiseAmplitude);
-                Displace(distanceToLand, Vector3.down * seaDisplacement, noiseAmplitude);
+                Displace(distanceToSea, Vector3.up * landDisplacement, noiseAmplitude, noiseOctavesCount);
+                //Displace(distanceToLand, Vector3.down * seaDisplacement, noiseAmplitude/2, noiseOctavesCount/2);
                 
-                void Displace(float distance, Vector3 offset, float noiseAmplitude, float noiseAmplitudeMultiplier = 2) {
+                void Displace(float distance, Vector3 offset, float noiseAmplitude, int noiseOctavesCount) {
                     var displacementMask = Mathf.Clamp01(distance / slopeLength);
                     if (displacementMask < Mathf.Epsilon)
                         return;
@@ -512,6 +512,14 @@ public class TileMapCreator : MonoBehaviour {
                     }
 
                     vertices[i] += offset * (displacementMask * (displacementAmount + Mathf.PerlinNoise(vertex2d.x / noiseScale2.x, vertex2d.y / noiseScale2.y) * .2f));    
+                }
+                
+                {
+                    var displacementMask = Mathf.Clamp01(distanceToLand / slopeLength);
+                    if (displacementMask < Mathf.Epsilon)
+                        return;
+
+                    vertices[i] += Vector3.down * (displacementMask );    
                 }
             });
 
