@@ -68,6 +68,7 @@ _OutsideIntensity ("_OutsideIntensity", Range(0,1)) = 0.0
         _StoneDarkColor ("_StoneDarkColor", Color) = (1,1,1,1)
         _StoneLightColor ("_StoneLightColor", Color) = (1,1,1,1)
         _StoneWheatColor ("_StoneWheatColor", Color) = (1,1,1,1)
+    	_StoneSandColor ("_StoneWheatColor", Color) = (1,1,1,1)
         _FlowerColor ("_FlowerColor", Color) = (1,1,1,1)
 
         _Splat2 ("_Splat2", 2D) = "black" {}
@@ -126,7 +127,7 @@ _OutsideIntensity ("_OutsideIntensity", Range(0,1)) = 0.0
         sampler2D _FlowersDiffuse,_FlowersAlpha, _FlowersAo, _Splat2;
         sampler2D _ForestMask, _SpotMask;
         float4x4 _ForestMask_WorldToLocal;
-        float3 _StoneColor, _GrassColor, _StoneDarkColor, _StoneLightColor, _StoneWheatColor;
+        float3 _StoneColor, _GrassColor, _StoneDarkColor, _StoneLightColor, _StoneWheatColor, _StoneSandColor;
         float4 _Normal_ST, _Emissive;
         float3 _SpotGrassColor, _SpotOceanColor, _ForestColor;
 
@@ -231,6 +232,11 @@ float4 _SandColor2;
             
                         fixed3 yellowGrass = tex2D (_YellowGrass, TRANSFORM_TEX(position, _YellowGrass) );
                         o.Albedo =  lerp(o.Albedo, yellowGrass, yellowGrassIntensity);
+
+
+        				float3 hsv = RGBtoHSV(o.Albedo);
+        				hsv.z *= 1.5; // saturation
+        				o.Albedo = HSVtoRGB(hsv);
 
 
         				//o.Albedo.rgb *= lerp(float3(1,1,1), _SpotGrassColor, spot);
@@ -377,7 +383,9 @@ float forestMask = tex2D(_ForestMask, mul(_ForestMask_WorldToLocal, float4(IN.wo
         	
 
         	float3 sandColor = lerp(_SandColor, _SandColor2, smoothstep( _SandLevel - _SandSharpness,  _SandLevel + _SandSharpness , IN.worldPos.y));
-            o.Albedo = lerp(o.Albedo, sandColor, smoothstep(_SandThickness - _SandSharpness, _SandThickness + _SandSharpness ,abs(IN.worldPos.y+ /*noise/50*/ - _SandLevel)));
+        	float sand = smoothstep(_SandThickness - _SandSharpness, _SandThickness + _SandSharpness ,abs(IN.worldPos.y+ /*noise/50*/ - _SandLevel));
+            o.Albedo = lerp(o.Albedo, sandColor, sand);
+        	o.Albedo = lerp(o.Albedo, _StoneSandColor, sand * stoneAlpha);
             
             float seaLevel = IN.worldPos.y - _SeaLevel;
             //seaLevel += noise * _SandNoiseAmplitude;

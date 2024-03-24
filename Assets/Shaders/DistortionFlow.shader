@@ -124,18 +124,20 @@
 
 			_Time.x *= .5;
 			
-            fixed3 normal3 = UnpackNormal( tex2D (_Normal, TRANSFORM_TEX(((position/1.5)/12 + float2(_Time.x*.125/3, _Time.x*.125/3)),_Normal)));
+            fixed3 normal3 = UnpackNormal( tex2D (_Normal, TRANSFORM_TEX(((position/1.5)/6 + float2(_Time.x*.125/3, _Time.x*.125/3)),_Normal)));
             fixed3 normal = UnpackNormal( tex2D (_Normal, TRANSFORM_TEX(((position/1.5)*2 + float2(_Time.x*3/3, 0)),_Normal)));
             fixed3 normal2 = UnpackNormal( tex2D (_Normal, TRANSFORM_TEX(((position/1.5) - float2(0, _Time.x*4.676/3)),_Normal)));
 			float3 targetNormal =BlendNormals(lerp(float3(0,0,1),normal,.5), lerp(float3(0,0,1),normal2,.25));
 			//targetNormal = normalize(normal/2 + normal2);
-			targetNormal =BlendNormals(lerp(float3(0,0,1),normal3,.75), targetNormal);
+			targetNormal =BlendNormals(lerp(float3(0,0,1),normal3,.5), targetNormal);
 			o.Normal = normalize( targetNormal);
 
+			o.Normal = targetNormal;
+
 			float4 colorBelowWater = ColorBelowWater(IN.screenPos, o.Normal);
-			if (colorBelowWater.a < 0.1)
-				colorBelowWater = _BackgroundColor;
-			//clip(colorBelowWater.a - 0.5);
+			//if (colorBelowWater.a < 0.1)
+			//	colorBelowWater = _BackgroundColor;
+			clip(colorBelowWater.a - 0.5);
 			
 			//colorBelowWater = lerp(_BackgroundColor,colorBelowWater, colorBelowWater.a);
 			
@@ -148,6 +150,7 @@
 		
  		void ResetAlpha (Input IN, SurfaceOutputStandard o, inout fixed4 color) {
 			color.a = 1;
+			
 		}
 		
 		ENDCG

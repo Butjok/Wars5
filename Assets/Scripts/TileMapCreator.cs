@@ -519,7 +519,8 @@ public class TileMapCreator : MonoBehaviour {
                     if (displacementMask < Mathf.Epsilon)
                         return;
 
-                    vertices[i] += Vector3.down * (displacementMask );    
+                    vertices[i] += Vector3.down * (displacementMask);
+                    //vertices[i] += Vector3.down *  Mathf.Clamp01(distanceToLand / slopeLength)*Mathf.PerlinNoise(vertex2d.x / noiseScale2.x, vertex2d.y / noiseScale2.y) * .2f; 
                 }
             });
 

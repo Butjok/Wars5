@@ -165,19 +165,19 @@ public class PostProcessing : MonoBehaviour {
         set {
             superPowerMode = value;
             if (value) {
-                ChromaticAberration = .1f;
-                Bloom = 5;
+                //ChromaticAberration = .1f;
+                //Bloom = 5;
                 Instance.StartCoroutine(Instance.Dance());
-                Contrast = 20;
+                //Contrast = 20;
                 //Vignette = 0;
                 ShowBorder = true;
                 Music2.Play("hardbass".LoadAs<AudioClip>());
             }
             else {
-                ChromaticAberration = 0;
-                Bloom = 1;
+                //ChromaticAberration = 0;
+                //Bloom = 1;
                 Instance.StopAllCoroutines();
-                Contrast = 5;
+                //Contrast = 5;
                 //Vignette = .45f;
                 Gain = 0;
                 ShowBorder = false;

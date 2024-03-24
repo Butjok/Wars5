@@ -124,6 +124,11 @@ Shader "Custom/LeavesAreaTinted"
 				o.Albedo = _Grass;
 				//o.Albedo = lerp(o.Albedo, _DarkGrass, splat.r);
 				o.Albedo = lerp(o.Albedo, _YellowGrass, splat.b);
+
+            	float3 hsv = RGBtoHSV(o.Albedo);
+            	hsv.z *= 1.5;
+            	o.Albedo = HSVtoRGB(hsv);
+            	
 				//o.Albedo = lerp(o.Albedo, _Wheat, splat.a);
 
             	float forestMask = tex2D(_ForestMask, mul(_ForestMask_WorldToLocal, float4(IN.worldPos.x, 0, IN.worldPos.z, 1)).xz).r;
@@ -182,7 +187,7 @@ Shader "Custom/LeavesAreaTinted"
             	
 
             	float tint = smoothstep(_DeepSeaLevel - _DeepSeaSharpness,  _DeepSeaLevel + _DeepSeaSharpness , IN.worldPos.y);
-            	o.Albedo = lerp(o.Albedo, _DeepSeaColor, tint);
+            	//o.Albedo = lerp(o.Albedo, _DeepSeaColor, tint);
             	
             }
             ENDCG

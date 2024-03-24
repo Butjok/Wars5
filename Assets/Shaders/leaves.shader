@@ -15,6 +15,8 @@ Shader "Custom/leaves"
         _Glossiness ("Smoothness", Range(0,1)) = 0.5
         _Metallic ("Metallic", Range(0,1)) = 0.0
         _SSSIntensity ("_SSSIntensity", Range(0,1)) = 0.0
+        
+        _SplatMap ("SplatMap", 2D) = "white" {}
     }
     SubShader
     {
@@ -81,6 +83,7 @@ Shader "Custom/leaves"
             half _Metallic,_SSSIntensity;
             fixed4 _Color;
             sampler2D _TileMask;
+            sampler2D _SplatMap;
             fixed4x4 _TileMask_WorldToLocal;
 
             #include "Assets/Shaders/SDF.cginc"
@@ -151,17 +154,23 @@ Shader "Custom/leaves"
                 o.Emission = shift(o.Emission);
 
                 float3 albedoHSV = RGBtoHSV(o.Albedo);
+                albedoHSV.x += .0125; //h
                 albedoHSV.y *= 1.25; //s
-                //albedoHSV.z *= .9; //v
-                o.Albedo = HSVtoRGB(albedoHSV);
+                albedoHSV.z *= 1.5; //v
 
                 float3 emissionHSV = RGBtoHSV(o.Emission);
                 emissionHSV.z *= .75;
                 o.Emission = HSVtoRGB(emissionHSV);
                 o.Emission *= .5;
 
-                o.Albedo *= _Color;
                 o.Emission *= _Color;
+
+                float4 splat =  tex2D(_SplatMap, IN.worldPos.xz/30);
+                //albedoHSV.r -= (splat.r)*.0125;
+                
+                o.Albedo = HSVtoRGB(albedoHSV);
+                o.Albedo *= _Color;
+                //o.Albedo = splat.rgb;
             }
             ENDCG
     }

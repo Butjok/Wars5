@@ -58,6 +58,8 @@ public class Sun : MonoBehaviour {
         var from = angles[axis];
         var to = from + 360;
         var lightIntensityAmplitude = light ? light.intensity : 0;
+        var startAmbientIntensity = RenderSettings.ambientIntensity;
+        var startLightIntensity = light ? light.intensity : 0;
         Time.timeScale = timeScale;
         while (Time.unscaledTime < startTime + dayChangeDuration) {
             var t = (Time.unscaledTime - startTime) / dayChangeDuration;
@@ -72,6 +74,7 @@ public class Sun : MonoBehaviour {
                 light.intensity = lightIntensityAmplitude * (1 - nightIntensity);
                 if (Vector3.Dot(light.transform.forward, Vector3.up) > 0)
                     light.intensity = 0;
+                //RenderSettings.ambientIntensity = startAmbientIntensity * (1 - nightIntensity);
             }
             yield return null;
         }
@@ -79,6 +82,7 @@ public class Sun : MonoBehaviour {
         angles[axis] = to;
         transform.rotation = startRotation;
         PostProcessing.ColorFilter = Color.white;
+        //RenderSettings.ambientIntensity = startAmbientIntensity;
         if (light) {
             light.color = Color.white;
             light.intensity = lightIntensityAmplitude;

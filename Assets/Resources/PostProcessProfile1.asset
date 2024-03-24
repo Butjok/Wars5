@@ -27,7 +27,7 @@ MonoBehaviour:
     value: {x: 0.5, y: 0.5}
   intensity:
     overrideState: 1
-    value: 0.52
+    value: 0.5125
   smoothness:
     overrideState: 1
     value: 1
@@ -62,13 +62,13 @@ MonoBehaviour:
     value: 1
   focusDistance:
     overrideState: 1
-    value: 24.81
+    value: 38
   aperture:
     overrideState: 1
-    value: 0.3
+    value: 0.1
   focalLength:
-    overrideState: 0
-    value: 117
+    overrideState: 1
+    value: 70
   kernelSize:
     overrideState: 0
     value: 3
@@ -195,7 +195,7 @@ MonoBehaviour:
     value: 1
   shutterAngle:
     overrideState: 1
-    value: 270
+    value: 360
   sampleCount:
     overrideState: 0
     value: 10
@@ -214,16 +214,16 @@ MonoBehaviour:
   active: 1
   enabled:
     overrideState: 1
-    value: 0
+    value: 1
   spectralLut:
     overrideState: 0
     value: {fileID: 0}
     defaultState: 1
   intensity:
     overrideState: 1
-    value: 0.508
+    value: 0.075
   fastMode:
-    overrideState: 0
+    overrideState: 1
     value: 0
 --- !u!114 &-293636538174673072
 MonoBehaviour:
@@ -286,7 +286,7 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 1.5
+    value: 1.25
   color:
     overrideState: 0
     value: {r: 0, g: 0, b: 0, a: 1}
@@ -332,7 +332,7 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 1
+    value: 2.5
   threshold:
     overrideState: 1
     value: 1.5
@@ -432,7 +432,7 @@ MonoBehaviour:
     value: 0
   postExposure:
     overrideState: 1
-    value: 1
+    value: 0.75
   contrast:
     overrideState: 1
     value: 5
@@ -468,10 +468,10 @@ MonoBehaviour:
     value: {x: 1, y: 1, z: 1, w: -0.03770028}
   gamma:
     overrideState: 0
-    value: {x: 0.8460153, y: 1, z: 0.051742375, w: 0.011350723}
+    value: {x: 0.78368896, y: 1, z: 0.30412835, w: 0.9221311}
   gain:
     overrideState: 0
-    value: {x: 1, y: 1, z: 1, w: 0}
+    value: {x: 0, y: 0, z: 0, w: 0}
   masterCurve:
     overrideState: 0
     value:

@@ -7,7 +7,7 @@ Shader "Hidden/Custom/VignetteBlur"
 		// Constants
 #define center float2(0.5, 0.5)
 #define outerRadius 1.
-#define innerRadius 0.25
+#define innerRadius 0.75
 
 #define darkness 0.85
 
