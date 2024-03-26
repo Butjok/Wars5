@@ -6,7 +6,9 @@ using Butjok.CommandLine;
 using Drawing;
 using KaimiraGames;
 using Stable;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.Serialization;
 
 public class TerrainMapper : MonoBehaviour {
@@ -38,6 +40,23 @@ public class TerrainMapper : MonoBehaviour {
     public bool updateInRealTime;
     public bool autoSave = true;
     public bool bushesWereModified;
+
+    [Command]
+    public void CombineBushes() {
+        var matrices = bushRenderer.transforms;
+        var mesh = bushRenderer.mesh;
+        var combinedMesh = new Mesh();
+        combinedMesh.indexFormat = IndexFormat.UInt32;
+        var combineInstances = matrices.Select(matrix => new CombineInstance { mesh = mesh, transform = matrix, }).ToArray();
+        combinedMesh.CombineMeshes(combineInstances);
+
+        var go = new GameObject("Bushes");
+        go.transform.SetParent(transform);
+        var meshFilter = go.AddComponent<MeshFilter>();
+        meshFilter.sharedMesh = combinedMesh;
+        var meshRenderer = go.AddComponent<MeshRenderer>();
+        meshRenderer.sharedMaterial = AssetDatabase.GetBuiltinExtraResource<Material>("Default-Diffuse.mat");
+    }
 
     public void Awake() {
         if (loadOnAwake)

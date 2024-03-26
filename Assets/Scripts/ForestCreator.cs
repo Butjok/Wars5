@@ -5,13 +5,14 @@ using System.Linq;
 using Butjok.CommandLine;
 using Drawing;
 using Stable;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 public class ForestCreator : MonoBehaviour {
 
     public const string defaultAutoFileName = "Forests";
-    
+
     [Header("Startup")]
     public bool loadOnAwake = true;
     [FormerlySerializedAs("autoSaveName")] public string loadOnAwakeFileName = defaultAutoFileName;
@@ -37,6 +38,17 @@ public class ForestCreator : MonoBehaviour {
     public string bushMaterialForestMaskUniformName = "_ForestMask";
     public Texture forestMaskTexture;
     public Matrix4x4 forestMaskTransform;
+
+    [Command]
+    public void CombineMeshes() {
+        var mesh = treeRenderer.mesh;
+        var combinedMesh = MeshCombiner.CombineInstances(mesh, treeRenderer.transforms);
+        var go = new GameObject("CombinedMesh");
+        go.transform.SetParent(transform);
+        go.AddComponent<MeshFilter>().sharedMesh = combinedMesh;
+        var meshRenderer = go.AddComponent<MeshRenderer>();
+        meshRenderer.sharedMaterials = Enumerable.Repeat<Material>(AssetDatabase.GetBuiltinExtraResource<Material>("Default-Diffuse.mat"), mesh.subMeshCount).ToArray();
+    }
 
     public void Awake() {
         TryLoad(loadOnAwakeFileName);

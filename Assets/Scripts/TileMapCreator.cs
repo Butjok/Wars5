@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition.Hosting;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Butjok.CommandLine;
 using Drawing;
@@ -733,5 +734,27 @@ public class TileMapCreator : MonoBehaviour {
         public override string ToString() {
             return $"{topLeft} {topRight} {bottomLeft} {bottomRight}";
         }
+    }
+}
+
+public static class MeshCombiner {
+    public static Mesh CombineInstances(this Mesh mesh, IReadOnlyList<Matrix4x4> transforms) {
+        var submeshes = new  List<Mesh>();
+        for (var i = 0; i < mesh.subMeshCount; i++) {
+            var combineInstances = transforms.Select(transform => new CombineInstance {
+                mesh = mesh,
+                subMeshIndex = i,
+                transform = transform
+            }).ToArray();
+            var submesh = new Mesh();
+            submesh.indexFormat = IndexFormat.UInt32;
+            submesh.CombineMeshes(combineInstances);
+            submeshes.Add(submesh);
+        }
+        
+        var combinedMesh = new Mesh();
+        combinedMesh.indexFormat = IndexFormat.UInt32;
+        combinedMesh.CombineMeshes(submeshes.Select(submesh => new CombineInstance { mesh = submesh }).ToArray(), false, false);
+        return combinedMesh;
     }
 }
