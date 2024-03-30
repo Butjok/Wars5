@@ -154,9 +154,9 @@ Shader "Custom/leaves"
                 o.Emission = shift(o.Emission);
 
                 float3 albedoHSV = RGBtoHSV(o.Albedo);
-                albedoHSV.x += .0125; //h
-                albedoHSV.y *= 1.25; //s
-                albedoHSV.z *= 1.5; //v
+                albedoHSV.x -= .125; //h
+                albedoHSV.y *= 2.5; //s
+                //albedoHSV.z *= 0.75; //v
 
                 float3 emissionHSV = RGBtoHSV(o.Emission);
                 emissionHSV.z *= .75;
@@ -164,13 +164,16 @@ Shader "Custom/leaves"
                 o.Emission *= .5;
 
                 o.Emission *= _Color;
+                o.Emission=0;
 
                 float4 splat =  tex2D(_SplatMap, IN.worldPos.xz/30);
                 //albedoHSV.r -= (splat.r)*.0125;
                 
                 o.Albedo = HSVtoRGB(albedoHSV);
-                o.Albedo *= _Color;
+                o.Albedo = _Color;
                 //o.Albedo = splat.rgb;
+
+                o.Smoothness=0;
             }
             ENDCG
     }

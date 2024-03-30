@@ -147,7 +147,7 @@
 
 			float3 viewDir = normalize(_WorldSpaceCameraPos - IN.worldPos);
 			float fresnel = dot(viewDir, float3(0,1,0));
-			o.Occlusion=lerp(.25, 2, smoothstep (0.75, .9, fresnel));
+			o.Occlusion=lerp(.125, 2, smoothstep (0.75, .9, fresnel));
 			//o.Emission = o.Occlusion;
 
 			//o.Albedo *= 1-tex2D (_Grid, position-.5);

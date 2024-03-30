@@ -30,7 +30,7 @@ public class Music2 : MonoBehaviour {
         source.loop = true;
     }
 
-    public const string natalieTheme = "grenzerkompanie_i";
+    public const string natalieTheme = "normal uzicko";
     public const string nataliePowerTheme = "chicherina-trimmed";
 
     public const string vladanTheme = "the-dead-awaken";

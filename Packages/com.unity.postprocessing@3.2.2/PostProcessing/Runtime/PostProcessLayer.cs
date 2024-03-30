@@ -23,7 +23,7 @@ namespace UnityEngine.Rendering.PostProcessing
     [RequireComponent(typeof(Camera))]
     public sealed class PostProcessLayer : MonoBehaviour {
         
-        public float verticalStretch = 1.05f;
+        public float verticalStretch = 1.1f;
         
         /// <summary>
         /// Builtin anti-aliasing methods.

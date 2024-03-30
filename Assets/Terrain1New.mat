@@ -49,7 +49,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Erosion:
-        m_Texture: {fileID: 2800000, guid: ac8288d705faa5545a29ca29722a35e7, type: 3}
+        m_Texture: {fileID: 2800000, guid: b30ccbcd52f1e2b4cbd0e56aa5b13c67, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _FlowersAlpha:
@@ -93,8 +93,12 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Normal:
-        m_Texture: {fileID: 2800000, guid: 0fed72f9205bf204a999520ecbebea18, type: 3}
+        m_Texture: {fileID: 2800000, guid: cf671b1a6341a964b9acf9a160d2c61c, type: 3}
         m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Normal2:
+        m_Texture: {fileID: 2800000, guid: da6389551de1c18449cfc9d308f56c7b, type: 3}
+        m_Scale: {x: 0.75, y: 0.75}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
         m_Texture: {fileID: 0}
@@ -156,13 +160,13 @@ Material:
     - _BorderThinkness: 0.015
     - _BumpScale: 1
     - _Cutoff: 0.5
-    - _DeepSea2Level: -0.1
-    - _DeepSea2Sharpness: -0.08
-    - _DeepSea3Level: -0.21
-    - _DeepSea3Sharpness: -0.21
-    - _DeepSeaLevel: 0.04
-    - _DeepSeaSharpness: 0.04
-    - _DeepSeaThickness: 0
+    - _DeepSea2Level: -0.05
+    - _DeepSea2Sharpness: -0.2
+    - _DeepSea3Level: -0.5
+    - _DeepSea3Sharpness: -0.73
+    - _DeepSeaLevel: 0.02
+    - _DeepSeaSharpness: 0.02
+    - _DeepSeaThickness: -0.01
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _GlossMapScale: 1
@@ -180,13 +184,13 @@ Material:
     - _Parallax: 0.02
     - _Radius: 0
     - _Rounding: 0.02
-    - _SandLevel: 0.125
+    - _SandLevel: 0.11
     - _SandNoiseAmplitude: 0.01
     - _SandNoiseScale: 4.12
     - _SandSharpness: -0.025
     - _SandThickness: 0.05
     - _SeaLevel: 0.065
-    - _SeaSharpness: -0.01
+    - _SeaSharpness: -0.005
     - _SeaThickness: -0.01
     - _ShowTime: 0
     - _Size: 0
@@ -201,9 +205,9 @@ Material:
     - _BorderColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _DarkGreenTint: {r: 1, g: 1, b: 1, a: 1}
-    - _DeepSeaColor: {r: 0.7264151, g: 0.5052925, b: 0.29924643, a: 1}
-    - _DeepSeaColor2: {r: 0, g: 0.00577959, b: 0.6415094, a: 1}
-    - _DeepSeaColor3: {r: 0, g: 0.00047595997, b: 0.3301887, a: 1}
+    - _DeepSeaColor: {r: 0.7830189, g: 0.538612, b: 0.19698583, a: 1}
+    - _DeepSeaColor2: {r: 0, g: 0.0031446961, b: 0.5754717, a: 1}
+    - _DeepSeaColor3: {r: 0, g: 0, b: 0.254717, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Emissive: {r: 0.6797385, g: 0, b: 1, a: 1}
     - _FlowerColor: {r: 0.8, g: 0.04002978, b: 0, a: 1}
@@ -211,17 +215,17 @@ Material:
     - _GrassColor: {r: 0.13386934, g: 0.14150941, b: 0, a: 1}
     - _MapSize: {r: 10.82, g: 1, b: 0, a: 0}
     - _OutsideColor: {r: 0.9339623, g: 0.9339623, b: 0.9339623, a: 1}
-    - _SandColor: {r: 0.8773585, g: 0.61846316, b: 0.21244207, a: 1}
-    - _SandColor2: {r: 0.8962264, g: 0.65501803, b: 0.2592856, a: 1}
-    - _SeaColor: {r: 0.09528887, g: 0.25485572, b: 0.6886792, a: 1}
+    - _SandColor: {r: 0.7924528, g: 0.5804617, b: 0.11712346, a: 1}
+    - _SandColor2: {r: 1, g: 0.7173777, b: 0.27044016, a: 1}
+    - _SeaColor: {r: 0.17153193, g: 0.4048132, b: 0.9245283, a: 1}
     - _Splat2Size: {r: 47, g: 41, b: 0, a: 0}
     - _SpotColor: {r: 0.79480654, g: 0.8207547, b: 0.7704254, a: 1}
     - _SpotGrassColor: {r: 1, g: 1, b: 1, a: 1}
-    - _SpotOceanColor: {r: 0.68553454, g: 0.8583489, b: 1, a: 1}
-    - _StoneColor: {r: 0.4805581, g: 0.5283019, b: 0, a: 1}
-    - _StoneDarkColor: {r: 0.4229888, g: 0.4811321, b: 0.039337814, a: 1}
+    - _SpotOceanColor: {r: 1, g: 1, b: 1, a: 1}
+    - _StoneColor: {r: 0.40644652, g: 0.4433962, b: 0, a: 1}
+    - _StoneDarkColor: {r: 0.30894312, g: 0.3584906, b: 0, a: 1}
     - _StoneLightColor: {r: 0.6886792, g: 0.6459711, b: 0.043313082, a: 1}
-    - _StoneSandColor: {r: 0.8679245, g: 0.58271265, b: 0.1774059, a: 1}
+    - _StoneSandColor: {r: 1, g: 0.56476074, b: 0.10062885, a: 1}
     - _StoneWheatColor: {r: 0.93333334, g: 0.5439534, b: 0, a: 1}
     - _WheatTint: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

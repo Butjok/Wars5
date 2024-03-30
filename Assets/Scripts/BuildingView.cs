@@ -1,4 +1,5 @@
 using System;
+using Butjok.CommandLine;
 using UnityEngine;
 
 public class BuildingView : MonoBehaviour {
@@ -12,8 +13,9 @@ public class BuildingView : MonoBehaviour {
         };
     }
     
-    public static Color unownedColor = new(.75f, .66f, .45f);
-    public static Color unownedLightsColor = Color.black;
+    [Command] public static Color unownedColor = new(.3f, .4f, .2f);
+    [Command] public static Color unownedLightsColor = Color.black;
+    
 
     public BuildingView prefab;
     public Building building;
@@ -44,6 +46,7 @@ public class BuildingView : MonoBehaviour {
         set => transform.rotation = Quaternion.LookRotation(value.ToVector3Int(), Vector3.up);
     }
 
+    [Command]
     public Color PlayerColor {
         set {
             materialPropertyBlock.SetColor("_PlayerColor", value);

@@ -6,8 +6,8 @@ Shader "Hidden/Custom/VignetteBlur"
 
 		// Constants
 #define center float2(0.5, 0.5)
-#define outerRadius 1.
-#define innerRadius 0.75
+#define outerRadius 1
+#define innerRadius 0.33
 
 #define darkness 0.85
 
@@ -25,7 +25,7 @@ half4 Frag (VaryingsDefault input) : SV_Target
 	float2 difference = abs(input.texcoord - center);
 	float distance = pow(pow(difference.x, power) + pow(difference.y, power), 1/power);
 	float intensity = smoothstep(innerRadius, outerRadius, distance);
-	float blurSize = intensity * 0.0033;
+	float blurSize = intensity * 0.005;
 	float4 color = 0;
 	for (int i = -1; i <= 1; i++)
 	{

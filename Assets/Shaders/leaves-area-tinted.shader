@@ -30,6 +30,14 @@ Shader "Custom/LeavesAreaTinted"
     	_DeepSeaLevel ("_DeepSeaLevel", Float) = 0
     	_DeepSeaSharpness ("_DeepSeaSharpness", Float) = 0
     	_DeepSeaColor ("_DeepSeaColor", Color) = (1,1,1,1)
+    	
+    	_Erosion ("_Erosion", 2D) = "black" {}
+    	_GrassTint ("_TintMask", 2D) = "black" {}
+    	
+    	_Smoothness ("_Smoothness", Range(0,1)) = 0.5
+    	
+    	_FlowersAlpha ("_FlowersAlpha", 2D) = "black" {}
+    	_FlowerColor ("_FlowerColor", Color) = (1,1,1,1)
     }
     SubShader
     {
@@ -47,15 +55,19 @@ Shader "Custom/LeavesAreaTinted"
 
             #include "Assets/Shaders/ClassicNoise.cginc"
             
-            sampler2D _MainTex,_Occlusion,_Normal,_GlobalOcclusion, _Splat2, _TileMask, _ForestMask, _SpotMask;
+            sampler2D _MainTex,_Occlusion,_Normal,_GlobalOcclusion, _Splat2, _TileMask, _ForestMask, _SpotMask, _GrassTint;
             half3 _Grass,_DarkGrass,_Wheat,_YellowGrass,_Forest;
             fixed4x4 _TileMask_WorldToLocal, _ForestMask_WorldToLocal;
             half _Lod;
-            fixed4 _SpotColor, _SpotMask_ST;
+            fixed4 _SpotColor, _SpotMask_ST, _GrassTint_ST;
 
             float _DeepSeaLevel, _DeepSeaSharpness;
             half3 _DeepSeaColor;
 
+            sampler2D _FlowersAlpha;
+            fixed4 _FlowerColor;
+
+            half _Smoothness;
             struct Input {
                 float2 uv_MainTex;
                 float3 worldPos;
@@ -87,7 +99,7 @@ Shader "Custom/LeavesAreaTinted"
 
                 v.vertex = mul(transform, v.vertex + _Offset);
                 v.normal = normalize(mul(transform, v.normal)) ;
-                //v.normal = lerp(v.normal, float3(0,1,0), .25);
+                v.normal = lerp(v.normal, float3(0,1,0), .5);
 
             #endif 
             }
@@ -99,7 +111,14 @@ Shader "Custom/LeavesAreaTinted"
                 hsv.z *= valueShift;
                 return HSVtoRGB(hsv);
             }
-          
+
+			sampler2D _Erosion;
+            float4x4 _Erosion_WorldToLocal;
+
+float3 Overlay(float3 bg, float3 fg) {
+	        return bg < 0.5 ? (2.0 * bg * fg) : (1.0 - 2.0 * (1.0 - bg) * (1.0 - fg));
+        }
+            
             void surf (Input IN, inout SurfaceOutputStandard o)
             {
                 half4 c = tex2D (_MainTex, IN.uv_MainTex);
@@ -108,10 +127,13 @@ Shader "Custom/LeavesAreaTinted"
                 //half inputOcclusion = tex2D (_Occlusion, IN.uv_MainTex).r;
                 
                 //o.Occlusion = lerp(inputOcclusion,1,.5);
-                
+
+float erosion =  tex2D(_Erosion, mul(_Erosion_WorldToLocal, float4(IN.worldPos.xyz, 1)).xz).r;
+            	
                 o.Metallic = 0; 
-                o.Smoothness = 0.1;
-                //o.Normal = UnpackNormal(tex2D (_Normal, IN.uv_MainTex));
+                o.Smoothness = _Smoothness;
+            	o.Occlusion=1;
+                o.Normal = UnpackNormal(tex2D (_Normal, IN.uv_MainTex));
  
 				//half2 center = _Min + _Size/2;
 				//float dist = sdfBox(IN.worldPos.xz-center, _Size/2);
@@ -122,18 +144,43 @@ Shader "Custom/LeavesAreaTinted"
 				half4 splat = tex2D(_Splat2, uv);
 		   
 				o.Albedo = _Grass;
-				//o.Albedo = lerp(o.Albedo, _DarkGrass, splat.r);
+				o.Albedo = lerp(o.Albedo, _DarkGrass, splat.r);
 				o.Albedo = lerp(o.Albedo, _YellowGrass, splat.b);
 
-            	float3 hsv = RGBtoHSV(o.Albedo);
+	fixed4 grassTint = tex2D (_GrassTint, TRANSFORM_TEX(IN.worldPos.xz, _GrassTint) );
+	float3 hsv = RGBtoHSV(o.Albedo);
+        				hsv.y *= 1.33;
+        				hsv.z *= .85; // value
+        				o.Albedo = lerp(o.Albedo, HSVtoRGB(hsv), grassTint);
+
+            	{
+        			float3 grassTint = 0;
+        			if (erosion < .4)
+        				grassTint = .4;
+        			else
+        				grassTint = lerp(.4, float3(.75,.75,.5), (erosion - .4) / (1 - .4));
+        			//o.Albedo = grassTint;
+        			o.Albedo = Overlay(o.Albedo, grassTint);
+        		}
+
+            	/*float3 hsv = RGBtoHSV(o.Albedo);
             	hsv.z *= 1.5;
-            	o.Albedo = HSVtoRGB(hsv);
+            	o.Albedo = HSVtoRGB(hsv);*/
             	
 				//o.Albedo = lerp(o.Albedo, _Wheat, splat.a);
 
+float flowerAlpha = tex2D(_FlowersAlpha, IN.worldPos.xz * 0.25).r;
+
+//half flowerAo = tex2D(_FlowersAo, IN.uv_FlowersAlpha).r;
+//            o.Albedo *= smoothstep(0.25,.75,flowerAo);
+            
+            o.Albedo = lerp(o.Albedo, _FlowerColor, flowerAlpha);
+	
             	float forestMask = tex2D(_ForestMask, mul(_ForestMask_WorldToLocal, float4(IN.worldPos.x, 0, IN.worldPos.z, 1)).xz).r;
             	o.Albedo = lerp(o.Albedo, _Forest, forestMask);
 
+
+	
             	//fixed4 spots = tex2D(_SpotMask, TRANSFORM_TEX( IN.worldPos.xz, _SpotMask));
             	//o.Albedo *= lerp(1, _SpotColor, 1-spots.r);
 
@@ -188,6 +235,8 @@ Shader "Custom/LeavesAreaTinted"
 
             	float tint = smoothstep(_DeepSeaLevel - _DeepSeaSharpness,  _DeepSeaLevel + _DeepSeaSharpness , IN.worldPos.y);
             	//o.Albedo = lerp(o.Albedo, _DeepSeaColor, tint);
+//o.Albedo=erosion;
+            	
             	
             }
             ENDCG

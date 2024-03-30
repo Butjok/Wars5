@@ -113,7 +113,7 @@ MonoBehaviour:
   m_LastWindowPixelSize: {x: 1920, y: 918}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
-  m_LowResolutionForAspectRatios: 01000000000000000000
+  m_LowResolutionForAspectRatios: 00000000000000000000
   m_XRRenderMode: 0
   m_RenderTexture: {fileID: 0}
 --- !u!114 &3
@@ -411,7 +411,7 @@ MonoBehaviour:
       index: 10
       layout: 4
   m_WindowGUID: 0ad1549c65b67974498473425676eb96
-  m_Gizmos: 0
+  m_Gizmos: 1
   m_OverrideSceneCullingMask: 6917529027641081856
   m_SceneIsLit: 1
   m_SceneLighting: 1
@@ -420,9 +420,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 23.528542, y: -5.3309636, z: 7.942788}
+    m_Target: {x: 22.050259, y: 19.948366, z: -7.381313}
     speed: 2
-    m_Value: {x: 23.528542, y: -5.3309636, z: 7.942788}
+    m_Value: {x: 22.050259, y: 19.948366, z: -7.381313}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -469,20 +469,20 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: 0.37032992, y: -0.046407945, z: 0.019806096, w: 0.92869043}
+    m_Target: {x: 0.5613845, y: 0.08160833, z: -0.05575954, w: 0.82163423}
     speed: 2
-    m_Value: {x: -0.37032992, y: 0.046407945, z: -0.019806094, w: -0.92869043}
+    m_Value: {x: 0.5613833, y: 0.081608154, z: -0.055759422, w: 0.82163244}
   m_Size:
-    m_Target: 5.0248394
+    m_Target: 8.709839
     speed: 2
-    m_Value: 5.0248394
+    m_Value: 8.709839
   m_Ortho:
     m_Target: 0
     speed: 2
     m_Value: 0
   m_CameraSettings:
-    m_Speed: 0.9851009
-    m_SpeedNormalized: 0.49000046
+    m_Speed: 1.5821004
+    m_SpeedNormalized: 0.7900002
     m_SpeedMin: 0.01
     m_SpeedMax: 2
     m_EasingEnabled: 0

@@ -191,6 +191,8 @@ float4 _SandColor2;
         float3 Overlay(float3 bg, float3 fg) {
 	        return bg < 0.5 ? (2.0 * bg * fg) : (1.0 - 2.0 * (1.0 - bg) * (1.0 - fg));
         }
+
+        float4x4 _Erosion_WorldToLocal;
         
         void surf (Input IN, inout SurfaceOutputStandard o)
         {
@@ -230,7 +232,8 @@ float4 _SandColor2;
                         fixed4 grassTinted = tex2D (_GrassTinted, TRANSFORM_TEX(position, _Grass) );
                         fixed4 grassTint = tex2D (_GrassTint, TRANSFORM_TEX(position, _GrassTint) );
                         
-                        o.Albedo =  lerp(grass,grassTinted,grassTint) ;
+                        //o.Albedo =  lerp(grass,grassTinted,grassTint) ;
+        	o.Albedo = grass;
                         
                         float2 darkGreenUv = position;
                         darkGreenUv.x += sin(darkGreenUv.y*2)/16 + sin(darkGreenUv.y*5+.4)/32  + sin(darkGreenUv.y*10+.846)/32;
@@ -253,7 +256,12 @@ float4 _SandColor2;
 
 
         				float3 hsv = RGBtoHSV(o.Albedo);
-        				//hsv.z *= 1.25; // value
+        				hsv.y *= 1.33;
+        				hsv.z *= .85; // value
+        				o.Albedo = lerp(o.Albedo, HSVtoRGB(hsv), grassTint);
+        				hsv = RGBtoHSV(o.Albedo);
+        				//hsv.y *= .95;
+        				//hsv.z *= 1.5;
         				o.Albedo = HSVtoRGB(hsv);
 
         	{
@@ -261,7 +269,7 @@ float4 _SandColor2;
         		if (erosion < .4)
         			grassTint = .4;
         		else
-        			grassTint = lerp(.4, float3(.9,1,0), (erosion - .4) / (1 - .4));
+        			grassTint = lerp(.4, float3(.75,.75,.5), (erosion - .4) / (1 - .4));
         		//o.Albedo = grassTint;
         		o.Albedo = Overlay(o.Albedo, grassTint);
         	}
@@ -334,7 +342,7 @@ float4 _SandColor2;
 //half flowerAo = tex2D(_FlowersAo, IN.uv_FlowersAlpha).r;
 //            o.Albedo *= smoothstep(0.25,.75,flowerAo);
             
-            o.Albedo = lerp(o.Albedo, _FlowerColor, flowerAlpha);
+            //o.Albedo = lerp(o.Albedo, _FlowerColor, flowerAlpha);
             
             //o.Occlusion = min(o.Occlusion, flowerAo);
 
@@ -405,7 +413,8 @@ float forestMask = tex2D(_ForestMask, mul(_ForestMask_WorldToLocal, float4(IN.wo
         	half sea = smoothstep(_SeaLevel - _SeaSharpness,  _SeaLevel + _SeaSharpness , IN.worldPos.y);
         	half3 seaColor = lerp(_SeaColor, _DeepSeaColor, smoothstep(_DeepSeaLevel - _DeepSeaSharpness,  _DeepSeaLevel + _DeepSeaSharpness , IN.worldPos.y));
         	seaColor = lerp (seaColor, _DeepSeaColor2, smoothstep( _DeepSea2Level - _DeepSea2Sharpness,  _DeepSea2Level + _DeepSea2Sharpness , IN.worldPos.y));
-        	seaColor = lerp (seaColor, _DeepSeaColor3,  smoothstep( _DeepSea3Level - _DeepSea3Sharpness,  _DeepSea3Level + _DeepSea3Sharpness , IN.worldPos.y));
+        	half deepSea3 = smoothstep( _DeepSea3Level - _DeepSea3Sharpness,  _DeepSea3Level + _DeepSea3Sharpness , IN.worldPos.y);
+        	seaColor = lerp (seaColor, _DeepSeaColor3,  deepSea3);
 
         	{
         		float3 seaTint = .5;
@@ -433,7 +442,7 @@ float forestMask = tex2D(_ForestMask, mul(_ForestMask_WorldToLocal, float4(IN.wo
         	float3 sandColor = lerp(_SandColor, _SandColor2, smoothstep( _SandLevel - _SandSharpness,  _SandLevel + _SandSharpness , IN.worldPos.y));
         	{
         	    float3 sandTint = .5;
-        		float3 a = float3(1,.33,0);
+        		float3 a = float3(.66,.33,.2);
         		if (erosion < .5)
         			sandTint = .5;
         		else if (erosion < .9)
@@ -508,9 +517,15 @@ float forestMask = tex2D(_ForestMask, mul(_ForestMask_WorldToLocal, float4(IN.wo
         	o.Smoothness=0;
         	o.Smoothness= lerp (o.Smoothness, 0, sea);
 
-        	o.Normal = lerp (o.Normal, float3(0,0,1), sea*.25);
+        	o.Normal = lerp (o.Normal, float3(0,0,1), sea*.33);
+        	
+        	o.Normal = lerp (o.Normal, float3(0,0,1), deepSea3*.5);
+        	o.Albedo = lerp (o.Albedo, _DeepSeaColor3, deepSea3*.5);
 
+        	//o.Albedo = erosion;
         	//o.Albedo *= erosion;
+
+        	//o.Albedo =  tex2D(_Erosion, mul(_Erosion_WorldToLocal, float4(IN.worldPos.xyz, 1)).xz).rgb;
         	
         }
         ENDCG

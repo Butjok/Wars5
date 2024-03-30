@@ -139,6 +139,8 @@ public class TerrainMapper : MonoBehaviour {
         }
     }
 
+    public float jitter = .1f;
+
     [Command]
     public void PlaceBushes() {
         if (!bushRenderer)
@@ -174,6 +176,7 @@ public class TerrainMapper : MonoBehaviour {
         for (var y = 0; y < resolution.y; y++)
         for (var x = 0; x < resolution.x; x++) {
             var localPosition2d = new Vector2(x / (float)resolution.x, y / (float)resolution.y);
+            localPosition2d += new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)) * jitter;
             var centerRayOrigin = transform.TransformPoint(localPosition2d.ToVector3());
             if (TryRaycastTerrainAndRoads(centerRayOrigin, out var hit) && hit.point.y > bushSeaLevelThreshold)
                 for (var i = 0; i < triesCount; i++) {

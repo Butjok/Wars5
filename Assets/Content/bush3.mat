@@ -1,0 +1,163 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: bush3
+  m_Shader: {fileID: 4800000, guid: b5b702a1a080a1242aaf86f30068f9af, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - _ALPHATEST_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Dist:
+        m_Texture: {fileID: 2800000, guid: 7cbedb4949299c74aa54eae9a952a92a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Erosion:
+        m_Texture: {fileID: 2800000, guid: b30ccbcd52f1e2b4cbd0e56aa5b13c67, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FlowersAlpha:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ForestMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _GlobalOcclusion:
+        m_Texture: {fileID: 2800000, guid: 40c391d90fd2e0941951c08d721ae56e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _GrassTint:
+        m_Texture: {fileID: 2800000, guid: 3aa3e9e74885c6e47969d1962a1cca76, type: 3}
+        m_Scale: {x: 0.5, y: 0.5}
+        m_Offset: {x: 0, y: 0}
+    - _Indirect:
+        m_Texture: {fileID: 2800000, guid: d5a87a8fa6e6d0b4d888e8c92bdfa78d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 893a4b0824dd2c7429c065be717b2410, type: 3}
+        m_Scale: {x: 1, y: 0.8}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Normal:
+        m_Texture: {fileID: 2800000, guid: eec7ef7f0d02ff643a0ec8c6d64a4e21, type: 3}
+        m_Scale: {x: 1, y: 0.8}
+        m_Offset: {x: 0, y: 0}
+    - _Occlusion:
+        m_Texture: {fileID: 2800000, guid: fa8fafd988a83cc4e8049d203ce1d063, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SSS:
+        m_Texture: {fileID: 2800000, guid: 221c7a3ea289e96439eabd1274e947d4, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Splat:
+        m_Texture: {fileID: 2800000, guid: aa65c5a3d30b6d14192ae1954c52cccf, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Splat2:
+        m_Texture: {fileID: 2800000, guid: 21c4cc7c16884f54bbab442d1d3ff12d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpotMask:
+        m_Texture: {fileID: 2800000, guid: c8d1267bea8c2e2448ebfbd7dfd1cff5, type: 3}
+        m_Scale: {x: 0.05, y: 0.05}
+        m_Offset: {x: 0, y: 0}
+    - _Tint:
+        m_Texture: {fileID: 2800000, guid: 4ab349e9e4662454baba72da2718e531, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _WithSSS:
+        m_Texture: {fileID: 2800000, guid: e58a978def2d7d449833513a81cd3a00, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _WithoutSSS:
+        m_Texture: {fileID: 2800000, guid: 10b58cd9e353cda4ea55f495caa76eec, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _BumpScale: 1
+    - _Cutoff: 0.5
+    - _DeepSeaLevel: 0.28
+    - _DeepSeaSharpness: -0.26
+    - _DetailNormalMapScale: 1
+    - _DstBlend: 0
+    - _GlossMapScale: 1
+    - _Glossiness: 0.441
+    - _GlossyReflections: 1
+    - _Lod: 3
+    - _Metallic: 0
+    - _Mode: 1
+    - _OcclusionStrength: 1
+    - _Parallax: 0.02
+    - _SSSIntensity: 0.33
+    - _SSSPower: 0
+    - _Smoothness: 0.1
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _UVSec: 0
+    - _ZWrite: 1
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _DarkGrass: {r: 0.27450982, g: 0.38823533, b: 0, a: 1}
+    - _DeepSeaColor: {r: 0.056971468, g: 0.11320752, b: 0, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _Emissive: {r: 0, g: 0.11764706, b: 1, a: 1}
+    - _FlowerColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Forest: {r: 0, g: 0, b: 0, a: 1}
+    - _Grass: {r: 0.5069564, g: 0.7169812, b: 0, a: 1}
+    - _Min: {r: -36, g: 0, b: 0, a: 0}
+    - _Offset: {r: 0, g: 0, b: 0, a: 0}
+    - _Size: {r: 42, g: 33, b: 0, a: 0}
+    - _SpotColor: {r: 0.8745098, g: 0.8784314, b: 0.80784315, a: 1}
+    - _Wheat: {r: 1, g: 0.6055649, b: 0, a: 1}
+    - _YellowGrass: {r: 0.27450982, g: 0.38823533, b: 0, a: 1}
+  m_BuildTextureStacks: []
