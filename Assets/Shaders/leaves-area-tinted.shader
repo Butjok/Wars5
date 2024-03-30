@@ -38,6 +38,8 @@ Shader "Custom/LeavesAreaTinted"
     	
     	_FlowersAlpha ("_FlowersAlpha", 2D) = "black" {}
     	_FlowerColor ("_FlowerColor", Color) = (1,1,1,1)
+    	
+    	_NormalWrap ("_NormalWrap", Float) = 0.5
     }
     SubShader
     {
@@ -92,6 +94,8 @@ Shader "Custom/LeavesAreaTinted"
             	StructuredBuffer<half4x4> _Transforms;
             #endif
 
+            half _NormalWrap;
+
             void instanced_rendering_vertex2(inout InstancedRenderingAppdata v) { 
             #if defined(SHADER_API_D3D11) || defined(SHADER_API_METAL)
 
@@ -99,7 +103,7 @@ Shader "Custom/LeavesAreaTinted"
 
                 v.vertex = mul(transform, v.vertex + _Offset);
                 v.normal = normalize(mul(transform, v.normal)) ;
-                v.normal = lerp(v.normal, float3(0,1,0), .5);
+                v.normal = lerp(v.normal, float3(0,1,0), _NormalWrap);
 
             #endif 
             }

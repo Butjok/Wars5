@@ -52,7 +52,7 @@ Shader "Custom/rough"
             o.Albedo = c.rgb;
             // Metallic and smoothness come from slider variables
             o.Metallic = _Metallic;
-            o.Smoothness = .1;
+            o.Smoothness = 0;
             o.Alpha = c.a;
 
             /*float3 hsv = RGBtoHSV(o.Albedo);

@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: bush3
+  m_Name: bush4
   m_Shader: {fileID: 4800000, guid: b5b702a1a080a1242aaf86f30068f9af, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords:
@@ -51,7 +51,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _FlowersAlpha:
         m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
+        m_Scale: {x: 2, y: 2}
         m_Offset: {x: 0, y: 0}
     - _ForestMask:
         m_Texture: {fileID: 0}
@@ -79,7 +79,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _Normal:
         m_Texture: {fileID: 2800000, guid: eec7ef7f0d02ff643a0ec8c6d64a4e21, type: 3}
-        m_Scale: {x: 1, y: 0.8}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Occlusion:
         m_Texture: {fileID: 2800000, guid: fa8fafd988a83cc4e8049d203ce1d063, type: 3}
@@ -135,11 +135,12 @@ Material:
     - _Lod: 3
     - _Metallic: 0
     - _Mode: 1
+    - _NormalWrap: -0.5
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _SSSIntensity: 0.33
     - _SSSPower: 0
-    - _Smoothness: 0.156
+    - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
@@ -147,17 +148,17 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _DarkGrass: {r: 0.22012581, g: 0.31132078, b: 0, a: 1}
+    - _DarkGrass: {r: 0.2667837, g: 0.3490566, b: 0.00878127, a: 1}
     - _DeepSeaColor: {r: 0.056971468, g: 0.11320752, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Emissive: {r: 0, g: 0.11764706, b: 1, a: 1}
-    - _FlowerColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Forest: {r: 0, g: 0, b: 0, a: 1}
-    - _Grass: {r: 0.21176471, g: 0.30980393, b: 0.050980393, a: 1}
+    - _FlowerColor: {r: 1, g: 0, b: 0.42097378, a: 1}
+    - _Forest: {r: 0.29803923, g: 0.38823533, b: 0, a: 1}
+    - _Grass: {r: 0.2993991, g: 0.38679248, b: 0, a: 1}
     - _Min: {r: -36, g: 0, b: 0, a: 0}
     - _Offset: {r: 0, g: 0, b: 0, a: 0}
     - _Size: {r: 42, g: 33, b: 0, a: 0}
     - _SpotColor: {r: 0.8745098, g: 0.8784314, b: 0.80784315, a: 1}
     - _Wheat: {r: 1, g: 0.6055649, b: 0, a: 1}
-    - _YellowGrass: {r: 0.18677337, g: 0.26415092, b: 0, a: 1}
+    - _YellowGrass: {r: 0.37036735, g: 0.4433962, b: 0, a: 1}
   m_BuildTextureStacks: []

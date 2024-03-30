@@ -125,6 +125,7 @@
      <Compile Include="Assets\Scripts\Level.cs" />
      <Compile Include="Assets\Scripts\Animation\Body.cs" />
      <Compile Include="Assets\Scripts\GameStates\UnitThumbnailRenderer.cs" />
+     <Compile Include="Assets\Scripts\ErosionMapper.cs" />
      <Compile Include="Assets\Scripts\DialogueUi2.cs" />
      <Compile Include="Assets\Scripts\GameStates\SelectionState.cs" />
      <Compile Include="Assets\Scripts\Co.cs" />
@@ -309,7 +310,6 @@
      <Compile Include="Assets\Scripts\FlipbookTest.cs" />
      <Compile Include="Assets\Scripts\Animation\UnitViewSequenceSubroutines.cs" />
      <Compile Include="Assets\Scripts\EntryPoint\MainMenuWelcomeState.cs" />
-     <Compile Include="Assets\Scripts\ErosionMapper.cs" />
      <Folder Include="Assets\Scripts\EntryPoint" />
      <None Include="Assets\Scripts\Wars.asmdef" />
      <Folder Include="Assets\Scripts\DialogueMarkupLanguage" />

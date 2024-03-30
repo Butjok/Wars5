@@ -23527,6 +23527,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 1ee41d6641e93914fb9386c2d6b27e6e, type: 2}
   - {fileID: 2100000, guid: f6082924458ae4ab7809c9f4a613abae, type: 2}
   - {fileID: 2100000, guid: 91a266c2fced96147a160b5ce06b3eaa, type: 2}
+  - {fileID: 2100000, guid: 6d38d4265c8a94c48a2bf7d14d167b0c, type: 2}
   worldToSplatUniformName: _Splat_WorldToLocal
   loadOnAwake: 1
   loadOnAwakeFileName: TutorialBushes
@@ -34399,7 +34400,7 @@ Light:
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
-  m_CookieSize: 30
+  m_CookieSize: 40
   m_Shadows:
     m_Type: 2
     m_Resolution: 2
@@ -37679,8 +37680,8 @@ MonoBehaviour:
   wasModified: 0
   treeRenderer: {fileID: 1824131962}
   camera: {fileID: 157206632}
-  treeCountRange: {x: 2, y: 2}
-  treeScaleRange: {x: 0.75, y: 1.25}
+  treeCountRange: {x: 3, y: 3}
+  treeScaleRange: {x: 0.5, y: 0.75}
   jitterAmount: 0.66
   terrainMaterial: {fileID: 2100000, guid: 1ee41d6641e93914fb9386c2d6b27e6e, type: 2}
   terrainMaterialForestMaskUniformName: _ForestMask
@@ -37734,7 +37735,7 @@ MonoBehaviour:
   mesh: {fileID: 1281182555879489627, guid: 03bc5f06d989b4044979b17efb8ebeeb, type: 3}
   materials:
   - {fileID: 2100000, guid: 7c2387c756d54574d839fca4b1aa2744, type: 2}
-  - {fileID: 2100000, guid: 12b9323d1399c224988368143a93dd21, type: 2}
+  - {fileID: 2100000, guid: 6d38d4265c8a94c48a2bf7d14d167b0c, type: 2}
   transformsUniformName: _Transforms
   shadowCastingMode: 1
   lightProbeUsage: 1
@@ -38420,7 +38421,7 @@ MonoBehaviour:
   velocityDecelerationFactor: 25
   arm: {fileID: 1087985287}
   pitchAngleSpeed: 90
-  pitchClamp: {x: 40, y: 60}
+  pitchClamp: {x: 45, y: 60}
   rotationDuration: 0.2
   rotationEasing: 3
   rotationStep: -22.5
@@ -38445,8 +38446,8 @@ MonoBehaviour:
   widthSpeed: 0.5
   acceptInput: 1
   enabledMovements: -1
-  dollyZoomFovRange: {x: 30, y: 30}
-  dollyZoomWidthRange: {x: 7.5, y: 20}
+  dollyZoomFovRange: {x: 40, y: 30}
+  dollyZoomWidthRange: {x: 10, y: 20}
   dollyZoom: 0
   targetDollyZoom: 0
   dollyZoomSpeed: 25
