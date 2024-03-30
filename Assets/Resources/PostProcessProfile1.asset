@@ -211,7 +211,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6050e2d5de785ce4d931e4dbdbf2d755, type: 3}
   m_Name: ChromaticAberration
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   enabled:
     overrideState: 1
     value: 1
@@ -413,11 +413,11 @@ MonoBehaviour:
     overrideState: 0
     value: 1
   temperature:
-    overrideState: 1
+    overrideState: 0
     value: 7.5
   tint:
     overrideState: 0
-    value: 9
+    value: 16.8
   colorFilter:
     overrideState: 1
     value: {r: 1, g: 1, b: 1, a: 1}
@@ -426,15 +426,15 @@ MonoBehaviour:
     value: 0
   saturation:
     overrideState: 0
-    value: -0.9
+    value: -2
   brightness:
     overrideState: 0
     value: 0
   postExposure:
-    overrideState: 1
-    value: 0.75
+    overrideState: 0
+    value: 0.66
   contrast:
-    overrideState: 1
+    overrideState: 0
     value: 5
   mixerRedOutRedIn:
     overrideState: 0
@@ -465,13 +465,13 @@ MonoBehaviour:
     value: 136
   lift:
     overrideState: 0
-    value: {x: 1, y: 1, z: 1, w: -0.03770028}
+    value: {x: 0.75923836, y: 0.70748544, z: 1, w: 0.076324806}
   gamma:
-    overrideState: 0
-    value: {x: 0.78368896, y: 1, z: 0.30412835, w: 0.9221311}
-  gain:
-    overrideState: 0
+    overrideState: 1
     value: {x: 1, y: 1, z: 1, w: 0}
+  gain:
+    overrideState: 1
+    value: {x: 1, y: 0.64531374, z: 0.16621995, w: 1}
   masterCurve:
     overrideState: 0
     value:

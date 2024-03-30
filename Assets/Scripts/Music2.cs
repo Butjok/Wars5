@@ -33,7 +33,7 @@ public class Music2 : MonoBehaviour {
     public const string natalieTheme = "grenzerkompanie_i";
     public const string nataliePowerTheme = "chicherina-trimmed";
 
-    public const string vladanTheme = "normal uzicko";
+    public const string vladanTheme = "the-dead-awaken";
     public const string vladanPowerTheme = "hardbass";
 
     public void Update() {

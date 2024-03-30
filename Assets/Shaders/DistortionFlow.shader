@@ -122,14 +122,14 @@
             
             // Albedo comes from a texture tinted by color
 
-			_Time.x *= .5;
+			//_Time.x /= 5;
 			
             fixed3 normal3 = UnpackNormal( tex2D (_Normal, TRANSFORM_TEX(((position/1.5)/6 + float2(_Time.x*.125/3, _Time.x*.125/3)),_Normal)));
             fixed3 normal = UnpackNormal( tex2D (_Normal, TRANSFORM_TEX(((position/1.5)*2 + float2(_Time.x*3/3, 0)),_Normal)));
             fixed3 normal2 = UnpackNormal( tex2D (_Normal, TRANSFORM_TEX(((position/1.5) - float2(0, _Time.x*4.676/3)),_Normal)));
-			float3 targetNormal =BlendNormals(lerp(float3(0,0,1),normal,.5), lerp(float3(0,0,1),normal2,.25));
+			float3 targetNormal =BlendNormals(lerp(float3(0,0,1),normal,1), lerp(float3(0,0,1),normal2,.5));
 			//targetNormal = normalize(normal/2 + normal2);
-			targetNormal =BlendNormals(lerp(float3(0,0,1),normal3,.5), targetNormal);
+			targetNormal =BlendNormals(lerp(float3(0,0,1),normal3,1), targetNormal);
 			o.Normal = normalize( targetNormal);
 
 			o.Normal = targetNormal;
@@ -143,9 +143,16 @@
 			
 			o.Emission = colorBelowWater * _Color.rgb * (1 - c.a);
 			//o.Emission = ColorBelowWater(IN.screenPos, o.Normal).a;;
-			o.Occlusion=0.25;
 
-			o.Albedo *= 1-tex2D (_Grid, position-.5);
+
+			float3 viewDir = normalize(_WorldSpaceCameraPos - IN.worldPos);
+			float fresnel = dot(viewDir, float3(0,1,0));
+			o.Occlusion=lerp(.25, 2, smoothstep (0.75, .9, fresnel));
+			//o.Emission = o.Occlusion;
+
+			//o.Albedo *= 1-tex2D (_Grid, position-.5);
+
+			//o.Emission = o.Normal;
 		}
 		
  		void ResetAlpha (Input IN, SurfaceOutputStandard o, inout fixed4 color) {

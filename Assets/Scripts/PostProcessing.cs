@@ -179,7 +179,7 @@ public class PostProcessing : MonoBehaviour {
                 Instance.StopAllCoroutines();
                 //Contrast = 5;
                 //Vignette = .45f;
-                Gain = 0;
+               // Gain = 0;
                 ShowBorder = false;
                 Music2.Stop();
             }

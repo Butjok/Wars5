@@ -101,6 +101,8 @@ _OutsideIntensity ("_OutsideIntensity", Range(0,1)) = 0.0
     	_SpotMask ("_SpotMask", 2D) = "white" {}
     	_SpotGrassColor ("_SpotGrassColor", Color) = (1,1,1,1)
     	_SpotOceanColor ("_SpotOceanColor", Color) = (1,1,1,1)
+    	
+    	_Erosion ("_Erosion", 2D) = "white" {}
     }
     SubShader
     {
@@ -126,9 +128,10 @@ _OutsideIntensity ("_OutsideIntensity", Range(0,1)) = 0.0
         sampler2D _StonesNormal,_StonesAlpha, _StonesAo;
         sampler2D _FlowersDiffuse,_FlowersAlpha, _FlowersAo, _Splat2;
         sampler2D _ForestMask, _SpotMask;
+        sampler2D _Erosion;
         float4x4 _ForestMask_WorldToLocal;
         float3 _StoneColor, _GrassColor, _StoneDarkColor, _StoneLightColor, _StoneWheatColor, _StoneSandColor;
-        float4 _Normal_ST, _Emissive;
+        float4  _Emissive;
         float3 _SpotGrassColor, _SpotOceanColor, _ForestColor;
 
 float _LineDistance;
@@ -148,6 +151,7 @@ float2 _Splat2Size;
             float2 uv_StonesNormal;
             float2 uv_FlowersAlpha;
             float2 uv_Splat2;
+        	float2 uv_Normal;
         };
 
         half _Glossiness;
@@ -180,11 +184,22 @@ float4 _SandColor2;
         fixed4x4 _TileMask_WorldToLocal;
 
         fixed4x4 _Splat_WorldToLocal;
+
+        float3 Overlay(float3 bg, float3 fg) {
+	        return bg < 0.5 ? (2.0 * bg * fg) : (1.0 - 2.0 * (1.0 - bg) * (1.0 - fg));
+        }
         
         void surf (Input IN, inout SurfaceOutputStandard o)
         {
-            
+
+        	float erosion = tex2D(_Erosion, IN.uv_MainTex).r;
+
             float2 position = IN.worldPos.xz;
+        	fixed4 spots = tex2D(_SpotMask, TRANSFORM_TEX(position, _SpotMask));
+        	fixed spot = 1-spots.r;
+        	IN.worldPos += 0.02 * (spot) * float3(0,1,0);
+        	
+            
                         int2 cell = round(position);
             
                         half minDist = 999;
@@ -235,9 +250,20 @@ float4 _SandColor2;
 
 
         				float3 hsv = RGBtoHSV(o.Albedo);
-        				hsv.z *= 1.5; // saturation
+        				//hsv.z *= 1.25; // value
         				o.Albedo = HSVtoRGB(hsv);
 
+        	{
+        		float3 grassTint = 0;
+        		if (erosion < .4)
+        			grassTint = .4;
+        		else
+        			grassTint = lerp(.4, float3(.9,1,0), (erosion - .4) / (1 - .4));
+        		//o.Albedo = grassTint;
+        		o.Albedo = Overlay(o.Albedo, grassTint);
+        	}
+
+        	//return;
 
         				//o.Albedo.rgb *= lerp(float3(1,1,1), _SpotGrassColor, spot);
             
@@ -259,11 +285,12 @@ float4 _SandColor2;
                         
                        // o.Emission *=  IN.worldPos.y > 0;
             
-                        float3 normal = UnpackNormal( tex2D (_Normal, TRANSFORM_TEX(position, _Normal) ));
-                        normal = sign(normal) * pow(abs(normal),.8);
+                        float3 normal = UnpackNormal( tex2D (_Normal, IN.uv_Normal ));
+        	o.Normal=lerp(float3(0,0,1),normal,.75);
+                        //normal = sign(normal) * pow(abs(normal),.8);
                         //normal.z/=2;
-                        normal=normalize(normal);
-                        o.Normal = normal;
+                        //normal=normalize(normal);
+                        //o.Normal = normal;
             
                         //o.Albedo=splat;
             
@@ -365,10 +392,9 @@ float forestMask = tex2D(_ForestMask, mul(_ForestMask_WorldToLocal, float4(IN.wo
             deepSeaNoise /= 1.25;*/
             
 
-        	fixed4 spots = tex2D(_SpotMask, TRANSFORM_TEX(position, _SpotMask));
-        				fixed spot = 1-spots.r;
-        	_SeaColor.rgb *= lerp (float3(1,1,1), _SpotOceanColor, spot);
-        	_DeepSeaColor.rgb *= lerp (float3(1,1,1), _SpotOceanColor, spot);
+        	
+        	//_SeaColor.rgb *= lerp (float3(1,1,1), _SpotOceanColor, spot);
+        	//_DeepSeaColor.rgb *= lerp (float3(1,1,1), _SpotOceanColor, spot);
 
         	o.Albedo *= lerp(float3(1,1,1), _SpotGrassColor, spot);
 
@@ -376,13 +402,42 @@ float forestMask = tex2D(_ForestMask, mul(_ForestMask_WorldToLocal, float4(IN.wo
         	half sea = smoothstep(_SeaLevel - _SeaSharpness,  _SeaLevel + _SeaSharpness , IN.worldPos.y);
         	half3 seaColor = lerp(_SeaColor, _DeepSeaColor, smoothstep(_DeepSeaLevel - _DeepSeaSharpness,  _DeepSeaLevel + _DeepSeaSharpness , IN.worldPos.y));
         	seaColor = lerp (seaColor, _DeepSeaColor2, smoothstep( _DeepSea2Level - _DeepSea2Sharpness,  _DeepSea2Level + _DeepSea2Sharpness , IN.worldPos.y));
-        	seaColor *= lerp (float3(1,1,1), _SpotOceanColor, spot);
+
+        	{
+        		float3 seaTint = .5;
+        		float3 cyan = float3(0,.425,1);
+        		if (erosion < .5)
+        			seaTint = lerp(float3(0,0,.055), .5, erosion*2);
+        		else if (erosion < .75)
+        			seaTint = lerp(.5, cyan, (erosion - .5) * 4);
+        		else
+        			seaTint = cyan;
+        		seaColor *= seaTint;
+        	}
+        	//seaColor *= erosion;
+        	
+
+
+
+        	
+        	//seaColor *= lerp (float3(1,1,1), _SpotOceanColor, spot);
             o.Albedo = lerp(o.Albedo, seaColor,sea);
 
-        	o.Normal = lerp(o.Normal, float3(0,1,0), sea/10);
+        	//o.Normal = lerp(o.Normal, float3(0,1,0), sea/10);
         	
 
         	float3 sandColor = lerp(_SandColor, _SandColor2, smoothstep( _SandLevel - _SandSharpness,  _SandLevel + _SandSharpness , IN.worldPos.y));
+        	{
+        	    float3 sandTint = .5;
+        		float3 a = float3(1,.33,0);
+        		if (erosion < .5)
+        			sandTint = .5;
+        		else if (erosion < .9)
+        			sandTint = lerp(.5, a, (erosion - .5) / (.9 - .5));
+        		else
+        			sandTint = a;
+        		sandColor = Overlay(sandColor, sandTint);
+        	}
         	float sand = smoothstep(_SandThickness - _SandSharpness, _SandThickness + _SandSharpness ,abs(IN.worldPos.y+ /*noise/50*/ - _SandLevel));
             o.Albedo = lerp(o.Albedo, sandColor, sand);
         	o.Albedo = lerp(o.Albedo, _StoneSandColor, sand * stoneAlpha);
@@ -444,6 +499,14 @@ float forestMask = tex2D(_ForestMask, mul(_ForestMask_WorldToLocal, float4(IN.wo
         	
 
         	//o.Albedo = noise3;
+
+        	//o.Normal = lerp(float3(0,0,1), normal, .5);
+        	o.Smoothness=0;
+        	o.Smoothness= lerp (o.Smoothness, 0, sea);
+
+        	//o.Normal = lerp (o.Normal, float3(0,0,1), sea*.25);
+
+        	//o.Albedo *= erosion;
         	
         }
         ENDCG
