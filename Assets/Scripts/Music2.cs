@@ -26,7 +26,7 @@ public class Music2 : MonoBehaviour {
     public void Awake() {
         source = gameObject.AddComponent<AudioSource>();
         source.spatialize = false;
-        source.volume = .5f;
+        source.volume = .75f;
         source.loop = true;
     }
 

@@ -76,14 +76,17 @@ _OutsideIntensity ("_OutsideIntensity", Range(0,1)) = 0.0
         
         _SeaColor ("_SeaColor", Color) = (1,1,1,1)
         _DeepSeaColor ("_DeepSeaColor", Color) = (1,1,1,1)
-    	_DeepSeaColor2 ("_DeepSeaColor", Color) = (1,1,1,1)
+    	_DeepSeaColor2 ("_DeepSeaColor2", Color) = (1,1,1,1)
+    	_DeepSeaColor3 ("_DeepSeaColor3", Color) = (1,1,1,1)
         
         _SeaLevel ("_SeaLevel", Float) = 0
         _SeaThickness ("_SeaThickness", Float) = 0.1
         _DeepSeaLevel ("_DeepSeaLevel", Float) = 0
     	_DeepSea2Level ("_DeepSea2Level", Float) = 0
+    	_DeepSea3Level ("_DeepSea3Level", Float) = 0
     	_DeepSeaSharpness ("_DeepSeaSharpness", Float) = 0
     	_DeepSea2Sharpness ("_DeepSea2Sharpness", Float) = 0
+    	_DeepSea3Sharpness ("_DeepSea3Sharpness", Float) = 0
                 _DeepSeaThickness ("_DeepSeaThickness", Float) = 0.1
         _SeaSharpness ("_SeaSharpness", Float) = 0.1
         
@@ -158,10 +161,10 @@ float2 _Splat2Size;
         half _Metallic,_Radius,_Rounding,_K,_SelectTime,_TimeDirection;
         half _SplatScale;
         fixed4 _Color;
-        fixed4 _SeaColor,_DeepSeaColor, _DeepSeaColor2;
+        fixed4 _SeaColor,_DeepSeaColor, _DeepSeaColor2, _DeepSeaColor3;
         half _SandThickness, _SandSharpness, _SandLevel;
         
-        half _DeepSeaThickness, _DeepSeaLevel, _DeepSea2Level, _DeepSea2Sharpness;
+        half _DeepSeaThickness, _DeepSeaLevel, _DeepSea2Level, _DeepSea2Sharpness, _DeepSea3Level, _DeepSea3Sharpness;
 
         #define SIZE 128
         int2 _From;
@@ -402,6 +405,7 @@ float forestMask = tex2D(_ForestMask, mul(_ForestMask_WorldToLocal, float4(IN.wo
         	half sea = smoothstep(_SeaLevel - _SeaSharpness,  _SeaLevel + _SeaSharpness , IN.worldPos.y);
         	half3 seaColor = lerp(_SeaColor, _DeepSeaColor, smoothstep(_DeepSeaLevel - _DeepSeaSharpness,  _DeepSeaLevel + _DeepSeaSharpness , IN.worldPos.y));
         	seaColor = lerp (seaColor, _DeepSeaColor2, smoothstep( _DeepSea2Level - _DeepSea2Sharpness,  _DeepSea2Level + _DeepSea2Sharpness , IN.worldPos.y));
+        	seaColor = lerp (seaColor, _DeepSeaColor3,  smoothstep( _DeepSea3Level - _DeepSea3Sharpness,  _DeepSea3Level + _DeepSea3Sharpness , IN.worldPos.y));
 
         	{
         		float3 seaTint = .5;
@@ -504,7 +508,7 @@ float forestMask = tex2D(_ForestMask, mul(_ForestMask_WorldToLocal, float4(IN.wo
         	o.Smoothness=0;
         	o.Smoothness= lerp (o.Smoothness, 0, sea);
 
-        	//o.Normal = lerp (o.Normal, float3(0,0,1), sea*.25);
+        	o.Normal = lerp (o.Normal, float3(0,0,1), sea*.25);
 
         	//o.Albedo *= erosion;
         	
