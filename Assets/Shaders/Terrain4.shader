@@ -202,7 +202,7 @@ float4 _SandColor2;
             float2 position = IN.worldPos.xz;
         	fixed4 spots = tex2D(_SpotMask, TRANSFORM_TEX(position, _SpotMask));
         	fixed spot = 1-spots.r;
-        	IN.worldPos += 0.02 * (spot) * float3(0,1,0);
+        	IN.worldPos += 0.01 * (spot) * float3(0,1,0);
         	
             
                         int2 cell = round(position);
