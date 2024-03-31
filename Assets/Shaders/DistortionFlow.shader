@@ -27,6 +27,17 @@
 		[ToggleOff] _SpecularHighlights("Specular Highlights", Float) = 1.0
 		
 		_BackgroundColor ("_BackgroundColor", Color) = (0, 0, 0, 0)
+		
+		_DistanceField ("Distance Field", 2D) = "white" {}
+		_Noise ("Noise", 2D) = "black" {}
+		_FoamColor ("Foam Color", Color) = (1, 1, 1, 1)
+		
+		_TimeMultiplier ("Time Multiplier", Float) = .25
+		_WaveFrequency ("Wave Frequency", Float) = 5
+		_WaveMaskSharpness ("Wave Mask Sharpness", Float) = 4
+		_WaveSmashingPower ("Wave Smashing Power", Float) = .75
+		_WaveSharpness1 ("Wave Sharpness 1", Float) = 5
+		_WaveSharpness2 ("Wave Sharpness 2", Float) = 3.33
 	}
 	SubShader {
 		Tags { "RenderType"="Transparent" "Queue"="Transparent" }
@@ -52,6 +63,11 @@
 		float _HeightScale, _HeightScaleModulated;
 		half _Scale;
 		float _WaveAmplitude;
+		sampler2D _DistanceField;
+		sampler2D _Noise;
+		float4 _FoamColor;
+		float _TimeMultiplier, _WaveFrequency, _WaveMaskSharpness, _WaveSmashingPower;
+		float _WaveSharpness1, _WaveSharpness2;
 		
 		struct Input {
 			float2 uv_MainTex;
@@ -62,7 +78,7 @@
 		half _Glossiness;
 		half _Metallic;
 		fixed4 _Color, _BackgroundColor;
-		float4 _Normal_ST;
+		float4 _Normal_ST, _Noise_ST;
 
 		float3 UnpackDerivativeHeight (float4 textureData) {
 			float3 dh = textureData.agb;
@@ -153,6 +169,17 @@
 			//o.Albedo *= 1-tex2D (_Grid, position-.5);
 
 			//o.Emission = o.Normal;
+
+			float noise2 = tex2D(_Noise, TRANSFORM_TEX(IN.worldPos.xz, _Noise) ).r;
+			float distance = tex2D (_DistanceField, IN.uv_MainTex).a;
+			float waveMask = 1 - saturate(distance * _WaveMaskSharpness);
+			float fraction = 1 - frac(pow(distance, _WaveSmashingPower) * _WaveFrequency + _Time.y * _TimeMultiplier + noise2 * 2.5	);
+			float wave = pow(max(fraction, 1 - saturate(fraction * _WaveSharpness1)), _WaveSharpness2);
+			o.Emission += (wave) * waveMask * _FoamColor;
+
+			//o.Emission = noise2;
+
+			//o.Emission = noise2;
 		}
 		
  		void ResetAlpha (Input IN, SurfaceOutputStandard o, inout fixed4 color) {

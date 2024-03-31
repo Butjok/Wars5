@@ -163,7 +163,7 @@ Material:
     - _DeepSea2Level: -0.05
     - _DeepSea2Sharpness: -0.2
     - _DeepSea3Level: -0.5
-    - _DeepSea3Sharpness: -0.73
+    - _DeepSea3Sharpness: -1.8
     - _DeepSeaLevel: 0.02
     - _DeepSeaSharpness: 0.02
     - _DeepSeaThickness: -0.01
@@ -205,9 +205,9 @@ Material:
     - _BorderColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _DarkGreenTint: {r: 1, g: 1, b: 1, a: 1}
-    - _DeepSeaColor: {r: 0.6792453, g: 0.6353964, b: 0, a: 1}
-    - _DeepSeaColor2: {r: 0, g: 0.0031446961, b: 0.5754717, a: 1}
-    - _DeepSeaColor3: {r: 0, g: 0, b: 0.254717, a: 1}
+    - _DeepSeaColor: {r: 0.6698113, g: 0.62869537, b: 0.517, a: 1}
+    - _DeepSeaColor2: {r: 0.1329061, g: 0.1329061, b: 0.5283019, a: 1}
+    - _DeepSeaColor3: {r: 0.035599843, g: 0.035599843, b: 0.14150941, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Emissive: {r: 0.6797385, g: 0, b: 1, a: 1}
     - _FlowerColor: {r: 0.8, g: 0.04002978, b: 0, a: 1}
@@ -217,7 +217,7 @@ Material:
     - _OutsideColor: {r: 0.9339623, g: 0.9339623, b: 0.9339623, a: 1}
     - _SandColor: {r: 0.6627451, g: 0.67058825, b: 0.18039216, a: 1}
     - _SandColor2: {r: 0.6627451, g: 0.67058825, b: 0.18039216, a: 1}
-    - _SeaColor: {r: 0.17153193, g: 0.4048132, b: 0.9245283, a: 1}
+    - _SeaColor: {r: 0.17254902, g: 0.40392157, b: 0.9254902, a: 1}
     - _Splat2Size: {r: 47, g: 41, b: 0, a: 0}
     - _SpotColor: {r: 0.79480654, g: 0.8207547, b: 0.7704254, a: 1}
     - _SpotGrassColor: {r: 1, g: 1, b: 1, a: 1}
@@ -225,7 +225,7 @@ Material:
     - _StoneColor: {r: 0.40644652, g: 0.4433962, b: 0, a: 1}
     - _StoneDarkColor: {r: 0.30894312, g: 0.3584906, b: 0, a: 1}
     - _StoneLightColor: {r: 0.6886792, g: 0.6459711, b: 0.043313082, a: 1}
-    - _StoneSandColor: {r: 1, g: 0.56476074, b: 0.10062885, a: 1}
+    - _StoneSandColor: {r: 0.735849, g: 0.56384337, b: 0.16429327, a: 1}
     - _StoneWheatColor: {r: 0.93333334, g: 0.5439534, b: 0, a: 1}
     - _WheatTint: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

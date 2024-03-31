@@ -41,6 +41,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _DistanceField:
+        m_Texture: {fileID: 2800000, guid: 196804223bc15e24e9576d57020a84f3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _EmissionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -60,6 +64,10 @@ Material:
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Noise:
+        m_Texture: {fileID: 2800000, guid: a07031f8568f62446ba415dcbbcd1791, type: 3}
+        m_Scale: {x: 0.2, y: 0.2}
         m_Offset: {x: 0, y: 0}
     - _Normal:
         m_Texture: {fileID: 2800000, guid: 46e2a7c5d178cf743b50eedfacbaabda, type: 3}
@@ -91,7 +99,7 @@ Material:
     - _FlowOffset: 5
     - _FlowStrength: 0
     - _GlossMapScale: 1
-    - _Glossiness: 0.721
+    - _Glossiness: 0.95
     - _GlossyReflections: 1
     - _GridResolution: 10
     - _HeightScale: 1
@@ -109,16 +117,23 @@ Material:
     - _SrcBlend: 1
     - _Tiling: 4.61
     - _TilingModulated: 1
+    - _TimeMultiplier: 0.25
     - _UJump: -0.208
     - _UVSec: 0
     - _VJump: -0.212
     - _WaterFogDensity: 0
     - _WaveAmplitude: 0.0001
+    - _WaveFrequency: 5
+    - _WaveMaskSharpness: 4
+    - _WaveSharpness1: 5
+    - _WaveSharpness2: 3.3
+    - _WaveSmashingPower: 0.75
     - _ZWrite: 1
     m_Colors:
     - _BackgroundColor: {r: 0, g: 0.28767157, b: 1, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FoamColor: {r: 0.27975553, g: 0.33949712, b: 0.38679248, a: 1}
     - _UVJump: {r: 0, g: 0, b: 0, a: 0}
     - _WaterFogColor: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
