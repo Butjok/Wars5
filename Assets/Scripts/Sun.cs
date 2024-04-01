@@ -46,14 +46,30 @@ public class Sun : MonoBehaviour {
 
     public Easing.Name easing = Easing.Name.Linear;
 
-    public IEnumerator Animation(Action onComplete = null) {
+    public Texture2D[] cookies = { };
+    public Transform camera;
+    public Vector2 cookieHeightLimits = new(5, 25);
 
+    public void Update() {
+        if (camera && cookies.Length > 0 && light) {
+            var height = camera.localPosition.z;
+            var t = Mathf.Clamp01((height - cookieHeightLimits[0]) / (cookieHeightLimits[1] - cookieHeightLimits[0]));
+            var targetCookie = cookies[Mathf.RoundToInt(t * (cookies.Length - 1))];
+            if (light.cookie != targetCookie)
+                light.cookie = targetCookie;
+        }
+    }
+
+    [Command]
+    public float CameraHeight => camera.position.y;
+
+    public IEnumerator Animation(Action onComplete = null) {
         Assert.IsTrue(axis is 0 or 1 or 2);
 
         var startTime = Time.unscaledTime;
         var angles = startAngles;
         var a = Random.Range(0, 360f);
-        var axis2 = new Vector3(Mathf.Cos(a),0, Mathf.Sin(a));
+        var axis2 = new Vector3(Mathf.Cos(a), 0, Mathf.Sin(a));
         var startRotation = transform.rotation;
         var from = angles[axis];
         var to = from + 360;
@@ -76,8 +92,10 @@ public class Sun : MonoBehaviour {
                     light.intensity = 0;
                 //RenderSettings.ambientIntensity = startAmbientIntensity * (1 - nightIntensity);
             }
+
             yield return null;
         }
+
         Time.timeScale = 1;
         angles[axis] = to;
         transform.rotation = startRotation;
@@ -87,7 +105,7 @@ public class Sun : MonoBehaviour {
             light.color = Color.white;
             light.intensity = lightIntensityAmplitude;
         }
-        
+
         onComplete?.Invoke();
     }
 }
