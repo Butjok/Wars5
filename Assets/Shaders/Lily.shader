@@ -8,6 +8,7 @@ Shader "Custom/Lily" {
 		_Metallic ("Metallic", Range(0,1)) = 0.0
 		_Noise ("Noise", 2D) = "black" {}
 		_Threshold ("Threshold", Range(0,1)) = 0.5
+		_UseColor ("Use Color", Range(0,1)) = 0
 	}
 	SubShader {
 		Tags { "RenderType"="Opaque" }
@@ -22,6 +23,7 @@ Shader "Custom/Lily" {
 
 		sampler2D _MainTex, _ReUv, _Noise;
 		float4 _Noise_ST;
+		float _UseColor;
 
 		struct Input {
 			float2 uv_MainTex;
@@ -53,7 +55,7 @@ Shader "Custom/Lily" {
 			
 			clip(c.a - .5);
 			
-			o.Albedo = _Color;
+			o.Albedo = lerp(c.rgb, _Color, _UseColor);
 			// Metallic and smoothness come from slider variables
 			o.Metallic = _Metallic;
 			o.Smoothness = _Glossiness;
