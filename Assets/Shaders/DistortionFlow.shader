@@ -38,6 +38,8 @@
 		_WaveSmashingPower ("Wave Smashing Power", Float) = .75
 		_WaveSharpness1 ("Wave Sharpness 1", Float) = 5
 		_WaveSharpness2 ("Wave Sharpness 2", Float) = 3.33
+		
+		_NormalPower ("Normal Power", Float) = 1
 	}
 	SubShader {
 		Tags { "RenderType"="Transparent" "Queue"="Transparent" }
@@ -67,7 +69,7 @@
 		sampler2D _Noise;
 		float4 _FoamColor;
 		float _TimeMultiplier, _WaveFrequency, _WaveMaskSharpness, _WaveSmashingPower;
-		float _WaveSharpness1, _WaveSharpness2;
+		float _WaveSharpness1, _WaveSharpness2, _NormalPower;
 		
 		struct Input {
 			float2 uv_MainTex;
@@ -180,6 +182,8 @@
 			//o.Emission = noise2;
 
 			//o.Emission = noise2;
+			
+			o.Normal = sign(o.Normal) * normalize(pow(abs(o.Normal), _NormalPower));
 		}
 		
  		void ResetAlpha (Input IN, SurfaceOutputStandard o, inout fixed4 color) {
