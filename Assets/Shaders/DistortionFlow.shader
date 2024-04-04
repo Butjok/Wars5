@@ -40,6 +40,7 @@
 		_WaveSharpness2 ("Wave Sharpness 2", Float) = 3.33
 		
 		_NormalPower ("Normal Power", Float) = 1
+		_OcclusionTint ("Occlusion Tint", Float) = 1
 	}
 	SubShader {
 		Tags { "RenderType"="Transparent" "Queue"="Transparent" }
@@ -95,6 +96,8 @@
             data.vertex.y += wavesMask*wave*_WaveAmplitude;
                                           
         }
+        
+        float _OcclusionTint;
 
 		void surf (Input IN, inout SurfaceOutputStandard o) {
 			float3 flow = tex2D(_FlowMap, IN.uv_MainTex).rgb;
@@ -165,7 +168,7 @@
 
 			float3 viewDir = normalize(_WorldSpaceCameraPos - IN.worldPos);
 			float fresnel = dot(viewDir, float3(0,1,0));
-			o.Occlusion=lerp(.125, 2, smoothstep (0.75, .9, fresnel));
+			o.Occlusion=lerp(.125, 2, smoothstep (0.75, .9, fresnel)) * _OcclusionTint;
 			//o.Emission = o.Occlusion;
 
 			//o.Albedo *= 1-tex2D (_Grid, position-.5);
