@@ -109,6 +109,7 @@ Material:
     - _ModulatedHeightScale: 1
     - _NormalPower: 0.66
     - _OcclusionStrength: 1
+    - _OcclusionTint: 1
     - _Parallax: 0.02
     - _RefractionStrength: 0.1
     - _Scale: 64.04
@@ -134,7 +135,7 @@ Material:
     - _BackgroundColor: {r: 0, g: 0.28767157, b: 1, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FoamColor: {r: 0.30396342, g: 0.38363925, b: 0.4433962, a: 1}
+    - _FoamColor: {r: 0.26996556, g: 0.38524124, b: 0.4716981, a: 1}
     - _UVJump: {r: 0, g: 0, b: 0, a: 0}
     - _WaterFogColor: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []

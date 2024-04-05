@@ -6,14 +6,18 @@ Shader "Unlit/LevelBorder"
 	}
 	SubShader
 	{
-		Tags { "RenderType"="Opaque" }
+		Tags {  "Queue"="Transparent"  "RenderType"="Transparent" }
 		LOD 100
+		Blend One OneMinusSrcAlpha
+    ColorMask RGB
+    Cull Off Lighting Off ZWrite Off
 
 		Pass
 		{
 			CGPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
+			//#pragma alpha:fade
 			// make fog work
 			#pragma multi_compile_fog
 			
@@ -46,8 +50,9 @@ Shader "Unlit/LevelBorder"
 			
 			fixed4 frag (v2f i) : SV_Target
 			{
-				float alpha = i.uv.x;
-				return float4(0,0,0,alpha);
+				float alpha = 1-i.uv.x;
+				return float4(0, 0, 0, alpha);
+				return float4(alpha, alpha, alpha, 1);
 				// sample the texture
 				fixed4 col = tex2D(_MainTex, i.uv);
 				// apply fog
