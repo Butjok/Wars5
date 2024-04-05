@@ -9,9 +9,12 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: bush4
   m_Shader: {fileID: 4800000, guid: b5b702a1a080a1242aaf86f30068f9af, type: 3}
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - WIND
   m_InvalidKeywords:
+  - WIND_ON
   - _ALPHATEST_ON
+  - _WIND_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -123,6 +126,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - WIND: 1
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DeepSeaLevel: 0.28
@@ -145,20 +149,21 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
+    - _Wind: 1
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _DarkGrass: {r: 0.2667837, g: 0.3490566, b: 0.00878127, a: 1}
+    - _DarkGrass: {r: 0.25258845, g: 0.3301887, b: 0.0020766174, a: 1}
     - _DeepSeaColor: {r: 0.056971468, g: 0.11320752, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Emissive: {r: 0, g: 0.11764706, b: 1, a: 1}
     - _FlowerColor: {r: 1, g: 0, b: 0.42097378, a: 1}
     - _Forest: {r: 0.29803923, g: 0.38823533, b: 0, a: 1}
-    - _Grass: {r: 0.2993991, g: 0.38679248, b: 0, a: 1}
+    - _Grass: {r: 0.27520493, g: 0.3584906, b: 0, a: 1}
     - _Min: {r: -36, g: 0, b: 0, a: 0}
     - _Offset: {r: 0, g: 0, b: 0, a: 0}
     - _Size: {r: 42, g: 33, b: 0, a: 0}
     - _SpotColor: {r: 0.8745098, g: 0.8784314, b: 0.80784315, a: 1}
     - _Wheat: {r: 1, g: 0.6055649, b: 0, a: 1}
-    - _YellowGrass: {r: 0.37036735, g: 0.4433962, b: 0, a: 1}
+    - _YellowGrass: {r: 0.3452997, g: 0.41509432, b: 0, a: 1}
   m_BuildTextureStacks: []

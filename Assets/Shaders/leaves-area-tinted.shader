@@ -40,6 +40,7 @@ Shader "Custom/LeavesAreaTinted"
     	_FlowerColor ("_FlowerColor", Color) = (1,1,1,1)
     	
     	_NormalWrap ("_NormalWrap", Float) = 0.5
+    	[Toggle(WIND)] _Wind ("Wind", Float) = 0
     }
     SubShader
     {
@@ -49,7 +50,8 @@ Shader "Custom/LeavesAreaTinted"
 
             CGPROGRAM
             // Physically based Standard lighting model, and enable shadows on all light types
-            #pragma surface surf Standard vertex:instanced_rendering_vertex2  addshadow  
+            #pragma surface surf Standard vertex:instanced_rendering_vertex2  addshadow
+            #pragma shader_feature   WIND
 
             // Use shader model 3.0 target, to get nicer looking lighting
             #pragma target 5.0
@@ -101,9 +103,20 @@ Shader "Custom/LeavesAreaTinted"
 
                 const half4x4 transform =  _Transforms[v.inst];
 
+
+            	#if WIND
+half intensity = length(v.vertex.xz);
+            half wind = sin(_Time.y*7 - v.vertex.x*4)/2+.5;
+                v.vertex += wind * intensity* float4(1,0,0,0) * sin(_Time.y*4 + v.vertex.z*15)*.04;
+                v.vertex += wind * intensity* float4(0,0,1,0) * sin(_Time.y*5 + v.vertex.x*12.4535)*.04;
+            	#endif
+            	
+            	
                 v.vertex = mul(transform, v.vertex + _Offset);
                 v.normal = normalize(mul(transform, v.normal)) ;
                 v.normal = lerp(v.normal, float3(0,1,0), _NormalWrap);
+
+            
 
             #endif 
             }

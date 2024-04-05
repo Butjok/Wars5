@@ -123,6 +123,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - WIND: 0
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DeepSeaLevel: 0.28
@@ -145,6 +146,7 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
+    - _Wind: 0
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
