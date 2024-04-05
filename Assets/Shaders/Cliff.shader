@@ -56,6 +56,7 @@ Shader "Custom/Cliff" {
 			grassHSV.z *= 1.25;
 			o.Albedo = lerp(c.rgb, HSVtoRGB(grassHSV), grass);
 			float3 cliffHSV = RGBtoHSV(c.rgb);
+			cliffHSV.x += .025f;
 			cliffHSV.y *= 1.1;
 			//cliffHSV.z *= 1.125;
 			o.Albedo = lerp(o.Albedo, HSVtoRGB(cliffHSV), 1 - grass);
