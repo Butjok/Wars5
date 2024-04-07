@@ -18,6 +18,7 @@ public class LoadingView : MonoBehaviour {
     public TMP_Text progressText;
     public string progressTextFormat = "{}%";
     public Action launch;
+    public RawImage tankSpinner;
 
     public float Progress {
         set {
@@ -63,6 +64,8 @@ public class LoadingView : MonoBehaviour {
 
                 spinner.gameObject.SetActive(false);
                 usefulTip.gameObject.SetActive(false);
+                
+                tankSpinner.gameObject.SetActive(false);
 
                 if (progressText)
                     progressText.enabled = false;

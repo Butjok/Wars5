@@ -11,7 +11,8 @@ using UnityEngine.UI;
 
 public class LoadGamePanel : MonoBehaviour {
 
-    public GameObject root;
+    public RectTransform root;
+    public MainMenuView2 mainMenuView;
 
     //
     public Button buttonPrefab;
@@ -53,7 +54,9 @@ public class LoadGamePanel : MonoBehaviour {
     public void Show(IReadOnlyList<SavedMission> saves, Action<SavedMission> playMission, Action cancel) {
         Assert.IsTrue(saves.Count > 0);
 
-        root.SetActive(true);
+        root.gameObject.SetActive(true);
+        mainMenuView.TranslateShowPanel(root);
+        
         buttonPrefab.gameObject.SetActive(false);
 
         foreach (var save in saves) {
@@ -92,7 +95,8 @@ public class LoadGamePanel : MonoBehaviour {
     }
 
     public void Hide() {
-        root.SetActive(false);
+        //root.SetActive(false);
+        mainMenuView.TranslateHidePanel(root);
 
         foreach (var button in buttons)
             Destroy(button.gameObject);

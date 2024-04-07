@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Drawing;
@@ -11,7 +12,7 @@ public class MainMenuView2 : MonoBehaviour {
     public MainMenuButton campaignButton, loadGameButton, settingsButton, aboutButton, quitButton;
     public GameSettingsMenu gameSettingsMenu;
     public Image holdImage;
-    public GameObject aboutRoot;
+    public RectTransform aboutRoot;
     public ScrollRect aboutScrollRect;
     public VideoPlayer splashScreenVideoPlayer;
     public VideoClip splashScreenVideoClip;
@@ -28,6 +29,7 @@ public class MainMenuView2 : MonoBehaviour {
             yield return quitButton;
         }
     }
+
     public List<GitInfoEntry> gitInfo;
     public MainMenuQuitDialog quitDialog;
 
@@ -64,5 +66,70 @@ public class MainMenuView2 : MonoBehaviour {
                 GUI.Label(new Rect(position, size), content);
             }
         }
+    }
+
+    public Dictionary< RectTransform, Coroutine> coroutines = new();
+    public void TranslatePanel(RectTransform panel, Vector2 targetTopBottom, float duration, bool disableOnFinish = false) {
+        if (coroutines.TryGetValue(panel, out var oldCoroutine))
+            StopCoroutine(oldCoroutine);
+        var coroutine = StartCoroutine(PanelTranslationAnimation(panel, targetTopBottom, duration, disableOnFinish));
+        coroutines[panel] = coroutine;
+    }
+    public void TranslateShowPanel(RectTransform panel, float duration = .33f) {
+        panel.SetTop(-1080).SetBottom(1080);
+        panel.gameObject.SetActive(true);
+        TranslatePanel(panel, new Vector2(0, 0), duration);
+    }
+    public void TranslateHidePanel(RectTransform panel, float duration = .33f) {
+        TranslatePanel(panel, new Vector2(-1080, 1080), duration, true);
+    }
+    public IEnumerator PanelTranslationAnimation(RectTransform panel, Vector2 targetTopBottom, float duration, bool disableOnFinish = false) {
+        var startTopBottom =  new Vector2(panel.GetTop(), panel.GetBottom());
+        var startTime = Time.time;
+        while (Time.time < startTime + duration) {
+            var t = (Time.time - startTime) / duration;
+            t = Easing.OutQuad(t);
+            panel.SetTop(Mathf.Lerp(startTopBottom[0], targetTopBottom[0], t));
+            panel.SetBottom(Mathf.Lerp(startTopBottom[1], targetTopBottom[1], t));
+            yield return null;
+        }
+        panel.SetTop(targetTopBottom[0]);
+        panel.SetBottom(targetTopBottom[1]);
+        if (disableOnFinish)
+            panel.gameObject.SetActive(false);
+    }
+}
+
+public static class RectTransformExtensions {
+    public static RectTransform SetLeft(this RectTransform rt, float left) {
+        rt.offsetMin = new Vector2(left, rt.offsetMin.y);
+        return rt;
+    }
+    public static float GetLeft(this RectTransform rt) {
+        return rt.offsetMin.x;
+    }
+
+    public static RectTransform SetRight(this RectTransform rt, float right) {
+        rt.offsetMax = new Vector2(-right, rt.offsetMax.y);
+        return rt;
+    }
+    public static float GetRight(this RectTransform rt) {
+        return -rt.offsetMax.x;
+    }
+
+    public static RectTransform SetTop(this RectTransform rt, float top) {
+        rt.offsetMax = new Vector2(rt.offsetMax.x, -top);
+        return rt;
+    }
+    public static float GetTop(this RectTransform rt) {
+        return -rt.offsetMax.y;
+    }
+
+    public static RectTransform SetBottom(this RectTransform rt, float bottom) {
+        rt.offsetMin = new Vector2(rt.offsetMin.x, bottom);
+        return rt;
+    }
+    public static float GetBottom(this RectTransform rt) {
+        return rt.offsetMin.y;
     }
 }

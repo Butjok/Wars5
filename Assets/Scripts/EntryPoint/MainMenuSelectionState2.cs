@@ -40,7 +40,7 @@ public class MainMenuState2 : StateMachineState {
                 Time.timeScale = 1;
             }
 
-            var zoomFadeAnimation = CameraAnimation.ZoomFadeAnimation(view.mainCamera, 2, startFovFactor: .9f);
+            var zoomFadeAnimation = CameraAnimation.ZoomFadeAnimation(view.mainCamera, 3, startFovFactor: .9f);
             while (zoomFadeAnimation.MoveNext())
                 yield return StateChange.none;
 

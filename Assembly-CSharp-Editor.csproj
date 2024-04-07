@@ -42,6 +42,7 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets\MultiAudioListener\Editor\MultiAudioSourceEditorScript.cs" />
+     <Folder Include="Assets\Editor" />
      <Folder Include="Assets\MultiAudioListener\Editor" />
      <Reference Include="UnityEngine">
      <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.1f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
@@ -1123,6 +1124,26 @@
     <ProjectReference Include="ALINEPackageToolsEditor.csproj">
       <Project>{acc937ff-be72-6096-e219-b39fdc0d4207}</Project>
       <Name>ALINEPackageToolsEditor</Name>
+    </ProjectReference>
+    <ProjectReference Include="spine-unity.csproj">
+      <Project>{5021a233-c69e-50a5-1d11-52eb1c27fcaa}</Project>
+      <Name>spine-unity</Name>
+    </ProjectReference>
+    <ProjectReference Include="spine-unity-examples.csproj">
+      <Project>{d1c632cb-d91b-8fb7-8401-7509f9f06614}</Project>
+      <Name>spine-unity-examples</Name>
+    </ProjectReference>
+    <ProjectReference Include="spine-csharp.csproj">
+      <Project>{b51580c5-7d8b-24e9-8c15-9bfcff326cc5}</Project>
+      <Name>spine-csharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="spine-unity-examples-editor.csproj">
+      <Project>{2a33a90c-b031-5307-31ce-60633a623493}</Project>
+      <Name>spine-unity-examples-editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="spine-unity-editor.csproj">
+      <Project>{0db7c8be-182e-bc20-db2e-797ff75d3721}</Project>
+      <Name>spine-unity-editor</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

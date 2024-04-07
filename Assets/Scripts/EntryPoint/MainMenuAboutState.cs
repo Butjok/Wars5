@@ -12,15 +12,16 @@ public class MainMenuAboutState : StateMachineState {
             // foreach (var button in view.Buttons)
             //     button.Visible = false;
 
-            view.aboutRoot.SetActive(true);
+            view.aboutRoot.gameObject.SetActive(true);
+            view.TranslateShowPanel(view.aboutRoot);
 
             view.aboutScrollRect.verticalNormalizedPosition = 1;
 
             while (true) {
-                var shouldStop = InputState.TryConsumeKeyDown(KeyCode.Escape);
+                var shouldStop = Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(Mouse.right);
+                yield return StateChange.none;
                 if (shouldStop)
                     break;
-                yield return StateChange.none;
             }
 
             yield return StateChange.Pop();
@@ -29,7 +30,8 @@ public class MainMenuAboutState : StateMachineState {
 
     public override void Exit() {
         var view = stateMachine.TryFind<MainMenuState2>().view;
-        view.aboutRoot.SetActive(false);
+        view.TranslateHidePanel(view.aboutRoot);
+        //view.aboutRoot.gameObject.SetActive(false);
         // foreach (var button in view.Buttons)
         //     button.Visible = true;
     }

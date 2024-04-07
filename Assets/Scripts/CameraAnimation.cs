@@ -1,20 +1,33 @@
+using System;
 using System.Collections;
 using Butjok.CommandLine;
+using Cinemachine;
 using UnityEngine;
 
 public static class CameraAnimation {
 
     public static IEnumerator ZoomFadeAnimation(Camera camera, float fovDuration = 3, float startFovFactor = .75f) {
+        var brain = camera.GetComponent<CinemachineBrain>();
+        var virtualCamera = brain ? (CinemachineVirtualCamera) brain.ActiveVirtualCamera : null;
+        float GetFov() {
+            return virtualCamera ? virtualCamera.m_Lens.FieldOfView : camera.fieldOfView;
+        }
+        void SetFov(float value) {
+            if (virtualCamera)
+                virtualCamera.m_Lens.FieldOfView = value;
+            else
+                camera.fieldOfView = value;
+        }
         var startTime = Time.time;
         var fadeDuration = fovDuration ;
-        var endFov = camera.fieldOfView;
+        var endFov = GetFov();
         var startFov = endFov * startFovFactor;
         while (Time.time < startTime + Mathf.Max(fovDuration, fadeDuration)) {
-            camera.fieldOfView = Mathf.Lerp(startFov, endFov, Easing.OutQuad(Mathf.Clamp01((Time.time - startTime) / fovDuration)));
+            SetFov(Mathf.Lerp(startFov, endFov, Easing.OutQuad(Mathf.Clamp01((Time.time - startTime) / fovDuration))));
             PostProcessing.ColorFilter = Color.Lerp(Color.black, Color.white, (Mathf.Clamp01((Time.time - startTime) / fadeDuration)).Square());
             yield return null;
         }
-        camera.fieldOfView = endFov;
+        SetFov(endFov);
         PostProcessing.ColorFilter = Color.white;
     }
 }

@@ -22,7 +22,7 @@ public static class Gettext {
         Load(CultureInfo.GetCultureInfo(cultureInfoName));
     }
     public static void Load(CultureInfo cultureInfo = null) {
-        catalog = new Catalog("Dialogues", Path.Combine(Application.streamingAssetsPath, "Translations"), cultureInfo ?? CultureInfo.GetCultureInfo("ru-RU"));
+        catalog = new Catalog("Dialogues", Path.Combine(Application.streamingAssetsPath, "Translations"), cultureInfo ?? CultureInfo.GetCultureInfo("en-US"));
     }
 
     public static string _(string text) => Catalog.GetString(text);

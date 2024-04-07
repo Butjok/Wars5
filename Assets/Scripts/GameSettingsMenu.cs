@@ -7,7 +7,8 @@ using UnityEngine.UI;
 
 public class GameSettingsMenu : MonoBehaviour {
 
-    public GameObject root;
+    public RectTransform root;
+    public MainMenuView2 mainMenuView;
 
     public Slider masterVolumeSlider;
     public Slider musicVolumeSlider;
@@ -49,7 +50,9 @@ public class GameSettingsMenu : MonoBehaviour {
         persistentData = settings.persistentData;
         oldJson = settings.ToJson();
 
-        root.SetActive(true);
+        root.gameObject.SetActive(true);
+        mainMenuView.TranslateShowPanel(root);
+        
         UpdateControls();
     }
 
@@ -94,7 +97,7 @@ public class GameSettingsMenu : MonoBehaviour {
     }
 
     public void Hide() {
-        root.SetActive(false);
+        mainMenuView.TranslateHidePanel(root);
     }
 
     public bool TryClose() {

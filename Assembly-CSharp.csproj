@@ -53,6 +53,7 @@
      <Folder Include="Assets" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\StdLib.hlsl" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Debug\Waveform.shader" />
+     <Folder Include="Assets\Spine" />
      <None Include="Assets\Saves\0\0-29.01.2023-15.07.01.txt" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\Shaders\My First Lighting Shader.shader" />
@@ -61,6 +62,7 @@
      <None Include="Assets\Resources\TileTypeColors.json" />
      <None Include="Assets\Saves\0\0-22.01.2023-19.43.46.txt" />
      <Folder Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Textures\LensDirt" />
+     <None Include="Assets\Spine\version.txt" />
      <Folder Include="Assets\Particles" />
      <None Include="Assets\Saves\0\0-27.01.2023-10.25.01.txt" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
@@ -110,6 +112,7 @@
      <Folder Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Textures\Cubes" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\Lut3DBaker.compute" />
      <None Include="Assets\Saves\test\20.01.2023-21.38.32.txt" />
+     <None Include="Assets\Ui\skeleton.json" />
      <None Include="Assets\Shaders\TileMap.shader" />
      <None Include="Assets\Saves\0\0-28.01.2023-14.11.05.txt" />
      <None Include="Assets\Dialogues2.txt" />
@@ -148,6 +151,7 @@
      <Folder Include="Assets\Fonts" />
      <Folder Include="Assets\Saves\test.0" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Debug\LightMeter.shader" />
+     <None Include="Assets\Ui\skeleton.atlas.txt" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
      <Folder Include="Assets\SceneTemplates\MainMenu" />
      <None Include="Assets\Saves\0\0-22.01.2023-19.45.37.txt" />
@@ -169,6 +173,7 @@
      <Folder Include="Assets\Saves\AutosaveProps" />
      <None Include="Assets\Shaders\NewSurfaceShader.shader" />
      <None Include="Assets\ShaderTests\contrastgrid.shader" />
+     <Folder Include="Assets\Content\MainMenu" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\DiskKernels.hlsl" />
      <Folder Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Textures\BlueNoise256px" />
      <Folder Include="Assets\HoleShader" />
@@ -305,6 +310,7 @@
      <None Include="Assets\Saves\0\0-22.01.2023-18.59.01.txt" />
      <None Include="Assets\Shaders\GrayscaleImage.shader" />
      <None Include="Assets\Shaders\TerrainBorder.shader" />
+     <None Include="Assets\Spine\package.json" />
      <Folder Include="Assets\Content\decals" />
      <Folder Include="Assets\Resources\Dialogue" />
      <Folder Include="Assets\MultiAudioListener\Example" />
@@ -388,6 +394,7 @@
      <Folder Include="Assets\Saves\TutorialForests" />
      <Folder Include="Assets\Textures\Bumps" />
      <None Include="Assets\Shaders\SimpleInstanced.shader" />
+     <Folder Include="Assets\UiAnimationTest" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\MultiScaleVODownsample1.compute" />
      <None Include="Assets\Saves\0\0-27.01.2023-21.16.19.txt" />
      <Folder Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Editor" />
@@ -1571,6 +1578,26 @@
     <ProjectReference Include="ALINEPackageToolsEditor.csproj">
       <Project>{acc937ff-be72-6096-e219-b39fdc0d4207}</Project>
       <Name>ALINEPackageToolsEditor</Name>
+    </ProjectReference>
+    <ProjectReference Include="spine-unity.csproj">
+      <Project>{5021a233-c69e-50a5-1d11-52eb1c27fcaa}</Project>
+      <Name>spine-unity</Name>
+    </ProjectReference>
+    <ProjectReference Include="spine-unity-examples.csproj">
+      <Project>{d1c632cb-d91b-8fb7-8401-7509f9f06614}</Project>
+      <Name>spine-unity-examples</Name>
+    </ProjectReference>
+    <ProjectReference Include="spine-csharp.csproj">
+      <Project>{b51580c5-7d8b-24e9-8c15-9bfcff326cc5}</Project>
+      <Name>spine-csharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="spine-unity-examples-editor.csproj">
+      <Project>{2a33a90c-b031-5307-31ce-60633a623493}</Project>
+      <Name>spine-unity-examples-editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="spine-unity-editor.csproj">
+      <Project>{0db7c8be-182e-bc20-db2e-797ff75d3721}</Project>
+      <Name>spine-unity-editor</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
