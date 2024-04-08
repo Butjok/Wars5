@@ -1515,6 +1515,10 @@
       <Project>{f8cd9e74-1601-dd96-87ab-1cdbe561b5b5}</Project>
       <Name>DOTween.Modules</Name>
     </ProjectReference>
+    <ProjectReference Include="spine-unity-examples.csproj">
+      <Project>{d1c632cb-d91b-8fb7-8401-7509f9f06614}</Project>
+      <Name>spine-unity-examples</Name>
+    </ProjectReference>
     <ProjectReference Include="NGettext.csproj">
       <Project>{d3c3a7e3-e88d-8cd5-b33c-a6e0e3c96401}</Project>
       <Name>NGettext</Name>
@@ -1547,6 +1551,18 @@
       <Project>{d5b8541c-f441-8d80-7fbd-e1596386e42d}</Project>
       <Name>WarsEditor</Name>
     </ProjectReference>
+    <ProjectReference Include="spine-csharp.csproj">
+      <Project>{b51580c5-7d8b-24e9-8c15-9bfcff326cc5}</Project>
+      <Name>spine-csharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="spine-unity-examples-editor.csproj">
+      <Project>{2a33a90c-b031-5307-31ce-60633a623493}</Project>
+      <Name>spine-unity-examples-editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="spine-unity.csproj">
+      <Project>{5021a233-c69e-50a5-1d11-52eb1c27fcaa}</Project>
+      <Name>spine-unity</Name>
+    </ProjectReference>
     <ProjectReference Include="FoliageEditor.csproj">
       <Project>{0b979f64-6409-506b-a265-67092679b5f9}</Project>
       <Name>FoliageEditor</Name>
@@ -1575,29 +1591,13 @@
       <Project>{091aa702-4d91-b5db-cc8d-9330429d1595}</Project>
       <Name>Unity.Postprocessing.Runtime</Name>
     </ProjectReference>
-    <ProjectReference Include="ALINEPackageToolsEditor.csproj">
-      <Project>{acc937ff-be72-6096-e219-b39fdc0d4207}</Project>
-      <Name>ALINEPackageToolsEditor</Name>
-    </ProjectReference>
-    <ProjectReference Include="spine-unity.csproj">
-      <Project>{5021a233-c69e-50a5-1d11-52eb1c27fcaa}</Project>
-      <Name>spine-unity</Name>
-    </ProjectReference>
-    <ProjectReference Include="spine-unity-examples.csproj">
-      <Project>{d1c632cb-d91b-8fb7-8401-7509f9f06614}</Project>
-      <Name>spine-unity-examples</Name>
-    </ProjectReference>
-    <ProjectReference Include="spine-csharp.csproj">
-      <Project>{b51580c5-7d8b-24e9-8c15-9bfcff326cc5}</Project>
-      <Name>spine-csharp</Name>
-    </ProjectReference>
-    <ProjectReference Include="spine-unity-examples-editor.csproj">
-      <Project>{2a33a90c-b031-5307-31ce-60633a623493}</Project>
-      <Name>spine-unity-examples-editor</Name>
-    </ProjectReference>
     <ProjectReference Include="spine-unity-editor.csproj">
       <Project>{0db7c8be-182e-bc20-db2e-797ff75d3721}</Project>
       <Name>spine-unity-editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="ALINEPackageToolsEditor.csproj">
+      <Project>{acc937ff-be72-6096-e219-b39fdc0d4207}</Project>
+      <Name>ALINEPackageToolsEditor</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
