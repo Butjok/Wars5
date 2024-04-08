@@ -19,6 +19,8 @@ public class MainMenuState2 : StateMachineState {
 
     public override IEnumerator<StateChange> Enter {
         get {
+            Cursor.visible = false;
+            
             if (SceneManager.GetActiveScene().name != sceneName)
                 SceneManager.LoadScene(sceneName);
 
@@ -61,6 +63,7 @@ public class MainMenuState2 : StateMachineState {
             }
 
             view.enabled = true;
+            Cursor.visible = true;
 
             yield return StateChange.Push(new MainMenuSelectionState2(stateMachine));
         }

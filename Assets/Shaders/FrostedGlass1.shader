@@ -4,6 +4,7 @@ Shader "Unlit/FrostedGlass1" {
 			[HideInInspector] _MainTex ("Masking Texture", 2D) = "white" {}
 		_AdditiveColor ("Additive Tint color", Color) = (0, 0, 0, 0)
 			_MultiplyColor ("Multiply Tint color", Color) = (1, 1, 1, 1)
+		[PerRendererData] _Color ("Main Color", Color) = (1,1,1,1)
 	}
 	
 	CGINCLUDE
@@ -120,6 +121,7 @@ Shader "Unlit/FrostedGlass1" {
 
 				sampler2D _MainTex;
 				float4 _MainTex_ST;
+				float4 _Color;
 
 				v2f vert (appdata_t v) {
 					v2f o;
@@ -148,7 +150,7 @@ Shader "Unlit/FrostedGlass1" {
 				half4 frag( v2f i ) : COLOR
 				{
 					half4 sum = half4(0,0,0,0);
-					half input = tex2D(_MainTex, i.uvmain).a;
+					half input = tex2D(_MainTex, i.uvmain).a * _Color;
 					half radius = input * _Size.y;
 
 #define GRABPIXEL(weight,kernely) tex2D( _VBlur, float2(i.uvgrab.x, i.uvgrab.y + _VBlur_TexelSize.y * kernely * radius)) * weight

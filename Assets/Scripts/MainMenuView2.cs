@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Butjok.CommandLine;
 using Drawing;
 using UnityEngine;
 using UnityEngine.UI;
@@ -69,34 +70,39 @@ public class MainMenuView2 : MonoBehaviour {
     }
 
     public Dictionary< RectTransform, Coroutine> coroutines = new();
-    public void TranslatePanel(RectTransform panel, Vector2 targetTopBottom, float duration, bool disableOnFinish = false) {
-        if (coroutines.TryGetValue(panel, out var oldCoroutine))
-            StopCoroutine(oldCoroutine);
-        var coroutine = StartCoroutine(PanelTranslationAnimation(panel, targetTopBottom, duration, disableOnFinish));
-        coroutines[panel] = coroutine;
+    public void TranslatePanel(RectTransform panel, Vector2 targetTopBottom, bool disableOnFinish = false) {
+        //if (coroutines.TryGetValue(panel, out var oldCoroutine))
+        //    StopCoroutine(oldCoroutine);
+        var coroutine = StartCoroutine(PanelTranslationAnimation(panel, targetTopBottom, disableOnFinish));
+        //coroutines[panel] = coroutine;
     }
-    public void TranslateShowPanel(RectTransform panel, float duration = .33f) {
+    public void TranslateShowPanel(RectTransform panel) {
         panel.SetTop(-1080).SetBottom(1080);
         panel.gameObject.SetActive(true);
-        TranslatePanel(panel, new Vector2(0, 0), duration);
+        TranslatePanel(panel, new Vector2(0, 0));
     }
-    public void TranslateHidePanel(RectTransform panel, float duration = .33f) {
-        TranslatePanel(panel, new Vector2(-1080, 1080), duration, true);
+    public void TranslateHidePanel(RectTransform panel) {
+        TranslatePanel(panel, new Vector2(-1080, 1080), true);
     }
-    public IEnumerator PanelTranslationAnimation(RectTransform panel, Vector2 targetTopBottom, float duration, bool disableOnFinish = false) {
-        var startTopBottom =  new Vector2(panel.GetTop(), panel.GetBottom());
+    
+    [Command] public Easing.Name easing = Easing.Name.OutQuad;
+    [Command] public float duration = .33f;
+    
+    public IEnumerator PanelTranslationAnimation(RectTransform panel, Vector2 targetTopBottom, bool disableOnFinish = false) {
+        /*var startTopBottom =  new Vector2(panel.GetTop(), panel.GetBottom());
         var startTime = Time.time;
         while (Time.time < startTime + duration) {
             var t = (Time.time - startTime) / duration;
-            t = Easing.OutQuad(t);
+            t = Easing.Dynamic(easing, t);
             panel.SetTop(Mathf.Lerp(startTopBottom[0], targetTopBottom[0], t));
             panel.SetBottom(Mathf.Lerp(startTopBottom[1], targetTopBottom[1], t));
             yield return null;
-        }
+        }*/
         panel.SetTop(targetTopBottom[0]);
         panel.SetBottom(targetTopBottom[1]);
         if (disableOnFinish)
             panel.gameObject.SetActive(false);
+        yield break;
     }
 }
 

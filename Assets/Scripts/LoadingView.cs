@@ -81,7 +81,7 @@ public class LoadingView : MonoBehaviour {
 public class LoadingState : StateMachineState {
 
     [Command]
-    public static float minimumLoadingTime = 0;
+    public static float minimumLoadingTime = 3;
     [Command]
     public static string sceneName = "Loading";
 

@@ -24,7 +24,10 @@ public static class CameraAnimation {
         var startFov = endFov * startFovFactor;
         while (Time.time < startTime + Mathf.Max(fovDuration, fadeDuration)) {
             SetFov(Mathf.Lerp(startFov, endFov, Easing.OutQuad(Mathf.Clamp01((Time.time - startTime) / fovDuration))));
-            PostProcessing.ColorFilter = Color.Lerp(Color.black, Color.white, (Mathf.Clamp01((Time.time - startTime) / fadeDuration)).Square());
+            Color color = Color.black;
+            var t =  Mathf.Clamp01((Time.time - startTime) / fadeDuration);
+            PostProcessing.ColorFilter = Color.HSVToRGB(.125f, Mathf.Lerp(.125f, 0, t), t*t); 
+            //PostProcessing.ColorFilter = Color.Lerp(Color.black, Color.white, (Mathf.Clamp01((Time.time - startTime) / fadeDuration)).Square());
             yield return null;
         }
         SetFov(endFov);

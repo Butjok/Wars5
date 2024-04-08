@@ -28,7 +28,8 @@ Material:
     m_Floats:
     - _Size: 6.4
     m_Colors:
-    - _AdditiveColor: {r: 0.101960786, g: 0.064689964, b: 0, a: 0}
-    - _MultiplyColor: {r: 0.73916715, g: 0.764151, b: 0.5743147, a: 1}
-    - _Size: {r: 2, g: 5, b: 0, a: 0}
+    - _AdditiveColor: {r: 0, g: 0, b: 0, a: 0}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _MultiplyColor: {r: 0.990566, g: 0.9551031, b: 0.87531143, a: 1}
+    - _Size: {r: 10, g: 10, b: 0, a: 0}
   m_BuildTextureStacks: []
