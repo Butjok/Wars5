@@ -59,18 +59,18 @@ MonoBehaviour:
   active: 1
   enabled:
     overrideState: 1
-    value: 0
+    value: 1
   focusDistance:
     overrideState: 1
-    value: 3.01
+    value: 2.15
   aperture:
     overrideState: 1
-    value: 7.44
+    value: 32
   focalLength:
     overrideState: 1
-    value: 59.9
+    value: 99
   kernelSize:
-    overrideState: 0
+    overrideState: 1
     value: 3
 --- !u!114 &-6601307603808693383
 MonoBehaviour:
@@ -336,12 +336,12 @@ MonoBehaviour:
     value: 2.5
   threshold:
     overrideState: 1
-    value: 1
+    value: 1.5
   softKnee:
     overrideState: 0
     value: 0
   clamp:
-    overrideState: 1
+    overrideState: 0
     value: 1
   diffusion:
     overrideState: 0
@@ -353,7 +353,7 @@ MonoBehaviour:
     overrideState: 0
     value: {r: 1, g: 0.20942408, b: 0, a: 1}
   fastMode:
-    overrideState: 1
+    overrideState: 0
     value: 1
   dirtTexture:
     overrideState: 0
@@ -383,7 +383,7 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 0.44
+    value: 0.33
   size:
     overrideState: 1
     value: 0.5

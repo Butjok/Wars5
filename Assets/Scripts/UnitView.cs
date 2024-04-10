@@ -138,6 +138,12 @@ public class UnitView : MonoBehaviour {
     [Command] public static float maxTorque = 25;
     [Command] public static float turnTorqueMultiplier = 0.125f;
 
+    public bool overrideTerrainBumpRange;
+    public Vector2 terrainBumpRangeOverride = new(0, .02f);
+    
+    public bool overrideTerrainBumpTiling;
+    public float terrainBumpTilingOverride = 5f;
+
     public static LayerMask TerrainLayerMask => LayerMasks.Terrain | LayerMasks.Roads;
 
     public UnitView prefab;
@@ -422,8 +428,10 @@ public class UnitView : MonoBehaviour {
             var hasHit = Physics.SphereCast(ray, wheel.radius, out var hit, float.MaxValue, TerrainLayerMask);
             if (hasHit) {
                 wheel.position = ray.GetPoint(hit.distance);
-                var noise = Mathf.PerlinNoise(wheel.position.x * terrainBumpTiling, wheel.position.z * terrainBumpTiling);
-                var height = Mathf.Lerp(terrainBumpRange[0], terrainBumpRange[1], noise);
+                var bumpTiling = overrideTerrainBumpTiling ? terrainBumpTilingOverride : terrainBumpTiling;
+                var noise = Mathf.PerlinNoise(wheel.position.x * bumpTiling, wheel.position.z * bumpTiling);
+                var bumpRange =  overrideTerrainBumpRange ? terrainBumpRangeOverride : terrainBumpRange;
+                var height = Mathf.Lerp(bumpRange[0], bumpRange[1], noise);
                 wheel.position += height * Vector3.up;
             }
             else {

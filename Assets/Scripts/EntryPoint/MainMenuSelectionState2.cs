@@ -19,6 +19,10 @@ public class MainMenuState2 : StateMachineState {
 
     public override IEnumerator<StateChange> Enter {
         get {
+            QualitySettings.shadowDistance = 26;
+            QualitySettings.shadowCascades = 2;
+            QualitySettings.shadowCascade2Split = .09f;
+            
             Cursor.visible = false;
             
             if (SceneManager.GetActiveScene().name != sceneName)
@@ -67,6 +71,10 @@ public class MainMenuState2 : StateMachineState {
 
             yield return StateChange.Push(new MainMenuSelectionState2(stateMachine));
         }
+    }
+
+    public override void Exit() {
+        QualitySettings.shadowCascades = 0;
     }
 }
 

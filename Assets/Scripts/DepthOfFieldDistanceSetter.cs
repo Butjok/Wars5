@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Rendering.PostProcessing;
@@ -6,8 +7,16 @@ using UnityEngine.Serialization;
 [ExecuteInEditMode]
 public class DepthOfFieldDistanceSetter : MonoBehaviour {
 
-    private PostProcessProfile postProcessProfile;
     private DepthOfField depthOfField;
+    public DepthOfField DepthOfField {
+        get {
+            if (!depthOfField) {
+                var postProcessProfile = "PostProcessProfile1".LoadAs<PostProcessProfile>();
+                depthOfField = postProcessProfile.GetSetting<DepthOfField>();
+            }
+            return depthOfField;
+        }
+    }
 
     public int priority;
     public Vector2 focalLengthBounds = new Vector2(1, 0);
@@ -19,31 +28,10 @@ public class DepthOfFieldDistanceSetter : MonoBehaviour {
     public static int lastFrame = -1;
     public static int lastPriority;
 
-    private void LateUpdate() {
-
-        if (!postProcessProfile)
-            postProcessProfile = Resources.Load<PostProcessProfile>("PostProcessProfile");
-
-        Assert.IsTrue(postProcessProfile);
-        depthOfField = postProcessProfile.GetSetting<DepthOfField>();
-
-        if (depthOfField) {
-            if (Time.frameCount != lastFrame) {
-                lastFrame = Time.frameCount;
-                lastPriority = int.MinValue;
-            }
-            if (priority > lastPriority) {
-                lastPriority = priority;
-                if (setConstant) {
-                    depthOfField.focusDistance.value = constantDistance;
-                    depthOfField.focalLength.value = constantFocalLength;
-                }
-                else if (cameraRig) {
-                    depthOfField.focusDistance.value = cameraRig.Distance;
-                    var t = (cameraRig.Distance - cameraRig.distanceClamp[0]) / (cameraRig.distanceClamp[1] - cameraRig.distanceClamp[0]);
-                    depthOfField.focalLength.value = Mathf.Lerp(focalLengthBounds[0], focalLengthBounds[1], t);
-                }
-            }
-        }
+    public void OnEnable() {
+        DepthOfField.enabled.value = true;
+    }
+    public void OnDisable() {
+        DepthOfField.enabled.value = false;
     }
 }
