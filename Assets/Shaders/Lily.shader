@@ -40,6 +40,8 @@ Shader "Custom/Lily" {
 		UNITY_INSTANCING_BUFFER_START(Props)
 			// put more per-instance properties here
 		UNITY_INSTANCING_BUFFER_END(Props)
+		
+		#include "Assets/Shaders/Utils.cginc"
 
 		void surf (Input IN, inout SurfaceOutputStandard o) {
 			// Albedo comes from a texture tinted by color
@@ -60,6 +62,10 @@ Shader "Custom/Lily" {
 			o.Metallic = _Metallic;
 			o.Smoothness = _Glossiness;
 			o.Alpha = c.a;
+			
+			float3 hsv = RGBtoHSV(o.Albedo.rgb);
+			hsv.z *= 1.5;
+			o.Albedo.rgb = HSVtoRGB(hsv);
 
 			//o.Albedo=0;
 			//o.Albedo.rg = actualUv;
