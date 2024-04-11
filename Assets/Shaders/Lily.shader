@@ -64,6 +64,7 @@ Shader "Custom/Lily" {
 			o.Alpha = c.a;
 			
 			float3 hsv = RGBtoHSV(o.Albedo.rgb);
+			//hsv.x -= .1;
 			hsv.z *= 1.5;
 			o.Albedo.rgb = HSVtoRGB(hsv);
 

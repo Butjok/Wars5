@@ -27,7 +27,7 @@ MonoBehaviour:
     value: {x: 0.5, y: 0.5}
   intensity:
     overrideState: 1
-    value: 0.59
+    value: 0.53
   smoothness:
     overrideState: 1
     value: 0.359
@@ -127,7 +127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a757492024aa428a82bd9d5271f625bd, type: 3}
   m_Name: VignetteBlur
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   enabled:
     overrideState: 1
     value: 1
@@ -183,7 +183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6050e2d5de785ce4d931e4dbdbf2d755, type: 3}
   m_Name: ChromaticAberration
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   enabled:
     overrideState: 1
     value: 1
@@ -432,10 +432,10 @@ MonoBehaviour:
     value: 0
   postExposure:
     overrideState: 0
-    value: 1
+    value: 0.25
   contrast:
     overrideState: 1
-    value: 10
+    value: 5
   mixerRedOutRedIn:
     overrideState: 0
     value: 200
@@ -471,7 +471,7 @@ MonoBehaviour:
     value: {x: 1, y: 1, z: 1, w: -0.07761967}
   gain:
     overrideState: 1
-    value: {x: 1, y: 1, z: 1, w: 0.6183206}
+    value: {x: 1, y: 1, z: 1, w: 0.7352162}
   masterCurve:
     overrideState: 0
     value:
