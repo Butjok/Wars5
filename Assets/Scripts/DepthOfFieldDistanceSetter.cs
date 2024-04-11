@@ -29,9 +29,9 @@ public class DepthOfFieldDistanceSetter : MonoBehaviour {
     public static int lastPriority;
 
     public void OnEnable() {
-        DepthOfField.enabled.value = true;
+//        DepthOfField.enabled.value = true;
     }
     public void OnDisable() {
-        DepthOfField.enabled.value = false;
+  //      DepthOfField.enabled.value = false;
     }
 }

@@ -15,7 +15,7 @@ public class PostProcessing : MonoBehaviour {
         colorGrading = profile.GetSetting<ColorGrading>();
         Assert.IsTrue(colorGrading);
         depthOfField = profile.GetSetting<DepthOfField>();
-        Assert.IsTrue(depthOfField);
+        //Assert.IsTrue(depthOfField);
         cameraFlip = profile.GetSetting<CameraFlip>();
     }
 

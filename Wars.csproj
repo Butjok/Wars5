@@ -50,6 +50,7 @@
      <Compile Include="Assets\Scripts\HoleMaterialUpdater.cs" />
      <Compile Include="Assets\Scripts\MissionView.cs" />
      <Compile Include="Assets\Scripts\EntryPoint\MainMenuGameSettingsState.cs" />
+     <Compile Include="Assets\Scripts\MainMenuCameraShaker.cs" />
      <Compile Include="Assets\Scripts\PreviousPositions.cs" />
      <Compile Include="Assets\Scripts\LevelEditor\LevelEditor.cs" />
      <Compile Include="Assets\Scripts\GameStates\AttackActionState.cs" />
@@ -57,6 +58,7 @@
      <Compile Include="Assets\Scripts\Missions.FirstMission.cs" />
      <Compile Include="Assets\Scripts\MainMenuQuitDialog.cs" />
      <Compile Include="Assets\Scripts\Turret2.cs" />
+     <Compile Include="Assets\Scripts\MainMenuButton2.cs" />
      <Compile Include="Assets\Scripts\LevelEditor\LevelEditorZoneModeState.cs" />
      <Compile Include="Assets\Scripts\TerrainMapper.cs" />
      <Compile Include="Assets\Scripts\TileMask.cs" />
@@ -312,8 +314,6 @@
      <Compile Include="Assets\Scripts\FlipbookTest.cs" />
      <Compile Include="Assets\Scripts\Animation\UnitViewSequenceSubroutines.cs" />
      <Compile Include="Assets\Scripts\EntryPoint\MainMenuWelcomeState.cs" />
-     <Compile Include="Assets\Scripts\MainMenuButton2.cs" />
-     <Compile Include="Assets\Scripts\MainMenuCameraShaker.cs" />
      <Folder Include="Assets\Scripts\EntryPoint" />
      <None Include="Assets\Scripts\Wars.asmdef" />
      <Folder Include="Assets\Scripts\DialogueMarkupLanguage" />

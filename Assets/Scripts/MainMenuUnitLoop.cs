@@ -30,18 +30,21 @@ public class MainMenuUnitLoop : MonoBehaviour {
     public float startNoiseAmplitude;
     public float startNoiseFrequency;
     public void Start() {
-        noise = virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
-        startNoiseAmplitude = noise.m_AmplitudeGain;
-        startNoiseFrequency = noise.m_FrequencyGain;
+        if (virtualCamera) {
+            noise = virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+            startNoiseAmplitude = noise.m_AmplitudeGain;
+            startNoiseFrequency = noise.m_FrequencyGain;
+        }
     }
-    
+
     public float lastFallOff;
 
     public void Update() {
+        if (noise) {
+            noise.m_AmplitudeGain = startNoiseAmplitude;
+            noise.m_FrequencyGain = 0;
+        }
 
-        noise.m_AmplitudeGain = startNoiseAmplitude;
-        noise.m_FrequencyGain = 0;
-        
         foreach (var actor in actors) {
             var closestPoint = GetClosestPointOnLineSegment(LineStart, LineEnd, actor.position);
             var distance = (closestPoint - LineStart).magnitude;
@@ -53,12 +56,15 @@ public class MainMenuUnitLoop : MonoBehaviour {
             var wrappedDistance = nextDistance % length;
             actor.position = LineStart + LineDirection * wrappedDistance;
             
-            var distanceToCamera = Vector3.Distance(actor.position, virtualCamera.transform.position);
-            var falloff = 1 / (distanceToCamera * distanceToCamera);
-            noise.m_AmplitudeGain = Mathf.Max( noise.m_AmplitudeGain, noiseAmplitude * falloff);
+            if (noise) {
+                var distanceToCamera = Vector3.Distance(actor.position, virtualCamera.transform.position);
+                var falloff = 1 / (distanceToCamera * distanceToCamera);
+                noise.m_AmplitudeGain = Mathf.Max(noise.m_AmplitudeGain, noiseAmplitude * falloff);
+            }
         }
 
-        noise.m_FrequencyGain = noise.m_AmplitudeGain * startNoiseFrequency;
+        if (noise)
+            noise.m_FrequencyGain = noise.m_AmplitudeGain * startNoiseFrequency;
     }
 
     /*private void OnGUI() {

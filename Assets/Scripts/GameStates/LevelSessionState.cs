@@ -25,6 +25,8 @@ public class LevelSessionState : StateMachineState {
 
     public override IEnumerator<StateChange> Enter {
         get {
+
+            QualitySettings.shadowCascades = 0;
             
             level = new Level { mission = savedMission.mission };
             

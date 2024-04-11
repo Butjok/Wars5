@@ -41,6 +41,9 @@ public class LevelEditorSessionState : StateMachineState {
 
     public override IEnumerator<StateChange> Enter {
         get {
+            
+            QualitySettings.shadowCascades = 0;
+            
             if (SceneManager.GetActiveScene().name != sceneName)
                 SceneManager.LoadScene(sceneName);
             while (!LevelView.TryInstantiatePrefab(out level.view))

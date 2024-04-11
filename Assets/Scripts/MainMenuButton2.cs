@@ -20,6 +20,8 @@ public class MainMenuButton2 : MonoBehaviour {
     public bool turnGear;
     public float arrowTime;
 
+    public Vector3 startLocalPosition;
+
     public void Reset() {
         camera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
         meshRenderers = GetComponentsInChildren<MeshRenderer>();
@@ -30,13 +32,17 @@ public class MainMenuButton2 : MonoBehaviour {
         set {
             highlight = value;
             materialPropertyBlock ??= new MaterialPropertyBlock();
-            materialPropertyBlock.SetColor("_EmissionColor", value == true ? Color.white * 1.25f : Color.black);
+            materialPropertyBlock.SetColor("_EmissionColor", value == true ? Color.white * 1 : Color.black);
             foreach (var meshRenderer in meshRenderers)
                 meshRenderer.SetPropertyBlock(materialPropertyBlock);
 
             turnGear = (bool)value;
             moveArrow = (bool)value;
             arrowTime = 0;
+
+            transform.localPosition = startLocalPosition;
+            //if (value == true)
+              //  transform.localPosition += new Vector3(0, 0, .005f);
         }
         get => highlight;
     }
@@ -44,6 +50,7 @@ public class MainMenuButton2 : MonoBehaviour {
     public void Start() {
         if (arrow)
             arrowStartPosition = arrow.localPosition.x;
+        startLocalPosition = transform.localPosition;
     }
 
     public void Update() {
