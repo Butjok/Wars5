@@ -19,9 +19,9 @@ public class MainMenuState2 : StateMachineState {
 
     public override IEnumerator<StateChange> Enter {
         get {
-            QualitySettings.shadowDistance = 26;
-            QualitySettings.shadowCascades = 2;
-            QualitySettings.shadowCascade2Split = .09f;
+            QualitySettings.shadowDistance = 160;
+            QualitySettings.shadowCascades = 4;
+            QualitySettings.shadowCascade4Split = new Vector3(.02f, .18f, .267f);
             
             Cursor.visible = false;
             

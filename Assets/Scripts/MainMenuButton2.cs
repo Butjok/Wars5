@@ -41,8 +41,8 @@ public class MainMenuButton2 : MonoBehaviour {
             arrowTime = 0;
 
             transform.localPosition = startLocalPosition;
-            //if (value == true)
-              //  transform.localPosition += new Vector3(0, 0, .005f);
+            if (value == true)
+                transform.localPosition += new Vector3(0, 0, .0025f);
         }
         get => highlight;
     }
