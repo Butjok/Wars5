@@ -20,6 +20,7 @@ Shader "Custom/Unit"
         _RedAmount ("_RedAmount", Range(0,1)) = 0
         _DamageFalloffIntensity ("_DamageFalloffIntensity", Float) = 10
         [HDR] _DamageColor ("_DamageColor", Color) = (.25, .25, 0, .25)
+        _DamageTime ("_DamageTime", Float) = -1000
     }
     SubShader
     {

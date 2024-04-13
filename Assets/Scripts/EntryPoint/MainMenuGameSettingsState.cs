@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public class MainMenuGameSettingsState : StateMachineState {
 
@@ -13,10 +14,19 @@ public class MainMenuGameSettingsState : StateMachineState {
             view.gameSettingsMenu.Show(gameSessionState.persistentData.settings, () => game.EnqueueCommand(Command.Close));
 
             while (true) {
+                if (Input.GetMouseButtonDown(Mouse.right))
+                    game.EnqueueCommand(Command.Close);
+                
                 while (game.TryDequeueCommand(out var command))
                     switch (command) {
                         case (Command.Close, _):
                             yield return StateChange.Pop();
+                            break;
+                        case (MainMenuSelectionState2.Command name, _):
+                            if (name != MainMenuSelectionState2.Command.OpenGameSettingsMenu) {
+                                game.EnqueueCommand(name);
+                                yield return StateChange.Pop();
+                            }
                             break;
                         default:
                             HandleUnexpectedCommand(command);

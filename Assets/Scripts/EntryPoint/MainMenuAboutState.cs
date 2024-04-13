@@ -22,6 +22,11 @@ public class MainMenuAboutState : StateMachineState {
                 yield return StateChange.none;
                 if (shouldStop)
                     break;
+                if (Game.TryDequeueCommand(out var command)) {
+                    if (command.name is MainMenuSelectionState2.Command.OpenAboutMenu) continue;
+                    Game.EnqueueCommand(command.name);
+                    yield return StateChange.Pop();
+                }
             }
 
             yield return StateChange.Pop();

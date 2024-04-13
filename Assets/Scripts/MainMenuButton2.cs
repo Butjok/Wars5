@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(BoxCollider))]
 public class MainMenuButton2 : MonoBehaviour {
@@ -9,18 +10,24 @@ public class MainMenuButton2 : MonoBehaviour {
     public Camera camera;
     public BoxCollider boxCollider;
     public Transform gear;
-    
+
     public Transform arrow;
     public bool moveArrow;
     public float arrowStartPosition;
     public AnimationCurve arrowCurve = new();
     public float arrowSpeed = 1;
 
-    private bool? highlight;
+    private bool? highlighted;
     public bool turnGear;
     public float arrowTime;
 
     public Vector3 startLocalPosition;
+    public MainMenuSelectionState2.Command command;
+    public MainMenuView2 mainMenuView;
+    
+    public bool Interactable {
+        set => boxCollider.enabled = value;
+    }
 
     public void Reset() {
         camera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
@@ -28,9 +35,9 @@ public class MainMenuButton2 : MonoBehaviour {
         boxCollider = GetComponent<BoxCollider>();
     }
 
-    public bool? Highlight {
+    public bool? Highlighted {
         set {
-            highlight = value;
+            highlighted = value;
             materialPropertyBlock ??= new MaterialPropertyBlock();
             materialPropertyBlock.SetColor("_EmissionColor", value == true ? Color.white * 1 : Color.black);
             foreach (var meshRenderer in meshRenderers)
@@ -44,7 +51,7 @@ public class MainMenuButton2 : MonoBehaviour {
             if (value == true)
                 transform.localPosition += new Vector3(0, 0, .0025f);
         }
-        get => highlight;
+        get => highlighted;
     }
 
     public void Start() {
@@ -56,8 +63,8 @@ public class MainMenuButton2 : MonoBehaviour {
     public void Update() {
         var ray = camera.ScreenPointToRay(Input.mousePosition);
         var newValue = Physics.Raycast(ray, out var hit, float.MaxValue) && hit.collider == boxCollider;
-        if (newValue != Highlight)
-            Highlight = newValue;
+        if (newValue != Highlighted)
+            Highlighted = newValue;
         if (gear && turnGear)
             gear.Rotate(Vector3.up, 360 * Time.deltaTime, Space.Self);
         if (arrow) {
@@ -68,7 +75,12 @@ public class MainMenuButton2 : MonoBehaviour {
             }
             else
                 localPosition.x = arrowStartPosition;
+
             arrow.localPosition = localPosition;
+        }
+
+        if (Input.GetMouseButtonDown(Mouse.left) && Highlighted == true) {
+            mainMenuView.select(command);
         }
     }
 }

@@ -113,8 +113,9 @@ half intensity = length(v.vertex.xz);
             	
             	
                 v.vertex = mul(transform, v.vertex + _Offset);
+            	v.normal = lerp(v.normal, float3(0,-1,0), _NormalWrap);
                 v.normal = normalize(mul(transform, v.normal)) ;
-                v.normal = lerp(v.normal, float3(0,1,0), _NormalWrap);
+                //v.normal = lerp(v.normal, float3(0,1,0), _NormalWrap);
 
             
 

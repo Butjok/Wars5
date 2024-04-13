@@ -42,10 +42,14 @@ public class MinaMenuQuitConfirmationState : StateMachineState {
             dialog.onConfirm = () => game.EnqueueCommand(Command.Quit);
             dialog.onCancel = () => game.EnqueueCommand(Command.Cancel);
 
-            dialog.Visible = true;
+            //dialog.Visible = true;
+            view.TranslateShowPanel(dialog.GetComponent<RectTransform>());
 
             while (true) {
                 yield return StateChange.none;
+                
+                if (Input.GetMouseButtonDown(Mouse.right))
+                    game.EnqueueCommand(Command.Cancel);
 
                 while (game.TryDequeueCommand(out var command))
                     switch (command) {
@@ -61,6 +65,13 @@ public class MinaMenuQuitConfirmationState : StateMachineState {
                             Application.Quit();
 #endif
                             break;
+                        
+                        case (MainMenuSelectionState2.Command name, _):
+                            if (name != MainMenuSelectionState2.Command.OpenQuitDialog) {
+                                game.EnqueueCommand(name);
+                                yield return StateChange.Pop();
+                            }
+                            break;
 
                         default:
                             HandleUnexpectedCommand(command);
@@ -71,6 +82,8 @@ public class MinaMenuQuitConfirmationState : StateMachineState {
     }
 
     public override void Exit() {
-        dialog.Visible = false;
+        //dialog.Visible = false;
+        var view = stateMachine.Find<MainMenuState2>().view;
+        view.TranslateHidePanel(dialog.GetComponent<RectTransform>());
     }
 }

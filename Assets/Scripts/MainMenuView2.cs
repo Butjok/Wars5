@@ -10,7 +10,6 @@ using UnityEngine.Video;
 
 public class MainMenuView2 : MonoBehaviour {
 
-    public MainMenuButton campaignButton, loadGameButton, settingsButton, aboutButton, quitButton;
     public GameSettingsMenu gameSettingsMenu;
     public Image holdImage;
     public RectTransform aboutRoot;
@@ -21,20 +20,10 @@ public class MainMenuView2 : MonoBehaviour {
     public Camera mainCamera;
     public LoadGamePanel loadGamePanel;
 
-    public IEnumerable<MainMenuButton> Buttons {
-        get {
-            yield return campaignButton;
-            yield return loadGameButton;
-            yield return settingsButton;
-            yield return aboutButton;
-            yield return quitButton;
-        }
-    }
-
     public List<GitInfoEntry> gitInfo;
     public MainMenuQuitDialog quitDialog;
 
-    public Action<MainMenuSelectionState2.Command> enqueueCommand;
+    public Action<MainMenuSelectionState2.Command> select;
 
     public MainMenuButton oldButton;
     private void Update() {
@@ -47,7 +36,7 @@ public class MainMenuView2 : MonoBehaviour {
             //Draw.ingame.Cross(hit.point, Color.yellow);
             oldButton = button;
             if (Input.GetMouseButtonDown(Mouse.left))
-                enqueueCommand?.Invoke(button.command);
+                select?.Invoke(button.command);
         }
         else if (oldButton) {
             oldButton.HighlightIntensity = 0;
@@ -56,7 +45,7 @@ public class MainMenuView2 : MonoBehaviour {
     }
 
     public void OnGUI() {
-        if (gitInfo != null) {
+        /*if (gitInfo != null) {
             var lastEntry = gitInfo.OrderByDescending(entry => entry.DateTime).FirstOrDefault();
             if (lastEntry != null) {
                 GUI.skin = DefaultGuiSkin.TryGet;
@@ -66,40 +55,41 @@ public class MainMenuView2 : MonoBehaviour {
                 var position = new Vector2(Screen.width - size.x, Screen.height - size.y);
                 GUI.Label(new Rect(position, size), content);
             }
-        }
+        }*/
     }
 
-    public Dictionary< RectTransform, Coroutine> coroutines = new();
-    public void TranslatePanel(RectTransform panel, Vector2 targetTopBottom, bool disableOnFinish = false) {
-        //if (coroutines.TryGetValue(panel, out var oldCoroutine))
-        //    StopCoroutine(oldCoroutine);
-        var coroutine = StartCoroutine(PanelTranslationAnimation(panel, targetTopBottom, disableOnFinish));
-        //coroutines[panel] = coroutine;
+    public Dictionary<RectTransform, Coroutine> coroutines = new();
+    public void TranslatePanel(RectTransform panel, Vector2 targetLeftRight, bool disableOnFinish = false) {
+        if (coroutines.TryGetValue(panel, out var coroutine))
+            StopCoroutine(coroutine);
+        coroutine = StartCoroutine(PanelTranslationAnimation(panel, targetLeftRight, disableOnFinish));
+        coroutines[panel] = coroutine;
     }
     public void TranslateShowPanel(RectTransform panel) {
-        panel.SetTop(-1080).SetBottom(1080);
+        panel.SetLeft(0).SetRight(-1920);
         panel.gameObject.SetActive(true);
         TranslatePanel(panel, new Vector2(0, 0));
     }
     public void TranslateHidePanel(RectTransform panel) {
-        TranslatePanel(panel, new Vector2(-1080, 1080), true);
+        TranslatePanel(panel, new Vector2(0, -1920), true);
     }
-    
-    [Command] public Easing.Name easing = Easing.Name.OutQuad;
+
+    [Command] public Easing.Name easing = Easing.Name.InOutQuad;
     [Command] public float duration = .33f;
-    
-    public IEnumerator PanelTranslationAnimation(RectTransform panel, Vector2 targetTopBottom, bool disableOnFinish = false) {
-        /*var startTopBottom =  new Vector2(panel.GetTop(), panel.GetBottom());
+
+    public IEnumerator PanelTranslationAnimation(RectTransform panel, Vector2 targetLeftRight, bool disableOnFinish = false) {
+        var startLeftRight = new Vector2(panel.GetLeft(), panel.GetRight());
         var startTime = Time.time;
         while (Time.time < startTime + duration) {
             var t = (Time.time - startTime) / duration;
             t = Easing.Dynamic(easing, t);
-            panel.SetTop(Mathf.Lerp(startTopBottom[0], targetTopBottom[0], t));
-            panel.SetBottom(Mathf.Lerp(startTopBottom[1], targetTopBottom[1], t));
+            panel.SetLeft(Mathf.Lerp(startLeftRight[0], targetLeftRight[0], t));
+            panel.SetRight(Mathf.Lerp(startLeftRight[1], targetLeftRight[1], t));
             yield return null;
-        }*/
-        panel.SetTop(targetTopBottom[0]);
-        panel.SetBottom(targetTopBottom[1]);
+        }
+
+        panel.SetLeft(targetLeftRight[0]);
+        panel.SetRight(targetLeftRight[1]);
         if (disableOnFinish)
             panel.gameObject.SetActive(false);
         yield break;

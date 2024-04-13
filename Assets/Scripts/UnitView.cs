@@ -409,6 +409,10 @@ public class UnitView : MonoBehaviour {
         set => lowFuelText.enabled = value;
     }
 
+    public void Start() {
+        DamageTime = -1000;
+    }
+    
     // TODO: update fixed wheels after body update
 
     private void UpdateWheel(Wheel wheel) {

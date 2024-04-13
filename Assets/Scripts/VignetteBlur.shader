@@ -25,7 +25,7 @@ half4 Frag (VaryingsDefault input) : SV_Target
 	float2 difference = abs(input.texcoord - center);
 	float distance = pow(pow(difference.x, power) + pow(difference.y, power), 1/power);
 	float intensity = smoothstep(innerRadius, outerRadius, distance);
-	float blurSize = intensity * 0.005;
+	float blurSize = intensity * 0.0025;
 	float4 color = 0;
 	for (int i = -1; i <= 1; i++)
 	{

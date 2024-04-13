@@ -442,7 +442,7 @@ float forestMask = tex2D(_ForestMask, mul(_ForestMask_WorldToLocal, float4(IN.wo
         	float3 sandColor = lerp(_SandColor, _SandColor2, smoothstep( _SandLevel - _SandSharpness,  _SandLevel + _SandSharpness , IN.worldPos.y));
         	{
         	    float3 sandTint = .5;
-        		float3 a = float3(.66,.33,.2);
+        		float3 a = float3(.5,.4,.3);
         		if (erosion < .5)
         			sandTint = .5;
         		else if (erosion < .9)

@@ -29,7 +29,7 @@ public class MainMenuLoadGameState : StateMachineState {
             while (true) {
                 yield return StateChange.none;
                 
-                if (Input.GetKeyDown(KeyCode.Escape))
+                if (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(Mouse.right))
                     game.EnqueueCommand(Command.Cancel);
                 
                 while (game.TryDequeueCommand(out var command))

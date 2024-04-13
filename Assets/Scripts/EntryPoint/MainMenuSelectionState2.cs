@@ -22,9 +22,9 @@ public class MainMenuState2 : StateMachineState {
             QualitySettings.shadowDistance = 160;
             QualitySettings.shadowCascades = 4;
             QualitySettings.shadowCascade4Split = new Vector3(.02f, .18f, .267f);
-            
+
             Cursor.visible = false;
-            
+
             if (SceneManager.GetActiveScene().name != sceneName)
                 SceneManager.LoadScene(sceneName);
 
@@ -33,10 +33,12 @@ public class MainMenuState2 : StateMachineState {
                 yield return StateChange.none;
                 view = Object.FindObjectOfType<MainMenuView2>();
             }
+
+            view.select = command => Game.Instance.EnqueueCommand(command);
             view.enabled = false;
 
-            if (GitInfoEntry.TryLoad(out var gitInfo))
-                view.gitInfo = gitInfo;
+            /*if (GitInfoEntry.TryLoad(out var gitInfo))
+                view.gitInfo = gitInfo;*/
 
             // splash
             {
@@ -51,10 +53,6 @@ public class MainMenuState2 : StateMachineState {
                 yield return StateChange.none;
 
             if (showWelcome) {
-
-                foreach (var button in view.Buttons)
-                    button.Interactable = false;
-
                 var startTime = Time.time;
                 while (!Input.anyKeyDown) {
                     if (!view.pressAnyKey.activeSelf && Time.time > startTime + pressAnyKeyTimeout)
@@ -80,31 +78,37 @@ public class MainMenuState2 : StateMachineState {
 
 public class MainMenuSelectionState2 : StateMachineState {
 
-    public enum Command { GoToCampaignOverview, OpenLoadGameMenu, OpenGameSettingsMenu, OpenAboutMenu, OpenQuitDialog }
+    public enum Command {
+        GoToCampaignOverview,
+        OpenLoadGameMenu,
+        OpenGameSettingsMenu,
+        OpenAboutMenu,
+        OpenQuitDialog
+    }
 
     [Command] public static float quitHoldTime = .5f;
 
     public MainMenuSelectionState2(StateMachine stateMachine) : base(stateMachine) { }
+
     public override IEnumerator<StateChange> Enter {
         get {
             var gameSession = stateMachine.Find<GameSessionState>();
             var game = gameSession.game;
             var view = stateMachine.Find<MainMenuState2>().view;
 
-            view.enqueueCommand = command => game.EnqueueCommand(command);
+            view.select = command => game.EnqueueCommand(command);
 
-            foreach (var button in view.Buttons) {
+            /*foreach (var button in view.Buttons) {
                 button.Interactable = button != view.loadGameButton || gameSession.persistentData.campaign.Missions.Any(mission => mission.saves.Any());
-                button.onClick.RemoveAllListeners();
-                button.onClick.AddListener(_ => game.EnqueueCommand(button.command));
-            }
+                //button.onClick.RemoveAllListeners();
+                //button.onClick.AddListener(_ => game.EnqueueCommand(button.command));
+            }*/
 
             while (true) {
                 yield return StateChange.none;
 
-                while (game.TryDequeueCommand(out var command))
+                while (game.TryDequeueCommand(out var command)) {
                     switch (command) {
-
                         case (Command.OpenQuitDialog, _):
                             view.enabled = false;
                             yield return StateChange.Push(new MinaMenuQuitConfirmationState(stateMachine));
@@ -140,14 +144,13 @@ public class MainMenuSelectionState2 : StateMachineState {
                             HandleUnexpectedCommand(command);
                             break;
                     }
+                }
 
                 if (Input.GetKeyDown(KeyCode.Escape)) {
-
                     var startTime = Time.time;
                     view.holdImage.enabled = true;
 
                     while (!Input.GetKeyUp(KeyCode.Escape)) {
-
                         var holdTime = Time.time - startTime;
                         if (holdTime > quitHoldTime) {
                             game.EnqueueCommand(Command.OpenQuitDialog);
