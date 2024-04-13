@@ -2245,7 +2245,7 @@ MonoBehaviour:
   typingSpeed: 200
   spaceBarKeyImage: {fileID: 301164527}
   natalieColor: {r: 1, g: 0.6084906, b: 0.9115684, a: 1}
-  vladanColor: {r: 1, g: 0.025846045, b: 0.015686274, a: 1}
+  vladanColor: {r: 1, g: 0.38039216, b: 0, a: 1}
   jamesWillisColor: {r: 0, g: 0, b: 1, a: 1}
   ljubisaDragovicColor: {r: 1, g: 0, b: 0, a: 1}
   circle: {fileID: 2051508164}
@@ -8492,7 +8492,7 @@ MonoBehaviour:
   m_text: Vladan
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a333f21f5411c8740b78a8eb391ea648, type: 2}
-  m_sharedMaterial: {fileID: -8273337923176191609, guid: a333f21f5411c8740b78a8eb391ea648, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: cc703dea5fb8cf84c938310f30d31f05, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -15827,8 +15827,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -17898,7 +17898,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EffectColor: {r: 1, g: 0, b: 0, a: 0.68235296}
+  m_EffectColor: {r: 0.59607846, g: 0, b: 0, a: 0.68235296}
   m_EffectDistance: {x: 1.5, y: -1.5}
   m_UseGraphicAlpha: 1
 --- !u!114 &729861269
@@ -18956,7 +18956,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: 2e6ea0e3a6f9e4667a4bde8d03e626b4, type: 2}
+  m_Material: {fileID: 2100000, guid: de83260a70d00fb4b87d0c4606877eca, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -18973,7 +18973,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 0.5
+  m_PixelsPerUnitMultiplier: 50
 --- !u!222 &809009686
 CanvasRenderer:
   m_ObjectHideFlags: 0

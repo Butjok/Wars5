@@ -47,20 +47,21 @@ public class PlayerTurnState : StateMachineState {
                     yield return StateChange.none;
             }
 
-            if (Level.EnableTutorial)
-                switch (Level.Day()) {
-                    case 0:
-                        switch (Level.CurrentPlayer.ColorName) {
-                            case ColorName.Blue:
+            switch (Level.Day()) {
+                case 0:
+                    switch (Level.CurrentPlayer.ColorName) {
+                        case ColorName.Blue:
+                            if (Level.EnableTutorial)
                                 yield return StateChange.Push(new TutorialDialogue(stateMachine, TutorialDialogue.Part.WelcomePleaseSelectInfantry));
-                                break;
-                            case ColorName.Red:
+                            break;
+                        case ColorName.Red:
+                            if (Level.EnableDialogues)
                                 yield return StateChange.Push(new TutorialVladansTurnDialogue(stateMachine));
-                                break;
-                        }
+                            break;
+                    }
 
-                        break;
-                }
+                    break;
+            }
 
             var buildings = Level.Buildings.Where(b => b.Player == Level.CurrentPlayer).ToList();
             var income = buildings.Sum(Rules.Income);
@@ -74,6 +75,7 @@ public class PlayerTurnState : StateMachineState {
                         while (!jumpCompleted())
                             yield return StateChange.none;
                     }
+
                     unit.SetHp(unit.Hp + Rules.RepairAmount(building));
                 }
 

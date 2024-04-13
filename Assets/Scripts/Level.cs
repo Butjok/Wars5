@@ -48,6 +48,11 @@ public class Level : IDisposable {
         get => PlayerPrefs.GetInt(nameof(EnableTutorial), 1) != 0;
         set => PlayerPrefs.SetInt(nameof(EnableTutorial), value ? 1 : 0);
     }
+    [Command]
+    public static bool EnableDialogues {
+        get => PlayerPrefs.GetInt(nameof(EnableDialogues), 1) != 0;
+        set => PlayerPrefs.SetInt(nameof(EnableDialogues), value ? 1 : 0);
+    }
 
     public void Dispose() {
         foreach (var player in players)
