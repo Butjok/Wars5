@@ -143,6 +143,7 @@
      <Compile Include="Assets\Scripts\Views\UnitBuildMenuButton2.cs" />
      <Compile Include="Assets\Scripts\CursorView.cs" />
      <Compile Include="Assets\Scripts\SideCamera.cs" />
+     <Compile Include="Assets\Scripts\CampaignOverviewLauncher.cs" />
      <Compile Include="Assets\Scripts\PlayerView.cs" />
      <Compile Include="Assets\Scripts\Missions.SecondMission.cs" />
      <Compile Include="Assets\Scripts\ForceStableFitShadowMapping.cs" />
@@ -154,6 +155,7 @@
      <Compile Include="Assets\Scripts\GlobalGameSettings.cs" />
      <Compile Include="Assets\Scripts\GameStates\DebugDraw.cs" />
      <Compile Include="Assets\Scripts\LoadingSpinnerTest.cs" />
+     <Compile Include="Assets\Scripts\MainMenuSign.cs" />
      <Compile Include="Assets\Scripts\PowerMeterStripe.cs" />
      <Compile Include="Assets\Scripts\DepthOfFieldDistanceSetter.cs" />
      <Compile Include="Assets\Scripts\CameraAnimation.cs" />
@@ -314,8 +316,6 @@
      <Compile Include="Assets\Scripts\FlipbookTest.cs" />
      <Compile Include="Assets\Scripts\Animation\UnitViewSequenceSubroutines.cs" />
      <Compile Include="Assets\Scripts\EntryPoint\MainMenuWelcomeState.cs" />
-     <Compile Include="Assets\Scripts\MainMenuSign.cs" />
-     <Compile Include="Assets\Scripts\CampaignOverviewLauncher.cs" />
      <Folder Include="Assets\Scripts\EntryPoint" />
      <None Include="Assets\Scripts\Wars.asmdef" />
      <Folder Include="Assets\Scripts\DialogueMarkupLanguage" />
