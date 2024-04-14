@@ -5,6 +5,7 @@ using System.Linq;
 using Butjok.CommandLine;
 using Drawing;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using UnityEngine.Video;
 
@@ -19,6 +20,7 @@ public class MainMenuView2 : MonoBehaviour {
     public GameObject pressAnyKey;
     public Camera mainCamera;
     public LoadGamePanel loadGamePanel;
+    [FormerlySerializedAs("campaignPanel")] public CampaignMenu campaignMenu;
 
     public List<GitInfoEntry> gitInfo;
     public MainMenuQuitDialog quitDialog;

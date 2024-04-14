@@ -96,6 +96,7 @@ public class Campaign {
 
     [JsonProperty] public PersistentData persistentData;
 
+    [JsonProperty] public bool wasStarted;
     [JsonProperty] public Missions.Tutorial tutorial;
     [JsonProperty] public Missions.FirstMission firstMission;
     [JsonProperty] public Missions.SecondMission secondMission;
@@ -127,9 +128,10 @@ public abstract class Mission {
 
     [JsonProperty] public Campaign campaign;
     public virtual string SceneName => "MarchingSquares";
-    public abstract string Input { get; }
+    public abstract string StartInput { get; }
     public virtual bool IsAvailable => true;
-    public virtual string Name => GetType().Name;
+    public virtual string HumanFriendlyName => GetType().Name;
+    //public virtual LevelName LevelName => LevelName.None;
     public virtual string Description => "";
     public virtual Sprite LoadingScreen => null;
 

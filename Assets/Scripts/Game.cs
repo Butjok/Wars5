@@ -57,6 +57,11 @@ public class Game : MonoBehaviour {
             Screenshot = Resources.Load<Texture2D>("NatalieHappy")
         });
     }
+
+    [Command]
+    public void SavePersistentData() {
+        stateMachine.Find<GameSessionState>().persistentData.Write();
+    }
     
     public const bool createCommandLineGui = true;
 

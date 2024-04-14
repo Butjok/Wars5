@@ -217,7 +217,7 @@ public class CampaignOverviewMissionCloseUpState : StateMachineState {
             var mission = campaign.GetMission(missionView.MissionType);
 
             view.missionPanel.SetActive(true);
-            view.missionName.text = mission.Name;
+            view.missionName.text = mission.HumanFriendlyName;
             view.missionDescription.text = mission.Description;
 
             view.startMission = () => shouldStart = true;

@@ -60,7 +60,7 @@ public class LoadGamePanel : MonoBehaviour {
         buttonPrefab.gameObject.SetActive(false);
 
         foreach (var save in saves) {
-            buttonNameText.text = save.mission.Name;
+            buttonNameText.text = save.mission.HumanFriendlyName;
             buttonInfoText.text = save.dateTimeUtc.ToString(CultureInfo.InvariantCulture);
             EnsureScreenshotLoaded(save);
             StartCoroutine(WaitForScreenshotAndSet(buttonScreenshotImage, save));
@@ -86,7 +86,7 @@ public class LoadGamePanel : MonoBehaviour {
 
     public void Show(SavedMission savedMission) {
         selectedSavedMission = savedMission;
-        nameText.text = savedMission.mission.Name;
+        nameText.text = savedMission.mission.HumanFriendlyName;
         dateText.text = savedMission.dateTimeUtc.ToString(CultureInfo.InvariantCulture);
         turnText.text = $"Day {savedMission.day}, turn of {savedMission.turnColor}";
         difficultyText.text = savedMission.difficulty.ToString();

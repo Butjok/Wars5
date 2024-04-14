@@ -110,34 +110,23 @@ public class MainMenuSelectionState2 : StateMachineState {
                 while (game.TryDequeueCommand(out var command)) {
                     switch (command) {
                         case (Command.OpenQuitDialog, _):
-                            view.enabled = false;
                             yield return StateChange.Push(new MinaMenuQuitConfirmationState(stateMachine));
-                            view.enabled = true;
                             break;
 
                         case (Command.GoToCampaignOverview, _):
-                            var hasFadedToBlack = CameraFader.FadeToBlack();
-                            while (!hasFadedToBlack())
-                                yield return StateChange.none;
-                            yield return StateChange.PopThenPush(2, new CampaignOverviewState2(stateMachine));
+                            yield return StateChange.Push(new MainMenuCampaignState(stateMachine));
                             break;
 
                         case (Command.OpenLoadGameMenu, _):
-                            view.enabled = false;
                             yield return StateChange.Push(new MainMenuLoadGameState(stateMachine));
-                            view.enabled = true;
                             break;
 
                         case (Command.OpenGameSettingsMenu, _):
-                            view.enabled = false;
                             yield return StateChange.Push(new MainMenuGameSettingsState(stateMachine));
-                            view.enabled = true;
                             break;
 
                         case (Command.OpenAboutMenu, _):
-                            view.enabled = false;
                             yield return StateChange.Push(new MainMenuAboutState(stateMachine));
-                            view.enabled = true;
                             break;
 
                         default:

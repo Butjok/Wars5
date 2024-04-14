@@ -2,23 +2,26 @@ using static Gettext;
 
 public static partial class Missions {
     
-    public partial class Tutorial : Mission {
+    public class Tutorial : Mission {
         public override string SceneName => "MarchingSquares";
-        public override string Name => _("Tutorial");
+        public override string HumanFriendlyName => _("Tutorial");
         public override string Description => _("A introduction into the game.");
+        public override string StartInput => "tutorial";
     }
     
-    public partial class FirstMission : Mission {
+    public class FirstMission : Mission {
         public override string SceneName => "MarchingSquares";
         public override bool IsAvailable => campaign.tutorial.isCompleted;
-        public override string Name => _("First mission");
+        public override string HumanFriendlyName => _("First mission");
         public override string Description => _("A challenger appears!");
+        public override string StartInput => "tutorial";
     }
     
-    public partial class SecondMission : Mission {
+    public class SecondMission : Mission {
         public override string SceneName => "MarchingSquares";
         public override bool IsAvailable => campaign.firstMission.isCompleted;
-        public override string Name => _("Second mission");
+        public override string HumanFriendlyName => _("Second mission");
         public override string Description => _("Final push!");
+        public override string StartInput => "tutorial";
     }
 }
