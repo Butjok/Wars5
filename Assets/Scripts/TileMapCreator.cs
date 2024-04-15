@@ -488,6 +488,7 @@ public class TileMapCreator : MonoBehaviour {
             Parallel.For(0, vertices.Length, i => {
                 var vertex2d = vertices[i].ToVector2();
                 uvs[i] = vertex2d;
+                uvs[i] = Vector2.zero;
 
                 /*var tilePosition = vertex2d.RoundToInt();
                 if (!tiles.TryGetValue(tilePosition, out var t) || t == TileType.Sea)

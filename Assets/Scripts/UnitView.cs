@@ -323,6 +323,7 @@ public class UnitView : MonoBehaviour {
     public void DieOnMap() {
         Visible = false;
         Effects.SpawnExplosion(body.position);
+        Sounds.PlayOneShot(Sounds.explosion);
     }
 
     [Command]

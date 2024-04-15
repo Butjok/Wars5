@@ -88,7 +88,7 @@ Shader "Custom/Unit"
             //bounce=Tint(bounce,_HueShift,1,1);
 
             
-            half3 movedTint = lerp(float3(1,1,1), float3(1,1,1) / 10, _Moved);
+            half3 movedTint = lerp(float3(1,1,1), float3(1,1,1) / 5, _Moved);
             
             // Albedo comes from a texture tinted by color
             fixed3 c = tex2D (_MainTex, uv); // * _PlayerColor;
@@ -104,7 +104,7 @@ Shader "Custom/Unit"
 
 
             
-            o.Smoothness = (1- tex2D (_Roughness, uv)) * lerp(1,0.25,_Moved);
+            o.Smoothness = (1- tex2D (_Roughness, uv)) * lerp(1,0.5,_Moved);
             //o.Smoothness = max(o.Smoothness, smoothstep(.1, .0, IN.worldPos.y));
             //if (IN.worldPos.y < .1)
               //  o.Smoothness=1;

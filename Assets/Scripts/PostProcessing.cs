@@ -11,12 +11,14 @@ using UnityEngine.UI;
 public class PostProcessing : MonoBehaviour {
 
     public void Awake() {
-        profile = "PostProcessProfile5".LoadAs<PostProcessProfile>();
-        colorGrading = profile.GetSetting<ColorGrading>();
-        Assert.IsTrue(colorGrading);
-        depthOfField = profile.GetSetting<DepthOfField>();
+        profile1 = "PostProcessProfile1".LoadAs<PostProcessProfile>();
+        profile5 = "PostProcessProfile5".LoadAs<PostProcessProfile>();
+        colorGrading5 = profile5.GetSetting<ColorGrading>();
+        colorGrading1 = profile1.GetSetting<ColorGrading>();
+        Assert.IsTrue(colorGrading5);
+        depthOfField = profile5.GetSetting<DepthOfField>();
         //Assert.IsTrue(depthOfField);
-        cameraFlip = profile.GetSetting<CameraFlip>();
+        cameraFlip = profile5.GetSetting<CameraFlip>();
     }
 
     private static PostProcessing instance;
@@ -38,14 +40,19 @@ public class PostProcessing : MonoBehaviour {
         }
     }
 
-    public PostProcessProfile profile;
-    public ColorGrading colorGrading;
+    public PostProcessProfile profile5;
+    public PostProcessProfile profile1;
+    public ColorGrading colorGrading5;
+    public ColorGrading colorGrading1;
     public CameraFlip cameraFlip;
     public Image superPowerBorder;
 
     [Command] public static Color ColorFilter {
-        get => Instance.colorGrading.colorFilter.value;
-        set => Instance.colorGrading.colorFilter.value = value;
+        get => Instance.colorGrading5.colorFilter.value;
+        set {
+            Instance.colorGrading5.colorFilter.value = value;
+            Instance.colorGrading1.colorFilter.value = value;
+        }
     }
 
     public static DepthOfField depthOfField;
@@ -89,7 +96,7 @@ public class PostProcessing : MonoBehaviour {
     public static void Setup(PostProcessLayer.Antialiasing antialiasing, float? motionBlurShutterAngle, bool enableBloom, bool enableAmbientOcclusion) {
         Antialiasing = antialiasing;
 
-        var motionBlur = Instance.profile.GetSetting<MotionBlur>();
+        var motionBlur = Instance.profile5.GetSetting<MotionBlur>();
         if (motionBlur) {
             if (motionBlurShutterAngle is { } shutterAngle) {
                 motionBlur.enabled.value = true;
@@ -99,18 +106,18 @@ public class PostProcessing : MonoBehaviour {
                 motionBlur.enabled.value = false;
         }
 
-        var bloom = Instance.profile.GetSetting<Bloom>();
+        var bloom = Instance.profile5.GetSetting<Bloom>();
         if (bloom)
             bloom.enabled.value = enableBloom;
 
-        var ambientOcclusion = Instance.profile.GetSetting<AmbientOcclusion>();
+        var ambientOcclusion = Instance.profile5.GetSetting<AmbientOcclusion>();
         if (ambientOcclusion)
             ambientOcclusion.enabled.value = enableAmbientOcclusion;
     }
 
     [Command] public static float ChromaticAberration {
         set {
-            if (Instance.profile.TryGetSettings(out ChromaticAberration chromaticAberration))
+            if (Instance.profile5.TryGetSettings(out ChromaticAberration chromaticAberration))
                 if (value != 0) {
                     chromaticAberration.enabled.value = true;
                     chromaticAberration.intensity.value = value;
@@ -122,7 +129,7 @@ public class PostProcessing : MonoBehaviour {
 
     [Command] public static float Bloom {
         set {
-            if (Instance.profile.TryGetSettings(out Bloom bloom))
+            if (Instance.profile5.TryGetSettings(out Bloom bloom))
                 if (value != 0) {
                     bloom.enabled.value = true;
                     bloom.intensity.value = value;
@@ -134,21 +141,21 @@ public class PostProcessing : MonoBehaviour {
 
     [Command] public static float Contrast {
         set {
-            if (Instance.profile.TryGetSettings(out ColorGrading colorGrading))
+            if (Instance.profile5.TryGetSettings(out ColorGrading colorGrading))
                 colorGrading.contrast.value = value;
         }
     }
 
     [Command] public static float Vignette {
         set {
-            if (Instance.profile.TryGetSettings(out Vignette vignette))
+            if (Instance.profile5.TryGetSettings(out Vignette vignette))
                 vignette.intensity.value = value;
         }
     }
 
     [Command] public static float Gain {
         set {
-            if (Instance.profile.TryGetSettings(out ColorGrading colorGrading))
+            if (Instance.profile5.TryGetSettings(out ColorGrading colorGrading))
                 colorGrading.gain.value = Vector4.one * value;
         }
     }
