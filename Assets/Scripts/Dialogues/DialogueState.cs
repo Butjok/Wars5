@@ -22,13 +22,14 @@ public abstract class DialogueState : StateMachineState {
 
     public class TalkState : StateMachineState {
         DialogueState dialogueState;
-        public string text;
+        public string text, voiceOverClipName;
         public bool append, waitInput;
-        public TalkState(DialogueState dialogueState, string text, bool append, bool waitInput) : base(dialogueState.stateMachine) {
+        public TalkState(DialogueState dialogueState, string text, bool append, bool waitInput, string voiceOverClipName) : base(dialogueState.stateMachine) {
             this.text = text;
             this.dialogueState = dialogueState;
             this.append = append;
             this.waitInput = waitInput;
+            this.voiceOverClipName = voiceOverClipName;
         }
         public override IEnumerator<StateChange> Enter {
             get {
@@ -39,6 +40,10 @@ public abstract class DialogueState : StateMachineState {
                 // if (voiceOverClip)
                 //     ui.VoiceOverSource.PlayOneShot(voiceOverClip);
 
+                VoiceOver.Stop();
+                if (voiceOverClipName != null)
+                    VoiceOver.PlayOneShot(voiceOverClipName);
+                
                 var typingAnimation = ui.TextTypingAnimation(append ? ui.speechText.text : "", text);
                 while (typingAnimation.MoveNext()) {
                     if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Escape)) {
@@ -65,6 +70,7 @@ public abstract class DialogueState : StateMachineState {
                     ui.ShowSpaceBarKey = true;
                     while (!Input.GetKeyDown(KeyCode.Space) && !Input.GetKeyDown(KeyCode.Escape))
                         yield return StateChange.none;
+                    VoiceOver.Stop();
                     yield return StateChange.none;
                     ui.ShowSpaceBarKey = false;
 
@@ -208,8 +214,8 @@ public abstract class DialogueState : StateMachineState {
         //ui.SfxSource.PlayOneShot(audioClip);
     }
 
-    protected StateChange SayWait(string text, bool waitInput = true, bool append = false) {
-        return StateChange.Push(new TalkState(this, text, append, waitInput));
+    protected StateChange SayWait(string text, bool waitInput = true, bool append = false, string voiceOverClipName = null) {
+        return StateChange.Push(new TalkState(this, text, append, waitInput,  voiceOverClipName));
     }
     protected StateChange Say(string text) {
         return SayWait(text, false);

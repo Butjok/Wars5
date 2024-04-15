@@ -38,7 +38,7 @@ public class TutorialDialogue : DialogueState {
         get {
             if (!Level.EnableTutorial)
                 yield break;
-            
+
             var persistentData = stateMachine.Find<GameSessionState>().persistentData;
             var level = stateMachine.Find<LevelSessionState>().level;
             var cameraRig = level.view.cameraRig;
@@ -58,40 +58,41 @@ public class TutorialDialogue : DialogueState {
             yield return AddPerson(PersonName.Natalie, DialogueUi4.Side.Left);
             Speaker = PersonName.Natalie;
 
+            Music2.ToneDownVolume();
+
             switch (part) {
                 case Part.WelcomePleaseSelectInfantry: {
-                    yield return SayWait(_("Welcome to the Blue Army Commander!"));
-                    yield return SayWait(_("My name is Natalie, and I will be your guide through this tutorial."));
-                    yield return SayWait(_("I will help you get started with the basics of the game."));
-                    yield return SayWait(_("In turns you will be able to move your units, capture buildings, and attack enemy units."));
+                    yield return SayWait(_("Welcome to the Blue Army Commander!"), voiceOverClipName: "tut0");
+                    yield return SayWait(_("My name is Natalie, and I will be your guide through this tutorial."), voiceOverClipName: "tut1");
+                    yield return SayWait(_("I will help you get started with the basics of the game."), voiceOverClipName: "tut2");
+                    yield return SayWait(_("In turns you will be able to move your units, capture buildings, and attack enemy units."), voiceOverClipName: "tut3");
 
                     if (ExplainMovement) {
-                        
                         ui.wasdImage.enabled = true;
-                        yield return SayWait(_("Move the camera around using WASD keys and rotate it using Q and E keys. You can try in now!"));
+                        yield return SayWait(_("Move the camera around using WASD keys and rotate it using Q and E keys. You can try in now!"), voiceOverClipName: "tut4");
                         ui.wasdImage.enabled = false;
 
                         ui.movement2.enabled = true;
-                        yield return SayWait(_("To change the elevation use [1] and [2] keys.\nZoom in and out using the mouse wheel."));
-                        yield return SayWait(_("You can also hold the middle mouse button move around that way.\nDouble click with middle mouse button to jump to a location."));
+                        yield return SayWait(_("To change the elevation use [1] and [2] keys.\nZoom in and out using the mouse wheel."), voiceOverClipName: "tut5");
+                        yield return SayWait(_("You can also hold the middle mouse button move around that way.\nDouble click with middle mouse button to jump to a location."), voiceOverClipName: "tut6");
                         ui.movement2.enabled = false;
                     }
 
                     if (hqs[player].position.TryRaycast(out var hit)) {
                         cameraRig.enabledMovements = CameraRig.MovementType.FixedInPosition;
-                        
+
                         var completed = cameraRig.Jump(hit.point);
                         while (!completed())
                             yield return StateChange.none;
                         using (ui.PulsateCircle(hit.point))
-                            yield return SayWait(_("This is your base, the HQ building.\nIf it is captured, you lose the game.\nIf you capture the enemy HQ, you win the game."));
+                            yield return SayWait(_("This is your base, the HQ building.\nIf it is captured, you lose the game.\nIf you capture the enemy HQ, you win the game."), voiceOverClipName: "tut7");
 
                         if (hqs[enemy].position.TryRaycast(out hit)) {
                             completed = cameraRig.Jump(hit.point);
                             while (!completed())
                                 yield return StateChange.none;
                             using (ui.PulsateCircle(hit.point))
-                                yield return SayWait(_("Here is the enemy HQ."));
+                                yield return SayWait(_("Here is the enemy HQ."), voiceOverClipName: "tut8");
                         }
 
                         cameraRig.enabledMovements = CameraRig.MovementType.All;
@@ -102,7 +103,7 @@ public class TutorialDialogue : DialogueState {
                         while (!completed())
                             yield return StateChange.none;
                         using (ui.PulsateCircle(hit.point))
-                            yield return SayWait(_("Now please select this infantry unit with a left click."));
+                            yield return SayWait(_("Now please select this infantry unit with a left click."), voiceOverClipName: "tut9");
                     }
 
                     break;
@@ -114,47 +115,47 @@ public class TutorialDialogue : DialogueState {
                         while (!completed())
                             yield return StateChange.none;
                         using (ui.PulsateCircle(hit.point))
-                            yield return SayWait(_("Please select this infantry unit."));
+                            yield return SayWait(_("Please select this infantry unit."), voiceOverClipName: "tut10");
                     }
 
                     break;
                 }
 
                 case Part.PleaseCaptureBuilding: {
-                    yield return SayWait(_("This is an infantry unit, it can move through rivers and capture building."));
+                    yield return SayWait(_("This is an infantry unit, it can move through rivers and capture building."), voiceOverClipName: "tut11");
                     var unownedCity = level.Buildings.SingleOrDefault(b => b.Player == null && b.type == TileType.Factory);
                     Assert.IsTrue(unownedCity != null);
                     Assert.IsTrue(unownedCity.position.TryRaycast(out var hit));
                     using (ui.PulsateCircle(hit.point))
-                        yield return SayWait(_("Now please move it to the building on the left and start capturing it."));
+                        yield return SayWait(_("Now please move it to the building on the left and start capturing it."), voiceOverClipName: "tut12");
                     break;
                 }
 
                 case Part.WrongPathSelectionPleaseMoveToBuilding:
-                    yield return SayWait(_("Please move the infantry unit to the building on the left and order capturing it."));
+                    yield return SayWait(_("Please move the infantry unit to the building on the left and order capturing it."), voiceOverClipName: "tut13");
                     break;
 
                 case Part.WrongActionSelectionPleaseCaptureBuilding:
-                    yield return SayWait(_("Please select capture order, use [Tab] to cycle through available actions. Press [Space] to confirm."));
+                    yield return SayWait(_("Please select capture order, use [Tab] to cycle through available actions. Press [Space] to confirm."), voiceOverClipName: "tut14");
                     break;
-                
+
                 case Part.ActionSelectionExplanation:
-                    yield return SayWait(_("Here you can see the available actions for the selected unit. You can simply stay on the current tile or start capturing the building."));
-                    yield return SayWait(_("Please select capture order, use [Tab] to cycle through available actions. Press [Space] to confirm."));
+                    yield return SayWait(_("Here you can see the available actions for the selected unit. You can simply stay on the current tile or start capturing the building."), voiceOverClipName: "tut15");
+                    yield return SayWait(_("Please select capture order, use [Tab] to cycle through available actions. Press [Space] to confirm."), voiceOverClipName: "tut16");
                     break;
 
                 case Part.NiceJobStartedCapturingBuilding:
-                    yield return SayWait(_("Nice job! You have started capturing the building."));
-                    yield return SayWait(_("Once the capture is complete, the building will be yours. It takes two turns to capture a building if the unit at full health."));
-                    yield return SayWait(_("Captured building will provide you with additional income and will allow you to produce new units."));
+                    yield return SayWait(_("Nice job! You have started capturing the building."), voiceOverClipName: "tut17");
+                    yield return SayWait(_("Once the capture is complete, the building will be yours. It takes two turns to capture a building if the unit at full health."), voiceOverClipName: "tut18");
+                    yield return SayWait(_("Captured building will provide you with additional income and will allow you to produce new units."), voiceOverClipName: "tut19");
                     break;
 
                 case Part.ExplainTurnEnd:
-                    yield return SayWait(_("Once you are done with your turn, press the turn button on top of a screen or push [F2]."));
+                    yield return SayWait(_("Once you are done with your turn, press the turn button on top of a screen or push [F2]."), voiceOverClipName: "tut20");
                     break;
 
                 case Part.ExplainApc:
-                    yield return SayWait(_("This is an APC. It can carry one infantry unit and it can supply friendly units with ammo and petrol."));
+                    yield return SayWait(_("This is an APC. It can carry one infantry unit and it can supply friendly units with ammo and petrol."), voiceOverClipName: "tut21");
                     break;
             }
 
@@ -162,6 +163,10 @@ public class TutorialDialogue : DialogueState {
             yield return RemovePerson(DialogueUi4.Side.Left);
             End();
         }
+    }
+
+    public override void Exit() {
+        Music2.RestoreVolume();
     }
 }
 

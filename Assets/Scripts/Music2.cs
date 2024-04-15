@@ -1,5 +1,6 @@
 using Butjok.CommandLine;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class Music2 : MonoBehaviour {
 
@@ -16,6 +17,7 @@ public class Music2 : MonoBehaviour {
                     DontDestroyOnLoad(go);
                     instance = go.AddComponent<Music2>();
                 }
+                instance.source.outputAudioMixerGroup =  Resources.Load<AudioMixer>("Game").FindMatchingGroups("Music")[0];
             }
 
             return instance;
@@ -23,10 +25,15 @@ public class Music2 : MonoBehaviour {
     }
 
     public AudioSource source;
+    public const float volume = .5f;
+    public const float tonedDownVolume = .5f;
+    public const float lowpassDefault = 22000;
+    public const float lowpassTonedDown = 200;
+    
     public void Awake() {
         source = gameObject.AddComponent<AudioSource>();
         source.spatialize = false;
-        source.volume = .75f;
+        source.volume = volume;
         source.loop = true;
     }
 
@@ -85,6 +92,15 @@ public class Music2 : MonoBehaviour {
     public static void Stop() {
         Instance.source.Stop();
     }
+    
+    public static void ToneDownVolume() {
+        Instance.source.volume = tonedDownVolume;
+        Instance.source.outputAudioMixerGroup.audioMixer.SetFloat("MusicLowpass", lowpassTonedDown);
+    }
+    public static void RestoreVolume() {
+        Instance.source.volume = volume;
+        Instance.source.outputAudioMixerGroup.audioMixer.SetFloat("MusicLowpass", lowpassDefault);
+    }
 }
 
 public static class Sounds {
@@ -109,4 +125,28 @@ public static class Sounds {
     public static readonly AudioClip reconMovement = Resources.Load<AudioClip>("song029");
     public static readonly AudioClip bulletRicochet = Resources.Load<AudioClip>("song049");
     public static readonly AudioClip cannonShot = Resources.Load<AudioClip>("song023");
+}
+
+public static class VoiceOver {
+    private static AudioSource source;
+    public static void PlayOneShot(AudioClip clip) {
+        if (!source) {
+            var gameObject = new GameObject(nameof(VoiceOver));
+            source = gameObject.AddComponent<AudioSource>();
+            source.spatialize = false;
+        }
+        
+        source.PlayOneShot(clip);
+    }
+    public static void Stop() {
+        if (source)
+            source.Stop();
+    }
+    public static void PlayOneShot(string clipName) {
+        var clip = Resources.Load<AudioClip>(clipName);
+        if (clip)
+            PlayOneShot(clip);
+        else
+            Debug.LogError($"Clip not found: {clipName}");
+    }
 }
