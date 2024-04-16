@@ -8,18 +8,22 @@ using UnityEngine.Assertions;
 
 public class Game : MonoBehaviour {
 
+    public HoleShaderUpdater holeShaderUpdater;
+
     [Command]
     public static float TimeScale {
         get => Time.timeScale;
         set => Time.timeScale = value;
     }
     
-    public Color colorPlain = new Color(.5f,1,0);
+    public Color colorPlain = new Color(.5f, 1, 0);
     public Color colorRoad = new(1, .66f, 0);
-    public Color colorSea = new(0,.25f,1);
+    public Color colorSea = new(0, .25f, 1);
     public Color colorMountain = new(0.75f, 0.5f, 0.25f);
     public Color colorForest = new(0f, 0.66f, 0f);
-    public Color colorRiver = new(0,.5f,1);
+    public Color colorRiver = new(0, .5f, 1);
+    
+    [Command] public Color holeUnownedColor = new(0.24f, 0.13f, 0f);
 
     public Color GetColor(TileType tileType, Building building) {
 
@@ -36,7 +40,7 @@ public class Game : MonoBehaviour {
             _ => Color.red
         };
     }
-    
+
     [Command]
     public void ClearSaveData() {
         var persistentData = stateMachine.Find<GameSessionState>().persistentData;
@@ -44,7 +48,7 @@ public class Game : MonoBehaviour {
             mission.saves.Clear();
         persistentData.Write();
     }
-    
+
     [Command]
     public void AddRandomSaveData() {
         var gameSessionState = stateMachine.Find<GameSessionState>();
@@ -52,7 +56,7 @@ public class Game : MonoBehaviour {
         var mission = campaign.Missions.Random();
         mission.saves.Add(new SavedMission {
             mission = mission,
-            dateTimeUtc = System.DateTime.UtcNow,
+            dateTimeUtc = DateTime.UtcNow,
             input = "Hello World",
             Screenshot = Resources.Load<Texture2D>("NatalieHappy")
         });
@@ -62,7 +66,7 @@ public class Game : MonoBehaviour {
     public void SavePersistentData() {
         stateMachine.Find<GameSessionState>().persistentData.Write();
     }
-    
+
     public const bool createCommandLineGui = true;
 
     private static Game instance;
@@ -83,7 +87,7 @@ public class Game : MonoBehaviour {
             if (createCommandLineGui && !FindObjectOfType<CommandLineGUI>()) {
                 var commandLineGui = instance.gameObject.AddComponent<CommandLineGUI>();
                 commandLineGui.assemblies = new List<string> { "CommandLine", "Wars", "Stable" };
-                commandLineGui.guiSkin = DefaultGuiSkin.TryGet;
+                commandLineGui.guiSkin = "CommandLine1".LoadAs<GUISkin>();
                 commandLineGui.Theme = "Default";
                 commandLineGui.depth = -2000;
                 commandLineGui.FetchCommands();
@@ -166,7 +170,48 @@ public class Game : MonoBehaviour {
                     DebugDraw.Unit(u);
             }
         }
+
+        if (!holeShaderUpdater) {
+            var prefab = "HoleShaderUpdater".LoadAs<HoleShaderUpdater>();
+            holeShaderUpdater = Instantiate(prefab, Vector3.zero, Quaternion.identity, transform);
+            DontDestroyOnLoad(holeShaderUpdater.gameObject);
+        }
+        
+        if (holeShaderUpdater) {
+
+            Level level = null;
+            if (stateMachine.TryFind<LevelSessionState>() is { } levelSessionState)
+                level = levelSessionState.level;
+            else if (stateMachine.TryFind<LevelEditorSessionState>() is { } levelEditorSessionState)
+                level = levelEditorSessionState.level;
+
+            if (level != null) {
+                
+                newHoles.Clear();
+                newHoles.UnionWith(level.units.Values.Select(u => u.view.body.transform.position.ToVector2Int()));
+                newHoles.IntersectWith(level.buildings.Keys);
+
+                oldHoles.SymmetricExceptWith(newHoles);
+                if (oldHoles.Count > 0) {
+                    holeMask = holeShaderUpdater.UpdateTexture(newHoles.Select(position => (position, level.buildings[position].Player?.Color ?? holeUnownedColor)));
+                    foreach (var building in level.buildings.Values)
+                        building.view.EnableLights = newHoles.Contains(building.position);
+                }
+
+                oldHoles.Clear();
+                oldHoles.UnionWith(newHoles);
+            }
+
+            else if (holeShaderUpdater.texture) {
+                holeShaderUpdater.ResetTexture();
+                holeMask = null;
+            }
+        }
     }
+
+    public HashSet<Vector2Int> newHoles = new();
+    public HashSet<Vector2Int> oldHoles = new();
+    public Texture2D holeMask;
 
     private void OnApplicationQuit() {
         stateMachine.Pop(all: true);
@@ -181,7 +226,7 @@ public class Game : MonoBehaviour {
 
     [Command]
     public void ShowStates() {
-        showStates=true;
+        showStates = true;
     }
     [Command]
     public void HideStates() {
@@ -199,10 +244,10 @@ public class Game : MonoBehaviour {
     }
 
     private void OnGUI() {
-        
+
         GUI.skin = DefaultGuiSkin.TryGet;
         GUI.depth = guiDepth;
-        
+
         if (showStates) {
             stateNames.Clear();
             stateNames.AddRange(stateMachine.StateNames);
@@ -218,7 +263,7 @@ public class Game : MonoBehaviour {
             }
             GUILayout.EndHorizontal();
         }
-        
+
         foreach (var action in guiCommands.Values)
             action();
     }

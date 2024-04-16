@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &807412914697934565
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6676929134118192524}
+  - component: {fileID: 4757986330399334592}
+  m_Layer: 0
+  m_Name: HoleShaderUpdater
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6676929134118192524
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 807412914697934565}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4757986330399334592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 807412914697934565}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e53a7d4ed6c4109bd3e2fdd8b0a0681, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  camera: {fileID: 0}
+  prefab: {fileID: 0}
+  materials:
+  - {fileID: 2100000, guid: 27a6a8e37b84e1f4bb479d1af28094da, type: 2}
+  - {fileID: 2100000, guid: 7ff7d04f66436c74bb0ba697730e4a1e, type: 2}
+  - {fileID: 2100000, guid: d08c72604e79f7a4da9c49ec8ac7da28, type: 2}
+  - {fileID: 2100000, guid: e6f7c45b0a7e5bb4f8f99d53516e6c26, type: 2}
+  - {fileID: 2100000, guid: fb985547aa087ed46ad46d8cb8d6af74, type: 2}
+  - {fileID: 2100000, guid: 1d12a12446011f744907276a6eb1b2e1, type: 2}
+  - {fileID: 2100000, guid: 038afedda7d64684ab19011d3e044231, type: 2}
+  - {fileID: 2100000, guid: 383cf95480f59094ca738ace7b6e9000, type: 2}
+  - {fileID: 2100000, guid: baba0c22a4599bf40a08084bfa88563a, type: 2}
+  - {fileID: 2100000, guid: 9e3756a412b70a64f8ff2090ae6bef37, type: 2}
+  - {fileID: 2100000, guid: 9f1bfc51930e83c49bfa3e975887562d, type: 2}
+  - {fileID: 2100000, guid: e1d910f0bca6c4944960fa60adaa1d69, type: 2}
+  - {fileID: 2100000, guid: 99649c0fc6bf99e4a8b1901418d92f77, type: 2}
+  - {fileID: 2100000, guid: cdc6849eb4146ef42b8d955aa8625d15, type: 2}
+  mode: 0
+  enableInput: 0
+  drawHoles: 0
+  holeColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  unitViews: []
+  texture: {fileID: 0}

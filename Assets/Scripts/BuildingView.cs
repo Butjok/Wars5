@@ -70,4 +70,11 @@ public class BuildingView : MonoBehaviour {
                 renderer.SetPropertyBlock(materialPropertyBlock);
         }
     }
+    public bool EnableLights {
+        set {
+            foreach (var light in lights)
+                light.enabled = !value;
+        }
+        
+    }
 }

@@ -21,20 +21,23 @@ Shader "Custom/Unit"
         _DamageFalloffIntensity ("_DamageFalloffIntensity", Float) = 10
         [HDR] _DamageColor ("_DamageColor", Color) = (.25, .25, 0, .25)
         _DamageTime ("_DamageTime", Float) = -1000
+        [Toggle(HOLE)] _Hole ("_Hole", Float) = 0
+        _HoleRadius ("_HoleRadius", Float) = 0.5
     }
     SubShader
     {
-        Tags { "RenderType"="Opaque" }
+        Tags { "RenderType"="Opaque" "DisableBatching"="True" }
         LOD 200
 
         CGPROGRAM
         // Physically based Standard lighting model, and enable shadows on all light types
-        #pragma surface surf Standard fullforwardshadows
+        #pragma surface surf Standard vertex:vert fullforwardshadows        
+        #pragma shader_feature HOLE
         
         #pragma multi_compile_instancing
 
         // Use shader model 3.0 target, to get nicer looking lighting
-        #pragma target 3.0
+        #pragma target 3.5
 
         #include "Assets/Shaders/Utils.cginc"
 
@@ -44,7 +47,11 @@ Shader "Custom/Unit"
         {
             float2 uv_MainTex;
             float2 uv2_Occlusion;
+            #if HOLE
             float3 worldPos;
+            float3 objectWorldPosition;
+            float4 hole;
+            #endif
         };
 
         fixed4 _PlayerColor,_Offset,_AttackHighlightColor,_AttackHighlight;
@@ -54,6 +61,12 @@ Shader "Custom/Unit"
         half _DamageTime = -1000;
         half4 _DamageColor;
         half _DamageFalloffIntensity;
+        
+        #if HOLE
+        half _HoleRadius;
+		sampler2D _HoleMask;
+		fixed4x4 _HoleMask_WorldToLocal;        
+        #endif
 
         float3 ToRed(float3 blue) {
             float3 hsv = RGBtoHSV(blue);
@@ -76,8 +89,27 @@ Shader "Custom/Unit"
             return HSVtoRGB(float3(newHue, hsv.y, hsv.z));
         }
         
+		void vert (inout appdata_full v, out Input o) {
+			UNITY_INITIALIZE_OUTPUT(Input,o);
+			
+			#if HOLE
+			o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
+			o.objectWorldPosition = mul(unity_ObjectToWorld, float4(0,0,0,1)).xyz;
+			o.hole = tex2Dlod(_HoleMask, float4(mul(_HoleMask_WorldToLocal, float4(o.objectWorldPosition,1)).xz, 0, 0));
+			#endif
+		}
+        
         void surf (Input IN, inout SurfaceOutputStandard o)
         {
+        	#if HOLE
+        	if (IN.hole.a > 0.5) {
+				float3 direction = normalize(IN.worldPos - _WorldSpaceCameraPos);
+				float3 projectedPoint = RayPlaneIntersection(_WorldSpaceCameraPos, direction, IN.objectWorldPosition, direction);
+				
+				float distance = length(projectedPoint - IN.objectWorldPosition) - _HoleRadius;
+				clip(distance);
+			}
+        	#endif	
 
             half2 uv = IN.uv_MainTex + _Offset.xy*_OffsetIntensity;
 

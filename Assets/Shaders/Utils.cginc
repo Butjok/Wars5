@@ -180,3 +180,27 @@ float3 Tint(float3 color, float hueShift, float saturationShift, float valueShif
     hsv.z *= valueShift;
     return HSVtoRGB(hsv);
 }
+
+float3 RayPlaneIntersection(float3 origin, float3 direction, float3 pointOnPlane, float3 planeNormal)
+{
+    float epsilon = 1e-6; // Small value for tolerance
+			
+    // Calculate the dot product of the ray direction and the plane normal
+    float denom = dot(direction, planeNormal);
+			
+    // Check if the ray and plane are parallel or nearly parallel
+    if (abs(denom) < epsilon)
+    {
+        // Ray and plane are parallel, return a point at infinity
+        return float3(999, 999, 999);
+    }
+			
+    // Calculate the distance from the ray origin to the plane
+    float3 rayToPlane = pointOnPlane - origin;
+    float t = dot(rayToPlane, planeNormal) / denom;
+			
+    // Calculate the intersection point
+    float3 intersectionPoint = origin + t * direction;
+			
+    return intersectionPoint;
+}
