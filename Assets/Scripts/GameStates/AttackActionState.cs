@@ -116,6 +116,11 @@ public class AttackActionState : StateMachineState {
                     level.view.unitUiRoot.gameObject.SetActive(true);
             }
 
+            {
+                var time = Time.time;
+                while (Time.time < time + .25f)
+                    yield return StateChange.none;
+            }
 
             if (newTargetHp <= 0 && level.CurrentPlayer != level.localPlayer) {
                 level.view.cameraRig.Jump(target.view.transform.position);

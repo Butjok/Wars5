@@ -118,6 +118,7 @@
      <Compile Include="Assets/Scripts/GameMenuView.cs" />
      <Compile Include="Assets/Scripts/Animation/ImpactPoint.cs" />
      <Compile Include="Assets/Scripts/BuildingView.cs" />
+     <Compile Include="Assets/Scripts/TilemapMesh.cs" />
      <Compile Include="Assets/Scripts/HeightMapBaker.cs" />
      <Compile Include="Assets/Scripts/Projectile2View.cs" />
      <Compile Include="Assets/Scripts/MinimapMeshGenerator.cs" />
@@ -187,6 +188,7 @@
      <Compile Include="Assets/Scripts/Views/UiLabel.cs" />
      <Compile Include="Assets/Scripts/LevelEditor/LevelEditorPlayState.cs" />
      <Compile Include="Assets/Scripts/UiUtils.cs" />
+     <Compile Include="Assets/Scripts/HoleShaderUpdater.cs" />
      <Compile Include="Assets/Scripts/GameStates/GameSessionState.cs" />
      <Compile Include="Assets/Scripts/CaptureScreen.cs" />
      <Compile Include="Assets/Scripts/UnitActionUiContainer.cs" />
@@ -316,7 +318,6 @@
      <Compile Include="Assets/Scripts/FlipbookTest.cs" />
      <Compile Include="Assets/Scripts/Animation/UnitViewSequenceSubroutines.cs" />
      <Compile Include="Assets/Scripts/EntryPoint/MainMenuWelcomeState.cs" />
-     <Compile Include="Assets/Scripts/HoleShaderUpdater.cs" />
      <Folder Include="Assets/Scripts/EntryPoint" />
      <None Include="Assets/Scripts/Wars.asmdef" />
      <Folder Include="Assets/Scripts/DialogueMarkupLanguage" />

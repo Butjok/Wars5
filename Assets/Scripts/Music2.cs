@@ -75,6 +75,10 @@ public class Music2 : MonoBehaviour {
         }
     }
 
+    public void Start() {
+        RestoreVolume();
+    }
+
     public static void Play(AudioClip clip) {
         Instance.source.clip = clip;
         instance.source.pitch = clip.name == "sakkijarven" ? 1.1f : 1;
