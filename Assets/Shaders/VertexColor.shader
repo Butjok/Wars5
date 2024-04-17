@@ -11,7 +11,10 @@ Shader "Unlit/VertexColor"
 		LOD 100
 
 // blend in multiply mode
-			//Blend SrcAlpha OneMinusSrcAlpha
+			Blend SrcAlpha OneMinusSrcAlpha
+		// dont use Z buffer
+			ZWrite Off
+			//ZTest Always
 
 		Pass
 		{
@@ -38,6 +41,7 @@ Shader "Unlit/VertexColor"
 				UNITY_FOG_COORDS(1)
 				float4 vertex : SV_POSITION;
 				float4 color : COLOR;
+				float3 worldPos : TEXCOORD1;
 			};
 
 			sampler2D _MainTex;
@@ -49,15 +53,21 @@ Shader "Unlit/VertexColor"
 				o.vertex = UnityObjectToClipPos(v.vertex);
 				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
 				o.color = v.color;
+				o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
 				UNITY_TRANSFER_FOG(o,o.vertex);
 				return o;
 			}
 			
 			fixed4 frag (v2f i) : SV_Target
 			{
-			    half inside = smoothstep(.1,0,i.color.a);
-			    half border = smoothstep(.05,0,abs(i.color.a - 0.05));
-			    return inside/2 + border;
+			    half inside = smoothstep(1,0,1-i.color.a);
+			    half border = smoothstep(.5,0,abs(1-i.color.a - 0.5));
+
+				float2 cell = round(i.worldPos.xz);
+        		float2 distanceToCell = length(cell - i.worldPos.xz);
+        		float circle = smoothstep(0.05, 0.025, distanceToCell);
+				
+			    return (inside/2 + border) + inside * circle;
 			}
 			ENDCG
 		}

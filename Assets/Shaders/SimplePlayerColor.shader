@@ -65,7 +65,7 @@ Shader "Custom/SimplePlayerColor" {
 				float distance = length(projectedPoint - IN.objectWorldPosition) - _HoleRadius;
 				clip(distance);
 				
-				o.Emission = smoothstep(0.06, 0.05, distance) * IN.hole.rgb;
+				o.Emission = smoothstep(0.06, 0.05, distance) * IN.hole.rgb*2;
 			}
 			#endif	
 		
