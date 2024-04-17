@@ -58,7 +58,7 @@ public class AttackActionState : StateMachineState {
 
             var setup = new BattleView.Setup {
                 [attackerSide] = new() {
-                    side=attackerSide,
+                    side = attackerSide,
                     unitViewPrefab = attacker.view.prefab,
                     count = CountBeforeAndAfter(attacker.type, attacker.Hp, newAttackerHp),
                     color = attacker.Player.Color,
@@ -79,7 +79,6 @@ public class AttackActionState : StateMachineState {
             using (var battleView = new BattleView(setup))
             using (battleViewSides[attackerSide] = new BattleViewSide(attackerSide, battleView, level.tiles[action.path[^1]]))
             using (battleViewSides[targetSide] = new BattleViewSide(targetSide, battleView, level.tiles[action.targetUnit.NonNullPosition])) {
-
                 level.view.cameraRig.camera.gameObject.SetActive(false);
                 foreach (var battleCamera in level.view.battleCameras)
                     battleCamera.gameObject.SetActive(true);
@@ -116,7 +115,8 @@ public class AttackActionState : StateMachineState {
                     level.view.unitUiRoot.gameObject.SetActive(true);
             }
 
-            {
+            // a short pause before one of the units die
+            if (newTargetHp <= 0 || newAttackerHp <= 0) {
                 var time = Time.time;
                 while (Time.time < time + .25f)
                     yield return StateChange.none;
