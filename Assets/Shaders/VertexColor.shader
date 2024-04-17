@@ -50,6 +50,8 @@ Shader "Unlit/VertexColor"
 			v2f vert (appdata v)
 			{
 				v2f o;
+v.vertex.y += sin (_Time.y * 5 + v.vertex.x * 0.2) * 0.25;
+				
 				o.vertex = UnityObjectToClipPos(v.vertex);
 				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
 				o.color = v.color;

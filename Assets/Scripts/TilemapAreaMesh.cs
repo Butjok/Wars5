@@ -79,12 +79,15 @@ public class TilemapAreaMesh : MonoBehaviour {
                 return (position + localPoint) / 2;
             }
 
-            AddQuad(
-                ToWorld(cornerOffsets[0]),
-                ToWorld(cornerOffsets[1]),
-                ToWorld(cornerOffsets[2]),
-                ToWorld(cornerOffsets[3]),
-                Color.white, Color.white, Color.white, Color.white);
+            for (var y = -1; y <= 0; y++)
+                for  (var x = -1; x <= 0; x++) {
+                    AddQuad(
+                        ToWorld(new Vector2(x, y)),
+                        ToWorld(new Vector2(x, y+1)),
+                        ToWorld(new Vector2(x+1, y+1)),
+                        ToWorld(new Vector2(x+1, y)),
+                        Color.white, Color.white, Color.white, Color.white);
+                }
         }
 
         foreach (var corner in corners) {
@@ -92,7 +95,49 @@ public class TilemapAreaMesh : MonoBehaviour {
                 return (corner + localPoint) / 2;
             }
 
-            void AddCorner(Vector2Int pos, float t) {
+            void AddCorner(Vector2Int c, float t) {
+                var cOpposite = -c;
+                var cy = new Vector2Int(c.x, cOpposite.y);
+                var cx = new Vector2Int(cOpposite.x, c.y);
+                var t_ = 2 * (t - .5f);
+                var uy = (Vector2)(cy - c) / 2;
+                var ux = (Vector2)(cx - c) / 2;
+                var cy2 = Lerp(c, cy, .5f);
+                var cx2 = Lerp(c, cx, .5f);
+                var center = Lerp(c, cOpposite, .5f);
+
+                AddQuad(
+                    ToWorld(cy2),
+                    ToWorld(cy2 + uy*t_),
+                    ToWorld(center + uy*t_),
+                    ToWorld(center),
+                    Color.white,
+                    Color.clear,
+                    Color.clear,
+                    Color.white);
+
+                AddQuad(
+                    ToWorld(cx2),
+                    ToWorld(cx2 + ux*t_),
+                    ToWorld(center + ux*t_),
+                    ToWorld(center),
+                    Color.white,
+                    Color.clear,
+                    Color.clear,
+                    Color.white);
+                
+                AddTriangle(
+                    ToWorld(center),
+                    ToWorld(center+uy*t_),
+                    ToWorld(center+ux*t_),
+                    Color.white,
+                    Color.clear,
+                    Color.clear);
+            }
+            
+            void AddSharpCorner(Vector2Int pos, float t) {
+                
+                
                 var posOpposite = -pos;
                 var posOppositeVertical = new Vector2Int(pos.x, posOpposite.y);
                 var posOppositeHorizontal = new Vector2Int(posOpposite.x, pos.y);
@@ -137,8 +182,13 @@ public class TilemapAreaMesh : MonoBehaviour {
                         var bStart = Lerp(b, bOpposite, .5f);
                         var aEnd = Lerp(a, aOpposite, t);
                         var bEnd = Lerp(b, bOpposite, t);
+                        var cStart = Lerp(aStart, bStart, .5f);
+                        var cEnd = Lerp(aEnd, bEnd, .5f);
                         AddQuad(
-                            ToWorld(aStart), ToWorld(aEnd), ToWorld(bEnd), ToWorld(bStart),
+                            ToWorld(aStart), ToWorld(aEnd), ToWorld(cEnd), ToWorld(cStart),
+                            Color.white, Color.clear, Color.clear, Color.white);
+                        AddQuad(
+                            ToWorld(bStart), ToWorld(bEnd), ToWorld(cEnd), ToWorld(cStart),
                             Color.white, Color.clear, Color.clear, Color.white);
                     }
                     // opposite sides
@@ -151,7 +201,7 @@ public class TilemapAreaMesh : MonoBehaviour {
                 }
                 case 3: {
                     var localEmptyCorner = cornerOffsets.First(p => !set.Contains(corner + p));
-                    AddCorner(localEmptyCorner, 1 - t);
+                    AddSharpCorner(localEmptyCorner, 1 - t);
                     break;
                 }
             }
