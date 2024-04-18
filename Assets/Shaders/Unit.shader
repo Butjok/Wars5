@@ -119,7 +119,7 @@ Shader "Custom/Unit"
             //bounce=Tint(bounce,_HueShift,1,1);
 
             
-            half3 movedTint = lerp(float3(1,1,1), float3(1,1,1) / 5, _Moved);
+            half3 movedTint = lerp(float3(1,1,1), float3(1,1,1) / 10, _Moved);
             
             // Albedo comes from a texture tinted by color
             fixed3 c = tex2D (_MainTex, uv); // * _PlayerColor;

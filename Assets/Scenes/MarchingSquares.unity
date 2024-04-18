@@ -35686,7 +35686,7 @@ Transform:
   m_GameObject: {fileID: 1647909077}
   m_LocalRotation: {x: 0.8623781, y: -0.09355312, z: 0.15773766, w: 0.4718799}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 35, y: 35, z: 35}
+  m_LocalScale: {x: 30, y: 30, z: 30}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1952239951}
@@ -35725,7 +35725,7 @@ Light:
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
-  m_CookieSize: 35
+  m_CookieSize: 30
   m_Shadows:
     m_Type: 2
     m_Resolution: 2
@@ -42173,7 +42173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c30b57adcb147fb89d8bbb49c00d0f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocity: {x: 0.5, y: 0, z: 0.3}
+  velocity: {x: 0.4, y: 0, z: 0.25}
 --- !u!114 &1952239950
 MonoBehaviour:
   m_ObjectHideFlags: 0
