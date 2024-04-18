@@ -19,7 +19,6 @@ Shader "Custom/Unit"
         _AttackHighlight ("_AttackHighlight", Vector) = (.25, .5, 5.0, 2.5)
         _RedAmount ("_RedAmount", Range(0,1)) = 0
         _DamageFalloffIntensity ("_DamageFalloffIntensity", Float) = 10
-        [HDR] _DamageColor ("_DamageColor", Color) = (.25, .25, 0, .25)
         _DamageTime ("_DamageTime", Float) = -1000
         [Toggle(HOLE)] _Hole ("_Hole", Float) = 0
         _HoleRadius ("_HoleRadius", Float) = 0.5
@@ -59,7 +58,7 @@ Shader "Custom/Unit"
         half _Moved,_AttackHighlightFactor,_AttackHighlightStartTime;
         half _RedAmount;
         half _DamageTime = -1000;
-        half4 _DamageColor;
+        //half4 _DamageColor;
         half _DamageFalloffIntensity;
         
         #if HOLE
@@ -165,6 +164,7 @@ Shader "Custom/Unit"
         .worldPos.z)
             *10));*/
 
+            float3 _DamageColor = float3(.25,.25,0);
             o.Emission += _DamageColor * saturate(exp(-(_Time.y-_DamageTime)*40));
             
         }

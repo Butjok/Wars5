@@ -243,8 +243,7 @@ public class UnitView : MonoBehaviour {
         }
     }
 
-    [Command]
-    public float DamageTime {
+    private float DamageTime {
         set {
             materialPropertyBlock ??= new MaterialPropertyBlock();
             materialPropertyBlock.SetFloat("_DamageTime", value);
@@ -253,9 +252,8 @@ public class UnitView : MonoBehaviour {
         }
     }
 
-    [Command]
-    public void TriggerDamage() {
-        DamageTime = Time.time;
+    public void TriggerDamageFlash() {
+        DamageTime = Time.timeSinceLevelLoad;
     }
 
     public bool Selected {
@@ -1034,7 +1032,7 @@ public class UnitView : MonoBehaviour {
             }
         }
 
-        DamageTime = Time.time;
+        TriggerDamageFlash();
     }
 
     public static Dictionary<CinemachineBasicMultiChannelPerlin, IEnumerator> cameraShakes = new();
@@ -1062,7 +1060,7 @@ public class UnitView : MonoBehaviour {
         //ApplyInstantaneousWorldForce(hitPoint.position, -hitPoint.forward * force);
         //using (Draw.ingame.WithDuration(2))
         //  Draw.ingame.Ray(hitPoint.position, hitPoint.forward);
-        DamageTime = Time.time;
+        TriggerDamageFlash();
     }
 
     [Command]
