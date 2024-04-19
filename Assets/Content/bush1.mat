@@ -109,6 +109,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: c8d1267bea8c2e2448ebfbd7dfd1cff5, type: 3}
         m_Scale: {x: 0.05, y: 0.05}
         m_Offset: {x: 0, y: 0}
+    - _TerrainHeight:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Tint:
         m_Texture: {fileID: 2800000, guid: 4ab349e9e4662454baba72da2718e531, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -133,6 +137,8 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.441
     - _GlossyReflections: 1
+    - _Hole: 0
+    - _HoleRadius: 0.5
     - _Lod: 3
     - _Metallic: 0
     - _Mode: 1
@@ -157,6 +163,7 @@ Material:
     - _FlowerColor: {r: 1, g: 0, b: 0.42097378, a: 1}
     - _Forest: {r: 0.23275596, g: 0.3301887, b: 0, a: 1}
     - _Grass: {r: 0.4672171, g: 0.5660378, b: 0, a: 1}
+    - _HoleOffset: {r: 0, g: 0, b: 0, a: 0}
     - _Min: {r: -36, g: 0, b: 0, a: 0}
     - _Offset: {r: 0, g: 0, b: 0, a: 0}
     - _Size: {r: 42, g: 33, b: 0, a: 0}
