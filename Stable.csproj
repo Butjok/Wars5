@@ -133,6 +133,7 @@
      <Compile Include="Assets\Scripts\Stable\DifferenceEffect.cs" />
      <Compile Include="Assets\Scripts\Stable\BlogPostStackMachineVisualizationStackValue.cs" />
      <Compile Include="Assets\Scripts\Stable\CircleTest.cs" />
+     <Compile Include="Assets\Scripts\Stable\MissileView.cs" />
      <Compile Include="Assets\Scripts\Stable\FoliageRenderer.cs" />
      <Compile Include="Assets\Scripts\Stable\CameraRectDriver.cs" />
      <Compile Include="Assets\Scripts\Stable\Map2D.cs" />
@@ -148,7 +149,6 @@
      <Compile Include="Assets\Scripts\Stable\ResourceExtensions.cs" />
      <Compile Include="Assets\Scripts\Stable\LookAt.cs" />
      <Compile Include="Assets\Scripts\Stable\PistonBody.cs" />
-     <Compile Include="Assets\Scripts\Stable\MissileView.cs" />
      <Folder Include="Assets\Scripts\Stable\Foliage" />
      <Folder Include="Assets\Scripts\Stable\Interpreter" />
      <None Include="Assets\Scripts\Stable\Stable.asmdef" />
