@@ -7,6 +7,7 @@ Shader "Custom/Terrain4"
         
         
         _Normal ("_Normal", 2D) = "bump" {}
+    	_NormalPower ("_NormalPower", Range(0,1)) = 0.5
         _Grass ("_Grass", 2D) = "white" {}
         _GrassTinted ("_GrassTinted", 2D) = "white" {}
         _GrassTint ("_GrassTint", 2D) = "white" {}
@@ -137,6 +138,7 @@ _OutsideIntensity ("_OutsideIntensity", Range(0,1)) = 0.0
         float4  _Emissive;
         float3 _SpotGrassColor, _SpotOceanColor, _ForestColor;
 
+        float _NormalPower;
 float _LineDistance;
 float _LineThickness,_BorderPower;
 float _BorderOffset, _BorderThinkness, _BorderSharpness,_OutsideSmoothness,_OutsideOffset,_OutsideIntensity;
@@ -297,7 +299,7 @@ float4 _SandColor2;
                        // o.Emission *=  IN.worldPos.y > 0;
             
                         float3 normal = UnpackNormal( tex2D (_Normal, IN.uv_Normal ));
-        	o.Normal=lerp(float3(0,0,1),normal,.75);
+        	o.Normal=lerp(float3(0,0,1),normal,_NormalPower);
                         //normal = sign(normal) * pow(abs(normal),.8);
                         //normal.z/=2;
                         //normal=normalize(normal);

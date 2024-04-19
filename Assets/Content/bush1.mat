@@ -142,7 +142,7 @@ Material:
     - _Lod: 3
     - _Metallic: 0
     - _Mode: 1
-    - _NormalWrap: 0.33
+    - _NormalWrap: 0.25
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _SSSIntensity: 0.33
@@ -165,9 +165,9 @@ Material:
     - _Grass: {r: 0.4672171, g: 0.5660378, b: 0, a: 1}
     - _HoleOffset: {r: 0, g: 0, b: 0, a: 0}
     - _Min: {r: -36, g: 0, b: 0, a: 0}
-    - _Offset: {r: 0, g: 0, b: 0, a: 0}
+    - _Offset: {r: 0, g: 0.015, b: 0, a: 0}
     - _Size: {r: 42, g: 33, b: 0, a: 0}
     - _SpotColor: {r: 0.8745098, g: 0.8784314, b: 0.80784315, a: 1}
     - _Wheat: {r: 1, g: 0.6055649, b: 0, a: 1}
-    - _YellowGrass: {r: 0.56730384, g: 0.6415094, b: 0, a: 1}
+    - _YellowGrass: {r: 0.5686275, g: 0.6431373, b: 0, a: 1}
   m_BuildTextureStacks: []
