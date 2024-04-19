@@ -41,6 +41,13 @@ Shader "Custom/LeavesAreaTinted"
     	
     	_NormalWrap ("_NormalWrap", Float) = 0.5
     	[Toggle(WIND)] _Wind ("Wind", Float) = 0
+    	
+    	_TerrainHeight ("_TerrainHeight", 2D) = "black" {}
+    	_HoleRadius ("_HoleRadius", Float) = 0.5
+    	
+    	[Toggle(HOLE)] _Hole ("_Hole", Float) = 0
+    	_EmissionColor ("_EmissionColor", Color) = (1,1,1,1)
+    	_HoleOffset ("_HoleOffset", Vector) = (0,0,0,0)
     }
     SubShader
     {
@@ -52,6 +59,7 @@ Shader "Custom/LeavesAreaTinted"
             // Physically based Standard lighting model, and enable shadows on all light types
             #pragma surface surf Standard vertex:instanced_rendering_vertex2  addshadow
             #pragma shader_feature   WIND
+            #pragma shader_feature   HOLE
 
             // Use shader model 3.0 target, to get nicer looking lighting
             #pragma target 5.0
@@ -63,6 +71,7 @@ Shader "Custom/LeavesAreaTinted"
             half3 _Grass,_DarkGrass,_Wheat,_YellowGrass,_Forest;
             fixed4x4 _TileMask_WorldToLocal, _ForestMask_WorldToLocal;
             half _Lod;
+            half _HoleRadius;
             fixed4 _SpotColor, _SpotMask_ST, _GrassTint_ST;
 
             float _DeepSeaLevel, _DeepSeaSharpness;
@@ -71,15 +80,22 @@ Shader "Custom/LeavesAreaTinted"
             sampler2D _FlowersAlpha;
             fixed4 _FlowerColor;
 
+            float4 _EmissionColor;
+            
             half _Smoothness;
             struct Input {
                 float2 uv_MainTex;
                 float3 worldPos;
+            	float3 objectWorldPos;
             };
 
             half4x4 _Splat_WorldToLocal;
             half2 _Min,_Size;
             fixed4 _Emissive, _Offset;
+
+            sampler2D _TerrainHeight;
+			fixed4x4 _WorldToTerrainHeightUv;
+            half3 _HoleOffset;
 
             struct InstancedRenderingAppdata {
                 half4 vertex : POSITION;
@@ -98,7 +114,7 @@ Shader "Custom/LeavesAreaTinted"
 
             half _NormalWrap;
 
-            void instanced_rendering_vertex2(inout InstancedRenderingAppdata v) { 
+            void instanced_rendering_vertex2(inout InstancedRenderingAppdata v, out Input o) { 
             #if defined(SHADER_API_D3D11) || defined(SHADER_API_METAL)
 
                 const half4x4 transform =  _Transforms[v.inst];
@@ -113,7 +129,12 @@ Shader "Custom/LeavesAreaTinted"
                 v.vertex = mul(transform, v.vertex + _Offset);
             	v.normal = lerp(v.normal, float3(0,-1,0), _NormalWrap);
                 v.normal = normalize(mul(transform, v.normal)) ;
-                //v.normal = lerp(v.normal, float3(0,1,0), _NormalWrap);            
+                //v.normal = lerp(v.normal, float3(0,1,0), _NormalWrap);
+                //
+
+            	UNITY_INITIALIZE_OUTPUT(Input,o);
+            	// slow
+            	o.objectWorldPos = mul(transform, float4(0,0,0,1)).xyz;
 
             #endif 
             }
@@ -250,8 +271,28 @@ float flowerAlpha = tex2D(_FlowersAlpha, IN.worldPos.xz * 0.25).r;
             	float tint = smoothstep(_DeepSeaLevel - _DeepSeaSharpness,  _DeepSeaLevel + _DeepSeaSharpness , IN.worldPos.y);
             	//o.Albedo = lerp(o.Albedo, _DeepSeaColor, tint);
 //o.Albedo=erosion;
-            	
-            	
+
+				
+
+	#if HOLE && false
+
+				float2 tilePosition = round(IN.objectWorldPos.xz);
+				float2 heightmapUv = mul(_WorldToTerrainHeightUv, float4(tilePosition.x, 0, tilePosition.y, 1)).xz;
+				float tileHeight = tex2D(_TerrainHeight, heightmapUv).r;
+				float3 holePosition = float3(tilePosition.x, tileHeight, tilePosition.y);
+				holePosition += _HoleOffset;
+	
+				float3 direction = normalize(IN.worldPos - _WorldSpaceCameraPos);
+				float3 projectedPoint = RayPlaneIntersection(_WorldSpaceCameraPos, direction, holePosition, direction);
+				
+				float distance = length(projectedPoint - holePosition) - _HoleRadius;
+				clip(distance);
+
+				float circleBorder = smoothstep(0.025, 0.015, distance);
+				o.Emission = circleBorder * _EmissionColor;
+				o.Albedo = lerp(o.Albedo, 0, circleBorder);
+
+	#endif
             }
             ENDCG
     }

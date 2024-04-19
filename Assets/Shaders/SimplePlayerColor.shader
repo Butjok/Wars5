@@ -56,19 +56,7 @@ Shader "Custom/SimplePlayerColor" {
 		#include "Assets/Shaders/Utils.cginc"
 
 		void surf (Input IN, inout SurfaceOutputStandard o) {
-		
-			#if HOLE
-			if (IN.hole.a > 0.5) {
-				float3 direction = normalize(IN.worldPos - _WorldSpaceCameraPos);
-				float3 projectedPoint = RayPlaneIntersection(_WorldSpaceCameraPos, direction, IN.objectWorldPosition, direction);
-				
-				float distance = length(projectedPoint - IN.objectWorldPosition) - _HoleRadius;
-				clip(distance);
-				
-				o.Emission = smoothstep(0.06, 0.05, distance) * IN.hole.rgb*2;
-			}
-			#endif	
-		
+
 			// Albedo comes from a texture tinted by color
 			fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _Color;
 			o.Albedo = c.rgb *  lerp(float3(1,1,1), _PlayerColor.rgb, _PlayerColorIntensity);
@@ -76,6 +64,24 @@ Shader "Custom/SimplePlayerColor" {
 			o.Metallic = _Metallic;
 			o.Smoothness = _Glossiness;
 			o.Alpha = c.a;
+			
+			#if HOLE
+			if (IN.hole.a > 0.5) {
+				float3 direction = normalize(IN.worldPos - _WorldSpaceCameraPos);
+				float3 holePosition = IN.objectWorldPosition;
+				holePosition += float3(0,0.15,0);
+				float3 projectedPoint = RayPlaneIntersection(_WorldSpaceCameraPos, direction, holePosition, direction);
+				
+				float distance = length(projectedPoint - holePosition) - _HoleRadius;
+				clip(distance);
+
+				float circleBorder = smoothstep(0.025, 0.015, distance);
+				o.Emission = circleBorder * IN.hole.rgb;
+				o.Albedo *= 1 - circleBorder;
+			}
+			#endif	
+		
+			
 		}
 		ENDCG
 	}
