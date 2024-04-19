@@ -135,7 +135,7 @@ Shader "Custom/Unit"
 
 
             
-            o.Smoothness = (1- tex2D (_Roughness, uv)) * lerp(1,0.5,_Moved);
+            o.Smoothness = (1- tex2D (_Roughness, uv)) * lerp(1,0.25,_Moved);
             //o.Smoothness = max(o.Smoothness, smoothstep(.1, .0, IN.worldPos.y));
             //if (IN.worldPos.y < .1)
               //  o.Smoothness=1;
