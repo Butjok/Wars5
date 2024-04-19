@@ -24,6 +24,8 @@ public class HeightMapBaker : MonoBehaviour {
             return;
 
         var size = mesh.bounds.size.ToVector2().RoundToInt();
+        Debug.Log(size);
+        Debug.Log(mesh. bounds.size);
         Assert.IsTrue(Mathf.Approximately(mesh.bounds.size.x, size.x));
         Assert.IsTrue(Mathf.Approximately(mesh.bounds.size.z, size.y));
         renderTexture = new RenderTexture(size.x * pixelsPerUnit, size.y * pixelsPerUnit, 32, RenderTextureFormat.RFloat);

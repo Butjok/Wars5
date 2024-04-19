@@ -13,6 +13,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Rendering;
 using static UnityEngine.Object;
+using Random = System.Random;
 
 public class TileMapCreator : MonoBehaviour {
 
@@ -20,6 +21,8 @@ public class TileMapCreator : MonoBehaviour {
         EditQuads,
         Placement
     }
+
+    public Transform cliffPrefab;
 
     [Header("Placement")]
     public TileType[] tileTypes = {
@@ -330,7 +333,7 @@ public class TileMapCreator : MonoBehaviour {
             }
         }
     }
-    
+
     [Command]
     public float landDisplacement = 1;
     [Command]
@@ -430,6 +433,7 @@ public class TileMapCreator : MonoBehaviour {
             }
 
             TileType ToMountainTileType(TileType tileType) {
+                return TileType.Sea;
                 return tileType == TileType.Mountain ? tileType : TileType.Sea;
             }
 
@@ -440,18 +444,13 @@ public class TileMapCreator : MonoBehaviour {
             );
             AddQuadPiece(groundQuad);
 
-            var mountainQuad = new Quad(
+            /*var mountainQuad = new Quad(
                 ToMountainTileType(GetTileType(-1, 1)), ToMountainTileType(GetTileType(1, 1)),
                 ToMountainTileType(GetTileType(-1, -1)), ToMountainTileType(GetTileType(1, -1)),
                 cornerPosition
             );
             if (mountainQuad.Any(t => t == TileType.Mountain))
-                AddQuadPiece(mountainQuad);
-        }
-
-        if (meshFilter.sharedMesh) {
-            Destroy(meshFilter.sharedMesh);
-            meshFilter.sharedMesh = null;
+                AddQuadPiece(mountainQuad);*/
         }
 
         //
@@ -483,7 +482,7 @@ public class TileMapCreator : MonoBehaviour {
             var uvs = new Vector2[vertices.Length];
             var extendedTilePositions = tiles.Keys.GrownBy(1);
             var edgeTilePositions = extendedTilePositions.Where(p => (tiles.TryGetValue(p, out var t) ? t : TileType.Sea) is TileType.Beach or TileType.Sea or TileType.River).ToList();
-            var landPositions =  extendedTilePositions.Where(p => (tiles.TryGetValue(p, out var t) ? t : TileType.Sea) != TileType.Sea).ToList();
+            var landPositions = extendedTilePositions.Where(p => (tiles.TryGetValue(p, out var t) ? t : TileType.Sea) != TileType.Sea).ToList();
 
             Parallel.For(0, vertices.Length, i => {
                 var vertex2d = vertices[i].ToVector2();
@@ -499,7 +498,7 @@ public class TileMapCreator : MonoBehaviour {
 
                 Displace(distanceToSea, Vector3.up * landDisplacement, noiseAmplitude, noiseOctavesCount);
                 //Displace(distanceToLand, Vector3.down * seaDisplacement, noiseAmplitude/2, noiseOctavesCount/2);
-                
+
                 void Displace(float distance, Vector3 offset, float noiseAmplitude, int noiseOctavesCount) {
                     var displacementMask = Mathf.Clamp01(distance / slopeLength);
                     if (displacementMask < Mathf.Epsilon)
@@ -513,9 +512,9 @@ public class TileMapCreator : MonoBehaviour {
                         noiseAmplitude /= 2;
                     }
 
-                    vertices[i] += offset * (displacementMask * (displacementAmount + Mathf.PerlinNoise(vertex2d.x / noiseScale2.x, vertex2d.y / noiseScale2.y) * .2f));    
+                    vertices[i] += offset * (displacementMask * (displacementAmount + Mathf.PerlinNoise(vertex2d.x / noiseScale2.x, vertex2d.y / noiseScale2.y) * .2f));
                 }
-                
+
                 {
                     var displacementMask = Mathf.Clamp01(distanceToLand / slopeLength);
                     if (displacementMask < Mathf.Epsilon)
@@ -553,6 +552,19 @@ public class TileMapCreator : MonoBehaviour {
             meshFilter.sharedMesh = combinedMesh;
             meshRenderer.sharedMaterials = finalMaterials.ToArray();
             meshCollider.sharedMesh = combinedMesh;
+
+            foreach (var cliff in cliffs)
+                DestroyImmediate(cliff.gameObject);
+            cliffs.Clear();
+            
+            foreach (var position in tiles.Keys)
+                if (tiles[position] == TileType.Mountain)
+                    if (position.TryRaycast(out var hit)) {
+                        var cliff = Instantiate(cliffPrefab, hit.point, Quaternion.Euler(0, 360 * UnityEngine.Random.value, 0));
+                        cliffs.Add(cliff);
+                    }
+                    else
+                        Debug.LogWarning($"{position} failed to raycast");
         };
 
         meshFilter.sharedMesh = combinedMesh;
@@ -568,6 +580,8 @@ public class TileMapCreator : MonoBehaviour {
         finalizeMesh?.Invoke();
         finalizeMesh = null;
     }
+
+    public List<Transform> cliffs = new();
 
     public Quad FindQuad(Vector2 position, out int index) {
         var cornerOffsets = new[] {
@@ -740,7 +754,7 @@ public class TileMapCreator : MonoBehaviour {
 
 public static class MeshCombiner {
     public static Mesh CombineInstances(this Mesh mesh, IReadOnlyList<Matrix4x4> transforms) {
-        var submeshes = new  List<Mesh>();
+        var submeshes = new List<Mesh>();
         for (var i = 0; i < mesh.subMeshCount; i++) {
             var combineInstances = transforms.Select(transform => new CombineInstance {
                 mesh = mesh,
@@ -752,7 +766,7 @@ public static class MeshCombiner {
             submesh.CombineMeshes(combineInstances);
             submeshes.Add(submesh);
         }
-        
+
         var combinedMesh = new Mesh();
         combinedMesh.indexFormat = IndexFormat.UInt32;
         combinedMesh.CombineMeshes(submeshes.Select(submesh => new CombineInstance { mesh = submesh }).ToArray(), false, false);
