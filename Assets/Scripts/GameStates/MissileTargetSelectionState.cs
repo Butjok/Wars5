@@ -90,7 +90,7 @@ public class MissileTargetSelectionState : StateMachineState {
                                 while (!jumpCompleted())
                                     yield return StateChange.none;
 
-                                var missile = missileSiloView.TryLaunchMissile();
+                                var missile = missileSiloView.TryLaunchMissile(missileSilo.Player.Color);
                                 Assert.IsTrue(missile);
                                 if (missile.curve.totalTime is not { } flightTime)
                                     throw new AssertionException("missile.curve.totalTime = null", null);

@@ -15,9 +15,10 @@ public class MissileSiloView : BuildingView {
     public float velocityStep = .1f;
     public float gravity = 5;
     public bool aim = true;
-    public BallisticMotion projectilePrefab;
+    public MissileView projectilePrefab;
     public bool selectHighCurve = true;
     public float restAngle = -30;
+    public MeshRenderer rockets;
 
     public Vector2Int lookDirection;
 
@@ -26,6 +27,14 @@ public class MissileSiloView : BuildingView {
         set {
             base.LookDirection = value;
             lookDirection = value;
+        }
+    }
+
+    public override bool Moved {
+        set {
+            base.Moved = value;
+            if (rockets)
+                rockets.enabled = !value;
         }
     }
 
@@ -90,7 +99,7 @@ public class MissileSiloView : BuildingView {
     }
 
     [Command]
-    public BallisticMotion TryLaunchMissile() {
+    public BallisticMotion TryLaunchMissile(Color color) {
 
         if (!TryCalculateCurve(out var curve))
             return null;
@@ -99,6 +108,7 @@ public class MissileSiloView : BuildingView {
         projectile.gameObject.SetActive(true);
         projectile.time = 0;
         projectile.curve = curve;
+        projectile.PlayerColor = color;
         return projectile;
     }
 

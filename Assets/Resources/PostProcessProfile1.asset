@@ -304,10 +304,10 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 2.5
+    value: 0.5
   threshold:
     overrideState: 1
-    value: 1.5
+    value: 1
   softKnee:
     overrideState: 0
     value: 0
@@ -426,13 +426,13 @@ MonoBehaviour:
     value: 0
   saturation:
     overrideState: 1
-    value: -1
+    value: -2
   brightness:
     overrideState: 0
     value: 0
   postExposure:
     overrideState: 0
-    value: 0.25
+    value: 0.125
   contrast:
     overrideState: 1
     value: 10
@@ -471,7 +471,7 @@ MonoBehaviour:
     value: {x: 1, y: 1, z: 1, w: -0.07761967}
   gain:
     overrideState: 1
-    value: {x: 1, y: 1, z: 1, w: 1}
+    value: {x: 1, y: 1, z: 1, w: 0.717564}
   masterCurve:
     overrideState: 0
     value:

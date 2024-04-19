@@ -63,7 +63,7 @@ public class BuildingView : MonoBehaviour {
         }
     }
 
-    public bool Moved {
+    public virtual bool Moved {
         set {
             materialPropertyBlock.SetFloat("_Moved", value ? 1 : 0);
             foreach (var renderer in renderers)
