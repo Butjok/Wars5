@@ -70,10 +70,11 @@ public class BuildingView : MonoBehaviour {
                 renderer.SetPropertyBlock(materialPropertyBlock);
         }
     }
-    public bool EnableLights {
+    public bool EnableInteriorLights {
         set {
             foreach (var light in lights)
-                light.enabled = !value;
+                if (light.name.StartsWith("Player") && !light.name.Contains("Exterior"))
+                    light.enabled = !value;
         }
         
     }

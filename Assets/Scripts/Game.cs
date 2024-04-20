@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
 using Butjok.CommandLine;
 using Unity.Burst;
 using UnityEngine;
@@ -16,18 +17,17 @@ public class Game : MonoBehaviour {
         get => Time.timeScale;
         set => Time.timeScale = value;
     }
-    
+
     public Color colorPlain = new(.5f, 1, 0);
     public Color colorRoad = new(1, .66f, 0);
     public Color colorSea = new(0, .25f, 1);
     public Color colorMountain = new(0.75f, 0.5f, 0.25f);
     public Color colorForest = new(0f, 0.66f, 0f);
     public Color colorRiver = new(0, .5f, 1);
-    
+
     [Command] public Color holeUnownedColor = new(0.24f, 0.13f, 0f);
 
     public Color GetColor(TileType tileType, Building building) {
-
         if (TileType.Buildings.HasFlag(tileType))
             return building?.Player?.Color ?? Color.white;
 
@@ -71,6 +71,7 @@ public class Game : MonoBehaviour {
     public const bool createCommandLineGui = true;
 
     private static Game instance;
+
     public static Game Instance {
         get {
             if (instance)
@@ -132,6 +133,7 @@ public class Game : MonoBehaviour {
             commandsDebugInfo.Dequeue();
             return true;
         }
+
         return false;
     }
     public bool TryDequeueCommand(out (object name, object argument) command, out (string callerMemberName, string callerFilePath, int callerLineNumber) debugInfo) {
@@ -139,6 +141,7 @@ public class Game : MonoBehaviour {
             debugInfo = commandsDebugInfo.Dequeue();
             return true;
         }
+
         debugInfo = default;
         return false;
     }
@@ -155,7 +158,6 @@ public class Game : MonoBehaviour {
     }
 
     private void Update() {
-
         stateMachine.Tick();
 
         if (Debug.isDebugBuild) {
@@ -177,9 +179,8 @@ public class Game : MonoBehaviour {
             holeShaderUpdater = Instantiate(prefab, Vector3.zero, Quaternion.identity, transform);
             DontDestroyOnLoad(holeShaderUpdater.gameObject);
         }
-        
-        if (holeShaderUpdater) {
 
+        if (holeShaderUpdater) {
             Level level = null;
             if (stateMachine.TryFind<LevelSessionState>() is { } levelSessionState)
                 level = levelSessionState.level;
@@ -187,7 +188,6 @@ public class Game : MonoBehaviour {
                 level = levelEditorSessionState.level;
 
             if (level != null) {
-                
                 newHoles.Clear();
                 newHoles.UnionWith(level.units.Values.Select(u => u.view.body.transform.position.ToVector2Int()));
                 //newHoles.IntersectWith(level.buildings.Keys);
@@ -200,7 +200,7 @@ public class Game : MonoBehaviour {
                         return (position, color);
                     }));
                     foreach (var building in level.buildings.Values)
-                        building.view.EnableLights = newHoles.Contains(building.position);
+                        building.view.EnableInteriorLights = newHoles.Contains(building.position);
                 }
 
                 oldHoles.Clear();
@@ -227,15 +227,11 @@ public class Game : MonoBehaviour {
     [Command] public bool showAllUnitBrainStates;
     [Command] public float unitBrainStateFontScale = 1;
     [Command] public int statesFontSize = 9;
-    public bool showStates = false;
 
     [Command]
-    public void ShowStates() {
-        showStates = true;
-    }
-    [Command]
-    public void HideStates() {
-        showStates = false;
+    public bool ShowStates {
+        get => PlayerPrefs.GetInt(nameof(ShowStates), 0) != 0;
+        set => PlayerPrefs.SetInt(nameof(ShowStates), value ? 1 : 0);
     }
 
     public GUIStyle statesLabelStyle;
@@ -249,24 +245,27 @@ public class Game : MonoBehaviour {
     }
 
     private void OnGUI() {
-
         GUI.skin = DefaultGuiSkin.TryGet;
         GUI.depth = guiDepth;
 
-        if (showStates) {
+        if (ShowStates) {
             stateNames.Clear();
             stateNames.AddRange(stateMachine.StateNames);
             stateNames.Reverse();
             statesLabelStyle ??= new GUIStyle(GUI.skin.label) {
                 fontSize = statesFontSize
             };
-            GUILayout.BeginHorizontal();
+            var sb = new StringBuilder();
             for (var i = 0; i < stateNames.Count; i++) {
                 if (i != 0)
-                    GUILayout.Label("/", statesLabelStyle);
-                GUILayout.Label(stateNames[i], statesLabelStyle);
+                    sb.Append(" / ");
+                sb.Append(stateNames[i]);
             }
-            GUILayout.EndHorizontal();
+
+            var text = sb.ToString();
+            var size = statesLabelStyle.CalcSize(new GUIContent(text));
+            var rect = new Rect(0, Screen.height - size.y, size.x, size.y);
+            GUI.Label(rect, text, statesLabelStyle);
         }
 
         foreach (var action in guiCommands.Values)

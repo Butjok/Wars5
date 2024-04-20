@@ -69,7 +69,7 @@ Shader "Custom/SimplePlayerColor" {
 			if (IN.hole.a > 0.5) {
 				float3 direction = normalize(IN.worldPos - _WorldSpaceCameraPos);
 				float3 holePosition = IN.objectWorldPosition;
-				holePosition += float3(0,0.15,0);
+				holePosition += float3(0,0.25,0);
 				float3 projectedPoint = RayPlaneIntersection(_WorldSpaceCameraPos, direction, holePosition, direction);
 				
 				float distance = length(projectedPoint - holePosition) - _HoleRadius;
