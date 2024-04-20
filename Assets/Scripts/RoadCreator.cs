@@ -160,7 +160,7 @@ public class RoadCreator : MonoBehaviour {
         mesh.RecalculateNormals();
         mesh.RecalculateTangents();
 
-        MeshProjector.TryProjectDown(projectedMesh, mesh, Vector3.zero, 0, 1 << LayerMask.NameToLayer("Terrain"), offset);
+        MeshProjector.TryProjectDown(projectedMesh, mesh, Vector3.zero, 0, LayerMasks.Terrain | LayerMasks.Water, offset);
         meshFilter.sharedMesh = projectedMesh;
         meshCollider.sharedMesh = projectedMesh;
     }

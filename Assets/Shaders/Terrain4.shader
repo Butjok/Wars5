@@ -240,6 +240,10 @@ float4 _SandColor2;
                         float2 darkGreenUv = position;
                         darkGreenUv.x += sin(darkGreenUv.y*2)/16 + sin(darkGreenUv.y*5+.4)/32  + sin(darkGreenUv.y*10+.846)/32;
                         fixed3 darkGrass = tex2D (_DarkGreen, TRANSFORM_TEX(darkGreenUv, _DarkGreen) );//tex2D (_Grass, TRANSFORM_TEX(position, _Grass) );
+        	float3 darkGrassHSV = RGBtoHSV(darkGrass);
+        	darkGrassHSV.x -= 0.005;
+        	//darkGrassHSV.z *= 1.10;
+        	darkGrass = HSVtoRGB(darkGrassHSV);
             
                         
                         o.Albedo =  lerp(o.Albedo, darkGrass, darkGrassIntensity);

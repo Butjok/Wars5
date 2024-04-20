@@ -51,13 +51,19 @@ Shader "Custom/LeavesAreaTinted"
     }
     SubShader
     {
+    	/*Pass {
+		Name "ShadowCaster"
+		Tags { "LightMode" = "ShadowCaster" }
+		ZWrite On ZTest LEqual*/
+    	
             Tags { "RenderType"="Opaque" }
             //Cull Off
             LOD 200
 
+    		
             CGPROGRAM
             // Physically based Standard lighting model, and enable shadows on all light types
-            #pragma surface surf Standard vertex:instanced_rendering_vertex2  addshadow
+            #pragma surface surf Standard vertex:instanced_rendering_vertex2   addshadow 
             #pragma shader_feature   WIND
             #pragma shader_feature   HOLE
 
@@ -86,7 +92,7 @@ Shader "Custom/LeavesAreaTinted"
             struct Input {
                 float2 uv_MainTex;
                 float3 worldPos;
-            	float3 objectWorldPos;
+            	float4 objectWorldPosHole;
             };
 
             half4x4 _Splat_WorldToLocal;
@@ -96,6 +102,9 @@ Shader "Custom/LeavesAreaTinted"
             sampler2D _TerrainHeight;
 			fixed4x4 _WorldToTerrainHeightUv;
             half3 _HoleOffset;
+
+            sampler2D _HoleMask;
+            fixed4x4 _HoleMask_WorldToLocal;
 
             struct InstancedRenderingAppdata {
                 half4 vertex : POSITION;
@@ -117,6 +126,8 @@ Shader "Custom/LeavesAreaTinted"
             void instanced_rendering_vertex2(inout InstancedRenderingAppdata v, out Input o) { 
             #if defined(SHADER_API_D3D11) || defined(SHADER_API_METAL)
 
+            	UNITY_INITIALIZE_OUTPUT(Input,o);
+            	
                 const half4x4 transform =  _Transforms[v.inst];
 
             	#if WIND
@@ -132,9 +143,17 @@ Shader "Custom/LeavesAreaTinted"
                 //v.normal = lerp(v.normal, float3(0,1,0), _NormalWrap);
                 //
 
-            	UNITY_INITIALIZE_OUTPUT(Input,o);
             	// slow
-            	o.objectWorldPos = mul(transform, float4(0,0,0,1)).xyz;
+            	float3 worldPos = mul(transform, float4(0,0,0,1)).xyz;
+            	float4 tilePos = float4(round(worldPos.x), 0, round(worldPos.z), 1);
+
+	            o.objectWorldPosHole = float4(
+            		tilePos.x,
+					tex2Dlod(_TerrainHeight, float4(mul(_WorldToTerrainHeightUv, tilePos).xz, 0, 0)).r,
+            		tilePos.z,
+            		tex2Dlod(_HoleMask, float4(mul(_HoleMask_WorldToLocal, tilePos).xz, 0, 0)).r);
+            	
+				o.objectWorldPosHole.xyz += _HoleOffset;
 
             #endif 
             }
@@ -274,26 +293,25 @@ float flowerAlpha = tex2D(_FlowersAlpha, IN.worldPos.xz * 0.25).r;
 
 				
 
-	#if HOLE && false
-
-				float2 tilePosition = round(IN.objectWorldPos.xz);
-				float2 heightmapUv = mul(_WorldToTerrainHeightUv, float4(tilePosition.x, 0, tilePosition.y, 1)).xz;
-				float tileHeight = tex2D(_TerrainHeight, heightmapUv).r;
-				float3 holePosition = float3(tilePosition.x, tileHeight, tilePosition.y);
-				holePosition += _HoleOffset;
+	#if HOLE
+	if (IN.objectWorldPosHole.a > 0.1) {
+		float3 holePosition = IN.objectWorldPosHole.xyz;
+		//holePosition += _HoleOffset;
 	
-				float3 direction = normalize(IN.worldPos - _WorldSpaceCameraPos);
-				float3 projectedPoint = RayPlaneIntersection(_WorldSpaceCameraPos, direction, holePosition, direction);
+		float3 direction = normalize(IN.worldPos - _WorldSpaceCameraPos);
+		float3 projectedPoint = RayPlaneIntersection(_WorldSpaceCameraPos, direction, holePosition, direction);
 				
-				float distance = length(projectedPoint - holePosition) - _HoleRadius;
-				clip(distance);
+		float distance = length(projectedPoint - holePosition) - _HoleRadius;
+		clip(distance);
 
-				float circleBorder = smoothstep(0.025, 0.015, distance);
-				o.Emission = circleBorder * _EmissionColor;
-				o.Albedo = lerp(o.Albedo, 0, circleBorder);
+		float circleBorder = smoothstep(0.025, 0.015, distance);
+		o.Emission = circleBorder * _EmissionColor;
+		o.Albedo = lerp(o.Albedo, 0, circleBorder);
+	}
 
+	
 	#endif
             }
             ENDCG
     }
-    }
+}

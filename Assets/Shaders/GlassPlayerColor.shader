@@ -8,6 +8,7 @@ Shader "Custom/GlassPlayerColor" {
 		[Toggle(HOLE)] _Hole ("_Hole", Float) = 0
 		_HoleRadius ("_HoleRadius", Float) = 0.5
 		_PlayerColorIntensity ("Player Color Intensity", Range(0,1)) = 1
+		_HoleOffset ("_HoleOffset", Vector) = (0,0,0,0)
 	}
 	SubShader {
 		Tags { "RenderType"="Fade" "DisableBatching"="True" }
@@ -16,7 +17,7 @@ Shader "Custom/GlassPlayerColor" {
 		CGPROGRAM
 		// Physically based Standard lighting model, and enable shadows on all light types
 		// no shadows
-		#pragma surface surf Standard   vertex:vert  alpha:fade 
+		#pragma surface surf Standard   vertex:vert  alpha:fade  
 		#pragma shader_feature HOLE
 
 		// Use shader model 3.0 target, to get nicer looking lighting
@@ -44,6 +45,7 @@ Shader "Custom/GlassPlayerColor" {
 		sampler2D _HoleMask;
 		float4 _HoleMask_ST;
 		float4x4 _HoleMask_WorldToLocal;
+		float3 _HoleOffset;
 		#endif
 
 		#include "Assets/Shaders/Utils.cginc"
@@ -62,9 +64,9 @@ Shader "Custom/GlassPlayerColor" {
 			#if HOLE
 			if (IN.hole.a > 0.5) {
 				float3 direction = normalize(IN.worldPos - _WorldSpaceCameraPos);
-				float3 projectedPoint = RayPlaneIntersection(_WorldSpaceCameraPos, direction, IN.objectWorldPosition, direction);
+				float3 projectedPoint = RayPlaneIntersection(_WorldSpaceCameraPos, direction, IN.objectWorldPosition - _HoleOffset, direction);
 				
-				float distance = length(projectedPoint - IN.objectWorldPosition) - _HoleRadius;
+				float distance = length(projectedPoint - IN.objectWorldPosition - _HoleOffset) - _HoleRadius;
 				clip(distance);
 			}
 			#endif	

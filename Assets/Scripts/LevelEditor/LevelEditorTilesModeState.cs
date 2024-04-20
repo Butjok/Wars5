@@ -233,10 +233,11 @@ public class LevelEditorTilesModeState : StateMachineState {
                         tileMapCreator.terrainMapper.ClearBushes();
                 }
 
-                /*if (roadCreator && tileType is TileType.Road or TileType.Bridge or TileType.BridgeSea || (TileType.Buildings & tileType) != 0) {
-                    roadCreator.tiles.Remove(position);
+                if (roadCreator) {
+                    if (tileType is TileType.Road or TileType.Bridge or TileType.BridgeSea || (TileType.Buildings & tileType) != 0)
+                        roadCreator.tiles.Remove(position);
                     roadCreator.Rebuild();
-                }*/
+                }
 
                 if (forestCreator) {
                     if (tileType == TileType.Forest)
@@ -248,6 +249,9 @@ public class LevelEditorTilesModeState : StateMachineState {
                     building.Dispose();
                 if (removeUnit && units.TryGetValue(position, out var unit))
                     unit.Dispose();
+
+                foreach (var b in buildings.Values)
+                    b.view.Position = b.position;
 
                 //RebuildTilemapMesh();
 
@@ -285,11 +289,11 @@ public class LevelEditorTilesModeState : StateMachineState {
                         tileMapCreator.terrainMapper.ClearBushes();
                 }
 
-                /*if (roadCreator) {
+                if (roadCreator) {
                     if (tileType is TileType.Road or TileType.Bridge or TileType.BridgeSea || (TileType.Buildings & tileType) != 0)
                         roadCreator.tiles.Add(position, tileType);
                     roadCreator.Rebuild();
-                }*/
+                }
 
                 if (forestCreator) {
                     if (tileType == TileType.Forest)
@@ -299,6 +303,9 @@ public class LevelEditorTilesModeState : StateMachineState {
 
                 if (TileType.Buildings.HasFlag(tileType))
                     new Building(level, position, tileType, player, viewPrefab: BuildingView.GetPrefab(tileType), lookDirection: player?.unitLookDirection ?? Vector2Int.up);
+
+                foreach (var b in buildings.Values)
+                    b.view.Position = b.position;
 
                 //RebuildTilemapMesh();
             }

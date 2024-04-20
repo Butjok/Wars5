@@ -190,11 +190,15 @@ public class Game : MonoBehaviour {
                 
                 newHoles.Clear();
                 newHoles.UnionWith(level.units.Values.Select(u => u.view.body.transform.position.ToVector2Int()));
-                newHoles.IntersectWith(level.buildings.Keys);
+                //newHoles.IntersectWith(level.buildings.Keys);
 
                 oldHoles.SymmetricExceptWith(newHoles);
                 if (oldHoles.Count > 0) {
-                    holeMask = holeShaderUpdater.UpdateTexture(newHoles.Select(position => (position, level.buildings[position].Player?.Color ?? holeUnownedColor)));
+                    holeMask = holeShaderUpdater.UpdateTexture(newHoles.Select(position => {
+                        level.buildings.TryGetValue(position, out var levelBuilding);
+                        var color = levelBuilding?.Player?.Color ?? holeUnownedColor;
+                        return (position, color);
+                    }));
                     foreach (var building in level.buildings.Values)
                         building.view.EnableLights = newHoles.Contains(building.position);
                 }

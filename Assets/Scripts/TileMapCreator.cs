@@ -424,7 +424,7 @@ public class TileMapCreator : MonoBehaviour {
                 tileType = TileType.Sea;
             if (tileType is TileType.Sea or TileType.Beach or TileType.River)
                 seaLevelPositions.Add(new int2(x, y));
-            if (tileType != TileType.Sea)
+            if (tileType != TileType.BridgeSea && tileType != TileType.Sea)
                 nonSeaPositions.Add(new int2(x, y));
         }
 
@@ -444,7 +444,7 @@ public class TileMapCreator : MonoBehaviour {
                 nonSeaPositions = nonSeaPositions,
                 slopeLength = slopeLength,
                 maxHeight = 2.5f,
-                maxDepth = 2.5f,
+                maxDepth = 5f,
                 noiseOctavesCount = noiseOctavesCount,
                 noiseAmplitude = noiseAmplitude,
                 noiseScale = noiseScale

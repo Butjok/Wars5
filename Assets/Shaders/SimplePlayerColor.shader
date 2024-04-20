@@ -15,7 +15,7 @@ Shader "Custom/SimplePlayerColor" {
 		
 		CGPROGRAM
 		// Physically based Standard lighting model, and enable shadows on all light types
-		#pragma surface surf Standard vertex:vert 
+		#pragma surface surf Standard vertex:vert addshadow 
 		#pragma shader_feature HOLE
 
 		// Use shader model 3.0 target, to get nicer looking lighting
