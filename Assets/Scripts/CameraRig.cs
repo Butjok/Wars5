@@ -151,7 +151,7 @@ public class CameraRig : MonoBehaviour {
 
         // ZOOM
 
-        targetDollyZoom = Mathf.Clamp01(targetDollyZoom + (enabledMovements.HasFlag(MovementType.Zoom) ? Input.GetAxisRaw("Mouse ScrollWheel").ZeroSign() * distanceStep : 0));
+        targetDollyZoom = Mathf.Clamp01(targetDollyZoom + (enabledMovements.HasFlag(MovementType.Zoom) ? ((Input.GetAxisRaw("Mouse ScrollWheel")).ZeroSign() + Input.GetAxisRaw("Zoom")*.1f) * distanceStep : 0));
         dollyZoom = Mathf.Lerp(dollyZoom, targetDollyZoom, Time.unscaledDeltaTime * dollyZoomSpeed);
         var fov = Mathf.Lerp(dollyZoomFovRange[0], dollyZoomFovRange[1], dollyZoom);
         var width = Mathf.Lerp(dollyZoomWidthRange[0], dollyZoomWidthRange[1], dollyZoom);

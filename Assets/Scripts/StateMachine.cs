@@ -192,7 +192,7 @@ public abstract class StateMachineState {
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.F3)) {
+        if (Input.GetKeyDown(KeyCode.F5)) {
             game.EnqueueCommand(LevelEditorSessionState.SelectModeCommand.Play);
             return true;
         }

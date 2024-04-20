@@ -149,7 +149,7 @@ public class SelectionState : StateMachineState {
                     //else if ((Input.GetKeyDown(KeyCode.Escape)) && (!preselectionCursor || !preselectionCursor.Visible))
                     //    main.commands.Enqueue(openGameMenu);
 
-                    else if (Input.GetKeyDown(KeyCode.F3))
+                    else if (Input.GetKeyDown(KeyCode.F5))
                         Game.EnqueueCommand(Command.ExitToLevelEditor);
 
                     else if ((Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(Mouse.right)) && preselectionCursor && preselectionCursor.Visible)

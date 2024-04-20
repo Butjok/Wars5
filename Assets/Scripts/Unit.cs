@@ -182,7 +182,7 @@ public class Unit : IDisposable {
         undisposed.Add(this);
 
         if (!viewPrefab)
-            viewPrefab = UnitView.DefaultPrefab;
+            viewPrefab = UnitView.DefaultPrefabFor(type);
         Assert.IsTrue(viewPrefab);
 
         view = Object.Instantiate(viewPrefab, player.level.view.transform);

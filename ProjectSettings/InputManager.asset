@@ -9,8 +9,8 @@ InputManager:
     m_Name: Horizontal
     descriptiveName: 
     descriptiveNegativeName: 
-    negativeButton: a
-    positiveButton: d
+    negativeButton: s
+    positiveButton: f
     altNegativeButton: 
     altPositiveButton: 
     gravity: 3
@@ -25,8 +25,8 @@ InputManager:
     m_Name: Vertical
     descriptiveName: 
     descriptiveNegativeName: 
-    negativeButton: s
-    positiveButton: w
+    negativeButton: d
+    positiveButton: e
     altNegativeButton: 
     altPositiveButton: 
     gravity: 3
@@ -217,8 +217,8 @@ InputManager:
     m_Name: PitchCamera
     descriptiveName: 
     descriptiveNegativeName: 
-    negativeButton: 1
-    positiveButton: 2
+    negativeButton: t
+    positiveButton: g
     altNegativeButton: 
     altPositiveButton: 
     gravity: 1000
@@ -233,8 +233,8 @@ InputManager:
     m_Name: RotateCamera
     descriptiveName: 
     descriptiveNegativeName: 
-    negativeButton: q
-    positiveButton: e
+    negativeButton: w
+    positiveButton: r
     altNegativeButton: 
     altPositiveButton: 
     gravity: 1000
@@ -553,8 +553,8 @@ InputManager:
     m_Name: Zoom
     descriptiveName: 
     descriptiveNegativeName: 
-    negativeButton: page down
-    positiveButton: page up
+    negativeButton: k
+    positiveButton: j
     altNegativeButton: 
     altPositiveButton: 
     gravity: 1000

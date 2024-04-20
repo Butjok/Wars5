@@ -10,7 +10,7 @@ public static class Mouse {
     public const int extra1 = 4;
     public const int extra2 = 5;
 
-    public static LayerMask DefaultLayerMask => LayerMasks.Terrain | LayerMasks.Roads;
+    public static LayerMask DefaultLayerMask => LayerMasks.Terrain | LayerMasks.Roads | LayerMasks.Water;
 
     public static bool TryPhysicsRaycast(this Camera camera, out RaycastHit hit) {
         return TryPhysicsRaycast(camera, out hit, DefaultLayerMask);

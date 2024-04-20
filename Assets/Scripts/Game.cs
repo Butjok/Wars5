@@ -234,6 +234,12 @@ public class Game : MonoBehaviour {
         set => PlayerPrefs.SetInt(nameof(ShowStates), value ? 1 : 0);
     }
 
+    [Command]
+    public bool ShowCursorPosition {
+        get =>  PlayerPrefs.GetInt(nameof(ShowCursorPosition), 0) != 0;
+        set => PlayerPrefs.SetInt(nameof(ShowCursorPosition), value ? 1 : 0);
+    }
+
     public GUIStyle statesLabelStyle;
 
     private readonly Dictionary<object, Action> guiCommands = new();
@@ -266,6 +272,15 @@ public class Game : MonoBehaviour {
             var size = statesLabelStyle.CalcSize(new GUIContent(text));
             var rect = new Rect(0, Screen.height - size.y, size.x, size.y);
             GUI.Label(rect, text, statesLabelStyle);
+        }
+
+        if (ShowCursorPosition && Camera.main.TryPhysicsRaycast(out Vector3 hit)) {
+            var mousePosition =  Input.mousePosition;
+            var labelPosition = new Vector2(mousePosition.x, Screen.height - mousePosition.y);
+            var text = hit.ToVector2Int().ToString();
+            var size = GUI.skin.label.CalcSize(new GUIContent(text));
+            var rect = new Rect(labelPosition, size);
+            GUI.Label(rect, text);
         }
 
         foreach (var action in guiCommands.Values)

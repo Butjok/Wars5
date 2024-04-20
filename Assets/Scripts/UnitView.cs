@@ -107,6 +107,19 @@ public class UnitView : MonoBehaviour {
     }
 
     public static UnitView DefaultPrefab => "WbLightTank".LoadAs<UnitView>();
+    public static UnitView DefaultPrefabFor(UnitType type) {
+        return type switch {
+            UnitType.Infantry => "WbInfantry".LoadAs<UnitView>(),
+            UnitType.AntiTank => "WbInfantry".LoadAs<UnitView>(),
+            UnitType.Artillery => "WbArtillery".LoadAs<UnitView>(),
+            UnitType.Apc => "WbApc".LoadAs<UnitView>(),
+            UnitType.Recon => "WbRecon".LoadAs<UnitView>(),
+            UnitType.LightTank => "WbLightTank".LoadAs<UnitView>(),
+            UnitType.Rockets => "WbRockets".LoadAs<UnitView>(),
+            UnitType.MediumTank => "WbMediumTank".LoadAs<UnitView>(),
+            _ => DefaultPrefab
+        };
+    }
 
     [Command] public static bool drawTurretNames = false;
     [Command] public static bool drawBarrelNames = false;
@@ -269,9 +282,9 @@ public class UnitView : MonoBehaviour {
         }
     }
 
-    public Func<bool> MoveAlong(IEnumerable<Vector2Int> path, Vector2Int? finalDirection = null) {
+    public Func<bool> MoveAlong(IEnumerable<Vector2Int> path, Vector2Int? finalDirection = null, float? speed = null) {
         var completed = false;
-        StartCoroutine(new MoveSequence(transform, path, _finalDirection: finalDirection, onComplete: () => completed = true).Animation());
+        StartCoroutine(new MoveSequence(transform, path, _finalDirection: finalDirection, onComplete: () => completed = true, _speed: speed).Animation());
         return () => completed;
     }
 
