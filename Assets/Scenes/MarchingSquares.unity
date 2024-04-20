@@ -7663,15 +7663,12 @@ MonoBehaviour:
   - {fileID: 1414570394}
   - {fileID: 1492959211}
   placedPieces: []
-  noiseScale: {x: 5, y: 5}
+  noiseScale: {x: 10, y: 10}
   noiseScale2: {x: 1, y: 1}
-  noiseAmplitude: 0.5
+  noiseAmplitude: 0.33
   noiseAmplitude2: 0.05
-  noiseOctavesCount: 3
+  noiseOctavesCount: 5
   slopeLength: 5
-  landDisplacement: 1
-  seaDisplacement: 2.5
-  cliffs: []
 --- !u!4 &219172595
 Transform:
   m_ObjectHideFlags: 0
@@ -40281,7 +40278,7 @@ MonoBehaviour:
   velocityDecelerationFactor: 25
   arm: {fileID: 1087985287}
   pitchAngleSpeed: 90
-  pitchClamp: {x: 45, y: 60}
+  pitchClamp: {x: 30, y: 60}
   rotationDuration: 0.2
   rotationEasing: 3
   rotationStep: -22.5
@@ -44521,7 +44518,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 970eb642780b8ee4fb86b07766c36bc4, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 970eb642780b8ee4fb86b07766c36bc4, type: 3}
       propertyPath: m_IsActive

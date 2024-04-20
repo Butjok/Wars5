@@ -1,19 +1,18 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel.Composition.Hosting;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using Butjok.CommandLine;
 using Drawing;
 using Stable;
+using Unity.Burst;
+using Unity.Collections;
+using Unity.Jobs;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Rendering;
-using static UnityEngine.Object;
-using Random = System.Random;
 
 public class TileMapCreator : MonoBehaviour {
 
@@ -200,7 +199,6 @@ public class TileMapCreator : MonoBehaviour {
             }
 
         RebuildPieces();
-        FinalizeMesh();
 
         return true;
     }
@@ -335,75 +333,12 @@ public class TileMapCreator : MonoBehaviour {
     }
 
     [Command]
-    public float landDisplacement = 1;
-    [Command]
-    public float seaDisplacement = 3;
-
-    [Command]
     public void RebuildPieces() {
-        var materials = pieces.SelectMany(r => r.sharedMaterials).Distinct().ToList();
-        var submeshCombiners = materials.ToDictionary(m => m, _ => new List<CombineInstance>());
-
-        void AddQuadPiece(Quad quad) {
-            // find quad with the same invariant in quads
-            var foundQuad = quads.FirstOrDefault(q => q.HasSameInvariant(quad));
-            if (foundQuad != null) {
-                int TryFindRotation(Quad from, Quad to) {
-                    if (from.HasSameCorners(to))
-                        return 0;
-                    if (from.RotatedClockwise.HasSameCorners(to))
-                        return 1;
-                    if (from.RotatedClockwise.RotatedClockwise.HasSameCorners(to))
-                        return 2;
-                    if (from.RotatedClockwise.RotatedClockwise.RotatedClockwise.HasSameCorners(to))
-                        return 3;
-                    return -1;
-                }
-
-                var flipped = false;
-                var rotation = TryFindRotation(foundQuad, quad);
-                if (rotation == -1) {
-                    rotation = TryFindRotation(foundQuad.FlippedHorizontally, quad);
-                    flipped = true;
-                    Assert.IsTrue(rotation != -1);
-                }
-
-                // find piece in the same location as found quad
-                var piece = pieces.FirstOrDefault(piece => Vector2.Distance(piece.transform.position.ToVector2(), foundQuad.position) < .1f);
-                if (piece) {
-                    /*var copy = Instantiate(piece);
-                    copy.transform.localScale = new Vector3(flipped ? -1 : 1, 1, 1);
-                    copy.transform.rotation = Quaternion.Euler(0, rotation * 90, 0);
-                    copy.transform.position = quad.position.ToVector3();
-                    copy.gameObject.SetActive(true);
-                    placedPieces.Add(copy);*/
-
-                    var matrix = Matrix4x4.TRS(quad.position.ToVector3(), Quaternion.Euler(0, rotation * 90, 0), new Vector3(flipped ? -1 : 1, 1, 1));
-                    var mesh = piece.GetComponent<MeshFilter>().sharedMesh;
-                    for (var submeshIndex = 0; submeshIndex < mesh.subMeshCount; submeshIndex++)
-                        submeshCombiners[piece.sharedMaterials[submeshIndex]].Add(new CombineInstance {
-                            mesh = mesh,
-                            subMeshIndex = submeshIndex,
-                            transform = matrix
-                        });
-                }
-                else {
-//                    Debug.Log($"No piece found for {foundQuad}, quad position: {foundQuad.position}");
-                }
-            }
-            else {
-                Debug.Log($"No quad found for {quad}");
-            }
-        }
-
-        //-------------
-
-        foreach (var piece in placedPieces)
-            Destroy(piece.gameObject);
-        placedPieces.Clear();
-
         if (tiles.Count == 0)
             return;
+
+        var materials = pieces.SelectMany(r => r.sharedMaterials).Distinct().ToList();
+        var subMeshCombiners = materials.ToDictionary(m => m, _ => new List<CombineInstance>());
 
         var minX = tiles.Keys.Min(p => p.x);
         var maxX = tiles.Keys.Max(p => p.x);
@@ -442,7 +377,7 @@ public class TileMapCreator : MonoBehaviour {
                 ToGroundTileType(GetTileType(-1, -1)), ToGroundTileType(GetTileType(1, -1)),
                 cornerPosition
             );
-            AddQuadPiece(groundQuad);
+            AddQuadPiece(groundQuad, subMeshCombiners);
 
             /*var mountainQuad = new Quad(
                 ToMountainTileType(GetTileType(-1, 1)), ToMountainTileType(GetTileType(1, 1)),
@@ -454,134 +389,274 @@ public class TileMapCreator : MonoBehaviour {
         }
 
         //
-        // COMBINING PIECES INTO A SINGLE MESH
+        // Combining pieces into a single mesh
         //
 
         var finalMaterials = new List<Material>();
 
-        var submeshes = new List<Mesh>();
+        var subMeshes = new List<Mesh>();
         foreach (var material in materials) {
-            var submesh = new Mesh { indexFormat = IndexFormat.UInt32 };
-            if (submeshCombiners[material].Count > 0) {
-                submesh.CombineMeshes(submeshCombiners[material].ToArray());
-                submeshes.Add(submesh);
+            var subMesh = new Mesh { indexFormat = IndexFormat.UInt32 };
+            if (subMeshCombiners[material].Count > 0) {
+                subMesh.CombineMeshes(subMeshCombiners[material].ToArray());
+                subMeshes.Add(subMesh);
                 finalMaterials.Add(material);
             }
         }
 
-        var combinedMesh = new Mesh();
-        combinedMesh.indexFormat = IndexFormat.UInt32;
-        combinedMesh.CombineMeshes(submeshes.Select(mesh => new CombineInstance { mesh = mesh }).ToArray(), false, false);
+        var combinedMesh = new Mesh { indexFormat = IndexFormat.UInt32 };
+        combinedMesh.CombineMeshes(subMeshes.Select(mesh => new CombineInstance { mesh = mesh }).ToArray(), false, false);
 
         //
-        // DISPLACEMENT
+        // Displacement
         // 
 
-        finalizeMesh = () => {
-            var vertices = combinedMesh.vertices;
-            var uvs = new Vector2[vertices.Length];
-            var extendedTilePositions = tiles.Keys.GrownBy(1);
-            var edgeTilePositions = extendedTilePositions.Where(p => (tiles.TryGetValue(p, out var t) ? t : TileType.Sea) is TileType.Beach or TileType.Sea or TileType.River).ToList();
-            var landPositions = extendedTilePositions.Where(p => (tiles.TryGetValue(p, out var t) ? t : TileType.Sea) != TileType.Sea).ToList();
+        var seaLevelPositions = new NativeList<int2>(Allocator.TempJob);
+        var nonSeaPositions = new NativeList<int2>(Allocator.TempJob);
+        var vertices = new NativeArray<float3>(combinedMesh.vertexCount, Allocator.TempJob);
+        var normals = new NativeArray<float3>(combinedMesh.vertexCount, Allocator.TempJob);
+        var smoothNormals = new NativeArray<float3>(combinedMesh.vertexCount, Allocator.TempJob);
+        var vertexGrid = new NativeParallelMultiHashMap<int2, int>(tiles.Count, Allocator.TempJob);
 
-            Parallel.For(0, vertices.Length, i => {
-                var vertex2d = vertices[i].ToVector2();
-                uvs[i] = vertex2d;
-                uvs[i] = Vector2.zero;
+        for (var y = minY - 1; y <= maxY + 1; y++)
+        for (var x = minX - 1; x <= maxX + 1; x++) {
+            if (!tiles.TryGetValue(new Vector2Int(x, y), out var tileType))
+                tileType = TileType.Sea;
+            if (tileType is TileType.Sea or TileType.Beach or TileType.River)
+                seaLevelPositions.Add(new int2(x, y));
+            if (tileType != TileType.Sea)
+                nonSeaPositions.Add(new int2(x, y));
+        }
 
-                /*var tilePosition = vertex2d.RoundToInt();
-                if (!tiles.TryGetValue(tilePosition, out var t) || t == TileType.Sea)
-                    return;*/
+        var meshVertices = combinedMesh.vertices;
+        for (var i = 0; i < vertices.Length; i++)
+            vertices[i] = meshVertices[i];
 
-                var distanceToSea = edgeTilePositions.Aggregate<Vector2Int, float>(9999, (current, position) => Mathf.Min(current, (vertex2d - position).SignedDistanceBox(.5f.ToVector2())));
-                var distanceToLand = landPositions.Aggregate<Vector2Int, float>(9999, (current, position) => Mathf.Min(current, (vertex2d - position).SignedDistanceBox(.5f.ToVector2())));
+        var meshNormals = combinedMesh.normals;
+        for (var i = 0; i < normals.Length; i++)
+            normals[i] = meshNormals[i];
 
-                Displace(distanceToSea, Vector3.up * landDisplacement, noiseAmplitude, noiseOctavesCount);
-                //Displace(distanceToLand, Vector3.down * seaDisplacement, noiseAmplitude/2, noiseOctavesCount/2);
+        PopulateGrid(vertexGrid, vertices);
 
-                void Displace(float distance, Vector3 offset, float noiseAmplitude, int noiseOctavesCount) {
-                    var displacementMask = Mathf.Clamp01(distance / slopeLength);
-                    if (displacementMask < Mathf.Epsilon)
-                        return;
+        var displacement = new DisplaceVerticesJob {
+                vertices = vertices,
+                seaLevelPositions = seaLevelPositions,
+                nonSeaPositions = nonSeaPositions,
+                slopeLength = slopeLength,
+                maxHeight = 2.5f,
+                maxDepth = 2.5f,
+                noiseOctavesCount = noiseOctavesCount,
+                noiseAmplitude = noiseAmplitude,
+                noiseScale = noiseScale
+            }
+            .Schedule(vertices.Length, 64);
 
-                    var displacementAmount = 0f;
-                    var noiseScale = this.noiseScale;
-                    for (var j = 0; j < noiseOctavesCount; j++) {
-                        displacementAmount += Mathf.PerlinNoise(vertex2d.x / noiseScale.x, vertex2d.y / noiseScale.y) * noiseAmplitude;
-                        noiseScale /= 2;
-                        noiseAmplitude /= 2;
-                    }
+        var smoothen = new SmoothenNormalsJob {
+                vertices = vertices,
+                normals = normals,
+                smoothNormals = smoothNormals,
+                vertexGrid = vertexGrid
+            }
+            .Schedule(normals.Length, 64, displacement);
 
-                    vertices[i] += offset * (displacementMask * (displacementAmount + Mathf.PerlinNoise(vertex2d.x / noiseScale2.x, vertex2d.y / noiseScale2.y) * .2f));
-                }
+        smoothen.Complete();
 
-                {
-                    var displacementMask = Mathf.Clamp01(distanceToLand / slopeLength);
-                    if (displacementMask < Mathf.Epsilon)
-                        return;
+        for (var i = 0; i < vertices.Length; i++) {
+            meshVertices[i] = vertices[i];
+            meshNormals[i] = smoothNormals[i];
+        }
 
-                    vertices[i] += Vector3.down * (displacementMask);
-                    //vertices[i] += Vector3.down *  Mathf.Clamp01(distanceToLand / slopeLength)*Mathf.PerlinNoise(vertex2d.x / noiseScale2.x, vertex2d.y / noiseScale2.y) * .2f; 
-                }
-            });
+        seaLevelPositions.Dispose();
+        nonSeaPositions.Dispose();
+        vertices.Dispose();
+        normals.Dispose();
+        smoothNormals.Dispose();
+        vertexGrid.Dispose();
 
-            combinedMesh.vertices = vertices;
-            combinedMesh.uv = uvs;
-            combinedMesh.RecalculateBounds();
-            combinedMesh.RecalculateNormals();
-
-            // smoothen normals
-
-            var normals = combinedMesh.normals;
-            var newNormals = new Vector3[normals.Length];
-            Parallel.For(0, normals.Length, i => {
-                var accumulator = Vector3.zero;
-                var count = 0;
-                for (var j = 0; j < normals.Length; j++)
-                    if (Vector3.Distance(vertices[i], vertices[j]) < .0001f) {
-                        accumulator += normals[j];
-                        count++;
-                    }
-
-                newNormals[i] = accumulator / count;
-            });
-            combinedMesh.normals = newNormals;
-
-            combinedMesh.RecalculateTangents();
-
-            meshFilter.sharedMesh = combinedMesh;
-            meshRenderer.sharedMaterials = finalMaterials.ToArray();
-            meshCollider.sharedMesh = combinedMesh;
-
-            foreach (var cliff in cliffs)
-                DestroyImmediate(cliff.gameObject);
-            cliffs.Clear();
-            
-            foreach (var position in tiles.Keys)
-                if (tiles[position] == TileType.Mountain)
-                    if (position.TryRaycast(out var hit)) {
-                        var cliff = Instantiate(cliffPrefab, hit.point, Quaternion.Euler(0, 360 * UnityEngine.Random.value, 0));
-                        cliffs.Add(cliff);
-                    }
-                    else
-                        Debug.LogWarning($"{position} failed to raycast");
-        };
+        combinedMesh.vertices = meshVertices;
+        combinedMesh.normals = meshNormals;
+        combinedMesh.RecalculateBounds();
+        combinedMesh.RecalculateTangents();
 
         meshFilter.sharedMesh = combinedMesh;
         meshRenderer.sharedMaterials = finalMaterials.ToArray();
         meshCollider.sharedMesh = combinedMesh;
 
+        RespawnCliffs();
+
         if (terrainMapper)
             terrainMapper.transform.position = new Vector2(minX - 1, minY - 1).ToVector3();
     }
 
-    [Command]
-    public void FinalizeMesh() {
-        finalizeMesh?.Invoke();
-        finalizeMesh = null;
+    public void AddQuadPiece(Quad quad, Dictionary<Material, List<CombineInstance>> subMeshCombiners) {
+        // find quad with the same invariant in quads
+        var foundQuad = quads.FirstOrDefault(q => q.HasSameInvariant(quad));
+        if (foundQuad != null) {
+            int TryFindRotation(Quad from, Quad to) {
+                if (from.HasSameCorners(to))
+                    return 0;
+                if (from.RotatedClockwise.HasSameCorners(to))
+                    return 1;
+                if (from.RotatedClockwise.RotatedClockwise.HasSameCorners(to))
+                    return 2;
+                if (from.RotatedClockwise.RotatedClockwise.RotatedClockwise.HasSameCorners(to))
+                    return 3;
+                return -1;
+            }
+
+            var flipped = false;
+            var rotation = TryFindRotation(foundQuad, quad);
+            if (rotation == -1) {
+                rotation = TryFindRotation(foundQuad.FlippedHorizontally, quad);
+                flipped = true;
+                Assert.IsTrue(rotation != -1);
+            }
+
+            // find piece in the same location as found quad
+            var piece = pieces.FirstOrDefault(piece => Vector2.Distance(piece.transform.position.ToVector2(), foundQuad.position) < .1f);
+            if (piece) {
+                /*var copy = Instantiate(piece);
+                    copy.transform.localScale = new Vector3(flipped ? -1 : 1, 1, 1);
+                    copy.transform.rotation = Quaternion.Euler(0, rotation * 90, 0);
+                    copy.transform.position = quad.position.ToVector3();
+                    copy.gameObject.SetActive(true);
+                    placedPieces.Add(copy);*/
+
+                var matrix = Matrix4x4.TRS(quad.position.ToVector3(), Quaternion.Euler(0, rotation * 90, 0), new Vector3(flipped ? -1 : 1, 1, 1));
+                var mesh = piece.GetComponent<MeshFilter>().sharedMesh;
+                for (var submeshIndex = 0; submeshIndex < mesh.subMeshCount; submeshIndex++)
+                    subMeshCombiners[piece.sharedMaterials[submeshIndex]].Add(new CombineInstance {
+                        mesh = mesh,
+                        subMeshIndex = submeshIndex,
+                        transform = matrix
+                    });
+            }
+            else {
+//                    Debug.Log($"No piece found for {foundQuad}, quad position: {foundQuad.position}");
+            }
+        }
+        else {
+            Debug.Log($"No quad found for {quad}");
+        }
     }
 
-    public List<Transform> cliffs = new();
+    [BurstCompile]
+    public void PopulateGrid(NativeParallelMultiHashMap<int2, int> grid, NativeArray<float3> vertices) {
+        for (var i = 0; i < vertices.Length; i++) {
+            var vertex = vertices[i];
+            var position = new int2((int)vertex.x, (int)vertex.z);
+            grid.Add(position, i);
+        }
+    }
+
+    [BurstCompile]
+    public struct DisplaceVerticesJob : IJobParallelFor {
+
+        public NativeArray<float3> vertices;
+
+        [ReadOnly]
+        public NativeList<int2> seaLevelPositions;
+
+        [ReadOnly]
+        public NativeList<int2> nonSeaPositions;
+
+        [ReadOnly]
+        public float slopeLength;
+
+        [ReadOnly]
+        public float maxHeight;
+
+        [ReadOnly]
+        public float maxDepth;
+
+        [ReadOnly]
+        public int noiseOctavesCount;
+
+        [ReadOnly]
+        public float noiseAmplitude;
+
+        [ReadOnly]
+        public float2 noiseScale;
+
+        public void Execute(int index) {
+            var vertex2d = new float2(vertices[index].x, vertices[index].z);
+            var distanceToSeaLevel = 9999f;
+            foreach (var position in seaLevelPositions)
+                distanceToSeaLevel = math.min(distanceToSeaLevel, (vertex2d - position).SignedDistanceBox(new float2(.5f, .5f)));
+
+            var distanceToNonSea = 9999f;
+            foreach (var position in nonSeaPositions)
+                distanceToNonSea = math.min(distanceToNonSea, (vertex2d - position).SignedDistanceBox(new float2(.5f, .5f)));
+
+            var accumulatedNoise = 0f;
+            var noiseScale = this.noiseScale;
+            var noiseAmplitude = this.noiseAmplitude;
+            for (var i = 0; i < noiseOctavesCount; i++) {
+                accumulatedNoise += noiseAmplitude * (noise.cnoise(vertex2d / noiseScale) / 2 + .5f);
+                noiseScale /= 2;
+                noiseAmplitude /= 2;
+            }
+
+            vertices[index] += accumulatedNoise * math.up() * math.clamp(distanceToSeaLevel / slopeLength, 0, 1) * maxHeight;
+
+            vertices[index] += accumulatedNoise * math.down() * math.clamp(distanceToNonSea / 5f, 0, 1) * maxDepth;
+        }
+    }
+
+    [BurstCompile]
+    public struct SmoothenNormalsJob : IJobParallelFor {
+
+        public const float weldDistance = .001f;
+
+        [ReadOnly]
+        public NativeParallelMultiHashMap<int2, int> vertexGrid;
+
+        [ReadOnly]
+        public NativeArray<float3> vertices;
+
+        [ReadOnly]
+        public NativeArray<float3> normals;
+
+        public NativeArray<float3> smoothNormals;
+
+        public void Execute(int index) {
+            var accumulator = float3.zero;
+            var count = 0;
+            var cell = new int2((int)vertices[index].x, (int)vertices[index].z);
+            for (var y = -1; y <= 1; y++)
+            for (var x = -1; x <= 1; x++) {
+                var position = cell + new int2(x, y);
+                if (vertexGrid.TryGetFirstValue(position, out var vertexIndex, out var iterator))
+                    do {
+                        if (math.distance(vertices[index], vertices[vertexIndex]) < weldDistance) {
+                            accumulator += normals[vertexIndex];
+                            count++;
+                        }
+                    } while (vertexGrid.TryGetNextValue(out vertexIndex, ref iterator));
+            }
+
+            smoothNormals[index] = math.normalize(accumulator / count);
+        }
+    }
+
+    public Dictionary<Vector2Int, Transform> cliffs = new();
+
+    public void RespawnCliffs() {
+        foreach (var cliff in cliffs.Values) {
+            Destroy(cliff.gameObject);
+            cliff.gameObject.SetActive(false);
+        }
+
+        cliffs.Clear();
+        foreach (var (position, tileType) in tiles)
+            if (tileType == TileType.Mountain)
+                if (position.TryRaycast(out var hit)) {
+                    var cliff = Instantiate(cliffPrefab, hit.point, Quaternion.Euler(0, 360 * UnityEngine.Random.value, 0));
+                    cliffs.Add(position, cliff);
+                }
+                else
+                    Debug.LogWarning($"{position} failed to raycast");
+    }
 
     public Quad FindQuad(Vector2 position, out int index) {
         var cornerOffsets = new[] {

@@ -206,7 +206,6 @@ public class LevelEditorTilesModeState : StateMachineState {
                 foreach (var (position, tileType) in tiles)
                     tileMapCreator.tiles.Add(position, tileType);
                 tileMapCreator.RebuildPieces();
-                tileMapCreator.FinalizeMesh();
             }
 
             if (roadCreator) {
@@ -234,19 +233,24 @@ public class LevelEditorTilesModeState : StateMachineState {
                         tileMapCreator.terrainMapper.ClearBushes();
                 }
 
-                if (roadCreator && tileType is TileType.Road or TileType.Bridge or TileType.BridgeSea || (TileType.Buildings & tileType) != 0) {
+                /*if (roadCreator && tileType is TileType.Road or TileType.Bridge or TileType.BridgeSea || (TileType.Buildings & tileType) != 0) {
                     roadCreator.tiles.Remove(position);
                     roadCreator.Rebuild();
-                }
+                }*/
 
-                if (forestCreator && tileType == TileType.Forest)
-                    forestCreator.RemoveTreesAt(position);
+                if (forestCreator) {
+                    if (tileType == TileType.Forest)
+                        forestCreator.RemoveTreesAt(position);
+                    forestCreator.RespawnTrees();
+                }
 
                 if (buildings.TryGetValue(position, out var building))
                     building.Dispose();
                 if (removeUnit && units.TryGetValue(position, out var unit))
                     unit.Dispose();
-                RebuildTilemapMesh();
+
+                //RebuildTilemapMesh();
+
                 foreach (var player in level.players)
                     if (player.rootZone != null)
                         foreach (var zone in Zone.GetConnected(player.rootZone)) {
@@ -261,8 +265,13 @@ public class LevelEditorTilesModeState : StateMachineState {
             }
 
             void TryPlaceTile(Vector2Int position, TileType tileType, Player player) {
-                if (tiles.ContainsKey(position))
+                if (tiles.TryGetValue(position, out var oldTileType)) {
+                    if (oldTileType == tileType && ((TileType.Buildings & tileType) == 0 || buildings.TryGetValue(position, out var building) && building.Player == player))
+                        return;
                     TryRemoveTile(position, false);
+                    if (forestCreator && oldTileType == TileType.Forest)
+                        forestCreator.RemoveTreesAt(position, false);
+                }
 
                 tiles.Add(position, tileType);
 
@@ -276,18 +285,22 @@ public class LevelEditorTilesModeState : StateMachineState {
                         tileMapCreator.terrainMapper.ClearBushes();
                 }
 
-                if (roadCreator) {
+                /*if (roadCreator) {
                     if (tileType is TileType.Road or TileType.Bridge or TileType.BridgeSea || (TileType.Buildings & tileType) != 0)
                         roadCreator.tiles.Add(position, tileType);
                     roadCreator.Rebuild();
-                }
+                }*/
 
-                if (forestCreator && tileType == TileType.Forest)
-                    forestCreator.PlaceTreesAt(position);
+                if (forestCreator) {
+                    if (tileType == TileType.Forest)
+                        forestCreator.PlaceTreesAt(position, false);
+                    forestCreator.RespawnTrees();
+                }
 
                 if (TileType.Buildings.HasFlag(tileType))
                     new Building(level, position, tileType, player, viewPrefab: BuildingView.GetPrefab(tileType), lookDirection: player?.unitLookDirection ?? Vector2Int.up);
-                RebuildTilemapMesh();
+
+                //RebuildTilemapMesh();
             }
 
             gui.layerStack.Push(() => {
@@ -345,8 +358,6 @@ public class LevelEditorTilesModeState : StateMachineState {
                         gui.AddNotification("Saved");
                     }
                     else {
-                        if (tileMapCreator)
-                            tileMapCreator.FinalizeMesh();
                         if (roadCreator)
                             roadCreator.Rebuild();
                         if (tileMapCreator && tileMapCreator.terrainMapper)

@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms.Design;
 using JetBrains.Annotations;
+using Unity.Burst;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Assertions;
 using static UnityEngine.Mathf;
@@ -156,6 +158,13 @@ public static class MathUtils {
         var componentWiseEdgeDistance = Abs(samplePosition) - halfSize;
         var outsideDistance = Vector2.Max(componentWiseEdgeDistance, Vector2.zero).magnitude;
         var insideDistance = Mathf.Min(Mathf.Max(componentWiseEdgeDistance.x, componentWiseEdgeDistance.y), 0);
+        return outsideDistance + insideDistance;
+    }
+    [BurstCompile]
+    public static float SignedDistanceBox(this float2 samplePosition, float2 halfSize) {
+        var componentWiseEdgeDistance = math.abs(samplePosition) - halfSize;
+        var outsideDistance = math.length(math.max(componentWiseEdgeDistance, float2.zero));
+        var insideDistance = math.min(math.max(componentWiseEdgeDistance.x, componentWiseEdgeDistance.y), 0);
         return outsideDistance + insideDistance;
     }
 
@@ -389,7 +398,7 @@ public static class MathUtils {
 
     public static Vector3 Abs(this Vector3 vector3) {
         return new Vector3(Mathf.Abs(vector3.x), Mathf.Abs(vector3.y), Mathf.Abs(vector3.z));
-    } 
+    }
     public static Vector2 Max(this Vector2 a, Vector2 b) {
         return new Vector2(Mathf.Max(a.x, b.x), Mathf.Max(a.y, b.y));
     }

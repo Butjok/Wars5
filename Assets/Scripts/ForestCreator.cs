@@ -142,7 +142,7 @@ public class ForestCreator : MonoBehaviour {
         return point + randomOffset * amount;
     }
 
-    public void PlaceTreesAt(Vector2Int position) {
+    public void PlaceTreesAt(Vector2Int position, bool updateRenderer = true) {
         if (!Physics.Raycast(position.ToVector3() + Vector3.up * 100, Vector3.down, out var centerHit, float.MaxValue, LayerMasks.Terrain))
             return;
 
@@ -156,16 +156,22 @@ public class ForestCreator : MonoBehaviour {
         }
 
         trees.Add(position, list);
-        UpdateTreeRenderer();
-        UpdateTerrainMaterialForestMask();
+        
+        if (updateRenderer) {
+            UpdateTreeRenderer();
+            UpdateTerrainMaterialForestMask();
+        }
 
         wasModified = true;
     }
 
-    public void RemoveTreesAt(Vector2Int position) {
+    public void RemoveTreesAt(Vector2Int position, bool updateRenderer = true) {
         trees.Remove(position);
-        UpdateTreeRenderer();
-        UpdateTerrainMaterialForestMask();
+        
+        if (updateRenderer) {
+            UpdateTreeRenderer();
+            UpdateTerrainMaterialForestMask();
+        }
 
         wasModified = true;
     }
@@ -177,6 +183,16 @@ public class ForestCreator : MonoBehaviour {
             treeRenderer.transforms.Add(matrix);
         treeRenderer.RecalculateBounds();
         treeRenderer.UpdateGpuData();
+    }
+
+    public void RespawnTrees() {
+        var positions = trees.Keys.ToList();
+        foreach (var position in positions)
+            RemoveTreesAt(position, updateRenderer: false);
+        foreach (var position in positions)
+            PlaceTreesAt(position, updateRenderer: false);
+        UpdateTreeRenderer();
+        UpdateTerrainMaterialForestMask();
     }
 
     public void UpdateTerrainMaterialForestMask() {

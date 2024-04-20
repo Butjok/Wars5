@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Butjok.CommandLine;
+using Unity.Burst;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -16,7 +17,7 @@ public class Game : MonoBehaviour {
         set => Time.timeScale = value;
     }
     
-    public Color colorPlain = new Color(.5f, 1, 0);
+    public Color colorPlain = new(.5f, 1, 0);
     public Color colorRoad = new(1, .66f, 0);
     public Color colorSea = new(0, .25f, 1);
     public Color colorMountain = new(0.75f, 0.5f, 0.25f);

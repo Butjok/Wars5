@@ -6,10 +6,15 @@ using Butjok.CommandLine;
 using Drawing;
 using KaimiraGames;
 using Stable;
+using Unity.Burst;
+using Unity.Collections;
+using Unity.Jobs;
+using Unity.Mathematics;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 public class TerrainMapper : MonoBehaviour {
 
@@ -35,7 +40,7 @@ public class TerrainMapper : MonoBehaviour {
     [Header("Startup")]
     public bool loadOnAwake = true;
     public string loadOnAwakeFileName = defaultLoadOnAwakeFileName;
-    
+
     [FormerlySerializedAs("updateRealTime")] [Header("Editing")]
     public bool updateInRealTime;
     public bool autoSave = true;
@@ -156,23 +161,27 @@ public class TerrainMapper : MonoBehaviour {
             return pixel.r;
         }
 
+        var meshFilterCache = new Dictionary<Collider, MeshFilter>();
+        var meshRendererCache = new Dictionary<Collider, MeshRenderer>();
+
         bool TryRaycastTerrainAndRoads(Vector3 worldPosition3d, out RaycastHit hit) {
             if (Physics.Raycast(worldPosition3d + Vector3.up * 100, Vector3.down, out hit, float.MaxValue, LayerMasks.Terrain | LayerMasks.Roads)) {
-                var meshFilter = hit.collider.GetComponent<MeshFilter>();
-                var meshRenderer = hit.collider.GetComponent<MeshRenderer>();
+                if (!meshFilterCache.TryGetValue(hit.collider, out var meshFilter))
+                    meshFilterCache[hit.collider] = meshFilter = hit.collider.GetComponent<MeshFilter>();
+                if (!meshRendererCache.TryGetValue(hit.collider, out var meshRenderer))
+                    meshRendererCache[hit.collider] = meshRenderer = hit.collider.GetComponent<MeshRenderer>();
                 if (meshFilter && meshRenderer) {
                     var subMeshIndex = meshFilter.sharedMesh.GetSubMeshIndex(hit.triangleIndex);
                     if (subMeshIndex != -1 && meshRenderer.sharedMaterials.Length > subMeshIndex && meshRenderer.sharedMaterials[subMeshIndex] == materials[0])
                         return true;
                 }
             }
-
             return false;
         }
 
         var samples = new List<WeightedListItem<(RaycastHit hit, float yaw, float scale)>>();
         var totalWeight = 0.0;
-        var triesCount = 8;
+        var triesCount = 4;
         for (var y = 0; y < resolution.y; y++)
         for (var x = 0; x < resolution.x; x++) {
             var localPosition2d = new Vector2(x / (float)resolution.x, y / (float)resolution.y);
