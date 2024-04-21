@@ -241,7 +241,7 @@ float4 _SandColor2;
                         fixed4 grassTint = tex2D (_GrassTint, TRANSFORM_TEX(position, _GrassTint) );
                         
                         //o.Albedo =  lerp(grass,grassTinted,grassTint) ;
-        	float3 grassHSV = RGBtoHSV(grass);
+        	float3 grassHSV = RGBtoHSV(lerp(grass,grassTinted,grassTint/2));
         	grassHSV.x += _GrassHSVTweak.x;
         	grassHSV.y *=  _GrassHSVTweak.y;
         	grassHSV.z *= _GrassHSVTweak.z;
@@ -278,15 +278,14 @@ float4 _SandColor2;
 
 
 
-        	{
-        		float3 grassTint = 0;
-        		if (erosion < .4)
-        			grassTint = .4;
-        		else
-        			grassTint = lerp(.4, float3(.75,.75,.5), (erosion - .4) / (1 - .4));
-        		//o.Albedo = grassTint;
-        		o.Albedo = Overlay(o.Albedo, grassTint);
-        	}
+ 	float3 albedoHSV2 = RGBtoHSV(o.Albedo);
+        	albedoHSV2.y *= 1.05;
+        	albedoHSV2.z *= .75;
+        	o.Albedo = lerp (o.Albedo, HSVtoRGB(albedoHSV2), grassTint);
+
+
+
+
 
         	//return;
 
@@ -430,7 +429,7 @@ float forestMask = tex2D(_ForestMask, mul(_ForestMask_WorldToLocal, float4(IN.wo
         	half deepSea3 = smoothstep( _DeepSea3Level - _DeepSea3Sharpness,  _DeepSea3Level + _DeepSea3Sharpness , IN.worldPos.y);
         	seaColor = lerp (seaColor, _DeepSeaColor3,  deepSea3);
 
-        	{
+        	/*{
         		float3 seaTint = .5;
         		float3 cyan = float3(0,.425,1);
         		if (erosion < .5)
@@ -440,7 +439,7 @@ float forestMask = tex2D(_ForestMask, mul(_ForestMask_WorldToLocal, float4(IN.wo
         		else
         			seaTint = cyan;
         		seaColor *= seaTint;
-        	}
+        	}*/
         	//seaColor *= erosion;
         	
 
@@ -454,7 +453,7 @@ float forestMask = tex2D(_ForestMask, mul(_ForestMask_WorldToLocal, float4(IN.wo
         	
 
         	float3 sandColor = lerp(_SandColor, _SandColor2, smoothstep( _SandLevel - _SandSharpness,  _SandLevel + _SandSharpness , IN.worldPos.y));
-        	{
+        	/*{
         	    float3 sandTint = .5;
         		float3 a = float3(.5,.4,.3);
         		if (erosion < .5)
@@ -464,7 +463,7 @@ float forestMask = tex2D(_ForestMask, mul(_ForestMask_WorldToLocal, float4(IN.wo
         		else
         			sandTint = a;
         		sandColor = Overlay(sandColor, sandTint);
-        	}
+        	}*/
         	float sand = smoothstep(_SandThickness - _SandSharpness, _SandThickness + _SandSharpness ,abs(IN.worldPos.y+ /*noise/50*/ - _SandLevel));
             o.Albedo = lerp(o.Albedo, sandColor, sand);
         	o.Albedo = lerp(o.Albedo, _StoneSandColor, sand * stoneAlpha);
@@ -540,6 +539,9 @@ float forestMask = tex2D(_ForestMask, mul(_ForestMask_WorldToLocal, float4(IN.wo
         	//o.Albedo *= erosion;
 
         	//o.Albedo =  tex2D(_Erosion, mul(_Erosion_WorldToLocal, float4(IN.worldPos.xyz, 1)).xz).rgb;
+
+        	//o.Albedo = grassTint;
+       
         	
         }
         ENDCG

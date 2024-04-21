@@ -54,7 +54,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _FlowersAlpha:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: fdaff739f36228040a282d9300d56527, type: 3}
         m_Scale: {x: 2, y: 2}
         m_Offset: {x: 0, y: 0}
     - _ForestMask:
@@ -147,7 +147,7 @@ Material:
     - _GlossyReflections: 1
     - _Hole: 1
     - _HoleRadius: 0.33
-    - _Lod: 3
+    - _Lod: 5.06
     - _Metallic: 0
     - _Mode: 1
     - _NormalWrap: -0.5
@@ -164,18 +164,18 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _DarkGrass: {r: 0.7264151, g: 0.49704728, b: 0, a: 1}
+    - _DarkGrass: {r: 0.24665637, g: 0.3207547, b: 0, a: 1}
     - _DeepSeaColor: {r: 0.056971468, g: 0.11320752, b: 0, a: 1}
-    - _EmissionColor: {r: 0.5566038, g: 0.30822557, b: 0, a: 1}
+    - _EmissionColor: {r: 0.4339623, g: 0.4180496, b: 0.16239466, a: 1}
     - _Emissive: {r: 0, g: 0.11764706, b: 1, a: 1}
-    - _FlowerColor: {r: 1, g: 0, b: 0.42097378, a: 1}
-    - _Forest: {r: 0.42730767, g: 0.5, b: 0.18710688, a: 1}
-    - _Grass: {r: 0.6226415, g: 0.4200505, b: 0.033285823, a: 1}
+    - _FlowerColor: {r: 0.764151, g: 0, b: 0.23641708, a: 1}
+    - _Forest: {r: 0.7624999, g: 1, b: 0, a: 1}
+    - _Grass: {r: 0.3559434, g: 0.46226418, b: 0, a: 1}
     - _HoleOffset: {r: 0, g: 0.25, b: 0, a: 0}
     - _Min: {r: -36, g: 0, b: 0, a: 0}
     - _Offset: {r: 0, g: 0, b: 0, a: 0}
     - _Size: {r: 42, g: 33, b: 0, a: 0}
     - _SpotColor: {r: 0.8745098, g: 0.8784314, b: 0.80784315, a: 1}
     - _Wheat: {r: 1, g: 0.6055649, b: 0, a: 1}
-    - _YellowGrass: {r: 0.7735849, g: 0.47598732, b: 0.026759136, a: 1}
+    - _YellowGrass: {r: 0.37899917, g: 0.3962264, b: 0, a: 1}
   m_BuildTextureStacks: []

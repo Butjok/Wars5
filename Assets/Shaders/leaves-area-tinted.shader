@@ -195,7 +195,7 @@ float erosion =  tex2D(_Erosion, mul(_Erosion_WorldToLocal, float4(IN.worldPos.x
 			   
 				half3 localPos = mul(_Splat_WorldToLocal, half4(IN.worldPos, 1)).xyz;
 				half2 uv = localPos.xz;
-				half4 splat = tex2D(_Splat2, uv);
+				half4 splat = tex2Dlod(_Splat2, float4(uv,0,_Lod));
 		   
 				o.Albedo = _Grass;
 				o.Albedo = lerp(o.Albedo, _DarkGrass, splat.r);
@@ -207,7 +207,7 @@ float erosion =  tex2D(_Erosion, mul(_Erosion_WorldToLocal, float4(IN.worldPos.x
         				hsv.z *= .85; // value
         				o.Albedo = lerp(o.Albedo, HSVtoRGB(hsv), grassTint);*/
 
-            	{
+            	/*{
         			float3 grassTint = 0;
         			if (erosion < .4)
         				grassTint = .4;
@@ -215,7 +215,7 @@ float erosion =  tex2D(_Erosion, mul(_Erosion_WorldToLocal, float4(IN.worldPos.x
         				grassTint = lerp(.4, float3(.75,.75,.5), (erosion - .4) / (1 - .4));
         			//o.Albedo = grassTint;
         			o.Albedo = Overlay(o.Albedo, grassTint);
-        		}
+        		}*/
 
             	/*float3 hsv = RGBtoHSV(o.Albedo);
             	hsv.z *= 1.5;
@@ -291,6 +291,12 @@ float flowerAlpha = tex2D(_FlowersAlpha, IN.worldPos.xz * 0.25).r;
             	//o.Albedo = lerp(o.Albedo, _DeepSeaColor, tint);
 //o.Albedo=erosion;
 
+
+	float grassTint = tex2D (_GrassTint, TRANSFORM_TEX(IN.worldPos.xz, _GrassTint) ).r;
+	float3 albedoHSV2 = RGBtoHSV(o.Albedo);
+        	albedoHSV2.y *= 1.11;
+        	albedoHSV2.z *= .65;
+        	o.Albedo = lerp (o.Albedo, HSVtoRGB(albedoHSV2), grassTint);
 				
 
 	#if HOLE
@@ -309,8 +315,9 @@ float flowerAlpha = tex2D(_FlowersAlpha, IN.worldPos.xz * 0.25).r;
 		o.Albedo = lerp(o.Albedo, 0, circleBorder);
 	}
 
-	
+
 	#endif
+	
             }
             ENDCG
     }
