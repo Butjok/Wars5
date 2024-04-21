@@ -128,21 +128,13 @@ public class Game : MonoBehaviour {
         commands.Enqueue((name, argument));
         commandsDebugInfo.Enqueue((callerMemberName, callerFilePath, callerLineNumber));
     }
-    public bool TryDequeueCommand(out (object name, object argument) command) {
+    public bool TryDequeueCommand(out (object name, object argument) command, [ CallerMemberName]  string callerMemberName=null ) {
         if (commands.TryDequeue(out command)) {
+            Debug.Log($"Command ({command}) was dequeued by {callerMemberName}.");
             commandsDebugInfo.Dequeue();
             return true;
         }
 
-        return false;
-    }
-    public bool TryDequeueCommand(out (object name, object argument) command, out (string callerMemberName, string callerFilePath, int callerLineNumber) debugInfo) {
-        if (commands.TryDequeue(out command)) {
-            debugInfo = commandsDebugInfo.Dequeue();
-            return true;
-        }
-
-        debugInfo = default;
         return false;
     }
 

@@ -189,10 +189,9 @@ public class MissileTargetSelectionState : StateMachineState {
                     }
 
                 {
-                    if (Level.view.cameraRig.camera.TryGetMousePosition(out var hit, out mousePosition) && missileSiloView &&
-                        (mousePosition - missileSilo.position).ManhattanLength().IsInRange(missileSilo.missileSiloRange)) {
+                    if (AimPosition is {} actualAimPosition) {
                         missileSiloView.aim = true;
-                        if (hit.point.ToVector2Int().TryRaycast(out var hit2)) {
+                        if (actualAimPosition.TryRaycast(out var hit2)) {
                             missileSiloView.targetPosition = hit2.point;
                             if (missileSiloView.TryCalculateCurve(out var curve))
                                 using (Draw.ingame.WithLineWidth(1.5f))
@@ -205,6 +204,18 @@ public class MissileTargetSelectionState : StateMachineState {
                 }
             }
         }
+    }
+
+    private Vector2Int? aimPosition;
+    public Vector2Int? AimPosition {
+        get {
+            if (aimPosition is { } actualAimPosition)
+                return actualAimPosition;
+            if (Level.view.cameraRig.camera.TryGetMousePosition(out Vector2Int mousePosition))
+                return mousePosition;
+            return null;
+        }
+        set => aimPosition = value;
     }
 
     public override void Exit() {

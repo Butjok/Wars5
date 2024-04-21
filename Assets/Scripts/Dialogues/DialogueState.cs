@@ -15,6 +15,7 @@ public abstract class DialogueState : StateMachineState {
 
     protected const int left = 0;
     protected const int right = 1;
+    public bool popped = false;
 
     public class SkippableSequence {
         public bool shouldSkip;
@@ -182,6 +183,7 @@ public abstract class DialogueState : StateMachineState {
 
     public override void Exit() {
         ui.Hide();
+        popped = true;
     }
 
     public static DialogueUi4.Side GetDefaultSide(PersonName personName) {

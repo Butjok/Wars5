@@ -318,6 +318,10 @@ public class SelectionState : StateMachineState {
                             TileMask.UnsetGlobal();
                             break;
                         }
+                        
+                        case (BorderIncidentScenario.Command.StartRedRocketeersDialogue, DialogueState dialogueState):
+                            yield return StateChange.Push(dialogueState);
+                            break;
 
                         default:
                             HandleUnexpectedCommand(command);

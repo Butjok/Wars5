@@ -350,12 +350,12 @@ float4 _SandColor2;
 
             //o.Occlusion = min(o.Occlusion, tex2D(_StonesAo, stonesUv).r);
 
-            float flowerAlpha = tex2D(_FlowersAlpha, IN.worldPos.xz * 0.15).r;
+            float flowerAlpha = tex2D(_FlowersAlpha, IN.worldPos.xz * 0.25).r;
 
 //half flowerAo = tex2D(_FlowersAo, IN.uv_FlowersAlpha).r;
 //            o.Albedo *= smoothstep(0.25,.75,flowerAo);
             
-            //o.Albedo = lerp(o.Albedo, _FlowerColor, flowerAlpha);
+            o.Albedo = lerp(o.Albedo, _FlowerColor, flowerAlpha);
             
             //o.Occlusion = min(o.Occlusion, flowerAo);
 
@@ -541,6 +541,7 @@ float forestMask = tex2D(_ForestMask, mul(_ForestMask_WorldToLocal, float4(IN.wo
         	//o.Albedo =  tex2D(_Erosion, mul(_Erosion_WorldToLocal, float4(IN.worldPos.xyz, 1)).xz).rgb;
 
         	//o.Albedo = grassTint;
+
        
         	
         }

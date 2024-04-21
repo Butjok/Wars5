@@ -76,7 +76,7 @@ Shader "Custom/SimplePlayerColor" {
 				clip(distance);
 
 				float circleBorder = smoothstep(0.025, 0.015, distance);
-				o.Emission = circleBorder * IN.hole.rgb;
+				o.Emission = circleBorder * IN.hole.rgb*2;
 				o.Albedo *= 1 - circleBorder;
 			}
 			#endif	

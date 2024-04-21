@@ -286,18 +286,26 @@ public class CameraRig : MonoBehaviour {
             jumpCoroutine = null;
         }
     }
-    public Func<bool> Jump(Vector3 to) {
+    public Func<bool> Jump(Vector3 to, float duration) {
         StopJump();
         var completed = false;
-        jumpCoroutine = JumpAnimation(to, () => completed=true);
+        jumpCoroutine = JumpAnimation(to, duration, () => completed=true);
         StartCoroutine(jumpCoroutine);
         return () => completed;
     }
-    private IEnumerator JumpAnimation(Vector3 to, Action onComplete) {
+    public Func<bool> Jump(Vector3 to) {
+        StopJump();
+        var completed = false;
+        jumpCoroutine = JumpAnimation(to, jumpDuration, () => completed=true);
+        StartCoroutine(jumpCoroutine);
+        return () => completed;
+    }
+    public IEnumerator JumpAnimation(Vector3 to, float? _duration=null,Action onComplete=null) {
         var from = transform.position;
         var startTime = Time.unscaledTime;
-        while (Time.unscaledTime < startTime + jumpDuration) {
-            var t = (Time.unscaledTime - startTime) / jumpDuration;
+        var duration = _duration ?? jumpDuration;
+        while (Time.unscaledTime < startTime + duration) {
+            var t = (Time.unscaledTime - startTime) / duration;
             t = Easing.Dynamic(jumpEasing, t);
             transform.position = Vector3.Lerp(from, to, t);
             yield return null;

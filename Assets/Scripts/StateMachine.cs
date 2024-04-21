@@ -11,6 +11,11 @@ public class StateMachine {
     public int Count => states.Count;
     private readonly Stack<string> stateNames = new();
     public IEnumerable<string> StateNames => stateNames;
+    
+    public StateMachineState Peek() => states.Count == 0? null: states.Peek().state;
+    public T Peek<T>() where T: StateMachineState {
+        return (T)states.Peek().state;
+    }
 
     public void Pop(int count = 1, bool all = false) {
         if (all)
@@ -36,7 +41,7 @@ public class StateMachine {
         return result != null;
     }
     public bool IsInState<T>() where T : StateMachineState {
-        return TryPeek<T>() != null;
+        return states.Peek().state.GetType() == typeof(T);
     }
     public T TryFind<T>() where T : StateMachineState {
         foreach (var state in states)
