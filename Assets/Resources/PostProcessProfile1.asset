@@ -15,7 +15,7 @@ MonoBehaviour:
   active: 1
   enabled:
     overrideState: 1
-    value: 1
+    value: 0
   mode:
     overrideState: 1
     value: 0
@@ -105,7 +105,7 @@ MonoBehaviour:
     value: 0.5
   progress:
     overrideState: 1
-    value: 1
+    value: 0.508
   progressSmoothness:
     overrideState: 1
     value: 0.25
@@ -130,7 +130,7 @@ MonoBehaviour:
   active: 1
   enabled:
     overrideState: 1
-    value: 1
+    value: 0
   squareSize:
     overrideState: 1
     value: 31.3
@@ -186,7 +186,7 @@ MonoBehaviour:
   active: 1
   enabled:
     overrideState: 1
-    value: 1
+    value: 0
   spectralLut:
     overrideState: 0
     value: {fileID: 0}
@@ -304,7 +304,7 @@ MonoBehaviour:
     value: 0
   intensity:
     overrideState: 1
-    value: 0.75
+    value: 1
   threshold:
     overrideState: 1
     value: 1
@@ -322,7 +322,7 @@ MonoBehaviour:
     value: 1
   color:
     overrideState: 0
-    value: {r: 1, g: 0.20942408, b: 0, a: 1}
+    value: {r: 1, g: 0.54195845, b: 0, a: 1}
   fastMode:
     overrideState: 0
     value: 1
@@ -414,27 +414,27 @@ MonoBehaviour:
     value: 1
   temperature:
     overrideState: 0
-    value: 14.1
+    value: -4
   tint:
     overrideState: 0
-    value: 18.9
+    value: -10
   colorFilter:
     overrideState: 1
     value: {r: 1, g: 1, b: 1, a: 1}
   hueShift:
     overrideState: 0
-    value: 0
+    value: -113
   saturation:
-    overrideState: 1
+    overrideState: 0
     value: -2
   brightness:
     overrideState: 0
     value: 0
   postExposure:
     overrideState: 0
-    value: 0.125
+    value: 0.2
   contrast:
-    overrideState: 1
+    overrideState: 0
     value: 10
   mixerRedOutRedIn:
     overrideState: 0
@@ -468,10 +468,10 @@ MonoBehaviour:
     value: {x: 1, y: 0.70929706, z: 0.6014339, w: 0.076324806}
   gamma:
     overrideState: 0
-    value: {x: 1, y: 1, z: 1, w: -0.07761967}
+    value: {x: 1, y: 1, z: 1, w: 0}
   gain:
     overrideState: 1
-    value: {x: 1, y: 1, z: 1, w: 1}
+    value: {x: 1, y: 1, z: 1, w: 0.63599604}
   masterCurve:
     overrideState: 0
     value:

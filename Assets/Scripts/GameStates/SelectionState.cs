@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -114,6 +113,7 @@ public class SelectionState : StateMachineState {
                         while (!jumpCompleted())
                             yield return StateChange.none;
                     }
+
                     missileSilo.Moved = false;
                 }
 

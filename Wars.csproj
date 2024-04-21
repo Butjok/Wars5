@@ -277,6 +277,7 @@
      <Compile Include="Assets\Scripts\InputCommandsListener.cs" />
      <Compile Include="Assets\Scripts\GameStates\UiWindow.cs" />
      <Compile Include="Assets\Scripts\EntryPoint\MainMenuSelectionState.cs" />
+     <Compile Include="Assets\Scripts\GameStates\BorderIncidentScenario.cs" />
      <Compile Include="Assets\Scripts\MinimapIcon.cs" />
      <Compile Include="Assets\Scripts\CameraFlip.cs" />
      <Compile Include="Assets\Scripts\PathFinder2.cs" />

@@ -203,7 +203,7 @@ public class BipedalWalker : MonoBehaviour {
         body.position = Vector3.Lerp(body.position, targetBodyPosition, Time.deltaTime * bodyYPositionChangeIntensity);
 
         var unitView = GetComponent<UnitView>();
-        if (unitView && !unitView.Moved && unitView.enableDance)
+        if (unitView && !unitView.Moved && unitView.Dancing)
             body.position += Vector3.down * Mathf.PingPong(Time.unscaledTime * danceFrequency, danceAmplitude);
 
         oldPosition = transform.position;

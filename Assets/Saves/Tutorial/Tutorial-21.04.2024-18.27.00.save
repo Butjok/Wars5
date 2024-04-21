@@ -1,0 +1,360 @@
+game {
+    :turn ( 0 )
+    :level-name ( LevelName Tutorial enum )
+}
+// Blue
+player {
+    :color-name          ( ColorName Blue enum )
+    :team                ( Team None enum )
+    :co-name             ( PersonName Natalie enum )
+    :ui-position         ( 0 1 int2 )
+    :credits             ( 0 )
+    :power-meter         ( 0 )
+    :unit-look-direction ( 1 0 int2 )
+    :side                ( Side Left enum )
+    .mark-as-local
+    .add
+}
+// Hq(21, 10) Blue
+building {
+    :type           ( TileType Hq enum )
+    :position       ( 21 10 int2 )
+    :cp             ( 20 )
+    :look-direction ( 0 1 int2 )
+    .add
+}
+pop
+// City(21, 6) Blue
+building {
+    :type           ( TileType City enum )
+    :position       ( 21 6 int2 )
+    :cp             ( 20 )
+    :look-direction ( 1 0 int2 )
+    .add
+}
+pop
+// City(25, 4) Blue
+building {
+    :type           ( TileType City enum )
+    :position       ( 25 4 int2 )
+    :cp             ( 20 )
+    :look-direction ( 1 0 int2 )
+    .add
+}
+pop
+// Infantry(21, 11) Blue
+unit {
+    :type  ( UnitType Infantry enum )
+    :moved ( false )
+    :hp    ( 10 )
+    :position ( 21 11 int2 )
+    :look-direction ( 1 0 int2 )
+    :view-prefab ( UnitView WbInfantry load-resource )
+    .add
+    .brain {
+    }
+}
+pop
+// LightTank(26, 9) Blue
+unit {
+    :type  ( UnitType LightTank enum )
+    :moved ( false )
+    :hp    ( 10 )
+    :position ( 26 9 int2 )
+    :look-direction ( 1 0 int2 )
+    :view-prefab ( UnitView WbLightTank load-resource )
+    .add
+    .brain {
+    }
+}
+pop
+// Infantry(28, 6) Blue
+unit {
+    :type  ( UnitType Infantry enum )
+    :moved ( false )
+    :hp    ( 10 )
+    :position ( 28 6 int2 )
+    :look-direction ( 1 0 int2 )
+    :view-prefab ( UnitView WbInfantry load-resource )
+    .add
+    .brain {
+    }
+}
+pop
+// Infantry(28, 8) Blue
+unit {
+    :type  ( UnitType Infantry enum )
+    :moved ( false )
+    :hp    ( 10 )
+    :position ( 28 8 int2 )
+    :look-direction ( 1 0 int2 )
+    :view-prefab ( UnitView WbInfantry load-resource )
+    .add
+    .brain {
+    }
+}
+pop
+// LightTank(26, 5) Blue
+unit {
+    :type  ( UnitType LightTank enum )
+    :moved ( false )
+    :hp    ( 10 )
+    :position ( 26 5 int2 )
+    :look-direction ( 1 0 int2 )
+    :view-prefab ( UnitView WbLightTank load-resource )
+    .add
+    .brain {
+    }
+}
+pop
+// Artillery(22, 7) Blue
+unit {
+    :type  ( UnitType Artillery enum )
+    :moved ( false )
+    :hp    ( 10 )
+    :position ( 22 7 int2 )
+    :look-direction ( 1 0 int2 )
+    :view-prefab ( UnitView WbHowitzer load-resource )
+    .add
+    .brain {
+    }
+}
+pop
+// Recon(21, 9) Blue
+unit {
+    :type  ( UnitType Recon enum )
+    :moved ( false )
+    :hp    ( 10 )
+    :position ( 21 9 int2 )
+    :look-direction ( 1 0 int2 )
+    :view-prefab ( UnitView WbRecon load-resource )
+    .add
+    .brain {
+    }
+}
+pop
+// Red
+player {
+    :color-name          ( ColorName Red enum )
+    :team                ( Team None enum )
+    :co-name             ( PersonName Vladan enum )
+    :ui-position         ( 1 1 int2 )
+    :credits             ( 0 )
+    :power-meter         ( 0 )
+    :unit-look-direction ( -1 0 int2 )
+    :side                ( Side Right enum )
+    .add
+}
+// City(36, 7) Red
+building {
+    :type           ( TileType City enum )
+    :position       ( 36 7 int2 )
+    :cp             ( 20 )
+    :look-direction ( -1 0 int2 )
+    .add
+}
+pop
+// City(36, 10) Red
+building {
+    :type           ( TileType City enum )
+    :position       ( 36 10 int2 )
+    :cp             ( 20 )
+    :look-direction ( -1 0 int2 )
+    .add
+}
+pop
+// City(39, 10) Red
+building {
+    :type           ( TileType City enum )
+    :position       ( 39 10 int2 )
+    :cp             ( 20 )
+    :look-direction ( -1 0 int2 )
+    .add
+}
+pop
+// Hq(42, 10) Red
+building {
+    :type           ( TileType Hq enum )
+    :position       ( 42 10 int2 )
+    :cp             ( 20 )
+    :look-direction ( 0 1 int2 )
+    .add
+}
+pop
+// City(39, 7) Red
+building {
+    :type           ( TileType City enum )
+    :position       ( 39 7 int2 )
+    :cp             ( 20 )
+    :look-direction ( -1 0 int2 )
+    .add
+}
+pop
+// City(37, 11) Red
+building {
+    :type           ( TileType City enum )
+    :position       ( 37 11 int2 )
+    :cp             ( 20 )
+    :look-direction ( -1 0 int2 )
+    .add
+}
+pop
+// City(37, 6) Red
+building {
+    :type           ( TileType City enum )
+    :position       ( 37 6 int2 )
+    :cp             ( 20 )
+    :look-direction ( -1 0 int2 )
+    .add
+}
+pop
+// Rockets(39, 10) Red
+unit {
+    :type  ( UnitType Rockets enum )
+    :moved ( false )
+    :hp    ( 10 )
+    :position ( 39 10 int2 )
+    :look-direction ( -1 0 int2 )
+    :view-prefab ( UnitView WbRockets load-resource )
+    .add
+    .brain {
+    }
+}
+pop
+// Rockets(39, 7) Red
+unit {
+    :type  ( UnitType Rockets enum )
+    :moved ( false )
+    :hp    ( 10 )
+    :position ( 39 7 int2 )
+    :look-direction ( -1 0 int2 )
+    :view-prefab ( UnitView WbRockets load-resource )
+    .add
+    .brain {
+    }
+}
+pop
+// MediumTank(36, 10) Red
+unit {
+    :type  ( UnitType MediumTank enum )
+    :moved ( false )
+    :hp    ( 10 )
+    :position ( 36 10 int2 )
+    :look-direction ( -1 0 int2 )
+    :view-prefab ( UnitView WbMdTank load-resource )
+    .add
+    .brain {
+    }
+}
+pop
+// MediumTank(36, 7) Red
+unit {
+    :type  ( UnitType MediumTank enum )
+    :moved ( false )
+    :hp    ( 10 )
+    :position ( 36 7 int2 )
+    :look-direction ( -1 0 int2 )
+    :view-prefab ( UnitView WbMdTank load-resource )
+    .add
+    .brain {
+    }
+}
+pop
+// LightTank(37, 6) Red
+unit {
+    :type  ( UnitType LightTank enum )
+    :moved ( false )
+    :hp    ( 10 )
+    :position ( 37 6 int2 )
+    :look-direction ( -1 0 int2 )
+    :view-prefab ( UnitView WbLightTank load-resource )
+    .add
+    .brain {
+    }
+}
+pop
+// LightTank(37, 11) Red
+unit {
+    :type  ( UnitType LightTank enum )
+    :moved ( false )
+    :hp    ( 10 )
+    :position ( 37 11 int2 )
+    :look-direction ( -1 0 int2 )
+    :view-prefab ( UnitView WbLightTank load-resource )
+    .add
+    .brain {
+    }
+}
+pop
+// Infantry(42, 0) Red
+unit {
+    :type  ( UnitType Infantry enum )
+    :moved ( false )
+    :hp    ( 10 )
+    :position ( 42 0 int2 )
+    :look-direction ( -1 0 int2 )
+    :view-prefab ( UnitView WbInfantry load-resource )
+    .add
+    .brain {
+    }
+}
+pop
+// Infantry(31, 8) Red
+unit {
+    :type  ( UnitType Infantry enum )
+    :moved ( false )
+    :hp    ( 10 )
+    :position ( 31 8 int2 )
+    :look-direction ( -1 0 int2 )
+    :view-prefab ( UnitView WbInfantry load-resource )
+    .add
+    .brain {
+    }
+}
+pop
+// Infantry(31, 6) Red
+unit {
+    :type  ( UnitType Infantry enum )
+    :moved ( false )
+    :hp    ( 10 )
+    :position ( 31 6 int2 )
+    :look-direction ( -1 0 int2 )
+    :view-prefab ( UnitView WbInfantry load-resource )
+    .add
+    .brain {
+    }
+}
+pop
+tiles {
+    .add ( TileType Plain enum 34 5 int2 33 5 int2 32 5 int2 32 12 int2 30 4 int2 31 5 int2 29 5 int2 23 -1 int2 44 2 int2 17 13 int2 27 14 int2 26 14 int2 25 14 int2 24 14 int2 23 14 int2 22 14 int2 21 14 int2 20 14 int2 19 14 int2 18 14 int2 34 14 int2 32 14 int2 36 14 int2 38 14 int2 37 14 int2 35 14 int2 33 14 int2 31 14 int2 30 14 int2 29 14 int2 43 2 int2 27 -1 int2 17 14 int2 30 -6 int2 26 -5 int2 22 2 int2 41 5 int2 22 1 int2 20 2 int2 27 -5 int2 41 4 int2 21 -2 int2 35 13 int2 33 12 int2 33 11 int2 34 13 int2 24 9 int2 18 8 int2 18 9 int2 26 9 int2 25 13 int2 28 -2 int2 25 2 int2 25 12 int2 18 12 int2 24 13 int2 19 11 int2 28 6 int2 29 6 int2 45 8 int2 36 11 int2 26 1 int2 30 -5 int2 30 -4 int2 29 8 int2 34 8 int2 33 8 int2 32 8 int2 22 9 int2 31 8 int2 25 -6 int2 21 0 int2 22 -1 int2 27 -6 int2 26 -6 int2 21 1 int2 21 -5 int2 21 5 int2 29 -6 int2 28 -6 int2 30 8 int2 31 -6 int2 43 5 int2 19 -1 int2 41 6 int2 42 3 int2 42 6 int2 45 1 int2 44 3 int2 45 0 int2 17 -5 int2 17 -4 int2 17 -3 int2 42 2 int2 17 0 int2 17 1 int2 17 2 int2 17 3 int2 17 4 int2 17 5 int2 17 6 int2 17 8 int2 17 9 int2 17 10 int2 17 11 int2 17 12 int2 44 5 int2 44 0 int2 45 6 int2 20 -5 int2 17 -1 int2 43 6 int2 44 6 int2 45 4 int2 45 3 int2 21 -4 int2 18 -5 int2 45 2 int2 27 2 int2 29 4 int2 28 3 int2 25 -2 int2 22 -2 int2 20 0 int2 30 6 int2 28 5 int2 28 4 int2 27 3 int2 27 4 int2 27 5 int2 27 6 int2 26 3 int2 26 4 int2 22 0 int2 23 0 int2 26 5 int2 30 5 int2 23 9 int2 23 10 int2 18 10 int2 19 10 int2 25 9 int2 37 13 int2 44 1 int2 31 11 int2 30 11 int2 32 11 int2 30 12 int2 31 12 int2 44 9 int2 45 9 int2 44 8 int2 35 10 int2 32 10 int2 30 10 int2 33 13 int2 31 13 int2 32 13 int2 30 13 int2 29 13 int2 27 13 int2 26 13 int2 25 0 int2 28 -1 int2 26 0 int2 27 0 int2 21 -1 int2 29 9 int2 22 3 int2 26 6 int2 25 3 int2 23 2 int2 35 9 int2 32 9 int2 27 -4 int2 23 1 int2 18 -3 int2 30 -1 int2 29 -2 int2 30 9 int2 31 9 int2 24 -6 int2 28 -5 int2 29 -5 int2 28 -4 int2 29 -4 int2 28 -3 int2 19 3 int2 18 4 int2 18 3 int2 18 2 int2 18 1 int2 45 5 int2 30 0 int2 28 1 int2 19 5 int2 19 6 int2 18 6 int2 19 -5 int2 20 1 int2 25 -1 int2 22 12 int2 41 3 int2 42 5 int2 41 2 int2 29 10 int2 29 11 int2 29 12 int2 24 12 int2 24 11 int2 24 10 int2 23 12 int2 23 11 int2 18 11 int2 20 13 int2 21 13 int2 22 13 int2 23 13 int2 20 10 int2 20 8 int2 19 12 int2 20 12 int2 21 12 int2 21 11 int2 20 9 int2 20 11 int2 22 10 int2 22 11 int2 27 9 int2 33 9 int2 25 11 int2 20 6 int2 42 4 int2 43 8 int2 36 13 int2 23 -2 int2 31 -5 int2 32 6 int2 31 6 int2 36 12 int2 25 1 int2 19 -4 int2 43 1 int2 27 1 int2 17 -2 int2 28 14 int2 24 8 int2 23 8 int2 25 8 int2 26 8 int2 27 8 int2 28 8 int2 24 -1 int2 24 0 int2 22 8 int2 24 5 int2 28 13 int2 24 -2 int2 24 2 int2 24 6 int2 28 12 int2 28 9 int2 28 11 int2 28 10 int2 24 3 int2 24 4 int2 24 1 int2 20 5 int2 21 4 int2 22 4 int2 23 5 int2 23 6 int2 22 6 int2 22 5 int2 21 -6 int2 23 -6 int2 26 -7 int2 29 -7 int2 24 -7 int2 32 -7 int2 31 -7 int2 30 -7 int2 28 -7 int2 17 -6 int2 27 -7 int2 22 -6 int2 23 -7 int2 18 -6 int2 19 -6 int2 25 -7 int2 20 -6 int2 18 -7 int2 18 -8 int2 18 -9 int2 18 -10 int2 18 -11 int2 18 -12 int2 17 -12 int2 17 -11 int2 17 -10 int2 17 -9 int2 17 -8 int2 17 -7 int2 20 -7 int2 19 -7 int2 19 -8 int2 19 -9 int2 19 -10 int2 19 -11 int2 19 -12 int2 20 -12 int2 21 -12 int2 22 -12 int2 23 -12 int2 24 -12 int2 25 -12 int2 26 -12 int2 27 -12 int2 28 -12 int2 29 -12 int2 30 -12 int2 31 -12 int2 32 -12 int2 33 -12 int2 34 -12 int2 35 -12 int2 36 -12 int2 37 -11 int2 36 -11 int2 35 -11 int2 34 -11 int2 33 -11 int2 32 -11 int2 31 -11 int2 30 -11 int2 29 -11 int2 28 -11 int2 27 -11 int2 26 -11 int2 25 -11 int2 24 -11 int2 23 -11 int2 22 -11 int2 21 -11 int2 20 -11 int2 20 -10 int2 22 -10 int2 23 -10 int2 24 -10 int2 26 -10 int2 27 -10 int2 29 -9 int2 30 -10 int2 32 -10 int2 34 -10 int2 35 -10 int2 36 -10 int2 37 -10 int2 38 -10 int2 37 -9 int2 35 -9 int2 31 -9 int2 28 -9 int2 27 -9 int2 26 -9 int2 24 -9 int2 22 -9 int2 21 -9 int2 20 -9 int2 21 -10 int2 25 -10 int2 28 -10 int2 29 -10 int2 31 -10 int2 33 -10 int2 34 -9 int2 30 -9 int2 25 -9 int2 23 -9 int2 20 -8 int2 21 -8 int2 22 -8 int2 22 -7 int2 21 -7 int2 23 -8 int2 30 -8 int2 33 -8 int2 34 -8 int2 35 -8 int2 36 -8 int2 37 -8 int2 36 -7 int2 33 -7 int2 24 -8 int2 26 -8 int2 27 -8 int2 28 -8 int2 29 -8 int2 25 -8 int2 31 -8 int2 32 -9 int2 33 -9 int2 32 -8 int2 37 -12 int2 38 -12 int2 39 -12 int2 40 -12 int2 41 -12 int2 42 -12 int2 43 -12 int2 44 -12 int2 45 -12 int2 45 -11 int2 45 -10 int2 45 -9 int2 45 -8 int2 45 -7 int2 45 -6 int2 45 -5 int2 45 -4 int2 45 -3 int2 45 -2 int2 45 -1 int2 44 -1 int2 40 -1 int2 38 -1 int2 37 -2 int2 34 -7 int2 35 -7 int2 36 -6 int2 36 -9 int2 37 -3 int2 38 -2 int2 39 -2 int2 39 -1 int2 38 -3 int2 37 -4 int2 37 -6 int2 38 -9 int2 38 -11 int2 38 -8 int2 38 -6 int2 37 -5 int2 37 -7 int2 38 -7 int2 39 -4 int2 38 -4 int2 39 -5 int2 40 -3 int2 40 -2 int2 41 -2 int2 39 -3 int2 38 -5 int2 39 -8 int2 39 -9 int2 39 -11 int2 43 -11 int2 44 -11 int2 44 -10 int2 44 -9 int2 44 -8 int2 44 -6 int2 44 -5 int2 44 -4 int2 44 -3 int2 44 -2 int2 43 -2 int2 43 -3 int2 43 -5 int2 43 -6 int2 43 -8 int2 43 -9 int2 43 -10 int2 42 -10 int2 42 -11 int2 41 -11 int2 40 -10 int2 39 -10 int2 41 -10 int2 42 -9 int2 40 -11 int2 40 -9 int2 40 -7 int2 39 -6 int2 39 -7 int2 40 -6 int2 41 -4 int2 40 -4 int2 40 -8 int2 41 -8 int2 41 -6 int2 42 -3 int2 41 -3 int2 40 -5 int2 41 -9 int2 42 -8 int2 42 -6 int2 42 -4 int2 43 -4 int2 42 -5 int2 41 -7 int2 43 -7 int2 44 -7 int2 42 -7 int2 41 -5 int2 33 6 int2 34 6 int2 35 5 int2 35 3 int2 35 2 int2 35 4 int2 36 1 int2 36 0 int2 37 -1 int2 38 0 int2 39 0 int2 40 3 int2 40 5 int2 40 6 int2 40 8 int2 39 6 int2 39 5 int2 39 3 int2 39 2 int2 38 1 int2 37 0 int2 37 1 int2 37 2 int2 37 4 int2 37 5 int2 37 8 int2 35 8 int2 36 6 int2 36 5 int2 35 6 int2 36 4 int2 36 3 int2 36 2 int2 37 3 int2 38 2 int2 38 3 int2 38 4 int2 38 6 int2 38 8 int2 39 4 int2 40 4 int2 38 5 int2 45 10 int2 45 11 int2 45 13 int2 45 14 int2 44 14 int2 43 14 int2 42 14 int2 41 14 int2 40 14 int2 39 14 int2 37 12 int2 37 9 int2 41 9 int2 40 9 int2 38 9 int2 39 12 int2 38 11 int2 39 11 int2 40 12 int2 41 8 int2 42 11 int2 40 11 int2 41 11 int2 42 12 int2 41 12 int2 43 10 int2 44 13 int2 43 9 int2 44 10 int2 43 13 int2 43 11 int2 45 12 int2 38 15 int2 580 )
+    .add ( TileType Forest enum 20 4 int2 34 12 int2 19 4 int2 25 10 int2 21 2 int2 43 3 int2 43 4 int2 44 4 int2 42 1 int2 23 3 int2 34 10 int2 35 12 int2 33 10 int2 34 11 int2 26 2 int2 23 4 int2 20 3 int2 18 5 int2 41 1 int2 18 13 int2 19 13 int2 34 9 int2 35 11 int2 43 0 int2 19 8 int2 26 10 int2 21 3 int2 19 9 int2 31 10 int2 27 12 int2 26 12 int2 27 11 int2 27 10 int2 26 11 int2 29 3 int2 20 -2 int2 29 -1 int2 18 -2 int2 19 -2 int2 29 1 int2 21 -3 int2 20 -4 int2 27 -3 int2 19 0 int2 18 0 int2 29 0 int2 18 -1 int2 28 0 int2 18 -4 int2 29 -3 int2 20 -3 int2 19 2 int2 20 -1 int2 19 1 int2 19 -3 int2 28 2 int2 30 1 int2 30 3 int2 29 2 int2 30 2 int2 43 -1 int2 42 -1 int2 41 -1 int2 42 -2 int2 40 0 int2 41 0 int2 40 1 int2 40 2 int2 39 1 int2 39 13 int2 38 13 int2 38 12 int2 40 13 int2 42 13 int2 41 13 int2 44 12 int2 43 12 int2 44 11 int2 23 -4 int2 24 -5 int2 26 -1 int2 26 -2 int2 23 -5 int2 22 -5 int2 27 -2 int2 23 -3 int2 25 -3 int2 26 -3 int2 26 -4 int2 25 -5 int2 22 -3 int2 22 -4 int2 25 -4 int2 24 -3 int2 24 -4 int2 95 )
+    .add ( TileType Road enum 42 7 int2 42 8 int2 18 7 int2 21 7 int2 17 7 int2 30 7 int2 28 7 int2 29 7 int2 44 7 int2 41 7 int2 25 7 int2 23 7 int2 32 7 int2 25 5 int2 25 6 int2 33 7 int2 22 7 int2 43 7 int2 20 7 int2 27 7 int2 31 7 int2 45 7 int2 21 8 int2 24 7 int2 21 9 int2 28 15 int2 19 7 int2 26 7 int2 34 7 int2 35 7 int2 40 7 int2 37 7 int2 36 8 int2 38 7 int2 36 9 int2 40 10 int2 39 9 int2 39 8 int2 37 10 int2 38 10 int2 41 10 int2 42 9 int2 42 )
+    .add ( TileType Sea enum 49 14 int2 49 12 int2 49 11 int2 49 10 int2 49 9 int2 49 8 int2 49 7 int2 49 6 int2 49 5 int2 49 4 int2 49 3 int2 49 2 int2 49 0 int2 49 -1 int2 49 -2 int2 49 -3 int2 49 -4 int2 49 -5 int2 49 -6 int2 49 -7 int2 49 -8 int2 49 -9 int2 49 -10 int2 14 -8 int2 14 -7 int2 14 -5 int2 14 -4 int2 14 -3 int2 14 -1 int2 14 0 int2 14 1 int2 14 3 int2 14 4 int2 14 5 int2 14 6 int2 14 7 int2 14 14 int2 37 )
+}
+// Unowned buildings
+null
+// MissileSilo(42, 0) 
+building {
+    :type           ( TileType MissileSilo enum )
+    :position       ( 42 0 int2 )
+    :cp             ( 20 )
+    :look-direction ( 0 1 int2 )
+    .missile-silo {
+        :last-launch-day ( -99 )
+        :launch-cooldown  ( 3 )
+        :ammo             ( 999 )
+        :range            ( 0 999 int2 )
+        :blast-range      ( 0 3 int2 )
+        :unit-damage      ( 5 )
+        :bridge-damage    ( 10 )
+    }
+    .add
+}
+pop
+pop
+camera-rig {
+    :position    ( 30.18056 -7.629395E-06 6.502229 float3 )
+    :rotation    ( 0 )
+    :pitch-angle ( 44.04422 )
+    :dolly-zoom  ( 0.135 )
+}

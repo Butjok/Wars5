@@ -206,7 +206,13 @@ public class UnitView : MonoBehaviour {
     public int totalIncomingProjectiles = 0;
     [NonSerialized] public int spawnPointIndex;
     [NonSerialized] public int shuffledIndex;
-    public bool enableDance = true;
+    public bool dancing = false;
+    [Command] public bool enableDance = true;
+
+    public bool Dancing {
+        get => dancing && enableDance;
+        set => dancing = value;
+    }
 
     public UnitUi ui;
 
@@ -590,7 +596,7 @@ public class UnitView : MonoBehaviour {
 
         body.position = Vector3.Lerp(min, max, .5f);
 
-        if (enableDance && !Moved)
+        if (Dancing && !Moved)
             body.position += body.up * bodyDanceAmplitude * Mathf.PingPong(Time.unscaledTime * bodyDanceFrequency, bodyDanceAmplitude);
     }
 
@@ -861,7 +867,7 @@ public class UnitView : MonoBehaviour {
                 var barrelRotation = Quaternion.Euler(barrel.angle, 0, 0);
                 var barrelFrom = body.rotation * turretRotation * barrelRotation * Vector3.forward;
                 var actualBarrelRestAngle = barrelRestAngle;
-                if (enableDance && !Moved)
+                if (Dancing && !Moved)
                     actualBarrelRestAngle += barrelDanceAmplitude * Mathf.Sin(Time.unscaledTime * barrelDanceFrequency);
                 var barrelDeltaAngle = barrel.workMode == WorkMode.RotateToRest ? actualBarrelRestAngle - barrel.angle : Vector3.SignedAngle(barrelFrom, barrelTo, barrelPlane.normal);
 

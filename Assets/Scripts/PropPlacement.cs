@@ -285,6 +285,8 @@ public class PropPlacement : MonoBehaviour {
         foreach (var prop in props) {
             var ray = new Ray(prop.position + Vector3.up * 100, Vector3.down);
             if (Physics.Raycast(ray, out var hit, float.MaxValue, 1 << LayerMask.NameToLayer("Terrain"))) {
+                if (prop.name.Contains("Flag"))
+                    hit.normal = Vector3.up;
                 prop.position = hit.point;
                 var forward = Vector3.ProjectOnPlane(prop.forward, hit.normal);
                 prop.rotation = Quaternion.LookRotation(forward, hit.normal);

@@ -345,7 +345,7 @@ public class LevelEditorTilesModeState : StateMachineState {
                     game.EnqueueCommand(Command.PickTile, mousePosition);
                 else if (Input.GetKeyDown(KeyCode.H))
                     showTiles = !showTiles;
-                else if (Input.GetKeyDown(KeyCode.Print)) {
+                else if (Input.GetKeyDown(KeyCode.Print) || Input.GetMouseButtonDown(Mouse.extra0) || Input.GetMouseButtonDown(Mouse.extra1)) {
                     if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) {
                         if (tileMapCreator) {
                             tileMapCreator.Save();

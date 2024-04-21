@@ -201,11 +201,11 @@ float erosion =  tex2D(_Erosion, mul(_Erosion_WorldToLocal, float4(IN.worldPos.x
 				o.Albedo = lerp(o.Albedo, _DarkGrass, splat.r);
 				o.Albedo = lerp(o.Albedo, _YellowGrass, splat.b);
 
-	fixed4 grassTint = tex2D (_GrassTint, TRANSFORM_TEX(IN.worldPos.xz, _GrassTint) );
+	/*fixed4 grassTint = tex2D (_GrassTint, TRANSFORM_TEX(IN.worldPos.xz, _GrassTint) );
 	float3 hsv = RGBtoHSV(o.Albedo);
         				hsv.y *= 1.33;
         				hsv.z *= .85; // value
-        				o.Albedo = lerp(o.Albedo, HSVtoRGB(hsv), grassTint);
+        				o.Albedo = lerp(o.Albedo, HSVtoRGB(hsv), grassTint);*/
 
             	{
         			float3 grassTint = 0;

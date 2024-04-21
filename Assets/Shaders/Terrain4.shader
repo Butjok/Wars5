@@ -107,6 +107,10 @@ _OutsideIntensity ("_OutsideIntensity", Range(0,1)) = 0.0
     	_SpotOceanColor ("_SpotOceanColor", Color) = (1,1,1,1)
     	
     	_Erosion ("_Erosion", 2D) = "white" {}
+    	
+    	_GrassHSVTweak ("_GrassHSVTweak", Vector) = (0,0,0,0)
+    	_DarkGrassHSVTweak ("_DarkGrassHSVTweak", Vector) = (0,0,0,0)
+    	_YellowGrassHSVTweak ("_YellowGrassHSVTweak", Vector) = (0,0,0,0)
     }
     SubShader
     {
@@ -137,6 +141,8 @@ _OutsideIntensity ("_OutsideIntensity", Range(0,1)) = 0.0
         float3 _StoneColor, _GrassColor, _StoneDarkColor, _StoneLightColor, _StoneWheatColor, _StoneSandColor;
         float4  _Emissive;
         float3 _SpotGrassColor, _SpotOceanColor, _ForestColor;
+
+        float4 _GrassHSVTweak, _DarkGrassHSVTweak, _YellowGrassHSVTweak;
 
         float _NormalPower;
 float _LineDistance;
@@ -235,14 +241,19 @@ float4 _SandColor2;
                         fixed4 grassTint = tex2D (_GrassTint, TRANSFORM_TEX(position, _GrassTint) );
                         
                         //o.Albedo =  lerp(grass,grassTinted,grassTint) ;
-        	o.Albedo = grass;
+        	float3 grassHSV = RGBtoHSV(grass);
+        	grassHSV.x += _GrassHSVTweak.x;
+        	grassHSV.y *=  _GrassHSVTweak.y;
+        	grassHSV.z *= _GrassHSVTweak.z;
+        	o.Albedo = HSVtoRGB(grassHSV);
                         
                         float2 darkGreenUv = position;
                         darkGreenUv.x += sin(darkGreenUv.y*2)/16 + sin(darkGreenUv.y*5+.4)/32  + sin(darkGreenUv.y*10+.846)/32;
                         fixed3 darkGrass = tex2D (_DarkGreen, TRANSFORM_TEX(darkGreenUv, _DarkGreen) );//tex2D (_Grass, TRANSFORM_TEX(position, _Grass) );
         	float3 darkGrassHSV = RGBtoHSV(darkGrass);
-        	darkGrassHSV.x -= 0.005;
-        	//darkGrassHSV.z *= 1.10;
+        	darkGrassHSV. x += _DarkGrassHSVTweak.x;
+        	darkGrassHSV.y *= _DarkGrassHSVTweak.y;
+        	darkGrassHSV.z *= _DarkGrassHSVTweak.z;
         	darkGrass = HSVtoRGB(darkGrassHSV);
             
                         
@@ -258,17 +269,14 @@ float4 _SandColor2;
                         
             
                         fixed3 yellowGrass = tex2D (_YellowGrass, TRANSFORM_TEX(position, _YellowGrass) );
+        	float3 yellowGrassHSV = RGBtoHSV(yellowGrass);
+			yellowGrassHSV.x += _YellowGrassHSVTweak.x;
+			yellowGrassHSV.y *= _YellowGrassHSVTweak.y;
+        	 			yellowGrassHSV.z *= _YellowGrassHSVTweak.z;
+        	yellowGrass = HSVtoRGB(yellowGrassHSV);
                         o.Albedo =  lerp(o.Albedo, yellowGrass, yellowGrassIntensity);
 
 
-        				float3 hsv = RGBtoHSV(o.Albedo);
-        				hsv.y *= 1.33;
-        				hsv.z *= .85; // value
-        				o.Albedo = lerp(o.Albedo, HSVtoRGB(hsv), grassTint);
-        				hsv = RGBtoHSV(o.Albedo);
-        				//hsv.y *= .95;
-        				//hsv.z *= 1.5;
-        				o.Albedo = HSVtoRGB(hsv);
 
         	{
         		float3 grassTint = 0;

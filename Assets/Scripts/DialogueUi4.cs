@@ -77,6 +77,8 @@ public class DialogueUi4 : MonoBehaviour {
             PersonName.Vladan => vladanColor,
             PersonName.JamesWillis => jamesWillisColor,
             PersonName.LjubisaDragovic => ljubisaDragovicColor,
+            PersonName.RedOfficer => Color.red,
+            PersonName.BlueOfficer => Color.blue,
             _ => Color.white
         };
     }

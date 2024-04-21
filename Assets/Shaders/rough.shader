@@ -7,6 +7,7 @@ Shader "Custom/rough"
         _Roughness ("_Roughness", 2D) = "white" {}
         _Metallic ("Metallic", Range(0,1)) = 0.0
        [HDR] _Emissive ("Emissive", Color) = (1,1,1,1)
+    	_HSVTweak ("HSV Tweak", Vector) = (0, 1, 1, 1)
     }
     SubShader
     {
@@ -23,6 +24,7 @@ Shader "Custom/rough"
         sampler2D _MainTex, _Roughness, _TileMask;
         fixed4x4 _TileMask_WorldToLocal;
         fixed4 _Emissive;
+        float4 _HSVTweak;
 
         struct Input
         {
@@ -87,6 +89,13 @@ Shader "Custom/rough"
 
 			o.Albedo *= lerp(1, float3(0,.75,1), saturate(tileMaskEmission));
         	o.Emission = (border2+circle*1.5) * float3(0,1,0);
+
+
+        	float3 hsv = RGBtoHSV(o.Albedo);
+        	hsv.x += _HSVTweak.x;
+        	hsv.y *= _HSVTweak.y;
+        	hsv.z *= _HSVTweak.z;
+        	o.Albedo = HSVtoRGB(hsv);
 
         	
         	

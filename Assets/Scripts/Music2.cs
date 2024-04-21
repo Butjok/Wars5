@@ -44,8 +44,12 @@ public class Music2 : MonoBehaviour {
     public const string vladanPowerTheme = "hardbass";
 
     public void Update() {
-        if (Input.GetKeyDown(KeyCode.F3))
+        if (Input.GetKeyDown(KeyCode.F3)) {
+            if (Input.GetKey(KeyCode.LeftShift))
+                Stop();
+            else
             Play(natalieTheme);
+        }
         else if (Input.GetKeyDown(KeyCode.F2)) {
             PostProcessing.SuperPowerMode = false;
             if (source && source.clip && source.clip.name is vladanTheme or vladanPowerTheme)

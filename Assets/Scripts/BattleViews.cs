@@ -92,7 +92,7 @@ public class BattleViewSide : IDisposable {
             unit.transform.SetPositionAndRotation(spawnPoint.position, spawnPoint.rotation);
             unit.PlaceOnTerrain();
             unit.spawnPointIndex = index;
-            unit.enableDance = false;
+            unit.Dancing = false;
             if (unit.prefab.name == "WbInfantry") {
                 unit.transform.localScale = Vector3.one * .8f;
                 var bipedalWalker = unit.GetComponent<BipedalWalker>();

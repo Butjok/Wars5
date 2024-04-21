@@ -5,6 +5,7 @@ Shader "Custom/TileMasked" {
 		_MetallicSmoothness ("_MetallicSmoothness", 2D) = "black" {}
 		_Normal ("Normal Map", 2D) = "bump" {}
 		[HDR]_Emissive ("_Emissive", Color) = (1,1,1,1)	
+		_HSVTweak ("HSV Tweak", Vector) = (0, 0, 0, 0)
 	}
 	SubShader {
 		Tags { "RenderType"="Opaque" }
@@ -20,6 +21,7 @@ Shader "Custom/TileMasked" {
 		sampler2D _MainTex, _MetallicSmoothness;
 		sampler2D _TileMask, _Normal;
 		fixed4x4 _TileMask_WorldToLocal;
+		float3 _HSVTweak;
 
 		struct Input {
 			float2 uv_MainTex;
@@ -28,6 +30,8 @@ Shader "Custom/TileMasked" {
 
 		half _Glossiness;
 		fixed4 _Color, _Emissive;
+
+		#include "Assets/Shaders/Utils.cginc"
 
 		// Add instancing support for this shader. You need to check 'Enable Instancing' on materials that use the shader.
 		// See https://docs.unity3d.com/Manual/GPUInstancing.html for more information about instancing.
@@ -54,6 +58,12 @@ Shader "Custom/TileMasked" {
                             			if (uv2.x < 0 || uv2.x > 1 || uv2.y < 0 || uv2.y > 1)
                             				tileMask = 0;
                             			o.Emission += _Emissive * tileMask;*/
+
+			float3 hsv = RGBtoHSV(o.Albedo);
+			hsv.x += _HSVTweak.x;
+			hsv.y *= _HSVTweak.y;
+			hsv.z *= _HSVTweak.z;
+			o.Albedo = HSVtoRGB(hsv);
 		}
 		ENDCG
 	}
