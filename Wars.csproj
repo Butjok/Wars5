@@ -297,6 +297,7 @@
      <Compile Include="Assets\Scripts\ZoneDistances.cs" />
      <Compile Include="Assets\Scripts\Player.cs" />
      <Compile Include="Assets\Scripts\LevelEditor\LevelEditorSessionState.cs" />
+     <Compile Include="Assets\Scripts\GameScenarioManager.cs" />
      <Compile Include="Assets\Scripts\UnitBuildMenuViews.cs" />
      <Compile Include="Assets\Scripts\MoveFinderDebugDrawer.cs" />
      <Compile Include="Assets\Scripts\BuildingMaterialSwitcher.cs" />
@@ -320,7 +321,6 @@
      <Compile Include="Assets\Scripts\FlipbookTest.cs" />
      <Compile Include="Assets\Scripts\Animation\UnitViewSequenceSubroutines.cs" />
      <Compile Include="Assets\Scripts\EntryPoint\MainMenuWelcomeState.cs" />
-     <Compile Include="Assets\Scripts\GameScenarioManager.cs" />
      <Folder Include="Assets\Scripts\EntryPoint" />
      <None Include="Assets\Scripts\Wars.asmdef" />
      <Folder Include="Assets\Scripts\DialogueMarkupLanguage" />
