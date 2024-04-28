@@ -234,6 +234,7 @@
      <Compile Include="Assets\Scripts\EditorCursor.cs" />
      <Compile Include="Assets\Scripts\BodyTorque.cs" />
      <Compile Include="Assets\Scripts\LevelReader.cs" />
+     <Compile Include="Assets\Scripts\LevelEditor\LevelEditorFacade.cs" />
      <Compile Include="Assets\Scripts\UnitActionView.cs" />
      <Compile Include="Assets\Scripts\Dissolve.cs" />
      <Compile Include="Assets\Scripts\UiRelativeScale.cs" />
@@ -322,7 +323,6 @@
      <Compile Include="Assets\Scripts\FlipbookTest.cs" />
      <Compile Include="Assets\Scripts\Animation\UnitViewSequenceSubroutines.cs" />
      <Compile Include="Assets\Scripts\EntryPoint\MainMenuWelcomeState.cs" />
-     <Compile Include="Assets\Scripts\LevelEditor\LevelEditorFacade.cs" />
      <Folder Include="Assets\Scripts\EntryPoint" />
      <None Include="Assets\Scripts\Wars.asmdef" />
      <Folder Include="Assets\Scripts\DialogueMarkupLanguage" />
