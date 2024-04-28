@@ -116,7 +116,7 @@ public class UnitView : MonoBehaviour {
             UnitType.Recon => "WbRecon".LoadAs<UnitView>(),
             UnitType.LightTank => "WbLightTank".LoadAs<UnitView>(),
             UnitType.Rockets => "WbRockets".LoadAs<UnitView>(),
-            UnitType.MediumTank => "WbMediumTank".LoadAs<UnitView>(),
+            UnitType.MediumTank => "WbMdTank".LoadAs<UnitView>(),
             _ => DefaultPrefab
         };
     }

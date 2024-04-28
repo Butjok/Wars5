@@ -79,15 +79,20 @@ _OutsideIntensity ("_OutsideIntensity", Range(0,1)) = 0.0
         _DeepSeaColor ("_DeepSeaColor", Color) = (1,1,1,1)
     	_DeepSeaColor2 ("_DeepSeaColor2", Color) = (1,1,1,1)
     	_DeepSeaColor3 ("_DeepSeaColor3", Color) = (1,1,1,1)
+	    _DeepSea4Color ("_DeepSea4Color", Color) = (1,1,1,1)
         
         _SeaLevel ("_SeaLevel", Float) = 0
         _SeaThickness ("_SeaThickness", Float) = 0.1
         _DeepSeaLevel ("_DeepSeaLevel", Float) = 0
     	_DeepSea2Level ("_DeepSea2Level", Float) = 0
     	_DeepSea3Level ("_DeepSea3Level", Float) = 0
+    	_DeepSea4Level ("_DeepSea4Level", Float) = 0
+    	
     	_DeepSeaSharpness ("_DeepSeaSharpness", Float) = 0
     	_DeepSea2Sharpness ("_DeepSea2Sharpness", Float) = 0
     	_DeepSea3Sharpness ("_DeepSea3Sharpness", Float) = 0
+		_DeepSea4Sharpness ("_DeepSea4Sharpness", Float) = 0
+    	
                 _DeepSeaThickness ("_DeepSeaThickness", Float) = 0.1
         _SeaSharpness ("_SeaSharpness", Float) = 0.1
         
@@ -111,6 +116,8 @@ _OutsideIntensity ("_OutsideIntensity", Range(0,1)) = 0.0
     	_GrassHSVTweak ("_GrassHSVTweak", Vector) = (0,0,0,0)
     	_DarkGrassHSVTweak ("_DarkGrassHSVTweak", Vector) = (0,0,0,0)
     	_YellowGrassHSVTweak ("_YellowGrassHSVTweak", Vector) = (0,0,0,0)
+    	
+    	_SeaHSVTweak ("_SeaHSVTweak", Vector) = (0,1,1,0)
     }
     SubShader
     {
@@ -131,6 +138,7 @@ _OutsideIntensity ("_OutsideIntensity", Range(0,1)) = 0.0
 
         #include "Assets/Shaders/Utils.cginc"
 
+        float4 _SeaHSVTweak;
         sampler2D _Grass,_Grid,_Splat,_DarkGreen,_Wheat,_YellowGrass,_GrassTinted,_GrassTint,_Distance;
         sampler2D _Normal;
         sampler2D _StonesNormal,_StonesAlpha, _StonesAo;
@@ -154,6 +162,9 @@ float4 _Bounds;
 
 float4 _MapSize;
 float2 _Splat2Size;
+
+        float _DeepSea4Level, _DeepSea4Sharpness, _DeepSea4Thickness;
+        float4 _DeepSea4Color;
 
         struct Input
         {
@@ -428,6 +439,7 @@ float forestMask = tex2D(_ForestMask, mul(_ForestMask_WorldToLocal, float4(IN.wo
         	seaColor = lerp (seaColor, _DeepSeaColor2, smoothstep( _DeepSea2Level - _DeepSea2Sharpness,  _DeepSea2Level + _DeepSea2Sharpness , IN.worldPos.y));
         	half deepSea3 = smoothstep( _DeepSea3Level - _DeepSea3Sharpness,  _DeepSea3Level + _DeepSea3Sharpness , IN.worldPos.y);
         	seaColor = lerp (seaColor, _DeepSeaColor3,  deepSea3);
+        	seaColor = lerp (seaColor, _DeepSea4Color, smoothstep( _DeepSea4Level - _DeepSea4Sharpness,  _DeepSea4Level + _DeepSea4Sharpness , IN.worldPos.y));
 
         	/*{
         		float3 seaTint = .5;
@@ -447,7 +459,15 @@ float forestMask = tex2D(_ForestMask, mul(_ForestMask_WorldToLocal, float4(IN.wo
 
         	
         	//seaColor *= lerp (float3(1,1,1), _SpotOceanColor, spot);
-            o.Albedo = lerp(o.Albedo, seaColor,sea);
+            //o.Albedo = lerp(o.Albedo, o.Albedo * seaColor,sea);
+        	o.Albedo = lerp(o.Albedo, seaColor, sea);
+        	{
+        		float3 hsv = RGBtoHSV(o.Albedo);
+        		hsv.x += _SeaHSVTweak.x;
+        		hsv.y *= _SeaHSVTweak.y;
+        		hsv.z *= _SeaHSVTweak.z;
+        		o.Albedo = lerp(o.Albedo, HSVtoRGB(hsv), grassTint*sea);
+        	}
 
         	//o.Normal = lerp(o.Normal, float3(0,1,0), sea/10);
         	
@@ -533,7 +553,7 @@ float forestMask = tex2D(_ForestMask, mul(_ForestMask_WorldToLocal, float4(IN.wo
         	o.Normal = lerp (o.Normal, float3(0,0,1), sea*.33);
         	
         	o.Normal = lerp (o.Normal, float3(0,0,1), deepSea3*.5);
-        	o.Albedo = lerp (o.Albedo, _DeepSeaColor3, deepSea3*.5);
+        	//o.Albedo = lerp (o.Albedo, _DeepSeaColor3, deepSea3*.5);
 
         	//o.Albedo = erosion;
         	//o.Albedo *= erosion;

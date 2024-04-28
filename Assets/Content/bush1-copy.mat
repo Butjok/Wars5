@@ -134,8 +134,8 @@ Material:
     - WIND: 0
     - _BumpScale: 1
     - _Cutoff: 0.5
-    - _DeepSeaLevel: 0.28
-    - _DeepSeaSharpness: -0.26
+    - _DeepSeaLevel: 0.11
+    - _DeepSeaSharpness: -0.125
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _GlossMapScale: 1
@@ -161,7 +161,7 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _DarkGrass: {r: 0.4603937, g: 0.5647059, b: 0.023529423, a: 1}
-    - _DeepSeaColor: {r: 0.056971468, g: 0.11320752, b: 0, a: 1}
+    - _DeepSeaColor: {r: 0, g: 0.09685542, b: 0.3301887, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Emissive: {r: 0, g: 0.11764706, b: 1, a: 1}
     - _FlowerColor: {r: 1, g: 0, b: 0.68214846, a: 1}
@@ -173,5 +173,5 @@ Material:
     - _Size: {r: 42, g: 33, b: 0, a: 0}
     - _SpotColor: {r: 0.8745098, g: 0.8784314, b: 0.80784315, a: 1}
     - _Wheat: {r: 1, g: 0.6055649, b: 0, a: 1}
-    - _YellowGrass: {r: 0.6437311, g: 0.735849, b: 0.108757496, a: 1}
+    - _YellowGrass: {r: 0.6575472, g: 0.7735849, b: 0, a: 1}
   m_BuildTextureStacks: []

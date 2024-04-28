@@ -6,6 +6,8 @@ Shader "Custom/Cliff" {
 		_Metallic ("Metallic", Range(0,1)) = 0.0
 		_GrassMask ("Grass Mask", 2D) = "white" {}
 		_Normal ("Normal Map", 2D) = "bump" {}
+		_CliffHSVTweak ("_CliffHSVTweak", Vector) = (.025, 1.1, 1)
+		_GrassHSVTweak ("_GrassHSVTweak", Vector) = (-.01, 1.25, 1.25)
 	}
 	SubShader {
 		Tags { "RenderType"="Opaque" }
@@ -32,6 +34,9 @@ Shader "Custom/Cliff" {
 
 		#include "Assets/Shaders/Utils.cginc"
 
+		 float3 _GrassHSVTweak;
+		 float3 _CliffHSVTweak;
+
 		// Add instancing support for this shader. You need to check 'Enable Instancing' on materials that use the shader.
 		// See https://docs.unity3d.com/Manual/GPUInstancing.html for more information about instancing.
 		// #pragma instancing_options assumeuniformscaling
@@ -51,14 +56,14 @@ Shader "Custom/Cliff" {
 			o.Alpha = c.a;
 
 			float3 grassHSV = RGBtoHSV(c.rgb);
-			grassHSV.x -= .01f;;
-			grassHSV.y *= 1.25;
-			grassHSV.z *= 1.25;
+			grassHSV.x += _GrassHSVTweak.x;
+			grassHSV.y *= _GrassHSVTweak.y;
+			grassHSV.z *= _GrassHSVTweak.z;
 			o.Albedo = lerp(c.rgb, HSVtoRGB(grassHSV), grass);
 			float3 cliffHSV = RGBtoHSV(c.rgb);
-			cliffHSV.x += .025f;
-			cliffHSV.y *= 1.1;
-			//cliffHSV.z *= 1.125;
+			cliffHSV.x += _CliffHSVTweak.x;
+			cliffHSV.y *= _CliffHSVTweak.y;
+			cliffHSV.z *= _CliffHSVTweak.z;
 			o.Albedo = lerp(o.Albedo, HSVtoRGB(cliffHSV), 1 - grass);
 		}
 		ENDCG

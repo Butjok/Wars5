@@ -18,6 +18,8 @@ public class RoadCreator : MonoBehaviour {
     public static readonly List<int> triangles = new();
     public static readonly List<Vector2> uvs0 = new();
 
+    public bool placeBridges = false;
+
     [Header("Mesh pieces")]
     public Mesh pieceI;
 
@@ -132,6 +134,8 @@ public class RoadCreator : MonoBehaviour {
         uvs0.Clear();
 
         foreach (var position in tiles.Keys) {
+            if (!placeBridges && tiles[position] is TileType.Bridge or TileType.BridgeSea)
+                continue;
             var (type, forward) = RoadTiles.DetermineTile(position, tiles.Keys);
             var (mesh, actualForward) = type switch {
                 RoadTiles.Type.I => (pieceI, forward.Rotate(rotateI)),

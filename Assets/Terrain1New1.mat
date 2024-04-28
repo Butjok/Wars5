@@ -164,6 +164,8 @@ Material:
     - _DeepSea2Sharpness: -0.25
     - _DeepSea3Level: -0.38
     - _DeepSea3Sharpness: -0.42
+    - _DeepSea4Level: -1.76
+    - _DeepSea4Sharpness: -1.36
     - _DeepSeaLevel: 0.09
     - _DeepSeaSharpness: 0.13
     - _DeepSeaThickness: -0.01
@@ -207,12 +209,14 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _DarkGrassHSVTweak: {r: 0, g: 1.1, b: 1.5, a: 0}
     - _DarkGreenTint: {r: 1, g: 1, b: 1, a: 1}
-    - _DeepSeaColor: {r: 1, g: 0.8735585, b: 0.41194963, a: 1}
+    - _DeepSea4Color: {r: 0, g: 0.00039650578, b: 0.047169805, a: 1}
+    - _DeepSeaColor: {r: 1, g: 0.8735585, b: 0.4119496, a: 1}
     - _DeepSeaColor2: {r: 0.0033819196, g: 0.22083724, b: 0.5377358, a: 1}
     - _DeepSeaColor3: {r: 0.026996538, g: 0.026996538, b: 0.3301887, a: 1}
+    - _DeepSeaColor4: {r: 0, g: 0, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Emissive: {r: 0.6797385, g: 0, b: 1, a: 1}
-    - _FlowerColor: {r: 1, g: 0, b: 0.5337882, a: 1}
+    - _FlowerColor: {r: 1, g: 0, b: 0.10085297, a: 1}
     - _ForestColor: {r: 0.6754714, g: 0.7058824, b: 0.30588236, a: 1}
     - _GrassColor: {r: 0.13386934, g: 0.14150941, b: 0, a: 1}
     - _GrassHSVTweak: {r: 0, g: 1.1, b: 1.5, a: 0}
@@ -221,6 +225,7 @@ Material:
     - _SandColor: {r: 0.6886792, g: 0.6823747, b: 0.12127679, a: 1}
     - _SandColor2: {r: 0.8396226, g: 0.75371176, b: 0.2745935, a: 1}
     - _SeaColor: {r: 0, g: 0.47122425, b: 0.8207547, a: 1}
+    - _SeaHSVTweak: {r: 0, g: 1, b: 0.85, a: 0}
     - _Splat2Size: {r: 47, g: 41, b: 0, a: 0}
     - _SpotColor: {r: 0.79480654, g: 0.8207547, b: 0.7704254, a: 1}
     - _SpotGrassColor: {r: 1, g: 1, b: 1, a: 1}
@@ -231,5 +236,5 @@ Material:
     - _StoneSandColor: {r: 0.745283, g: 0.6039796, b: 0.2437403, a: 1}
     - _StoneWheatColor: {r: 1, g: 0.7043761, b: 0.28930813, a: 1}
     - _WheatTint: {r: 1, g: 1, b: 1, a: 1}
-    - _YellowGrassHSVTweak: {r: 0, g: 0.95, b: 1.33, a: 0}
+    - _YellowGrassHSVTweak: {r: 0, g: 1, b: 1.15, a: 0}
   m_BuildTextureStacks: []
