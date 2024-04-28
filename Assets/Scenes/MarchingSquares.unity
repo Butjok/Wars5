@@ -14495,7 +14495,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 76062e1b6eacfc54bb563b3b3536c34e, type: 2}
+  - {fileID: 2100000, guid: 1f9010a1d0da6e346aad4d70ffd173e0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -24638,10 +24638,13 @@ MonoBehaviour:
   bushRenderer: {fileID: 1060996781}
   bushMaskTexture: {fileID: 2800000, guid: 9ab1d75a1653f1d43be4d1114f6e3ebf, type: 3}
   materials:
-  - {fileID: 2100000, guid: 1ee41d6641e93914fb9386c2d6b27e6e, type: 2}
+  - {fileID: 2100000, guid: 72f4ee4f3456b89438b2767d48f14472, type: 2}
   - {fileID: 2100000, guid: f6082924458ae4ab7809c9f4a613abae, type: 2}
   - {fileID: 2100000, guid: 91a266c2fced96147a160b5ce06b3eaa, type: 2}
   - {fileID: 2100000, guid: 6d38d4265c8a94c48a2bf7d14d167b0c, type: 2}
+  - {fileID: 2100000, guid: 72f4ee4f3456b89438b2767d48f14472, type: 2}
+  - {fileID: 2100000, guid: 5186d45c1c385424e9bab03de9906b79, type: 2}
+  - {fileID: 2100000, guid: 3823128ba8994c24c9ed20b2cf5176a9, type: 2}
   worldToSplatUniformName: _Splat_WorldToLocal
   loadOnAwake: 1
   loadOnAwakeFileName: TutorialBushes
@@ -24663,7 +24666,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mesh: {fileID: 3419889569566592343, guid: 16bc209fad8994e469db253a63669536, type: 3}
   materials:
-  - {fileID: 2100000, guid: f6082924458ae4ab7809c9f4a613abae, type: 2}
+  - {fileID: 2100000, guid: 5186d45c1c385424e9bab03de9906b79, type: 2}
   transformsUniformName: _Transforms
   shadowCastingMode: 1
   lightProbeUsage: 1
@@ -39824,7 +39827,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mesh: {fileID: 1281182555879489627, guid: 054217b2f6372374c9bba2178fb0f8ee, type: 3}
   materials:
-  - {fileID: 2100000, guid: 6d38d4265c8a94c48a2bf7d14d167b0c, type: 2}
+  - {fileID: 2100000, guid: 3823128ba8994c24c9ed20b2cf5176a9, type: 2}
   transformsUniformName: _Transforms
   shadowCastingMode: 1
   lightProbeUsage: 1

@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Terrain1New
+  m_Name: Terrain1New1
   m_Shader: {fileID: 4800000, guid: a7b9bb9d9984478ab620b1c8593f94ed, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -205,31 +205,31 @@ Material:
     m_Colors:
     - _BorderColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _DarkGrassHSVTweak: {r: 0.3, g: 0.4, b: 2.5, a: 0}
+    - _DarkGrassHSVTweak: {r: 0, g: 1.1, b: 1.5, a: 0}
     - _DarkGreenTint: {r: 1, g: 1, b: 1, a: 1}
-    - _DeepSeaColor: {r: 0.6698113, g: 0.58021194, b: 0.28224748, a: 1}
+    - _DeepSeaColor: {r: 1, g: 0.8735585, b: 0.41194963, a: 1}
     - _DeepSeaColor2: {r: 0.074641, g: 0.19981301, b: 0.3490566, a: 1}
     - _DeepSeaColor3: {r: 0.029903864, g: 0.029903864, b: 0.16981131, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Emissive: {r: 0.6797385, g: 0, b: 1, a: 1}
     - _FlowerColor: {r: 1, g: 0, b: 0.5337882, a: 1}
-    - _ForestColor: {r: 0.5372549, g: 0.59328437, b: 0.7058824, a: 1}
-    - _GrassColor: {r: 0.1702893, g: 0.1792453, b: 0.018037248, a: 1}
-    - _GrassHSVTweak: {r: 0.25, g: 0.125, b: 2.5, a: 0}
+    - _ForestColor: {r: 0.7075472, g: 0.6229975, b: 0.53844786, a: 1}
+    - _GrassColor: {r: 0.13386934, g: 0.14150941, b: 0, a: 1}
+    - _GrassHSVTweak: {r: 0, g: 1.1, b: 1.5, a: 0}
     - _MapSize: {r: 10.82, g: 1, b: 0, a: 0}
     - _OutsideColor: {r: 0.9339623, g: 0.9339623, b: 0.9339623, a: 1}
-    - _SandColor: {r: 0.693, g: 0.64042324, b: 0.63, a: 1}
-    - _SandColor2: {r: 0.7169812, g: 0.69572717, b: 0.64708674, a: 1}
+    - _SandColor: {r: 0.6886792, g: 0.6823747, b: 0.12127679, a: 1}
+    - _SandColor2: {r: 0.8396226, g: 0.75371176, b: 0.2745935, a: 1}
     - _SeaColor: {r: 0.2675329, g: 0.36377314, b: 0.509434, a: 1}
     - _Splat2Size: {r: 47, g: 41, b: 0, a: 0}
     - _SpotColor: {r: 0.79480654, g: 0.8207547, b: 0.7704254, a: 1}
     - _SpotGrassColor: {r: 1, g: 1, b: 1, a: 1}
     - _SpotOceanColor: {r: 1, g: 0, b: 0, a: 1}
-    - _StoneColor: {r: 0.6509434, g: 0.641245, b: 0.52607685, a: 1}
-    - _StoneDarkColor: {r: 0.4811321, g: 0.4737184, b: 0.40699536, a: 1}
-    - _StoneLightColor: {r: 0.8396226, g: 0.80477035, b: 0.75777256, a: 1}
-    - _StoneSandColor: {r: 0.5007374, g: 0.4789961, b: 0.509434, a: 1}
-    - _StoneWheatColor: {r: 0.8773585, g: 0.83321464, b: 0.83321464, a: 1}
+    - _StoneColor: {r: 0.5, g: 0.47193766, b: 0.09748423, a: 1}
+    - _StoneDarkColor: {r: 0.4433962, g: 0.41942355, b: 0.17010796, a: 1}
+    - _StoneLightColor: {r: 0.8113208, g: 0.55221593, b: 0.2041058, a: 1}
+    - _StoneSandColor: {r: 0.745283, g: 0.6039796, b: 0.2437403, a: 1}
+    - _StoneWheatColor: {r: 1, g: 0.7043761, b: 0.28930813, a: 1}
     - _WheatTint: {r: 1, g: 1, b: 1, a: 1}
-    - _YellowGrassHSVTweak: {r: 0, g: 0.25, b: 2.27, a: 0}
+    - _YellowGrassHSVTweak: {r: 0, g: 0.95, b: 1.5, a: 0}
   m_BuildTextureStacks: []
