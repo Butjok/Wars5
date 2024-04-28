@@ -116,7 +116,7 @@ public class PlayerTurnState : StateMachineState {
             GUILayout.Space(DefaultGuiSkin.defaultSpacingSize);
 
             GUILayout.BeginHorizontal();
-            GUILayout.Label("- Capture enemy HQ ");
+            GUILayout.Label("· Capture enemy HQ ");
             if (enemyHqs.Count > 0 && enemyHqs[0].position.TryRaycast(out var hit) && GUILayout.Button("Show")) {
                 Level.view.cameraRig.Jump(hit.point);
                 PulseCircle(hit.point, buildingCircleRadius);
@@ -124,8 +124,8 @@ public class PlayerTurnState : StateMachineState {
 
             GUILayout.EndHorizontal();
 
-            GUILayout.Label("  <color=grey><i>OR</i></color>");
-            GUILayout.Label("- Destroy all enemy units and don't let them produce more units");
+            GUILayout.Label("  <color=#fff5><i>or</i></color>");
+            GUILayout.Label("· Destroy all enemy units and don't let them produce more units");
 
             GUILayout.BeginHorizontal();
             GUILayout.Label($"    Units left:     {enemyUnits.Count}");

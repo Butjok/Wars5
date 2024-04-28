@@ -218,6 +218,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b5e2de7edcd4623a9a3ea6589b89c7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  overrideTerrainBumpRange: 0
+  terrainBumpRangeOverride: {x: 0, y: 0.02}
+  overrideTerrainBumpTiling: 0
+  terrainBumpTilingOverride: 5
   prefab: {fileID: 4347265069086721058}
   debugTarget: {fileID: 0}
   target: {x: 0, y: 0, z: 0}
@@ -284,9 +288,17 @@ MonoBehaviour:
   inputs:
     m_keys: 
     m_values: []
+  speed: 0
+  acceleration: 0
+  survives: 0
   targets: []
   hitPoints: []
+  incomingProjectilesLeft: 0
+  totalIncomingProjectiles: 0
+  dancing: 1
+  enableDance: 1
   ui: {fileID: 0}
+  weaponSounds: []
   automaticWeaponShotsCount: 5
 --- !u!114 &4347265069086721056
 MonoBehaviour:

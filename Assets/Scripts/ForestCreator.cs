@@ -51,7 +51,8 @@ public class ForestCreator : MonoBehaviour {
     }
 
     public void Awake() {
-        TryLoad(loadOnAwakeFileName);
+        if (loadOnAwake)
+            TryLoad(loadOnAwakeFileName);
     }
 
     public void Update() {
@@ -156,7 +157,7 @@ public class ForestCreator : MonoBehaviour {
         }
 
         trees.Add(position, list);
-        
+
         if (updateRenderer) {
             UpdateTreeRenderer();
             UpdateTerrainMaterialForestMask();
@@ -167,7 +168,7 @@ public class ForestCreator : MonoBehaviour {
 
     public void RemoveTreesAt(Vector2Int position, bool updateRenderer = true) {
         trees.Remove(position);
-        
+
         if (updateRenderer) {
             UpdateTreeRenderer();
             UpdateTerrainMaterialForestMask();

@@ -10,7 +10,6 @@ public static class CameraExtensions {
     public static int raycastLayerMask = 1 << LayerMask.NameToLayer("Terrain");
 
     public static Ray FixedScreenPointToRay(this Camera camera, Vector3 position) {
-
         camera.ResetProjectionMatrix();
         var m = camera.projectionMatrix;
         m.m11 *= CameraRig.verticalStretch;
@@ -38,6 +37,7 @@ public static class CameraExtensions {
             hit = default;
             return false;
         }
+
         var ray = camera.ScreenPointToRay(Input.mousePosition);
         return Physics.Raycast(ray, out hit, float.MaxValue, raycastLayerMask);
     }
@@ -50,18 +50,25 @@ public static class CameraExtensions {
         return true;
     }
 
-    public static bool TryGetMousePosition(this Camera camera, out Vector2Int position) {
+    public static bool TryGetMousePosition(this Camera camera, out Vector2Int position, bool useFallbackPlane = true) {
         position = default;
-        if (!camera.TryGetMousePosition(out RaycastHit hit))
+        if (!camera.TryGetMousePosition(out Vector3 hit, useFallbackPlane))
             return false;
-        position = hit.point.ToVector2Int();
+        position = hit.ToVector2Int();
         return true;
     }
 
-    public static bool TryGetMousePosition(this Camera camera, out Vector3 position) {
+    public static bool TryGetMousePosition(this Camera camera, out Vector3 position, bool useFallbackPlane = true) {
         position = default;
-        if (!camera.TryGetMousePosition(out RaycastHit hit))
-            return false;
+        if (!camera.TryGetMousePosition(out RaycastHit hit)) {
+            if (!useFallbackPlane)
+                return false;
+            var ray = camera.ScreenPointToRay(Input.mousePosition);
+            if (!new Plane(Vector3.up, Vector3.zero).Raycast(ray, out var distance))
+                return false;
+            position = ray.GetPoint(distance);
+        }
+
         position = hit.point;
         return true;
     }
@@ -74,6 +81,7 @@ public static class CameraExtensions {
             halfSize = (screenPoint0 - screenPoint1).magnitude;
             return true;
         }
+
         center = default;
         halfSize = default;
         return false;

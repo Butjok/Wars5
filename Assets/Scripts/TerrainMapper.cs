@@ -94,7 +94,7 @@ public class TerrainMapper : MonoBehaviour {
         foreach (var material in materials)
             material.SetMatrix(worldToSplatUniformName, transform.worldToLocalMatrix);
     }
-
+    
     public void SaveBushes(string saveName) {
         if (!bushRenderer)
             return;
@@ -112,7 +112,7 @@ public class TerrainMapper : MonoBehaviour {
     public bool TryLoadBushes(string saveName) {
         if (!bushRenderer)
             return false;
-        var text = LevelEditorFileSystem.TryReadLatest(loadOnAwakeFileName);
+        var text = LevelEditorFileSystem.TryReadLatest(saveName);
         if (text == null)
             return false;
         var stack = new Stack();

@@ -160,6 +160,7 @@ public class TileMapCreator : MonoBehaviour {
         if (text == null)
             return false;
         quads.Clear();
+        tiles.Clear();
         var stack = new Stack();
         foreach (var token in Tokenizer.Tokenize(text.ToPostfix()))
             switch (token) {
@@ -199,6 +200,10 @@ public class TileMapCreator : MonoBehaviour {
             }
 
         RebuildPieces();
+        
+        var heightMapBaker = FindObjectOfType<HeightMapBaker>();
+        if (heightMapBaker)
+            heightMapBaker.Bake();
 
         return true;
     }
@@ -339,7 +344,7 @@ public class TileMapCreator : MonoBehaviour {
 
         var materials = pieces.SelectMany(r => r.sharedMaterials).Distinct().ToList();
         var subMeshCombiners = materials.ToDictionary(m => m, _ => new List<CombineInstance>());
-
+    
         var minX = tiles.Keys.Min(p => p.x);
         var maxX = tiles.Keys.Max(p => p.x);
         var minY = tiles.Keys.Min(p => p.y);
@@ -532,11 +537,11 @@ public class TileMapCreator : MonoBehaviour {
                     });
             }
             else {
-//                    Debug.Log($"No piece found for {foundQuad}, quad position: {foundQuad.position}");
+                    Debug.LogWarning($"No piece found for {foundQuad}, quad position: {foundQuad.position}");
             }
         }
         else {
-            Debug.Log($"No quad found for {quad}");
+            Debug.LogWarning($"No quad found for {quad}");
         }
     }
 

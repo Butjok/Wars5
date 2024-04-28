@@ -195,10 +195,10 @@ public class LevelEditorTilesModeState : StateMachineState {
                 var mesh = terrainCreator.mesh;
             }
 
-            tileMapCreator = Object.FindObjectOfType<TileMapCreator>();
-            roadCreator = Object.FindObjectOfType<RoadCreator>();
-            forestCreator = Object.FindObjectOfType<ForestCreator>();
-            propPlacement = Object.FindObjectOfType<PropPlacement>();
+            tileMapCreator = Object.FindObjectOfType<TileMapCreator>(true);
+            roadCreator = Object.FindObjectOfType<RoadCreator>(true);
+            forestCreator = Object.FindObjectOfType<ForestCreator>(true);
+            propPlacement = Object.FindObjectOfType<PropPlacement>(true);
 
             if (tileMapCreator) {
                 //tileMapCreator.TryLoad(tileMapCreator.loadOnAwakeFileName);

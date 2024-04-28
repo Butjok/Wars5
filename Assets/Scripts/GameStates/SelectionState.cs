@@ -126,7 +126,7 @@ public class SelectionState : StateMachineState {
                     }
             });
             Level.SetGui("keys", () => {
-                var text = "[F2] End turn / [M] Minimap";
+                var text = $"Day {Level.Day() + 1} · [F2] End turn · [M] Minimap";
                 var size = GUI.skin.label.CalcSize(new GUIContent(text));
                 var padding = DefaultGuiSkin.padding;
                 GUI.Label(new Rect(Screen.width - padding.x - size.x, Screen.height - padding.y - size.y, size.x, size.y), text);

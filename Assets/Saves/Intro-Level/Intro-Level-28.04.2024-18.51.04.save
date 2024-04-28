@@ -1,0 +1,42 @@
+game {
+    :turn ( 0 )
+    :level-name ( LevelName Tutorial enum )
+}
+// Blue
+player {
+    :color-name          ( ColorName Blue enum )
+    :team                ( Team None enum )
+    :co-name             ( PersonName Natalie enum )
+    :ui-position         ( 0 1 int2 )
+    :credits             ( 0 )
+    :power-meter         ( 0 )
+    :unit-look-direction ( 1 0 int2 )
+    :side                ( Side Left enum )
+    .mark-as-local
+    .add
+}
+// Red
+player {
+    :color-name          ( ColorName Red enum )
+    :team                ( Team None enum )
+    :co-name             ( PersonName Vladan enum )
+    :ui-position         ( 1 1 int2 )
+    :credits             ( 0 )
+    :power-meter         ( 0 )
+    :unit-look-direction ( -1 0 int2 )
+    :side                ( Side Right enum )
+    .add
+}
+tiles {
+    .add ( TileType Plain enum 27 3 int2 26 4 int2 26 3 int2 26 2 int2 27 2 int2 27 1 int2 28 2 int2 29 2 int2 29 3 int2 29 4 int2 28 5 int2 28 4 int2 27 4 int2 28 1 int2 29 1 int2 30 1 int2 31 2 int2 30 4 int2 30 3 int2 29 5 int2 27 5 int2 0 0 int2 33 6 int2 30 2 int2 25 3 int2 24 3 int2 24 6 int2 24 7 int2 23 7 int2 23 8 int2 22 8 int2 30 9 int2 31 8 int2 32 8 int2 33 7 int2 34 7 int2 35 8 int2 36 8 int2 30 5 int2 28 3 int2 32 7 int2 30 8 int2 28 8 int2 27 7 int2 27 6 int2 45 )
+    .add ( TileType Forest enum 32 3 int2 31 4 int2 26 5 int2 32 4 int2 31 3 int2 24 4 int2 24 5 int2 31 5 int2 32 5 int2 32 6 int2 33 4 int2 33 5 int2 25 5 int2 26 6 int2 25 7 int2 26 7 int2 25 6 int2 17 )
+}
+// Unowned buildings
+null
+pop
+camera-rig {
+    :position    ( 30.03019 4.768372E-07 6.325584 float3 )
+    :rotation    ( 0 )
+    :pitch-angle ( 51.11922 )
+    :dolly-zoom  ( 0.45 )
+}

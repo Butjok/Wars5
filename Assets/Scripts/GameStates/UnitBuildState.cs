@@ -57,7 +57,7 @@ public class UnitBuildState : StateMachineState {
                             Assert.IsTrue(availableTypes.Contains(type));
                             Assert.IsTrue(building.Player.CanAfford(type));
 
-                            var viewPrefab = UnitView.DefaultPrefab;
+                            var viewPrefab = UnitView.DefaultPrefabFor(type);
                             // if (building.Player.co.unitTypesInfoOverride.TryGetValue(type, out var info) && info.viewPrefab)
                             //     viewPrefab = info.viewPrefab;
                             // else if (UnitTypesInfo.TryGet(type, out info) && info.viewPrefab)

@@ -130,7 +130,7 @@ public class Game : MonoBehaviour {
     }
     public bool TryDequeueCommand(out (object name, object argument) command, [ CallerMemberName]  string callerMemberName=null ) {
         if (commands.TryDequeue(out command)) {
-            Debug.Log($"Command ({command}) was dequeued by {callerMemberName}.");
+//            Debug.Log($"Command ({command}) was dequeued by {callerMemberName}.");
             commandsDebugInfo.Dequeue();
             return true;
         }

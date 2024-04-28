@@ -71,6 +71,8 @@ public class TurnButton : MonoBehaviour {
     public Func<bool> PlayAnimation(int nextDay) {
         StopAllCoroutines();
         var completed = false;
+        if (!gameObject.activeInHierarchy)
+            return () => true;
         StartCoroutine(Animation(nextDay, () => completed=true));
         if (debugSun)
             debugSun.PlayDayChange();

@@ -101,8 +101,8 @@ public class LevelEditorSessionState : StateMachineState {
         level.Dispose();
         Object.Destroy(level.view.gameObject);
         level.view = null;
-        if (SceneManager.GetActiveScene().name == sceneName)
-            SceneManager.UnloadSceneAsync(sceneName);
+       // if (SceneManager.GetActiveScene().name == sceneName)
+         //   SceneManager.UnloadSceneAsync(sceneName);
 
         Object.Destroy(gui.gameObject);
         Object.Destroy(tileMeshFilter.gameObject);
