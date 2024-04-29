@@ -17,6 +17,7 @@ public static class LevelEditorFacade {
         public LevelEditorSessionState levelEditorSessionState;
         public HeightMapBaker heightMapBaker;
         public GameObject[] staticPropsRoots;
+        public GameObject[] allStaticPropsRoots;
 
         public static Objects Find(string saveName) {
             var game = Object.FindObjectOfType<Game>();
@@ -31,6 +32,7 @@ public static class LevelEditorFacade {
                 propPlacement = Object.FindObjectOfType<PropPlacement>(),
                 levelEditorSessionState = levelEditorSessionState,
                 heightMapBaker = Object.FindObjectOfType<HeightMapBaker>(),
+                allStaticPropsRoots = Object.FindObjectsOfType<GameObject>(true).Where(go => go.name.EndsWith("-StaticProps")).ToArray(),
                 staticPropsRoots = Object.FindObjectsOfType<GameObject>(true).Where(go => go.name == saveName + "-StaticProps").ToArray(),
             };
             Assert.IsTrue(result.tileMapCreator);
@@ -78,6 +80,8 @@ public static class LevelEditorFacade {
         if (objects.heightMapBaker)
             objects.heightMapBaker.Bake();
 
+        foreach (var staticPropsRoot in objects.allStaticPropsRoots) 
+            staticPropsRoot.SetActive(false);
         foreach (var staticPropsRoot in objects.staticPropsRoots) 
             staticPropsRoot.SetActive(true);
 
