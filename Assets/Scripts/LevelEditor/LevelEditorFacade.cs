@@ -1,4 +1,6 @@
+using System.Collections;
 using System.IO;
+using System.Linq;
 using Butjok.CommandLine;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -13,8 +15,10 @@ public static class LevelEditorFacade {
         public RoadCreator roadCreator;
         public PropPlacement propPlacement;
         public LevelEditorSessionState levelEditorSessionState;
+        public HeightMapBaker heightMapBaker;
+        public GameObject[] staticPropsRoots;
 
-        public static Objects Find() {
+        public static Objects Find(string saveName) {
             var game = Object.FindObjectOfType<Game>();
             Assert.IsTrue(game);
             var levelEditorSessionState = game.stateMachine.Find<LevelEditorSessionState>();
@@ -26,6 +30,8 @@ public static class LevelEditorFacade {
                 roadCreator = Object.FindObjectOfType<RoadCreator>(),
                 propPlacement = Object.FindObjectOfType<PropPlacement>(),
                 levelEditorSessionState = levelEditorSessionState,
+                heightMapBaker = Object.FindObjectOfType<HeightMapBaker>(),
+                staticPropsRoots = Object.FindObjectsOfType<GameObject>(true).Where(go => go.name == saveName + "-StaticProps").ToArray(),
             };
             Assert.IsTrue(result.tileMapCreator);
             Assert.IsTrue(result.forestCreator);
@@ -39,7 +45,7 @@ public static class LevelEditorFacade {
 
     [Command]
     public static void Save(string saveName) {
-        var objects = Objects.Find();
+        var objects = Objects.Find(saveName);
         objects.tileMapCreator.Save(saveName + "-Tiles");
         objects.forestCreator.Save(saveName + "-Forests");
         objects.terrainMapper.SaveBushes(saveName + "-Bushes");
@@ -52,7 +58,7 @@ public static class LevelEditorFacade {
 
     [Command]
     public static bool TryLoad(string saveName) {
-        var objects = Objects.Find();
+        var objects = Objects.Find(saveName);
         if (!objects.tileMapCreator.TryLoad(saveName + "-Tiles"))
             return false;
         if (!objects.forestCreator.TryLoad(saveName + "-Forests"))
@@ -66,7 +72,15 @@ public static class LevelEditorFacade {
         var levelText = LevelEditorFileSystem.TryReadLatest(saveName + "-Level");
         if (levelText == null)
             return false;
+        
         LevelEditorSessionState.Load(saveName + "-Level");
+
+        if (objects.heightMapBaker)
+            objects.heightMapBaker.Bake();
+
+        foreach (var staticPropsRoot in objects.staticPropsRoots) 
+            staticPropsRoot.SetActive(true);
+
         return true;
     }
 }

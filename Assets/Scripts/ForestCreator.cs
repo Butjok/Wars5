@@ -91,6 +91,9 @@ public class ForestCreator : MonoBehaviour {
     }
 
     public bool TryLoad(string saveName) {
+        foreach (var position in trees.Keys.ToList())
+            RemoveTreesAt(position);
+
         var text = LevelEditorFileSystem.TryReadLatest(saveName);
         if (text == null)
             return false;
