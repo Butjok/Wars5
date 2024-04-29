@@ -255,6 +255,7 @@
      <None Include="Assets\Scripts2\SDFtest.shader" />
      <Folder Include="Assets\Saves\test-Bushes" />
      <None Include="Assets\Saves\simple\simple-19.03.2023-15.45.01.txt" />
+     <Folder Include="Assets\Saves\Border-Bushes" />
      <None Include="Assets\Resources\Funny.txt" />
      <None Include="Assets\Shaders\Difference.shader" />
      <None Include="Assets\Shaders\TileArea.shader" />
@@ -359,6 +360,7 @@
      <Folder Include="Assets\Saves\TutorialTerrain" />
      <Folder Include="Assets\Shaders" />
      <Folder Include="Assets\TerrainCreation" />
+     <Folder Include="Assets\Saves\Border-Forests" />
      <None Include="Assets\Shaders\New Amplify Shader.shader" />
      <Folder Include="Assets\Saves\Intro-Tiles" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\DepthOfField.hlsl" />
@@ -383,9 +385,11 @@
      <Folder Include="Assets\Content\light-tank" />
      <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
      <None Include="Assets\Shaders\Terrain3.shader" />
+     <Folder Include="Assets\Saves\Border-Props" />
      <Folder Include="Assets\Scenes\TwoAudioListeners" />
      <None Include="Assets\Shaders\CursorShader.shader" />
      <None Include="Assets\Shaders\FadedEmissive.shader" />
+     <Folder Include="Assets\Saves\Border-Level" />
      <None Include="Assets\Shaders\Voronoi.shader" />
      <Folder Include="Assets\Minimap" />
      <Folder Include="Assets\Shaders\Resources" />
@@ -454,6 +458,7 @@
      <Folder Include="Assets\LightingTest" />
      <None Include="Assets\Saves\first-stage\19.01.2023-19.30.01.txt" />
      <None Include="Assets\Saves\0\0-28.01.2023-20.17.01.txt" />
+     <Folder Include="Assets\Saves\Border-Roads" />
      <None Include="Assets\Shaders\SDF.cginc" />
      <None Include="Assets\Shaders\MainMenuButtonShader.shader" />
      <None Include="Assets\Saves\NewSaveTest.txt" />
@@ -506,6 +511,7 @@
      <None Include="Assets\Resources\TutorialSaveData.txt" />
      <None Include="Assets\Shaders\UnlitMinimap.shader" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Editor\Trackball.shader" />
+     <Folder Include="Assets\Saves\Border-Tiles" />
      <Folder Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Textures\BlueNoise64px" />
      <Folder Include="Assets\Saves\TutorialBushes" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Editor\ConvertToLog.shader" />

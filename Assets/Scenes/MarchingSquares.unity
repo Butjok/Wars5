@@ -43976,6 +43976,7 @@ GameObject:
   - component: {fileID: 1852965070}
   - component: {fileID: 1852965069}
   - component: {fileID: 1852965068}
+  - component: {fileID: 1852965077}
   m_Layer: 0
   m_Name: CameraRig
   m_TagString: Untagged
@@ -44297,6 +44298,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 39
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1852965077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1852965067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4877914d0a31423a8956bc38a701a72c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraRig: {fileID: 1852965069}
+  waypoints: []
+  speed: 1
 --- !u!4 &1859457120 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -2639638324218457063, guid: b87a9010893984b2d991ce7fcf58c24f, type: 3}
