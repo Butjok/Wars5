@@ -1281,6 +1281,10 @@
       <Project>{d3c3a7e3-e88d-8cd5-b33c-a6e0e3c96401}</Project>
       <Name>NGettext</Name>
     </ProjectReference>
+    <ProjectReference Include="SDFToolkit.csproj">
+      <Project>{fd6851fd-d03a-6132-2e86-6a707fc31825}</Project>
+      <Name>SDFToolkit</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

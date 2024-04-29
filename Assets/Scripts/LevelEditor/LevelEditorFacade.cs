@@ -13,7 +13,6 @@ public static class LevelEditorFacade {
         public RoadCreator roadCreator;
         public PropPlacement propPlacement;
         public LevelEditorSessionState levelEditorSessionState;
-        public HeightMapBaker heightMapBaker;
 
         public static Objects Find() {
             var game = Object.FindObjectOfType<Game>();
@@ -27,7 +26,6 @@ public static class LevelEditorFacade {
                 roadCreator = Object.FindObjectOfType<RoadCreator>(),
                 propPlacement = Object.FindObjectOfType<PropPlacement>(),
                 levelEditorSessionState = levelEditorSessionState,
-                heightMapBaker = Object.FindObjectOfType<HeightMapBaker>(),
             };
             Assert.IsTrue(result.tileMapCreator);
             Assert.IsTrue(result.forestCreator);
@@ -69,8 +67,6 @@ public static class LevelEditorFacade {
         if (levelText == null)
             return false;
         LevelEditorSessionState.Load(saveName + "-Level");
-        if (objects.heightMapBaker)
-            objects.heightMapBaker.Bake();
         return true;
     }
 }

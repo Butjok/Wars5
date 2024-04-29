@@ -177,7 +177,7 @@
 
 			float noise2 = tex2D(_Noise, TRANSFORM_TEX(IN.worldPos.xz, _Noise) ).r;
 			float distance = tex2D (_DistanceField, IN.uv_MainTex).a;
-			float waveMask = 1 - saturate(distance * _WaveMaskSharpness);
+			float waveMask = pow(1 - saturate(distance), _WaveMaskSharpness);
 			float fraction = 1 - frac(pow(distance, _WaveSmashingPower) * _WaveFrequency + _Time.y * _TimeMultiplier + noise2 * 2.5	);
 			float wave = pow(max(fraction, 1 - saturate(fraction * _WaveSharpness1)), _WaveSharpness2);
 			o.Emission += (wave) * waveMask * _FoamColor;
@@ -187,6 +187,10 @@
 			//o.Emission = noise2;
 			
 			o.Normal = sign(o.Normal) * normalize(pow(abs(o.Normal), _NormalPower));
+
+			//o.Emission = tex2D(_DistanceField, IN.uv_MainTex).a;
+
+			//o.Emission = waveMask;
 		}
 		
  		void ResetAlpha (Input IN, SurfaceOutputStandard o, inout fixed4 color) {

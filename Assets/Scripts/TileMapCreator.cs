@@ -200,10 +200,6 @@ public class TileMapCreator : MonoBehaviour {
             }
 
         RebuildPieces();
-        
-        var heightMapBaker = FindObjectOfType<HeightMapBaker>();
-        if (heightMapBaker)
-            heightMapBaker.Bake();
 
         return true;
     }

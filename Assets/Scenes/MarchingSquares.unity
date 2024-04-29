@@ -8290,10 +8290,16 @@ MonoBehaviour:
   camera: {fileID: 0}
   material: {fileID: 2100000, guid: 1d84897b0eb4f40f7a1f15669217aa74, type: 2}
   texture: {fileID: 0}
+  terrainMaskTexture: {fileID: 0}
+  terrainDistanceField: {fileID: 0}
   targetMaterials:
   - {fileID: 2100000, guid: a5bd45dd11d7c455f9af0d7e1407b45c, type: 2}
   - {fileID: 2100000, guid: 379ce97cbe6db499bb95e32352fdc506, type: 2}
   - {fileID: 2100000, guid: f94d343f0d2b34e07a9410054588dc7f, type: 2}
+  waterLevel: 0.09
+  distanceFieldEdgeWidthInUnits: 3
+  waterTransform: {fileID: 0}
+  waterMaterial: {fileID: 0}
   additionalMeshFilters:
   - {fileID: 1233466083}
   - {fileID: 356527857}
@@ -22672,7 +22678,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 4d29409a61ec2784f9e42840e9a61e54, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 611638e45df8b4cf2ac11b29129001eb, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 4d29409a61ec2784f9e42840e9a61e54, type: 3}
       propertyPath: m_Name
       value: terrain-water
@@ -22683,7 +22689,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 4d29409a61ec2784f9e42840e9a61e54, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4d29409a61ec2784f9e42840e9a61e54, type: 3}
@@ -32080,27 +32086,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   meshFilter: {fileID: 219172597}
-  pixelsPerUnit: 16
+  pixelsPerUnit: 32
   renderTexture: {fileID: 0}
   camera: {fileID: 0}
   material: {fileID: 2100000, guid: 1d84897b0eb4f40f7a1f15669217aa74, type: 2}
   texture: {fileID: 0}
+  terrainMaskTexture: {fileID: 0}
+  terrainDistanceField: {fileID: 0}
   targetMaterials:
   - {fileID: 2100000, guid: a5bd45dd11d7c455f9af0d7e1407b45c, type: 2}
   - {fileID: 2100000, guid: 379ce97cbe6db499bb95e32352fdc506, type: 2}
   - {fileID: 2100000, guid: f94d343f0d2b34e07a9410054588dc7f, type: 2}
   - {fileID: 2100000, guid: 6d38d4265c8a94c48a2bf7d14d167b0c, type: 2}
   - {fileID: 2100000, guid: 3823128ba8994c24c9ed20b2cf5176a9, type: 2}
-  additionalMeshFilters:
-  - {fileID: 1233466083}
-  - {fileID: 356527857}
-  - {fileID: 1292802844}
-  - {fileID: 2040692231}
-  - {fileID: 184238849}
-  - {fileID: 1307814610}
-  - {fileID: 604786086}
-  - {fileID: 1676235074}
-  - {fileID: 66661098}
+  waterLevel: 0.09
+  distanceFieldEdgeWidthInUnits: 0.5
+  waterTransform: {fileID: 1839124052}
+  waterMaterial: {fileID: 2100000, guid: 611638e45df8b4cf2ac11b29129001eb, type: 2}
+  additionalMeshFilters: []
 --- !u!4 &1274493584
 Transform:
   m_ObjectHideFlags: 0
@@ -43756,6 +43759,104 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2209919168034487339, guid: 7cb24a3883feb5f41a2a77611c4158c5, type: 3}
   m_PrefabInstance: {fileID: 1836235562}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1839124048
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1839124052}
+  - component: {fileID: 1839124051}
+  - component: {fileID: 1839124050}
+  - component: {fileID: 1839124049}
+  m_Layer: 0
+  m_Name: Quad.7
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!64 &1839124049
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1839124048}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &1839124050
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1839124048}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 611638e45df8b4cf2ac11b29129001eb, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1839124051
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1839124048}
+  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1839124052
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1839124048}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 31.36, y: 0.09, z: 1.22}
+  m_LocalScale: {x: 75.51354, y: 56.585644, z: 56.585644}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 141
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &1844550655
 GameObject:
   m_ObjectHideFlags: 0
@@ -46240,7 +46341,7 @@ MonoBehaviour:
   timeScale: 10
   easing: 0
   cookies:
-  - {fileID: 2800000, guid: 3a6506f717626cf4ca59a78d264441a7, type: 3}
+  - {fileID: 2800000, guid: 8514996013f27c24ab5c74544fe846ed, type: 3}
   camera: {fileID: 1069182239}
   cookieHeightLimits: {x: -13, y: -37}
 --- !u!4 &1952239951

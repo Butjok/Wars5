@@ -2,6 +2,7 @@ using System;
 using Butjok.CommandLine;
 using UnityEngine;
 using UnityEngine.Assertions;
+using CatlikeCoding.SDFToolkit;
 
 public class HeightMapBaker : MonoBehaviour {
 
@@ -11,12 +12,19 @@ public class HeightMapBaker : MonoBehaviour {
     public Camera camera;
     public Material material;
     public Texture2D texture;
+    public Texture2D terrainMaskTexture;
+    public Texture2D terrainDistanceField;
     public Material[] targetMaterials = { };
+    public float waterLevel = 0.09f;
+    public float distanceFieldEdgeWidthInUnits = 3;
+    public Transform waterTransform;
+    public Material waterMaterial;
 
     public MeshFilter[] additionalMeshFilters = { };
 
     [Command]
     public void Bake() {
+
         if (!meshFilter)
             return;
         var mesh = meshFilter.sharedMesh;
@@ -25,7 +33,7 @@ public class HeightMapBaker : MonoBehaviour {
 
         var size = mesh.bounds.size.ToVector2().RoundToInt();
         Debug.Log(size);
-        Debug.Log(mesh. bounds.size);
+        Debug.Log(mesh.bounds.size);
         Assert.IsTrue(Mathf.Approximately(mesh.bounds.size.x, size.x));
         Assert.IsTrue(Mathf.Approximately(mesh.bounds.size.z, size.y));
         renderTexture = new RenderTexture(size.x * pixelsPerUnit, size.y * pixelsPerUnit, 32, RenderTextureFormat.RFloat);
@@ -47,13 +55,13 @@ public class HeightMapBaker : MonoBehaviour {
 
         void RenderMesh(Mesh mesh, Matrix4x4 transform) {
             for (var i = 0; i < mesh.subMeshCount; i++)
-                Graphics.DrawMesh(mesh, transform, material, LayerMask.NameToLayer("Heightmap"), camera, i, null, false, false);    
+                Graphics.DrawMesh(mesh, transform, material, LayerMask.NameToLayer("Heightmap"), camera, i, null, false, false);
         }
-        
+
         RenderMesh(meshFilter.sharedMesh, Matrix4x4.identity);
         foreach (var meshFilter in additionalMeshFilters)
             RenderMesh(meshFilter.sharedMesh, meshFilter.transform.localToWorldMatrix);
-        
+
         camera.Render();
 
         texture = new Texture2D(renderTexture.width, renderTexture.height, TextureFormat.RFloat, false);
@@ -69,8 +77,34 @@ public class HeightMapBaker : MonoBehaviour {
             targetMaterial.SetMatrix("_WorldToTerrainHeightUv", worldToHeightMap);
         }
 
+
+        if (waterTransform) {
+            waterTransform.localScale = new Vector3(size.x, size.y, 1);
+            waterTransform.position = mesh.bounds.center.ToVector2().ToVector3() + waterLevel * Vector3.up;
+        }
+
+        if (waterMaterial) {
+            terrainMaskTexture = new Texture2D(texture.width, texture.height, TextureFormat.ARGB32, false);
+            for (var y = 0; y < texture.height; y++)
+            for (var x = 0; x < texture.width; x++) {
+                var height = texture.GetPixel(x, y).r;
+                var mask = height > waterLevel ? 0 : 1;
+                terrainMaskTexture.SetPixel(x, y, new Color(mask, mask, mask, mask));
+            }
+
+            terrainMaskTexture.Apply();
+
+            terrainDistanceField = new Texture2D(texture.width, texture.height, TextureFormat.ARGB32, false);
+            SDFTextureGenerator.Generate(terrainMaskTexture, terrainDistanceField, pixelsPerUnit * distanceFieldEdgeWidthInUnits, 0, 1, RGBFillMode.Distance);
+            terrainDistanceField.Apply();
+            
+            waterMaterial.SetTexture("_DistanceField", terrainDistanceField);
+        }
+
         Destroy(cameraGameObject);
         camera = null;
+        
+        Debug.Log("Baked");
     }
 
     public void Start() {
