@@ -99,7 +99,7 @@ Material:
     - _FlowOffset: 5
     - _FlowStrength: 0
     - _GlossMapScale: 1
-    - _Glossiness: 0.957
+    - _Glossiness: 0.9
     - _GlossyReflections: 1
     - _GridResolution: 10
     - _HeightScale: 1
@@ -107,12 +107,12 @@ Material:
     - _Metallic: 0
     - _Mode: 0
     - _ModulatedHeightScale: 1
-    - _NormalPower: 0.5
+    - _NormalPower: 1
     - _OcclusionStrength: 1
     - _OcclusionTint: 1
     - _Parallax: 0.02
     - _RefractionStrength: 0.029
-    - _Scale: 64.04
+    - _Scale: 60.17
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 0
     - _Speed: 0.2
@@ -120,10 +120,10 @@ Material:
     - _Tiling: 4.61
     - _TilingModulated: 1
     - _TimeMultiplier: 0.25
-    - _UJump: -0.208
+    - _UJump: -0.174
     - _UVSec: 0
-    - _VJump: -0.212
-    - _WaterFogDensity: 0
+    - _VJump: -0.244
+    - _WaterFogDensity: 0.36
     - _WaveAmplitude: 0.0001
     - _WaveFrequency: 2
     - _WaveMaskSharpness: 0.75
@@ -132,10 +132,10 @@ Material:
     - _WaveSmashingPower: 0.75
     - _ZWrite: 1
     m_Colors:
-    - _BackgroundColor: {r: 0, g: 0.28767157, b: 1, a: 0}
+    - _BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FoamColor: {r: 0.30503142, g: 0.41589588, b: 0.5, a: 1}
     - _UVJump: {r: 0, g: 0, b: 0, a: 0}
-    - _WaterFogColor: {r: 0, g: 0, b: 0, a: 1}
+    - _WaterFogColor: {r: 0.018274553, g: 0.06110535, b: 0.4150943, a: 1}
   m_BuildTextureStacks: []

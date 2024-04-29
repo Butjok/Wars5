@@ -143,7 +143,7 @@
             
             // Albedo comes from a texture tinted by color
 
-			//_Time.x /= 5;
+			_Time.x *= 1.25;
 			
             fixed3 normal3 = UnpackNormal( tex2D (_Normal, TRANSFORM_TEX(((position/1.5)/6 + float2(_Time.x*.125/3, _Time.x*.125/3)),_Normal)));
             fixed3 normal = UnpackNormal( tex2D (_Normal, TRANSFORM_TEX(((position/1.5)*2 + float2(_Time.x*3/3, 0)),_Normal)));
@@ -158,7 +158,7 @@
 			float4 colorBelowWater = ColorBelowWater(IN.screenPos, o.Normal);
 			//if (colorBelowWater.a < 0.1)
 			//	colorBelowWater = _BackgroundColor;
-			clip(colorBelowWater.a - 0.5);
+			//clip(colorBelowWater.a - 0.5);
 			
 			//colorBelowWater = lerp(_BackgroundColor,colorBelowWater, colorBelowWater.a);
 			
@@ -168,7 +168,7 @@
 
 			float3 viewDir = normalize(_WorldSpaceCameraPos - IN.worldPos);
 			float fresnel = dot(viewDir, float3(0,1,0));
-			o.Occlusion=lerp(.125, 2, smoothstep (0.75, .9, fresnel)) * _OcclusionTint;
+			o.Occlusion=lerp(.125, 2.5, smoothstep (0.75, .9, fresnel)) * _OcclusionTint;
 			//o.Emission = o.Occlusion;
 
 			//o.Albedo *= 1-tex2D (_Grid, position-.5);
