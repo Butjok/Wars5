@@ -12,14 +12,12 @@ public class LevelWriter {
     public void WriteLine() => tw.WriteLine();
 
     public void WriteLevel(Level level) {
-
         WriteLine("game {{");
         WriteLine("    :turn ( {0} )", level.turn);
         WriteLine("    :level-name ( {0} )", level.name);
         WriteLine("}}");
 
         foreach (var player in level.players) {
-
             WriteLine($"// {player}");
             WritePlayer(player);
 
@@ -33,6 +31,7 @@ public class LevelWriter {
                     WriteLine("{0} )", zone.tiles.Count);
                     WriteLine("    pop");
                 }
+
                 foreach (var zone in Zone.GetConnected(player.rootZone))
                 foreach (var neighbor in zone.neighbors)
                     WriteLine("    .connect ( {0} {1} )", zone.name, neighbor.name);
@@ -64,6 +63,7 @@ public class LevelWriter {
                 Write("{0} ", position);
             WriteLine("{0} )", group.Count());
         }
+
         WriteLine("}}");
 
         WriteLine("// Unowned buildings");
@@ -73,6 +73,7 @@ public class LevelWriter {
             WriteBuilding(building);
             WriteLine("pop");
         }
+
         WriteLine("pop");
 
         foreach (var (trigger, positions) in level.triggers)
@@ -89,10 +90,12 @@ public class LevelWriter {
 
         if (level.view.cameraRig)
             WriteCameraRig(level.view.cameraRig);
+
+        foreach (var path in level.paths)
+            WritePath(path);
     }
 
     public void WritePlayer(Player player) {
-
         WriteLine("player {{");
 
         WriteLine("    :color-name          ( {0} )", player.ColorName);
@@ -115,7 +118,6 @@ public class LevelWriter {
     }
 
     public void WriteBuilding(Building building) {
-
         WriteLine("building {{");
 
         WriteLine("    :type           ( {0} )", building.type);
@@ -140,7 +142,6 @@ public class LevelWriter {
     }
 
     public void WriteUnit(Unit unit) {
-
         WriteLine("unit {{");
         WriteLine("    :type  ( {0} )", unit.type);
         WriteLine("    :moved ( {0} )", unit.Moved);
@@ -174,8 +175,10 @@ public class LevelWriter {
                 default:
                     throw new ArgumentOutOfRangeException(state.ToString());
             }
+
             WriteLine("        pop");
         }
+
         WriteLine("    }}");
 
         if (unit.Cargo.Count > 0)
@@ -206,6 +209,15 @@ public class LevelWriter {
         WriteLine("    :rotation    ( {0} )", cameraRig.transform.rotation.eulerAngles.y);
         WriteLine("    :pitch-angle ( {0} )", cameraRig.PitchAngle);
         WriteLine("    :dolly-zoom  ( {0} )", cameraRig.DollyZoom);
+        WriteLine("}}");
+    }
+
+    public void WritePath(Level.Path path) {
+        WriteLine("path {{");
+        WriteLine("    :name ( {0} )", path.name);
+        foreach (var node in path)
+            WriteLine("    .add-position ( {0} )", node);
+        WriteLine("    .add");
         WriteLine("}}");
     }
 }

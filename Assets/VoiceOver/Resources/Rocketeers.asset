@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed69ad7e66344b93a2be9d07e1f0b80a, type: 3}
+  m_Name: Rocketeers
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: 66b156a1410dc2740bbbb32be53392a9, type: 3}
+  - {fileID: 8300000, guid: 87cdce1cad4d5dd42a9927791a42595a, type: 3}
+  - {fileID: 8300000, guid: 0be3b3ef45fc70b4a9930ab2db6a7314, type: 3}
+  - {fileID: 8300000, guid: 5d822caee5d51a64baf7731f51eb1020, type: 3}
+  - {fileID: 8300000, guid: 77bde8058d0f1eb4794d0d4e0f7144bb, type: 3}
+  - {fileID: 8300000, guid: 47bd54874c3637a48a0e877032930bf7, type: 3}

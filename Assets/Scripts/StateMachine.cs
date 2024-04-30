@@ -195,6 +195,11 @@ public abstract class StateMachineState {
                 game.EnqueueCommand(LevelEditorSessionState.SelectModeCommand.SelectPropsMode);
                 return true;
             }
+
+            if (Input.GetKeyDown(KeyCode.W)) {
+                game.EnqueueCommand(LevelEditorSessionState.SelectModeCommand.SelectPathsMode);
+                return true;
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.F5)) {
@@ -217,6 +222,8 @@ public abstract class StateMachineState {
                 return StateChange.ReplaceWith(new LevelEditorZoneModeState(stateMachine));
             case (LevelEditorSessionState.SelectModeCommand.SelectPropsMode, _):
                 return StateChange.ReplaceWith(new LevelEditorPropsModeState(stateMachine));
+            case  (LevelEditorSessionState.SelectModeCommand.SelectPathsMode, _):
+                return StateChange.ReplaceWith(new LevelEditorPathsModeState(stateMachine));
             case (LevelEditorSessionState.SelectModeCommand.Play, _):
                 return StateChange.Push(new LevelEditorPlayState(stateMachine));
         }

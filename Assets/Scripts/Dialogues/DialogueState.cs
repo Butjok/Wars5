@@ -25,12 +25,14 @@ public abstract class DialogueState : StateMachineState {
         DialogueState dialogueState;
         public string text, voiceOverClipName;
         public bool append, waitInput;
-        public TalkState(DialogueState dialogueState, string text, bool append, bool waitInput, string voiceOverClipName) : base(dialogueState.stateMachine) {
+        public AudioClip voiceOver;
+        public TalkState(DialogueState dialogueState, string text, bool append, bool waitInput, string voiceOverClipName, AudioClip voiceOver) : base(dialogueState.stateMachine) {
             this.text = text;
             this.dialogueState = dialogueState;
             this.append = append;
             this.waitInput = waitInput;
             this.voiceOverClipName = voiceOverClipName;
+            this.voiceOver = voiceOver;
         }
         public override IEnumerator<StateChange> Enter {
             get {
@@ -41,9 +43,11 @@ public abstract class DialogueState : StateMachineState {
                 // if (voiceOverClip)
                 //     ui.VoiceOverSource.PlayOneShot(voiceOverClip);
 
-                VoiceOver.Stop();
+                /*VoiceOver.Stop();
                 if (voiceOverClipName != null)
                     VoiceOver.PlayOneShot(voiceOverClipName);
+                else if (voiceOver != null)
+                    VoiceOver.PlayOneShot(voiceOver);*/
                 
                 var typingAnimation = ui.TextTypingAnimation(append ? ui.speechText.text : "", text);
                 while (typingAnimation.MoveNext()) {
@@ -216,17 +220,17 @@ public abstract class DialogueState : StateMachineState {
         //ui.SfxSource.PlayOneShot(audioClip);
     }
 
-    protected StateChange SayWait(string text, bool waitInput = true, bool append = false, string voiceOverClipName = null) {
-        return StateChange.Push(new TalkState(this, text, append, waitInput,  voiceOverClipName));
+    protected StateChange SayWait(string text, bool waitInput = true, bool append = false, string voiceOverClipName = null, AudioClip voiceOver = null) {
+        return StateChange.Push(new TalkState(this, text, append, waitInput,  voiceOverClipName, voiceOver));
     }
-    protected StateChange Say(string text) {
-        return SayWait(text, false);
+    protected StateChange Say(string text, AudioClip voiceOver = null) {
+        return SayWait(text, false,  false, voiceOver: voiceOver);
     }
-    protected StateChange AppendWait(string text) {
-        return SayWait(text, true, true);
+    protected StateChange AppendWait(string text,  AudioClip voiceOver=null) {
+        return SayWait(text, true, true, voiceOver: voiceOver);
     }
-    protected StateChange Append(string text) {
-        return SayWait(text, false, true);
+    protected StateChange Append(string text,  AudioClip voiceOver=null) {
+        return SayWait(text, false, true, voiceOver: voiceOver);
     }
 
     public Stack<SkippableSequence> skippableSequences = new();

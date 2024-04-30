@@ -142,6 +142,7 @@
      <Folder Include="Assets\Saves\TerrainCreatorAutosave" />
      <None Include="Assets\Shaders\Flow.cginc" />
      <Folder Include="Assets\MultiAudioListener\TestScripts" />
+     <Folder Include="Assets\Scenarios" />
      <Folder Include="Assets\NewUnits" />
      <Folder Include="Assets\Saves\Intro-Level" />
      <None Include="Assets\Shaders\leaves.shader" />
@@ -216,6 +217,7 @@
      <Folder Include="Assets\Saves\test-Level" />
      <None Include="Assets\Shaders\Cliff.shader" />
      <Folder Include="Assets\LightingTest\LightingTest" />
+     <Folder Include="Assets\VoiceOver\Resources\Border" />
      <None Include="Assets\Shaders\TerrainTilesTest.shader" />
      <Folder Include="Assets\Scenes\LoadingTest" />
      <Folder Include="Assets\Scenes\LoadingTestSubscene" />
@@ -470,6 +472,7 @@
      <None Include="Assets\Shaders\InstancedIndirectColor.shader" />
      <Folder Include="Assets\Content\minimap" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\ScreenSpaceReflections.hlsl" />
+     <Folder Include="Assets\Scenarios\Intro" />
      <Folder Include="Assets\Content\Hq" />
      <Folder Include="Assets\Saves\first-stage" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\API\XboxOne.hlsl" />

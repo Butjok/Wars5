@@ -137,6 +137,8 @@ public static class Sounds {
 
 public static class VoiceOver {
     private static AudioSource source;
+    public static bool IsPlaying => source && source.isPlaying;
+
     public static void PlayOneShot(AudioClip clip) {
         if (!source) {
             var gameObject = new GameObject(nameof(VoiceOver));

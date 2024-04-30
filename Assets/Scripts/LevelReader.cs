@@ -114,6 +114,14 @@ public static class LevelReader {
         }
         ResetBridgeValues();
 
+        var pathPositions  = new List<Vector2Int>();
+        string pathName;
+        void ResetPathValues() {
+            pathPositions.Clear();
+            pathName = null;
+        }
+        ResetPathValues();
+
         TriggerName? trigger = null;
 
         var cameraRig = level.view.cameraRig;
@@ -510,6 +518,25 @@ public static class LevelReader {
                     Assert.IsTrue(zones.TryGetValue(toName, out var to));
                     from.neighbors.Add(to);
                     to.neighbors.Add(from);
+                    break;
+                }
+
+                case "path.set-name": {
+                    pathName = (string)stack.Pop();
+                    break;
+                }
+                case "path.add-position": {
+                    var position = (Vector2Int)stack.Pop();
+                    pathPositions.Add(position);
+                    break;
+                }
+                case "path.add": {
+                    Assert.IsNotNull(pathName);
+                    var path = new Level.Path{name=pathName};
+                    foreach (var position in pathPositions)
+                        path.AddLast(position);
+                    level.paths.Add(path);
+                    ResetPathValues();
                     break;
                 }
 

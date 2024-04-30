@@ -7,6 +7,10 @@ using UnityEngine.Assertions;
 
 public class Level : IDisposable {
 
+    public class Path : LinkedList<Vector2Int> {
+        public string name;
+    }
+
     public static readonly Vector2Int[] offsets = { Vector2Int.up, Vector2Int.down, Vector2Int.right, Vector2Int.left };
     
     public LevelView view;
@@ -30,7 +34,8 @@ public class Level : IDisposable {
     };
     public Dictionary<(MoveType, Vector2Int, Vector2Int), int> precalculatedDistances;
     public Dictionary<(Zone, Vector2Int), int> zoneDistances;
-    
+    public List<Path> paths = new();
+
     public IEnumerable<Building> Buildings=> buildings.Values;
     public IEnumerable<Unit> Units => units.Values;
 

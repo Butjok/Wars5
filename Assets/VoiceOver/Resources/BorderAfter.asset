@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed69ad7e66344b93a2be9d07e1f0b80a, type: 3}
+  m_Name: BorderAfter
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: 5666a7e710c08c54fa166229f0a8e921, type: 3}
+  - {fileID: 8300000, guid: a0fa7adeb9c717a45aff1779783b1515, type: 3}
+  - {fileID: 8300000, guid: 8df6b59397e87134c815f121b233d0b6, type: 3}
+  - {fileID: 8300000, guid: 0e8b77a1b54083b479414cbaeb0e4576, type: 3}
