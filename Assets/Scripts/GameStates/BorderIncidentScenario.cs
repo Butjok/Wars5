@@ -139,24 +139,26 @@ public class BorderIncidentIntroDialogueState : DialogueState {
     public override IEnumerator<StateChange> Enter {
         get {
             Start();
-            yield return AddPerson(PersonName.BlueOfficer, DialogueUi4.Side.Left);
-            yield return AddPerson(PersonName.RedOfficer, DialogueUi4.Side.Right);
+            yield return AddPerson(PersonName.BlueSoldier, DialogueUi4.Side.Left);
+            yield return AddPerson(PersonName.RedSoldier, DialogueUi4.Side.Right);
 
-            Speaker = PersonName.BlueOfficer;
+            Speaker = PersonName.BlueSoldier;
             yield return SayWait(_("It is a good morning, isn't it?"));
-            Speaker = PersonName.RedOfficer;
+            Speaker = PersonName.RedSoldier;
             yield return Say(_("Well, it was until you showed up."));
             yield return Wait(1);
             yield return AppendWait(_(" It is going to be a good morning for me, at least."));
-            Speaker = PersonName.BlueOfficer;
+            Speaker = PersonName.BlueSoldier;
             yield return Say(_("Grumpy as always, I see."));
             yield return Wait(1);
             yield return AppendWait(_(" I was ordered to patrol this area. I am not here to bother you."));
-            Speaker = PersonName.RedOfficer;
+            Speaker = PersonName.RedSoldier;
             yield return SayWait(_("I am not here to be bothered by you."));
-            Speaker = PersonName.BlueOfficer;
+            Speaker = PersonName.BlueSoldier;
             yield return SayWait(_("Nice talking to you, as always."));
 
+            yield return RemovePerson(DialogueUi4.Side.Left);
+            yield return RemovePerson(DialogueUi4.Side.Right);
             End();
         }
     }
@@ -167,10 +169,10 @@ public class BorderIncidentRedRocketeersDialogueState : DialogueState {
     public override IEnumerator<StateChange> Enter {
         get {
             Start();
-            yield return AddPerson(PersonName.RedOfficer, DialogueUi4.Side.Left);
-            yield return AddPerson(PersonName.RedOfficer, DialogueUi4.Side.Right);
+            yield return AddPerson(PersonName.RedRocketeer, DialogueUi4.Side.Left, flipped:true);
+            yield return AddPerson(PersonName.RedRocketeer, DialogueUi4.Side.Right);
 
-            Speaker = PersonName.RedOfficer;
+            Speaker = PersonName.RedRocketeer;
             yield return SayWait(_("I think it is about time?"));
             yield return Say(_("Yeah, I think so..."));
             yield return Wait(1);
@@ -180,6 +182,8 @@ public class BorderIncidentRedRocketeersDialogueState : DialogueState {
             yield return Wait(1);
             yield return AppendWait(_(" It's show time!"));
 
+            yield return RemovePerson(DialogueUi4.Side.Left);
+            yield return RemovePerson(DialogueUi4.Side.Right);
             End();
         }
     }
@@ -198,9 +202,9 @@ public class BorderIncidentWhatIsHappeningDialogueState : DialogueState {
             }
             
             Start();
-            yield return AddPerson(PersonName.BlueOfficer, DialogueUi4.Side.Left);
+            yield return AddPerson(PersonName.BlueSoldier, DialogueUi4.Side.Left);
 
-            Speaker = PersonName.BlueOfficer;
+            Speaker = PersonName.BlueSoldier;
             yield return Say(_("We are under attack!"));
             yield return Wait(1);
             yield return AppendWait(_(" We need to get out of here!"));
@@ -220,7 +224,7 @@ public class BorderIncidentWhatIsHappeningDialogueState : DialogueState {
 
             yield return SayWait(_("They have reinforcements!"));
             
-            Speaker = PersonName.RedOfficer;
+            Speaker = PersonName.RedSoldier;
             yield return SayWait(_("Just as I told you... *chuckles*"));
 
             End();

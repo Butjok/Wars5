@@ -81,6 +81,14 @@ public class CameraRigFlythrough : MonoBehaviour {
     [Command]
     public float speed = 1;
 
+    public IEnumerator Animation(string slotName) {
+        if (TryLoad(slotName)) {
+            StopAllCoroutines();
+            return Animation();
+        }
+        return null;
+    }
+
     public IEnumerator Animation() {
         var segments = new List<Segment>();
         var accumulatedLength = 0f;

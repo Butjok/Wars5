@@ -77,8 +77,8 @@ public class DialogueUi4 : MonoBehaviour {
             PersonName.Vladan => vladanColor,
             PersonName.JamesWillis => jamesWillisColor,
             PersonName.LjubisaDragovic => ljubisaDragovicColor,
-            PersonName.RedOfficer => Color.red,
-            PersonName.BlueOfficer => Color.blue,
+            PersonName.RedSoldier or PersonName.RedRocketeer => new Color(1,.25f,0,1),
+            PersonName.BlueSoldier => new Color(0,.66f,1,1),
             _ => Color.white
         };
     }
@@ -132,12 +132,13 @@ public class DialogueUi4 : MonoBehaviour {
         Right
     }
 
-    public void SetPortrait(Side side, PersonName? personName, Mood mood = default) {
+    public void SetPortrait(Side side, PersonName? personName, Mood mood = default, bool flipped = false) {
         var target = side == Side.Left ? leftPortrait : rightPortrait;
         Sprite portrait;
         if (personName is { } actualPersonName && (portrait = Persons.TryGetPortrait(actualPersonName, mood))) {
             target.enabled = true;
             target.sprite = portrait;
+            target.rectTransform.localScale = new Vector3( flipped ? -1 : 1, 1, 1);
         }
         else
             target.enabled = false;

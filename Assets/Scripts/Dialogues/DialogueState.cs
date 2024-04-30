@@ -194,13 +194,13 @@ public abstract class DialogueState : StateMachineState {
         };
     }
 
-    protected StateChange AddPerson(PersonName personName, DialogueUi4.Side ?side = null, Mood mood = default) {
+    protected StateChange AddPerson(PersonName personName, DialogueUi4.Side ?side = null, Mood mood = default, bool flipped=false) {
         var actualSide = side ?? GetDefaultSide(personName);
-        ui.SetPortrait(actualSide, personName, mood);
+        ui.SetPortrait(actualSide, personName, mood, flipped:flipped);
         return StateChange.none;
     }
-    public StateChange RemovePerson(DialogueUi4.Side side) {
-        ui.SetPortrait(side,null);
+    public StateChange RemovePerson(DialogueUi4.Side side, bool flipped=false) {
+        ui.SetPortrait(side,null, flipped:flipped);
         return StateChange.none;
     }
     protected StateChange ClearPersons() {
