@@ -35,6 +35,13 @@ public class Level : IDisposable {
     public Dictionary<(MoveType, Vector2Int, Vector2Int), int> precalculatedDistances;
     public Dictionary<(Zone, Vector2Int), int> zoneDistances;
     public List<Path> paths = new();
+    
+    public Path FindPath(string pathName) {
+        return paths.Single(path => path.name == pathName);
+    }
+    public Player FindPlayer(ColorName colorName) {
+        return players.Single(player => player.ColorName == colorName);
+    }
 
     public IEnumerable<Building> Buildings=> buildings.Values;
     public IEnumerable<Unit> Units => units.Values;

@@ -12,6 +12,10 @@ public class LevelEditorPathsModeState : StateMachineState {
     public static float lineWidth = 2;
     [Command]
     public static float unitSpeed = 2;
+    [Command]
+    public static Color inactiveTint = new(1, 1, 1, .25f);
+    [Command]
+    public static Color activeTint = Color.white * 1000;
 
     public LevelEditorGui gui;
     public Level level;
@@ -63,7 +67,7 @@ public class LevelEditorPathsModeState : StateMachineState {
 
             void DrawPaths() {
                 foreach (var path in level.paths)
-                    DrawPath(path, path == selectedPath ? Color.white : new Color(1, 1, 1, .25f));
+                    DrawPath(path, path == selectedPath ? activeTint : inactiveTint);
             }
 
             bool TryGetMousePosition(out Vector2Int result) {
@@ -83,7 +87,8 @@ public class LevelEditorPathsModeState : StateMachineState {
                 else if (Input.GetKeyDown(KeyCode.Tab)) {
                     if (level.paths.Count > 0) {
                         var index = level.paths.IndexOf(selectedPath);
-                        var nextIndex = (index + 1 + level.paths.Count) % level.paths.Count;
+                        var offset =  Input.GetKey(KeyCode.LeftShift) ? -1 : 1;
+                        var nextIndex = (index + offset + level.paths.Count) % level.paths.Count;
                         selectedPath = level.paths[nextIndex];
                         selectedNode = selectedPath.Last;
                     }

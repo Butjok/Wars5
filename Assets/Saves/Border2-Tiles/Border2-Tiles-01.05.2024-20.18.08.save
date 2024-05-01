@@ -39,7 +39,7 @@ add-quad ( TileType Mountain enum TileType Mountain enum TileType Sea enum TileT
 add-quad ( TileType Sea enum TileType Mountain enum TileType Mountain enum TileType Sea enum -7.5 1.5 float2 )
 add-quad ( TileType Mountain enum TileType Sea enum TileType Mountain enum TileType Mountain enum -6.5 3.5 float2 )
 add-quad ( TileType Mountain enum TileType Mountain enum TileType Mountain enum TileType Mountain enum -6.5 2.5 float2 )
-set-camera-rig-transform ( 4.526586 -4.911423E-05 -4.168356 float3 0 53.11285 0.75 )
+set-camera-rig-transform ( 11.06649 -3.194809E-05 -0.8841661 float3 0 55.00001 0.5400003 )
 add-tile ( TileType Hq enum -7 -10 int2 )
 add-tile ( TileType City enum 15 -5 int2 )
 add-tile ( TileType City enum 4 -1 int2 )

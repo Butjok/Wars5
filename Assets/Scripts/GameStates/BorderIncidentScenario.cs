@@ -224,7 +224,7 @@ public class BorderIncidentWhatIsHappeningDialogueState : DialogueState {
             yield return Say(_("We are under attack!"), voiceOver: voiceOvers[index++]);
             yield return Wait(1);
             yield return AppendWait(_(" We need to get out of here!"), voiceOver:  voiceOvers[index++]);
-            yield return SayWait(_("HQ! HQ! This is Blue Eagle! We are under attack! Do you copy?") , voiceOver: voiceOvers[index++]);
+            yield return SayWait(_("HQ! HQ! This is Blue Eagle! We are under attack! The enemy has reinforcements! Do you copy?") , voiceOver: voiceOvers[index++]);
 
             /*if (new Vector2Int(34, 9).TryRaycast(out hit)) {
                 var jump = cameraRig.JumpAnimation(hit.point);
@@ -233,17 +233,17 @@ public class BorderIncidentWhatIsHappeningDialogueState : DialogueState {
             }*/
 
             var redPlayer = stateMachine.Find<LevelSessionState>().level.players.Single(p => p.ColorName == ColorName.Red);
-            var redRocketTop = new Unit(redPlayer, UnitType.Rockets, new Vector2Int(32, 10));
-            var redRocketBottom = new Unit(redPlayer, UnitType.Rockets, new Vector2Int(32, 7));
-            var redLightTankTop = new Unit(redPlayer, UnitType.LightTank, new Vector2Int(35, 10));
-            var redLightTankBottom = new Unit(redPlayer, UnitType.LightTank, new Vector2Int(35, 7));
+            //var redRocketTop = new Unit(redPlayer, UnitType.Rockets, new Vector2Int(32, 10));
+            //var redRocketBottom = new Unit(redPlayer, UnitType.Rockets, new Vector2Int(32, 7));
+            //var redLightTankTop = new Unit(redPlayer, UnitType.LightTank, new Vector2Int(35, 10));
+            //var redLightTankBottom = new Unit(redPlayer, UnitType.LightTank, new Vector2Int(35, 7));
 
-            yield return SayWait(_("They have reinforcements!") , voiceOver: voiceOvers[index++]);
+            //yield return SayWait(_("They have reinforcements!") , voiceOver: voiceOvers[index++]);
             yield return RemovePerson(DialogueUi4.Side.Left);
 
             yield return AddPerson(PersonName.RedSoldier, DialogueUi4.Side.Right);
             Speaker = PersonName.RedSoldier;
-            yield return SayWait(_("Just as I told you... *chuckles*"));
+            yield return SayWait(_("A good day indeed."));
 
             yield return RemovePerson(DialogueUi4.Side.Right);
             End();

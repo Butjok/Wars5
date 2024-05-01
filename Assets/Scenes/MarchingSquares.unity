@@ -25646,6 +25646,35 @@ MonoBehaviour:
   cameraRig: {fileID: 0}
   locationAndTimeText: {fileID: 1882233099}
   locationAndTimeTextSpeed: 15
+  lightTankSpeed: 2.5
+  reconSpeed: 2.5
+  infantrySpeed: 1.25
+  defaultUnitSpeed: 2.5
+  actuallyMoveUnits: 1
+  blueUnitPaths:
+  - Tank1
+  - Tank2
+  - Tank3
+  - Recon
+  - Infantry1
+  - Infantry2
+  - Infantry3
+  redUnitsPaths:
+  - RedTank1
+  - RedTank2
+  - RedRockets1
+  - RedRockets2
+  redUnitsPaths2:
+  - RedTank3
+  - RedTank4
+  - RedArtillery
+  - RedArtillery1
+  - RedArtillery3
+  redAttackPaths:
+  - RedRockets1Target
+  - RedRockets2Target
+  - RedTank1Attack
+  - RedInfantry1Attack
 --- !u!4 &953887661
 Transform:
   m_ObjectHideFlags: 0
