@@ -17,16 +17,9 @@ public class BorderScenario2 : MonoBehaviour {
     public CameraRig cameraRig;
     public TMP_Text locationAndTimeText;
     public float locationAndTimeTextSpeed = 15;
-    public WaypointList introCameraWaypoints;
-    public WaypointList redRocketeersCameraWaypoints;
-    public List<WaypointList> cameraWaypointLists = new();
-    public int cameraWaypointListIndex = 0;
 
     public List<IEnumerator> coroutines = new();
     public List<IEnumerator> newCoroutines = new();
-
-    public bool showWaypoints = true;
-    public WaypointList CurrentWaypointList => cameraWaypointLists[cameraWaypointListIndex];
 
     public void Start() {
         game = FindObjectOfType<Game>();
@@ -34,10 +27,6 @@ public class BorderScenario2 : MonoBehaviour {
         stateMachine = game.stateMachine;
         cameraRig = FindObjectOfType<CameraRig>();
         Assert.IsTrue(cameraRig);
-        cameraWaypointLists = new List<WaypointList> {
-            introCameraWaypoints,
-            redRocketeersCameraWaypoints
-        };
     }
 
     [Command]
@@ -46,24 +35,12 @@ public class BorderScenario2 : MonoBehaviour {
         coroutines.Add(Animation());
     }
 
-    [Command]
-    public void ClearWaypoints() {
-        CurrentWaypointList.waypoints.Clear();
-    }
-    [Command]
-    public void AddWaypoint() {
-        CurrentWaypointList.waypoints.Add(cameraRig.transform.position.ToVector2Int());
-    }
-    [Command]
-    public void MoveCamera(float speed) {
-        coroutines.Clear();
-        coroutines.Add(CameraMovement(CurrentWaypointList.waypoints, speed));
-    }
-
     public IEnumerator Animation() {
-        foreach (var player in game.Level.players)
+        var level = game.Level;
+        
+        foreach (var player in level.players)
             player.view.Hide();
-        game.Level.view.tilemapCursor.Hide();
+        level.view.tilemapCursor.Hide();
 
         PostProcessing.ColorFilter = Color.black;
         coroutines.Add(LocationAndTimeTextTypingAndFadeOut(15, 3, .5f));
@@ -74,21 +51,26 @@ public class BorderScenario2 : MonoBehaviour {
 
         coroutines.Add(CameraFade(Color.black, Color.white, 1));
 
-        if (introCameraWaypoints.waypoints.Count > 0)
-            cameraRig.transform.position = introCameraWaypoints.waypoints[0].ToVector3();
-        var introCameraMovement = CameraMovement(introCameraWaypoints.waypoints, 3);
-        coroutines.Add(introCameraMovement);
-        while (coroutines.Contains(introCameraMovement))
-            yield return null;
+        var cameraIntroPath = level.paths.Find( p => p.name == "CameraIntro");
+        if (cameraIntroPath is { Count: > 0 }) {
+            cameraRig.transform.position = cameraIntroPath.First.Value.ToVector3();
+            var introCameraMovement = CameraMovement(cameraIntroPath.ToList(), 3);
+            coroutines.Add(introCameraMovement);
+            while (coroutines.Contains(introCameraMovement))
+                yield return null;
+        }
 
         stateMachine.Push(new BorderIncidentIntroDialogueState(stateMachine));
         while (stateMachine.TryFind<BorderIncidentIntroDialogueState>() != null)
             yield return null;
 
-        var redRocketeersCameraMovement = CameraMovement(redRocketeersCameraWaypoints.waypoints, 5);
-        coroutines.Add(redRocketeersCameraMovement);
-        while (coroutines.Contains(redRocketeersCameraMovement))
-            yield return null;
+        var cameraRocketeerPath = level.paths.Find(p => p.name == "CameraRocketeers");
+        if (cameraRocketeerPath is {Count: > 0}) {
+            var redRocketeersCameraMovement = CameraMovement(cameraRocketeerPath.ToList(), 5);
+            coroutines.Add(redRocketeersCameraMovement);
+            while (coroutines.Contains(redRocketeersCameraMovement))
+                yield return null;
+        }
 
         stateMachine.Push(new BorderIncidentRedRocketeersDialogueState(stateMachine));
         while (stateMachine.TryFind<BorderIncidentRedRocketeersDialogueState>() != null)
@@ -196,32 +178,8 @@ public class BorderScenario2 : MonoBehaviour {
             var coroutine = coroutines[i];
             if (coroutine.MoveNext())
                 newCoroutines.Add(coroutine);
-            //else
-            //Debug.Log($"Coroutine {coroutine.GetType()} finished");
         }
-
         (coroutines, newCoroutines) = (newCoroutines, coroutines);
-
-        if (showWaypoints) {
-            var points = CurrentWaypointList.waypoints;
-            for (var i = 0; i < points.Count; i++) {
-                var point = points[i];
-                Draw.ingame.CircleXZ(point.ToVector3(), 0.25f, Color.yellow);
-                if (i == 0)
-                    Draw.ingame.Label3D(point.ToVector3(), quaternion.identity, '\n' + CurrentWaypointList.name, .25f, LabelAlignment.Center, Color.yellow);
-                Draw.ingame.Label3D(point.ToVector3(), quaternion.identity, i.ToString(), .25f, LabelAlignment.Center, Color.yellow);
-                if (i > 0)
-                    Draw.ingame.Line(points[i - 1].ToVector3(), point.ToVector3(), Color.yellow);
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.Tab))
-            cameraWaypointListIndex = (cameraWaypointListIndex + 1) % cameraWaypointLists.Count;
-    }
-
-    private void OnGUI() {
-        GUI.skin = DefaultGuiSkin.TryGet;
-        GUILayout.Label($"\n\nWaypoint List: {CurrentWaypointList.name}");
     }
 
     public struct Segment {

@@ -25637,7 +25637,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 953887659}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fca90474a2224909bbb6f2d74d39817a, type: 3}
   m_Name: 
@@ -25646,11 +25646,6 @@ MonoBehaviour:
   cameraRig: {fileID: 0}
   locationAndTimeText: {fileID: 1882233099}
   locationAndTimeTextSpeed: 15
-  introCameraWaypoints: {fileID: 11400000, guid: e32b6d3a03133214abf9071b84a58610, type: 2}
-  redRocketeersCameraWaypoints: {fileID: 11400000, guid: 82bb3f06ffb76894986550c3ae470f3a, type: 2}
-  cameraWaypointLists: []
-  cameraWaypointListIndex: 0
-  showWaypoints: 1
 --- !u!4 &953887661
 Transform:
   m_ObjectHideFlags: 0

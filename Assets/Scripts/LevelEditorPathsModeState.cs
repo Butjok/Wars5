@@ -11,7 +11,7 @@ public class LevelEditorPathsModeState : StateMachineState {
     [Command]
     public static float lineWidth = 2;
     [Command]
-    public static float unitSpeed = 5;
+    public static float unitSpeed = 2;
 
     public LevelEditorGui gui;
     public Level level;

@@ -89,6 +89,7 @@
      <None Include="Assets\MultiAudioListener\HowToUse.txt" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\FastApproximateAntialiasing.hlsl" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\SubpixelMorphologicalAntialiasing.shader" />
+     <Folder Include="Assets\Saves\IntroTest-Bushes" />
      <None Include="Assets\PriorityFormula.txt" />
      <Folder Include="Assets\Content" />
      <Folder Include="Assets\Settings" />
@@ -97,6 +98,7 @@
      <Folder Include="Assets\EmptyScene" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\Dithering.hlsl" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\Bloom.shader" />
+     <Folder Include="Assets\Saves\IntroTest-Forests" />
      <None Include="Assets\Shaders\My Lighting.cginc" />
      <Folder Include="Assets\StreamingAssets\Translations\ru_RU" />
      <Folder Include="Assets\SceneTemplates\MainMenu\SimpleBake_Bakes" />
@@ -142,6 +144,7 @@
      <Folder Include="Assets\Saves\TerrainCreatorAutosave" />
      <None Include="Assets\Shaders\Flow.cginc" />
      <Folder Include="Assets\MultiAudioListener\TestScripts" />
+     <Folder Include="Assets\Saves\Border2-Forests" />
      <Folder Include="Assets\Scenarios" />
      <Folder Include="Assets\NewUnits" />
      <Folder Include="Assets\Saves\Intro-Level" />
@@ -153,6 +156,7 @@
      <Folder Include="Assets\TextMesh Pro\Resources\Fonts &amp; Materials" />
      <Folder Include="Assets\StreamingAssets\Translations\ru_RU\LC_MESSAGES" />
      <None Include="Assets\Shaders\LevelBorder.shader" />
+     <Folder Include="Assets\Saves\Border2-Level" />
      <None Include="Assets\Saves\0\0-22.01.2023-18.57.43.txt" />
      <Folder Include="Assets\Fonts" />
      <Folder Include="Assets\Saves\test.0" />
@@ -190,6 +194,7 @@
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\MultiScaleVODownsample2.compute" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\ScalableAO.hlsl" />
      <Folder Include="Assets\Props\flag" />
+     <Folder Include="Assets\Saves\IntroTest-Roads" />
      <Folder Include="Assets\ShaderTests" />
      <None Include="Assets\Shaders\Terrain.shader" />
      <None Include="Assets\Shaders\Thumbnail.shader" />
@@ -247,6 +252,7 @@
      <Folder Include="Assets\Saves\test" />
      <None Include="Assets\Shaders\Building.shader" />
      <Folder Include="Assets\CampaignOverview" />
+     <Folder Include="Assets\Saves\Border2-Roads" />
      <Folder Include="Assets\Coin" />
      <Folder Include="Assets\Props\Bridge" />
      <Folder Include="Assets\Saves\TutorialProps" />
@@ -279,6 +285,7 @@
      <Folder Include="Assets\MultiAudioListener\Example\Scripts" />
      <None Include="Assets\Funny.txt" />
      <None Include="Assets\Saves\0\0-25.01.2023-02.07.18.txt" />
+     <Folder Include="Assets\Saves\IntroTest-Level" />
      <Folder Include="Assets\Experiments\volumes" />
      <None Include="Assets\Shaders\water.shader" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\ScalableAO.shader" />
@@ -298,6 +305,7 @@
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\API\Switch.hlsl" />
      <Folder Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Textures" />
      <None Include="Assets\Shaders\Minimap.shader" />
+     <Folder Include="Assets\Saves\Border2-Props" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\API\Metal.hlsl" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\Uber.shader" />
      <Folder Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Textures\SMAA" />
@@ -360,6 +368,7 @@
      <None Include="Assets\Content\NewImageEffectShader.shader" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\ScreenSpaceReflections.shader" />
      <Folder Include="Assets\Saves\TutorialTerrain" />
+     <Folder Include="Assets\Saves\IntroTest-Props" />
      <Folder Include="Assets\Shaders" />
      <Folder Include="Assets\TerrainCreation" />
      <Folder Include="Assets\Saves\Border-Forests" />
@@ -370,6 +379,7 @@
      <Folder Include="Assets\TextMesh Pro\Resources\Style Sheets" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\DiscardAlpha.shader" />
      <Folder Include="Assets\Textures\Lava" />
+     <Folder Include="Assets\Saves\Border2-Bushes" />
      <Folder Include="Assets\Scenes\Campaign" />
      <None Include="Assets\StreamingAssets\Distances\Tutorial.txt" />
      <Folder Include="Assets\TextMesh Pro\Fonts" />
@@ -510,11 +520,13 @@
      <Folder Include="Assets\Saves\TutorialTileMap2" />
      <Folder Include="Assets\Props" />
      <Folder Include="Assets\AudioMixer" />
+     <Folder Include="Assets\Saves\IntroTest-Tiles" />
      <Folder Include="Assets\TextMesh Pro\Documentation" />
      <None Include="Assets\Resources\TutorialSaveData.txt" />
      <None Include="Assets\Shaders\UnlitMinimap.shader" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Editor\Trackball.shader" />
      <Folder Include="Assets\Saves\Border-Tiles" />
+     <Folder Include="Assets\Saves\Border2-Tiles" />
      <Folder Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Textures\BlueNoise64px" />
      <Folder Include="Assets\Saves\TutorialBushes" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Editor\ConvertToLog.shader" />

@@ -1,0 +1,40 @@
+game {
+    :turn ( 0 )
+    :level-name ( LevelName Tutorial enum )
+}
+// Blue
+player {
+    :color-name          ( ColorName Blue enum )
+    :team                ( Team None enum )
+    :co-name             ( PersonName Natalie enum )
+    :ui-position         ( 0 1 int2 )
+    :credits             ( 0 )
+    :power-meter         ( 0 )
+    :unit-look-direction ( 1 0 int2 )
+    :side                ( Side Left enum )
+    .mark-as-local
+    .add
+}
+// Red
+player {
+    :color-name          ( ColorName Red enum )
+    :team                ( Team None enum )
+    :co-name             ( PersonName Vladan enum )
+    :ui-position         ( 1 1 int2 )
+    :credits             ( 0 )
+    :power-meter         ( 0 )
+    :unit-look-direction ( -1 0 int2 )
+    :side                ( Side Right enum )
+    .add
+}
+tiles {
+}
+// Unowned buildings
+null
+pop
+camera-rig {
+    :position    ( 30.44 0 -0.39 float3 )
+    :rotation    ( 0 )
+    :pitch-angle ( 30.93196 )
+    :dolly-zoom  ( 0 )
+}

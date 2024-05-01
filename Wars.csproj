@@ -96,6 +96,7 @@
      <Compile Include="Assets\Scripts\AttackActionView.cs" />
      <Compile Include="Assets\Scripts\PropPlacement.cs" />
      <Compile Include="Assets\Scripts\PathFinder.cs" />
+     <Compile Include="Assets\Scripts\LevelEditorPathsModeState.cs" />
      <Compile Include="Assets\Scripts\AiPlayerCommander.cs" />
      <Compile Include="Assets\Scripts\Rules.cs" />
      <Compile Include="Assets\Scripts\Colors.cs" />
@@ -145,6 +146,7 @@
      <Compile Include="Assets\Scripts\Animation\Wind.cs" />
      <Compile Include="Assets\Scripts\Views\UnitBuildMenuButton2.cs" />
      <Compile Include="Assets\Scripts\CursorView.cs" />
+     <Compile Include="Assets\Scripts\WaypointList.cs" />
      <Compile Include="Assets\Scripts\SideCamera.cs" />
      <Compile Include="Assets\Scripts\CampaignOverviewLauncher.cs" />
      <Compile Include="Assets\Scripts\PlayerView.cs" />
@@ -227,6 +229,7 @@
      <Compile Include="Assets\Scripts\ScalarFieldUtilities.cs" />
      <Compile Include="Assets\Scripts\UiDraggable.cs" />
      <Compile Include="Assets\Scripts\EntryPoint\EntryPointState.cs" />
+     <Compile Include="Assets\Scripts\GameStates\LocationAndTimeText.cs" />
      <Compile Include="Assets\Scripts\Projectile2.cs" />
      <Compile Include="Assets\Scripts\GameStates\DayText.cs" />
      <Compile Include="Assets\Scripts\DraggingTest.cs" />
@@ -326,9 +329,6 @@
      <Compile Include="Assets\Scripts\FlipbookTest.cs" />
      <Compile Include="Assets\Scripts\Animation\UnitViewSequenceSubroutines.cs" />
      <Compile Include="Assets\Scripts\EntryPoint\MainMenuWelcomeState.cs" />
-     <Compile Include="Assets\Scripts\GameStates\LocationAndTimeText.cs" />
-     <Compile Include="Assets\Scripts\WaypointList.cs" />
-     <Compile Include="Assets\Scripts\LevelEditorPathsModeState.cs" />
      <Folder Include="Assets\Scripts\EntryPoint" />
      <None Include="Assets\Scripts\Wars.asmdef" />
      <Folder Include="Assets\Scripts\DialogueMarkupLanguage" />
