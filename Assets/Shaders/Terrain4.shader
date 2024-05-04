@@ -118,6 +118,7 @@ _OutsideIntensity ("_OutsideIntensity", Range(0,1)) = 0.0
     	_YellowGrassHSVTweak ("_YellowGrassHSVTweak", Vector) = (0,0,0,0)
     	
     	_SeaHSVTweak ("_SeaHSVTweak", Vector) = (0,1,1,0)
+    	_GridColor ("_GridColor", Color) = (1,1,1,1)
     }
     SubShader
     {
@@ -165,6 +166,7 @@ float2 _Splat2Size;
 
         float _DeepSea4Level, _DeepSea4Sharpness, _DeepSea4Thickness;
         float4 _DeepSea4Color;
+        float4 _GridColor;
 
         struct Input
         {
@@ -562,7 +564,10 @@ float forestMask = tex2D(_ForestMask, mul(_ForestMask_WorldToLocal, float4(IN.wo
 
         	//o.Albedo = grassTint;
 
-       
+
+        	float grid = tex2D( _Grid, position-.5 ).r;
+        	grid *= 1-sea;
+        	o.Albedo *= lerp(1, _GridColor, grid);
         	
         }
         ENDCG

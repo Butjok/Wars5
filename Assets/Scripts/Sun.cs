@@ -50,13 +50,14 @@ public class Sun : MonoBehaviour {
     public Transform camera;
     public Vector2 cookieHeightLimits = new(5, 25);
 
-    public void Update() {
+    public void OnGUI() {
         if (camera && cookies.Length > 0 && light) {
-            var height = camera.localPosition.z;
+            var height = camera.position.y;
             var t = Mathf.Clamp01((height - cookieHeightLimits[0]) / (cookieHeightLimits[1] - cookieHeightLimits[0]));
             var targetCookie = cookies[Mathf.RoundToInt(t * (cookies.Length - 1))];
             if (light.cookie != targetCookie)
                 light.cookie = targetCookie;
+            //GUILayout.Label($"\n\nt = {t}");
         }
     }
 

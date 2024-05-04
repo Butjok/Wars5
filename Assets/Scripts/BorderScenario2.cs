@@ -207,6 +207,12 @@ public class BorderScenario2 : MonoBehaviour {
             redUnitsMovements2.Add(coroutine);
             coroutines.Add(coroutine);
         }
+        
+        var cameraEndPath = level.FindPath("CameraEnd");
+        var cameraMovement = CameraMovement(cameraEndPath.ToList(), 1);
+        while (cameraMovement.MoveNext())
+            yield return null;
+        
         while (redUnitsMovements2.Any(c => coroutines.Contains(c)))
             yield return null;
     }
@@ -331,9 +337,12 @@ public class BorderScenario2 : MonoBehaviour {
         };
         foreach (var waypoint in waypoints)
             path.AddRange(Woo.Traverse2D(path[^1], waypoint));
+        var oldEnableDance = unitView.enableDance;
+        unitView.enableDance = false;
         var animation = new MoveSequence(unitView.transform, path, speed, _finalDirection: rotateToPlayerDirection ? unit.Player.unitLookDirection : null).Animation();
         while (animation.MoveNext())
             yield return null;
+        unitView.enableDance = oldEnableDance;
         if (actuallyMoveUnits)
             unit.Position = path[^1];
     }

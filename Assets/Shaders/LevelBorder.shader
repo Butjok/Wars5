@@ -54,6 +54,7 @@ Shader "Unlit/LevelBorder"
 			fixed4 frag (v2f i) : SV_Target
 			{
 				float alpha = 1-i.uv.x;
+				alpha = 1;
 				return float4(_Color.r, _Color.g, _Color.b, alpha);
 				return float4(alpha, alpha, alpha, 1);
 				// sample the texture

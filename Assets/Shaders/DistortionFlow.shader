@@ -41,6 +41,7 @@
 		
 		_NormalPower ("Normal Power", Float) = 1
 		_OcclusionTint ("Occlusion Tint", Float) = 1
+		_GridColor ("Grid Color", Color) = (0, 0, 0, 0)
 	}
 	SubShader {
 		Tags { "RenderType"="Transparent" "Queue"="Transparent" }
@@ -71,6 +72,7 @@
 		float4 _FoamColor;
 		float _TimeMultiplier, _WaveFrequency, _WaveMaskSharpness, _WaveSmashingPower;
 		float _WaveSharpness1, _WaveSharpness2, _NormalPower;
+		float4 _GridColor;
 		
 		struct Input {
 			float2 uv_MainTex;
@@ -168,10 +170,9 @@
 
 			float3 viewDir = normalize(_WorldSpaceCameraPos - IN.worldPos);
 			float fresnel = dot(viewDir, float3(0,1,0));
-			o.Occlusion=lerp(.125, 2.5, smoothstep (0.75, .9, fresnel)) * _OcclusionTint;
+			o.Occlusion=lerp(.25, 1, smoothstep (0.75, .9, fresnel)) * _OcclusionTint;
 			//o.Emission = o.Occlusion;
 
-			//o.Albedo *= 1-tex2D (_Grid, position-.5);
 
 			//o.Emission = o.Normal;
 
@@ -191,6 +192,7 @@
 			//o.Emission = tex2D(_DistanceField, IN.uv_MainTex).a;
 
 			//o.Emission = waveMask;
+			o.Emission += lerp(0, _GridColor, tex2D (_Grid, position-.5));
 		}
 		
  		void ResetAlpha (Input IN, SurfaceOutputStandard o, inout fixed4 color) {
