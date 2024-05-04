@@ -225,6 +225,7 @@ Material:
     - _OutsideColor: {r: 0.9339623, g: 0.9339623, b: 0.9339623, a: 1}
     - _SandColor: {r: 0.8207547, g: 0.7289158, b: 0.22196503, a: 1}
     - _SandColor2: {r: 0.8962264, g: 0.79958713, b: 0.2592856, a: 1}
+    - _SandHSVTweak: {r: -0.05, g: 1.05, b: 1.5, a: 0}
     - _SeaColor: {r: 0, g: 0.4593723, b: 0.8018868, a: 1}
     - _SeaHSVTweak: {r: 0, g: 1.0125, b: 0.85, a: 0}
     - _Splat2Size: {r: 47, g: 41, b: 0, a: 0}
@@ -234,7 +235,7 @@ Material:
     - _StoneColor: {r: 0.5, g: 0.47193766, b: 0.09748423, a: 1}
     - _StoneDarkColor: {r: 0.4433962, g: 0.41942355, b: 0.17010796, a: 1}
     - _StoneLightColor: {r: 0.8113208, g: 0.55221593, b: 0.2041058, a: 1}
-    - _StoneSandColor: {r: 0.745283, g: 0.6039796, b: 0.2437403, a: 1}
+    - _StoneSandColor: {r: 1, g: 0.6361377, b: 0, a: 1}
     - _StoneWheatColor: {r: 1, g: 0.7043761, b: 0.28930813, a: 1}
     - _WheatTint: {r: 1, g: 1, b: 1, a: 1}
     - _YellowGrassHSVTweak: {r: 0, g: 1.25, b: 1.15, a: 0}

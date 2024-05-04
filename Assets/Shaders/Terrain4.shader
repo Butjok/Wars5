@@ -119,6 +119,7 @@ _OutsideIntensity ("_OutsideIntensity", Range(0,1)) = 0.0
     	
     	_SeaHSVTweak ("_SeaHSVTweak", Vector) = (0,1,1,0)
     	_GridColor ("_GridColor", Color) = (1,1,1,1)
+    	_SandHSVTweak ("_SandHSVTweak", Vector) = (0,1,1,0)
     }
     SubShader
     {
@@ -208,6 +209,7 @@ float4 _SandColor2;
         fixed4x4 _TileMask_WorldToLocal;
 
         fixed4x4 _Splat_WorldToLocal;
+        float4 _SandHSVTweak;
 
         float3 Overlay(float3 bg, float3 fg) {
 	        return bg < 0.5 ? (2.0 * bg * fg) : (1.0 - 2.0 * (1.0 - bg) * (1.0 - fg));
@@ -475,6 +477,13 @@ float forestMask = tex2D(_ForestMask, mul(_ForestMask_WorldToLocal, float4(IN.wo
         	
 
         	float3 sandColor = lerp(_SandColor, _SandColor2, smoothstep( _SandLevel - _SandSharpness,  _SandLevel + _SandSharpness , IN.worldPos.y));
+        	{
+        		float3 hsv = RGBtoHSV(sandColor);
+        		hsv.x += _SandHSVTweak.x;
+        		hsv.y *= _SandHSVTweak.y;
+        		hsv.z *= _SandHSVTweak.z;
+        		sandColor = lerp(sandColor, HSVtoRGB(hsv), grassTint);
+        	}
         	/*{
         	    float3 sandTint = .5;
         		float3 a = float3(.5,.4,.3);
