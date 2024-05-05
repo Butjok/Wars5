@@ -78,6 +78,8 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
+    - _SeaLevel: 0.07
+    - _SeaSharpness: -0.05
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
@@ -88,4 +90,5 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _GrassHSVTweak: {r: -0.01, g: 1.5, b: 2.75, a: 1}
+    - _SeaColor: {r: 0, g: 0.15462494, b: 0.33962262, a: 1}
   m_BuildTextureStacks: []

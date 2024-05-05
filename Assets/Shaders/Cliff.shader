@@ -8,6 +8,9 @@ Shader "Custom/Cliff" {
 		_Normal ("Normal Map", 2D) = "bump" {}
 		_CliffHSVTweak ("_CliffHSVTweak", Vector) = (.025, 1.1, 1)
 		_GrassHSVTweak ("_GrassHSVTweak", Vector) = (-.01, 1.25, 1.25)
+		_SeaLevel ("Sea Level", Float) = 0
+		_SeaSharpness ("Sea Sharpness", Float) = .1
+		_SeaColor ("Sea Color", Color) = (0, 0, 1, 1)
 	}
 	SubShader {
 		Tags { "RenderType"="Opaque" }
@@ -24,6 +27,7 @@ Shader "Custom/Cliff" {
 
 		struct Input {
 			float2 uv_MainTex;
+			float3 worldPos;
 		};
 
 		half _Glossiness;
@@ -37,12 +41,9 @@ Shader "Custom/Cliff" {
 		 float3 _GrassHSVTweak;
 		 float3 _CliffHSVTweak;
 
-		// Add instancing support for this shader. You need to check 'Enable Instancing' on materials that use the shader.
-		// See https://docs.unity3d.com/Manual/GPUInstancing.html for more information about instancing.
-		// #pragma instancing_options assumeuniformscaling
-		UNITY_INSTANCING_BUFFER_START(Props)
-			// put more per-instance properties here
-		UNITY_INSTANCING_BUFFER_END(Props)
+		float _SeaLevel;
+		float _SeaSharpness;
+		float3 _SeaColor;
 
 		void surf (Input IN, inout SurfaceOutputStandard o) {
 			// Albedo comes from a texture tinted by color
@@ -65,6 +66,9 @@ Shader "Custom/Cliff" {
 			cliffHSV.y *= _CliffHSVTweak.y;
 			cliffHSV.z *= _CliffHSVTweak.z;
 			o.Albedo = lerp(o.Albedo, HSVtoRGB(cliffHSV), 1 - grass);
+
+			float sea = smoothstep(_SeaLevel - _SeaSharpness, _SeaLevel + _SeaSharpness, IN.worldPos.y);
+			o.Albedo = lerp(o.Albedo, _SeaColor, sea);
 		}
 		ENDCG
 	}

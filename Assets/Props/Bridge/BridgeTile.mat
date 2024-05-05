@@ -99,6 +99,8 @@ Material:
     - _OffsetIntensity: 0
     - _Parallax: 0.02
     - _RedAmount: 0
+    - _SeaLevel: -0.08
+    - _SeaSharpness: -0.05
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
@@ -114,4 +116,6 @@ Material:
     - _HSVTweak: {r: 0, g: 0.9, b: 1.1, a: 1}
     - _Offset: {r: 0, g: 0, b: 0.5, a: 1}
     - _PlayerColor: {r: 1, g: 1, b: 1, a: 1}
+    - _SeaColor: {r: 0.0027292687, g: 0.08486878, b: 0.4339623, a: 1}
+    - _SeaHSVTweak: {r: 0.42, g: 1.25, b: 0.25, a: 1}
   m_BuildTextureStacks: []

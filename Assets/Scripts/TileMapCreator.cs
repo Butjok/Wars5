@@ -466,6 +466,9 @@ public class TileMapCreator : MonoBehaviour {
             meshVertices[i] = vertices[i];
             meshNormals[i] = smoothNormals[i];
         }
+        var meshTangents = new Vector4[meshVertices.Length];
+        for (var i = 0; i < meshVertices.Length; i++)
+            meshTangents[i] = new Vector4(1, 0, 0, -1);
 
         seaLevelPositions.Dispose();
         nonSeaPositions.Dispose();
@@ -476,8 +479,9 @@ public class TileMapCreator : MonoBehaviour {
 
         combinedMesh.vertices = meshVertices;
         combinedMesh.normals = meshNormals;
+        combinedMesh.tangents = meshTangents;
         combinedMesh.RecalculateBounds();
-        combinedMesh.RecalculateTangents();
+        //combinedMesh.RecalculateTangents( MeshUpdateFlags.Default);
 
         meshFilter.sharedMesh = combinedMesh;
         meshRenderer.sharedMaterials = finalMaterials.ToArray();

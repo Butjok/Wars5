@@ -8,6 +8,10 @@ Shader "Custom/rough"
         _Metallic ("Metallic", Range(0,1)) = 0.0
        [HDR] _Emissive ("Emissive", Color) = (1,1,1,1)
     	_HSVTweak ("HSV Tweak", Vector) = (0, 1, 1, 1)
+    	_SeaLevel ("Sea Level", Float) = 0.5
+    	_SeaSharpness ("Sea Sharpness", Float) = 0.5
+    	_SeaColor ("Sea Color", Color) = (0,0,1,1)
+    	_SeaHSVTweak ("Sea HSV Tweak", Vector) = (0, 1, 1, 1)
     }
     SubShader
     {
@@ -34,6 +38,11 @@ Shader "Custom/rough"
 
         half _Metallic;
         fixed4 _Color;
+
+        float _SeaLevel;
+        float _SeaSharpness;
+        fixed4 _SeaColor;
+        float4 _SeaHSVTweak;
 
         #include "Utils.cginc"
         #include "Assets/Shaders/SDF.cginc"
@@ -116,6 +125,16 @@ Shader "Custom/rough"
         	color2.y = lerp(color2.y, color2.y * 1.125, saturate(noise3)); //= max(1, 5 * noise3);
 
         	o.Albedo = HSVtoRGB(color2);*/
+
+        	float sea = smoothstep(_SeaLevel - _SeaSharpness, _SeaLevel + _SeaSharpness, IN.worldPos.y);
+            {
+	            float3 hsv = RGBtoHSV(o.Albedo);
+            	hsv.x += _SeaHSVTweak.x;
+            	hsv.y *= _SeaHSVTweak.y;
+            	hsv.z *= _SeaHSVTweak.z;
+            	o.Albedo = lerp(o.Albedo, HSVtoRGB(hsv), sea);
+            }
+        	
         }
         ENDCG
     }
