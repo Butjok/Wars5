@@ -3,6 +3,14 @@ Shader "Custom/Terrain4"
     Properties
     {
         _Color ("Color", Color) = (1,1,1,1)
+    	
+    	_Caustics ("_Caustics", 2D) = "black" {}
+    	_CausticsColumns ("_CausticsColumns", Integer) = 4
+    	_CausticsRows ("_CausticsRows", Integer) = 8
+    	_CausticsSpeed ("_CausticsSpeed", Float) = 25
+    	_CausticsColor ("_CausticsColor", Color) = (1,1,1,1)
+    	_CausticsLevel ("_CausticsLevel", Float) = 0
+    	_CausticsSharpness ("_CausticsSharpness", Float) = 0
         
         
         
@@ -134,7 +142,7 @@ _OutsideIntensity ("_OutsideIntensity", Range(0,1)) = 0.0
         #pragma surface surf Standard 
 
         // Use shader model 3.0 target, to get nicer looking lighting
-        #pragma target 5.0
+        #pragma target 6.0
 
         #if defined(SHADER_API_D3D11)
         //#pragma require interpolators32
@@ -220,6 +228,13 @@ float4 _SandColor2;
         }
 
         float4x4 _Erosion_WorldToLocal;
+
+        sampler2D _Caustics;
+        int _CausticsColumns, _CausticsRows;
+        float _CausticsSpeed;
+        float3 _CausticsColor;
+
+        float _CausticsLevel, _CausticsSharpness;
         
         void surf (Input IN, inout SurfaceOutputStandard o)
         {
@@ -227,9 +242,9 @@ float4 _SandColor2;
         	float erosion = tex2D(_Erosion, IN.uv_MainTex).r;
 
             float2 position = IN.worldPos.xz;
-        	fixed4 spots = tex2D(_SpotMask, TRANSFORM_TEX(position, _SpotMask));
-        	fixed spot = 1-spots.r;
-        	IN.worldPos += 0.01 * (spot) * float3(0,1,0);
+        	//fixed4 spots = tex2D(_SpotMask, TRANSFORM_TEX(position, _SpotMask));
+        	//fixed spot = 1-spots.r;
+        	//IN.worldPos += 0.01 * (spot) * float3(0,1,0);
         	half sea = smoothstep(_SeaLevel - _SeaSharpness,  _SeaLevel + _SeaSharpness , IN.worldPos.y);
         	
             
@@ -332,6 +347,7 @@ float4 _SandColor2;
                         float3 normal = UnpackNormal( tex2D (_Normal, TRANSFORM_TEX(position, _Normal) ));
         	//Normal = normal;
         	o.Normal=sign(normal) * pow(abs(normal), _NormalPower);
+        	o.Normal = lerp(float3(0,0,1), o.Normal, sea);
                         //normal = sign(normal) * pow(abs(normal),.8);
                         //normal.z/=2;
                         //normal=normalize(normal);
@@ -442,7 +458,7 @@ float forestMask = tex2D(_ForestMask, mul(_ForestMask_WorldToLocal, float4(IN.wo
         	//_SeaColor.rgb *= lerp (float3(1,1,1), _SpotOceanColor, spot);
         	//_DeepSeaColor.rgb *= lerp (float3(1,1,1), _SpotOceanColor, spot);
 
-        	o.Albedo *= lerp(float3(1,1,1), _SpotGrassColor, spot);
+        	//o.Albedo *= lerp(float3(1,1,1), _SpotGrassColor, spot);
 
 
         	
@@ -577,13 +593,25 @@ float forestMask = tex2D(_ForestMask, mul(_ForestMask_WorldToLocal, float4(IN.wo
 
         	//o.Albedo = grassTint;
 
-        	o.Normal = lerp(float3(0,0,1), o.Normal, sea);
+        	//
 
 
         	float grid = tex2D( _Grid, position-.5 ).r;
         	grid *= 1-sea;
         	o.Albedo *= lerp(1, _GridColor, grid);
-        	
+
+        	{
+        		int length = _CausticsColumns * _CausticsRows;
+				int frame = round(_CausticsSpeed * _Time.y) % length;
+				int column = frame % _CausticsColumns;
+				int row = frame / _CausticsColumns;
+				float2 offset = float2(1.0 / _CausticsColumns, 1.0 / _CausticsRows);
+				float2 uv = frac(IN.worldPos.xz) * offset;
+				uv += offset * float2(column, _CausticsRows-row-1);
+        		float intensity = smoothstep (_CausticsLevel  - _CausticsSharpness, _CausticsLevel + _CausticsSharpness, IN.worldPos.y);
+				float caustics = tex2Dlod(_Caustics, float4(uv,0,lerp(5, 0, intensity))).r;
+        		o.Emission = caustics * _CausticsColor * sea * intensity;
+        	}
         }
         ENDCG
     }

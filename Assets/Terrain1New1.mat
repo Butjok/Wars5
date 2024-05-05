@@ -24,6 +24,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Caustics:
+        m_Texture: {fileID: 2800000, guid: e871b14fb7aca8b4cb45a64c0fa49d6a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _DarkGreen:
         m_Texture: {fileID: 2800000, guid: 4bd12a7a8a59b2e42842a63bd38d0c45, type: 3}
         m_Scale: {x: 3, y: 3}
@@ -152,13 +156,18 @@ Material:
         m_Texture: {fileID: 2800000, guid: 44b63677cac60d642a49b0e6f816dc6a, type: 3}
         m_Scale: {x: 0.5, y: 0.5}
         m_Offset: {x: 0, y: 0}
-    m_Ints: []
+    m_Ints:
+    - _CausticsColumns: 4
+    - _CausticsRows: 8
     m_Floats:
     - _BorderOffset: 0.05
     - _BorderPower: 1.25
     - _BorderSharpness: 0.005
     - _BorderThinkness: 0.015
     - _BumpScale: 1
+    - _CausticsLevel: -0.12
+    - _CausticsSharpness: 0.26
+    - _CausticsSpeed: 30
     - _Cutoff: 0.5
     - _DeepSea2Level: 0.03
     - _DeepSea2Sharpness: -0.25
@@ -206,6 +215,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _BorderColor: {r: 1, g: 1, b: 1, a: 1}
+    - _CausticsColor: {r: 0.020885184, g: 0.34443977, b: 0.8301887, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _DarkGrassHSVTweak: {r: 0, g: 1.25, b: 1.5, a: 0}
     - _DarkGreenTint: {r: 1, g: 1, b: 1, a: 1}
