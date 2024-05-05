@@ -53,6 +53,7 @@ public class LevelEditorTilesModeState : StateMachineState {
     public RoadCreator roadCreator;
     public ForestCreator forestCreator;
     public PropPlacement propPlacement;
+    public HeightMapBaker heightMapBaker;
 
     [Command] public static Color plainColor = Color.green;
     [Command] public static Color roadColor = Color.gray;
@@ -199,6 +200,7 @@ public class LevelEditorTilesModeState : StateMachineState {
             roadCreator = Object.FindObjectOfType<RoadCreator>(true);
             forestCreator = Object.FindObjectOfType<ForestCreator>(true);
             propPlacement = Object.FindObjectOfType<PropPlacement>(true);
+            heightMapBaker = Object.FindObjectOfType<HeightMapBaker>(true);
 
             if (tileMapCreator) {
                 //tileMapCreator.TryLoad(tileMapCreator.loadOnAwakeFileName);
@@ -375,6 +377,8 @@ public class LevelEditorTilesModeState : StateMachineState {
                             foreach (var position in tiles.Keys.Where(p => tiles[p] == TileType.Forest))
                                 forestCreator.PlaceTreesAt(position);
                         }
+                        if (heightMapBaker) 
+                            heightMapBaker.Bake();
                     }
                 }
 

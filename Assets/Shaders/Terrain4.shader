@@ -610,7 +610,7 @@ float forestMask = tex2D(_ForestMask, mul(_ForestMask_WorldToLocal, float4(IN.wo
 				uv += offset * float2(column, _CausticsRows-row-1);
         		float intensity = smoothstep (_CausticsLevel  - _CausticsSharpness, _CausticsLevel + _CausticsSharpness, IN.worldPos.y);
 				float caustics = tex2Dlod(_Caustics, float4(uv,0,lerp(5, 0, intensity))).r;
-        		o.Emission = caustics * _CausticsColor * sea * intensity;
+        		o.Emission += caustics * _CausticsColor * sea * intensity;
         	}
         }
         ENDCG
