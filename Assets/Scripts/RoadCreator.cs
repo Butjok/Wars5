@@ -165,8 +165,14 @@ public class RoadCreator : MonoBehaviour {
         mesh.RecalculateTangents();
 
         MeshProjector.TryProjectDown(projectedMesh, mesh, Vector3.zero, 0, LayerMasks.Terrain | LayerMasks.Water, offset);
-        meshFilter.sharedMesh = projectedMesh;
-        meshCollider.sharedMesh = projectedMesh;
+        if (projectedMesh && projectedMesh.vertexCount > 0) {
+            meshFilter.sharedMesh = projectedMesh;
+            meshCollider.sharedMesh = projectedMesh;
+        }
+        else {
+            meshFilter.sharedMesh = null;
+            meshCollider.sharedMesh = null;
+        }
     }
 
     [Command]

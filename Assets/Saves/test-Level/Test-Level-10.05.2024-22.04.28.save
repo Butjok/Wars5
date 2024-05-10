@@ -1,0 +1,44 @@
+game {
+    :turn ( 0 )
+    :level-name ( LevelName Tutorial enum )
+}
+// Blue
+player {
+    :color-name          ( ColorName Blue enum )
+    :team                ( Team None enum )
+    :co-name             ( PersonName Natalie enum )
+    :ui-position         ( 0 1 int2 )
+    :credits             ( 0 )
+    :power-meter         ( 0 )
+    :unit-look-direction ( 1 0 int2 )
+    :side                ( Side Left enum )
+    .mark-as-local
+    .add
+}
+// Red
+player {
+    :color-name          ( ColorName Red enum )
+    :team                ( Team None enum )
+    :co-name             ( PersonName Vladan enum )
+    :ui-position         ( 1 1 int2 )
+    :credits             ( 0 )
+    :power-meter         ( 0 )
+    :unit-look-direction ( -1 0 int2 )
+    :side                ( Side Right enum )
+    .add
+}
+tiles {
+    .add ( TileType Plain enum 33 3 int2 27 0 int2 34 0 int2 32 1 int2 34 5 int2 34 4 int2 32 0 int2 35 1 int2 31 2 int2 32 3 int2 30 1 int2 32 -1 int2 33 5 int2 31 -1 int2 36 1 int2 31 -3 int2 31 0 int2 33 0 int2 31 -4 int2 36 2 int2 30 0 int2 35 6 int2 22 )
+    .add ( TileType Sea enum 23 -10 int2 23 -9 int2 24 1 int2 22 -10 int2 23 -6 int2 21 -11 int2 23 -5 int2 21 -12 int2 24 2 int2 20 -16 int2 20 -12 int2 23 -4 int2 23 -7 int2 23 -8 int2 20 -13 int2 22 -5 int2 20 -14 int2 20 -15 int2 51 20 int2 19 23 int2 21 -5 int2 21 )
+    .add ( TileType Road enum 33 1 int2 31 1 int2 2 )
+    .add ( TileType BridgeSea enum 36 6 int2 1 )
+}
+// Unowned buildings
+null
+pop
+camera-rig {
+    :position    ( 32.17456 -5.674363E-05 -0.2341273 float3 )
+    :rotation    ( 0 )
+    :pitch-angle ( 55.00001 )
+    :dolly-zoom  ( 1 )
+}
