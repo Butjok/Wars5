@@ -1501,6 +1501,9 @@
      <Reference Include="Unity.Collections">
      <HintPath>C:\Users\v.fedotov\RiderProjects\Wars5\Library\ScriptAssemblies\Unity.Collections.dll</HintPath>
      </Reference>
+     <Reference Include="SingularityGroup.HotReload.Runtime.Public">
+     <HintPath>C:\Users\v.fedotov\RiderProjects\Wars5\Library\ScriptAssemblies\SingularityGroup.HotReload.Runtime.Public.dll</HintPath>
+     </Reference>
      <Reference Include="Unity.2D.Tilemap.Editor">
      <HintPath>C:\Users\v.fedotov\RiderProjects\Wars5\Library\ScriptAssemblies\Unity.2D.Tilemap.Editor.dll</HintPath>
      </Reference>
@@ -1548,9 +1551,6 @@
      </Reference>
      <Reference Include="Unity.Formats.Alembic.Editor">
      <HintPath>C:\Users\v.fedotov\RiderProjects\Wars5\Library\ScriptAssemblies\Unity.Formats.Alembic.Editor.dll</HintPath>
-     </Reference>
-     <Reference Include="SingularityGroup.HotReload.Runtime.Public">
-     <HintPath>C:\Users\v.fedotov\RiderProjects\Wars5\Library\ScriptAssemblies\SingularityGroup.HotReload.Runtime.Public.dll</HintPath>
      </Reference>
   </ItemGroup>
   <ItemGroup>

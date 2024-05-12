@@ -41,6 +41,7 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\SaveGame.cs" />
      <Compile Include="Assets\Scripts\CampaignOverviewView.cs" />
      <Compile Include="Assets\Scripts\Game.cs" />
      <Compile Include="Assets\Scripts\Vision.cs" />
@@ -106,6 +107,7 @@
      <Compile Include="Assets\Scripts\HardFollow.cs" />
      <Compile Include="Assets\Scripts\ModeSelector.cs" />
      <Compile Include="Assets\Scripts\LevelEditor\CameraRigFlythrough.cs" />
+     <Compile Include="Assets\Scripts\RaycastExtensions.cs" />
      <Compile Include="Assets\Scripts\NormalSolver.cs" />
      <Compile Include="Assets\Scripts\Ai\AiPlayer.cs" />
      <Compile Include="Assets\Scripts\GameStates\VictoryState.cs" />
@@ -116,6 +118,7 @@
      <Compile Include="Assets\Scripts\UnitViewSkinnedMeshMigrator.cs" />
      <Compile Include="Assets\Scripts\Dialogues\DialogueState.cs" />
      <Compile Include="Assets\Scripts\Funny.cs" />
+     <Compile Include="Assets\Scripts\DrawingExtensions.cs" />
      <Compile Include="Assets\Scripts\Quadratic.cs" />
      <Compile Include="Assets\Scripts\CampaignView.cs" />
      <Compile Include="Assets\Scripts\Dialogues\TestDialogueState.cs" />
@@ -282,6 +285,7 @@
      <Compile Include="Assets\Scripts\EntryPoint\AboutRow.cs" />
      <Compile Include="Assets\Scripts\Faction.cs" />
      <Compile Include="Assets\Scripts\InputCommandsListener.cs" />
+     <Compile Include="Assets\Scripts\AiTestBed.cs" />
      <Compile Include="Assets\Scripts\GameStates\UiWindow.cs" />
      <Compile Include="Assets\Scripts\EntryPoint\MainMenuSelectionState.cs" />
      <Compile Include="Assets\Scripts\GameStates\BorderIncidentScenario.cs" />
@@ -329,10 +333,6 @@
      <Compile Include="Assets\Scripts\FlipbookTest.cs" />
      <Compile Include="Assets\Scripts\Animation\UnitViewSequenceSubroutines.cs" />
      <Compile Include="Assets\Scripts\EntryPoint\MainMenuWelcomeState.cs" />
-     <Compile Include="Assets\Scripts\AiTestBed.cs" />
-     <Compile Include="Assets\Scripts\SaveGame.cs" />
-     <Compile Include="Assets\Scripts\RaycastExtensions.cs" />
-     <Compile Include="Assets\Scripts\DrawingExtensions.cs" />
      <Folder Include="Assets\Scripts\EntryPoint" />
      <None Include="Assets\Scripts\Wars.asmdef" />
      <Folder Include="Assets\Scripts\DialogueMarkupLanguage" />
