@@ -74,6 +74,7 @@
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\ExposureHistogram.hlsl" />
      <Folder Include="Assets\Content\whiteboxes\Resources\Trash" />
      <Folder Include="Assets\Saves\1" />
+     <Folder Include="Assets\Saves\Intro3-Level" />
      <Folder Include="Assets\Content\City" />
      <Folder Include="Assets\JsonDotNet\Assemblies\Standalone" />
      <None Include="Assets\Shaders\Flip.shader" />
@@ -100,6 +101,7 @@
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\Dithering.hlsl" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\Bloom.shader" />
      <Folder Include="Assets\Saves\IntroTest-Forests" />
+     <Folder Include="Assets\Saves\Border3-Bushes" />
      <None Include="Assets\Shaders\My Lighting.cginc" />
      <Folder Include="Assets\StreamingAssets\Translations\ru_RU" />
      <Folder Include="Assets\SceneTemplates\MainMenu\SimpleBake_Bakes" />
@@ -152,6 +154,7 @@
      <None Include="Assets\Shaders\leaves.shader" />
      <None Include="Assets\Saves\test.1\20.01.2023-09.23.01.txt" />
      <Folder Include="Assets\Content\UI" />
+     <Folder Include="Assets\Saves\Intro3-Tiles" />
      <Folder Include="Assets\Saves\Intro2-Level" />
      <None Include="Assets\Saves\0\0-22.01.2023-19.33.36.txt" />
      <None Include="Assets\Resources\Missions\Test.txt" />
@@ -200,6 +203,7 @@
      <Folder Include="Assets\ShaderTests" />
      <None Include="Assets\Shaders\Terrain.shader" />
      <None Include="Assets\Shaders\Thumbnail.shader" />
+     <Folder Include="Assets\Saves\Intro3-Bushes" />
      <Folder Include="Assets\Props\TrafficLight" />
      <Folder Include="Assets\Saves\PatchTerrain" />
      <None Include="Assets\Saves\0\0-22.01.2023-18.36.21.txt" />
@@ -251,6 +255,7 @@
      <None Include="Assets\Shaders\FrostedGlass1.shader" />
      <Folder Include="Assets\StoneTest" />
      <None Include="Assets\Saves\0\0-22.01.2023-18.52.30.txt" />
+     <Folder Include="Assets\Saves\Intro3-Roads" />
      <Folder Include="Assets\Saves\test" />
      <None Include="Assets\Shaders\Building.shader" />
      <Folder Include="Assets\CampaignOverview" />
@@ -353,6 +358,7 @@
      <None Include="Assets\Saves\0\0-22.01.2023-18.25.37.txt" />
      <Folder Include="Assets\Saves\Intro2-Forests" />
      <Folder Include="Assets\VoiceOver\Resources" />
+     <Folder Include="Assets\Saves\Border3-Forests" />
      <Folder Include="Assets\MultiAudioListener\Example\Materials" />
      <Folder Include="Assets\Scenes\SampleScene" />
      <Folder Include="Assets\TerrainCreation\TerrainCreation" />
@@ -368,6 +374,7 @@
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\API\PSP2.hlsl" />
      <Folder Include="Assets\SceneTemplates" />
      <Folder Include="Assets\TextMesh Pro\Shaders" />
+     <Folder Include="Assets\Saves\Intro3-Props" />
      <None Include="Assets\Content\NewImageEffectShader.shader" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\ScreenSpaceReflections.shader" />
      <Folder Include="Assets\Saves\TutorialTerrain" />
@@ -425,6 +432,7 @@
      <Folder Include="Assets\Saves\Intro2-Roads" />
      <None Include="Assets\Shaders\My Shadows.cginc" />
      <Folder Include="Assets\Textures\Detail" />
+     <Folder Include="Assets\Saves\Border3-Roads" />
      <None Include="Assets\Saves\0\0-22.01.2023-19.37.40.txt" />
      <Folder Include="Assets\StreamingAssets" />
      <Folder Include="Assets\Saves\Bushes" />
@@ -441,6 +449,7 @@
      <None Include="Assets\Saves\0\0-27.01.2023-21.16.19.txt" />
      <Folder Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Editor" />
      <None Include="Assets\Shaders\BentNormal.shader" />
+     <Folder Include="Assets\Saves\Intro3-Forests" />
      <Folder Include="Assets\Music" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\Fog.hlsl" />
      <Folder Include="Assets\Scenes\BattleViews" />
@@ -503,6 +512,7 @@
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\API\D3D12.hlsl" />
      <Folder Include="Assets\Saves\TutorialTileMap" />
      <Folder Include="Assets\Saves\Forests" />
+     <Folder Include="Assets\Saves\Border3-Props" />
      <None Include="Assets\Saves\test2\test2-10.02.2023-02.00.13.txt" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\DepthOfField.shader" />
      <Folder Include="Assets\Ui\Resources" />
@@ -539,11 +549,13 @@
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Editor\ConvertToLog.shader" />
      <None Include="Assets\Shaders\PowerMeterStripe.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
+     <Folder Include="Assets\Saves\Border3-Tiles" />
      <None Include="Assets\Shaders\UnlitLeaves.shader" />
      <None Include="Assets\Shaders\LookingThroughWater.cginc" />
      <Folder Include="Assets\LightingTest\SimpleBake_Bakes" />
      <Folder Include="Assets\Portraits" />
      <Folder Include="Assets\Sounds\FromAW\Resources" />
+     <Folder Include="Assets\Saves\Border3-Level" />
      <Folder Include="Assets\Scenes\PlainLeft" />
      <None Include="Assets\Shaders\Waves.shader" />
      <Folder Include="Assets\Scenes\PlayableTest" />

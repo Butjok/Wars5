@@ -96,7 +96,7 @@ public class ActionSelectionState : StateMachineState {
             yield return new UnitAction(UnitActionType.Stay, unit, path, spawnView: true);
 
             if (level.TryGetBuilding(destination, out building) &&
-                building.Type is TileType.MissileSilo &&
+                building.type is TileType.MissileSilo &&
                 CanLaunchMissile(unit, building)) {
                 yield return new UnitAction(UnitActionType.LaunchMissile, unit, path, targetBuilding: building, spawnView: true);
             }
@@ -329,7 +329,7 @@ public class ActionSelectionState : StateMachineState {
                                 case UnitActionType.LaunchMissile:
                                     yield return StateChange.Push(new MissileTargetSelectionState(stateMachine));
                                     // unit can destroy itself with a missile lol
-                                    if (!unit.Disposed)
+                                    if (!unit.Initialized)
                                         unit.Position = destination;
                                     break;
 
@@ -337,7 +337,7 @@ public class ActionSelectionState : StateMachineState {
                                     throw new ArgumentOutOfRangeException();
                             }
 
-                            if (!unit.Disposed) {
+                            if (!unit.Initialized) {
                                 unit.Moved = true;
                                 if (unit.view.LookDirection != unit.Player.unitLookDirection) {
                                     var bipedalWalker = unit.view.GetComponent<BipedalWalker>();

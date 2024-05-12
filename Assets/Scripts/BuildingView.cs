@@ -6,16 +6,16 @@ public class BuildingView : MonoBehaviour {
 
     public static BuildingView GetPrefab(TileType type) {
         return type switch {
-            TileType.City or TileType.Factory=>"City".LoadAs<BuildingView>(),
+            TileType.City => "City".LoadAs<BuildingView>(),
             TileType.Hq => "Hq".LoadAs<BuildingView>(),
             TileType.MissileSilo => "WbMissileSilo".LoadAs<BuildingView>(),
             _ => "WbFactory".LoadAs<BuildingView>()
         };
     }
-    
+
     [Command] public static Color unownedColor = new(.3f, .4f, .2f);
     [Command] public static Color unownedLightsColor = Color.black;
-    
+
 
     public BuildingView prefab;
     public Building building;
@@ -76,6 +76,6 @@ public class BuildingView : MonoBehaviour {
                 if (light.name.StartsWith("Player") && !light.name.Contains("Exterior"))
                     light.enabled = !value;
         }
-        
+
     }
 }

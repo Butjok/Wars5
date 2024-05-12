@@ -34,12 +34,13 @@ public class Player : IDisposable {
     public Team team;
     public PersonName coName;
     public AiDifficulty? difficulty;
+    [DontSave] public bool IsAi => difficulty != null;
     public Vector2Int uiPosition;
     [DontSave] public Zone rootZone;
     [DontSave] public PlayerView2 view;
 
-    [DontSave] private ColorName colorName;
-    public ColorName ColorName {
+    private ColorName colorName;
+    [DontSave] public ColorName ColorName {
         get => colorName;
         set {
             colorName = value;
@@ -63,8 +64,8 @@ public class Player : IDisposable {
     [DontSave] public Color UiColor => Colors.GetUi(ColorName);
 
     public int maxCredits = defaultMaxCredits;
-    [DontSave] private int credits;
-    public int Credits {
+    private int credits;
+    [DontSave] public int Credits {
         get => credits;
         set => SetCredits(value);
     }
@@ -74,8 +75,8 @@ public class Player : IDisposable {
             view.SetCreditsAmount(Credits, animate);
     }
 
-    [DontSave] private int abilityMeter;
-    public int AbilityMeter {
+    private int abilityMeter;
+    [DontSave] public int AbilityMeter {
         get => abilityMeter;
         set => SetAbilityMeter(value, false, false);
     }
@@ -96,8 +97,8 @@ public class Player : IDisposable {
         Assert.IsFalse(undisposed.Contains(this));
         undisposed.Add(this);
 
-        Assert.IsFalse(level.players.Any(player => player.colorName == colorName));
-        level.players.Add(this);
+        //Assert.IsFalse(level.players.Any(player => player.colorName == colorName));
+        //level.players.Add(this);
 
         var viewPrefab = PlayerView2.GetPrefab(coName);
         Assert.IsTrue(viewPrefab);
@@ -119,8 +120,7 @@ public class Player : IDisposable {
             Object.Destroy(view.gameObject);
             view = null;
         }
+        level.players.Remove(this);
         initialized = false;
     }
-
-    public bool IsAi => difficulty != null;
 }

@@ -45,6 +45,8 @@ public static class LevelEditorFacade {
         }
     }
 
+    public static string Path(string saveName) => System.IO.Path.Combine(Application.streamingAssetsPath, saveName + ".save");
+
     [Command]
     public static void Save(string saveName) {
         var objects = Objects.Find(saveName);
@@ -55,7 +57,13 @@ public static class LevelEditorFacade {
         objects.propPlacement.Save(saveName + "-Props");
         var levelWriter = new LevelWriter(new StringWriter());
         levelWriter.WriteLevel(objects.levelEditorSessionState.level);
-        LevelEditorFileSystem.Save(saveName + "-Level", levelWriter.tw.ToString());
+        //LevelEditorFileSystem.Save(saveName + "-Level", levelWriter.tw.ToString());
+
+        var commands = SaveGame.CommandEmitter.Emit(objects.levelEditorSessionState.level);
+        var stringWriter = new StringWriter();
+        SaveGame.TextFormatter.Format(stringWriter, commands);
+        var text = stringWriter.ToString();
+        LevelEditorFileSystem.Save(saveName + "-Level", text);
     }
 
     [Command]
@@ -74,15 +82,15 @@ public static class LevelEditorFacade {
         var levelText = LevelEditorFileSystem.TryReadLatest(saveName + "-Level");
         if (levelText == null)
             return false;
-        
+
         LevelEditorSessionState.Load(saveName + "-Level");
 
         if (objects.heightMapBaker)
             objects.heightMapBaker.Bake();
 
-        foreach (var staticPropsRoot in objects.allStaticPropsRoots) 
+        foreach (var staticPropsRoot in objects.allStaticPropsRoots)
             staticPropsRoot.SetActive(false);
-        foreach (var staticPropsRoot in objects.staticPropsRoots) 
+        foreach (var staticPropsRoot in objects.staticPropsRoots)
             staticPropsRoot.SetActive(true);
 
         return true;

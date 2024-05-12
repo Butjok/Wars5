@@ -307,12 +307,15 @@ public class LevelEditorTilesModeState : StateMachineState {
                     var building = new Building {
                         level = level,
                         position = position,
-                        Type = tileType,
+                        type = tileType,
                         Player = player,
-                        viewPrefab = BuildingView.GetPrefab(tileType),
+                        ViewPrefab = BuildingView.GetPrefab(tileType),
                         lookDirection = player?.unitLookDirection ?? Vector2Int.up,
                         Cp = Rules.MaxCp(tileType)
                     };
+                    if (building.type == TileType.MissileSilo)
+                        building.missileSilo = new Building.MissileSiloStats();
+                    buildings.Add(position, building);
                     building.Initialize();
                 }
 

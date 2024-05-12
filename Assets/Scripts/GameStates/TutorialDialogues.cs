@@ -45,7 +45,7 @@ public class TutorialDialogue : DialogueState {
             var players = level.players;
             var player = level.CurrentPlayer;
             var enemy = level.players.SingleOrDefault(p => Rules.AreEnemies(player, p));
-            var hqs = level.buildings.Values.Where(building => building.Type == TileType.Hq).ToDictionary(hq => hq.Player);
+            var hqs = level.buildings.Values.Where(building => building.type == TileType.Hq).ToDictionary(hq => hq.Player);
             var units = level.units.Values.Where(u => u.Player == player).ToList();
             var infantryUnit = units.SingleOrDefault(u => u.type == UnitType.Infantry);
 
@@ -123,7 +123,7 @@ public class TutorialDialogue : DialogueState {
 
                 case Part.PleaseCaptureBuilding: {
                     yield return SayWait(_("This is an infantry unit, it can move through rivers and capture building."), voiceOverClipName: "tut11");
-                    var unownedCity = level.Buildings.SingleOrDefault(b => b.Player == null && b.Type == TileType.Factory);
+                    var unownedCity = level.Buildings.SingleOrDefault(b => b.Player == null && b.type == TileType.Factory);
                     Assert.IsTrue(unownedCity != null);
                     Assert.IsTrue(unownedCity.position.TryRaycast(out var hit));
                     using (ui.PulsateCircle(hit.point))

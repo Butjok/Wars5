@@ -65,7 +65,7 @@ public class TilemapCursor : MonoBehaviour {
     }
     public Building Building {
         set {
-            tileThumbnail.sprite = tileThumbnails.FirstOrDefault(image => image.name == $"{value.Player.coName}{value.Type}");
+            tileThumbnail.sprite = tileThumbnails.FirstOrDefault(image => image.name == $"{value.Player.coName}{value.type}");
             tileName.text = TileInfos.GetName(value);
         }
     }

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Butjok.CommandLine;
 using Drawing;
 using UnityEngine;
 
@@ -21,6 +22,17 @@ public class LevelEditorUnitsModeState : StateMachineState {
 
     public LevelEditorUnitsModeState(StateMachine stateMachine) : base(stateMachine) { }
 
+    [Command]
+    public static void FixPlayers() {
+        var levelEditorSessionState = Game.Instance.stateMachine.Find<LevelEditorSessionState>();
+        levelEditorSessionState.level.players.Clear();
+        var foundPlayers = new HashSet<Player>();
+        foreach (var unit in levelEditorSessionState.level.units.Values)
+            foundPlayers.Add(unit.Player);
+        foreach (var player in foundPlayers)
+            levelEditorSessionState.level.players.Add(player);
+    }
+    
     public override IEnumerator<StateChange> Enter {
         get {
             var game = stateMachine.TryFind<GameSessionState>().game;
@@ -30,9 +42,9 @@ public class LevelEditorUnitsModeState : StateMachineState {
             var tiles = level.tiles;
             var units = level.units;
             var camera = level.view.cameraRig.camera;
-            
+
             //while (true)
-              //  yield return StateChange.none;
+            //  yield return StateChange.none;
 
             bool TryRemoveUnit(Vector2Int position) {
                 if (!units.TryGetValue(position, out var unit))
@@ -120,16 +132,17 @@ public class LevelEditorUnitsModeState : StateMachineState {
                                 UnitType.Infantry or UnitType.AntiTank => "WbInfantry",
                                 _ => "WbLightTank"
                             }).LoadAs<UnitView>();
-                            
+
                             Debug.Log("placing");
 
                             var unit = new Unit {
                                 Player = player,
                                 type = unitType,
                                 Position = position,
-                                lookDirection =  player.unitLookDirection,
-                                viewPrefab = viewPrefab
+                                lookDirection = player.unitLookDirection,
+                                ViewPrefab = viewPrefab
                             };
+                            units[position] = unit;
                             unit.Initialize();
                             break;
                         }

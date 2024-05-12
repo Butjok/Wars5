@@ -104,7 +104,7 @@ public class BorderScenario2 : MonoBehaviour {
             Player = bluePlayer,
             type = UnitType.Infantry,
             Position = infantryPath.First.Value,
-            lookDirection = Vector2Int.up
+            lookDirection = Vector2Int.up,
         };
         infantry.Initialize();
         var infantryMovement = UnitMovement(infantryPath.ToList());

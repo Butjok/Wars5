@@ -15,7 +15,7 @@ public static class Rules {
         return 1000;
     }
     public static int Income(Building building) {
-        return Income(building.Type);
+        return Income(building.type);
     }
 
     public static IEnumerable<UnitType> GetBuildableUnitTypes(TileType buildingType) {
@@ -45,7 +45,7 @@ public static class Rules {
         var buildings = player.level.FindBuildingsOf(player).ToList();
         var hasIncome = buildings.Any(building => Income(building) > 0);
         var canBuildUnits = buildings.Any(building => GetBuildableUnitTypes(building).Any() && !player.level.TryGetUnit(building.position, out _));
-        var hasHq = buildings.Any(building => building.Type == TileType.Hq);
+        var hasHq = buildings.Any(building => building.type == TileType.Hq);
         return !hasHq ||
                !hasUnits && (!canBuildUnits || !hasIncome);
     }
@@ -79,7 +79,7 @@ public static class Rules {
     }
 
     public static int MaxCp(Building building) {
-        return MaxCp(building.Type);
+        return MaxCp(building.type);
     }
     public static int MaxCp(TileType buildingType) {
         return 20;
@@ -284,7 +284,7 @@ public static class Rules {
         return UnitStats.Loaded.TryGetValue(unitType, out var entry) && entry.specialCommands.HasFlag(UnitStats.SpecialCommand.CanCapture);
     }
     public static bool CanCapture(Unit unit, Building building) {
-        return CanCapture(unit.type, building.Type) &&
+        return CanCapture(unit.type, building.type) &&
                (building.Player == null || AreEnemies(unit.Player, building.Player));
     }
     public static bool CanPass(Unit unit, Vector2Int position) {
@@ -300,13 +300,13 @@ public static class Rules {
         return UnitStats.Loaded.TryGetValue(unitType, out var entry) && entry.specialCommands.HasFlag(UnitStats.SpecialCommand.CanLaunchMissile);
     }
     public static bool CanLaunchMissile(Unit unit, Building missileSilo) {
-        Assert.AreEqual(TileType.MissileSilo, missileSilo.Type);
+        Assert.AreEqual(TileType.MissileSilo, missileSilo.type);
         return CanLaunchMissile(unit.type) &&
                AreAllies(unit.Player, missileSilo.Player) &&
                CanLaunchMissile(missileSilo);
     }
     public static bool CanLaunchMissile(Building building) {
-        Assert.AreEqual(TileType.MissileSilo, building.Type);
+        Assert.AreEqual(TileType.MissileSilo, building.type);
         return building.level.Day() >= building.missileSilo.lastLaunchDay + building.missileSilo.launchCooldown &&
                building.missileSilo.ammo > 0;
     }

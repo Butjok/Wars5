@@ -123,12 +123,12 @@ public class LevelWriter {
     public void WriteBuilding(Building building) {
         WriteLine("building {{");
 
-        WriteLine("    :type           ( {0} )", building.Type);
+        WriteLine("    :type           ( {0} )", building.type);
         WriteLine("    :position       ( {0} )", building.position);
         WriteLine("    :cp             ( {0} )", building.Cp);
         WriteLine("    :look-direction ( {0} )", building.view.LookDirection);
 
-        if (building.Type == TileType.MissileSilo) {
+        if (building.type == TileType.MissileSilo) {
             WriteLine("    .missile-silo {{");
             WriteLine("        :last-launch-day ( {0} )", building.missileSilo.lastLaunchDay);
             WriteLine("        :launch-cooldown  ( {0} )", building.missileSilo.launchCooldown);

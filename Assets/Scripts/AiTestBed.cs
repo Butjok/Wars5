@@ -6,47 +6,81 @@ using UnityEngine;
 
 public class AiTestBed : MonoBehaviour {
 
-    public Unit unit;
-    
-    public void OnGUI() {
-        var game = Game.Instance;
-        var levelSession = game.stateMachine.TryFind<LevelSessionState>();
-        if (levelSession == null)
-            return;
+    public Camera camera;
 
-        GUI.skin = DefaultGuiSkin.TryGet;
-        var level = levelSession.level;
+    public Unit selectedUnit;
+    public UnitAiState selectedState;
 
-        var camera = level.view.cameraRig.camera;
-        if (camera.TryPhysicsRaycast(out Vector3 point, LayerMasks.Terrain) || Mouse.TryRaycastPlane(camera, out point, 0)) {
-            var position = point.ToVector2Int();
-            if (level.TryGetUnit(position, out unit) && unit.Player.IsAi) {
-                string text;
-                if (unit.aiStates.Count > 0) {
-                    var sb = new StringBuilder();
-                    foreach (var state in unit.aiStates) {
-                        sb.Append(state.GetType().Name);
-                        sb.AppendLine(":");
-                        sb.AppendLine(state.ToString());
-                        sb.AppendLine();
-                    }
-                    text = sb.ToString();
+    public void Update() {
+        using (Draw.ingame.WithLineWidth(1.75f)) {
+            if (selectedUnit is { Initialized: false }) {
+                selectedUnit = null;
+                selectedState = null;
+            }
+            var game = Game.Instance;
+            var levelSessionState = game.stateMachine.TryFind<LevelSessionState>();
+            if (levelSessionState == null)
+                return;
+            var level = levelSessionState.level;
+            if (camera.TryGetMousePosition(out Vector2Int position)) {
+                Draw.ingame.CircleXZ(position.Raycasted(), .5f, Color.yellow);
+                if (Input.GetKeyDown(KeyCode.I) && level.TryGetUnit(position, out var unit)) {
+                    selectedUnit = unit;
+                    selectedState = unit.aiStates.Count > 0 ? unit.aiStates.Peek() : null;
                 }
-                else
-                    text = "<empty>";
-                var size = GUI.skin.label.CalcSize(new GUIContent(text));
-                GUI.Label(new Rect(Input.mousePosition.x, Screen.height - Input.mousePosition.y, size.x, size.y), text);
+            }
+            if (Input.GetMouseButtonDown(Mouse.right)) {
+                selectedUnit = null;
+                selectedState = null;
+            }
+            if (selectedUnit != null) {
+                if (Input.GetKeyDown(KeyCode.O)) {
+                    var list = selectedUnit.aiStates.ToList();
+                    var index = list.IndexOf(selectedState);
+                    var nextIndex = (index + 1) % list.Count;
+                    selectedState = list[nextIndex];
+                }
+                if (selectedUnit.Position is { } actualPosition)
+                    Draw.ingame.CircleXZ(actualPosition.Raycasted(), .5f, Color.white);
+                if (selectedState != null)
+                    foreach (var state in selectedUnit.aiStates) {
+                        var fade = state == selectedState ? Color.white : new Color(1, 1, 1, .25f);
+                        switch (state) {
+                            case UnitAiStayingState stayingState:
+                                Draw.ingame.CircleXZ(stayingState.position.Raycasted(), .5f, Color.green * fade);
+                                Draw.ingame.Label3D(stayingState.position.Raycasted(), Quaternion.LookRotation(Vector3.down), "Stay", (float)0.25, LabelAlignment.Center, Color.green * fade);
+                                if (selectedUnit.Position is { } actualPosition2)
+                                    Draw.ingame.Line(actualPosition2.Raycasted(), stayingState.position.Raycasted(), Color.green * fade);
+                                break;
+                        }
+                    }
             }
         }
-        else
-            unit = null;
+    }
+
+    public void OnGUI() {
+        if (selectedUnit == null)
+            return;
+        GUI.skin = DefaultGuiSkin.TryGet;
+        GUILayout.Space(175);
+        foreach (var state in selectedUnit.aiStates) {
+            var text = state.ToString();
+            GUILayout.Label(selectedState == state ? $"<b>{text}</b>" : text);
+            GUILayout.Space(DefaultGuiSkin.defaultSpacingSize);
+        }
     }
 
     [Command]
     public void PushStayState() {
-        if (unit == null)
+        if (selectedUnit == null)
             return;
-        
+        if (camera.TryGetMousePosition(out Vector2Int position)) {
+            selectedState = new UnitAiStayingState {
+                unit = selectedUnit,
+                position = position
+            };
+            selectedUnit.aiStates.Push(selectedState);
+        }
     }
 }
 

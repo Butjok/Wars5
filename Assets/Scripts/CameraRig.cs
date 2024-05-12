@@ -75,7 +75,7 @@ public class CameraRig : MonoBehaviour {
         None = 0,
         FixedInPosition = Pitch | Rotate | Zoom,
     }
-    
+
     public MovementType enabledMovements = MovementType.All;
 
     public float ToWorldUnits(float sizeInViewportSpace) {
@@ -103,7 +103,7 @@ public class CameraRig : MonoBehaviour {
     }
 
     public Vector2 dollyZoomFovRange = new(45, 10);
-     public Vector2 dollyZoomWidthRange = new(2.5f, 15);
+    public Vector2 dollyZoomWidthRange = new(2.5f, 15);
     [Range(0, 1)] [SerializeField] private float dollyZoom = 0;
     [Range(0, 1)] public float targetDollyZoom = 0;
     public float dollyZoomSpeed = 20;
@@ -121,7 +121,6 @@ public class CameraRig : MonoBehaviour {
     }
 
     private void LateUpdate() {
-
         Assert.IsTrue(camera);
         Assert.IsTrue(arm);
 
@@ -151,7 +150,7 @@ public class CameraRig : MonoBehaviour {
 
         // ZOOM
 
-        targetDollyZoom = Mathf.Clamp01(targetDollyZoom + (enabledMovements.HasFlag(MovementType.Zoom) ? ((Input.GetAxisRaw("Mouse ScrollWheel")).ZeroSign() + Input.GetAxisRaw("Zoom")*.1f) * distanceStep : 0));
+        targetDollyZoom = Mathf.Clamp01(targetDollyZoom + (enabledMovements.HasFlag(MovementType.Zoom) ? ((Input.GetAxisRaw("Mouse ScrollWheel")).ZeroSign() + Input.GetAxisRaw("Zoom") * .1f) * distanceStep : 0));
         dollyZoom = Mathf.Lerp(dollyZoom, targetDollyZoom, Time.unscaledDeltaTime * dollyZoomSpeed);
         var fov = Mathf.Lerp(dollyZoomFovRange[0], dollyZoomFovRange[1], dollyZoom);
         var width = Mathf.Lerp(dollyZoomWidthRange[0], dollyZoomWidthRange[1], dollyZoom);
@@ -173,6 +172,10 @@ public class CameraRig : MonoBehaviour {
             var oldPoint = oldRay.GetPoint(oldEnter);
             var newPoint = newRay.GetPoint(newEnter);
             var cursorFactor = delta < 0 ? zoomCursorFactor[0] : zoomCursorFactor[1];
+            if (Input.GetKey(KeyCode.J) || Input.GetKey(KeyCode.K) ||
+                Input.GetKeyDown(KeyCode.J) || Input.GetKeyDown(KeyCode.K) ||
+                Input.GetKeyUp(KeyCode.J) || Input.GetKeyUp(KeyCode.K))
+                cursorFactor = 0;
             transform.position -= cursorFactor * (newPoint - oldPoint);
         }
 
@@ -214,12 +217,12 @@ public class CameraRig : MonoBehaviour {
             else
                 lastClickTime = Time.unscaledTime;
         }
-        
+
         // clamp
 
         if (bounds is { } actualBounds) {
             var closestPoint = actualBounds.ClosestPoint(transform.position);
-            closestPoint.y  = transform.position.y;
+            closestPoint.y = transform.position.y;
             transform.position = closestPoint;
         }
     }
@@ -227,7 +230,6 @@ public class CameraRig : MonoBehaviour {
 
     private IEnumerator freeLookCoroutine;
     private IEnumerator FreeLookCoroutine() {
-
         Vector2 GetMousePositionInViewport() {
             var position = Input.mousePosition;
             position.x /= Screen.width;
@@ -289,18 +291,18 @@ public class CameraRig : MonoBehaviour {
     public Func<bool> Jump(Vector3 to, float duration) {
         StopJump();
         var completed = false;
-        jumpCoroutine = JumpAnimation(to, duration, () => completed=true);
+        jumpCoroutine = JumpAnimation(to, duration, () => completed = true);
         StartCoroutine(jumpCoroutine);
         return () => completed;
     }
     public Func<bool> Jump(Vector3 to) {
         StopJump();
         var completed = false;
-        jumpCoroutine = JumpAnimation(to, jumpDuration, () => completed=true);
+        jumpCoroutine = JumpAnimation(to, jumpDuration, () => completed = true);
         StartCoroutine(jumpCoroutine);
         return () => completed;
     }
-    public IEnumerator JumpAnimation(Vector3 to, float? _duration=null,Action onComplete=null) {
+    public IEnumerator JumpAnimation(Vector3 to, float? _duration = null, Action onComplete = null) {
         var from = transform.position;
         var startTime = Time.unscaledTime;
         var duration = _duration ?? jumpDuration;
@@ -380,7 +382,6 @@ public class CameraRig : MonoBehaviour {
     }
 
     public bool TryRotate(int? direction = null, float? angle = null) {
-
         Assert.IsFalse(direction == null && angle == null ||
                        direction != null && angle != null);
 
@@ -405,7 +406,6 @@ public class CameraRig : MonoBehaviour {
     }
 
     private IEnumerator RotationAnimation(float startYaw, float endYaw) {
-
         var from = Quaternion.Euler(0, startYaw, 0);
         var to = Quaternion.Euler(0, endYaw, 0);
         if (from == to) {

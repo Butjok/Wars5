@@ -1,9 +1,8 @@
 using System.Collections.Generic;
-using System.Threading;
+using System.IO;
+using System.Linq;
 using Butjok.CommandLine;
 using Drawing;
-using Stable;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
@@ -26,8 +25,7 @@ public class LevelEditorSessionState : StateMachineState {
 
     public static Vector3 tileMeshPosition => new(0, -.01f, 0);
 
-    public LevelView levelViewPrefab;
-    public Level level = new();
+    public Level level;
     public MeshFilter tileMeshFilter;
     public MeshCollider tileMeshCollider;
     public LevelEditorGui gui;
@@ -43,7 +41,7 @@ public class LevelEditorSessionState : StateMachineState {
 
     public string input;
     public bool showLevelEditorTileMesh;
-    public LevelEditorSessionState(StateMachine stateMachine, string input = "", bool showLevelEditorTileMesh = false) : base(stateMachine) {
+    public LevelEditorSessionState(StateMachine stateMachine, string input = null, bool showLevelEditorTileMesh = false) : base(stateMachine) {
         this.input = input;
         this.showLevelEditorTileMesh = showLevelEditorTileMesh;
     }
@@ -52,34 +50,39 @@ public class LevelEditorSessionState : StateMachineState {
         get {
             QualitySettings.shadowCascades = 0;
 
+            level = new Level();
+
+            if (input != null) {
+                var commands = SaveGame.TextFormatter.Parse(new StringReader(input));
+                level = SaveGame.Loader.Load<Level>(commands);
+            }
+            else {
+                var bluePlayer = new Player {
+                    level = level,
+                    ColorName = ColorName.Blue,
+                    coName = PersonName.Natalie,
+                };
+                level.players.Add(bluePlayer);
+
+                var redPlayer = new Player {
+                    level = level,
+                    ColorName = ColorName.Red,
+                    coName = PersonName.Vladan,
+                };
+                level.players.Add(redPlayer);
+            }
+
             if (SceneManager.GetActiveScene().name != sceneName)
                 SceneManager.LoadScene(sceneName);
             while (!LevelView.TryInstantiatePrefab(out level.view))
                 yield return StateChange.none;
 
-            LevelReader.ReadInto(level, input.ToPostfix());
-
-            //new Thread(() => PrecalculatedDistances.TryLoad(level.missionName, out level.precalculatedDistances)).Start();
-
-            if (level.players.Count == 0) {
-                {
-                    var player = new Player {
-                        level = level,
-                        ColorName = ColorName.Blue,
-                        coName = PersonName.Natalie
-                    };
-                    player.Initialize();
-                }
-                {
-                    var player = new Player {
-                        level = level,
-                        ColorName = ColorName.Red,
-                        coName = PersonName.Vladan,
-                        difficulty = AiDifficulty.Normal
-                    };
-                    player.Initialize();
-                }
-            }
+            foreach (var p in level.players)
+                p.Initialize();
+            foreach (var b in level.buildings.Values)
+                b.Initialize();
+            foreach (var u in level.units.Values)
+                u.Initialize();
 
             {
                 var gameObject = new GameObject("LevelEditorGui");
@@ -110,21 +113,19 @@ public class LevelEditorSessionState : StateMachineState {
         }
     }
 
-    public void SaveTerrainMesh() {
-        //AssetDatabase.CreateAsset(tileMeshFilter.sharedMesh, "Assets/Resources/TilemapMeshes/" + level.missionName + ".asset");
+    [Command]
+    public static void RemoveAllBuildings() {
+        var game = Game.Instance;
+        var level = game.stateMachine.Find<LevelEditorSessionState>().level;
+        foreach (var building in level.buildings.Values.ToList())
+            building.Dispose();
     }
 
     public override void Exit() {
-        SaveTerrainMesh();
-
-        //LevelEditorFileSystem.Save("autosave", level);
-        //LevelEditorFileSystem.DeleteOldAutosaves(autosaveLifespanInDays);
 
         level.Dispose();
         Object.Destroy(level.view.gameObject);
         level.view = null;
-        // if (SceneManager.GetActiveScene().name == sceneName)
-        //   SceneManager.UnloadSceneAsync(sceneName);
 
         Object.Destroy(gui.gameObject);
         Object.Destroy(tileMeshFilter.gameObject);

@@ -8,24 +8,23 @@ using UnityEngine.Assertions;
 
 public class Level : IDisposable {
 
-    public class Path {
-        public string name;
-        public LinkedList<Vector2Int> list = new();
-    }
-
     public static readonly Vector2Int[] offsets = { Vector2Int.up, Vector2Int.down, Vector2Int.right, Vector2Int.left };
 
-    public LevelView view;
+    [DontSave] public LevelView view;
 
     public LevelName name;
     public Mission mission;
+    
     public List<Player> players = new();
     public Player localPlayer;
+    
     public int turn = 0;
+    
     public Dictionary<Vector2Int, TileType> tiles = new();
     public Dictionary<Vector2Int, Unit> units = new();
     public Dictionary<Vector2Int, Building> buildings = new();
-    public List<Bridge> bridges = new();
+    
+    [DontSave] public List<Bridge> bridges = new();
     public Dictionary<TriggerName, HashSet<Vector2Int>> triggers = new() {
         [TriggerName.A] = new HashSet<Vector2Int>(),
         [TriggerName.B] = new HashSet<Vector2Int>(),
@@ -34,10 +33,14 @@ public class Level : IDisposable {
         [TriggerName.E] = new HashSet<Vector2Int>(),
         [TriggerName.F] = new HashSet<Vector2Int>(),
     };
-    public Dictionary<(MoveType, Vector2Int, Vector2Int), int> precalculatedDistances;
-    public Dictionary<(Zone, Vector2Int), int> zoneDistances;
+    [DontSave] public Dictionary<(MoveType, Vector2Int, Vector2Int), int> precalculatedDistances;
+    [DontSave] public Dictionary<(Zone, Vector2Int), int> zoneDistances;
+    
+    public class Path {
+        public string name;
+        public LinkedList<Vector2Int> list = new();
+    }
     public List<Path> paths = new();
-
     public Path FindPath(string pathName) {
         return paths.Find(path => path.name == pathName);
     }
@@ -45,8 +48,8 @@ public class Level : IDisposable {
         return players.Single(player => player.ColorName == colorName);
     }
 
-    public IEnumerable<Building> Buildings => buildings.Values;
-    public IEnumerable<Unit> Units => units.Values;
+    [DontSave] public IEnumerable<Building> Buildings => buildings.Values;
+    [DontSave] public IEnumerable<Unit> Units => units.Values;
 
     public class TutorialState {
         public bool startedCapturing;
@@ -55,27 +58,26 @@ public class Level : IDisposable {
         public bool explainedApc;
         public bool explainedActionSelection;
     }
-
     public TutorialState tutorialState = new();
 
-    [Command]
+    [DontSave] [Command]
     public static bool EnableTutorial {
         get => PlayerPrefs.GetInt(nameof(EnableTutorial), 1) != 0;
         set => PlayerPrefs.SetInt(nameof(EnableTutorial), value ? 1 : 0);
     }
-    [Command]
+    [DontSave] [Command]
     public static bool EnableDialogues {
         get => PlayerPrefs.GetInt(nameof(EnableDialogues), 1) != 0;
         set => PlayerPrefs.SetInt(nameof(EnableDialogues), value ? 1 : 0);
     }
 
     public void Dispose() {
-        foreach (var player in players)
-            player.Dispose();
         foreach (var unit in units.Values.ToList())
             unit.Dispose();
         foreach (var building in buildings.Values.ToList())
             building.Dispose();
+        foreach (var player in players.ToList())
+            player.Dispose();
     }
 
     public int Day(int turn) {
@@ -87,6 +89,7 @@ public class Level : IDisposable {
         return Day(turn);
     }
 
+    [DontSave]
     public Player CurrentPlayer {
         get {
             Assert.AreNotEqual(0, players.Count);

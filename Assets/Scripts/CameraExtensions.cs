@@ -37,40 +37,33 @@ public static class CameraExtensions {
             hit = default;
             return false;
         }
-
         var ray = camera.ScreenPointToRay(Input.mousePosition);
         return Physics.Raycast(ray, out hit, float.MaxValue, raycastLayerMask);
     }
-
-    public static bool TryGetMousePosition(this Camera camera, out RaycastHit hit, out Vector2Int position) {
-        position = default;
-        if (!camera.TryGetMousePosition(out hit))
+    public static bool TryGetMousePosition(this Camera camera, out Vector3 point) {
+        if (!camera) {
+            point = default;
             return false;
-        position = hit.point.ToVector2Int();
-        return true;
-    }
-
-    public static bool TryGetMousePosition(this Camera camera, out Vector2Int position, bool useFallbackPlane = true) {
-        position = default;
-        if (!camera.TryGetMousePosition(out Vector3 hit, useFallbackPlane))
-            return false;
-        position = hit.ToVector2Int();
-        return true;
-    }
-
-    public static bool TryGetMousePosition(this Camera camera, out Vector3 position, bool useFallbackPlane = true) {
-        position = default;
-        if (!camera.TryGetMousePosition(out RaycastHit hit)) {
-            if (!useFallbackPlane)
-                return false;
-            var ray = camera.ScreenPointToRay(Input.mousePosition);
-            if (!new Plane(Vector3.up, Vector3.zero).Raycast(ray, out var distance))
-                return false;
-            position = ray.GetPoint(distance);
         }
-
-        position = hit.point;
-        return true;
+        if (TryGetMousePosition(camera, out RaycastHit hit)) {
+            point = hit.point;
+            return true;
+        }
+        var plane = new Plane(Vector3.up, Vector3.zero);
+        if (plane.Raycast(camera.ScreenPointToRay(Input.mousePosition), out var distance)) {
+            point = camera.ScreenPointToRay(Input.mousePosition).GetPoint(distance);
+            return true;
+        }
+        point = default;
+        return false;
+    }
+    public static bool TryGetMousePosition(this Camera camera, out Vector2Int position) {
+        if (TryGetMousePosition(camera, out Vector3 point)) {
+            position = point.ToVector2Int();
+            return true;
+        }
+        position = default;
+        return false;
     }
 
     public static bool TryCalculateScreenCircle(this Camera camera, Vector3 position, float radius, out Vector3 center, out float halfSize) {

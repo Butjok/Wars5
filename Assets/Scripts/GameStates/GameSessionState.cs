@@ -39,6 +39,9 @@ public class GameSessionState : StateMachineState {
                         case (Command.OpenLevelEditor, (string input, bool showLevelEditorTileMesh)):
                             yield return StateChange.Push(new LevelEditorSessionState(stateMachine, input, showLevelEditorTileMesh));
                             break;
+                        case (Command.OpenLevelEditor, (null, bool showLevelEditorTileMesh)):
+                            yield return StateChange.Push(new LevelEditorSessionState(stateMachine, null, showLevelEditorTileMesh));
+                            break;
                         default:
                             HandleUnexpectedCommand(command);
                             break;

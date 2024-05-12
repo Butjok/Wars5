@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -102,6 +104,7 @@ namespace SaveGame {
     }
     public class EndArrayItem : Command { }
     public class EndArray : Command { }
+
     public class List : Command {
         public int length;
         public string elementTypeName;
@@ -110,6 +113,15 @@ namespace SaveGame {
     public class ListItem : Command { }
     public class EndListItem : Command { }
     public class EndList : Command { }
+
+    public class LinkedList : Command {
+        public string elementTypeName;
+        public int id;
+    }
+    public class LinkedListItem : Command { }
+    public class EndLinkedListItem : Command { }
+    public class EndLinkedList : Command { }
+
     public class Dictionary : Command {
         public int count;
         public string keyTypeName, valueTypeName;
@@ -138,7 +150,6 @@ namespace SaveGame {
 
     public class TextFormatter {
         public static void Format(TextWriter output, IReadOnlyList<Command> commands) {
-
             // set invariant culture
             System.Globalization.CultureInfo.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
 
@@ -174,6 +185,10 @@ namespace SaveGame {
                     ListItem _ => "ListItem",
                     EndListItem _ => "EndListItem",
                     EndList _ => "EndList",
+                    LinkedList linkedList => $"LinkedList {EscapeString(linkedList.elementTypeName)} ReferenceId {linkedList.id}",
+                    LinkedListItem _ => "LinkedListItem",
+                    EndLinkedListItem _ => "EndLinkedListItem",
+                    EndLinkedList _ => "EndLinkedList",
                     Dictionary dictionary => $"Dictionary {dictionary.count} {EscapeString(dictionary.keyTypeName)} {EscapeString(dictionary.valueTypeName)} ReferenceId {dictionary.id}",
                     KeyValue _ => "KeyValue",
                     EndKeyValue _ => "EndKeyValue",
@@ -199,7 +214,6 @@ namespace SaveGame {
             }
         }
         public static List<Command> Parse(TextReader input) {
-
             // set invariant culture
             System.Globalization.CultureInfo.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
 
@@ -244,6 +258,10 @@ namespace SaveGame {
                     "ListItem" => new ListItem(),
                     "EndListItem" => new EndListItem(),
                     "EndList" => new EndList(),
+                    "LinkedList" => new LinkedList { elementTypeName = UnescapeString(parts[1]) },
+                    "LinkedListItem" => new LinkedListItem(),
+                    "EndLinkedListItem" => new EndLinkedListItem(),
+                    "EndLinkedList" => new EndLinkedList(),
                     "Dictionary" => new Dictionary { count = int.Parse(parts[1]), keyTypeName = UnescapeString(parts[2]), valueTypeName = UnescapeString(parts[3]) },
                     "KeyValue" => new KeyValue(),
                     "EndKeyValue" => new EndKeyValue(),
@@ -269,7 +287,7 @@ namespace SaveGame {
             }
             return commands;
         }
-        
+
         private static StringBuilder sb = new();
         // escape string by replacing whitespace and % with %xx
         public static string EscapeString(string input) {
@@ -381,7 +399,7 @@ namespace SaveGame {
                     case ReferenceTo getReference:
                         stack.Push(referencedObjects[getReference.index]);
                         break;
-                    case EndArray or ListItem or EndList or KeyValue or EndDictionary or HashSetItem or EndHashSet or EndClassInstance or EndStructInstance or StackItem or EndStack or QueueItem or EndQueue:
+                    case EndArray or ListItem or EndList or KeyValue or EndDictionary or HashSetItem or EndHashSet or EndClassInstance or EndStructInstance or StackItem or EndStack or QueueItem or EndQueue or LinkedListItem or EndLinkedList:
                         break;
                     case Array array1: {
                         var array = System.Array.CreateInstance(Type.GetType(array1.elementTypeName), array1.length);
@@ -412,6 +430,24 @@ namespace SaveGame {
                             list.Add(value);
                         else
                             Debug.LogError($"{stack.Peek()} is not a list");
+                        break;
+                    }
+                    case LinkedList linkedList1: {
+                        var linkedList = (IEnumerable)Activator.CreateInstance(typeof(LinkedList<>).MakeGenericType(Type.GetType(linkedList1.elementTypeName)));
+                        referencedObjects.Add(linkedList);
+                        stack.Push(linkedList);
+                        break;
+                    }
+                    case EndLinkedListItem _: {
+                        var value = stack.Pop();
+                        if (stack.Peek() is IEnumerable linkedList) {
+                            var methods = linkedList.GetType().GetMethods();
+                            var method = methods.Single(m => m.Name == "AddLast" && m.GetParameters()[0].ParameterType == value.GetType());
+                            method.Invoke(linkedList, new[] { value });
+                        }
+                        else
+                            Debug.LogError($"{stack.Peek()} is not a linked list");
+                        LinkedList<Vector2Int> list;
                         break;
                     }
                     case Dictionary dictionary1: {
@@ -466,7 +502,7 @@ namespace SaveGame {
                         var value = stack.Pop();
                         var obj = stack.Peek();
                         var fieldInfo = fieldInfos.Pop();
-                        fieldInfo.SetValue(obj, value);
+                        fieldInfo?.SetValue(obj, value);
                         break;
                     }
                     case Property beginPropertyValue:
@@ -476,7 +512,7 @@ namespace SaveGame {
                         var value = stack.Pop();
                         var obj = stack.Peek();
                         var propertyInfo = propertyInfos.Pop();
-                        propertyInfo.SetValue(obj, value);
+                        propertyInfo?.SetValue(obj, value);
                         break;
                     }
                     case PushEnum pushEnum: {
@@ -551,7 +587,6 @@ namespace SaveGame {
         }
 
         private List<Command> Emit(object obj, List<Command> output = null, int depth = 0) {
-
             Debug.Assert(depth < 1000, "Depth limit reached");
 
             output ??= new List<Command>();
@@ -612,7 +647,6 @@ namespace SaveGame {
                     });
                     break;
                 default: {
-
                     if (getIndex.TryGetValue(obj, out var id)) {
                         output.Add(new ReferenceTo { depth = depth, index = id });
                         break;
@@ -641,7 +675,6 @@ namespace SaveGame {
 
                     // generic
                     if (type.IsGenericType) {
-
                         if (type.GetGenericTypeDefinition() == typeof(Nullable<>)) {
                             Emit(type.GetProperty("Value").GetValue(obj), output, depth + 1);
                             break;
@@ -662,6 +695,23 @@ namespace SaveGame {
                                 output.Add(new EndListItem { depth = depth + 1 });
                             }
                             output.Add(new EndList { depth = depth });
+                            break;
+                        }
+
+                        if (type.GetGenericTypeDefinition() == typeof(LinkedList<>)) {
+                            var linkedList = (IEnumerable)obj;
+                            id = NewReferenceId(obj);
+                            output.Add(new LinkedList {
+                                depth = depth,
+                                elementTypeName = type.GetGenericArguments()[0].AssemblyQualifiedName,
+                                id = id
+                            });
+                            foreach (var item in linkedList) {
+                                output.Add(new LinkedListItem { depth = depth + 1 });
+                                Emit(item, output, depth + 2);
+                                output.Add(new EndLinkedListItem { depth = depth + 1 });
+                            }
+                            output.Add(new EndLinkedList { depth = depth });
                             break;
                         }
 
@@ -757,7 +807,7 @@ namespace SaveGame {
                         output.Add(new StructInstance { depth = depth, typeName = type.AssemblyQualifiedName });
 
                     foreach (var field in type.GetFields(flags))
-                        if (field.GetCustomAttribute<DontSaveAttribute>() == null) {
+                        if (field.GetCustomAttribute<DontSaveAttribute>() == null && field.GetCustomAttribute<CompilerGeneratedAttribute>() == null) {
                             output.Add(new Field { depth = depth + 1, fieldName = field.Name });
                             Emit(field.GetValue(obj), output, depth + 2);
                             output.Add(new EndField { depth = depth + 1 });

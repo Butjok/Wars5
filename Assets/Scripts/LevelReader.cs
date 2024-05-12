@@ -275,10 +275,10 @@ public static class LevelReader {
                     var building = new Building {
                         level = level,
                         position = position,
-                        Type = buildingType,
+                        type = buildingType,
                         Player = player,
                         Cp = buildingCp,
-                        viewPrefab = viewPrefab,
+                        ViewPrefab = viewPrefab,
                         lookDirection = buildingLookDirection,
                         missileSilo = new Building.MissileSiloStats {
                             lastLaunchDay = buildingMissileSiloLastLaunchDay,
@@ -290,6 +290,7 @@ public static class LevelReader {
                             bridgeDamage = buildingMissileSiloMissileBridgeDamage
                         }
                     };
+                    building.level.buildings.Add(building.position, building);
                     building.Initialize();
 
                     stack.Push(building);
@@ -372,8 +373,10 @@ public static class LevelReader {
                         Hp = unitHp,
                         Fuel = unitFuel,
                         Moved = unitMoved,
-                        viewPrefab = unitViewPrefab
+                        ViewPrefab = unitViewPrefab
                     };
+                    if (unit.Position is { } actualPosition)
+                        unit.Player.level.units[actualPosition] = unit;
                     unit.Initialize();
                     stack.Push(unit);
                     ResetUnitValues();

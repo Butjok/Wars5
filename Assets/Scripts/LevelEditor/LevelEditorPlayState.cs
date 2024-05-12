@@ -16,8 +16,9 @@ public class LevelEditorPlayState : StateMachineState {
             
             editorState.gui.layerStack.Push(() => { });
 
-            using var stringWriter = new StringWriter();
-            new LevelWriter(stringWriter).WriteLevel(level);
+            var commands = SaveGame.CommandEmitter.Emit(level);
+            var stringWriter = new StringWriter();
+            SaveGame.TextFormatter.Format(stringWriter, commands);
             input = stringWriter.ToString();
             
             if (editorState.musicSource)

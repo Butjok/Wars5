@@ -146,7 +146,7 @@ public abstract class StateMachineState {
                     }
 
                     if (building != null)
-                        text += $"<b><color=#{ColorUtility.ToHtmlStringRGB(building.Player?.UiColor ?? Color.white)}>{building.Type}</color></b>\n";
+                        text += $"<b><color=#{ColorUtility.ToHtmlStringRGB(building.Player?.UiColor ?? Color.white)}>{building.type}</color></b>\n";
                     //    else if (tileType != 0)
                     //        text += $"{tileType}\n";
 

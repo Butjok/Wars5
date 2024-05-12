@@ -22,17 +22,7 @@ public class Building : IDisposable {
 
     public static readonly HashSet<Building> undisposed = new();
 
-    [DontSave] private TileType type;
-    public TileType Type {
-        get => type;
-        set {
-            type = value;
-            if (value == TileType.MissileSilo && missileSilo == null)
-                missileSilo = new MissileSiloStats();
-            else if (value != TileType.MissileSilo && missileSilo != null)
-                missileSilo = null;
-        }
-    }
+    public TileType type;
     public Level level;
     public Vector2Int position;
     public Vector2Int lookDirection = Vector2Int.up;
@@ -42,16 +32,15 @@ public class Building : IDisposable {
         return Max(0, missileSilo.lastLaunchDay + missileSilo.launchCooldown - day);
     }
 
-    [DontSave] public BuildingView viewPrefab;
-    public string ViewPrefabName {
-        get => viewPrefab ? viewPrefab.name : null;
-        set => viewPrefab = value.LoadAs<BuildingView>();
+    private string viewPrefabName = "City";
+    [DontSave] public BuildingView ViewPrefab {
+        get => viewPrefabName.LoadAs<BuildingView>();
+        set => viewPrefabName = value.name;
     }
-
     [DontSave] public BuildingView view;
 
-    [DontSave] private Player player;
-    public Player Player {
+    private Player player;
+    [DontSave] public Player Player {
         get => player;
         set {
             if (initialized && player == value)
@@ -65,18 +54,18 @@ public class Building : IDisposable {
         }
     }
 
-    [DontSave] private int cp;
-    public int Cp {
+    private int cp;
+    [DontSave] public int Cp {
         get => cp;
         set {
             if (initialized && cp == value)
                 return;
-            cp = Clamp(value, 0, initialized ? MaxCp(this) : MaxCp(Type));
+            cp = Clamp(value, 0, initialized ? MaxCp(this) : MaxCp(type));
         }
     }
 
-    [DontSave] private bool moved;
-    public bool Moved {
+    private bool moved;
+    [DontSave] public bool Moved {
         get => moved;
         set {
             moved = value;
@@ -92,31 +81,28 @@ public class Building : IDisposable {
         Assert.IsFalse(undisposed.Contains(this));
         undisposed.Add(this);
 
-        if (viewPrefab) {
-            view = Object.Instantiate(viewPrefab, level.view.transform);
-            view.prefab = viewPrefab;
-            view.Position = position;
-            if (Type != TileType.Hq)
-                view.LookDirection = lookDirection;
-        }
+        if (!ViewPrefab)
+            ViewPrefab = BuildingView.GetPrefab(type);
+        Assert.IsTrue(ViewPrefab);
+        view = Object.Instantiate(ViewPrefab, level.view.transform);
+        view.prefab = ViewPrefab;
+        view.Position = position;
+        if (type != TileType.Hq)
+            view.LookDirection = lookDirection;
 
         Player = Player;
         Cp = Cp;
         Moved = Moved;
 
-        Assert.IsTrue(!level.buildings.ContainsKey(position) || level.buildings[position] == null);
-        level.buildings[position] = this;
-        level.tiles[position] = Type;
-
         initialized = true;
     }
 
     public static implicit operator TileType(Building building) {
-        return building.Type;
+        return building.type;
     }
 
     public override string ToString() {
-        return $"{Type}{position} {Player}";
+        return $"{type}{position} {Player}";
     }
 
     public void Dispose() {

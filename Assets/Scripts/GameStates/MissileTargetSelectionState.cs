@@ -68,7 +68,7 @@ public class MissileTargetSelectionState : StateMachineState {
                 while (Game.TryDequeueCommand(out var command))
                     switch (command) {
                         case (Command.LaunchMissile, Vector2Int targetPosition): {
-                            Assert.AreEqual(TileType.MissileSilo, building.Type);
+                            Assert.AreEqual(TileType.MissileSilo, building.type);
 
                             targets.Clear();
 

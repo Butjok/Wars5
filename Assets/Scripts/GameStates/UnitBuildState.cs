@@ -45,7 +45,7 @@ public class UnitBuildState : StateMachineState {
             Assert.IsFalse(level.TryGetUnit(building.position, out _));
             Assert.IsNotNull(building.Player);
 
-            var availableTypes = Rules.GetBuildableUnitTypes(building.Type);
+            var availableTypes = Rules.GetBuildableUnitTypes(building.type);
             while (true) {
                 yield return StateChange.none;
 
@@ -69,8 +69,11 @@ public class UnitBuildState : StateMachineState {
                                 type = type,
                                 Position = building.position,
                                 Moved = true,
-                                viewPrefab = viewPrefab
+                                ViewPrefab = viewPrefab,
+                                lookDirection = building.Player.unitLookDirection
                             };
+                            if (unit.Position is { } actualPosition)
+                                unit.Player.level.units[actualPosition] = unit;
                             unit.Initialize();
                             Debug.Log($"Built unit {unit}");
 
