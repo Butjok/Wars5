@@ -96,7 +96,7 @@ public class ActionSelectionState : StateMachineState {
             yield return new UnitAction(UnitActionType.Stay, unit, path, spawnView: true);
 
             if (level.TryGetBuilding(destination, out building) &&
-                building.type is TileType.MissileSilo &&
+                building.Type is TileType.MissileSilo &&
                 CanLaunchMissile(unit, building)) {
                 yield return new UnitAction(UnitActionType.LaunchMissile, unit, path, targetBuilding: building, spawnView: true);
             }

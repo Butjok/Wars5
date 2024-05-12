@@ -303,8 +303,18 @@ public class LevelEditorTilesModeState : StateMachineState {
                     forestCreator.RespawnTrees();
                 }
 
-                if (TileType.Buildings.HasFlag(tileType))
-                    new Building(level, position, tileType, player, viewPrefab: BuildingView.GetPrefab(tileType), lookDirection: player?.unitLookDirection ?? Vector2Int.up);
+                if (TileType.Buildings.HasFlag(tileType)) {
+                    var building = new Building {
+                        level = level,
+                        position = position,
+                        Type = tileType,
+                        Player = player,
+                        viewPrefab = BuildingView.GetPrefab(tileType),
+                        lookDirection = player?.unitLookDirection ?? Vector2Int.up,
+                        Cp = Rules.MaxCp(tileType)
+                    };
+                    building.Initialize();
+                }
 
                 foreach (var b in buildings.Values)
                     b.view.Position = b.position;
@@ -377,7 +387,7 @@ public class LevelEditorTilesModeState : StateMachineState {
                             foreach (var position in tiles.Keys.Where(p => tiles[p] == TileType.Forest))
                                 forestCreator.PlaceTreesAt(position);
                         }
-                        if (heightMapBaker) 
+                        if (heightMapBaker)
                             heightMapBaker.Bake();
                     }
                 }

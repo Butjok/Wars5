@@ -11,7 +11,8 @@ using UnityEngine.Assertions;
 using static BattleConstants;
 
 public enum LevelName {
-    Tutorial, FirstMission
+    Tutorial,
+    FirstMission
 }
 
 public static class LevelReader {
@@ -27,11 +28,9 @@ public static class LevelReader {
     }
 
     public static void ReadInto(Level level, string input, Vector2Int transform) {
-
         Team playerTeam;
         PersonName playerCoName;
-        PlayerType playerType;
-        AiDifficulty playerDifficulty;
+        AiDifficulty? playerDifficulty;
         int playerCredits;
         PlayerView2 playerViewPrefab;
         bool playerLocal;
@@ -45,8 +44,7 @@ public static class LevelReader {
         void ResetPlayerValues() {
             playerTeam = Team.None;
             playerCoName = PersonName.Natalie;
-            playerType = PlayerType.Human;
-            playerDifficulty = AiDifficulty.Normal;
+            playerDifficulty = null;
             playerCredits = 0;
             playerViewPrefab = PlayerView2.DefaultPrefab;
             playerLocal = false;
@@ -57,12 +55,13 @@ public static class LevelReader {
             playerSide = default;
             playerUiPosition = null;
         }
+
         ResetPlayerValues();
 
         Vector2Int? buildingPosition;
         TileType buildingType;
         int buildingCp;
-        Vector2Int? buildingLookDirection;
+        Vector2Int buildingLookDirection;
         int buildingMissileSiloLastLaunchDay;
         int buildingMissileSiloLaunchCooldown;
         int buildingMissileSiloLaunchAmmo;
@@ -70,11 +69,12 @@ public static class LevelReader {
         Vector2Int buildingMissileSiloBlastRange;
         int buildingMissileSiloMissileUnitDamage;
         int buildingMissileSiloMissileBridgeDamage;
+
         void ResetBuildingValues() {
             buildingPosition = null;
             buildingType = 0;
             buildingCp = 20;
-            buildingLookDirection = null;
+            buildingLookDirection = Vector2Int.up;
             buildingMissileSiloLastLaunchDay = -99;
             buildingMissileSiloLaunchCooldown = 1;
             buildingMissileSiloLaunchAmmo = 999;
@@ -83,6 +83,7 @@ public static class LevelReader {
             buildingMissileSiloMissileUnitDamage = 5;
             buildingMissileSiloMissileBridgeDamage = 10;
         }
+
         ResetBuildingValues();
 
         Vector2Int? unitPosition;
@@ -102,24 +103,29 @@ public static class LevelReader {
             unitFuel = 99;
             unitViewPrefab = UnitView.DefaultPrefab;
         }
+
         ResetUnitValues();
 
         int bridgeHp;
         BridgeView bridgeView;
         HashSet<Vector2Int> bridgePositions = new HashSet<Vector2Int>();
+
         void ResetBridgeValues() {
             bridgeHp = 20;
             bridgeView = null;
             bridgePositions.Clear();
         }
+
         ResetBridgeValues();
 
-        var pathPositions  = new List<Vector2Int>();
+        var pathPositions = new List<Vector2Int>();
         string pathName;
+
         void ResetPathValues() {
             pathPositions.Clear();
             pathName = null;
         }
+
         ResetPathValues();
 
         TriggerName? trigger = null;
@@ -134,7 +140,6 @@ public static class LevelReader {
         foreach (var token in Tokenizer.Tokenize(input.ToPostfix())) {
             // try {
             switch (token) {
-
                 case "game.set-turn": {
                     level.turn = (int)stack.Pop();
                     break;
@@ -145,12 +150,24 @@ public static class LevelReader {
                 }
 
                 case "player.add": {
-
                     if (playerColorName is not { } colorName)
                         throw new AssertionException("colorName is null", null);
 
-                    var player = new Player(level, colorName, playerTeam, playerCredits, playerCoName, playerViewPrefab, playerType, playerDifficulty, playerUnitLookDirection, uiPosition: playerUiPosition,
-                        abilityActivationTurn: playerAbilityActivationTurn, side: playerSide, abilityMeter: playerAbilityMeter);
+                    var player = new Player {
+                        level = level,
+                        ColorName = colorName,
+                        team = playerTeam,
+                        Credits = playerCredits,
+                        coName = playerCoName,
+                        view = playerViewPrefab,
+                        difficulty = playerDifficulty,
+                        unitLookDirection = playerUnitLookDirection ?? Vector2Int.up,
+                        uiPosition = playerUiPosition ?? Vector2Int.zero,
+                        abilityActivationTurn = playerAbilityActivationTurn,
+                        side = playerSide,
+                        AbilityMeter = playerAbilityMeter,
+                    };
+                    player.Initialize();
 
                     if (playerLocal) {
                         Assert.IsNull(level.localPlayer);
@@ -191,7 +208,6 @@ public static class LevelReader {
                 }
                 case "player.add.set-ai":
                 case "player.set-ai": {
-                    playerType = PlayerType.Ai;
                     playerDifficulty = (AiDifficulty)stack.Pop();
                     break;
                 }
@@ -248,7 +264,6 @@ public static class LevelReader {
                 }
 
                 case "building.add": {
-
                     Assert.AreNotEqual((TileType)0, buildingType);
                     if (buildingPosition is not { } position)
                         throw new AssertionException("buildingPosition is null", buildingType.ToString());
@@ -257,15 +272,25 @@ public static class LevelReader {
                     var player = (Player)stack.Peek();
                     var viewPrefab = BuildingView.GetPrefab(buildingType);
 
-                    var building = new Building(level, position, buildingType, player, buildingCp, viewPrefab, buildingLookDirection);
-
-                    building.missileSiloLastLaunchDay = buildingMissileSiloLastLaunchDay;
-                    building.missileSiloLaunchCooldown = buildingMissileSiloLaunchCooldown;
-                    building.missileSiloAmmo = buildingMissileSiloLaunchAmmo;
-                    building.missileSiloRange = buildingMissileSiloRange;
-                    building.missileBlastRange = buildingMissileSiloBlastRange;
-                    building.missileUnitDamage = buildingMissileSiloMissileUnitDamage;
-                    building.missileBridgeDamage = buildingMissileSiloMissileBridgeDamage;
+                    var building = new Building {
+                        level = level,
+                        position = position,
+                        Type = buildingType,
+                        Player = player,
+                        Cp = buildingCp,
+                        viewPrefab = viewPrefab,
+                        lookDirection = buildingLookDirection,
+                        missileSilo = new Building.MissileSiloStats {
+                            lastLaunchDay = buildingMissileSiloLastLaunchDay,
+                            launchCooldown = buildingMissileSiloLaunchCooldown,
+                            ammo = buildingMissileSiloLaunchAmmo,
+                            range = buildingMissileSiloRange,
+                            blastRange = buildingMissileSiloBlastRange,
+                            unitDamage = buildingMissileSiloMissileUnitDamage,
+                            bridgeDamage = buildingMissileSiloMissileBridgeDamage
+                        }
+                    };
+                    building.Initialize();
 
                     stack.Push(building);
 
@@ -339,7 +364,18 @@ public static class LevelReader {
                     if (unitType is not { } type)
                         throw new AssertionException("unitType == null", "");
                     var player = (Player)stack.Peek();
-                    stack.Push(new Unit(player, type, unitPosition, unitLookDirection, unitHp, unitFuel, unitMoved, unitViewPrefab));
+                    var unit = new Unit {
+                        Player = player,
+                        type = type,
+                        Position = unitPosition,
+                        lookDirection = unitLookDirection,
+                        Hp = unitHp,
+                        Fuel = unitFuel,
+                        Moved = unitMoved,
+                        viewPrefab = unitViewPrefab
+                    };
+                    unit.Initialize();
+                    stack.Push(unit);
                     ResetUnitValues();
                     break;
                 }
@@ -532,7 +568,7 @@ public static class LevelReader {
                 }
                 case "path.add": {
                     Assert.IsNotNull(pathName);
-                    var path = new Level.Path{name=pathName};
+                    var path = new Level.Path { name = pathName };
                     foreach (var position in pathPositions)
                         path.AddLast(position);
                     level.paths.Add(path);
@@ -545,7 +581,7 @@ public static class LevelReader {
                     break;
             }
         }
-        
+
         Assert.IsTrue(level.localPlayer != null);
     }
 }

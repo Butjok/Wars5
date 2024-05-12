@@ -114,7 +114,7 @@ public class PathSelectionState : StateMachineState {
                                 case (Command.ReconstructPath or Command.AppendToPath or Command.Cancel, _):
                                     break;
                                 case (Command.Move, _):
-                                    if (Level.TryGetBuilding(pathBuilder[^1], out var building) && building.Player != Level.localPlayer && building.type == TileType.Factory)
+                                    if (Level.TryGetBuilding(pathBuilder[^1], out var building) && building.Player != Level.localPlayer && building.Type == TileType.Factory)
                                         break;
                                     goto default;
                                 default:

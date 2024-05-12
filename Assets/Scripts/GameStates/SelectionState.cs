@@ -105,7 +105,7 @@ public class SelectionState : StateMachineState {
                 }
             }
 
-            var missileSilos = Level.Buildings.Where(b => b.Player == Level.CurrentPlayer && b.type == TileType.MissileSilo).ToList();
+            var missileSilos = Level.Buildings.Where(b => b.Player == Level.CurrentPlayer && b.Type == TileType.MissileSilo).ToList();
             foreach (var missileSilo in missileSilos)
                 if (missileSilo.Moved && missileSilo.Cooldown(Level.Day()) == 0) {
                     if (Level.CurrentPlayer == Level.localPlayer && missileSilo.position.TryRaycast(out var hit)) {

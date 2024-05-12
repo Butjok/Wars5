@@ -13,7 +13,16 @@ public class LevelEditorSessionState : StateMachineState {
 
     public const string sceneName = "MarchingSquares";
 
-    public enum SelectModeCommand { SelectTilesMode, SelectUnitsMode, SelectTriggersMode, SelectAreasMode, SelectBridgesMode, SelectPropsMode, Play, SelectPathsMode }
+    public enum SelectModeCommand {
+        SelectTilesMode,
+        SelectUnitsMode,
+        SelectTriggersMode,
+        SelectAreasMode,
+        SelectBridgesMode,
+        SelectPropsMode,
+        Play,
+        SelectPathsMode
+    }
 
     public static Vector3 tileMeshPosition => new(0, -.01f, 0);
 
@@ -41,9 +50,8 @@ public class LevelEditorSessionState : StateMachineState {
 
     public override IEnumerator<StateChange> Enter {
         get {
-            
             QualitySettings.shadowCascades = 0;
-            
+
             if (SceneManager.GetActiveScene().name != sceneName)
                 SceneManager.LoadScene(sceneName);
             while (!LevelView.TryInstantiatePrefab(out level.view))
@@ -54,8 +62,23 @@ public class LevelEditorSessionState : StateMachineState {
             //new Thread(() => PrecalculatedDistances.TryLoad(level.missionName, out level.precalculatedDistances)).Start();
 
             if (level.players.Count == 0) {
-                level.players.Add(new Player(level, ColorName.Red));
-                level.players.Add(new Player(level, ColorName.Blue));
+                {
+                    var player = new Player {
+                        level = level,
+                        ColorName = ColorName.Blue,
+                        coName = PersonName.Natalie
+                    };
+                    player.Initialize();
+                }
+                {
+                    var player = new Player {
+                        level = level,
+                        ColorName = ColorName.Red,
+                        coName = PersonName.Vladan,
+                        difficulty = AiDifficulty.Normal
+                    };
+                    player.Initialize();
+                }
             }
 
             {
@@ -92,7 +115,6 @@ public class LevelEditorSessionState : StateMachineState {
     }
 
     public override void Exit() {
-
         SaveTerrainMesh();
 
         //LevelEditorFileSystem.Save("autosave", level);
@@ -101,8 +123,8 @@ public class LevelEditorSessionState : StateMachineState {
         level.Dispose();
         Object.Destroy(level.view.gameObject);
         level.view = null;
-       // if (SceneManager.GetActiveScene().name == sceneName)
-         //   SceneManager.UnloadSceneAsync(sceneName);
+        // if (SceneManager.GetActiveScene().name == sceneName)
+        //   SceneManager.UnloadSceneAsync(sceneName);
 
         Object.Destroy(gui.gameObject);
         Object.Destroy(tileMeshFilter.gameObject);
@@ -115,7 +137,6 @@ public class LevelEditorSessionState : StateMachineState {
         foreach (var bridge in level.bridges) {
             var index = level.bridges.IndexOf(bridge);
             if (bridge.tiles.Count > 0) {
-
                 var center = Vector2.zero;
                 var count = 0;
                 foreach (var position in bridge.tiles.Keys) {

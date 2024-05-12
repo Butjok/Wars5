@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Butjok.CommandLine;
+using SaveGame;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -12,7 +13,7 @@ public class Level : IDisposable {
     }
 
     public static readonly Vector2Int[] offsets = { Vector2Int.up, Vector2Int.down, Vector2Int.right, Vector2Int.left };
-    
+
     public LevelView view;
 
     public LevelName name;
@@ -35,7 +36,7 @@ public class Level : IDisposable {
     public Dictionary<(MoveType, Vector2Int, Vector2Int), int> precalculatedDistances;
     public Dictionary<(Zone, Vector2Int), int> zoneDistances;
     public List<Path> paths = new();
-    
+
     public Path FindPath(string pathName) {
         return paths.Single(path => path.name == pathName);
     }
@@ -43,7 +44,7 @@ public class Level : IDisposable {
         return players.Single(player => player.ColorName == colorName);
     }
 
-    public IEnumerable<Building> Buildings=> buildings.Values;
+    public IEnumerable<Building> Buildings => buildings.Values;
     public IEnumerable<Unit> Units => units.Values;
 
     public class TutorialState {
@@ -53,6 +54,7 @@ public class Level : IDisposable {
         public bool explainedApc;
         public bool explainedActionSelection;
     }
+
     public TutorialState tutorialState = new();
 
     [Command]
@@ -129,7 +131,7 @@ public class Level : IDisposable {
     public IEnumerable<Vector2Int> Neighbors(Vector2Int position) {
         return from offset in Rules.gridOffsets where tiles.ContainsKey(position + offset) select position + offset;
     }
-    
+
     public void SetGui(object key, Action action) {
         view.guiCommands[key] = action;
     }
@@ -138,4 +140,11 @@ public class Level : IDisposable {
     }
 }
 
-public enum TriggerName { A, B, C, D, E, F }
+public enum TriggerName {
+    A,
+    B,
+    C,
+    D,
+    E,
+    F
+}

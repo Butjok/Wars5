@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using SaveGame;
 using UnityEngine;
 using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
@@ -8,9 +9,10 @@ using static UnityEngine.Mathf;
 using static Rules;
 
 public enum ColorName {
-    Red, Green, Blue
+    Red,
+    Green,
+    Blue
 }
-
 public enum Team {
     None,
     Alpha,
@@ -18,24 +20,25 @@ public enum Team {
     Charlie,
     Delta
 }
-
-public enum PlayerType { Human, Ai }
-public enum AiDifficulty { Normal, Easy, Hard }
+public enum AiDifficulty {
+    Normal,
+    Easy,
+    Hard
+}
 
 public class Player : IDisposable {
 
     public static readonly HashSet<Player> undisposed = new();
 
-    public readonly Level level;
-    public readonly Team team;
-    public readonly PersonName coName;
-    public readonly PlayerType type;
-    public readonly AiDifficulty difficulty;
-    public readonly PlayerView2 view;
-    public readonly Vector2Int uiPosition;
-    public Zone rootZone;
+    public Level level;
+    public Team team;
+    public PersonName coName;
+    public AiDifficulty? difficulty;
+    public Vector2Int uiPosition;
+    [DontSave] public Zone rootZone;
+    [DontSave] public PlayerView2 view;
 
-    private ColorName colorName;
+    [DontSave] private ColorName colorName;
     public ColorName ColorName {
         get => colorName;
         set {
@@ -56,70 +59,68 @@ public class Player : IDisposable {
             RecursivelyUpdateUnitColor(cargo, color);
     }
 
-    public Color Color => Colors.Get(ColorName);
-    public Color UiColor => Colors.GetUi(ColorName);
+    [DontSave] public Color Color => Colors.Get(ColorName);
+    [DontSave] public Color UiColor => Colors.GetUi(ColorName);
 
     public int maxCredits = defaultMaxCredits;
-    public int Credits { get; private set; }
+    [DontSave] private int credits;
+    public int Credits {
+        get => credits;
+        set => SetCredits(value);
+    }
     public void SetCredits(int value, bool animate = false) {
-        Credits = Clamp(value, 0, initialized ? MaxCredits(this) : defaultMaxCredits);
-        if (initialized)
+        credits = Clamp(value, 0, initialized ? MaxCredits(this) : defaultMaxCredits);
+        if (view)
             view.SetCreditsAmount(Credits, animate);
     }
 
-    public int AbilityMeter { get; private set; }
+    [DontSave] private int abilityMeter;
+    public int AbilityMeter {
+        get => abilityMeter;
+        set => SetAbilityMeter(value, false, false);
+    }
     public void SetAbilityMeter(int value, bool animate = false, bool playSoundOnFull = true) {
-        AbilityMeter = Clamp(value, 0, initialized ? defaultMaxAbilityMeter : MaxAbilityMeter(this));
-        view.SetPowerStripeMeter(value, MaxAbilityMeter(this), initialized && animate, initialized && playSoundOnFull);
+        abilityMeter = Clamp(value, 0, initialized ? defaultMaxAbilityMeter : MaxAbilityMeter(this));
+        if (view)
+            view.SetPowerStripeMeter(value, MaxAbilityMeter(this), initialized && animate, initialized && playSoundOnFull);
     }
 
     public int? abilityActivationTurn;
-    public Vector2Int unitLookDirection;
+    public Vector2Int unitLookDirection = Vector2Int.up;
     public Side side;
 
-    private bool initialized;
+    [DontSave] private bool initialized;
 
-    public Player(Level level, ColorName colorName, Team team = Team.None, int credits = 0, PersonName coName = PersonName.Natalie, PlayerView2 viewPrefab = null,
-        PlayerType type = PlayerType.Human, AiDifficulty difficulty = AiDifficulty.Normal, Vector2Int? unitLookDirection = null,
-        Vector2Int? uiPosition = null, int abilityMeter = 0, Side side = default, int? abilityActivationTurn = null) {
-
+    public void Initialize() {
+        Assert.IsFalse(initialized);
+        Assert.IsFalse(undisposed.Contains(this));
         undisposed.Add(this);
-
-        this.level = level;
-        this.colorName = colorName;
-        this.team = team;
-        Credits = credits;
-        this.coName = coName;
-        this.type = type;
-        this.difficulty = difficulty;
-        this.unitLookDirection = unitLookDirection ?? Vector2Int.up;
-        this.uiPosition = uiPosition ?? new Vector2Int(0, 0);
-        this.side = side;
-        this.abilityActivationTurn = abilityActivationTurn;
 
         Assert.IsFalse(level.players.Any(player => player.colorName == colorName));
         level.players.Add(this);
 
-        if (!viewPrefab)
-            viewPrefab = PlayerView2.GetPrefab(coName);
+        var viewPrefab = PlayerView2.GetPrefab(coName);
         Assert.IsTrue(viewPrefab);
         view = Object.Instantiate(viewPrefab, level.view.playerUiRoot);
-        SetAbilityMeter(abilityMeter, false, false);
+        AbilityMeter = AbilityMeter;
         view.Hide();
 
         initialized = true;
     }
 
     public override string ToString() {
-        return colorName.ToString();
+        return ColorName.ToString();
     }
 
     public void Dispose() {
         Assert.IsTrue(undisposed.Contains(this));
         undisposed.Remove(this);
-        if (view && view.gameObject)
+        if (view && view.gameObject) {
             Object.Destroy(view.gameObject);
+            view = null;
+        }
+        initialized = false;
     }
 
-    public bool IsAi => type == PlayerType.Ai;
+    public bool IsAi => difficulty != null;
 }

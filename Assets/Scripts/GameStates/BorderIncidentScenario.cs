@@ -52,7 +52,12 @@ public class BorderIncidentScenario : MonoBehaviour {
                 yield return null;
         }
 
-        var blueInfantry = new Unit(bluePlayer, UnitType.Infantry, new Vector2Int(27, 8));
+        var blueInfantry = new Unit {
+            Player = bluePlayer,
+            type = UnitType.Infantry,
+            Position = new Vector2Int(27, 8)
+        };
+        blueInfantry.Initialize();
         {
             var movement = MoveUnitView(blueInfantry.view, new Vector2Int(29, 8));
             while (movement.MoveNext())
@@ -206,16 +211,15 @@ public class BorderIncidentWhatIsHappeningDialogueState : DialogueState {
 
     public override IEnumerator<StateChange> Enter {
         get {
-            
             var voiceOvers = "BorderAfter".LoadAs<VoiceLinesSequence>().clips;
             var index = 0;
-            
-           /* var cameraRig = stateMachine.Find<LevelSessionState>().level.view.cameraRig;
-            if (blueInfantry.NonNullPosition.TryRaycast(out var hit)) {
-                var jump = cameraRig.JumpAnimation(hit.point);
-                while (jump.MoveNext())
-                    yield return StateChange.none;
-            }*/
+
+            /* var cameraRig = stateMachine.Find<LevelSessionState>().level.view.cameraRig;
+             if (blueInfantry.NonNullPosition.TryRaycast(out var hit)) {
+                 var jump = cameraRig.JumpAnimation(hit.point);
+                 while (jump.MoveNext())
+                     yield return StateChange.none;
+             }*/
 
             Start();
             yield return AddPerson(PersonName.BlueSoldier, DialogueUi4.Side.Left);
@@ -223,8 +227,8 @@ public class BorderIncidentWhatIsHappeningDialogueState : DialogueState {
             Speaker = PersonName.BlueSoldier;
             yield return Say(_("We are under attack!"), voiceOver: voiceOvers[index++]);
             yield return Wait(1);
-            yield return AppendWait(_(" We need to get out of here!"), voiceOver:  voiceOvers[index++]);
-            yield return SayWait(_("HQ! HQ! This is Blue Eagle! We are under attack! The enemy has reinforcements! Do you copy?") , voiceOver: voiceOvers[index++]);
+            yield return AppendWait(_(" We need to get out of here!"), voiceOver: voiceOvers[index++]);
+            yield return SayWait(_("HQ! HQ! This is Blue Eagle! We are under attack! The enemy has reinforcements! Do you copy?"), voiceOver: voiceOvers[index++]);
 
             /*if (new Vector2Int(34, 9).TryRaycast(out hit)) {
                 var jump = cameraRig.JumpAnimation(hit.point);

@@ -123,20 +123,20 @@ public class LevelWriter {
     public void WriteBuilding(Building building) {
         WriteLine("building {{");
 
-        WriteLine("    :type           ( {0} )", building.type);
+        WriteLine("    :type           ( {0} )", building.Type);
         WriteLine("    :position       ( {0} )", building.position);
         WriteLine("    :cp             ( {0} )", building.Cp);
         WriteLine("    :look-direction ( {0} )", building.view.LookDirection);
 
-        if (building.type == TileType.MissileSilo) {
+        if (building.Type == TileType.MissileSilo) {
             WriteLine("    .missile-silo {{");
-            WriteLine("        :last-launch-day ( {0} )", building.missileSiloLastLaunchDay);
-            WriteLine("        :launch-cooldown  ( {0} )", building.missileSiloLaunchCooldown);
-            WriteLine("        :ammo             ( {0} )", building.missileSiloAmmo);
-            WriteLine("        :range            ( {0} )", building.missileSiloRange);
-            WriteLine("        :blast-range      ( {0} )", building.missileBlastRange);
-            WriteLine("        :unit-damage      ( {0} )", building.missileUnitDamage);
-            WriteLine("        :bridge-damage    ( {0} )", building.missileBridgeDamage);
+            WriteLine("        :last-launch-day ( {0} )", building.missileSilo.lastLaunchDay);
+            WriteLine("        :launch-cooldown  ( {0} )", building.missileSilo.launchCooldown);
+            WriteLine("        :ammo             ( {0} )", building.missileSilo.ammo);
+            WriteLine("        :range            ( {0} )", building.missileSilo.range);
+            WriteLine("        :blast-range      ( {0} )", building.missileSilo.blastRange);
+            WriteLine("        :unit-damage      ( {0} )", building.missileSilo.unitDamage);
+            WriteLine("        :bridge-damage    ( {0} )", building.missileSilo.bridgeDamage);
             WriteLine("    }}");
         }
 

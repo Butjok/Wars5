@@ -123,7 +123,14 @@ public class LevelEditorUnitsModeState : StateMachineState {
                             
                             Debug.Log("placing");
 
-                            var unit = new Unit(player, unitType, position, player.unitLookDirection, viewPrefab: viewPrefab);
+                            var unit = new Unit {
+                                Player = player,
+                                type = unitType,
+                                Position = position,
+                                lookDirection =  player.unitLookDirection,
+                                viewPrefab = viewPrefab
+                            };
+                            unit.Initialize();
                             break;
                         }
 

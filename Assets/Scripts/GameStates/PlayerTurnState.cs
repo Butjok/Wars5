@@ -111,8 +111,8 @@ public class PlayerTurnState : StateMachineState {
 
         if (showObjectives) {
             var enemyBuildings = Level.Buildings.Where(b => b.Player != null && Rules.AreEnemies(b.Player, Level.localPlayer)).ToList();
-            var enemyHqs = enemyBuildings.Where(b => b.type == TileType.Hq).ToList();
-            var enemyFactories = enemyBuildings.Where(b => b.type == TileType.Factory).ToList();
+            var enemyHqs = enemyBuildings.Where(b => b.Type == TileType.Hq).ToList();
+            var enemyFactories = enemyBuildings.Where(b => b.Type == TileType.Factory).ToList();
             var enemyUnits = Level.Units.Where(u => Rules.AreEnemies(u.Player, Level.localPlayer)).ToList();
 
             GUILayout.Space(DefaultGuiSkin.defaultSpacingSize);

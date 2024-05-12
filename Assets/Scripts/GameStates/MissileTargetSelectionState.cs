@@ -26,8 +26,8 @@ public class MissileTargetSelectionState : StateMachineState {
             Assert.AreEqual(TileType.MissileSilo, action.targetBuilding);
             Assert.IsTrue(Rules.CanLaunchMissile(action.unit, action.targetBuilding));
 
-            var missileSilo = action.targetBuilding;
-            var missileSiloView = (MissileSiloView)missileSilo.view;
+            var building = action.targetBuilding;
+            var missileSiloView = (MissileSiloView)building.view;
 
             Vector2Int? launchPosition = null;
 
@@ -41,7 +41,7 @@ public class MissileTargetSelectionState : StateMachineState {
                 yield return StateChange.none;
 
                 if (Input.GetMouseButtonDown(Mouse.left) && Level.view.cameraRig.camera.TryGetMousePosition(out Vector2Int mousePosition)) {
-                    if ((mousePosition - missileSilo.position).ManhattanLength().IsInRange(missileSilo.missileSiloRange)) {
+                    if ((mousePosition - building.position).ManhattanLength().IsInRange(building.missileSilo.range)) {
                         if (launchPosition != mousePosition) {
                             launchPosition = mousePosition;
 
@@ -49,10 +49,10 @@ public class MissileTargetSelectionState : StateMachineState {
                             foreach (var unit in Level.Units) {
                                 // unit might make a move to the missile silo and fire the missile from there
                                 // therefore we need to behave like unit's position is at the missile silo position
-                                var unitPosition = unit == action.unit ? missileSilo.position : unit.NonNullPosition;
+                                var unitPosition = unit == action.unit ? building.position : unit.NonNullPosition;
                                 var distance = (unitPosition - mousePosition).ManhattanLength();
-                                if (distance.IsInRange(missileSilo.missileBlastRange))
-                                    targets.Add((unit, missileSilo.missileUnitDamage));
+                                if (distance.IsInRange(building.missileSilo.blastRange))
+                                    targets.Add((unit, building.missileSilo.unitDamage));
                             }
                         }
                         else
@@ -68,11 +68,11 @@ public class MissileTargetSelectionState : StateMachineState {
                 while (Game.TryDequeueCommand(out var command))
                     switch (command) {
                         case (Command.LaunchMissile, Vector2Int targetPosition): {
-                            Assert.AreEqual(TileType.MissileSilo, missileSilo.type);
+                            Assert.AreEqual(TileType.MissileSilo, building.Type);
 
                             targets.Clear();
 
-                            Debug.Log($"Launching missile from {missileSilo.position} to {targetPosition}");
+                            Debug.Log($"Launching missile from {building.position} to {targetPosition}");
                             /*using (Draw.ingame.WithDuration(1))
                             using (Draw.ingame.WithLineWidth(2))
                                 Draw.ingame.Arrow((Vector3)missileSilo.position.ToVector3Int(), (Vector3)targetPosition.ToVector3Int(), Vector3.up, .25f, Color.red);*/
@@ -90,7 +90,7 @@ public class MissileTargetSelectionState : StateMachineState {
                                 while (!jumpCompleted())
                                     yield return StateChange.none;
 
-                                var missile = missileSiloView.TryLaunchMissile(missileSilo.Player.Color);
+                                var missile = missileSiloView.TryLaunchMissile(building.Player.Color);
                                 Assert.IsTrue(missile);
                                 if (missile.curve.totalTime is not { } flightTime)
                                     throw new AssertionException("missile.curve.totalTime = null", null);
@@ -107,10 +107,10 @@ public class MissileTargetSelectionState : StateMachineState {
                                 }
 
                                 Sounds.PlayOneShot(Sounds.explosion);
-                                for (var radius = missileSilo.missileBlastRange[0]; radius <= missileSilo.missileBlastRange[1]; radius++) {
+                                for (var radius = building.missileSilo.blastRange[0]; radius <= building.missileSilo.blastRange[1]; radius++) {
                                     foreach (var position in Level.PositionsInRange(targetPosition, new Vector2Int(radius, radius))) {
                                         if (Level.TryGetUnit(position, out var unit)) {
-                                            unit.SetHp(unit.Hp - missileSilo.missileUnitDamage, true);
+                                            unit.SetHp(unit.Hp - building.missileSilo.unitDamage, true);
                                         }
 
                                         if (position.TryRaycast(out var hit))
@@ -125,14 +125,14 @@ public class MissileTargetSelectionState : StateMachineState {
                                 cameraRig.enabled = true;
                             }
                             
-                            missileSilo.missileSiloLastLaunchDay = Level.Day();
-                            missileSilo.missileSiloAmmo--;
-                            missileSilo.Moved = true;
+                            building.missileSilo.lastLaunchDay = Level.Day();
+                            building.missileSilo.ammo--;
+                            building.Moved = true;
 
                             var anyBridgeDestroyed = false;
                             var targetedBridges = Level.bridges.Where(bridge => bridge.tiles.ContainsKey(targetPosition));
                             foreach (var bridge in targetedBridges) {
-                                bridge.SetHp(bridge.Hp - missileSilo.missileBridgeDamage, true);
+                                bridge.SetHp(bridge.Hp - building.missileSilo.bridgeDamage, true);
                                 if (!anyBridgeDestroyed && bridge.Hp <= 0)
                                     anyBridgeDestroyed = true;
                             }
@@ -183,7 +183,7 @@ public class MissileTargetSelectionState : StateMachineState {
                     }
 
                 if (launchPosition is { } actualLaunchPosition)
-                    foreach (var attackPosition in Level.PositionsInRange(actualLaunchPosition, missileSilo.missileBlastRange)) {
+                    foreach (var attackPosition in Level.PositionsInRange(actualLaunchPosition, building.missileSilo.blastRange)) {
                         var point = attackPosition.TryRaycast(out var hit) ? hit.point : attackPosition.ToVector3();
                         Draw.ingame.SolidPlane(point, Vector3.up, Vector2.one, color);
                     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Butjok.CommandLine;
 using JetBrains.Annotations;
+using SaveGame;
 using UnityEngine;
 using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
@@ -20,15 +21,19 @@ public class Unit : IDisposable {
 
     public static readonly HashSet<Unit> undisposed = new();
 
-    public readonly UnitType type;
-    public readonly UnitView view;
-    public readonly UnitBrain brain;
-    private readonly bool initialized;
-
-    private Vector2Int? position;
+    public UnitType type;
+    [DontSave] public UnitView viewPrefab;
+    public string ViewPrefabName {
+        get => viewPrefab ? viewPrefab.name : null;
+        set => viewPrefab = Resources.Load<UnitView>(value);
+    }
+    [DontSave] public UnitView view;
+    [DontSave] public UnitBrain brain;
+    [DontSave] private bool initialized;
 
     public Stack<UnitAiState> aiStates = new();
 
+    [DontSave] private Vector2Int? position;
     public Vector2Int? Position {
         get => position;
         set {
@@ -44,15 +49,17 @@ public class Unit : IDisposable {
             if (position is { } newPosition) {
                 Assert.IsFalse(player.level.units.ContainsKey(newPosition), newPosition.ToString());
                 player.level.units.Add(newPosition, this);
-                view.Visible = true;
-                view.Position = newPosition;
+                if (view) {
+                    view.Visible = true;
+                    view.Position = newPosition;
+                }
             }
-            else
+            else if (view)
                 view.Visible = false;
         }
     }
 
-    public Vector2Int NonNullPosition {
+    [DontSave] public Vector2Int NonNullPosition {
         get {
             if (Position is not { } value)
                 throw new AssertionException($"Unit {this} position is null.", null);
@@ -60,21 +67,23 @@ public class Unit : IDisposable {
         }
     }
 
-    private bool moved;
-
+    [DontSave] private bool moved;
     public bool Moved {
         get => moved;
         set {
             if (initialized && moved == value)
                 return;
             moved = value;
-
-            view.Moved = moved;
+            if (view)
+                view.Moved = moved;
         }
     }
 
-    private int hp;
-    public int Hp => Hp(this, hp);
+    [DontSave] private int hp = 10;
+    public int Hp {
+        get => Hp(this, hp);
+        set => SetHp(value);
+    }
 
     public void SetHp(int value, bool animateDeath = false) {
         if (initialized && hp == value)
@@ -83,28 +92,18 @@ public class Unit : IDisposable {
         hp = Clamp(value, 0, initialized ? MaxHp(this) : MaxHp(type));
 
         if (hp <= 0) {
-            if (animateDeath)
+            Debug.Log("ded");
+            if (animateDeath && view)
                 view.DieOnMap();
             Dispose();
         }
-        else {
+        else if (view) {
             view.Hp = hp;
             view.ui.SetHp(hp, MaxHp(this));
         }
     }
 
-    [Command]
-    public static void SetHpAt(int value) {
-        var game = Object.FindObjectOfType<Game>();
-        var levelEditorSessionState = game.stateMachine.TryFind<LevelEditorSessionState>();
-        if (levelEditorSessionState != null) {
-            var level = levelEditorSessionState.level;
-            if (level.view.cameraRig.camera.TryGetMousePosition(out Vector2Int position) && level.TryGetUnit(position, out var unit)) unit.SetHp(value);
-        }
-    }
-
-    private int fuel;
-
+    [DontSave] private int fuel = 999;
     public int Fuel {
         get => Fuel(this, fuel);
         set {
@@ -112,12 +111,12 @@ public class Unit : IDisposable {
                 return;
             fuel = Clamp(value, 0, initialized ? MaxFuel(this) : MaxFuel(type));
 
-            //view.Fuel = fuel;
+            //if (view)
+            //    view.LowFuel = fuel < MaxFuel(this) / 4;
         }
     }
 
-    private Player player;
-
+    [DontSave] private Player player;
     public Player Player {
         get => player;
         set {
@@ -126,12 +125,12 @@ public class Unit : IDisposable {
             player = value;
 
             // alpha = 0!
-            view.PlayerColor = player?.Color ?? new Color(0, 0, 0, 0);
+            if (view)
+                view.PlayerColor = player?.Color ?? new Color(0, 0, 0, 0);
         }
     }
 
-    private Unit carrier;
-
+    [DontSave] private Unit carrier;
     public Unit Carrier {
         get => carrier;
         set {
@@ -140,6 +139,8 @@ public class Unit : IDisposable {
             carrier = value;
         }
     }
+
+    public Vector2Int? lookDirection;
 
     private Dictionary<WeaponName, int> ammo = new();
 
@@ -161,7 +162,7 @@ public class Unit : IDisposable {
     }
 
     private List<Unit> cargo = new();
-    public IReadOnlyList<Unit> Cargo => cargo;
+    [DontSave] public IReadOnlyList<Unit> Cargo => cargo;
 
     public void AddCargo(Unit unit) {
         Assert.IsTrue(CanGetIn(unit, this), $"{unit} -> {this}");
@@ -179,8 +180,9 @@ public class Unit : IDisposable {
 
     public static implicit operator UnitType(Unit unit) => unit.type;
 
-    public Unit(Player player, UnitType type = UnitType.Infantry, Vector2Int? position = null, Vector2Int? lookDirection = null, int hp = int.MaxValue, int fuel = int.MaxValue, bool moved = false, UnitView viewPrefab = null
-    ) {
+    public void Initialize() {
+        Assert.IsFalse(initialized);
+        Assert.IsFalse(undisposed.Contains(this));
         undisposed.Add(this);
 
         if (!viewPrefab)
@@ -193,22 +195,25 @@ public class Unit : IDisposable {
         view.TrySpawnUi(UnitUi.Prefab, player.level.view);
         view.ConvertToSkinnedMesh();
 
-        this.type = type;
-        Player = player;
-        Moved = moved;
-        Assert.AreNotEqual(0, hp);
-        SetHp(hp);
-        Fuel = fuel;
+        Player = Player;
+        Moved = Moved;
+        Assert.IsTrue(hp > 0);
+        SetHp(Hp);
+        Fuel = Fuel;
+        
+        if (Position is { } actualPosition) {
+            view.Visible = true;
+            view.Position = actualPosition;
+        }
+        else
+            view.Visible = false;
 
         foreach (var weaponName in GetWeaponNames(type)) {
             ammo.Add(weaponName, 0);
             SetAmmo(weaponName, int.MaxValue);
         }
 
-        Position = position;
-
         brain = new UnitBrain(this);
-
 
         initialized = true;
     }
@@ -222,29 +227,14 @@ public class Unit : IDisposable {
 
         Position = null;
         Object.Destroy(view.gameObject);
+        view = null;
+
+        initialized = false;
     }
 
-    public bool Disposed => !undisposed.Contains(this);
+    [DontSave] public bool Disposed => !undisposed.Contains(this);
 
     public override string ToString() {
         return $"{type}{Position} {Player}";
-    }
-}
-
-public static class RaycastExtensions {
-    public static bool TryRaycast(this Vector2 position, out RaycastHit hit) {
-        return TryRaycast(position, out hit, LayerMasks.Terrain | LayerMasks.Roads);
-    }
-
-    public static bool TryRaycast(this Vector2 position, out RaycastHit hit, LayerMask layerMask) {
-        return Physics.Raycast(position.ToVector3() + Vector3.up * 100, Vector3.down, out hit, float.MaxValue, layerMask);
-    }
-
-    public static bool TryRaycast(this Vector2Int position, out RaycastHit hit) {
-        return position.TryRaycast(out hit, LayerMasks.Terrain | LayerMasks.Roads);
-    }
-
-    public static bool TryRaycast(this Vector2Int position, out RaycastHit hit, LayerMask layerMask) {
-        return ((Vector2)position).TryRaycast(out hit, layerMask);
     }
 }

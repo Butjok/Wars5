@@ -60,7 +60,6 @@ player {
     :power-meter         ( 0 )
     :unit-look-direction ( -1 0 int2 )
     :side                ( Side Right enum )
-    :ai ( AiDifficulty Normal enum )
     .add
 }
 // Factory(38, 16) Red

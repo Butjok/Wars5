@@ -330,6 +330,8 @@
      <Compile Include="Assets\Scripts\Animation\UnitViewSequenceSubroutines.cs" />
      <Compile Include="Assets\Scripts\EntryPoint\MainMenuWelcomeState.cs" />
      <Compile Include="Assets\Scripts\AiTestBed.cs" />
+     <Compile Include="Assets\Scripts\SaveGame.cs" />
+     <Compile Include="Assets\Scripts\RaycastExtensions.cs" />
      <Folder Include="Assets\Scripts\EntryPoint" />
      <None Include="Assets\Scripts\Wars.asmdef" />
      <Folder Include="Assets\Scripts\DialogueMarkupLanguage" />

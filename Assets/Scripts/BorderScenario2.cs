@@ -100,7 +100,13 @@ public class BorderScenario2 : MonoBehaviour {
             yield return null;
 
         var infantryPath = level.FindPath("Infantry");
-        var infantry = new Unit(bluePlayer, UnitType.Infantry, infantryPath.First.Value, lookDirection: Vector2Int.up);
+        var infantry = new Unit {
+            Player = bluePlayer,
+            type = UnitType.Infantry,
+            Position = infantryPath.First.Value,
+            lookDirection = Vector2Int.up
+        };
+        infantry.Initialize();
         var infantryMovement = UnitMovement(infantryPath.ToList());
         while (infantryMovement.MoveNext())
             yield return null;
