@@ -570,7 +570,7 @@ public static class LevelReader {
                     Assert.IsNotNull(pathName);
                     var path = new Level.Path { name = pathName };
                     foreach (var position in pathPositions)
-                        path.AddLast(position);
+                        path.list.AddLast(position);
                     level.paths.Add(path);
                     ResetPathValues();
                     break;

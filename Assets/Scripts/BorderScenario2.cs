@@ -82,13 +82,13 @@ public class BorderScenario2 : MonoBehaviour {
 
         var blueUnitsMovements = new List<IEnumerator>();
         foreach (var pathName in blueUnitPaths) {
-            var path = level.FindPath(pathName);
+            var path = level.FindPath(pathName).list;
             var coroutine = UnitMovement(path.ToList());
             blueUnitsMovements.Add(coroutine);
             coroutines.Add(coroutine);
         }
 
-        var cameraIntroPath = level.FindPath("CameraIntro");
+        var cameraIntroPath = level.FindPath("CameraIntro").list;
         if (cameraIntroPath is { Count: > 0 }) {
             cameraRig.transform.position = cameraIntroPath.First.Value.ToVector3();
             var introCameraMovement = CameraMovement(cameraIntroPath.ToList(), 3);
@@ -99,7 +99,7 @@ public class BorderScenario2 : MonoBehaviour {
         while (blueUnitsMovements.Any(c => coroutines.Contains(c)))
             yield return null;
 
-        var infantryPath = level.FindPath("Infantry");
+        var infantryPath = level.FindPath("Infantry").list;
         var infantry = new Unit {
             Player = bluePlayer,
             type = UnitType.Infantry,
@@ -115,7 +115,7 @@ public class BorderScenario2 : MonoBehaviour {
         while (stateMachine.TryFind<BorderIncidentIntroDialogueState>() != null)
             yield return null;
 
-        var cameraRocketeerPath = level.FindPath("CameraRocketeers");
+        var cameraRocketeerPath = level.FindPath("CameraRocketeers").list;
         if (cameraRocketeerPath is { Count: > 0 }) {
             var redRocketeersCameraMovement = CameraMovement(cameraRocketeerPath.ToList(), 5);
             while (redRocketeersCameraMovement.MoveNext())
@@ -128,7 +128,7 @@ public class BorderScenario2 : MonoBehaviour {
 
         // top red rocketeeer
         {
-            var waypoints = level.FindPath("RedRocketeerTop");
+            var waypoints = level.FindPath("RedRocketeerTop").list;
             Assert.IsTrue(level.TryGetUnit(waypoints.First.Value, out var rocketeer));
             Assert.IsTrue(level.TryGetBuilding(waypoints.First.Next.Value, out var missileSilo));
 
@@ -155,7 +155,7 @@ public class BorderScenario2 : MonoBehaviour {
 
         // bottom red rocketeeer
         {
-            var waypoints = level.FindPath("RedRocketeerBottom");
+            var waypoints = level.FindPath("RedRocketeerBottom").list;
             Assert.IsTrue(level.TryGetUnit(waypoints.First.Value, out var rocketeer));
             Assert.IsTrue(level.TryGetBuilding(waypoints.First.Next.Value, out var missileSilo));
 
@@ -182,7 +182,7 @@ public class BorderScenario2 : MonoBehaviour {
 
         var redUnitsMovements = new List<IEnumerator>();
         foreach (var pathName in redUnitsPaths) {
-            var path = level.FindPath(pathName);
+            var path = level.FindPath(pathName).list;
             var coroutine = UnitMovement(path.ToList(), rotateToPlayerDirection: true);
             redUnitsMovements.Add(coroutine);
             coroutines.Add(coroutine);
@@ -195,7 +195,7 @@ public class BorderScenario2 : MonoBehaviour {
             yield return null;
         
         foreach (var path in redAttackPaths) {
-            var coroutine = Attack(level.FindPath(path));
+            var coroutine = Attack(level.FindPath(path).list);
             while (coroutine.MoveNext())
                 yield return null;
             time = Time.time;
@@ -208,13 +208,13 @@ public class BorderScenario2 : MonoBehaviour {
 
         var redUnitsMovements2 = new List<IEnumerator>();
         foreach (var pathName in redUnitsPaths2) {
-            var path = level.FindPath(pathName);
+            var path = level.FindPath(pathName).list;
             var coroutine = UnitMovement(path.ToList(), rotateToPlayerDirection: true);
             redUnitsMovements2.Add(coroutine);
             coroutines.Add(coroutine);
         }
         
-        var cameraEndPath = level.FindPath("CameraEnd");
+        var cameraEndPath = level.FindPath("CameraEnd").list;
         var cameraMovement = CameraMovement(cameraEndPath.ToList(), 1);
         while (cameraMovement.MoveNext())
             yield return null;
@@ -223,7 +223,7 @@ public class BorderScenario2 : MonoBehaviour {
             yield return null;
     }
 
-    public IEnumerator Attack(Level.Path waypoints) {
+    public IEnumerator Attack(LinkedList<Vector2Int> waypoints) {
         
         var level = game.Level;
         Assert.IsTrue(level.TryGetUnit(waypoints.First.Value, out var attacker));

@@ -51,7 +51,7 @@ public class LevelEditorPathsModeState : StateMachineState {
             void DrawPath(Level.Path path, Color tint) {
                 var index = 0;
                 using (Draw.ingame.WithLineWidth(lineWidth))
-                    for (var node = path.First; node != null; node = node.Next) {
+                    for (var node = path.list.First; node != null; node = node.Next) {
                         var position = Raycast(node.Value);
                         Draw.ingame.CircleXZ(position, 0.25f, Color.yellow * tint);
                         if (node == selectedNode)
@@ -90,12 +90,12 @@ public class LevelEditorPathsModeState : StateMachineState {
                         var offset =  Input.GetKey(KeyCode.LeftShift) ? -1 : 1;
                         var nextIndex = (index + offset + level.paths.Count) % level.paths.Count;
                         selectedPath = level.paths[nextIndex];
-                        selectedNode = selectedPath.Last;
+                        selectedNode = selectedPath.list.Last;
                     }
                 }
                 else if (selectedNode != null && Input.GetKeyDown(KeyCode.X)) {
-                    if (selectedPath.Count > 1) {
-                        selectedPath.Remove(selectedNode);
+                    if (selectedPath.list.Count > 1) {
+                        selectedPath.list.Remove(selectedNode);
                         selectedNode = selectedNode.Previous;
                     }
                     else {
@@ -106,7 +106,7 @@ public class LevelEditorPathsModeState : StateMachineState {
                 }
                 else if (TryGetMousePosition(out var mousePosition)) {
                     if (Input.GetMouseButtonDown(Mouse.left) && selectedPath != null) {
-                        for (var node = selectedPath.First; node != null; node = node.Next)
+                        for (var node = selectedPath.list.First; node != null; node = node.Next)
                             if (node.Value == mousePosition) {
                                 selectedNode = node;
                                 break;
@@ -135,14 +135,14 @@ public class LevelEditorPathsModeState : StateMachineState {
                         // insert a node after
                         else {
                             var originalSelectedNode = selectedNode;
-                            var newNode = selectedPath.AddAfter(selectedNode, mousePosition);
+                            var newNode = selectedPath.list.AddAfter(selectedNode, mousePosition);
                             selectedNode = newNode;
                             while (TryGetMousePosition(out mousePosition)) {
                                 selectedNode.Value = mousePosition;
                                 if (Input.GetMouseButtonDown(Mouse.left))
                                     break;
                                 if (Input.GetMouseButtonDown(Mouse.right) || Input.GetKeyDown(KeyCode.Escape)) {
-                                    selectedPath.Remove(selectedNode);
+                                    selectedPath.list.Remove(selectedNode);
                                     selectedNode = originalSelectedNode;
                                     break;
                                 }
@@ -180,13 +180,13 @@ public class LevelEditorPathsModeState : StateMachineState {
         var level = game.Level;
         Assert.IsTrue(!level.paths.Exists(path => path.name == name), $"Path with name {name} already exists");
         var newPath = new Level.Path { name = name };
-        newPath.AddFirst(game.Level.view.cameraRig.transform.position.ToVector2Int());
+        newPath.list.AddFirst(game.Level.view.cameraRig.transform.position.ToVector2Int());
         
         var pathsMode = game.stateMachine.TryFind<LevelEditorPathsModeState>();
         level.paths.Add(newPath);
         if (pathsMode != null) {
             pathsMode.selectedPath = newPath;
-            pathsMode.selectedNode = newPath.First;
+            pathsMode.selectedNode = newPath.list.First;
         }
     }
 
@@ -196,13 +196,13 @@ public class LevelEditorPathsModeState : StateMachineState {
         var level = game.Level;
         var path = level.paths.Find(p => p.name == pathName);
         Assert.IsNotNull(path, $"Path with name {pathName} not found");
-        var found = level.TryGetUnit(path.First.Value, out var unit);
-        Assert.IsTrue(found, $"Unit not found at {path.First.Value}");
+        var found = level.TryGetUnit(path.list.First.Value, out var unit);
+        Assert.IsTrue(found, $"Unit not found at {path.list.First.Value}");
         var unitView = unit.view;
         Assert.IsTrue(unitView);
-        unitView.Position = path.First.Value;
-        var pathList = new List<Vector2Int> { path.First.Value };
-        for (var node = path.First.Next; node != null; node = node.Next)
+        unitView.Position = path.list.First.Value;
+        var pathList = new List<Vector2Int> { path.list.First.Value };
+        for (var node = path.list.First.Next; node != null; node = node.Next)
             pathList.AddRange(Woo.Traverse2D(pathList[^1], node.Value));
         var oldEnableDance = unitView.enableDance;
         unitView.enableDance = false;

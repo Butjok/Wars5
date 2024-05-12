@@ -218,7 +218,7 @@ public class LevelWriter {
     public void WritePath(Level.Path path) {
         WriteLine("path {{");
         WriteLine("    :name ( {0} )", path.name);
-        foreach (var node in path)
+        foreach (var node in path.list)
             WriteLine("    .add-position ( {0} )", node);
         WriteLine("    .add");
         WriteLine("}}");

@@ -8,8 +8,9 @@ using UnityEngine.Assertions;
 
 public class Level : IDisposable {
 
-    public class Path : LinkedList<Vector2Int> {
+    public class Path {
         public string name;
+        public LinkedList<Vector2Int> list = new();
     }
 
     public static readonly Vector2Int[] offsets = { Vector2Int.up, Vector2Int.down, Vector2Int.right, Vector2Int.left };
@@ -38,7 +39,7 @@ public class Level : IDisposable {
     public List<Path> paths = new();
 
     public Path FindPath(string pathName) {
-        return paths.Single(path => path.name == pathName);
+        return paths.Find(path => path.name == pathName);
     }
     public Player FindPlayer(ColorName colorName) {
         return players.Single(player => player.ColorName == colorName);
