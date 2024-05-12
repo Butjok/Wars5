@@ -70,6 +70,7 @@
      <Folder Include="Assets\New Folder" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\Distortion.hlsl" />
      <Folder Include="Assets\TextMesh Pro\Sprites" />
+     <Folder Include="Assets\Saves\Intro2-Bushes" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\ExposureHistogram.hlsl" />
      <Folder Include="Assets\Content\whiteboxes\Resources\Trash" />
      <Folder Include="Assets\Saves\1" />
@@ -151,6 +152,7 @@
      <None Include="Assets\Shaders\leaves.shader" />
      <None Include="Assets\Saves\test.1\20.01.2023-09.23.01.txt" />
      <Folder Include="Assets\Content\UI" />
+     <Folder Include="Assets\Saves\Intro2-Level" />
      <None Include="Assets\Saves\0\0-22.01.2023-19.33.36.txt" />
      <None Include="Assets\Resources\Missions\Test.txt" />
      <Folder Include="Assets\TextMesh Pro\Resources\Fonts &amp; Materials" />
@@ -349,6 +351,7 @@
      <Folder Include="Assets\Resources\UnitThumbnails" />
      <Folder Include="Assets\Dithered" />
      <None Include="Assets\Saves\0\0-22.01.2023-18.25.37.txt" />
+     <Folder Include="Assets\Saves\Intro2-Forests" />
      <Folder Include="Assets\VoiceOver\Resources" />
      <Folder Include="Assets\MultiAudioListener\Example\Materials" />
      <Folder Include="Assets\Scenes\SampleScene" />
@@ -371,10 +374,12 @@
      <None Include="Assets\Shaders\CausticsTest.shader" />
      <Folder Include="Assets\Saves\IntroTest-Props" />
      <Folder Include="Assets\Shaders" />
+     <Folder Include="Assets\Saves\Intro2-Props" />
      <Folder Include="Assets\TerrainCreation" />
      <Folder Include="Assets\Saves\Border-Forests" />
      <None Include="Assets\Shaders\New Amplify Shader.shader" />
      <Folder Include="Assets\Saves\Intro-Tiles" />
+     <Folder Include="Assets\Saves\Intro2-Tiles" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\DepthOfField.hlsl" />
      <Folder Include="Assets\Textures\Circuitry" />
      <Folder Include="Assets\TextMesh Pro\Resources\Style Sheets" />
@@ -417,6 +422,7 @@
      <None Include="Assets\Shaders\FrostedGlass3D.shader" />
      <None Include="Assets\Saves\0\0-24.01.2023-16.12.40.txt" />
      <None Include="Assets\Saves\test\18.01.2023-18.58.09.txt" />
+     <Folder Include="Assets\Saves\Intro2-Roads" />
      <None Include="Assets\Shaders\My Shadows.cginc" />
      <Folder Include="Assets\Textures\Detail" />
      <None Include="Assets\Saves\0\0-22.01.2023-19.37.40.txt" />
@@ -1530,6 +1536,9 @@
      </Reference>
      <Reference Include="Unity.Formats.Alembic.Editor">
      <HintPath>C:\Users\v.fedotov\RiderProjects\Wars5\Library\ScriptAssemblies\Unity.Formats.Alembic.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="SingularityGroup.HotReload.Runtime.Public">
+     <HintPath>C:\Users\v.fedotov\RiderProjects\Wars5\Library\ScriptAssemblies\SingularityGroup.HotReload.Runtime.Public.dll</HintPath>
      </Reference>
   </ItemGroup>
   <ItemGroup>

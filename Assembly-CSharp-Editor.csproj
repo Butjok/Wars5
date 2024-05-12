@@ -1028,6 +1028,9 @@
      <Reference Include="Unity.Formats.Alembic.Editor">
      <HintPath>C:\Users\v.fedotov\RiderProjects\Wars5\Library\ScriptAssemblies\Unity.Formats.Alembic.Editor.dll</HintPath>
      </Reference>
+     <Reference Include="SingularityGroup.HotReload.Runtime.Public">
+     <HintPath>C:\Users\v.fedotov\RiderProjects\Wars5\Library\ScriptAssemblies\SingularityGroup.HotReload.Runtime.Public.dll</HintPath>
+     </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp.csproj">

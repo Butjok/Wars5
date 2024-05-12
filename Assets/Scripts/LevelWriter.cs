@@ -113,6 +113,9 @@ public class LevelWriter {
         if (player.abilityActivationTurn != null)
             WriteLine("    :ability-activation-turn ( {0} )", player.abilityActivationTurn);
 
+        if (player.IsAi)
+            WriteLine("    :ai ( {0} )", player.difficulty);
+
         WriteLine("    .add");
         WriteLine("}}");
     }

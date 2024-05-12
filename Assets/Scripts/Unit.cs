@@ -27,6 +27,8 @@ public class Unit : IDisposable {
 
     private Vector2Int? position;
 
+    public Stack<UnitAiState> aiStates = new();
+
     public Vector2Int? Position {
         get => position;
         set {

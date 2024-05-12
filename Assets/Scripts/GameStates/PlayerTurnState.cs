@@ -93,6 +93,8 @@ public class PlayerTurnState : StateMachineState {
     private const float buildingCircleRadius = .75f;
 
     private void DrawObjectives() {
+        return; 
+        
         var size = objectivesSize;
         var padding = DefaultGuiSkin.padding;
         GUILayout.BeginArea(new Rect(Screen.width - size.x - padding.x, padding.y, size.x, size.y));
