@@ -6,6 +6,8 @@ Shader "Unlit/LevelBorder"
 		_Color ("Color", Color) = (1,1,1,1)
 		_Color2 ("Color2", Color) = (1,1,1,1)
 		_Power ("Power", Range(0.1, 10)) = 1
+		_LineColor ("LineColor", Color) = (1,1,1,1)
+		_CellCount ("CellCount", Range(1, 100)) = 10
 	}
 	SubShader
 	{
@@ -55,6 +57,8 @@ Shader "Unlit/LevelBorder"
 
 			float4 _Color;
 			float4 _Color2;
+			float4 _LineColor;
+			float _CellCount;
 			
 			fixed4 frag (v2f i) : SV_Target
 			{
@@ -64,11 +68,21 @@ Shader "Unlit/LevelBorder"
 
 				//return _Color;
 
+				float ratio = _ScreenParams.x / _ScreenParams.y;
+				float2 uv2 = i.vertex.xy /  _ScreenParams.xy;
+				uv2.x *= ratio;
+				float2 cell = frac(uv2*_CellCount);
+				float2 a = smoothstep(.05,.075,abs(cell-.5));
+				float lin = 1-min(a.x,a.y);
+
 				float2 uv = i.vertex.xy /  _ScreenParams.xy;
 				uv -= .5;
 				uv = pow (abs(uv), _Power);
 				float dist = smoothstep(0.0, .5, length(uv));
-				return lerp(_Color, _Color2, dist);				
+				float4 c = 1;
+				c.rgb = lerp(_Color, _Color2, dist).rgb;
+				 c.rgb += lin * _LineColor.rgb;
+				return c;				
 			}
 			ENDCG
 		}
