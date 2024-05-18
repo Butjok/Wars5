@@ -4,6 +4,8 @@ Shader "Unlit/LevelBorder"
 	{
 		_MainTex ("Texture", 2D) = "white" {}
 		_Color ("Color", Color) = (1,1,1,1)
+		_Color2 ("Color2", Color) = (1,1,1,1)
+		_Power ("Power", Range(0.1, 10)) = 1
 	}
 	SubShader
 	{
@@ -39,29 +41,34 @@ Shader "Unlit/LevelBorder"
 
 			sampler2D _MainTex;
 			float4 _MainTex_ST;
+			float _Power;
 			
 			v2f vert (appdata v)
 			{
 				v2f o;
 				o.vertex = UnityObjectToClipPos(v.vertex);
-				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
-				UNITY_TRANSFER_FOG(o,o.vertex);
+
+				// set uv to the screen uv (0,0) to (1,1)
+				o.uv = o.vertex.xy;
 				return o;
 			}
 
 			float4 _Color;
+			float4 _Color2;
 			
 			fixed4 frag (v2f i) : SV_Target
 			{
-				float alpha = 1-i.uv.x;
-				alpha = 1;
-				return float4(_Color.r, _Color.g, _Color.b, alpha);
-				return float4(alpha, alpha, alpha, 1);
-				// sample the texture
-				fixed4 col = tex2D(_MainTex, i.uv);
-				// apply fog
-				UNITY_APPLY_FOG(i.fogCoord, col);
-				return col;
+				// get the pixel uv on the screen
+				//
+				// 0,0  1,0
+
+				//return _Color;
+
+				float2 uv = i.vertex.xy /  _ScreenParams.xy;
+				uv -= .5;
+				uv = pow (abs(uv), _Power);
+				float dist = smoothstep(0.0, .5, length(uv));
+				return lerp(_Color, _Color2, dist);				
 			}
 			ENDCG
 		}

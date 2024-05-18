@@ -55,6 +55,7 @@ public class TileMapCreator : MonoBehaviour {
 
     public TerrainMapper terrainMapper;
     public MeshFilter meshFilter;
+    public MeshFilter[] additionalMeshFilters = { };
     public MeshRenderer meshRenderer;
     public MeshCollider meshCollider;
 
@@ -82,6 +83,8 @@ public class TileMapCreator : MonoBehaviour {
     [Command] public float noiseAmplitude2 = .1f;
     [Command] public int noiseOctavesCount = 3;
     [Command] public float slopeLength = 5;
+
+    public Dictionary<Vector2Int, float> heights = new();
 
     // Buffers
     public static List<Vector3> vertexBuffer = new() { new Vector2(1, 1) / 2, new Vector2(-1, 1) / 2, new Vector2(-1, -1) / 2, new Vector2(1, -1) / 2 };
@@ -173,6 +176,12 @@ public class TileMapCreator : MonoBehaviour {
                     quads.Add(new Quad(topLeft, topRight, bottomLeft, bottomRight, position));
                     break;
                 }
+                case "set-height": {
+                    var height = Convert.ToSingle(stack.Pop());
+                    var position = (Vector2Int)stack.Pop();
+                    heights[position] = height;
+                    break;
+                }
                 case "set-piece-transform": {
                     // ignore
                     break;
@@ -219,6 +228,9 @@ public class TileMapCreator : MonoBehaviour {
 
         foreach (var (position, tileType) in tiles)
             stringWriter.PostfixWriteLine("add-tile ( {0} {1} )", tileType, position);
+
+        foreach (var (position, height) in heights)
+            stringWriter.PostfixWriteLine("set-height ( {0} {1} )", position, height);
 
         LevelEditorFileSystem.Save(fileName, stringWriter.ToString());
     }
@@ -340,7 +352,7 @@ public class TileMapCreator : MonoBehaviour {
 
         var materials = pieces.SelectMany(r => r.sharedMaterials).Distinct().ToList();
         var subMeshCombiners = materials.ToDictionary(m => m, _ => new List<CombineInstance>());
-    
+
         var minX = tiles.Keys.Min(p => p.x);
         var maxX = tiles.Keys.Max(p => p.x);
         var minY = tiles.Keys.Min(p => p.y);
@@ -418,6 +430,8 @@ public class TileMapCreator : MonoBehaviour {
         var normals = new NativeArray<float3>(combinedMesh.vertexCount, Allocator.TempJob);
         var smoothNormals = new NativeArray<float3>(combinedMesh.vertexCount, Allocator.TempJob);
         var vertexGrid = new NativeParallelMultiHashMap<int2, int>(tiles.Count, Allocator.TempJob);
+        var heights = new NativeList<float>(Allocator.TempJob);
+        var heightPositions = new NativeList<int2>(Allocator.TempJob);
 
         for (var y = minY - 1; y <= maxY + 1; y++)
         for (var x = minX - 1; x <= maxX + 1; x++) {
@@ -437,7 +451,14 @@ public class TileMapCreator : MonoBehaviour {
         for (var i = 0; i < normals.Length; i++)
             normals[i] = meshNormals[i];
 
+        foreach (var (position, height) in this.heights) {
+            heightPositions.Add( new int2(position.x, position.y));
+            heights.Add(height);
+        }
+
         PopulateGrid(vertexGrid, vertices);
+        
+//        Debug.Log(heights.Length);
 
         var displacement = new DisplaceVerticesJob {
                 vertices = vertices,
@@ -448,7 +469,9 @@ public class TileMapCreator : MonoBehaviour {
                 maxDepth = 5f,
                 noiseOctavesCount = noiseOctavesCount,
                 noiseAmplitude = noiseAmplitude,
-                noiseScale = noiseScale
+                noiseScale = noiseScale,
+                heightPositions = heightPositions,
+                heights = heights
             }
             .Schedule(vertices.Length, 64);
 
@@ -476,14 +499,19 @@ public class TileMapCreator : MonoBehaviour {
         normals.Dispose();
         smoothNormals.Dispose();
         vertexGrid.Dispose();
+        heightPositions.Dispose();
+        heights.Dispose();
 
         combinedMesh.vertices = meshVertices;
         combinedMesh.normals = meshNormals;
         combinedMesh.tangents = meshTangents;
         combinedMesh.RecalculateBounds();
+        //combinedMesh.RecalculateNormals();
         //combinedMesh.RecalculateTangents( MeshUpdateFlags.Default);
 
         meshFilter.sharedMesh = combinedMesh;
+        foreach (var additionalMeshFilter in additionalMeshFilters)
+            additionalMeshFilter.sharedMesh = combinedMesh;
         meshRenderer.sharedMaterials = finalMaterials.ToArray();
         meshCollider.sharedMesh = combinedMesh;
 
@@ -537,7 +565,7 @@ public class TileMapCreator : MonoBehaviour {
                     });
             }
             else {
-                    Debug.LogWarning($"No piece found for {foundQuad}, quad position: {foundQuad.position}");
+                Debug.LogWarning($"No piece found for {foundQuad}, quad position: {foundQuad.position}");
             }
         }
         else {
@@ -564,6 +592,12 @@ public class TileMapCreator : MonoBehaviour {
 
         [ReadOnly]
         public NativeList<int2> nonSeaPositions;
+
+        [ReadOnly]
+        public NativeList<int2> heightPositions;
+
+        [ReadOnly]
+        public NativeList<float> heights;
 
         [ReadOnly]
         public float slopeLength;
@@ -605,6 +639,14 @@ public class TileMapCreator : MonoBehaviour {
             vertices[index] += accumulatedNoise * math.up() * math.clamp(distanceToSeaLevel / slopeLength, 0, 1) * maxHeight;
 
             vertices[index] += accumulatedNoise * math.down() * math.clamp(distanceToNonSea / 5f, 0, 1) * maxDepth;
+
+            var cell = new int2((int)vertices[index].x, (int)vertices[index].z);
+            for (var i = 0; i < heightPositions.Length; i++) {
+                var position = heightPositions[i];
+                if (cell.x == position.x && cell.y == position.y) {
+                    vertices[index] +=  math.up() * heights[i];
+                }
+            }
         }
     }
 

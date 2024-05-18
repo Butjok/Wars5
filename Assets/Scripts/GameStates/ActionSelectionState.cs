@@ -337,7 +337,7 @@ public class ActionSelectionState : StateMachineState {
                                     throw new ArgumentOutOfRangeException();
                             }
 
-                            if (!unit.Initialized) {
+                            if (unit.Initialized) {
                                 unit.Moved = true;
                                 if (unit.view.LookDirection != unit.Player.unitLookDirection) {
                                     var bipedalWalker = unit.view.GetComponent<BipedalWalker>();

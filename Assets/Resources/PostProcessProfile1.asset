@@ -27,13 +27,13 @@ MonoBehaviour:
     value: {x: 0.5, y: 0.5}
   intensity:
     overrideState: 1
-    value: 0.535
+    value: 0.546
   smoothness:
     overrideState: 1
     value: 0.359
   roundness:
     overrideState: 1
-    value: 0.391
+    value: 0.487
   rounded:
     overrideState: 0
     value: 0
@@ -304,27 +304,27 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 4
+    value: 0.25
   threshold:
     overrideState: 1
-    value: 0.8
+    value: 0.75
   softKnee:
-    overrideState: 1
-    value: 0
+    overrideState: 0
+    value: 0.337
   clamp:
     overrideState: 0
     value: 1
   diffusion:
-    overrideState: 1
-    value: 2.04
+    overrideState: 0
+    value: 4
   anamorphicRatio:
     overrideState: 0
     value: 1
   color:
     overrideState: 0
-    value: {r: 0.12847078, g: 1, b: 0, a: 1}
+    value: {r: 0.8591738, g: 1, b: 0, a: 1}
   fastMode:
-    overrideState: 0
+    overrideState: 1
     value: 1
   dirtTexture:
     overrideState: 0
@@ -471,7 +471,7 @@ MonoBehaviour:
     value: {x: 1, y: 1, z: 1, w: 0}
   gain:
     overrideState: 1
-    value: {x: 1, y: 1, z: 1, w: 0.5102041}
+    value: {x: 1, y: 1, z: 1, w: 0.6967144}
   masterCurve:
     overrideState: 0
     value:

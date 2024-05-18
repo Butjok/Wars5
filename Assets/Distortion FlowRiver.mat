@@ -9,7 +9,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Distortion FlowRiver
   m_Shader: {fileID: 4800000, guid: 23118c60e8fa9446db3d02f7a4a58be4, type: 3}
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _SPECULARHIGHLIGHTS_OFF
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -98,7 +99,7 @@ Material:
     - _FlowOffset: 5.68
     - _FlowStrength: 0.89
     - _GlossMapScale: 1
-    - _Glossiness: 1
+    - _Glossiness: 0.9
     - _GlossyReflections: 1
     - _GridResolution: 10
     - _HeightScale: 1
@@ -110,10 +111,10 @@ Material:
     - _OcclusionStrength: 1
     - _OcclusionTint: 0
     - _Parallax: 0.02
-    - _RefractionStrength: 0.09
+    - _RefractionStrength: 0.116
     - _Scale: 64.04
     - _SmoothnessTextureChannel: 0
-    - _SpecularHighlights: 1
+    - _SpecularHighlights: 0
     - _Speed: 2
     - _SrcBlend: 1
     - _Tiling: 16.48
@@ -122,7 +123,7 @@ Material:
     - _UJump: 0.123
     - _UVSec: 0
     - _VJump: 0
-    - _WaterFogDensity: 0
+    - _WaterFogDensity: 0.36
     - _WaveAmplitude: 0.0001
     - _WaveFrequency: 7.5
     - _WaveMaskSharpness: 10
@@ -132,7 +133,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _BackgroundColor: {r: 0.2971698, g: 0.5011286, b: 1, a: 0}
-    - _Color: {r: 0.57584924, g: 0.8207547, b: 0.036133777, a: 0}
+    - _Color: {r: 0.73400646, g: 0.8584906, b: 0.41034764, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FoamColor: {r: 0.6784314, g: 0.63681203, b: 0.03137255, a: 1}
     - _GridColor: {r: 0, g: 0, b: 0, a: 0}

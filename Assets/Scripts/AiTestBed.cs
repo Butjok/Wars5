@@ -1,5 +1,5 @@
+using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Butjok.CommandLine;
 using Drawing;
 using UnityEngine;
@@ -76,8 +76,7 @@ public class AiTestBed : MonoBehaviour {
             return;
         if (camera.TryGetMousePosition(out Vector2Int position)) {
             selectedState = new UnitAiStayingState {
-                unit = selectedUnit,
-                position = position
+                unit = selectedUnit
             };
             selectedUnit.aiStates.Push(selectedState);
         }
@@ -87,15 +86,25 @@ public class AiTestBed : MonoBehaviour {
 public class UnitAiState {
     public Unit unit;
 }
-
 public class UnitAiStayingState : UnitAiState {
+    public List<Vector2Int> area = new();
     public Vector2Int position;
 }
-
 public class UnitAiHealingState : UnitAiState {
     public Building building;
 }
-
 public class UnitAiEngagingState : UnitAiState {
     public Unit target;
+}
+public class UnitAiCaptureBuilding : UnitAiState {
+    public Building building;
+}
+public class UnitAiGetInApc : UnitAiState {
+    public Unit apc;
+}
+public class UnitAiPickUpUnit : UnitAiState {
+    public Unit unitToPickUp;
+}
+public class UnitAiDropUnit : UnitAiState {
+    public List<Vector2Int> area = new();
 }

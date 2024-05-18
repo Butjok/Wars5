@@ -13,7 +13,7 @@ Shader "Unlit/godrays"
     {
         Tags { "RenderType"="Transparent" "Queue"="Transparent" }
         LOD 100
-        // blend additively
+        // blend multiplicative
         Blend DstColor Zero
         ZTest Off
 

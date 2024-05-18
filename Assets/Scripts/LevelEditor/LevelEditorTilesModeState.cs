@@ -54,6 +54,7 @@ public class LevelEditorTilesModeState : StateMachineState {
     public ForestCreator forestCreator;
     public PropPlacement propPlacement;
     public HeightMapBaker heightMapBaker;
+    public float height;
 
     [Command] public static Color plainColor = Color.green;
     [Command] public static Color roadColor = Color.gray;
@@ -65,6 +66,7 @@ public class LevelEditorTilesModeState : StateMachineState {
     [Command] public static Color unownedBuildingColor = Color.white;
 
     public bool showTiles = false;
+    [Command] static public bool showHeights = true;
 
     public static Color GetColor(TileType tileType) {
         return tileType switch {
@@ -327,6 +329,7 @@ public class LevelEditorTilesModeState : StateMachineState {
 
             gui.layerStack.Push(() => {
                 GUILayout.Label("Level editor > Tiles " + ((TileType.Buildings & tileType) == 0 ? $"[{tileType}]" : $"[{(player?.ColorName.ToString() ?? "---")} {tileType}]"));
+                GUILayout.Label("Height: " + height);
                 GUILayout.Space(DefaultGuiSkin.defaultSpacingSize);
                 GUILayout.Label("[F2] Cycle player");
                 GUILayout.Label("[Tab] Cycle tile type");
@@ -360,6 +363,14 @@ public class LevelEditorTilesModeState : StateMachineState {
                     game.EnqueueCommand(Command.PickTile, mousePosition);
                 else if (Input.GetKeyDown(KeyCode.H))
                     showTiles = !showTiles;
+                else if (Input.GetKeyDown(KeyCode.KeypadPlus))
+                    height += .1f;
+                else if (Input.GetKeyDown(KeyCode.KeypadMinus))
+                    height -= .1f;
+                else if (Input.GetKeyDown(KeyCode.Keypad0) && camera.TryGetMousePosition(out mousePosition))
+                    tileMapCreator.heights[mousePosition] = height;
+                else if (Input.GetKeyDown(KeyCode.Delete) && camera.TryGetMousePosition(out mousePosition))
+                    tileMapCreator.heights.Remove(mousePosition);
                 else if (Input.GetKeyDown(KeyCode.Print) || Input.GetMouseButtonDown(Mouse.extra0) || Input.GetMouseButtonDown(Mouse.extra1)) {
                     if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) {
                         if (tileMapCreator) {
@@ -441,6 +452,12 @@ public class LevelEditorTilesModeState : StateMachineState {
                 if (showTiles)
                     foreach (var (position, tileType) in level.tiles)
                         Draw.ingame.SolidPlane(position.ToVector3(), Vector3.up, Vector2.one, level.TryGetBuilding(position, out var building) ? building.Player?.Color ?? unownedBuildingColor : GetColor(tileType));
+
+                if (showHeights)
+                    foreach (var (position, height) in tileMapCreator.heights) {
+                        Draw.ingame.WirePlane(position.ToVector3(), Vector3.up, Vector2.one, Color.yellow);
+                        Draw.ingame.Label3D(position.ToVector3(), Quaternion.LookRotation(Vector3.down), height.ToString(), 0.25f, LabelAlignment.Center, Color.yellow);
+                    }
             }
         }
     }
