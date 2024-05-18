@@ -7437,7 +7437,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 170797031}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -40367,7 +40367,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.6666667}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.7490196}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -43595,7 +43595,7 @@ Transform:
   m_GameObject: {fileID: 1647909077}
   m_LocalRotation: {x: 0.87666756, y: -0.010190715, z: 0.0055908184, w: 0.48095632}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 40, y: 40, z: 40}
+  m_LocalScale: {x: 45, y: 45, z: 45}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1952239951}
@@ -43618,7 +43618,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1653219201
 Transform:
   m_ObjectHideFlags: 0
@@ -48651,7 +48651,7 @@ Light:
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
-  m_CookieSize: 40
+  m_CookieSize: 45
   m_Shadows:
     m_Type: 2
     m_Resolution: 2
@@ -61489,7 +61489,7 @@ MonoBehaviour:
   timeScale: 10
   easing: 0
   cookies:
-  - {fileID: 2800000, guid: 8514996013f27c24ab5c74544fe846ed, type: 3}
+  - {fileID: 2800000, guid: 42ab47f1034519a44b36d2ae8705b971, type: 3}
   camera: {fileID: 1069182239}
   cookieHeightLimits: {x: 20, y: 46}
 --- !u!4 &1952239951
@@ -64229,7 +64229,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   material: {fileID: 2100000, guid: 40f38c606fc8ede46a1b0142dd9e24ad, type: 2}
   sun: {fileID: 1647909079}
-  darkColor: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 0}
+  darkColor: {r: 1, g: 1, b: 1, a: 0}
   lightColor: {r: 0.21176471, g: 0.30980393, b: 0.08235294, a: 0}
   distances: {x: 20, y: 75}
   camera: {fileID: 157206632}
