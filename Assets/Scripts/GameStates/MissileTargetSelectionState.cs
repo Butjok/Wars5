@@ -193,10 +193,10 @@ public class MissileTargetSelectionState : StateMachineState {
                         missileSiloView.aim = true;
                         if (actualAimPosition.TryRaycast(out var hit2)) {
                             missileSiloView.targetPosition = hit2.point;
-                            if (missileSiloView.TryCalculateCurve(out var curve))
+                            /*if (missileSiloView.TryCalculateCurve(out var curve))
                                 using (Draw.ingame.WithLineWidth(1.5f))
                                     foreach (var (start, end) in curve.Segments())
-                                        Draw.ingame.Line(start, end, Color.red);
+                                        Draw.ingame.Line(start, end, Color.red);*/
                         }
                     }
                     else

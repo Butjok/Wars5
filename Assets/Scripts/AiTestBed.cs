@@ -36,6 +36,7 @@ public class AiTestBed : MonoBehaviour {
                     }
                 }
             }
+            
             if (selectedUnit != null) {
                 if (Input.GetKeyDown(KeyCode.O)) {
                     var list = selectedUnit.goals.ToList();
@@ -45,46 +46,48 @@ public class AiTestBed : MonoBehaviour {
                 }
                 if (selectedUnit.Position is { } actualPosition)
                     Draw.ingame.CircleXZ(actualPosition.Raycasted(), .5f, Color.white);
-                if (selectedGoal != null)
-                    foreach (var goal in selectedUnit.goals) {
-                        var fade = goal == selectedGoal ? Color.white : new Color(1, 1, 1, .25f);
-                        var text = goal.GetType().ToString();
-                        if (text.EndsWith("Goal"))
-                            text = text[..^4];
-                        if (text.StartsWith("Unit"))
-                            text = text[4..];
-                        switch (goal) {
-                            case UnitMoveGoal moveGoal: {
-                                var color = Color.green;
-                                var position = moveGoal.position;
-                                Draw.ingame.CircleXZ(position.Raycasted(), .5f, color * fade);
-                                Draw.ingame.Label3D(position.Raycasted(), Quaternion.LookRotation(Vector3.down), text, (float)0.25, LabelAlignment.Center, color * fade);
-                                if (selectedUnit.Position is { } actualPosition2)
-                                    Draw.ingame.Line(actualPosition2.Raycasted(), position.Raycasted(), color * fade);
-                                break;
-                            }
-                            case UnitKillGoal killGoal: {
-                                var color = Color.red;
-                                var target = killGoal.target;
-                                if (target.Initialized && target.Position is { } position) {
-                                    Draw.ingame.CircleXZ(position.Raycasted(), .5f, color * fade);
-                                    Draw.ingame.Label3D(position.Raycasted(), Quaternion.LookRotation(Vector3.down), text, (float)0.25, LabelAlignment.Center, color * fade);
-                                    if (selectedUnit.Position is { } actualPosition2)
-                                        Draw.ingame.Line(actualPosition2.Raycasted(), position.Raycasted(), color * fade);
-                                }
-                                break;
-                            }
-                            case UnitCaptureGoal captureGoal: {
-                                var color = Color.cyan;
-                                var position = captureGoal.building.position;
-                                Draw.ingame.CircleXZ(position.Raycasted(), .5f, color * fade);
-                                Draw.ingame.Label3D(position.Raycasted(), Quaternion.LookRotation(Vector3.down), text, (float)0.25, LabelAlignment.Center, color * fade);
-                                if (selectedUnit.Position is { } actualPosition2)
-                                    Draw.ingame.Line(actualPosition2.Raycasted(), position.Raycasted(), color * fade);
-                                break;
-                            }
-                        }
+            }
+
+            var units = selectedUnit != null ? new[] { selectedUnit } : level.Units;
+            foreach (var unit in units)
+            foreach (var goal in unit.goals) {
+                var fade = goal == selectedGoal ? Color.white : new Color(1, 1, 1, .25f);
+                var text = goal.GetType().ToString();
+                if (text.EndsWith("Goal"))
+                    text = text[..^4];
+                if (text.StartsWith("Unit"))
+                    text = text[4..];
+                switch (goal) {
+                    case UnitMoveGoal moveGoal: {
+                        var color = Color.green;
+                        var position = moveGoal.position;
+                        Draw.ingame.CircleXZ(position.Raycasted(), .5f, color * fade);
+                        Draw.ingame.Label3D(position.Raycasted(), Quaternion.LookRotation(Vector3.down), text, (float)0.25, LabelAlignment.Center, color * fade);
+                        if (unit.Position is { } actualPosition2)
+                            Draw.ingame.Line(actualPosition2.Raycasted(), position.Raycasted(), color * fade);
+                        break;
                     }
+                    case UnitKillGoal killGoal: {
+                        var color = Color.red;
+                        var target = killGoal.target;
+                        if (target.Initialized && target.Position is { } position) {
+                            Draw.ingame.CircleXZ(position.Raycasted(), .5f, color * fade);
+                            Draw.ingame.Label3D(position.Raycasted(), Quaternion.LookRotation(Vector3.down), text, (float)0.25, LabelAlignment.Center, color * fade);
+                            if (unit.Position is { } actualPosition2)
+                                Draw.ingame.Line(actualPosition2.Raycasted(), position.Raycasted(), color * fade);
+                        }
+                        break;
+                    }
+                    case UnitCaptureGoal captureGoal: {
+                        var color = Color.cyan;
+                        var position = captureGoal.building.position;
+                        Draw.ingame.CircleXZ(position.Raycasted(), .5f, color * fade);
+                        Draw.ingame.Label3D(position.Raycasted(), Quaternion.LookRotation(Vector3.down), text, (float)0.25, LabelAlignment.Center, color * fade);
+                        if (unit.Position is { } actualPosition2)
+                            Draw.ingame.Line(actualPosition2.Raycasted(), position.Raycasted(), color * fade);
+                        break;
+                    }
+                }
             }
         }
     }

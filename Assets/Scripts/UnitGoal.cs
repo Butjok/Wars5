@@ -222,6 +222,7 @@ public class AiPlayerController {
         do {
             if (count > 1000) {
                 Debug.LogError($"{firstUnit} stuck in infinite loop");
+                firstUnit.Moved = true;
                 yield break;
             }
             action = firstUnit.goals.Peek().NextAction;
