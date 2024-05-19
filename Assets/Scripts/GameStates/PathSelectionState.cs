@@ -89,7 +89,7 @@ public class PathSelectionState : StateMachineState {
                         Game.aiPlayerCommander.IssueCommandsForPathSelectionState();
                     }
                 }
-                else if (!Level.CurrentPlayer.IsAi) {
+                else {
                     if (Input.GetMouseButtonDown(Mouse.right) || Input.GetKeyDown(KeyCode.Escape))
                         Game.EnqueueCommand(Command.Cancel);
 

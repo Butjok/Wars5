@@ -32998,7 +32998,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1171571772
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61360,7 +61360,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eefd1c41b11c44639c21f638157b4805, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dayChangeDuration: 2
+  dayChangeDuration: 0
   axis: 0
   startAngles: {x: 0, y: 0, z: 0}
   nightColorFilterColor: {r: 0.23335704, g: 0.36102143, b: 0.8679245, a: 1}
@@ -64230,8 +64230,8 @@ MonoBehaviour:
   material: {fileID: 2100000, guid: 40f38c606fc8ede46a1b0142dd9e24ad, type: 2}
   sun: {fileID: 1647909079}
   darkColor: {r: 1, g: 1, b: 1, a: 0}
-  lightColor: {r: 0.21176471, g: 0.30980393, b: 0.08235294, a: 0}
-  distances: {x: 20, y: 75}
+  lightColor: {r: 0.18431373, g: 0.29411766, b: 0.039215688, a: 0}
+  distances: {x: 25, y: 70}
   camera: {fileID: 157206632}
   bloomDistances: {x: 20, y: 45}
   bloomIntensities: {x: 0.2, y: 1}

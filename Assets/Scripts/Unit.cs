@@ -31,7 +31,7 @@ public class Unit : IDisposable {
     [DontSave] public UnitBrain brain;
     [DontSave] public bool Initialized { get; private set; }
 
-    public Stack<UnitAiState> aiStates = new();
+    public Stack<UnitGoal> goals = new();
 
     private Vector2Int? position;
     [DontSave] public Vector2Int? Position {
@@ -215,6 +215,9 @@ public class Unit : IDisposable {
         }
 
         brain = new UnitBrain(this);
+
+        if (player.IsAi && goals.Count == 0)
+            goals.Push(new UnitIdleGoal { unit = this });
 
         Initialized = true;
     }

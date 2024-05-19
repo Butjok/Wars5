@@ -116,6 +116,12 @@ public class Game : MonoBehaviour {
         level.view.tilemapCursor.isValidPosition = position => vehicleReachable.Contains(position) && !enemies.Contains(position);
     }
 
+    [Command]
+    public void ReversePlayers() {
+        var levelEditorSessionState = stateMachine.TryFind<LevelEditorSessionState>();
+        levelEditorSessionState?.level.players.Reverse();
+    }
+
     public readonly StateMachine stateMachine = new();
 
     private Queue<(object name, object argument)> commands = new();
@@ -128,7 +134,7 @@ public class Game : MonoBehaviour {
         commands.Enqueue((name, argument));
         commandsDebugInfo.Enqueue((callerMemberName, callerFilePath, callerLineNumber));
     }
-    public bool TryDequeueCommand(out (object name, object argument) command, [ CallerMemberName]  string callerMemberName=null ) {
+    public bool TryDequeueCommand(out (object name, object argument) command, [CallerMemberName] string callerMemberName = null) {
         if (commands.TryDequeue(out command)) {
 //            Debug.Log($"Command ({command}) was dequeued by {callerMemberName}.");
             commandsDebugInfo.Dequeue();
@@ -228,7 +234,7 @@ public class Game : MonoBehaviour {
 
     [Command]
     public bool ShowCursorPosition {
-        get =>  PlayerPrefs.GetInt(nameof(ShowCursorPosition), 0) != 0;
+        get => PlayerPrefs.GetInt(nameof(ShowCursorPosition), 0) != 0;
         set => PlayerPrefs.SetInt(nameof(ShowCursorPosition), value ? 1 : 0);
     }
 
@@ -267,7 +273,7 @@ public class Game : MonoBehaviour {
         }
 
         if (ShowCursorPosition && Camera.main.TryPhysicsRaycast(out Vector3 hit)) {
-            var mousePosition =  Input.mousePosition;
+            var mousePosition = Input.mousePosition;
             var labelPosition = new Vector2(mousePosition.x, Screen.height - mousePosition.y);
             var text = hit.ToVector2Int().ToString();
             var size = GUI.skin.label.CalcSize(new GUIContent(text));

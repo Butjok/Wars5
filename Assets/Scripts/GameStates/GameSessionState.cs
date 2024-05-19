@@ -19,7 +19,6 @@ public class GameSessionState : StateMachineState {
             Player.undisposed.Clear();
             Building.undisposed.Clear();
             Unit.undisposed.Clear();
-            UnitAction.undisposed.Clear();
 
             while (true) {
                 yield return StateChange.none;
@@ -56,7 +55,5 @@ public class GameSessionState : StateMachineState {
             Debug.LogError($"undisposed buildings: {Building.undisposed.Count}");
         if (Unit.undisposed.Count > 0)
             Debug.LogError($"undisposed units: {Unit.undisposed.Count}");
-        if (UnitAction.undisposed.Count > 0)
-            Debug.LogError($"undisposed unit actions: {UnitAction.undisposed.Count}");
     }
 }

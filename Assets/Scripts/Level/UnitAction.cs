@@ -20,27 +20,18 @@ public enum UnitActionType {
     Gather, // move to a closest gathering point 
 }
 
-public class UnitAction : IDisposable {
+public class UnitAction {
 
-    public static readonly HashSet<UnitAction> undisposed = new();
-
-    public readonly UnitActionType type;
-    public readonly Unit unit, targetUnit;
+    public UnitActionType type;
+    public Unit unit, targetUnit;
     public List<Vector2Int> path;
-    public readonly WeaponName weaponName;
-    public readonly Vector2Int targetPosition;
-    public readonly UnitActionView view;
-    public readonly Building targetBuilding;
+    public WeaponName weaponName;
+    public Vector2Int targetPosition;
+    public Building targetBuilding;
 
     public UnitAction(
-        UnitActionType type,
-        Unit unit, IEnumerable<Vector2Int> path,
-        Unit targetUnit = null, Building targetBuilding = null,
-        WeaponName weaponName = default, Vector2Int targetPosition = default,
-        bool spawnView = false) {
-
-        undisposed.Add(this);
-
+        UnitActionType type, Unit unit, IEnumerable<Vector2Int> path, Unit targetUnit = null, Building targetBuilding = null,
+        WeaponName weaponName = default, Vector2Int targetPosition = default) {
         this.type = type;
         this.unit = unit;
 
@@ -52,23 +43,6 @@ public class UnitAction : IDisposable {
         this.path = path.ToList();
         Assert.AreNotEqual(0, this.path.Count);
         Assert.AreEqual(unit.Position, this.path[0]);
-
-        if (spawnView)
-            switch (type) {
-                case UnitActionType.Attack: {
-                    //var view = Object.Instantiate(UnitAttackActionView.Prefab, unit.Player.level.view.transform);
-                    //view.action = this;
-                    //this.view = view;
-                    break;
-                }
-            }
-    }
-
-    public void Dispose() {
-        Assert.IsTrue(undisposed.Contains(this));
-        undisposed.Remove(this);
-        if (view)
-            Object.Destroy(view.gameObject);
     }
 
     public override string ToString() {

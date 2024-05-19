@@ -142,7 +142,7 @@ public class SelectionState : StateMachineState {
                         Game.aiPlayerCommander.IssueCommandsForSelectionState();
                     }
                 }
-                else if (!Level.CurrentPlayer.IsAi) {
+                else {
                     if (Input.GetKeyDown(KeyCode.F2))
                         Game.EnqueueCommand(Command.EndTurn);
 
@@ -175,7 +175,11 @@ public class SelectionState : StateMachineState {
 
                     else if (Input.GetKeyDown(KeyCode.Escape))
                         Game.EnqueueCommand(Command.OpenGameMenu);
+
+                    else if (Input.GetKeyDown(KeyCode.F7))
+                        Level.CurrentPlayer.aiController?.MoveNextUnit();
                 }
+
 
                 while (Game.TryDequeueCommand(out var command)) {
                     // Tutorial logic
@@ -318,7 +322,7 @@ public class SelectionState : StateMachineState {
                             TileMask.UnsetGlobal();
                             break;
                         }
-                        
+
                         case (BorderIncidentScenario.Command.StartRedRocketeersDialogue, DialogueState dialogueState):
                             yield return StateChange.Push(dialogueState);
                             break;

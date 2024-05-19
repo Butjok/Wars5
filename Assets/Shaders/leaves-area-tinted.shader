@@ -48,6 +48,8 @@ Shader "Custom/LeavesAreaTinted"
     	[Toggle(HOLE)] _Hole ("_Hole", Float) = 0
     	_EmissionColor ("_EmissionColor", Color) = (1,1,1,1)
     	_HoleOffset ("_HoleOffset", Vector) = (0,0,0,0)
+    	
+    	_CutOff ("_CutOff", Float) = 0.5
     }
     SubShader
     {
@@ -105,6 +107,7 @@ Shader "Custom/LeavesAreaTinted"
 
             sampler2D _HoleMask;
             fixed4x4 _HoleMask_WorldToLocal;
+            float _CutOff;
 
             struct InstancedRenderingAppdata {
                 half4 vertex : POSITION;
@@ -176,8 +179,8 @@ float3 Overlay(float3 bg, float3 fg) {
             void surf (Input IN, inout SurfaceOutputStandard o)
             {
                 half4 c = tex2D (_MainTex, IN.uv_MainTex);
-                clip(c.a-.5);
-                
+                clip(c.a-_CutOff);
+
                 //half inputOcclusion = tex2D (_Occlusion, IN.uv_MainTex).r;
                 
                 //o.Occlusion = lerp(inputOcclusion,1,.5);

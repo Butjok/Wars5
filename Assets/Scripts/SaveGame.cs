@@ -524,9 +524,14 @@ namespace SaveGame {
                         break;
                     }
                     case StackCommand stackCommand: {
-                        var stackInstance = Activator.CreateInstance(typeof(Stack<>).MakeGenericType(Type.GetType(stackCommand.elementTypeName)));
-                        referencedObjects.Add(stackInstance);
-                        stack.Push(stackInstance);
+                        var elementType = Type.GetType(stackCommand.elementTypeName);
+                        if (elementType != null) {
+                            var stackInstance = Activator.CreateInstance(typeof(Stack<>).MakeGenericType(elementType));
+                            referencedObjects.Add(stackInstance);
+                            stack.Push(stackInstance);
+                        }
+                        else
+                            stack.Push(null);
                         break;
                     }
                     case EndStackItem _: {

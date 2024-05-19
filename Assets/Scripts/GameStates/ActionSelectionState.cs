@@ -32,8 +32,6 @@ public class ActionSelectionState : StateMachineState {
 
     public override void Exit() {
         HidePanel();
-        foreach (var action in actions)
-            action.Dispose();
         actions.Clear();
 
         var level = stateMachine.Find<LevelSessionState>().level;
@@ -42,8 +40,6 @@ public class ActionSelectionState : StateMachineState {
     }
 
     public void HidePanel() {
-        if (oldAction != null && oldAction.view)
-            oldAction.view.Show = false;
         panel.Hide();
         PlayerView.globalVisibility = true;
     }
@@ -53,10 +49,6 @@ public class ActionSelectionState : StateMachineState {
         Assert.IsTrue(index != -1);
 //      Debug.Log(actions[index]);
         panel.HighlightAction(action);
-        if (oldAction != null && oldAction.view)
-            oldAction.view.Show = false;
-        if (action.view)
-            action.view.Show = true;
         oldAction = action;
 
         var level = stateMachine.Find<LevelSessionState>().level;
@@ -91,25 +83,25 @@ public class ActionSelectionState : StateMachineState {
         // stay / capture / launch missile
         if (other == null || other == unit) {
             if (level.TryGetBuilding(destination, out var building) && CanCapture(unit, building))
-                yield return new UnitAction(UnitActionType.Capture, unit, path, null, building, spawnView: true);
+                yield return new UnitAction(UnitActionType.Capture, unit, path, null, building);
 
-            yield return new UnitAction(UnitActionType.Stay, unit, path, spawnView: true);
+            yield return new UnitAction(UnitActionType.Stay, unit, path);
 
             if (level.TryGetBuilding(destination, out building) &&
                 building.type is TileType.MissileSilo &&
                 CanLaunchMissile(unit, building)) {
-                yield return new UnitAction(UnitActionType.LaunchMissile, unit, path, targetBuilding: building, spawnView: true);
+                yield return new UnitAction(UnitActionType.LaunchMissile, unit, path, targetBuilding: building);
             }
         }
 
         if (other != null && other != unit) {
             // join
             if (CanJoin(unit, other))
-                yield return new UnitAction(UnitActionType.Join, unit, path, unit, spawnView: true);
+                yield return new UnitAction(UnitActionType.Join, unit, path, unit);
 
             // load in
             if (CanGetIn(unit, other))
-                yield return new UnitAction(UnitActionType.GetIn, unit, path, other, spawnView: true);
+                yield return new UnitAction(UnitActionType.GetIn, unit, path, other);
         }
         else {
             // attack
@@ -117,13 +109,13 @@ public class ActionSelectionState : StateMachineState {
                 foreach (var otherPosition in level.PositionsInRange(destination, attackRange))
                     if (level.TryGetUnit(otherPosition, out var target))
                         foreach (var (weaponName, _) in GetDamageValues(unit, target))
-                            yield return new UnitAction(UnitActionType.Attack, unit, path, target, weaponName: weaponName, targetPosition: otherPosition, spawnView: true);
+                            yield return new UnitAction(UnitActionType.Attack, unit, path, target, weaponName: weaponName, targetPosition: otherPosition);
 
             // supply
             foreach (var offset in gridOffsets) {
                 var otherPosition = destination + offset;
                 if (level.TryGetUnit(otherPosition, out var target) && CanSupply(unit, target))
-                    yield return new UnitAction(UnitActionType.Supply, unit, path, target, targetPosition: otherPosition, spawnView: true);
+                    yield return new UnitAction(UnitActionType.Supply, unit, path, target, targetPosition: otherPosition);
             }
 
             // drop out
@@ -133,7 +125,7 @@ public class ActionSelectionState : StateMachineState {
                 if ((!level.TryGetUnit(targetPosition, out var other2) || other2 == unit) &&
                     level.TryGetTile(targetPosition, out var tileType) &&
                     CanStay(cargo, tileType))
-                    yield return new UnitAction(UnitActionType.Drop, unit, path, targetUnit: cargo, targetPosition: targetPosition, spawnView: true);
+                    yield return new UnitAction(UnitActionType.Drop, unit, path, targetUnit: cargo, targetPosition: targetPosition);
             }
         }
     }
@@ -176,7 +168,7 @@ public class ActionSelectionState : StateMachineState {
                         Game.aiPlayerCommander.IssueCommandsForActionSelectionState();
                     }
                 }
-                else if (!Level.CurrentPlayer.IsAi) {
+                else {
                     if (Input.GetMouseButtonDown(Mouse.right) || Input.GetKeyDown(KeyCode.Escape))
                         Game.EnqueueCommand(Command.Cancel);
 
