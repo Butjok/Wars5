@@ -136,4 +136,10 @@ public class AiTestBed : MonoBehaviour {
             selectedGoal = goal;
         }
     }
+    [Command]
+    public void SetHp(int hp) {
+        hp = Mathf.Max(1, hp);
+        if (selectedUnit != null)
+            selectedUnit.Hp = hp;
+    }
 }

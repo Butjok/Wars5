@@ -16,14 +16,14 @@ public class UnitBrainAction : UnitAction {
 public abstract class UnitGoal {
     public Unit unit;
     [DontSave] public abstract UnitBrainAction NextAction { get; }
-    public IEnumerable<Unit> FindEnemiesNearby() {
+    public IEnumerable<Unit> FindEnemiesNearby(int maxDistance = 5) {
         var level = unit.Player.level;
-        var positions = level.PositionsInRange(unit.NonNullPosition, new Vector2Int(0, 5));
+        var positions = level.PositionsInRange(unit.NonNullPosition, new Vector2Int(0, maxDistance));
         foreach (var position in positions)
             if (level.TryGetUnit(position, out var other) && Rules.AreEnemies(unit.Player, other.Player))
                 yield return other;
     }
-    public bool TryPushKillGoalOfNearbyEnemy() {
+    public bool TryPushKillGoalOfNearbyEnemy(int maxDistance = 5) {
         var enemy = FindEnemiesNearby().FirstOrDefault();
         if (enemy == null)
             return false;
@@ -39,6 +39,9 @@ public abstract class UnitGoal {
 public class UnitIdleGoal : UnitGoal {
     public override UnitBrainAction NextAction {
         get {
+            if (TryPushKillGoalOfNearbyEnemy())
+                return null;
+            
             Assert.IsTrue(unit.Position.HasValue);
             return new UnitBrainAction(this, UnitActionType.Stay, unit, new[] { unit.NonNullPosition });
         }
@@ -71,8 +74,49 @@ public class UnitCaptureGoal : UnitGoal {
     }
 }
 
+public class UnitHealGoal : UnitGoal {
+    public override UnitBrainAction NextAction {
+        get {
+            if (unit.Hp >= Rules.MaxHp(unit.type)) {
+                Pop();
+                return null;
+            }
+
+            var level = unit.Player.level;
+            var buildings = level.Buildings.Where(b => Rules.CanRepair(b, unit)).ToList();
+            var minDistance = 999;
+            Building building = null;
+            List<Vector2Int> path = null;
+
+            var pathFinder = new PathFinder();
+            pathFinder.FindStayMoves(unit);
+
+            foreach (var b in buildings) {
+                if (!pathFinder.TryFindPath(out var shortPath, out var restPath, b.position))
+                    continue;
+                var distance = pathFinder.nodes[restPath[^1]].g;
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    building = b;
+                    path = shortPath;
+                }
+            }
+
+            Assert.IsTrue(building != null);
+            
+            // if the unit is ready standing on the building, and there is an enemy nearby, attack it
+            if (unit.NonNullPosition == building.position && TryPushKillGoalOfNearbyEnemy(1)) 
+                return null;
+            
+            return new UnitBrainAction(this, UnitActionType.Stay, unit, path, targetBuilding: building);
+        }
+    }
+}
+
 public class UnitKillGoal : UnitGoal {
+
     public Unit target;
+
     public override UnitBrainAction NextAction {
         get {
             if (target is not { Initialized: true }) {
@@ -80,49 +124,54 @@ public class UnitKillGoal : UnitGoal {
                 return null;
             }
 
-            var level = unit.Player.level;
+            if (unit.Hp <= 4) {
+                unit.goals.Push(new UnitHealGoal { unit = unit });
+                return null;
+            }
+
             var hasAttackRange = Rules.TryGetAttackRange(unit, out var attackRange);
             Assert.IsTrue(hasAttackRange);
 
-            if (target.Position is { } actualTargetPosition) {
-                var attackPositions = level.PositionsInRange(actualTargetPosition, attackRange).ToHashSet();
+            if (target.Position is not { } actualTargetPosition)
+                return null;
 
-                var weaponName = unit.type switch {
-                    UnitType.Infantry => WeaponName.Rifle,
-                    UnitType.AntiTank => WeaponName.RocketLauncher,
-                    UnitType.Artillery => WeaponName.Cannon,
-                    UnitType.Recon => WeaponName.MachineGun,
-                    UnitType.LightTank => WeaponName.Cannon,
-                    UnitType.Rockets => WeaponName.RocketLauncher,
-                    UnitType.MediumTank => WeaponName.Cannon,
-                    _ => throw new NotImplementedException()
-                };
+            var level = unit.Player.level;
+            var attackPositions = level.PositionsInRange(actualTargetPosition, attackRange).ToHashSet();
 
-                var action = new UnitBrainAction(this, UnitActionType.Attack, unit, new[] { unit.NonNullPosition }, target, weaponName: weaponName);
+            var weaponName = unit.type switch {
+                UnitType.Infantry => WeaponName.Rifle,
+                UnitType.AntiTank => WeaponName.RocketLauncher,
+                UnitType.Artillery => WeaponName.Cannon,
+                UnitType.Recon => WeaponName.MachineGun,
+                UnitType.LightTank => WeaponName.Cannon,
+                UnitType.Rockets => WeaponName.RocketLauncher,
+                UnitType.MediumTank => WeaponName.Cannon,
+                _ => throw new NotImplementedException()
+            };
 
-                // unit is already in the attack position, just attack
-                if (attackPositions.Contains(unit.NonNullPosition))
-                    return action;
+            var action = new UnitBrainAction(this, UnitActionType.Attack, unit, new[] { unit.NonNullPosition }, target, weaponName: weaponName);
 
-                var pathFinder = new PathFinder();
-                pathFinder.FindStayMoves(unit);
-                if (!pathFinder.TryFindPath(out var shortPath, out _, targets: attackPositions))
-                    return null;
+            var pathFinder = new PathFinder();
+            pathFinder.FindStayMoves(unit);
 
-                action.path = shortPath;
-
-                // can get into the attack position in one move
-                if (attackPositions.Contains(shortPath[^1])) {
-                    if (Rules.IsArtillery(unit))
-                        action.type = UnitActionType.Stay;
-                }
-                else
-                    action.type = UnitActionType.Stay;
-
+            // unit is already in the attack position, just attack
+            if (attackPositions.Contains(unit.NonNullPosition))
                 return action;
-            }
 
-            return null;
+            if (!pathFinder.TryFindPath(out var shortPath, out _, targets: attackPositions))
+                return null;
+
+            action.path = shortPath;
+
+            // can get into the attack position in one move
+            if (attackPositions.Contains(shortPath[^1])) {
+                if (Rules.IsArtillery(unit))
+                    action.type = UnitActionType.Stay;
+            }
+            else
+                action.type = UnitActionType.Stay;
+
+            return action;
         }
     }
 }
@@ -169,8 +218,14 @@ public class AiPlayerController {
         // try find next action
         var firstUnit = units[0];
         UnitBrainAction action;
+        var count = 0;
         do {
+            if (count > 1000) {
+                Debug.LogError($"{firstUnit} stuck in infinite loop");
+                yield break;
+            }
             action = firstUnit.goals.Peek().NextAction;
+            count++;
         } while (firstUnit.goals.Count > 0 && action == null);
 
         // no action found for this unit, stay
