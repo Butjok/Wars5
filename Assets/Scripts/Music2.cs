@@ -17,7 +17,7 @@ public class Music2 : MonoBehaviour {
                     DontDestroyOnLoad(go);
                     instance = go.AddComponent<Music2>();
                 }
-                instance.source.outputAudioMixerGroup =  Resources.Load<AudioMixer>("Game").FindMatchingGroups("Music")[0];
+                instance.source.outputAudioMixerGroup = Resources.Load<AudioMixer>("Game").FindMatchingGroups("Music")[0];
             }
 
             return instance;
@@ -29,7 +29,7 @@ public class Music2 : MonoBehaviour {
     public const float tonedDownVolume = .5f;
     public const float lowpassDefault = 22000;
     public const float lowpassTonedDown = 200;
-    
+
     public void Awake() {
         source = gameObject.AddComponent<AudioSource>();
         source.spatialize = false;
@@ -44,11 +44,13 @@ public class Music2 : MonoBehaviour {
     public const string vladanPowerTheme = "hardbass";
 
     public void Update() {
+        return;
+        
         if (Input.GetKeyDown(KeyCode.F3)) {
             if (Input.GetKey(KeyCode.LeftShift))
                 Stop();
             else
-            Play(natalieTheme);
+                Play(natalieTheme);
         }
         else if (Input.GetKeyDown(KeyCode.F2)) {
             PostProcessing.SuperPowerMode = false;
@@ -100,7 +102,7 @@ public class Music2 : MonoBehaviour {
     public static void Stop() {
         Instance.source.Stop();
     }
-    
+
     public static void ToneDownVolume() {
         Instance.source.volume = tonedDownVolume;
         Instance.source.outputAudioMixerGroup.audioMixer.SetFloat("MusicLowpass", lowpassTonedDown);
@@ -145,7 +147,7 @@ public static class VoiceOver {
             source = gameObject.AddComponent<AudioSource>();
             source.spatialize = false;
         }
-        
+
         source.PlayOneShot(clip);
     }
     public static void Stop() {

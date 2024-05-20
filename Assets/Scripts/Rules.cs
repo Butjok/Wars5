@@ -148,13 +148,13 @@ public static class Rules {
 
         return AreEnemies(attacker.Player, target.Player) &&
                TryGetDamage(attacker, target, weaponName, out _) &&
-               (!IsArtillery(attacker) || !isMoveAttack);
+               (!IsIndirect(attacker) || !isMoveAttack);
     }
-    public static bool IsArtillery(UnitType unitType) {
+    public static bool IsIndirect(UnitType unitType) {
         return unitType is UnitType.Artillery or UnitType.Rockets;
     }
     public static bool CanAttackInResponse(UnitType unitType) {
-        return !IsArtillery(unitType);
+        return !IsIndirect(unitType);
     }
     public static IEnumerable<WeaponName> GetWeaponNamesForResponseAttack(Unit attacker, Vector2Int attackerPosition, Unit target, Vector2Int targetPosition) {
         if (!CanAttackInResponse(target.type))
@@ -287,10 +287,10 @@ public static class Rules {
         return CanCapture(unit.type, building.type) &&
                (building.Player == null || AreEnemies(unit.Player, building.Player));
     }
-    public static bool CanPass(Unit unit, Vector2Int position) {
+    public static bool CanMoveThrough(Unit unit, Vector2Int position) {
         return !unit.Player.level.TryGetUnit(position, out var other) || unit.Player == other.Player;
     }
-    public static bool CanPass(Unit unit, Unit other) {
+    public static bool CanMoveThrough(Unit unit, Unit other) {
         return AreAllies(unit.Player, other.Player);
     }
     public static bool CanJoin(Unit unit, Unit other) {

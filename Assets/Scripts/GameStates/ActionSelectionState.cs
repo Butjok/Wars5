@@ -105,7 +105,7 @@ public class ActionSelectionState : StateMachineState {
         }
         else {
             // attack
-            if ((!IsArtillery(unit) || path.Count == 1) && TryGetAttackRange(unit, out var attackRange))
+            if ((!IsIndirect(unit) || path.Count == 1) && TryGetAttackRange(unit, out var attackRange))
                 foreach (var otherPosition in level.PositionsInRange(destination, attackRange))
                     if (level.TryGetUnit(otherPosition, out var target))
                         foreach (var (weaponName, _) in GetDamageValues(unit, target))

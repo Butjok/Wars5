@@ -7,9 +7,16 @@ using UnityEngine;
 using UnityEngine.Assertions;
 
 public class UnitBrainAction : UnitAction {
+    public const int scoresCount = 10;
+    public float[] priorities = new float[scoresCount];
     public UnitGoal sourceGoal;
     public UnitBrainAction(UnitGoal sourceGoal, UnitActionType type, Unit unit, IEnumerable<Vector2Int> path, Unit targetUnit = null, Building targetBuilding = null, WeaponName weaponName = default, Vector2Int targetPosition = default) : base(type, unit, path, targetUnit, targetBuilding, weaponName, targetPosition) {
         this.sourceGoal = sourceGoal;
+        ResetPriorities();
+    }
+    public void ResetPriorities() {
+        for (var i = 0; i < priorities.Length; i++)
+            priorities[i] = 0;
     }
 }
 
@@ -17,33 +24,84 @@ public abstract class UnitGoal {
     public Unit unit;
     [DontSave] public abstract UnitBrainAction NextAction { get; }
     public IEnumerable<Unit> FindEnemiesNearby(int maxDistance = 5) {
+        return FindEnemiesNearby(unit.NonNullPosition, maxDistance);
+    }
+    public IEnumerable<Unit> FindEnemiesNearby(Vector2Int position, int maxDistance = 5) {
         var level = unit.Player.level;
-        var positions = level.PositionsInRange(unit.NonNullPosition, new Vector2Int(0, maxDistance));
-        foreach (var position in positions)
-            if (level.TryGetUnit(position, out var other) && Rules.AreEnemies(unit.Player, other.Player))
+        var positions = level.PositionsInRange(position, new Vector2Int(0, maxDistance));
+        foreach (var p in positions)
+            if (level.TryGetUnit(p, out var other) && Rules.AreEnemies(unit.Player, other.Player))
                 yield return other;
     }
-    public bool TryPushKillGoalOfNearbyEnemy(int maxDistance = 5) {
+    public bool TryAttackNearbyEnemy(out UnitBrainAction action, int maxDistance = 5) {
         var enemy = FindEnemiesNearby().FirstOrDefault();
-        if (enemy == null)
+        if (enemy == null) {
+            action = null;
             return false;
-        unit.goals.Push(new UnitKillGoal { unit = unit, target = enemy });
+        }
+        var killGoal = new UnitKillGoal { unit = unit, target = enemy };
+        unit.goals.Push(killGoal);
+        action = killGoal.NextAction;
         return true;
     }
-    public void Pop() {
+    public UnitBrainAction CancelGoalAndReturnPreviousGoalNextAction() {
         Assert.IsTrue(unit.goals.Peek() == this);
         unit.goals.Pop();
+        return unit.goals.Count > 0 ? unit.goals.Peek().NextAction : null;
     }
 }
 
 public class UnitIdleGoal : UnitGoal {
     public override UnitBrainAction NextAction {
         get {
-            if (TryPushKillGoalOfNearbyEnemy())
-                return null;
-            
-            Assert.IsTrue(unit.Position.HasValue);
-            return new UnitBrainAction(this, UnitActionType.Stay, unit, new[] { unit.NonNullPosition });
+            if (unit.type != UnitType.Apc && TryAttackNearbyEnemy(out var killGoal))
+                return killGoal;
+
+            if (!unit.Moved)
+                return new UnitBrainAction(this, UnitActionType.Stay, unit, new[] { unit.NonNullPosition });
+
+            return null;
+        }
+    }
+}
+
+public class UnitTransferGoal : UnitGoal {
+
+    public Unit pickUpUnit;
+    public Vector2Int dropPosition;
+
+    public override UnitBrainAction NextAction {
+        get {
+            if (pickUpUnit is not { Initialized: true } || pickUpUnit.Position is { } pickUpUnitPosition && pickUpUnitPosition == dropPosition)
+                return CancelGoalAndReturnPreviousGoalNextAction();
+
+            var level = unit.Player.level;
+            PathFinder unitPathFinder = null;
+            PathFinder UnitPathFinder() => unitPathFinder ??= new PathFinder(unit);
+
+            if (pickUpUnit.Carrier != unit) {
+                if (pickUpUnit.Carrier != null && !unit.Moved &&
+                    UnitPathFinder().TryFindPath(out var shortPath, out _, targets: level.PositionsInRange(unit.NonNullPosition, Vector2Int.one)))
+                    return new UnitBrainAction(this, UnitActionType.Stay, unit, shortPath);
+
+                if (!pickUpUnit.Moved &&
+                    new PathFinder(pickUpUnit, PathFinder.ShortPathDestinationsAreValidTo.MoveThrough).TryFindPath(out var shortPath1, out _, unit.NonNullPosition) && shortPath1[^1] == unit.NonNullPosition)
+                    return new UnitBrainAction(this, UnitActionType.GetIn, pickUpUnit, shortPath1);
+
+                if (!unit.Moved &&
+                    UnitPathFinder().TryFindPath(out shortPath, out _, targets: level.PositionsInRange(pickUpUnit.NonNullPosition, Vector2Int.one)))
+                    return new UnitBrainAction(this, UnitActionType.Stay, unit, shortPath);
+            }
+
+            else if (!unit.Moved &&
+                     UnitPathFinder().TryFindPath(out var shortPath, out _, targets: level.PositionsInRange(dropPosition, Vector2Int.one))) {
+                if ((shortPath[^1] - dropPosition).ManhattanLength() == 1 && Rules.CanStay(unit, dropPosition)) {
+                    return new UnitBrainAction(this, UnitActionType.Drop, unit, shortPath, targetPosition: dropPosition, targetUnit: pickUpUnit);
+                }
+                return new UnitBrainAction(this, UnitActionType.Stay, unit, shortPath);
+            }
+
+            return null;
         }
     }
 }
@@ -52,24 +110,24 @@ public class UnitCaptureGoal : UnitGoal {
     public Building building;
     public override UnitBrainAction NextAction {
         get {
-            if (building.Player == unit.Player) {
-                Pop();
-                return null;
+            if (building is not { Initialized: true })
+                return CancelGoalAndReturnPreviousGoalNextAction();
+            
+            if (TryAttackNearbyEnemy(out var killGoal))
+                return killGoal;
+
+            if (building.Player != unit.Player || FindEnemiesNearby(building.position, 3).Any()) {
+                if (!new PathFinder(unit).TryFindPath(out var shortPath, out _, building.position))
+                    return null;
+
+                var action = new UnitBrainAction(this, UnitActionType.Capture, unit, shortPath, targetBuilding: building);
+                if (shortPath[^1] != building.position)
+                    action.type = UnitActionType.Stay;
+
+                return action;    
             }
 
-            if (TryPushKillGoalOfNearbyEnemy())
-                return null;
-
-            var pathFinder = new PathFinder();
-            pathFinder.FindStayMoves(unit);
-            if (!pathFinder.TryFindPath(out var shortPath, out _, building.position))
-                return null;
-
-            var action = new UnitBrainAction(this, UnitActionType.Capture, unit, shortPath, targetBuilding: building);
-            if (shortPath[^1] != building.position)
-                action.type = UnitActionType.Stay;
-
-            return action;
+            return null;
         }
     }
 }
@@ -77,10 +135,8 @@ public class UnitCaptureGoal : UnitGoal {
 public class UnitHealGoal : UnitGoal {
     public override UnitBrainAction NextAction {
         get {
-            if (unit.Hp >= Rules.MaxHp(unit.type)) {
-                Pop();
-                return null;
-            }
+            if (unit.Hp >= Rules.MaxHp(unit.type))
+                return CancelGoalAndReturnPreviousGoalNextAction();
 
             var level = unit.Player.level;
             var buildings = level.Buildings.Where(b => Rules.CanRepair(b, unit)).ToList();
@@ -88,13 +144,12 @@ public class UnitHealGoal : UnitGoal {
             Building building = null;
             List<Vector2Int> path = null;
 
-            var pathFinder = new PathFinder();
-            pathFinder.FindStayMoves(unit);
+            var pathFinder = new PathFinder(unit);
 
             foreach (var b in buildings) {
                 if (!pathFinder.TryFindPath(out var shortPath, out var restPath, b.position))
                     continue;
-                var distance = pathFinder.nodes[restPath[^1]].g;
+                var distance = pathFinder.tiles[restPath[^1]].g;
                 if (distance < minDistance) {
                     minDistance = distance;
                     building = b;
@@ -103,11 +158,11 @@ public class UnitHealGoal : UnitGoal {
             }
 
             Assert.IsTrue(building != null);
-            
+
             // if the unit is ready standing on the building, and there is an enemy nearby, attack it
-            if (unit.NonNullPosition == building.position && TryPushKillGoalOfNearbyEnemy(1)) 
-                return null;
-            
+            if (unit.NonNullPosition == building.position && TryAttackNearbyEnemy(out var killGoal))
+                return killGoal;
+
             return new UnitBrainAction(this, UnitActionType.Stay, unit, path, targetBuilding: building);
         }
     }
@@ -119,10 +174,8 @@ public class UnitKillGoal : UnitGoal {
 
     public override UnitBrainAction NextAction {
         get {
-            if (target is not { Initialized: true }) {
-                Pop();
-                return null;
-            }
+            if (target is not { Initialized: true })
+                return CancelGoalAndReturnPreviousGoalNextAction();
 
             if (unit.Hp <= 4) {
                 unit.goals.Push(new UnitHealGoal { unit = unit });
@@ -151,21 +204,18 @@ public class UnitKillGoal : UnitGoal {
 
             var action = new UnitBrainAction(this, UnitActionType.Attack, unit, new[] { unit.NonNullPosition }, target, weaponName: weaponName);
 
-            var pathFinder = new PathFinder();
-            pathFinder.FindStayMoves(unit);
-
             // unit is already in the attack position, just attack
             if (attackPositions.Contains(unit.NonNullPosition))
                 return action;
 
-            if (!pathFinder.TryFindPath(out var shortPath, out _, targets: attackPositions))
+            if (!new PathFinder(unit).TryFindPath(out var shortPath, out _, targets: attackPositions))
                 return null;
 
             action.path = shortPath;
 
             // can get into the attack position in one move
             if (attackPositions.Contains(shortPath[^1])) {
-                if (Rules.IsArtillery(unit))
+                if (Rules.IsIndirect(unit))
                     action.type = UnitActionType.Stay;
             }
             else
@@ -180,17 +230,10 @@ public class UnitMoveGoal : UnitGoal {
     public Vector2Int position;
     public override UnitBrainAction NextAction {
         get {
-            if (unit.NonNullPosition == position) {
-                Pop();
-                return null;
-            }
+            if (TryAttackNearbyEnemy(out var killGoal))
+                return killGoal;
 
-            if (TryPushKillGoalOfNearbyEnemy())
-                return null;
-
-            var pathFinder = new PathFinder();
-            pathFinder.FindStayMoves(unit);
-            if (!pathFinder.TryFindPath(out var shortPath, out _, position))
+            if (!new PathFinder(unit).TryFindPath(out var shortPath, out _, position))
                 return null;
 
             return new UnitBrainAction(this, UnitActionType.Stay, unit, shortPath);
@@ -201,38 +244,15 @@ public class UnitMoveGoal : UnitGoal {
 public class AiPlayerController {
     public Player player;
 
-    public void MoveNextUnit() {
-        Game.Instance.StartCoroutine(MoveNextUnitCoroutine());
+    public void MakeMove(UnitBrainAction action) {
+        Game.Instance.StartCoroutine(MakeMoveCoroutine(action));
     }
-    public IEnumerator MoveNextUnitCoroutine() {
+    public IEnumerator MakeMoveCoroutine(UnitBrainAction action) {
         var game = Game.Instance;
 
         while (!game.stateMachine.IsInState<SelectionState>())
             yield return null;
-        var units = player.level.Units.Where(u => u.Player == player && !u.Moved && u.goals.Count > 0).ToList();
-        if (units.Count == 0) {
-            game.EnqueueCommand(SelectionState.Command.EndTurn);
-            yield break;
-        }
-
-        // try find next action
-        var firstUnit = units[0];
-        UnitBrainAction action;
-        var count = 0;
-        do {
-            if (count > 1000) {
-                Debug.LogError($"{firstUnit} stuck in infinite loop");
-                firstUnit.Moved = true;
-                yield break;
-            }
-            action = firstUnit.goals.Peek().NextAction;
-            count++;
-        } while (firstUnit.goals.Count > 0 && action == null);
-
-        // no action found for this unit, stay
-        action ??= new UnitBrainAction(firstUnit.goals.Peek(), UnitActionType.Stay, firstUnit, new[] { firstUnit.NonNullPosition });
-
-        game.EnqueueCommand(SelectionState.Command.Select, firstUnit.NonNullPosition);
+        game.EnqueueCommand(SelectionState.Command.Select, action.unit.NonNullPosition);
 
         while (!game.stateMachine.IsInState<PathSelectionState>())
             yield return null;
@@ -244,5 +264,72 @@ public class AiPlayerController {
             yield return null;
 
         game.EnqueueCommand(ActionSelectionState.Command.Execute, action);
+    }
+    public void EndTurn() {
+        Game.Instance.EnqueueCommand(SelectionState.Command.EndTurn);
+    }
+
+    public void MakeMove() {
+        var game = Game.Instance;
+        var level = game.stateMachine.Find<LevelSessionState>().level;
+        var player = level.CurrentPlayer;
+        if (player != this.player)
+            return;
+
+        var units = level.Units.Where(u => u.Player == player && (!u.Moved || u.type == UnitType.Apc)).ToList();
+        foreach (var unit in units)
+            // if unit is idle come up with a new order
+            if (unit.goals.Count == 0 || unit.goals.Peek().GetType() == typeof(UnitIdleGoal)) { }
+
+        var actions = new List<UnitBrainAction>();
+        foreach (var unit in units)
+            if (unit.goals.Count > 0) {
+                var action = unit.goals.Peek().NextAction;
+                if (action != null)
+                    actions.Add(action);
+            }
+
+        if (actions.Count == 0) {
+            EndTurn();
+            return;
+        }
+
+        const float lowerScore = -99999;
+
+        foreach (var action in actions) {
+            action.ResetPriorities();
+            action.priorities[0] = action.type switch {
+                UnitActionType.LaunchMissile => 0,
+                UnitActionType.Attack when Rules.IsIndirect(action.unit) => -1,
+                UnitActionType.Attack => -2,
+                UnitActionType.GetIn => -3,
+                UnitActionType.Drop => -4,
+                UnitActionType.Capture => -5,
+                UnitActionType.Stay when action.unit.type == UnitType.Apc => -6,
+                UnitActionType.Stay when !Rules.IsIndirect(action.unit) => -7,
+                UnitActionType.Stay => -8,
+                UnitActionType.Join => -9,
+                UnitActionType.Supply => -10,
+                _ => lowerScore
+            };
+            if (action.type == UnitActionType.Attack) {
+                if (Rules.TryGetDamage(action.unit, action.targetUnit, action.weaponName, out var damagePercentage)) {
+                    var targetCost = Rules.Cost(action.targetUnit);
+                    var damageCost = targetCost * damagePercentage;
+                    action.priorities[1] = damageCost;
+                }
+                else
+                    action.priorities[1] = lowerScore;
+            }
+        }
+
+        var sortedActions = actions.OrderByDescending(a => a.priorities[0]);
+        for (var i = 1; i < UnitBrainAction.scoresCount; i++) {
+            var ii = i;
+            sortedActions = sortedActions.ThenByDescending(a => a.priorities[ii]);
+        }
+
+        var bestAction = sortedActions.First();
+        MakeMove(bestAction);
     }
 }

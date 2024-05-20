@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Priority_Queue;
 using UnityEngine;
@@ -16,94 +15,91 @@ using UnityEngine.Assertions;
 
 public class PathFinder {
 
-    public struct Node {
+    public struct Tile {
         public int g, h;
         public Vector2Int? shortCameFrom, longCameFrom;
     }
 
     public Unit unit;
-    public readonly Dictionary<Vector2Int, Node> nodes = new();
-    public readonly SimplePriorityQueue<Vector2Int> priorityQueue = new();
-    public readonly HashSet<Vector2Int> movePositions = new();
+    public readonly Dictionary<Vector2Int, Tile> tiles = new();
+    public readonly SimplePriorityQueue<Vector2Int> queue = new();
+    public readonly HashSet<Vector2Int> shortPathDestinations = new();
     private readonly HashSet<Vector2Int> goals = new();
-    public readonly HashSet<Vector2Int> closed = new();
 
     public const int infinity = 99999;
 
-    public void FindStayMoves(Unit unit) {
-        FindMoves(unit, position => Rules.CanStay(unit, position));
+    public enum ShortPathDestinationsAreValidTo {
+        Stay,
+        MoveThrough
     }
-    public void FindMoves(Unit unit, Predicate<Vector2Int> filter = null) {
+    public enum RestPathMovesThrough {
+        FriendlyUnitsOnly,
+        AllUnits
+    }
 
+    public RestPathMovesThrough restPathMovesThrough;
+    
+    public PathFinder() { }
+    public PathFinder(Unit unit, ShortPathDestinationsAreValidTo shortPathDestinationsAreValidTo = ShortPathDestinationsAreValidTo.Stay, RestPathMovesThrough restPathMovesThrough = RestPathMovesThrough.AllUnits) {
+        FindShortPaths(unit, shortPathDestinationsAreValidTo, restPathMovesThrough);
+    }
+
+    public void FindShortPaths(Unit unit, ShortPathDestinationsAreValidTo shortPathDestinationsAreValidTo = ShortPathDestinationsAreValidTo.Stay, RestPathMovesThrough restPathMovesThrough = RestPathMovesThrough.AllUnits) {
         this.unit = unit;
+        this.restPathMovesThrough = restPathMovesThrough;
+
         var startPosition = unit.NonNullPosition;
         var moveCapacity = Rules.MoveCapacity(unit);
 
-        nodes.Clear();
-        priorityQueue.Clear();
-        movePositions.Clear();
-        closed.Clear();
+        tiles.Clear();
+        queue.Clear();
+        shortPathDestinations.Clear();
 
-        var tiles = unit.Player.level.tiles;
-        foreach (var position in tiles.Keys) {
-            if (!Rules.TryGetMoveCost(unit, position, out _) || !Rules.CanPass(unit, position))
-                continue;
-            var node = new Node { g = position == startPosition ? 0 : infinity };
-            nodes.Add(position, node);
-            if ((position - startPosition).ManhattanLength() <= moveCapacity)
-                priorityQueue.Enqueue(position, node.g);
-        }
+        var level = unit.Player.level;
+        foreach (var position in level.tiles.Keys)
+            if (Rules.TryGetMoveCost(unit, position, out _)) {
+                var tile = new Tile { g = position == startPosition ? 0 : infinity };
+                tiles.Add(position, tile);
+                queue.Enqueue(position, tile.g);
+            }
 
-        while (priorityQueue.TryDequeue(out var position) && nodes.TryGetValue(position, out var current) && current.g <= moveCapacity) {
+        while (queue.TryDequeue(out var position) && tiles.TryGetValue(position, out var current) && current.g <= moveCapacity) {
+            if (shortPathDestinationsAreValidTo == ShortPathDestinationsAreValidTo.Stay && Rules.CanStay(unit, position) ||
+                shortPathDestinationsAreValidTo == ShortPathDestinationsAreValidTo.MoveThrough && Rules.CanMoveThrough(unit, position))
+                shortPathDestinations.Add(position);
 
-            closed.Add(position);
-
-            if (filter == null || filter(position))
-                movePositions.Add(position);
-
-            for (var i = 0; i < 4; i++) {
-
-                var neighborPosition = position + i switch {
-                    0 => Vector2Int.right,
-                    1 => Vector2Int.left,
-                    2 => Vector2Int.up,
-                    3 => Vector2Int.down
-                };
-
-                if ((neighborPosition - startPosition).ManhattanLength() <= moveCapacity &&
-                    nodes.TryGetValue(neighborPosition, out var neighbor) &&
-                    Rules.TryGetMoveCost(unit, tiles[neighborPosition], out var cost)) {
-
-                    var alternativeG = current.g + cost;
-                    if (alternativeG < neighbor.g) {
-
-                        neighbor.g = alternativeG;
+            foreach (var offset in Rules.gridOffsets) {
+                var neighborPosition = position + offset;
+                if (tiles.TryGetValue(neighborPosition, out var neighbor) &&
+                    Rules.TryGetMoveCost(unit, level.tiles[neighborPosition], out var cost) &&
+                    Rules.CanMoveThrough(unit, position)) {
+                    var relaxedG = current.g + cost;
+                    if (relaxedG < neighbor.g && relaxedG <= moveCapacity) {
+                        neighbor.g = relaxedG;
                         neighbor.shortCameFrom = position;
-                        nodes[neighborPosition] = neighbor;
-
-                        priorityQueue.UpdatePriority(neighborPosition, neighbor.g);
+                        tiles[neighborPosition] = neighbor;
+                        queue.UpdatePriority(neighborPosition, neighbor.g);
                     }
                 }
             }
         }
 
-        Assert.AreNotEqual(0, movePositions.Count);
+        Assert.AreNotEqual(0, shortPathDestinations.Count);
 
-        priorityQueue.Clear();
-        foreach (var position in tiles.Keys) {
-            if (!nodes.TryGetValue(position, out var node))
+        queue.Clear();
+        foreach (var position in level.tiles.Keys) {
+            if (!tiles.TryGetValue(position, out var tile))
                 continue;
-            if (!movePositions.Contains(position)) {
-                node.g = infinity;
-                nodes[position] = node;
+            if (!shortPathDestinations.Contains(position)) {
+                tile.g = infinity;
+                tiles[position] = tile;
             }
-            priorityQueue.Enqueue(position, node.g);
+            queue.Enqueue(position, tile.g);
         }
     }
 
     public bool TryFindPath(out List<Vector2Int> shortPath, out List<Vector2Int> restPath,
         Vector2Int? target = null, IEnumerable<Vector2Int> targets = null) {
-
         shortPath = restPath = null;
         Vector2Int goal = default;
 
@@ -114,57 +110,44 @@ public class PathFinder {
             foreach (var position in targets)
                 goals.Add(position);
 
-        goals.RemoveWhere(position => !Rules.TryGetMoveCost(unit, position, out _) || !Rules.CanPass(unit, position));
+        goals.IntersectWith(tiles.Keys);
         if (goals.Count == 0)
             return false;
 
         var minG = infinity;
         var allGoalsAreClosed = true;
         foreach (var position in goals) {
-            var g = nodes[position].g;
+            var g = tiles[position].g;
             if (g < minG) {
                 minG = g;
                 goal = position;
             }
-            if (allGoalsAreClosed && priorityQueue.Contains(position))
+            if (allGoalsAreClosed && queue.Contains(position))
                 allGoalsAreClosed = false;
         }
 
         if (!allGoalsAreClosed) {
-
-            foreach (var position in priorityQueue) {
-                var node = nodes[position];
+            foreach (var position in queue) {
+                var node = tiles[position];
                 node.h = infinity;
                 foreach (var g in goals)
                     node.h = Mathf.Min(node.h, (g - position).ManhattanLength());
-                nodes[position] = node;
-                priorityQueue.UpdatePriority(position, node.g + node.h);
+                tiles[position] = node;
+                queue.UpdatePriority(position, node.g + node.h);
             }
 
-            while (priorityQueue.TryDequeue(out var position) && nodes.TryGetValue(position, out var current) && current.g < infinity) {
-
-                closed.Add(position);
-
-                for (var i = 0; i < 4; i++) {
-
-                    var neighborPosition = position + i switch {
-                        0 => Vector2Int.right,
-                        1 => Vector2Int.left,
-                        2 => Vector2Int.up,
-                        3 => Vector2Int.down
-                    };
-
-                    if (nodes.TryGetValue(neighborPosition, out var neighbor) &&
-                        Rules.TryGetMoveCost(unit, unit.Player.level.tiles[neighborPosition], out var cost)) {
-
-                        var alternativeG = current.g + cost;
-                        if (alternativeG < neighbor.g) {
-
-                            neighbor.g = alternativeG;
+            while (queue.TryDequeue(out var position) && tiles.TryGetValue(position, out var current) && current.g < infinity) {
+                foreach (var offset in Rules.gridOffsets) {
+                    var neighborPosition = position + offset;
+                    if (tiles.TryGetValue(neighborPosition, out var neighbor) &&
+                        Rules.TryGetMoveCost(unit, unit.Player.level.tiles[neighborPosition], out var cost) &&
+                        (restPathMovesThrough == RestPathMovesThrough.AllUnits || Rules.CanMoveThrough(unit, position))) {
+                        var relaxedG = current.g + cost;
+                        if (relaxedG < neighbor.g) {
+                            neighbor.g = relaxedG;
                             neighbor.longCameFrom = position;
-                            nodes[neighborPosition] = neighbor;
-
-                            priorityQueue.UpdatePriority(neighborPosition, neighbor.g + neighbor.h);
+                            tiles[neighborPosition] = neighbor;
+                            queue.UpdatePriority(neighborPosition, neighbor.g + neighbor.h);
                         }
                     }
                 }
@@ -192,12 +175,12 @@ public class PathFinder {
             return false;
 
         restPath = new List<Vector2Int>();
-        for (Vector2Int? item = goal; item is { } position; item = nodes[position].longCameFrom)
+        for (Vector2Int? item = goal; item is { } position; item = tiles[position].longCameFrom)
             restPath.Add(position);
         restPath.Reverse();
 
         shortPath = new List<Vector2Int>();
-        for (Vector2Int? item = restPath[0]; item is { } position; item = nodes[position].shortCameFrom)
+        for (Vector2Int? item = restPath[0]; item is { } position; item = tiles[position].shortCameFrom)
             shortPath.Add(position);
         shortPath.Reverse();
 

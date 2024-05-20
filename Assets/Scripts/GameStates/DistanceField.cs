@@ -38,7 +38,6 @@ public static class DistanceField {
      */
 
     public static Dictionary<Vector2Int, float> Calculate(HashSet<Vector2Int> seed, Level level) {
-
         var minDistance = new Dictionary<Vector2Int, float>();
         var priorityQueue = new SimplePriorityQueue<Vector2Int, float>();
         foreach (var position in level.tiles.Keys) {
@@ -105,12 +104,12 @@ public static class DistanceField {
         var result = new Dictionary<Vector2Int, float>();
         if (!Rules.TryGetAttackRange(unit, out var attackRange))
             return result;
-        pathFinder.FindStayMoves(unit);
-        if (Rules.IsArtillery(unit))
+        pathFinder.FindShortPaths(unit, PathFinder.ShortPathDestinationsAreValidTo.Stay, PathFinder.RestPathMovesThrough.FriendlyUnitsOnly);
+        if (Rules.IsIndirect(unit))
             foreach (var position in unit.Player.level.PositionsInRange(unit.NonNullPosition, attackRange))
                 result.Add(position, BaseUnitInfluence(unit));
         else {
-            foreach (var position in pathFinder.movePositions.GrownBy(1))
+            foreach (var position in pathFinder.shortPathDestinations.GrownBy(1))
                 result.Add(position, BaseUnitInfluence(unit));
         }
         return result;

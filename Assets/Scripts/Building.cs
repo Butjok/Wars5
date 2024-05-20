@@ -43,7 +43,7 @@ public class Building : IDisposable {
     [DontSave] public Player Player {
         get => player;
         set {
-            if (initialized && player == value)
+            if (Initialized && player == value)
                 return;
             player = value;
 
@@ -58,9 +58,9 @@ public class Building : IDisposable {
     [DontSave] public int Cp {
         get => cp;
         set {
-            if (initialized && cp == value)
+            if (Initialized && cp == value)
                 return;
-            cp = Clamp(value, 0, initialized ? MaxCp(this) : MaxCp(type));
+            cp = Clamp(value, 0, Initialized ? MaxCp(this) : MaxCp(type));
         }
     }
 
@@ -74,10 +74,10 @@ public class Building : IDisposable {
         }
     }
 
-    [DontSave] private bool initialized;
+    [DontSave] public bool Initialized { get; private set; }
 
     public void Initialize() {
-        Assert.IsFalse(initialized);
+        Assert.IsFalse(Initialized);
         Assert.IsFalse(undisposed.Contains(this));
         undisposed.Add(this);
 
@@ -94,7 +94,7 @@ public class Building : IDisposable {
         Cp = Cp;
         Moved = Moved;
 
-        initialized = true;
+        Initialized = true;
     }
 
     public static implicit operator TileType(Building building) {
@@ -117,6 +117,6 @@ public class Building : IDisposable {
         level.tiles.Remove(position);
         level.buildings.Remove(position);
 
-        initialized = false;
+        Initialized = false;
     }
 }

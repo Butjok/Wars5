@@ -90,7 +90,7 @@ public class AiPlayerCommander : MonoBehaviour {
         // also if an artillery unit is trying to attack somebody but it moves first - change to stay as well
         if (selectedAction != null) {
             if (selectedAction.restPath[^1] != selectedAction.path[^1] ||
-                selectedAction.path.Count > 1 && IsArtillery(selectedAction.unit) ||
+                selectedAction.path.Count > 1 && IsIndirect(selectedAction.unit) ||
                 selectedAction.type == UnitActionType.Gather)
 
                 if (selectedAction.type != UnitActionType.Join)
@@ -149,7 +149,7 @@ public class AiPlayerCommander : MonoBehaviour {
     public PathFinder joinMovesFinder = new();
 
     public IEnumerable<PotentialUnitAction> EnumeratePotentialUnitActions(Unit unit) {
-        stayMovesFinder.FindStayMoves(unit);
+        stayMovesFinder.FindShortPaths(unit, PathFinder.ShortPathDestinationsAreValidTo.Stay, PathFinder.RestPathMovesThrough.FriendlyUnitsOnly);
 
         //
         // get to the closest gathering point
@@ -254,7 +254,7 @@ public class AiPlayerCommander : MonoBehaviour {
 
             if (!joinMovesFinderInitialized) {
                 joinMovesFinderInitialized = true;
-                joinMovesFinder.FindMoves(unit);
+                joinMovesFinder.FindShortPaths(unit, PathFinder.ShortPathDestinationsAreValidTo.MoveThrough, PathFinder.RestPathMovesThrough.FriendlyUnitsOnly);
             }
 
             if (!joinMovesFinder.TryFindPath(out var path, out var restPath, ally.NonNullPosition))
@@ -300,7 +300,7 @@ public class AiPlayerCommander : MonoBehaviour {
                     Assert.IsTrue(isValid);
 
                     action.priority = 2 * pathCostPercentage * damagePercentage;
-                    if (IsArtillery(action.unit) && action.path.Count > 1)
+                    if (IsIndirect(action.unit) && action.path.Count > 1)
                         action.priority /= 2;
                     break;
                 }

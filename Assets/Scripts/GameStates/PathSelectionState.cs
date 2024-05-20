@@ -32,8 +32,8 @@ public class PathSelectionState : StateMachineState {
             Assert.IsTrue(Level.tiles.ContainsKey(unitPosition));
 
             var pathFinder = new PathFinder();
-            pathFinder.FindMoves(unit);
-            var reachable = pathFinder.movePositions;
+            pathFinder.FindShortPaths(unit, PathFinder.ShortPathDestinationsAreValidTo.MoveThrough, PathFinder.RestPathMovesThrough.FriendlyUnitsOnly);
+            var reachable = pathFinder.shortPathDestinations;
 
             if (!pathMeshGameObject) {
                 pathMeshGameObject = new GameObject("MovePathMesh");
@@ -106,7 +106,6 @@ public class PathSelectionState : StateMachineState {
                 }
 
                 while (Game.TryDequeueCommand(out var command)) {
-                    
                     // Tutorial logic
                     if (Level.EnableTutorial && Level.name == LevelName.Tutorial)
                         if (!Level.tutorialState.startedCapturing)
