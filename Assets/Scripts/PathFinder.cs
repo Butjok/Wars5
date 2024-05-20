@@ -19,15 +19,7 @@ public class PathFinder {
         public int g, h;
         public Vector2Int? shortCameFrom, longCameFrom;
     }
-
-    public Unit unit;
-    public readonly Dictionary<Vector2Int, Tile> tiles = new();
-    public readonly SimplePriorityQueue<Vector2Int> queue = new();
-    public readonly HashSet<Vector2Int> shortPathDestinations = new();
-    private readonly HashSet<Vector2Int> goals = new();
-
-    public const int infinity = 99999;
-
+    
     public enum ShortPathDestinationsAreValidTo {
         Stay,
         MoveThrough
@@ -37,8 +29,16 @@ public class PathFinder {
         AllUnits
     }
 
-    public RestPathMovesThrough restPathMovesThrough;
+    public const int infinity = 99999;
     
+    public Unit unit;
+    public readonly Dictionary<Vector2Int, Tile> tiles = new();
+    public readonly SimplePriorityQueue<Vector2Int> queue = new();
+    public readonly HashSet<Vector2Int> shortPathDestinations = new();
+    public readonly HashSet<Vector2Int> goals = new();
+    public RestPathMovesThrough restPathMovesThrough;
+    public List<Vector2Int> dequeued = new();
+
     public PathFinder() { }
     public PathFinder(Unit unit, ShortPathDestinationsAreValidTo shortPathDestinationsAreValidTo = ShortPathDestinationsAreValidTo.Stay, RestPathMovesThrough restPathMovesThrough = RestPathMovesThrough.AllUnits) {
         FindShortPaths(unit, shortPathDestinationsAreValidTo, restPathMovesThrough);
@@ -54,6 +54,7 @@ public class PathFinder {
         tiles.Clear();
         queue.Clear();
         shortPathDestinations.Clear();
+        dequeued.Clear();
 
         var level = unit.Player.level;
         foreach (var position in level.tiles.Keys)
@@ -63,7 +64,7 @@ public class PathFinder {
                 queue.Enqueue(position, tile.g);
             }
 
-        while (queue.TryDequeue(out var position) && tiles.TryGetValue(position, out var current) && current.g <= moveCapacity) {
+        while (TryDequeue(out var position) && tiles.TryGetValue(position, out var current) && current.g <= moveCapacity) {
             if (shortPathDestinationsAreValidTo == ShortPathDestinationsAreValidTo.Stay && Rules.CanStay(unit, position) ||
                 shortPathDestinationsAreValidTo == ShortPathDestinationsAreValidTo.MoveThrough && Rules.CanMoveThrough(unit, position))
                 shortPathDestinations.Add(position);
@@ -86,15 +87,15 @@ public class PathFinder {
 
         Assert.AreNotEqual(0, shortPathDestinations.Count);
 
-        queue.Clear();
-        foreach (var position in level.tiles.Keys) {
-            if (!tiles.TryGetValue(position, out var tile))
-                continue;
+        foreach (var position in dequeued)
+            queue.Enqueue(position, 0);
+
+        foreach (var position in queue) {
+            var tile = tiles[position];
             if (!shortPathDestinations.Contains(position)) {
                 tile.g = infinity;
                 tiles[position] = tile;
             }
-            queue.Enqueue(position, tile.g);
         }
     }
 
@@ -184,6 +185,15 @@ public class PathFinder {
             shortPath.Add(position);
         shortPath.Reverse();
 
+        return true;
+    }
+    
+    public bool TryDequeue(out Vector2Int position) {
+        position = default;
+        if (queue.Count == 0)
+            return false;
+        position = queue.Dequeue();
+        dequeued.Add(position);
         return true;
     }
 }

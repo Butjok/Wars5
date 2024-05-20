@@ -34,14 +34,21 @@ public abstract class UnitGoal {
                 yield return other;
     }
     public bool TryAttackNearbyEnemy(out UnitBrainAction action, int maxDistance = 5) {
-        var enemy = FindEnemiesNearby().FirstOrDefault();
+
+        var unitsToIgnore = new List<Unit>();
+        foreach (var goal in unit.goals)
+            if (goal is UnitKillGoal kg)
+                unitsToIgnore.Add(kg.target);
+
+        var enemy = FindEnemiesNearby(maxDistance).Except(unitsToIgnore).FirstOrDefault();
         if (enemy == null) {
             action = null;
             return false;
         }
-        var killGoal = new UnitKillGoal { unit = unit, target = enemy };
-        unit.goals.Push(killGoal);
-        action = killGoal.NextAction;
+
+        var result = new UnitKillGoal { unit = unit, target = enemy };
+        unit.goals.Push(result);
+        action = result.NextAction;
         return true;
     }
     public UnitBrainAction CancelGoalAndReturnPreviousGoalNextAction() {
@@ -57,10 +64,10 @@ public class UnitIdleGoal : UnitGoal {
             if (unit.type != UnitType.Apc && TryAttackNearbyEnemy(out var killGoal))
                 return killGoal;
 
-            if (!unit.Moved)
-                return new UnitBrainAction(this, UnitActionType.Stay, unit, new[] { unit.NonNullPosition });
+            if (unit.Moved)
+                return null;
 
-            return null;
+            return new UnitBrainAction(this, UnitActionType.Stay, unit, new[] { unit.NonNullPosition });
         }
     }
 }
@@ -112,7 +119,10 @@ public class UnitCaptureGoal : UnitGoal {
         get {
             if (building is not { Initialized: true })
                 return CancelGoalAndReturnPreviousGoalNextAction();
-            
+
+            if (unit.Moved)
+                return null;
+
             if (TryAttackNearbyEnemy(out var killGoal))
                 return killGoal;
 
@@ -124,7 +134,7 @@ public class UnitCaptureGoal : UnitGoal {
                 if (shortPath[^1] != building.position)
                     action.type = UnitActionType.Stay;
 
-                return action;    
+                return action;
             }
 
             return null;
@@ -137,6 +147,9 @@ public class UnitHealGoal : UnitGoal {
         get {
             if (unit.Hp >= Rules.MaxHp(unit.type))
                 return CancelGoalAndReturnPreviousGoalNextAction();
+
+            if (unit.Moved)
+                return null;
 
             var level = unit.Player.level;
             var buildings = level.Buildings.Where(b => Rules.CanRepair(b, unit)).ToList();
@@ -177,10 +190,16 @@ public class UnitKillGoal : UnitGoal {
             if (target is not { Initialized: true })
                 return CancelGoalAndReturnPreviousGoalNextAction();
 
+            if (unit.Moved)
+                return null;
+
             if (unit.Hp <= 4) {
                 unit.goals.Push(new UnitHealGoal { unit = unit });
                 return null;
             }
+
+            if (TryAttackNearbyEnemy(out var killGoal))
+                return killGoal;
 
             var hasAttackRange = Rules.TryGetAttackRange(unit, out var attackRange);
             Assert.IsTrue(hasAttackRange);
@@ -230,6 +249,9 @@ public class UnitMoveGoal : UnitGoal {
     public Vector2Int position;
     public override UnitBrainAction NextAction {
         get {
+            if (unit.Moved)
+                return null;
+
             if (TryAttackNearbyEnemy(out var killGoal))
                 return killGoal;
 
@@ -276,7 +298,7 @@ public class AiPlayerController {
         if (player != this.player)
             return;
 
-        var units = level.Units.Where(u => u.Player == player && (!u.Moved || u.type == UnitType.Apc)).ToList();
+        var units = level.Units.Where(u => u.Player == player).ToList();
         foreach (var unit in units)
             // if unit is idle come up with a new order
             if (unit.goals.Count == 0 || unit.goals.Peek().GetType() == typeof(UnitIdleGoal)) { }
