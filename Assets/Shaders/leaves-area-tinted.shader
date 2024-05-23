@@ -194,11 +194,25 @@ float CalcMipLevel(float2 texture_coord)
                 half4 c = tex2D (_MainTex, IN.uv_MainTex);
 
 
-                c.a *= 1 + max(0, CalcMipLevel(IN.uv_MainTex * _MainTex_TexelSize.zw)) * _MipScale;
+
+				// https://bgolus.medium.com/anti-aliased-alpha-test-the-esoteric-alpha-to-coverage-8b177335ae4f
+
+//                c.a *= 1 + max(0, CalcMipLevel(IN.uv_MainTex * _MainTex_TexelSize.zw)) * _MipScale;
                 // rescale alpha by partial derivative
                 c.a = (c.a - _CutOff) / max(fwidth(c.a), 0.0001) + 0.5;
 	
-                clip(c.a-_CutOff);
+                clip(c.a);
+
+				//clip(c.a-.5);
+
+
+
+
+
+
+
+
+	
 
                 //half inputOcclusion = tex2D (_Occlusion, IN.uv_MainTex).r;
                 

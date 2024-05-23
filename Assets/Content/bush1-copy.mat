@@ -133,7 +133,7 @@ Material:
     m_Floats:
     - WIND: 0
     - _BumpScale: 1
-    - _CutOff: 0.5
+    - _CutOff: 0.45
     - _Cutoff: 0.5
     - _DeepSeaLevel: 0.11
     - _DeepSeaSharpness: -0.125
@@ -146,7 +146,7 @@ Material:
     - _HoleRadius: 0.5
     - _Lod: 0
     - _Metallic: 0
-    - _MipScale: 0.125
+    - _MipScale: 0
     - _Mode: 1
     - _NormalWrap: 0.25
     - _OcclusionStrength: 1
