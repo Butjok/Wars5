@@ -12,76 +12,80 @@ public class InfluenceMapDrawer : MonoBehaviour {
     public Vector2Int subdivisions = new(1, 1);
     public Vector2 hueRange = new(.5f, 0);
     public float noiseScale = 1;
+    public Color fade = new(1, 1, 1, .25f);
+    public IEnumerator coroutine;
 
-    [Command]
-    public void DrawInfluence() {
-        StopAllCoroutines();
-        StartCoroutine(DrawingCoroutine(() => {
-            var level = Game.Instance.Level;
+    public void Start() {
+        Toggle();
+    }
 
-            InfluenceMap PlayerInfluence(ColorName colorName) {
-                var player = level.players.Single(p => p.ColorName == colorName);
-                var units = level.Units.Where(u => u.Player == player);
-                var map = new InfluenceMap();
-                foreach (var position in level.tiles.Keys)
-                    map[position] = 0;
-                foreach (var unit in units) {
-                    float unitWorth = unit.type switch {
-                        UnitType.Infantry => 1,
-                        UnitType.AntiTank => 2,
-                        UnitType.LightTank => 3,
-                        UnitType.Artillery => 3,
-                        UnitType.MediumTank => 5,
-                        UnitType.Rockets => 5,
-                        UnitType.Apc => 1,
-                        UnitType.Recon => 2,
-                        _ => 1
-                    };
-                    unitWorth = 1;
-                    foreach (var position in level.PositionsInRange(unit.NonNullPosition, new Vector2Int(0, 5))) {
-                        var distance = (position - unit.NonNullPosition).ManhattanLength();
-                        var influence = 6-distance;
-                        map[position] = Mathf.Max(map[position], influence);
+    public void Toggle() {
+        if (coroutine == null) {
+            coroutine = DrawingCoroutine(() => {
+                var level = Game.Instance.Level;
+
+                const int range = 25;
+
+                InfluenceMap UnitInfluence(ColorName colorName) {
+                    var player = level.players.Single(p => p.ColorName == colorName);
+                    var units = level.Units.Where(u => u.Player == player);
+                    var buildings = level .Buildings.Where(b => b.Player == player);
+                    var map = new InfluenceMap();
+                    foreach (var position in level.tiles.Keys)
+                        map[position] = 0;
+                    foreach (var unit in units) {
+                        float unitWorth = unit.type switch {
+                            UnitType.Infantry => 1,
+                            UnitType.AntiTank => 1.1f,
+                            UnitType.LightTank => 1.125f,
+                            UnitType.Artillery => 1.125f,
+                            UnitType.MediumTank => 1.25f,
+                            UnitType.Rockets => 1.25f,
+                            UnitType.Apc => 1,
+                            UnitType.Recon => 1.1f,
+                            _ => 1
+                        };
+                        foreach (var position in level.PositionsInRange(unit.NonNullPosition, new Vector2Int(1, range-1))) {
+                            var distance = (position - unit.NonNullPosition).ManhattanLength();
+                            float influence = unitWorth * (range - distance);
+                            map[position] = Mathf.Max(map[position], influence);
+                        }
                     }
+                    return map;
                 }
-                return map;
-            }
 
-            var redInfluence = PlayerInfluence(ColorName.Red);
-            var blueInfluence = PlayerInfluence(ColorName.Blue);
+                var redUnitInfluence = UnitInfluence(ColorName.Red);
+                var blueUnitInfluence = UnitInfluence(ColorName.Blue);
 
-            var influence = new InfluenceMap();
-            foreach (var position in level.tiles.Keys) {
-                var red = redInfluence[position];
-                var blue = blueInfluence[position];
-                influence[position] = red - blue;
-            }
-
-            var influenceGradient = new InfluenceMap();
-            foreach (var position in level.tiles.Keys) {
-                influenceGradient[position] = 0;
-                if (influence.TryGetValue(position + Vector2Int.right, out var right) &&
-                    influence.TryGetValue(position + Vector2Int.left, out var left) &&
-                    influence.TryGetValue(position + Vector2Int.up, out var up) &&
-                    influence.TryGetValue(position + Vector2Int.down, out var down)) {
-                    var dx = right - left;
-                    var dy = up - down;
-                    influenceGradient[position] = Mathf.Abs(dx) + Mathf.Abs(dy);
+                var influenceGradient = new InfluenceMap();
+                foreach (var position in level.tiles.Keys) {
+                    influenceGradient[position] =  redUnitInfluence[position] *  blueUnitInfluence[position];
                 }
-            }
 
-            return influence;
-        }));
+                return influenceGradient;
+            });
+            StartCoroutine(coroutine);
+        }
+        else {
+            StopCoroutine(coroutine);
+            coroutine = null;
+        }
+    }
+
+    public void Update() {
+        if (Input.GetKeyDown(KeyCode.Backspace)) 
+            Toggle();
     }
 
     public IEnumerator DrawingCoroutine(Func<InfluenceMap> influenceMapGetter) {
-        while (!Input.GetKeyDown(KeyCode.Backspace)) {
+        while (true) {
             yield return null;
             var map = influenceMapGetter();
             if (map.Count == 0)
                 continue;
             var min = map.Values.Min();
             var max = map.Values.Max();
+            //max = 15;
             var step = Vector2.one / subdivisions;
             foreach (var (position, value) in map) {
                 var t = Mathf.InverseLerp(min, max, value);
@@ -91,7 +95,7 @@ public class InfluenceMapDrawer : MonoBehaviour {
                 for (var y = 0; y < subdivisions.y; y++)
                 for (var x = 0; x < subdivisions.x; x++) {
                     var offset = new Vector2(x + .5f, y + .5f) * step;
-                    Draw.ingame.SolidPlane((position - Vector2.one / 2 + offset).Raycasted(), quaternion.identity, Vector2.one / subdivisions, color);
+                    Draw.ingame.SolidPlane((position - Vector2.one / 2 + offset).Raycasted(), quaternion.identity, Vector2.one / subdivisions, color * fade);
                 }
             }
         }
