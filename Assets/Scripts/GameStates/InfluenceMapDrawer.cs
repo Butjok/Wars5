@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Linq;
-using Butjok.CommandLine;
 using Drawing;
 using Unity.Mathematics;
 using UnityEngine;
@@ -14,80 +13,65 @@ public class InfluenceMapDrawer : MonoBehaviour {
     public float noiseScale = 1;
     public Color fade = new(1, 1, 1, .25f);
     public IEnumerator coroutine;
-
-    public void Start() {
-        Toggle();
-    }
-
-    public void Toggle() {
-        if (coroutine == null) {
-            coroutine = DrawingCoroutine(() => {
-                var level = Game.Instance.Level;
-
-                const int range = 25;
-
-                InfluenceMap UnitInfluence(ColorName colorName) {
-                    var player = level.players.Single(p => p.ColorName == colorName);
-                    var units = level.Units.Where(u => u.Player == player);
-                    var buildings = level .Buildings.Where(b => b.Player == player);
-                    var map = new InfluenceMap();
-                    foreach (var position in level.tiles.Keys)
-                        map[position] = 0;
-                    foreach (var unit in units) {
-                        float unitWorth = unit.type switch {
-                            UnitType.Infantry => 1,
-                            UnitType.AntiTank => 1.1f,
-                            UnitType.LightTank => 1.125f,
-                            UnitType.Artillery => 1.125f,
-                            UnitType.MediumTank => 1.25f,
-                            UnitType.Rockets => 1.25f,
-                            UnitType.Apc => 1,
-                            UnitType.Recon => 1.1f,
-                            _ => 1
-                        };
-                        foreach (var position in level.PositionsInRange(unit.NonNullPosition, new Vector2Int(1, range-1))) {
-                            var distance = (position - unit.NonNullPosition).ManhattanLength();
-                            float influence = unitWorth * (range - distance);
-                            map[position] = Mathf.Max(map[position], influence);
-                        }
-                    }
-                    return map;
-                }
-
-                var redUnitInfluence = UnitInfluence(ColorName.Red);
-                var blueUnitInfluence = UnitInfluence(ColorName.Blue);
-
-                var influenceGradient = new InfluenceMap();
-                foreach (var position in level.tiles.Keys) {
-                    influenceGradient[position] =  redUnitInfluence[position] *  blueUnitInfluence[position];
-                }
-
-                return influenceGradient;
-            });
-            StartCoroutine(coroutine);
-        }
-        else {
-            StopCoroutine(coroutine);
-            coroutine = null;
-        }
-    }
+    public bool draw = true;
 
     public void Update() {
-        if (Input.GetKeyDown(KeyCode.Backspace)) 
-            Toggle();
-    }
+        if (Input.GetKeyDown(KeyCode.Backspace))
+            draw = !draw;
 
-    public IEnumerator DrawingCoroutine(Func<InfluenceMap> influenceMapGetter) {
-        while (true) {
-            yield return null;
-            var map = influenceMapGetter();
+        if (draw && Game.Instance) {
+            var level = Game.Instance.Level;
+
+            const int range = 25;
+
+            InfluenceMap UnitInfluence(ColorName colorName) {
+                var player = level.players.Single(p => p.ColorName == colorName);
+                var units = level.Units.Where(u => u.Player == player);
+                var buildings = level.Buildings.Where(b => b.Player == player);
+                var map = new InfluenceMap();
+                foreach (var position in level.tiles.Keys)
+                    map[position] = 0;
+                foreach (var unit in units) {
+                    float unitWorth = unit.type switch {
+                        UnitType.Infantry => 1,
+                        UnitType.AntiTank => 1.25f,
+                        UnitType.LightTank => 1.5f,
+                        UnitType.Artillery => 1.5f,
+                        UnitType.MediumTank => 3f,
+                        UnitType.Rockets => 3f,
+                        UnitType.Apc => 1,
+                        UnitType.Recon => 1.25f,
+                        _ => 1
+                    };
+                    foreach (var position in level.PositionsInRange(unit.NonNullPosition, new Vector2Int(1, range - 1))) {
+                        var distance = (position - unit.NonNullPosition).ManhattanLength();
+                        float influence = unitWorth * (range - distance);
+                        map[position] += influence;
+                        //map[position] = Mathf.Max(map[position], influence);
+                    }
+                }
+                return map;
+            }
+
+            var redUnitInfluence = UnitInfluence(ColorName.Red);
+            var blueUnitInfluence = UnitInfluence(ColorName.Blue);
+
+            var influenceGradient = new InfluenceMap();
+            foreach (var position in level.tiles.Keys) {
+                influenceGradient[position] = redUnitInfluence[position] * blueUnitInfluence[position];
+            }
+
+            var map = influenceGradient;
+
             if (map.Count == 0)
-                continue;
+                return;
             var min = map.Values.Min();
             var max = map.Values.Max();
             //max = 15;
             var step = Vector2.one / subdivisions;
             foreach (var (position, value) in map) {
+                var ran = Mathf.Max(Mathf.Abs(min),  Mathf.Abs(max));
+                //(min,max) = (-ran, ran);
                 var t = Mathf.InverseLerp(min, max, value);
                 var hue = Mathf.Lerp(hueRange.x, hueRange.y, t);
                 var color = Color.HSVToRGB(hue, 1, 1);
