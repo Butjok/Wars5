@@ -308,8 +308,8 @@ public class SelectionState : StateMachineState {
                                     attackPositions.UnionWith(Level.PositionsInRange(mouseUnit.NonNullPosition, attackRange));
                                 else if (attackRange == new Vector2Int(1, 1)) {
                                     var pathFinder = new PathFinder();
-                                    pathFinder.FindShortPaths(mouseUnit,PathFinder.ShortPathDestinationsAreValidTo.MoveThrough);
-                                    var movePositions = pathFinder.shortPathDestinations;
+                                    pathFinder.FindShortPaths(mouseUnit, allowStayOnFriendlyUnits: true);
+                                    var movePositions = pathFinder.validShortPathDestinations;
                                     foreach (var position in movePositions)
                                     foreach (var offset in Rules.gridOffsets)
                                         attackPositions.Add(position + offset);

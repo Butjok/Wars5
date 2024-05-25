@@ -32,8 +32,8 @@ public class PathSelectionState : StateMachineState {
             Assert.IsTrue(Level.tiles.ContainsKey(unitPosition));
 
             var pathFinder = new PathFinder();
-            pathFinder.FindShortPaths(unit, PathFinder.ShortPathDestinationsAreValidTo.MoveThrough);
-            var reachable = pathFinder.shortPathDestinations;
+            pathFinder.FindShortPaths(unit, allowStayOnFriendlyUnits: true);
+            var reachable = pathFinder.validShortPathDestinations;
 
             if (!pathMeshGameObject) {
                 pathMeshGameObject = new GameObject("MovePathMesh");

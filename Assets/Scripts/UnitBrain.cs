@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening.Plugins.Core.PathCore;
+using Drawing;
 using SaveGame;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -49,6 +51,11 @@ public static class UnitBrainActionExtensions {
 
 public abstract class UnitState {
     public Unit unit;
+    public int createdOnDay;
+    public int lifetimeInDays = 999;
+    [DontSave] public int AgeInDays => unit.Player.level.Day() - createdOnDay;
+    [DontSave] public int DaysLeft => lifetimeInDays - AgeInDays;
+    [DontSave] public bool Expired => DaysLeft <= 0;
     [DontSave] public abstract UnitBrainAction NextAction { get; }
     public IEnumerable<Unit> FindEnemiesNearby(int maxDistance = 5) {
         return FindEnemiesNearby(unit.NonNullPosition, maxDistance);
@@ -77,7 +84,12 @@ public abstract class UnitState {
             return false;
         }
 
-        var result = new UnitKillState { unit = unit, target = enemy };
+        var result = new UnitKillState {
+            unit = unit,
+            createdOnDay = unit.Player.level.Day(),
+            lifetimeInDays = UnitKillState.defaultLifetimeInDays,
+            target = enemy
+        };
         unit.states.Push(result);
         action = result.NextAction;
         return true;
@@ -109,12 +121,14 @@ public class UnitTransferState : UnitState {
                     return new UnitBrainAction(this, UnitActionType.Stay, unit, shortPath);
 
                 if (!pickUpUnit.Moved &&
-                    new PathFinder(pickUpUnit, PathFinder.ShortPathDestinationsAreValidTo.MoveThrough).TryFindPath(out var shortPath1, out _, unit.NonNullPosition) && shortPath1[^1] == unit.NonNullPosition)
+                    new PathFinder(pickUpUnit, allowedStayPositions: new HashSet<Vector2Int> { unit.NonNullPosition }).TryFindPath(out var shortPath1, out _, unit.NonNullPosition) &&
+                    shortPath1[^1] == unit.NonNullPosition)
                     return new UnitBrainAction(this, UnitActionType.GetIn, pickUpUnit, shortPath1);
 
                 if (!unit.Moved &&
-                    UnitPathFinder().TryFindPath(out shortPath, out _, targets: level.PositionsInRange(pickUpUnit.NonNullPosition, Vector2Int.one)))
+                    UnitPathFinder().TryFindPath(out shortPath, out _, targets: level.PositionsInRange(pickUpUnit.NonNullPosition, Vector2Int.one))) {
                     return new UnitBrainAction(this, UnitActionType.Stay, unit, shortPath);
+                }
             }
 
             else if (!unit.Moved &&
@@ -131,7 +145,10 @@ public class UnitTransferState : UnitState {
 }
 
 public class UnitCaptureState : UnitState {
+
+    public const int defaultLifetimeInDays = 6;
     public Building building;
+
     public override UnitBrainAction NextAction {
         get {
             if (building is not { Initialized: true } || building.Player == unit.Player)
@@ -210,6 +227,7 @@ public class UnitHealState : UnitState {
 
 public class UnitKillState : UnitState {
 
+    public const int defaultLifetimeInDays = 2;
     public Unit target;
 
     public override UnitBrainAction NextAction {
@@ -221,10 +239,18 @@ public class UnitKillState : UnitState {
                 return null;
 
             if (unit.Hp <= 4) {
-                var healState = new UnitHealState { unit = unit };
+                var healState = new UnitHealState {
+                    unit = unit,
+                    createdOnDay = unit.Player.level.Day()
+                };
                 unit.states.Push(healState);
                 return healState.NextAction;
             }
+
+            if (TryAttackNearbyEnemy(out var killGoal) &&
+                (killGoal.targetUnit.NonNullPosition - unit.NonNullPosition).ManhattanLength() <
+                (target.NonNullPosition - unit.NonNullPosition).ManhattanLength())
+                return killGoal;
 
             var hasAttackRange = Rules.TryGetAttackRange(unit, out var attackRange);
             Assert.IsTrue(hasAttackRange);
@@ -256,8 +282,6 @@ public class UnitKillState : UnitState {
             if (!pathFinder.TryFindPath(out var shortPath, out _, targets: attackPositions))
                 return null;
 
-            //pathFinder.DrawNodes(10);
-
             action.path = shortPath;
 
             // can get into the attack position in one move
@@ -274,7 +298,10 @@ public class UnitKillState : UnitState {
 }
 
 public class UnitMoveState : UnitState {
+
+    public const int defaultLifetimeInDays = 6;
     public Vector2Int position;
+
     public override UnitBrainAction NextAction {
         get {
             if (unit.NonNullPosition == position)
@@ -345,7 +372,7 @@ public class UnitBrainController {
             if (unit.states.Count > 0)
                 continue;
 
-            var pathFinder = new PathFinder(unit, PathFinder.ShortPathDestinationsAreValidTo.MoveThrough);
+            var pathFinder = new PathFinder(unit);
             List<Vector2Int> shortPath, restPath;
 
             // add capture orders
@@ -404,7 +431,7 @@ public class UnitBrainController {
                     order.score = 1.25f / (order.pathCost + 1);
                     break;
                 case Order.Type.Move:
-                    order.score = 0;// 1f / (order.pathCost + 1);
+                    order.score = 0; // 1f / (order.pathCost + 1);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -417,6 +444,24 @@ public class UnitBrainController {
         // order descending
         orders.Sort((a, b) => -a.score.CompareTo(b.score));
 
+        /*foreach (var order in orders)
+            using (Draw.ingame.WithLineWidth(.5f))
+            using (Draw.ingame.WithDuration(5)) {
+                var color = order.type switch {
+                    Order.Type.Kill => Color.red,
+                    Order.Type.Capture => Color.cyan,
+                    Order.Type.Move => Color.green,
+                    _ => throw new ArgumentOutOfRangeException()
+                };
+                var targetPosition = order.type switch {
+                    Order.Type.Kill => order.targetUnit.NonNullPosition.Raycasted(),
+                    Order.Type.Capture => order.targetBuilding.position.Raycasted(),
+                    Order.Type.Move => order.targetPosition.Raycasted(),
+                    _ => throw new ArgumentOutOfRangeException()
+                };
+                Draw.ingame.Line(order.unit.NonNullPosition.Raycasted(), targetPosition, color);
+            }*/
+
         var assignedUnits = new HashSet<Unit>();
         foreach (var order in orders) {
             if (assignedUnits.Contains(order.unit))
@@ -426,13 +471,28 @@ public class UnitBrainController {
             order.unit.states.Clear();
             switch (order.type) {
                 case Order.Type.Capture:
-                    order.unit.states.Push(new UnitCaptureState { unit = order.unit, building = order.targetBuilding });
+                    order.unit.states.Push(new UnitCaptureState {
+                        unit = order.unit,
+                        createdOnDay = order.unit.Player.level.Day(),
+                        lifetimeInDays = UnitCaptureState.defaultLifetimeInDays,
+                        building = order.targetBuilding
+                    });
                     break;
                 case Order.Type.Kill:
-                    order.unit.states.Push(new UnitKillState { unit = order.unit, target = order.targetUnit });
+                    order.unit.states.Push(new UnitKillState {
+                        unit = order.unit,
+                        createdOnDay = order.unit.Player.level.Day(),
+                        lifetimeInDays = UnitKillState.defaultLifetimeInDays,
+                        target = order.targetUnit
+                    });
                     break;
                 case Order.Type.Move:
-                    order.unit.states.Push(new UnitMoveState { unit = order.unit, position = order.targetPosition });
+                    order.unit.states.Push(new UnitMoveState {
+                        unit = order.unit,
+                        createdOnDay = order.unit.Player.level.Day(),
+                        lifetimeInDays = UnitMoveState.defaultLifetimeInDays,
+                        position = order.targetPosition
+                    });
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -446,12 +506,18 @@ public class UnitBrainController {
         //
 
         var actions = new List<UnitBrainAction>();
-        foreach (var unit in units)
+        foreach (var unit in units) {
+            while (unit.states.TryPeek(out var state) && state.Expired) {
+                if (state.lifetimeInDays == 0)
+                    Debug.LogError($"Unit {unit} has a state with invalid lifetime, state: {state}");
+                unit.states.Pop();
+            }
             if (unit.states.Count > 0) {
                 var action = unit.states.Peek().NextAction;
                 if (action != null && !action.unit.Moved)
                     actions.Add(action);
             }
+        }
 
         if (actions.Count == 0) {
             EndTurn();
@@ -488,27 +554,28 @@ public class UnitBrainController {
         }
         actions.Sort((a, b) => UnitBrainActionExtensions.CompareLexicographically(a.order, b.order));
 
-        var firstAction = actions[0];
-        /*foreach (var order in orders)
-            if (order.unit == firstAction.unit) {
-                using (Draw.ingame.WithLineWidth(2))
-                using (Draw.ingame.WithDuration(5)) {
-                    var color = order.type switch {
-                        Order.Type.Kill => Color.red,
-                        Order.Type.Capture => Color.cyan,
-                        Order.Type.Move => Color.green,
-                        _ => throw new ArgumentOutOfRangeException()
-                    };
-                    var targetPosition = order.type switch {
-                        Order.Type.Kill => order.targetUnit.NonNullPosition.Raycasted(),
-                        Order.Type.Capture => order.targetBuilding.position.Raycasted(),
-                        Order.Type.Move => order.targetPosition.Raycasted(),
-                        _ => throw new ArgumentOutOfRangeException()
-                    };
-                    Draw.ingame.Line(order.unit.NonNullPosition.Raycasted(), targetPosition, color);
-                }
-            }*/
+        //DrawAction(actions[0]);
+
+        //Debug.Log(actions[0]);
 
         MakeMove(actions[0]);
+    }
+
+    public static void DrawAction(UnitBrainAction action, float duration = 10) {
+        using (Draw.ingame.WithDuration(duration)) {
+            var color = action.type switch {
+                UnitActionType.LaunchMissile => Color.red,
+                UnitActionType.Attack => Color.red,
+                UnitActionType.GetIn => Color.blue,
+                UnitActionType.Drop => Color.blue,
+                UnitActionType.Capture => Color.cyan,
+                UnitActionType.Stay => Color.green,
+                UnitActionType.Join => Color.yellow,
+                UnitActionType.Supply => Color.yellow,
+                _ => Color.black
+            };
+            using (Draw.ingame.WithLineWidth(1.5f))
+                Draw.ingame.Line(action.unit.NonNullPosition.Raycasted(), action.path.Last().Raycasted(), color);
+        }
     }
 }

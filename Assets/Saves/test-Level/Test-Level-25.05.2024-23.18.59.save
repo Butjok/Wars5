@@ -1,0 +1,2843 @@
+ClassInstance "Level,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" ReferenceId 0
+  Field name
+    Enum "LevelName,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Tutorial"
+  EndField
+  Field mission
+    Null
+  EndField
+  Field players
+    List 2 "Player,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" ReferenceId 1
+      ListItem
+        ClassInstance "Player,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" ReferenceId 2
+          Field level
+            ReferenceTo 0
+          EndField
+          Field team
+            Enum "Team,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "None"
+          EndField
+          Field coName
+            Enum "PersonName,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Vladan"
+          EndField
+          Field difficulty
+            Enum "AiDifficulty,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Normal"
+          EndField
+          Field uiPosition
+            Vector2Int 1 1
+          EndField
+          Field colorName
+            Enum "ColorName,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Red"
+          EndField
+          Field maxCredits
+            Int 16000
+          EndField
+          Field credits
+            Int 0
+          EndField
+          Field abilityMeter
+            Int 0
+          EndField
+          Field abilityActivationTurn
+            Null
+          EndField
+          Field unitLookDirection
+            Vector2Int -1 0
+          EndField
+          Field side
+            Enum "Side,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Right"
+          EndField
+        EndClassInstance
+      EndListItem
+      ListItem
+        ClassInstance "Player,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" ReferenceId 3
+          Field level
+            ReferenceTo 0
+          EndField
+          Field team
+            Enum "Team,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "None"
+          EndField
+          Field coName
+            Enum "PersonName,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Natalie"
+          EndField
+          Field difficulty
+            Null
+          EndField
+          Field uiPosition
+            Vector2Int 0 1
+          EndField
+          Field colorName
+            Enum "ColorName,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Blue"
+          EndField
+          Field maxCredits
+            Int 16000
+          EndField
+          Field credits
+            Int 0
+          EndField
+          Field abilityMeter
+            Int 0
+          EndField
+          Field abilityActivationTurn
+            Null
+          EndField
+          Field unitLookDirection
+            Vector2Int 1 0
+          EndField
+          Field side
+            Enum "Side,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Left"
+          EndField
+        EndClassInstance
+      EndListItem
+    EndList
+  EndField
+  Field localPlayer
+    ReferenceTo 3
+  EndField
+  Field turn
+    Int 0
+  EndField
+  Field tiles
+    Dictionary 566 "UnityEngine.Vector2Int,%20UnityEngine.CoreModule,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" ReferenceId 4
+      KeyValue
+        Vector2Int 27 4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 24 0
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 43 -6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 49 -7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Beach"
+      EndKeyValue
+      KeyValue
+        Vector2Int 47 6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 26 -3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 28 -3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 37 4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 42 -6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 46 -11
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 36 -6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 23 -2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 32 -2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 36 -10
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Beach"
+      EndKeyValue
+      KeyValue
+        Vector2Int 40 -7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Beach"
+      EndKeyValue
+      KeyValue
+        Vector2Int 22 -3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 49 -5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 49 -6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 21 -3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 26 1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 27 0
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 28 -1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 33 -1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 32 -1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 30 -1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Road"
+      EndKeyValue
+      KeyValue
+        Vector2Int 29 -1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 31 -4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 29 -5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Road"
+      EndKeyValue
+      KeyValue
+        Vector2Int 32 -4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 32 -3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 29 -2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 48 8
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Forest"
+      EndKeyValue
+      KeyValue
+        Vector2Int 45 -6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 34 -6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Forest"
+      EndKeyValue
+      KeyValue
+        Vector2Int 30 -2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Road"
+      EndKeyValue
+      KeyValue
+        Vector2Int 22 0
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 49 -3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 33 -5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 28 -4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 27 -9
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 26 -10
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 26 -6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 25 -8
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 24 -10
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 26 -9
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 27 -8
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 27 -7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 26 -7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 26 -8
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 25 -10
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 25 -6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 26 -5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Road"
+      EndKeyValue
+      KeyValue
+        Vector2Int 25 -5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Road"
+      EndKeyValue
+      KeyValue
+        Vector2Int 25 -9
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 28 -7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 27 -6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 34 -3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 24 -5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Road"
+      EndKeyValue
+      KeyValue
+        Vector2Int 24 -6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 23 -7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 22 -10
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 22 -9
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 22 -8
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 23 -6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 22 -7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Road"
+      EndKeyValue
+      KeyValue
+        Vector2Int 49 4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 34 -5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 35 -7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 23 1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 27 -3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 30 -5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Road"
+      EndKeyValue
+      KeyValue
+        Vector2Int 31 -5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 27 -5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Road"
+      EndKeyValue
+      KeyValue
+        Vector2Int 28 -6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 33 -3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 21 2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 20 -2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 39 -2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 49 -2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 36 -1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 22 2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 38 -3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 26 3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 26 8
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 25 5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 44 -6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 34 -4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 39 -7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 41 -5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 40 -4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 20 0
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 21 3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 46 -6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 22 3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 47 -2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 47 -5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 42 9
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 48 -3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 37 -7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Beach"
+      EndKeyValue
+      KeyValue
+        Vector2Int 42 3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 41 2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 32 0
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 32 1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 20 2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 49 2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 21 0
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 32 -5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 30 -4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Road"
+      EndKeyValue
+      KeyValue
+        Vector2Int 39 0
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 41 9
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 47 3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 27 8
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Forest"
+      EndKeyValue
+      KeyValue
+        Vector2Int 42 4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 33 2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Road"
+      EndKeyValue
+      KeyValue
+        Vector2Int 32 2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Road"
+      EndKeyValue
+      KeyValue
+        Vector2Int 48 -4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 41 -2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 41 -6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 39 -6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Forest"
+      EndKeyValue
+      KeyValue
+        Vector2Int 39 -5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 41 8
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 31 7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 32 7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 33 7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 42 8
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 42 7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 26 4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 26 5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 26 6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 27 6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 27 3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 27 2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 28 -8
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 28 6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 29 8
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 30 8
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 29 -3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 21 1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 21 -1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 22 -1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 23 -1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 23 0
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 37 -4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 37 -5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 40 -1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 26 -11
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 28 -11
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 27 -11
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 38 0
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 37 -6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 41 -1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 42 5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 40 8
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 30 5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 30 1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Road"
+      EndKeyValue
+      KeyValue
+        Vector2Int 30 0
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Road"
+      EndKeyValue
+      KeyValue
+        Vector2Int 28 5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 47 4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 22 -2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 33 -11
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 25 -2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 30 -11
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 31 -11
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 39 9
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 39 6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 41 7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "City"
+      EndKeyValue
+      KeyValue
+        Vector2Int 41 6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 42 6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 41 4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 39 4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 38 3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Forest"
+      EndKeyValue
+      KeyValue
+        Vector2Int 39 5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 40 4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 29 5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 28 3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 28 2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 29 2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 30 6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 29 6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 32 4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 31 4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 31 5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 33 6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 29 7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 28 7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 30 7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 31 6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 39 8
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 29 1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 29 0
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 38 4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 48 -6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 38 5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 41 3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 46 -10
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Forest"
+      EndKeyValue
+      KeyValue
+        Vector2Int 28 -9
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 30 -7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 30 -8
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 29 -8
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 32 -8
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Forest"
+      EndKeyValue
+      KeyValue
+        Vector2Int 33 -8
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Forest"
+      EndKeyValue
+      KeyValue
+        Vector2Int 32 -7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Forest"
+      EndKeyValue
+      KeyValue
+        Vector2Int 34 -8
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 28 -10
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 27 -10
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "City"
+      EndKeyValue
+      KeyValue
+        Vector2Int 33 -10
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 32 -9
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Forest"
+      EndKeyValue
+      KeyValue
+        Vector2Int 30 -9
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 29 -9
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 32 -10
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 33 -9
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 34 -9
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 40 9
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 27 5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 47 9
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 29 3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 25 6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 25 7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 24 5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 24 4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 24 3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 28 0
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 28 1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 27 1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 36 0
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 36 -9
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Beach"
+      EndKeyValue
+      KeyValue
+        Vector2Int 26 -1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 20 1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 49 1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 34 -11
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 48 -7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Beach"
+      EndKeyValue
+      KeyValue
+        Vector2Int 42 -7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Beach"
+      EndKeyValue
+      KeyValue
+        Vector2Int 23 -3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 48 1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Hq"
+      EndKeyValue
+      KeyValue
+        Vector2Int 25 -7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Forest"
+      EndKeyValue
+      KeyValue
+        Vector2Int 24 -9
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Forest"
+      EndKeyValue
+      KeyValue
+        Vector2Int 24 -7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Forest"
+      EndKeyValue
+      KeyValue
+        Vector2Int 23 -9
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Forest"
+      EndKeyValue
+      KeyValue
+        Vector2Int 24 -8
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Forest"
+      EndKeyValue
+      KeyValue
+        Vector2Int 23 -8
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Forest"
+      EndKeyValue
+      KeyValue
+        Vector2Int 23 -10
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 31 8
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 32 8
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 20 -1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 48 6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Forest"
+      EndKeyValue
+      KeyValue
+        Vector2Int 26 2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 25 3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 26 7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 25 4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 42 2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 28 -2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 38 -7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 41 -3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "City"
+      EndKeyValue
+      KeyValue
+        Vector2Int 25 -1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 47 -4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 48 -5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 39 3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Forest"
+      EndKeyValue
+      KeyValue
+        Vector2Int 39 2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Forest"
+      EndKeyValue
+      KeyValue
+        Vector2Int 40 3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Forest"
+      EndKeyValue
+      KeyValue
+        Vector2Int 36 -4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 28 8
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 40 2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Forest"
+      EndKeyValue
+      KeyValue
+        Vector2Int 24 -1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 27 7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 33 -7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Forest"
+      EndKeyValue
+      KeyValue
+        Vector2Int 34 -7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Forest"
+      EndKeyValue
+      KeyValue
+        Vector2Int 47 5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 29 -7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Forest"
+      EndKeyValue
+      KeyValue
+        Vector2Int 34 -10
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 36 -7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Beach"
+      EndKeyValue
+      KeyValue
+        Vector2Int 33 1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Forest"
+      EndKeyValue
+      KeyValue
+        Vector2Int 33 0
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Forest"
+      EndKeyValue
+      KeyValue
+        Vector2Int 47 8
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Forest"
+      EndKeyValue
+      KeyValue
+        Vector2Int 36 3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 38 -2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 27 -1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 39 -1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 40 -2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 25 -11
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 41 1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 42 1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 47 1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 20 -3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 29 -6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 30 -6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 26 0
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "City"
+      EndKeyValue
+      KeyValue
+        Vector2Int 26 -4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 25 -4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 28 -5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Road"
+      EndKeyValue
+      KeyValue
+        Vector2Int 24 -11
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 34 4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 38 2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 37 2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Road"
+      EndKeyValue
+      KeyValue
+        Vector2Int 36 1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 38 -4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 40 -6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 29 -11
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 38 -5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 30 4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 29 4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 28 4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 36 4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 30 -10
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 36 -2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 34 5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 34 6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 30 3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 33 3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 47 -6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 38 9
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 48 9
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 38 7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 31 3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 32 3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 33 4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 38 8
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 33 5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 32 5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 40 6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 40 7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 40 5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 36 2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Road"
+      EndKeyValue
+      KeyValue
+        Vector2Int 39 7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "City"
+      EndKeyValue
+      KeyValue
+        Vector2Int 37 -3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 49 -4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 31 1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 31 0
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 31 2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Road"
+      EndKeyValue
+      KeyValue
+        Vector2Int 36 -3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 38 6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 31 -3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 31 -7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Forest"
+      EndKeyValue
+      KeyValue
+        Vector2Int 31 -8
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Forest"
+      EndKeyValue
+      KeyValue
+        Vector2Int 31 -9
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Forest"
+      EndKeyValue
+      KeyValue
+        Vector2Int 31 -10
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 32 -11
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 24 -3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 39 -4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 39 1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 37 3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 31 -1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 36 5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 36 6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 37 6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 31 -2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 31 -6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 37 1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 41 5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 32 6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 29 -10
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Forest"
+      EndKeyValue
+      KeyValue
+        Vector2Int 30 2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Road"
+      EndKeyValue
+      KeyValue
+        Vector2Int 47 -10
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 25 -3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 36 -5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 38 -1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 24 -2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 30 -3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Road"
+      EndKeyValue
+      KeyValue
+        Vector2Int 35 -6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 35 -3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 35 -4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 35 -5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 27 -2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 47 -11
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 26 -2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 25 2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 25 1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 34 3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 34 2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Road"
+      EndKeyValue
+      KeyValue
+        Vector2Int 34 1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 34 0
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Forest"
+      EndKeyValue
+      KeyValue
+        Vector2Int 34 -1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Forest"
+      EndKeyValue
+      KeyValue
+        Vector2Int 35 1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 35 -1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 35 -2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 35 2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Road"
+      EndKeyValue
+      KeyValue
+        Vector2Int 35 0
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 34 -2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Forest"
+      EndKeyValue
+      KeyValue
+        Vector2Int 33 -2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 35 3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 42 0
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 41 0
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 40 0
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 42 -1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 40 1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 42 -2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 42 -3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 24 -4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 23 -4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 22 -4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 21 -4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 20 -4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 20 -5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 20 -6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 20 -7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 20 -8
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 20 -9
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 20 -10
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 21 -10
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Hq"
+      EndKeyValue
+      KeyValue
+        Vector2Int 21 -9
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 21 -8
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 21 -7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 21 -6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 21 -5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 22 -5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Road"
+      EndKeyValue
+      KeyValue
+        Vector2Int 23 -5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Road"
+      EndKeyValue
+      KeyValue
+        Vector2Int 22 -6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Road"
+      EndKeyValue
+      KeyValue
+        Vector2Int 27 -4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 35 -8
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 35 -9
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 35 -10
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 38 1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 31 9
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 32 9
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 30 9
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 29 9
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Forest"
+      EndKeyValue
+      KeyValue
+        Vector2Int 28 9
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Forest"
+      EndKeyValue
+      KeyValue
+        Vector2Int 27 9
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 26 9
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Forest"
+      EndKeyValue
+      KeyValue
+        Vector2Int 25 0
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 24 2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 24 1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 40 -3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 39 -3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 24 7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 24 6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 23 6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 23 5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 23 4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 25 9
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 24 9
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 24 8
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 23 8
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 25 8
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 23 7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 37 -1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 37 0
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 38 -6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 40 -5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 41 -4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 37 -2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 22 8
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Beach"
+      EndKeyValue
+      KeyValue
+        Vector2Int 22 7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Beach"
+      EndKeyValue
+      KeyValue
+        Vector2Int 22 6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Beach"
+      EndKeyValue
+      KeyValue
+        Vector2Int 22 5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 22 4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 23 3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 23 2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 41 -7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Beach"
+      EndKeyValue
+      KeyValue
+        Vector2Int 37 -8
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Beach"
+      EndKeyValue
+      KeyValue
+        Vector2Int 35 4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 48 5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Forest"
+      EndKeyValue
+      KeyValue
+        Vector2Int 36 -8
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Beach"
+      EndKeyValue
+      KeyValue
+        Vector2Int 47 -7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Beach"
+      EndKeyValue
+      KeyValue
+        Vector2Int 48 -1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 48 2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 48 3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 48 4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Forest"
+      EndKeyValue
+      KeyValue
+        Vector2Int 21 -2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 49 6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 22 1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 48 7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Forest"
+      EndKeyValue
+      KeyValue
+        Vector2Int 33 -4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 47 7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Forest"
+      EndKeyValue
+      KeyValue
+        Vector2Int 29 -4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 48 0
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 32 -6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 48 -2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 33 -6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 47 -3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 47 2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 33 9
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 33 8
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 34 8
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 35 8
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 35 7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 35 5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 34 7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 37 8
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 36 8
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 36 7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 35 6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 34 9
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 36 9
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 37 9
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 35 9
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 37 7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 37 5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 42 -4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 42 -5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 43 -5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 43 -4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 44 -4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Forest"
+      EndKeyValue
+      KeyValue
+        Vector2Int 45 -3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 46 -3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 44 -5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 45 -5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 46 -5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 46 -4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 46 -2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 46 -1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 46 1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 46 3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 46 4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 46 6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 46 8
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Forest"
+      EndKeyValue
+      KeyValue
+        Vector2Int 49 5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 49 7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 47 -1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 47 0
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 49 9
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 44 9
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 43 6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 43 3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 43 0
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 43 -2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 43 -3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 44 -3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 44 -1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 44 2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 44 3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 43 2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 43 -1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 44 0
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 44 4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 44 7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 49 0
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 43 9
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 43 5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 43 4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 43 7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 49 -1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 44 8
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Forest"
+      EndKeyValue
+      KeyValue
+        Vector2Int 44 5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 45 5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 46 9
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 46 7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Forest"
+      EndKeyValue
+      KeyValue
+        Vector2Int 46 5
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 45 1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 45 -1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 45 -2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 45 -4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 44 -2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 43 1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 44 1
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 45 0
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 46 0
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 46 2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 45 4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 45 3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 45 2
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 45 6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 45 8
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Forest"
+      EndKeyValue
+      KeyValue
+        Vector2Int 49 3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 49 8
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 44 6
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 43 8
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 45 7
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Forest"
+      EndKeyValue
+      KeyValue
+        Vector2Int 45 9
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 23 -11
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 22 -11
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 21 -11
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 20 -11
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Plain"
+      EndKeyValue
+      KeyValue
+        Vector2Int 45 -10
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Beach"
+      EndKeyValue
+      KeyValue
+        Vector2Int 45 -11
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Beach"
+      EndKeyValue
+      KeyValue
+        Vector2Int 21 4
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Beach"
+      EndKeyValue
+      KeyValue
+        Vector2Int 20 3
+        Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Beach"
+      EndKeyValue
+    EndDictionary
+  EndField
+  Field units
+    Dictionary 4 "UnityEngine.Vector2Int,%20UnityEngine.CoreModule,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Unit,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" ReferenceId 5
+      KeyValue
+        Vector2Int 20 -7
+        ClassInstance "Unit,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" ReferenceId 6
+          Field type
+            Enum "UnitType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Infantry"
+          EndField
+          Field viewPrefabName
+            String "WbInfantry"
+          EndField
+          Field states
+            Stack 0 "UnitState,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" ReferenceId 7
+            EndStack
+          EndField
+          Field position
+            Vector2Int 20 -7
+          EndField
+          Field moved
+            Bool False
+          EndField
+          Field hp
+            Int 10
+          EndField
+          Field fuel
+            Int 99
+          EndField
+          Field player
+            ReferenceTo 3
+          EndField
+          Field carrier
+            Null
+          EndField
+          Field lookDirection
+            Vector2Int 1 0
+          EndField
+          Field ammo
+            Dictionary 1 "WeaponName,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "System.Int32,%20mscorlib,%20Version=4.0.0.0,%20Culture=neutral,%20PublicKeyToken=b77a5c561934e089" ReferenceId 8
+              KeyValue
+                Enum "WeaponName,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Rifle"
+                Int 2147483647
+              EndKeyValue
+            EndDictionary
+          EndField
+          Field cargo
+            List 0 "Unit,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" ReferenceId 9
+            EndList
+          EndField
+        EndClassInstance
+      EndKeyValue
+      KeyValue
+        Vector2Int 26 0
+        ClassInstance "Unit,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" ReferenceId 10
+          Field type
+            Enum "UnitType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Infantry"
+          EndField
+          Field viewPrefabName
+            String "WbInfantry"
+          EndField
+          Field states
+            Stack 0 "UnitState,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" ReferenceId 11
+            EndStack
+          EndField
+          Field position
+            Vector2Int 26 0
+          EndField
+          Field moved
+            Bool False
+          EndField
+          Field hp
+            Int 10
+          EndField
+          Field fuel
+            Int 99
+          EndField
+          Field player
+            ReferenceTo 3
+          EndField
+          Field carrier
+            Null
+          EndField
+          Field lookDirection
+            Vector2Int 1 0
+          EndField
+          Field ammo
+            Dictionary 1 "WeaponName,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "System.Int32,%20mscorlib,%20Version=4.0.0.0,%20Culture=neutral,%20PublicKeyToken=b77a5c561934e089" ReferenceId 12
+              KeyValue
+                Enum "WeaponName,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Rifle"
+                Int 2147483647
+              EndKeyValue
+            EndDictionary
+          EndField
+          Field cargo
+            List 0 "Unit,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" ReferenceId 13
+            EndList
+          EndField
+        EndClassInstance
+      EndKeyValue
+      KeyValue
+        Vector2Int 27 3
+        ClassInstance "Unit,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" ReferenceId 14
+          Field type
+            Enum "UnitType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Infantry"
+          EndField
+          Field viewPrefabName
+            String "WbInfantry"
+          EndField
+          Field states
+            Stack 0 "UnitState,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" ReferenceId 15
+            EndStack
+          EndField
+          Field position
+            Vector2Int 27 3
+          EndField
+          Field moved
+            Bool False
+          EndField
+          Field hp
+            Int 10
+          EndField
+          Field fuel
+            Int 99
+          EndField
+          Field player
+            ReferenceTo 3
+          EndField
+          Field carrier
+            Null
+          EndField
+          Field lookDirection
+            Vector2Int 1 0
+          EndField
+          Field ammo
+            Dictionary 1 "WeaponName,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "System.Int32,%20mscorlib,%20Version=4.0.0.0,%20Culture=neutral,%20PublicKeyToken=b77a5c561934e089" ReferenceId 16
+              KeyValue
+                Enum "WeaponName,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Rifle"
+                Int 2147483647
+              EndKeyValue
+            EndDictionary
+          EndField
+          Field cargo
+            List 0 "Unit,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" ReferenceId 17
+            EndList
+          EndField
+        EndClassInstance
+      EndKeyValue
+      KeyValue
+        Vector2Int 27 4
+        ClassInstance "Unit,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" ReferenceId 18
+          Field type
+            Enum "UnitType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Apc"
+          EndField
+          Field viewPrefabName
+            String "WbApc"
+          EndField
+          Field states
+            Stack 0 "UnitState,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" ReferenceId 19
+            EndStack
+          EndField
+          Field position
+            Vector2Int 27 4
+          EndField
+          Field moved
+            Bool False
+          EndField
+          Field hp
+            Int 10
+          EndField
+          Field fuel
+            Int 70
+          EndField
+          Field player
+            ReferenceTo 2
+          EndField
+          Field carrier
+            Null
+          EndField
+          Field lookDirection
+            Vector2Int -1 0
+          EndField
+          Field ammo
+            Dictionary 0 "WeaponName,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "System.Int32,%20mscorlib,%20Version=4.0.0.0,%20Culture=neutral,%20PublicKeyToken=b77a5c561934e089" ReferenceId 20
+            EndDictionary
+          EndField
+          Field cargo
+            List 0 "Unit,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" ReferenceId 21
+            EndList
+          EndField
+        EndClassInstance
+      EndKeyValue
+    EndDictionary
+  EndField
+  Field buildings
+    Dictionary 7 "UnityEngine.Vector2Int,%20UnityEngine.CoreModule,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Building,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" ReferenceId 22
+      KeyValue
+        Vector2Int 21 -10
+        ClassInstance "Building,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" ReferenceId 23
+          Field type
+            Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Hq"
+          EndField
+          Field level
+            ReferenceTo 0
+          EndField
+          Field position
+            Vector2Int 21 -10
+          EndField
+          Field lookDirection
+            Vector2Int 1 0
+          EndField
+          Field missileSilo
+            Null
+          EndField
+          Field viewPrefabName
+            String "Hq"
+          EndField
+          Field player
+            ReferenceTo 3
+          EndField
+          Field cp
+            Int 20
+          EndField
+          Field moved
+            Bool False
+          EndField
+        EndClassInstance
+      EndKeyValue
+      KeyValue
+        Vector2Int 48 1
+        ClassInstance "Building,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" ReferenceId 24
+          Field type
+            Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Hq"
+          EndField
+          Field level
+            ReferenceTo 0
+          EndField
+          Field position
+            Vector2Int 48 1
+          EndField
+          Field lookDirection
+            Vector2Int -1 0
+          EndField
+          Field missileSilo
+            Null
+          EndField
+          Field viewPrefabName
+            String "Hq"
+          EndField
+          Field player
+            ReferenceTo 2
+          EndField
+          Field cp
+            Int 20
+          EndField
+          Field moved
+            Bool False
+          EndField
+        EndClassInstance
+      EndKeyValue
+      KeyValue
+        Vector2Int 26 0
+        ClassInstance "Building,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" ReferenceId 25
+          Field type
+            Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "City"
+          EndField
+          Field level
+            ReferenceTo 0
+          EndField
+          Field position
+            Vector2Int 26 0
+          EndField
+          Field lookDirection
+            Vector2Int -1 0
+          EndField
+          Field missileSilo
+            Null
+          EndField
+          Field viewPrefabName
+            String "City"
+          EndField
+          Field player
+            ReferenceTo 2
+          EndField
+          Field cp
+            Int 20
+          EndField
+          Field moved
+            Bool False
+          EndField
+        EndClassInstance
+      EndKeyValue
+      KeyValue
+        Vector2Int 41 7
+        ClassInstance "Building,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" ReferenceId 26
+          Field type
+            Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "City"
+          EndField
+          Field level
+            ReferenceTo 0
+          EndField
+          Field position
+            Vector2Int 41 7
+          EndField
+          Field lookDirection
+            Vector2Int 0 1
+          EndField
+          Field missileSilo
+            Null
+          EndField
+          Field viewPrefabName
+            String "City"
+          EndField
+          Field player
+            Null
+          EndField
+          Field cp
+            Int 20
+          EndField
+          Field moved
+            Bool False
+          EndField
+        EndClassInstance
+      EndKeyValue
+      KeyValue
+        Vector2Int 39 7
+        ClassInstance "Building,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" ReferenceId 27
+          Field type
+            Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "City"
+          EndField
+          Field level
+            ReferenceTo 0
+          EndField
+          Field position
+            Vector2Int 39 7
+          EndField
+          Field lookDirection
+            Vector2Int 0 1
+          EndField
+          Field missileSilo
+            Null
+          EndField
+          Field viewPrefabName
+            String "City"
+          EndField
+          Field player
+            Null
+          EndField
+          Field cp
+            Int 20
+          EndField
+          Field moved
+            Bool False
+          EndField
+        EndClassInstance
+      EndKeyValue
+      KeyValue
+        Vector2Int 27 -10
+        ClassInstance "Building,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" ReferenceId 28
+          Field type
+            Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "City"
+          EndField
+          Field level
+            ReferenceTo 0
+          EndField
+          Field position
+            Vector2Int 27 -10
+          EndField
+          Field lookDirection
+            Vector2Int 0 1
+          EndField
+          Field missileSilo
+            Null
+          EndField
+          Field viewPrefabName
+            String "City"
+          EndField
+          Field player
+            Null
+          EndField
+          Field cp
+            Int 20
+          EndField
+          Field moved
+            Bool False
+          EndField
+        EndClassInstance
+      EndKeyValue
+      KeyValue
+        Vector2Int 41 -3
+        ClassInstance "Building,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" ReferenceId 29
+          Field type
+            Enum "TileType,%20Stable,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "City"
+          EndField
+          Field level
+            ReferenceTo 0
+          EndField
+          Field position
+            Vector2Int 41 -3
+          EndField
+          Field lookDirection
+            Vector2Int 0 1
+          EndField
+          Field missileSilo
+            Null
+          EndField
+          Field viewPrefabName
+            String "City"
+          EndField
+          Field player
+            Null
+          EndField
+          Field cp
+            Int 20
+          EndField
+          Field moved
+            Bool False
+          EndField
+        EndClassInstance
+      EndKeyValue
+    EndDictionary
+  EndField
+  Field triggers
+    Dictionary 6 "TriggerName,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "System.Collections.Generic.HashSet`1[[UnityEngine.Vector2Int,%20UnityEngine.CoreModule,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null]],%20System.Core,%20Version=4.0.0.0,%20Culture=neutral,%20PublicKeyToken=b77a5c561934e089" ReferenceId 30
+      KeyValue
+        Enum "TriggerName,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "A"
+        HashSet 0 "UnityEngine.Vector2Int,%20UnityEngine.CoreModule,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" ReferenceId 31
+        EndHashSet
+      EndKeyValue
+      KeyValue
+        Enum "TriggerName,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "B"
+        HashSet 0 "UnityEngine.Vector2Int,%20UnityEngine.CoreModule,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" ReferenceId 32
+        EndHashSet
+      EndKeyValue
+      KeyValue
+        Enum "TriggerName,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "C"
+        HashSet 0 "UnityEngine.Vector2Int,%20UnityEngine.CoreModule,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" ReferenceId 33
+        EndHashSet
+      EndKeyValue
+      KeyValue
+        Enum "TriggerName,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "D"
+        HashSet 0 "UnityEngine.Vector2Int,%20UnityEngine.CoreModule,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" ReferenceId 34
+        EndHashSet
+      EndKeyValue
+      KeyValue
+        Enum "TriggerName,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "E"
+        HashSet 0 "UnityEngine.Vector2Int,%20UnityEngine.CoreModule,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" ReferenceId 35
+        EndHashSet
+      EndKeyValue
+      KeyValue
+        Enum "TriggerName,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "F"
+        HashSet 0 "UnityEngine.Vector2Int,%20UnityEngine.CoreModule,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" ReferenceId 36
+        EndHashSet
+      EndKeyValue
+    EndDictionary
+  EndField
+  Field paths
+    List 0 "Level+Path,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" ReferenceId 37
+    EndList
+  EndField
+  Field tutorialState
+    ClassInstance "Level+TutorialState,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" ReferenceId 38
+      Field startedCapturing
+        Bool False
+      EndField
+      Field askedToCaptureBuilding
+        Bool False
+      EndField
+      Field explainedTurnEnd
+        Bool False
+      EndField
+      Field explainedApc
+        Bool False
+      EndField
+      Field explainedActionSelection
+        Bool False
+      EndField
+    EndClassInstance
+  EndField
+EndClassInstance

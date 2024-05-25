@@ -104,12 +104,12 @@ public static class DistanceField {
         var result = new Dictionary<Vector2Int, float>();
         if (!Rules.TryGetAttackRange(unit, out var attackRange))
             return result;
-        pathFinder.FindShortPaths(unit, PathFinder.ShortPathDestinationsAreValidTo.Stay);
+        pathFinder.FindShortPaths(unit);
         if (Rules.IsIndirect(unit))
             foreach (var position in unit.Player.level.PositionsInRange(unit.NonNullPosition, attackRange))
                 result.Add(position, BaseUnitInfluence(unit));
         else {
-            foreach (var position in pathFinder.shortPathDestinations.GrownBy(1))
+            foreach (var position in pathFinder.validShortPathDestinations.GrownBy(1))
                 result.Add(position, BaseUnitInfluence(unit));
         }
         return result;

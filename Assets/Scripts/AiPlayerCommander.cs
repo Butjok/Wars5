@@ -149,7 +149,7 @@ public class AiPlayerCommander : MonoBehaviour {
     public PathFinder joinMovesFinder = new();
 
     public IEnumerable<PotentialUnitAction> EnumeratePotentialUnitActions(Unit unit) {
-        stayMovesFinder.FindShortPaths(unit, PathFinder.ShortPathDestinationsAreValidTo.Stay);
+        stayMovesFinder.FindShortPaths(unit);
 
         //
         // get to the closest gathering point
@@ -254,7 +254,7 @@ public class AiPlayerCommander : MonoBehaviour {
 
             if (!joinMovesFinderInitialized) {
                 joinMovesFinderInitialized = true;
-                joinMovesFinder.FindShortPaths(unit, PathFinder.ShortPathDestinationsAreValidTo.MoveThrough);
+                joinMovesFinder.FindShortPaths(unit);
             }
 
             if (!joinMovesFinder.TryFindPath(out var path, out var restPath, ally.NonNullPosition))
