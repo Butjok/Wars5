@@ -12,6 +12,11 @@ public class AttackActionState : StateMachineState {
 
     [Command]
     public static float pause = 1.5f;
+    [Command]
+    public static bool ShowBattleAnimation {
+        get => PlayerPrefs.GetInt(nameof(ShowBattleAnimation), 1) == 1;
+        set => PlayerPrefs.SetInt(nameof(ShowBattleAnimation), value ? 1 : 0);
+    }
 
     public AttackActionState(StateMachine stateMachine) : base(stateMachine) { }
 
@@ -56,63 +61,65 @@ public class AttackActionState : StateMachineState {
                 }
             }
 
-            var setup = new BattleView.Setup {
-                [attackerSide] = new() {
-                    side = attackerSide,
-                    unitViewPrefab = attacker.view.prefab,
-                    count = CountBeforeAndAfter(attacker.type, attacker.Hp, newAttackerHp),
-                    color = attacker.Player.Color,
-                    weaponName = action.weaponName
-                },
-                [targetSide] = new() {
-                    side = targetSide,
-                    unitViewPrefab = target.view.prefab,
-                    count = CountBeforeAndAfter(target.type, target.Hp, newTargetHp),
-                    color = target.Player.Color,
-                    weaponName = responseWeaponName
-                }
-            };
-            setup.attacker = setup[attackerSide];
-            setup.target = setup[targetSide];
+            if (ShowBattleAnimation) {
+                var setup = new BattleView.Setup {
+                    [attackerSide] = new() {
+                        side = attackerSide,
+                        unitViewPrefab = attacker.view.prefab,
+                        count = CountBeforeAndAfter(attacker.type, attacker.Hp, newAttackerHp),
+                        color = attacker.Player.Color,
+                        weaponName = action.weaponName
+                    },
+                    [targetSide] = new() {
+                        side = targetSide,
+                        unitViewPrefab = target.view.prefab,
+                        count = CountBeforeAndAfter(target.type, target.Hp, newTargetHp),
+                        color = target.Player.Color,
+                        weaponName = responseWeaponName
+                    }
+                };
+                setup.attacker = setup[attackerSide];
+                setup.target = setup[targetSide];
 
-            var battleViewSides = new Dictionary<Side, BattleViewSide>();
-            using (var battleView = new BattleView(setup))
-            using (battleViewSides[attackerSide] = new BattleViewSide(attackerSide, battleView, level.tiles[action.path[^1]]))
-            using (battleViewSides[targetSide] = new BattleViewSide(targetSide, battleView, level.tiles[action.targetUnit.NonNullPosition])) {
-                level.view.cameraRig.camera.gameObject.SetActive(false);
-                foreach (var battleCamera in level.view.battleCameras)
-                    battleCamera.gameObject.SetActive(true);
+                var battleViewSides = new Dictionary<Side, BattleViewSide>();
+                using (var battleView = new BattleView(setup))
+                using (battleViewSides[attackerSide] = new BattleViewSide(attackerSide, battleView, level.tiles[action.path[^1]]))
+                using (battleViewSides[targetSide] = new BattleViewSide(targetSide, battleView, level.tiles[action.targetUnit.NonNullPosition])) {
+                    level.view.cameraRig.camera.gameObject.SetActive(false);
+                    foreach (var battleCamera in level.view.battleCameras)
+                        battleCamera.gameObject.SetActive(true);
 
-                if (level.view.unitUiRoot)
-                    level.view.unitUiRoot.gameObject.SetActive(false);
+                    if (level.view.unitUiRoot)
+                        level.view.unitUiRoot.gameObject.SetActive(false);
 
-                var attackAnimations = new List<Func<bool>>();
-                foreach (var unit in battleView.unitViews[attackerSide])
-                    attackAnimations.Add(action.path.Count > 1 ? unit.MoveAttack(action.weaponName) : unit.Attack(action.weaponName));
+                    var attackAnimations = new List<Func<bool>>();
+                    foreach (var unit in battleView.unitViews[attackerSide])
+                        attackAnimations.Add(action.path.Count > 1 ? unit.MoveAttack(action.weaponName) : unit.Attack(action.weaponName));
 
-                while (attackAnimations.Any(attackAnimation => !attackAnimation()))
-                    yield return StateChange.none;
-
-                if (responseWeaponName is { } actualResponseWeaponName) {
-                    var responseAnimations = new List<Func<bool>>();
-                    foreach (var unit in battleView.unitViews[targetSide].Where(u => u.survives))
-                        responseAnimations.Add(unit.Respond(actualResponseWeaponName));
-
-                    while (responseAnimations.Any(responseAnimation => !responseAnimation()))
+                    while (attackAnimations.Any(attackAnimation => !attackAnimation()))
                         yield return StateChange.none;
-                }
 
-                var time = Time.time;
-                while (Time.time < time + pause && !Input.anyKeyDown)
+                    if (responseWeaponName is { } actualResponseWeaponName) {
+                        var responseAnimations = new List<Func<bool>>();
+                        foreach (var unit in battleView.unitViews[targetSide].Where(u => u.survives))
+                            responseAnimations.Add(unit.Respond(actualResponseWeaponName));
+
+                        while (responseAnimations.Any(responseAnimation => !responseAnimation()))
+                            yield return StateChange.none;
+                    }
+
+                    var time = Time.time;
+                    while (Time.time < time + pause && !Input.anyKeyDown)
+                        yield return StateChange.none;
                     yield return StateChange.none;
-                yield return StateChange.none;
 
-                level.view.cameraRig.camera.gameObject.SetActive(true);
-                foreach (var battleCamera in level.view.battleCameras)
-                    battleCamera.gameObject.SetActive(false);
+                    level.view.cameraRig.camera.gameObject.SetActive(true);
+                    foreach (var battleCamera in level.view.battleCameras)
+                        battleCamera.gameObject.SetActive(false);
 
-                if (level.view.unitUiRoot)
-                    level.view.unitUiRoot.gameObject.SetActive(true);
+                    if (level.view.unitUiRoot)
+                        level.view.unitUiRoot.gameObject.SetActive(true);
+                }
             }
 
             // a short pause before one of the units die

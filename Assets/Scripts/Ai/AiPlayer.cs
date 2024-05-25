@@ -96,7 +96,7 @@ public static class AiPlayer {
     
     [Command]
     public static void DistributeUnits() {
-        foreach (var player in Game.Instance.Level.players)
+        foreach (var player in Game.Instance.TryGetLevel.players)
             DistributeUnits(player);
     }
 }

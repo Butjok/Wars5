@@ -14,6 +14,10 @@ namespace SaveGame {
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
     sealed class DontSaveAttribute : Attribute { }
 
+    public class DefaultValue {
+        public static readonly DefaultValue Instance = new();
+    }
+
     public class Command {
         public int depth;
     }
@@ -402,7 +406,10 @@ namespace SaveGame {
                     case EndArray or ListItem or EndList or KeyValue or EndDictionary or HashSetItem or EndHashSet or EndClassInstance or EndStructInstance or StackItem or EndStack or QueueItem or EndQueue or LinkedListItem or EndLinkedList:
                         break;
                     case Array array1: {
-                        var array = System.Array.CreateInstance(Type.GetType(array1.elementTypeName), array1.length);
+                        var type = Type.GetType(array1.elementTypeName);
+                        if (type == null)
+                            Debug.LogError($"Type {array1.elementTypeName} not found");
+                        var array = type != null ? System.Array.CreateInstance(type, array1.length) : null;
                         referencedObjects.Add(array);
                         stack.Push(array);
                         break;
@@ -419,7 +426,10 @@ namespace SaveGame {
                         break;
                     }
                     case List list1: {
-                        var list = (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(Type.GetType(list1.elementTypeName)), list1.length);
+                        var type = Type.GetType(list1.elementTypeName);
+                        if (type == null)
+                            Debug.LogError($"Type {list1.elementTypeName} not found");
+                        var list = type != null ? (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(type), list1.length) : null;
                         referencedObjects.Add(list);
                         stack.Push(list);
                         break;
@@ -433,7 +443,10 @@ namespace SaveGame {
                         break;
                     }
                     case LinkedList linkedList1: {
-                        var linkedList = (IEnumerable)Activator.CreateInstance(typeof(LinkedList<>).MakeGenericType(Type.GetType(linkedList1.elementTypeName)));
+                        var type = Type.GetType(linkedList1.elementTypeName);
+                        if (type == null)
+                            Debug.LogError($"Type {linkedList1.elementTypeName} not found");
+                        var linkedList = type != null ? (IEnumerable)Activator.CreateInstance(typeof(LinkedList<>).MakeGenericType(type)) : null;
                         referencedObjects.Add(linkedList);
                         stack.Push(linkedList);
                         break;
@@ -451,7 +464,13 @@ namespace SaveGame {
                         break;
                     }
                     case Dictionary dictionary1: {
-                        var dictionary = (IDictionary)Activator.CreateInstance(typeof(Dictionary<,>).MakeGenericType(Type.GetType(dictionary1.keyTypeName), Type.GetType(dictionary1.valueTypeName)), dictionary1.count);
+                        var keyType = Type.GetType(dictionary1.keyTypeName);
+                        if (keyType == null)
+                            Debug.LogError($"Type {dictionary1.keyTypeName} not found");
+                        var valueType = Type.GetType(dictionary1.valueTypeName);
+                        if (valueType == null)
+                            Debug.LogError($"Type {dictionary1.valueTypeName} not found");
+                        var dictionary = keyType != null && valueType != null ? (IDictionary)Activator.CreateInstance(typeof(Dictionary<,>).MakeGenericType(keyType, valueType), dictionary1.count) : null;
                         referencedObjects.Add(dictionary);
                         stack.Push(dictionary);
                         break;
@@ -466,7 +485,10 @@ namespace SaveGame {
                         break;
                     }
                     case HashSet set: {
-                        var hashSet = (IEnumerable)Activator.CreateInstance(typeof(HashSet<>).MakeGenericType(Type.GetType(set.elementTypeName)));
+                        var type = Type.GetType(set.elementTypeName);
+                        if (type == null)
+                            Debug.LogError($"Type {set.elementTypeName} not found");
+                        var hashSet = type != null ? (IEnumerable)Activator.CreateInstance(typeof(HashSet<>).MakeGenericType(type)) : null;
                         referencedObjects.Add(hashSet);
                         stack.Push(hashSet);
                         break;
@@ -485,18 +507,24 @@ namespace SaveGame {
                         break;
                     }
                     case ClassInstance beginClassInstance: {
-                        var obj = Activator.CreateInstance(Type.GetType(beginClassInstance.typeName));
+                        var type = Type.GetType(beginClassInstance.typeName);
+                        if (type == null)
+                            Debug.LogError($"Type {beginClassInstance.typeName} not found");
+                        var obj = type != null ? Activator.CreateInstance(type) : null;
                         referencedObjects.Add(obj);
                         stack.Push(obj);
                         break;
                     }
                     case StructInstance beginStructInstance: {
-                        var obj = Activator.CreateInstance(Type.GetType(beginStructInstance.typeName));
+                        var type = Type.GetType(beginStructInstance.typeName);
+                        if (type == null)
+                            Debug.LogError($"Type {beginStructInstance.typeName} not found");
+                        var obj = type != null ? Activator.CreateInstance(type) : null;
                         stack.Push(obj);
                         break;
                     }
                     case Field beginFieldValue:
-                        fieldInfos.Push(stack.Peek().GetType().GetField(beginFieldValue.fieldName, flags));
+                        fieldInfos.Push(stack.Peek()?.GetType()?.GetField(beginFieldValue.fieldName, flags));
                         break;
                     case EndField _: {
                         var value = stack.Pop();
@@ -506,7 +534,7 @@ namespace SaveGame {
                         break;
                     }
                     case Property beginPropertyValue:
-                        propertyInfos.Push(stack.Peek().GetType().GetProperty(beginPropertyValue.propertyName, flags));
+                        propertyInfos.Push(stack.Peek()?.GetType()?.GetProperty(beginPropertyValue.propertyName, flags));
                         break;
                     case EndProperty _: {
                         var value = stack.Pop();
@@ -524,14 +552,12 @@ namespace SaveGame {
                         break;
                     }
                     case StackCommand stackCommand: {
-                        var elementType = Type.GetType(stackCommand.elementTypeName);
-                        if (elementType != null) {
-                            var stackInstance = Activator.CreateInstance(typeof(Stack<>).MakeGenericType(elementType));
-                            referencedObjects.Add(stackInstance);
-                            stack.Push(stackInstance);
-                        }
-                        else
-                            stack.Push(null);
+                        var type = Type.GetType(stackCommand.elementTypeName);
+                        if (type == null)
+                            Debug.LogError($"Type {stackCommand.elementTypeName} not found");
+                        var stackInstance = type != null ? Activator.CreateInstance(typeof(Stack<>).MakeGenericType(type)) : null;
+                        referencedObjects.Add(stackInstance);
+                        stack.Push(stackInstance);
                         break;
                     }
                     case EndStackItem _: {

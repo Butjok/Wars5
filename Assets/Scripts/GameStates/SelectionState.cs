@@ -177,7 +177,7 @@ public class SelectionState : StateMachineState {
                         Game.EnqueueCommand(Command.OpenGameMenu);
 
                     else if (Input.GetKeyDown(KeyCode.F7))
-                        Level.CurrentPlayer.aiController?.MakeMove();
+                        Level.CurrentPlayer.unitBrainController?.MakeMove();
                 }
 
 
@@ -308,7 +308,7 @@ public class SelectionState : StateMachineState {
                                     attackPositions.UnionWith(Level.PositionsInRange(mouseUnit.NonNullPosition, attackRange));
                                 else if (attackRange == new Vector2Int(1, 1)) {
                                     var pathFinder = new PathFinder();
-                                    pathFinder.FindShortPaths(mouseUnit,PathFinder.ShortPathDestinationsAreValidTo.MoveThrough,PathFinder.RestPathMovesThrough.FriendlyUnitsOnly);
+                                    pathFinder.FindShortPaths(mouseUnit,PathFinder.ShortPathDestinationsAreValidTo.MoveThrough);
                                     var movePositions = pathFinder.shortPathDestinations;
                                     foreach (var position in movePositions)
                                     foreach (var offset in Rules.gridOffsets)

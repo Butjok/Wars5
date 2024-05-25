@@ -55,7 +55,7 @@ public static class ScalarFieldCalculator {
         var tokens = Tokenizer.Tokenize(input).Select(token => token.ToString());
         foreach (var token in tokens) {
 
-            var tiles = game.Level.tiles;
+            var tiles = game.TryGetLevel.tiles;
 
             switch (token) {
 
@@ -84,11 +84,11 @@ public static class ScalarFieldCalculator {
 
                 case "infl": {
                     var colorName = Enum.Parse<ColorName>((string)stack.Pop());
-                    var player = game.Level.players.Single(p => p.ColorName == colorName);
-                    var units = game.Level.units.Values.Where(u => u.Player == player && u != ignoredUnit);
-                    var influences = game.Level.tiles.Keys.ToDictionary(
+                    var player = game.TryGetLevel.players.Single(p => p.ColorName == colorName);
+                    var units = game.TryGetLevel.units.Values.Where(u => u.Player == player && u != ignoredUnit);
+                    var influences = game.TryGetLevel.tiles.Keys.ToDictionary(
                         position => position,
-                        position => units.Sum(unit => UnitStats.Loaded.TryGetValue(unit.type, out var stats) && game.Level.precalculatedDistances != null && game.Level.precalculatedDistances.TryGetValue((stats.moveType, unit.NonNullPosition, position), out var distance)
+                        position => units.Sum(unit => UnitStats.Loaded.TryGetValue(unit.type, out var stats) && game.TryGetLevel.precalculatedDistances != null && game.TryGetLevel.precalculatedDistances.TryGetValue((stats.moveType, unit.NonNullPosition, position), out var distance)
                             ? Mathf.Max(0, Rules.MoveCapacity(unit) + 1 - distance)
                             : 0));
                     stack.Push(new ScalarField(influences.Keys, position => influences[position]));
@@ -98,11 +98,11 @@ public static class ScalarFieldCalculator {
                 case "pdist": {
                     var moveType = Enum.Parse<MoveType>((string)stack.Pop());
                     var colorName = Enum.Parse<ColorName>((string)stack.Pop());
-                    var player = game.Level.players.Single(p => p.ColorName == colorName);
-                    var units = game.Level.units.Values.Where(u => u.Player == player && u != ignoredUnit);
-                    var distances = game.Level.tiles.Keys.ToDictionary(
+                    var player = game.TryGetLevel.players.Single(p => p.ColorName == colorName);
+                    var units = game.TryGetLevel.units.Values.Where(u => u.Player == player && u != ignoredUnit);
+                    var distances = game.TryGetLevel.tiles.Keys.ToDictionary(
                         position => position,
-                        position => units.Aggregate(infinity, (current, unit) => game.Level.precalculatedDistances.TryGetValue((moveType, position, unit.NonNullPosition), out var distance)
+                        position => units.Aggregate(infinity, (current, unit) => game.TryGetLevel.precalculatedDistances.TryGetValue((moveType, position, unit.NonNullPosition), out var distance)
                             ? Mathf.Min(current, distance)
                             : current));
                     stack.Push(new ScalarField(distances.Keys.Where(position => distances[position] != infinity), position => distances[position]));

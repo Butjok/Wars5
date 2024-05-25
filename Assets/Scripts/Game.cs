@@ -99,17 +99,11 @@ public class Game : MonoBehaviour {
         }
     }
 
-    public Level Level {
-        get {
-            var level = stateMachine.TryFind<LevelSessionState>()?.level ?? stateMachine.TryFind<LevelEditorSessionState>()?.level;
-            Assert.IsNotNull(level);
-            return level;
-        }
-    }
+    public Level TryGetLevel => stateMachine.TryFind<LevelSessionState>()?.level ?? stateMachine.TryFind<LevelEditorSessionState>()?.level;
 
     [Command]
     public void FillTest() {
-        var level = Level;
+        var level = TryGetLevel;
         var tiles = level.tiles.Keys;
         var vehicleReachable = tiles.Where(position => Rules.TryGetMoveCost(MoveType.Tracks, level.tiles[position], out _)).ToHashSet();
         var enemies = level.units.Keys.Where(position => level.units[position].Player.Color.r < .1f).ToHashSet();

@@ -138,6 +138,7 @@
      <Compile Include="Assets\Scripts\ErosionMapper.cs" />
      <Compile Include="Assets\Scripts\DialogueUi2.cs" />
      <Compile Include="Assets\Scripts\GameStates\SelectionState.cs" />
+     <Compile Include="Assets\Scripts\Order.cs" />
      <Compile Include="Assets\Scripts\Co.cs" />
      <Compile Include="Assets\Scripts\UnitActionsPanel.cs" />
      <Compile Include="Assets\Scripts\DisplacementTest.cs" />
@@ -312,7 +313,7 @@
      <Compile Include="Assets\Scripts\ZoneDistances.cs" />
      <Compile Include="Assets\Scripts\Player.cs" />
      <Compile Include="Assets\Scripts\LevelEditor\LevelEditorSessionState.cs" />
-     <Compile Include="Assets\Scripts\UnitGoal.cs" />
+     <Compile Include="Assets\Scripts\UnitBrain.cs" />
      <Compile Include="Assets\Scripts\GameScenarioManager.cs" />
      <Compile Include="Assets\Scripts\UnitBuildMenuViews.cs" />
      <Compile Include="Assets\Scripts\MoveFinderDebugDrawer.cs" />

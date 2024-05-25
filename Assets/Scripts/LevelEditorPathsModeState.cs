@@ -177,10 +177,10 @@ public class LevelEditorPathsModeState : StateMachineState {
     [Command]
     public static void CreateNewPath(string name) {
         var game = Game.Instance;
-        var level = game.Level;
+        var level = game.TryGetLevel;
         Assert.IsTrue(!level.paths.Exists(path => path.name == name), $"Path with name {name} already exists");
         var newPath = new Level.Path { name = name };
-        newPath.list.AddFirst(game.Level.view.cameraRig.transform.position.ToVector2Int());
+        newPath.list.AddFirst(game.TryGetLevel.view.cameraRig.transform.position.ToVector2Int());
         
         var pathsMode = game.stateMachine.TryFind<LevelEditorPathsModeState>();
         level.paths.Add(newPath);
@@ -193,7 +193,7 @@ public class LevelEditorPathsModeState : StateMachineState {
     [Command]
     public static void MoveUnitAlongPath(string pathName) {
         var game = Game.Instance;
-        var level = game.Level;
+        var level = game.TryGetLevel;
         var path = level.paths.Find(p => p.name == pathName);
         Assert.IsNotNull(path, $"Path with name {pathName} not found");
         var found = level.TryGetUnit(path.list.First.Value, out var unit);

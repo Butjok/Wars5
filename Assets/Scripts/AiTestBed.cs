@@ -9,7 +9,7 @@ public class AiTestBed : MonoBehaviour {
     public Camera camera;
 
     public Unit selectedUnit;
-    public UnitGoal selectedGoal;
+    public UnitState selectedState;
 
     public void Update() {
         using (Draw.ingame.WithLineWidth(1.75f)) {
@@ -20,7 +20,7 @@ public class AiTestBed : MonoBehaviour {
 
             if (selectedUnit != null && (!selectedUnit.Initialized || selectedUnit.Player.level != level)) {
                 selectedUnit = null;
-                selectedGoal = null;
+                selectedState = null;
             }
 
             if (camera.TryGetMousePosition(out Vector2Int mousePosition)) {
@@ -28,21 +28,21 @@ public class AiTestBed : MonoBehaviour {
                 if (Input.GetKeyDown(KeyCode.I)) {
                     if (level.TryGetUnit(mousePosition, out var unit)) {
                         selectedUnit = unit;
-                        selectedGoal = unit.goals.Count > 0 ? unit.goals.Peek() : null;
+                        selectedState = unit.states.Count > 0 ? unit.states.Peek() : null;
                     }
                     else {
                         selectedUnit = null;
-                        selectedGoal = null;
+                        selectedState = null;
                     }
                 }
             }
 
             if (selectedUnit != null) {
                 if (Input.GetKeyDown(KeyCode.O)) {
-                    var list = selectedUnit.goals.ToList();
-                    var index = list.IndexOf(selectedGoal);
+                    var list = selectedUnit.states.ToList();
+                    var index = list.IndexOf(selectedState);
                     var nextIndex = (index + 1) % list.Count;
-                    selectedGoal = list[nextIndex];
+                    selectedState = list[nextIndex];
                 }
                 if (selectedUnit.Position is { } actualPosition)
                     Draw.ingame.CircleXZ(actualPosition.Raycasted(), .5f, Color.white);
@@ -50,7 +50,7 @@ public class AiTestBed : MonoBehaviour {
 
             var units = selectedUnit != null ? new[] { selectedUnit } : level.Units;
             foreach (var unit in units)
-            foreach (var goal in unit.goals) {
+            foreach (var goal in unit.states) {
                 var text = goal.GetType().ToString();
                 if (text.EndsWith("Goal"))
                     text = text[..^4];
@@ -58,7 +58,7 @@ public class AiTestBed : MonoBehaviour {
                     text = text[4..];
 
                 Color color;
-                var fade = goal == selectedGoal ? Color.white : new Color(1, 1, 1, .25f);
+                var fade = goal == selectedState ? Color.white : new Color(1, 1, 1, .25f);
 
                 void DrawLine(Vector2Int from, Vector2Int to) {
                     Draw.ingame.Line(from.Raycasted(), to.Raycasted(), color * fade);
@@ -73,7 +73,7 @@ public class AiTestBed : MonoBehaviour {
                 }
 
                 switch (goal) {
-                    case UnitMoveGoal moveGoal: {
+                    case UnitMoveState moveGoal: {
                         color = Color.green;
                         var movePosition = moveGoal.position;
                         DrawCircle(movePosition);
@@ -83,7 +83,7 @@ public class AiTestBed : MonoBehaviour {
                         break;
                     }
 
-                    case UnitKillGoal killGoal: {
+                    case UnitKillState killGoal: {
                         color = Color.red;
                         var target = killGoal.target;
                         if (target.Initialized && target.Position is { } targetPosition) {
@@ -95,7 +95,7 @@ public class AiTestBed : MonoBehaviour {
                         break;
                     }
 
-                    case UnitCaptureGoal captureGoal: {
+                    case UnitCaptureState captureGoal: {
                         color = Color.cyan;
                         var buildingPosition = captureGoal.building.position;
                         DrawCircle(buildingPosition);
@@ -105,7 +105,7 @@ public class AiTestBed : MonoBehaviour {
                         break;
                     }
 
-                    case UnitTransferGoal transferGoal: {
+                    case UnitTransferState transferGoal: {
                         color = Color.blue;
                         var pickUpUnit = transferGoal.pickUpUnit;
                         var dropPosition = transferGoal.dropPosition;
@@ -121,6 +121,18 @@ public class AiTestBed : MonoBehaviour {
                         }
                         break;
                     }
+
+                    /*case UnitHealState healState: {
+                        color = Color.magenta;
+                        var target = healState;
+                        if (target.Initialized && target.Position is { } targetPosition) {
+                            DrawCircle(targetPosition);
+                            DrawLabel(targetPosition, text);
+                            if (unit.Position is { } unitPosition)
+                                DrawLine(unitPosition, targetPosition);
+                        }
+                        break;
+                    }*/
                 }
             }
         }
@@ -131,9 +143,9 @@ public class AiTestBed : MonoBehaviour {
             return;
         GUI.skin = DefaultGuiSkin.TryGet;
         GUILayout.Space(175);
-        foreach (var state in selectedUnit.goals) {
+        foreach (var state in selectedUnit.states) {
             var text = state.ToString();
-            GUILayout.Label(selectedGoal == state ? $"<b>{text}</b>" : text);
+            GUILayout.Label(selectedState == state ? $"<b>{text}</b>" : text);
             GUILayout.Space(DefaultGuiSkin.defaultSpacingSize);
         }
     }
@@ -141,19 +153,18 @@ public class AiTestBed : MonoBehaviour {
     [Command]
     public void PushMoveGoal() {
         if (selectedUnit != null && camera.TryGetMousePosition(out Vector2Int mousePosition)) {
-            var goal = new UnitMoveGoal { unit = selectedUnit, position = mousePosition };
-            selectedUnit.goals.Push(goal);
-            selectedGoal = goal;
+            var goal = new UnitMoveState { unit = selectedUnit, position = mousePosition };
+            selectedUnit.states.Push(goal);
+            selectedState = goal;
         }
     }
 
     [Command]
     public void ClearGoals() {
         if (selectedUnit != null) {
-            if (selectedUnit.goals.Contains(selectedGoal))
-                selectedGoal = null;
-            selectedUnit.goals.Clear();
-            selectedUnit.goals.Push(new UnitIdleGoal { unit = selectedUnit });
+            if (selectedUnit.states.Contains(selectedState))
+                selectedState = null;
+            selectedUnit.states.Clear();
         }
     }
 
@@ -161,9 +172,9 @@ public class AiTestBed : MonoBehaviour {
     public void PushKillGoal() {
         if (selectedUnit != null && camera.TryGetMousePosition(out Vector2Int mousePosition) &&
             selectedUnit.Player.level.TryGetUnit(mousePosition, out var target) && Rules.AreEnemies(selectedUnit.Player, target.Player)) {
-            var goal = new UnitKillGoal { unit = selectedUnit, target = target };
-            selectedUnit.goals.Push(goal);
-            selectedGoal = goal;
+            var goal = new UnitKillState { unit = selectedUnit, target = target };
+            selectedUnit.states.Push(goal);
+            selectedState = goal;
         }
     }
 
@@ -171,10 +182,18 @@ public class AiTestBed : MonoBehaviour {
     public void PushCaptureGoal() {
         if (selectedUnit != null && camera.TryGetMousePosition(out Vector2Int mousePosition) &&
             selectedUnit.Player.level.TryGetBuilding(mousePosition, out var building) && Rules.CanCapture(selectedUnit.type, building.type)) {
-            var goal = new UnitCaptureGoal { unit = selectedUnit, building = building };
-            selectedUnit.goals.Push(goal);
-            selectedGoal = goal;
+            var goal = new UnitCaptureState { unit = selectedUnit, building = building };
+            selectedUnit.states.Push(goal);
+            selectedState = goal;
         }
+    }
+
+    [Command]
+    public void ClearUnitStates() {
+        var level = Game.Instance.TryGetLevel;
+        if (level != null)
+            foreach (var unit in level.Units)
+                unit.states.Clear();
     }
 
     [Command]
@@ -208,7 +227,7 @@ public class AiTestBed : MonoBehaviour {
                 selectedUnit.Player.level.TryGetTile(mousePosition, out var tileType) &&
                 Rules.CanStay(pickUpUnit, tileType) &&
                 Input.GetKeyDown(KeyCode.P)) {
-                selectedUnit.goals.Push(new UnitTransferGoal {
+                selectedUnit.states.Push(new UnitTransferState {
                     unit = selectedUnit,
                     pickUpUnit = pickUpUnit,
                     dropPosition = mousePosition

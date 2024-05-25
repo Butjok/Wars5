@@ -64,7 +64,7 @@ public class BorderScenario2 : MonoBehaviour {
     }
 
     public IEnumerator Animation() {
-        var level = game.Level;
+        var level = game.TryGetLevel;
         var bluePlayer = level.FindPlayer(ColorName.Blue);
 
         foreach (var player in level.players)
@@ -225,7 +225,7 @@ public class BorderScenario2 : MonoBehaviour {
 
     public IEnumerator Attack(LinkedList<Vector2Int> waypoints) {
         
-        var level = game.Level;
+        var level = game.TryGetLevel;
         Assert.IsTrue(level.TryGetUnit(waypoints.First.Value, out var attacker));
         Assert.IsTrue(level.TryGetUnit(waypoints.Last.Value, out var target));
 
@@ -329,7 +329,7 @@ public class BorderScenario2 : MonoBehaviour {
         if (waypoints.Count == 0)
             yield break;
         var position = waypoints[0];
-        var found = game.Level.TryGetUnit(position, out var unit);
+        var found = game.TryGetLevel.TryGetUnit(position, out var unit);
         Assert.IsTrue(found, $"Unit not found at {position}");
         var unitView = unit.view;
         Assert.IsTrue(unitView);

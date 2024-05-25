@@ -38,7 +38,7 @@ public class BorderIncidentScenario : MonoBehaviour {
     public IEnumerator Animation() {
         var game = Game.Instance;
         var stateMachine = game.stateMachine;
-        var level = game.Level;
+        var level = game.TryGetLevel;
         var levelView = level.view;
         var cameraRig = levelView.cameraRig;
         var bluePlayer = level.players.Single(p => p.ColorName == ColorName.Blue);

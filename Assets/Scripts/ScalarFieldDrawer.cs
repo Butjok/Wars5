@@ -32,7 +32,7 @@ public class ScalarFieldDrawer : MonoBehaviour {
 
     public static IEnumerator DrawEnumerator(ScalarField field) {
 
-        var level = Game.Instance.Level;
+        var level = Game.Instance.TryGetLevel;
         Instance.field = field;
         var ramp = Resources.Load<Texture2D>(Instance.colorScheme);
 

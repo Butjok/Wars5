@@ -19,8 +19,8 @@ public class InfluenceMapDrawer : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Backspace))
             draw = !draw;
 
-        if (draw && Game.Instance) {
-            var level = Game.Instance.Level;
+        if (draw && Game.Instance && Game.Instance.TryGetLevel != null) {
+            var level = Game.Instance.TryGetLevel;
 
             const int range = 25;
 

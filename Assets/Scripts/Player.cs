@@ -38,7 +38,8 @@ public class Player : IDisposable {
     public Vector2Int uiPosition;
     [DontSave] public Zone rootZone;
     [DontSave] public PlayerView2 view;
-    [DontSave] public AiPlayerController aiController;
+    [DontSave] public UnitBrainController unitBrainController;
+    [DontSave] public OrderGenerator orderGenerator;
 
     private ColorName colorName;
     [DontSave] public ColorName ColorName {
@@ -107,8 +108,8 @@ public class Player : IDisposable {
         AbilityMeter = AbilityMeter;
         view.Hide();
 
-        //if (IsAi)
-            aiController = new AiPlayerController { player = this };
+        unitBrainController = new UnitBrainController { player = this };
+        orderGenerator = new OrderGenerator(this);
 
         initialized = true;
     }
@@ -125,7 +126,7 @@ public class Player : IDisposable {
             view = null;
         }
         level.players.Remove(this);
-        
+
         initialized = false;
     }
 }
