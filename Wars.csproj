@@ -74,6 +74,7 @@
      <Compile Include="Assets\Scripts\Projectile3View.cs" />
      <Compile Include="Assets\Scripts\Torec\Subdivision\Demo\SubdivisionDemo.cs" />
      <Compile Include="Assets\Scripts\WhiteBoxSwitcher.cs" />
+     <Compile Include="Assets\Scripts\GameStates\LoadMap.cs" />
      <Compile Include="Assets\Scripts\CameraFader.cs" />
      <Compile Include="Assets\Scripts\SavedGameListView.cs" />
      <Compile Include="Assets\Scripts\Torec\Subdivision\Editor\SubdivisionUtility.cs" />
@@ -145,6 +146,7 @@
      <Compile Include="Assets\Scripts\VignetteBlur.cs" />
      <Compile Include="Assets\Scripts\GameStates\LevelSessionState.cs" />
      <Compile Include="Assets\Scripts\PrecalculatedDistances.cs" />
+     <Compile Include="Assets\Scripts\GameStates\InfluenceMap.cs" />
      <Compile Include="Assets\Scripts\HardFollowToggler.cs" />
      <Compile Include="Assets\Scripts\Animation\Wind.cs" />
      <Compile Include="Assets\Scripts\Views\UnitBuildMenuButton2.cs" />
@@ -275,6 +277,7 @@
      <Compile Include="Assets\Scripts\UiLineRenderer.cs" />
      <Compile Include="Assets\Scripts\Body2.cs" />
      <Compile Include="Assets\Scripts\ImageStack.cs" />
+     <Compile Include="Assets\Scripts\GameStates\InfluenceMapDrawer.cs" />
      <Compile Include="Assets\Scripts\OffscreenArrow.cs" />
      <Compile Include="Assets\Scripts\TileInfos.cs" />
      <Compile Include="Assets\Scripts\AnimationScript.cs" />

@@ -50,6 +50,7 @@ Shader "Custom/LeavesAreaTinted"
     	_HoleOffset ("_HoleOffset", Vector) = (0,0,0,0)
     	
     	_CutOff ("_CutOff", Float) = 0.5
+    	_MipScale ("Mip Level Alpha Scale", Range(0,1)) = 0.25
     }
     SubShader
     {
@@ -175,11 +176,43 @@ Shader "Custom/LeavesAreaTinted"
 float3 Overlay(float3 bg, float3 fg) {
 	        return bg < 0.5 ? (2.0 * bg * fg) : (1.0 - 2.0 * (1.0 - bg) * (1.0 - fg));
         }
+
+            float4 _MainTex_TexelSize;
+            half _MipScale;
+
+float CalcMipLevel(float2 texture_coord)
+            {
+                float2 dx = ddx(texture_coord);
+                float2 dy = ddy(texture_coord);
+                float delta_max_sqr = max(dot(dx, dx), dot(dy, dy));
+                
+                return max(0.0, 0.5 * log2(delta_max_sqr));
+            }
             
             void surf (Input IN, inout SurfaceOutputStandard o)
             {
                 half4 c = tex2D (_MainTex, IN.uv_MainTex);
-                clip(c.a-_CutOff);
+
+
+
+				// https://bgolus.medium.com/anti-aliased-alpha-test-the-esoteric-alpha-to-coverage-8b177335ae4f
+
+//                c.a *= 1 + max(0, CalcMipLevel(IN.uv_MainTex * _MainTex_TexelSize.zw)) * _MipScale;
+                // rescale alpha by partial derivative
+                c.a = (c.a - _CutOff) / max(fwidth(c.a), 0.0001) + 0.5;
+	
+                clip(c.a);
+
+				//clip(c.a-.5);
+
+
+
+
+
+
+
+
+	
 
                 //half inputOcclusion = tex2D (_Occlusion, IN.uv_MainTex).r;
                 
