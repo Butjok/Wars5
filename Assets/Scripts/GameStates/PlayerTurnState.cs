@@ -70,11 +70,11 @@ public class PlayerTurnState : StateMachineState {
 
             foreach (var building in buildings)
                 if (Level.TryGetUnit(building.position, out var unit) && Rules.CanRepair(building, unit)) {
-                    if (Level.CurrentPlayer == Level.localPlayer) {
+                    /*if (Level.CurrentPlayer == Level.localPlayer) {
                         var jumpCompleted = Level.view.cameraRig.Jump(unit.view.body.position);
                         while (!jumpCompleted())
                             yield return StateChange.none;
-                    }
+                    }*/
 
                     unit.SetHp(unit.Hp + Rules.RepairAmount(building));
                 }

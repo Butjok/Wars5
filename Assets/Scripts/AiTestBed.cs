@@ -12,7 +12,7 @@ public class AiTestBed : MonoBehaviour {
     public UnitState selectedState;
 
     public void Update() {
-        using (Draw.ingame.WithLineWidth(1.75f)) {
+        using (Draw.ingame.WithLineWidth(1f)) {
             var game = Game.Instance;
             var level = game.stateMachine.TryFind<LevelSessionState>()?.level ?? game.stateMachine.TryFind<LevelEditorSessionState>()?.level;
             if (level == null)
@@ -59,7 +59,7 @@ public class AiTestBed : MonoBehaviour {
                 text += $"\n{state.DaysLeft}";
 
                 Color color;
-                var fade = state == selectedState ? Color.white : new Color(1, 1, 1, .25f);
+                var fade = state == selectedState ? new Color(1, 1, 1, 1) : new Color(1, 1, 1, .125f);
 
                 void DrawLine(Vector2Int from, Vector2Int to) {
                     Draw.ingame.Line(from.Raycasted(), to.Raycasted(), color * fade);
