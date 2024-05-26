@@ -31,7 +31,9 @@ public class InfluenceMapDrawer : MonoBehaviour {
         }
 
         if (draw && Game.Instance && Game.Instance.TryGetLevel != null) {
-            DrawField(ArtilleryPreference);
+            var player = Game.Instance.TryGetLevel.CurrentPlayer;
+            if (player != null)
+                DrawField(ArtilleryPreference(player));
             return;
         }
     }
@@ -69,59 +71,58 @@ public class InfluenceMapDrawer : MonoBehaviour {
         return map;
     }
 
-    public static ScalarField ArtilleryPreference {
-        get {
-            var level = Game.Instance.TryGetLevel;
+    public static ScalarField ArtilleryPreference(Player player) {
+        var level = player.level;
 
-            var redMap = UnitInfluence(ColorName.Red, level);
-            var blueMap = UnitInfluence(ColorName.Blue, level);
+        var enemy = level.players.Single(p => Rules.AreEnemies(player, p));
+        var ourInfluence = UnitInfluence(player);
+        var enemyInfluence = UnitInfluence(enemy);
 
-            var blueMapNormalized = new ScalarField(blueMap);
-            TryNormalize(blueMapNormalized);
+        var blueMapNormalized = new ScalarField(enemyInfluence);
+        TryNormalize(blueMapNormalized);
 
-            var tension = redMap.Keys.ToDictionary(position => position, position => (blueMap[position] * redMap[position]));
-            var presence = redMap.Keys.ToDictionary(position => position, position => (blueMap[position] - redMap[position]));
-            TryNormalize(presence);
+        var tension = ourInfluence.Keys.ToDictionary(position => position, position => (enemyInfluence[position] * ourInfluence[position]));
+        var presence = ourInfluence.Keys.ToDictionary(position => position, position => (enemyInfluence[position] - ourInfluence[position]));
+        TryNormalize(presence);
 
-            var keys = redMap.Keys.ToList();
-            {
-                var presenceGradient = GradientMap(presence);
-                var confrontation = presenceGradient.Keys.ToDictionary(position => position, position => presenceGradient[position] * tension[position]);
-                //DrawVectorField(flow);
-                var confrontationMagnitude = confrontation.Keys.ToDictionary(position => position, position => confrontation[position].magnitude);
-                TryNormalize(confrontationMagnitude);
+        var keys = ourInfluence.Keys.ToList();
+        {
+            var presenceGradient = GradientMap(presence);
+            var confrontation = presenceGradient.Keys.ToDictionary(position => position, position => presenceGradient[position] * tension[position]);
+            //DrawVectorField(flow);
+            var confrontationMagnitude = confrontation.Keys.ToDictionary(position => position, position => confrontation[position].magnitude);
+            TryNormalize(confrontationMagnitude);
 
-                if (confrontationMagnitude.Count > 0) {
-                    var dangerZoneProximity = confrontationMagnitude.Keys.ToDictionary(position => position, _ => 0f);
-                    foreach (var seed in confrontationMagnitude.Keys) {
-                        var spreadRange = 6;
-                        foreach (var position in level.PositionsInRange(seed, new Vector2Int(0, spreadRange))) {
-                            var distance = (position - seed).ManhattanLength();
-                            var spread = confrontationMagnitude[seed] * Mathf.Pow(1 - (float)distance / spreadRange, 1);
-                            dangerZoneProximity[position] += spread;
-                        }
+            if (confrontationMagnitude.Count > 0) {
+                var dangerZoneProximity = confrontationMagnitude.Keys.ToDictionary(position => position, _ => 0f);
+                foreach (var seed in confrontationMagnitude.Keys) {
+                    var spreadRange = 6;
+                    foreach (var position in level.PositionsInRange(seed, new Vector2Int(0, spreadRange))) {
+                        var distance = (position - seed).ManhattanLength();
+                        var spread = confrontationMagnitude[seed] * Mathf.Pow(1 - (float)distance / spreadRange, 1);
+                        dangerZoneProximity[position] += spread;
                     }
-                    TryNormalize(dangerZoneProximity);
-
-                    var dangerZoneProximityNarrow = confrontationMagnitude.Keys.ToDictionary(position => position, _ => 0f);
-                    foreach (var seed in confrontationMagnitude.Keys) {
-                        var spreadRange = 3;
-                        foreach (var position in level.PositionsInRange(seed, new Vector2Int(0, spreadRange))) {
-                            var distance = (position - seed).ManhattanLength();
-                            var spread = confrontationMagnitude[seed] * Mathf.Pow(1 - (float)distance / spreadRange, 1);
-                            dangerZoneProximityNarrow[position] += spread;
-                        }
-                    }
-                    TryNormalize(dangerZoneProximityNarrow);
-
-                    return keys.ToDictionary(position => position, position => {
-                        var redDominance = 1 - MathUtils.SmoothStep(0, .5f, presence[position]);
-                        return dangerZoneProximity[position] * Mathf.Pow(1 - dangerZoneProximityNarrow[position], 1f) * redDominance;
-                    });
                 }
+                TryNormalize(dangerZoneProximity);
+
+                var dangerZoneProximityNarrow = confrontationMagnitude.Keys.ToDictionary(position => position, _ => 0f);
+                foreach (var seed in confrontationMagnitude.Keys) {
+                    var spreadRange = 3;
+                    foreach (var position in level.PositionsInRange(seed, new Vector2Int(0, spreadRange))) {
+                        var distance = (position - seed).ManhattanLength();
+                        var spread = confrontationMagnitude[seed] * Mathf.Pow(1 - (float)distance / spreadRange, 1);
+                        dangerZoneProximityNarrow[position] += spread;
+                    }
+                }
+                TryNormalize(dangerZoneProximityNarrow);
+
+                return keys.ToDictionary(position => position, position => {
+                    var redDominance = 1 - MathUtils.SmoothStep(0, .5f, presence[position]);
+                    return dangerZoneProximity[position] * Mathf.Pow(1 - dangerZoneProximityNarrow[position], 1f) * redDominance;
+                });
             }
-            return null;
         }
+        return null;
     }
 
     public static void DrawField(VectorField vectorField) {

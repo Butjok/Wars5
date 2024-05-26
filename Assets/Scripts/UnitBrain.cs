@@ -323,7 +323,7 @@ public class UnitMoveState : UnitState {
             if (unit.Moved)
                 return DoNothing();
 
-            if (unit.type == UnitType.Artillery) {
+            if (Rules.IsIndirect(unit)) {
                 
                 if (unit.Hp <= 2) {
                     unit.states.Push(new UnitHealState {
@@ -332,11 +332,27 @@ public class UnitMoveState : UnitState {
                     });
                     return requestOneMoreIteration;
                 }
+
+                var weaponName = unit.type switch {
+                    UnitType.Artillery => WeaponName.Cannon,
+                    UnitType.Rockets => WeaponName.RocketLauncher,
+                    _ => throw new ArgumentOutOfRangeException()
+                };
+                
+                if (Rules.TryGetAttackRange(unit, out var range)) {
+                    var level = unit.Player.level;
+                    var attackPositions = level.PositionsInRange(unit.NonNullPosition, range);
+                    foreach (var position in attackPositions) {
+                        if (level.TryGetUnit(position, out var other) &&
+                            Rules.CanAttack(unit, unit.NonNullPosition, false, other, other.NonNullPosition, weaponName))
+                            return new UnitBrainAction(this, UnitActionType.Attack, unit, new[] { unit.NonNullPosition }, other, weaponName: weaponName);
+                    }
+                }
                 
                 var enemyPlayer = unit.Player.level.players.Single(p => Rules.AreEnemies(unit.Player, p));
                 var influenceMap = InfluenceMapDrawer.UnitInfluence(unit.Player);
                 var enemyInfluenceMap = InfluenceMapDrawer.UnitInfluence(enemyPlayer);
-                var artilleryPreferenceMap = InfluenceMapDrawer.ArtilleryPreference;
+                var artilleryPreferenceMap = InfluenceMapDrawer.ArtilleryPreference(unit.Player);
                 if (influenceMap.TryGetValue(unit.NonNullPosition, out var influence) &&
                     enemyInfluenceMap.TryGetValue(unit.NonNullPosition, out var enemyInfluence) &&
                     artilleryPreferenceMap.TryGetValue(unit.NonNullPosition, out var artilleryPreference) &&
@@ -346,15 +362,6 @@ public class UnitMoveState : UnitState {
                 if (enemyInfluenceMap.TryGetValue(unit.NonNullPosition, out enemyInfluence) &&
                     enemyInfluence == 0 && unit.NonNullPosition == position)
                     return Pop();
-                if (Rules.TryGetAttackRange(unit, out var range)) {
-                    var level = unit.Player.level;
-                    var attackPositions = level.PositionsInRange(unit.NonNullPosition, range);
-                    foreach (var position in attackPositions) {
-                        if (level.TryGetUnit(position, out var other) &&
-                            Rules.CanAttack(unit, unit.NonNullPosition, false, other, other.NonNullPosition, WeaponName.Cannon))
-                            return new UnitBrainAction(this, UnitActionType.Attack, unit, new[] { unit.NonNullPosition }, other, weaponName: WeaponName.Cannon);
-                    }
-                }
             }
             else {
                 if (unit.NonNullPosition == position)
@@ -477,7 +484,7 @@ public class UnitBrainController {
 
         // score orders by their "value"
 
-        var artilleryPreference = InfluenceMapDrawer.ArtilleryPreference;
+        var artilleryPreference = InfluenceMapDrawer.ArtilleryPreference(player);
 
         for (var i = 0; i < orders.Count; i++) {
             var order = orders[i];
