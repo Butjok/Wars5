@@ -142,13 +142,9 @@ public class Unit : IDisposable {
     public Vector2Int? lookDirection;
 
     private Dictionary<WeaponName, int> ammo = new();
+    [DontSave] public IReadOnlyDictionary<WeaponName, int> Ammo => ammo;
 
     public void SetAmmo(WeaponName weaponName, int value) {
-        var found = ammo.TryGetValue(weaponName, out var amount);
-        Assert.IsTrue(found, weaponName.ToString());
-
-        if (Initialized && amount == value)
-            return;
         ammo[weaponName] = Clamp(value, 0, Initialized ? MaxAmmo(this, weaponName) : MaxAmmo(type, weaponName));
 
         // complete later
@@ -207,12 +203,9 @@ public class Unit : IDisposable {
         else
             view.Visible = false;
 
-        foreach (var weaponName in GetWeaponNames(type)) {
-            if (!ammo.ContainsKey(weaponName)) {
-                ammo.Add(weaponName, 0);
+        foreach (var weaponName in GetWeaponNames(type))
+            if (!ammo.ContainsKey(weaponName))
                 SetAmmo(weaponName, int.MaxValue);
-            }
-        }
 
         brain = new UnitBrain(this);
 

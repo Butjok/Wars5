@@ -67,7 +67,7 @@ public abstract class UnitState {
             if (level.TryGetUnit(p, out var other) && Rules.AreEnemies(unit.Player, other.Player))
                 yield return other;
     }
-    public IEnumerable<Unit> UnitsAlreadyTargeted {
+    [DontSave] public IEnumerable<Unit> UnitsAlreadyTargeted {
         get {
             foreach (var state in unit.states)
                 if (state is UnitKillState killState)

@@ -59,14 +59,19 @@ public class LevelEditorUnitsModeState : StateMachineState {
                 GUILayout.Label($"Level editor > Units [{player} {unitType}]");
                 if (inspectedUnit != null) {
                     GUILayout.Space(DefaultGuiSkin.defaultSpacingSize);
-                    GUILayout.Label($"  Type: {inspectedUnit.type}");
-                    GUILayout.Label($"  Player: {inspectedUnit.Player}");
-                    GUILayout.Label($"  Position: {inspectedUnit.Position}");
-                    GUILayout.Label($"  Moved: {inspectedUnit.Moved}");
-                    GUILayout.Label($"  Hp: {inspectedUnit.Hp} / {Rules.MaxHp(inspectedUnit)}");
-                    GUILayout.Label($"  Move capacity: {Rules.MoveCapacity(inspectedUnit)}");
+                    //GUILayout.Label($"  Type: {inspectedUnit.type}");
+                    //GUILayout.Label($"  Player: {inspectedUnit.Player}");
+                    //GUILayout.Label($"  Position: {inspectedUnit.Position}");
+                    //GUILayout.Label($"  Moved: {inspectedUnit.Moved}");
+                    //GUILayout.Label($"  Hp: {inspectedUnit.Hp} / {Rules.MaxHp(inspectedUnit)}");
+                    //GUILayout.Label($"  Move capacity: {Rules.MoveCapacity(inspectedUnit)}");
                     GUILayout.Label($"  Fuel: {inspectedUnit.Fuel} / {Rules.MaxFuel(inspectedUnit)}");
-                    GUILayout.Label($"  Brain states: {(inspectedUnit.brain.states.Count == 0 ? "-" : string.Join(" / ", inspectedUnit.brain.states.Reverse().Select(state => state.ToString())))}");
+                    //GUILayout.Label($"  Brain states: {(inspectedUnit.brain.states.Count == 0 ? "-" : string.Join(" / ", inspectedUnit.brain.states.Reverse().Select(state => state.ToString())))}");
+                    if (inspectedUnit.Ammo.Count>0) {
+                        GUILayout.Label($"  Ammo:");
+                        foreach (var (weapon, ammo) in inspectedUnit.Ammo)
+                            GUILayout.Label($"    {weapon}: {ammo}");
+                    }
                 }
             });
 
