@@ -134,6 +134,8 @@ Shader "Custom/rough"
             	hsv.z *= _SeaHSVTweak.z;
             	o.Albedo = lerp(o.Albedo, HSVtoRGB(hsv), sea);
             }
+
+        	o.Albedo *= _Color;
         	
         }
         ENDCG

@@ -45,7 +45,7 @@ public static class ScalarFieldUtilities {
         return t => !predicate(t);
     }
 
-    public static bool HaveSameDomain(ScalarField a, ScalarField b) {
+    public static bool HaveSameDomain(ScalarField2 a, ScalarField2 b) {
         return !a.Domain.Except(b.Domain).Any() && !b.Domain.Except(a.Domain).Any();
     }
 }

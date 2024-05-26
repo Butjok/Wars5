@@ -149,8 +149,7 @@ public class PathFinder {
             while (queue.TryDequeue(out var position) && tiles.TryGetValue(position, out var current) && current.restPathCost < infinity) {
                 // we can relax neighbor tiles only from:
                 // 1) the destinations of the short path (it is like making a new move from those positions)
-                // 2) from the positions of rest path
-                // basically this disallows to relax tiles occupied by friendly units from tiles in a short path destinations
+                // 2) from the positions of rest path, it is like we continue to move infinitely
 
                 if (current.shortPathBacktracePosition == null || validShortPathDestinations.Contains(position))
                     foreach (var offset in Rules.gridOffsets) {

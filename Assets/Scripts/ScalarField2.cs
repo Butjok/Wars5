@@ -7,10 +7,10 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using static PathFinder;
 
-public class ScalarField {
+public class ScalarField2 {
     private readonly HashSet<Vector2Int> domain;
     private readonly Func<Vector2Int, float> function;
-    public ScalarField(IEnumerable<Vector2Int> domain, Func<Vector2Int, float> function) {
+    public ScalarField2(IEnumerable<Vector2Int> domain, Func<Vector2Int, float> function) {
         this.domain = domain.ToHashSet();
         this.function = function;
     }
@@ -24,13 +24,13 @@ public class ScalarField {
 }
 
 public static class OcclusionField {
-    public static ScalarField Calculate(Dictionary<Vector2Int, TileType> tiles, ScalarField radiusField, Func<Vector2Int, bool> isObstacle) {
+    public static ScalarField2 Calculate(Dictionary<Vector2Int, TileType> tiles, ScalarField2 radiusField2, Func<Vector2Int, bool> isObstacle) {
         var values = new Dictionary<Vector2Int, int>();
         foreach (var seed in tiles.Keys)
             if (isObstacle(seed))
                 values[seed] = 0;
             else {
-                var radius = Mathf.RoundToInt(radiusField[seed]);
+                var radius = Mathf.RoundToInt(radiusField2[seed]);
                 var area = seed.GrownBy(radius).Intersect(tiles.Keys).ToHashSet();
                 var closed = new HashSet<Vector2Int> { seed };
                 var queue = new Queue<Vector2Int>();
@@ -42,13 +42,13 @@ public static class OcclusionField {
                     }
                 values[seed] = closed.Count;
             }
-        return new ScalarField(values.Keys, position => values[position]);
+        return new ScalarField2(values.Keys, position => values[position]);
     }
 }
 
 public static class ScalarFieldCalculator {
 
-    public static ScalarField Evaluate(string input, Game game, int level = 0, Stack stack = null, Unit ignoredUnit = null) {
+    public static ScalarField2 Evaluate(string input, Game game, int level = 0, Stack stack = null, Unit ignoredUnit = null) {
 
         stack ??= new Stack();
 
@@ -60,17 +60,17 @@ public static class ScalarFieldCalculator {
             switch (token) {
 
                 case "norm": {
-                    var field = (ScalarField)stack.Pop();
+                    var field = (ScalarField2)stack.Pop();
                     Assert.IsTrue(field.Domain.Count > 0);
                     var min = field.Domain.Min(position => field[position]);
                     var max = field.Domain.Max(position => field[position]);
-                    stack.Push(new ScalarField(field.Domain, position => (field[position] - min) / (max - min)));
+                    stack.Push(new ScalarField2(field.Domain, position => (field[position] - min) / (max - min)));
                     break;
                 }
 
                 case "gradient": {
-                    var field = (ScalarField)stack.Pop();
-                    stack.Push(new ScalarField(field.Domain, p => {
+                    var field = (ScalarField2)stack.Pop();
+                    stack.Push(new ScalarField2(field.Domain, p => {
                         float A(int nx, int ny) {
                             var n = new Vector2Int(nx, ny);
                             return field.Domain.Contains(n) ? field[n] : A(p.x, p.y);
@@ -91,7 +91,7 @@ public static class ScalarFieldCalculator {
                         position => units.Sum(unit => UnitStats.Loaded.TryGetValue(unit.type, out var stats) && game.TryGetLevel.precalculatedDistances != null && game.TryGetLevel.precalculatedDistances.TryGetValue((stats.moveType, unit.NonNullPosition, position), out var distance)
                             ? Mathf.Max(0, Rules.MoveCapacity(unit) + 1 - distance)
                             : 0));
-                    stack.Push(new ScalarField(influences.Keys, position => influences[position]));
+                    stack.Push(new ScalarField2(influences.Keys, position => influences[position]));
                     break;
                 }
 
@@ -105,13 +105,13 @@ public static class ScalarFieldCalculator {
                         position => units.Aggregate(infinity, (current, unit) => game.TryGetLevel.precalculatedDistances.TryGetValue((moveType, position, unit.NonNullPosition), out var distance)
                             ? Mathf.Min(current, distance)
                             : current));
-                    stack.Push(new ScalarField(distances.Keys.Where(position => distances[position] != infinity), position => distances[position]));
+                    stack.Push(new ScalarField2(distances.Keys.Where(position => distances[position] != infinity), position => distances[position]));
                     break;
                 }
 
                 case "round" or "abs" or "sqrt": {
-                    var field = (ScalarField)stack.Pop();
-                    stack.Push(new ScalarField(field.Domain, token switch {
+                    var field = (ScalarField2)stack.Pop();
+                    stack.Push(new ScalarField2(field.Domain, token switch {
                         "round" => position => Mathf.Round(field[position]),
                         "abs" => position => Mathf.Abs(field[position]),
                         "sqrt" => position => Mathf.Sqrt(field[position]),
@@ -121,9 +121,9 @@ public static class ScalarFieldCalculator {
                 }
 
                 case "+" or "-" or "*" or "/" or "min" or "max": {
-                    var b = (ScalarField)stack.Pop();
-                    var a = (ScalarField)stack.Pop();
-                    stack.Push(new ScalarField(a.Domain.Intersect(b.Domain), token switch {
+                    var b = (ScalarField2)stack.Pop();
+                    var a = (ScalarField2)stack.Pop();
+                    stack.Push(new ScalarField2(a.Domain.Intersect(b.Domain), token switch {
                         "+" => position => a[position] + b[position],
                         "-" => position => a[position] - b[position],
                         "*" => position => a[position] * b[position],
@@ -144,9 +144,9 @@ public static class ScalarFieldCalculator {
 
                     var max = (dynamic)stack.Pop();
                     var min = (dynamic)stack.Pop();
-                    var field = (ScalarField)stack.Pop();
+                    var field = (ScalarField2)stack.Pop();
 
-                    stack.Push(new ScalarField(field.Domain, position => {
+                    stack.Push(new ScalarField2(field.Domain, position => {
                         var t = (field[position] - min[position]) / (max[position] - min[position]);
                         return SmoothStep(t);
                     }));
@@ -160,7 +160,7 @@ public static class ScalarFieldCalculator {
                 }
 
                 case "occl": {
-                    var radiusField = (ScalarField)stack.Pop();
+                    var radiusField = (ScalarField2)stack.Pop();
                     stack.Push(OcclusionField.Calculate(tiles, radiusField, position => tiles[position] is TileType.Sea or TileType.Mountain));
                     break;
                 }
@@ -176,11 +176,11 @@ public static class ScalarFieldCalculator {
                 default:
                     if (int.TryParse(token, NumberStyles.Any, CultureInfo.InvariantCulture, out var integer)) {
                         var result = integer;
-                        stack.Push(new ScalarField(tiles.Keys, _ => result));
+                        stack.Push(new ScalarField2(tiles.Keys, _ => result));
                     }
                     else if (float.TryParse(token, NumberStyles.Any, CultureInfo.InvariantCulture, out var real)) {
                         var result = real;
-                        stack.Push(new ScalarField(tiles.Keys, _ => result));
+                        stack.Push(new ScalarField2(tiles.Keys, _ => result));
                     }
                     else
                         stack.ExecuteToken(token);
@@ -190,7 +190,7 @@ public static class ScalarFieldCalculator {
 
         if (level == 0) {
             Assert.IsTrue(stack.Count == 1);
-            return (ScalarField)stack.Pop();
+            return (ScalarField2)stack.Pop();
         }
         return null;
     }

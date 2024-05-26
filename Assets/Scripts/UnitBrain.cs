@@ -2,10 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using DG.Tweening.Plugins.Core.PathCore;
 using Drawing;
 using SaveGame;
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -206,16 +204,6 @@ public class UnitHealState : UnitState {
 
             Assert.IsTrue(building != null);
 
-            /*using (Draw.ingame.WithDuration(10))
-                foreach (var position in pathFinder.tiles.Keys) {
-                    var position3d = position.Raycasted();
-                    Draw.ingame.Label3D(position3d, quaternion.identity, $"{pathFinder.tiles[position].g}", .2f, LabelAlignment.Center, Color.black);
-                    var shortCameFrom = pathFinder.tiles[position].shortCameFrom;
-                    if (shortCameFrom.HasValue)
-                        Draw.ingame.Line(position3d, shortCameFrom.Value.Raycasted(), Color.green);
-                    
-                }*/
-
             // if the unit is ready standing on the building, and there is an enemy nearby, attack it
             if (unit.NonNullPosition == building.position && TryAttackNearbyEnemy(out var killGoal))
                 return killGoal;
@@ -373,11 +361,10 @@ public class UnitBrainController {
                 continue;
 
             var pathFinder = new PathFinder(unit);
-            List<Vector2Int> shortPath, restPath;
 
             // add capture orders
             foreach (var building in buildingsToCapture)
-                if (Rules.CanCapture(unit, building) && pathFinder.TryFindPath(out shortPath, out restPath, building.position))
+                if (Rules.CanCapture(unit, building) && pathFinder.TryFindPath(out _, out _, building.position))
                     orders.Add(new Order {
                         type = Order.Type.Capture,
                         unit = unit,
@@ -399,7 +386,7 @@ public class UnitBrainController {
                 };
 
                 foreach (var enemy in enemyUnits)
-                    if (Rules.TryGetDamage(unit.type, enemy.type, weaponName, out _) && pathFinder.TryFindPath(out shortPath, out restPath, enemy.NonNullPosition))
+                    if (Rules.TryGetDamage(unit.type, enemy.type, weaponName, out _) && pathFinder.TryFindPath(out _, out _, enemy.NonNullPosition))
                         orders.Add(new Order {
                             type = Order.Type.Kill,
                             unit = unit,
@@ -410,7 +397,7 @@ public class UnitBrainController {
 
             // add move orders
             foreach (var position in level.tiles.Keys)
-                if (Rules.CanStay(unit, position) && pathFinder.TryFindPath(out shortPath, out restPath, position))
+                if (Rules.CanStay(unit, position) && pathFinder.TryFindPath(out _, out _, position))
                     orders.Add(new Order {
                         type = Order.Type.Move,
                         unit = unit,
@@ -443,24 +430,6 @@ public class UnitBrainController {
 
         // order descending
         orders.Sort((a, b) => -a.score.CompareTo(b.score));
-
-        /*foreach (var order in orders)
-            using (Draw.ingame.WithLineWidth(.5f))
-            using (Draw.ingame.WithDuration(5)) {
-                var color = order.type switch {
-                    Order.Type.Kill => Color.red,
-                    Order.Type.Capture => Color.cyan,
-                    Order.Type.Move => Color.green,
-                    _ => throw new ArgumentOutOfRangeException()
-                };
-                var targetPosition = order.type switch {
-                    Order.Type.Kill => order.targetUnit.NonNullPosition.Raycasted(),
-                    Order.Type.Capture => order.targetBuilding.position.Raycasted(),
-                    Order.Type.Move => order.targetPosition.Raycasted(),
-                    _ => throw new ArgumentOutOfRangeException()
-                };
-                Draw.ingame.Line(order.unit.NonNullPosition.Raycasted(), targetPosition, color);
-            }*/
 
         var assignedUnits = new HashSet<Unit>();
         foreach (var order in orders) {
@@ -501,7 +470,7 @@ public class UnitBrainController {
 
         //
         //
-        // populate all unit actions from their "brain states"
+        // populate all the immediate unit actions from their "brain states"
         //
         //
 
@@ -524,7 +493,7 @@ public class UnitBrainController {
             return;
         }
 
-        const float lowerScore = -99999;
+        const float last = -99999;
 
         foreach (var action in actions) {
             action.ResetOrder();
@@ -540,7 +509,7 @@ public class UnitBrainController {
                 UnitActionType.Stay => -8,
                 UnitActionType.Join => -9,
                 UnitActionType.Supply => -10,
-                _ => lowerScore
+                _ => last
             };
             if (action.type == UnitActionType.Attack) {
                 if (Rules.TryGetDamage(action.unit, action.targetUnit, action.weaponName, out var damagePercentage)) {
@@ -549,14 +518,10 @@ public class UnitBrainController {
                     action.order[1] = damageCost;
                 }
                 else
-                    action.order[1] = lowerScore;
+                    action.order[1] = last;
             }
         }
         actions.Sort((a, b) => UnitBrainActionExtensions.CompareLexicographically(a.order, b.order));
-
-        //DrawAction(actions[0]);
-
-        //Debug.Log(actions[0]);
 
         MakeMove(actions[0]);
     }

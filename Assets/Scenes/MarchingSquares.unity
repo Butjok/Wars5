@@ -2515,6 +2515,11 @@ MonoBehaviour:
   noiseScale: 1
   fade: {r: 1, g: 1, b: 1, a: 0.5019608}
   draw: 0
+  materials:
+  - {fileID: 2100000, guid: 5186d45c1c385424e9bab03de9906b79, type: 2}
+  - {fileID: 2100000, guid: 72f4ee4f3456b89438b2767d48f14472, type: 2}
+  - {fileID: 2100000, guid: 1f9010a1d0da6e346aad4d70ffd173e0, type: 2}
+  tintColor: {r: 0.24313726, g: 0.48235294, b: 0.003921569, a: 1}
 --- !u!4 &68547093
 Transform:
   m_ObjectHideFlags: 0

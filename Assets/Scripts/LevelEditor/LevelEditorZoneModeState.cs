@@ -87,7 +87,7 @@ public class LevelEditorZoneModeState : StateMachineState {
                 else if (Input.GetKeyDown(KeyCode.F6)) {
                     var zone = ConnectedZones.SingleOrDefault(zone => zone.name == zoneName);
                     if (zone != null)
-                        ScalarFieldDrawer.Draw(new ScalarField(
+                        ScalarFieldDrawer.Draw(new ScalarField2(
                             zone.distances.Keys.Select(key => key.position),
                             position => zone.distances[(moveType, position)]));
                 }

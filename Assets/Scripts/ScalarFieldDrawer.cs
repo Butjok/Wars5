@@ -25,28 +25,28 @@ public class ScalarFieldDrawer : MonoBehaviour {
 
     [Command] public string colorScheme = "viridis";
 
-    public static void Draw(ScalarField field) {
+    public static void Draw(ScalarField2 field2) {
         Instance.StopAllCoroutines();
-        Instance.StartCoroutine(DrawEnumerator(field));
+        Instance.StartCoroutine(DrawEnumerator(field2));
     }
 
-    public static IEnumerator DrawEnumerator(ScalarField field) {
+    public static IEnumerator DrawEnumerator(ScalarField2 field2) {
 
         var level = Game.Instance.TryGetLevel;
-        Instance.field = field;
+        Instance.field2 = field2;
         var ramp = Resources.Load<Texture2D>(Instance.colorScheme);
 
         while (true) {
             if (Input.GetKeyDown(KeyCode.Alpha9)) {
                 yield return null;
-                Instance.field = null;
+                Instance.field2 = null;
                 break;
             }
             yield return null;
 
             foreach (var position in level.tiles.Keys) {
-                if (field.Domain.Contains(position)) {
-                    var value = field[position];
+                if (field2.Domain.Contains(position)) {
+                    var value = field2[position];
                     var color = ramp.GetPixelBilinear(1 - value, .5f);
                     if (value >= infinity)
                         color = Color.black;
@@ -70,7 +70,7 @@ public class ScalarFieldDrawer : MonoBehaviour {
                 position => level.precalculatedDistances.TryGetValue((Rules.GetMoveType(inspectedUnit), inspectedUnit.NonNullPosition, position), out var distance)
                     ? distance
                     : infinity);
-            Draw(new ScalarField(distances.Keys.Where(position => distances[position] != infinity), position => distances[position]));
+            Draw(new ScalarField2(distances.Keys.Where(position => distances[position] != infinity), position => distances[position]));
         }
     }
 
@@ -79,17 +79,17 @@ public class ScalarFieldDrawer : MonoBehaviour {
         Draw(ScalarFieldCalculator.Evaluate(input, Game.Instance));
     }
 
-    public ScalarField field;
+    public ScalarField2 field2;
 
     private void OnGUI() {
-        if (field == null)
+        if (field2 == null)
             return;
         GUI.skin = DefaultGuiSkin.TryGet;
-        if (Camera.main && Camera.main.TryGetMousePosition(out Vector2Int mousePosition) && field.Domain.Contains(mousePosition)) {
+        if (Camera.main && Camera.main.TryGetMousePosition(out Vector2Int mousePosition) && field2.Domain.Contains(mousePosition)) {
             var position = Input.mousePosition;
             position.y = Screen.height - position.y;
             var text = "";
-            text += field[mousePosition] >= infinity ? "inf" : field[mousePosition].ToString("0.###", CultureInfo.InvariantCulture);
+            text += field2[mousePosition] >= infinity ? "inf" : field2[mousePosition].ToString("0.###", CultureInfo.InvariantCulture);
             var size = GUI.skin.label.CalcSize(new GUIContent(text));
             position.y -= size.y;
             GUI.Label(new Rect(position, size), text);

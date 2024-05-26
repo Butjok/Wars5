@@ -2,6 +2,8 @@ Shader "Custom/LeavesAreaTinted"
 {
     Properties
     {
+    	_Color ("Color", Color) = (1,1,1,1)
+    	
         _MainTex ("Albedo (RGB)", 2D) = "white" {}   
         _Normal ("_Normal", 2D) = "normal" {}
         _Occlusion ("_Occlusion", 2D) = "white" {}
@@ -89,6 +91,7 @@ Shader "Custom/LeavesAreaTinted"
             sampler2D _FlowersAlpha;
             fixed4 _FlowerColor;
 
+            fixed3 _Color;
             float4 _EmissionColor;
             
             half _Smoothness;
@@ -354,7 +357,8 @@ float flowerAlpha = tex2D(_FlowersAlpha, IN.worldPos.xz * 0.25).r;
 
 	#endif
 
-	
+
+	o.Albedo *= _Color;
             }
             ENDCG
     }
