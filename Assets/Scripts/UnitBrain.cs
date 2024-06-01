@@ -34,8 +34,6 @@ public class UnitBrainAction : UnitAction {
         for (var i = 0; i < precedence.Length; i++)
             precedence[i] = 0;
     }
-}
-public static class UnitBrainActionExtensions {
     public static int CompareLexicographically(float[] a, float[] b) {
         Assert.IsTrue(a.Length == b.Length);
         for (var i = 0; i < a.Length; i++) {
@@ -59,16 +57,16 @@ public abstract class UnitState {
     [DontSave] public bool HasExpired => DaysLeft <= 0;
     public abstract UnitBrainAction GetNextAction();
     public IEnumerable<Unit> FindEnemiesNearby(int maxDistance = 5) {
-        return FindEnemiesNearby(unit.NonNullPosition, maxDistance);
+        return FindEnemiesNear(unit.NonNullPosition, maxDistance);
     }
-    public IEnumerable<Unit> FindEnemiesNearby(Vector2Int position, int maxDistance = 5) {
+    public IEnumerable<Unit> FindEnemiesNear(Vector2Int position, int maxDistance = 5) {
         var level = unit.Player.level;
         var positions = level.PositionsInRange(position, new Vector2Int(0, maxDistance));
         foreach (var p in positions)
             if (level.TryGetUnit(p, out var other) && Rules.AreEnemies(unit.Player, other.Player))
                 yield return other;
     }
-    public bool TryStartAttackingNearbyEnemy(int? maxDistance = null) {
+    public bool TryActualizeKillStateForTheClosestEnemy(int? maxDistance = null) {
         if (!Rules.TryGetAttackRange(unit, out _))
             return false;
 
@@ -80,18 +78,12 @@ public abstract class UnitState {
         if (enemiesNearby.Count == 0)
             return false;
 
-        var closestEnemy = enemiesNearby.OrderBy(e => (e.NonNullPosition - unit.NonNullPosition).ManhattanLength()).First();
-
-        // stop the recursion if the unit is already attacking the closest enemy
-        if (unit.states2.Count > 0 && unit.states2[^1] is UnitKillState ks && ks.target == closestEnemy)
-            return false;
-
-        StartAttacking(closestEnemy);
-        return true;
+        var target = enemiesNearby.OrderBy(e => (e.NonNullPosition - unit.NonNullPosition).ManhattanLength()).First();
+        return TryActualizeKillStateFor(target);
     }
-    public void StartAttacking(Unit target) {
-        var killState = unit.states2.SingleOrDefault(s => s is UnitKillState ks && ks.target == target);
-        if (killState == null) {
+    public bool TryActualizeKillStateFor(Unit target) {
+        var existingKillState = unit.states2.SingleOrDefault(s => s is UnitKillState ks && ks.target == target);
+        if (existingKillState == null) {
             var result = new UnitKillState {
                 unit = unit,
                 createdOnDay = unit.Player.level.Day(),
@@ -99,16 +91,20 @@ public abstract class UnitState {
                 target = target,
             };
             unit.states2.Add(result);
+            return true;
         }
         else {
+            if (existingKillState.createdOnDay == unit.Player.level.Day())
+                return false;
             // move the state to the end 
-            unit.states2.Remove(killState);
-            unit.states2.Add(killState);
+            unit.states2.Remove(existingKillState);
+            unit.states2.Add(existingKillState);
             // refresh the expiration date
-            killState.createdOnDay = unit.Player.level.Day();
+            existingKillState.createdOnDay = unit.Player.level.Day();
+            return true;
         }
     }
-    public UnitBrainAction Pop(int popCount = 1) {
+    public UnitBrainAction Cancel(int popCount = 1) {
         Assert.IsTrue(unit.states2[^1] == this);
         Assert.IsTrue(popCount <= unit.states2.Count);
         unit.states2.RemoveRange(unit.states2.Count - popCount, popCount);
@@ -126,7 +122,7 @@ public class UnitTransferState : UnitState {
 
     public override UnitBrainAction GetNextAction() {
         if (pickUpUnit is not { Initialized: true } || pickUpUnit.Position is { } pickUpUnitPosition && pickUpUnitPosition == dropPosition)
-            return Pop();
+            return Cancel();
 
         var level = unit.Player.level;
         PathFinder unitPathFinder = null;
@@ -170,12 +166,12 @@ public class UnitCaptureState : UnitState {
             return DoNothing();
 
         if (building is not { Initialized: true } || building.Player == unit.Player)
-            return Pop();
+            return Cancel();
 
-        if (TryStartAttackingNearbyEnemy())
+        if (TryActualizeKillStateForTheClosestEnemy())
             return requestOneMoreIteration;
 
-        if (building.Player != unit.Player || FindEnemiesNearby(building.position, 5).Any()) {
+        if (building.Player != unit.Player || FindEnemiesNear(building.position, 5).Any()) {
             if (!new PathFinder(unit).TryFindPath(out var shortPath, out _, building.position))
                 return DoNothing();
 
@@ -196,7 +192,7 @@ public class UnitHealState : UnitState {
             return DoNothing();
 
         if (unit.Hp >= Rules.MaxHp(unit.type))
-            return Pop();
+            return Cancel();
 
         var level = unit.Player.level;
         var buildings = level.Buildings.Where(b => Rules.CanRepair(b, unit)).ToList();
@@ -218,10 +214,10 @@ public class UnitHealState : UnitState {
         }
 
         if (building == null)
-            return Pop();
+            return Cancel();
 
         // if the unit is ready standing on the building, and there is an enemy nearby, attack it
-        if (unit.NonNullPosition == building.position && TryStartAttackingNearbyEnemy())
+        if (unit.NonNullPosition == building.position && TryActualizeKillStateForTheClosestEnemy(1))
             return requestOneMoreIteration;
 
         return new UnitBrainAction(this, UnitActionType.Stay, unit, path);
@@ -238,7 +234,7 @@ public class UnitKillState : UnitState {
             return DoNothing();
 
         if (target is not { Initialized: true })
-            return Pop();
+            return Cancel();
 
         if (unit.Hp <= 2) {
             unit.states2.Add(new UnitHealState {
@@ -249,25 +245,16 @@ public class UnitKillState : UnitState {
             return requestOneMoreIteration;
         }
 
-        if (TryStartAttackingNearbyEnemy()) {
-            var killState = (UnitKillState)unit.states2[^1];
-            var killAction = killState.GetNextAction();
-            if (killAction != requestOneMoreIteration && killAction.type == UnitActionType.Attack &&
-                (killAction.targetUnit.NonNullPosition - unit.NonNullPosition).ManhattanLength() <=
-                (target.NonNullPosition - unit.NonNullPosition).ManhattanLength()) {
-                return killAction;
-            }
-            unit.states2.RemoveAt(unit.states2.Count - 1);
-        }
+
+        if (TryActualizeKillStateForTheClosestEnemy() && unit.states2[^1] != this) 
+            return requestOneMoreIteration;
 
         var hasAttackRange = Rules.TryGetAttackRange(unit, out var attackRange);
         Assert.IsTrue(hasAttackRange);
 
         if (target.Position is not { } actualTargetPosition) {
-            if (target.Carrier != null) {
-                StartAttacking(target.Carrier);
+            if (target.Carrier != null && TryActualizeKillStateFor(target.Carrier) && unit.states2[^1] != this)
                 return requestOneMoreIteration;
-            }
             return DoNothing();
         }
 
@@ -285,7 +272,7 @@ public class UnitKillState : UnitState {
             _ => throw new NotImplementedException()
         };
         if (!Rules.TryGetDamage(unit, target, weaponName, out var damagePercentage) || damagePercentage == 0)
-            return Pop();
+            return Cancel();
 
         var action = new UnitBrainAction(this, UnitActionType.Attack, unit, new[] { unit.NonNullPosition }, target, weaponName: weaponName);
 
@@ -353,17 +340,17 @@ public class UnitMoveState : UnitState {
                 enemyInfluenceMap.TryGetValue(unit.NonNullPosition, out var enemyInfluence) &&
                 artilleryPreferenceMap.TryGetValue(unit.NonNullPosition, out var artilleryPreference) &&
                 enemyInfluence > influence && artilleryPreference < .1f) {
-                return Pop();
+                return Cancel();
             }
             if (enemyInfluenceMap.TryGetValue(unit.NonNullPosition, out enemyInfluence) &&
                 enemyInfluence == 0 && unit.NonNullPosition == position)
-                return Pop();
+                return Cancel();
         }
         else {
             if (unit.NonNullPosition == position)
-                return Pop();
+                return Cancel();
 
-            if (TryStartAttackingNearbyEnemy())
+            if (TryActualizeKillStateForTheClosestEnemy())
                 return requestOneMoreIteration;
         }
         if (!new PathFinder(unit).TryFindPath(out var shortPath, out _, position))
@@ -542,7 +529,7 @@ public class UnitBrainController {
                     unit = unit,
                     sourceOrder = order,
                     createdOnDay = unit.Player.level.Day(),
-                    lifetimeInDays = UnitMoveState.defaultLifetimeInDays,
+                    lifetimeInDays = Rules.IsIndirect(unit) ? 1 : UnitMoveState.defaultLifetimeInDays,
                     position = order.targetPosition,
                 },
                 _ => throw new ArgumentOutOfRangeException()
@@ -615,7 +602,7 @@ public class UnitBrainController {
                     action.precedence[1] = last;
             }
         }
-        actions.Sort((a, b) => UnitBrainActionExtensions.CompareLexicographically(a.precedence, b.precedence));
+        actions.Sort((a, b) => UnitBrainAction.CompareLexicographically(a.precedence, b.precedence));
 
         var selectedAction = actions[0];
         foreach (var unit in assignedUnits)

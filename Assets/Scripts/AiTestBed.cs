@@ -51,6 +51,9 @@ public class AiTestBed : MonoBehaviour {
             var units = selectedUnit != null ? new[] { selectedUnit } : level.Units;
             foreach (var unit in units)
             foreach (var state in unit.states2) {
+                if (state.HasExpired)
+                    continue;
+
                 var text = state.GetType().ToString();
                 if (text.EndsWith("State"))
                     text = text[..^5];
