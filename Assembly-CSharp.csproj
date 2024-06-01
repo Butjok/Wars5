@@ -188,6 +188,7 @@
      <None Include="Assets\Shaders\vface.shader" />
      <Folder Include="Assets\Saves\AutosaveProps" />
      <Folder Include="Assets\Experiments" />
+     <Folder Include="Assets\Saves\Save-Bushes" />
      <None Include="Assets\Shaders\NewSurfaceShader.shader" />
      <None Include="Assets\ShaderTests\contrastgrid.shader" />
      <Folder Include="Assets\Content\MainMenu" />
@@ -243,6 +244,7 @@
      <None Include="Assets\Saves\simple\simple-07.02.2023-09.12.25.txt" />
      <None Include="Assets\Resources\Colors.txt" />
      <None Include="Assets\Saves\1\1-22.01.2023-18.23.49.txt" />
+     <Folder Include="Assets\Saves\Save-Tiles" />
      <None Include="Assets\Saves\1\1-22.01.2023-18.36.36.txt" />
      <Folder Include="Assets\SceneTemplates\Test" />
      <None Include="Assets\Roboto\LICENSE.txt" />
@@ -300,6 +302,7 @@
      <None Include="Assets\Shaders\water.shader" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\ScalableAO.shader" />
      <Folder Include="Assets\Saves\MarchingSquaresRoads" />
+     <Folder Include="Assets\Saves\Save-Forests" />
      <None Include="Assets\Shaders\Hole3.shader" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\ACES.hlsl" />
      <None Include="Assets\Shaders\ShrinkToTerrain.shader" />
@@ -359,6 +362,7 @@
      <Folder Include="Assets\Scripts2" />
      <None Include="Assets\Shaders\TriggerUnlit.shader" />
      <Folder Include="Assets\Resources\UnitThumbnails" />
+     <Folder Include="Assets\Saves\Save-Level" />
      <Folder Include="Assets\Dithered" />
      <None Include="Assets\Saves\0\0-22.01.2023-18.25.37.txt" />
      <Folder Include="Assets\Saves\Intro2-Forests" />
@@ -421,6 +425,7 @@
      <None Include="Assets\Shaders\FadedEmissive.shader" />
      <Folder Include="Assets\Saves\Border-Level" />
      <None Include="Assets\Shaders\Voronoi.shader" />
+     <Folder Include="Assets\Saves\Save-Roads" />
      <Folder Include="Assets\Minimap" />
      <Folder Include="Assets\Shaders\Resources" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\CopyStd.shader" />
@@ -447,6 +452,7 @@
      <Folder Include="Assets\Textures\Cookies" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\MotionBlur.shader" />
      <Folder Include="Assets\Saves\TutorialForests" />
+     <Folder Include="Assets\Saves\Save-Props" />
      <Folder Include="Assets\Textures\Bumps" />
      <None Include="Assets\Shaders\SimpleInstanced.shader" />
      <Folder Include="Assets\UiAnimationTest" />

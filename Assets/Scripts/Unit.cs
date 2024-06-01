@@ -31,7 +31,7 @@ public class Unit : IDisposable {
     [DontSave] public UnitBrain brain;
     [DontSave] public bool Initialized { get; private set; }
 
-    public Stack<UnitState> states = new();
+    public List<UnitState> states2 = new();
 
     private Vector2Int? position;
     [DontSave] public Vector2Int? Position {
@@ -209,7 +209,7 @@ public class Unit : IDisposable {
 
         brain = new UnitBrain(this);
 
-        states ??= new Stack<UnitState>();
+        states2 ??= new List<UnitState>();
 
         Initialized = true;
     }

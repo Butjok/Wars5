@@ -28,7 +28,7 @@ public class AiTestBed : MonoBehaviour {
                 if (Input.GetKeyDown(KeyCode.I)) {
                     if (level.TryGetUnit(mousePosition, out var unit)) {
                         selectedUnit = unit;
-                        selectedState = unit.states.Count > 0 ? unit.states.Peek() : null;
+                        selectedState = unit.states2.Count > 0 ? unit.states2[^1] : null;
                     }
                     else {
                         selectedUnit = null;
@@ -39,7 +39,7 @@ public class AiTestBed : MonoBehaviour {
 
             if (selectedUnit != null) {
                 if (Input.GetKeyDown(KeyCode.O)) {
-                    var list = selectedUnit.states.ToList();
+                    var list = selectedUnit.states2.ToList();
                     var index = list.IndexOf(selectedState);
                     var nextIndex = (index + 1) % list.Count;
                     selectedState = list[nextIndex];
@@ -50,7 +50,7 @@ public class AiTestBed : MonoBehaviour {
 
             var units = selectedUnit != null ? new[] { selectedUnit } : level.Units;
             foreach (var unit in units)
-            foreach (var state in unit.states) {
+            foreach (var state in unit.states2) {
                 var text = state.GetType().ToString();
                 if (text.EndsWith("State"))
                     text = text[..^5];
@@ -144,7 +144,8 @@ public class AiTestBed : MonoBehaviour {
             return;
         GUI.skin = DefaultGuiSkin.TryGet;
         GUILayout.Space(175);
-        foreach (var state in selectedUnit.states) {
+        for (var i = selectedUnit.states2.Count - 1; i >= 0; i--) {
+            var state = selectedUnit.states2[i];
             var text = state.ToString();
             GUILayout.Label(selectedState == state ? $"<b>{text}</b>" : text);
             GUILayout.Space(DefaultGuiSkin.defaultSpacingSize);
@@ -159,7 +160,7 @@ public class AiTestBed : MonoBehaviour {
                 createdOnDay = selectedUnit.Player.level.Day(),
                 position = mousePosition
             };
-            selectedUnit.states.Push(goal);
+            selectedUnit.states2.Add(goal);
             selectedState = goal;
         }
     }
@@ -167,9 +168,9 @@ public class AiTestBed : MonoBehaviour {
     [Command]
     public void ClearGoals() {
         if (selectedUnit != null) {
-            if (selectedUnit.states.Contains(selectedState))
+            if (selectedUnit.states2.Contains(selectedState))
                 selectedState = null;
-            selectedUnit.states.Clear();
+            selectedUnit.states2.Clear();
         }
     }
 
@@ -182,7 +183,7 @@ public class AiTestBed : MonoBehaviour {
                 createdOnDay = selectedUnit.Player.level.Day(),
                 target = target
             };
-            selectedUnit.states.Push(goal);
+            selectedUnit.states2.Add(goal);
             selectedState = goal;
         }
     }
@@ -196,7 +197,7 @@ public class AiTestBed : MonoBehaviour {
                 createdOnDay = selectedUnit.Player.level.Day(),
                 building = building
             };
-            selectedUnit.states.Push(goal);
+            selectedUnit.states2.Add(goal);
             selectedState = goal;
         }
     }
@@ -206,7 +207,7 @@ public class AiTestBed : MonoBehaviour {
         var level = Game.Instance.TryGetLevel;
         if (level != null)
             foreach (var unit in level.Units)
-                unit.states.Clear();
+                unit.states2.Clear();
     }
 
     [Command]
@@ -240,7 +241,7 @@ public class AiTestBed : MonoBehaviour {
                 selectedUnit.Player.level.TryGetTile(mousePosition, out var tileType) &&
                 Rules.CanStay(pickUpUnit, tileType) &&
                 Input.GetKeyDown(KeyCode.P)) {
-                selectedUnit.states.Push(new UnitTransferState {
+                selectedUnit.states2.Add(new UnitTransferState {
                     unit = selectedUnit,
                     createdOnDay = selectedUnit.Player.level.Day(),
                     pickUpUnit = pickUpUnit,

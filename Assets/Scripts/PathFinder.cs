@@ -147,11 +147,7 @@ public class PathFinder {
             }
 
             while (queue.TryDequeue(out var position) && tiles.TryGetValue(position, out var current) && current.restPathCost < infinity) {
-                // we can relax neighbor tiles only from:
-                // 1) the destinations of the short path (it is like making a new move from those positions)
-                // 2) from the positions of rest path, it is like we continue to move infinitely
-
-                if (current.shortPathBacktracePosition == null || validShortPathDestinations.Contains(position))
+                if (current.restPathBacktracePosition != null || validShortPathDestinations.Contains(position))
                     foreach (var offset in Rules.gridOffsets) {
                         var neighborPosition = position + offset;
                         if (tiles.TryGetValue(neighborPosition, out var neighbor) &&
@@ -235,7 +231,7 @@ public static class PathFinderExtensions {
             using (Draw.ingame.WithLineWidth(1.5f))
                 foreach (var position in pathFinder.tiles.Keys) {
                     Color color = Color.clear;
-                    if (pathFinder.tiles[position].shortPathBacktracePosition != null)
+                    if (pathFinder.validShortPathDestinations.Contains(position))
                         color = Color.green;
                     else if (pathFinder.tiles[position].restPathBacktracePosition != null)
                         color = Color.yellow;

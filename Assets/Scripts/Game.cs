@@ -286,4 +286,6 @@ public static class GameDebug {
         Assert.IsNotNull(state);
         return state;
     }
+    [Command]
+    public static bool triggerBreakpoint;
 }
