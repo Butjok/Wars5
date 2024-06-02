@@ -9,24 +9,20 @@ using Table = System.Collections.Generic.Dictionary<(UnitType attackerType, Unit
 
 public static class DamageTable {
 
-    private static Table loaded;
-    public static Table Loaded {
-        get {
-            if (loaded == null)
-                Load();
-            return loaded;
-        }
+    public static Table Data { get; private set; }
+    public static bool IsLoaded => Data != null;
+    static DamageTable() {
+        Load();
     }
 
     [Command]
     public static void Load() {
-
         var input = "DamageTable".LoadAs<TextAsset>().text;
 
-        if (loaded == null)
-            loaded = new Table();
+        if (Data == null)
+            Data = new Table();
         else
-            loaded.Clear();
+            Data.Clear();
 
         using var stringReader = new StringReader(input);
         var fields = new CsvReader(stringReader, ",");
@@ -42,7 +38,7 @@ public static class DamageTable {
             for (var i = 0; i < words.Length; i += 2) {
                 var weaponName = words[i].ParseEnum<WeaponName>();
                 var damage = words[i + 1].ParseInt();
-                loaded.Add((attackerType, targetType, weaponName), (float)damage / 100);
+                Data.Add((attackerType, targetType, weaponName), (float)damage / 100);
             }
         }
     }

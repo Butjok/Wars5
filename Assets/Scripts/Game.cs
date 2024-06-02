@@ -4,9 +4,11 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using Butjok.CommandLine;
+using SaveGame;
 using Unity.Burst;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Serialization;
 
 public class Game : MonoBehaviour {
 
@@ -214,8 +216,7 @@ public class Game : MonoBehaviour {
         stateMachine.Pop(all: true);
     }
 
-    [Command] public static int guiDepth = -1000;
-    private List<string> stateNames = new();
+    [Command] public int guiDepth = -1000;
     [Command] public bool showAllUnitBrainStates;
     [Command] public float unitBrainStateFontScale = 1;
     [Command] public int statesFontSize = 9;
@@ -235,6 +236,7 @@ public class Game : MonoBehaviour {
     public GUIStyle statesLabelStyle;
 
     private readonly Dictionary<object, Action> guiCommands = new();
+    public bool dontShowMoveUi;
     public void SetGui(object key, Action action) {
         guiCommands[key] = action;
     }
@@ -247,20 +249,19 @@ public class Game : MonoBehaviour {
         GUI.depth = guiDepth;
 
         if (ShowStates) {
-            stateNames.Clear();
-            stateNames.AddRange(stateMachine.StateNames);
-            stateNames.Reverse();
             statesLabelStyle ??= new GUIStyle(GUI.skin.label) {
                 fontSize = statesFontSize
             };
-            var sb = new StringBuilder();
-            for (var i = 0; i < stateNames.Count; i++) {
-                if (i != 0)
-                    sb.Append(" / ");
-                sb.Append(stateNames[i]);
+            var stringBuilder = new StringBuilder();
+            var isFirst = true;
+            foreach (var stateName in stateMachine.StateNames.Reverse()){
+                if (!isFirst) 
+                    stringBuilder.Append(" / ");
+                stringBuilder.Append(stateName);
+                isFirst = false;
             }
 
-            var text = sb.ToString();
+            var text = stringBuilder.ToString();
             var size = statesLabelStyle.CalcSize(new GUIContent(text));
             var rect = new Rect(0, Screen.height - size.y, size.x, size.y);
             GUI.Label(rect, text, statesLabelStyle);

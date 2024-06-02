@@ -37,6 +37,8 @@ public class ActionSelectionState : StateMachineState {
         var level = stateMachine.Find<LevelSessionState>().level;
         if (level.view.actionCircle)
             level.view.actionCircle.gameObject.SetActive(false);
+
+        Game.Instance.dontShowMoveUi = false;
     }
 
     public void HidePanel() {
@@ -147,7 +149,7 @@ public class ActionSelectionState : StateMachineState {
             PlayerView.globalVisibility = false;
             yield return StateChange.none;
 
-            if (!levelSession.autoplay) {
+            if (!Game.Instance.dontShowMoveUi) {
                 panel.Show(() => Game.EnqueueCommand(Command.Cancel), actions, (_, action) => SelectAction(action));
                 if (actions.Count > 0)
                     SelectAction(actions[0]);
@@ -158,29 +160,20 @@ public class ActionSelectionState : StateMachineState {
                 yield return StateChange.Push(new TutorialDialogue(stateMachine, TutorialDialogue.Part.ActionSelectionExplanation));
             }
 
-            var issuedAiCommands = false;
             while (true) {
                 yield return StateChange.none;
 
-                if (levelSession.autoplay) {
-                    if (!issuedAiCommands) {
-                        issuedAiCommands = true;
-                        Game.aiPlayerCommander.IssueCommandsForActionSelectionState();
-                    }
-                }
-                else {
-                    if (Input.GetMouseButtonDown(Mouse.right) || Input.GetKeyDown(KeyCode.Escape))
-                        Game.EnqueueCommand(Command.Cancel);
+                if (Input.GetMouseButtonDown(Mouse.right) || Input.GetKeyDown(KeyCode.Escape))
+                    Game.EnqueueCommand(Command.Cancel);
 
-                    else if (Input.GetKeyDown(KeyCode.Tab))
-                        Game.EnqueueCommand(Command.CycleActions, Input.GetKey(KeyCode.LeftShift) ? -1 : 1);
+                else if (Input.GetKeyDown(KeyCode.Tab))
+                    Game.EnqueueCommand(Command.CycleActions, Input.GetKey(KeyCode.LeftShift) ? -1 : 1);
 
-                    else if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space)) {
-                        if (actions.Count == 0)
-                            UiSound.Instance.notAllowed.PlayOneShot();
-                        else
-                            Game.EnqueueCommand(Command.Execute, actions[index]);
-                    }
+                else if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space)) {
+                    if (actions.Count == 0)
+                        UiSound.Instance.notAllowed.PlayOneShot();
+                    else
+                        Game.EnqueueCommand(Command.Execute, actions[index]);
                 }
 
                 while (Game.TryDequeueCommand(out var command)) {

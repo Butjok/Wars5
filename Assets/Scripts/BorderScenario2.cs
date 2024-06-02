@@ -134,6 +134,7 @@ public class BorderScenario2 : MonoBehaviour {
 
             while (stateMachine.TryFind<SelectionState>() == null)
                 yield return null;
+            game.dontShowMoveUi = true;
             game.EnqueueCommand(SelectionState.Command.Select, waypoints.First.Value);
             while (stateMachine.TryFind<PathSelectionState>() == null)
                 yield return null;
@@ -161,6 +162,7 @@ public class BorderScenario2 : MonoBehaviour {
 
             while (stateMachine.TryFind<SelectionState>() == null)
                 yield return null;
+            game.dontShowMoveUi = true;
             game.EnqueueCommand(SelectionState.Command.Select, waypoints.First.Value);
             while (stateMachine.TryFind<PathSelectionState>() == null)
                 yield return null;
@@ -239,6 +241,7 @@ public class BorderScenario2 : MonoBehaviour {
 
         while (stateMachine.TryFind<SelectionState>() == null)
             yield return null;
+        game.dontShowMoveUi = true;
         game.EnqueueCommand(SelectionState.Command.Select, attacker.NonNullPosition);
         while (stateMachine.TryFind<PathSelectionState>() == null)
             yield return null;

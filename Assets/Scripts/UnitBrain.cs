@@ -23,22 +23,17 @@ public class Order {
 }
 
 public class UnitBrainAction : UnitAction {
-    public float[] precedence = new float[10];
+    public float[] priorities = new float[10];
     public UnitState sourceState;
     public UnitBrainAction(UnitState sourceState, UnitActionType type, Unit unit, IEnumerable<Vector2Int> path, Unit targetUnit = null, Building targetBuilding = null, WeaponName weaponName = default, Vector2Int targetPosition = default) : base(type, unit, path, targetUnit, targetBuilding, weaponName, targetPosition) {
         this.sourceState = sourceState;
-        ResetPrecedence();
     }
-    public void ResetPrecedence() {
-        for (var i = 0; i < precedence.Length; i++)
-            precedence[i] = 0;
-    }
-    public static int CompareLexicographically(float[] a, float[] b) {
-        Assert.IsTrue(a.Length == b.Length);
-        for (var i = 0; i < a.Length; i++) {
-            if (a[i] > b[i])
+    public static int ComparePriorities(UnitBrainAction a, UnitBrainAction b) {
+        Assert.IsTrue(a.priorities.Length == b.priorities.Length);
+        for (var i = 0; i < a.priorities.Length; i++) {
+            if (a.priorities[i] > b.priorities[i])
                 return -1;
-            if (a[i] < b[i])
+            if (a.priorities[i] < b.priorities[i])
                 return 1;
         }
         return 0;
@@ -363,7 +358,7 @@ public class UnitBrainController {
     public Player player;
 
     public void MakeMove() {
-        if (DamageTable.Loaded == null)
+        if (!DamageTable.IsLoaded)
             DamageTable.Load();
 
         var task = Task.Run(() => {
@@ -384,7 +379,6 @@ public class UnitBrainController {
 
             var orders = new List<Order>();
             foreach (var unit in units) {
-                
                 // add capture orders
                 foreach (var building in buildingsToCapture)
                     if (Rules.CanCapture(unit, building))
@@ -451,7 +445,7 @@ public class UnitBrainController {
                         }
                         else
                             order.score = 0;
-                        
+
                         var manhattanDistance = (order.unit.NonNullPosition - order.targetPosition).ManhattanLength();
                         order.score -= manhattanDistance * .00001f; // break ties by discouraging moving
                         break;
@@ -467,7 +461,7 @@ public class UnitBrainController {
             // order descending
             orders.Sort((a, b) => -a.score.CompareTo(b.score));
 
-            var assignedUnits = new HashSet<Unit>();
+            var assignedUnits = new List<Unit>();
 
             bool TryAssignBestOrderTo(Unit unit) {
                 Assert.IsTrue(unit.states2.Count == 0);
@@ -540,8 +534,7 @@ public class UnitBrainController {
             const float last = -99999;
 
             foreach (var action in actions) {
-                action.ResetPrecedence();
-                action.precedence[0] = action.type switch {
+                action.priorities[0] = action.type switch {
                     UnitActionType.LaunchMissile => 0,
                     UnitActionType.Capture => -1,
                     UnitActionType.Attack when Rules.IsIndirect(action.unit) => -2,
@@ -560,15 +553,17 @@ public class UnitBrainController {
                     if (Rules.TryGetDamage(action.unit, action.targetUnit, action.weaponName, out var damagePercentage)) {
                         var targetCost = Rules.Cost(action.targetUnit);
                         var damageCost = targetCost * damagePercentage;
-                        action.precedence[1] = damageCost;
+                        action.priorities[1] = damageCost;
                     }
                     else
-                        action.precedence[1] = last;
+                        action.priorities[1] = last;
                 }
             }
-            actions.Sort((a, b) => UnitBrainAction.CompareLexicographically(a.precedence, b.precedence));
-
             var selectedAction = actions[0];
+            foreach (var action in actions)
+                if (UnitBrainAction.ComparePriorities(action, selectedAction) < 0)
+                    selectedAction = action;
+
             foreach (var unit in assignedUnits)
                 if (unit != selectedAction.unit)
                     unit.states2.Clear();
@@ -580,19 +575,21 @@ public class UnitBrainController {
     }
 
     public IEnumerator WaitForMove(Task<UnitBrainAction> task) {
-
+        
         while (!task.IsCompleted)
             yield return null;
-
         var action = task.Result;
-        if (action == null) {
-            Game.Instance.EnqueueCommand(SelectionState.Command.EndTurn);
-            yield break;
-        }
-
+        
         var game = Game.Instance;
+        game.dontShowMoveUi = true;
         while (!game.stateMachine.IsInState<SelectionState>())
             yield return null;
+        
+        if (action == null) {
+            game.EnqueueCommand(SelectionState.Command.EndTurn);
+            yield break;
+        }
+        
         game.EnqueueCommand(SelectionState.Command.Select, action.unit.NonNullPosition);
 
         while (!game.stateMachine.IsInState<PathSelectionState>())

@@ -77,7 +77,7 @@ public class AiTestBed : MonoBehaviour {
 
                 switch (state) {
                     case UnitMoveState moveGoal: {
-                        color = Color.green;
+                        color = Color.cyan;
                         var movePosition = moveGoal.position;
                         DrawCircle(movePosition);
                         DrawLabel(movePosition, text);

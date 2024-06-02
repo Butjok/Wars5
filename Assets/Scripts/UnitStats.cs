@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using Butjok.CommandLine;
@@ -11,7 +10,7 @@ using UnityEngine.Assertions;
 public struct UnitStats {
 
     [Flags]
-    public enum SpecialCommand {
+    public enum Ability {
         CanCapture = 1 << 0,
         CanLaunchMissile = 1 << 1,
         CanSupply = 1 << 2
@@ -24,31 +23,26 @@ public struct UnitStats {
     public Vector2Int attackRange;
     public int cost;
     public int vision;
-    public SpecialCommand specialCommands;
+    public Ability abilities;
     public int carryCapacity;
     public int weight;
     public HashSet<UnitType> canCarry;
     public int unloadCost;
     public int unloadCapacity;
 
-    private static Dictionary<UnitType, UnitStats> loaded;
-    public static Dictionary<UnitType, UnitStats> Loaded {
-        get {
-            if (loaded == null)
-                Load();
-            return loaded;
-        }
+    public static Dictionary<UnitType, UnitStats> Data { get; private set; }
+    static UnitStats() {
+        Load();
     }
 
     [Command]
     public static void Load() {
-
         var input = "UnitStats".LoadAs<TextAsset>().text;
 
-        if (loaded == null)
-            loaded = new Dictionary<UnitType, UnitStats>();
+        if (Data == null)
+            Data = new Dictionary<UnitType, UnitStats>();
         else
-            loaded.Clear();
+            Data.Clear();
 
         using var stringReader = new StringReader(input);
         var fields = new CsvReader(stringReader, ",");
@@ -89,10 +83,10 @@ public struct UnitStats {
             entry.cost = fields[6].ParseInt();
             Assert.IsTrue(entry.cost >= 0, entry.cost.ToString());
 
-            entry.vision =fields[7].ParseInt();
+            entry.vision = fields[7].ParseInt();
             Assert.IsTrue(entry.vision >= 0, entry.vision.ToString());
 
-            entry.specialCommands = fields[8].ParseEnum<SpecialCommand>();
+            entry.abilities = fields[8].ParseEnum<Ability>();
 
             entry.carryCapacity = fields[9].ParseInt();
             entry.weight = fields[10].ParseInt();
@@ -103,7 +97,7 @@ public struct UnitStats {
             entry.unloadCapacity = fields[12].ParseInt();
             entry.unloadCost = fields[13].ParseInt();
 
-            loaded.Add(unitType, entry);
+            Data.Add(unitType, entry);
         }
     }
 }

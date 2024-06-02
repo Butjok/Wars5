@@ -191,16 +191,12 @@ public class InfluenceMapDrawer : MonoBehaviour {
         return gradientMap;
     }
 
-    private static List<Vector2Int> keys = new();
-
     public static bool TryNormalize(ScalarField map) {
         var low = map.Values.Min();
         var high = map.Values.Max();
         if (Mathf.Approximately(low - high, 0))
             return false;
-        keys.Clear();
-        keys.AddRange(map.Keys);
-        foreach (var position in keys) {
+        foreach (var position in map.Keys.ToList()) {
             var value = map[position];
             var t = Mathf.InverseLerp(low, high, value);
             map[position] = t;

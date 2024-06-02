@@ -43,7 +43,7 @@ ClassInstance "Level,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyT
             Vector2Int 1 0
           EndField
           Field side
-            Enum "Side,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Right"
+            Enum "Side,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Left"
           EndField
         EndClassInstance
       EndListItem
@@ -83,7 +83,7 @@ ClassInstance "Level,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyT
             Vector2Int -1 0
           EndField
           Field side
-            Enum "Side,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Left"
+            Enum "Side,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" "Right"
           EndField
         EndClassInstance
       EndListItem

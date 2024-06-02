@@ -88,7 +88,7 @@ public static class ScalarFieldCalculator {
                     var units = game.TryGetLevel.units.Values.Where(u => u.Player == player && u != ignoredUnit);
                     var influences = game.TryGetLevel.tiles.Keys.ToDictionary(
                         position => position,
-                        position => units.Sum(unit => UnitStats.Loaded.TryGetValue(unit.type, out var stats) && game.TryGetLevel.precalculatedDistances != null && game.TryGetLevel.precalculatedDistances.TryGetValue((stats.moveType, unit.NonNullPosition, position), out var distance)
+                        position => units.Sum(unit => UnitStats.Data.TryGetValue(unit.type, out var stats) && game.TryGetLevel.precalculatedDistances != null && game.TryGetLevel.precalculatedDistances.TryGetValue((stats.moveType, unit.NonNullPosition, position), out var distance)
                             ? Mathf.Max(0, Rules.MoveCapacity(unit) + 1 - distance)
                             : 0));
                     stack.Push(new ScalarField2(influences.Keys, position => influences[position]));

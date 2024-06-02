@@ -52,11 +52,11 @@ public class PathSelectionState : StateMachineState {
 
             var pathBuilder = new PathBuilder(unitPosition);
 
-            if (!levelSession.autoplay)
+            if (!Game.Instance.dontShowMoveUi)
                 TileMask.ReplaceGlobal(reachable);
 
             void RebuildPathMesh() {
-                if (levelSession.autoplay)
+                if (Game.Instance.dontShowMoveUi)
                     return;
                 pathMeshFilter.sharedMesh = MoveSequenceMeshBuilder.Build(
                     pathMeshFilter.sharedMesh,
@@ -79,30 +79,21 @@ public class PathSelectionState : StateMachineState {
                 }
             }
 
-            var issuedAiCommands = false;
             while (true) {
                 yield return StateChange.none;
 
-                if (levelSession.autoplay) {
-                    if (!issuedAiCommands) {
-                        issuedAiCommands = true;
-                        Game.aiPlayerCommander.IssueCommandsForPathSelectionState();
-                    }
-                }
-                else {
-                    if (Input.GetMouseButtonDown(Mouse.right) || Input.GetKeyDown(KeyCode.Escape))
-                        Game.EnqueueCommand(Command.Cancel);
+                if (Input.GetMouseButtonDown(Mouse.right) || Input.GetKeyDown(KeyCode.Escape))
+                    Game.EnqueueCommand(Command.Cancel);
 
-                    else if (Input.GetMouseButtonDown(Mouse.left) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return)) {
-                        if (Level.view.cameraRig.camera.TryGetMousePosition(out Vector2Int mousePosition) && reachable.Contains(mousePosition)) {
-                            if (pathBuilder.Last() == mousePosition)
-                                Game.EnqueueCommand(Command.Move);
-                            else
-                                Game.EnqueueCommand(Command.ReconstructPath, mousePosition);
-                        }
+                else if (Input.GetMouseButtonDown(Mouse.left) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return)) {
+                    if (Level.view.cameraRig.camera.TryGetMousePosition(out Vector2Int mousePosition) && reachable.Contains(mousePosition)) {
+                        if (pathBuilder.Last() == mousePosition)
+                            Game.EnqueueCommand(Command.Move);
                         else
-                            UiSound.Instance.notAllowed.PlayOneShot();
+                            Game.EnqueueCommand(Command.ReconstructPath, mousePosition);
                     }
+                    else
+                        UiSound.Instance.notAllowed.PlayOneShot();
                 }
 
                 while (Game.TryDequeueCommand(out var command)) {

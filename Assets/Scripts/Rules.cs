@@ -99,7 +99,7 @@ public static class Rules {
     }
 
     public static int MaxFuel(UnitType unitType) {
-        return UnitStats.Loaded.TryGetValue(unitType, out var entry) ? entry.fuel : 99;
+        return UnitStats.Data.TryGetValue(unitType, out var entry) ? entry.fuel : 99;
     }
     public static int MaxFuel(Unit unit) {
         return MaxFuel(unit.type);
@@ -112,11 +112,11 @@ public static class Rules {
     }
 
     public static IEnumerable<WeaponName> GetWeaponNames(UnitType type) {
-        return UnitStats.Loaded.TryGetValue(type, out var entry) ? entry.ammo.Keys : Enumerable.Empty<WeaponName>();
+        return UnitStats.Data.TryGetValue(type, out var entry) ? entry.ammo.Keys : Enumerable.Empty<WeaponName>();
     }
 
     public static bool TryGetDamage(UnitType attackerType, UnitType targetType, WeaponName weaponName, out float damagePercentage) {
-        return DamageTable.Loaded.TryGetValue((attackerType, targetType, weaponName), out damagePercentage);
+        return DamageTable.Data.TryGetValue((attackerType, targetType, weaponName), out damagePercentage);
     }
     public static bool TryGetDamage(Unit attacker, Unit target, WeaponName weaponName, out float damagePercentage) {
         damagePercentage = 0;
@@ -133,7 +133,7 @@ public static class Rules {
     }
 
     public static int Cost(UnitType unitType, Player player = null) {
-        var found = UnitStats.Loaded.TryGetValue(unitType, out var entry);
+        var found = UnitStats.Data.TryGetValue(unitType, out var entry);
         Assert.IsTrue(found, unitType.ToString());
         return entry.cost;
     }
@@ -166,7 +166,7 @@ public static class Rules {
     }
 
     public static bool TryGetAttackRange(UnitType unitType, Player player, out Vector2Int attackRange) {
-        attackRange = UnitStats.Loaded.TryGetValue(unitType, out var entry) ? entry.attackRange : Vector2Int.zero;
+        attackRange = UnitStats.Data.TryGetValue(unitType, out var entry) ? entry.attackRange : Vector2Int.zero;
         return attackRange != Vector2Int.zero;
     }
     public static bool TryGetAttackRange(Unit unit, out Vector2Int attackRange) {
@@ -177,18 +177,18 @@ public static class Rules {
         return MaxAmmo(unit.type, weaponName);
     }
     public static int MaxAmmo(UnitType type, WeaponName weaponName) {
-        return UnitStats.Loaded.TryGetValue(type, out var entry) && entry.ammo.TryGetValue(weaponName, out var amount)
+        return UnitStats.Data.TryGetValue(type, out var entry) && entry.ammo.TryGetValue(weaponName, out var amount)
             ? amount
             : 99;
     }
     public static bool CanGetIn(UnitType unitType, UnitType carrierType) {
-        return UnitStats.Loaded.TryGetValue(carrierType, out var entry) && entry.canCarry.Contains(unitType);
+        return UnitStats.Data.TryGetValue(carrierType, out var entry) && entry.canCarry.Contains(unitType);
     }
     public static int Weight(UnitType unitType) {
-        return UnitStats.Loaded.TryGetValue(unitType, out var entry) ? entry.weight : 1;
+        return UnitStats.Data.TryGetValue(unitType, out var entry) ? entry.weight : 1;
     }
     public static int CarryCapacity(UnitType unitType) {
-        return UnitStats.Loaded.TryGetValue(unitType, out var entry) ? entry.carryCapacity : 0;
+        return UnitStats.Data.TryGetValue(unitType, out var entry) ? entry.carryCapacity : 0;
     }
     public static bool CanGetIn(Unit unit, Unit carrier) {
         var cargoSize = carrier.Cargo.Sum(u => Weight(u));
@@ -198,7 +198,7 @@ public static class Rules {
                cargoSize + Weight(unit) <= CarryCapacity(carrier);
     }
     public static bool CanSupply(UnitType unitType) {
-        return UnitStats.Loaded.TryGetValue(unitType, out var entry) && entry.specialCommands.HasFlag(UnitStats.SpecialCommand.CanSupply);
+        return UnitStats.Data.TryGetValue(unitType, out var entry) && entry.abilities.HasFlag(UnitStats.Ability.CanSupply);
     }
     public static bool CanSupply(Unit unit, Unit target) {
         return CanSupply(unit.type) && AreAllies(unit.Player, target.Player) && (unit != target);
@@ -212,7 +212,7 @@ public static class Rules {
     }
 
     public static int MoveCapacity(UnitType unitType, Player player) {
-        return UnitStats.Loaded.TryGetValue(unitType, out var settings) ? settings.moveCapacity : 0;
+        return UnitStats.Data.TryGetValue(unitType, out var settings) ? settings.moveCapacity : 0;
     }
 
     public static bool IsLowOnAmmo(Unit unit, WeaponName weaponName) {
@@ -233,7 +233,7 @@ public static class Rules {
     }
     public static bool TryGetMoveCost(UnitType unitType, TileType tileType, out int cost) {
         const int unreachable = -1;
-        if (!UnitStats.Loaded.TryGetValue(unitType, out var entry) || !TryGetMoveCost(entry.moveType, tileType, out cost))
+        if (!UnitStats.Data.TryGetValue(unitType, out var entry) || !TryGetMoveCost(entry.moveType, tileType, out cost))
             cost = unreachable;
         return cost != unreachable;
     }
@@ -281,7 +281,7 @@ public static class Rules {
                (!unit.Player.level.TryGetUnit(position, out var other) || other == unit);
     }
     public static bool CanCapture(UnitType unitType, TileType buildingType) {
-        return UnitStats.Loaded.TryGetValue(unitType, out var entry) && entry.specialCommands.HasFlag(UnitStats.SpecialCommand.CanCapture);
+        return UnitStats.Data.TryGetValue(unitType, out var entry) && entry.abilities.HasFlag(UnitStats.Ability.CanCapture);
     }
     public static bool CanCapture(Unit unit, Building building) {
         return CanCapture(unit.type, building.type) &&
@@ -297,7 +297,7 @@ public static class Rules {
         return other != unit && unit.type == other.type && unit.Player == other.Player && other.Hp < MaxHp(other);
     }
     public static bool CanLaunchMissile(UnitType unitType) {
-        return UnitStats.Loaded.TryGetValue(unitType, out var entry) && entry.specialCommands.HasFlag(UnitStats.SpecialCommand.CanLaunchMissile);
+        return UnitStats.Data.TryGetValue(unitType, out var entry) && entry.abilities.HasFlag(UnitStats.Ability.CanLaunchMissile);
     }
     public static bool CanLaunchMissile(Unit unit, Building missileSilo) {
         Assert.AreEqual(TileType.MissileSilo, missileSilo.type);
