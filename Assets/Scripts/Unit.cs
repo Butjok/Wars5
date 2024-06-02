@@ -209,7 +209,8 @@ public class Unit : IDisposable {
 
         brain = new UnitBrain(this);
 
-        states2 ??= new List<UnitState>();
+        lock (states2)
+            states2 ??= new List<UnitState>();
 
         Initialized = true;
     }

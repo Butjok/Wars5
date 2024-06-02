@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Drawing;
 using SaveGame;
 using UnityEngine;
@@ -19,8 +20,6 @@ public class Order {
     public Unit targetUnit;
     public Building targetBuilding;
     public Vector2Int targetPosition;
-    public int pathCost;
-    public List<Vector2Int> shortPath, restPath;
 }
 
 public class UnitBrainAction : UnitAction {
@@ -246,7 +245,7 @@ public class UnitKillState : UnitState {
         }
 
 
-        if (TryActualizeKillStateForTheClosestEnemy() && unit.states2[^1] != this) 
+        if (TryActualizeKillStateForTheClosestEnemy() && unit.states2[^1] != this)
             return requestOneMoreIteration;
 
         var hasAttackRange = Rules.TryGetAttackRange(unit, out var attackRange);
@@ -363,12 +362,235 @@ public class UnitMoveState : UnitState {
 public class UnitBrainController {
     public Player player;
 
-    public void MakeMove(UnitBrainAction action) {
-        Game.Instance.StartCoroutine(MakeMoveCoroutine(action));
-    }
-    public IEnumerator MakeMoveCoroutine(UnitBrainAction action) {
-        var game = Game.Instance;
+    public void MakeMove() {
+        if (DamageTable.Loaded == null)
+            DamageTable.Load();
 
+        var task = Task.Run(() => {
+            var game = Game.Instance;
+            var level = game.stateMachine.Find<LevelSessionState>().level;
+            var player = level.CurrentPlayer;
+            Assert.IsTrue(player == this.player);
+
+            var units = level.Units.Where(u => u.Player == player).ToList();
+            var enemyUnits = level.Units.Where(u => Rules.AreEnemies(u.Player, this.player)).ToList();
+            var buildingsToCapture = level.Buildings.Where(b => b.Player != this.player).ToList();
+
+            //
+            //
+            // populate all possible "far" orders
+            //
+            //
+
+            var orders = new List<Order>();
+            foreach (var unit in units) {
+                
+                // add capture orders
+                foreach (var building in buildingsToCapture)
+                    if (Rules.CanCapture(unit, building))
+                        orders.Add(new Order {
+                            type = Order.Type.Capture,
+                            unit = unit,
+                            targetBuilding = building
+                        });
+
+                // add kill orders
+                if (unit.type != UnitType.Apc && !Rules.IsIndirect(unit)) {
+                    var weaponName = unit.type switch {
+                        UnitType.Infantry => WeaponName.Rifle,
+                        UnitType.AntiTank => WeaponName.RocketLauncher,
+                        UnitType.Artillery => WeaponName.Cannon,
+                        UnitType.Recon => WeaponName.MachineGun,
+                        UnitType.LightTank => WeaponName.Cannon,
+                        UnitType.Rockets => WeaponName.RocketLauncher,
+                        UnitType.MediumTank => WeaponName.Cannon,
+                        _ => throw new NotImplementedException()
+                    };
+
+                    foreach (var enemy in enemyUnits)
+                        if (Rules.TryGetDamage(unit.type, enemy.type, weaponName, out var damagePercentage) && damagePercentage > 0)
+                            orders.Add(new Order {
+                                type = Order.Type.Kill,
+                                unit = unit,
+                                targetUnit = enemy
+                            });
+                }
+
+                // add move orders
+                foreach (var position in level.tiles.Keys)
+                    if (Rules.CanStay(unit.type, level.tiles[position]))
+                        orders.Add(new Order {
+                            type = Order.Type.Move,
+                            unit = unit,
+                            targetPosition = position
+                        });
+            }
+
+            // score orders by their "value"
+
+            var artilleryPreference = InfluenceMapDrawer.ArtilleryPreference(player);
+
+            for (var i = 0; i < orders.Count; i++) {
+                var order = orders[i];
+                switch (order.type) {
+                    case Order.Type.Capture: {
+                        var manhattanDistance = (order.unit.NonNullPosition - order.targetBuilding.position).ManhattanLength();
+                        order.score = 1.25f / (manhattanDistance + 1);
+                        break;
+                    }
+                    case Order.Type.Kill: {
+                        var manhattanDistance = (order.unit.NonNullPosition - order.targetUnit.NonNullPosition).ManhattanLength();
+                        order.score = 1.5f / (manhattanDistance + 1);
+                        break;
+                    }
+                    case Order.Type.Move: {
+                        if (Rules.IsIndirect(order.unit) &&
+                            artilleryPreference.TryGetValue(order.unit.NonNullPosition, out var currentPreference) &&
+                            artilleryPreference.TryGetValue(order.targetPosition, out var targetPositionPreference)) {
+                            order.score = targetPositionPreference - currentPreference;
+                        }
+                        else
+                            order.score = 0;
+                        
+                        var manhattanDistance = (order.unit.NonNullPosition - order.targetPosition).ManhattanLength();
+                        order.score -= manhattanDistance * .00001f; // break ties by discouraging moving
+                        break;
+                    }
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+                orders[i] = order;
+            }
+
+            // assign order to according units
+
+            // order descending
+            orders.Sort((a, b) => -a.score.CompareTo(b.score));
+
+            var assignedUnits = new HashSet<Unit>();
+
+            bool TryAssignBestOrderTo(Unit unit) {
+                Assert.IsTrue(unit.states2.Count == 0);
+                if (orders.Count == 0)
+                    return false;
+                var order = orders.FirstOrDefault(o => o.unit == unit);
+                if (order == null)
+                    return false;
+                unit.states2.Add(order.type switch {
+                    Order.Type.Capture => new UnitCaptureState {
+                        unit = unit,
+                        sourceOrder = order,
+                        createdOnDay = unit.Player.level.Day(),
+                        lifetimeInDays = UnitCaptureState.defaultLifetimeInDays,
+                        building = order.targetBuilding,
+                    },
+                    Order.Type.Kill => new UnitKillState {
+                        unit = unit,
+                        sourceOrder = order,
+                        createdOnDay = unit.Player.level.Day(),
+                        lifetimeInDays = UnitKillState.defaultLifetimeInDays,
+                        target = order.targetUnit,
+                    },
+                    Order.Type.Move => new UnitMoveState {
+                        unit = unit,
+                        sourceOrder = order,
+                        createdOnDay = unit.Player.level.Day(),
+                        lifetimeInDays = Rules.IsIndirect(unit) ? 1 : UnitMoveState.defaultLifetimeInDays,
+                        position = order.targetPosition,
+                    },
+                    _ => throw new ArgumentOutOfRangeException()
+                });
+                assignedUnits.Add(unit);
+                return true;
+            }
+
+            //
+            //
+            // populate all the immediate unit actions from their "brain states"
+            //
+            //
+
+            var actions = new List<UnitBrainAction>();
+            var unitsToProcess = new List<Unit>(units);
+            var unitsToProcessOneMoreTime = new List<Unit>();
+            for (var i = 0; unitsToProcess.Count > 0; i++) {
+                if (i >= 5) {
+                    Debug.Log("Too many iterations for units' brain activities, units ignored: " + string.Join(", ", unitsToProcess));
+                    break;
+                }
+                unitsToProcessOneMoreTime.Clear();
+                foreach (var unit in unitsToProcess) {
+                    unit.states2.RemoveAll(state => state.HasExpired);
+                    if (unit.states2.Count > 0) {
+                        var action = unit.states2[^1].GetNextAction();
+                        if (action == UnitState.requestOneMoreIteration)
+                            unitsToProcessOneMoreTime.Add(unit);
+                        else if (!action.unit.Moved)
+                            actions.Add(action);
+                    }
+                    else if (TryAssignBestOrderTo(unit))
+                        unitsToProcessOneMoreTime.Add(unit);
+                }
+                (unitsToProcess, unitsToProcessOneMoreTime) = (unitsToProcessOneMoreTime, unitsToProcess);
+            }
+
+            if (actions.Count == 0)
+                return null;
+
+            const float last = -99999;
+
+            foreach (var action in actions) {
+                action.ResetPrecedence();
+                action.precedence[0] = action.type switch {
+                    UnitActionType.LaunchMissile => 0,
+                    UnitActionType.Capture => -1,
+                    UnitActionType.Attack when Rules.IsIndirect(action.unit) => -2,
+                    UnitActionType.Attack => -3,
+                    UnitActionType.GetIn => -4,
+                    UnitActionType.Drop => -5,
+                    UnitActionType.Stay when action.sourceState.sourceOrder?.type == Order.Type.Capture => -6,
+                    UnitActionType.Stay when action.unit.type == UnitType.Apc => -7,
+                    UnitActionType.Stay when !Rules.IsIndirect(action.unit) => -8,
+                    UnitActionType.Stay => -9,
+                    UnitActionType.Join => -10,
+                    UnitActionType.Supply => -11,
+                    _ => last
+                };
+                if (action.type == UnitActionType.Attack) {
+                    if (Rules.TryGetDamage(action.unit, action.targetUnit, action.weaponName, out var damagePercentage)) {
+                        var targetCost = Rules.Cost(action.targetUnit);
+                        var damageCost = targetCost * damagePercentage;
+                        action.precedence[1] = damageCost;
+                    }
+                    else
+                        action.precedence[1] = last;
+                }
+            }
+            actions.Sort((a, b) => UnitBrainAction.CompareLexicographically(a.precedence, b.precedence));
+
+            var selectedAction = actions[0];
+            foreach (var unit in assignedUnits)
+                if (unit != selectedAction.unit)
+                    unit.states2.Clear();
+
+            return selectedAction;
+        });
+
+        Game.Instance.StartCoroutine(WaitForMove(task));
+    }
+
+    public IEnumerator WaitForMove(Task<UnitBrainAction> task) {
+
+        while (!task.IsCompleted)
+            yield return null;
+
+        var action = task.Result;
+        if (action == null) {
+            Game.Instance.EnqueueCommand(SelectionState.Command.EndTurn);
+            yield break;
+        }
+
+        var game = Game.Instance;
         while (!game.stateMachine.IsInState<SelectionState>())
             yield return null;
         game.EnqueueCommand(SelectionState.Command.Select, action.unit.NonNullPosition);
@@ -383,233 +605,6 @@ public class UnitBrainController {
             yield return null;
 
         game.EnqueueCommand(ActionSelectionState.Command.Execute, action);
-    }
-    public void EndTurn() {
-        Game.Instance.EnqueueCommand(SelectionState.Command.EndTurn);
-    }
-
-    public void MakeMove() {
-        var game = Game.Instance;
-        var level = game.stateMachine.Find<LevelSessionState>().level;
-        var player = level.CurrentPlayer;
-        if (player != this.player)
-            return;
-
-        var units = level.Units.Where(u => u.Player == player).ToList();
-        var enemyUnits = level.Units.Where(u => Rules.AreEnemies(u.Player, this.player)).ToList();
-        var buildingsToCapture = level.Buildings.Where(b => b.Player != this.player).ToList();
-
-        //
-        //
-        // populate all possible "far" orders
-        //
-        //
-
-        var orders = new List<Order>();
-        foreach (var unit in units) {
-            // ignore units with assigned states
-            if (unit.states2.Count > 0)
-                continue;
-
-            var pathFinder = new PathFinder(unit);
-
-            // add capture orders
-            foreach (var building in buildingsToCapture)
-                if (Rules.CanCapture(unit, building) && pathFinder.TryFindPath(out var shortPath, out var restPath, building.position))
-                    orders.Add(new Order {
-                        type = Order.Type.Capture,
-                        unit = unit,
-                        targetBuilding = building,
-                        pathCost = pathFinder.FullCost(building.position),
-                        shortPath = shortPath,
-                        restPath = restPath
-                    });
-
-            // add kill orders
-            if (unit.type != UnitType.Apc && !Rules.IsIndirect(unit)) {
-                var weaponName = unit.type switch {
-                    UnitType.Infantry => WeaponName.Rifle,
-                    UnitType.AntiTank => WeaponName.RocketLauncher,
-                    UnitType.Artillery => WeaponName.Cannon,
-                    UnitType.Recon => WeaponName.MachineGun,
-                    UnitType.LightTank => WeaponName.Cannon,
-                    UnitType.Rockets => WeaponName.RocketLauncher,
-                    UnitType.MediumTank => WeaponName.Cannon,
-                    _ => throw new NotImplementedException()
-                };
-
-                foreach (var enemy in enemyUnits)
-                    if (Rules.TryGetDamage(unit.type, enemy.type, weaponName, out var damagePercentage) && damagePercentage > 0 &&
-                        pathFinder.TryFindPath(out var shortPath, out var restPath, enemy.NonNullPosition))
-                        orders.Add(new Order {
-                            type = Order.Type.Kill,
-                            unit = unit,
-                            targetUnit = enemy,
-                            pathCost = pathFinder.FullCost(enemy.NonNullPosition),
-                            shortPath = shortPath,
-                            restPath = restPath,
-                        });
-            }
-
-            // add move orders
-            foreach (var position in level.tiles.Keys)
-                if (Rules.CanStay(unit, position) && pathFinder.TryFindPath(out var shortPath, out var restPath, position))
-                    orders.Add(new Order {
-                        type = Order.Type.Move,
-                        unit = unit,
-                        targetPosition = position,
-                        pathCost = pathFinder.FullCost(position),
-                        shortPath = shortPath,
-                        restPath = restPath
-                    });
-        }
-
-        // score orders by their "value"
-
-        var artilleryPreference = InfluenceMapDrawer.ArtilleryPreference(player);
-
-        for (var i = 0; i < orders.Count; i++) {
-            var order = orders[i];
-            switch (order.type) {
-                case Order.Type.Capture:
-                    order.score = 1.25f / (order.pathCost + 1);
-                    break;
-                case Order.Type.Kill:
-                    order.score = 1.5f / (order.pathCost + 1);
-                    break;
-                case Order.Type.Move:
-                    if (Rules.IsIndirect(order.unit) &&
-                        artilleryPreference.TryGetValue(order.shortPath[^1], out var shortPathDestinationPreference) &&
-                        artilleryPreference.TryGetValue(order.targetPosition, out var targetPositionPreference)) {
-                        order.score = (shortPathDestinationPreference + targetPositionPreference) / 2;
-                        var moveCapacity = Rules.MoveCapacity(order.unit);
-                        //order.score -= Mathf.Max(0f, order.pathCost - moveCapacity) / moveCapacity;
-                    }
-                    else {
-                        order.score = 0;
-                    }
-                    order.score -= order.shortPath.Count * .00001f; // break ties by discouraging moving
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-            orders[i] = order;
-        }
-
-        // assign order to according units
-
-        // order descending
-        orders.Sort((a, b) => -a.score.CompareTo(b.score));
-
-        var assignedUnits = new HashSet<Unit>();
-
-        bool TryAssignBestOrderTo(Unit unit) {
-            Assert.IsTrue(unit.states2.Count == 0);
-            if (orders.Count == 0)
-                return false;
-            var order = orders.FirstOrDefault(o => o.unit == unit);
-            if (order == null)
-                return false;
-            unit.states2.Add(order.type switch {
-                Order.Type.Capture => new UnitCaptureState {
-                    unit = unit,
-                    sourceOrder = order,
-                    createdOnDay = unit.Player.level.Day(),
-                    lifetimeInDays = UnitCaptureState.defaultLifetimeInDays,
-                    building = order.targetBuilding,
-                },
-                Order.Type.Kill => new UnitKillState {
-                    unit = unit,
-                    sourceOrder = order,
-                    createdOnDay = unit.Player.level.Day(),
-                    lifetimeInDays = UnitKillState.defaultLifetimeInDays,
-                    target = order.targetUnit,
-                },
-                Order.Type.Move => new UnitMoveState {
-                    unit = unit,
-                    sourceOrder = order,
-                    createdOnDay = unit.Player.level.Day(),
-                    lifetimeInDays = Rules.IsIndirect(unit) ? 1 : UnitMoveState.defaultLifetimeInDays,
-                    position = order.targetPosition,
-                },
-                _ => throw new ArgumentOutOfRangeException()
-            });
-            assignedUnits.Add(unit);
-            return true;
-        }
-
-        //
-        //
-        // populate all the immediate unit actions from their "brain states"
-        //
-        //
-
-        var actions = new List<UnitBrainAction>();
-        var unitsToProcess = new HashSet<Unit>(units);
-        var unitsToProcessOneMoreTime = new HashSet<Unit>();
-        for (var i = 0; unitsToProcess.Count > 0; i++) {
-            if (i >= 5) {
-                Debug.Log("Too many iterations for units' brain activities, units ignored: " + string.Join(", ", unitsToProcess));
-                break;
-            }
-            unitsToProcessOneMoreTime.Clear();
-            foreach (var unit in unitsToProcess) {
-                unit.states2.RemoveAll(state => state.HasExpired);
-                if (unit.states2.Count > 0) {
-                    var action = unit.states2[^1].GetNextAction();
-                    if (action == UnitState.requestOneMoreIteration)
-                        unitsToProcessOneMoreTime.Add(unit);
-                    else if (!action.unit.Moved)
-                        actions.Add(action);
-                }
-                else if (TryAssignBestOrderTo(unit))
-                    unitsToProcessOneMoreTime.Add(unit);
-            }
-            (unitsToProcess, unitsToProcessOneMoreTime) = (unitsToProcessOneMoreTime, unitsToProcess);
-        }
-
-        if (actions.Count == 0) {
-            EndTurn();
-            return;
-        }
-
-        const float last = -99999;
-
-        foreach (var action in actions) {
-            action.ResetPrecedence();
-            action.precedence[0] = action.type switch {
-                UnitActionType.LaunchMissile => 0,
-                UnitActionType.Capture => -1,
-                UnitActionType.Attack when Rules.IsIndirect(action.unit) => -2,
-                UnitActionType.Attack => -3,
-                UnitActionType.GetIn => -4,
-                UnitActionType.Drop => -5,
-                UnitActionType.Stay when action.sourceState.sourceOrder?.type == Order.Type.Capture => -6,
-                UnitActionType.Stay when action.unit.type == UnitType.Apc => -7,
-                UnitActionType.Stay when !Rules.IsIndirect(action.unit) => -8,
-                UnitActionType.Stay => -9,
-                UnitActionType.Join => -10,
-                UnitActionType.Supply => -11,
-                _ => last
-            };
-            if (action.type == UnitActionType.Attack) {
-                if (Rules.TryGetDamage(action.unit, action.targetUnit, action.weaponName, out var damagePercentage)) {
-                    var targetCost = Rules.Cost(action.targetUnit);
-                    var damageCost = targetCost * damagePercentage;
-                    action.precedence[1] = damageCost;
-                }
-                else
-                    action.precedence[1] = last;
-            }
-        }
-        actions.Sort((a, b) => UnitBrainAction.CompareLexicographically(a.precedence, b.precedence));
-
-        var selectedAction = actions[0];
-        foreach (var unit in assignedUnits)
-            if (unit != selectedAction.unit)
-                unit.states2.Clear();
-
-        MakeMove(selectedAction);
     }
 
     public static void DrawAction(UnitBrainAction action, float duration = 10) {

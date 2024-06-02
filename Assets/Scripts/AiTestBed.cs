@@ -53,7 +53,6 @@ public class AiTestBed : MonoBehaviour {
             foreach (var state in unit.states2) {
                 if (state.HasExpired)
                     continue;
-
                 var text = state.GetType().ToString();
                 if (text.EndsWith("State"))
                     text = text[..^5];

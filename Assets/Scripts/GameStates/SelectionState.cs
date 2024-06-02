@@ -176,8 +176,10 @@ public class SelectionState : StateMachineState {
                     else if (Input.GetKeyDown(KeyCode.Escape))
                         Game.EnqueueCommand(Command.OpenGameMenu);
 
-                    else if (Input.GetKeyDown(KeyCode.F7))
+                    else if (Input.GetKey(KeyCode.F7) && !issuedAiCommands) {
+                        issuedAiCommands = true;
                         Level.CurrentPlayer.unitBrainController?.MakeMove();
+                    }
                 }
 
 
