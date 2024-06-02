@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Drawing;
 using SaveGame;
@@ -41,7 +42,7 @@ public class UnitBrainAction : UnitAction {
 }
 
 public abstract class UnitState {
-    public static readonly UnitBrainAction requestOneMoreIteration = null;
+    public const UnitBrainAction requestOneMoreIteration = null;
     public Unit unit;
     public int createdOnDay;
     public int lifetimeInDays = 999;
@@ -77,6 +78,7 @@ public abstract class UnitState {
     }
     public bool TryActualizeKillStateFor(Unit target) {
         var existingKillState = unit.states2.SingleOrDefault(s => s is UnitKillState ks && ks.target == target);
+        var index = unit.states2.IndexOf(existingKillState);
         if (existingKillState == null) {
             var result = new UnitKillState {
                 unit = unit,
@@ -88,11 +90,13 @@ public abstract class UnitState {
             return true;
         }
         else {
-            if (existingKillState.createdOnDay == unit.Player.level.Day())
+            if (existingKillState == unit.states2[^1])
                 return false;
             // move the state to the end 
             unit.states2.Remove(existingKillState);
             unit.states2.Add(existingKillState);
+            var newIndex = unit.states2.IndexOf(existingKillState);
+            Assert.IsTrue(newIndex != index);
             // refresh the expiration date
             existingKillState.createdOnDay = unit.Player.level.Day();
             return true;
@@ -148,6 +152,10 @@ public class UnitTransferState : UnitState {
 
         return DoNothing();
     }
+
+    public override string ToString() {
+        return $"Transfer {pickUpUnit} -> {dropPosition} ";
+    }
 }
 
 public class UnitCaptureState : UnitState {
@@ -177,6 +185,10 @@ public class UnitCaptureState : UnitState {
         }
 
         return DoNothing();
+    }
+
+    public override string ToString() {
+        return $"Capture {building}";
     }
 }
 
@@ -216,11 +228,15 @@ public class UnitHealState : UnitState {
 
         return new UnitBrainAction(this, UnitActionType.Stay, unit, path);
     }
+
+    public override string ToString() {
+        return $"Heal";
+    }
 }
 
 public class UnitKillState : UnitState {
 
-    public const int defaultLifetimeInDays = 2;
+    public const int defaultLifetimeInDays = 3;
     public Unit target;
 
     public override UnitBrainAction GetNextAction() {
@@ -290,6 +306,10 @@ public class UnitKillState : UnitState {
 
         return action;
     }
+
+    public override string ToString() {
+        return $"Kill {target}";
+    }
 }
 
 public class UnitMoveState : UnitState {
@@ -352,6 +372,10 @@ public class UnitMoveState : UnitState {
 
         return new UnitBrainAction(this, UnitActionType.Stay, unit, shortPath);
     }
+
+    public override string ToString() {
+        return $"Move to {position}";
+    }
 }
 
 public class UnitBrainController {
@@ -402,7 +426,8 @@ public class UnitBrainController {
                     };
 
                     foreach (var enemy in enemyUnits)
-                        if (Rules.TryGetDamage(unit.type, enemy.type, weaponName, out var damagePercentage) && damagePercentage > 0)
+                        if (Rules.TryGetDamage(unit.type, enemy.type, weaponName, out var damagePercentage) && damagePercentage > 0 &&
+                            unit.GetAmmo(weaponName) > 0)
                             orders.Add(new Order {
                                 type = Order.Type.Kill,
                                 unit = unit,
@@ -504,21 +529,36 @@ public class UnitBrainController {
             //
             //
 
+            var unitStates = new Dictionary<Unit, List<UnitState>>();
+
             var actions = new List<UnitBrainAction>();
             var unitsToProcess = new List<Unit>(units);
             var unitsToProcessOneMoreTime = new List<Unit>();
             for (var i = 0; unitsToProcess.Count > 0; i++) {
                 if (i >= 5) {
-                    Debug.Log("Too many iterations for units' brain activities, units ignored: " + string.Join(", ", unitsToProcess));
+                    var stringBuilder = new StringBuilder();
+                    stringBuilder.Append("Too many iterations for units' brain activities, units ignored:\n");
+                    foreach (var unit in unitsToProcess) {
+                        stringBuilder.Append($"{unit}:\n");
+                        if (unitStates.TryGetValue(unit, out var history))
+                            foreach (var state in history)
+                                stringBuilder.Append($"  {state}\n");
+                    }
+                    Debug.Log(stringBuilder.ToString());
                     break;
                 }
                 unitsToProcessOneMoreTime.Clear();
                 foreach (var unit in unitsToProcess) {
                     unit.states2.RemoveAll(state => state.HasExpired);
                     if (unit.states2.Count > 0) {
-                        var action = unit.states2[^1].GetNextAction();
-                        if (action == UnitState.requestOneMoreIteration)
+                        var state = unit.states2[^1];
+                        var action = state.GetNextAction();
+                        if (action == UnitState.requestOneMoreIteration) {
+                            if (!unitStates.ContainsKey(unit))
+                                unitStates.Add(unit, new List<UnitState>());
+                            unitStates[unit].Add(state);
                             unitsToProcessOneMoreTime.Add(unit);
+                        }
                         else if (!action.unit.Moved)
                             actions.Add(action);
                     }
@@ -575,21 +615,20 @@ public class UnitBrainController {
     }
 
     public IEnumerator WaitForMove(Task<UnitBrainAction> task) {
-        
         while (!task.IsCompleted)
             yield return null;
         var action = task.Result;
-        
+
         var game = Game.Instance;
         game.dontShowMoveUi = true;
         while (!game.stateMachine.IsInState<SelectionState>())
             yield return null;
-        
+
         if (action == null) {
             game.EnqueueCommand(SelectionState.Command.EndTurn);
             yield break;
         }
-        
+
         game.EnqueueCommand(SelectionState.Command.Select, action.unit.NonNullPosition);
 
         while (!game.stateMachine.IsInState<PathSelectionState>())
