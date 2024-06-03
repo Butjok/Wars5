@@ -16,50 +16,41 @@ public class TrackTrail : MonoBehaviour {
     public float lifetime = 2;
     public MaterialPropertyBlock materialPropertyBlock;
     public float offset = .01f;
+    public float clearThreshold = 1;
     public void Reset() {
         lineRenderer = GetComponent<LineRenderer>();
         Assert.IsTrue(lineRenderer);
     }
     public void OnEnable() {
-        lineRenderer.positionCount = 0;
-        head = null;
+        Clear();
     }
     public void Update() {
-        var shouldTrace = false;
-        if (lineRenderer.positionCount == 0)
-            shouldTrace = true;
-        else if (head is { } actualHead) {
+        if (head is not {} actualHead)
+            Trace();
+        else {
             var distance = Vector2.Distance(actualHead.ToVector2(), transform.position.ToVector2());
-            if (distance > threshold)
-                shouldTrace = true;
+            if (distance > clearThreshold)
+                Clear();
+            else if (distance > threshold)
+                Trace();
         }
-        var isDirty = false;
-        if (shouldTrace) {
-            var traceOrigin = transform.position + Vector3.up * 100;
-            var traceDirection = Vector3.down;
-            if (Physics.Raycast(new Ray(traceOrigin, traceDirection), out var hit, float.PositiveInfinity, layerMask)) {
-                //Draw.ingame.Line(traceOrigin, hit.point);
-                var position = hit.point + Vector3.up * offset;
-                Enqueue(position);
-                while (points.Count > maxPoints)
-                    Dequeue();
-                isDirty = true;
-                head = position;
-            }
-        }
-        /*while (creationTimes.TryPeek(out var tailCreationTime) && Time.time - tailCreationTime > lifetime) {
+        var shouldRebuild = false;
+        /*while (points.Count > 0 && Time.time - creationTimes.Peek() > lifetime) {
             Dequeue();
-            isDirty = true;
+            shouldRebuild = true;
         }*/
-        if (isDirty)
+        if (shouldRebuild)
             Rebuild();
     }
     public void Enqueue(Vector3 point) {
         points.Enqueue(point);
         creationTimes.Enqueue(Time.time);
+        head = point;
     }
     public void Dequeue() {
         points.Dequeue();
+        if (points.Count == 0)
+            head = null;
         creationTimes.Dequeue();
     }
     public void Rebuild() {
@@ -75,5 +66,22 @@ public class TrackTrail : MonoBehaviour {
         materialPropertyBlock ??= new MaterialPropertyBlock();
         materialPropertyBlock.SetFloat("_Length", length);
         lineRenderer.SetPropertyBlock(materialPropertyBlock);
+    }
+    public void Clear() {
+        lineRenderer.positionCount = 0;
+        points.Clear();
+        creationTimes.Clear();
+        head = null;
+    }
+    public void Trace() {
+        var traceOrigin = transform.position + Vector3.up * 100;
+        var traceDirection = Vector3.down;
+        if (Physics.Raycast(new Ray(traceOrigin, traceDirection), out var hit, float.PositiveInfinity, layerMask)) {
+            var position = hit.point + Vector3.up * offset;
+            Enqueue(position);
+            while (points.Count > maxPoints)
+                Dequeue();
+            Rebuild();
+        }
     }
 }

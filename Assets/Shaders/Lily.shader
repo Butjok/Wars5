@@ -26,7 +26,7 @@ Shader "Custom/Lily" {
 		float _UseColor;
 
 		struct Input {
-			float2 uv_MainTex;
+			float3 worldPos;
 		};
 
 		half _Glossiness;
@@ -44,10 +44,13 @@ Shader "Custom/Lily" {
 		#include "Assets/Shaders/Utils.cginc"
 
 		void surf (Input IN, inout SurfaceOutputStandard o) {
-			// Albedo comes from a texture tinted by color
-			fixed4 c = tex2D(_MainTex, IN.uv_MainTex);
 
-			float2 actualUv = floor(IN.uv_MainTex) + tex2D(_ReUv, IN.uv_MainTex).rg;
+			float2 uv =IN.worldPos.xz*3;
+			
+			// Albedo comes from a texture tinted by color
+			fixed4 c = tex2D(_MainTex,uv);
+
+			float2 actualUv = floor(uv) + tex2D(_ReUv, uv).rg;
 
 			actualUv.y += sin (actualUv.x * 10) * 0.1; 
 			
@@ -64,12 +67,14 @@ Shader "Custom/Lily" {
 			o.Alpha = c.a;
 			
 			float3 hsv = RGBtoHSV(o.Albedo.rgb);
-			//hsv.x -= .1;
-			hsv.z *= 1.5;
+			hsv.x -= .025;
+			hsv.z *= 3;
 			o.Albedo.rgb = HSVtoRGB(hsv);
 
 			//o.Albedo=0;
 			//o.Albedo.rg = actualUv;
+
+			//o.Albedo = on;
 		}
 		ENDCG
 	}

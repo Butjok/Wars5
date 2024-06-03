@@ -55,7 +55,7 @@
 
 		
 		
-		#pragma surface surf Standard alpha finalcolor:ResetAlpha vertex:vert
+		#pragma surface surf Standard alpha finalcolor:ResetAlpha 
 		#pragma target 3.0
 		#pragma shader_feature_local _SPECULARHIGHLIGHTS_OFF
 

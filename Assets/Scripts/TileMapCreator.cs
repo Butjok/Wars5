@@ -79,6 +79,9 @@ public class TileMapCreator : MonoBehaviour {
     public Vector2 noiseScale = new(10, 10);
     public Vector2 noiseScale2 = new(5, 5);
 
+    public Material riverWaterMaterial;
+    public Material lilyMaterial;
+
     [Command] public float noiseAmplitude = 1;
     [Command] public float noiseAmplitude2 = .1f;
     [Command] public int noiseOctavesCount = 3;
@@ -350,6 +353,9 @@ public class TileMapCreator : MonoBehaviour {
         if (tiles.Count == 0)
             return;
 
+        for (var i = 0; i < transform.childCount; i++)
+            Destroy(transform.GetChild(i).gameObject);
+
         var materials = pieces.SelectMany(r => r.sharedMaterials).Distinct().ToList();
         var subMeshCombiners = materials.ToDictionary(m => m, _ => new List<CombineInstance>());
 
@@ -406,8 +412,8 @@ public class TileMapCreator : MonoBehaviour {
         //
 
         var finalMaterials = new List<Material>();
-
         var subMeshes = new List<Mesh>();
+
         foreach (var material in materials) {
             var subMesh = new Mesh { indexFormat = IndexFormat.UInt32 };
             if (subMeshCombiners[material].Count > 0) {
@@ -415,6 +421,28 @@ public class TileMapCreator : MonoBehaviour {
                 subMeshes.Add(subMesh);
                 finalMaterials.Add(material);
             }
+        }
+
+        Assert.IsTrue(!finalMaterials.Contains(lilyMaterial));
+
+        var riverMaterialIndex = finalMaterials.IndexOf(riverWaterMaterial);
+        if (riverMaterialIndex != -1) {
+            var riverSubMesh = subMeshes[riverMaterialIndex];
+            var lilyMesh = new Mesh {
+                indexFormat = IndexFormat.UInt32,
+                vertices = riverSubMesh.vertices,
+                normals = riverSubMesh.normals,
+                tangents = riverSubMesh.tangents,
+                triangles = riverSubMesh.triangles
+            };
+            var displacedVertices = lilyMesh.vertices.Select(vertex => vertex + Vector3.up * .001f).ToArray();
+            lilyMesh.vertices = displacedVertices;
+            var go = new GameObject("Lily");
+            go.transform.SetParent(transform);
+            var meshRenderer = go.AddComponent<MeshRenderer>();
+            meshRenderer.sharedMaterial = lilyMaterial;
+            var meshFilter = go.AddComponent<MeshFilter>();
+            meshFilter.sharedMesh = lilyMesh;
         }
 
         var combinedMesh = new Mesh { indexFormat = IndexFormat.UInt32 };
@@ -452,12 +480,12 @@ public class TileMapCreator : MonoBehaviour {
             normals[i] = meshNormals[i];
 
         foreach (var (position, height) in this.heights) {
-            heightPositions.Add( new int2(position.x, position.y));
+            heightPositions.Add(new int2(position.x, position.y));
             heights.Add(height);
         }
 
         PopulateGrid(vertexGrid, vertices);
-        
+
 //        Debug.Log(heights.Length);
 
         var displacement = new DisplaceVerticesJob {
@@ -644,7 +672,7 @@ public class TileMapCreator : MonoBehaviour {
             for (var i = 0; i < heightPositions.Length; i++) {
                 var position = heightPositions[i];
                 if (cell.x == position.x && cell.y == position.y) {
-                    vertices[index] +=  math.up() * heights[i];
+                    vertices[index] += math.up() * heights[i];
                 }
             }
         }

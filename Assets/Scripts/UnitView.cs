@@ -209,6 +209,8 @@ public class UnitView : MonoBehaviour {
     public bool dancing = false;
     [Command] public bool enableDance = true;
 
+    public TrackTrail[] trails = { };
+
     public bool Dancing {
         get => dancing && enableDance;
         set => dancing = value;
@@ -1281,6 +1283,11 @@ public class UnitView : MonoBehaviour {
                 yield return body.position + body.rotation * localPosition;
             }
         }
+    }
+
+    public void ClearTrails() {
+        foreach (var trail in trails)
+            trail.Clear();
     }
 }
 

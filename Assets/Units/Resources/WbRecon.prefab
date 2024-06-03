@@ -109,7 +109,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2359976626921081254}
   m_LocalRotation: {x: 0.0000000044979735, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.002752304, y: 0.121305995, z: 0.00003148041}
+  m_LocalPosition: {x: -0.002752304, y: 0.15672196, z: 0.000031483083}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -378,6 +378,7 @@ MonoBehaviour:
   totalIncomingProjectiles: 0
   dancing: 1
   enableDance: 1
+  trails: []
   ui: {fileID: 0}
   weaponSounds: []
   automaticWeaponShotsCount: 5
