@@ -346,11 +346,11 @@ public class UnitMoveState : UnitState {
                 }
             }
 
-            var enemyPlayer = unit.Player.level.players.Single(p => Rules.AreEnemies(unit.Player, p));
-            var influenceMap = InfluenceMapDrawer.UnitInfluence(unit.Player);
-            var enemyInfluenceMap = InfluenceMapDrawer.UnitInfluence(enemyPlayer);
-            var artilleryPreferenceMap = InfluenceMapDrawer.ArtilleryPreference(unit.Player);
-            if (influenceMap.TryGetValue(unit.NonNullPosition, out var influence) &&
+            var playerInfluenceMap = unit.Player.unitBrainController.playerInfluenceMap;
+            var enemyInfluenceMap = unit.Player.unitBrainController.enemyInfluenceMap;
+            var artilleryPreferenceMap = unit.Player.unitBrainController.artilleryPreferenceMap;
+
+            if (playerInfluenceMap.TryGetValue(unit.NonNullPosition, out var influence) &&
                 enemyInfluenceMap.TryGetValue(unit.NonNullPosition, out var enemyInfluence) &&
                 artilleryPreferenceMap.TryGetValue(unit.NonNullPosition, out var artilleryPreference) &&
                 enemyInfluence > influence && artilleryPreference < .1f) {
@@ -380,6 +380,7 @@ public class UnitMoveState : UnitState {
 
 public class UnitBrainController {
     public Player player;
+    public Dictionary<Vector2Int, float> playerInfluenceMap, enemyInfluenceMap, artilleryPreferenceMap;
 
     public void MakeMove() {
         if (!DamageTable.IsLoaded)
@@ -394,6 +395,16 @@ public class UnitBrainController {
             var units = level.Units.Where(u => u.Player == player).ToList();
             var enemyUnits = level.Units.Where(u => Rules.AreEnemies(u.Player, this.player)).ToList();
             var buildingsToCapture = level.Buildings.Where(b => b.Player != this.player).ToList();
+
+            //
+            //
+            // update the artillery preference map
+            //
+            //
+
+            playerInfluenceMap = InfluenceMapDrawer.UnitInfluence(player);
+            enemyInfluenceMap = InfluenceMapDrawer.UnitInfluence(level.players.Single(p => Rules.AreEnemies(player, p)));
+            artilleryPreferenceMap = InfluenceMapDrawer.ArtilleryPreference(player.level, playerInfluenceMap, enemyInfluenceMap);
 
             //
             //
@@ -413,7 +424,7 @@ public class UnitBrainController {
                         });
 
                 // add kill orders
-                if (unit.type != UnitType.Apc && !Rules.IsIndirect(unit)) {
+                if (!Rules.IsIndirect(unit)) {
                     var weaponName = unit.type switch {
                         UnitType.Infantry => WeaponName.Rifle,
                         UnitType.AntiTank => WeaponName.RocketLauncher,
@@ -426,8 +437,7 @@ public class UnitBrainController {
                     };
 
                     foreach (var enemy in enemyUnits)
-                        if (Rules.TryGetDamage(unit.type, enemy.type, weaponName, out var damagePercentage) && damagePercentage > 0 &&
-                            unit.GetAmmo(weaponName) > 0)
+                        if (Rules.TryGetDamage(unit, enemy, weaponName, out var damagePercentage) && damagePercentage > 0)
                             orders.Add(new Order {
                                 type = Order.Type.Kill,
                                 unit = unit,
@@ -447,8 +457,6 @@ public class UnitBrainController {
 
             // score orders by their "value"
 
-            var artilleryPreference = InfluenceMapDrawer.ArtilleryPreference(player);
-
             for (var i = 0; i < orders.Count; i++) {
                 var order = orders[i];
                 switch (order.type) {
@@ -464,8 +472,8 @@ public class UnitBrainController {
                     }
                     case Order.Type.Move: {
                         if (Rules.IsIndirect(order.unit) &&
-                            artilleryPreference.TryGetValue(order.unit.NonNullPosition, out var currentPreference) &&
-                            artilleryPreference.TryGetValue(order.targetPosition, out var targetPositionPreference)) {
+                            artilleryPreferenceMap.TryGetValue(order.unit.NonNullPosition, out var currentPreference) &&
+                            artilleryPreferenceMap.TryGetValue(order.targetPosition, out var targetPositionPreference)) {
                             order.score = targetPositionPreference - currentPreference;
                         }
                         else

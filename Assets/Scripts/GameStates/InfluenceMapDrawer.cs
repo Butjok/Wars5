@@ -32,8 +32,11 @@ public class InfluenceMapDrawer : MonoBehaviour {
 
         if (draw && Game.Instance && Game.Instance.TryGetLevel != null) {
             var player = Game.Instance.TryGetLevel.CurrentPlayer;
-            if (player != null)
-                DrawField(ArtilleryPreference(player));
+            if (player != null) {
+                var playerInfluence = UnitInfluence(player);
+                var enemyInfluence = UnitInfluence(player.level.players.Single(p=>Rules.AreEnemies(player,p)));
+                DrawField(ArtilleryPreference(player.level, playerInfluence, enemyInfluence));
+            }
             return;
         }
     }
@@ -71,15 +74,7 @@ public class InfluenceMapDrawer : MonoBehaviour {
         return map;
     }
 
-    public static ScalarField ArtilleryPreference(Player player) {
-        var level = player.level;
-
-        var enemy = level.players.Single(p => Rules.AreEnemies(player, p));
-        var ourInfluence = UnitInfluence(player);
-        var enemyInfluence = UnitInfluence(enemy);
-
-        var blueMapNormalized = new ScalarField(enemyInfluence);
-        TryNormalize(blueMapNormalized);
+    public static ScalarField ArtilleryPreference(Level level, ScalarField ourInfluence, ScalarField enemyInfluence) {
 
         var tension = ourInfluence.Keys.ToDictionary(position => position, position => (enemyInfluence[position] * ourInfluence[position]));
         var presence = ourInfluence.Keys.ToDictionary(position => position, position => (enemyInfluence[position] - ourInfluence[position]));

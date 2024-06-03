@@ -1017,6 +1017,10 @@ public class UnitView : MonoBehaviour {
         }
 
         var isExplosion = hitAudioClip == Sounds.explosion || hitAudioClip == Sounds.armorHit;
+        if (dies && isVehicle) {
+            hitAudioClip = Sounds.explosion;
+            isExplosion = true;
+        }
 
         if (hitAudioClip) {
             Sounds.PlayOneShot(hitAudioClip);
@@ -1024,6 +1028,7 @@ public class UnitView : MonoBehaviour {
             var torque = isExplosion ? explosionTorque : bulletTorque;
             instantaneousTorques.Enqueue((new Vector3(Random.value, Random.value, Random.value) * 2 - Vector3.one) * torque);
 
+            // shake cameras
             if (isExplosion) {
                 var virtualCameras = GameObject.FindGameObjectsWithTag("BattleVirtualCamera")
                     .Select(go => go.GetComponent<CinemachineVirtualCamera>())

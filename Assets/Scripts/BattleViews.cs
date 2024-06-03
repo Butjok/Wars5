@@ -93,13 +93,11 @@ public class BattleViewSide : IDisposable {
             unit.PlaceOnTerrain();
             unit.spawnPointIndex = index;
             unit.Dancing = false;
-            if (unit.prefab.name == "WbInfantry") {
+            var bipedalWalker = unit.GetComponent<BipedalWalker>();
+            if (bipedalWalker) {
                 unit.transform.localScale = Vector3.one * .8f;
-                var bipedalWalker = unit.GetComponent<BipedalWalker>();
-                if (bipedalWalker) {
-                    bipedalWalker.legLength *= .8f;
-                    bipedalWalker.height *= .8f;
-                }
+                bipedalWalker.legLength *= .8f;
+                bipedalWalker.height *= .8f;
             }
             index++;
         }
@@ -217,7 +215,7 @@ public class BattleView : IDisposable {
         var targets = unitViews[setup.target.side];
         for (var i = 0; i < Mathf.Max(attackers.Count, targets.Count); i++) {
             AddTarget(attackers[i % attackers.Count], targets[i % targets.Count], (WeaponName)setup.attacker.weaponName);
-            if (setup.target.count[after] > 0 && setup.target.weaponName is {} actualTargetWeaponName)
+            if (setup.target.count[after] > 0 && setup.target.weaponName is { } actualTargetWeaponName)
                 AddTarget(targets[i % setup.target.count[after]], attackers[i % attackers.Count], actualTargetWeaponName);
         }
     }

@@ -172,10 +172,11 @@ public class PathSelectionState : StateMachineState {
     }
 
     public override void Exit() {
-        var level = stateMachine.TryFind<LevelSessionState>().level;
         var unit = stateMachine.TryFind<SelectionState>().unit;
         TileMask.UnsetGlobal();
-        unit.view.Selected = false;
+        // the unit might get destroyed during the move
+        if (unit != null && unit.view)
+            unit.view.Selected = false;
         if (pathMeshGameObject)
             pathMeshGameObject.SetActive(false);
     }

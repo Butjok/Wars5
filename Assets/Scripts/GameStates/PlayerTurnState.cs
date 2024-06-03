@@ -26,9 +26,8 @@ public class PlayerTurnState : StateMachineState {
             player.view.Show(player.uiPosition, player.Credits, player.AbilityMeter, Rules.MaxAbilityMeter(player), player.UiColor, player.coName);
             Debug.Log($"Start of turn #{Level.turn}: {player}");
 
-            var musicTracks = Persons.GetMusicThemes(player.coName).ToList();
-            if (musicTracks.Count > 0)
-                musicSource = Music.CreateAudioSource(musicTracks);
+            PlayerThemeAudio.Stop();
+            PlayerThemeAudio.Play(player.coName);
 
             // Sun and turn button animations
             {
@@ -93,8 +92,8 @@ public class PlayerTurnState : StateMachineState {
     private const float buildingCircleRadius = .75f;
 
     private void DrawObjectives() {
-        return; 
-        
+        return;
+
         var size = objectivesSize;
         var padding = DefaultGuiSkin.padding;
         GUILayout.BeginArea(new Rect(Screen.width - size.x - padding.x, padding.y, size.x, size.y));

@@ -40,7 +40,9 @@ public class AttackActionState : StateMachineState {
                 targetSide = attackerSide == Side.Left ? Side.Right : Side.Left;
             }
 
-            var newTargetHp = Mathf.RoundToInt(Mathf.Max(0, target.Hp - damagePercentageToTarget * MaxHp(target)));
+            var attackerIntensity = (float)attacker.Hp / MaxHp(attacker);
+            var attackerDamage = attackerIntensity * damagePercentageToTarget * MaxHp(target);
+            var newTargetHp = Mathf.RoundToInt(Mathf.Max(0, target.Hp - attackerDamage));
             var newAttackerHp = attacker.Hp;
 
             WeaponName? responseWeaponName = default;
@@ -58,6 +60,9 @@ public class AttackActionState : StateMachineState {
                         .OrderByDescending(t => MaxAmmo(target, t.weaponName))
                         .First();
                     responseWeaponName = bestChoice.weaponName;
+                    var targetIntensity = (float)newTargetHp / MaxHp(target);
+                    var targetDamage = targetIntensity * bestChoice.damagePercentage * MaxHp(attacker);
+                    newAttackerHp = Mathf.RoundToInt(Mathf.Max(0, attacker.Hp - targetDamage));
                 }
             }
 
