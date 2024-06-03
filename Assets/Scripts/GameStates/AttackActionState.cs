@@ -41,8 +41,8 @@ public class AttackActionState : StateMachineState {
             }
 
             var attackerIntensity = (float)attacker.Hp / MaxHp(attacker);
-            var attackerDamage = attackerIntensity * damagePercentageToTarget * MaxHp(target);
-            var newTargetHp = Mathf.RoundToInt(Mathf.Max(0, target.Hp - attackerDamage));
+            var damageByAttacker = attackerIntensity * damagePercentageToTarget * MaxHp(target);
+            var newTargetHp = Mathf.RoundToInt(Mathf.Max(0, target.Hp - damageByAttacker));
             var newAttackerHp = attacker.Hp;
 
             WeaponName? responseWeaponName = default;
@@ -61,8 +61,8 @@ public class AttackActionState : StateMachineState {
                         .First();
                     responseWeaponName = bestChoice.weaponName;
                     var targetIntensity = (float)newTargetHp / MaxHp(target);
-                    var targetDamage = targetIntensity * bestChoice.damagePercentage * MaxHp(attacker);
-                    newAttackerHp = Mathf.RoundToInt(Mathf.Max(0, attacker.Hp - targetDamage));
+                    var damageByTarget = targetIntensity * bestChoice.damagePercentage * MaxHp(attacker);
+                    newAttackerHp = Mathf.RoundToInt(Mathf.Max(0, attacker.Hp - damageByTarget));
                 }
             }
 
@@ -128,11 +128,9 @@ public class AttackActionState : StateMachineState {
             }
 
             // a short pause before one of the units die
-            if (newTargetHp <= 0 || newAttackerHp <= 0) {
-                var time = Time.time;
-                while (Time.time < time + .25f)
+            if (newTargetHp <= 0 || newAttackerHp <= 0)
+                for (var duration = .25f; duration > 0; duration -= Time.deltaTime)
                     yield return StateChange.none;
-            }
 
             if (newTargetHp <= 0 && level.CurrentPlayer != level.localPlayer) {
                 level.view.cameraRig.Jump(target.view.transform.position);

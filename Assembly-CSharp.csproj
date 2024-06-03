@@ -90,6 +90,7 @@
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\TemporalAntialiasing.shader" />
      <Folder Include="Assets\Saves\test-Tiles" />
      <None Include="Assets\MultiAudioListener\HowToUse.txt" />
+     <Folder Include="Assets\DeferredDecals\Textures" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\FastApproximateAntialiasing.hlsl" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\SubpixelMorphologicalAntialiasing.shader" />
      <Folder Include="Assets\Saves\IntroTest-Bushes" />
@@ -141,6 +142,7 @@
      <None Include="Assets\Shaders\CircleProgress.shader" />
      <None Include="Assets\Shaders\test.shader" />
      <None Include="Assets\Saves\1\1-22.01.2023-19.32.58.txt" />
+     <Folder Include="Assets\DeferredDecals\Scenes" />
      <None Include="Assets\Shaders\TileMasked.shader" />
      <None Include="Assets\Shaders\HeightMap.shader" />
      <None Include="Assets\Saves\1\1-22.01.2023-19.38.06.txt" />
@@ -276,6 +278,7 @@
      <Folder Include="Assets\Saves\test-Bushes" />
      <None Include="Assets\Saves\simple\simple-19.03.2023-15.45.01.txt" />
      <Folder Include="Assets\Saves\Border-Bushes" />
+     <Folder Include="Assets\DeferredDecals\Materials" />
      <None Include="Assets\Resources\Funny.txt" />
      <None Include="Assets\Shaders\Difference.shader" />
      <None Include="Assets\Shaders\TileArea.shader" />
@@ -306,6 +309,7 @@
      <Folder Include="Assets\Saves\Save-Forests" />
      <None Include="Assets\Shaders\Hole3.shader" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\ACES.hlsl" />
+     <None Include="Assets\Decals\ExplosionCrater.shader" />
      <None Include="Assets\Shaders\ShrinkToTerrain.shader" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\FinalPass.shader" />
      <Folder Include="Assets\Portraits\Resources" />
@@ -362,6 +366,7 @@
      <Folder Include="Assets\Content\mrap" />
      <Folder Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Textures\LUTs" />
      <Folder Include="Assets\Scripts2" />
+     <Folder Include="Assets\Decals" />
      <None Include="Assets\Shaders\TriggerUnlit.shader" />
      <Folder Include="Assets\Resources\UnitThumbnails" />
      <Folder Include="Assets\Saves\Save-Level" />
@@ -477,6 +482,7 @@
      <None Include="Assets\Shaders\Texture Splatting.shader" />
      <Folder Include="Assets\Resources\TilemapMeshes" />
      <Folder Include="Assets\Sounds\FromAW" />
+     <Folder Include="Assets\DeferredDecals" />
      <Folder Include="Assets\Saves\AutosaveRoads" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
      <None Include="Assets\Resources\Colors2.json" />
@@ -573,6 +579,7 @@
      <Folder Include="Assets\Sounds\FromAW\Resources" />
      <Folder Include="Assets\Saves\Border3-Level" />
      <Folder Include="Assets\Scenes\PlainLeft" />
+     <None Include="Assets\Decals\TrackTrail.shader" />
      <None Include="Assets\Shaders\Waves.shader" />
      <Folder Include="Assets\Scenes\PlayableTest" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\API\Vulkan.hlsl" />
@@ -1652,9 +1659,17 @@
       <Project>{4d4a23ac-500a-28e4-edf9-8f813c1b07c8}</Project>
       <Name>Stable</Name>
     </ProjectReference>
+    <ProjectReference Include="HG.DeferredDecals.Runtime.csproj">
+      <Project>{59b84092-38eb-9ecb-1e61-faf609059005}</Project>
+      <Name>HG.DeferredDecals.Runtime</Name>
+    </ProjectReference>
     <ProjectReference Include="ALINEEditor.csproj">
       <Project>{04a2449b-c7cc-f037-fca8-a9c0695f60cf}</Project>
       <Name>ALINEEditor</Name>
+    </ProjectReference>
+    <ProjectReference Include="HG.DeferredDecals.Editor.csproj">
+      <Project>{edc131bb-0318-a21c-2e08-fcd8239ab85d}</Project>
+      <Name>HG.DeferredDecals.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.Postprocessing.Runtime.csproj">
       <Project>{091aa702-4d91-b5db-cc8d-9330429d1595}</Project>

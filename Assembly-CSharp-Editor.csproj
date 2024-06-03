@@ -1117,9 +1117,17 @@
       <Project>{4d4a23ac-500a-28e4-edf9-8f813c1b07c8}</Project>
       <Name>Stable</Name>
     </ProjectReference>
+    <ProjectReference Include="HG.DeferredDecals.Runtime.csproj">
+      <Project>{59b84092-38eb-9ecb-1e61-faf609059005}</Project>
+      <Name>HG.DeferredDecals.Runtime</Name>
+    </ProjectReference>
     <ProjectReference Include="ALINEEditor.csproj">
       <Project>{04a2449b-c7cc-f037-fca8-a9c0695f60cf}</Project>
       <Name>ALINEEditor</Name>
+    </ProjectReference>
+    <ProjectReference Include="HG.DeferredDecals.Editor.csproj">
+      <Project>{edc131bb-0318-a21c-2e08-fcd8239ab85d}</Project>
+      <Name>HG.DeferredDecals.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.Postprocessing.Runtime.csproj">
       <Project>{091aa702-4d91-b5db-cc8d-9330429d1595}</Project>

@@ -89,6 +89,7 @@
      <Compile Include="Assets\Scripts\Stable\UnitType.cs" />
      <Compile Include="Assets\Scripts\Stable\Maths.cs" />
      <Compile Include="Assets\Scripts\Stable\UiSound.cs" />
+     <Compile Include="Assets\Scripts\Stable\PlayerThemeAudio.cs" />
      <Compile Include="Assets\Scripts\Stable\UiFollow.cs" />
      <Compile Include="Assets\Scripts\Stable\TileType.cs" />
      <Compile Include="Assets\Scripts\Stable\CloudMovement.cs" />
@@ -149,7 +150,6 @@
      <Compile Include="Assets\Scripts\Stable\ResourceExtensions.cs" />
      <Compile Include="Assets\Scripts\Stable\LookAt.cs" />
      <Compile Include="Assets\Scripts\Stable\PistonBody.cs" />
-     <Compile Include="Assets\Scripts\Stable\PlayerThemeAudio.cs" />
      <Folder Include="Assets\Scripts\Stable\Foliage" />
      <Folder Include="Assets\Scripts\Stable\Interpreter" />
      <None Include="Assets\Scripts\Stable\Stable.asmdef" />

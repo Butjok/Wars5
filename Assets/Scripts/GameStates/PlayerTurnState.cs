@@ -25,8 +25,7 @@ public class PlayerTurnState : StateMachineState {
             player = Level.CurrentPlayer;
             player.view.Show(player.uiPosition, player.Credits, player.AbilityMeter, Rules.MaxAbilityMeter(player), player.UiColor, player.coName);
             Debug.Log($"Start of turn #{Level.turn}: {player}");
-
-            PlayerThemeAudio.Stop();
+            
             PlayerThemeAudio.Play(player.coName);
 
             // Sun and turn button animations
@@ -168,6 +167,8 @@ public class PlayerTurnState : StateMachineState {
 
         if (musicSource)
             Music.Kill(musicSource);
+        
+        PlayerThemeAudio.Stop();
 
         Level.RemoveGui("objectives");
 
