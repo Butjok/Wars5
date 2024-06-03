@@ -215,7 +215,8 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _BorderColor: {r: 1, g: 1, b: 1, a: 1}
-    - _CausticsColor: {r: 0, g: 0.41053438, b: 1, a: 1}
+    - _CausticsColor: {r: 0, g: 0.4117647, b: 1, a: 1}
+    - _CausticsRange: {r: 0.18, g: 0.03, b: -0.57, a: 0.12}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _DarkGrassHSVTweak: {r: 0, g: 1.25, b: 1.5, a: 0}
     - _DarkGreenTint: {r: 1, g: 1, b: 1, a: 1}

@@ -45,7 +45,9 @@ Shader "Custom/Lily" {
 
 		void surf (Input IN, inout SurfaceOutputStandard o) {
 
-			float2 uv =IN.worldPos.xz*3;
+			float2 uv =IN.worldPos.xz*2.75;
+			uv.x += sin (uv.y * 2 + _Time.y * 2) * 0.025;
+			uv.y += cos (uv.x * 2 + _Time.y * 5) * 0.025;
 			
 			// Albedo comes from a texture tinted by color
 			fixed4 c = tex2D(_MainTex,uv);
@@ -68,7 +70,7 @@ Shader "Custom/Lily" {
 			
 			float3 hsv = RGBtoHSV(o.Albedo.rgb);
 			hsv.x -= .025;
-			hsv.z *= 3;
+			hsv.z *= 2.75;
 			o.Albedo.rgb = HSVtoRGB(hsv);
 
 			//o.Albedo=0;
