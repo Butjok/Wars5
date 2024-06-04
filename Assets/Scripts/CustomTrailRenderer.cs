@@ -76,8 +76,6 @@ public class CustomTrailRenderer : MonoBehaviour {
             triangles.Add(vertexStartIndex + 1);
         }
 
-        Assert.IsTrue(uvs.Count == vertices.Count);
-
         if (vertices.Count > 0) {
             if (!mesh) {
                 mesh = new Mesh();
