@@ -80,7 +80,7 @@ public class AttackActionState : StateMachineState {
                         unitViewPrefab = target.view.prefab,
                         count = CountBeforeAndAfter(target.type, target.Hp, newTargetHp),
                         color = target.Player.Color,
-                        weaponName = responseWeaponName
+                        weaponName = responseWeaponName,
                     }
                 };
                 setup.attacker = setup[attackerSide];

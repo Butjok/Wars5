@@ -98,6 +98,7 @@ public class Unit {
                 view.Visible = true;
                 Effects.SpawnExplosion(view.body.position);
                 Sounds.PlayOneShot(Sounds.explosion);
+                ExplosionCrater.SpawnDecal(view.body.position.ToVector2());
                 player.level.view.cameraRig.Shake();
                 view.AnimateDeath(false, Dispose);
             }

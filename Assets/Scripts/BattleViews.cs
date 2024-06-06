@@ -190,6 +190,8 @@ public class BattleView : IDisposable {
         return targetsMap.TryGetValue(attacker, out var list) && list.Remove(target);
     }
 
+    public Transform container;
+
     public BattleView(Setup setup) {
         Assert.IsTrue(setup.left.unitViewPrefab);
         Assert.IsTrue(setup.left.count[before] >= 0);
@@ -201,15 +203,19 @@ public class BattleView : IDisposable {
 
         undisposed.Add(this);
 
+        var gameObject = new GameObject("BattleViewContainer");
+        container = gameObject.transform;
+
         for (var side = Side.Left; side <= Side.Right; side++)
         for (var i = 0; i < setup[side].count[before]; i++) {
-            var view = Object.Instantiate(setup[side].unitViewPrefab, setup[side].parent);
+            var view = Object.Instantiate(setup[side].unitViewPrefab, container);
             view.ResetWeapons();
             //Assert.IsTrue(view);
             view.PlayerColor = setup[side].color;
             unitViews[side].Add(view);
             view.survives = i < setup[side].count[after];
             view.prefab = setup[side].unitViewPrefab;
+            view.container = container;
         }
 
         var attackers = unitViews[setup.attacker.side];
@@ -228,5 +234,7 @@ public class BattleView : IDisposable {
         foreach (var unitView in unitViews[Side.Left].Concat(unitViews[Side.Right]))
             if (unitView)
                 Object.Destroy(unitView.gameObject);
+        
+        Object.Destroy(container.gameObject);
     }
 }

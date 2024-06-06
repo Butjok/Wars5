@@ -22,32 +22,35 @@ Shader "Custom/ExplosionCrater" {
 		#pragma target 3.0
 
 		sampler2D _MainTex;
+		float _CreationTime;
+		float _LifeTime;
 
 		struct Input {
 			float2 uv_MainTex;
 		};
-
-		half _Glossiness;
-		half _Metallic;
+		
 		fixed4 _Color;
 
-		// Add instancing support for this shader. You need to check 'Enable Instancing' on materials that use the shader.
-		// See https://docs.unity3d.com/Manual/GPUInstancing.html for more information about instancing.
-		// #pragma instancing_options assumeuniformscaling
-		UNITY_INSTANCING_BUFFER_START(Props)
-			// put more per-instance properties here
-		UNITY_INSTANCING_BUFFER_END(Props)
-
+		float InverseLerp(float from, float to, float value){
+            return (value - from) / (to - from);
+        }
+		
 		void surf (Input IN, inout SurfaceOutputStandard o) {
 			// Albedo comes from a texture tinted by color
 			fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _Color;
-			o.Albedo = c.rgb;
+			o.Albedo = _Color.rgb;
 			// Metallic and smoothness come from slider variables
 			o.Metallic = 0;
 			o.Smoothness = 0;
-			o.Albedo = 0;
+			//o.Albedo = 0;
 			float len = distance(IN.uv_MainTex, .5);
-			o.Alpha = smoothstep(.5, .4, len);
+			float angle = atan2(IN.uv_MainTex.y - .5, IN.uv_MainTex.x - .5);
+			float sin1 = (sin(angle*6) + 1)/2;
+			float sin2 = (sin(angle*10) + 1)/2;
+			o.Alpha = smoothstep(lerp(.5, .35, .66*sin1+.33*sin2), .0, len) * _Color.a;
+
+			float timeElapsed = _Time.y - _CreationTime;
+			o.Alpha *= saturate(InverseLerp(_LifeTime, 0, timeElapsed));
 		}
 		ENDCG
 	}

@@ -1074,8 +1074,10 @@ public class UnitView : MonoBehaviour {
 
         if (dies) {
             if (isExplosion) {
-                var explosion = Effects.SpawnExplosion(body.position);
+                var explosion = Effects.SpawnExplosion(body.position, container);
                 explosion.gameObject.SetLayerRecursively(gameObject.layer);
+                var crater = ExplosionCrater.SpawnDecal(body.position.ToVector2(), container);
+                crater.gameObject.SetLayerRecursively(gameObject.layer);
             }
             AnimateDeath(true);
         }
@@ -1340,6 +1342,7 @@ public class UnitView : MonoBehaviour {
     [Command] public static float gibSpeedSide = 0;
     [Command] public static float gibSpeedDrag = 2.5f;
     [Command] public static float gibScale = 0;
+    public Transform container;
 
     public IEnumerator GibsFlyingAnimation(Vector2 speedUpRange, float rotationSpeed, Action onComplete = null) {
         onDeathCompletion = onComplete;

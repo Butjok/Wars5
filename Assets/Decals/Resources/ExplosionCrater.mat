@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Custom_ExplosionCrater
+  m_Name: ExplosionCrater
   m_Shader: {fileID: 4800000, guid: e781b88d14204e958b81f804baacb703, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -29,5 +29,5 @@ Material:
     - _Glossiness: 0.5
     - _Metallic: 0
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
