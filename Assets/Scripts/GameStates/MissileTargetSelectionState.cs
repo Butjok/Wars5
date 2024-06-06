@@ -107,6 +107,7 @@ public class MissileTargetSelectionState : StateMachineState {
                                 }
 
                                 Sounds.PlayOneShot(Sounds.explosion);
+                                cameraRig.Shake(.25f);
                                 for (var radius = building.missileSilo.blastRange[0]; radius <= building.missileSilo.blastRange[1]; radius++) {
                                     foreach (var position in Level.PositionsInRange(targetPosition, new Vector2Int(radius, radius))) {
                                         if (Level.TryGetUnit(position, out var unit)) {

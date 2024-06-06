@@ -212,8 +212,8 @@ Shader "Custom/Unit"
             #if DISSOLVE
 
             float timeElapsed = _Time.y - _DissolveTime;
-            float fireIntensity = smoothstep(0, .1, timeElapsed);
-            float clipOffset = lerp(-.001, 1, sqrt(saturate(InverseLerp(0, 2.5, timeElapsed))));
+            float fireIntensity = smoothstep(0, .25, timeElapsed);
+            float clipOffset = lerp(-.001, 1, (saturate(InverseLerp(0, 2, timeElapsed))));
             
             IN.objectPosition *= _NoiseScale;
             float xSample = tex2D(_Noise, IN.objectPosition.yz).a;

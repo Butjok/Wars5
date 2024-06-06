@@ -289,7 +289,7 @@ public class UnitView : MonoBehaviour {
         get => transform.position.ToVector2().RoundToInt();
         set {
             transform.position = value.ToVector3Int();
-            PlaceOnTerrain();
+            //PlaceOnTerrain();
         }
     }
 
@@ -309,7 +309,7 @@ public class UnitView : MonoBehaviour {
         set {
             Assert.AreEqual(1, value.ManhattanLength());
             transform.rotation = Quaternion.LookRotation(value.ToVector3Int(), Vector3.up);
-            PlaceOnTerrain();
+            //PlaceOnTerrain();
         }
     }
 
@@ -318,10 +318,11 @@ public class UnitView : MonoBehaviour {
         MoveAlong(null, value);
     }
 
-    public void PlaceOnTerrain() {
+    public void PlaceOnTerrain(bool resetSprings = false) {
         foreach (var wheel in wheels)
             UpdateWheel(wheel);
-        ResetSprings();
+        if (resetSprings)
+            ResetSprings();
         ResetSteering();
         UpdateBodyPosition();
         UpdateBodyRotation();
@@ -336,6 +337,8 @@ public class UnitView : MonoBehaviour {
     public bool Visible {
         get => gameObject.activeSelf;
         set {
+            if (value == gameObject.activeSelf)
+                return;
             gameObject.SetActive(value);
             if (value)
                 PlaceOnTerrain();
@@ -558,7 +561,8 @@ public class UnitView : MonoBehaviour {
             if (Vector3.Dot(Vector3.up, up) < 0)
                 up = -up;
 
-            body.rotation = Quaternion.LookRotation(forwardSum, up);
+            if (forwardSum != Vector3.zero)
+                body.rotation = Quaternion.LookRotation(forwardSum, up);
         }
     }
 
@@ -1069,11 +1073,11 @@ public class UnitView : MonoBehaviour {
         }
 
         if (dies) {
-            AnimateDeath(true);
             if (isExplosion) {
                 var explosion = Effects.SpawnExplosion(body.position);
                 explosion.gameObject.SetLayerRecursively(gameObject.layer);
             }
+            AnimateDeath(true);
         }
 
         TriggerDamageFlash();
@@ -1323,16 +1327,21 @@ public class UnitView : MonoBehaviour {
     [Command]
     public void PlayDissolve(bool isBattleAnimation, Action onComplete = null) {
         DissolveTime = Time.timeSinceLevelLoad;
-        StartCoroutine(GibsFlyingAnimation(isBattleAnimation ? gibSpeedUpRangeBattleAnimation : gibSpeedUpRangeMap, onComplete));
+        StartCoroutine(GibsFlyingAnimation(
+            isBattleAnimation ? gibSpeedUpRangeBattleAnimation : gibSpeedUpRangeMap,
+            isBattleAnimation ? gibRotationSpeedBattleAnimation : gibRotationSpeedMap,
+            onComplete));
     }
     [Command] public static float gibsGravity = 3.5f;
-    [Command] public static float gibRotationSpeed = 900;
+    [Command] public static float gibRotationSpeedMap = 900;
+    [Command] public static float gibRotationSpeedBattleAnimation = 5000;
     [Command] public static Vector2 gibSpeedUpRangeMap = new(5, 5);
-    [Command] public static Vector2 gibSpeedUpRangeBattleAnimation = new(30, 30);
+    [Command] public static Vector2 gibSpeedUpRangeBattleAnimation = new(50, 50);
     [Command] public static float gibSpeedSide = 0;
     [Command] public static float gibSpeedDrag = 2.5f;
+    [Command] public static float gibScale = 0;
 
-    public IEnumerator GibsFlyingAnimation(Vector2 speedUpRange, Action onComplete = null) {
+    public IEnumerator GibsFlyingAnimation(Vector2 speedUpRange, float rotationSpeed, Action onComplete = null) {
         onDeathCompletion = onComplete;
         enabled = false;
 
@@ -1353,12 +1362,13 @@ public class UnitView : MonoBehaviour {
         foreach (var gib in gibs) {
             var speed = new Vector3(Random.Range(-1f, 1f) * gibSpeedSide, Random.Range(speedUpRange[0], speedUpRange[1]), Random.Range(-1f, 1f) * gibSpeedSide);
             speeds.Add(speed);
-            rotationSpeeds.Add(Random.onUnitSphere * gibRotationSpeed);
+            rotationSpeeds.Add(Random.onUnitSphere * rotationSpeed);
             initialPositions.Add(gib.position);
             parents.Add(gib.parent);
         }
 
         for (var timeLeft = duration; timeLeft > 0; timeLeft -= Time.deltaTime) {
+            yield return null;
             for (var i = 0; i < gibs.Count; i++) {
                 var gib = gibs[i];
                 if (!gib)
@@ -1370,8 +1380,8 @@ public class UnitView : MonoBehaviour {
                 speeds[i] = speed;
                 gib.Rotate(rotationSpeeds[i] * Time.deltaTime);
                 rotationSpeeds[i] *= 1 - gibSpeedDrag * Time.deltaTime;
+                gib.localScale += Vector3.one * gibScale * Time.deltaTime;
             }
-            yield return null;
         }
 
         onComplete?.Invoke();

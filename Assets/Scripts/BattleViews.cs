@@ -90,7 +90,7 @@ public class BattleViewSide : IDisposable {
             var valid = queue.TryDequeue(out var spawnPoint);
             Assert.IsTrue(valid);
             unit.transform.SetPositionAndRotation(spawnPoint.position, spawnPoint.rotation);
-            unit.PlaceOnTerrain();
+            unit.PlaceOnTerrain(true);
             unit.spawnPointIndex = index;
             unit.Dancing = false;
             var bipedalWalker = unit.GetComponent<BipedalWalker>();
