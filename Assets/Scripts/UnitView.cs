@@ -250,27 +250,29 @@ public class UnitView : MonoBehaviour {
         hitPoints.AddRange(GetComponentsInChildren<Transform>().Where(t => t.name.StartsWith("HitPoint")));
     }
 
-    private MaterialPropertyBlock materialPropertyBlock;
-
     [Command]
     public Color PlayerColor {
         set {
-            materialPropertyBlock ??= new MaterialPropertyBlock();
-            materialPropertyBlock.SetColor(playerColorUniformName, value);
-
-            materialPropertyBlock.SetFloat(redAmountUniformName, value.r > value.b ? 1 : 0);
-
-            foreach (var renderer in GetComponentsInChildren<Renderer>())
+            foreach (var renderer in GetComponentsInChildren<Renderer>()) {
+                var materialPropertyBlock = new MaterialPropertyBlock();
+                if (renderer.HasPropertyBlock())
+                    renderer.GetPropertyBlock(materialPropertyBlock);
+                materialPropertyBlock.SetColor(playerColorUniformName, value);
+                materialPropertyBlock.SetFloat(redAmountUniformName, value.r > value.b ? 1 : 0);
                 renderer.SetPropertyBlock(materialPropertyBlock);
+            }
         }
     }
 
     private float DamageTime {
         set {
-            materialPropertyBlock ??= new MaterialPropertyBlock();
-            materialPropertyBlock.SetFloat("_DamageTime", value);
-            foreach (var renderer in GetComponentsInChildren<Renderer>())
+            foreach (var renderer in GetComponentsInChildren<Renderer>()) {
+                var materialPropertyBlock = new MaterialPropertyBlock();
+                if (renderer.HasPropertyBlock())
+                    renderer.GetPropertyBlock(materialPropertyBlock);
+                materialPropertyBlock.SetFloat("_DamageTime", value);
                 renderer.SetPropertyBlock(materialPropertyBlock);
+            }
         }
     }
 
@@ -422,10 +424,13 @@ public class UnitView : MonoBehaviour {
         }
         set {
             moved = value;
-            materialPropertyBlock ??= new MaterialPropertyBlock();
-            materialPropertyBlock.SetFloat(movedUniformName, value ? 1 : 0);
-            foreach (var renderer in GetComponentsInChildren<Renderer>())
+            foreach (var renderer in GetComponentsInChildren<Renderer>()) {
+                var materialPropertyBlock = new MaterialPropertyBlock();
+                if (renderer.HasPropertyBlock())
+                    renderer.GetPropertyBlock(materialPropertyBlock);
+                materialPropertyBlock.SetFloat(movedUniformName, value ? 1 : 0);
                 renderer.SetPropertyBlock(materialPropertyBlock);
+            }
         }
     }
 
@@ -1321,11 +1326,11 @@ public class UnitView : MonoBehaviour {
         StartCoroutine(GibsFlyingAnimation(isBattleAnimation ? gibSpeedUpRangeBattleAnimation : gibSpeedUpRangeMap, onComplete));
     }
     [Command] public static float gibsGravity = 3.5f;
-    [Command] public static float gibRotationSpeed = 360 * 2;
-    [Command] public static Vector2 gibSpeedUpRangeMap = new(20, 20);
+    [Command] public static float gibRotationSpeed = 900;
+    [Command] public static Vector2 gibSpeedUpRangeMap = new(5, 5);
     [Command] public static Vector2 gibSpeedUpRangeBattleAnimation = new(30, 30);
     [Command] public static float gibSpeedSide = 0;
-    [Command] public static float gibSpeedDrag = 5;
+    [Command] public static float gibSpeedDrag = 2.5f;
 
     public IEnumerator GibsFlyingAnimation(Vector2 speedUpRange, Action onComplete = null) {
         onDeathCompletion = onComplete;
