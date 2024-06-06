@@ -95,9 +95,10 @@ public class BattleViewSide : IDisposable {
             unit.Dancing = false;
             var bipedalWalker = unit.GetComponent<BipedalWalker>();
             if (bipedalWalker) {
-                unit.transform.localScale = Vector3.one * .8f;
-                bipedalWalker.legLength *= .8f;
-                bipedalWalker.height *= .8f;
+                unit.transform.localScale = Vector3.one * .66f;
+                bipedalWalker.legLength *= .66f;
+                bipedalWalker.height *= .66f;
+                bipedalWalker.stepLength *= .66f;
             }
             index++;
         }
