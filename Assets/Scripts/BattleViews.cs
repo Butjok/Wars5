@@ -99,6 +99,7 @@ public class BattleViewSide : IDisposable {
                 bipedalWalker.legLength *= .66f;
                 bipedalWalker.height *= .66f;
                 bipedalWalker.stepLength *= .66f;
+                bipedalWalker.ResetFeet();
             }
             index++;
         }
