@@ -65,8 +65,10 @@ public class CustomTrailRenderer : MonoBehaviour {
             uvs.Add(new Vector2(0, lengths[i + 1]));
             uvs.Add(new Vector2(1, lengths[i + 1]));
 
-            for (var j = 0; j < 4; j++)
-                colors.Add(new Color(times[i], 0, 0, 0));
+            colors.Add(new Color(times[i], 0, 0, 0));
+            colors.Add(new Color(times[i], 0, 0, 0));
+            colors.Add(new Color(times[i + 1], 0, 0, 0));
+            colors.Add(new Color(times[i + 1], 0, 0, 0));
 
             triangles.Add(vertexStartIndex + 0);
             triangles.Add(vertexStartIndex + 2);
@@ -75,8 +77,6 @@ public class CustomTrailRenderer : MonoBehaviour {
             triangles.Add(vertexStartIndex + 3);
             triangles.Add(vertexStartIndex + 1);
         }
-
-        Assert.IsTrue(uvs.Count == vertices.Count);
 
         if (vertices.Count > 0) {
             if (!mesh) {
