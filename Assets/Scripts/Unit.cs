@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Butjok.CommandLine;
@@ -17,7 +18,7 @@ public enum WeaponName {
     [UsedImplicitly] MachineGun,
 }
 
-public class Unit : IDisposable {
+public class Unit {
 
     public static readonly HashSet<Unit> undisposed = new();
 
@@ -92,9 +93,16 @@ public class Unit : IDisposable {
         hp = Clamp(value, 0, Initialized ? MaxHp(this) : MaxHp(type));
 
         if (hp <= 0) {
-            if (animateDeath && view)
-                view.DieOnMap();
-            Dispose();
+            if (animateDeath && view) {
+                Position = null;
+                view.Visible = true;
+                Effects.SpawnExplosion(view.body.position);
+                Sounds.PlayOneShot(Sounds.explosion);
+                player.level.view.cameraRig.Shake();
+                view.AnimateDeath(false, Dispose);
+            }
+            else
+                Dispose();
         }
         else if (view) {
             view.Hp = hp;
@@ -223,8 +231,10 @@ public class Unit : IDisposable {
         undisposed.Remove(this);
 
         Position = null;
-        Object.Destroy(view.gameObject);
-        view = null;
+        if (view) {
+            Object.Destroy(view.gameObject);
+            view = null;
+        }
 
         Initialized = false;
     }

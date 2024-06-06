@@ -3,10 +3,12 @@ using System.Collections;
 using Butjok.CommandLine;
 using Cinemachine;
 using Drawing;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
+using Random = System.Random;
 
 public class CameraRig : MonoBehaviour {
 
@@ -107,6 +109,7 @@ public class CameraRig : MonoBehaviour {
     [Range(0, 1)] [SerializeField] private float dollyZoom = 0;
     [Range(0, 1)] public float targetDollyZoom = 0;
     public float dollyZoomSpeed = 20;
+    public IEnumerator shakeCoroutine;
 
     [Command]
     public static float verticalStretch = 1.1f;
@@ -423,5 +426,37 @@ public class CameraRig : MonoBehaviour {
         }
         transform.rotation = to;
         rotationCoroutine = null;
+    }
+
+    public Vector3 initialArmPosition;
+    public void Start() {
+        initialArmPosition = arm.localPosition;
+    }
+
+    [Command] public static float shakeDuration = .5f;
+    [Command] public static float shakeSpeed = 10;
+    
+    [Command]
+    public void Shake(float amplitude = .05f) {
+        if (shakeCoroutine != null) {
+            StopCoroutine(shakeCoroutine);
+            shakeCoroutine = null;
+        }
+        shakeCoroutine = ShakeCoroutine(amplitude);
+        StartCoroutine(shakeCoroutine);
+    }
+    public IEnumerator ShakeCoroutine(float amplitude) {
+        var noiseOffset = UnityEngine.Random.insideUnitSphere * 1000;
+        var noiseTime = 0f;
+        for (var timeLeft = shakeDuration; timeLeft > 0; timeLeft -= Time.deltaTime) {
+            var intensity = Mathf.Pow(timeLeft / shakeDuration, 2f);
+            var xOffset = Mathf.PerlinNoise(noiseTime + noiseOffset.x, 0);
+            var yOffset = Mathf.PerlinNoise(noiseTime + noiseOffset.y, 0);
+            var zOffset = Mathf.PerlinNoise(noiseTime + noiseOffset.z, 0);
+            noiseTime += Time.deltaTime * shakeSpeed * intensity;
+            arm.localPosition = initialArmPosition + new Vector3(xOffset, yOffset, zOffset) * amplitude * intensity;
+            yield return null;
+        }
+        arm.localPosition = initialArmPosition;
     }
 }

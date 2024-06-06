@@ -153,7 +153,7 @@ public class UnitView : MonoBehaviour {
 
     public bool overrideTerrainBumpRange;
     public Vector2 terrainBumpRangeOverride = new(0, .02f);
-    
+
     public bool overrideTerrainBumpTiling;
     public float terrainBumpTilingOverride = 5f;
 
@@ -230,6 +230,7 @@ public class UnitView : MonoBehaviour {
     public void OnDestroy() {
         if (ui)
             Destroy(ui.gameObject);
+        onDeathCompletion?.Invoke();
     }
 
     public void ConvertToSkinnedMesh() {
@@ -339,10 +340,21 @@ public class UnitView : MonoBehaviour {
         }
     }
 
-    public void DieOnMap() {
-        Visible = false;
-        Effects.SpawnExplosion(body.position);
-        Sounds.PlayOneShot(Sounds.explosion);
+    public Action onDeathCompletion;
+
+    public void AnimateDeath(bool isBattleAnimation, Action onComplete = null) {
+        if (!gameObject.GetComponent<BipedalWalker>())
+            PlayDissolve(isBattleAnimation, onComplete);
+        else {
+            Destroy(gameObject);
+            onComplete?.Invoke();
+        }
+        if (hpText)
+            hpText.enabled = false;
+        if (ui) {
+            ui.enabled = false;
+            ui.gameObject.SetActive(false);
+        }
     }
 
     [Command]
@@ -431,8 +443,9 @@ public class UnitView : MonoBehaviour {
 
     public void Start() {
         DamageTime = -1000;
+        DissolveTime = float.PositiveInfinity;
     }
-    
+
     // TODO: update fixed wheels after body update
 
     private void UpdateWheel(Wheel wheel) {
@@ -454,7 +467,7 @@ public class UnitView : MonoBehaviour {
                 wheel.position = ray.GetPoint(hit.distance);
                 var bumpTiling = overrideTerrainBumpTiling ? terrainBumpTilingOverride : terrainBumpTiling;
                 var noise = Mathf.PerlinNoise(wheel.position.x * bumpTiling, wheel.position.z * bumpTiling);
-                var bumpRange =  overrideTerrainBumpRange ? terrainBumpRangeOverride : terrainBumpRange;
+                var bumpRange = overrideTerrainBumpRange ? terrainBumpRangeOverride : terrainBumpRange;
                 var height = Mathf.Lerp(bumpRange[0], bumpRange[1], noise);
                 wheel.position += height * Vector3.up;
             }
@@ -1051,7 +1064,7 @@ public class UnitView : MonoBehaviour {
         }
 
         if (dies) {
-            Visible = false;
+            AnimateDeath(true);
             if (isExplosion) {
                 var explosion = Effects.SpawnExplosion(body.position);
                 explosion.gameObject.SetLayerRecursively(gameObject.layer);
@@ -1288,6 +1301,76 @@ public class UnitView : MonoBehaviour {
     public void ClearTrails() {
         foreach (var trail in trails)
             trail.Clear();
+    }
+
+    public float DissolveTime {
+        set {
+            foreach (var renderer in gameObject.GetComponentsInChildren<Renderer>()) {
+                var materialPropertyBlock = new MaterialPropertyBlock();
+                if (renderer.HasPropertyBlock())
+                    renderer.GetPropertyBlock(materialPropertyBlock);
+                materialPropertyBlock.SetFloat("_DissolveTime", value);
+                renderer.SetPropertyBlock(materialPropertyBlock);
+            }
+        }
+    }
+
+    [Command]
+    public void PlayDissolve(bool isBattleAnimation, Action onComplete = null) {
+        DissolveTime = Time.timeSinceLevelLoad;
+        StartCoroutine(GibsFlyingAnimation(isBattleAnimation ? gibSpeedUpRangeBattleAnimation : gibSpeedUpRangeMap, onComplete));
+    }
+    [Command] public static float gibsGravity = 3.5f;
+    [Command] public static float gibRotationSpeed = 360 * 2;
+    [Command] public static Vector2 gibSpeedUpRangeMap = new(20, 20);
+    [Command] public static Vector2 gibSpeedUpRangeBattleAnimation = new(30, 30);
+    [Command] public static float gibSpeedSide = 0;
+    [Command] public static float gibSpeedDrag = 5;
+
+    public IEnumerator GibsFlyingAnimation(Vector2 speedUpRange, Action onComplete = null) {
+        onDeathCompletion = onComplete;
+        enabled = false;
+
+        var duration = 2f;
+
+        var toDestroy = gameObject.GetComponentsInChildren<Transform>();
+        foreach (var t in toDestroy) {
+            t.SetParent(null, true);
+            var destroyInSeconds = t.gameObject.AddComponent<DestroyInSeconds>();
+            destroyInSeconds.delay = duration;
+        }
+
+        var gibs = toDestroy.Where(t => t != transform && !t.name.Contains("TrackTrail")).ToList();
+        var speeds = new List<Vector3>();
+        var rotationSpeeds = new List<Vector3>();
+        var initialPositions = new List<Vector3>();
+        var parents = new List<Transform>();
+        foreach (var gib in gibs) {
+            var speed = new Vector3(Random.Range(-1f, 1f) * gibSpeedSide, Random.Range(speedUpRange[0], speedUpRange[1]), Random.Range(-1f, 1f) * gibSpeedSide);
+            speeds.Add(speed);
+            rotationSpeeds.Add(Random.onUnitSphere * gibRotationSpeed);
+            initialPositions.Add(gib.position);
+            parents.Add(gib.parent);
+        }
+
+        for (var timeLeft = duration; timeLeft > 0; timeLeft -= Time.deltaTime) {
+            for (var i = 0; i < gibs.Count; i++) {
+                var gib = gibs[i];
+                if (!gib)
+                    continue;
+                var speed = speeds[i];
+                gib.position += speed * Time.deltaTime;
+                speed.y -= gibsGravity * Time.deltaTime;
+                speed *= 1 - gibSpeedDrag * Time.deltaTime;
+                speeds[i] = speed;
+                gib.Rotate(rotationSpeeds[i] * Time.deltaTime);
+                rotationSpeeds[i] *= 1 - gibSpeedDrag * Time.deltaTime;
+            }
+            yield return null;
+        }
+
+        onComplete?.Invoke();
+        this.onDeathCompletion = null;
     }
 }
 

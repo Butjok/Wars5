@@ -22,7 +22,7 @@ MonoBehaviour:
     height: 939
   m_MinSize: {x: 100, y: 100}
   m_MaxSize: {x: 8096, y: 8096}
-  vertical: 1
+  vertical: 0
   controlID: 17
 --- !u!114 &2
 MonoBehaviour:
@@ -512,9 +512,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 29.096724, y: 2.025956, z: 10.218587}
+    m_Target: {x: 27.666964, y: 0.12299061, z: -1.4362402}
     speed: 2
-    m_Value: {x: 29.096724, y: 2.025956, z: 10.218587}
+    m_Value: {x: 27.666964, y: 0.12299061, z: -1.4362402}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -561,27 +561,27 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: -0.57246906, y: 0.17235607, z: -0.1280226, w: -0.7921436}
+    m_Target: {x: 0.2911222, y: -0.49040398, z: 0.18238148, w: 0.80185026}
     speed: 2
-    m_Value: {x: -0.56971765, y: 0.17262739, z: -0.1274203, w: -0.7933383}
+    m_Value: {x: 0.2933083, y: -0.48949257, z: 0.18371958, w: 0.8003839}
   m_Size:
-    m_Target: 0.8660254
+    m_Target: 2.5898554
     speed: 2
-    m_Value: 0.8660254
+    m_Value: 2.5898554
   m_Ortho:
     m_Target: 0
     speed: 2
     m_Value: 0
   m_CameraSettings:
-    m_Speed: 0.1891
-    m_SpeedNormalized: 0.089999996
+    m_Speed: 0.069699995
+    m_SpeedNormalized: 0.03
     m_SpeedMin: 0.01
     m_SpeedMax: 2
     m_EasingEnabled: 0
     m_EasingDuration: 0.4
     m_AccelerationEnabled: 0
     m_FieldOfViewHorizontalOrVertical: 50
-    m_NearClip: 0.03
+    m_NearClip: 0.01
     m_FarClip: 10000
     m_DynamicClip: 0
     m_OcclusionCulling: 0

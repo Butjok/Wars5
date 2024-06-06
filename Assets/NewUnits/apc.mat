@@ -9,7 +9,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: apc
   m_Shader: {fileID: 4800000, guid: 074cde04cbd147f47839117e5704e769, type: 3}
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - DISSOLVE
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -56,6 +57,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Noise:
+        m_Texture: {fileID: 2800000, guid: 09fc1f9650fe5af48b50d906a8136b17, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Normal:
         m_Texture: {fileID: 2800000, guid: 7610050c5d03b8c4eb496ee31a09c445, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -81,17 +86,27 @@ Material:
     - _AttackHighlightFactor: 0
     - _BounceIntensity: 1.25
     - _BumpScale: 1
+    - _ClipThreshold: -0.001
     - _Cutoff: 0.5
     - _DamageFalloffIntensity: 10
+    - _DamageTime: -1000
     - _DetailNormalMapScale: 1
+    - _DissolveToggle: 1
     - _DstBlend: 0
+    - _FireIntensity: 0
+    - _FireSmoothness: 0.1
+    - _FireThickness: 0.1
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
+    - _Hole: 0
+    - _HoleRadius: 0.5
     - _HueShift: 1
     - _Metallic: 0
     - _Mode: 0
     - _Moved: 0
+    - _NoiseScale: 0.5
+    - _NoiseToggle: 0
     - _OcclusionStrength: 1
     - _OffsetIntensity: 0
     - _Parallax: 0.02
@@ -107,6 +122,7 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _DamageColor: {r: 0.25, g: 0.25, b: 0, a: 0.25}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FireColor: {r: 127.999985, g: 46.132874, b: 0, a: 1}
     - _Offset: {r: 0, g: 0, b: 0.5, a: 1}
     - _PlayerColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

@@ -225,6 +225,7 @@ public class BattleView : IDisposable {
         undisposed.Remove(this);
 
         foreach (var unitView in unitViews[Side.Left].Concat(unitViews[Side.Right]))
-            Object.Destroy(unitView.gameObject);
+            if (unitView)
+                Object.Destroy(unitView.gameObject);
     }
 }

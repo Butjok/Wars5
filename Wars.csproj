@@ -219,6 +219,7 @@
      <Compile Include="Assets\Scripts\SavedGamesView.cs" />
      <Compile Include="Assets\Scripts\TextContrast.cs" />
      <Compile Include="Assets\Scripts\BattleViews.cs" />
+     <Compile Include="Assets\Scripts\CustomTrailRenderer.cs" />
      <Compile Include="Assets\Scripts\UnitView2TreeParser.cs" />
      <Compile Include="Assets\Scripts\LoadGameMenu.cs" />
      <Compile Include="Assets\Scripts\TileAreaMeshBuilder.cs" />
@@ -337,10 +338,10 @@
      <Compile Include="Assets\Scripts\StateMachine.cs" />
      <Compile Include="Assets\Scripts\Missions.cs" />
      <Compile Include="Assets\Scripts\FlipbookTest.cs" />
+     <Compile Include="Assets\Scripts\TrackTrail.cs" />
      <Compile Include="Assets\Scripts\Animation\UnitViewSequenceSubroutines.cs" />
      <Compile Include="Assets\Scripts\EntryPoint\MainMenuWelcomeState.cs" />
-     <Compile Include="Assets\Scripts\TrackTrail.cs" />
-     <Compile Include="Assets\Scripts\CustomTrailRenderer.cs" />
+     <Compile Include="Assets\Scripts\DestroyInSeconds.cs" />
      <Folder Include="Assets\Scripts\EntryPoint" />
      <None Include="Assets\Scripts\Wars.asmdef" />
      <Folder Include="Assets\Scripts\DialogueMarkupLanguage" />

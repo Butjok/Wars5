@@ -22,6 +22,14 @@ Shader "Custom/Unit"
         _DamageTime ("_DamageTime", Float) = -1000
         [Toggle(HOLE)] _Hole ("_Hole", Float) = 0
         _HoleRadius ("_HoleRadius", Float) = 0.5
+        _Noise ("_Noise", 2D) = "black" {}
+        [Toggle(DISSOLVE)] _DissolveToggle ("_DissolveToggle", Float) = 0
+        _ClipThreshold ("_ClipThreshold", Float) = 0.5
+        _NoiseScale ("_NoiseScale", Float) = 1
+        [HDR] _FireColor ("_FireColor", Color) = (1,1,1,1)
+        _FireIntensity ("_FireIntensity", Range(0,1)) = 1
+        _FireThickness ("_FireThickness", Range(0,1)) = 1
+        _FireSmoothness ("_FireSmoothness", Range(0,1)) = 1
     }
     SubShader
     {
@@ -30,8 +38,9 @@ Shader "Custom/Unit"
 
         CGPROGRAM
         // Physically based Standard lighting model, and enable shadows on all light types
-        #pragma surface surf Standard vertex:vert fullforwardshadows        
+        #pragma surface surf Standard vertex:vert addshadow        
         #pragma shader_feature HOLE
+        #pragma shader_feature DISSOLVE 
         
         #pragma multi_compile_instancing
 
@@ -46,10 +55,16 @@ Shader "Custom/Unit"
         {
             float2 uv_MainTex;
             float2 uv2_Occlusion;
+            
             #if HOLE
             float3 worldPos;
             float3 objectWorldPosition;
             float4 hole;
+            #endif
+            
+            #if DISSOLVE
+            float3 projectionAlphas;
+            float3 objectPosition;
             #endif
         };
 
@@ -60,6 +75,17 @@ Shader "Custom/Unit"
         half _DamageTime = -1000;
         //half4 _DamageColor;
         half _DamageFalloffIntensity;
+
+        #if DISSOLVE
+        sampler2D _Noise;
+        float _ClipThreshold;
+        float _NoiseScale;
+        float3 _FireColor;
+        float _FireIntensity;
+        float _FireThickness;
+        float _FireSmoothness;
+        float _DissolveTime = 100000;
+        #endif
         
         #if HOLE
         half _HoleRadius;
@@ -96,7 +122,23 @@ Shader "Custom/Unit"
 			o.objectWorldPosition = mul(unity_ObjectToWorld, float4(0,0,0,1)).xyz;
 			o.hole = tex2Dlod(_HoleMask, float4(mul(_HoleMask_WorldToLocal, float4(o.objectWorldPosition,1)).xz, 0, 0));
 			#endif
+
+            #if DISSOLVE
+            o.objectPosition = v.vertex.xyz;
+            float xAlpha = abs(dot(v.normal, float3(1, 0, 0)));
+            float yAlpha = abs(dot(v.normal, float3(0, 1, 0)));
+            float zAlpha = abs(dot(v.normal, float3(0, 0, 1)));
+            float sum = xAlpha + yAlpha + zAlpha;
+            xAlpha /= sum;
+            yAlpha /= sum;
+            zAlpha /= sum;
+            o.projectionAlphas = float3(xAlpha, yAlpha, zAlpha);
+            #endif
 		}
+
+        float InverseLerp(float from, float to, float value){
+            return (value - from) / (to - from);
+        }
         
         void surf (Input IN, inout SurfaceOutputStandard o)
         {
@@ -166,9 +208,26 @@ Shader "Custom/Unit"
 
             float3 _DamageColor = float3(.25,.25,0);
             o.Emission += _DamageColor * saturate(exp(-(_Time.y-_DamageTime)*40));
+
+            #if DISSOLVE
+
+            float timeElapsed = _Time.y - _DissolveTime;
+            if (timeElapsed > 2.5)
+                timeElapsed = -1;
+            float fireIntensity = smoothstep(0, .1, timeElapsed);
+            float clipOffset = lerp(-.001, 1, sqrt(InverseLerp(0, 2.5, timeElapsed)));
             
+            IN.objectPosition *= _NoiseScale;
+            float xSample = tex2D(_Noise, IN.objectPosition.yz).a;
+            float ySample = tex2D(_Noise, IN.objectPosition.xz).a;
+            float zSample = tex2D(_Noise, IN.objectPosition.xy).a;
+            float averageSample = 1 - (xSample + ySample + zSample) / 3;
+            clip(averageSample - clipOffset);
+            
+            o.Emission += smoothstep( clipOffset + _FireThickness + _FireSmoothness, clipOffset + _FireThickness, averageSample) * _FireColor * fireIntensity;
+            
+            #endif
         }
         ENDCG
     }
-    FallBack "Diffuse"
 }
