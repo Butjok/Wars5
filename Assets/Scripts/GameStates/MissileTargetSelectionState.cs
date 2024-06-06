@@ -112,6 +112,10 @@ public class MissileTargetSelectionState : StateMachineState {
                                     foreach (var position in Level.PositionsInRange(targetPosition, new Vector2Int(radius, radius))) {
                                         if (Level.TryGetUnit(position, out var unit)) {
                                             unit.SetHp(unit.Hp - building.missileSilo.unitDamage, true);
+                                            if (unit.Initialized && unit.view) {
+                                                unit.view.ApplyDamageTorque(UnitView.DamageTorqueType.MissileExplosion);
+                                                unit.view.TriggerDamageFlash();
+                                            }
                                         }
 
                                         if (position.TryRaycast(out var hit))

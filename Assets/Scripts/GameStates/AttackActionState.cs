@@ -90,17 +90,16 @@ public class AttackActionState : StateMachineState {
                 using (var battleView = new BattleView(setup))
                 using (battleViewSides[attackerSide] = new BattleViewSide(attackerSide, battleView, level.tiles[action.path[^1]]))
                 using (battleViewSides[targetSide] = new BattleViewSide(targetSide, battleView, level.tiles[action.targetUnit.NonNullPosition])) {
-
-                    level.view.cameraRig.camera.gameObject.SetActive(false);
-                    foreach (var battleCamera in level.view.battleCameras)
-                        battleCamera.gameObject.SetActive(true);
-
                     if (level.view.unitUiRoot)
                         level.view.unitUiRoot.gameObject.SetActive(false);
 
                     var attackAnimations = new List<Func<bool>>();
                     foreach (var unit in battleView.unitViews[attackerSide])
                         attackAnimations.Add(action.path.Count > 1 ? unit.MoveAttack(action.weaponName) : unit.Attack(action.weaponName));
+
+                    level.view.cameraRig.camera.gameObject.SetActive(false);
+                    foreach (var battleCamera in level.view.battleCameras)
+                        battleCamera.gameObject.SetActive(true);
 
                     while (attackAnimations.Any(attackAnimation => !attackAnimation()))
                         yield return StateChange.none;

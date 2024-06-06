@@ -33,20 +33,30 @@ public class PlayerThemeAudio : MonoBehaviour {
             Instance.audioSources[personName] = audioSource;
         }
 
-        if (Instance.coroutines.TryGetValue(audioSource, out var previousCoroutine))
+        if (Instance.coroutines.TryGetValue(audioSource, out var previousCoroutine)) {
             Instance.StopCoroutine(previousCoroutine);
+            Instance.coroutines.Remove(audioSource);
+        }
 
         var coroutine = FadeCoroutine(audioSource, true);
-        Instance.coroutines[audioSource] = coroutine;
         Instance.StartCoroutine(coroutine);
+        Instance.coroutines[audioSource] = coroutine;
 
         audioSource.time = 0;
         audioSource.Play();
     }
     public static void Stop() {
-        foreach (var audioSource in Instance.audioSources.Values)
-            if (audioSource.isPlaying)
-                Instance.StartCoroutine(FadeCoroutine(audioSource, false));
+        foreach (var audioSource in Instance.audioSources.Values) {
+            if (Instance.coroutines.TryGetValue(audioSource, out var previousCoroutine)) {
+                Instance.StopCoroutine(previousCoroutine);
+                Instance.coroutines.Remove(audioSource);
+            }
+            if (audioSource.isPlaying) {
+                var coroutine = FadeCoroutine(audioSource, false);
+                Instance.StartCoroutine(coroutine);
+                Instance.coroutines[audioSource] = coroutine;
+            }
+        }
     }
 
     public static IEnumerator FadeCoroutine(AudioSource audioSource, bool on, float speed = 2) {
@@ -60,5 +70,6 @@ public class PlayerThemeAudio : MonoBehaviour {
         audioSource.volume = targetVolume;
         if (!on)
             audioSource.Stop();
+        Instance.coroutines.Remove(audioSource);
     }
 }

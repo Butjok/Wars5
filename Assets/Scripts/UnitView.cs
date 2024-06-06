@@ -1001,6 +1001,19 @@ public class UnitView : MonoBehaviour {
         TakeHit(hitPoints.Random(), force);
     }
 
+    public enum DamageTorqueType {
+        Bullet, Explosion, MissileExplosion
+    }
+    public void ApplyDamageTorque(DamageTorqueType damageTorqueType) {
+        var torque = damageTorqueType switch {
+            DamageTorqueType.Bullet => bulletTorque,
+            DamageTorqueType.Explosion => explosionTorque,
+            DamageTorqueType.MissileExplosion => missileExplosionTorque,
+            _ => throw new ArgumentOutOfRangeException(nameof(damageTorqueType), damageTorqueType, null)
+        };
+        instantaneousTorques.Enqueue((new Vector3(Random.value, Random.value, Random.value) * 2 - Vector3.one) * torque);
+    }
+
     public void TakeHit(Projectile3View projectile, bool canMakeSound) {
         var isInfantry = prefab.name is "WbInfantry";
         var isVehicle = prefab.name is not "WbInfantry";
@@ -1049,8 +1062,7 @@ public class UnitView : MonoBehaviour {
         if (hitAudioClip) {
             Sounds.PlayOneShot(hitAudioClip);
 
-            var torque = isExplosion ? explosionTorque : bulletTorque;
-            instantaneousTorques.Enqueue((new Vector3(Random.value, Random.value, Random.value) * 2 - Vector3.one) * torque);
+            ApplyDamageTorque(isExplosion ? DamageTorqueType.Explosion : DamageTorqueType.Bullet);
 
             // shake cameras
             if (isExplosion) {
@@ -1077,7 +1089,8 @@ public class UnitView : MonoBehaviour {
                 var explosion = Effects.SpawnExplosion(body.position, container);
                 explosion.gameObject.SetLayerRecursively(gameObject.layer);
                 var crater = ExplosionCrater.SpawnDecal(body.position.ToVector2(), container);
-                crater.gameObject.SetLayerRecursively(gameObject.layer);
+                if (crater)
+                    crater.gameObject.SetLayerRecursively(gameObject.layer);
             }
             AnimateDeath(true);
         }
@@ -1099,6 +1112,8 @@ public class UnitView : MonoBehaviour {
 
     [Command]
     public static float explosionTorque = 3;
+    [Command]
+    public static float missileExplosionTorque = 10;
     [Command]
     public static float bulletTorque = .25f;
     [Command]
@@ -1178,7 +1193,7 @@ public class UnitView : MonoBehaviour {
     [Command]
     public void Translate(float value) {
         transform.position += transform.forward * value;
-        PlaceOnTerrain();
+        PlaceOnTerrain(true);
     }
 
     public IEnumerator Break(float acceleration) {
