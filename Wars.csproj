@@ -344,6 +344,9 @@
      <Compile Include="Assets\Scripts\TrackTrail.cs" />
      <Compile Include="Assets\Scripts\Animation\UnitViewSequenceSubroutines.cs" />
      <Compile Include="Assets\Scripts\EntryPoint\MainMenuWelcomeState.cs" />
+     <Compile Include="Assets\Scripts\InstancedMeshRenderer3.cs" />
+     <Compile Include="Assets\Scripts\ExampleClass.cs" />
+     <Compile Include="Assets\Scripts\RegularGridInstancedMeshRenderer.cs" />
      <Folder Include="Assets\Scripts\EntryPoint" />
      <None Include="Assets\Scripts\Wars.asmdef" />
      <Folder Include="Assets\Scripts\DialogueMarkupLanguage" />

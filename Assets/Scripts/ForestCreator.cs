@@ -23,6 +23,7 @@ public class ForestCreator : MonoBehaviour {
 
     [Header("Dependencies")]
     [FormerlySerializedAs("renderer")] public InstancedMeshRenderer2 treeRenderer;
+    public RegularGridInstancedMeshRenderer treeRenderer2;
     public Camera camera;
 
     [Header("Editing")]
@@ -187,6 +188,12 @@ public class ForestCreator : MonoBehaviour {
             treeRenderer.transforms.Add(matrix);
         treeRenderer.RecalculateBounds();
         treeRenderer.UpdateGpuData();
+
+        var transforms = new List<Matrix4x4>();
+        foreach (var list in trees.Values)
+        foreach (var matrix in list)
+            transforms.Add(matrix);
+        treeRenderer2.SetTransforms(transforms);
     }
 
     public void RespawnTrees() {

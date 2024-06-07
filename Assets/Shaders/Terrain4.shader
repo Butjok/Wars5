@@ -615,6 +615,9 @@ float forestMask = tex2D(_ForestMask, mul(_ForestMask_WorldToLocal, float4(IN.wo
         	}
 
         	o.Albedo *= _Color;
+
+
+        	
         }
         ENDCG
     }

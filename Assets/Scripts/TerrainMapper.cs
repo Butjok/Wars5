@@ -31,6 +31,8 @@ public class TerrainMapper : MonoBehaviour {
     [Header("Bush rendering")]
     public InstancedMeshRenderer2 bushRenderer;
 
+    public RegularGridInstancedMeshRenderer bushRenderer2;
+
     [Header("Uv mapping")]
     public Texture2D bushMaskTexture;
     public Material[] materials = { };
@@ -94,7 +96,7 @@ public class TerrainMapper : MonoBehaviour {
         foreach (var material in materials)
             material.SetMatrix(worldToSplatUniformName, transform.worldToLocalMatrix);
     }
-    
+
     public void SaveBushes(string saveName) {
         if (!bushRenderer)
             return;
@@ -132,6 +134,9 @@ public class TerrainMapper : MonoBehaviour {
 
         bushRenderer.RecalculateBounds();
         bushRenderer.UpdateGpuData();
+        
+        bushRenderer2.SetTransforms(bushRenderer.transforms);
+        
         return true;
     }
 
@@ -142,6 +147,8 @@ public class TerrainMapper : MonoBehaviour {
             bushRenderer.RecalculateBounds();
             bushRenderer.UpdateGpuData();
         }
+        if (bushRenderer2)
+            bushRenderer2.Clear();
     }
 
     public float jitter = .1f;
@@ -201,7 +208,7 @@ public class TerrainMapper : MonoBehaviour {
                         }
                     }
 
-                    if (isValidPlacement/* && Mathf.PerlinNoise( localPosition2d.x * perlinNoiseScale, localPosition2d.y * perlinNoiseScale) > .4f*/) {
+                    if (isValidPlacement /* && Mathf.PerlinNoise( localPosition2d.x * perlinNoiseScale, localPosition2d.y * perlinNoiseScale) > .4f*/) {
                         var mask = SampleMask(ToUv(hit.point));
                         var integerWeight = (int)(mask * 255);
                         if (integerWeight > 0)
@@ -221,12 +228,18 @@ public class TerrainMapper : MonoBehaviour {
             selected.Add(sample);
         }
 
+        var transforms = selected.Select(s => Matrix4x4.TRS(s.hit.point, (-s.hit.normal).ToRotation(s.yaw), Vector3.one * s.scale)).ToList();
+        Debug.Log(transforms.Count);
+
         bushRenderer.transforms.Clear();
-        bushRenderer.transforms.AddRange(selected.Select(s => Matrix4x4.TRS(s.hit.point, (-s.hit.normal).ToRotation(s.yaw), Vector3.one * s.scale)));
+        bushRenderer.transforms.AddRange(transforms);
         bushRenderer.RecalculateBounds();
         bushRenderer.UpdateGpuData();
 
         bushesWereModified = true;
+
+        if (bushRenderer2) 
+            bushRenderer2.SetTransforms(transforms);
     }
 
     public float bushDensity = 0.001f;

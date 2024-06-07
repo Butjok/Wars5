@@ -137,7 +137,7 @@ Material:
     m_Floats:
     - WIND: 1
     - _BumpScale: 1
-    - _CutOff: 0.6
+    - _CutOff: 0.46
     - _Cutoff: 0.5
     - _DeepSeaLevel: 0.28
     - _DeepSeaSharpness: -0.26
@@ -152,12 +152,12 @@ Material:
     - _Metallic: 0
     - _MipScale: 0
     - _Mode: 1
-    - _NormalWrap: 0.32
+    - _NormalWrap: -0.34
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _SSSIntensity: 0.33
     - _SSSPower: 0
-    - _ShadowCutOff: 0.8
+    - _ShadowCutOff: 0.01
     - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1

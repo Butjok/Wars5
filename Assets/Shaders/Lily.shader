@@ -59,8 +59,12 @@ Shader "Custom/Lily" {
 			float noise = tex2Dlod(_Noise, float4(TRANSFORM_TEX(actualUv, _Noise),0,0)).r;
 			float on = step(_Threshold, noise);
 			c.a *= on;
-			
-			clip(c.a - .5);
+
+			#if defined(UNITY_PASS_SHADOWCASTER)
+				clip(c.a - .75);
+			#else
+				clip(c.a - .1);
+			#endif
 			
 			o.Albedo = lerp(c.rgb, _Color, _UseColor);
 			// Metallic and smoothness come from slider variables
@@ -70,7 +74,8 @@ Shader "Custom/Lily" {
 			
 			float3 hsv = RGBtoHSV(o.Albedo.rgb);
 			hsv.x -= .025;
-			hsv.z *= 2.75;
+			hsv.y *= 1.2;
+			hsv.z *= 2.5;
 			o.Albedo.rgb = HSVtoRGB(hsv);
 
 			//o.Albedo=0;
@@ -80,5 +85,4 @@ Shader "Custom/Lily" {
 		}
 		ENDCG
 	}
-	FallBack "Diffuse"
 }

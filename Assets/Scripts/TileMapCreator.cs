@@ -435,7 +435,7 @@ public class TileMapCreator : MonoBehaviour {
                 tangents = riverSubMesh.tangents,
                 triangles = riverSubMesh.triangles
             };
-            var displacedVertices = lilyMesh.vertices.Select(vertex => vertex + Vector3.up * .001f).ToArray();
+            var displacedVertices = lilyMesh.vertices.Select(vertex => vertex + Vector3.up * .005f).ToArray();
             lilyMesh.vertices = displacedVertices;
             var go = new GameObject("Lily");
             go.transform.SetParent(transform);

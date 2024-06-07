@@ -29624,7 +29624,9 @@ GameObject:
   - component: {fileID: 1060996779}
   - component: {fileID: 1060996780}
   - component: {fileID: 1060996781}
-  m_Layer: 6
+  - component: {fileID: 1060996783}
+  - component: {fileID: 1060996782}
+  m_Layer: 0
   m_Name: TerrainMapper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29670,6 +29672,7 @@ MonoBehaviour:
   maxBushesCount: 5000
   bushScaleRange: {x: 0.5, y: 0.9}
   bushRenderer: {fileID: 1060996781}
+  bushRenderer2: {fileID: 1060996782}
   bushMaskTexture: {fileID: 2800000, guid: 9ab1d75a1653f1d43be4d1114f6e3ebf, type: 3}
   materials:
   - {fileID: 2100000, guid: 72f4ee4f3456b89438b2767d48f14472, type: 2}
@@ -29679,6 +29682,8 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 72f4ee4f3456b89438b2767d48f14472, type: 2}
   - {fileID: 2100000, guid: 5186d45c1c385424e9bab03de9906b79, type: 2}
   - {fileID: 2100000, guid: 3823128ba8994c24c9ed20b2cf5176a9, type: 2}
+  - {fileID: 2100000, guid: df1190f59c9f95e4bbe0ef7f9d7780cb, type: 2}
+  - {fileID: 2100000, guid: 162c46a1221f5bc42bc3eaec9dde00c7, type: 2}
   worldToSplatUniformName: _Splat_WorldToLocal
   loadOnAwake: 0
   loadOnAwakeFileName: TutorialBushes
@@ -29695,7 +29700,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1060996778}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 40eeefcc1319482f86db24c0451643ea, type: 3}
   m_Name: 
@@ -29708,6 +29713,47 @@ MonoBehaviour:
   lightProbeUsage: 1
   transforms: []
   radius: 1
+--- !u!114 &1060996782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1060996778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c0831683de54a0a941ad065e254e5e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mesh: {fileID: 3419889569566592343, guid: 79dbf714e53c0e846b5ae8372aba6175, type: 3}
+  materials:
+  - {fileID: 2100000, guid: df1190f59c9f95e4bbe0ef7f9d7780cb, type: 2}
+  transformsUniformName: _Transforms
+  inverseTransformsUniformName: _InverseTransforms
+  colorsUniformName: _Colors
+  indexOffsetUniformName: _IndexOffset
+  shadowCastingMode: 1
+  lightProbeUsage: 1
+  transforms: []
+  lastFrame: -1
+  collider: {fileID: 1060996783}
+  dimensions: {x: 1, y: 1, z: 1}
+  sortedTransforms: []
+  camera: {fileID: 157206632}
+  desiredCellSize: {x: 5, y: 5, z: 5}
+--- !u!65 &1060996783
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1060996778}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1067393413
 GameObject:
   m_ObjectHideFlags: 0
@@ -35931,6 +35977,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: f94d343f0d2b34e07a9410054588dc7f, type: 2}
   - {fileID: 2100000, guid: 6d38d4265c8a94c48a2bf7d14d167b0c, type: 2}
   - {fileID: 2100000, guid: 3823128ba8994c24c9ed20b2cf5176a9, type: 2}
+  - {fileID: 2100000, guid: 162c46a1221f5bc42bc3eaec9dde00c7, type: 2}
   waterLevel: 0.09
   distanceFieldEdgeWidthInUnits: 0.5
   waterTransform: {fileID: 1839124052}
@@ -43625,7 +43672,7 @@ Transform:
   m_GameObject: {fileID: 1647909077}
   m_LocalRotation: {x: 0.87666756, y: -0.010190715, z: 0.0055908184, w: 0.48095632}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 45, y: 45, z: 45}
+  m_LocalScale: {x: 37, y: 37, z: 37}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1952239951}
@@ -48681,7 +48728,7 @@ Light:
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
-  m_CookieSize: 45
+  m_CookieSize: 37
   m_Shadows:
     m_Type: 2
     m_Resolution: 2
@@ -57685,6 +57732,8 @@ GameObject:
   - component: {fileID: 1824131961}
   - component: {fileID: 1824131960}
   - component: {fileID: 1824131962}
+  - component: {fileID: 1824131964}
+  - component: {fileID: 1824131963}
   m_Layer: 0
   m_Name: ForestCreator
   m_TagString: Untagged
@@ -57709,13 +57758,14 @@ MonoBehaviour:
   autoSave: 0
   wasModified: 0
   treeRenderer: {fileID: 1824131962}
+  treeRenderer2: {fileID: 1824131963}
   camera: {fileID: 157206632}
   treeCountRange: {x: 3, y: 3}
   treeScaleRange: {x: 0.5, y: 1}
   jitterAmount: 0.66
   terrainMaterial: {fileID: 2100000, guid: 72f4ee4f3456b89438b2767d48f14472, type: 2}
   terrainMaterialForestMaskUniformName: _ForestMask
-  bushMaterial: {fileID: 2100000, guid: 5186d45c1c385424e9bab03de9906b79, type: 2}
+  bushMaterial: {fileID: 2100000, guid: df1190f59c9f95e4bbe0ef7f9d7780cb, type: 2}
   bushMaterialForestMaskUniformName: _ForestMask
   forestMaskTexture: {fileID: 0}
   forestMaskTransform:
@@ -57742,8 +57792,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1824131959}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.2020483, y: 0.22836845, z: -3.641696}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -57757,12 +57807,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1824131959}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 40eeefcc1319482f86db24c0451643ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mesh: {fileID: -2382262257154641075, guid: d22773195135f184f806ace617728623, type: 3}
+  mesh: {fileID: -6939314804485364782, guid: 0bd3445145bd9df49be45c07482de29e, type: 3}
   materials:
   - {fileID: 2100000, guid: 3823128ba8994c24c9ed20b2cf5176a9, type: 2}
   transformsUniformName: _Transforms
@@ -57770,6 +57820,47 @@ MonoBehaviour:
   lightProbeUsage: 1
   transforms: []
   radius: 1
+--- !u!114 &1824131963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1824131959}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c0831683de54a0a941ad065e254e5e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mesh: {fileID: -6939314804485364782, guid: 0bd3445145bd9df49be45c07482de29e, type: 3}
+  materials:
+  - {fileID: 2100000, guid: 162c46a1221f5bc42bc3eaec9dde00c7, type: 2}
+  transformsUniformName: _Transforms
+  inverseTransformsUniformName: _InverseTransforms
+  colorsUniformName: _Colors
+  indexOffsetUniformName: _IndexOffset
+  shadowCastingMode: 1
+  lightProbeUsage: 1
+  transforms: []
+  lastFrame: -1
+  collider: {fileID: 1824131964}
+  dimensions: {x: 1, y: 1, z: 1}
+  sortedTransforms: []
+  camera: {fileID: 157206632}
+  desiredCellSize: {x: 5, y: 5, z: 5}
+--- !u!65 &1824131964
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1824131959}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1831561083
 PrefabInstance:
   m_ObjectHideFlags: 0
