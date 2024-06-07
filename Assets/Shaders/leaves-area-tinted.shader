@@ -52,6 +52,8 @@ Shader "Custom/LeavesAreaTinted"
     	_HoleOffset ("_HoleOffset", Vector) = (0,0,0,0)
     	
     	_CutOff ("_CutOff", Float) = 0.5
+    	_ShadowCutOff ("_ShadowCutOff", Float) = 0.5
+    	
     	_MipScale ("Mip Level Alpha Scale", Range(0,1)) = 0.25
     }
     SubShader
@@ -112,6 +114,7 @@ Shader "Custom/LeavesAreaTinted"
             sampler2D _HoleMask;
             fixed4x4 _HoleMask_WorldToLocal;
             float _CutOff;
+            float _ShadowCutOff;
 
             struct InstancedRenderingAppdata {
                 half4 vertex : POSITION;
@@ -202,9 +205,14 @@ float CalcMipLevel(float2 texture_coord)
 
 //                c.a *= 1 + max(0, CalcMipLevel(IN.uv_MainTex * _MainTex_TexelSize.zw)) * _MipScale;
                 // rescale alpha by partial derivative
-                c.a = (c.a - _CutOff) / max(fwidth(c.a), 0.0001) + 0.5;
+	#if defined(UNITY_PASS_SHADOWCASTER)
+		_CutOff = _ShadowCutOff;
+	#endif
 	
+                c.a = (c.a - _CutOff) / max(fwidth(c.a), 0.0001) + 0.5;
                 clip(c.a);
+	
+	
 
 				//clip(c.a-.5);
 

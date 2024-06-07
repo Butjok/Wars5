@@ -75,8 +75,8 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: 893a4b0824dd2c7429c065be717b2410, type: 3}
-        m_Scale: {x: 1, y: 0.8}
-        m_Offset: {x: 0, y: 0}
+        m_Scale: {x: 2, y: 1.5}
+        m_Offset: {x: 0.5, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -133,7 +133,7 @@ Material:
     m_Floats:
     - WIND: 0
     - _BumpScale: 1
-    - _CutOff: 0.45
+    - _CutOff: 0.24
     - _Cutoff: 0.5
     - _DeepSeaLevel: 0.11
     - _DeepSeaSharpness: -0.125
@@ -148,11 +148,12 @@ Material:
     - _Metallic: 0
     - _MipScale: 0
     - _Mode: 1
-    - _NormalWrap: 0.25
+    - _NormalWrap: 0.6
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _SSSIntensity: 0.33
     - _SSSPower: 0
+    - _ShadowCutOff: 0.8
     - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -171,7 +172,7 @@ Material:
     - _Grass: {r: 0.52696735, g: 0.6698113, b: 0.010531556, a: 1}
     - _HoleOffset: {r: 0, g: 0, b: 0, a: 0}
     - _Min: {r: -36, g: 0, b: 0, a: 0}
-    - _Offset: {r: 0, g: 0.01, b: 0, a: 0}
+    - _Offset: {r: 0, g: 0, b: 0, a: 0}
     - _Size: {r: 42, g: 33, b: 0, a: 0}
     - _SpotColor: {r: 0.8745098, g: 0.8784314, b: 0.80784315, a: 1}
     - _Wheat: {r: 1, g: 0.6055649, b: 0, a: 1}

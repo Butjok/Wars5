@@ -238,6 +238,7 @@ float4 _SandColor2;
         
         void surf (Input IN, inout SurfaceOutputStandard o)
         {
+        	
 
         	float erosion = tex2D(_Erosion, IN.uv_MainTex).r;
 

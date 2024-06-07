@@ -106,6 +106,7 @@
      <Compile Include="Assets\Scripts\CameraFading.cs" />
      <Compile Include="Assets\Scripts\UvMapperTest2.cs" />
      <Compile Include="Assets\Scripts\Compass.cs" />
+     <Compile Include="Assets\Scripts\InstancedMeshRendererLod.cs" />
      <Compile Include="Assets\Scripts\HardFollow.cs" />
      <Compile Include="Assets\Scripts\ModeSelector.cs" />
      <Compile Include="Assets\Scripts\LevelEditor\CameraRigFlythrough.cs" />
@@ -172,6 +173,7 @@
      <Compile Include="Assets\Scripts\DepthOfFieldDistanceSetter.cs" />
      <Compile Include="Assets\Scripts\CameraAnimation.cs" />
      <Compile Include="Assets\Scripts\EntryPoint\MainMenuState.cs" />
+     <Compile Include="Assets\Scripts\ExplosionCrater.cs" />
      <Compile Include="Assets\Scripts\SetTextToLocalizedGameObjectName.cs" />
      <Compile Include="Assets\Scripts\LevelEditor\TileMapTester.cs" />
      <Compile Include="Assets\Scripts\UnitMoveSequenceTest.cs" />
@@ -342,7 +344,6 @@
      <Compile Include="Assets\Scripts\TrackTrail.cs" />
      <Compile Include="Assets\Scripts\Animation\UnitViewSequenceSubroutines.cs" />
      <Compile Include="Assets\Scripts\EntryPoint\MainMenuWelcomeState.cs" />
-     <Compile Include="Assets\Scripts\ExplosionCrater.cs" />
      <Folder Include="Assets\Scripts\EntryPoint" />
      <None Include="Assets\Scripts\Wars.asmdef" />
      <Folder Include="Assets\Scripts\DialogueMarkupLanguage" />

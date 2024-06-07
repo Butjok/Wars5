@@ -124,7 +124,7 @@ Shader "Custom/Unit"
 			#endif
 
             #if DISSOLVE
-            o.objectPosition = v.vertex.xyz;
+            o.objectPosition = v.vertex.xyz * _NoiseScale;
             float xAlpha = abs(dot(v.normal, float3(1, 0, 0)));
             float yAlpha = abs(dot(v.normal, float3(0, 1, 0)));
             float zAlpha = abs(dot(v.normal, float3(0, 0, 1)));
@@ -215,7 +215,6 @@ Shader "Custom/Unit"
             float fireIntensity = smoothstep(0, .25, timeElapsed);
             float clipOffset = lerp(-.001, 1, (saturate(InverseLerp(0, 2, timeElapsed))));
             
-            IN.objectPosition *= _NoiseScale;
             float xSample = tex2D(_Noise, IN.objectPosition.yz).a;
             float ySample = tex2D(_Noise, IN.objectPosition.xz).a;
             float zSample = tex2D(_Noise, IN.objectPosition.xy).a;

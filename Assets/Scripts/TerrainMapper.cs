@@ -179,9 +179,9 @@ public class TerrainMapper : MonoBehaviour {
             return false;
         }
 
-        var samples = new List<WeightedListItem<(RaycastHit hit, float yaw, float scale)>>();
+        var samples = new List<(RaycastHit hit, float yaw, float scale)>();
         var totalWeight = 0.0;
-        var triesCount = 4;
+        var triesCount = 1;
         for (var y = 0; y < resolution.y; y++)
         for (var x = 0; x < resolution.x; x++) {
             var localPosition2d = new Vector2(x / (float)resolution.x, y / (float)resolution.y);
@@ -201,23 +201,25 @@ public class TerrainMapper : MonoBehaviour {
                         }
                     }
 
-                    if (isValidPlacement) {
+                    if (isValidPlacement/* && Mathf.PerlinNoise( localPosition2d.x * perlinNoiseScale, localPosition2d.y * perlinNoiseScale) > .4f*/) {
                         var mask = SampleMask(ToUv(hit.point));
                         var integerWeight = (int)(mask * 255);
                         if (integerWeight > 0)
-                            samples.Add(new WeightedListItem<(RaycastHit hit, float yaw, float scale)>((hit, yaw, scale), integerWeight));
+                            samples.Add(((hit, yaw, scale)));
                         totalWeight += mask;
                         break;
                     }
                 }
         }
 
-        var weightedList = new WeightedList<(RaycastHit hit, float yaw, float scale)>(samples);
-
-        var targetBushCount = (int)(totalWeight / resolution.x / resolution.y * maxBushesCount);
+        samples = samples.OrderBy(s => Random.value).ToList();
         var selected = new List<(RaycastHit hit, float yaw, float scale)>();
-        while (weightedList.Count > 0 && selected.Count < targetBushCount)
-            selected.Add(weightedList.Next());
+        var bushCount = bushDensity * totalWeight;
+        while (selected.Count < bushCount && samples.Count > 0) {
+            var sample = samples[^1];
+            samples.RemoveAt(samples.Count - 1);
+            selected.Add(sample);
+        }
 
         bushRenderer.transforms.Clear();
         bushRenderer.transforms.AddRange(selected.Select(s => Matrix4x4.TRS(s.hit.point, (-s.hit.normal).ToRotation(s.yaw), Vector3.one * s.scale)));
@@ -226,4 +228,7 @@ public class TerrainMapper : MonoBehaviour {
 
         bushesWereModified = true;
     }
+
+    public float bushDensity = 0.001f;
+    public float perlinNoiseScale = 1;
 }

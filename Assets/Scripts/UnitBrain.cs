@@ -424,7 +424,7 @@ public class UnitBrainController {
                         });
 
                 // add kill orders
-                if (!Rules.IsIndirect(unit)) {
+                if (!Rules.IsIndirect(unit) && Rules.TryGetAttackRange(unit, out _)) {
                     var weaponName = unit.type switch {
                         UnitType.Infantry => WeaponName.Rifle,
                         UnitType.AntiTank => WeaponName.RocketLauncher,

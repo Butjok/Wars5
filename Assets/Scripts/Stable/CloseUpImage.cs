@@ -22,8 +22,9 @@ public class CloseUpImage : MonoBehaviour, IDragHandler, IEndDragHandler {
             return;
         var firstVisible = previewUnits.FirstOrDefault(previewUnit => previewUnit.activeSelf);
         var nextIndex = !firstVisible ? 0 : (previewUnits.IndexOf(firstVisible) + 1) % previewUnits.Count;
-        for (var i =0 ;i < previewUnits.Count; i++)
+        for (var i =0 ;i < previewUnits.Count; i++) {
             previewUnits[i].SetActive(i == nextIndex);
+        }
     }
     
     public Vector2 Angles {

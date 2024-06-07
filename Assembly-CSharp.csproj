@@ -229,6 +229,7 @@
      <None Include="Assets\Shaders\leaves-area-tinted.shader" />
      <Folder Include="Assets\Textures" />
      <None Include="Assets\Shaders\TerrainEdge2.shader" />
+     <None Include="Assets\Shaders\InstancedSurfaceShader.shader" />
      <None Include="Assets\Shaders\TextFrame3d.shader" />
      <Folder Include="Assets\Saves\test-Level" />
      <None Include="Assets\Shaders\Cliff.shader" />
@@ -518,6 +519,7 @@
      <None Include="Assets\Shaders\SimplePlayerColor.shader" />
      <None Include="Assets\Shaders\InstancedIndirectColor.shader" />
      <Folder Include="Assets\Content\minimap" />
+     <Folder Include="Assets\Decals\Resources" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\ScreenSpaceReflections.hlsl" />
      <Folder Include="Assets\Scenarios\Intro" />
      <Folder Include="Assets\Content\Hq" />
