@@ -34,14 +34,18 @@ Shader "Custom/SimplePlayerColor" {
 
 		half _Glossiness;
 		half _Metallic;
-		fixed4 _Color, _PlayerColor;
-		half _PlayerColorIntensity;		
+		fixed4 _Color;
 		
 		#if HOLE	
 		half _HoleRadius;
 		sampler2D _HoleMask;
 		float4x4 _HoleMask_WorldToLocal;
 		#endif
+
+		UNITY_INSTANCING_BUFFER_START(Props)
+			UNITY_DEFINE_INSTANCED_PROP(float3, _PlayerColor)
+			UNITY_DEFINE_INSTANCED_PROP(float, _PlayerColorIntensity)
+		UNITY_INSTANCING_BUFFER_END(Props)
 		
 		void vert (inout appdata_full v, out Input o) {
 			UNITY_INITIALIZE_OUTPUT(Input,o);
@@ -59,7 +63,7 @@ Shader "Custom/SimplePlayerColor" {
 
 			// Albedo comes from a texture tinted by color
 			fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _Color;
-			o.Albedo = c.rgb *  lerp(float3(1,1,1), _PlayerColor.rgb, _PlayerColorIntensity);
+			o.Albedo = c.rgb *  lerp(float3(1,1,1), UNITY_ACCESS_INSTANCED_PROP(Props, _PlayerColor).rgb, UNITY_ACCESS_INSTANCED_PROP(Props, _PlayerColorIntensity));
 			// Metallic and smoothness come from slider variables
 			o.Metallic = _Metallic;
 			o.Smoothness = _Glossiness;

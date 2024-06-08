@@ -26,6 +26,7 @@ public class PathSelectionState : StateMachineState {
     public override IEnumerator<StateChange> Enter {
         get {
             var levelSession = stateMachine.Find<LevelSessionState>();
+            var level = levelSession.level;
             var unit = stateMachine.Find<SelectionState>().unit;
 
             var unitPosition = unit.NonNullPosition;
@@ -52,8 +53,11 @@ public class PathSelectionState : StateMachineState {
 
             var pathBuilder = new PathBuilder(unitPosition);
 
-            if (!Game.Instance.dontShowMoveUi)
-                TileMask.ReplaceGlobal(reachable);
+            if (!Game.Instance.dontShowMoveUi && level.view.tileMapMeshGenerator) {
+                level.view.tileMapMeshGenerator.Clear();
+                foreach (var position in reachable)
+                    level.view.tileMapMeshGenerator.AddPoint(position);
+            }
 
             void RebuildPathMesh() {
                 if (Game.Instance.dontShowMoveUi)
@@ -131,7 +135,10 @@ public class PathSelectionState : StateMachineState {
 
                         case (Command.Move, _): {
                             pathMeshGameObject.SetActive(false);
-                            TileMask.UnsetGlobal();
+                            //TileMask.UnsetGlobal();
+
+                            if (level.view.tileMapMeshGenerator)
+                                level.view.tileMapMeshGenerator.Clear();
 
                             path = pathBuilder.ToList();
                             var animation = new MoveSequence(unit.view.transform, path).Animation();
@@ -156,7 +163,8 @@ public class PathSelectionState : StateMachineState {
 
                         case (Command.Cancel, _):
                             unit.view.Selected = false;
-                            TileMask.UnsetGlobal();
+                            if (level.view.tileMapMeshGenerator)
+                                level.view.tileMapMeshGenerator.Clear();
                             yield return StateChange.PopThenPush(2, new SelectionState(stateMachine));
                             break;
 
@@ -173,11 +181,15 @@ public class PathSelectionState : StateMachineState {
 
     public override void Exit() {
         var unit = stateMachine.TryFind<SelectionState>().unit;
-        TileMask.UnsetGlobal();
+        //TileMask.UnsetGlobal();
         // the unit might get destroyed during the move
         if (unit != null && unit.view)
             unit.view.Selected = false;
         if (pathMeshGameObject)
             pathMeshGameObject.SetActive(false);
+
+        var level = stateMachine.Find<LevelSessionState>().level;
+        if (level.view.tileMapMeshGenerator)
+            level.view.tileMapMeshGenerator.Clear();
     }
 }

@@ -28735,6 +28735,104 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7393452455252071148, guid: 9b1ec837ecaa7487c858241777aa2d87, type: 3}
   m_PrefabInstance: {fileID: 968666452}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &972943079
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 972943083}
+  - component: {fileID: 972943082}
+  - component: {fileID: 972943081}
+  - component: {fileID: 972943080}
+  m_Layer: 0
+  m_Name: TileMapMeshGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!23 &972943080
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 972943079}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 9cd1e21b961fe48a3a9de522ae34df6a, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &972943081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 972943079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f1fa07b260f41f2b08938c1fe778259, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meshFilter: {fileID: 972943082}
+  points: []
+--- !u!33 &972943082
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 972943079}
+  m_Mesh: {fileID: 0}
+--- !u!4 &972943083
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 972943079}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 108
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &976304314 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8242953341421850318, guid: 353755807d0e742228ee0ef696a23b25, type: 3}
@@ -29740,7 +29838,7 @@ MonoBehaviour:
   dimensions: {x: 1, y: 1, z: 1}
   sortedTransforms: []
   camera: {fileID: 157206632}
-  desiredCellSize: {x: 5, y: 5, z: 5}
+  desiredCellSize: {x: 2.5, y: 2.5, z: 2.5}
 --- !u!65 &1060996783
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -35978,6 +36076,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 6d38d4265c8a94c48a2bf7d14d167b0c, type: 2}
   - {fileID: 2100000, guid: 3823128ba8994c24c9ed20b2cf5176a9, type: 2}
   - {fileID: 2100000, guid: 162c46a1221f5bc42bc3eaec9dde00c7, type: 2}
+  - {fileID: 2100000, guid: 9cd1e21b961fe48a3a9de522ae34df6a, type: 2}
   waterLevel: 0.09
   distanceFieldEdgeWidthInUnits: 0.5
   waterTransform: {fileID: 1839124052}
@@ -50920,6 +51019,7 @@ MonoBehaviour:
   inGameMenu: {fileID: 1291141824}
   newDialogueUi: {fileID: 91565155}
   dialogueCircle: {fileID: 0}
+  tileMapMeshGenerator: {fileID: 972943081}
 --- !u!4 &1779056383
 Transform:
   m_ObjectHideFlags: 0
@@ -57847,7 +57947,7 @@ MonoBehaviour:
   dimensions: {x: 1, y: 1, z: 1}
   sortedTransforms: []
   camera: {fileID: 157206632}
-  desiredCellSize: {x: 5, y: 5, z: 5}
+  desiredCellSize: {x: 2.5, y: 2.5, z: 2.5}
 --- !u!65 &1824131964
 BoxCollider:
   m_ObjectHideFlags: 0

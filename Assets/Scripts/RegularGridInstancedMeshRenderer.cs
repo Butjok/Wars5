@@ -111,6 +111,8 @@ public class RegularGridInstancedMeshRenderer : InstancedMeshRenderer3 {
     }
 
     public override void Update() {
+        var rangesToDraw = new List<(int startIndex, int count)>();
+
         for (var x = 0; x < dimensions.x; x++)
         for (var y = 0; y < dimensions.y; y++)
         for (var z = 0; z < dimensions.z; z++) {
@@ -118,21 +120,21 @@ public class RegularGridInstancedMeshRenderer : InstancedMeshRenderer3 {
             var bounds = GetCellBounds(coordinates);
             if (!camera ||
                 GeometryUtility.TestPlanesAABB(GeometryUtility.CalculateFrustumPlanes(camera), bounds)) {
-                DrawCell(coordinates);
+                var flatIndex = GetCellFlatIndex(coordinates);
+                var cell = cells[flatIndex];
+                rangesToDraw.Add((cell.startIndex, cell.transforms.Count));
+                DrawInstances(0, cell.startIndex, cell.transforms.Count);
             }
         }
-    }
 
-    public void DrawCell(Vector3Int coordinates) {
-        if (coordinates.x < 0 || coordinates.x >= dimensions.x ||
-            coordinates.y < 0 || coordinates.y >= dimensions.y ||
-            coordinates.z < 0 || coordinates.z >= dimensions.z)
-            return;
-
-        var bounds = GetCellBounds(coordinates);
-        var flatIndex = GetCellFlatIndex(coordinates);
-        var cell = cells[flatIndex];
-        //Draw.editor.WireBox(bounds, Color.green);
-        DrawInstances(0, cell.startIndex, cell.transforms.Count);
+        rangesToDraw.Sort((a, b) => a.startIndex.CompareTo(b.startIndex));
+        var queue = new Queue<(int startIndex, int count)>(rangesToDraw);
+        while (queue.TryDequeue(out var head)) {
+            while (queue.TryPeek(out var next) && head.startIndex + head.count == next.startIndex) {
+                head.count += next.count;
+                queue.Dequeue();
+            }
+            //DrawInstances(0, head.startIndex, head.count);
+        }
     }
 }

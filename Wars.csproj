@@ -131,6 +131,7 @@
      <Compile Include="Assets\Scripts\TilemapMesh.cs" />
      <Compile Include="Assets\Scripts\HeightMapBaker.cs" />
      <Compile Include="Assets\Scripts\Projectile2View.cs" />
+     <Compile Include="Assets\Scripts\TileMapMeshGenerator.cs" />
      <Compile Include="Assets\Scripts\MinimapMeshGenerator.cs" />
      <Compile Include="Assets\Scripts\ScalarFieldDrawer.cs" />
      <Compile Include="Assets\Scripts\UsefulTip.cs" />
@@ -206,6 +207,7 @@
      <Compile Include="Assets\Scripts\GameStates\GameSessionState.cs" />
      <Compile Include="Assets\Scripts\CaptureScreen.cs" />
      <Compile Include="Assets\Scripts\UnitActionUiContainer.cs" />
+     <Compile Include="Assets\Scripts\ExampleClass.cs" />
      <Compile Include="Assets\Scripts\TilemapAreaMesh.cs" />
      <Compile Include="Assets\Scripts\RoadTiles.cs" />
      <Compile Include="Assets\Scripts\BushTester.cs" />
@@ -292,6 +294,7 @@
      <Compile Include="Assets\Scripts\ForestCreator.cs" />
      <Compile Include="Assets\Scripts\LightProbeUtility.cs" />
      <Compile Include="Assets\Scripts\EntryPoint\AboutRow.cs" />
+     <Compile Include="Assets\Scripts\InstancedMeshRenderer3.cs" />
      <Compile Include="Assets\Scripts\Faction.cs" />
      <Compile Include="Assets\Scripts\InputCommandsListener.cs" />
      <Compile Include="Assets\Scripts\AiTestBed.cs" />
@@ -336,6 +339,7 @@
      <Compile Include="Assets\Scripts\LevelEditor\BirdSpawner.cs" />
      <Compile Include="Assets\Scripts\TextureExtensions.cs" />
      <Compile Include="Assets\Scripts\Level\UnitAction.cs" />
+     <Compile Include="Assets\Scripts\RegularGridInstancedMeshRenderer.cs" />
      <Compile Include="Assets\Scripts\LevelEditor\LevelEditorTriggersModeState.cs" />
      <Compile Include="Assets\Scripts\TestShader2.cs" />
      <Compile Include="Assets\Scripts\StateMachine.cs" />
@@ -344,9 +348,6 @@
      <Compile Include="Assets\Scripts\TrackTrail.cs" />
      <Compile Include="Assets\Scripts\Animation\UnitViewSequenceSubroutines.cs" />
      <Compile Include="Assets\Scripts\EntryPoint\MainMenuWelcomeState.cs" />
-     <Compile Include="Assets\Scripts\InstancedMeshRenderer3.cs" />
-     <Compile Include="Assets\Scripts\ExampleClass.cs" />
-     <Compile Include="Assets\Scripts\RegularGridInstancedMeshRenderer.cs" />
      <Folder Include="Assets\Scripts\EntryPoint" />
      <None Include="Assets\Scripts\Wars.asmdef" />
      <Folder Include="Assets\Scripts\DialogueMarkupLanguage" />

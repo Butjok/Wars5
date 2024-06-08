@@ -2,76 +2,87 @@ Shader "Unlit/VertexColor"
 {
 	Properties
 	{
-		_MainTex ("Texture", 2D) = "white" {}
+		[HDR] _Color ("Color", Color) = (1,1,1,1)
+		_MainTex ("Texture", 2D) = "black" {}
 		_ShowAlpha ("Show Alpha", Float) = 0
+		_TerrainHeight ("Terrain Height", 2D) = "black" {}  
+		[HDR] _BorderColor ("Border Color", Color) = (1,1,1,1)
+		[HDR] _InsideColor ("Inside Color", Color) = (1,1,1,1)
+		[HDR] _CircleColor ("Circle Color", Color) = (1,1,1,1)
 	}
 	SubShader
 	{
-		Tags { "RenderType"="Opaque" }
+		Tags { "RenderType"="Opaque" "Queue"="Transparent" "LightMode" = "Deferred" }
 		LOD 100
+		
+		ZWrite Off
+		ZTest Always
+		
+		CGPROGRAM
+		#pragma surface surf Standard vertex:vert 
 
-// blend in multiply mode
-			Blend SrcAlpha OneMinusSrcAlpha
-		// dont use Z buffer
-			ZWrite Off
-			//ZTest Always
+		// Use shader model 3.0 target, to get nicer looking lighting
+		#pragma target 3.0
 
-		Pass
-		{
-			CGPROGRAM
-			#pragma vertex vert
-			#pragma fragment frag
-			// make fog work
-			#pragma multi_compile_fog
-			
-	
-			
-			#include "UnityCG.cginc"
+		sampler2D _MainTex;
 
-			struct appdata
-			{
-				float4 vertex : POSITION;
-				float2 uv : TEXCOORD0;
-				fixed4 color : COLOR;
-			};
+		struct Input {
+			float2 uv_MainTex;
+			float3 color : COLOR;
+			float3 worldPos;
+			float4 screenPos;
+		};
 
-			struct v2f
-			{
-				float2 uv : TEXCOORD0;
-				UNITY_FOG_COORDS(1)
-				float4 vertex : SV_POSITION;
-				float4 color : COLOR;
-				float3 worldPos : TEXCOORD1;
-			};
+		half _Glossiness;
+		half _Metallic;
+		fixed4 _Color;
 
-			sampler2D _MainTex;
-			float4 _MainTex_ST;
-			
-			v2f vert (appdata v)
-			{
-				v2f o;
-v.vertex.y += sin (_Time.y * 5 + v.vertex.x * 0.2) * 0.25;
-				
-				o.vertex = UnityObjectToClipPos(v.vertex);
-				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
-				o.color = v.color;
-				o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
-				UNITY_TRANSFER_FOG(o,o.vertex);
-				return o;
-			}
-			
-			fixed4 frag (v2f i) : SV_Target
-			{
-			    half inside = smoothstep(1,0,1-i.color.a);
-			    half border = smoothstep(.5,0,abs(1-i.color.a - 0.5));
+		sampler2D _TerrainHeight;
+        float4x4 _WorldToTerrainHeightUv;
+		float3 _InsideColor;
+		float3 _BorderColor;
+		float3 _CircleColor;
 
-				float2 cell = round(i.worldPos.xz);
-        		float2 distanceToCell = length(cell - i.worldPos.xz);
-        		float circle = smoothstep(0.05, 0.025, distanceToCell);
-				
-			    return (inside/2 + border) + inside * circle;
-			}
-			ENDCG
+		void vert (inout appdata_full v, out Input o) {
+			UNITY_INITIALIZE_OUTPUT(Input, o);
+
+			float3 worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
+			float height = tex2Dlod(_TerrainHeight, float4(mul(_WorldToTerrainHeightUv, float4(worldPos, 1)).xz, 0, 0)).r;
+			v.vertex.y += height;
 		}
+
+		void surf (Input IN, inout SurfaceOutputStandard o) {
+			
+			o.Albedo = 0;
+			o.Metallic = 0;
+			o.Smoothness = 0;
+
+			float border = smoothstep(.08,0,abs(IN.color.r - .9));
+			float inside = IN.color.r < .9;
+
+			float a = 0;
+			a = inside *.1;
+			a = lerp(a, 1, border);
+			o.Alpha = _Color.a * a;
+
+			int2 tilePosition = round(IN.worldPos.xz);
+			float distanceToTile = length(IN.worldPos.xz - tilePosition);
+			float circle = smoothstep(.06,.04, distanceToTile);
+			o.Alpha += circle;
+
+			int2 tile = floor(IN.screenPos.xy / IN.screenPos.w * _ScreenParams.xy / 1);
+			o.Alpha = border + circle + inside * (1 - saturate((tile.x+tile.y) % 2));
+			
+			//o.Alpha += frac((IN.worldPos.x + IN.worldPos.z)*5)*inside;
+
+			clip(o.Alpha - .5);
+
+			o.Emission = inside * _InsideColor;
+			o.Emission = lerp(o.Emission, _BorderColor, border);
+			o.Emission = lerp(o.Emission, _CircleColor, circle);
+
+			//o.Albedo = 0;
+		}
+		ENDCG
 	}
 }

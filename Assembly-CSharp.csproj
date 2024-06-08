@@ -275,6 +275,7 @@
      <None Include="Assets\Saves\1\1-22.01.2023-19.40.42.txt" />
      <None Include="Assets\Experiments\godrays.shader" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\package.json" />
+     <None Include="Assets\Shaders\MovePath2.shader" />
      <None Include="Assets\Scripts2\SDFtest.shader" />
      <Folder Include="Assets\Saves\test-Bushes" />
      <None Include="Assets\Saves\simple\simple-19.03.2023-15.45.01.txt" />
@@ -365,6 +366,7 @@
      <Folder Include="Assets\MultiAudioListener\Example" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
      <Folder Include="Assets\Saves\Save2-Props" />
+     <None Include="Assets\Shaders\MoveArea.shader" />
      <Folder Include="Assets\Content\mrap" />
      <Folder Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Textures\LUTs" />
      <Folder Include="Assets\Scripts2" />
@@ -398,7 +400,6 @@
      <Folder Include="Assets\Saves\TutorialTerrain" />
      <None Include="Assets\Shaders\CausticsTest.shader" />
      <Folder Include="Assets\Saves\IntroTest-Props" />
-     <Folder Include="Assets\Shaders" />
      <Folder Include="Assets\Saves\Intro2-Props" />
      <Folder Include="Assets\TerrainCreation" />
      <Folder Include="Assets\Saves\Border-Forests" />
@@ -1686,6 +1687,9 @@
       <Project>{acc937ff-be72-6096-e219-b39fdc0d4207}</Project>
       <Name>ALINEPackageToolsEditor</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\Shaders\MovePath4.shader" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

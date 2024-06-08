@@ -66,6 +66,8 @@ public class BorderScenario2 : MonoBehaviour {
     public IEnumerator Animation() {
         var level = game.TryGetLevel;
         var bluePlayer = level.FindPlayer(ColorName.Blue);
+        
+        PlayerThemeAudio.Stop();
 
         foreach (var player in level.players)
             player.view.Hide();
@@ -121,6 +123,8 @@ public class BorderScenario2 : MonoBehaviour {
             while (redRocketeersCameraMovement.MoveNext())
                 yield return null;
         }
+        
+        PlayerThemeAudio.Play(PersonName.Vladan);
 
         stateMachine.Push(new BorderIncidentRedRocketeersDialogueState(stateMachine));
         while (stateMachine.TryFind<BorderIncidentRedRocketeersDialogueState>() != null)

@@ -37,8 +37,6 @@ Shader "Custom/GlassPlayerColor" {
 		half _Glossiness;
 		half _Metallic;
 		fixed4 _Color;
-		fixed4 _PlayerColor;
-		float _PlayerColorIntensity;
 		
 		#if HOLE
 		float _HoleRadius;
@@ -49,6 +47,10 @@ Shader "Custom/GlassPlayerColor" {
 		#endif
 
 		#include "Assets/Shaders/Utils.cginc"
+
+		UNITY_INSTANCING_BUFFER_START(Props)
+			UNITY_DEFINE_INSTANCED_PROP(float3, _PlayerColor)
+		UNITY_INSTANCING_BUFFER_END(Props)
 
 		void vert (inout appdata_full v, out Input o) {
 			UNITY_INITIALIZE_OUTPUT(Input,o);
@@ -65,7 +67,7 @@ Shader "Custom/GlassPlayerColor" {
 		
 			// Albedo comes from a texture tinted by color
 			fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _Color;
-			o.Albedo = c.rgb * _PlayerColor.rgb ;
+			o.Albedo = c.rgb * UNITY_ACCESS_INSTANCED_PROP(Props, _PlayerColor);
 			// Metallic and smoothness come from slider variables
 			o.Metallic = _Metallic;
 			o.Smoothness = _Glossiness;

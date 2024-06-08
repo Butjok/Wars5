@@ -45,6 +45,7 @@ public class LevelView : MonoBehaviour {
     public InGameMenu inGameMenu;
     public DialogueUi4 newDialogueUi;
     public UiCircle dialogueCircle;
+    public TileMapMeshGenerator tileMapMeshGenerator;
     
     public readonly Dictionary<object, Action> guiCommands = new();
     private void OnGUI() {

@@ -215,8 +215,6 @@ float2 _Splat2Size;
 float4 _SandColor2;
 
         float _SandNoiseScale, _SandNoiseAmplitude;
-        sampler2D _TileMask;
-        fixed4x4 _TileMask_WorldToLocal;
 
         fixed4x4 _Splat_WorldToLocal;
         float4 _SandHSVTweak;
@@ -361,13 +359,6 @@ float4 _SandColor2;
             
                         //o.Albedo = tint(o.Albedo, .0, .975, 1);
             
-            float2 uv = (IN.worldPos.xz - _Bounds.xy) / (_Bounds.zw - _Bounds.xy);
-            fixed4 c = tex2D (_Distance, uv);
-            float dist = c.r;
-            float distanceChange = fwidth(dist) * 0.5;
-            float majorLineDistance = abs(frac(dist / _LineDistance + 0.5) - 0.5) * _LineDistance;
-            float majorLines = smoothstep(_LineThickness - distanceChange, _LineThickness + distanceChange, majorLineDistance);
-
 			float2 stonesUv = IN.worldPos.xz * .2;
         	
             float3 stoneNormal = UnpackNormal( tex2D(_StonesNormal, stonesUv) );
@@ -540,26 +531,9 @@ float forestMask = tex2D(_ForestMask, mul(_ForestMask_WorldToLocal, float4(IN.wo
 			//if (uv2.x < 0 || uv2.x > 1 || uv2.y < 0 || uv2.y > 1)
 			//	tileMask = 0;
 			
-			float tileMaskDistance = 1;			
-			float2 nearestTile = round(IN.worldPos.xz);
-			for (int x = -1; x <= 1; x++)
-			for (int y = -1; y <= 1; y++) {
-				float2 pos = nearestTile + float2(x, y);
-				float selected = tex2D(_TileMask, mul(_TileMask_WorldToLocal, float4(pos.x, 0, pos.y, 1)).xz).r;
-				if (selected > .5)
-					 tileMaskDistance = min(tileMaskDistance, sdfBox(IN.worldPos.xz - pos, 0.5));
-			}
 
             //o.Albedo = saturate(tileMaskDistance);
             
-            float3 tileMaskEmission = 0;
-        	float border2 = smoothstep(0.025, 0.0125, abs(tileMaskDistance - .025));
-            tileMaskEmission += smoothstep(0.05, -.025, tileMaskDistance);
-			float2 cell2 = round(IN.worldPos.xz);
-        	float2 distanceToCell = length( cell2 - IN.worldPos.xz);
-        	float circle = tileMaskEmission*smoothstep(0.05, 0.025, distanceToCell);
-        	o.Albedo *= lerp(1, float3(0,.75,1), saturate(tileMaskEmission));
-        	o.Emission = (border2 + circle*1.5) * float3(0,1,0); 
         	
         	
         	//tileMaskEmission += border2 * 2.5;

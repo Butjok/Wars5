@@ -2,7 +2,6 @@ Shader "Custom/Unit"
 {
     Properties
     {
-        _PlayerColor ("_PlayerColor", Color) = (1,1,1,1)
         _MainTex ("_MainTex", 2D) = "white" {}
         _BounceLight ("_BounceLight", 2D) = "black" {}
         _Occlusion ("_Occlusion", 2D) = "white" {}
@@ -33,47 +32,51 @@ Shader "Custom/Unit"
     }
     SubShader
     {
-        Tags { "RenderType"="Opaque" "DisableBatching"="True" }
+        Tags
+        {
+            "RenderType"="Opaque"
+        }
         LOD 200
 
+        Stencil
+        {
+            Ref 1
+            Comp always
+            Pass replace
+        }
+
         CGPROGRAM
-        // Physically based Standard lighting model, and enable shadows on all light types
-        #pragma surface surf Standard vertex:vert addshadow        
+        #pragma surface surf Standard vertex:vert addshadow
         #pragma shader_feature HOLE
-        #pragma shader_feature DISSOLVE 
-        
+        #pragma shader_feature DISSOLVE
+
         #pragma multi_compile_instancing
 
-        // Use shader model 3.0 target, to get nicer looking lighting
         #pragma target 3.5
 
         #include "Assets/Shaders/Utils.cginc"
 
-        sampler2D _MainTex,_Occlusion,_Normal,_Roughness,_Metallic,_BounceLight;
+        sampler2D _MainTex, _Occlusion, _Normal, _Roughness, _Metallic, _BounceLight;
 
-        struct Input
-        {
+        struct Input {
             float2 uv_MainTex;
             float2 uv2_Occlusion;
-            
+
             #if HOLE
             float3 worldPos;
             float3 objectWorldPosition;
             float4 hole;
             #endif
-            
+
             #if DISSOLVE
             float3 projectionAlphas;
             float3 objectPosition;
             #endif
         };
 
-        fixed4 _PlayerColor,_Offset,_AttackHighlightColor,_AttackHighlight;
-        half _Selected,_HueShift,_BounceIntensity,_OffsetIntensity;
-        half _Moved,_AttackHighlightFactor,_AttackHighlightStartTime;
-        half _RedAmount;
-        half _DamageTime = -1000;
-        //half4 _DamageColor;
+        fixed4 _Offset, _AttackHighlightColor, _AttackHighlight;
+        half _Selected, _HueShift, _BounceIntensity;
+        half _AttackHighlightFactor, _AttackHighlightStartTime;
         half _DamageFalloffIntensity;
 
         #if DISSOLVE
@@ -84,43 +87,42 @@ Shader "Custom/Unit"
         float _FireIntensity;
         float _FireThickness;
         float _FireSmoothness;
-        float _DissolveTime = 100000;
         #endif
-        
+
         #if HOLE
         half _HoleRadius;
-		sampler2D _HoleMask;
-		fixed4x4 _HoleMask_WorldToLocal;        
+        sampler2D _HoleMask;
+        fixed4x4 _HoleMask_WorldToLocal;
         #endif
 
         float3 ToRed(float3 blue) {
             float3 hsv = RGBtoHSV(blue);
             float hue = hsv.x;
-            
+
             float newHue = 0.0;
-            if (hue<0.622) {
-                newHue = lerp(1, 0.015626, hue/0.622);
+            if (hue < 0.622) {
+                newHue = lerp(1, 0.015626, hue / 0.622);
             }
             else if (hue < 0.653) {
-                newHue = lerp(0.015626, 0, (hue-0.622)/(0.653-0.622));
+                newHue = lerp(0.015626, 0, (hue - 0.622) / (0.653 - 0.622));
             }
             else if (hue < 0.710) {
-                newHue = lerp(0, 0.011, (hue-0.653)/(0.710-0.653));
+                newHue = lerp(0, 0.011, (hue - 0.653) / (0.710 - 0.653));
             }
             else if (hue < 1.00) {
-                newHue = lerp(0.011, 0, (hue-0.710)/(1.0-0.710));
+                newHue = lerp(0.011, 0, (hue - 0.710) / (1.0 - 0.710));
             }
 
             return HSVtoRGB(float3(newHue, hsv.y, hsv.z));
         }
-        
-		void vert (inout appdata_full v, out Input o) {
-			UNITY_INITIALIZE_OUTPUT(Input,o);
-			
+
+        void vert(inout appdata_full v, out Input o) {
+            UNITY_INITIALIZE_OUTPUT(Input, o);
+
 			#if HOLE
-			o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
-			o.objectWorldPosition = mul(unity_ObjectToWorld, float4(0,0,0,1)).xyz;
-			o.hole = tex2Dlod(_HoleMask, float4(mul(_HoleMask_WorldToLocal, float4(o.objectWorldPosition,1)).xz, 0, 0));
+            o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
+            o.objectWorldPosition = mul(unity_ObjectToWorld, float4(0, 0, 0, 1)).xyz;
+            o.hole = tex2Dlod(_HoleMask, float4(mul(_HoleMask_WorldToLocal, float4(o.objectWorldPosition, 1)).xz, 0, 0));
 			#endif
 
             #if DISSOLVE
@@ -134,95 +136,73 @@ Shader "Custom/Unit"
             zAlpha /= sum;
             o.projectionAlphas = float3(xAlpha, yAlpha, zAlpha);
             #endif
-		}
+        }
 
-        float InverseLerp(float from, float to, float value){
+        float InverseLerp(float from, float to, float value) {
             return (value - from) / (to - from);
         }
-        
-        void surf (Input IN, inout SurfaceOutputStandard o)
-        {
+
+        UNITY_INSTANCING_BUFFER_START(Props)
+        UNITY_DEFINE_INSTANCED_PROP(float, _OffsetIntensity)
+        UNITY_DEFINE_INSTANCED_PROP(float, _RedAmount)
+        UNITY_DEFINE_INSTANCED_PROP(float, _Moved)
+        UNITY_DEFINE_INSTANCED_PROP(float, _DamageTime)
+        UNITY_DEFINE_INSTANCED_PROP(float, _DissolveTime)
+        UNITY_INSTANCING_BUFFER_END(Props)
+
+        void surf(Input IN, inout SurfaceOutputStandard o) {
+            
         	#if HOLE
-        	if (IN.hole.a > 0.5) {
-				float3 direction = normalize(IN.worldPos - _WorldSpaceCameraPos);
-				float3 projectedPoint = RayPlaneIntersection(_WorldSpaceCameraPos, direction, IN.objectWorldPosition, direction);
-				
-				float distance = length(projectedPoint - IN.objectWorldPosition) - _HoleRadius;
-				clip(distance);
-			}
-        	#endif	
+            if (IN.hole.a > 0.5) {
+                float3 direction = normalize(IN.worldPos - _WorldSpaceCameraPos);
+                float3 projectedPoint = RayPlaneIntersection(_WorldSpaceCameraPos, direction, IN.objectWorldPosition, direction);
 
-            half2 uv = IN.uv_MainTex + _Offset.xy*_OffsetIntensity;
+                float distance = length(projectedPoint - IN.objectWorldPosition) - _HoleRadius;
+                clip(distance);
+            }
+        	#endif
 
-            half3 bounce = tex2D (_BounceLight, IN.uv2_Occlusion)+.001;
-            bounce = lerp(bounce, ToRed(bounce), _RedAmount);
-            //bounce = ToRed(bounce);
+            half2 uv = IN.uv_MainTex + _Offset.xy * UNITY_ACCESS_INSTANCED_PROP(Props, _OffsetIntensity);
 
-            //bounce=Tint(bounce,_HueShift,1,1);
+            half3 bounce = tex2D(_BounceLight, IN.uv2_Occlusion) + .001;
+            float redAmount = UNITY_ACCESS_INSTANCED_PROP(Props, _RedAmount);
+            bounce = lerp(bounce, ToRed(bounce), redAmount);
 
-            
-            half3 movedTint = lerp(float3(1,1,1), float3(1,1,1) / 10, _Moved);
-            
-            // Albedo comes from a texture tinted by color
-            fixed3 c = tex2D (_MainTex, uv); // * _PlayerColor;
-            //c = Tint(c, 0, 1.0, 1    );
-            c = lerp(c, ToRed(c), _RedAmount);
+            float moved = UNITY_ACCESS_INSTANCED_PROP(Props, _Moved);
 
-            //c=Tint(c,_HueShift,1,1);
-            
+            half3 movedTint = lerp(float3(1, 1, 1), float3(1, 1, 1) / 10, moved);
+
+            fixed3 c = tex2D(_MainTex, uv);
+            c = lerp(c, ToRed(c), redAmount);
+
             o.Albedo = c.rgb * movedTint;
-            //o.Albedo=tex2D (_Normal, IN.uv_MainTex);
-            // Metallic and smoothness come from slider variables
-            o.Metallic = tex2D (_Metallic, uv);
+            o.Metallic = tex2D(_Metallic, uv);
+            o.Smoothness = (1 - tex2D(_Roughness, uv)) * lerp(1, 0.25, moved);
+            o.Occlusion = tex2D(_Occlusion, IN.uv2_Occlusion);
+            o.Normal = UnpackNormal(tex2D(_Normal, uv));
 
+            bounce *= (1 - o.Metallic);
+            bounce *= (1 - moved);
 
-            
-            o.Smoothness = (1- tex2D (_Roughness, uv)) * lerp(1,0.25,_Moved);
-            //o.Smoothness = max(o.Smoothness, smoothstep(.1, .0, IN.worldPos.y));
-            //if (IN.worldPos.y < .1)
-              //  o.Smoothness=1;
-            //o.Alpha = c.a;
-            o.Occlusion= tex2D (_Occlusion, IN.uv2_Occlusion);
-            //o.Albedo  = o.Occlusion;
-            //o.Albedo = o.Occlusion;
-            o.Normal=UnpackNormal(tex2D (_Normal, uv));
+            o.Emission = bounce.rgb * _BounceIntensity * movedTint;
 
-            bounce *= (1-o.Metallic);
-            bounce *= (1-_Moved);
-            //bounce *= (o.Smoothness);
-            
-            o.Emission=bounce.rgb*_BounceIntensity     * movedTint;
-
-            //o.Albedo = Tint(o.Albedo,-.0025,1,1) ;//* _PlayerColor;
-            
-            /*o.Emission += lerp(_AttackHighlight.x, _AttackHighlight.y, pow
-        (sin        ((_Time.y-_AttackHighlightStartTime)*_AttackHighlight.z      )/2+.5, 
-            _AttackHighlight.w)) * 
-            _AttackHighlightColor *  _AttackHighlightFactor;*/
-            
-            /*o.Emission =smoothstep(.8,.9, frac( (IN.worldPos.x + IN
-            .worldPos.y 
-            + IN
-        .worldPos.z)
-            *10));*/
-
-            float3 _DamageColor = float3(.25,.25,0);
-            o.Emission += _DamageColor * saturate(exp(-(_Time.y-_DamageTime)*40));
+            float3 _DamageColor = float3(.25, .25, 0);
+            o.Emission += _DamageColor * saturate(exp(-(_Time.y - UNITY_ACCESS_INSTANCED_PROP(Props, _DamageTime)) * 40));
 
             #if DISSOLVE
 
-            float timeElapsed = _Time.y - _DissolveTime;
+            float timeElapsed = _Time.y - UNITY_ACCESS_INSTANCED_PROP(Props, _DissolveTime);
             float fireIntensity = smoothstep(0, .25, timeElapsed);
             float clipOffset = lerp(-.001, 1, (saturate(InverseLerp(0, 2, timeElapsed))));
-            
+
             float xSample = tex2D(_Noise, IN.objectPosition.yz).a;
             float ySample = tex2D(_Noise, IN.objectPosition.xz).a;
             float zSample = tex2D(_Noise, IN.objectPosition.xy).a;
             float averageSample = 1 - (xSample + ySample + zSample) / 3;
             clip(averageSample - clipOffset);
-            
-            o.Emission += smoothstep( clipOffset + _FireThickness + _FireSmoothness, clipOffset + _FireThickness, averageSample) * _FireColor * fireIntensity;
-            
+
+            o.Emission += smoothstep(clipOffset + _FireThickness + _FireSmoothness, clipOffset + _FireThickness, averageSample) * _FireColor * fireIntensity;
+
             #endif
         }
         ENDCG

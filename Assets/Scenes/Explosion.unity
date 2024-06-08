@@ -31866,6 +31866,104 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &787032307
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 787032311}
+  - component: {fileID: 787032310}
+  - component: {fileID: 787032309}
+  - component: {fileID: 787032308}
+  m_Layer: 0
+  m_Name: TileMapMeshGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!23 &787032308
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 787032307}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 9cd1e21b961fe48a3a9de522ae34df6a, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &787032309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 787032307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f1fa07b260f41f2b08938c1fe778259, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meshFilter: {fileID: 787032310}
+  points: []
+--- !u!33 &787032310
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 787032307}
+  m_Mesh: {fileID: 0}
+--- !u!4 &787032311
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 787032307}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.43, y: 0, z: 6.73}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 32
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &797828314
 GameObject:
   m_ObjectHideFlags: 0
@@ -48309,7 +48407,7 @@ MonoBehaviour:
   lengths:
   - 0
   times:
-  - 3.6193676
+  - 0
   meshRenderer: {fileID: 1213091403}
   meshFilter: {fileID: 1213091402}
   halfWidth: 0.025
@@ -48586,7 +48684,7 @@ MonoBehaviour:
   lengths:
   - 0
   times:
-  - 3.6193676
+  - 0
   meshRenderer: {fileID: 1228403265}
   meshFilter: {fileID: 1228403264}
   halfWidth: 0.025
@@ -49477,7 +49575,7 @@ MonoBehaviour:
   transforms: []
   lastFrame: -1
   collider: {fileID: 1507259350}
-  dimensions: {x: 4, y: 1, z: 2}
+  dimensions: {x: 0, y: 0, z: 0}
   sortedTransforms: []
   camera: {fileID: 34922873}
   desiredCellSize: {x: 1, y: 1, z: 1}
@@ -75790,7 +75888,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 672926876608732788, guid: bc45bfb6333ef5947a85515ebac6d805, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 59.830055
+      value: 59.830017
       objectReference: {fileID: 0}
     - target: {fileID: 672926876608732788, guid: bc45bfb6333ef5947a85515ebac6d805, type: 3}
       propertyPath: m_SizeDelta.y
@@ -75798,7 +75896,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 672926876608732788, guid: bc45bfb6333ef5947a85515ebac6d805, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 18.180262
+      value: 658.6803
       objectReference: {fileID: 0}
     - target: {fileID: 672926876608732788, guid: bc45bfb6333ef5947a85515ebac6d805, type: 3}
       propertyPath: m_AnchoredPosition.y

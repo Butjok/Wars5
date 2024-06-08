@@ -80,20 +80,25 @@ Shader "Instanced/InstancedSurfaceShader"
 
         sampler2D _GrassTint;
 
-        sampler2D _TerrainHeight;
-        float4x4 _WorldToTerrainHeightUv;
-        sampler2D _HoleMask;
-        float4x4 _HoleMask_WorldToLocal;        
-
         float3 _Grass;
         float3 _DarkGrass;
         float3 _YellowGrass;
         float3 _Forest;
         float3 _VertexOffset;
-        float3 _HoleOffset;
+        
+        #if HOLE
 
+        sampler2D _TerrainHeight;
+        float4x4 _WorldToTerrainHeightUv;
+        sampler2D _HoleMask;
+        float4x4 _HoleMask_WorldToLocal;
+        
+        float3 _HoleOffset;
         float _HoleRadius;
         float3 _EmissionColor;
+
+        #endif
+
 
         void vert(inout appdata_full v, out Input o) {
             UNITY_INITIALIZE_OUTPUT(Input, o);
