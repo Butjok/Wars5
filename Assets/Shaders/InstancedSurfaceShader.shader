@@ -32,7 +32,7 @@ Shader "Instanced/InstancedSurfaceShader"
     {
         Tags
         {
-            "RenderType"="Opaque"
+            "RenderType"="Opaque" "LightMode"="Deferred" 
         }
         LOD 200
 
@@ -113,7 +113,7 @@ Shader "Instanced/InstancedSurfaceShader"
             v.vertex.xyz += _VertexOffset;
             v.normal = lerp(v.normal, _UpNormal, _NormalWrap);
 
-            float3 worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
+            float3 worldPos = mul(unity_ObjectToWorld, float4(v.vertex.xyz, 1)).xyz;
             float4 splat = tex2Dlod(_Splat, float4(mul(_Splat_WorldToLocal, float4(worldPos, 1)).xz, 0, 0));
             o.color = _Grass;
             o.color = lerp(o.color, _DarkGrass, splat.r);
@@ -123,7 +123,8 @@ Shader "Instanced/InstancedSurfaceShader"
             o.color = lerp(o.color, _Forest, forest);
 
             #if HOLE
-                float4 tilePos = float4(round(worldPos.x), 0, round(worldPos.z), 1);
+        		float3 objectWorldPos = mul(unity_ObjectToWorld, float4(0, 0, 0, 1)).xyz;
+                float4 tilePos = float4(round(objectWorldPos.x), 0, round(objectWorldPos.z), 1);
                 o.objectWorldPos = float4(
             		tilePos.x,
 					tex2Dlod(_TerrainHeight, float4(mul(_WorldToTerrainHeightUv, tilePos).xz, 0, 0)).r,

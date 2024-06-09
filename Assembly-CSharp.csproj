@@ -400,6 +400,7 @@
      <Folder Include="Assets\Saves\TutorialTerrain" />
      <None Include="Assets\Shaders\CausticsTest.shader" />
      <Folder Include="Assets\Saves\IntroTest-Props" />
+     <Folder Include="Assets\Shaders" />
      <Folder Include="Assets\Saves\Intro2-Props" />
      <Folder Include="Assets\TerrainCreation" />
      <Folder Include="Assets\Saves\Border-Forests" />
@@ -549,6 +550,7 @@
      <Folder Include="Assets\Resources\Units" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
      <None Include="Assets\Shaders\CameraFrustum.shader" />
+     <None Include="Assets\Shaders\MovePath4.shader" />
      <Folder Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins" />
      <None Include="Assets\Shaders\My First Shader.shader" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\SubpixelMorphologicalAntialiasing.hlsl" />
@@ -583,6 +585,7 @@
      <Folder Include="Assets\Sounds\FromAW\Resources" />
      <Folder Include="Assets\Saves\Border3-Level" />
      <Folder Include="Assets\Scenes\PlainLeft" />
+     <None Include="Assets\Shaders\CursorOpaque.shader" />
      <None Include="Assets\Decals\TrackTrail.shader" />
      <None Include="Assets\Shaders\Waves.shader" />
      <Folder Include="Assets\Scenes\PlayableTest" />
@@ -1687,9 +1690,6 @@
       <Project>{acc937ff-be72-6096-e219-b39fdc0d4207}</Project>
       <Name>ALINEPackageToolsEditor</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Assets\Shaders\MovePath4.shader" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

@@ -177,7 +177,7 @@ Shader "Custom/Unit"
 
             o.Albedo = c.rgb * movedTint;
             o.Metallic = tex2D(_Metallic, uv);
-            o.Smoothness = (1 - tex2D(_Roughness, uv)) * lerp(1, 0.25, moved);
+            o.Smoothness = (1 - tex2D(_Roughness, uv)) * lerp(1, .66, moved);
             o.Occlusion = tex2D(_Occlusion, IN.uv2_Occlusion);
             o.Normal = UnpackNormal(tex2D(_Normal, uv));
 

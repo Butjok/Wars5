@@ -318,10 +318,15 @@ public class SelectionState : StateMachineState {
                                 }
                             }
 
-                            TileMask.ReplaceGlobal(attackPositions);
+                            var level = levelSession.level;
+                            if (level.view.tileMapMeshGenerator) { 
+                                level.view.tileMapMeshGenerator.UseAttackColor = true;
+                                level.view.tileMapMeshGenerator.Rebuild(attackPositions);
+                            }
                             while (Input.GetMouseButton(Mouse.right))
                                 yield return StateChange.none;
-                            TileMask.UnsetGlobal();
+                            if (level.view.tileMapMeshGenerator)
+                                level.view.tileMapMeshGenerator.Clear();
                             break;
                         }
 

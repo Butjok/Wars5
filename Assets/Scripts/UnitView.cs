@@ -620,7 +620,7 @@ public class UnitView : MonoBehaviour {
 
         body.position = Vector3.Lerp(min, max, .5f);
 
-        if (Dancing && !Moved)
+        if (Dancing )
             body.position += body.up * bodyDanceAmplitude * Mathf.PingPong(Time.unscaledTime * bodyDanceFrequency, bodyDanceAmplitude);
     }
 

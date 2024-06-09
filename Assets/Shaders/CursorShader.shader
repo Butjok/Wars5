@@ -24,9 +24,9 @@ Shader "Unlit/CursorShader"
 			ZWrite Off
 			ZTest Always
 			//Offset -1, -1
-			Fog { Mode Off }
-			ColorMask RGB
-			AlphaTest Greater .01
+			//Fog { Mode Off }
+			//ColorMask RGB
+			//AlphaTest Greater .01
 			Blend SrcAlpha OneMinusSrcAlpha
 		
 			CGPROGRAM
@@ -60,9 +60,12 @@ Shader "Unlit/CursorShader"
 				float3 worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
 				float2 terrainHeightUv = mul(_WorldToTerrainHeightUv, float4(worldPos, 1)).xz;
 				float terrainHeight = tex2Dlod(_TerrainHeight, float4(terrainHeightUv, 0, 0)).r;
-				worldPos.y = terrainHeight;
-				
-				o.vertex = mul(UNITY_MATRIX_VP, float4(worldPos, 1));
+				//worldPos.z = terrainHeight;
+
+				v.vertex *= 1 + abs(frac(_Time.y*2)-0.5)*.1;
+				v.vertex.z -= terrainHeight;
+
+				o.vertex = UnityObjectToClipPos(v.vertex);
 				
 				//o.vertex = UnityObjectToClipPos(v.vertex);
 				o.uv = TRANSFORM_TEX(v.uv, _MainTex);

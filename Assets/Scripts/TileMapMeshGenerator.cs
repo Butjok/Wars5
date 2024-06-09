@@ -18,12 +18,16 @@ public class TileMapMeshGenerator : MonoBehaviour {
     [Command]
     public void Clear() {
         points.Clear();
-        Rebuild(points);
+        meshFilter.sharedMesh = null;
     }
     [Command]
     public void AddPoint(Vector2Int point) {
         points.Add(point);
-        Rebuild(points);
+    }
+
+    public Material material;
+    public bool UseAttackColor {
+        set => material.SetFloat("_AttackAmount", value ? 1 : 0);
     }
 
     public void Rebuild(IEnumerable<Vector2Int> input) {
@@ -54,21 +58,21 @@ public class TileMapMeshGenerator : MonoBehaviour {
             vertices.Add(center);
             colors.Add(Color.black);
             vertices.Add(right);
-            colors.Add(positions.Contains(position + Vector2Int.right) ? Color.black :  Color.white);
+            colors.Add(positions.Contains(position + Vector2Int.right) ? Color.black : Color.white);
             vertices.Add(topRight);
-            colors.Add(IsCornerFullyEnclosedTo(new Vector2Int(1,1)) ? Color.black :  Color.white);
+            colors.Add(IsCornerFullyEnclosedTo(new Vector2Int(1, 1)) ? Color.black : Color.white);
             vertices.Add(top);
-            colors.Add(positions.Contains(position + Vector2Int.up) ? Color.black :  Color.white);
+            colors.Add(positions.Contains(position + Vector2Int.up) ? Color.black : Color.white);
             vertices.Add(topLeft);
-            colors.Add(IsCornerFullyEnclosedTo(new Vector2Int(-1,1)) ? Color.black :  Color.white);
+            colors.Add(IsCornerFullyEnclosedTo(new Vector2Int(-1, 1)) ? Color.black : Color.white);
             vertices.Add(left);
-            colors.Add(positions.Contains(position + Vector2Int.left) ? Color.black :  Color.white);
+            colors.Add(positions.Contains(position + Vector2Int.left) ? Color.black : Color.white);
             vertices.Add(bottomLeft);
-            colors.Add(IsCornerFullyEnclosedTo(new Vector2Int(-1,-1)) ? Color.black :  Color.white);
+            colors.Add(IsCornerFullyEnclosedTo(new Vector2Int(-1, -1)) ? Color.black : Color.white);
             vertices.Add(bottom);
-            colors.Add(positions.Contains(position + Vector2Int.down) ? Color.black :  Color.white);
+            colors.Add(positions.Contains(position + Vector2Int.down) ? Color.black : Color.white);
             vertices.Add(bottomRight);
-            colors.Add(IsCornerFullyEnclosedTo(new Vector2Int(1,-1)) ? Color.black :  Color.white);
+            colors.Add(IsCornerFullyEnclosedTo(new Vector2Int(1, -1)) ? Color.black : Color.white);
 
             triangles.Add(centerVertexIndex + 0);
             triangles.Add(centerVertexIndex + 2);

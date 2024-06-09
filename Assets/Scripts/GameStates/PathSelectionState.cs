@@ -54,9 +54,8 @@ public class PathSelectionState : StateMachineState {
             var pathBuilder = new PathBuilder(unitPosition);
 
             if (!Game.Instance.dontShowMoveUi && level.view.tileMapMeshGenerator) {
-                level.view.tileMapMeshGenerator.Clear();
-                foreach (var position in reachable)
-                    level.view.tileMapMeshGenerator.AddPoint(position);
+                level.view.tileMapMeshGenerator.UseAttackColor = false;
+                level.view.tileMapMeshGenerator.Rebuild(reachable);
             }
 
             void RebuildPathMesh() {
