@@ -39,7 +39,7 @@ Shader "Custom/CursorOpaque" {
 			float2 terrainHeightUv = mul(_WorldToTerrainHeightUv, float4(worldPos, 1)).xz;
 			float terrainHeight = tex2Dlod(_TerrainHeight, float4(terrainHeightUv, 0, 0)).r;
 			v.vertex *= 1 + abs(frac(_Time.y*2)-0.5)*.1;
-			v.vertex.z -= terrainHeight;
+			v.vertex.z -= max(0.1, terrainHeight);
 			//v.vertex += float4(0, 2, 0, 0);
 		}
 

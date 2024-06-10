@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Butjok.CommandLine;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -59,7 +60,7 @@ public class HeightMapBaker : MonoBehaviour {
         }
 
         RenderMesh(meshFilter.sharedMesh, Matrix4x4.identity);
-        foreach (var meshFilter in additionalMeshFilters)
+        foreach (var meshFilter in additionalMeshFilters) 
             RenderMesh(meshFilter.sharedMesh, meshFilter.transform.localToWorldMatrix);
 
         camera.Render();

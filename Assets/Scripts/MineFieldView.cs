@@ -18,7 +18,7 @@ public class MineFieldView : MonoBehaviour {
         set {
             transform.position = value.ToVector3();
             var bounds = meshRenderer.bounds;
-            bounds.size *= 10;
+            bounds.size = Vector3.one * 10;
             meshRenderer.bounds = bounds;
         }
     }

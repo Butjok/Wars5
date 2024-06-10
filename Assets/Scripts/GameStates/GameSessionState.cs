@@ -57,6 +57,8 @@ public class GameSessionState : StateMachineState {
             (nameof(MineField), MineField.toDematerialize),
             (nameof(Crate), Crate.toDispose),
             (nameof(TunnelEntrance), TunnelEntrance.toDematerialize),
+            (nameof(PipeSection), PipeSection.toDematerialize),
+            (nameof(Bridge2), Bridge2.toDematerialize),
         };
         
         foreach (var (name, collection) in collectionsToExamine)

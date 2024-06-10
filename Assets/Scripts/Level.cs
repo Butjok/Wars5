@@ -27,6 +27,7 @@ public class Level {
     public Dictionary<Vector2Int, Crate> crates = new();
     public Dictionary<Vector2Int, TunnelEntrance> tunnelEntrances = new();
     public Dictionary<Vector2Int, PipeSection> pipeSections = new();
+    public Dictionary<Vector2Int, Bridge2> bridges2 = new();
 
     [DontSave] public List<Bridge> bridges = new();
     public Dictionary<TriggerName, HashSet<Vector2Int>> triggers = new() {
@@ -90,9 +91,13 @@ public class Level {
             tunnelEntrance.Materialize();
         foreach (var pipeSection in pipeSections.Values)
             pipeSection.Materialize();
+        foreach (var bridge in bridges2.Values.Distinct())
+            bridge.Materialize();
     }
 
     public void Dematerialize() {
+        foreach (var bridge in bridges2.Values.Distinct().ToList())
+            bridge.Dematerialize();
         foreach (var pipeSection in pipeSections.Values.ToList())
             pipeSection.Dematerialize();
         foreach (var tunnelEntrance in tunnelEntrances.Values.ToList())
@@ -183,6 +188,9 @@ public class Level {
         foreach (var ps in pipeSections.Values)
             ps.UpdateView();
         return true;
+    }
+    public bool TryGetBridge2(Vector2Int position, out Bridge2 bridge) {
+        return bridges2.TryGetValue(position, out bridge) && bridge != null;
     }
 
     public IEnumerable<Unit> FindUnitsOf(Player player) {

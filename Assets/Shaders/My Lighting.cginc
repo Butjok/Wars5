@@ -170,7 +170,7 @@ Interpolators MyVertexProgram (VertexData v) {
 	half height = tex2Dlod(_TerrainHeight, float4(heightUv,0,0));
 	worldPos.y = height;
 	//v.vertex += float4(0,1,0,1);
-	v.vertex.y = height+_Offset;
+	v.vertex.y = max(.1, height)+_Offset;
 	
 	Interpolators i;
 	i.pos = UnityObjectToClipPos(v.vertex);

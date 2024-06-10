@@ -65,7 +65,7 @@ Shader "Unlit/VertexColor"
 
             float3 worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
             float height = tex2Dlod(_TerrainHeight, float4(mul(_WorldToTerrainHeightUv, float4(worldPos, 1)).xz, 0, 0)).r;
-            v.vertex.y += height;
+            v.vertex.y += max(0.1, height);
         }
 
         void surf(Input IN, inout SurfaceOutputStandard o) {

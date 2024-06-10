@@ -63,7 +63,7 @@ Shader "Unlit/CursorShader"
 				//worldPos.z = terrainHeight;
 
 				v.vertex *= 1 + abs(frac(_Time.y*2)-0.5)*.1;
-				v.vertex.z -= terrainHeight;
+				v.vertex.z -= max(.1, terrainHeight);
 
 				o.vertex = UnityObjectToClipPos(v.vertex);
 				
