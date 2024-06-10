@@ -1,12 +1,9 @@
 using System;
 using System.Collections;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using Butjok.CommandLine;
-using Drawing;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class TilemapCursor : MonoBehaviour {

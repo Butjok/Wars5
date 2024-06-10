@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using Butjok.CommandLine;
 using Drawing;
 using UnityEngine;
@@ -21,7 +19,7 @@ public class MissileTargetSelectionState : StateMachineState {
 
     public override IEnumerator<StateChange> Enter {
         get {
-            var action = stateMachine.Find<ActionSelectionState>().selectedAction;
+            var action = stateMachine.Find<ActionSelectionState>().SelectedAction;
 
             Assert.AreEqual(TileType.MissileSilo, action.targetBuilding);
             Assert.IsTrue(Rules.CanLaunchMissile(action.unit, action.targetBuilding));

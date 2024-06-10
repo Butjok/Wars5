@@ -115,7 +115,7 @@ public class Bridge2 : ISpawnable {
         var nearbyBridges = level.PositionsInRange(position, Vector2Int.one).Select(p => level.TryGetBridge2(p, out var b) ? b : null).Where(b => b != null).Distinct().ToList();
         if (nearbyBridges.Count > 1)
             return false;
-        var needsToBeMaterialized = false;
+        var needsToBeSpawned = false;
         if (nearbyBridges.Count == 1)
             bridge = nearbyBridges[0];
         else {
@@ -123,7 +123,7 @@ public class Bridge2 : ISpawnable {
                 level = level,
                 positions = new List<Vector2Int>()
             };
-            needsToBeMaterialized = true;
+            needsToBeSpawned = true;
         }
         if (bridge.positions.Count > 1) {
             Assert.IsTrue((bridge.positions[1] - bridge.positions[0]).ManhattanLength() == 1);
@@ -134,7 +134,7 @@ public class Bridge2 : ISpawnable {
         bridge.SetPositions(newPositions);
         level.bridges2.Add(position, bridge);
         level.tiles[position] = tileType == TileType.River ? TileType.Bridge : TileType.BridgeSea;
-        if (needsToBeMaterialized)
+        if (needsToBeSpawned)
             bridge.Spawn();
         return true;
     }

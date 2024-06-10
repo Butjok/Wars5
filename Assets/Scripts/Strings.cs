@@ -1,7 +1,4 @@
-using System;
-using Butjok.CommandLine;
 using static Gettext;
-using static DialoguePlayer;
 
 public static class Strings {
 

@@ -51,8 +51,10 @@ public class UnitActionsPanel : MonoBehaviour {
         gameObject.SetActive(false);
     }
     
-    public void HighlightAction(UnitAction action) {
-        var buttonRectTransform = buttons[action].GetComponent<RectTransform>();
+    public bool TryHighlightAction(UnitAction action) {
+        if (!buttons.TryGetValue(action, out var button))
+            return false;
+        var buttonRectTransform = button.GetComponent<RectTransform>();
         if (!highlightFrame.gameObject.activeSelf) {
             highlightFrame.gameObject.SetActive(true);
             highlightFrame.anchoredPosition = buttonRectTransform.anchoredPosition;
@@ -62,6 +64,7 @@ public class UnitActionsPanel : MonoBehaviour {
             highlightFrame.DOAnchorPos(buttonRectTransform.anchoredPosition , highlightFrameMoveDuration).SetEase(highlightFrameMoveEase);
             highlightFrame.DOSizeDelta(buttonRectTransform.sizeDelta + highlightFramePadding*2, highlightFrameMoveDuration).SetEase(highlightFrameMoveEase);
         }
+        return true;   
     }
 
     public void Cancel() {

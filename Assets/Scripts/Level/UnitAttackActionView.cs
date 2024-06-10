@@ -1,4 +1,3 @@
-using System;
 using Butjok.CommandLine;
 using TMPro;
 using UnityEngine;

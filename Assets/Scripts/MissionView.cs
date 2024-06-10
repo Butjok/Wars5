@@ -1,6 +1,5 @@
 using System;
 using Cinemachine;
-using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
 

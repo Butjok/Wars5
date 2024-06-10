@@ -1,9 +1,5 @@
 using System.Collections.Generic;
-using System.IdentityModel.Tokens;
-using System.Linq;
-using Newtonsoft.Json;
 using UnityEngine;
-using UnityEngine.Assertions;
 
 public static class MeshUtils2 {
 

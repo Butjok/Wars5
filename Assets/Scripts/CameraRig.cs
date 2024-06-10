@@ -2,13 +2,8 @@ using System;
 using System.Collections;
 using Butjok.CommandLine;
 using Cinemachine;
-using Drawing;
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.EventSystems;
-using UnityEngine.Serialization;
-using Random = System.Random;
 
 public class CameraRig : MonoBehaviour {
 

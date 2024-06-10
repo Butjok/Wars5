@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Butjok.CommandLine;
 using UnityEngine;
 using UnityEngine.Assertions;

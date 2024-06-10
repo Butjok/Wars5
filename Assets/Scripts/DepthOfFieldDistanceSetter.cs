@@ -1,8 +1,5 @@
-using System;
 using UnityEngine;
-using UnityEngine.Assertions;
 using UnityEngine.Rendering.PostProcessing;
-using UnityEngine.Serialization;
 
 [ExecuteInEditMode]
 public class DepthOfFieldDistanceSetter : MonoBehaviour {

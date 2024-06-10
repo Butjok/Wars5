@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Butjok.CommandLine;
+using Drawing;
 using UnityEngine;
 using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
 using static Rules;
-
-// ReSharper disable ConvertToUsingDeclaration
 
 public class ActionSelectionState : StateMachineState {
 
@@ -19,9 +19,14 @@ public class ActionSelectionState : StateMachineState {
     public List<UnitAction> actions = new();
     public UnitActionsPanel panel;
     public UnitAction oldAction;
-    public int index = -1;
-
     public UnitAction selectedAction;
+    public UnitAction SelectedAction {
+        get => selectedAction;
+        set {
+            selectedAction = value;
+            panel.TryHighlightAction(value);
+        }
+    }
 
     public ActionSelectionState(StateMachine stateMachine) : base(stateMachine) {
         panel = Object.FindObjectOfType<UnitActionsPanel>(true);
@@ -42,36 +47,6 @@ public class ActionSelectionState : StateMachineState {
     public void HidePanel() {
         panel.Hide();
         PlayerView.globalVisibility = true;
-    }
-
-    public void SelectAction(UnitAction action) {
-        index = actions.IndexOf(action);
-        Assert.IsTrue(index != -1);
-//      Debug.Log(actions[index]);
-        panel.HighlightAction(action);
-        oldAction = action;
-
-        var level = stateMachine.Find<LevelSessionState>().level;
-        var circle = level.view.actionCircle;
-        var label = level.view.actionLabel;
-        if (circle) {
-            circle.gameObject.SetActive(true);
-            circle.position = null;
-
-            if (action.targetUnit != null)
-                circle.position = action.targetUnit.view.body.transform.position;
-            if (action.targetBuilding != null)
-                circle.position = action.targetBuilding.position.TryRaycast(out var hit) ? hit.point : action.targetBuilding.position.ToVector3();
-            if (action.type == UnitActionType.Drop)
-                circle.position = action.targetPosition.TryRaycast(out var hit) ? hit.point : action.targetPosition.ToVector3();
-
-            if (action.type == UnitActionType.Attack && TryGetDamage(action.unit, action.targetUnit, action.weaponName, out var damagePercentage)) {
-                label.gameObject.SetActive(true);
-                label.text.text = '-' + Mathf.RoundToInt(MaxHp(action.targetUnit) * damagePercentage).ToString();
-            }
-            else
-                label.gameObject.SetActive(false);
-        }
     }
 
     public IEnumerable<UnitAction> SpawnActions() {
@@ -163,9 +138,9 @@ public class ActionSelectionState : StateMachineState {
             yield return StateChange.none;
 
             if (!Game.Instance.dontShowMoveUi) {
-                panel.Show(() => Game.EnqueueCommand(Command.Cancel), actions, (_, action) => SelectAction(action));
+                panel.Show(() => Game.EnqueueCommand(Command.Cancel), actions, (_, action) => SelectedAction = action);
                 if (actions.Count > 0)
-                    SelectAction(actions[0]);
+                    SelectedAction = actions[0];
             }
 
             if (Level.EnableTutorial && !Level.tutorialState.startedCapturing && !Level.tutorialState.explainedActionSelection) {
@@ -186,7 +161,7 @@ public class ActionSelectionState : StateMachineState {
                     if (actions.Count == 0)
                         UiSound.Instance.notAllowed.PlayOneShot();
                     else
-                        Game.EnqueueCommand(Command.Execute, actions[index]);
+                        Game.EnqueueCommand(Command.Execute, SelectedAction);
                 }
 
                 while (Game.TryDequeueCommand(out var command)) {
@@ -216,7 +191,7 @@ public class ActionSelectionState : StateMachineState {
                             if (Level.view.actionCircle)
                                 Level.view.actionCircle.gameObject.SetActive(false);
 
-                            selectedAction = action;
+                            SelectedAction = action;
                             HidePanel();
 
                             switch (action.type) {
@@ -359,16 +334,16 @@ public class ActionSelectionState : StateMachineState {
 
                                 case UnitActionType.AttackPipeSection: {
                                     var pipeSection = action.targetPipeSection;
+                                    var level = pipeSection.level;
                                     pipeSection.hp -= 5;
+                                    Effects.SpawnExplosion(pipeSection.position.Raycasted(), Vector3.up, parent: level.view.transform);
+                                    Sounds.PlayOneShot(Sounds.explosion);
+                                    level.view.cameraRig.Shake();
                                     if (pipeSection.hp <= 0) {
-                                        var level = pipeSection.level;
                                         level.pipeSections.Remove(pipeSection.position);
                                         pipeSection.Despawn();
                                         level.tiles[pipeSection.position] = TileType.Plain;
-                                        Effects.SpawnExplosion(pipeSection.position.Raycasted(), Vector3.up, parent: level.view.transform);
                                         ExplosionCrater.SpawnDecal(pipeSection.position, level.view.transform);
-                                        Sounds.PlayOneShot(Sounds.explosion);
-                                        level.view.cameraRig.Shake();
                                     }
                                     unit.Position = destination;
                                     break;
@@ -449,8 +424,9 @@ public class ActionSelectionState : StateMachineState {
 
                         case (Command.CycleActions, int offset): {
                             if (actions.Count > 0) {
-                                index = (index + offset).PositiveModulo(actions.Count);
-                                SelectAction(actions[index]);
+                                var index = actions.IndexOf(SelectedAction);
+                                var nextIndex = (index + offset).PositiveModulo(actions.Count);
+                                SelectedAction = actions[nextIndex];
                             }
                             else
                                 UiSound.Instance.notAllowed.PlayOneShot();
@@ -465,8 +441,73 @@ public class ActionSelectionState : StateMachineState {
                 }
 
                 UpdateTilemapCursor();
+
+                void DrawArrowDown(Vector3 center, Color color, float length = .5f) {
+                    var offset = Mathf.Lerp(.0f, .1f, Mathf.PingPong(Time.time * 2, 1));
+                    Draw.ingame.Arrow(center + (offset + length) * Vector3.up, center + offset * Vector3.up, Vector3.forward, arrowHeadSize, color);
+                }
+
+                if (SelectedAction != null)
+                    using (Draw.ingame.WithLineWidth(2)) {
+                        var color = Color.clear;
+                        var drawDownArrow = false;
+                        var drawCircleAtTarget = false;
+                        var drawCircleAtDestination = false;
+                        var targetPosition = Vector2Int.zero;
+                        var drawLine = false;
+
+                        switch (SelectedAction.type) {
+                            case UnitActionType.Stay:
+                                color = Color.cyan;
+                                drawDownArrow = true;
+                                break;
+                            case UnitActionType.Join or UnitActionType.GetIn:
+                                color = Color.green;
+                                drawDownArrow = true;
+                                drawCircleAtDestination = true;
+                                break;
+                            case UnitActionType.Capture or UnitActionType.LaunchMissile or UnitActionType.PickUpCrate or UnitActionType.TakeMissile or UnitActionType.LoadMissileSilo:
+                                color = new Color(1f, 0.75f, 0f);
+                                drawCircleAtDestination = true;
+                                break;
+                            case UnitActionType.Attack or UnitActionType.Drop or UnitActionType.Supply or UnitActionType.TravelThroughTunnel or UnitActionType.AttackPipeSection:
+                                targetPosition = selectedAction.type switch {
+                                    UnitActionType.Attack or UnitActionType.Supply => selectedAction.targetUnit.NonNullPosition,
+                                    UnitActionType.Drop => selectedAction.targetPosition,
+                                    UnitActionType.TravelThroughTunnel => selectedAction.targetTunnelEntrance.connected.position,
+                                    UnitActionType.AttackPipeSection => selectedAction.targetPipeSection.position,
+                                    _ => throw new ArgumentOutOfRangeException()
+                                };
+                                color =  selectedAction.type switch {
+                                    UnitActionType.Attack => Color.red,
+                                    UnitActionType.Drop => Color.green,
+                                    UnitActionType.Supply => Color.cyan,
+                                    UnitActionType.TravelThroughTunnel => Color.yellow,
+                                    UnitActionType.AttackPipeSection => Color.red,
+                                    _ => throw new ArgumentOutOfRangeException()
+                                };
+                                drawCircleAtTarget = true;
+                                drawLine = true;
+                                break;
+                            case UnitActionType.Gather:
+                                break;
+                            default:
+                                throw new ArgumentOutOfRangeException();
+                        }
+
+                        if (drawLine)
+                            Draw.ingame.Line(destination.Raycasted(), targetPosition.Raycasted(), color);
+                        if (drawCircleAtTarget)
+                            Draw.ingame.CircleXZ(targetPosition.Raycasted(), .5f, color);
+                        if (drawCircleAtDestination)
+                            Draw.ingame.CircleXZ(destination.Raycasted(), .5f, color);
+                        if (drawDownArrow)
+                            DrawArrowDown(destination.Raycasted() + .5f * Vector3.up, color);
+                    }
             }
         }
     }
 
+    [Command]
+    public static float arrowHeadSize = .15f;
 }

@@ -1,14 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using Butjok.CommandLine;
 using JetBrains.Annotations;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Assertions;
 using UnityEngine.UI;
-using Object = UnityEngine.Object;
 
 public class SavedGameListView : MonoBehaviour {
 

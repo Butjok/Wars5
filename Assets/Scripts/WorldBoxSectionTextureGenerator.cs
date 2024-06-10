@@ -1,7 +1,5 @@
-using System;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Assertions;
 using UnityEngine.Serialization;
 
 public class WorldBoxSectionTextureGenerator : MonoBehaviour {

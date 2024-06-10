@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class LevelView : MonoBehaviour {
 

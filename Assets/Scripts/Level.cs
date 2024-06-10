@@ -6,10 +6,12 @@ using SaveGame;
 using UnityEngine;
 using UnityEngine.Assertions;
 
+public enum LevelName {
+    Tutorial,
+    FirstMission
+}
+
 public class Level {
-
-    public static readonly Vector2Int[] offsets = { Vector2Int.up, Vector2Int.down, Vector2Int.right, Vector2Int.left };
-
     [DontSave] public LevelView view;
 
     public LevelName name;
@@ -76,7 +78,7 @@ public class Level {
         set => PlayerPrefs.SetInt(nameof(EnableDialogues), value ? 1 : 0);
     }
 
-    public void Materialize() {
+    public void SpawnActors() {
         foreach (var player in players)
             player.Spawn();
         foreach (var building in buildings.Values)
@@ -95,7 +97,7 @@ public class Level {
             bridge.Spawn();
     }
 
-    public void Dematerialize() {
+    public void DespawnActors() {
         foreach (var bridge in bridges2.Values.Distinct().ToList())
             bridge.Despawn();
         foreach (var pipeSection in pipeSections.Values.ToList())
@@ -127,9 +129,8 @@ public class Level {
     public Player CurrentPlayer {
         get {
             Assert.AreNotEqual(0, players.Count);
-            Assert.IsTrue(turn != null);
             Assert.IsTrue(turn >= 0);
-            return players[(int)turn % players.Count];
+            return players[turn % players.Count];
         }
     }
 
@@ -155,7 +156,6 @@ public class Level {
             }
         return false;
     }
-
     public bool TryGetCrate(Vector2Int position, out Crate crate) {
         return crates.TryGetValue(position, out crate) && crate != null;
     }

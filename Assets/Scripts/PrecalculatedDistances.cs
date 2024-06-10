@@ -1,12 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices;
-using Butjok.CommandLine;
 using UnityEngine;
-using static PathFinder;
-using FileMode = System.IO.FileMode;
 
 public class PrecalculatedDistances : MonoBehaviour {
 

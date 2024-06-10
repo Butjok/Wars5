@@ -1,11 +1,9 @@
-using System;
 using System.Linq;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.EventSystems;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Button))]

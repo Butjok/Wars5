@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.Events;
 
 [RequireComponent(typeof(BoxCollider))]
 public class MainMenuButton2 : MonoBehaviour {

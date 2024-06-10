@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Assertions;
-using UnityEngine.SceneManagement;
 
 public class MainMenuState : StateMachineState {
 

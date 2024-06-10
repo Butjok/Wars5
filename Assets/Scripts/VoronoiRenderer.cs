@@ -1,12 +1,7 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Butjok.CommandLine;
-using Drawing;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.PlayerLoop;
 using Random = UnityEngine.Random;
 
 public class VoronoiRenderer : MonoBehaviour {

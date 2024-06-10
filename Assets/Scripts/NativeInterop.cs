@@ -2,8 +2,6 @@ using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using Butjok.CommandLine;
-using UnityEngine;
-using Debug = UnityEngine.Debug;
 
 public static class NativeInterop {
 

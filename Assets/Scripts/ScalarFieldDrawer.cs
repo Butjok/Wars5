@@ -4,7 +4,6 @@ using System.Linq;
 using Butjok.CommandLine;
 using Drawing;
 using UnityEngine;
-using UnityEngine.Assertions;
 using static PathFinder;
 
 public class ScalarFieldDrawer : MonoBehaviour {

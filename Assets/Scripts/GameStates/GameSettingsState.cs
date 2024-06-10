@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
 
 public class GameSettingsState : StateMachineState {

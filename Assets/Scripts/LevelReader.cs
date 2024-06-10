@@ -2,18 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 using Stable;
 using UnityEngine;
 using UnityEngine.Assertions;
-using static BattleConstants;
-
-public enum LevelName {
-    Tutorial,
-    FirstMission
-}
 
 public static class LevelReader {
 

@@ -1,11 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Butjok.CommandLine;
-using Drawing;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.Video;
 using static Gettext;
 using Checker = System.Func<StateMachineState, object, (bool, StateMachineState)>;
 

@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using System.Linq;
 using Butjok.CommandLine;
-using Drawing;
 using UnityEngine;
 
 public class LevelEditorUnitsModeState : StateMachineState {

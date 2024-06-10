@@ -1,9 +1,4 @@
-using System;
-using System.Collections;
-using DG.Tweening;
 using UnityEngine;
-using UnityEngine.Rendering.PostProcessing;
-using Object = UnityEngine.Object;
 
 public class PostProcessingFade : MonoBehaviour { 
 

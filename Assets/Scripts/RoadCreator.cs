@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using Butjok.CommandLine;
 using Drawing;
 using Stable;

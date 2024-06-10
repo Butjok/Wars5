@@ -14,8 +14,7 @@
  *          don't get back to you just go ahead and use it anyway!
  *          http://schemingdeveloper.com/2017/03/26/better-method-recalculate-normals-unity-part-2/
  */
- 
-using System;
+
 using System.Collections.Generic;
 using UnityEngine;
  

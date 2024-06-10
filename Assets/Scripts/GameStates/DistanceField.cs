@@ -47,7 +47,7 @@ public static class DistanceField {
         }
 
         while (priorityQueue.TryDequeue(out var position) && minDistance[position] < infinity)
-            foreach (var offset in Level.offsets) {
+            foreach (var offset in Rules.gridOffsets) {
                 var neighborPosition = position + offset;
                 if (!priorityQueue.Contains(neighborPosition))
                     continue;

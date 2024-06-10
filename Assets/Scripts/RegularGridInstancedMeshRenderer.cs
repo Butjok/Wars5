@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Butjok.CommandLine;
-using Drawing;
 using UnityEngine;
 using UnityEngine.Assertions;
 

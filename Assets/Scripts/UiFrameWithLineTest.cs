@@ -1,9 +1,7 @@
-using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.EventSystems;
-using UnityEngine.Serialization;
 
 public class UiFrameWithLineTest : MonoBehaviour, IDragHandler {
 

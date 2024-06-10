@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Cinemachine;
@@ -6,7 +5,6 @@ using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 using UnityEngine.Video;
 

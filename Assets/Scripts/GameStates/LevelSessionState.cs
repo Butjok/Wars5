@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using Stable;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
@@ -38,7 +37,7 @@ public class LevelSessionState : StateMachineState {
             while (!LevelView.TryInstantiatePrefab(out level.view))
                 yield return StateChange.none;
             
-            level.Materialize();
+            level.SpawnActors();
 
             autoplayHandler = AutoplayHandler();
             stateMachine.Find<GameSessionState>().game.StartCoroutine(autoplayHandler);
@@ -93,7 +92,7 @@ public class LevelSessionState : StateMachineState {
 
     public override void Exit() {
         stateMachine.Find<GameSessionState>().game.StopCoroutine(autoplayHandler);
-        level.Dematerialize();
+        level.DespawnActors();
         if (level.mission!=null && SceneManager.GetActiveScene().name == level.mission.SceneName)
             SceneManager.UnloadSceneAsync(level.mission.SceneName);
         Object.Destroy(level.view.gameObject);

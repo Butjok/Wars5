@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Events;
-using UnityEngine.EventSystems;
 
 public class MainMenuButton : MonoBehaviour{
 

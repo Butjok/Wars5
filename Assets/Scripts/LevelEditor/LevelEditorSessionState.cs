@@ -77,7 +77,7 @@ public class LevelEditorSessionState : StateMachineState {
             while (!LevelView.TryInstantiatePrefab(out level.view))
                 yield return StateChange.none;
 
-            level.Materialize();
+            level.SpawnActors();
 
             {
                 var gameObject = new GameObject("LevelEditorGui");
@@ -118,7 +118,7 @@ public class LevelEditorSessionState : StateMachineState {
 
     public override void Exit() {
 
-        level.Dematerialize();
+        level.DespawnActors();
         Object.Destroy(level.view.gameObject);
         level.view = null;
 

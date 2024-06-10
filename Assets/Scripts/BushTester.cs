@@ -1,4 +1,3 @@
-using Drawing;
 using UnityEngine;
 
 public class BushTester : MonoBehaviour {

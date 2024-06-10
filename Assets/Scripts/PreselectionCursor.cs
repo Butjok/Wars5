@@ -1,7 +1,4 @@
-using System;
 using UnityEngine;
-using UnityEngine.Assertions;
-using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class PreselectionCursor : MonoBehaviour {

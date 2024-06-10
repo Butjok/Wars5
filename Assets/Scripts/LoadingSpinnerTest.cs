@@ -1,6 +1,4 @@
-using System;
 using Butjok.CommandLine;
-using Drawing;
 using UnityEngine;
 
 public class LoadingSpinnerTest : MonoBehaviour {

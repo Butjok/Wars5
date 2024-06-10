@@ -4,12 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Butjok.CommandLine;
 using Cinemachine;
-using Drawing;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.Serialization;
-using UnityEngine.UIElements;
-using Object = UnityEngine.Object;
 
 [RequireComponent(typeof(AudioSource))]
 public class ProjectileNew : MonoBehaviour {

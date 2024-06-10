@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Assertions;
 
 [ExecuteInEditMode]
 public class UvMapperTest2 : MonoBehaviour {

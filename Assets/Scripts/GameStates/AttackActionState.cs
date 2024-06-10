@@ -5,7 +5,6 @@ using Butjok.CommandLine;
 using UnityEngine;
 using UnityEngine.Assertions;
 using static Rules;
-using static BattleConstants;
 using static BattleView.Setup.SideSettings;
 
 public class AttackActionState : StateMachineState {
@@ -22,7 +21,7 @@ public class AttackActionState : StateMachineState {
 
     public override IEnumerator<StateChange> Enter {
         get {
-            var (level, action) = (stateMachine.Find<LevelSessionState>().level, stateMachine.Find<ActionSelectionState>().selectedAction);
+            var (level, action) = (stateMachine.Find<LevelSessionState>().level, selectedAction: stateMachine.Find<ActionSelectionState>().SelectedAction);
 
             Assert.IsNotNull(level);
             Assert.IsNotNull(action);
