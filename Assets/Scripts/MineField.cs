@@ -4,29 +4,29 @@ using SaveGame;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class MineField : IMaterialized {
-    public static readonly List<MineField> toDematerialize = new();
+public class MineField : ISpawnable {
+    public static readonly List<MineField> spawned = new();
 
     public Level level;
     public Vector2Int position;
     private Player player;
 
-    [DontSave] public bool IsMaterialized { get; private set; }
+    [DontSave] public bool IsSpawned { get; private set; }
     [DontSave] public MineFieldView view;
 
     [DontSave] public Player Player {
         get => player;
         set {
             player = value;
-            if (IsMaterialized) 
+            if (IsSpawned) 
                 view.PlayerColor = player?.Color ?? Color.clear;
         }
     }
 
-    public void Materialize() {
-        Assert.IsFalse(IsMaterialized);
-        Assert.IsFalse(toDematerialize.Contains(this));
-        toDematerialize.Add(this);
+    public void Spawn() {
+        Assert.IsFalse(IsSpawned);
+        Assert.IsFalse(spawned.Contains(this));
+        spawned.Add(this);
 
         var prefab = "MineField".LoadAs<MineFieldView>();
         Assert.IsTrue(prefab);
@@ -34,19 +34,19 @@ public class MineField : IMaterialized {
         view.Position = position;
         view.PlayerColor = player?.Color ?? Color.clear;
 
-        IsMaterialized = true;
+        IsSpawned = true;
     }
 
-    public void Dematerialize() {
-        Assert.IsTrue(toDematerialize.Contains(this));
-        toDematerialize.Remove(this);
+    public void Despawn() {
+        Assert.IsTrue(spawned.Contains(this));
+        spawned.Remove(this);
 
         if (view) {
             Object.Destroy(view.gameObject);
             view = null;
         }
 
-        IsMaterialized = false;
+        IsSpawned = false;
     }
 
     [Command]
@@ -55,7 +55,7 @@ public class MineField : IMaterialized {
         if (level != null) {
             var player = level.players.Find(player => player.ColorName.ToString() == playerColor);
             if (level.mineFields.TryGetValue(position, out var oldMineField)) {
-                oldMineField.Dematerialize();
+                oldMineField.Despawn();
                 level.mineFields.Remove(position);
             }
             var mineField = new MineField {
@@ -64,14 +64,14 @@ public class MineField : IMaterialized {
                 player = player
             };
             level.mineFields[position] = mineField;
-            mineField.Materialize();
+            mineField.Spawn();
         }
     }
     [Command]
     public static void Remove(Vector2Int position) {
         var level = Game.Instance.TryGetLevel;
         if (level != null && level.mineFields.TryGetValue(position, out var mineField)) {
-            mineField.Dematerialize();
+            mineField.Despawn();
             level.mineFields.Remove(position);
         }
     }

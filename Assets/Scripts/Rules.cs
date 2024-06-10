@@ -362,4 +362,7 @@ public static class Rules {
                !missileSilo.missileSilo.hasMissile && unit.HasMissile &&
                unit.Player == missileSilo.Player;
     }
+    public static int MaxHp(Bridge2 bridge) {
+        return 10;
+    }
 }

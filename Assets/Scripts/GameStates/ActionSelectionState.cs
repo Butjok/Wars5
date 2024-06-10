@@ -228,7 +228,7 @@ public class ActionSelectionState : StateMachineState {
                                 case UnitActionType.Join: {
                                     other.SetHp(other.Hp + unit.Hp);
                                     other.Moved = true;
-                                    unit.Dematerialize();
+                                    unit.Despawn();
                                     break;
                                 }
 
@@ -363,7 +363,7 @@ public class ActionSelectionState : StateMachineState {
                                     if (pipeSection.hp <= 0) {
                                         var level = pipeSection.level;
                                         level.pipeSections.Remove(pipeSection.position);
-                                        pipeSection.Dematerialize();
+                                        pipeSection.Despawn();
                                         level.tiles[pipeSection.position] = TileType.Plain;
                                         Effects.SpawnExplosion(pipeSection.position.Raycasted(), Vector3.up, parent: level.view.transform);
                                         ExplosionCrater.SpawnDecal(pipeSection.position, level.view.transform);

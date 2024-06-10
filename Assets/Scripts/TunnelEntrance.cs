@@ -4,39 +4,39 @@ using SaveGame;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class TunnelEntrance : IMaterialized {
+public class TunnelEntrance : ISpawnable {
 
-    public static readonly List<TunnelEntrance> toDematerialize = new();
+    public static readonly List<TunnelEntrance> spawned = new();
 
     public Level level;
     public Vector2Int position;
     public TunnelEntrance connected;
 
     [DontSave] public TunnelEntranceView view;
-    [DontSave] public bool IsMaterialized { get; private set; }
+    [DontSave] public bool IsSpawned { get; private set; }
     
-    public void Materialize() {
-        Assert.IsFalse(IsMaterialized);
-        Assert.IsFalse(toDematerialize.Contains(this));
-        toDematerialize.Add(this);
+    public void Spawn() {
+        Assert.IsFalse(IsSpawned);
+        Assert.IsFalse(spawned.Contains(this));
+        spawned.Add(this);
 
         var prefab = "TunnelEntrance".LoadAs<TunnelEntranceView>();
         Assert.IsTrue(prefab);
         view = Object.Instantiate(prefab, level.view.transform);
         view.Position = position;
 
-        IsMaterialized = true;
+        IsSpawned = true;
     }
-    public void Dematerialize() {
-        Assert.IsTrue(toDematerialize.Contains(this));
-        toDematerialize.Remove(this);
+    public void Despawn() {
+        Assert.IsTrue(spawned.Contains(this));
+        spawned.Remove(this);
 
         if (view) {
             Object.Destroy(view.gameObject);
             view = null;
         }
 
-        IsMaterialized = false;
+        IsSpawned = false;
     }
 
     [Command]

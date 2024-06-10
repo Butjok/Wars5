@@ -81,6 +81,7 @@
      <Compile Include="Assets\Scripts\MainMenuView2.cs" />
      <Compile Include="Assets\Scripts\EntryPoint\SplashState.cs" />
      <Compile Include="Assets\Scripts\GameStates\UiCircle.cs" />
+     <Compile Include="Assets\Scripts\BridgeView2.cs" />
      <Compile Include="Assets\Scripts\GameStates\UnitThumbnails.cs" />
      <Compile Include="Assets\Scripts\Views\UnitBuildMenu2.cs" />
      <Compile Include="Assets\Scripts\PlayerProfile.cs" />
@@ -180,6 +181,7 @@
      <Compile Include="Assets\Scripts\ExplosionCrater.cs" />
      <Compile Include="Assets\Scripts\SetTextToLocalizedGameObjectName.cs" />
      <Compile Include="Assets\Scripts\LevelEditor\TileMapTester.cs" />
+     <Compile Include="Assets\Scripts\PipeSectionView.cs" />
      <Compile Include="Assets\Scripts\UnitMoveSequenceTest.cs" />
      <Compile Include="Assets\Scripts\Ai\UnitBrain.cs" />
      <Compile Include="Assets\Scripts\LoadingView.cs" />
@@ -220,6 +222,7 @@
      <Compile Include="Assets\Scripts\Marketing\MarketingUiDrawing.cs" />
      <Compile Include="Assets\Scripts\WorldBoxSectionTextureGenerator.cs" />
      <Compile Include="Assets\Scripts\VoronoiRenderer.cs" />
+     <Compile Include="Assets\Scripts\Bridge2.cs" />
      <Compile Include="Assets\Scripts\NativeInterop.cs" />
      <Compile Include="Assets\Scripts\Animation\SteeringArm.cs" />
      <Compile Include="Assets\Scripts\MarchingSquares.cs" />
@@ -241,6 +244,7 @@
      <Compile Include="Assets\Scripts\GameStates\UiWindowManager.cs" />
      <Compile Include="Assets\Scripts\EntryPoint\MainMenuAboutState.cs" />
      <Compile Include="Assets\Scripts\MissionObjectivesUi.cs" />
+     <Compile Include="Assets\Scripts\PipeSection.cs" />
      <Compile Include="Assets\Scripts\LevelEditor\LevelEditorTilesModeState.cs" />
      <Compile Include="Assets\Scripts\ScalarFieldUtilities.cs" />
      <Compile Include="Assets\Scripts\MineField.cs" />
@@ -278,7 +282,7 @@
      <Compile Include="Assets\Scripts\CrateView.cs" />
      <Compile Include="Assets\Scripts\LevelWriter.cs" />
      <Compile Include="Assets\Scripts\InGameMenu.cs" />
-     <Compile Include="Assets\Scripts\IMaterialized.cs" />
+     <Compile Include="Assets\Scripts\ISpawnable.cs" />
      <Compile Include="Assets\Scripts\GameStates\MissileTargetSelectionState.cs" />
      <Compile Include="Assets\Scripts\LevelEditor\LevelEditorUnitsModeState.cs" />
      <Compile Include="Assets\Scripts\TurnButton.cs" />
@@ -355,10 +359,6 @@
      <Compile Include="Assets\Scripts\TrackTrail.cs" />
      <Compile Include="Assets\Scripts\Animation\UnitViewSequenceSubroutines.cs" />
      <Compile Include="Assets\Scripts\EntryPoint\MainMenuWelcomeState.cs" />
-     <Compile Include="Assets\Scripts\PipeSection.cs" />
-     <Compile Include="Assets\Scripts\PipeSectionView.cs" />
-     <Compile Include="Assets\Scripts\BridgeView2.cs" />
-     <Compile Include="Assets\Scripts\Bridge2.cs" />
      <Folder Include="Assets\Scripts\EntryPoint" />
      <None Include="Assets\Scripts\Wars.asmdef" />
      <Folder Include="Assets\Scripts\DialogueMarkupLanguage" />

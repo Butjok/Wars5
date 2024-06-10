@@ -57,7 +57,7 @@ public class BorderIncidentScenario : MonoBehaviour {
             type = UnitType.Infantry,
             Position = new Vector2Int(27, 8)
         };
-        blueInfantry.Materialize();
+        blueInfantry.Spawn();
         {
             var movement = MoveUnitView(blueInfantry.view, new Vector2Int(29, 8));
             while (movement.MoveNext())

@@ -12,6 +12,7 @@ public class BridgeView2 : MonoBehaviour {
     public Dictionary<Vector2Int, (MeshFilter meshFilter, MeshCollider meshCollider)> pieces = new();
 
     public int rotationOffset;
+    public int? Hp { get; set; }
 
     public void SetPositions(List<Vector2Int> positions) {
         Assert.IsTrue(positions.Count > 0);
@@ -43,6 +44,20 @@ public class BridgeView2 : MonoBehaviour {
         foreach (var position in unused) {
             Destroy(pieces[position].meshFilter.gameObject);
             pieces.Remove(position);
+        }
+    }
+
+    public void OnGUI() {
+        if (Hp is {} actualValue && pieces.Count > 0) {
+            GUI.skin = DefaultGuiSkin.TryGet;
+            var text = actualValue.ToString();
+            var size = GUI.skin.label.CalcSize(new GUIContent(text));
+            var accumulator = Vector2.zero;
+            foreach (var piece in pieces.Values)
+                accumulator +=   piece.meshFilter.transform.position.ToVector2();
+            accumulator /= pieces.Count;
+            var position = Camera.main. WorldToScreenPoint(accumulator.ToVector3());
+            GUI.Label(new Rect(position.x - size.x / 2, Screen.height - position.y - size.y / 2, size.x, size.y), text);
         }
     }
 }

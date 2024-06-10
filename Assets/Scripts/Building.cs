@@ -8,7 +8,7 @@ using Object = UnityEngine.Object;
 using static UnityEngine.Mathf;
 using static Rules;
 
-public class Building : IMaterialized {
+public class Building : ISpawnable {
 
     public class MissileSiloStats {
         public Building building;
@@ -29,7 +29,7 @@ public class Building : IMaterialized {
         [DontSave] public bool HasMissile => lastRechargeDay + rechargeCooldown <= building.level.Day();
     }
 
-    public static readonly HashSet<Building> toDematerialize = new();
+    public static readonly HashSet<Building> spawned = new();
 
     public TileType type;
     public Level level;
@@ -53,7 +53,7 @@ public class Building : IMaterialized {
     [DontSave] public Player Player {
         get => player;
         set {
-            if (IsMaterialized && player == value)
+            if (IsSpawned && player == value)
                 return;
             player = value;
 
@@ -68,9 +68,9 @@ public class Building : IMaterialized {
     [DontSave] public int Cp {
         get => cp;
         set {
-            if (IsMaterialized && cp == value)
+            if (IsSpawned && cp == value)
                 return;
-            cp = Clamp(value, 0, IsMaterialized ? MaxCp(this) : MaxCp(type));
+            cp = Clamp(value, 0, IsSpawned ? MaxCp(this) : MaxCp(type));
         }
     }
 
@@ -84,12 +84,12 @@ public class Building : IMaterialized {
         }
     }
 
-    [DontSave] public bool IsMaterialized { get; private set; }
+    [DontSave] public bool IsSpawned { get; private set; }
 
-    public void Materialize() {
-        Assert.IsFalse(IsMaterialized);
-        Assert.IsFalse(toDematerialize.Contains(this));
-        toDematerialize.Add(this);
+    public void Spawn() {
+        Assert.IsFalse(IsSpawned);
+        Assert.IsFalse(spawned.Contains(this));
+        spawned.Add(this);
 
         if (!ViewPrefab)
             ViewPrefab = BuildingView.GetPrefab(type);
@@ -104,7 +104,7 @@ public class Building : IMaterialized {
         Cp = Cp;
         Moved = Moved;
 
-        IsMaterialized = true;
+        IsSpawned = true;
     }
 
     public static implicit operator TileType(Building building) {
@@ -115,9 +115,9 @@ public class Building : IMaterialized {
         return $"{type}{position} {Player}";
     }
 
-    public void Dematerialize() {
-        Assert.IsTrue(toDematerialize.Contains(this));
-        toDematerialize.Remove(this);
+    public void Despawn() {
+        Assert.IsTrue(spawned.Contains(this));
+        spawned.Remove(this);
 
         if (view) {
             Object.Destroy(view.gameObject);
@@ -127,6 +127,6 @@ public class Building : IMaterialized {
         level.tiles.Remove(position);
         level.buildings.Remove(position);
 
-        IsMaterialized = false;
+        IsSpawned = false;
     }
 }

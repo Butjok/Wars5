@@ -167,7 +167,7 @@ public static class LevelReader {
                         side = playerSide,
                         AbilityMeter = playerAbilityMeter,
                     };
-                    player.Materialize();
+                    player.Spawn();
 
                     if (playerLocal) {
                         Assert.IsNull(level.localPlayer);
@@ -292,7 +292,7 @@ public static class LevelReader {
                     };
                     
                     building.level.buildings.Add(building.position, building);
-                    building.Materialize();
+                    building.Spawn();
 
                     stack.Push(building);
 
@@ -378,7 +378,7 @@ public static class LevelReader {
                     };
                     if (unit.Position is { } actualPosition)
                         unit.Player.level.units[actualPosition] = unit;
-                    unit.Materialize();
+                    unit.Spawn();
                     stack.Push(unit);
                     ResetUnitValues();
                     break;

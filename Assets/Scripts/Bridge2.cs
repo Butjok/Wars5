@@ -5,15 +5,15 @@ using SaveGame;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class Bridge2 : IMaterialized {
-    public static readonly List<Bridge2> toDematerialize = new();
+public class Bridge2 : ISpawnable {
+    public static readonly List<Bridge2> spawned = new();
 
     public Level level;
-    public int hp = 10;
+    private int hp = 10;
     private List<Vector2Int> positions = new();
 
     [DontSave] public BridgeView2 view;
-    [DontSave] public bool IsMaterialized { get; private set; }
+    [DontSave] public bool IsSpawned { get; private set; }
 
     [DontSave] public IReadOnlyList<Vector2Int> Positions => positions;
     public void SetPositions(List<Vector2Int> positions) {
@@ -21,28 +21,44 @@ public class Bridge2 : IMaterialized {
         for (var i = 1; i < positions.Count - 1; i++)
             Assert.IsTrue(positions[i + 1] - positions[i] == positions[1] - positions[0]);
         this.positions = positions;
-        if (IsMaterialized)
+        if (IsSpawned)
             view.SetPositions(this.positions);
     }
 
-    public void Materialize() {
-        Assert.IsFalse(IsMaterialized);
-        Assert.IsFalse(toDematerialize.Contains(this));
+    public int Hp {
+        get => hp;
+        set {
+            hp = value;
+            if (hp > 0) {
+                if (view)
+                    view.Hp = value == Rules.MaxHp(this) ? null : value;
+            }
+            else
+                DestroyAt(positions[0]);
+        }
+    }
+
+    public void Spawn() {
+        Assert.IsFalse(IsSpawned);
+        Assert.IsFalse(spawned.Contains(this));
         Assert.IsTrue(positions.Count > 0);
-        toDematerialize.Add(this);
+        spawned.Add(this);
+        
+        Assert.IsTrue(hp > 0);
 
         var prefab = "BridgeView2".LoadAs<BridgeView2>();
         Assert.IsTrue(prefab);
         view = Object.Instantiate(prefab, level.view.transform);
         view.transform.position = positions[0].ToVector3();
         view.SetPositions(positions);
+        Hp = hp;
 
-        IsMaterialized = true;
+        IsSpawned = true;
     }
 
-    public void Dematerialize() {
-        Assert.IsTrue(toDematerialize.Contains(this));
-        toDematerialize.Remove(this);
+    public void Despawn() {
+        Assert.IsTrue(spawned.Contains(this));
+        spawned.Remove(this);
 
         if (view) {
             foreach (var piece in view.pieces.Values)
@@ -51,19 +67,19 @@ public class Bridge2 : IMaterialized {
             view = null;
         }
 
-        IsMaterialized = false;
+        IsSpawned = false;
     }
-    
+
     public void Destroy() {
         foreach (var position in positions) {
             if (level.TryGetUnit(position, out var unit))
-                unit.SetHp(0, true);
+                unit.SetHp(0, true, false);
             level.bridges2.Remove(position);
             level.tiles[position] = level.tiles[position] == TileType.Bridge ? TileType.River : TileType.Sea;
         }
-        Dematerialize();
+        Despawn();
     }
-    
+
     [Command]
     public static void DestroyAt(Vector2Int position) {
         var level = Game.Instance.TryGetLevel;
@@ -95,12 +111,12 @@ public class Bridge2 : IMaterialized {
             var direction = bridge.positions[1] - bridge.positions[0];
             Assert.IsTrue(position == bridge.positions[^1] + direction || position == bridge.positions[0] - direction);
         }
-        var newPositions = new List<Vector2Int>(bridge.positions) {position};
+        var newPositions = new List<Vector2Int>(bridge.positions) { position };
         bridge.SetPositions(newPositions);
         level.bridges2.Add(position, bridge);
         level.tiles[position] = tileType == TileType.River ? TileType.Bridge : TileType.BridgeSea;
         if (needsToBeMaterialized)
-            bridge.Materialize();
+            bridge.Spawn();
         return true;
     }
 }

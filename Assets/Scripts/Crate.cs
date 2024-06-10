@@ -4,44 +4,44 @@ using SaveGame;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class Crate : IMaterialized {
-    public static readonly List<Crate> toDispose = new();
+public class Crate : ISpawnable {
+    public static readonly List<Crate> spawned = new();
 
     public Level level;
     public Vector2Int position;
 
-    [DontSave] public bool IsMaterialized { get; private set; }
+    [DontSave] public bool IsSpawned { get; private set; }
     [DontSave] public CrateView view;
 
-    public void Materialize() {
-        Assert.IsFalse(IsMaterialized);
-        Assert.IsFalse(toDispose.Contains(this));
-        toDispose.Add(this);
+    public void Spawn() {
+        Assert.IsFalse(IsSpawned);
+        Assert.IsFalse(spawned.Contains(this));
+        spawned.Add(this);
 
         var prefab = "Crate".LoadAs<CrateView>();
         Assert.IsTrue(prefab);
         view = Object.Instantiate(prefab, level.view.transform);
         view.Position = position;
 
-        IsMaterialized = true;
+        IsSpawned = true;
     }
 
-    public void Dematerialize() {
-        Assert.IsTrue(toDispose.Contains(this));
-        toDispose.Remove(this);
+    public void Despawn() {
+        Assert.IsTrue(spawned.Contains(this));
+        spawned.Remove(this);
 
         if (view) {
             Object.Destroy(view.gameObject);
             view = null;
         }
 
-        IsMaterialized = false;
+        IsSpawned = false;
     }
     
     public void PickUp(Unit unit) {
         Assert.IsTrue(level.crates.TryGetValue(position, out var crate) && crate == this);
         level.crates.Remove(position);
-        Dematerialize();
+        Despawn();
         
         Debug.Log("Crate was picked up.");
         unit.Player.SetCredits(unit.Player.Credits + 10000, true);
@@ -52,7 +52,7 @@ public class Crate : IMaterialized {
         var level = Game.Instance.TryGetLevel;
         if (level != null) {
             if (level.crates.TryGetValue(position, out var oldCrate)) {
-                oldCrate.Dematerialize();
+                oldCrate.Despawn();
                 level.crates.Remove(position);
             }
             var crate = new Crate {
@@ -60,14 +60,14 @@ public class Crate : IMaterialized {
                 position = position
             };
             level.crates[position] = crate;
-            crate.Materialize();
+            crate.Spawn();
         }
     }
     [Command]
     public static void Remove(Vector2Int position) {
         var level = Game.Instance.TryGetLevel;
         if (level != null && level.crates.TryGetValue(position, out var crate)) {
-            crate.Dematerialize();
+            crate.Despawn();
             level.crates.Remove(position);
         }
     }

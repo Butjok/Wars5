@@ -49,7 +49,7 @@ public class LevelEditorUnitsModeState : StateMachineState {
             bool TryRemoveUnit(Vector2Int position) {
                 if (!units.TryGetValue(position, out var unit))
                     return false;
-                unit.Dematerialize();
+                unit.Despawn();
                 if (inspectedUnit == unit)
                     inspectedUnit = null;
                 return true;
@@ -148,7 +148,7 @@ public class LevelEditorUnitsModeState : StateMachineState {
                                 ViewPrefab = viewPrefab
                             };
                             units[position] = unit;
-                            unit.Materialize();
+                            unit.Spawn();
                             break;
                         }
 

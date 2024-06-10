@@ -152,7 +152,7 @@ public class PathSelectionState : StateMachineState {
                             void MaybeTriggerMineField(MineField mineField) {
                                 if (unit.Hp > 0 && Rules.ShouldExplode(mineField, unit)) {
                                     level.mineFields.Remove(mineField.position);
-                                    mineField.Dematerialize();
+                                    mineField.Despawn();
                                     
                                     var newUnitHp = unit.Hp - Rules.MineFieldDamage(unit, mineField);
                                     if (newUnitHp <= 0 && unit.view.Position != mineField.position) {

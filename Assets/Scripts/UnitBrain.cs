@@ -120,7 +120,7 @@ public class UnitTransferState : UnitState {
     public Vector2Int dropPosition;
 
     public override UnitBrainAction GetNextAction() {
-        if (pickUpUnit is not { IsMaterialized: true } || pickUpUnit.Position is { } pickUpUnitPosition && pickUpUnitPosition == dropPosition)
+        if (pickUpUnit is not { IsSpawned: true } || pickUpUnit.Position is { } pickUpUnitPosition && pickUpUnitPosition == dropPosition)
             return Cancel();
 
         var level = unit.Player.level;
@@ -168,7 +168,7 @@ public class UnitCaptureState : UnitState {
         if (unit.Moved)
             return DoNothing();
 
-        if (building is not { IsMaterialized: true } || building.Player == unit.Player)
+        if (building is not { IsSpawned: true } || building.Player == unit.Player)
             return Cancel();
 
         if (TryActualizeKillStateForTheClosestEnemy())
@@ -244,7 +244,7 @@ public class UnitKillState : UnitState {
         if (unit.Moved)
             return DoNothing();
 
-        if (target is not { IsMaterialized: true })
+        if (target is not { IsSpawned: true })
             return Cancel();
 
         if (unit.Hp <= 2) {

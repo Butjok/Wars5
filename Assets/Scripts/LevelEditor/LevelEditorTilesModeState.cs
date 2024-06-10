@@ -274,16 +274,16 @@ public class LevelEditorTilesModeState : StateMachineState {
                 }
 
                 if (buildings.TryGetValue(position, out var building))
-                    building.Dematerialize();
+                    building.Despawn();
                 if (removeUnit && units.TryGetValue(position, out var unit))
-                    unit.Dematerialize();
+                    unit.Despawn();
                 if (level.tunnelEntrances.TryGetValue(position, out var tunnelEntrance)) {
                     level.tunnelEntrances.Remove(position);
-                    tunnelEntrance.Dematerialize();
+                    tunnelEntrance.Despawn();
                 }
                 if (level.TryGetPipeSection(position, out var pipeSection)) {
                     level.pipeSections.Remove(position);
-                    pipeSection.Dematerialize();
+                    pipeSection.Despawn();
                     UpdatePipeSectionViews();
                 }
 
@@ -353,7 +353,7 @@ public class LevelEditorTilesModeState : StateMachineState {
                     else if (building.type == TileType.MissileStorage)
                         building.missileStorage = new Building.MissileStorageStats { building = building };
                     buildings.Add(position, building);
-                    building.Materialize();
+                    building.Spawn();
                 }
 
                 if (tileType == TileType.TunnelEntrance) {
@@ -362,7 +362,7 @@ public class LevelEditorTilesModeState : StateMachineState {
                         position = position
                     };
                     level.tunnelEntrances.Add(position, tunnel);
-                    tunnel.Materialize();
+                    tunnel.Spawn();
                 }
 
                 if (tileType == TileType.PipeSection) {
@@ -371,7 +371,7 @@ public class LevelEditorTilesModeState : StateMachineState {
                         position = position
                     };
                     level.pipeSections.Add(position, pipeSection);
-                    pipeSection.Materialize();
+                    pipeSection.Spawn();
                     UpdatePipeSectionViews();
                 }
 

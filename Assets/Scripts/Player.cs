@@ -24,9 +24,9 @@ public enum AiDifficulty {
     Hard
 }
 
-public class Player : IMaterialized {
+public class Player : ISpawnable {
 
-    public static readonly HashSet<Player> toDematerialize = new();
+    public static readonly HashSet<Player> spawned = new();
 
     public Level level;
     public Team team;
@@ -44,7 +44,7 @@ public class Player : IMaterialized {
         get => colorName;
         set {
             colorName = value;
-            if (IsMaterialized) {
+            if (IsSpawned) {
                 var color = Colors.Get(colorName);
                 foreach (var unit in level.FindUnitsOf(this))
                     RecursivelyUpdateUnitColor(unit, color);
@@ -70,7 +70,7 @@ public class Player : IMaterialized {
         set => SetCredits(value);
     }
     public void SetCredits(int value, bool animate = false) {
-        credits = Clamp(value, 0, IsMaterialized ? MaxCredits(this) : defaultMaxCredits);
+        credits = Clamp(value, 0, IsSpawned ? MaxCredits(this) : defaultMaxCredits);
         if (view)
             view.SetCreditsAmount(Credits, animate);
     }
@@ -81,21 +81,21 @@ public class Player : IMaterialized {
         set => SetAbilityMeter(value, false, false);
     }
     public void SetAbilityMeter(int value, bool animate = false, bool playSoundOnFull = true) {
-        abilityMeter = Clamp(value, 0, IsMaterialized ? defaultMaxAbilityMeter : MaxAbilityMeter(this));
+        abilityMeter = Clamp(value, 0, IsSpawned ? defaultMaxAbilityMeter : MaxAbilityMeter(this));
         if (view)
-            view.SetPowerStripeMeter(value, MaxAbilityMeter(this), IsMaterialized && animate, IsMaterialized && playSoundOnFull);
+            view.SetPowerStripeMeter(value, MaxAbilityMeter(this), IsSpawned && animate, IsSpawned && playSoundOnFull);
     }
 
     public int? abilityActivationTurn;
     public Vector2Int unitLookDirection = Vector2Int.up;
     public Side side;
 
-    [DontSave] public bool IsMaterialized { get; private set; }
+    [DontSave] public bool IsSpawned { get; private set; }
 
-    public void Materialize() {
-        Assert.IsFalse(IsMaterialized);
-        Assert.IsFalse(toDematerialize.Contains(this));
-        toDematerialize.Add(this);
+    public void Spawn() {
+        Assert.IsFalse(IsSpawned);
+        Assert.IsFalse(spawned.Contains(this));
+        spawned.Add(this);
 
         //Assert.IsFalse(level.players.Any(player => player.colorName == colorName));
         //level.players.Add(this);
@@ -109,22 +109,22 @@ public class Player : IMaterialized {
         unitBrainController = new UnitBrainController { player = this };
         orderGenerator = new OrderGenerator(this);
 
-        IsMaterialized = true;
+        IsSpawned = true;
     }
 
     public override string ToString() {
         return ColorName.ToString();
     }
 
-    public void Dematerialize() {
-        Assert.IsTrue(toDematerialize.Contains(this));
-        toDematerialize.Remove(this);
+    public void Despawn() {
+        Assert.IsTrue(spawned.Contains(this));
+        spawned.Remove(this);
         if (view && view.gameObject) {
             Object.Destroy(view.gameObject);
             view = null;
         }
         level.players.Remove(this);
 
-        IsMaterialized = false;
+        IsSpawned = false;
     }
 }

@@ -113,7 +113,7 @@ public class LevelEditorSessionState : StateMachineState {
         var game = Game.Instance;
         var level = game.stateMachine.Find<LevelEditorSessionState>().level;
         foreach (var building in level.buildings.Values.ToList())
-            building.Dematerialize();
+            building.Despawn();
     }
 
     public override void Exit() {

@@ -78,40 +78,40 @@ public class Level {
 
     public void Materialize() {
         foreach (var player in players)
-            player.Materialize();
+            player.Spawn();
         foreach (var building in buildings.Values)
-            building.Materialize();
+            building.Spawn();
         foreach (var unit in units.Values)
-            unit.Materialize();
+            unit.Spawn();
         foreach (var mineField in mineFields.Values)
-            mineField.Materialize();
+            mineField.Spawn();
         foreach (var crate in crates.Values)
-            crate.Materialize();
+            crate.Spawn();
         foreach (var tunnelEntrance in tunnelEntrances.Values)
-            tunnelEntrance.Materialize();
+            tunnelEntrance.Spawn();
         foreach (var pipeSection in pipeSections.Values)
-            pipeSection.Materialize();
+            pipeSection.Spawn();
         foreach (var bridge in bridges2.Values.Distinct())
-            bridge.Materialize();
+            bridge.Spawn();
     }
 
     public void Dematerialize() {
         foreach (var bridge in bridges2.Values.Distinct().ToList())
-            bridge.Dematerialize();
+            bridge.Despawn();
         foreach (var pipeSection in pipeSections.Values.ToList())
-            pipeSection.Dematerialize();
+            pipeSection.Despawn();
         foreach (var tunnelEntrance in tunnelEntrances.Values.ToList())
-            tunnelEntrance.Dematerialize();
+            tunnelEntrance.Despawn();
         foreach (var crate in crates.Values.ToList())
-            crate.Dematerialize();
+            crate.Despawn();
         foreach (var mineField in mineFields.Values.ToList())
-            mineField.Dematerialize();
+            mineField.Despawn();
         foreach (var unit in units.Values.ToList())
-            unit.Dematerialize();
+            unit.Despawn();
         foreach (var building in buildings.Values.ToList())
-            building.Dematerialize();
+            building.Despawn();
         foreach (var player in players.ToList())
-            player.Dematerialize();
+            player.Despawn();
     }
 
     public int Day(int turn) {
@@ -175,7 +175,7 @@ public class Level {
             position = position
         };
         pipeSections[position] = pipeSection;
-        pipeSection.Materialize();
+        pipeSection.Spawn();
         foreach (var ps in pipeSections.Values)
             ps.UpdateView();
         return true;
@@ -184,7 +184,7 @@ public class Level {
         if (!TryGetPipeSection(position, out var existing))
             return false;
         pipeSections.Remove(position);
-        existing.Dematerialize();
+        existing.Despawn();
         foreach (var ps in pipeSections.Values)
             ps.UpdateView();
         return true;

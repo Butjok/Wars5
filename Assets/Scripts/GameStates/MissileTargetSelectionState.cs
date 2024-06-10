@@ -116,7 +116,7 @@ public class MissileTargetSelectionState : StateMachineState {
                                     foreach (var position in Level.PositionsInRange(targetPosition, new Vector2Int(radius, radius))) {
                                         if (Level.TryGetUnit(position, out var unit)) {
                                             unit.SetHp(unit.Hp - building.missileSilo.unitDamage, true);
-                                            if (unit.IsMaterialized && unit.view) {
+                                            if (unit.Hp > 0) {
                                                 unit.view.ApplyDamageTorque(UnitView.DamageTorqueType.MissileExplosion);
                                                 unit.view.TriggerDamageFlash();
                                             }
@@ -135,41 +135,14 @@ public class MissileTargetSelectionState : StateMachineState {
                             }
 
                             var anyBridgeDestroyed = false;
-                            var targetedBridges = Level.bridges.Where(bridge => bridge.tiles.ContainsKey(targetPosition));
-                            foreach (var bridge in targetedBridges) {
-                                bridge.SetHp(bridge.Hp - building.missileSilo.bridgeDamage, true);
-                                if (!anyBridgeDestroyed && bridge.Hp <= 0)
+                            
+                            if (Level.TryGetBridge2(targetPosition, out var bridge)) {
+                                bridge.Hp -= 5;
+                                if (bridge.Hp <= 0)
                                     anyBridgeDestroyed = true;
                             }
 
                             missileSiloView.aim = false;
-
-                            if (anyBridgeDestroyed) {
-                                using var dialogue = new DialoguePlayer();
-                                foreach (var stateChange in dialogue.Play(@"
-@nata Hello there! @next
-      Welcome to the Wars3d! An amazing strategy game! @next
-
-@vlad What are you saying? @next
-
-@nata I dont know what to say... @next
-@nervous Probably... @3 @pause we should have done something different... @next
-
-@nata @happy You probably did not know who you are messing with! @next
-@nata @normal Enough said. @next
-"))
-                                    yield return stateChange;
-
-                                var cameraRig = Level.view.cameraRig;
-                                var jumpCompleted = cameraRig.Jump(Vector3.zero);
-                                while (!jumpCompleted())
-                                    yield return StateChange.none;
-
-                                foreach (var stateChange in dialogue.Play(@"
-@nata So... @1 @pause Here it goes! @next
-"))
-                                    yield return stateChange;
-                            }
 
                             yield break;
                         }

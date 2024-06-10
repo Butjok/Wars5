@@ -16,9 +16,9 @@ public class GameSessionState : StateMachineState {
     public override IEnumerator<StateChange> Enter {
         get {
 
-            Player.toDematerialize.Clear();
-            Building.toDematerialize.Clear();
-            Unit.toDematerialize.Clear();
+            Player.spawned.Clear();
+            Building.spawned.Clear();
+            Unit.spawned.Clear();
 
             while (true) {
                 yield return StateChange.none;
@@ -51,18 +51,18 @@ public class GameSessionState : StateMachineState {
     public override void Exit() {
 
         var collectionsToExamine = new(string, IReadOnlyCollection<object>)[] {
-            (nameof(Player), Player.toDematerialize),
-            (nameof(Building), Building.toDematerialize),
-            (nameof(Unit), Unit.toDematerialize),
-            (nameof(MineField), MineField.toDematerialize),
-            (nameof(Crate), Crate.toDispose),
-            (nameof(TunnelEntrance), TunnelEntrance.toDematerialize),
-            (nameof(PipeSection), PipeSection.toDematerialize),
-            (nameof(Bridge2), Bridge2.toDematerialize),
+            (nameof(Player), Player.spawned),
+            (nameof(Building), Building.spawned),
+            (nameof(Unit), Unit.spawned),
+            (nameof(MineField), MineField.spawned),
+            (nameof(Crate), Crate.spawned),
+            (nameof(TunnelEntrance), TunnelEntrance.spawned),
+            (nameof(PipeSection), PipeSection.spawned),
+            (nameof(Bridge2), Bridge2.spawned),
         };
         
         foreach (var (name, collection) in collectionsToExamine)
             if (collection.Count > 0)
-                Debug.LogError($"Undisposed {name}: {collection.Count}");
+                Debug.LogError($"Still spawned {name}: {collection.Count}");
     }
 }

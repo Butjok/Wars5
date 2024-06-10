@@ -4,20 +4,20 @@ using SaveGame;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class PipeSection : IMaterialized {
-    public static readonly List<PipeSection> toDematerialize = new();
+public class PipeSection : ISpawnable {
+    public static readonly List<PipeSection> spawned = new();
 
     public Level level;
     public int hp = 10;
     public Vector2Int position;
 
     [DontSave] public PipeSectionView view;
-    [DontSave] public bool IsMaterialized { get; private set; }
+    [DontSave] public bool IsSpawned { get; private set; }
 
-    public void Materialize() {
-        Assert.IsFalse(IsMaterialized);
-        Assert.IsFalse(toDematerialize.Contains(this));
-        toDematerialize.Add(this);
+    public void Spawn() {
+        Assert.IsFalse(IsSpawned);
+        Assert.IsFalse(spawned.Contains(this));
+        spawned.Add(this);
 
         var prefab = "PipeSection".LoadAs<PipeSectionView>();
         Assert.IsTrue(prefab);
@@ -25,19 +25,19 @@ public class PipeSection : IMaterialized {
         view.Position = position;
         UpdateView();
 
-        IsMaterialized = true;
+        IsSpawned = true;
     }
 
-    public void Dematerialize() {
-        Assert.IsTrue(toDematerialize.Contains(this));
-        toDematerialize.Remove(this);
+    public void Despawn() {
+        Assert.IsTrue(spawned.Contains(this));
+        spawned.Remove(this);
 
         if (view) {
             Object.Destroy(view.gameObject);
             view = null;
         }
 
-        IsMaterialized = false;
+        IsSpawned = false;
     }
 
     public void UpdateView() {
