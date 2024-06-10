@@ -73,7 +73,7 @@ Shader "Custom/Lily" {
 			float3 hsv = RGBtoHSV(o.Albedo.rgb);
 			hsv.x -= .025;
 			hsv.y *= 1.2;
-			hsv.z *= 2.5;
+			hsv.z *= 2.0;
 			o.Albedo.rgb = HSVtoRGB(hsv);
 
 			#if FLAT_COLORS

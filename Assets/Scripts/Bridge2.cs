@@ -11,6 +11,7 @@ public class Bridge2 : ISpawnable {
     public Level level;
     private int hp = 10;
     private List<Vector2Int> positions = new();
+    public Vector2Int? forward;
 
     [DontSave] public BridgeView2 view;
     [DontSave] public bool IsSpawned { get; private set; }
@@ -22,7 +23,16 @@ public class Bridge2 : ISpawnable {
             Assert.IsTrue(positions[i + 1] - positions[i] == positions[1] - positions[0]);
         this.positions = positions;
         if (IsSpawned)
-            view.SetPositions(this.positions);
+            view.SetPositions(this.positions, forward);
+    }
+
+    [DontSave] public Vector2Int? Forward {
+        get => forward;
+        set {
+            forward = value;
+            if (IsSpawned)
+                view.SetPositions(positions, forward);
+        }
     }
 
     public int Hp {
@@ -43,14 +53,14 @@ public class Bridge2 : ISpawnable {
         Assert.IsFalse(spawned.Contains(this));
         Assert.IsTrue(positions.Count > 0);
         spawned.Add(this);
-        
+
         Assert.IsTrue(hp > 0);
 
         var prefab = "BridgeView2".LoadAs<BridgeView2>();
         Assert.IsTrue(prefab);
         view = Object.Instantiate(prefab, level.view.transform);
         view.transform.position = positions[0].ToVector3();
-        view.SetPositions(positions);
+        view.SetPositions(positions, forward);
         Hp = hp;
 
         IsSpawned = true;
@@ -75,9 +85,18 @@ public class Bridge2 : ISpawnable {
             if (level.TryGetUnit(position, out var unit))
                 unit.SetHp(0, true, false);
             level.bridges2.Remove(position);
-            level.tiles[position] = level.tiles[position] == TileType.Bridge ? TileType.River : TileType.Sea;
+            if (level.tiles.TryGetValue(position, out var tileType))
+                level.tiles[position] = tileType == TileType.Bridge ? TileType.River : TileType.Sea;
         }
         Despawn();
+    }
+    
+    [Command]
+    public static void SetForwardFor(Vector2Int position, Vector2Int forward) {
+        var level = Game.Instance.TryGetLevel;
+        if (level == null || !level.TryGetBridge2(position, out var bridge))
+            return;
+        bridge.Forward = forward;
     }
 
     [Command]
