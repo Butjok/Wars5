@@ -42,6 +42,9 @@
 		_NormalPower ("Normal Power", Float) = 1
 		_OcclusionTint ("Occlusion Tint", Float) = 1
 		_GridColor ("Grid Color", Color) = (0, 0, 0, 0)
+		
+		[Toggle(FLAT_COLORS)] _FlatColors ("Flat Colors", Float) = 0
+		_FlatColor ("Flat Color", Color) = (1, 1, 1, 1)
 	}
 	SubShader {
 		Tags { "RenderType"="Transparent" "Queue"="Transparent" }
@@ -58,6 +61,7 @@
 		#pragma surface surf Standard alpha finalcolor:ResetAlpha 
 		#pragma target 3.0
 		#pragma shader_feature_local _SPECULARHIGHLIGHTS_OFF
+		#pragma shader_feature FLAT_COLORS
 
 		#include "Flow.cginc"
 		#include "LookingThroughWater.cginc"
@@ -84,6 +88,7 @@
 		half _Metallic;
 		fixed4 _Color, _BackgroundColor;
 		float4 _Normal_ST, _Noise_ST;
+		float4 _FlatColor;
 
 		float3 UnpackDerivativeHeight (float4 textureData) {
 			float3 dh = textureData.agb;
@@ -102,6 +107,11 @@
         float _OcclusionTint;
 
 		void surf (Input IN, inout SurfaceOutputStandard o) {
+
+			#if FLAT_COLORS
+				_Color = _FlatColor;
+			#endif
+			
 			float3 flow = tex2D(_FlowMap, IN.uv_MainTex).rgb;
 			flow.xy = flow.xy * 2 - 1;
 			flow *= _FlowStrength;

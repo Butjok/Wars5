@@ -18,6 +18,13 @@ public static class TileInfos {
             TileType.MissileSilo => _("Missile Silo"),
             TileType.Beach => _("Beach"),
             TileType.Bridge or TileType.BridgeSea => _("Bridge"),
+            TileType.MissileStorage => _("Missile Storage"),
+            TileType.TunnelEntrance => _("Tunnel Entrance"),
+            TileType.PipeSection => _("Pipe"),
+            TileType.WindTurbine => _("Wind Turbine"),
+            TileType.PowerLineTower => _("Power Line Tower"),
+            TileType.OilSilo => _("Oil Silo"),
+            TileType.Dam => _("Dam"),
             _ => throw new ArgumentOutOfRangeException(nameof(tileType), tileType, null)
         };
     }

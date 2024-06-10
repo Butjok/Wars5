@@ -74,7 +74,7 @@ public class UnitBuildState : StateMachineState {
                             };
                             if (unit.Position is { } actualPosition)
                                 unit.Player.level.units[actualPosition] = unit;
-                            unit.Initialize();
+                            unit.Materialize();
                             Debug.Log($"Built unit {unit}");
 
                             building.Player.SetCredits(building.Player.Credits - Rules.Cost(type, building.Player), true);

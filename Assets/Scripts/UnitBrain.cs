@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Drawing;
+using FullscreenEditor;
 using SaveGame;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -119,7 +120,7 @@ public class UnitTransferState : UnitState {
     public Vector2Int dropPosition;
 
     public override UnitBrainAction GetNextAction() {
-        if (pickUpUnit is not { Initialized: true } || pickUpUnit.Position is { } pickUpUnitPosition && pickUpUnitPosition == dropPosition)
+        if (pickUpUnit is not { IsMaterialized: true } || pickUpUnit.Position is { } pickUpUnitPosition && pickUpUnitPosition == dropPosition)
             return Cancel();
 
         var level = unit.Player.level;
@@ -167,7 +168,7 @@ public class UnitCaptureState : UnitState {
         if (unit.Moved)
             return DoNothing();
 
-        if (building is not { Initialized: true } || building.Player == unit.Player)
+        if (building is not { IsMaterialized: true } || building.Player == unit.Player)
             return Cancel();
 
         if (TryActualizeKillStateForTheClosestEnemy())
@@ -243,7 +244,7 @@ public class UnitKillState : UnitState {
         if (unit.Moved)
             return DoNothing();
 
-        if (target is not { Initialized: true })
+        if (target is not { IsMaterialized: true })
             return Cancel();
 
         if (unit.Hp <= 2) {
@@ -645,10 +646,11 @@ public class UnitBrainController {
             game.EnqueueCommand(PathSelectionState.Command.AppendToPath, position);
         game.EnqueueCommand(PathSelectionState.Command.Move);
 
-        while (!game.stateMachine.IsInState<ActionSelectionState>())
+        while (action.unit.Hp > 0 && !game.stateMachine.IsInState<ActionSelectionState>())
             yield return null;
 
-        game.EnqueueCommand(ActionSelectionState.Command.Execute, action);
+        if (action.unit.Hp > 0)
+            game.EnqueueCommand(ActionSelectionState.Command.Execute, action);
     }
 
     public static void DrawAction(UnitBrainAction action, float duration = 10) {

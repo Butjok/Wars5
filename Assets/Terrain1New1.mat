@@ -9,7 +9,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Terrain1New1
   m_Shader: {fileID: 4800000, guid: a7b9bb9d9984478ab620b1c8593f94ed, type: 3}
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - FLAT_COLORS
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -180,9 +181,11 @@ Material:
     - _DeepSeaThickness: -0.01
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
+    - _FlatColors: 1
     - _GlossMapScale: 1
     - _Glossiness: 0.1
     - _GlossyReflections: 1
+    - _Hole: 0
     - _K: 5
     - _LineDistance: 0.1
     - _LineThickness: 0.0519
@@ -227,6 +230,9 @@ Material:
     - _DeepSeaColor4: {r: 0, g: 0, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Emissive: {r: 0.6797385, g: 0, b: 1, a: 1}
+    - _FlatColors_Beach: {r: 0.6320754, g: 0.6320754, b: 0.6320754, a: 1}
+    - _FlatColors_Grass: {r: 0.509434, g: 0.509434, b: 0.509434, a: 1}
+    - _FlatColors_Sea: {r: 0.09398355, g: 0.21424264, b: 0.6792453, a: 1}
     - _FlowerColor: {r: 1, g: 0, b: 0.029727936, a: 1}
     - _ForestColor: {r: 0.60170853, g: 0.6509434, b: 0.27429685, a: 1}
     - _GrassColor: {r: 0.13386934, g: 0.14150941, b: 0, a: 1}

@@ -78,7 +78,6 @@ public class MissileTargetSelectionState : StateMachineState {
                                 Draw.ingame.Arrow((Vector3)missileSilo.position.ToVector3Int(), (Vector3)targetPosition.ToVector3Int(), Vector3.up, .25f, Color.red);*/
 
                             action.unit.Position = action.path[^1];
-                            
 
                             if (missileSiloView) {
                                 missileSiloView.SnapToTargetRotationInstantly();
@@ -89,6 +88,11 @@ public class MissileTargetSelectionState : StateMachineState {
                                 var jumpCompleted = cameraRig.Jump(missileSiloView.transform.position.ToVector2().ToVector3());
                                 while (!jumpCompleted())
                                     yield return StateChange.none;
+                                
+                                building.missileSilo.lastLaunchDay = Level.Day();
+                                building.missileSilo.ammo--;
+                                building.missileSilo.hasMissile = false;
+                                building.Moved = true;
 
                                 var missile = missileSiloView.TryLaunchMissile(building.Player.Color);
                                 Assert.IsTrue(missile);
@@ -112,7 +116,7 @@ public class MissileTargetSelectionState : StateMachineState {
                                     foreach (var position in Level.PositionsInRange(targetPosition, new Vector2Int(radius, radius))) {
                                         if (Level.TryGetUnit(position, out var unit)) {
                                             unit.SetHp(unit.Hp - building.missileSilo.unitDamage, true);
-                                            if (unit.Initialized && unit.view) {
+                                            if (unit.IsMaterialized && unit.view) {
                                                 unit.view.ApplyDamageTorque(UnitView.DamageTorqueType.MissileExplosion);
                                                 unit.view.TriggerDamageFlash();
                                             }
@@ -129,10 +133,6 @@ public class MissileTargetSelectionState : StateMachineState {
 
                                 cameraRig.enabled = true;
                             }
-                            
-                            building.missileSilo.lastLaunchDay = Level.Day();
-                            building.missileSilo.ammo--;
-                            building.Moved = true;
 
                             var anyBridgeDestroyed = false;
                             var targetedBridges = Level.bridges.Where(bridge => bridge.tiles.ContainsKey(targetPosition));

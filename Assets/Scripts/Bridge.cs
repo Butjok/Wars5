@@ -56,9 +56,9 @@ public class Bridge : IDisposable {
         foreach (var position in tiles.Keys) {
             level.tiles.Remove(position);
             if (removeBuilding && level.TryGetBuilding(position, out var building))
-                building.Dispose();
+                building.Dematerialize();
             if (removeUnits && level.TryGetUnit(position, out var unit))
-                unit.Dispose();
+                unit.Dematerialize();
         }
     }
 

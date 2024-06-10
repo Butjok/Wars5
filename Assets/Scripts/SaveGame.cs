@@ -531,7 +531,8 @@ namespace SaveGame {
                         var obj = stack.Peek();
                         var fieldInfo = fieldInfos.Pop();
                         if (fieldInfo != null && (value == null || fieldInfo.FieldType.IsAssignableFrom(value.GetType())))
-                            fieldInfo.SetValue(obj, value);
+                            if (fieldInfo.GetCustomAttribute<DontSaveAttribute>() == null)
+                                fieldInfo.SetValue(obj, value);
                         break;
                     }
                     case Property beginPropertyValue:
@@ -542,7 +543,8 @@ namespace SaveGame {
                         var obj = stack.Peek();
                         var propertyInfo = propertyInfos.Pop();
                         if (propertyInfo != null && (value == null || propertyInfo.PropertyType.IsAssignableFrom(value.GetType())))
-                            propertyInfo.SetValue(obj, value);
+                            if (propertyInfo.GetCustomAttribute<DontSaveAttribute>() == null)
+                                propertyInfo.SetValue(obj, value);
                         break;
                     }
                     case PushEnum pushEnum: {

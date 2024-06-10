@@ -30,14 +30,14 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AttackAmount: 1
+    - _AttackAmount: 0
     - _ShowAlpha: 0
     m_Colors:
-    - _BorderColor: {r: 0.41767728, g: 2.2338653, b: 0, a: 1}
+    - _BorderColor: {r: 0, g: 2.2338653, b: 0.56843436, a: 1}
     - _BorderColorAttack: {r: 11.929543, g: 2.9472988, b: 0, a: 1}
-    - _CircleColor: {r: 0.22387886, g: 1, b: 0, a: 1}
-    - _CircleColorAttack: {r: 4.594794, g: 1.1171656, b: 0, a: 1}
+    - _CircleColor: {r: 0, g: 0.63382596, b: 1.1403239, a: 1}
+    - _CircleColorAttack: {r: 1.5046666, g: 0.27374622, b: 0, a: 1}
     - _Color: {r: 0, g: 0, b: 0, a: 1}
-    - _InsideColor: {r: 0, g: 0.037624467, b: 0.16037738, a: 1}
+    - _InsideColor: {r: 0, g: 0.027451236, b: 0.78431374, a: 1}
     - _InsideColorAttack: {r: 0.17677669, g: 0.0076256613, b: 0, a: 1}
   m_BuildTextureStacks: []

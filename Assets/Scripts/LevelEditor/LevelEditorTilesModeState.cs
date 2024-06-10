@@ -43,7 +43,26 @@ public class LevelEditorTilesModeState : StateMachineState {
     private static Vector3[] mountainVertices;
     private static int[] mountainTriangles;
 
-    public TileType[] tileTypes = { TileType.Plain, TileType.Beach, TileType.Road, TileType.Bridge, TileType.BridgeSea, TileType.Forest, TileType.Mountain, TileType.River, TileType.Sea, TileType.City, TileType.Hq, TileType.Factory, TileType.Airport, TileType.Shipyard, TileType.MissileSilo };
+    public TileType[] tileTypes = {
+        TileType.Plain,
+        TileType.Beach,
+        TileType.Road,
+        TileType.Bridge,
+        TileType.BridgeSea,
+        TileType.Forest,
+        TileType.Mountain,
+        TileType.TunnelEntrance,
+        TileType.River,
+        TileType.Sea,
+        TileType.City,
+        TileType.Hq,
+        TileType.Factory,
+        TileType.Airport,
+        TileType.Shipyard,
+        TileType.MissileSilo,
+        TileType.MissileStorage,
+        TileType.PipeSection
+    };
     public TileType tileType = TileType.Plain;
     public Player player;
     public Mode mode;
@@ -213,7 +232,7 @@ public class LevelEditorTilesModeState : StateMachineState {
             }
 
             if (roadCreator) {
-                roadCreator.tiles = tiles.Where(p => p.Value is TileType.Road or TileType.Bridge or TileType.BridgeSea || (TileType.Buildings & p.Value) != 0).ToDictionary(p => p.Key, p => p.Value);
+                roadCreator.tiles = tiles.Where(p => p.Value is TileType.Road or TileType.Bridge or TileType.BridgeSea or TileType.TunnelEntrance || (TileType.Buildings & p.Value) != 0).ToDictionary(p => p.Key, p => p.Value);
                 roadCreator.Rebuild();
             }
 
@@ -221,6 +240,11 @@ public class LevelEditorTilesModeState : StateMachineState {
                 forestCreator.trees.Clear();
                 foreach (var position in tiles.Keys.Where(p => tiles[p] == TileType.Forest))
                     forestCreator.PlaceTreesAt(position);
+            }
+
+            void UpdatePipeSectionViews() {
+                foreach (var pipeSection in level.pipeSections.Values)
+                    pipeSection.UpdateView();
             }
 
             void TryRemoveTile(Vector2Int position, bool removeUnit) {
@@ -238,7 +262,7 @@ public class LevelEditorTilesModeState : StateMachineState {
                 }
 
                 if (roadCreator) {
-                    if (tileType is TileType.Road or TileType.Bridge or TileType.BridgeSea || (TileType.Buildings & tileType) != 0)
+                    if (tileType is TileType.Road or TileType.Bridge or TileType.BridgeSea or TileType.TunnelEntrance || (TileType.Buildings & tileType) != 0)
                         roadCreator.tiles.Remove(position);
                     roadCreator.Rebuild();
                 }
@@ -250,14 +274,23 @@ public class LevelEditorTilesModeState : StateMachineState {
                 }
 
                 if (buildings.TryGetValue(position, out var building))
-                    building.Dispose();
+                    building.Dematerialize();
                 if (removeUnit && units.TryGetValue(position, out var unit))
-                    unit.Dispose();
+                    unit.Dematerialize();
+                if (level.tunnelEntrances.TryGetValue(position, out var tunnelEntrance)) {
+                    level.tunnelEntrances.Remove(position);
+                    tunnelEntrance.Dematerialize();
+                }
+                if (level.TryGetPipeSection(position, out var pipeSection)) {
+                    level.pipeSections.Remove(position);
+                    pipeSection.Dematerialize();
+                    UpdatePipeSectionViews();
+                }
 
                 foreach (var b in buildings.Values)
                     b.view.Position = b.position;
-
-                //RebuildTilemapMesh();
+                foreach (var te in level.tunnelEntrances.Values)
+                    te.view.Position = te.position;
 
                 foreach (var player in level.players)
                     if (player.rootZone != null)
@@ -286,7 +319,7 @@ public class LevelEditorTilesModeState : StateMachineState {
                 if (tileMapCreator) {
                     if (tileMapCreator.tiles.ContainsKey(position))
                         tileMapCreator.tiles.Remove(position);
-                    tileMapCreator.tiles.Add(position, tileType is TileType.Road or TileType.Forest || ((tileType & TileType.Buildings) != 0) ? TileType.Plain : tileType);
+                    tileMapCreator.tiles.Add(position, tileType is TileType.Road or TileType.Forest or TileType.TunnelEntrance or TileType.PipeSection || ((tileType & TileType.Buildings) != 0) ? TileType.Plain : tileType);
                     tileMapCreator.RebuildPieces();
 
                     if (tileMapCreator.terrainMapper)
@@ -294,7 +327,7 @@ public class LevelEditorTilesModeState : StateMachineState {
                 }
 
                 if (roadCreator) {
-                    if (tileType is TileType.Road or TileType.Bridge or TileType.BridgeSea || (TileType.Buildings & tileType) != 0)
+                    if (tileType is TileType.Road or TileType.Bridge or TileType.BridgeSea or TileType.TunnelEntrance || (TileType.Buildings & tileType) != 0)
                         roadCreator.tiles.Add(position, tileType);
                     roadCreator.Rebuild();
                 }
@@ -316,15 +349,36 @@ public class LevelEditorTilesModeState : StateMachineState {
                         Cp = Rules.MaxCp(tileType)
                     };
                     if (building.type == TileType.MissileSilo)
-                        building.missileSilo = new Building.MissileSiloStats();
+                        building.missileSilo = new Building.MissileSiloStats { building = building };
+                    else if (building.type == TileType.MissileStorage)
+                        building.missileStorage = new Building.MissileStorageStats { building = building };
                     buildings.Add(position, building);
-                    building.Initialize();
+                    building.Materialize();
+                }
+
+                if (tileType == TileType.TunnelEntrance) {
+                    var tunnel = new TunnelEntrance {
+                        level = level,
+                        position = position
+                    };
+                    level.tunnelEntrances.Add(position, tunnel);
+                    tunnel.Materialize();
+                }
+
+                if (tileType == TileType.PipeSection) {
+                    var pipeSection = new PipeSection {
+                        level = level,
+                        position = position
+                    };
+                    level.pipeSections.Add(position, pipeSection);
+                    pipeSection.Materialize();
+                    UpdatePipeSectionViews();
                 }
 
                 foreach (var b in buildings.Values)
                     b.view.Position = b.position;
-
-                //RebuildTilemapMesh();
+                foreach (var tunnelEntrance in level.tunnelEntrances.Values)
+                    tunnelEntrance.view.Position = tunnelEntrance.position;
             }
 
             gui.layerStack.Push(() => {

@@ -374,7 +374,7 @@ public class TileMapCreator : MonoBehaviour {
                     ? (TileType.Buildings & result) != 0
                         ? TileType.Plain
                         : result switch {
-                            TileType.Road or TileType.Forest => TileType.Plain,
+                            TileType.Road or TileType.Forest or TileType.TunnelEntrance => TileType.Plain,
                             TileType.Bridge => TileType.River,
                             TileType.BridgeSea => TileType.Sea,
                             _ => result

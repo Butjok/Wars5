@@ -10,6 +10,7 @@ Material:
   m_Name: TreeNew
   m_Shader: {fileID: 4800000, guid: c5a39e2fdcf94768a933c1ee8d6c3c4b, type: 3}
   m_ValidKeywords:
+  - FLAT_COLORS
   - HOLE
   - WIND
   m_InvalidKeywords: []
@@ -81,6 +82,7 @@ Material:
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
+    - _FlatColors: 1
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
@@ -99,9 +101,10 @@ Material:
     - _Wind: 1
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.8625001, g: 1, b: 0, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _DarkGrass: {r: 0.24705884, g: 0.32156864, b: 0, a: 1}
-    - _EmissionColor: {r: 0.46423867, g: 0.7264151, b: 0.011421547, a: 1}
+    - _EmissionColor: {r: 0.46423858, g: 0.7264151, b: 0.011421547, a: 1}
+    - _FlatColor: {r: 0.24528301, g: 0.24528301, b: 0.24528301, a: 1}
     - _Forest: {r: 0.23554297, g: 0.31132078, b: 0, a: 1}
     - _Grass: {r: 0.35686275, g: 0.46274513, b: 0, a: 1}
     - _HoleOffset: {r: 0, g: 0.25, b: 0, a: 0}

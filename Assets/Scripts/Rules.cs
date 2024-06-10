@@ -142,7 +142,6 @@ public static class Rules {
     }
 
     public static bool CanAttack(Unit attacker, Vector2Int attackerPosition, bool isMoveAttack, Unit target, Vector2Int targetPosition, WeaponName weaponName) {
-
         if (TryGetAttackRange(attacker, out var attackRange) && !MathUtils.ManhattanDistance(attackerPosition, targetPosition).IsInRange(attackRange))
             return false;
 
@@ -241,18 +240,18 @@ public static class Rules {
         const int unreachable = -1;
         cost = moveType switch {
             MoveType.Foot => tileType switch {
-                TileType.Sea => unreachable,
+                TileType.Sea or TileType.PipeSection => unreachable,
                 TileType.Forest or TileType.Mountain or TileType.River => 2,
                 _ => 1
             },
             MoveType.Tires => tileType switch {
-                TileType.Sea or TileType.Mountain or TileType.River => unreachable,
+                TileType.Sea or TileType.Mountain or TileType.River or TileType.PipeSection => unreachable,
                 TileType.Forest => 3,
                 TileType.Plain => 2,
                 _ => 1
             },
             MoveType.Tracks => tileType switch {
-                TileType.Sea or TileType.Mountain or TileType.River => unreachable,
+                TileType.Sea or TileType.Mountain or TileType.River or TileType.PipeSection => unreachable,
                 TileType.Forest => 2,
                 _ => 1
             },
@@ -307,6 +306,7 @@ public static class Rules {
     }
     public static bool CanLaunchMissile(Building building) {
         Assert.AreEqual(TileType.MissileSilo, building.type);
+        return building.missileSilo.hasMissile;
         return building.level.Day() >= building.missileSilo.lastLaunchDay + building.missileSilo.launchCooldown &&
                building.missileSilo.ammo > 0;
     }
@@ -337,5 +337,29 @@ public static class Rules {
 
     public static bool IsAirborne(UnitType unitType) {
         return unitType is UnitType.TransportHelicopter or UnitType.AttackHelicopter or UnitType.FighterJet or UnitType.Bomber;
+    }
+
+    public static bool CanPickUpCrate(Unit unit, List<Vector2Int> path, Crate crate) {
+        return path[^1] == crate.position;
+    }
+    public static bool ShouldExplode(MineField mineField, Unit unit) {
+        return AreEnemies(mineField.Player, unit.Player);
+    }
+    public static bool CanTravelThroughTunnel(Unit unit, List<Vector2Int> path, TunnelEntrance tunnelEntrance) {
+        return tunnelEntrance.position == path[^1]
+               && tunnelEntrance.connected != null
+               && !tunnelEntrance.level.TryGetUnit(tunnelEntrance.connected.position, out _);
+    }
+    public static int MineFieldDamage(Unit unit, MineField mineField) {
+        return 5;
+    }
+    public static bool CanTakeRocket(Unit unit, List<Vector2Int> path, Building missileStorage) {
+        return unit.type == UnitType.Apc && path[^1] == missileStorage.position && missileStorage.missileStorage.HasMissile &&
+               unit.Player == missileStorage.Player;
+    }
+    public static bool CanLoadMissileSilo(Unit unit, List<Vector2Int> path, Building missileSilo) {
+        return unit.type == UnitType.Apc && path[^1] == missileSilo.position &&
+               !missileSilo.missileSilo.hasMissile && unit.HasMissile &&
+               unit.Player == missileSilo.Player;
     }
 }

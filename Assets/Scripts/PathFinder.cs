@@ -119,6 +119,8 @@ public class PathFinder {
             foreach (var position in targets)
                 goals.Add(position);
 
+        goals.IntersectWith(tiles.Keys);
+        
         if (goals.Count == 0)
             return false;
 

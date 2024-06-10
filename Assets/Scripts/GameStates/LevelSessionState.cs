@@ -29,13 +29,6 @@ public class LevelSessionState : StateMachineState {
 
             QualitySettings.shadowCascades = 0;
             
-            level = new Level { mission = savedMission.mission };
-            
-            /*if (precalculatedDistances != null)
-                level.precalculatedDistances = precalculatedDistances;
-            else
-                new Thread(() => PrecalculatedDistances.TryLoad(level.missionName, out level.precalculatedDistances)).Start();*/
-
             var stringReader = new StringReader(savedMission.input);
             var commands = SaveGame.TextFormatter.Parse(stringReader);
             level = SaveGame.Loader.Load<Level>(commands);
@@ -45,12 +38,7 @@ public class LevelSessionState : StateMachineState {
             while (!LevelView.TryInstantiatePrefab(out level.view))
                 yield return StateChange.none;
             
-            foreach (var p in level.players)
-                p.Initialize();
-            foreach (var b in level.buildings.Values)
-                b.Initialize();
-            foreach (var u in level.units.Values)
-                u.Initialize();
+            level.Materialize();
 
             autoplayHandler = AutoplayHandler();
             stateMachine.Find<GameSessionState>().game.StartCoroutine(autoplayHandler);
@@ -105,7 +93,7 @@ public class LevelSessionState : StateMachineState {
 
     public override void Exit() {
         stateMachine.Find<GameSessionState>().game.StopCoroutine(autoplayHandler);
-        level.Dispose();
+        level.Dematerialize();
         if (level.mission!=null && SceneManager.GetActiveScene().name == level.mission.SceneName)
             SceneManager.UnloadSceneAsync(level.mission.SceneName);
         Object.Destroy(level.view.gameObject);

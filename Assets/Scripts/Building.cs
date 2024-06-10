@@ -8,9 +8,10 @@ using Object = UnityEngine.Object;
 using static UnityEngine.Mathf;
 using static Rules;
 
-public class Building : IDisposable {
+public class Building : IMaterialized {
 
     public class MissileSiloStats {
+        public Building building;
         public int lastLaunchDay = -99;
         public int launchCooldown = 3;
         public int ammo = 999;
@@ -18,15 +19,24 @@ public class Building : IDisposable {
         public Vector2Int blastRange = new(0, 3);
         public int unitDamage = 5;
         public int bridgeDamage = 10;
+        public bool hasMissile = true;
+    }
+    public class MissileStorageStats {
+        public Building building;
+        public int rocketsLeft = 3;
+        public int lastRechargeDay = -99;
+        public int rechargeCooldown = 3;
+        [DontSave] public bool HasMissile => lastRechargeDay + rechargeCooldown <= building.level.Day();
     }
 
-    public static readonly HashSet<Building> undisposed = new();
+    public static readonly HashSet<Building> toDematerialize = new();
 
     public TileType type;
     public Level level;
     public Vector2Int position;
     public Vector2Int lookDirection = Vector2Int.up;
     public MissileSiloStats missileSilo;
+    public MissileStorageStats missileStorage;
 
     public int Cooldown(int day) {
         return Max(0, missileSilo.lastLaunchDay + missileSilo.launchCooldown - day);
@@ -43,7 +53,7 @@ public class Building : IDisposable {
     [DontSave] public Player Player {
         get => player;
         set {
-            if (Initialized && player == value)
+            if (IsMaterialized && player == value)
                 return;
             player = value;
 
@@ -58,9 +68,9 @@ public class Building : IDisposable {
     [DontSave] public int Cp {
         get => cp;
         set {
-            if (Initialized && cp == value)
+            if (IsMaterialized && cp == value)
                 return;
-            cp = Clamp(value, 0, Initialized ? MaxCp(this) : MaxCp(type));
+            cp = Clamp(value, 0, IsMaterialized ? MaxCp(this) : MaxCp(type));
         }
     }
 
@@ -74,12 +84,12 @@ public class Building : IDisposable {
         }
     }
 
-    [DontSave] public bool Initialized { get; private set; }
+    [DontSave] public bool IsMaterialized { get; private set; }
 
-    public void Initialize() {
-        Assert.IsFalse(Initialized);
-        Assert.IsFalse(undisposed.Contains(this));
-        undisposed.Add(this);
+    public void Materialize() {
+        Assert.IsFalse(IsMaterialized);
+        Assert.IsFalse(toDematerialize.Contains(this));
+        toDematerialize.Add(this);
 
         if (!ViewPrefab)
             ViewPrefab = BuildingView.GetPrefab(type);
@@ -94,7 +104,7 @@ public class Building : IDisposable {
         Cp = Cp;
         Moved = Moved;
 
-        Initialized = true;
+        IsMaterialized = true;
     }
 
     public static implicit operator TileType(Building building) {
@@ -105,9 +115,9 @@ public class Building : IDisposable {
         return $"{type}{position} {Player}";
     }
 
-    public void Dispose() {
-        Assert.IsTrue(undisposed.Contains(this));
-        undisposed.Remove(this);
+    public void Dematerialize() {
+        Assert.IsTrue(toDematerialize.Contains(this));
+        toDematerialize.Remove(this);
 
         if (view) {
             Object.Destroy(view.gameObject);
@@ -117,6 +127,6 @@ public class Building : IDisposable {
         level.tiles.Remove(position);
         level.buildings.Remove(position);
 
-        Initialized = false;
+        IsMaterialized = false;
     }
 }

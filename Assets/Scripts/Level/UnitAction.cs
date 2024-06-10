@@ -1,23 +1,23 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
-using Object = UnityEngine.Object;
 
 public enum UnitActionType {
-
     Stay,
-    Join, //
-    Capture, //
-    Attack, //
+    Join, 
+    Capture, 
+    Attack, 
     GetIn,
     Drop,
-    Supply, //
-    LaunchMissile, //
-
-    // AI extensions
-    Gather, // move to a closest gathering point 
+    Supply, 
+    LaunchMissile,  
+    PickUpCrate,
+    Gather,
+    TravelThroughTunnel,
+    TakeMissile,
+    LoadMissileSilo,
+    AttackPipeSection
 }
 
 public class UnitAction {
@@ -28,10 +28,13 @@ public class UnitAction {
     public WeaponName weaponName;
     public Vector2Int targetPosition;
     public Building targetBuilding;
+    public Crate targetCrate;
+    public TunnelEntrance targetTunnelEntrance;
+    public PipeSection targetPipeSection;
 
-    public UnitAction(
-        UnitActionType type, Unit unit, IEnumerable<Vector2Int> path, Unit targetUnit = null, Building targetBuilding = null,
-        WeaponName weaponName = default, Vector2Int targetPosition = default) {
+    public UnitAction(UnitActionType type, Unit unit, IEnumerable<Vector2Int> path, Unit targetUnit = null, Building targetBuilding = null,
+        WeaponName weaponName = default, Vector2Int targetPosition = default, Crate targetCrate = null,  TunnelEntrance targetTunnelEntrance = null,
+        PipeSection targetPipeSection = null) {
         this.type = type;
         this.unit = unit;
 
@@ -39,6 +42,9 @@ public class UnitAction {
         this.weaponName = weaponName;
         this.targetPosition = targetPosition;
         this.targetBuilding = targetBuilding;
+        this.targetCrate = targetCrate;
+        this.targetTunnelEntrance = targetTunnelEntrance;
+        this.targetPipeSection = targetPipeSection;
 
         this.path = path.ToList();
         Assert.AreNotEqual(0, this.path.Count);

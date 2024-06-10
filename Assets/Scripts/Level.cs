@@ -6,7 +6,7 @@ using SaveGame;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class Level : IDisposable {
+public class Level {
 
     public static readonly Vector2Int[] offsets = { Vector2Int.up, Vector2Int.down, Vector2Int.right, Vector2Int.left };
 
@@ -14,16 +14,20 @@ public class Level : IDisposable {
 
     public LevelName name;
     public Mission mission;
-    
+
     public List<Player> players = new();
     public Player localPlayer;
-    
+
     public int turn = 0;
-    
+
     public Dictionary<Vector2Int, TileType> tiles = new();
     public Dictionary<Vector2Int, Unit> units = new();
     public Dictionary<Vector2Int, Building> buildings = new();
-    
+    public Dictionary<Vector2Int, MineField> mineFields = new();
+    public Dictionary<Vector2Int, Crate> crates = new();
+    public Dictionary<Vector2Int, TunnelEntrance> tunnelEntrances = new();
+    public Dictionary<Vector2Int, PipeSection> pipeSections = new();
+
     [DontSave] public List<Bridge> bridges = new();
     public Dictionary<TriggerName, HashSet<Vector2Int>> triggers = new() {
         [TriggerName.A] = new HashSet<Vector2Int>(),
@@ -35,7 +39,7 @@ public class Level : IDisposable {
     };
     [DontSave] public Dictionary<(MoveType, Vector2Int, Vector2Int), int> precalculatedDistances;
     [DontSave] public Dictionary<(Zone, Vector2Int), int> zoneDistances;
-    
+
     public class Path {
         public string name;
         public LinkedList<Vector2Int> list = new();
@@ -71,13 +75,38 @@ public class Level : IDisposable {
         set => PlayerPrefs.SetInt(nameof(EnableDialogues), value ? 1 : 0);
     }
 
-    public void Dispose() {
+    public void Materialize() {
+        foreach (var player in players)
+            player.Materialize();
+        foreach (var building in buildings.Values)
+            building.Materialize();
+        foreach (var unit in units.Values)
+            unit.Materialize();
+        foreach (var mineField in mineFields.Values)
+            mineField.Materialize();
+        foreach (var crate in crates.Values)
+            crate.Materialize();
+        foreach (var tunnelEntrance in tunnelEntrances.Values)
+            tunnelEntrance.Materialize();
+        foreach (var pipeSection in pipeSections.Values)
+            pipeSection.Materialize();
+    }
+
+    public void Dematerialize() {
+        foreach (var pipeSection in pipeSections.Values.ToList())
+            pipeSection.Dematerialize();
+        foreach (var tunnelEntrance in tunnelEntrances.Values.ToList())
+            tunnelEntrance.Dematerialize();
+        foreach (var crate in crates.Values.ToList())
+            crate.Dematerialize();
+        foreach (var mineField in mineFields.Values.ToList())
+            mineField.Dematerialize();
         foreach (var unit in units.Values.ToList())
-            unit.Dispose();
+            unit.Dematerialize();
         foreach (var building in buildings.Values.ToList())
-            building.Dispose();
+            building.Dematerialize();
         foreach (var player in players.ToList())
-            player.Dispose();
+            player.Dematerialize();
     }
 
     public int Day(int turn) {
@@ -120,6 +149,40 @@ public class Level : IDisposable {
                 return true;
             }
         return false;
+    }
+
+    public bool TryGetCrate(Vector2Int position, out Crate crate) {
+        return crates.TryGetValue(position, out crate) && crate != null;
+    }
+    public bool TryGetMineField(Vector2Int position, out MineField mineField) {
+        return mineFields.TryGetValue(position, out mineField) && mineField != null;
+    }
+    public bool TryGetTunnelEntrance(Vector2Int position, out TunnelEntrance tunnelEntrance) {
+        return tunnelEntrances.TryGetValue(position, out tunnelEntrance) && tunnelEntrance != null;
+    }
+    public bool TryGetPipeSection(Vector2Int position, out PipeSection pipeSection) {
+        return pipeSections.TryGetValue(position, out pipeSection) && pipeSection != null;
+    }
+    public bool TryAddPipeSection(Vector2Int position) {
+        TryRemovePipeSection(position);
+        var pipeSection = new PipeSection {
+            level = this,
+            position = position
+        };
+        pipeSections[position] = pipeSection;
+        pipeSection.Materialize();
+        foreach (var ps in pipeSections.Values)
+            ps.UpdateView();
+        return true;
+    }
+    public bool TryRemovePipeSection(Vector2Int position) {
+        if (!TryGetPipeSection(position, out var existing))
+            return false;
+        pipeSections.Remove(position);
+        existing.Dematerialize();
+        foreach (var ps in pipeSections.Values)
+            ps.UpdateView();
+        return true;
     }
 
     public IEnumerable<Unit> FindUnitsOf(Player player) {

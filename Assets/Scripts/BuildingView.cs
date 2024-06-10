@@ -9,6 +9,7 @@ public class BuildingView : MonoBehaviour {
             TileType.City => "City".LoadAs<BuildingView>(),
             TileType.Hq => "Hq".LoadAs<BuildingView>(),
             TileType.MissileSilo => "WbMissileSilo".LoadAs<BuildingView>(),
+            TileType.MissileStorage => "WbFactory".LoadAs<BuildingView>(),
             _ => "WbFactory".LoadAs<BuildingView>()
         };
     }

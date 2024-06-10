@@ -114,8 +114,8 @@
      <Compile Include="Assets\Scripts\NormalSolver.cs" />
      <Compile Include="Assets\Scripts\Ai\AiPlayer.cs" />
      <Compile Include="Assets\Scripts\GameStates\VictoryState.cs" />
-     <Compile Include="Assets\Scripts\CreditsText.cs" />
      <Compile Include="Assets\Scripts\SavedGameView.cs" />
+     <Compile Include="Assets\Scripts\CreditsText.cs" />
      <Compile Include="Assets\Scripts\LevelView.cs" />
      <Compile Include="Assets\Scripts\ProjectileNew.cs" />
      <Compile Include="Assets\Scripts\UnitViewSkinnedMeshMigrator.cs" />
@@ -124,7 +124,10 @@
      <Compile Include="Assets\Scripts\DrawingExtensions.cs" />
      <Compile Include="Assets\Scripts\Quadratic.cs" />
      <Compile Include="Assets\Scripts\CampaignView.cs" />
+     <Compile Include="Assets\Scripts\MineFieldView.cs" />
+     <Compile Include="Assets\Scripts\TunnelEntranceView.cs" />
      <Compile Include="Assets\Scripts\Dialogues\TestDialogueState.cs" />
+     <Compile Include="Assets\Scripts\TunnelEntrance.cs" />
      <Compile Include="Assets\Scripts\GameMenuView.cs" />
      <Compile Include="Assets\Scripts\Animation\ImpactPoint.cs" />
      <Compile Include="Assets\Scripts\BuildingView.cs" />
@@ -240,8 +243,10 @@
      <Compile Include="Assets\Scripts\MissionObjectivesUi.cs" />
      <Compile Include="Assets\Scripts\LevelEditor\LevelEditorTilesModeState.cs" />
      <Compile Include="Assets\Scripts\ScalarFieldUtilities.cs" />
+     <Compile Include="Assets\Scripts\MineField.cs" />
      <Compile Include="Assets\Scripts\UiDraggable.cs" />
      <Compile Include="Assets\Scripts\EntryPoint\EntryPointState.cs" />
+     <Compile Include="Assets\Scripts\Crate.cs" />
      <Compile Include="Assets\Scripts\GameStates\LocationAndTimeText.cs" />
      <Compile Include="Assets\Scripts\Projectile2.cs" />
      <Compile Include="Assets\Scripts\GameStates\DayText.cs" />
@@ -270,8 +275,10 @@
      <Compile Include="Assets\Scripts\CameraExtensions.cs" />
      <Compile Include="Assets\Scripts\LoadGameButton.cs" />
      <Compile Include="Assets\Scripts\UnitView.cs" />
+     <Compile Include="Assets\Scripts\CrateView.cs" />
      <Compile Include="Assets\Scripts\LevelWriter.cs" />
      <Compile Include="Assets\Scripts\InGameMenu.cs" />
+     <Compile Include="Assets\Scripts\IMaterialized.cs" />
      <Compile Include="Assets\Scripts\GameStates\MissileTargetSelectionState.cs" />
      <Compile Include="Assets\Scripts\LevelEditor\LevelEditorUnitsModeState.cs" />
      <Compile Include="Assets\Scripts\TurnButton.cs" />
@@ -348,6 +355,10 @@
      <Compile Include="Assets\Scripts\TrackTrail.cs" />
      <Compile Include="Assets\Scripts\Animation\UnitViewSequenceSubroutines.cs" />
      <Compile Include="Assets\Scripts\EntryPoint\MainMenuWelcomeState.cs" />
+     <Compile Include="Assets\Scripts\PipeSection.cs" />
+     <Compile Include="Assets\Scripts\PipeSectionView.cs" />
+     <Compile Include="Assets\Scripts\BridgeView2.cs" />
+     <Compile Include="Assets\Scripts\Bridge2.cs" />
      <Folder Include="Assets\Scripts\EntryPoint" />
      <None Include="Assets\Scripts\Wars.asmdef" />
      <Folder Include="Assets\Scripts\DialogueMarkupLanguage" />

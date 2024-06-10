@@ -16,9 +16,9 @@ public class GameSessionState : StateMachineState {
     public override IEnumerator<StateChange> Enter {
         get {
 
-            Player.undisposed.Clear();
-            Building.undisposed.Clear();
-            Unit.undisposed.Clear();
+            Player.toDematerialize.Clear();
+            Building.toDematerialize.Clear();
+            Unit.toDematerialize.Clear();
 
             while (true) {
                 yield return StateChange.none;
@@ -49,11 +49,18 @@ public class GameSessionState : StateMachineState {
         }
     }
     public override void Exit() {
-        if (Player.undisposed.Count > 0)
-            Debug.LogError($"undisposed players: {Player.undisposed.Count}");
-        if (Building.undisposed.Count > 0)
-            Debug.LogError($"undisposed buildings: {Building.undisposed.Count}");
-        if (Unit.undisposed.Count > 0)
-            Debug.LogError($"undisposed units: {Unit.undisposed.Count}");
+
+        var collectionsToExamine = new(string, IReadOnlyCollection<object>)[] {
+            (nameof(Player), Player.toDematerialize),
+            (nameof(Building), Building.toDematerialize),
+            (nameof(Unit), Unit.toDematerialize),
+            (nameof(MineField), MineField.toDematerialize),
+            (nameof(Crate), Crate.toDispose),
+            (nameof(TunnelEntrance), TunnelEntrance.toDematerialize),
+        };
+        
+        foreach (var (name, collection) in collectionsToExamine)
+            if (collection.Count > 0)
+                Debug.LogError($"Undisposed {name}: {collection.Count}");
     }
 }

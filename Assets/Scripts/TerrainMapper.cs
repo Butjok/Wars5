@@ -229,7 +229,6 @@ public class TerrainMapper : MonoBehaviour {
         }
 
         var transforms = selected.Select(s => Matrix4x4.TRS(s.hit.point, (-s.hit.normal).ToRotation(s.yaw), Vector3.one * s.scale)).ToList();
-        Debug.Log(transforms.Count);
 
         bushRenderer.transforms.Clear();
         bushRenderer.transforms.AddRange(transforms);

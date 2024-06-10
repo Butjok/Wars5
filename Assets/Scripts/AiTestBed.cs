@@ -20,7 +20,7 @@ public class AiTestBed : MonoBehaviour {
             if (level == null)
                 return;
 
-            if (selectedUnit != null && (!selectedUnit.Initialized || selectedUnit.Player.level != level)) {
+            if (selectedUnit != null && (!selectedUnit.IsMaterialized || selectedUnit.Player.level != level)) {
                 selectedUnit = null;
                 selectedState = null;
             }
@@ -92,7 +92,7 @@ public class AiTestBed : MonoBehaviour {
                         case UnitKillState killGoal: {
                             color = Color.red;
                             var target = killGoal.target;
-                            if (target.Initialized && target.Position is { } targetPosition) {
+                            if (target.IsMaterialized && target.Position is { } targetPosition) {
                                 DrawCircle(targetPosition);
                                 DrawLabel(targetPosition, text);
                                 if (unit.Position is { } unitPosition)

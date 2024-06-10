@@ -77,12 +77,7 @@ public class LevelEditorSessionState : StateMachineState {
             while (!LevelView.TryInstantiatePrefab(out level.view))
                 yield return StateChange.none;
 
-            foreach (var p in level.players)
-                p.Initialize();
-            foreach (var b in level.buildings.Values)
-                b.Initialize();
-            foreach (var u in level.units.Values)
-                u.Initialize();
+            level.Materialize();
 
             {
                 var gameObject = new GameObject("LevelEditorGui");
@@ -118,12 +113,12 @@ public class LevelEditorSessionState : StateMachineState {
         var game = Game.Instance;
         var level = game.stateMachine.Find<LevelEditorSessionState>().level;
         foreach (var building in level.buildings.Values.ToList())
-            building.Dispose();
+            building.Dematerialize();
     }
 
     public override void Exit() {
 
-        level.Dispose();
+        level.Dematerialize();
         Object.Destroy(level.view.gameObject);
         level.view = null;
 

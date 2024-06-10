@@ -56,6 +56,7 @@
      <Folder Include="Assets\Spine" />
      <None Include="Assets\Saves\0\0-29.01.2023-15.07.01.txt" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
+     <Folder Include="Assets\Saves\Save3-Props" />
      <None Include="Assets\Shaders\My First Lighting Shader.shader" />
      <None Include="Assets\Saves\full-map\19.01.2023-19.29.32.txt" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\MultiScaleVOUpsample.compute" />
@@ -104,6 +105,7 @@
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\Dithering.hlsl" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\Bloom.shader" />
      <Folder Include="Assets\Saves\IntroTest-Forests" />
+     <None Include="Assets\Shaders\HeightMapOffset.shader" />
      <Folder Include="Assets\Saves\Border3-Bushes" />
      <None Include="Assets\Shaders\My Lighting.cginc" />
      <Folder Include="Assets\StreamingAssets\Translations\ru_RU" />
@@ -117,6 +119,7 @@
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
      <Folder Include="Assets\Units\Resources" />
      <Folder Include="Assets\BattleView\Resources" />
+     <Folder Include="Assets\Saves\Save4-Props" />
      <None Include="Assets\Shaders\My First Lighting Shader Overlay.shader" />
      <Folder Include="Assets\JsonDotNet" />
      <Folder Include="Assets\Content\whiteboxes" />
@@ -142,6 +145,7 @@
      <None Include="Assets\Shaders\CircleProgress.shader" />
      <None Include="Assets\Shaders\test.shader" />
      <None Include="Assets\Saves\1\1-22.01.2023-19.32.58.txt" />
+     <Folder Include="Assets\Saves\Save3-Tiles" />
      <Folder Include="Assets\DeferredDecals\Scenes" />
      <None Include="Assets\Shaders\TileMasked.shader" />
      <None Include="Assets\Shaders\HeightMap.shader" />
@@ -169,6 +173,7 @@
      <None Include="Assets\Saves\0\0-22.01.2023-18.57.43.txt" />
      <Folder Include="Assets\Fonts" />
      <Folder Include="Assets\Saves\test.0" />
+     <Folder Include="Assets\Saves\Save4-Tiles" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Debug\LightMeter.shader" />
      <None Include="Assets\Ui\skeleton.atlas.txt" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
@@ -186,6 +191,7 @@
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\SubpixelMorphologicalAntialiasingBridge.hlsl" />
      <None Include="Assets\TerrainCreation\save.json" />
      <None Include="Assets\Shaders\TestShader2.shader" />
+     <Folder Include="Assets\Structures\Resources" />
      <None Include="Assets\Shaders\MovePath.shader" />
      <None Include="Assets\Shaders\InstancedRendering.cginc" />
      <None Include="Assets\Shaders\vface.shader" />
@@ -198,6 +204,7 @@
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\DiskKernels.hlsl" />
      <Folder Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Textures\BlueNoise256px" />
      <Folder Include="Assets\HoleShader" />
+     <Folder Include="Assets\Saves\Save3-Forests" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\API\D3D11.hlsl" />
      <None Include="Assets\Shaders\Stone.shader" />
      <Folder Include="Assets\Saves\autosave" />
@@ -225,6 +232,7 @@
      <Folder Include="Assets\VoiceOver" />
      <Folder Include="Assets\HDRPDefaultResources" />
      <Folder Include="Assets\Materials" />
+     <Folder Include="Assets\Saves\Save3-Level" />
      <None Include="Assets\Shaders\FrozenFrame.shader" />
      <None Include="Assets\Shaders\leaves-area-tinted.shader" />
      <Folder Include="Assets\Textures" />
@@ -256,6 +264,7 @@
      <Folder Include="Assets\SceneTemplates\MainMenuTest" />
      <Folder Include="Assets\JsonDotNet\Documentation" />
      <Folder Include="Assets\Saves\Test2-Level" />
+     <Folder Include="Assets\Saves\Save3-Roads" />
      <None Include="Assets\Saves\0\0-24.01.2023-03.03.07.txt" />
      <None Include="Assets\Shaders\VertexColor.shader" />
      <None Include="Assets\Saves\1\1-22.01.2023-18.57.19.txt" />
@@ -280,6 +289,7 @@
      <Folder Include="Assets\Saves\test-Bushes" />
      <None Include="Assets\Saves\simple\simple-19.03.2023-15.45.01.txt" />
      <Folder Include="Assets\Saves\Border-Bushes" />
+     <Folder Include="Assets\Saves\Save4-Forests" />
      <Folder Include="Assets\DeferredDecals\Materials" />
      <None Include="Assets\Resources\Funny.txt" />
      <None Include="Assets\Shaders\Difference.shader" />
@@ -351,6 +361,7 @@
      <Folder Include="Assets\Dialogue" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
      <None Include="Assets\Shaders\MinimapNew.shader" />
+     <Folder Include="Assets\Structures" />
      <None Include="Assets\Shaders\TestShader.shader" />
      <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
      <None Include="Assets\Shaders\Circle.shader" />
@@ -432,6 +443,7 @@
      <None Include="Assets\Shaders\Terrain3.shader" />
      <Folder Include="Assets\Saves\Border-Props" />
      <Folder Include="Assets\Scenes\TwoAudioListeners" />
+     <Folder Include="Assets\Saves\Save3-Bushes" />
      <None Include="Assets\Shaders\CursorShader.shader" />
      <None Include="Assets\Shaders\FadedEmissive.shader" />
      <Folder Include="Assets\Saves\Border-Level" />
@@ -458,6 +470,7 @@
      <None Include="Assets\Saves\0\0-22.01.2023-19.37.40.txt" />
      <Folder Include="Assets\StreamingAssets" />
      <Folder Include="Assets\Saves\Bushes" />
+     <Folder Include="Assets\Saves\Save4-Bushes" />
      <Folder Include="Assets\Content\whiteboxes\Resources" />
      <Folder Include="Assets\Saves\PatchRoads" />
      <Folder Include="Assets\Saves\Test-Props" />
@@ -591,6 +604,7 @@
      <Folder Include="Assets\Scenes\PlayableTest" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\API\Vulkan.hlsl" />
      <None Include="Assets\Shaders\UiLine.shader" />
+     <Folder Include="Assets\Saves\Save4-Level" />
      <Folder Include="Assets\HotReload" />
      <Folder Include="Assets\Roboto" />
      <Folder Include="Assets\PhysicsTest" />
@@ -605,6 +619,7 @@
      <None Include="Assets\Saves\1\1-22.01.2023-18.56.26.txt" />
      <Folder Include="Assets\glTF-test\Prefabs" />
      <None Include="Assets\Shaders\UnlitWithShadows.shader" />
+     <Folder Include="Assets\Saves\Save4-Roads" />
      <Folder Include="Assets\Resources\Missions" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Sprite.shader" />
      <Folder Include="Assets\Saves\TileMap" />

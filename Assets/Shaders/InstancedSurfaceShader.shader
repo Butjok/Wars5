@@ -2,6 +2,7 @@ Shader "Instanced/InstancedSurfaceShader"
 {
     Properties
     {
+    	_Color ("Color", Color) = (1,1,1,1)
         _MainTex ("Albedo (RGB)", 2D) = "white" {}
         _Glossiness ("Smoothness", Range(0,1)) = 0.5
         _Metallic ("Metallic", Range(0,1)) = 0.0
@@ -27,6 +28,9 @@ Shader "Instanced/InstancedSurfaceShader"
     	
     	_HoleRadius ("_HoleRadius", Float) = 0.1
 		_TerrainHeight ("_TerrainHeight", 2D) = "black" {}
+    	
+    	[Toggle(FLAT_COLORS)] _FlatColors ("FLAT_COLORS", Float) = 0
+    	_FlatColor ("Flat Color", Color) = (1,1,1,1)
     }
     SubShader
     {
@@ -45,6 +49,7 @@ Shader "Instanced/InstancedSurfaceShader"
         #pragma instancing_options procedural:setup
         #pragma shader_feature WIND
         #pragma shader_feature HOLE
+        #pragma shader_feature FLAT_COLORS
 
         #include "Utils.cginc"
 
@@ -64,6 +69,7 @@ Shader "Instanced/InstancedSurfaceShader"
 
         int _IndexOffset;
 
+        float3 _Color;
         float _CutOff;
         float _ShadowCutOff;
 
@@ -97,6 +103,10 @@ Shader "Instanced/InstancedSurfaceShader"
         float _HoleRadius;
         float3 _EmissionColor;
 
+        #endif
+
+        #if FLAT_COLORS
+        float3 _FlatColor;
         #endif
 
 
@@ -180,6 +190,12 @@ Shader "Instanced/InstancedSurfaceShader"
 					o.Albedo = lerp(o.Albedo, 0, circleBorder);
 				}
         	#endif
+
+        	#if FLAT_COLORS
+				o.Albedo = _FlatColor;
+        	#endif
+
+        	o.Albedo *= _Color;
         }
         ENDCG
     }

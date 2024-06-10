@@ -9,7 +9,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Lily
   m_Shader: {fileID: 4800000, guid: 08897daafdfe418a8b854bbbbf39899c, type: 3}
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - FLAT_COLORS
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -74,6 +75,7 @@ Material:
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
+    - _FlatColors: 1
     - _GlossMapScale: 1
     - _Glossiness: 0
     - _GlossyReflections: 1
@@ -91,4 +93,5 @@ Material:
     m_Colors:
     - _Color: {r: 0.35964552, g: 0.48235294, b: 0.015686259, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FlatColor: {r: 0.509434, g: 0.509434, b: 0.509434, a: 1}
   m_BuildTextureStacks: []

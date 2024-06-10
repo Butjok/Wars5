@@ -9,6 +9,9 @@ Shader "Custom/Lily" {
 		_Noise ("Noise", 2D) = "black" {}
 		_Threshold ("Threshold", Range(0,1)) = 0.5
 		_UseColor ("Use Color", Range(0,1)) = 0
+		
+		[Toggle(FLAT_COLORS)] _FlatColors ("Flat Colors", Float) = 0
+		_FlatColor ("Flat Color", Color) = (1,1,1,1)
 	}
 	SubShader {
 		Tags { "RenderType"="Opaque" }
@@ -17,6 +20,7 @@ Shader "Custom/Lily" {
 		CGPROGRAM
 		// Physically based Standard lighting model, and enable shadows on all light types
 		#pragma surface surf Standard fullforwardshadows addshadow
+		#pragma shader_feature FLAT_COLORS
 
 		// Use shader model 3.0 target, to get nicer looking lighting
 		#pragma target 3.0
@@ -33,13 +37,7 @@ Shader "Custom/Lily" {
 		half _Metallic;
 		fixed4 _Color;
 		float _Threshold;
-
-		// Add instancing support for this shader. You need to check 'Enable Instancing' on materials that use the shader.
-		// See https://docs.unity3d.com/Manual/GPUInstancing.html for more information about instancing.
-		// #pragma instancing_options assumeuniformscaling
-		UNITY_INSTANCING_BUFFER_START(Props)
-			// put more per-instance properties here
-		UNITY_INSTANCING_BUFFER_END(Props)
+		float3 _FlatColor;
 		
 		#include "Assets/Shaders/Utils.cginc"
 
@@ -78,10 +76,9 @@ Shader "Custom/Lily" {
 			hsv.z *= 2.5;
 			o.Albedo.rgb = HSVtoRGB(hsv);
 
-			//o.Albedo=0;
-			//o.Albedo.rg = actualUv;
-
-			//o.Albedo = on;
+			#if FLAT_COLORS
+				o.Albedo = _FlatColor;
+			#endif
 		}
 		ENDCG
 	}

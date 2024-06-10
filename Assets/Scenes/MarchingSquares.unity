@@ -2519,6 +2519,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 5186d45c1c385424e9bab03de9906b79, type: 2}
   - {fileID: 2100000, guid: 72f4ee4f3456b89438b2767d48f14472, type: 2}
   - {fileID: 2100000, guid: 1f9010a1d0da6e346aad4d70ffd173e0, type: 2}
+  - {fileID: 2100000, guid: df1190f59c9f95e4bbe0ef7f9d7780cb, type: 2}
   tintColor: {r: 0.24313726, g: 0.48235294, b: 0.003921569, a: 1}
 --- !u!4 &68547093
 Transform:
@@ -2547,7 +2548,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b07786ecc724789acf8a6ca180fbde5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  saveName: Save2
+  saveName: Save4
   start: 0
 --- !u!1 &70776271
 GameObject:
@@ -36100,6 +36101,7 @@ MonoBehaviour:
   ui: {fileID: 0}
   weaponSounds: []
   automaticWeaponShotsCount: 5
+  showMissileIcon: 0
   container: {fileID: 0}
 --- !u!4 &1274114665
 Transform:
@@ -36163,11 +36165,13 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 162c46a1221f5bc42bc3eaec9dde00c7, type: 2}
   - {fileID: 2100000, guid: 9cd1e21b961fe48a3a9de522ae34df6a, type: 2}
   - {fileID: 2100000, guid: 5960471a334800742a5d2c5e4c9978a0, type: 2}
+  - {fileID: 2100000, guid: d6e6ddf496d81a4438dab7b438f76ad2, type: 2}
   waterLevel: 0.09
   distanceFieldEdgeWidthInUnits: 0.5
   waterTransform: {fileID: 1839124052}
   waterMaterial: {fileID: 2100000, guid: 611638e45df8b4cf2ac11b29129001eb, type: 2}
-  additionalMeshFilters: []
+  additionalMeshFilters:
+  - {fileID: 583602431}
 --- !u!4 &1274493584
 Transform:
   m_ObjectHideFlags: 0
@@ -61668,7 +61672,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eefd1c41b11c44639c21f638157b4805, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dayChangeDuration: 2
+  dayChangeDuration: 0
   axis: 0
   startAngles: {x: 0, y: 0, z: 0}
   nightColorFilterColor: {r: 0.23335704, g: 0.36102143, b: 0.8679245, a: 1}
@@ -64459,7 +64463,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 970eb642780b8ee4fb86b07766c36bc4, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 970eb642780b8ee4fb86b07766c36bc4, type: 3}
       propertyPath: m_CastShadows

@@ -289,7 +289,7 @@ public class UnitView : MonoBehaviour {
         get => transform.position.ToVector2().RoundToInt();
         set {
             transform.position = value.ToVector3Int();
-            //PlaceOnTerrain();
+            PlaceOnTerrain();
         }
     }
 
@@ -309,7 +309,7 @@ public class UnitView : MonoBehaviour {
         set {
             Assert.AreEqual(1, value.ManhattanLength());
             transform.rotation = Quaternion.LookRotation(value.ToVector3Int(), Vector3.up);
-            //PlaceOnTerrain();
+            PlaceOnTerrain();
         }
     }
 
@@ -620,7 +620,7 @@ public class UnitView : MonoBehaviour {
 
         body.position = Vector3.Lerp(min, max, .5f);
 
-        if (Dancing )
+        if (Dancing)
             body.position += body.up * bodyDanceAmplitude * Mathf.PingPong(Time.unscaledTime * bodyDanceFrequency, bodyDanceAmplitude);
     }
 
@@ -1002,13 +1002,17 @@ public class UnitView : MonoBehaviour {
     }
 
     public enum DamageTorqueType {
-        Bullet, Explosion, MissileExplosion
+        Bullet,
+        Explosion,
+        MissileExplosion,
+        MineFieldExplosion
     }
     public void ApplyDamageTorque(DamageTorqueType damageTorqueType) {
         var torque = damageTorqueType switch {
             DamageTorqueType.Bullet => bulletTorque,
             DamageTorqueType.Explosion => explosionTorque,
             DamageTorqueType.MissileExplosion => missileExplosionTorque,
+            DamageTorqueType.MineFieldExplosion => mineFieldExplosionTorque,
             _ => throw new ArgumentOutOfRangeException(nameof(damageTorqueType), damageTorqueType, null)
         };
         instantaneousTorques.Enqueue((new Vector3(Random.value, Random.value, Random.value) * 2 - Vector3.one) * torque);
@@ -1114,6 +1118,8 @@ public class UnitView : MonoBehaviour {
     public static float explosionTorque = 3;
     [Command]
     public static float missileExplosionTorque = 10;
+    [Command]
+    public static float mineFieldExplosionTorque = 10;
     [Command]
     public static float bulletTorque = .25f;
     [Command]
@@ -1340,6 +1346,10 @@ public class UnitView : MonoBehaviour {
             }
         }
     }
+    [SerializeField] private bool showMissileIcon;
+    public bool ShowMissileIcon {
+        set => showMissileIcon = value;
+    }
 
     [Command]
     public void PlayDissolve(bool isBattleAnimation, Action onComplete = null) {
@@ -1404,6 +1414,17 @@ public class UnitView : MonoBehaviour {
 
         onComplete?.Invoke();
         this.onDeathCompletion = null;
+    }
+
+    public void OnGUI() {
+        if (showMissileIcon) {
+            GUI.skin = DefaultGuiSkin.TryGet;
+            var screenPosition = Camera.main.WorldToScreenPoint(body.position);
+            var iconPosition = new Vector2(screenPosition.x, Screen.height - screenPosition.y);
+            var text = "Missile";
+            var size = GUI.skin.label.CalcSize(new GUIContent(text));
+            GUI.Label(new Rect(iconPosition.x - size.x / 2, iconPosition.y - size.y, size.x, size.y), text);
+        }
     }
 }
 

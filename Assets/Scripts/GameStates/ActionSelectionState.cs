@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
 using static Rules;
-using Random = UnityEngine.Random;
 
 // ReSharper disable ConvertToUsingDeclaration
 
@@ -84,16 +82,28 @@ public class ActionSelectionState : StateMachineState {
 
         // stay / capture / launch missile
         if (other == null || other == unit) {
-            if (level.TryGetBuilding(destination, out var building) && CanCapture(unit, building))
-                yield return new UnitAction(UnitActionType.Capture, unit, path, null, building);
+            if (level.TryGetBuilding(destination, out var building)) {
+                if (CanCapture(unit, building))
+                    yield return new UnitAction(UnitActionType.Capture, unit, path, null, building);
+                if (building.type == TileType.MissileSilo) {
+                    if (CanLaunchMissile(unit, building))
+                        yield return new UnitAction(UnitActionType.LaunchMissile, unit, path, targetBuilding: building);
+                    if (CanLoadMissileSilo(unit, path, building))
+                        yield return new UnitAction(UnitActionType.LoadMissileSilo, unit, path, targetBuilding: building);
+                }
+                if (building.type == TileType.MissileStorage && CanTakeRocket(unit, path, building))
+                    yield return new UnitAction(UnitActionType.TakeMissile, unit, path, targetBuilding: building);
+            }
 
             yield return new UnitAction(UnitActionType.Stay, unit, path);
 
-            if (level.TryGetBuilding(destination, out building) &&
-                building.type is TileType.MissileSilo &&
-                CanLaunchMissile(unit, building)) {
-                yield return new UnitAction(UnitActionType.LaunchMissile, unit, path, targetBuilding: building);
-            }
+            // pick up crate
+            if (level.TryGetCrate(destination, out var crate) && CanPickUpCrate(unit, path, crate))
+                yield return new UnitAction(UnitActionType.PickUpCrate, unit, path, targetCrate: crate);
+
+            // tunnel entrance
+            if (level.TryGetTunnelEntrance(destination, out var tunnelEntrance) && CanTravelThroughTunnel(unit, path, tunnelEntrance))
+                yield return new UnitAction(UnitActionType.TravelThroughTunnel, unit, path, targetTunnelEntrance: tunnelEntrance);
         }
 
         if (other != null && other != unit) {
@@ -108,10 +118,13 @@ public class ActionSelectionState : StateMachineState {
         else {
             // attack
             if ((!IsIndirect(unit) || path.Count == 1) && TryGetAttackRange(unit, out var attackRange))
-                foreach (var otherPosition in level.PositionsInRange(destination, attackRange))
+                foreach (var otherPosition in level.PositionsInRange(destination, attackRange)) {
                     if (level.TryGetUnit(otherPosition, out var target))
                         foreach (var (weaponName, _) in GetDamageValues(unit, target))
                             yield return new UnitAction(UnitActionType.Attack, unit, path, target, weaponName: weaponName, targetPosition: otherPosition);
+                    if (level.TryGetPipeSection(otherPosition, out var pipeSection))
+                        yield return new UnitAction(UnitActionType.AttackPipeSection, unit, path, targetPipeSection: pipeSection);
+                }
 
             // supply
             foreach (var offset in gridOffsets) {
@@ -177,7 +190,6 @@ public class ActionSelectionState : StateMachineState {
                 }
 
                 while (Game.TryDequeueCommand(out var command)) {
-                    
                     // Tutorial logic
                     var showCaptureDialogue = false;
                     if (Level.EnableTutorial && Level.name == LevelName.Tutorial) {
@@ -216,7 +228,7 @@ public class ActionSelectionState : StateMachineState {
                                 case UnitActionType.Join: {
                                     other.SetHp(other.Hp + unit.Hp);
                                     other.Moved = true;
-                                    unit.Dispose();
+                                    unit.Dematerialize();
                                     break;
                                 }
 
@@ -311,18 +323,62 @@ public class ActionSelectionState : StateMachineState {
                                     break;
                                 }
 
-                                case UnitActionType.LaunchMissile:
+                                case UnitActionType.LaunchMissile: {
                                     yield return StateChange.Push(new MissileTargetSelectionState(stateMachine));
                                     // unit can destroy itself with a missile lol
-                                    if (!unit.Initialized)
+                                    if (unit.Hp > 0)
                                         unit.Position = destination;
                                     break;
+                                }
+
+                                case UnitActionType.PickUpCrate: {
+                                    unit.Position = destination;
+                                    action.targetCrate.PickUp(unit);
+                                    break;
+                                }
+
+                                case UnitActionType.TravelThroughTunnel: {
+                                    unit.Position = action.targetTunnelEntrance.connected.position;
+                                    break;
+                                }
+
+                                case UnitActionType.TakeMissile: {
+                                    unit.Position = destination;
+                                    unit.HasMissile = true;
+                                    action.targetBuilding.missileStorage.lastRechargeDay = Level.Day();
+                                    break;
+                                }
+
+                                case UnitActionType.LoadMissileSilo: {
+                                    unit.Position = destination;
+                                    unit.HasMissile = false;
+                                    action.targetBuilding.missileSilo.hasMissile = true;
+                                    action.targetBuilding.Moved = false;
+                                    break;
+                                }
+
+                                case UnitActionType.AttackPipeSection: {
+                                    var pipeSection = action.targetPipeSection;
+                                    pipeSection.hp -= 5;
+                                    if (pipeSection.hp <= 0) {
+                                        var level = pipeSection.level;
+                                        level.pipeSections.Remove(pipeSection.position);
+                                        pipeSection.Dematerialize();
+                                        level.tiles[pipeSection.position] = TileType.Plain;
+                                        Effects.SpawnExplosion(pipeSection.position.Raycasted(), Vector3.up, parent: level.view.transform);
+                                        ExplosionCrater.SpawnDecal(pipeSection.position, level.view.transform);
+                                        Sounds.PlayOneShot(Sounds.explosion);
+                                        level.view.cameraRig.Shake();
+                                    }
+                                    unit.Position = destination;
+                                    break;
+                                }
 
                                 default:
                                     throw new ArgumentOutOfRangeException();
                             }
 
-                            if (unit.Initialized) {
+                            if (unit.Hp > 0) {
                                 unit.Moved = true;
                                 if (unit.view.LookDirection != unit.Player.unitLookDirection) {
                                     var bipedalWalker = unit.view.GetComponent<BipedalWalker>();

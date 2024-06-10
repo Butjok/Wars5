@@ -105,7 +105,7 @@ public class SelectionState : StateMachineState {
                 }
             }
 
-            var missileSilos = Level.Buildings.Where(b => b.Player == Level.CurrentPlayer && b.type == TileType.MissileSilo).ToList();
+            /*var missileSilos = Level.Buildings.Where(b => b.Player == Level.CurrentPlayer && b.type == TileType.MissileSilo).ToList();
             foreach (var missileSilo in missileSilos)
                 if (missileSilo.Moved && missileSilo.Cooldown(Level.Day()) == 0) {
                     if (Level.CurrentPlayer == Level.localPlayer && missileSilo.position.TryRaycast(out var hit)) {
@@ -115,16 +115,17 @@ public class SelectionState : StateMachineState {
                     }
 
                     missileSilo.Moved = false;
-                }
+                }*/
 
-            Level.SetGui("missile-silos", () => {
+            /*Level.SetGui("missile-silos", () => {
                 foreach (var missileSilo in missileSilos)
                     if (missileSilo.position.TryRaycast(out var hit) && Level.view.cameraRig.camera.TryGetMousePosition(out Vector2Int mousePosition) && mousePosition == hit.point.ToVector2Int()) {
                         var cooldown = missileSilo.Cooldown(Level.Day());
                         if (cooldown > 0)
                             WarsGui.CenteredLabel(Level, hit.point, $"Reloading: {cooldown} day(s)");
                     }
-            });
+            });*/
+            
             Level.SetGui("keys", () => {
                 var text = $"Day {Level.Day() + 1} · [F2] End turn · [M] Minimap";
                 var size = GUI.skin.label.CalcSize(new GUIContent(text));

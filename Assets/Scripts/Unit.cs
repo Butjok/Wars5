@@ -1,8 +1,4 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Butjok.CommandLine;
 using JetBrains.Annotations;
 using SaveGame;
 using UnityEngine;
@@ -18,9 +14,19 @@ public enum WeaponName {
     [UsedImplicitly] MachineGun,
 }
 
-public class Unit {
+public class Unit : IMaterialized {
 
-    public static readonly HashSet<Unit> undisposed = new();
+    public static readonly HashSet<Unit> toDematerialize = new();
+
+    private bool hasMissile;
+    [DontSave] public bool HasMissile {
+        get => hasMissile;
+        set {
+            hasMissile = value;
+            if (view)
+                view.ShowMissileIcon = value;
+        }
+    }
 
     public UnitType type;
     [DontSave] public UnitView ViewPrefab {
@@ -30,7 +36,7 @@ public class Unit {
     public string viewPrefabName = "WbInfantry";
     [DontSave] public UnitView view;
     [DontSave] public UnitBrain brain;
-    [DontSave] public bool Initialized { get; private set; }
+    [DontSave] public bool IsMaterialized { get; private set; }
 
     public List<UnitState> states2 = new();
 
@@ -38,7 +44,7 @@ public class Unit {
     [DontSave] public Vector2Int? Position {
         get => position;
         set {
-            if (Initialized) {
+            if (IsMaterialized) {
                 if (position == value)
                     return;
                 if (position is { } oldPosition)
@@ -72,7 +78,7 @@ public class Unit {
     [DontSave] public bool Moved {
         get => moved;
         set {
-            if (Initialized && moved == value)
+            if (IsMaterialized && moved == value)
                 return;
             moved = value;
             if (view)
@@ -87,23 +93,23 @@ public class Unit {
     }
 
     public void SetHp(int value, bool animateDeath = false) {
-        if (Initialized && hp == value)
+        if (IsMaterialized && hp == value)
             return;
 
-        hp = Clamp(value, 0, Initialized ? MaxHp(this) : MaxHp(type));
+        hp = Clamp(value, 0, IsMaterialized ? MaxHp(this) : MaxHp(type));
 
         if (hp <= 0) {
             if (animateDeath && view) {
                 Position = null;
                 view.Visible = true;
-                Effects.SpawnExplosion(view.body.position);
+                Effects.SpawnExplosion(view.body.position, parent: player.level.view.transform);
                 Sounds.PlayOneShot(Sounds.explosion);
-                ExplosionCrater.SpawnDecal(view.body.position.ToVector2());
+                ExplosionCrater.SpawnDecal(view.body.position.ToVector2(), parent: player.level.view.transform);
                 player.level.view.cameraRig.Shake();
-                view.AnimateDeath(false, Dispose);
+                view.AnimateDeath(false, Dematerialize);
             }
             else
-                Dispose();
+                Dematerialize();
         }
         else if (view) {
             view.Hp = hp;
@@ -115,9 +121,9 @@ public class Unit {
     [DontSave] public int Fuel {
         get => Fuel(this, fuel);
         set {
-            if (Initialized && fuel == value)
+            if (IsMaterialized && fuel == value)
                 return;
-            fuel = Clamp(value, 0, Initialized ? MaxFuel(this) : MaxFuel(type));
+            fuel = Clamp(value, 0, IsMaterialized ? MaxFuel(this) : MaxFuel(type));
 
             //if (view)
             //    view.LowFuel = fuel < MaxFuel(this) / 4;
@@ -128,7 +134,7 @@ public class Unit {
     [DontSave] public Player Player {
         get => player;
         set {
-            if (Initialized && player == value)
+            if (IsMaterialized && player == value)
                 return;
             player = value;
 
@@ -142,7 +148,7 @@ public class Unit {
     [DontSave] public Unit Carrier {
         get => carrier;
         set {
-            if (Initialized && carrier == value)
+            if (IsMaterialized && carrier == value)
                 return;
             carrier = value;
         }
@@ -154,7 +160,7 @@ public class Unit {
     [DontSave] public IReadOnlyDictionary<WeaponName, int> Ammo => ammo;
 
     public void SetAmmo(WeaponName weaponName, int value) {
-        ammo[weaponName] = Clamp(value, 0, Initialized ? MaxAmmo(this, weaponName) : MaxAmmo(type, weaponName));
+        ammo[weaponName] = Clamp(value, 0, IsMaterialized ? MaxAmmo(this, weaponName) : MaxAmmo(type, weaponName));
 
         // complete later
     }
@@ -184,10 +190,10 @@ public class Unit {
 
     public static implicit operator UnitType(Unit unit) => unit.type;
 
-    public void Initialize() {
-        Assert.IsFalse(Initialized);
-        Assert.IsFalse(undisposed.Contains(this));
-        undisposed.Add(this);
+    public void Materialize() {
+        Assert.IsFalse(IsMaterialized);
+        Assert.IsFalse(toDematerialize.Contains(this));
+        toDematerialize.Add(this);
 
         if (!ViewPrefab)
             ViewPrefab = UnitView.DefaultPrefabFor(type);
@@ -221,15 +227,15 @@ public class Unit {
         lock (states2)
             states2 ??= new List<UnitState>();
 
-        Initialized = true;
+        IsMaterialized = true;
     }
 
-    public void Dispose() {
-        Assert.IsTrue(undisposed.Contains(this));
+    public void Dematerialize() {
+        Assert.IsTrue(toDematerialize.Contains(this));
 
         foreach (var unit in cargo)
-            unit.Dispose();
-        undisposed.Remove(this);
+            unit.Dematerialize();
+        toDematerialize.Remove(this);
 
         Position = null;
         if (view) {
@@ -237,7 +243,7 @@ public class Unit {
             view = null;
         }
 
-        Initialized = false;
+        IsMaterialized = false;
     }
 
     public override string ToString() {
