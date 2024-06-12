@@ -7,23 +7,24 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: cliff1-copy
-  m_Shader: {fileID: 4800000, guid: d5fec33bdf4c41cf903ce68e3e859a37, type: 3}
+  m_Name: TreeNew
+  m_Shader: {fileID: 4800000, guid: c5a39e2fdcf94768a933c1ee8d6c3c4b, type: 3}
   m_ValidKeywords:
   - FLAT_COLORS
-  m_InvalidKeywords:
-  - _NORMALMAP
+  - HOLE
+  - WIND
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2050
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: 65504674db45cf94aadb35cd7b2ad2a1, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -42,57 +43,73 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _GrassMask:
-        m_Texture: {fileID: 2800000, guid: 004f09cddae44da4b84f84bb121a1cb4, type: 3}
+    - _GrassTint:
+        m_Texture: {fileID: 2800000, guid: 3aa3e9e74885c6e47969d1962a1cca76, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _HoleMask:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 45a26453af9b4cc4f96b850a1f1bf035, type: 3}
+        m_Texture: {fileID: 2800000, guid: 893a4b0824dd2c7429c065be717b2410, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _Normal:
-        m_Texture: {fileID: 2800000, guid: 65504674db45cf94aadb35cd7b2ad2a1, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
-        m_Texture: {fileID: 2800000, guid: 80d512d3e8f664341b128960f6af0474, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Splat:
+        m_Texture: {fileID: 2800000, guid: 21c4cc7c16884f54bbab442d1d3ff12d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TerrainHeight:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
     - _BumpScale: 1
+    - _CutOff: 0.513
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _FlatColors: 1
     - _GlossMapScale: 1
-    - _Glossiness: 0
+    - _Glossiness: 0.5
     - _GlossyReflections: 1
+    - _Hole: 1
+    - _HoleRadius: 0.35
     - _Metallic: 0
     - _Mode: 0
+    - _NormalWrap: -0.48
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _SeaLevel: 0.07
-    - _SeaSharpness: -0.05
+    - _ShadowCutOff: 0.144
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
+    - _Wind: 1
     - _ZWrite: 1
     m_Colors:
-    - _CliffColor: {r: 0.5943396, g: 0.3782059, b: 0.037379786, a: 1}
-    - _CliffHSVTweak: {r: 0.025, g: 1.1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _GrassColor: {r: 0.50759196, g: 0.6415094, b: 0, a: 1}
-    - _GrassHSVTweak: {r: -0.01, g: 1.5, b: 2.75, a: 1}
-    - _SeaColor: {r: 0, g: 0.15462494, b: 0.33962262, a: 1}
+    - _DarkGrass: {r: 0.24705884, g: 0.32156864, b: 0, a: 1}
+    - _EmissionColor: {r: 0.46423858, g: 0.7264151, b: 0.011421547, a: 1}
+    - _FlatColor: {r: 0.3441833, g: 0.38679245, b: 0, a: 1}
+    - _Forest: {r: 0.23554297, g: 0.31132078, b: 0, a: 1}
+    - _Grass: {r: 0.35686275, g: 0.46274513, b: 0, a: 1}
+    - _HoleOffset: {r: 0, g: 0.25, b: 0, a: 0}
+    - _UpNormal: {r: 0, g: -1, b: 0, a: 1}
+    - _VertexOffset: {r: 0, g: 0, b: 0, a: 1}
+    - _Wheat: {r: 1, g: 1, b: 1, a: 1}
+    - _YellowGrass: {r: 0.46274513, g: 0.5372549, b: 0.003921569, a: 1}
   m_BuildTextureStacks: []
