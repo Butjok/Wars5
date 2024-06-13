@@ -168,7 +168,6 @@ public class Game : MonoBehaviour {
         if (!holeShaderUpdater) {
             var prefab = "HoleShaderUpdater".LoadAs<HoleShaderUpdater>();
             holeShaderUpdater = Instantiate(prefab, Vector3.zero, Quaternion.identity, transform);
-            DontDestroyOnLoad(holeShaderUpdater.gameObject);
         }
 
         if (holeShaderUpdater) {

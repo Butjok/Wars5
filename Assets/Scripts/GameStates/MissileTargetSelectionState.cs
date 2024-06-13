@@ -135,7 +135,7 @@ public class MissileTargetSelectionState : StateMachineState {
                             var anyBridgeDestroyed = false;
                             
                             if (Level.TryGetBridge2(targetPosition, out var bridge)) {
-                                bridge.Hp -= 5;
+                                bridge.Hp -= 10;
                                 if (bridge.Hp <= 0)
                                     anyBridgeDestroyed = true;
                             }

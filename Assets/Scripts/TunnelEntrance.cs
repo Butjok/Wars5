@@ -14,7 +14,7 @@ public class TunnelEntrance : ISpawnable {
 
     [DontSave] public TunnelEntranceView view;
     [DontSave] public bool IsSpawned { get; private set; }
-    
+
     public void Spawn() {
         Assert.IsFalse(IsSpawned);
         Assert.IsFalse(spawned.Contains(this));
@@ -46,8 +46,12 @@ public class TunnelEntrance : ISpawnable {
         var level = Game.Instance.TryGetLevel;
         if (level == null)
             return false;
-        if (!level.TryGetTunnelEntrance(positionA, out var tunnelEntranceA) || !level.TryGetTunnelEntrance(positionB, out var tunnelEntranceB)) 
+        if (!level.TryGetTunnelEntrance(positionA, out var tunnelEntranceA) || !level.TryGetTunnelEntrance(positionB, out var tunnelEntranceB))
             return false;
+        if (tunnelEntranceA.connected != null)
+            tunnelEntranceA.connected.connected = null;
+        if (tunnelEntranceB.connected != null)
+            tunnelEntranceB.connected.connected = null;
         tunnelEntranceA.connected = tunnelEntranceB;
         tunnelEntranceB.connected = tunnelEntranceA;
         return true;

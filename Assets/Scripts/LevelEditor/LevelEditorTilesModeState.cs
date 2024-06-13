@@ -3,6 +3,7 @@ using System.Linq;
 using Butjok.CommandLine;
 using Drawing;
 using UnityEngine;
+using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 using Vector2Int = UnityEngine.Vector2Int;
@@ -247,6 +248,9 @@ public class LevelEditorTilesModeState : StateMachineState {
                 if (!tiles.TryGetValue(position, out var tileType))
                     return;
 
+                if (level.bridges2.TryGetValue(position, out var bridge))
+                    bridge.Destroy();
+
                 tiles.Remove(position);
 
                 if (tileMapCreator) {
@@ -274,6 +278,9 @@ public class LevelEditorTilesModeState : StateMachineState {
                 if (removeUnit && units.TryGetValue(position, out var unit))
                     unit.Despawn();
                 if (level.tunnelEntrances.TryGetValue(position, out var tunnelEntrance)) {
+                    if (tunnelEntrance.connected != null && tunnelEntrance.connected.connected == tunnelEntrance)
+                        tunnelEntrance.connected.connected = null;
+
                     level.tunnelEntrances.Remove(position);
                     tunnelEntrance.Despawn();
                 }
@@ -455,6 +462,95 @@ public class LevelEditorTilesModeState : StateMachineState {
                             heightMapBaker.Bake();
                     }
                 }
+                else if (Input.GetKeyDown(KeyCode.M) && camera.TryGetMousePosition(out mousePosition)) {
+                    if (level.mineFields.TryGetValue(mousePosition, out var mineField)) {
+                        mineField.Despawn();
+                        level.mineFields.Remove(mousePosition);
+                    }
+                    else {
+                        mineField = new MineField {
+                            level = level,
+                            position = mousePosition,
+                            Player = player
+                        };
+                        level.mineFields[mousePosition] = mineField;
+                        mineField.Spawn();
+                    }
+                }
+                else if (Input.GetKeyDown(KeyCode.B) && camera.TryGetMousePosition(out mousePosition) &&
+                         (!level.tiles.TryGetValue(mousePosition, out var tileType) ||
+                          tileType is TileType.Sea or TileType.River or TileType.Bridge or TileType.BridgeSea)) {
+                    // no bridge at the position
+                    if (!level.bridges2.TryGetValue(mousePosition, out var bridge)) {
+                        // try find bridge nearby
+                        var nearbyBridges = level.PositionsInRange(mousePosition, Vector2Int.one).Select(p => level.TryGetBridge2(p, out var b) ? b : null).Where(b => b != null).Distinct().ToList();
+                        if (nearbyBridges.Count <= 1) {
+                            if (nearbyBridges.Count == 1)
+                                bridge = nearbyBridges[0];
+                            var newPositions = bridge == null
+                                ? new List<Vector2Int> { mousePosition }
+                                : new List<Vector2Int>(bridge.Positions) { mousePosition };
+                            var positionsAreValid = true;
+                            if (newPositions.Count > 1) {
+                                var direction = newPositions[1] - newPositions[0];
+                                if (newPositions[^1] - newPositions[^ 2] != direction)
+                                    positionsAreValid = false;
+                            }
+                            if (positionsAreValid) {
+                                var mustSpawn = false;
+                                if (bridge == null) {
+                                    bridge = new Bridge2 { level = level };
+                                    mustSpawn = true;
+                                }
+                                bridge.SetPositions(newPositions);
+                                if (mustSpawn)
+                                    bridge.Spawn();
+                                level.bridges2.Add(mousePosition, bridge);
+                                ToggleBridgeTile(mousePosition);
+                            }
+                            else
+                                Debug.LogWarning("Bridge positions must be in a straight line.");
+                        }
+                    }
+                    else {
+                        // rotate bridge
+                        if (Input.GetKey(KeyCode.LeftShift)) {
+                            var forward = bridge.Forward ?? Vector2Int.up;
+                            bridge.Forward = forward.Rotate(1);
+                        }
+                        // remove bridge tile at position
+                        else {
+                            if (bridge.Positions.Count == 1) {
+                                level.bridges2.Remove(mousePosition);
+                                ToggleBridgeTile(mousePosition);
+                                bridge.Despawn();
+                            }
+                            else {
+                                if (mousePosition == bridge.Positions[0] || mousePosition == bridge.Positions[^1]) {
+                                    var newPositions = new List<Vector2Int>(bridge.Positions);
+                                    newPositions.Remove(mousePosition);
+                                    bridge.SetPositions(newPositions);
+                                    level.bridges2.Remove(mousePosition);
+                                    ToggleBridgeTile(mousePosition);
+                                }
+                                else
+                                    Debug.LogWarning("Can only remove bridge tile at the ends of the bridge.");
+                            }
+                        }
+                    }
+                }
+
+                void ToggleBridgeTile(Vector2Int position) {
+                    if (!level.tiles.TryGetValue(position, out var tileType))
+                        tileType = TileType.Sea;
+                    level.tiles[position] = tileType switch {
+                        TileType.River => TileType.Bridge,
+                        TileType.Sea => TileType.BridgeSea,
+                        TileType.Bridge => TileType.River,
+                        TileType.BridgeSea => TileType.Sea,
+                        _ => level.tiles[position]
+                    };
+                }
 
                 while (game.TryDequeueCommand(out var command))
                     switch (command) {
@@ -508,9 +604,34 @@ public class LevelEditorTilesModeState : StateMachineState {
                         Draw.ingame.WirePlane(position.ToVector3(), Vector3.up, Vector2.one, Color.yellow);
                         Draw.ingame.Label3D(position.ToVector3(), Quaternion.LookRotation(Vector3.down), height.ToString(), 0.25f, LabelAlignment.Center, Color.yellow);
                     }
+
+                if (showBridges) {
+                    var index = 0;
+                    foreach (var bridge in level.bridges2.Values.Distinct()) {
+                        var minX = bridge.Positions.Select(v => v.x).Min();
+                        var maxX = bridge.Positions.Select(v => v.x).Max();
+                        var minY = bridge.Positions.Select(v => v.y).Min();
+                        var maxY = bridge.Positions.Select(v => v.y).Max();
+                        var center = new Vector2((minX + maxX) / 2f, (minY + maxY) / 2f);
+                        var size = new Vector2(maxX - minX + 1, maxY - minY + 1);
+                        Draw.ingame.SolidPlane(center.ToVector3(), Vector3.up, size, Color.grey * new Color(1, 1, 1, .5f));
+                        Draw.ingame.Label2D(center.ToVector3(), $"Bridge #{index}", Color.white);
+                        index++;
+                    }
+                }
+                {
+                    if (camera.TryGetMousePosition(out Vector2Int mousePosition) &&
+                        level.TryGetTunnelEntrance(mousePosition, out var tunnelEntrance) &&
+                        tunnelEntrance.connected != null) {
+                        Draw.ingame.Line(tunnelEntrance.position.Raycasted(), tunnelEntrance.connected.position.Raycasted(), Color.green);
+                    }
+                }
             }
         }
     }
+
+    [Command]
+    public static bool showBridges = false;
 
     public override void Exit() {
         if (tileMeshMaterial) {

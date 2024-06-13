@@ -11,7 +11,7 @@ public class Bridge2 : ISpawnable {
     public Level level;
     private int hp = 10;
     private List<Vector2Int> positions = new();
-    public Vector2Int? forward;
+    private Vector2Int? forward;
 
     [DontSave] public BridgeView2 view;
     [DontSave] public bool IsSpawned { get; private set; }

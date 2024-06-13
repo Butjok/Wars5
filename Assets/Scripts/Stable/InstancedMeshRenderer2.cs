@@ -20,7 +20,7 @@ public class InstancedMeshRenderer2 : MonoBehaviour {
 
     public void Update() {
 
-        if (!mesh || transforms.Count == 0)
+        /*if (!mesh || transforms.Count == 0)
             return;
 
         if (transformsBuffer == null || argsBuffers.Count == 0)
@@ -32,25 +32,26 @@ public class InstancedMeshRenderer2 : MonoBehaviour {
         for (var i = 0; i < mesh.subMeshCount; i++)
             if (materials[i])
                 Graphics.DrawMeshInstancedIndirect(mesh, i, materials[i], (Bounds)bounds, argsBuffers[i], 0, null, layer: gameObject.layer, castShadows: shadowCastingMode,
-                    lightProbeUsage: lightProbeUsage);
+                    lightProbeUsage: lightProbeUsage);*/
     }
 
     public static Bounds CalculateBounds(IReadOnlyCollection<Matrix4x4> transforms, float radius) {
         // return a Bounds located at zero which encapsulates all the transforms
-        var max = Vector3.zero;
+        /*var max = Vector3.zero;
         foreach (var transform in transforms) {
             Vector3 position = transform.GetColumn(3);
             max = Vector3.Max(max, (position.Abs() + Vector3.one * radius));
         }
-        return new Bounds(Vector3.zero, max * 2);
+        return new Bounds(Vector3.zero, max * 2);*/
+        return default;
     }
     public void RecalculateBounds() {
-        bounds = CalculateBounds(transforms, radius);
+        //bounds = CalculateBounds(transforms, radius);
     }
 
     public void UpdateGpuData() {
 
-        ReleaseGpuData();
+        /*ReleaseGpuData();
 
         if (transforms.Count == 0)
             return;
@@ -65,21 +66,21 @@ public class InstancedMeshRenderer2 : MonoBehaviour {
         }
 
         foreach (var material in materials)
-            material.SetBuffer(transformsUniformName, transformsBuffer);
+            material.SetBuffer(transformsUniformName, transformsBuffer);*/
     }
 
     public void ReleaseGpuData() {
-        transformsBuffer?.Release();
+        /*transformsBuffer?.Release();
         transformsBuffer = null;
         foreach (var argsBuffer in argsBuffers)
             argsBuffer?.Release();
-        argsBuffers.Clear();
+        argsBuffers.Clear();*/
     }
 
     public void OnEnable() {
-        UpdateGpuData();
+        //UpdateGpuData();
     }
     public void OnDisable() {
-        ReleaseGpuData();
+        //ReleaseGpuData();
     }
 }
