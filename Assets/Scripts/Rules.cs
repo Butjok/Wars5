@@ -341,12 +341,13 @@ public static class Rules {
         return path[^1] == crate.position;
     }
     public static bool ShouldExplode(MineField mineField, Unit unit) {
-        return AreEnemies(mineField.Player, unit.Player);
+        return unit.type is not (UnitType.Infantry or UnitType.AntiTank) &&
+               (mineField.Player == null || AreEnemies(mineField.Player, unit.Player));
     }
     public static bool CanTravelThroughTunnel(Unit unit, List<Vector2Int> path, TunnelEntrance tunnelEntrance) {
         return tunnelEntrance.position == path[^1]
                && tunnelEntrance.connected != null
-               && !tunnelEntrance.level.TryGetUnit(tunnelEntrance.connected.position, out _);
+               && (!tunnelEntrance.level.TryGetUnit(tunnelEntrance.connected.position, out var other) || other == unit);
     }
     public static int MineFieldDamage(Unit unit, MineField mineField) {
         return 5;
@@ -362,5 +363,19 @@ public static class Rules {
     }
     public static int MaxHp(Bridge2 bridge) {
         return 10;
+    }
+    public static bool CanPlantMineFieldIn(Unit unit, List<Vector2Int> path, Vector2Int position) {
+        var level = unit.Player.level;
+        return unit.type == UnitType.Apc && unit.minesAmount > 0 &&
+               (position - path[^1]).ManhattanLength() == 1 &&
+               level.tiles.TryGetValue(position, out var tileType) &&
+               tileType is not (TileType.Sea or TileType.River or TileType.Mountain or TileType.PipeSection) &&
+               !level.units.ContainsKey(position) &&
+               (!level.mineFields.TryGetValue(position, out var mineField) || mineField.Player != unit.Player);
+    }
+    public static bool CanPickUpMineField(Unit unit, List<Vector2Int> path, Vector2Int position) {
+        return unit.type == UnitType.Apc && unit.minesAmount + 1 <= unit.maxMinesAmount &&
+               (position - path[^1]).ManhattanLength() == 1 &&
+               unit.Player.level.mineFields.ContainsKey(position);
     }
 }

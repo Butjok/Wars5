@@ -119,6 +119,8 @@ public class MissileTargetSelectionState : StateMachineState {
                                                 unit.view.TriggerDamageFlash();
                                             }
                                         }
+                                        if (Level.TryGetMineField(position, out var mineField)) 
+                                            mineField.Explode();
 
                                         if (position.TryRaycast(out var hit))
                                             Effects.SpawnExplosion(hit.point);

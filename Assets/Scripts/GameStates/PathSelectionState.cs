@@ -148,29 +148,6 @@ public class PathSelectionState : StateMachineState {
 
                             Level.view.tilemapCursor.Hide();
 
-                            void MaybeTriggerMineField(MineField mineField) {
-                                if (unit.Hp > 0 && Rules.ShouldExplode(mineField, unit)) {
-                                    level.mineFields.Remove(mineField.position);
-                                    mineField.Despawn();
-                                    
-                                    var newUnitHp = unit.Hp - Rules.MineFieldDamage(unit, mineField);
-                                    if (newUnitHp <= 0 && unit.view.Position != mineField.position) {
-                                        unit.view.Position = mineField.position;
-                                        unit.view.PlaceOnTerrain(true);
-                                    }
-                                    
-                                    unit.view.TriggerDamageFlash();
-                                    unit.view.ApplyDamageTorque(UnitView.DamageTorqueType.MissileExplosion);
-                                    level.view.cameraRig.Shake();
-                                    
-                                    Effects.SpawnExplosion(mineField.position.Raycasted(), Vector3.up, parent: level.view.transform);
-                                    ExplosionCrater.SpawnDecal(mineField.position, parent: level.view.transform);
-                                    Sounds.PlayOneShot(Sounds.explosion);
-                                    
-                                    unit.SetHp(newUnitHp, true);
-                                }
-                            }
-
                             var cancel = false;
                             var startUnitLookDirection = unit.view.LookDirection;
                             
@@ -187,7 +164,8 @@ public class PathSelectionState : StateMachineState {
 
                                 if (mineFieldsAlongTheWay.TryPeek(out var mineField) && mineField.position == unit.view.Position) {
                                     mineFieldsAlongTheWay.Dequeue();
-                                    MaybeTriggerMineField(mineField);
+                                    if (unit.Hp > 0 && Rules.ShouldExplode(mineField, unit)) 
+                                        mineField.Explode(unit);
                                 }
                             }
 
@@ -199,7 +177,8 @@ public class PathSelectionState : StateMachineState {
                             }
 
                             while (unit.Hp > 0 && mineFieldsAlongTheWay.TryDequeue(out var mineField))
-                                MaybeTriggerMineField(mineField);
+                                if (unit.Hp > 0 && Rules.ShouldExplode(mineField, unit))
+                                    mineField.Explode(unit);
 
                             if (unit.Hp > 0) {
                                 unit.view.Position = path[^1];

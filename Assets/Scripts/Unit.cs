@@ -28,6 +28,9 @@ public class Unit : ISpawnable {
         }
     }
 
+    public int minesAmount = 1;
+    public int maxMinesAmount = 1;
+
     public UnitType type;
     [DontSave] public UnitView ViewPrefab {
         get => viewPrefabName.LoadAs<UnitView>();
@@ -250,4 +253,5 @@ public class Unit : ISpawnable {
     public override string ToString() {
         return $"{type}{Position} {Player}";
     }
+
 }

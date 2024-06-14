@@ -18,7 +18,7 @@ public class MineField : ISpawnable {
         get => player;
         set {
             player = value;
-            if (IsSpawned) 
+            if (IsSpawned)
                 view.PlayerColor = player?.Color ?? Color.clear;
         }
     }
@@ -47,6 +47,36 @@ public class MineField : ISpawnable {
         }
 
         IsSpawned = false;
+    }
+
+    public void Explode(Unit unit = null) {
+        if (unit == null)
+            foreach (var u in level.units.Values)
+                if (u.view.Position == position) {
+                    unit = u;
+                    break;
+                }
+        
+        if (unit != null && unit.Hp > 0) {
+            var newUnitHp = unit.Hp - Rules.MineFieldDamage(unit, this);
+            if (newUnitHp <= 0 && unit.view.Position != position) {
+                unit.view.Position = position;
+                unit.view.PlaceOnTerrain(true);
+            }
+
+            unit.view.TriggerDamageFlash();
+            unit.view.ApplyDamageTorque(UnitView.DamageTorqueType.MissileExplosion);
+
+            unit.SetHp(newUnitHp, true);
+        }
+
+        level.view.cameraRig.Shake();
+        Effects.SpawnExplosion(position.Raycasted(), Vector3.up, parent: level.view.transform);
+        ExplosionCrater.SpawnDecal(position, parent: level.view.transform);
+        Sounds.PlayOneShot(Sounds.explosion);
+
+        level.mineFields.Remove(position);
+        Despawn();
     }
 
     [Command]

@@ -17,7 +17,9 @@ public enum UnitActionType {
     TravelThroughTunnel,
     TakeMissile,
     LoadMissileSilo,
-    AttackPipeSection
+    AttackPipeSection,
+    PlantMineField,
+    PickUpMineField
 }
 
 public class UnitAction {

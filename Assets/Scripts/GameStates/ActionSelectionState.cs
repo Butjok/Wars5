@@ -79,6 +79,14 @@ public class ActionSelectionState : StateMachineState {
             // tunnel entrance
             if (level.TryGetTunnelEntrance(destination, out var tunnelEntrance) && CanTravelThroughTunnel(unit, path, tunnelEntrance))
                 yield return new UnitAction(UnitActionType.TravelThroughTunnel, unit, path, targetTunnelEntrance: tunnelEntrance);
+
+            // plant mine field
+            foreach (var position in level.PositionsInRange(path[^1], Vector2Int.one)) {
+                if (CanPlantMineFieldIn(unit, path, position))
+                    yield return new UnitAction(UnitActionType.PlantMineField, unit, path, targetPosition: position);
+                if (CanPickUpMineField(unit, path, position))
+                    yield return new UnitAction(UnitActionType.PickUpMineField, unit, path, targetPosition: position);
+            }
         }
 
         if (other != null && other != unit) {
@@ -314,6 +322,14 @@ public class ActionSelectionState : StateMachineState {
 
                                 case UnitActionType.TravelThroughTunnel: {
                                     unit.Position = action.targetTunnelEntrance.connected.position;
+                                    // If the unit travels through the tunnel and lands on the same place is started
+                                    // moving from then the unit.Position will do nothing and the view.Position
+                                    // is not going to be updated. Just to be sure update it here manually.
+                                    unit.view.Position = unit.NonNullPosition;
+                                    if (unit.Player.level.mineFields.TryGetValue(unit.NonNullPosition, out var mineField)) {
+                                        if (unit.Hp > 0 && ShouldExplode(mineField, unit)) 
+                                            mineField.Explode();
+                                    }
                                     break;
                                 }
 
@@ -346,6 +362,32 @@ public class ActionSelectionState : StateMachineState {
                                         ExplosionCrater.SpawnDecal(pipeSection.position, level.view.transform);
                                     }
                                     unit.Position = destination;
+                                    break;
+                                }
+
+                                case UnitActionType.PlantMineField: {
+                                    unit.Position = destination;
+                                    unit.minesAmount--;
+                                    if (Level.mineFields.TryGetValue(action.targetPosition, out var oldMineField)) {
+                                        Level.mineFields.Remove(action.targetPosition);
+                                        oldMineField.Despawn();
+                                    }
+                                    var mineField = new MineField {
+                                        level = Level,
+                                        position = action.targetPosition,
+                                        Player = unit.Player
+                                    };
+                                    Level.mineFields.Add(mineField.position, mineField);
+                                    mineField.Spawn();
+                                    break;
+                                }
+
+                                case UnitActionType.PickUpMineField: {
+                                    unit.Position = destination;
+                                    var mineField = Level.mineFields[action.targetPosition];
+                                    Level.mineFields.Remove(action.targetPosition);
+                                    mineField.Despawn();
+                                    unit.minesAmount++;
                                     break;
                                 }
 
@@ -451,7 +493,7 @@ public class ActionSelectionState : StateMachineState {
                     using (Draw.ingame.WithLineWidth(2)) {
                         var color = Color.clear;
                         var drawDownArrow = false;
-                        var drawCircleAtTarget = false;
+                        var drawCircleAtTargetPosition = false;
                         var drawCircleAtDestination = false;
                         var targetPosition = Vector2Int.zero;
                         var drawLine = false;
@@ -478,7 +520,7 @@ public class ActionSelectionState : StateMachineState {
                                     UnitActionType.AttackPipeSection => selectedAction.targetPipeSection.position,
                                     _ => throw new ArgumentOutOfRangeException()
                                 };
-                                color =  selectedAction.type switch {
+                                color = selectedAction.type switch {
                                     UnitActionType.Attack => Color.red,
                                     UnitActionType.Drop => Color.green,
                                     UnitActionType.Supply => Color.cyan,
@@ -486,10 +528,16 @@ public class ActionSelectionState : StateMachineState {
                                     UnitActionType.AttackPipeSection => Color.red,
                                     _ => throw new ArgumentOutOfRangeException()
                                 };
-                                drawCircleAtTarget = true;
+                                drawCircleAtTargetPosition = true;
                                 drawLine = true;
                                 break;
                             case UnitActionType.Gather:
+                                break;
+                            case UnitActionType.PlantMineField or UnitActionType.PickUpMineField:
+                                color = selectedAction.type == UnitActionType.PlantMineField ? Color.magenta : Color.yellow;
+                                targetPosition = selectedAction.targetPosition;
+                                drawCircleAtTargetPosition = true;
+                                drawLine = true;
                                 break;
                             default:
                                 throw new ArgumentOutOfRangeException();
@@ -497,7 +545,7 @@ public class ActionSelectionState : StateMachineState {
 
                         if (drawLine)
                             Draw.ingame.Line(destination.Raycasted(), targetPosition.Raycasted(), color);
-                        if (drawCircleAtTarget)
+                        if (drawCircleAtTargetPosition)
                             Draw.ingame.CircleXZ(targetPosition.Raycasted(), .5f, color);
                         if (drawCircleAtDestination)
                             Draw.ingame.CircleXZ(destination.Raycasted(), .5f, color);

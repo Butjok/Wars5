@@ -2919,6 +2919,9 @@ ClassInstance "Level,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyT
             List 0 "Unit,%20Wars,%20Version=0.0.0.0,%20Culture=neutral,%20PublicKeyToken=null" ReferenceId 69
             EndList
           EndField
+          Field hasMines
+            Bool True
+          EndField
         EndClassInstance
       EndKeyValue
       KeyValue
