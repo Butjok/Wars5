@@ -173,6 +173,7 @@
      <Compile Include="Assets\Scripts\Level\UnitAttackActionViewTest.cs" />
      <Compile Include="Assets\Scripts\GlobalGameSettings.cs" />
      <Compile Include="Assets\Scripts\GameStates\DebugDraw.cs" />
+     <Compile Include="Assets\Scripts\Subtitles.cs" />
      <Compile Include="Assets\Scripts\LoadingSpinnerTest.cs" />
      <Compile Include="Assets\Scripts\MainMenuSign.cs" />
      <Compile Include="Assets\Scripts\PowerMeterStripe.cs" />
@@ -360,7 +361,6 @@
      <Compile Include="Assets\Scripts\TrackTrail.cs" />
      <Compile Include="Assets\Scripts\Animation\UnitViewSequenceSubroutines.cs" />
      <Compile Include="Assets\Scripts\EntryPoint\MainMenuWelcomeState.cs" />
-     <Compile Include="Assets\Scripts\Subtitles.cs" />
      <Folder Include="Assets\Scripts\EntryPoint" />
      <None Include="Assets\Scripts\Wars.asmdef" />
      <Folder Include="Assets\Scripts\DialogueMarkupLanguage" />

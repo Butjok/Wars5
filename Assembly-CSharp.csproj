@@ -51,6 +51,7 @@
      <Compile Include="Assets\MultiAudioListener\Example\Scripts\MovementCamera.cs" />
      <Compile Include="Assets\MultiAudioListener\MainMultiAudioListener.cs" />
      <Folder Include="Assets" />
+     <Folder Include="Assets\Characters\Natalie\Intro\0002-Block" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\StdLib.hlsl" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Debug\Waveform.shader" />
      <Folder Include="Assets\Spine" />
@@ -214,6 +215,7 @@
      <Folder Include="Assets\Saves\autosave" />
      <Folder Include="Assets\Saves\Save5-Forests" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\MultiScaleVODownsample2.compute" />
+     <Folder Include="Assets\Characters\Natalie\Intro\0001-Block" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\ScalableAO.hlsl" />
      <Folder Include="Assets\Props\flag" />
      <Folder Include="Assets\Saves\IntroTest-Roads" />
@@ -252,6 +254,7 @@
      <None Include="Assets\Shaders\TerrainTilesTest.shader" />
      <Folder Include="Assets\Scenes\LoadingTest" />
      <Folder Include="Assets\Scenes\LoadingTestSubscene" />
+     <Folder Include="Assets\Characters\Natalie\Intro" />
      <Folder Include="Assets\MultiAudioListener" />
      <Folder Include="Assets\TextMesh Pro" />
      <None Include="Assets\JsonDotNet\link.xml" />
@@ -268,10 +271,12 @@
      <None Include="Assets\Roboto\LICENSE.txt" />
      <Folder Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders" />
      <Folder Include="Assets\SceneTemplates\MainMenuTest" />
+     <Folder Include="Assets\Characters\Natalie\Intro\0005-Block" />
      <Folder Include="Assets\JsonDotNet\Documentation" />
      <Folder Include="Assets\Saves\Test2-Level" />
      <Folder Include="Assets\Saves\Save3-Roads" />
      <None Include="Assets\Saves\0\0-24.01.2023-03.03.07.txt" />
+     <Folder Include="Assets\Characters\Natalie\Intro\0004-Block" />
      <None Include="Assets\Shaders\VertexColor.shader" />
      <None Include="Assets\Saves\1\1-22.01.2023-18.57.19.txt" />
      <None Include="Assets\Saves\second-stage\19.01.2023-19.30.24.txt" />
@@ -426,6 +431,7 @@
      <Folder Include="Assets\Saves\Intro2-Tiles" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\DepthOfField.hlsl" />
      <Folder Include="Assets\Textures\Circuitry" />
+     <Folder Include="Assets\Characters\Natalie\Intro\0003-Block" />
      <Folder Include="Assets\TextMesh Pro\Resources\Style Sheets" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\DiscardAlpha.shader" />
      <Folder Include="Assets\Textures\Lava" />
@@ -479,6 +485,7 @@
      <Folder Include="Assets\Saves\Bushes" />
      <Folder Include="Assets\Saves\Save4-Bushes" />
      <Folder Include="Assets\Content\whiteboxes\Resources" />
+     <Folder Include="Assets\Characters\Natalie\Intro\0006-Block" />
      <Folder Include="Assets\Saves\PatchRoads" />
      <Folder Include="Assets\Saves\Test-Props" />
      <Folder Include="Assets\Textures\Cookies" />
@@ -507,6 +514,7 @@
      <Folder Include="Assets\Resources\TilemapMeshes" />
      <Folder Include="Assets\Sounds\FromAW" />
      <Folder Include="Assets\DeferredDecals" />
+     <Folder Include="Assets\Characters\Natalie\Intro\0007-Block" />
      <Folder Include="Assets\Saves\AutosaveRoads" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
      <None Include="Assets\Resources\Colors2.json" />
