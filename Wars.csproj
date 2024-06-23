@@ -49,6 +49,7 @@
      <Compile Include="Assets\Scripts\Torec\Subdivision\Assets\Subdivision.cs" />
      <Compile Include="Assets\Scripts\PreselectionCursor.cs" />
      <Compile Include="Assets\Scripts\HoleMaterialUpdater.cs" />
+     <Compile Include="Assets\Scripts\CharacterTest.cs" />
      <Compile Include="Assets\Scripts\MissionView.cs" />
      <Compile Include="Assets\Scripts\GameStates\VoiceLinesSequence.cs" />
      <Compile Include="Assets\Scripts\EntryPoint\MainMenuGameSettingsState.cs" />
@@ -359,6 +360,7 @@
      <Compile Include="Assets\Scripts\TrackTrail.cs" />
      <Compile Include="Assets\Scripts\Animation\UnitViewSequenceSubroutines.cs" />
      <Compile Include="Assets\Scripts\EntryPoint\MainMenuWelcomeState.cs" />
+     <Compile Include="Assets\Scripts\Subtitles.cs" />
      <Folder Include="Assets\Scripts\EntryPoint" />
      <None Include="Assets\Scripts\Wars.asmdef" />
      <Folder Include="Assets\Scripts\DialogueMarkupLanguage" />
