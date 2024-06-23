@@ -72,4 +72,13 @@ public class PlayerThemeAudio : MonoBehaviour {
             audioSource.Stop();
         Instance.coroutines.Remove(audioSource);
     }
+
+    public AudioMixer audioMixer;
+    public void Start() {
+        audioMixer = "Game".LoadAs<AudioMixer>();
+    }
+
+    public static bool ToneDownMusic {
+        set => Instance.audioMixer.SetFloat("MusicLowpass", value ? 200 : 22000);
+    }
 }

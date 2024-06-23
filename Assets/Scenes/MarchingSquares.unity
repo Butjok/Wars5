@@ -9063,7 +9063,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 241164161}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -38991,6 +38991,7 @@ GameObject:
   - component: {fileID: 1410455678}
   - component: {fileID: 1410455677}
   - component: {fileID: 1410455680}
+  - component: {fileID: 1410455681}
   m_Layer: 0
   m_Name: Intro
   m_TagString: Untagged
@@ -39087,6 +39088,117 @@ MonoBehaviour:
   natalieAsking: {fileID: 21300000, guid: d4e01dc86f5fba9488cef63d2e90a8f2, type: 3}
   natalieBusy: {fileID: 21300000, guid: 94f3c8da511c6a449a8b11884039f9f1, type: 3}
   natalieBusyNotices: {fileID: 21300000, guid: ca7e13b114fc1404db367647725cd173, type: 3}
+  voiceOverSource: {fileID: 1410455681}
+  voiceOverClips:
+  - {fileID: 8300000, guid: f03a0c117e8db134997abed651eb2620, type: 3}
+  - {fileID: 8300000, guid: 87f9d1d874ee06844a9ce7525e6e7464, type: 3}
+  - {fileID: 8300000, guid: bbc67890bcb8e5641b66c2656083bd0a, type: 3}
+  - {fileID: 8300000, guid: 7237368ba67c3b2419706501ff0aa86e, type: 3}
+  - {fileID: 8300000, guid: 5eb3e57bdfe34ba42ba5d67077c59fad, type: 3}
+  - {fileID: 8300000, guid: adf0036b2ee79f34fa36f770559e4078, type: 3}
+  - {fileID: 8300000, guid: f13970082b8b2ed429db1ea5ba8e640c, type: 3}
+  - {fileID: 8300000, guid: f09184b4a5760334abe209500a7701c7, type: 3}
+  - {fileID: 8300000, guid: 124678065d3fcaf4e9ee699a402df6e8, type: 3}
+  - {fileID: 8300000, guid: d86e74210dfc8e74dac2685696ff6a26, type: 3}
+  - {fileID: 8300000, guid: 00f6ed3110c5c8f418cd5a065d5a804f, type: 3}
+  - {fileID: 8300000, guid: 715fbe5fa83597a43ac92a78abb22dd2, type: 3}
+  - {fileID: 8300000, guid: 30a13400601041844b16da944eced019, type: 3}
+--- !u!82 &1410455681
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1410455676}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: -6706392129437622615, guid: c66f4112863c7254b80064fd789c23be, type: 2}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1001 &1411155165
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -39666,7 +39778,7 @@ MonoBehaviour:
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
-  m_lineSpacing: 0
+  m_lineSpacing: 20
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
@@ -66799,8 +66911,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -560.4, y: 0}
-  m_SizeDelta: {x: 900, y: 900}
+  m_AnchoredPosition: {x: -500, y: 0}
+  m_SizeDelta: {x: 1150, y: 900}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &2127752453
 MonoBehaviour:
