@@ -17,6 +17,9 @@ public class Subtitles : MonoBehaviour {
     public Sprite natalieWelcoming;
     public Sprite natalieExplaining;
     public Sprite nataliePointing;
+    public Sprite natalieAsking;
+    public Sprite natalieBusy;
+    public Sprite natalieBusyNotices;
 
     public Sprite Portrait {
         set => portrait.sprite = value;
@@ -26,15 +29,27 @@ public class Subtitles : MonoBehaviour {
     }
     public string Text => speechText.text;
 
+    public bool Visible {
+        set {
+            root.SetActive(value);
+            speechText.text = "";
+        }
+    }
+
     [Command]
     public void Play() {
-        root.SetActive(true);
+        Visible = true;
         StopAllCoroutines();
         StartCoroutine(Coroutine());
     }
 
     public IEnumerator Coroutine() {
         SpeakerName = _("Natalie");
+
+        Portrait = natalieBusy;
+        yield return Pause(1);
+        Portrait = natalieBusyNotices;
+        yield return Pause(.5f);
 
         Portrait = natalieWelcoming;
         yield return Say(_("Welcome back, Commander! [...]"));
@@ -49,15 +64,22 @@ public class Subtitles : MonoBehaviour {
 
         Portrait = natalieExplaining;
         yield return Say(_("The upper command wants us to continue holding out current positions and wait for further orders. [...]"));
-        yield return Say(_("[...] So we should not expect any major changes in the near future. [...]"));
+        yield return Say(_("[...] So we should not expect any major changes in the near future."));
 
         Portrait = natalieWelcoming;
-        yield return Say(_("[...] Not a bad time to get back into the swing of things, right?"));
+        yield return Say(_("Not a bad time to get back into the swing of things, right?"));
 
         Portrait = nataliePointing;
-        yield return Say(_("Here we are at "));
+        yield return Say(_("Here we are at the south. Our troops are holding the line over here. The situation was quite calm for the last few days."));
+        yield return Say(_("The enemy positions are located in the north over here."));
         
-        root.SetActive(false);
+        Portrait = natalieAsking;
+        yield return Say(_("For the first move I would suggest to send a scout to the north to gather some information about the enemy positions."));
+        
+        Portrait = natalieWelcoming;
+        yield return Say(_("So... Let's get us started, shall we?"));
+        
+        Visible = false;
     }
 
     public YieldInstruction Pause(float duration = 1) {
