@@ -26,8 +26,25 @@ public class Subtitles : MonoBehaviour {
 
     public AudioClip[] voiceOverClips = { };
 
+    public Image voiceOverHistogram;
+
+    public Color natalieColor  = Color.magenta;
+    public Color vladanColor = Color.red;
+    public Color defaultColor = Color.white;
+    public Color interceptedRadioMessageColor = Color.yellow;
+
+    public Color SpeakerColor {
+        set => speakerNameText.color = value;
+    }
+
     public Sprite Portrait {
-        set => portrait.sprite = value;
+        set {
+            portrait.sprite = value;
+            portrait.enabled = value;
+        }
+    }
+    public bool ShowVoiceOverHistogram {
+        set => voiceOverHistogram.enabled = value;
     }
     public string SpeakerName {
         set => speakerNameText.text = value;
@@ -48,18 +65,33 @@ public class Subtitles : MonoBehaviour {
         StartCoroutine(Coroutine());
     }
 
-    public IEnumerator Coroutine() {
+    public void SetSpeaker(string name) {
+        SpeakerName = name;
+        if (name == _("Natalie"))
+            SpeakerColor = natalieColor;
+        else if (name == _("Vladan"))
+            SpeakerColor = vladanColor;
+        else if (name == _("Intercepted Radio Message")) {
+            SpeakerColor = interceptedRadioMessageColor;
+            Portrait = null;
+        }
+        else {
+            SpeakerColor = defaultColor;
+            Portrait = null;
+        }
+    }
 
+    public IEnumerator Coroutine() {
         PlayerThemeAudio.ToneDownMusic = true;
 
-        var voiceOverClips = new VoiceOverClipSequence{ voiceOverClips = this.voiceOverClips };
-        
-        SpeakerName = _("Natalie");
+        var voiceOverClips = new VoiceOverClipSequence { voiceOverClips = this.voiceOverClips };
+
+        SetSpeaker(_("Natalie"));
 
         Portrait = natalieBusy;
         yield return Pause(1);
         Portrait = natalieBusyNotices;
-        yield return Pause(.75f);
+        yield return Pause(.5f);
 
         Portrait = natalieWelcoming;
         yield return Say(_("Commander, welcome back! [...]"), voiceOverClips.Next);
@@ -77,6 +109,8 @@ public class Subtitles : MonoBehaviour {
         yield return Say(_("The upper command wants us to continue holding out current positions and wait for further orders. [...]"), voiceOverClips.Next);
         yield return Say(_("[...] So we should not expect any major changes in the near future."), voiceOverClips.Next);
 
+        ShowVoiceOverHistogram = true;
+        
         Portrait = natalieWelcoming;
         yield return Say(_("Not a bad time to get back into the swing of things, right?"), voiceOverClips.Next);
 
@@ -90,8 +124,22 @@ public class Subtitles : MonoBehaviour {
         Portrait = natalieWelcoming;
         yield return Say(_("So... Let's get us started, shall we?"), voiceOverClips.Next);
 
-        Visible = false;
+        //
+        yield return Say(_("We have an intercepted radio message from the enemy..."));
         
+        SetSpeaker( _("Intercepted Radio Message"));
+
+        yield return Say(_("This is the 3rd Battalion, we are under heavy fire! Requesting immediate support!"), this.voiceOverClips[0]);
+        yield return Say(_("We are surrounded by enemy forces! We need reinforcements!"));
+
+        SetSpeaker( _("Natalie"));
+        Portrait = natalieExplaining;
+        
+        ShowVoiceOverHistogram = false;
+        //
+
+        Visible = false;
+
         PlayerThemeAudio.ToneDownMusic = false;
     }
 
@@ -113,6 +161,8 @@ public class Subtitles : MonoBehaviour {
     }
 
     public IEnumerator Say(string message, AudioClip voiceOverClip = null) {
+        yield return null;
+
         var append = false;
         var oldText = speechText.text;
         if (message.StartsWith("[...]")) {
@@ -144,6 +194,10 @@ public class Subtitles : MonoBehaviour {
             voiceOverSource.PlayOneShot(voiceOverClip);
 
         for (var timeLeft = duration; timeLeft > 0; timeLeft -= Time.deltaTime) {
+            if (Input.GetKeyDown(KeyCode.Space)) {
+                yield return null;
+                break;
+            }
             speechText.text = (append ? oldText : "") + message.Substring(0, Mathf.Clamp(length - Mathf.RoundToInt(timeLeft * speed), 0, length));
             yield return null;
         }
