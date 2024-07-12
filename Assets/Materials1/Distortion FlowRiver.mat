@@ -10,7 +10,6 @@ Material:
   m_Name: Distortion FlowRiver
   m_Shader: {fileID: 4800000, guid: 23118c60e8fa9446db3d02f7a4a58be4, type: 3}
   m_ValidKeywords:
-  - FLAT_COLORS
   - _SPECULARHIGHLIGHTS_OFF
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -97,7 +96,7 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _DualGrid: 0
-    - _FlatColors: 1
+    - _FlatColors: 0
     - _FlowOffset: 5.68
     - _FlowStrength: 0.89
     - _GlossMapScale: 1

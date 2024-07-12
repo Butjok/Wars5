@@ -74,6 +74,7 @@
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\Distortion.hlsl" />
      <Folder Include="Assets\TextMesh Pro\Sprites" />
      <Folder Include="Assets\Saves\Intro2-Bushes" />
+     <Folder Include="Assets\Saves\Save6-Level" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\ExposureHistogram.hlsl" />
      <Folder Include="Assets\Content\whiteboxes\Resources\Trash" />
      <Folder Include="Assets\Saves\1" />
@@ -93,6 +94,7 @@
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\TemporalAntialiasing.shader" />
      <Folder Include="Assets\Saves\test-Tiles" />
      <None Include="Assets\MultiAudioListener\HowToUse.txt" />
+     <Folder Include="Assets\Saves\Save6-Roads" />
      <Folder Include="Assets\DeferredDecals\Textures" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\FastApproximateAntialiasing.hlsl" />
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Builtins\SubpixelMorphologicalAntialiasing.shader" />
@@ -182,6 +184,7 @@
      <None Include="Packages\com.unity.postprocessing@3.2.2\PostProcessing\Shaders\Debug\LightMeter.shader" />
      <None Include="Assets\Ui\skeleton.atlas.txt" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
+     <Folder Include="Assets\Saves\Save6-Tiles" />
      <Folder Include="Assets\SceneTemplates\MainMenu" />
      <None Include="Assets\Saves\0\0-22.01.2023-19.45.37.txt" />
      <None Include="Assets\Shaders\MissionLink.shader" />
@@ -285,6 +288,7 @@
      <None Include="Assets\Saves\0\0-22.01.2023-18.52.30.txt" />
      <Folder Include="Assets\Saves\Intro3-Roads" />
      <Folder Include="Assets\Saves\test" />
+     <Folder Include="Assets\Saves\Save6-Props" />
      <None Include="Assets\Shaders\Building.shader" />
      <Folder Include="Assets\CampaignOverview" />
      <Folder Include="Assets\Saves\Border2-Roads" />
@@ -448,9 +452,11 @@
      <None Include="Assets\Saves\test.1\20.01.2023-09.22.47.txt" />
      <Folder Include="Assets\Saves\TutorialProps2" />
      <Folder Include="Assets\Saves\test-Forests" />
+     <Folder Include="Assets\Saves\Save6-Bushes" />
      <None Include="Assets\Shaders\Trajectory.shader" />
      <Folder Include="Assets\Saves\Save5-Roads" />
      <Folder Include="Assets\Resources" />
+     <Folder Include="Assets\Saves\Save6-Forests" />
      <Folder Include="Assets\StreamingAssets\Translations" />
      <Folder Include="Assets\Content\light-tank" />
      <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />

@@ -9,8 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: cliff1-copy
   m_Shader: {fileID: 4800000, guid: d5fec33bdf4c41cf903ce68e3e859a37, type: 3}
-  m_ValidKeywords:
-  - FLAT_COLORS
+  m_ValidKeywords: []
   m_InvalidKeywords:
   - _NORMALMAP
   m_LightmapFlags: 4
@@ -72,7 +71,7 @@ Material:
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _FlatColors: 1
+    - _FlatColors: 0
     - _GlossMapScale: 1
     - _Glossiness: 0
     - _GlossyReflections: 1
